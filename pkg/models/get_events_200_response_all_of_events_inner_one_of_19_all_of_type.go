@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -39,7 +39,7 @@ func NewGetEvents200ResponseAllOfEventsInnerOneOf19AllOfTypeWithDefaults() *GetE
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf19AllOfType) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -86,5 +86,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf19AllOfType) Unmarshal
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

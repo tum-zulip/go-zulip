@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the SavedSnippet type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &SavedSnippet{}
 
-// SavedSnippet Object containing the details of the saved snippet. 
+// SavedSnippet Object containing the details of the saved snippet.
 type SavedSnippet struct {
-	// The unique ID of the saved snippet. 
+	// The unique ID of the saved snippet.
 	Id *int32 `json:"id,omitempty"`
-	// The title of the saved snippet. 
+	// The title of the saved snippet.
 	Title *string `json:"title,omitempty"`
-	// The content of the saved snippet in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet. 
+	// The content of the saved snippet in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.
 	Content *string `json:"content,omitempty"`
-	// The UNIX timestamp for when the saved snippet was created, in UTC seconds. 
+	// The UNIX timestamp for when the saved snippet was created, in UTC seconds.
 	DateCreated *int32 `json:"date_created,omitempty"`
 }
 
@@ -175,7 +175,7 @@ func (o *SavedSnippet) SetDateCreated(v int32) {
 }
 
 func (o SavedSnippet) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,5 +234,3 @@ func (v *NullableSavedSnippet) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

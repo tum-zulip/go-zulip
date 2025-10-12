@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the CanSendMessageGroup type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &CanSendMessageGroup{}
 
-// CanSendMessageGroup A [group-setting value][setting-values] defining the set of users who have permission to post in this channel.  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 333). Previously `stream_post_policy` field used to control the permission to post in the channel.  [setting-values]: /api/group-setting-values 
+// CanSendMessageGroup A [group-setting value][setting-values] defining the set of users who have permission to post in this channel.  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 333). Previously `stream_post_policy` field used to control the permission to post in the channel.  [setting-values]: /api/group-setting-values
 type CanSendMessageGroup struct {
-	// The list of IDs of individual users in the collection of users with this permission.  **Changes**: Prior to Zulip 10.0 (feature level 303), this list would include deactivated users who had the permission before being deactivated. 
+	// The list of IDs of individual users in the collection of users with this permission.  **Changes**: Prior to Zulip 10.0 (feature level 303), this list would include deactivated users who had the permission before being deactivated.
 	DirectMembers []int32 `json:"direct_members,omitempty"`
-	// The list of IDs of the groups in the collection of users with this permission. 
+	// The list of IDs of the groups in the collection of users with this permission.
 	DirectSubgroups []int32 `json:"direct_subgroups,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *CanSendMessageGroup) SetDirectSubgroups(v []int32) {
 }
 
 func (o CanSendMessageGroup) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableCanSendMessageGroup) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

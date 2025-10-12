@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,12 +17,12 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf31 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf31{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf31 Event sent to a user's clients when that user's set of configured muted topics have changed. 
+// GetEvents200ResponseAllOfEventsInnerOneOf31 Event sent to a user's clients when that user's set of configured muted topics have changed.
 type GetEvents200ResponseAllOfEventsInnerOneOf31 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// Array of tuples, where each tuple describes a muted topic. The first element of the tuple is the channel name in which the topic has to be muted, the second element is the topic name to be muted and the third element is an integer UNIX timestamp representing when the topic was muted.  **Changes**: Deprecated in Zulip 6.0 (feature level 134). Starting with this version, clients that explicitly requested the replacement `user_topic` event type when registering their event queue will not receive this legacy event type.  Before Zulip 3.0 (feature level 1), the `muted_topics` array objects were 2-item tuples and did not include the timestamp information for when the topic was muted. 
+	// Array of tuples, where each tuple describes a muted topic. The first element of the tuple is the channel name in which the topic has to be muted, the second element is the topic name to be muted and the third element is an integer UNIX timestamp representing when the topic was muted.  **Changes**: Deprecated in Zulip 6.0 (feature level 134). Starting with this version, clients that explicitly requested the replacement `user_topic` event type when registering their event queue will not receive this legacy event type.  Before Zulip 3.0 (feature level 1), the `muted_topics` array objects were 2-item tuples and did not include the timestamp information for when the topic was muted.
 	// Deprecated
 	MutedTopics [][]GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner `json:"muted_topics,omitempty"`
 }
@@ -144,7 +144,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf31) SetMutedTopics(v [][]GetEv
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf31) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -200,5 +200,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf31) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

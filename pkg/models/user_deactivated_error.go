@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,19 +11,20 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
 // checks if the UserDeactivatedError type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &UserDeactivatedError{}
 
-// UserDeactivatedError ### User account deactivated  A typical failed json response for when user's account is deactivated.  **Changes**: As of Zulip 5.0 (feature level 76), these errors use the HTTP 401 status code. Before this feature level, they used the HTTP 403 status code. 
+// UserDeactivatedError ### User account deactivated  A typical failed json response for when user's account is deactivated.  **Changes**: As of Zulip 5.0 (feature level 76), these errors use the HTTP 401 status code. Before this feature level, they used the HTTP 403 status code.
 type UserDeactivatedError struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	Code interface{} `json:"code"`
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// A string that identifies the error.
+	Code string `json:"code"`
 }
 
 type _UserDeactivatedError UserDeactivatedError
@@ -32,7 +33,7 @@ type _UserDeactivatedError UserDeactivatedError
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUserDeactivatedError(result interface{}, msg interface{}, code interface{}) *UserDeactivatedError {
+func NewUserDeactivatedError(result string, msg string, code string) *UserDeactivatedError {
 	this := UserDeactivatedError{}
 	this.Result = result
 	this.Msg = msg
@@ -49,10 +50,9 @@ func NewUserDeactivatedErrorWithDefaults() *UserDeactivatedError {
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *UserDeactivatedError) GetResult() interface{} {
+func (o *UserDeactivatedError) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -61,24 +61,22 @@ func (o *UserDeactivatedError) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UserDeactivatedError) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *UserDeactivatedError) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *UserDeactivatedError) SetResult(v interface{}) {
+func (o *UserDeactivatedError) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *UserDeactivatedError) GetMsg() interface{} {
+func (o *UserDeactivatedError) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -87,24 +85,22 @@ func (o *UserDeactivatedError) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UserDeactivatedError) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *UserDeactivatedError) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *UserDeactivatedError) SetMsg(v interface{}) {
+func (o *UserDeactivatedError) SetMsg(v string) {
 	o.Msg = v
 }
 
 // GetCode returns the Code field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *UserDeactivatedError) GetCode() interface{} {
+func (o *UserDeactivatedError) GetCode() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -113,21 +109,20 @@ func (o *UserDeactivatedError) GetCode() interface{} {
 
 // GetCodeOk returns a tuple with the Code field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UserDeactivatedError) GetCodeOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Code) {
+func (o *UserDeactivatedError) GetCodeOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Code, true
 }
 
 // SetCode sets field value
-func (o *UserDeactivatedError) SetCode(v interface{}) {
+func (o *UserDeactivatedError) SetCode(v string) {
 	o.Code = v
 }
 
 func (o UserDeactivatedError) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -136,15 +131,9 @@ func (o UserDeactivatedError) MarshalJSON() ([]byte, error) {
 
 func (o UserDeactivatedError) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.Code != nil {
-		toSerialize["code"] = o.Code
-	}
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	toSerialize["code"] = o.Code
 	return toSerialize, nil
 }
 
@@ -163,10 +152,10 @@ func (o *UserDeactivatedError) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -222,5 +211,3 @@ func (v *NullableUserDeactivatedError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

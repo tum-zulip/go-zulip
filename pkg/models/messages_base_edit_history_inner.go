@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,21 +21,21 @@ var _ MappedNullable = &MessagesBaseEditHistoryInner{}
 
 // MessagesBaseEditHistoryInner struct for MessagesBaseEditHistoryInner
 type MessagesBaseEditHistoryInner struct {
-	// Only present if message's content was edited.  The content of the message immediately prior to this edit event. 
+	// Only present if message's content was edited.  The content of the message immediately prior to this edit event.
 	PrevContent *string `json:"prev_content,omitempty"`
-	// Only present if message's content was edited.  The rendered HTML representation of `prev_content`.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format. 
+	// Only present if message's content was edited.  The rendered HTML representation of `prev_content`.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
 	PrevRenderedContent *string `json:"prev_rendered_content,omitempty"`
-	// Only present if message's channel was edited.  The channel ID of the message immediately prior to this edit event.  **Changes**: New in Zulip 3.0 (feature level 1). 
+	// Only present if message's channel was edited.  The channel ID of the message immediately prior to this edit event.  **Changes**: New in Zulip 3.0 (feature level 1).
 	PrevStream *int32 `json:"prev_stream,omitempty"`
-	// Only present if message's topic was edited.  The topic of the message immediately prior to this edit event.  **Changes**: New in Zulip 5.0 (feature level 118). Previously, this field was called `prev_subject`; clients are recommended to rename `prev_subject` to `prev_topic` if present for compatibility with older Zulip servers. 
+	// Only present if message's topic was edited.  The topic of the message immediately prior to this edit event.  **Changes**: New in Zulip 5.0 (feature level 118). Previously, this field was called `prev_subject`; clients are recommended to rename `prev_subject` to `prev_topic` if present for compatibility with older Zulip servers.
 	PrevTopic *string `json:"prev_topic,omitempty"`
-	// Only present if message's channel was edited.  The ID of the channel containing the message immediately after this edit event.  **Changes**: New in Zulip 5.0 (feature level 118). 
+	// Only present if message's channel was edited.  The ID of the channel containing the message immediately after this edit event.  **Changes**: New in Zulip 5.0 (feature level 118).
 	Stream *int32 `json:"stream,omitempty"`
-	// The UNIX timestamp for the edit. 
+	// The UNIX timestamp for the edit.
 	Timestamp int32 `json:"timestamp"`
-	// Only present if message's topic was edited.  The topic of the message immediately after this edit event.  **Changes**: New in Zulip 5.0 (feature level 118). 
+	// Only present if message's topic was edited.  The topic of the message immediately after this edit event.  **Changes**: New in Zulip 5.0 (feature level 118).
 	Topic *string `json:"topic,omitempty"`
-	// The ID of the user that made the edit.  Will be `null` only for edit history events predating March 2017.  Clients can display edit history events where this is `null` as modified by either the sender (for content edits) or an unknown user (for topic edits). 
+	// The ID of the user that made the edit.  Will be `null` only for edit history events predating March 2017.  Clients can display edit history events where this is `null` as modified by either the sender (for content edits) or an unknown user (for topic edits).
 	UserId NullableInt32 `json:"user_id"`
 }
 
@@ -303,7 +303,7 @@ func (o *MessagesBaseEditHistoryInner) SetUserId(v int32) {
 }
 
 func (o MessagesBaseEditHistoryInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -349,10 +349,10 @@ func (o *MessagesBaseEditHistoryInner) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -408,5 +408,3 @@ func (v *NullableMessagesBaseEditHistoryInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

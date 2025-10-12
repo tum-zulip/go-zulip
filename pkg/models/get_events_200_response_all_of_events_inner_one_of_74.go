@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf74 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf74{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf74 Event containing the fragment of a deleted navigation view.  **Changes**: New in Zulip 11.0 (feature level 390). 
+// GetEvents200ResponseAllOfEventsInnerOneOf74 Event containing the fragment of a deleted navigation view.  **Changes**: New in Zulip 11.0 (feature level 390).
 type GetEvents200ResponseAllOfEventsInnerOneOf74 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// The unique URL hash of the navigation view that was just deleted. 
+	Op   *string `json:"op,omitempty"`
+	// The unique URL hash of the navigation view that was just deleted.
 	Fragment *string `json:"fragment,omitempty"`
 }
 
@@ -173,7 +173,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf74) SetFragment(v string) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf74) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -232,5 +232,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf74) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

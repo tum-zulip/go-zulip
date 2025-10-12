@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf85 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf85{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf85 Event sent to users in an organization when channel folders are reordered.  **Changes**: New in Zulip 11.0 (feature level 418). 
+// GetEvents200ResponseAllOfEventsInnerOneOf85 Event sent to users in an organization when channel folders are reordered.  **Changes**: New in Zulip 11.0 (feature level 418).
 type GetEvents200ResponseAllOfEventsInnerOneOf85 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// A list of channel folder IDs representing the new order. 
+	Op   *string `json:"op,omitempty"`
+	// A list of channel folder IDs representing the new order.
 	Order []int32 `json:"order,omitempty"`
 }
 
@@ -173,7 +173,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf85) SetOrder(v []int32) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf85) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -232,5 +232,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf85) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

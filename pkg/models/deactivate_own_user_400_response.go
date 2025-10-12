@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,12 +21,13 @@ var _ MappedNullable = &DeactivateOwnUser400Response{}
 
 // DeactivateOwnUser400Response struct for DeactivateOwnUser400Response
 type DeactivateOwnUser400Response struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	Code interface{} `json:"code"`
-	// An internationalized string that notes if the current user is the only organization owner or the only user in the organization. 
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// A string that identifies the error.
+	Code string `json:"code"`
+	// An internationalized string that notes if the current user is the only organization owner or the only user in the organization.
 	Entity string `json:"entity"`
-	// Whether the current user is the only organization owner (meaning there are other active users in the organization) or the only active user in the organization. 
+	// Whether the current user is the only organization owner (meaning there are other active users in the organization) or the only active user in the organization.
 	IsLastOwner bool `json:"is_last_owner"`
 }
 
@@ -36,7 +37,7 @@ type _DeactivateOwnUser400Response DeactivateOwnUser400Response
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeactivateOwnUser400Response(result interface{}, msg interface{}, code interface{}, entity string, isLastOwner bool) *DeactivateOwnUser400Response {
+func NewDeactivateOwnUser400Response(result string, msg string, code string, entity string, isLastOwner bool) *DeactivateOwnUser400Response {
 	this := DeactivateOwnUser400Response{}
 	this.Result = result
 	this.Msg = msg
@@ -55,10 +56,9 @@ func NewDeactivateOwnUser400ResponseWithDefaults() *DeactivateOwnUser400Response
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *DeactivateOwnUser400Response) GetResult() interface{} {
+func (o *DeactivateOwnUser400Response) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -67,24 +67,22 @@ func (o *DeactivateOwnUser400Response) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *DeactivateOwnUser400Response) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *DeactivateOwnUser400Response) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *DeactivateOwnUser400Response) SetResult(v interface{}) {
+func (o *DeactivateOwnUser400Response) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *DeactivateOwnUser400Response) GetMsg() interface{} {
+func (o *DeactivateOwnUser400Response) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -93,24 +91,22 @@ func (o *DeactivateOwnUser400Response) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *DeactivateOwnUser400Response) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *DeactivateOwnUser400Response) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *DeactivateOwnUser400Response) SetMsg(v interface{}) {
+func (o *DeactivateOwnUser400Response) SetMsg(v string) {
 	o.Msg = v
 }
 
 // GetCode returns the Code field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *DeactivateOwnUser400Response) GetCode() interface{} {
+func (o *DeactivateOwnUser400Response) GetCode() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -119,16 +115,15 @@ func (o *DeactivateOwnUser400Response) GetCode() interface{} {
 
 // GetCodeOk returns a tuple with the Code field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *DeactivateOwnUser400Response) GetCodeOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Code) {
+func (o *DeactivateOwnUser400Response) GetCodeOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Code, true
 }
 
 // SetCode sets field value
-func (o *DeactivateOwnUser400Response) SetCode(v interface{}) {
+func (o *DeactivateOwnUser400Response) SetCode(v string) {
 	o.Code = v
 }
 
@@ -181,7 +176,7 @@ func (o *DeactivateOwnUser400Response) SetIsLastOwner(v bool) {
 }
 
 func (o DeactivateOwnUser400Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -190,15 +185,9 @@ func (o DeactivateOwnUser400Response) MarshalJSON() ([]byte, error) {
 
 func (o DeactivateOwnUser400Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.Code != nil {
-		toSerialize["code"] = o.Code
-	}
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	toSerialize["code"] = o.Code
 	toSerialize["entity"] = o.Entity
 	toSerialize["is_last_owner"] = o.IsLastOwner
 	return toSerialize, nil
@@ -221,10 +210,10 @@ func (o *DeactivateOwnUser400Response) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -280,5 +269,3 @@ func (v *NullableDeactivateOwnUser400Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

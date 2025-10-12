@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,12 +17,12 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf66 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf66{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf66 An event which signals the official Zulip web/desktop app to update, by reloading the page and fetching a new queue; this will generally follow a `restart` event. Clients which do not obtain their code from the server (e.g. mobile and terminal clients, which store their code locally) should ignore this event.  Clients choosing to reload the application must implement a random delay strategy to spread such restarts over 5 or more minutes to avoid creating a synchronized thundering herd effect.  **Changes**: New in Zulip 9.0 (feature level 240). 
+// GetEvents200ResponseAllOfEventsInnerOneOf66 An event which signals the official Zulip web/desktop app to update, by reloading the page and fetching a new queue; this will generally follow a `restart` event. Clients which do not obtain their code from the server (e.g. mobile and terminal clients, which store their code locally) should ignore this event.  Clients choosing to reload the application must implement a random delay strategy to spread such restarts over 5 or more minutes to avoid creating a synchronized thundering herd effect.  **Changes**: New in Zulip 9.0 (feature level 240).
 type GetEvents200ResponseAllOfEventsInnerOneOf66 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// Whether the client should fetch a new event queue immediately, rather than using a backoff strategy to avoid thundering herds. A Zulip development server uses this parameter to reload clients immediately. 
+	// Whether the client should fetch a new event queue immediately, rather than using a backoff strategy to avoid thundering herds. A Zulip development server uses this parameter to reload clients immediately.
 	Immediate *bool `json:"immediate,omitempty"`
 }
 
@@ -140,7 +140,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf66) SetImmediate(v bool) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf66) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -196,5 +196,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf66) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

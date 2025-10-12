@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,9 +21,9 @@ var _ MappedNullable = &GroupSettingValueUpdate{}
 
 // GroupSettingValueUpdate struct for GroupSettingValueUpdate
 type GroupSettingValueUpdate struct {
-	// The new [group-setting value](/api/group-setting-values) for who would have this permission. 
+	// The new [group-setting value](/api/group-setting-values) for who would have this permission.
 	New GroupSettingValue `json:"new"`
-	// The expected current [group-setting value](/api/group-setting-values) for who has this permission. 
+	// The expected current [group-setting value](/api/group-setting-values) for who has this permission.
 	Old *GroupSettingValue `json:"old,omitempty"`
 }
 
@@ -104,7 +104,7 @@ func (o *GroupSettingValueUpdate) SetOld(v GroupSettingValue) {
 }
 
 func (o GroupSettingValueUpdate) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -133,10 +133,10 @@ func (o *GroupSettingValueUpdate) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -192,5 +192,3 @@ func (v *NullableGroupSettingValueUpdate) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

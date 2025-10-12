@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the RealmDomain type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmDomain{}
 
-// RealmDomain Object containing details of the newly added domain. 
+// RealmDomain Object containing details of the newly added domain.
 type RealmDomain struct {
-	// The new allowed domain. 
+	// The new allowed domain.
 	Domain *string `json:"domain,omitempty"`
-	// Whether subdomains are allowed for this domain. 
+	// Whether subdomains are allowed for this domain.
 	AllowSubdomains *bool `json:"allow_subdomains,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *RealmDomain) SetAllowSubdomains(v bool) {
 }
 
 func (o RealmDomain) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableRealmDomain) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

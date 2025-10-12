@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf48 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf48{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf48 Event sent to all users when subgroups have been removed from a user group.  **Changes**: New in Zulip 6.0 (feature level 127). 
+// GetEvents200ResponseAllOfEventsInnerOneOf48 Event sent to all users when subgroups have been removed from a user group.  **Changes**: New in Zulip 6.0 (feature level 127).
 type GetEvents200ResponseAllOfEventsInnerOneOf48 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// The ID of the user group whose details have changed. 
+	Op   *string `json:"op,omitempty"`
+	// The ID of the user group whose details have changed.
 	GroupId *int32 `json:"group_id,omitempty"`
-	// Array containing the IDs of the subgroups that have been removed from the user group.  **Changes**: New in Zulip 6.0 (feature level 131). Previously, this was called `subgroup_ids`, but clients can ignore older events as this feature level predates subgroups being fully implemented. 
+	// Array containing the IDs of the subgroups that have been removed from the user group.  **Changes**: New in Zulip 6.0 (feature level 131). Previously, this was called `subgroup_ids`, but clients can ignore older events as this feature level predates subgroups being fully implemented.
 	DirectSubgroupIds []int32 `json:"direct_subgroup_ids,omitempty"`
 }
 
@@ -207,7 +207,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf48) SetDirectSubgroupIds(v []i
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf48) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -269,5 +269,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf48) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue{}
 
-// RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue `{site_name}`: Dictionary containing the details of the default external account provider with the name of the website as the key. 
+// RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue `{site_name}`: Dictionary containing the details of the default external account provider with the name of the website as the key.
 type RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue struct {
-	// The name of the external account provider 
+	// The name of the external account provider
 	Name *string `json:"name,omitempty"`
-	// The text describing the external account. 
+	// The text describing the external account.
 	Text *string `json:"text,omitempty"`
-	// The help text to be displayed for the custom profile field in user-facing settings UI for configuring custom profile fields for this account. 
+	// The help text to be displayed for the custom profile field in user-facing settings UI for configuring custom profile fields for this account.
 	Hint *string `json:"hint,omitempty"`
-	// The regex pattern of the URL of a profile page on the external site. 
+	// The regex pattern of the URL of a profile page on the external site.
 	UrlPattern *string `json:"url_pattern,omitempty"`
 }
 
@@ -175,7 +175,7 @@ func (o *RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue) SetUrlP
 }
 
 func (o RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,5 +234,3 @@ func (v *NullableRegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue)
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,16 +17,16 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf17 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf17{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf17 Event sent when a user loses access to a channel they previously [could access](/help/channel-permissions) because they are unsubscribed from a private channel or their [role](/help/user-roles) has changed.  This event is also sent when a channel is archived but only to clients that did not declare the `archived_channels` [client capability][client-capabilities].  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was archived.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user lost access to a channel due to their role changing.  [client-capabilities]: /api/register-queue#parameter-client_capabilities 
+// GetEvents200ResponseAllOfEventsInnerOneOf17 Event sent when a user loses access to a channel they previously [could access](/help/channel-permissions) because they are unsubscribed from a private channel or their [role](/help/user-roles) has changed.  This event is also sent when a channel is archived but only to clients that did not declare the `archived_channels` [client capability][client-capabilities].  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was archived.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user lost access to a channel due to their role changing.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 type GetEvents200ResponseAllOfEventsInnerOneOf17 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// Array of objects, each containing ID of the channel that was deleted.  **Changes**: **Deprecated** in Zulip 10.0 (feature level 343) and will be removed in a future release. Previously, these objects additionally contained all the standard fields for a channel object. 
+	Op   *string `json:"op,omitempty"`
+	// Array of objects, each containing ID of the channel that was deleted.  **Changes**: **Deprecated** in Zulip 10.0 (feature level 343) and will be removed in a future release. Previously, these objects additionally contained all the standard fields for a channel object.
 	// Deprecated
 	Streams []GetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner `json:"streams,omitempty"`
-	// Array containing the IDs of the channels that were deleted.  **Changes**: New in Zulip 10.0 (feature level 343). Previously, these IDs were available only via the legacy `streams` array. 
+	// Array containing the IDs of the channels that were deleted.  **Changes**: New in Zulip 10.0 (feature level 343). Previously, these IDs were available only via the legacy `streams` array.
 	StreamIds []int32 `json:"stream_ids,omitempty"`
 }
 
@@ -211,7 +211,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf17) SetStreamIds(v []int32) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf17) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -273,5 +273,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf17) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

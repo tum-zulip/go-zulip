@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,10 +19,13 @@ var _ MappedNullable = &EmojiReaction{}
 
 // EmojiReaction struct for EmojiReaction
 type EmojiReaction struct {
-	EmojiName interface{} `json:"emoji_name,omitempty"`
-	EmojiCode interface{} `json:"emoji_code,omitempty"`
-	ReactionType interface{} `json:"reaction_type,omitempty"`
-	// The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future.  In Zulip 10.0 (feature level 328), the deprecated `user` object was removed which contained the following properties: `id`, `email`, `full_name` and `is_mirror_dummy`. 
+	// Name of the emoji.
+	EmojiName *string `json:"emoji_name,omitempty"`
+	// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.
+	EmojiCode *string `json:"emoji_code,omitempty"`
+	// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the ID of   the uploaded [custom emoji](/help/custom-emoji).  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \"zulip\").
+	ReactionType *string `json:"reaction_type,omitempty"`
+	// The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future.  In Zulip 10.0 (feature level 328), the deprecated `user` object was removed which contained the following properties: `id`, `email`, `full_name` and `is_mirror_dummy`.
 	UserId *int32 `json:"user_id,omitempty"`
 }
 
@@ -43,23 +46,22 @@ func NewEmojiReactionWithDefaults() *EmojiReaction {
 	return &this
 }
 
-// GetEmojiName returns the EmojiName field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EmojiReaction) GetEmojiName() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetEmojiName returns the EmojiName field value if set, zero value otherwise.
+func (o *EmojiReaction) GetEmojiName() string {
+	if o == nil || IsNil(o.EmojiName) {
+		var ret string
 		return ret
 	}
-	return o.EmojiName
+	return *o.EmojiName
 }
 
 // GetEmojiNameOk returns a tuple with the EmojiName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *EmojiReaction) GetEmojiNameOk() (*interface{}, bool) {
+func (o *EmojiReaction) GetEmojiNameOk() (*string, bool) {
 	if o == nil || IsNil(o.EmojiName) {
 		return nil, false
 	}
-	return &o.EmojiName, true
+	return o.EmojiName, true
 }
 
 // HasEmojiName returns a boolean if a field has been set.
@@ -71,28 +73,27 @@ func (o *EmojiReaction) HasEmojiName() bool {
 	return false
 }
 
-// SetEmojiName gets a reference to the given interface{} and assigns it to the EmojiName field.
-func (o *EmojiReaction) SetEmojiName(v interface{}) {
-	o.EmojiName = v
+// SetEmojiName gets a reference to the given string and assigns it to the EmojiName field.
+func (o *EmojiReaction) SetEmojiName(v string) {
+	o.EmojiName = &v
 }
 
-// GetEmojiCode returns the EmojiCode field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EmojiReaction) GetEmojiCode() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetEmojiCode returns the EmojiCode field value if set, zero value otherwise.
+func (o *EmojiReaction) GetEmojiCode() string {
+	if o == nil || IsNil(o.EmojiCode) {
+		var ret string
 		return ret
 	}
-	return o.EmojiCode
+	return *o.EmojiCode
 }
 
 // GetEmojiCodeOk returns a tuple with the EmojiCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *EmojiReaction) GetEmojiCodeOk() (*interface{}, bool) {
+func (o *EmojiReaction) GetEmojiCodeOk() (*string, bool) {
 	if o == nil || IsNil(o.EmojiCode) {
 		return nil, false
 	}
-	return &o.EmojiCode, true
+	return o.EmojiCode, true
 }
 
 // HasEmojiCode returns a boolean if a field has been set.
@@ -104,28 +105,27 @@ func (o *EmojiReaction) HasEmojiCode() bool {
 	return false
 }
 
-// SetEmojiCode gets a reference to the given interface{} and assigns it to the EmojiCode field.
-func (o *EmojiReaction) SetEmojiCode(v interface{}) {
-	o.EmojiCode = v
+// SetEmojiCode gets a reference to the given string and assigns it to the EmojiCode field.
+func (o *EmojiReaction) SetEmojiCode(v string) {
+	o.EmojiCode = &v
 }
 
-// GetReactionType returns the ReactionType field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EmojiReaction) GetReactionType() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetReactionType returns the ReactionType field value if set, zero value otherwise.
+func (o *EmojiReaction) GetReactionType() string {
+	if o == nil || IsNil(o.ReactionType) {
+		var ret string
 		return ret
 	}
-	return o.ReactionType
+	return *o.ReactionType
 }
 
 // GetReactionTypeOk returns a tuple with the ReactionType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *EmojiReaction) GetReactionTypeOk() (*interface{}, bool) {
+func (o *EmojiReaction) GetReactionTypeOk() (*string, bool) {
 	if o == nil || IsNil(o.ReactionType) {
 		return nil, false
 	}
-	return &o.ReactionType, true
+	return o.ReactionType, true
 }
 
 // HasReactionType returns a boolean if a field has been set.
@@ -137,9 +137,9 @@ func (o *EmojiReaction) HasReactionType() bool {
 	return false
 }
 
-// SetReactionType gets a reference to the given interface{} and assigns it to the ReactionType field.
-func (o *EmojiReaction) SetReactionType(v interface{}) {
-	o.ReactionType = v
+// SetReactionType gets a reference to the given string and assigns it to the ReactionType field.
+func (o *EmojiReaction) SetReactionType(v string) {
+	o.ReactionType = &v
 }
 
 // GetUserId returns the UserId field value if set, zero value otherwise.
@@ -175,7 +175,7 @@ func (o *EmojiReaction) SetUserId(v int32) {
 }
 
 func (o EmojiReaction) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -184,13 +184,13 @@ func (o EmojiReaction) MarshalJSON() ([]byte, error) {
 
 func (o EmojiReaction) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.EmojiName != nil {
+	if !IsNil(o.EmojiName) {
 		toSerialize["emoji_name"] = o.EmojiName
 	}
-	if o.EmojiCode != nil {
+	if !IsNil(o.EmojiCode) {
 		toSerialize["emoji_code"] = o.EmojiCode
 	}
-	if o.ReactionType != nil {
+	if !IsNil(o.ReactionType) {
 		toSerialize["reaction_type"] = o.ReactionType
 	}
 	if !IsNil(o.UserId) {
@@ -234,5 +234,3 @@ func (v *NullableEmojiReaction) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -7090,38 +7090,14 @@ components:
       - $ref: "#/components/schemas/BasicChannelBase"
       - additionalProperties: false
         properties:
-          stream_id: {}
-          name: {}
-          is_archived: {}
-          description: {}
-          date_created: {}
           creator_id:
             nullable: true
-          invite_only: {}
-          rendered_description: {}
-          is_web_public: {}
-          stream_post_policy: {}
           message_retention_days:
             nullable: true
-          history_public_to_subscribers: {}
-          topics_policy: {}
           first_message_id:
             nullable: true
           folder_id:
             nullable: true
-          is_recently_active: {}
-          is_announcement_only: {}
-          can_add_subscribers_group: {}
-          can_remove_subscribers_group: {}
-          can_administer_channel_group: {}
-          can_delete_any_message_group: {}
-          can_delete_own_message_group: {}
-          can_move_messages_out_of_channel_group: {}
-          can_move_messages_within_channel_group: {}
-          can_send_message_group: {}
-          can_subscribe_group: {}
-          can_resolve_topics_group: {}
-          subscriber_count: {}
           stream_weekly_traffic:
             description: |
               The average number of messages sent to the channel per week, as
@@ -7394,18 +7370,12 @@ components:
       - $ref: "#/components/schemas/BasicBotBase"
       - additionalProperties: false
         properties:
-          user_id: {}
-          full_name: {}
-          api_key: {}
           default_sending_stream:
             nullable: true
           default_events_register_stream:
             nullable: true
-          default_all_public_streams: {}
-          avatar_url: {}
           owner_id:
             nullable: true
-          services: {}
           is_active:
             description: |
               A boolean describing whether the user account has been deactivated.
@@ -7476,18 +7446,12 @@ components:
         description: |
           Object containing details of a bot.
         properties:
-          user_id: {}
-          full_name: {}
-          api_key: {}
           default_sending_stream:
             nullable: true
           default_events_register_stream:
             nullable: true
-          default_all_public_streams: {}
-          avatar_url: {}
           owner_id:
             nullable: true
-          services: {}
           email:
             description: |
               The email of the bot.
@@ -8253,12 +8217,9 @@ components:
         description: description
         is_muted: true
         in_home_view: true
-        can_remove_subscribers_group: {}
         first_message_id: 9
-        can_delete_any_message_group: {}
         rendered_description: rendered_description
         stream_id: 0
-        can_resolve_topics_group: {}
         is_recently_active: true
         stream_post_policy: 2
         topics_policy: inherit
@@ -8267,14 +8228,9 @@ components:
         subscribers:
         - 5
         - 5
-        can_move_messages_within_channel_group: {}
         history_public_to_subscribers: true
-        can_move_messages_out_of_channel_group: {}
         wildcard_mentions_notify: true
         desktop_notifications: true
-        can_delete_own_message_group: {}
-        can_subscribe_group: {}
-        can_add_subscribers_group: {}
         is_archived: true
         subscriber_count: 4.145608029883936
         name: name
@@ -8286,8 +8242,6 @@ components:
         is_announcement_only: true
         message_retention_days: 7
         folder_id: 3
-        can_administer_channel_group: {}
-        can_send_message_group: {}
         audible_notifications: true
         invite_only: true
       properties:
@@ -8663,9 +8617,6 @@ components:
       - $ref: "#/components/schemas/EmojiBase"
       - additionalProperties: false
         properties:
-          emoji_code: {}
-          emoji_name: {}
-          reaction_type: {}
           user_id:
             description: |
               The ID of the user who added the reaction.
@@ -8737,27 +8688,6 @@ components:
         properties:
           avatar_url:
             nullable: true
-          client: {}
-          content: {}
-          content_type: {}
-          display_recipient: {}
-          edit_history: {}
-          id: {}
-          is_me_message: {}
-          last_edit_timestamp: {}
-          last_moved_timestamp: {}
-          reactions: {}
-          recipient_id: {}
-          sender_email: {}
-          sender_full_name: {}
-          sender_id: {}
-          sender_realm_str: {}
-          stream_id: {}
-          subject: {}
-          submessages: {}
-          timestamp: {}
-          topic_links: {}
-          type: {}
         type: object
     MessagesBase:
       description: |
@@ -9310,14 +9240,6 @@ components:
       - $ref: "#/components/schemas/ScheduledMessageBase"
       - additionalProperties: false
         properties:
-          scheduled_message_id: {}
-          type: {}
-          to: {}
-          topic: {}
-          content: {}
-          rendered_content: {}
-          scheduled_delivery_timestamp: {}
-          failed: {}
         type: object
       example:
         scheduled_message_id: ""
@@ -9479,27 +9401,14 @@ components:
       - $ref: "#/components/schemas/UserBase"
       - additionalProperties: false
         properties:
-          user_id: {}
           delivery_email:
             nullable: true
-          email: {}
-          full_name: {}
-          date_joined: {}
-          is_active: {}
-          is_owner: {}
-          is_admin: {}
-          is_guest: {}
-          is_bot: {}
           bot_type:
             nullable: true
           bot_owner_id:
             nullable: true
-          role: {}
-          timezone: {}
           avatar_url:
             nullable: true
-          avatar_version: {}
-          profile_data: {}
         type: object
       example:
         is_active: ""
@@ -9755,9 +9664,6 @@ components:
           msg: ""
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
         type: object
       example:
         result: ""
@@ -9792,9 +9698,6 @@ components:
       - $ref: "#/components/schemas/IgnoredParametersBase"
       - additionalProperties: false
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
         type: object
       description: |
         **Changes**: The [`ignored_parameters_unsupported`][ignored_params]
@@ -9844,9 +9747,6 @@ components:
           result: success
           user_id: 5
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           api_key:
             description: |
               The API key that can be used to authenticate as the requested user.
@@ -9877,9 +9777,6 @@ components:
       - $ref: "#/components/schemas/CodedErrorBase"
       - additionalProperties: false
         properties:
-          result: {}
-          msg: {}
-          code: {}
         type: object
       example:
         result: ""
@@ -9913,9 +9810,6 @@ components:
           queue_id: fb67bf8a-c031-47cc-84cf-ed80accacda8
           result: error
         properties:
-          result: {}
-          msg: {}
-          code: {}
           queue_id:
             description: |
               The string that identifies the invalid event queue.
@@ -9930,9 +9824,6 @@ components:
           code: BAD_REQUEST
           result: error
         properties:
-          result: {}
-          msg: {}
-          code: {}
         type: object
     InvalidChannelError:
       allOf:
@@ -9943,9 +9834,6 @@ components:
           code: BAD_REQUEST
           result: error
         properties:
-          result: {}
-          msg: {}
-          code: {}
         type: object
     NonExistingChannelNameError:
       allOf:
@@ -9957,9 +9845,6 @@ components:
           result: error
           stream: nonexistent
         properties:
-          result: {}
-          msg: {}
-          code: {}
           stream:
             description: |
               The name of the channel that could not be found.
@@ -9975,9 +9860,6 @@ components:
           result: error
           stream_id: 9
         properties:
-          result: {}
-          msg: {}
-          code: {}
           stream_id:
             description: |
               The channel ID that could not be found.
@@ -9999,9 +9881,6 @@ components:
       - $ref: "#/components/schemas/CodedErrorBase"
       - additionalProperties: false
         properties:
-          result: {}
-          msg: {}
-          code: {}
           errors:
             description: |
               An array of arrays of length 3, where each inner array consists of (a) an email
@@ -10045,9 +9924,6 @@ components:
           result: error
           var_name: content
         properties:
-          result: {}
-          msg: {}
-          code: {}
           var_name:
             description: |
               It contains the information about the missing parameter.
@@ -10071,9 +9947,6 @@ components:
           result: error
           parameters: "object_id, object_name"
         properties:
-          result: {}
-          msg: {}
-          code: {}
           parameters:
             description: |
               A string containing the parameters, separated by commas,
@@ -10131,9 +10004,6 @@ components:
           result: error
           retry-after: 28.706807374954224
         properties:
-          result: {}
-          msg: {}
-          code: {}
           retry-after:
             description: |
               How many seconds the client must wait before making
@@ -10492,7 +10362,6 @@ components:
         channel-level setting for this permission.
 
         [setting-values]: /api/group-setting-values
-      example: {}
     CanRemoveSubscribersGroup:
       allOf:
       - $ref: "#/components/schemas/GroupSettingValue"
@@ -10521,7 +10390,6 @@ components:
         New in Zulip 6.0 (feature level 142).
 
         [setting-values]: /api/group-setting-values
-      example: {}
     CanAdministerChannelGroup:
       allOf:
       - $ref: "#/components/schemas/GroupSettingValue"
@@ -10546,7 +10414,6 @@ components:
         administrators.
 
         [setting-values]: /api/group-setting-values
-      example: {}
     CanDeleteAnyMessageGroup:
       allOf:
       - $ref: "#/components/schemas/GroupSettingValue"
@@ -10566,7 +10433,6 @@ components:
         delete any message in the organization.
 
         [setting-values]: /api/group-setting-values
-      example: {}
     CanDeleteOwnMessageGroup:
       allOf:
       - $ref: "#/components/schemas/GroupSettingValue"
@@ -10590,7 +10456,6 @@ components:
         the organization.
 
         [setting-values]: /api/group-setting-values
-      example: {}
     CanMoveMessagesOutOfChannelGroup:
       allOf:
       - $ref: "#/components/schemas/GroupSettingValue"
@@ -10611,7 +10476,6 @@ components:
         move messages between channels.
 
         [setting-values]: /api/group-setting-values
-      example: {}
     CanMoveMessagesWithinChannelGroup:
       allOf:
       - $ref: "#/components/schemas/GroupSettingValue"
@@ -10632,7 +10496,6 @@ components:
         move messages between topics of a channel.
 
         [setting-values]: /api/group-setting-values
-      example: {}
     CanSendMessageGroup:
       allOf:
       - $ref: "#/components/schemas/GroupSettingValue"
@@ -10648,7 +10511,6 @@ components:
         post in the channel.
 
         [setting-values]: /api/group-setting-values
-      example: {}
     CanSubscribeGroup:
       allOf:
       - $ref: "#/components/schemas/GroupSettingValue"
@@ -10668,7 +10530,6 @@ components:
         **Changes**: New in Zulip 10.0 (feature level 357).
 
         [setting-values]: /api/group-setting-values
-      example: {}
     CanResolveTopicsGroup:
       allOf:
       - $ref: "#/components/schemas/GroupSettingValue"
@@ -10682,7 +10543,6 @@ components:
         **Changes**: New in Zulip 11.0 (feature level 402).
 
         [setting-values]: /api/group-setting-values
-      example: {}
     LinkifierPattern:
       description: |
         The [Python regular
@@ -11677,7 +11537,6 @@ components:
           is_active: true
           date_joined: 2020-07-15T15:04:02.030833+00:00
           avatar_url: https://secure.gravatar.com/avatar/c6b5578d4964bd9c5fae593c6868912a?d=identicon&version=1
-          profile_data: {}
         id: 0
       properties:
         id:
@@ -12238,11 +12097,6 @@ components:
               The ID of the message to which a reaction was
               added.
             type: integer
-          emoji_code: {}
-          emoji_name: {}
-          reaction_type: {}
-          user_id: {}
-          user: {}
         type: object
       description: |
         Event sent when a reaction is added to a message.
@@ -12279,11 +12133,6 @@ components:
               The ID of the message from which the reaction was
               removed.
             type: integer
-          emoji_code: {}
-          emoji_name: {}
-          reaction_type: {}
-          user_id: {}
-          user: {}
         type: object
       description: |
         Event sent when a reaction is removed from a message.
@@ -17014,9 +16863,6 @@ components:
           msg: ""
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           events:
             description: |
               An array of `event` objects (possibly zero-length if `dont_block` is
@@ -17065,9 +16911,6 @@ components:
           result: success
           stream_id: 15
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           stream_id:
             description: |
               The ID of the given channel.
@@ -17087,9 +16930,6 @@ components:
           result: success
           complete: true
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           complete:
             description: |
               Whether all unread messages were marked as read.
@@ -17158,9 +16998,6 @@ components:
               date_sent: 1588145448000
           upload_space_used: 571946
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           attachments:
             description: |
               A list of `attachment` objects, each containing
@@ -17232,9 +17069,6 @@ components:
             content: What if we made it possible to sync drafts in Zulip?
             timestamp: 1595479019
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           count:
             description: |
               The number of drafts the user currently has. Also the
@@ -17299,9 +17133,6 @@ components:
           - 2
           - 3
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           ids:
             description: |
               An array of the IDs for the drafts that were just created in the same
@@ -17346,8 +17177,6 @@ components:
             is_pinned: false
             name: Alert Words
         properties:
-          result: {}
-          msg: {}
           navigation_views:
             description: |
               An array of dictionaries containing the user's navigation views.
@@ -17376,8 +17205,6 @@ components:
           result: success
           msg: ""
         properties:
-          result: {}
-          msg: {}
         type: object
       example:
         result: ""
@@ -17415,9 +17242,6 @@ components:
             content: Welcome to the organization.
             date_created: 1681662420
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           saved_snippets:
             description: |
               An array of dictionaries containing data on all of the current user's
@@ -17467,9 +17291,6 @@ components:
           msg: ""
           saved_snippet_id: 1
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           saved_snippet_id:
             description: |
               The unique ID of the saved snippet created.
@@ -17514,9 +17335,6 @@ components:
             failed: false
             reminder_target_message_id: 42
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           reminders:
             description: |
               Returns all of the current user's undelivered reminders,
@@ -17580,9 +17398,6 @@ components:
           reminder_id: 42
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           reminder_id:
             description: |
               Unique ID of the scheduled message reminder.
@@ -17610,9 +17425,6 @@ components:
             scheduled_delivery_timestamp: 1681662420
             failed: false
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           scheduled_messages:
             description: |
               Returns all of the current user's undelivered scheduled
@@ -17737,9 +17549,6 @@ components:
           scheduled_message_id: 42
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           scheduled_message_id:
             description: |
               The unique ID of the scheduled message.
@@ -17868,9 +17677,6 @@ components:
           result: success
           msg: ""
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
         type: object
       example:
         result: ""
@@ -17908,27 +17714,6 @@ components:
         properties:
           avatar_url:
             nullable: true
-          client: {}
-          content: {}
-          content_type: {}
-          display_recipient: {}
-          edit_history: {}
-          id: {}
-          is_me_message: {}
-          last_edit_timestamp: {}
-          last_moved_timestamp: {}
-          reactions: {}
-          recipient_id: {}
-          sender_email: {}
-          sender_full_name: {}
-          sender_id: {}
-          sender_realm_str: {}
-          stream_id: {}
-          subject: {}
-          submessages: {}
-          timestamp: {}
-          topic_links: {}
-          type: {}
           flags:
             description: |
               The user's [message flags][message-flags] for the message.
@@ -18058,9 +17843,6 @@ components:
             sender_email: hamlet@zulip.com
             reactions: []
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           anchor:
             description: |
               The same `anchor` specified in the request (or the computed one, if
@@ -18294,9 +18076,6 @@ components:
           automatic_new_visibility_policy: 2
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           id:
             description: |
               The unique ID assigned to the sent message.
@@ -18504,9 +18283,6 @@ components:
           msg: ""
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           message_history:
             description: |
               A chronologically sorted, oldest to newest, array
@@ -18589,9 +18365,6 @@ components:
           - 9
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           messages:
             description: |
               An array with the IDs of the modified messages.
@@ -18747,8 +18520,6 @@ components:
           - 13
           - 9
         properties:
-          result: {}
-          msg: {}
           processed_count:
             description: |
               The number of messages that were within the
@@ -18845,9 +18616,6 @@ components:
           rendered: <p><strong>foo</strong></p>
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           rendered:
             description: |
               The rendered HTML.
@@ -18948,9 +18716,6 @@ components:
           - 7
           - 9
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           user_ids:
             description: |
               An array of IDs of users who have marked the target message as
@@ -19013,9 +18778,6 @@ components:
               match_content: <p><a href="http://foo.com" target="_blank" title="http://foo.com">http://foo.com</a></p>
               match_subject: test_topic
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           messages:
             additionalProperties:
               $ref: "#/components/schemas/check_messages_match_narrow_200_response_allOf_messages_value"
@@ -19039,27 +18801,6 @@ components:
         properties:
           avatar_url:
             nullable: true
-          client: {}
-          content: {}
-          content_type: {}
-          display_recipient: {}
-          edit_history: {}
-          id: {}
-          is_me_message: {}
-          last_edit_timestamp: {}
-          last_moved_timestamp: {}
-          reactions: {}
-          recipient_id: {}
-          sender_email: {}
-          sender_full_name: {}
-          sender_id: {}
-          sender_realm_str: {}
-          stream_id: {}
-          subject: {}
-          submessages: {}
-          timestamp: {}
-          topic_links: {}
-          type: {}
           flags:
             description: |
               The user's [message flags][message-flags] for the message.
@@ -19151,9 +18892,6 @@ components:
             sender_email: hamlet@zulip.com
             reactions: []
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           raw_content:
             deprecated: true
             description: |
@@ -19341,9 +19079,6 @@ components:
             create_time: 1687984706000
             messages: []
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           detached_uploads:
             description: |
               Details on all files uploaded by the acting user whose only references
@@ -19552,9 +19287,6 @@ components:
           url: /user_uploads/1/4e/m2A3MSqFnWRLUf9SaPzQ0Up_/zulip.txt
           filename: zulip.txt
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           uri:
             deprecated: true
             description: |
@@ -19601,9 +19333,6 @@ components:
           result: success
           url: /user_uploads/temporary/322F32632F39765378464E4C63306D3961396F4970705A4D74424565432F7A756C69702E7478743A316A5053616A3A3938625F44393446466D37357254315F4F414C425A4553464F6A55
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           url:
             description: |
               A temporary URL that can be used to access the uploaded file
@@ -19634,7 +19363,6 @@ components:
             timezone: ""
             is_bot: false
             user_id: 7
-            profile_data: {}
             is_guest: false
             date_joined: 2019-10-20T07:50:53.728864+00:00
             full_name: aaron
@@ -19696,9 +19424,6 @@ components:
             timezone: ""
             is_bot: true
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           members:
             description: |
               A list of `user` objects, each containing details about a user in the
@@ -19777,9 +19502,6 @@ components:
           result: success
           user_id: 25
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           user_id:
             description: |
               The ID assigned to the newly created user.
@@ -19805,9 +19527,6 @@ components:
             emoji_code: 1f697
             reaction_type: unicode_emoji
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           status:
             allOf:
             - $ref: "#/components/schemas/UserStatus"
@@ -19974,9 +19693,6 @@ components:
           result: success
           msg: ""
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           presence:
             additionalProperties:
               $ref: "#/components/schemas/get_user_presence_200_response_allOf_presence_value"
@@ -20035,9 +19751,6 @@ components:
             "6":
               value: https://zulip.readthedocs.io/en/latest/
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           avatar_url:
             description: |
               URL for the requesting user's avatar.
@@ -20201,9 +19914,6 @@ components:
           entity: organization owner
           is_last_owner: true
         properties:
-          result: {}
-          msg: {}
-          code: {}
           entity:
             description: |
               An internationalized string that notes if the current user is the only
@@ -20236,9 +19946,6 @@ components:
           - natural
           - illustrious
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           alert_words:
             description: |
               An array of strings, where each string is an alert word (or phrase)
@@ -20285,9 +19992,6 @@ components:
           - natural
           - illustrious
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           alert_words:
             description: |
               An array of strings, where each string is an alert word (or phrase)
@@ -20330,9 +20034,6 @@ components:
           - natural
           - illustrious
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           alert_words:
             description: |
               An array of strings, where each string is an alert word (or phrase)
@@ -20482,9 +20183,6 @@ components:
       - $ref: "#/components/schemas/JsonSuccessBase"
       - additionalProperties: false
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           presence_last_update_id:
             description: |
               The identifier for the latest user presence data returned in
@@ -20700,9 +20398,6 @@ components:
           - max_id: 6
             name: Denmark2
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           topics:
             description: |
               An array of objects with information about user-accessible
@@ -20765,9 +20460,6 @@ components:
             - 12
             - 14
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           subscriptions:
             description: |
               A list of dictionaries where each dictionary contains
@@ -20796,12 +20488,9 @@ components:
           description: description
           is_muted: true
           in_home_view: true
-          can_remove_subscribers_group: {}
           first_message_id: 9
-          can_delete_any_message_group: {}
           rendered_description: rendered_description
           stream_id: 0
-          can_resolve_topics_group: {}
           is_recently_active: true
           stream_post_policy: 2
           topics_policy: inherit
@@ -20810,14 +20499,9 @@ components:
           subscribers:
           - 5
           - 5
-          can_move_messages_within_channel_group: {}
           history_public_to_subscribers: true
-          can_move_messages_out_of_channel_group: {}
           wildcard_mentions_notify: true
           desktop_notifications: true
-          can_delete_own_message_group: {}
-          can_subscribe_group: {}
-          can_add_subscribers_group: {}
           is_archived: true
           subscriber_count: 4.145608029883936
           name: name
@@ -20829,8 +20513,6 @@ components:
           is_announcement_only: true
           message_retention_days: 7
           folder_id: 3
-          can_administer_channel_group: {}
-          can_send_message_group: {}
           audible_notifications: true
           invite_only: true
         - push_notifications: true
@@ -20840,12 +20522,9 @@ components:
           description: description
           is_muted: true
           in_home_view: true
-          can_remove_subscribers_group: {}
           first_message_id: 9
-          can_delete_any_message_group: {}
           rendered_description: rendered_description
           stream_id: 0
-          can_resolve_topics_group: {}
           is_recently_active: true
           stream_post_policy: 2
           topics_policy: inherit
@@ -20854,14 +20533,9 @@ components:
           subscribers:
           - 5
           - 5
-          can_move_messages_within_channel_group: {}
           history_public_to_subscribers: true
-          can_move_messages_out_of_channel_group: {}
           wildcard_mentions_notify: true
           desktop_notifications: true
-          can_delete_own_message_group: {}
-          can_subscribe_group: {}
-          can_add_subscribers_group: {}
           is_archived: true
           subscriber_count: 4.145608029883936
           name: name
@@ -20873,8 +20547,6 @@ components:
           is_announcement_only: true
           message_retention_days: 7
           folder_id: 3
-          can_administer_channel_group: {}
-          can_send_message_group: {}
           audible_notifications: true
           invite_only: true
     subscribe_request_subscriptions_inner:
@@ -21045,9 +20717,6 @@ components:
             "2":
             - testing-help
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           subscribed:
             additionalProperties:
               description: |
@@ -21145,9 +20814,6 @@ components:
           - testing-help
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           not_removed:
             description: |
               A list of the names of channels that the user is already unsubscribed
@@ -21214,7 +20880,6 @@ components:
       - additionalProperties: false
         example:
           msg: ""
-          subscribed: {}
           already_subscribed:
             iago@zulip.com:
             - Verona
@@ -21223,9 +20888,6 @@ components:
           - testing-help
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           subscribed:
             additionalProperties:
               description: |
@@ -21646,9 +21308,6 @@ components:
           result: success
           is_subscribed: false
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           is_subscribed:
             description: |
               Whether the user is subscribed to the channel.
@@ -21682,9 +21341,6 @@ components:
               deactivated: false
               author_id: 5
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           emoji:
             additionalProperties:
               $ref: "#/components/schemas/RealmEmoji"
@@ -21725,9 +21381,6 @@ components:
           result: success
           server_timestamp: 1.6569585396287155E9
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           server_timestamp:
             description: |
               The time when the server fetched the `presences` data included
@@ -21841,9 +21494,6 @@ components:
             required: false
             editable_by_user: true
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           custom_fields:
             description: |
               An array containing all the custom profile fields defined in this
@@ -21977,9 +21627,6 @@ components:
           msg: ""
           id: 9
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           id:
             description: |
               The ID for the custom profile field.
@@ -22719,9 +22366,6 @@ components:
             email: hamlet@zulip.com
             delivery_email: null
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           user:
             $ref: "#/components/schemas/User"
         type: object
@@ -22849,9 +22493,6 @@ components:
             id: 1
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           linkifiers:
             description: |
               An ordered array of objects, where each object
@@ -22912,9 +22553,6 @@ components:
           result: success
           msg: ""
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           id:
             description: |
               The numeric ID assigned to this filter.
@@ -22966,9 +22604,6 @@ components:
           result: success
           msg: ""
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           id:
             description: |
               The numeric ID assigned to this playground.
@@ -22996,9 +22631,6 @@ components:
           msg: ""
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           exports:
             description: |
               An array of dictionaries where each dictionary contains
@@ -23057,9 +22689,6 @@ components:
           result: success
           msg: ""
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           id:
             description: |
               The ID of the data export created.
@@ -23100,9 +22729,6 @@ components:
           msg: ""
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           export_consents:
             description: |
               An array of objects where each object contains a user ID and
@@ -23145,9 +22771,6 @@ components:
             notify_referrer_on_join: true
             link_url: https://example.zulipchat.com/join/yddhtzk4jgl7rsmazc5fyyyy/
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           invites:
             description: |
               An array of objects, each representing a single unexpired
@@ -23297,9 +22920,6 @@ components:
           msg: ""
           result: success
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
         type: object
       example:
         result: ""
@@ -23458,9 +23078,6 @@ components:
           msg: ""
           invite_link: https://example.zulipchat.com/join/yddhtzk4jgl7rsmazc5fyyyy/
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           invite_link:
             description: |
               The URL of the [reusable invitation link](/help/invite-new-users#create-a-reusable-invitation-link)
@@ -23544,9 +23161,6 @@ components:
           msg: ""
           message_id: 1
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           message_id:
             description: |
               The message_id of the test welcome bot custom message.
@@ -23997,38 +23611,14 @@ components:
       - $ref: "#/components/schemas/BasicChannelBase"
       - additionalProperties: false
         properties:
-          stream_id: {}
-          name: {}
-          is_archived: {}
-          description: {}
-          date_created: {}
           creator_id:
             nullable: true
-          invite_only: {}
-          rendered_description: {}
-          is_web_public: {}
-          stream_post_policy: {}
           message_retention_days:
             nullable: true
-          history_public_to_subscribers: {}
-          topics_policy: {}
           first_message_id:
             nullable: true
           folder_id:
             nullable: true
-          is_recently_active: {}
-          is_announcement_only: {}
-          can_add_subscribers_group: {}
-          can_remove_subscribers_group: {}
-          can_administer_channel_group: {}
-          can_delete_any_message_group: {}
-          can_delete_own_message_group: {}
-          can_move_messages_out_of_channel_group: {}
-          can_move_messages_within_channel_group: {}
-          can_send_message_group: {}
-          can_subscribe_group: {}
-          can_resolve_topics_group: {}
-          subscriber_count: {}
           stream_weekly_traffic:
             description: |
               The average number of messages sent to the channel per week, as
@@ -25706,16 +25296,6 @@ components:
       - $ref: "#/components/schemas/UserBase"
       - additionalProperties: false
         properties:
-          user_id: {}
-          delivery_email: {}
-          email: {}
-          full_name: {}
-          date_joined: {}
-          is_active: {}
-          is_owner: {}
-          is_admin: {}
-          is_guest: {}
-          is_bot: {}
           is_system_bot:
             description: |
               Whether the user is a system bot. System bots are special
@@ -25729,12 +25309,8 @@ components:
             nullable: true
           bot_owner_id:
             nullable: true
-          role: {}
-          timezone: {}
           avatar_url:
             nullable: true
-          avatar_version: {}
-          profile_data: {}
         type: object
       example:
         is_active: ""
@@ -25852,9 +25428,6 @@ components:
           zulip_version: 5.0-dev-1650-gc3fd37755f
           zulip_merge_base: 5.0-dev-1646-gea6b21cd8c
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           queue_id:
             description: |
               The ID of the queue that has been allocated for your client.
@@ -29354,12 +28927,9 @@ components:
           description: description
           is_muted: true
           in_home_view: true
-          can_remove_subscribers_group: {}
           first_message_id: 9
-          can_delete_any_message_group: {}
           rendered_description: rendered_description
           stream_id: 0
-          can_resolve_topics_group: {}
           is_recently_active: true
           stream_post_policy: 2
           topics_policy: inherit
@@ -29368,14 +28938,9 @@ components:
           subscribers:
           - 5
           - 5
-          can_move_messages_within_channel_group: {}
           history_public_to_subscribers: true
-          can_move_messages_out_of_channel_group: {}
           wildcard_mentions_notify: true
           desktop_notifications: true
-          can_delete_own_message_group: {}
-          can_subscribe_group: {}
-          can_add_subscribers_group: {}
           is_archived: true
           subscriber_count: 4.145608029883936
           name: name
@@ -29387,8 +28952,6 @@ components:
           is_announcement_only: true
           message_retention_days: 7
           folder_id: 3
-          can_administer_channel_group: {}
-          can_send_message_group: {}
           audible_notifications: true
           invite_only: true
         - push_notifications: true
@@ -29398,12 +28961,9 @@ components:
           description: description
           is_muted: true
           in_home_view: true
-          can_remove_subscribers_group: {}
           first_message_id: 9
-          can_delete_any_message_group: {}
           rendered_description: rendered_description
           stream_id: 0
-          can_resolve_topics_group: {}
           is_recently_active: true
           stream_post_policy: 2
           topics_policy: inherit
@@ -29412,14 +28972,9 @@ components:
           subscribers:
           - 5
           - 5
-          can_move_messages_within_channel_group: {}
           history_public_to_subscribers: true
-          can_move_messages_out_of_channel_group: {}
           wildcard_mentions_notify: true
           desktop_notifications: true
-          can_delete_own_message_group: {}
-          can_subscribe_group: {}
-          can_add_subscribers_group: {}
           is_archived: true
           subscriber_count: 4.145608029883936
           name: name
@@ -29431,8 +28986,6 @@ components:
           is_announcement_only: true
           message_retention_days: 7
           folder_id: 3
-          can_administer_channel_group: {}
-          can_send_message_group: {}
           audible_notifications: true
           invite_only: true
         realm_enable_read_receipts: true
@@ -29454,12 +29007,9 @@ components:
           description: description
           is_muted: true
           in_home_view: true
-          can_remove_subscribers_group: {}
           first_message_id: 9
-          can_delete_any_message_group: {}
           rendered_description: rendered_description
           stream_id: 0
-          can_resolve_topics_group: {}
           is_recently_active: true
           stream_post_policy: 2
           topics_policy: inherit
@@ -29468,14 +29018,9 @@ components:
           subscribers:
           - 5
           - 5
-          can_move_messages_within_channel_group: {}
           history_public_to_subscribers: true
-          can_move_messages_out_of_channel_group: {}
           wildcard_mentions_notify: true
           desktop_notifications: true
-          can_delete_own_message_group: {}
-          can_subscribe_group: {}
-          can_add_subscribers_group: {}
           is_archived: true
           subscriber_count: 4.145608029883936
           name: name
@@ -29487,8 +29032,6 @@ components:
           is_announcement_only: true
           message_retention_days: 7
           folder_id: 3
-          can_administer_channel_group: {}
-          can_send_message_group: {}
           audible_notifications: true
           invite_only: true
         - push_notifications: true
@@ -29498,12 +29041,9 @@ components:
           description: description
           is_muted: true
           in_home_view: true
-          can_remove_subscribers_group: {}
           first_message_id: 9
-          can_delete_any_message_group: {}
           rendered_description: rendered_description
           stream_id: 0
-          can_resolve_topics_group: {}
           is_recently_active: true
           stream_post_policy: 2
           topics_policy: inherit
@@ -29512,14 +29052,9 @@ components:
           subscribers:
           - 5
           - 5
-          can_move_messages_within_channel_group: {}
           history_public_to_subscribers: true
-          can_move_messages_out_of_channel_group: {}
           wildcard_mentions_notify: true
           desktop_notifications: true
-          can_delete_own_message_group: {}
-          can_subscribe_group: {}
-          can_add_subscribers_group: {}
           is_archived: true
           subscriber_count: 4.145608029883936
           name: name
@@ -29531,8 +29066,6 @@ components:
           is_announcement_only: true
           message_retention_days: 7
           folder_id: 3
-          can_administer_channel_group: {}
-          can_send_message_group: {}
           audible_notifications: true
           invite_only: true
         realm_message_content_edit_limit_seconds: 4
@@ -30373,9 +29906,6 @@ components:
             login_url: /accounts/login/social/github
             signup_url: /accounts/register/social/github
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           authentication_methods:
             $ref: "#/components/schemas/get_server_settings_200_response_allOf_authentication_methods"
           external_authentication_methods:
@@ -31273,9 +30803,6 @@ components:
           - 11
           - 26
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           subscribers:
             description: |
               A list containing the IDs of all active users who are subscribed
@@ -31296,38 +30823,14 @@ components:
       - $ref: "#/components/schemas/BasicChannelBase"
       - additionalProperties: false
         properties:
-          stream_id: {}
-          name: {}
-          is_archived: {}
-          description: {}
-          date_created: {}
           creator_id:
             nullable: true
-          invite_only: {}
-          rendered_description: {}
-          is_web_public: {}
-          stream_post_policy: {}
           message_retention_days:
             nullable: true
-          history_public_to_subscribers: {}
-          topics_policy: {}
           first_message_id:
             nullable: true
           folder_id:
             nullable: true
-          is_recently_active: {}
-          is_announcement_only: {}
-          can_add_subscribers_group: {}
-          can_remove_subscribers_group: {}
-          can_administer_channel_group: {}
-          can_delete_any_message_group: {}
-          can_delete_own_message_group: {}
-          can_move_messages_out_of_channel_group: {}
-          can_move_messages_within_channel_group: {}
-          can_send_message_group: {}
-          can_resolve_topics_group: {}
-          can_subscribe_group: {}
-          subscriber_count: {}
           stream_weekly_traffic:
             description: |
               The average number of messages sent to the channel per week, as
@@ -31459,9 +30962,6 @@ components:
             stream_weekly_traffic: null
             subscriber_count: 10
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           streams:
             description: |
               A list of channel objects with details on the requested channels.
@@ -31564,9 +31064,6 @@ components:
             stream_weekly_traffic: null
             subscriber_count: 12
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           stream:
             $ref: "#/components/schemas/BasicChannel"
         type: object
@@ -32011,9 +31508,6 @@ components:
           msg: ""
           email: test.af64447e9e39374841063747ade8e6b0.show-sender@testserver
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           email:
             description: |
               Email address of the channel.
@@ -32262,9 +31756,6 @@ components:
       - $ref: "#/components/schemas/JsonSuccessBase"
       - additionalProperties: false
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           id:
             description: The ID of the newly created channel.
             type: integer
@@ -32434,9 +31925,6 @@ components:
           result: success
           group_id: 123
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           group_id:
             description: |
               The unique ID of the created user group.
@@ -32460,9 +31948,6 @@ components:
           - 10
           - 12
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           members:
             description: |
               A list containing the user IDs of members of the user group.
@@ -32936,9 +32421,6 @@ components:
             can_mention_group: 13
             can_remove_members_group: 16
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           user_groups:
             description: |
               A list of `user_group` objects.
@@ -33000,9 +32482,6 @@ components:
           - 2
           - 3
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           subgroups:
             description: |
               A list containing the IDs of subgroups of the user group.
@@ -33045,9 +32524,6 @@ components:
           result: success
           is_user_group_member: false
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           is_user_group_member:
             description: |
               Whether the user is member of user group.
@@ -33114,9 +32590,6 @@ components:
           result: success
           channel_folder_id: 123
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           channel_folder_id:
             description: |
               The unique ID of the created channel folder.
@@ -33161,9 +32634,6 @@ components:
             name: Backend
             is_archived: false
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           channel_folders:
             description: |
               A list of channel folder objects.
@@ -33257,27 +32727,6 @@ components:
         properties:
           avatar_url:
             nullable: true
-          client: {}
-          content: {}
-          content_type: {}
-          display_recipient: {}
-          edit_history: {}
-          id: {}
-          is_me_message: {}
-          last_edit_timestamp: {}
-          last_moved_timestamp: {}
-          reactions: {}
-          recipient_id: {}
-          sender_email: {}
-          sender_full_name: {}
-          sender_id: {}
-          sender_realm_str: {}
-          stream_id: {}
-          subject: {}
-          submessages: {}
-          timestamp: {}
-          topic_links: {}
-          type: {}
           rendered_content:
             description: |
               The content/body of the message rendered in HTML.
@@ -33361,9 +32810,6 @@ components:
           result: success
           url: /calls/bigbluebutton/join?meeting_id=%22zulip-something%22&password=%22something%22&checksum=%22somechecksum%22
         properties:
-          result: {}
-          msg: {}
-          ignored_parameters_unsupported: {}
           url:
             description: |
               The URL for the BigBlueButton video call.

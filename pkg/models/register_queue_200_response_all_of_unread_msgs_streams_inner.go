@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,11 +19,11 @@ var _ MappedNullable = &RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner{}
 
 // RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner struct for RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner
 type RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner struct {
-	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response depending on the value of the `empty_topic_name` [client capability][client-capabilities].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities 
+	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response depending on the value of the `empty_topic_name` [client capability][client-capabilities].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
-	// The ID of the channel to which the messages were sent. 
+	// The ID of the channel to which the messages were sent.
 	StreamId *int32 `json:"stream_id,omitempty"`
-	// The message IDs of the recent unread messages sent in this channel, sorted in ascending order. 
+	// The message IDs of the recent unread messages sent in this channel, sorted in ascending order.
 	UnreadMessageIds []int32 `json:"unread_message_ids,omitempty"`
 }
 
@@ -141,7 +141,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) SetUnreadMessageId
 }
 
 func (o RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -197,5 +197,3 @@ func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) UnmarshalJ
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

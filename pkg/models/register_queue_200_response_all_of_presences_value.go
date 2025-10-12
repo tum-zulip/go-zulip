@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,12 +13,13 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
-// RegisterQueue200ResponseAllOfPresencesValue - Will be one of these two formats (modern or legacy) for user presence data: 
+// RegisterQueue200ResponseAllOfPresencesValue - Will be one of these two formats (modern or legacy) for user presence data:
 type RegisterQueue200ResponseAllOfPresencesValue struct {
-	ModernPresenceFormat *ModernPresenceFormat
+	ModernPresenceFormat               *ModernPresenceFormat
 	MapmapOfStringLegacyPresenceFormat *map[string]LegacyPresenceFormat
 }
 
@@ -35,7 +36,6 @@ func MapmapOfStringLegacyPresenceFormatAsRegisterQueue200ResponseAllOfPresencesV
 		MapmapOfStringLegacyPresenceFormat: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *RegisterQueue200ResponseAllOfPresencesValue) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src RegisterQueue200ResponseAllOfPresencesValue) MarshalJSON() ([]byte, er
 }
 
 // Get the actual instance
-func (obj *RegisterQueue200ResponseAllOfPresencesValue) GetActualInstance() (interface{}) {
+func (obj *RegisterQueue200ResponseAllOfPresencesValue) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *RegisterQueue200ResponseAllOfPresencesValue) GetActualInstance() (int
 }
 
 // Get the actual instance value
-func (obj RegisterQueue200ResponseAllOfPresencesValue) GetActualInstanceValue() (interface{}) {
+func (obj RegisterQueue200ResponseAllOfPresencesValue) GetActualInstanceValue() interface{} {
 	if obj.ModernPresenceFormat != nil {
 		return *obj.ModernPresenceFormat
 	}
@@ -167,5 +167,3 @@ func (v *NullableRegisterQueue200ResponseAllOfPresencesValue) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

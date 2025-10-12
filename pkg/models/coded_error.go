@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,9 +21,10 @@ var _ MappedNullable = &CodedError{}
 
 // CodedError struct for CodedError
 type CodedError struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	Code interface{} `json:"code"`
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// A string that identifies the error.
+	Code string `json:"code"`
 }
 
 type _CodedError CodedError
@@ -32,7 +33,7 @@ type _CodedError CodedError
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCodedError(result interface{}, msg interface{}, code interface{}) *CodedError {
+func NewCodedError(result string, msg string, code string) *CodedError {
 	this := CodedError{}
 	this.Result = result
 	this.Msg = msg
@@ -49,10 +50,9 @@ func NewCodedErrorWithDefaults() *CodedError {
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *CodedError) GetResult() interface{} {
+func (o *CodedError) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -61,24 +61,22 @@ func (o *CodedError) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *CodedError) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *CodedError) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *CodedError) SetResult(v interface{}) {
+func (o *CodedError) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *CodedError) GetMsg() interface{} {
+func (o *CodedError) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -87,24 +85,22 @@ func (o *CodedError) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *CodedError) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *CodedError) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *CodedError) SetMsg(v interface{}) {
+func (o *CodedError) SetMsg(v string) {
 	o.Msg = v
 }
 
 // GetCode returns the Code field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *CodedError) GetCode() interface{} {
+func (o *CodedError) GetCode() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -113,21 +109,20 @@ func (o *CodedError) GetCode() interface{} {
 
 // GetCodeOk returns a tuple with the Code field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *CodedError) GetCodeOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Code) {
+func (o *CodedError) GetCodeOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Code, true
 }
 
 // SetCode sets field value
-func (o *CodedError) SetCode(v interface{}) {
+func (o *CodedError) SetCode(v string) {
 	o.Code = v
 }
 
 func (o CodedError) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -136,15 +131,9 @@ func (o CodedError) MarshalJSON() ([]byte, error) {
 
 func (o CodedError) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.Code != nil {
-		toSerialize["code"] = o.Code
-	}
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	toSerialize["code"] = o.Code
 	return toSerialize, nil
 }
 
@@ -163,10 +152,10 @@ func (o *CodedError) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -222,5 +211,3 @@ func (v *NullableCodedError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

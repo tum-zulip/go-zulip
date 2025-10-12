@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,10 +17,10 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6 When the user updates one of their custom profile fields. 
+// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6 When the user updates one of their custom profile fields.
 type GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6 struct {
-	// The ID of the user affected by this change. 
-	UserId *int32 `json:"user_id,omitempty"`
+	// The ID of the user affected by this change.
+	UserId             *int32                                                                    `json:"user_id,omitempty"`
 	CustomProfileField *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6CustomProfileField `json:"custom_profile_field,omitempty"`
 }
 
@@ -106,7 +106,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6) SetCustomProfil
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -159,5 +159,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6) Unmarsh
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

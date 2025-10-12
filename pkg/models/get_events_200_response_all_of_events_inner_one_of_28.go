@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,12 +17,12 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf28 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf28{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf28 Event sent to all users in a Zulip organization when an organization administrator changes the organization's configured default channel groups.  Default channel groups are an **experimental** feature that is not yet stabilized. 
+// GetEvents200ResponseAllOfEventsInnerOneOf28 Event sent to all users in a Zulip organization when an organization administrator changes the organization's configured default channel groups.  Default channel groups are an **experimental** feature that is not yet stabilized.
 type GetEvents200ResponseAllOfEventsInnerOneOf28 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// An array of dictionaries where each dictionary contains details about a single default channel group. 
+	// An array of dictionaries where each dictionary contains details about a single default channel group.
 	DefaultStreamGroups []DefaultChannelGroup `json:"default_stream_groups,omitempty"`
 }
 
@@ -140,7 +140,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf28) SetDefaultStreamGroups(v [
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf28) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -196,5 +196,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf28) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

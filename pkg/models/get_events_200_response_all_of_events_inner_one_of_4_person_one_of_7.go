@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7 When the Zulip API email address of a user changes, either due to the user's email address changing, or due to changes in the user's [email address visibility][help-email-visibility].  [help-email-visibility]: /help/configure-email-visibility 
+// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7 When the Zulip API email address of a user changes, either due to the user's email address changing, or due to changes in the user's [email address visibility][help-email-visibility].  [help-email-visibility]: /help/configure-email-visibility
 type GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7 struct {
-	// The ID of the user affected by this change. 
+	// The ID of the user affected by this change.
 	UserId *int32 `json:"user_id,omitempty"`
-	// The new value of `email` for the user. The client should update any data structures associated with this user to use this new value as the user's Zulip API email address. 
+	// The new value of `email` for the user. The client should update any data structures associated with this user to use this new value as the user's Zulip API email address.
 	NewEmail *string `json:"new_email,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7) SetNewEmail(v s
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7) Unmarsh
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

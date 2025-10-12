@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,23 +17,23 @@ import (
 // checks if the RealmExport type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmExport{}
 
-// RealmExport Object containing details about a [data export](/help/export-your-organization). 
+// RealmExport Object containing details about a [data export](/help/export-your-organization).
 type RealmExport struct {
-	// The ID of the data export. 
+	// The ID of the data export.
 	Id *int32 `json:"id,omitempty"`
-	// The ID of the user who created the data export. 
+	// The ID of the user who created the data export.
 	ActingUserId *int32 `json:"acting_user_id,omitempty"`
-	// The UNIX timestamp of when the data export was started. 
+	// The UNIX timestamp of when the data export was started.
 	ExportTime *float32 `json:"export_time,omitempty"`
-	// The UNIX timestamp of when the data export was deleted.  Will be `null` if the data export has not been deleted. 
+	// The UNIX timestamp of when the data export was deleted.  Will be `null` if the data export has not been deleted.
 	DeletedTimestamp NullableFloat32 `json:"deleted_timestamp,omitempty"`
-	// The UNIX timestamp of when the data export failed.  Will be `null` if the data export succeeded, or if it's still being generated. 
+	// The UNIX timestamp of when the data export failed.  Will be `null` if the data export succeeded, or if it's still being generated.
 	FailedTimestamp NullableFloat32 `json:"failed_timestamp,omitempty"`
-	// The URL to download the generated data export.  Will be `null` if the data export failed, or if it's still being generated. 
+	// The URL to download the generated data export.  Will be `null` if the data export failed, or if it's still being generated.
 	ExportUrl NullableString `json:"export_url,omitempty"`
-	// Whether the data export is pending, which indicates it is still being generated, or if it succeeded, failed or was deleted before being generated.  Depending on the size of the organization, it can take anywhere from seconds to an hour to generate the data export. 
+	// Whether the data export is pending, which indicates it is still being generated, or if it succeeded, failed or was deleted before being generated.  Depending on the size of the organization, it can take anywhere from seconds to an hour to generate the data export.
 	Pending *bool `json:"pending,omitempty"`
-	// Whether the data export is a public or a standard data export.  - 1 = Public data export. - 2 = Standard data export.  **Changes**: New in Zulip 10.0 (feature level 304). Previously, the export type was not included in these objects because only public data exports could be created or listed via the API or UI. 
+	// Whether the data export is a public or a standard data export.  - 1 = Public data export. - 2 = Standard data export.  **Changes**: New in Zulip 10.0 (feature level 304). Previously, the export type was not included in these objects because only public data exports could be created or listed via the API or UI.
 	ExportType *int32 `json:"export_type,omitempty"`
 }
 
@@ -182,6 +182,7 @@ func (o *RealmExport) HasDeletedTimestamp() bool {
 func (o *RealmExport) SetDeletedTimestamp(v float32) {
 	o.DeletedTimestamp.Set(&v)
 }
+
 // SetDeletedTimestampNil sets the value for DeletedTimestamp to be an explicit nil
 func (o *RealmExport) SetDeletedTimestampNil() {
 	o.DeletedTimestamp.Set(nil)
@@ -224,6 +225,7 @@ func (o *RealmExport) HasFailedTimestamp() bool {
 func (o *RealmExport) SetFailedTimestamp(v float32) {
 	o.FailedTimestamp.Set(&v)
 }
+
 // SetFailedTimestampNil sets the value for FailedTimestamp to be an explicit nil
 func (o *RealmExport) SetFailedTimestampNil() {
 	o.FailedTimestamp.Set(nil)
@@ -266,6 +268,7 @@ func (o *RealmExport) HasExportUrl() bool {
 func (o *RealmExport) SetExportUrl(v string) {
 	o.ExportUrl.Set(&v)
 }
+
 // SetExportUrlNil sets the value for ExportUrl to be an explicit nil
 func (o *RealmExport) SetExportUrlNil() {
 	o.ExportUrl.Set(nil)
@@ -341,7 +344,7 @@ func (o *RealmExport) SetExportType(v int32) {
 }
 
 func (o RealmExport) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -412,5 +415,3 @@ func (v *NullableRealmExport) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

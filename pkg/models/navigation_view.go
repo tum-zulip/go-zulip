@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,21 +11,21 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
 // checks if the NavigationView type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &NavigationView{}
 
-// NavigationView Represents a user's personal configuration for a specific navigation view (displayed most visibly at the top of the web application's left sidebar).  Navigation views can be either an override to the default behavior of a built-in view, or a custom view.  **Changes**: New in Zulip 11.0 (feature level 390). 
+// NavigationView Represents a user's personal configuration for a specific navigation view (displayed most visibly at the top of the web application's left sidebar).  Navigation views can be either an override to the default behavior of a built-in view, or a custom view.  **Changes**: New in Zulip 11.0 (feature level 390).
 type NavigationView struct {
-	// A unique identifier for the view, used to determine navigation behavior when clicked.  Clients should use this value to navigate to the corresponding URL hash. 
+	// A unique identifier for the view, used to determine navigation behavior when clicked.  Clients should use this value to navigate to the corresponding URL hash.
 	Fragment string `json:"fragment"`
-	// Determines whether the view appears directly in the sidebar or is hidden in the \"More Views\" menu.  - `true` - Pinned and visible in the sidebar. - `false` - Hidden and accessible via the \"More Views\" menu. 
+	// Determines whether the view appears directly in the sidebar or is hidden in the \"More Views\" menu.  - `true` - Pinned and visible in the sidebar. - `false` - Hidden and accessible via the \"More Views\" menu.
 	IsPinned bool `json:"is_pinned"`
-	// The user-facing name for custom navigation views. Omit this field for built-in views. 
+	// The user-facing name for custom navigation views. Omit this field for built-in views.
 	Name NullableString `json:"name,omitempty"`
 }
 
@@ -130,6 +130,7 @@ func (o *NavigationView) HasName() bool {
 func (o *NavigationView) SetName(v string) {
 	o.Name.Set(&v)
 }
+
 // SetNameNil sets the value for Name to be an explicit nil
 func (o *NavigationView) SetNameNil() {
 	o.Name.Set(nil)
@@ -141,7 +142,7 @@ func (o *NavigationView) UnsetName() {
 }
 
 func (o NavigationView) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -172,10 +173,10 @@ func (o *NavigationView) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -231,5 +232,3 @@ func (v *NullableNavigationView) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,15 +21,16 @@ var _ MappedNullable = &UploadFile200Response{}
 
 // UploadFile200Response struct for UploadFile200Response
 type UploadFile200Response struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	IgnoredParametersUnsupported interface{} `json:"ignored_parameters_unsupported,omitempty"`
-	// The URL of the uploaded file. Alias of `url`.  **Changes**: Deprecated in Zulip 9.0 (feature level 272). The term \"URI\" is deprecated in [web standards](https://url.spec.whatwg.org/#goals). 
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
+	// The URL of the uploaded file. Alias of `url`.  **Changes**: Deprecated in Zulip 9.0 (feature level 272). The term \"URI\" is deprecated in [web standards](https://url.spec.whatwg.org/#goals).
 	// Deprecated
 	Uri *string `json:"uri,omitempty"`
-	// The URL of the uploaded file.  **Changes**: New in Zulip 9.0 (feature level 272). Previously, this property was only available under the legacy `uri` name. 
+	// The URL of the uploaded file.  **Changes**: New in Zulip 9.0 (feature level 272). Previously, this property was only available under the legacy `uri` name.
 	Url *string `json:"url,omitempty"`
-	// The filename that Zulip stored the upload as. This usually differs from the basename of the URL when HTML escaping is required to generate a valid URL.  Clients generating a Markdown link to a newly uploaded file should do so by combining the `url` and `filename` fields in the response as follows: `[{filename}]({url})`, with care taken to clean `filename` of `[` and `]` characters that might break Markdown rendering.  **Changes**: New in Zulip 10.0 (feature level 285). 
+	// The filename that Zulip stored the upload as. This usually differs from the basename of the URL when HTML escaping is required to generate a valid URL.  Clients generating a Markdown link to a newly uploaded file should do so by combining the `url` and `filename` fields in the response as follows: `[{filename}]({url})`, with care taken to clean `filename` of `[` and `]` characters that might break Markdown rendering.  **Changes**: New in Zulip 10.0 (feature level 285).
 	Filename *string `json:"filename,omitempty"`
 }
 
@@ -39,7 +40,7 @@ type _UploadFile200Response UploadFile200Response
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUploadFile200Response(result interface{}, msg interface{}) *UploadFile200Response {
+func NewUploadFile200Response(result string, msg string) *UploadFile200Response {
 	this := UploadFile200Response{}
 	this.Result = result
 	this.Msg = msg
@@ -55,10 +56,9 @@ func NewUploadFile200ResponseWithDefaults() *UploadFile200Response {
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *UploadFile200Response) GetResult() interface{} {
+func (o *UploadFile200Response) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -67,24 +67,22 @@ func (o *UploadFile200Response) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UploadFile200Response) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *UploadFile200Response) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *UploadFile200Response) SetResult(v interface{}) {
+func (o *UploadFile200Response) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *UploadFile200Response) GetMsg() interface{} {
+func (o *UploadFile200Response) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -93,23 +91,22 @@ func (o *UploadFile200Response) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UploadFile200Response) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *UploadFile200Response) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *UploadFile200Response) SetMsg(v interface{}) {
+func (o *UploadFile200Response) SetMsg(v string) {
 	o.Msg = v
 }
 
-// GetIgnoredParametersUnsupported returns the IgnoredParametersUnsupported field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *UploadFile200Response) GetIgnoredParametersUnsupported() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetIgnoredParametersUnsupported returns the IgnoredParametersUnsupported field value if set, zero value otherwise.
+func (o *UploadFile200Response) GetIgnoredParametersUnsupported() []string {
+	if o == nil || IsNil(o.IgnoredParametersUnsupported) {
+		var ret []string
 		return ret
 	}
 	return o.IgnoredParametersUnsupported
@@ -117,12 +114,11 @@ func (o *UploadFile200Response) GetIgnoredParametersUnsupported() interface{} {
 
 // GetIgnoredParametersUnsupportedOk returns a tuple with the IgnoredParametersUnsupported field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UploadFile200Response) GetIgnoredParametersUnsupportedOk() (*interface{}, bool) {
+func (o *UploadFile200Response) GetIgnoredParametersUnsupportedOk() ([]string, bool) {
 	if o == nil || IsNil(o.IgnoredParametersUnsupported) {
 		return nil, false
 	}
-	return &o.IgnoredParametersUnsupported, true
+	return o.IgnoredParametersUnsupported, true
 }
 
 // HasIgnoredParametersUnsupported returns a boolean if a field has been set.
@@ -134,8 +130,8 @@ func (o *UploadFile200Response) HasIgnoredParametersUnsupported() bool {
 	return false
 }
 
-// SetIgnoredParametersUnsupported gets a reference to the given interface{} and assigns it to the IgnoredParametersUnsupported field.
-func (o *UploadFile200Response) SetIgnoredParametersUnsupported(v interface{}) {
+// SetIgnoredParametersUnsupported gets a reference to the given []string and assigns it to the IgnoredParametersUnsupported field.
+func (o *UploadFile200Response) SetIgnoredParametersUnsupported(v []string) {
 	o.IgnoredParametersUnsupported = v
 }
 
@@ -239,7 +235,7 @@ func (o *UploadFile200Response) SetFilename(v string) {
 }
 
 func (o UploadFile200Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -248,13 +244,9 @@ func (o UploadFile200Response) MarshalJSON() ([]byte, error) {
 
 func (o UploadFile200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.IgnoredParametersUnsupported != nil {
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	if !IsNil(o.IgnoredParametersUnsupported) {
 		toSerialize["ignored_parameters_unsupported"] = o.IgnoredParametersUnsupported
 	}
 	if !IsNil(o.Uri) {
@@ -283,10 +275,10 @@ func (o *UploadFile200Response) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -342,5 +334,3 @@ func (v *NullableUploadFile200Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

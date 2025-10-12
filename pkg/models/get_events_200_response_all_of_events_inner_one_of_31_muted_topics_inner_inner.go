@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,12 +13,13 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
 // GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner - struct for GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner
 type GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner struct {
-	Int32 *int32
+	Int32  *int32
 	String *string
 }
 
@@ -35,7 +36,6 @@ func StringAsGetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner(v 
 		String: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner) Mars
 }
 
 // Get the actual instance
-func (obj *GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner) GetActualInstance() (interface{}) {
+func (obj *GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner) Get
 }
 
 // Get the actual instance value
-func (obj GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner) GetActualInstanceValue() (interface{}) {
+func (obj GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner) GetActualInstanceValue() interface{} {
 	if obj.Int32 != nil {
 		return *obj.Int32
 	}
@@ -167,5 +167,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInne
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

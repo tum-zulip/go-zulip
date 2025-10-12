@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,11 +19,11 @@ var _ MappedNullable = &GetLinkifiers200ResponseAllOfLinkifiersInner{}
 
 // GetLinkifiers200ResponseAllOfLinkifiersInner struct for GetLinkifiers200ResponseAllOfLinkifiersInner
 type GetLinkifiers200ResponseAllOfLinkifiersInner struct {
-	// The string regex pattern which represents the pattern that should be linkified by this linkifier. 
+	// The string regex pattern which represents the pattern that should be linkified by this linkifier.
 	Pattern *string `json:"pattern,omitempty"`
-	// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template to be used for linkifying matches.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced `url_format`, which contained a URL format string. 
+	// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template to be used for linkifying matches.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced `url_format`, which contained a URL format string.
 	UrlTemplate *string `json:"url_template,omitempty"`
-	// The ID of the linkifier. 
+	// The ID of the linkifier.
 	Id *int32 `json:"id,omitempty"`
 }
 
@@ -141,7 +141,7 @@ func (o *GetLinkifiers200ResponseAllOfLinkifiersInner) SetId(v int32) {
 }
 
 func (o GetLinkifiers200ResponseAllOfLinkifiersInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -197,5 +197,3 @@ func (v *NullableGetLinkifiers200ResponseAllOfLinkifiersInner) UnmarshalJSON(src
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

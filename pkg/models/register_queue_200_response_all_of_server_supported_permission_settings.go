@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the RegisterQueue200ResponseAllOfServerSupportedPermissionSettings type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RegisterQueue200ResponseAllOfServerSupportedPermissionSettings{}
 
-// RegisterQueue200ResponseAllOfServerSupportedPermissionSettings Present if `realm` is present in `fetch_event_types`.  Metadata detailing the valid values for permission settings that use [group-setting values](/api/group-setting-values). Clients should use these data as explained in the [main documentation](/api/group-setting-values#permitted-values) to determine what values to present as possible values for these settings in UI components.  This part of the Zulip API is unstable and may change significantly in future versions.  **Changes**: New in Zulip 8.0 (feature level 221). 
+// RegisterQueue200ResponseAllOfServerSupportedPermissionSettings Present if `realm` is present in `fetch_event_types`.  Metadata detailing the valid values for permission settings that use [group-setting values](/api/group-setting-values). Clients should use these data as explained in the [main documentation](/api/group-setting-values#permitted-values) to determine what values to present as possible values for these settings in UI components.  This part of the Zulip API is unstable and may change significantly in future versions.  **Changes**: New in Zulip 8.0 (feature level 221).
 type RegisterQueue200ResponseAllOfServerSupportedPermissionSettings struct {
-	// Configuration for realm level group permission settings. 
+	// Configuration for realm level group permission settings.
 	Realm *map[string]GroupPermissionSetting `json:"realm,omitempty"`
-	// Configuration for channel level group permission settings. 
+	// Configuration for channel level group permission settings.
 	Stream *map[string]GroupPermissionSetting `json:"stream,omitempty"`
-	// Configuration for group level group permission settings. 
+	// Configuration for group level group permission settings.
 	Group *map[string]GroupPermissionSetting `json:"group,omitempty"`
 }
 
@@ -141,7 +141,7 @@ func (o *RegisterQueue200ResponseAllOfServerSupportedPermissionSettings) SetGrou
 }
 
 func (o RegisterQueue200ResponseAllOfServerSupportedPermissionSettings) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -197,5 +197,3 @@ func (v *NullableRegisterQueue200ResponseAllOfServerSupportedPermissionSettings)
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

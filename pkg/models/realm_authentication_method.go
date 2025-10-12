@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the RealmAuthenticationMethod type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmAuthenticationMethod{}
 
-// RealmAuthenticationMethod Dictionary describing the properties of an authentication method for the organization - its enabled status and availability for use by the organization. 
+// RealmAuthenticationMethod Dictionary describing the properties of an authentication method for the organization - its enabled status and availability for use by the organization.
 type RealmAuthenticationMethod struct {
-	// Boolean describing whether the authentication method (i.e. its key) is enabled in this organization. 
+	// Boolean describing whether the authentication method (i.e. its key) is enabled in this organization.
 	Enabled *bool `json:"enabled,omitempty"`
-	// Boolean describing whether the authentication method is available for use. If false, the organization is not eligible to enable the authentication method. 
+	// Boolean describing whether the authentication method is available for use. If false, the organization is not eligible to enable the authentication method.
 	Available *bool `json:"available,omitempty"`
-	// Reason why the authentication method is unavailable. This field is optional and is only present when 'available' is false. 
+	// Reason why the authentication method is unavailable. This field is optional and is only present when 'available' is false.
 	UnavailableReason *string `json:"unavailable_reason,omitempty"`
 }
 
@@ -141,7 +141,7 @@ func (o *RealmAuthenticationMethod) SetUnavailableReason(v string) {
 }
 
 func (o RealmAuthenticationMethod) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -197,5 +197,3 @@ func (v *NullableRealmAuthenticationMethod) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

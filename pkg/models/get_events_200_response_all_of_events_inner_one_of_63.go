@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf63 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf63{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf63 The simpler of two possible event types sent to all users in a Zulip organization when the configuration of the organization (realm) has changed.  Often individual settings are migrated from this format to the [realm/update_dict](#realm-update_dict) event format when additional realm settings are added whose values are coupled to each other in some way. The specific values supported by this event type are documented in the [realm/update_dict](#realm-update_dict) documentation.  A correct client implementation should convert these events into the corresponding [realm/update_dict](#realm-update_dict) event and then process that.  **Changes**: Removed `extra_data` optional property in Zulip 10.0 (feature level 306). The `extra_data` used to include an `upload_quota` field when changed property was `plan_type`. The server now sends a standard `realm/update_dict` event for plan changes. 
+// GetEvents200ResponseAllOfEventsInnerOneOf63 The simpler of two possible event types sent to all users in a Zulip organization when the configuration of the organization (realm) has changed.  Often individual settings are migrated from this format to the [realm/update_dict](#realm-update_dict) event format when additional realm settings are added whose values are coupled to each other in some way. The specific values supported by this event type are documented in the [realm/update_dict](#realm-update_dict) documentation.  A correct client implementation should convert these events into the corresponding [realm/update_dict](#realm-update_dict) event and then process that.  **Changes**: Removed `extra_data` optional property in Zulip 10.0 (feature level 306). The `extra_data` used to include an `upload_quota` field when changed property was `plan_type`. The server now sends a standard `realm/update_dict` event for plan changes.
 type GetEvents200ResponseAllOfEventsInnerOneOf63 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// The name of the property that was changed. 
-	Property *string `json:"property,omitempty"`
-	Value *GetEvents200ResponseAllOfEventsInnerOneOf63Value `json:"value,omitempty"`
+	Op   *string `json:"op,omitempty"`
+	// The name of the property that was changed.
+	Property *string                                           `json:"property,omitempty"`
+	Value    *GetEvents200ResponseAllOfEventsInnerOneOf63Value `json:"value,omitempty"`
 }
 
 // NewGetEvents200ResponseAllOfEventsInnerOneOf63 instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf63 object
@@ -206,7 +206,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf63) SetValue(v GetEvents200Res
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf63) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -268,5 +268,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf63) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

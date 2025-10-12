@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,17 +17,17 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf7 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf7{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf7 Event sent to a user's clients when a property of the user's subscription to a channel has been updated. This event is used only for personal properties like `is_muted` or `pin_to_top`. See the [`stream op: update` event](/api/get-events#stream-update) for updates to global properties of a channel. 
+// GetEvents200ResponseAllOfEventsInnerOneOf7 Event sent to a user's clients when a property of the user's subscription to a channel has been updated. This event is used only for personal properties like `is_muted` or `pin_to_top`. See the [`stream op: update` event](/api/get-events#stream-update) for updates to global properties of a channel.
 type GetEvents200ResponseAllOfEventsInnerOneOf7 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// The ID of the channel whose subscription details have changed. 
+	Op   *string `json:"op,omitempty"`
+	// The ID of the channel whose subscription details have changed.
 	StreamId *int32 `json:"stream_id,omitempty"`
-	// The property of the subscription which has changed. For details on the various subscription properties that a user can change, see [POST /users/me/subscriptions/properties](/api/update-subscription-settings).  Clients should generally handle an unknown property received here without crashing, since that will naturally happen when connecting to a Zulip server running a new version that adds a new subscription property.  **Changes**: As of Zulip 6.0 (feature level 139), updates to the `is_muted` property or the deprecated `in_home_view` property will send two `subscription` update events, one for each property, to support clients fully migrating to use the `is_muted` property. Prior to this feature level, updates to either property only sent one event with the deprecated `in_home_view` property. 
-	Property *string `json:"property,omitempty"`
-	Value *GetEvents200ResponseAllOfEventsInnerOneOf7Value `json:"value,omitempty"`
+	// The property of the subscription which has changed. For details on the various subscription properties that a user can change, see [POST /users/me/subscriptions/properties](/api/update-subscription-settings).  Clients should generally handle an unknown property received here without crashing, since that will naturally happen when connecting to a Zulip server running a new version that adds a new subscription property.  **Changes**: As of Zulip 6.0 (feature level 139), updates to the `is_muted` property or the deprecated `in_home_view` property will send two `subscription` update events, one for each property, to support clients fully migrating to use the `is_muted` property. Prior to this feature level, updates to either property only sent one event with the deprecated `in_home_view` property.
+	Property *string                                          `json:"property,omitempty"`
+	Value    *GetEvents200ResponseAllOfEventsInnerOneOf7Value `json:"value,omitempty"`
 }
 
 // NewGetEvents200ResponseAllOfEventsInnerOneOf7 instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf7 object
@@ -240,7 +240,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf7) SetValue(v GetEvents200Resp
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf7) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -305,5 +305,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf7) UnmarshalJSON(src [
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

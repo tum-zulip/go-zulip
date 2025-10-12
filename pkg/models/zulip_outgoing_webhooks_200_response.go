@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,18 +17,18 @@ import (
 // checks if the ZulipOutgoingWebhooks200Response type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ZulipOutgoingWebhooks200Response{}
 
-// ZulipOutgoingWebhooks200Response This is an example of the JSON payload that the Zulip server will `POST` to your server: 
+// ZulipOutgoingWebhooks200Response This is an example of the JSON payload that the Zulip server will `POST` to your server:
 type ZulipOutgoingWebhooks200Response struct {
-	// Email of the bot user. 
+	// Email of the bot user.
 	BotEmail *string `json:"bot_email,omitempty"`
-	// The full name of the bot user. 
+	// The full name of the bot user.
 	BotFullName *string `json:"bot_full_name,omitempty"`
-	// The message content, in raw [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format (not rendered to HTML). 
+	// The message content, in raw [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format (not rendered to HTML).
 	Data *string `json:"data,omitempty"`
-	// What aspect of the message triggered the outgoing webhook notification. Possible values include `direct_message` and `mention`.  **Changes**: In Zulip 8.0 (feature level 201), renamed the trigger `private_message` to `direct_message`. 
+	// What aspect of the message triggered the outgoing webhook notification. Possible values include `direct_message` and `mention`.  **Changes**: In Zulip 8.0 (feature level 201), renamed the trigger `private_message` to `direct_message`.
 	Trigger *string `json:"trigger,omitempty"`
-	// A string of alphanumeric characters that can be used to authenticate the webhook request (each bot user uses a fixed token). You can get the token used by a given outgoing webhook bot in the `zuliprc` file downloaded when creating the bot. 
-	Token *string `json:"token,omitempty"`
+	// A string of alphanumeric characters that can be used to authenticate the webhook request (each bot user uses a fixed token). You can get the token used by a given outgoing webhook bot in the `zuliprc` file downloaded when creating the bot.
+	Token   *string                                  `json:"token,omitempty"`
 	Message *ZulipOutgoingWebhooks200ResponseMessage `json:"message,omitempty"`
 }
 
@@ -242,7 +242,7 @@ func (o *ZulipOutgoingWebhooks200Response) SetMessage(v ZulipOutgoingWebhooks200
 }
 
 func (o ZulipOutgoingWebhooks200Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -307,5 +307,3 @@ func (v *NullableZulipOutgoingWebhooks200Response) UnmarshalJSON(src []byte) err
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

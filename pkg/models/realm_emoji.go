@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,19 +17,19 @@ import (
 // checks if the RealmEmoji type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmEmoji{}
 
-// RealmEmoji `{emoji_id}`: Object containing details about the emoji with the specified ID. It has the following properties: 
+// RealmEmoji `{emoji_id}`: Object containing details about the emoji with the specified ID. It has the following properties:
 type RealmEmoji struct {
-	// The ID for this emoji, same as the object's key. 
+	// The ID for this emoji, same as the object's key.
 	Id *string `json:"id,omitempty"`
-	// The user-friendly name for this emoji. Users in the organization can use this emoji by writing this name between colons (`:name :`). 
+	// The user-friendly name for this emoji. Users in the organization can use this emoji by writing this name between colons (`:name :`).
 	Name *string `json:"name,omitempty"`
-	// The path relative to the organization's URL where the emoji's image can be found. 
+	// The path relative to the organization's URL where the emoji's image can be found.
 	SourceUrl *string `json:"source_url,omitempty"`
-	// Only non-null when the emoji's image is animated.  The path relative to the organization's URL where a still (not animated) version of the emoji can be found. (This is currently always the first frame of the animation).  This is useful for clients to display the emoji in contexts where continuously animating it would be a bad user experience (E.g. because it would be distracting).  **Changes**: New in Zulip 5.0 (added as optional field in feature level 97 and then made mandatory, but nullable, in feature level 113). 
+	// Only non-null when the emoji's image is animated.  The path relative to the organization's URL where a still (not animated) version of the emoji can be found. (This is currently always the first frame of the animation).  This is useful for clients to display the emoji in contexts where continuously animating it would be a bad user experience (E.g. because it would be distracting).  **Changes**: New in Zulip 5.0 (added as optional field in feature level 97 and then made mandatory, but nullable, in feature level 113).
 	StillUrl NullableString `json:"still_url,omitempty"`
-	// Whether the emoji has been deactivated or not. 
+	// Whether the emoji has been deactivated or not.
 	Deactivated *bool `json:"deactivated,omitempty"`
-	// The user ID of the user who uploaded the custom emoji. Will be `null` if the uploader is unknown.  **Changes**: New in Zulip 3.0 (feature level 7). Previously was accessible via an `author` object with an `id` field. 
+	// The user ID of the user who uploaded the custom emoji. Will be `null` if the uploader is unknown.  **Changes**: New in Zulip 3.0 (feature level 7). Previously was accessible via an `author` object with an `id` field.
 	AuthorId NullableInt32 `json:"author_id,omitempty"`
 }
 
@@ -178,6 +178,7 @@ func (o *RealmEmoji) HasStillUrl() bool {
 func (o *RealmEmoji) SetStillUrl(v string) {
 	o.StillUrl.Set(&v)
 }
+
 // SetStillUrlNil sets the value for StillUrl to be an explicit nil
 func (o *RealmEmoji) SetStillUrlNil() {
 	o.StillUrl.Set(nil)
@@ -252,6 +253,7 @@ func (o *RealmEmoji) HasAuthorId() bool {
 func (o *RealmEmoji) SetAuthorId(v int32) {
 	o.AuthorId.Set(&v)
 }
+
 // SetAuthorIdNil sets the value for AuthorId to be an explicit nil
 func (o *RealmEmoji) SetAuthorIdNil() {
 	o.AuthorId.Set(nil)
@@ -263,7 +265,7 @@ func (o *RealmEmoji) UnsetAuthorId() {
 }
 
 func (o RealmEmoji) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -328,5 +330,3 @@ func (v *NullableRealmEmoji) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf45 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf45{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf45 Event sent to all users when users have been added to a user group.  This event is also sent when reactivating a user for all the user groups the reactivated user was a member of before being deactivated.  **Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when reactivating a user. 
+// GetEvents200ResponseAllOfEventsInnerOneOf45 Event sent to all users when users have been added to a user group.  This event is also sent when reactivating a user for all the user groups the reactivated user was a member of before being deactivated.  **Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when reactivating a user.
 type GetEvents200ResponseAllOfEventsInnerOneOf45 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// The ID of the user group with new members. 
+	Op   *string `json:"op,omitempty"`
+	// The ID of the user group with new members.
 	GroupId *int32 `json:"group_id,omitempty"`
-	// Array containing the IDs of the users who have been added to the user group. 
+	// Array containing the IDs of the users who have been added to the user group.
 	UserIds []int32 `json:"user_ids,omitempty"`
 }
 
@@ -207,7 +207,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf45) SetUserIds(v []int32) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf45) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -269,5 +269,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf45) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

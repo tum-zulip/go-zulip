@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,9 +19,9 @@ var _ MappedNullable = &GetRealmExportConsents200ResponseAllOfExportConsentsInne
 
 // GetRealmExportConsents200ResponseAllOfExportConsentsInner struct for GetRealmExportConsents200ResponseAllOfExportConsentsInner
 type GetRealmExportConsents200ResponseAllOfExportConsentsInner struct {
-	// The user ID. 
+	// The user ID.
 	UserId *int32 `json:"user_id,omitempty"`
-	// Whether the user has consented for their private data export. 
+	// Whether the user has consented for their private data export.
 	Consented *bool `json:"consented,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *GetRealmExportConsents200ResponseAllOfExportConsentsInner) SetConsented
 }
 
 func (o GetRealmExportConsents200ResponseAllOfExportConsentsInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableGetRealmExportConsents200ResponseAllOfExportConsentsInner) Unma
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

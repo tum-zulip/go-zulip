@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,13 +13,14 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
 // E2eeTestNotify502Response - struct for E2eeTestNotify502Response
 type E2eeTestNotify502Response struct {
 	FailedToConnectBouncerError *FailedToConnectBouncerError
-	InternalBouncerServerError *InternalBouncerServerError
+	InternalBouncerServerError  *InternalBouncerServerError
 }
 
 // FailedToConnectBouncerErrorAsE2eeTestNotify502Response is a convenience function that returns FailedToConnectBouncerError wrapped in E2eeTestNotify502Response
@@ -35,7 +36,6 @@ func InternalBouncerServerErrorAsE2eeTestNotify502Response(v *InternalBouncerSer
 		InternalBouncerServerError: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *E2eeTestNotify502Response) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src E2eeTestNotify502Response) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *E2eeTestNotify502Response) GetActualInstance() (interface{}) {
+func (obj *E2eeTestNotify502Response) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *E2eeTestNotify502Response) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj E2eeTestNotify502Response) GetActualInstanceValue() (interface{}) {
+func (obj E2eeTestNotify502Response) GetActualInstanceValue() interface{} {
 	if obj.FailedToConnectBouncerError != nil {
 		return *obj.FailedToConnectBouncerError
 	}
@@ -167,5 +167,3 @@ func (v *NullableE2eeTestNotify502Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

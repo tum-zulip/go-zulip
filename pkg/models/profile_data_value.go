@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the ProfileDataValue type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ProfileDataValue{}
 
-// ProfileDataValue `{id}`: Object with data about what value the user filled in the custom profile field with that ID. 
+// ProfileDataValue `{id}`: Object with data about what value the user filled in the custom profile field with that ID.
 type ProfileDataValue struct {
-	// User's personal value for this custom profile field. 
+	// User's personal value for this custom profile field.
 	Value *string `json:"value,omitempty"`
-	// The `value` rendered in HTML. Will only be present for custom profile field types that support Markdown rendering.  This user-generated HTML content should be rendered using the same CSS and client-side security protections as are used for message content.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format. 
+	// The `value` rendered in HTML. Will only be present for custom profile field types that support Markdown rendering.  This user-generated HTML content should be rendered using the same CSS and client-side security protections as are used for message content.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
 	RenderedValue *string `json:"rendered_value,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *ProfileDataValue) SetRenderedValue(v string) {
 }
 
 func (o ProfileDataValue) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableProfileDataValue) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,13 +13,14 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
-// UpdateScheduledMessageRequestTo - The scheduled message's tentative target audience.  For channel messages, the integer ID of the channel. For direct messages, a list containing integer user IDs.  Required when updating the `type` of the scheduled message. 
+// UpdateScheduledMessageRequestTo - The scheduled message's tentative target audience.  For channel messages, the integer ID of the channel. For direct messages, a list containing integer user IDs.  Required when updating the `type` of the scheduled message.
 type UpdateScheduledMessageRequestTo struct {
 	ArrayOfInt32 *[]int32
-	Int32 *int32
+	Int32        *int32
 }
 
 // []int32AsUpdateScheduledMessageRequestTo is a convenience function that returns []int32 wrapped in UpdateScheduledMessageRequestTo
@@ -35,7 +36,6 @@ func Int32AsUpdateScheduledMessageRequestTo(v *int32) UpdateScheduledMessageRequ
 		Int32: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *UpdateScheduledMessageRequestTo) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src UpdateScheduledMessageRequestTo) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *UpdateScheduledMessageRequestTo) GetActualInstance() (interface{}) {
+func (obj *UpdateScheduledMessageRequestTo) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *UpdateScheduledMessageRequestTo) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj UpdateScheduledMessageRequestTo) GetActualInstanceValue() (interface{}) {
+func (obj UpdateScheduledMessageRequestTo) GetActualInstanceValue() interface{} {
 	if obj.ArrayOfInt32 != nil {
 		return *obj.ArrayOfInt32
 	}
@@ -167,5 +167,3 @@ func (v *NullableUpdateScheduledMessageRequestTo) UnmarshalJSON(src []byte) erro
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

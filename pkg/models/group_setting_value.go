@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,13 +13,14 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
 // GroupSettingValue - struct for GroupSettingValue
 type GroupSettingValue struct {
 	GroupSettingValueOneOf *GroupSettingValueOneOf
-	Int32 *int32
+	Int32                  *int32
 }
 
 // GroupSettingValueOneOfAsGroupSettingValue is a convenience function that returns GroupSettingValueOneOf wrapped in GroupSettingValue
@@ -35,7 +36,6 @@ func Int32AsGroupSettingValue(v *int32) GroupSettingValue {
 		Int32: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *GroupSettingValue) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src GroupSettingValue) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *GroupSettingValue) GetActualInstance() (interface{}) {
+func (obj *GroupSettingValue) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *GroupSettingValue) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj GroupSettingValue) GetActualInstanceValue() (interface{}) {
+func (obj GroupSettingValue) GetActualInstanceValue() interface{} {
 	if obj.GroupSettingValueOneOf != nil {
 		return *obj.GroupSettingValueOneOf
 	}
@@ -167,5 +167,3 @@ func (v *NullableGroupSettingValue) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

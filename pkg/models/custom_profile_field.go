@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,33 +11,33 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
 // checks if the CustomProfileField type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &CustomProfileField{}
 
-// CustomProfileField Dictionary containing the details of a custom profile field configured for this organization. 
+// CustomProfileField Dictionary containing the details of a custom profile field configured for this organization.
 type CustomProfileField struct {
-	// The ID of the custom profile field. This will be referenced in the custom profile fields section of user objects. 
+	// The ID of the custom profile field. This will be referenced in the custom profile fields section of user objects.
 	Id int32 `json:"id"`
-	// An integer indicating the type of the custom profile field, which determines how it is configured and displayed to users.  See the [Custom profile fields](/help/custom-profile-fields#profile-field-types) article for details on what each type means.  - **1**: Short text - **2**: Long text - **3**: List of options - **4**: Date picker - **5**: Link - **6**: Person picker - **7**: External account - **8**: Pronouns  **Changes**: Field type `8` added in Zulip 6.0 (feature level 151). 
+	// An integer indicating the type of the custom profile field, which determines how it is configured and displayed to users.  See the [Custom profile fields](/help/custom-profile-fields#profile-field-types) article for details on what each type means.  - **1**: Short text - **2**: Long text - **3**: List of options - **4**: Date picker - **5**: Link - **6**: Person picker - **7**: External account - **8**: Pronouns  **Changes**: Field type `8` added in Zulip 6.0 (feature level 151).
 	Type int32 `json:"type"`
-	// Custom profile fields are displayed in both settings UI and UI showing users' profiles in increasing `order`. 
+	// Custom profile fields are displayed in both settings UI and UI showing users' profiles in increasing `order`.
 	Order int32 `json:"order"`
-	// The name of the custom profile field. 
+	// The name of the custom profile field.
 	Name string `json:"name"`
-	// The help text to be displayed for the custom profile field in user-facing settings UI for configuring custom profile fields. 
+	// The help text to be displayed for the custom profile field in user-facing settings UI for configuring custom profile fields.
 	Hint string `json:"hint"`
-	// Field types 3 (List of options) and 7 (External account) support storing additional configuration for the field type in the `field_data` attribute.  For field type 3 (List of options), this attribute is a JSON dictionary defining the choices and the order they will be displayed in the dropdown UI for individual users to select an option.  The interface for field type 7 is not yet stabilized. 
+	// Field types 3 (List of options) and 7 (External account) support storing additional configuration for the field type in the `field_data` attribute.  For field type 3 (List of options), this attribute is a JSON dictionary defining the choices and the order they will be displayed in the dropdown UI for individual users to select an option.  The interface for field type 7 is not yet stabilized.
 	FieldData *string `json:"field_data,omitempty"`
-	// Whether the custom profile field, display or not on the user card.  Currently it's value not allowed to be `true` of `Long text` and `Person picker` [profile field types](/help/custom-profile-fields#profile-field-types).  This field is only included when its value is `true`.  **Changes**: New in Zulip 6.0 (feature level 146). 
+	// Whether the custom profile field, display or not on the user card.  Currently it's value not allowed to be `true` of `Long text` and `Person picker` [profile field types](/help/custom-profile-fields#profile-field-types).  This field is only included when its value is `true`.  **Changes**: New in Zulip 6.0 (feature level 146).
 	DisplayInProfileSummary *bool `json:"display_in_profile_summary,omitempty"`
-	// Whether an organization administrator has configured this profile field as required.  Because the required property is mutable, clients cannot assume that a required custom profile field has a value. The Zulip web application displays a prominent banner to any user who has not set a value for a required field.  **Changes**: New in Zulip 9.0 (feature level 244). 
+	// Whether an organization administrator has configured this profile field as required.  Because the required property is mutable, clients cannot assume that a required custom profile field has a value. The Zulip web application displays a prominent banner to any user who has not set a value for a required field.  **Changes**: New in Zulip 9.0 (feature level 244).
 	Required bool `json:"required"`
-	// Whether regular users can edit this profile field on their own account.  Note that organization administrators can edit custom profile fields for any user regardless of this setting.  **Changes**: New in Zulip 10.0 (feature level 296). 
+	// Whether regular users can edit this profile field on their own account.  Note that organization administrators can edit custom profile fields for any user regardless of this setting.  **Changes**: New in Zulip 10.0 (feature level 296).
 	EditableByUser bool `json:"editable_by_user"`
 }
 
@@ -306,7 +306,7 @@ func (o *CustomProfileField) SetEditableByUser(v bool) {
 }
 
 func (o CustomProfileField) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -350,10 +350,10 @@ func (o *CustomProfileField) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -409,5 +409,3 @@ func (v *NullableCustomProfileField) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

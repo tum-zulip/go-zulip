@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf39Recipient type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf39Recipient{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf39Recipient Object containing details about recipients of message edit typing notification. 
+// GetEvents200ResponseAllOfEventsInnerOneOf39Recipient Object containing details about recipients of message edit typing notification.
 type GetEvents200ResponseAllOfEventsInnerOneOf39Recipient struct {
-	// Type of message being composed. Must be `\"channel\"` or `\"direct\"`. 
+	// Type of message being composed. Must be `\"channel\"` or `\"direct\"`.
 	Type *string `json:"type,omitempty"`
-	// Only present if `type` is `\"channel\"`.  The unique ID of the channel to which message is being edited. 
+	// Only present if `type` is `\"channel\"`.  The unique ID of the channel to which message is being edited.
 	ChannelId *int32 `json:"channel_id,omitempty"`
-	// Only present if `type` is `\"channel\"`.  Topic within the channel where the message is being edited. 
+	// Only present if `type` is `\"channel\"`.  Topic within the channel where the message is being edited.
 	Topic *string `json:"topic,omitempty"`
-	// Present only if `type` is `direct`.  The user IDs of every recipient of this direct message. 
+	// Present only if `type` is `direct`.  The user IDs of every recipient of this direct message.
 	UserIds []int32 `json:"user_ids,omitempty"`
 }
 
@@ -175,7 +175,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf39Recipient) SetUserIds(v []in
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf39Recipient) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,5 +234,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf39Recipient) Unmarshal
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

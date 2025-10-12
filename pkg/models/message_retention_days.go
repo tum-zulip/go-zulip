@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,12 +13,13 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
-// MessageRetentionDays - Number of days that messages sent to this channel will be stored before being automatically deleted by the [message retention policy](/help/message-retention-policy). Two special string format values are supported:  - `\"realm_default\"`: Return to the organization-level setting. - `\"unlimited\"`: Retain messages forever.  **Changes**: Prior to Zulip 5.0 (feature level 91), retaining messages forever was encoded using `\"forever\"` instead of `\"unlimited\"`.  New in Zulip 3.0 (feature level 17). 
+// MessageRetentionDays - Number of days that messages sent to this channel will be stored before being automatically deleted by the [message retention policy](/help/message-retention-policy). Two special string format values are supported:  - `\"realm_default\"`: Return to the organization-level setting. - `\"unlimited\"`: Retain messages forever.  **Changes**: Prior to Zulip 5.0 (feature level 91), retaining messages forever was encoded using `\"forever\"` instead of `\"unlimited\"`.  New in Zulip 3.0 (feature level 17).
 type MessageRetentionDays struct {
-	Int32 *int32
+	Int32  *int32
 	String *string
 }
 
@@ -35,7 +36,6 @@ func StringAsMessageRetentionDays(v *string) MessageRetentionDays {
 		String: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *MessageRetentionDays) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src MessageRetentionDays) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *MessageRetentionDays) GetActualInstance() (interface{}) {
+func (obj *MessageRetentionDays) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *MessageRetentionDays) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj MessageRetentionDays) GetActualInstanceValue() (interface{}) {
+func (obj MessageRetentionDays) GetActualInstanceValue() interface{} {
 	if obj.Int32 != nil {
 		return *obj.Int32
 	}
@@ -167,5 +167,3 @@ func (v *NullableMessageRetentionDays) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

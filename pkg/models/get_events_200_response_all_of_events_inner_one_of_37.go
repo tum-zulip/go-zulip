@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,20 +17,20 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf37 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf37{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf37 Event sent when a user starts typing a message.  Sent to all clients for users who would receive the message being typed, with the additional rule that typing notifications for channel messages are only sent to clients that included `stream_typing_notifications` in their [client capabilities][client-capabilities] when registering the event queue.  See [POST /typing](/api/set-typing-status) endpoint for more details.  **Changes**: Typing notifications for channel messages are new in Zulip 4.0 (feature level 58).  [client-capabilities]: /api/register-queue#parameter-client_capabilities 
+// GetEvents200ResponseAllOfEventsInnerOneOf37 Event sent when a user starts typing a message.  Sent to all clients for users who would receive the message being typed, with the additional rule that typing notifications for channel messages are only sent to clients that included `stream_typing_notifications` in their [client capabilities][client-capabilities] when registering the event queue.  See [POST /typing](/api/set-typing-status) endpoint for more details.  **Changes**: Typing notifications for channel messages are new in Zulip 4.0 (feature level 58).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 type GetEvents200ResponseAllOfEventsInnerOneOf37 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// Type of message being composed. Must be `\"stream\"` or `\"direct\"`.  **Changes**: In Zulip 8.0 (feature level 215), replaced the value `\"private\"` with `\"direct\"`.  New in Zulip 4.0 (feature level 58). Previously, all typing notifications were implicitly direct messages. 
-	MessageType *string `json:"message_type,omitempty"`
-	Sender *GetEvents200ResponseAllOfEventsInnerOneOf37Sender `json:"sender,omitempty"`
-	// Only present if `message_type` is `\"direct\"`.  Array of dictionaries describing the set of users who would be recipients of the message being typed. Each dictionary contains details about one of the recipients. The sending user is guaranteed to appear among the recipients. 
+	Op   *string `json:"op,omitempty"`
+	// Type of message being composed. Must be `\"stream\"` or `\"direct\"`.  **Changes**: In Zulip 8.0 (feature level 215), replaced the value `\"private\"` with `\"direct\"`.  New in Zulip 4.0 (feature level 58). Previously, all typing notifications were implicitly direct messages.
+	MessageType *string                                            `json:"message_type,omitempty"`
+	Sender      *GetEvents200ResponseAllOfEventsInnerOneOf37Sender `json:"sender,omitempty"`
+	// Only present if `message_type` is `\"direct\"`.  Array of dictionaries describing the set of users who would be recipients of the message being typed. Each dictionary contains details about one of the recipients. The sending user is guaranteed to appear among the recipients.
 	Recipients []GetEvents200ResponseAllOfEventsInnerOneOf37RecipientsInner `json:"recipients,omitempty"`
-	// Only present if `message_type` is `\"stream\"`.  The unique ID of the channel to which message is being typed.  **Changes**: New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages. 
+	// Only present if `message_type` is `\"stream\"`.  The unique ID of the channel to which message is being typed.  **Changes**: New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 	StreamId *int32 `json:"stream_id,omitempty"`
-	// Only present if `message_type` is `\"stream\"`.  Topic within the channel where the message is being typed.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  [client-capabilities]: /api/register-queue#parameter-client_capabilities 
+	// Only present if `message_type` is `\"stream\"`.  Topic within the channel where the message is being typed.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
 }
 
@@ -308,7 +308,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf37) SetTopic(v string) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf37) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -379,5 +379,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf37) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf8 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf8{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf8 Event sent when another user subscribes to a channel, or their subscription is newly visible to the current user.  When a user subscribes to a channel, the current user will receive this event only if they [have permission to see the channel's subscriber list](/help/channel-permissions). When the current user gains permission to see a given channel's subscriber list, they will receive this event for the existing subscriptions to the channel.  **Changes**: Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users when subscribers to web-public channels and subscribed public channels changed.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user gained access to a channel due to their [role changing](/help/user-roles).  Prior to Zulip 6.0 (feature level 134), this event was not sent when a private channel was made public.  In Zulip 4.0 (feature level 35), the singular `user_id` and `stream_id` integers included in this event were replaced with plural `user_ids` and `stream_ids` integer arrays.  In Zulip 3.0 (feature level 19), the `stream_id` field was added to identify the channel the user subscribed to, replacing the `name` field. 
+// GetEvents200ResponseAllOfEventsInnerOneOf8 Event sent when another user subscribes to a channel, or their subscription is newly visible to the current user.  When a user subscribes to a channel, the current user will receive this event only if they [have permission to see the channel's subscriber list](/help/channel-permissions). When the current user gains permission to see a given channel's subscriber list, they will receive this event for the existing subscriptions to the channel.  **Changes**: Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users when subscribers to web-public channels and subscribed public channels changed.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user gained access to a channel due to their [role changing](/help/user-roles).  Prior to Zulip 6.0 (feature level 134), this event was not sent when a private channel was made public.  In Zulip 4.0 (feature level 35), the singular `user_id` and `stream_id` integers included in this event were replaced with plural `user_ids` and `stream_ids` integer arrays.  In Zulip 3.0 (feature level 19), the `stream_id` field was added to identify the channel the user subscribed to, replacing the `name` field.
 type GetEvents200ResponseAllOfEventsInnerOneOf8 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// The IDs of channels that have new or updated subscriber data.  **Changes**: New in Zulip 4.0 (feature level 35), replacing the `stream_id` integer. 
+	Op   *string `json:"op,omitempty"`
+	// The IDs of channels that have new or updated subscriber data.  **Changes**: New in Zulip 4.0 (feature level 35), replacing the `stream_id` integer.
 	StreamIds []int32 `json:"stream_ids,omitempty"`
-	// The IDs of the users who are newly visible as subscribed to the specified channels.  **Changes**: New in Zulip 4.0 (feature level 35), replacing the `user_id` integer. 
+	// The IDs of the users who are newly visible as subscribed to the specified channels.  **Changes**: New in Zulip 4.0 (feature level 35), replacing the `user_id` integer.
 	UserIds []int32 `json:"user_ids,omitempty"`
 }
 
@@ -207,7 +207,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf8) SetUserIds(v []int32) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf8) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -269,5 +269,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf8) UnmarshalJSON(src [
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

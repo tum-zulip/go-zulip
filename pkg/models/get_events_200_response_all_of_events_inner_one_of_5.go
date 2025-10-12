@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf5 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf5{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf5 Event sent to a user's clients when that user's channel subscriptions have changed (either the set of subscriptions or their properties). 
+// GetEvents200ResponseAllOfEventsInnerOneOf5 Event sent to a user's clients when that user's channel subscriptions have changed (either the set of subscriptions or their properties).
 type GetEvents200ResponseAllOfEventsInnerOneOf5 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// A list of dictionaries where each dictionary contains information about one of the subscribed channels.  **Changes**: Removed `email_address` field from the dictionary in Zulip 8.0 (feature level 226).  Removed `role` field from the dictionary in Zulip 6.0 (feature level 133). 
+	Op   *string `json:"op,omitempty"`
+	// A list of dictionaries where each dictionary contains information about one of the subscribed channels.  **Changes**: Removed `email_address` field from the dictionary in Zulip 8.0 (feature level 226).  Removed `role` field from the dictionary in Zulip 6.0 (feature level 133).
 	Subscriptions []Subscription `json:"subscriptions,omitempty"`
 }
 
@@ -173,7 +173,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf5) SetSubscriptions(v []Subscr
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf5) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -232,5 +232,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf5) UnmarshalJSON(src [
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

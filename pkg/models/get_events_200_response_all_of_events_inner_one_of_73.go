@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf73 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf73{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf73 Event containing details of an update to an existing navigation view.  **Changes**: New in Zulip 11.0 (feature level 390). 
+// GetEvents200ResponseAllOfEventsInnerOneOf73 Event containing details of an update to an existing navigation view.  **Changes**: New in Zulip 11.0 (feature level 390).
 type GetEvents200ResponseAllOfEventsInnerOneOf73 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// The unique URL hash of the navigation view being updated. 
-	Fragment *string `json:"fragment,omitempty"`
-	Data *GetEvents200ResponseAllOfEventsInnerOneOf73Data `json:"data,omitempty"`
+	Op   *string `json:"op,omitempty"`
+	// The unique URL hash of the navigation view being updated.
+	Fragment *string                                          `json:"fragment,omitempty"`
+	Data     *GetEvents200ResponseAllOfEventsInnerOneOf73Data `json:"data,omitempty"`
 }
 
 // NewGetEvents200ResponseAllOfEventsInnerOneOf73 instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf73 object
@@ -206,7 +206,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf73) SetData(v GetEvents200Resp
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf73) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -268,5 +268,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf73) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,19 +11,20 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
 // checks if the InvalidPushDeviceTokenError type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &InvalidPushDeviceTokenError{}
 
-// InvalidPushDeviceTokenError ## Invalid push device token  A typical failed JSON response for when the push device token is not recognized by the Zulip server: 
+// InvalidPushDeviceTokenError ## Invalid push device token  A typical failed JSON response for when the push device token is not recognized by the Zulip server:
 type InvalidPushDeviceTokenError struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	Code interface{} `json:"code"`
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// A string that identifies the error.
+	Code string `json:"code"`
 }
 
 type _InvalidPushDeviceTokenError InvalidPushDeviceTokenError
@@ -32,7 +33,7 @@ type _InvalidPushDeviceTokenError InvalidPushDeviceTokenError
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInvalidPushDeviceTokenError(result interface{}, msg interface{}, code interface{}) *InvalidPushDeviceTokenError {
+func NewInvalidPushDeviceTokenError(result string, msg string, code string) *InvalidPushDeviceTokenError {
 	this := InvalidPushDeviceTokenError{}
 	this.Result = result
 	this.Msg = msg
@@ -49,10 +50,9 @@ func NewInvalidPushDeviceTokenErrorWithDefaults() *InvalidPushDeviceTokenError {
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *InvalidPushDeviceTokenError) GetResult() interface{} {
+func (o *InvalidPushDeviceTokenError) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -61,24 +61,22 @@ func (o *InvalidPushDeviceTokenError) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *InvalidPushDeviceTokenError) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *InvalidPushDeviceTokenError) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *InvalidPushDeviceTokenError) SetResult(v interface{}) {
+func (o *InvalidPushDeviceTokenError) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *InvalidPushDeviceTokenError) GetMsg() interface{} {
+func (o *InvalidPushDeviceTokenError) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -87,24 +85,22 @@ func (o *InvalidPushDeviceTokenError) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *InvalidPushDeviceTokenError) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *InvalidPushDeviceTokenError) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *InvalidPushDeviceTokenError) SetMsg(v interface{}) {
+func (o *InvalidPushDeviceTokenError) SetMsg(v string) {
 	o.Msg = v
 }
 
 // GetCode returns the Code field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *InvalidPushDeviceTokenError) GetCode() interface{} {
+func (o *InvalidPushDeviceTokenError) GetCode() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -113,21 +109,20 @@ func (o *InvalidPushDeviceTokenError) GetCode() interface{} {
 
 // GetCodeOk returns a tuple with the Code field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *InvalidPushDeviceTokenError) GetCodeOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Code) {
+func (o *InvalidPushDeviceTokenError) GetCodeOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Code, true
 }
 
 // SetCode sets field value
-func (o *InvalidPushDeviceTokenError) SetCode(v interface{}) {
+func (o *InvalidPushDeviceTokenError) SetCode(v string) {
 	o.Code = v
 }
 
 func (o InvalidPushDeviceTokenError) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -136,15 +131,9 @@ func (o InvalidPushDeviceTokenError) MarshalJSON() ([]byte, error) {
 
 func (o InvalidPushDeviceTokenError) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.Code != nil {
-		toSerialize["code"] = o.Code
-	}
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	toSerialize["code"] = o.Code
 	return toSerialize, nil
 }
 
@@ -163,10 +152,10 @@ func (o *InvalidPushDeviceTokenError) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -222,5 +211,3 @@ func (v *NullableInvalidPushDeviceTokenError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

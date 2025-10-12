@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,17 +17,17 @@ import (
 // checks if the RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner{}
 
-// RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner Object containing details of the bot. 
+// RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner Object containing details of the bot.
 type RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner struct {
-	// A machine-readable unique name identifying the integration, all-lower-case without spaces. 
+	// A machine-readable unique name identifying the integration, all-lower-case without spaces.
 	Name *string `json:"name,omitempty"`
-	// A human-readable display name identifying the integration that this bot implements, intended to be used in menus for selecting which integration to create.  **Changes**: New in Zulip 8.0 (feature level 207). 
+	// A human-readable display name identifying the integration that this bot implements, intended to be used in menus for selecting which integration to create.  **Changes**: New in Zulip 8.0 (feature level 207).
 	DisplayName *string `json:"display_name,omitempty"`
-	// For incoming webhook integrations that support the Zulip server filtering incoming events, the list of event types supported by it.  A null value will be present if this incoming webhook integration doesn't support such filtering.  **Changes**: New in Zulip 8.0 (feature level 207). 
+	// For incoming webhook integrations that support the Zulip server filtering incoming events, the list of event types supported by it.  A null value will be present if this incoming webhook integration doesn't support such filtering.  **Changes**: New in Zulip 8.0 (feature level 207).
 	AllEventTypes []string `json:"all_event_types,omitempty"`
-	// An array of configuration options that can be set when creating a bot user for this incoming webhook integration.  This is an unstable API. Please discuss in chat.zulip.org before using it.  **Changes**: As of Zulip 11.0 (feature level 403), this object is reserved for integration-specific configuration options that can be set when creating a bot user. Previously, this object also included optional webhook URL parameters, which are now specified in the `url_options` object.  Before Zulip 10.0 (feature level 318), this field was named `config`, and was reserved for configuration data key-value pairs. 
+	// An array of configuration options that can be set when creating a bot user for this incoming webhook integration.  This is an unstable API. Please discuss in chat.zulip.org before using it.  **Changes**: As of Zulip 11.0 (feature level 403), this object is reserved for integration-specific configuration options that can be set when creating a bot user. Previously, this object also included optional webhook URL parameters, which are now specified in the `url_options` object.  Before Zulip 10.0 (feature level 318), this field was named `config`, and was reserved for configuration data key-value pairs.
 	ConfigOptions []WebhookConfigOptionInner `json:"config_options,omitempty"`
-	// An array of optional URL parameter options for the incoming webhook integration. In the web app, these are used when [generating a URL for an integration](/help/generate-integration-url).  This is an unstable API expected to be used only by the Zulip web app. Please discuss in chat.zulip.org before using it.  **Changes**: New in Zulip 11.0 (feature level 403). Previously, these optional URL parameter options were included in the `config_options` object. 
+	// An array of optional URL parameter options for the incoming webhook integration. In the web app, these are used when [generating a URL for an integration](/help/generate-integration-url).  This is an unstable API expected to be used only by the Zulip web app. Please discuss in chat.zulip.org before using it.  **Changes**: New in Zulip 11.0 (feature level 403). Previously, these optional URL parameter options were included in the `config_options` object.
 	UrlOptions []WebhookUrlOptionInner `json:"url_options,omitempty"`
 }
 
@@ -210,7 +210,7 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) SetUrlOptio
 }
 
 func (o RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -272,5 +272,3 @@ func (v *NullableRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) Unm
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

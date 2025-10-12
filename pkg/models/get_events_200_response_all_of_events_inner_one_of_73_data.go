@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf73Data type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf73Data{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf73Data A dictionary containing the updated properties of the navigation view. 
+// GetEvents200ResponseAllOfEventsInnerOneOf73Data A dictionary containing the updated properties of the navigation view.
 type GetEvents200ResponseAllOfEventsInnerOneOf73Data struct {
-	// The user-facing name for custom navigation views. Omit this field for built-in views. 
+	// The user-facing name for custom navigation views. Omit this field for built-in views.
 	Name NullableString `json:"name,omitempty"`
-	// Determines whether the view is pinned (true) or hidden in the menu (false). 
+	// Determines whether the view is pinned (true) or hidden in the menu (false).
 	IsPinned NullableBool `json:"is_pinned,omitempty"`
 }
 
@@ -74,6 +74,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf73Data) HasName() bool {
 func (o *GetEvents200ResponseAllOfEventsInnerOneOf73Data) SetName(v string) {
 	o.Name.Set(&v)
 }
+
 // SetNameNil sets the value for Name to be an explicit nil
 func (o *GetEvents200ResponseAllOfEventsInnerOneOf73Data) SetNameNil() {
 	o.Name.Set(nil)
@@ -116,6 +117,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf73Data) HasIsPinned() bool {
 func (o *GetEvents200ResponseAllOfEventsInnerOneOf73Data) SetIsPinned(v bool) {
 	o.IsPinned.Set(&v)
 }
+
 // SetIsPinnedNil sets the value for IsPinned to be an explicit nil
 func (o *GetEvents200ResponseAllOfEventsInnerOneOf73Data) SetIsPinnedNil() {
 	o.IsPinned.Set(nil)
@@ -127,7 +129,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf73Data) UnsetIsPinned() {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf73Data) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -180,5 +182,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf73Data) UnmarshalJSON(
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

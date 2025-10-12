@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,13 +13,14 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
 // GetEvents200ResponseAllOfEventsInner - struct for GetEvents200ResponseAllOfEventsInner
 type GetEvents200ResponseAllOfEventsInner struct {
-	GetEvents200ResponseAllOfEventsInnerOneOf *GetEvents200ResponseAllOfEventsInnerOneOf
-	GetEvents200ResponseAllOfEventsInnerOneOf1 *GetEvents200ResponseAllOfEventsInnerOneOf1
+	GetEvents200ResponseAllOfEventsInnerOneOf   *GetEvents200ResponseAllOfEventsInnerOneOf
+	GetEvents200ResponseAllOfEventsInnerOneOf1  *GetEvents200ResponseAllOfEventsInnerOneOf1
 	GetEvents200ResponseAllOfEventsInnerOneOf10 *GetEvents200ResponseAllOfEventsInnerOneOf10
 	GetEvents200ResponseAllOfEventsInnerOneOf11 *GetEvents200ResponseAllOfEventsInnerOneOf11
 	GetEvents200ResponseAllOfEventsInnerOneOf12 *GetEvents200ResponseAllOfEventsInnerOneOf12
@@ -30,7 +31,7 @@ type GetEvents200ResponseAllOfEventsInner struct {
 	GetEvents200ResponseAllOfEventsInnerOneOf17 *GetEvents200ResponseAllOfEventsInnerOneOf17
 	GetEvents200ResponseAllOfEventsInnerOneOf18 *GetEvents200ResponseAllOfEventsInnerOneOf18
 	GetEvents200ResponseAllOfEventsInnerOneOf19 *GetEvents200ResponseAllOfEventsInnerOneOf19
-	GetEvents200ResponseAllOfEventsInnerOneOf2 *GetEvents200ResponseAllOfEventsInnerOneOf2
+	GetEvents200ResponseAllOfEventsInnerOneOf2  *GetEvents200ResponseAllOfEventsInnerOneOf2
 	GetEvents200ResponseAllOfEventsInnerOneOf20 *GetEvents200ResponseAllOfEventsInnerOneOf20
 	GetEvents200ResponseAllOfEventsInnerOneOf21 *GetEvents200ResponseAllOfEventsInnerOneOf21
 	GetEvents200ResponseAllOfEventsInnerOneOf22 *GetEvents200ResponseAllOfEventsInnerOneOf22
@@ -41,7 +42,7 @@ type GetEvents200ResponseAllOfEventsInner struct {
 	GetEvents200ResponseAllOfEventsInnerOneOf27 *GetEvents200ResponseAllOfEventsInnerOneOf27
 	GetEvents200ResponseAllOfEventsInnerOneOf28 *GetEvents200ResponseAllOfEventsInnerOneOf28
 	GetEvents200ResponseAllOfEventsInnerOneOf29 *GetEvents200ResponseAllOfEventsInnerOneOf29
-	GetEvents200ResponseAllOfEventsInnerOneOf3 *GetEvents200ResponseAllOfEventsInnerOneOf3
+	GetEvents200ResponseAllOfEventsInnerOneOf3  *GetEvents200ResponseAllOfEventsInnerOneOf3
 	GetEvents200ResponseAllOfEventsInnerOneOf30 *GetEvents200ResponseAllOfEventsInnerOneOf30
 	GetEvents200ResponseAllOfEventsInnerOneOf31 *GetEvents200ResponseAllOfEventsInnerOneOf31
 	GetEvents200ResponseAllOfEventsInnerOneOf32 *GetEvents200ResponseAllOfEventsInnerOneOf32
@@ -52,7 +53,7 @@ type GetEvents200ResponseAllOfEventsInner struct {
 	GetEvents200ResponseAllOfEventsInnerOneOf37 *GetEvents200ResponseAllOfEventsInnerOneOf37
 	GetEvents200ResponseAllOfEventsInnerOneOf38 *GetEvents200ResponseAllOfEventsInnerOneOf38
 	GetEvents200ResponseAllOfEventsInnerOneOf39 *GetEvents200ResponseAllOfEventsInnerOneOf39
-	GetEvents200ResponseAllOfEventsInnerOneOf4 *GetEvents200ResponseAllOfEventsInnerOneOf4
+	GetEvents200ResponseAllOfEventsInnerOneOf4  *GetEvents200ResponseAllOfEventsInnerOneOf4
 	GetEvents200ResponseAllOfEventsInnerOneOf40 *GetEvents200ResponseAllOfEventsInnerOneOf40
 	GetEvents200ResponseAllOfEventsInnerOneOf41 *GetEvents200ResponseAllOfEventsInnerOneOf41
 	GetEvents200ResponseAllOfEventsInnerOneOf42 *GetEvents200ResponseAllOfEventsInnerOneOf42
@@ -63,7 +64,7 @@ type GetEvents200ResponseAllOfEventsInner struct {
 	GetEvents200ResponseAllOfEventsInnerOneOf47 *GetEvents200ResponseAllOfEventsInnerOneOf47
 	GetEvents200ResponseAllOfEventsInnerOneOf48 *GetEvents200ResponseAllOfEventsInnerOneOf48
 	GetEvents200ResponseAllOfEventsInnerOneOf49 *GetEvents200ResponseAllOfEventsInnerOneOf49
-	GetEvents200ResponseAllOfEventsInnerOneOf5 *GetEvents200ResponseAllOfEventsInnerOneOf5
+	GetEvents200ResponseAllOfEventsInnerOneOf5  *GetEvents200ResponseAllOfEventsInnerOneOf5
 	GetEvents200ResponseAllOfEventsInnerOneOf50 *GetEvents200ResponseAllOfEventsInnerOneOf50
 	GetEvents200ResponseAllOfEventsInnerOneOf51 *GetEvents200ResponseAllOfEventsInnerOneOf51
 	GetEvents200ResponseAllOfEventsInnerOneOf52 *GetEvents200ResponseAllOfEventsInnerOneOf52
@@ -74,7 +75,7 @@ type GetEvents200ResponseAllOfEventsInner struct {
 	GetEvents200ResponseAllOfEventsInnerOneOf57 *GetEvents200ResponseAllOfEventsInnerOneOf57
 	GetEvents200ResponseAllOfEventsInnerOneOf58 *GetEvents200ResponseAllOfEventsInnerOneOf58
 	GetEvents200ResponseAllOfEventsInnerOneOf59 *GetEvents200ResponseAllOfEventsInnerOneOf59
-	GetEvents200ResponseAllOfEventsInnerOneOf6 *GetEvents200ResponseAllOfEventsInnerOneOf6
+	GetEvents200ResponseAllOfEventsInnerOneOf6  *GetEvents200ResponseAllOfEventsInnerOneOf6
 	GetEvents200ResponseAllOfEventsInnerOneOf60 *GetEvents200ResponseAllOfEventsInnerOneOf60
 	GetEvents200ResponseAllOfEventsInnerOneOf61 *GetEvents200ResponseAllOfEventsInnerOneOf61
 	GetEvents200ResponseAllOfEventsInnerOneOf62 *GetEvents200ResponseAllOfEventsInnerOneOf62
@@ -85,7 +86,7 @@ type GetEvents200ResponseAllOfEventsInner struct {
 	GetEvents200ResponseAllOfEventsInnerOneOf67 *GetEvents200ResponseAllOfEventsInnerOneOf67
 	GetEvents200ResponseAllOfEventsInnerOneOf68 *GetEvents200ResponseAllOfEventsInnerOneOf68
 	GetEvents200ResponseAllOfEventsInnerOneOf69 *GetEvents200ResponseAllOfEventsInnerOneOf69
-	GetEvents200ResponseAllOfEventsInnerOneOf7 *GetEvents200ResponseAllOfEventsInnerOneOf7
+	GetEvents200ResponseAllOfEventsInnerOneOf7  *GetEvents200ResponseAllOfEventsInnerOneOf7
 	GetEvents200ResponseAllOfEventsInnerOneOf70 *GetEvents200ResponseAllOfEventsInnerOneOf70
 	GetEvents200ResponseAllOfEventsInnerOneOf71 *GetEvents200ResponseAllOfEventsInnerOneOf71
 	GetEvents200ResponseAllOfEventsInnerOneOf72 *GetEvents200ResponseAllOfEventsInnerOneOf72
@@ -96,14 +97,14 @@ type GetEvents200ResponseAllOfEventsInner struct {
 	GetEvents200ResponseAllOfEventsInnerOneOf77 *GetEvents200ResponseAllOfEventsInnerOneOf77
 	GetEvents200ResponseAllOfEventsInnerOneOf78 *GetEvents200ResponseAllOfEventsInnerOneOf78
 	GetEvents200ResponseAllOfEventsInnerOneOf79 *GetEvents200ResponseAllOfEventsInnerOneOf79
-	GetEvents200ResponseAllOfEventsInnerOneOf8 *GetEvents200ResponseAllOfEventsInnerOneOf8
+	GetEvents200ResponseAllOfEventsInnerOneOf8  *GetEvents200ResponseAllOfEventsInnerOneOf8
 	GetEvents200ResponseAllOfEventsInnerOneOf80 *GetEvents200ResponseAllOfEventsInnerOneOf80
 	GetEvents200ResponseAllOfEventsInnerOneOf81 *GetEvents200ResponseAllOfEventsInnerOneOf81
 	GetEvents200ResponseAllOfEventsInnerOneOf82 *GetEvents200ResponseAllOfEventsInnerOneOf82
 	GetEvents200ResponseAllOfEventsInnerOneOf83 *GetEvents200ResponseAllOfEventsInnerOneOf83
 	GetEvents200ResponseAllOfEventsInnerOneOf84 *GetEvents200ResponseAllOfEventsInnerOneOf84
 	GetEvents200ResponseAllOfEventsInnerOneOf85 *GetEvents200ResponseAllOfEventsInnerOneOf85
-	GetEvents200ResponseAllOfEventsInnerOneOf9 *GetEvents200ResponseAllOfEventsInnerOneOf9
+	GetEvents200ResponseAllOfEventsInnerOneOf9  *GetEvents200ResponseAllOfEventsInnerOneOf9
 }
 
 // GetEvents200ResponseAllOfEventsInnerOneOfAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf wrapped in GetEvents200ResponseAllOfEventsInner
@@ -707,7 +708,6 @@ func GetEvents200ResponseAllOfEventsInnerOneOf9AsGetEvents200ResponseAllOfEvents
 		GetEvents200ResponseAllOfEventsInnerOneOf9: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *GetEvents200ResponseAllOfEventsInner) UnmarshalJSON(data []byte) error {
@@ -2622,7 +2622,7 @@ func (src GetEvents200ResponseAllOfEventsInner) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *GetEvents200ResponseAllOfEventsInner) GetActualInstance() (interface{}) {
+func (obj *GetEvents200ResponseAllOfEventsInner) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -2975,7 +2975,7 @@ func (obj *GetEvents200ResponseAllOfEventsInner) GetActualInstance() (interface{
 }
 
 // Get the actual instance value
-func (obj GetEvents200ResponseAllOfEventsInner) GetActualInstanceValue() (interface{}) {
+func (obj GetEvents200ResponseAllOfEventsInner) GetActualInstanceValue() interface{} {
 	if obj.GetEvents200ResponseAllOfEventsInnerOneOf != nil {
 		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf
 	}
@@ -3359,5 +3359,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInner) UnmarshalJSON(src []byte)
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

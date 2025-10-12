@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,12 +17,12 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf33 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf33{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf33 Event sent to a user's clients when that user's set of configured [muted users](/api/mute-user) have changed.  **Changes**: New in Zulip 4.0 (feature level 48). 
+// GetEvents200ResponseAllOfEventsInnerOneOf33 Event sent to a user's clients when that user's set of configured [muted users](/api/mute-user) have changed.  **Changes**: New in Zulip 4.0 (feature level 48).
 type GetEvents200ResponseAllOfEventsInnerOneOf33 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// A list of dictionaries where each dictionary describes a muted user. 
+	// A list of dictionaries where each dictionary describes a muted user.
 	MutedUsers []GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner `json:"muted_users,omitempty"`
 }
 
@@ -140,7 +140,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf33) SetMutedUsers(v []GetEvent
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf33) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -196,5 +196,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf33) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

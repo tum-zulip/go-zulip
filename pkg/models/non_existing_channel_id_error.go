@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,10 +21,11 @@ var _ MappedNullable = &NonExistingChannelIdError{}
 
 // NonExistingChannelIdError struct for NonExistingChannelIdError
 type NonExistingChannelIdError struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	Code interface{} `json:"code"`
-	// The channel ID that could not be found. 
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// A string that identifies the error.
+	Code string `json:"code"`
+	// The channel ID that could not be found.
 	StreamId *int32 `json:"stream_id,omitempty"`
 }
 
@@ -34,7 +35,7 @@ type _NonExistingChannelIdError NonExistingChannelIdError
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNonExistingChannelIdError(result interface{}, msg interface{}, code interface{}) *NonExistingChannelIdError {
+func NewNonExistingChannelIdError(result string, msg string, code string) *NonExistingChannelIdError {
 	this := NonExistingChannelIdError{}
 	this.Result = result
 	this.Msg = msg
@@ -51,10 +52,9 @@ func NewNonExistingChannelIdErrorWithDefaults() *NonExistingChannelIdError {
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *NonExistingChannelIdError) GetResult() interface{} {
+func (o *NonExistingChannelIdError) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -63,24 +63,22 @@ func (o *NonExistingChannelIdError) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *NonExistingChannelIdError) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *NonExistingChannelIdError) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *NonExistingChannelIdError) SetResult(v interface{}) {
+func (o *NonExistingChannelIdError) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *NonExistingChannelIdError) GetMsg() interface{} {
+func (o *NonExistingChannelIdError) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -89,24 +87,22 @@ func (o *NonExistingChannelIdError) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *NonExistingChannelIdError) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *NonExistingChannelIdError) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *NonExistingChannelIdError) SetMsg(v interface{}) {
+func (o *NonExistingChannelIdError) SetMsg(v string) {
 	o.Msg = v
 }
 
 // GetCode returns the Code field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *NonExistingChannelIdError) GetCode() interface{} {
+func (o *NonExistingChannelIdError) GetCode() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -115,16 +111,15 @@ func (o *NonExistingChannelIdError) GetCode() interface{} {
 
 // GetCodeOk returns a tuple with the Code field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *NonExistingChannelIdError) GetCodeOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Code) {
+func (o *NonExistingChannelIdError) GetCodeOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Code, true
 }
 
 // SetCode sets field value
-func (o *NonExistingChannelIdError) SetCode(v interface{}) {
+func (o *NonExistingChannelIdError) SetCode(v string) {
 	o.Code = v
 }
 
@@ -161,7 +156,7 @@ func (o *NonExistingChannelIdError) SetStreamId(v int32) {
 }
 
 func (o NonExistingChannelIdError) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -170,15 +165,9 @@ func (o NonExistingChannelIdError) MarshalJSON() ([]byte, error) {
 
 func (o NonExistingChannelIdError) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.Code != nil {
-		toSerialize["code"] = o.Code
-	}
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	toSerialize["code"] = o.Code
 	if !IsNil(o.StreamId) {
 		toSerialize["stream_id"] = o.StreamId
 	}
@@ -200,10 +189,10 @@ func (o *NonExistingChannelIdError) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -259,5 +248,3 @@ func (v *NullableNonExistingChannelIdError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

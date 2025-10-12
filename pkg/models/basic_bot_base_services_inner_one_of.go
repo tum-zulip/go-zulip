@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the BasicBotBaseServicesInnerOneOf type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &BasicBotBaseServicesInnerOneOf{}
 
-// BasicBotBaseServicesInnerOneOf When the bot is an outgoing webhook. 
+// BasicBotBaseServicesInnerOneOf When the bot is an outgoing webhook.
 type BasicBotBaseServicesInnerOneOf struct {
-	// The URL the outgoing webhook is configured to post to. 
+	// The URL the outgoing webhook is configured to post to.
 	BaseUrl *string `json:"base_url,omitempty"`
-	// A unique token that the third-party service can use to confirm that the request is indeed coming from Zulip. 
+	// A unique token that the third-party service can use to confirm that the request is indeed coming from Zulip.
 	Token *string `json:"token,omitempty"`
-	// An integer indicating what format requests are posted in:  - 1 = Zulip's native outgoing webhook format. - 2 = Emulate the Slack outgoing webhook format. 
+	// An integer indicating what format requests are posted in:  - 1 = Zulip's native outgoing webhook format. - 2 = Emulate the Slack outgoing webhook format.
 	Interface *int32 `json:"interface,omitempty"`
 }
 
@@ -141,7 +141,7 @@ func (o *BasicBotBaseServicesInnerOneOf) SetInterface(v int32) {
 }
 
 func (o BasicBotBaseServicesInnerOneOf) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -197,5 +197,3 @@ func (v *NullableBasicBotBaseServicesInnerOneOf) UnmarshalJSON(src []byte) error
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

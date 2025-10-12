@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,9 +19,9 @@ var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInn
 
 // GetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInner struct for GetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInner
 type GetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInner struct {
-	// The original link text present in the topic. 
+	// The original link text present in the topic.
 	Text *string `json:"text,omitempty"`
-	// The expanded target url which the link points to. 
+	// The expanded target url which the link points to.
 	Url *string `json:"url,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInner) SetUrl(v st
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInner) Unm
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

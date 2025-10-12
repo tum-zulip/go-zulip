@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,8 +19,8 @@ var _ MappedNullable = &UpdateSubscriptionsRequestAddInner{}
 
 // UpdateSubscriptionsRequestAddInner struct for UpdateSubscriptionsRequestAddInner
 type UpdateSubscriptionsRequestAddInner struct {
-	Name *string `json:"name,omitempty"`
-	Color *string `json:"color,omitempty"`
+	Name        *string `json:"name,omitempty"`
+	Color       *string `json:"color,omitempty"`
 	Description *string `json:"description,omitempty"`
 }
 
@@ -138,7 +138,7 @@ func (o *UpdateSubscriptionsRequestAddInner) SetDescription(v string) {
 }
 
 func (o UpdateSubscriptionsRequestAddInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -194,5 +194,3 @@ func (v *NullableUpdateSubscriptionsRequestAddInner) UnmarshalJSON(src []byte) e
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

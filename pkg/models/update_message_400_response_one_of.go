@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,9 +21,10 @@ var _ MappedNullable = &UpdateMessage400ResponseOneOf{}
 
 // UpdateMessage400ResponseOneOf struct for UpdateMessage400ResponseOneOf
 type UpdateMessage400ResponseOneOf struct {
-	Result interface{} `json:"result"`
-	Msg string `json:"msg"`
-	Code interface{} `json:"code"`
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// A string that identifies the error.
+	Code string `json:"code"`
 }
 
 type _UpdateMessage400ResponseOneOf UpdateMessage400ResponseOneOf
@@ -32,7 +33,7 @@ type _UpdateMessage400ResponseOneOf UpdateMessage400ResponseOneOf
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUpdateMessage400ResponseOneOf(result interface{}, msg string, code interface{}) *UpdateMessage400ResponseOneOf {
+func NewUpdateMessage400ResponseOneOf(result string, msg string, code string) *UpdateMessage400ResponseOneOf {
 	this := UpdateMessage400ResponseOneOf{}
 	this.Result = result
 	this.Msg = msg
@@ -49,10 +50,9 @@ func NewUpdateMessage400ResponseOneOfWithDefaults() *UpdateMessage400ResponseOne
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *UpdateMessage400ResponseOneOf) GetResult() interface{} {
+func (o *UpdateMessage400ResponseOneOf) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -61,16 +61,15 @@ func (o *UpdateMessage400ResponseOneOf) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UpdateMessage400ResponseOneOf) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *UpdateMessage400ResponseOneOf) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *UpdateMessage400ResponseOneOf) SetResult(v interface{}) {
+func (o *UpdateMessage400ResponseOneOf) SetResult(v string) {
 	o.Result = v
 }
 
@@ -99,10 +98,9 @@ func (o *UpdateMessage400ResponseOneOf) SetMsg(v string) {
 }
 
 // GetCode returns the Code field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *UpdateMessage400ResponseOneOf) GetCode() interface{} {
+func (o *UpdateMessage400ResponseOneOf) GetCode() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -111,21 +109,20 @@ func (o *UpdateMessage400ResponseOneOf) GetCode() interface{} {
 
 // GetCodeOk returns a tuple with the Code field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UpdateMessage400ResponseOneOf) GetCodeOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Code) {
+func (o *UpdateMessage400ResponseOneOf) GetCodeOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Code, true
 }
 
 // SetCode sets field value
-func (o *UpdateMessage400ResponseOneOf) SetCode(v interface{}) {
+func (o *UpdateMessage400ResponseOneOf) SetCode(v string) {
 	o.Code = v
 }
 
 func (o UpdateMessage400ResponseOneOf) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -134,13 +131,9 @@ func (o UpdateMessage400ResponseOneOf) MarshalJSON() ([]byte, error) {
 
 func (o UpdateMessage400ResponseOneOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
+	toSerialize["result"] = o.Result
 	toSerialize["msg"] = o.Msg
-	if o.Code != nil {
-		toSerialize["code"] = o.Code
-	}
+	toSerialize["code"] = o.Code
 	return toSerialize, nil
 }
 
@@ -159,10 +152,10 @@ func (o *UpdateMessage400ResponseOneOf) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -218,5 +211,3 @@ func (v *NullableUpdateMessage400ResponseOneOf) UnmarshalJSON(src []byte) error 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

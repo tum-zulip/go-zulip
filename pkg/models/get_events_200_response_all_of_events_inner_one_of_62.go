@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf62 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf62{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf62 Event sent to all users when a bot has been deactivated. Note that this is very similar to the bot_remove event and one of them will be removed soon. 
+// GetEvents200ResponseAllOfEventsInnerOneOf62 Event sent to all users when a bot has been deactivated. Note that this is very similar to the bot_remove event and one of them will be removed soon.
 type GetEvents200ResponseAllOfEventsInnerOneOf62 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
-	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	Bot *GetEvents200ResponseAllOfEventsInnerOneOf62Bot `json:"bot,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32                                          `json:"id,omitempty"`
+	Type *string                                         `json:"type,omitempty"`
+	Op   *string                                         `json:"op,omitempty"`
+	Bot  *GetEvents200ResponseAllOfEventsInnerOneOf62Bot `json:"bot,omitempty"`
 }
 
 // NewGetEvents200ResponseAllOfEventsInnerOneOf62 instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf62 object
@@ -172,7 +172,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf62) SetBot(v GetEvents200Respo
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf62) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -231,5 +231,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf62) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

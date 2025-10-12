@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,12 +13,13 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
 // TestNotify400Response - struct for TestNotify400Response
 type TestNotify400Response struct {
-	InvalidPushDeviceTokenError *InvalidPushDeviceTokenError
+	InvalidPushDeviceTokenError       *InvalidPushDeviceTokenError
 	InvalidRemotePushDeviceTokenError *InvalidRemotePushDeviceTokenError
 }
 
@@ -35,7 +36,6 @@ func InvalidRemotePushDeviceTokenErrorAsTestNotify400Response(v *InvalidRemotePu
 		InvalidRemotePushDeviceTokenError: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *TestNotify400Response) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src TestNotify400Response) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *TestNotify400Response) GetActualInstance() (interface{}) {
+func (obj *TestNotify400Response) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *TestNotify400Response) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj TestNotify400Response) GetActualInstanceValue() (interface{}) {
+func (obj TestNotify400Response) GetActualInstanceValue() interface{} {
 	if obj.InvalidPushDeviceTokenError != nil {
 		return *obj.InvalidPushDeviceTokenError
 	}
@@ -167,5 +167,3 @@ func (v *NullableTestNotify400Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

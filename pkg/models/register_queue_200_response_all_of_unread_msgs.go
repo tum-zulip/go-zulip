@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,19 +17,19 @@ import (
 // checks if the RegisterQueue200ResponseAllOfUnreadMsgs type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RegisterQueue200ResponseAllOfUnreadMsgs{}
 
-// RegisterQueue200ResponseAllOfUnreadMsgs Present if `message` and `update_message_flags` are both present in `event_types`.  A set of data structures describing the conversations containing the 50000 most recent unread messages the user has received. This will usually contain every unread message the user has received, but clients should support users with even more unread messages (and not hardcode the number 50000). 
+// RegisterQueue200ResponseAllOfUnreadMsgs Present if `message` and `update_message_flags` are both present in `event_types`.  A set of data structures describing the conversations containing the 50000 most recent unread messages the user has received. This will usually contain every unread message the user has received, but clients should support users with even more unread messages (and not hardcode the number 50000).
 type RegisterQueue200ResponseAllOfUnreadMsgs struct {
-	// The total number of unread messages to display. This includes one-on-one and group direct messages, as well as channel messages that are not [muted](/help/mute-a-topic).  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field. 
+	// The total number of unread messages to display. This includes one-on-one and group direct messages, as well as channel messages that are not [muted](/help/mute-a-topic).  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field.
 	Count *int32 `json:"count,omitempty"`
-	// An array of objects where each object contains details of unread one-on-one direct messages with a specific user.  Note that it is possible for a message that the current user sent to the specified user to be marked as unread and thus appear here. 
+	// An array of objects where each object contains details of unread one-on-one direct messages with a specific user.  Note that it is possible for a message that the current user sent to the specified user to be marked as unread and thus appear here.
 	Pms []RegisterQueue200ResponseAllOfUnreadMsgsPmsInner `json:"pms,omitempty"`
-	// An array of dictionaries where each dictionary contains details of all unread messages of a single subscribed channel. This includes muted channels and muted topics, even though those messages are excluded from `count`.  **Changes**: Prior to Zulip 5.0 (feature level 90), these objects included a `sender_ids` property, which listed the set of IDs of users who had sent the unread messages. 
+	// An array of dictionaries where each dictionary contains details of all unread messages of a single subscribed channel. This includes muted channels and muted topics, even though those messages are excluded from `count`.  **Changes**: Prior to Zulip 5.0 (feature level 90), these objects included a `sender_ids` property, which listed the set of IDs of users who had sent the unread messages.
 	Streams []RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner `json:"streams,omitempty"`
-	// An array of objects where each object contains details of unread group direct messages with a specific group of users. 
+	// An array of objects where each object contains details of unread group direct messages with a specific group of users.
 	Huddles []RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner `json:"huddles,omitempty"`
-	// Array containing the IDs of all unread messages in which the user was mentioned directly, and unread [non-muted](/help/mute-a-topic) messages in which the user was mentioned through a wildcard.  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field. 
+	// Array containing the IDs of all unread messages in which the user was mentioned directly, and unread [non-muted](/help/mute-a-topic) messages in which the user was mentioned through a wildcard.  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field.
 	Mentions []int32 `json:"mentions,omitempty"`
-	// Whether this data set was truncated because the user has too many unread messages. When truncation occurs, only the most recent `MAX_UNREAD_MESSAGES` (currently 50000) messages will be considered when forming this response. When `true`, we recommend that clients display a warning, as they are likely to produce erroneous results until reloaded with the user having fewer than `MAX_UNREAD_MESSAGES` unread messages.  **Changes**: New in Zulip 4.0 (feature level 44). 
+	// Whether this data set was truncated because the user has too many unread messages. When truncation occurs, only the most recent `MAX_UNREAD_MESSAGES` (currently 50000) messages will be considered when forming this response. When `true`, we recommend that clients display a warning, as they are likely to produce erroneous results until reloaded with the user having fewer than `MAX_UNREAD_MESSAGES` unread messages.  **Changes**: New in Zulip 4.0 (feature level 44).
 	OldUnreadsMissing *bool `json:"old_unreads_missing,omitempty"`
 }
 
@@ -243,7 +243,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) SetOldUnreadsMissing(v bool) {
 }
 
 func (o RegisterQueue200ResponseAllOfUnreadMsgs) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -308,5 +308,3 @@ func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgs) UnmarshalJSON(src []by
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

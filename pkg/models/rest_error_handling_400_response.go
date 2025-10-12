@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,15 +13,16 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
 // RestErrorHandling400Response - struct for RestErrorHandling400Response
 type RestErrorHandling400Response struct {
 	IncompatibleParametersError *IncompatibleParametersError
-	InvalidApiKeyError *InvalidApiKeyError
-	MissingArgumentError *MissingArgumentError
-	UserNotAuthorizedError *UserNotAuthorizedError
+	InvalidApiKeyError          *InvalidApiKeyError
+	MissingArgumentError        *MissingArgumentError
+	UserNotAuthorizedError      *UserNotAuthorizedError
 }
 
 // IncompatibleParametersErrorAsRestErrorHandling400Response is a convenience function that returns IncompatibleParametersError wrapped in RestErrorHandling400Response
@@ -51,7 +52,6 @@ func UserNotAuthorizedErrorAsRestErrorHandling400Response(v *UserNotAuthorizedEr
 		UserNotAuthorizedError: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *RestErrorHandling400Response) UnmarshalJSON(data []byte) error {
@@ -162,7 +162,7 @@ func (src RestErrorHandling400Response) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *RestErrorHandling400Response) GetActualInstance() (interface{}) {
+func (obj *RestErrorHandling400Response) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -187,7 +187,7 @@ func (obj *RestErrorHandling400Response) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj RestErrorHandling400Response) GetActualInstanceValue() (interface{}) {
+func (obj RestErrorHandling400Response) GetActualInstanceValue() interface{} {
 	if obj.IncompatibleParametersError != nil {
 		return *obj.IncompatibleParametersError
 	}
@@ -243,5 +243,3 @@ func (v *NullableRestErrorHandling400Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

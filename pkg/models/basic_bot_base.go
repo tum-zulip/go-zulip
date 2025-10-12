@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,23 +19,23 @@ var _ MappedNullable = &BasicBotBase{}
 
 // BasicBotBase struct for BasicBotBase
 type BasicBotBase struct {
-	// The user ID of the bot. 
+	// The user ID of the bot.
 	UserId *int32 `json:"user_id,omitempty"`
-	// The full name of the bot. 
+	// The full name of the bot.
 	FullName *string `json:"full_name,omitempty"`
-	// The API key of the bot which it uses to make API requests. 
+	// The API key of the bot which it uses to make API requests.
 	ApiKey *string `json:"api_key,omitempty"`
-	// The default sending channel of the bot. If `null`, the bot doesn't have a default sending channel. 
+	// The default sending channel of the bot. If `null`, the bot doesn't have a default sending channel.
 	DefaultSendingStream NullableString `json:"default_sending_stream,omitempty"`
-	// The default channel for which the bot receives events/register data. If `null`, the bot doesn't have such a default channel. 
+	// The default channel for which the bot receives events/register data. If `null`, the bot doesn't have such a default channel.
 	DefaultEventsRegisterStream NullableString `json:"default_events_register_stream,omitempty"`
-	// Whether the bot can send messages to all channels by default. 
+	// Whether the bot can send messages to all channels by default.
 	DefaultAllPublicStreams *bool `json:"default_all_public_streams,omitempty"`
-	// The URL of the bot's avatar. 
+	// The URL of the bot's avatar.
 	AvatarUrl *string `json:"avatar_url,omitempty"`
-	// The user ID of the bot's owner.  If `null`, the bot has no owner. 
+	// The user ID of the bot's owner.  If `null`, the bot has no owner.
 	OwnerId NullableInt32 `json:"owner_id,omitempty"`
-	// An array containing extra configuration fields only relevant for outgoing webhook bots and embedded bots. This is always a single-element array.  We consider this part of the Zulip API to be unstable; it is used only for UI elements for administering bots and is likely to change. 
+	// An array containing extra configuration fields only relevant for outgoing webhook bots and embedded bots. This is always a single-element array.  We consider this part of the Zulip API to be unstable; it is used only for UI elements for administering bots and is likely to change.
 	Services []BasicBotBaseServicesInner `json:"services,omitempty"`
 }
 
@@ -184,6 +184,7 @@ func (o *BasicBotBase) HasDefaultSendingStream() bool {
 func (o *BasicBotBase) SetDefaultSendingStream(v string) {
 	o.DefaultSendingStream.Set(&v)
 }
+
 // SetDefaultSendingStreamNil sets the value for DefaultSendingStream to be an explicit nil
 func (o *BasicBotBase) SetDefaultSendingStreamNil() {
 	o.DefaultSendingStream.Set(nil)
@@ -226,6 +227,7 @@ func (o *BasicBotBase) HasDefaultEventsRegisterStream() bool {
 func (o *BasicBotBase) SetDefaultEventsRegisterStream(v string) {
 	o.DefaultEventsRegisterStream.Set(&v)
 }
+
 // SetDefaultEventsRegisterStreamNil sets the value for DefaultEventsRegisterStream to be an explicit nil
 func (o *BasicBotBase) SetDefaultEventsRegisterStreamNil() {
 	o.DefaultEventsRegisterStream.Set(nil)
@@ -332,6 +334,7 @@ func (o *BasicBotBase) HasOwnerId() bool {
 func (o *BasicBotBase) SetOwnerId(v int32) {
 	o.OwnerId.Set(&v)
 }
+
 // SetOwnerIdNil sets the value for OwnerId to be an explicit nil
 func (o *BasicBotBase) SetOwnerIdNil() {
 	o.OwnerId.Set(nil)
@@ -375,7 +378,7 @@ func (o *BasicBotBase) SetServices(v []BasicBotBaseServicesInner) {
 }
 
 func (o BasicBotBase) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -449,5 +452,3 @@ func (v *NullableBasicBotBase) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

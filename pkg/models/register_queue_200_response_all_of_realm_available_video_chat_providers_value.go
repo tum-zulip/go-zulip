@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue{}
 
-// RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue `{provider_name}`: Dictionary containing the details of the video call provider with the name of the chat provider as the key. 
+// RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue `{provider_name}`: Dictionary containing the details of the video call provider with the name of the chat provider as the key.
 type RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue struct {
-	// The name of the video call provider. 
+	// The name of the video call provider.
 	Name *string `json:"name,omitempty"`
-	// The ID of the video call provider. 
+	// The ID of the video call provider.
 	Id *int32 `json:"id,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue) Set
 }
 
 func (o RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableRegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersVa
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

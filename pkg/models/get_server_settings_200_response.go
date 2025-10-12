@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,39 +21,40 @@ var _ MappedNullable = &GetServerSettings200Response{}
 
 // GetServerSettings200Response struct for GetServerSettings200Response
 type GetServerSettings200Response struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	IgnoredParametersUnsupported interface{} `json:"ignored_parameters_unsupported,omitempty"`
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// Deprecated
 	AuthenticationMethods *GetServerSettings200ResponseAllOfAuthenticationMethods `json:"authentication_methods,omitempty"`
-	// A list of dictionaries describing the available external authentication methods (E.g. Google, GitHub, or SAML) enabled for this organization.  The list is sorted in the order in which these authentication methods should be displayed.  **Changes**: New in Zulip 2.1.0. 
+	// A list of dictionaries describing the available external authentication methods (E.g. Google, GitHub, or SAML) enabled for this organization.  The list is sorted in the order in which these authentication methods should be displayed.  **Changes**: New in Zulip 2.1.0.
 	ExternalAuthenticationMethods []GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner `json:"external_authentication_methods,omitempty"`
-	// An integer indicating what features are available on the server. The feature level increases monotonically; a value of N means the server supports all API features introduced before feature level N. This is designed to provide a simple way for client apps to decide whether the server supports a given feature or API change. See the [changelog](/api/changelog) for details on what each feature level means.  **Changes**: New in Zulip 3.0 (feature level 1). We recommend using an implied value of 0 for Zulip servers that do not send this field. 
+	// An integer indicating what features are available on the server. The feature level increases monotonically; a value of N means the server supports all API features introduced before feature level N. This is designed to provide a simple way for client apps to decide whether the server supports a given feature or API change. See the [changelog](/api/changelog) for details on what each feature level means.  **Changes**: New in Zulip 3.0 (feature level 1). We recommend using an implied value of 0 for Zulip servers that do not send this field.
 	ZulipFeatureLevel *int32 `json:"zulip_feature_level,omitempty"`
-	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git][git-release], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.  [git-release]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions 
+	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git][git-release], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.  [git-release]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
 	ZulipVersion *string `json:"zulip_version,omitempty"`
-	// The `git merge-base` between `zulip_version` and official branches in the public [Zulip server and web app repository](https://github.com/zulip/zulip), in the same format as `zulip_version`. This will equal `zulip_version` if the server is not running a fork of the Zulip server.  This will be `\"\"` if unavailable.  **Changes**: New in Zulip 5.0 (feature level 88). 
+	// The `git merge-base` between `zulip_version` and official branches in the public [Zulip server and web app repository](https://github.com/zulip/zulip), in the same format as `zulip_version`. This will equal `zulip_version` if the server is not running a fork of the Zulip server.  This will be `\"\"` if unavailable.  **Changes**: New in Zulip 5.0 (feature level 88).
 	ZulipMergeBase *string `json:"zulip_merge_base,omitempty"`
-	// Whether mobile/push notifications are configured. 
+	// Whether mobile/push notifications are configured.
 	PushNotificationsEnabled *bool `json:"push_notifications_enabled,omitempty"`
-	// Whether the Zulip client that has sent a request to this endpoint is deemed incompatible with the server. 
+	// Whether the Zulip client that has sent a request to this endpoint is deemed incompatible with the server.
 	IsIncompatible *bool `json:"is_incompatible,omitempty"`
-	// Setting for allowing users authenticate with an email-password combination. 
+	// Setting for allowing users authenticate with an email-password combination.
 	EmailAuthEnabled *bool `json:"email_auth_enabled,omitempty"`
-	// Whether all valid usernames for authentication to this organization will be email addresses. This is important for clients to know whether to do client side validation of email address format in a login prompt.  This value will be false if the server has [LDAP authentication][ldap-auth] enabled with a username and password combination.  [ldap-auth]: https://zulip.readthedocs.io/en/latest/production/authentication-methods.html#ldap-including-active-directory 
+	// Whether all valid usernames for authentication to this organization will be email addresses. This is important for clients to know whether to do client side validation of email address format in a login prompt.  This value will be false if the server has [LDAP authentication][ldap-auth] enabled with a username and password combination.  [ldap-auth]: https://zulip.readthedocs.io/en/latest/production/authentication-methods.html#ldap-including-active-directory
 	RequireEmailFormatUsernames *bool `json:"require_email_format_usernames,omitempty"`
-	// The organization's canonical URL. Alias of `realm_url`.  **Changes**: Deprecated in Zulip 9.0 (feature level 257). The term \"URI\" is deprecated in [web standards](https://url.spec.whatwg.org/#goals). 
+	// The organization's canonical URL. Alias of `realm_url`.  **Changes**: Deprecated in Zulip 9.0 (feature level 257). The term \"URI\" is deprecated in [web standards](https://url.spec.whatwg.org/#goals).
 	// Deprecated
 	RealmUri *string `json:"realm_uri,omitempty"`
-	// The organization's canonical URL.  **Changes**: New in Zulip 9.0 (feature level 257), replacing the deprecated `realm_uri`. 
+	// The organization's canonical URL.  **Changes**: New in Zulip 9.0 (feature level 257), replacing the deprecated `realm_uri`.
 	RealmUrl *string `json:"realm_url,omitempty"`
-	// The organization's name (for display purposes). 
+	// The organization's name (for display purposes).
 	RealmName *string `json:"realm_name,omitempty"`
-	// The URL for the organization's logo formatted as a square image, used for identifying the organization in small locations in the mobile and desktop apps. 
+	// The URL for the organization's logo formatted as a square image, used for identifying the organization in small locations in the mobile and desktop apps.
 	RealmIcon *string `json:"realm_icon,omitempty"`
-	// HTML description of the organization, as configured by the [organization profile](/help/create-your-organization-profile). 
+	// HTML description of the organization, as configured by the [organization profile](/help/create-your-organization-profile).
 	RealmDescription *string `json:"realm_description,omitempty"`
-	// Whether the organization has enabled the creation of [web-public channels](/help/public-access-option) and at least one web-public channel on the server currently exists. Clients that support viewing content in web-public channels without an account can use this to determine whether to offer that feature on the login page for an organization.  **Changes**: New in Zulip 5.0 (feature level 116). 
+	// Whether the organization has enabled the creation of [web-public channels](/help/public-access-option) and at least one web-public channel on the server currently exists. Clients that support viewing content in web-public channels without an account can use this to determine whether to offer that feature on the login page for an organization.  **Changes**: New in Zulip 5.0 (feature level 116).
 	RealmWebPublicAccessEnabled *bool `json:"realm_web_public_access_enabled,omitempty"`
 }
 
@@ -63,7 +64,7 @@ type _GetServerSettings200Response GetServerSettings200Response
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetServerSettings200Response(result interface{}, msg interface{}) *GetServerSettings200Response {
+func NewGetServerSettings200Response(result string, msg string) *GetServerSettings200Response {
 	this := GetServerSettings200Response{}
 	this.Result = result
 	this.Msg = msg
@@ -79,10 +80,9 @@ func NewGetServerSettings200ResponseWithDefaults() *GetServerSettings200Response
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetServerSettings200Response) GetResult() interface{} {
+func (o *GetServerSettings200Response) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -91,24 +91,22 @@ func (o *GetServerSettings200Response) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetServerSettings200Response) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *GetServerSettings200Response) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *GetServerSettings200Response) SetResult(v interface{}) {
+func (o *GetServerSettings200Response) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetServerSettings200Response) GetMsg() interface{} {
+func (o *GetServerSettings200Response) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -117,23 +115,22 @@ func (o *GetServerSettings200Response) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetServerSettings200Response) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *GetServerSettings200Response) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *GetServerSettings200Response) SetMsg(v interface{}) {
+func (o *GetServerSettings200Response) SetMsg(v string) {
 	o.Msg = v
 }
 
-// GetIgnoredParametersUnsupported returns the IgnoredParametersUnsupported field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetServerSettings200Response) GetIgnoredParametersUnsupported() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetIgnoredParametersUnsupported returns the IgnoredParametersUnsupported field value if set, zero value otherwise.
+func (o *GetServerSettings200Response) GetIgnoredParametersUnsupported() []string {
+	if o == nil || IsNil(o.IgnoredParametersUnsupported) {
+		var ret []string
 		return ret
 	}
 	return o.IgnoredParametersUnsupported
@@ -141,12 +138,11 @@ func (o *GetServerSettings200Response) GetIgnoredParametersUnsupported() interfa
 
 // GetIgnoredParametersUnsupportedOk returns a tuple with the IgnoredParametersUnsupported field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetServerSettings200Response) GetIgnoredParametersUnsupportedOk() (*interface{}, bool) {
+func (o *GetServerSettings200Response) GetIgnoredParametersUnsupportedOk() ([]string, bool) {
 	if o == nil || IsNil(o.IgnoredParametersUnsupported) {
 		return nil, false
 	}
-	return &o.IgnoredParametersUnsupported, true
+	return o.IgnoredParametersUnsupported, true
 }
 
 // HasIgnoredParametersUnsupported returns a boolean if a field has been set.
@@ -158,8 +154,8 @@ func (o *GetServerSettings200Response) HasIgnoredParametersUnsupported() bool {
 	return false
 }
 
-// SetIgnoredParametersUnsupported gets a reference to the given interface{} and assigns it to the IgnoredParametersUnsupported field.
-func (o *GetServerSettings200Response) SetIgnoredParametersUnsupported(v interface{}) {
+// SetIgnoredParametersUnsupported gets a reference to the given []string and assigns it to the IgnoredParametersUnsupported field.
+func (o *GetServerSettings200Response) SetIgnoredParametersUnsupported(v []string) {
 	o.IgnoredParametersUnsupported = v
 }
 
@@ -650,7 +646,7 @@ func (o *GetServerSettings200Response) SetRealmWebPublicAccessEnabled(v bool) {
 }
 
 func (o GetServerSettings200Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -659,13 +655,9 @@ func (o GetServerSettings200Response) MarshalJSON() ([]byte, error) {
 
 func (o GetServerSettings200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.IgnoredParametersUnsupported != nil {
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	if !IsNil(o.IgnoredParametersUnsupported) {
 		toSerialize["ignored_parameters_unsupported"] = o.IgnoredParametersUnsupported
 	}
 	if !IsNil(o.AuthenticationMethods) {
@@ -730,10 +722,10 @@ func (o *GetServerSettings200Response) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -789,5 +781,3 @@ func (v *NullableGetServerSettings200Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

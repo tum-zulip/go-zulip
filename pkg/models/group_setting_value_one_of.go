@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the GroupSettingValueOneOf type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GroupSettingValueOneOf{}
 
-// GroupSettingValueOneOf An object with these fields: 
+// GroupSettingValueOneOf An object with these fields:
 type GroupSettingValueOneOf struct {
-	// The list of IDs of individual users in the collection of users with this permission.  **Changes**: Prior to Zulip 10.0 (feature level 303), this list would include deactivated users who had the permission before being deactivated. 
+	// The list of IDs of individual users in the collection of users with this permission.  **Changes**: Prior to Zulip 10.0 (feature level 303), this list would include deactivated users who had the permission before being deactivated.
 	DirectMembers []int32 `json:"direct_members,omitempty"`
-	// The list of IDs of the groups in the collection of users with this permission. 
+	// The list of IDs of the groups in the collection of users with this permission.
 	DirectSubgroups []int32 `json:"direct_subgroups,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *GroupSettingValueOneOf) SetDirectSubgroups(v []int32) {
 }
 
 func (o GroupSettingValueOneOf) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableGroupSettingValueOneOf) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

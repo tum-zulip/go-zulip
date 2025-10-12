@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,12 +13,13 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
 // UpdateMessage400Response - struct for UpdateMessage400Response
 type UpdateMessage400Response struct {
-	CodedError *CodedError
+	CodedError                    *CodedError
 	UpdateMessage400ResponseOneOf *UpdateMessage400ResponseOneOf
 }
 
@@ -35,7 +36,6 @@ func UpdateMessage400ResponseOneOfAsUpdateMessage400Response(v *UpdateMessage400
 		UpdateMessage400ResponseOneOf: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *UpdateMessage400Response) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src UpdateMessage400Response) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *UpdateMessage400Response) GetActualInstance() (interface{}) {
+func (obj *UpdateMessage400Response) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *UpdateMessage400Response) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj UpdateMessage400Response) GetActualInstanceValue() (interface{}) {
+func (obj UpdateMessage400Response) GetActualInstanceValue() interface{} {
 	if obj.CodedError != nil {
 		return *obj.CodedError
 	}
@@ -167,5 +167,3 @@ func (v *NullableUpdateMessage400Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

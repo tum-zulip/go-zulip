@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the RealmPlayground type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmPlayground{}
 
-// RealmPlayground Object containing details about a realm playground. 
+// RealmPlayground Object containing details about a realm playground.
 type RealmPlayground struct {
-	// The unique ID for the realm playground. 
+	// The unique ID for the realm playground.
 	Id *int32 `json:"id,omitempty"`
-	// The user-visible display name of the playground. Clients should display this in UI for picking which playground to open a code block in, to differentiate between multiple configured playground options for a given pygments language.  **Changes**: New in Zulip 4.0 (feature level 49). 
+	// The user-visible display name of the playground. Clients should display this in UI for picking which playground to open a code block in, to differentiate between multiple configured playground options for a given pygments language.  **Changes**: New in Zulip 4.0 (feature level 49).
 	Name *string `json:"name,omitempty"`
-	// The name of the Pygments language lexer for that programming language. 
+	// The name of the Pygments language lexer for that programming language.
 	PygmentsLanguage *string `json:"pygments_language,omitempty"`
-	// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template for the playground. The template contains exactly one variable named `code`, which determines how the extracted code should be substituted in the playground URL.  **Changes**: New in Zulip 8.0 (feature level 196). This replaced the `url_prefix` parameter, which was used to construct URLs by just concatenating url_prefix and code. 
+	// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template for the playground. The template contains exactly one variable named `code`, which determines how the extracted code should be substituted in the playground URL.  **Changes**: New in Zulip 8.0 (feature level 196). This replaced the `url_prefix` parameter, which was used to construct URLs by just concatenating url_prefix and code.
 	UrlTemplate *string `json:"url_template,omitempty"`
 }
 
@@ -175,7 +175,7 @@ func (o *RealmPlayground) SetUrlTemplate(v string) {
 }
 
 func (o RealmPlayground) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,5 +234,3 @@ func (v *NullableRealmPlayground) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

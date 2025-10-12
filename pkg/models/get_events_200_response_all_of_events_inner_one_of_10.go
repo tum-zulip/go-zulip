@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf10 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf10{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf10 Event type for messages.  **Changes**: In Zulip 3.1 (feature level 26), the `sender_short_name` field was removed from message objects. 
+// GetEvents200ResponseAllOfEventsInnerOneOf10 Event type for messages.  **Changes**: In Zulip 3.1 (feature level 26), the `sender_short_name` field was removed from message objects.
 type GetEvents200ResponseAllOfEventsInnerOneOf10 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
-	Type *string `json:"type,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id      *int32         `json:"id,omitempty"`
+	Type    *string        `json:"type,omitempty"`
 	Message *MessagesEvent `json:"message,omitempty"`
-	// The user's [message flags][message-flags] for the message.  Clients should inspect the flags field rather than assuming that new messages are unread; [muted users](/api/mute-user), messages sent by the current user, and more subtle scenarios can result in a new message that the server has already marked as read for the user.  **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.  [message-flags]: /api/update-message-flags#available-flags 
+	// The user's [message flags][message-flags] for the message.  Clients should inspect the flags field rather than assuming that new messages are unread; [muted users](/api/mute-user), messages sent by the current user, and more subtle scenarios can result in a new message that the server has already marked as read for the user.  **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.  [message-flags]: /api/update-message-flags#available-flags
 	Flags []string `json:"flags,omitempty"`
 }
 
@@ -173,7 +173,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf10) SetFlags(v []string) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf10) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -232,5 +232,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf10) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

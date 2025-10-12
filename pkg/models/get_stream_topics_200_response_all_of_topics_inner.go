@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,9 +19,9 @@ var _ MappedNullable = &GetStreamTopics200ResponseAllOfTopicsInner{}
 
 // GetStreamTopics200ResponseAllOfTopicsInner struct for GetStreamTopics200ResponseAllOfTopicsInner
 type GetStreamTopics200ResponseAllOfTopicsInner struct {
-	// The message ID of the last message sent to this topic. 
+	// The message ID of the last message sent to this topic.
 	MaxId *int32 `json:"max_id,omitempty"`
-	// The name of the topic. 
+	// The name of the topic.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *GetStreamTopics200ResponseAllOfTopicsInner) SetName(v string) {
 }
 
 func (o GetStreamTopics200ResponseAllOfTopicsInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableGetStreamTopics200ResponseAllOfTopicsInner) UnmarshalJSON(src [
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

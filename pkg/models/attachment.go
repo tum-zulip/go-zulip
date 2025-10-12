@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,19 +17,19 @@ import (
 // checks if the Attachment type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Attachment{}
 
-// Attachment Dictionary containing details of a file uploaded by a user. 
+// Attachment Dictionary containing details of a file uploaded by a user.
 type Attachment struct {
-	// The unique ID for the attachment. 
+	// The unique ID for the attachment.
 	Id *int32 `json:"id,omitempty"`
-	// Name of the uploaded file. 
+	// Name of the uploaded file.
 	Name *string `json:"name,omitempty"`
-	// A representation of the path of the file within the repository of user-uploaded files. If the `path_id` of a file is `{realm_id}/ab/cdef/temp_file.py`, its URL will be: `{server_url}/user_uploads/{realm_id}/ab/cdef/temp_file.py`. 
+	// A representation of the path of the file within the repository of user-uploaded files. If the `path_id` of a file is `{realm_id}/ab/cdef/temp_file.py`, its URL will be: `{server_url}/user_uploads/{realm_id}/ab/cdef/temp_file.py`.
 	PathId *string `json:"path_id,omitempty"`
-	// Size of the file in bytes. 
+	// Size of the file in bytes.
 	Size *int32 `json:"size,omitempty"`
-	// Time when the attachment was uploaded as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 3.0 (feature level 22). This field was previously a floating point number. 
+	// Time when the attachment was uploaded as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 3.0 (feature level 22). This field was previously a floating point number.
 	CreateTime *int32 `json:"create_time,omitempty"`
-	// Contains basic details on any Zulip messages that have been sent referencing this [uploaded file](/api/upload-file). This includes messages sent by any user in the Zulip organization who sent a message containing a link to the uploaded file. 
+	// Contains basic details on any Zulip messages that have been sent referencing this [uploaded file](/api/upload-file). This includes messages sent by any user in the Zulip organization who sent a message containing a link to the uploaded file.
 	Messages []AttachmentMessagesInner `json:"messages,omitempty"`
 }
 
@@ -243,7 +243,7 @@ func (o *Attachment) SetMessages(v []AttachmentMessagesInner) {
 }
 
 func (o Attachment) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -308,5 +308,3 @@ func (v *NullableAttachment) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

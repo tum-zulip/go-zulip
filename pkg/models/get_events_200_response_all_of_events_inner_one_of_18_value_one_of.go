@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf If an object, it will be a [group-setting value][setting-values] with these fields:  [setting-values]: /api/group-setting-values 
+// GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf If an object, it will be a [group-setting value][setting-values] with these fields:  [setting-values]: /api/group-setting-values
 type GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf struct {
-	// The list of IDs of individual users in the collection of users with this permission. 
+	// The list of IDs of individual users in the collection of users with this permission.
 	DirectMembers []int32 `json:"direct_members,omitempty"`
-	// The list of IDs of the groups in the collection of users with this permission. 
+	// The list of IDs of the groups in the collection of users with this permission.
 	DirectSubgroups []int32 `json:"direct_subgroups,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf) SetDirectSubgrou
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf) Unmarsha
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

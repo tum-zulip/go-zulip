@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,41 +17,41 @@ import (
 // checks if the UserBase type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &UserBase{}
 
-// UserBase A dictionary containing basic data on a given Zulip user.  **Changes**: Removed `is_billing_admin` field in Zulip 10.0 (feature level 363), as it was replaced by the `can_manage_billing_group` realm setting. 
+// UserBase A dictionary containing basic data on a given Zulip user.  **Changes**: Removed `is_billing_admin` field in Zulip 10.0 (feature level 363), as it was replaced by the `can_manage_billing_group` realm setting.
 type UserBase struct {
-	// The unique ID of the user. 
+	// The unique ID of the user.
 	UserId *int32 `json:"user_id,omitempty"`
-	// The user's real email address. This value will be `null` if you cannot access user's real email address. For bot users, this field is always set to the real email of the bot, because bot users always have `email_address_visibility` set to everyone.  **Changes**: Prior to Zulip 7.0 (feature level 163), this field was present only when `email_address_visibility` was restricted and you had access to the user's real email. As of this feature level, this field is always present, including the case when `email_address_visibility` is set to everyone (and therefore not restricted). 
+	// The user's real email address. This value will be `null` if you cannot access user's real email address. For bot users, this field is always set to the real email of the bot, because bot users always have `email_address_visibility` set to everyone.  **Changes**: Prior to Zulip 7.0 (feature level 163), this field was present only when `email_address_visibility` was restricted and you had access to the user's real email. As of this feature level, this field is always present, including the case when `email_address_visibility` is set to everyone (and therefore not restricted).
 	DeliveryEmail NullableString `json:"delivery_email,omitempty"`
-	// The Zulip API email address of the user or bot.  If you do not have permission to view the email address of the target user, this will be a fake email address that is usable for the Zulip API but nothing else. 
+	// The Zulip API email address of the user or bot.  If you do not have permission to view the email address of the target user, this will be a fake email address that is usable for the Zulip API but nothing else.
 	Email *string `json:"email,omitempty"`
-	// Full name of the user or bot, used for all display purposes. 
+	// Full name of the user or bot, used for all display purposes.
 	FullName *string `json:"full_name,omitempty"`
-	// The time the user account was created. 
+	// The time the user account was created.
 	DateJoined *string `json:"date_joined,omitempty"`
-	// A boolean specifying whether the user account has been deactivated. 
+	// A boolean specifying whether the user account has been deactivated.
 	IsActive *bool `json:"is_active,omitempty"`
-	// A boolean specifying whether the user is an organization owner. If true, `is_admin` will also be true.  **Changes**: New in Zulip 3.0 (feature level 8). 
+	// A boolean specifying whether the user is an organization owner. If true, `is_admin` will also be true.  **Changes**: New in Zulip 3.0 (feature level 8).
 	IsOwner *bool `json:"is_owner,omitempty"`
-	// A boolean specifying whether the user is an organization administrator. 
+	// A boolean specifying whether the user is an organization administrator.
 	IsAdmin *bool `json:"is_admin,omitempty"`
-	// A boolean specifying whether the user is a guest user. 
+	// A boolean specifying whether the user is a guest user.
 	IsGuest *bool `json:"is_guest,omitempty"`
-	// A boolean specifying whether the user is a bot or full account. 
+	// A boolean specifying whether the user is a bot or full account.
 	IsBot *bool `json:"is_bot,omitempty"`
-	// An integer describing the type of bot:  - `null` if the user isn't a bot. - `1` for a `Generic` bot. - `2` for an `Incoming webhook` bot. - `3` for an `Outgoing webhook` bot. - `4` for an `Embedded` bot. 
+	// An integer describing the type of bot:  - `null` if the user isn't a bot. - `1` for a `Generic` bot. - `2` for an `Incoming webhook` bot. - `3` for an `Outgoing webhook` bot. - `4` for an `Embedded` bot.
 	BotType NullableInt32 `json:"bot_type,omitempty"`
-	// If the user is a bot (i.e. `is_bot` is true), then `bot_owner_id` is the user ID of the bot's owner (usually, whoever created the bot).  Will be `null` for legacy bots that do not have an owner.  **Changes**: New in Zulip 3.0 (feature level 1). In previous versions, there was a `bot_owner` field containing the email address of the bot's owner. 
+	// If the user is a bot (i.e. `is_bot` is true), then `bot_owner_id` is the user ID of the bot's owner (usually, whoever created the bot).  Will be `null` for legacy bots that do not have an owner.  **Changes**: New in Zulip 3.0 (feature level 1). In previous versions, there was a `bot_owner` field containing the email address of the bot's owner.
 	BotOwnerId NullableInt32 `json:"bot_owner_id,omitempty"`
-	// [Organization-level role](/api/roles-and-permissions) of the user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59). 
+	// [Organization-level role](/api/roles-and-permissions) of the user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59).
 	Role *int32 `json:"role,omitempty"`
-	// The IANA identifier of the user's [profile time zone](/help/change-your-timezone), which is used primarily to display the user's local time to other users. 
+	// The IANA identifier of the user's [profile time zone](/help/change-your-timezone), which is used primarily to display the user's local time to other users.
 	Timezone *string `json:"timezone,omitempty"`
-	// URL for the user's avatar.  Will be `null` if the `client_gravatar` query parameter was set to `true`, the current user has access to this user's real email address, and this user's avatar is hosted by the Gravatar provider (i.e. this user has never uploaded an avatar).  **Changes**: Before Zulip 7.0 (feature level 163), access to a user's real email address was a realm-level setting. As of this feature level, `email_address_visibility` is a user setting.  In Zulip 3.0 (feature level 18), if the client has the `user_avatar_url_field_optional` capability, this will be missing at the server's sole discretion. 
+	// URL for the user's avatar.  Will be `null` if the `client_gravatar` query parameter was set to `true`, the current user has access to this user's real email address, and this user's avatar is hosted by the Gravatar provider (i.e. this user has never uploaded an avatar).  **Changes**: Before Zulip 7.0 (feature level 163), access to a user's real email address was a realm-level setting. As of this feature level, `email_address_visibility` is a user setting.  In Zulip 3.0 (feature level 18), if the client has the `user_avatar_url_field_optional` capability, this will be missing at the server's sole discretion.
 	AvatarUrl NullableString `json:"avatar_url,omitempty"`
-	// Version for the user's avatar. Used for cache-busting requests for the user's avatar. Clients generally shouldn't need to use this; most avatar URLs sent by Zulip will already end with `?v={avatar_version}`. 
+	// Version for the user's avatar. Used for cache-busting requests for the user's avatar. Clients generally shouldn't need to use this; most avatar URLs sent by Zulip will already end with `?v={avatar_version}`.
 	AvatarVersion *int32 `json:"avatar_version,omitempty"`
-	// Only present if `is_bot` is false; bots can't have custom profile fields.  A dictionary containing custom profile field data for the user. Each entry maps the integer ID of a custom profile field in the organization to a dictionary containing the user's data for that field. Generally the data includes just a single `value` key; for those custom profile fields supporting Markdown, a `rendered_value` key will also be present. 
+	// Only present if `is_bot` is false; bots can't have custom profile fields.  A dictionary containing custom profile field data for the user. Each entry maps the integer ID of a custom profile field in the organization to a dictionary containing the user's data for that field. Generally the data includes just a single `value` key; for those custom profile fields supporting Markdown, a `rendered_value` key will also be present.
 	ProfileData *map[string]ProfileDataValue `json:"profile_data,omitempty"`
 }
 
@@ -136,6 +136,7 @@ func (o *UserBase) HasDeliveryEmail() bool {
 func (o *UserBase) SetDeliveryEmail(v string) {
 	o.DeliveryEmail.Set(&v)
 }
+
 // SetDeliveryEmailNil sets the value for DeliveryEmail to be an explicit nil
 func (o *UserBase) SetDeliveryEmailNil() {
 	o.DeliveryEmail.Set(nil)
@@ -434,6 +435,7 @@ func (o *UserBase) HasBotType() bool {
 func (o *UserBase) SetBotType(v int32) {
 	o.BotType.Set(&v)
 }
+
 // SetBotTypeNil sets the value for BotType to be an explicit nil
 func (o *UserBase) SetBotTypeNil() {
 	o.BotType.Set(nil)
@@ -476,6 +478,7 @@ func (o *UserBase) HasBotOwnerId() bool {
 func (o *UserBase) SetBotOwnerId(v int32) {
 	o.BotOwnerId.Set(&v)
 }
+
 // SetBotOwnerIdNil sets the value for BotOwnerId to be an explicit nil
 func (o *UserBase) SetBotOwnerIdNil() {
 	o.BotOwnerId.Set(nil)
@@ -582,6 +585,7 @@ func (o *UserBase) HasAvatarUrl() bool {
 func (o *UserBase) SetAvatarUrl(v string) {
 	o.AvatarUrl.Set(&v)
 }
+
 // SetAvatarUrlNil sets the value for AvatarUrl to be an explicit nil
 func (o *UserBase) SetAvatarUrlNil() {
 	o.AvatarUrl.Set(nil)
@@ -657,7 +661,7 @@ func (o *UserBase) SetProfileData(v map[string]ProfileDataValue) {
 }
 
 func (o UserBase) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -755,5 +759,3 @@ func (v *NullableUserBase) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

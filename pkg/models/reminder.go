@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,31 +11,31 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
 // checks if the Reminder type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Reminder{}
 
-// Reminder Object containing details of the scheduled message. 
+// Reminder Object containing details of the scheduled message.
 type Reminder struct {
-	// The unique ID of the reminder, which can be used to delete the reminder.  This is different from the unique ID that the message would have after being sent. 
+	// The unique ID of the reminder, which can be used to delete the reminder.  This is different from the unique ID that the message would have after being sent.
 	ReminderId int32 `json:"reminder_id"`
-	// The type of the reminder. Always set to `\"private\"`. 
+	// The type of the reminder. Always set to `\"private\"`.
 	Type string `json:"type"`
-	// Contains the ID of the user who scheduled the reminder, and to which the reminder will be sent. 
+	// Contains the ID of the user who scheduled the reminder, and to which the reminder will be sent.
 	To []int32 `json:"to"`
-	// The content/body of the reminder, in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format. 
+	// The content/body of the reminder, in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
 	Content string `json:"content"`
-	// The content/body of the reminder rendered in HTML. 
+	// The content/body of the reminder rendered in HTML.
 	RenderedContent string `json:"rendered_content"`
-	// The UNIX timestamp for when the message will be sent by the server, in UTC seconds. 
+	// The UNIX timestamp for when the message will be sent by the server, in UTC seconds.
 	ScheduledDeliveryTimestamp int32 `json:"scheduled_delivery_timestamp"`
-	// Whether the server has tried to send the reminder and it failed to successfully send.  Clients that support unscheduling reminders should display scheduled messages with `\"failed\": true` with an indicator that the server failed to send the message at the scheduled time, so that the user is aware of the failure and can get the content of the scheduled message. 
+	// Whether the server has tried to send the reminder and it failed to successfully send.  Clients that support unscheduling reminders should display scheduled messages with `\"failed\": true` with an indicator that the server failed to send the message at the scheduled time, so that the user is aware of the failure and can get the content of the scheduled message.
 	Failed bool `json:"failed"`
-	// The ID of the message that the reminder is created for. 
+	// The ID of the message that the reminder is created for.
 	ReminderTargetMessageId int32 `json:"reminder_target_message_id"`
 }
 
@@ -259,7 +259,7 @@ func (o *Reminder) SetReminderTargetMessageId(v int32) {
 }
 
 func (o Reminder) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -299,10 +299,10 @@ func (o *Reminder) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -358,5 +358,3 @@ func (v *NullableReminder) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

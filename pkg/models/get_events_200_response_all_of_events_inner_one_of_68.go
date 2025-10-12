@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf68 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf68{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf68 Event sent to all users in a Zulip organization when the [default settings for new users][new-user-defaults] of the organization (realm) have changed.  [new-user-defaults]: /help/configure-default-new-user-settings  See [PATCH /realm/user_settings_defaults](/api/update-realm-user-settings-defaults) for details on possible properties.  **Changes**: New in Zulip 5.0 (feature level 95). 
+// GetEvents200ResponseAllOfEventsInnerOneOf68 Event sent to all users in a Zulip organization when the [default settings for new users][new-user-defaults] of the organization (realm) have changed.  [new-user-defaults]: /help/configure-default-new-user-settings  See [PATCH /realm/user_settings_defaults](/api/update-realm-user-settings-defaults) for details on possible properties.  **Changes**: New in Zulip 5.0 (feature level 95).
 type GetEvents200ResponseAllOfEventsInnerOneOf68 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// The name of the property that was changed. 
-	Property *string `json:"property,omitempty"`
-	Value *GetEvents200ResponseAllOfEventsInnerOneOf68Value `json:"value,omitempty"`
+	Op   *string `json:"op,omitempty"`
+	// The name of the property that was changed.
+	Property *string                                           `json:"property,omitempty"`
+	Value    *GetEvents200ResponseAllOfEventsInnerOneOf68Value `json:"value,omitempty"`
 }
 
 // NewGetEvents200ResponseAllOfEventsInnerOneOf68 instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf68 object
@@ -206,7 +206,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf68) SetValue(v GetEvents200Res
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf68) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -268,5 +268,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf68) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

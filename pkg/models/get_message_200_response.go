@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,13 +21,14 @@ var _ MappedNullable = &GetMessage200Response{}
 
 // GetMessage200Response struct for GetMessage200Response
 type GetMessage200Response struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	IgnoredParametersUnsupported interface{} `json:"ignored_parameters_unsupported,omitempty"`
-	// The raw Markdown content of the message.  See the help center article on [message formatting](/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.  **Deprecated** and to be removed once no longer required for legacy clients. Modern clients should prefer passing `\"apply_markdown\": false` to request raw message content. 
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
+	// The raw Markdown content of the message.  See the help center article on [message formatting](/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.  **Deprecated** and to be removed once no longer required for legacy clients. Modern clients should prefer passing `\"apply_markdown\": false` to request raw message content.
 	// Deprecated
-	RawContent *string `json:"raw_content,omitempty"`
-	Message *GetMessage200ResponseAllOfMessage `json:"message,omitempty"`
+	RawContent *string                            `json:"raw_content,omitempty"`
+	Message    *GetMessage200ResponseAllOfMessage `json:"message,omitempty"`
 }
 
 type _GetMessage200Response GetMessage200Response
@@ -36,7 +37,7 @@ type _GetMessage200Response GetMessage200Response
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetMessage200Response(result interface{}, msg interface{}) *GetMessage200Response {
+func NewGetMessage200Response(result string, msg string) *GetMessage200Response {
 	this := GetMessage200Response{}
 	this.Result = result
 	this.Msg = msg
@@ -52,10 +53,9 @@ func NewGetMessage200ResponseWithDefaults() *GetMessage200Response {
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetMessage200Response) GetResult() interface{} {
+func (o *GetMessage200Response) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -64,24 +64,22 @@ func (o *GetMessage200Response) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessage200Response) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *GetMessage200Response) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *GetMessage200Response) SetResult(v interface{}) {
+func (o *GetMessage200Response) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetMessage200Response) GetMsg() interface{} {
+func (o *GetMessage200Response) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -90,23 +88,22 @@ func (o *GetMessage200Response) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessage200Response) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *GetMessage200Response) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *GetMessage200Response) SetMsg(v interface{}) {
+func (o *GetMessage200Response) SetMsg(v string) {
 	o.Msg = v
 }
 
-// GetIgnoredParametersUnsupported returns the IgnoredParametersUnsupported field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessage200Response) GetIgnoredParametersUnsupported() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetIgnoredParametersUnsupported returns the IgnoredParametersUnsupported field value if set, zero value otherwise.
+func (o *GetMessage200Response) GetIgnoredParametersUnsupported() []string {
+	if o == nil || IsNil(o.IgnoredParametersUnsupported) {
+		var ret []string
 		return ret
 	}
 	return o.IgnoredParametersUnsupported
@@ -114,12 +111,11 @@ func (o *GetMessage200Response) GetIgnoredParametersUnsupported() interface{} {
 
 // GetIgnoredParametersUnsupportedOk returns a tuple with the IgnoredParametersUnsupported field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessage200Response) GetIgnoredParametersUnsupportedOk() (*interface{}, bool) {
+func (o *GetMessage200Response) GetIgnoredParametersUnsupportedOk() ([]string, bool) {
 	if o == nil || IsNil(o.IgnoredParametersUnsupported) {
 		return nil, false
 	}
-	return &o.IgnoredParametersUnsupported, true
+	return o.IgnoredParametersUnsupported, true
 }
 
 // HasIgnoredParametersUnsupported returns a boolean if a field has been set.
@@ -131,8 +127,8 @@ func (o *GetMessage200Response) HasIgnoredParametersUnsupported() bool {
 	return false
 }
 
-// SetIgnoredParametersUnsupported gets a reference to the given interface{} and assigns it to the IgnoredParametersUnsupported field.
-func (o *GetMessage200Response) SetIgnoredParametersUnsupported(v interface{}) {
+// SetIgnoredParametersUnsupported gets a reference to the given []string and assigns it to the IgnoredParametersUnsupported field.
+func (o *GetMessage200Response) SetIgnoredParametersUnsupported(v []string) {
 	o.IgnoredParametersUnsupported = v
 }
 
@@ -204,7 +200,7 @@ func (o *GetMessage200Response) SetMessage(v GetMessage200ResponseAllOfMessage) 
 }
 
 func (o GetMessage200Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -213,13 +209,9 @@ func (o GetMessage200Response) MarshalJSON() ([]byte, error) {
 
 func (o GetMessage200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.IgnoredParametersUnsupported != nil {
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	if !IsNil(o.IgnoredParametersUnsupported) {
 		toSerialize["ignored_parameters_unsupported"] = o.IgnoredParametersUnsupported
 	}
 	if !IsNil(o.RawContent) {
@@ -245,10 +237,10 @@ func (o *GetMessage200Response) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -304,5 +296,3 @@ func (v *NullableGetMessage200Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

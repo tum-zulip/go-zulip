@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,41 +21,46 @@ var _ MappedNullable = &GetOwnUser200Response{}
 
 // GetOwnUser200Response struct for GetOwnUser200Response
 type GetOwnUser200Response struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	IgnoredParametersUnsupported interface{} `json:"ignored_parameters_unsupported,omitempty"`
-	// URL for the requesting user's avatar.  **Changes**: New in Zulip 2.1.0. 
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
+	// URL for the requesting user's avatar.  **Changes**: New in Zulip 2.1.0.
 	AvatarUrl *string `json:"avatar_url,omitempty"`
-	// Version for the requesting user's avatar. Used for cache-busting requests for the user's avatar. Clients generally shouldn't need to use this; most avatar URLs sent by Zulip will already end with `?v={avatar_version}`.  **Changes**: New in Zulip 3.0 (feature level 10). 
+	// Version for the requesting user's avatar. Used for cache-busting requests for the user's avatar. Clients generally shouldn't need to use this; most avatar URLs sent by Zulip will already end with `?v={avatar_version}`.  **Changes**: New in Zulip 3.0 (feature level 10).
 	AvatarVersion *int32 `json:"avatar_version,omitempty"`
-	// Zulip API email of the requesting user. 
+	// Zulip API email of the requesting user.
 	Email *string `json:"email,omitempty"`
-	// Full name of the requesting user. 
+	// Full name of the requesting user.
 	FullName *string `json:"full_name,omitempty"`
-	// A boolean indicating if the requesting user is an admin. 
+	// A boolean indicating if the requesting user is an admin.
 	IsAdmin *bool `json:"is_admin,omitempty"`
-	// A boolean indicating if the requesting user is an organization owner.  **Changes**: New in Zulip 3.0 (feature level 8). 
+	// A boolean indicating if the requesting user is an organization owner.  **Changes**: New in Zulip 3.0 (feature level 8).
 	IsOwner *bool `json:"is_owner,omitempty"`
-	// [Organization-level role](/api/roles-and-permissions) of the requesting user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59). 
+	// [Organization-level role](/api/roles-and-permissions) of the requesting user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59).
 	Role *int32 `json:"role,omitempty"`
-	// A boolean indicating if the requesting user is a guest.  **Changes**: New in Zulip 3.0 (feature level 10). 
+	// A boolean indicating if the requesting user is a guest.  **Changes**: New in Zulip 3.0 (feature level 10).
 	IsGuest *bool `json:"is_guest,omitempty"`
-	// A boolean indicating if the requesting user is a bot. 
+	// A boolean indicating if the requesting user is a bot.
 	IsBot *bool `json:"is_bot,omitempty"`
-	// A boolean specifying whether the requesting user account has been deactivated.  **Changes**: New in Zulip 3.0 (feature level 10). 
+	// An integer describing the type of bot:  - `1` for a `Generic` bot. - `2` for an `Incoming webhook` bot. - `3` for an `Outgoing webhook` bot. - `4` for an `Embedded` bot.
+	BotType NullableInt32 `json:"bot_type,omitempty"`
+	// The user ID of the new bot owner.
+	BotOwnerId *int32 `json:"bot_owner_id,omitempty"`
+	// A boolean specifying whether the requesting user account has been deactivated.  **Changes**: New in Zulip 3.0 (feature level 10).
 	IsActive *bool `json:"is_active,omitempty"`
-	// The IANA identifier of the requesting user's [profile time zone](/help/change-your-timezone), which is used primarily to display the user's local time to other users.  **Changes**: New in Zulip 3.0 (feature level 10). 
+	// The IANA identifier of the requesting user's [profile time zone](/help/change-your-timezone), which is used primarily to display the user's local time to other users.  **Changes**: New in Zulip 3.0 (feature level 10).
 	Timezone *string `json:"timezone,omitempty"`
-	// The time the requesting user's account was created.  **Changes**: New in Zulip 3.0 (feature level 10). 
+	// The time the requesting user's account was created.  **Changes**: New in Zulip 3.0 (feature level 10).
 	DateJoined *string `json:"date_joined,omitempty"`
-	// The integer ID of the last message received by the requesting user's account.  **Deprecated**. We plan to remove this in favor of recommending using `GET /messages` with `\"anchor\": \"newest\"`. 
+	// The integer ID of the last message received by the requesting user's account.  **Deprecated**. We plan to remove this in favor of recommending using `GET /messages` with `\"anchor\": \"newest\"`.
 	// Deprecated
 	MaxMessageId *int32 `json:"max_message_id,omitempty"`
-	// The user's ID. 
+	// The user's ID.
 	UserId *int32 `json:"user_id,omitempty"`
-	// The requesting user's real email address.  **Changes**: Prior to Zulip 7.0 (feature level 163), this field was present only when `email_address_visibility` was restricted and the requesting user had permission to access realm users' emails. As of this feature level, this field is always present. 
+	// The requesting user's real email address.  **Changes**: Prior to Zulip 7.0 (feature level 163), this field was present only when `email_address_visibility` was restricted and the requesting user had permission to access realm users' emails. As of this feature level, this field is always present.
 	DeliveryEmail *string `json:"delivery_email,omitempty"`
-	// Only present if `is_bot` is false; bots can't have custom profile fields.  A dictionary containing custom profile field data for the user. Each entry maps the integer ID of a custom profile field in the organization to a dictionary containing the user's data for that field. Generally the data includes just a single `value` key; for those custom profile fields supporting Markdown, a `rendered_value` key will also be present. 
+	// Only present if `is_bot` is false; bots can't have custom profile fields.  A dictionary containing custom profile field data for the user. Each entry maps the integer ID of a custom profile field in the organization to a dictionary containing the user's data for that field. Generally the data includes just a single `value` key; for those custom profile fields supporting Markdown, a `rendered_value` key will also be present.
 	ProfileData *map[string]ProfileDataValue `json:"profile_data,omitempty"`
 }
 
@@ -65,7 +70,7 @@ type _GetOwnUser200Response GetOwnUser200Response
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetOwnUser200Response(result interface{}, msg interface{}) *GetOwnUser200Response {
+func NewGetOwnUser200Response(result string, msg string) *GetOwnUser200Response {
 	this := GetOwnUser200Response{}
 	this.Result = result
 	this.Msg = msg
@@ -81,10 +86,9 @@ func NewGetOwnUser200ResponseWithDefaults() *GetOwnUser200Response {
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetOwnUser200Response) GetResult() interface{} {
+func (o *GetOwnUser200Response) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -93,24 +97,22 @@ func (o *GetOwnUser200Response) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetOwnUser200Response) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *GetOwnUser200Response) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *GetOwnUser200Response) SetResult(v interface{}) {
+func (o *GetOwnUser200Response) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetOwnUser200Response) GetMsg() interface{} {
+func (o *GetOwnUser200Response) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -119,23 +121,22 @@ func (o *GetOwnUser200Response) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetOwnUser200Response) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *GetOwnUser200Response) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *GetOwnUser200Response) SetMsg(v interface{}) {
+func (o *GetOwnUser200Response) SetMsg(v string) {
 	o.Msg = v
 }
 
-// GetIgnoredParametersUnsupported returns the IgnoredParametersUnsupported field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetOwnUser200Response) GetIgnoredParametersUnsupported() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetIgnoredParametersUnsupported returns the IgnoredParametersUnsupported field value if set, zero value otherwise.
+func (o *GetOwnUser200Response) GetIgnoredParametersUnsupported() []string {
+	if o == nil || IsNil(o.IgnoredParametersUnsupported) {
+		var ret []string
 		return ret
 	}
 	return o.IgnoredParametersUnsupported
@@ -143,12 +144,11 @@ func (o *GetOwnUser200Response) GetIgnoredParametersUnsupported() interface{} {
 
 // GetIgnoredParametersUnsupportedOk returns a tuple with the IgnoredParametersUnsupported field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetOwnUser200Response) GetIgnoredParametersUnsupportedOk() (*interface{}, bool) {
+func (o *GetOwnUser200Response) GetIgnoredParametersUnsupportedOk() ([]string, bool) {
 	if o == nil || IsNil(o.IgnoredParametersUnsupported) {
 		return nil, false
 	}
-	return &o.IgnoredParametersUnsupported, true
+	return o.IgnoredParametersUnsupported, true
 }
 
 // HasIgnoredParametersUnsupported returns a boolean if a field has been set.
@@ -160,8 +160,8 @@ func (o *GetOwnUser200Response) HasIgnoredParametersUnsupported() bool {
 	return false
 }
 
-// SetIgnoredParametersUnsupported gets a reference to the given interface{} and assigns it to the IgnoredParametersUnsupported field.
-func (o *GetOwnUser200Response) SetIgnoredParametersUnsupported(v interface{}) {
+// SetIgnoredParametersUnsupported gets a reference to the given []string and assigns it to the IgnoredParametersUnsupported field.
+func (o *GetOwnUser200Response) SetIgnoredParametersUnsupported(v []string) {
 	o.IgnoredParametersUnsupported = v
 }
 
@@ -681,7 +681,7 @@ func (o *GetOwnUser200Response) SetProfileData(v map[string]ProfileDataValue) {
 }
 
 func (o GetOwnUser200Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -690,13 +690,9 @@ func (o GetOwnUser200Response) MarshalJSON() ([]byte, error) {
 
 func (o GetOwnUser200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.IgnoredParametersUnsupported != nil {
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	if !IsNil(o.IgnoredParametersUnsupported) {
 		toSerialize["ignored_parameters_unsupported"] = o.IgnoredParametersUnsupported
 	}
 	if !IsNil(o.AvatarUrl) {
@@ -725,6 +721,12 @@ func (o GetOwnUser200Response) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.IsBot) {
 		toSerialize["is_bot"] = o.IsBot
+	}
+	if !IsNil(o.BotType) {
+		toSerialize["bot_type"] = o.BotType
+	}
+	if !IsNil(o.BotOwnerId) {
+		toSerialize["bot_owner_id"] = o.BotOwnerId
 	}
 	if !IsNil(o.IsActive) {
 		toSerialize["is_active"] = o.IsActive
@@ -764,10 +766,10 @@ func (o *GetOwnUser200Response) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -823,5 +825,3 @@ func (v *NullableGetOwnUser200Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

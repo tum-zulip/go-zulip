@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf69 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf69{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf69 Event containing details of newly created drafts. 
+// GetEvents200ResponseAllOfEventsInnerOneOf69 Event containing details of newly created drafts.
 type GetEvents200ResponseAllOfEventsInnerOneOf69 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// An array containing objects for the newly created drafts. 
+	Op   *string `json:"op,omitempty"`
+	// An array containing objects for the newly created drafts.
 	Drafts []Draft `json:"drafts,omitempty"`
 }
 
@@ -173,7 +173,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf69) SetDrafts(v []Draft) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf69) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -232,5 +232,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf69) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

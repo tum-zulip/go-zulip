@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf49 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf49{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf49 Event sent when a user group is deactivated but only to clients with `include_deactivated_groups` client capability set to `false`.  **Changes**: Prior to Zulip 10.0 (feature level 294), this event was sent when a user group was deleted. 
+// GetEvents200ResponseAllOfEventsInnerOneOf49 Event sent when a user group is deactivated but only to clients with `include_deactivated_groups` client capability set to `false`.  **Changes**: Prior to Zulip 10.0 (feature level 294), this event was sent when a user group was deleted.
 type GetEvents200ResponseAllOfEventsInnerOneOf49 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// The ID of the group which has been deleted. 
+	Op   *string `json:"op,omitempty"`
+	// The ID of the group which has been deleted.
 	GroupId *int32 `json:"group_id,omitempty"`
 }
 
@@ -173,7 +173,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf49) SetGroupId(v int32) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf49) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -232,5 +232,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf49) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,37 +17,37 @@ import (
 // checks if the UserGroup type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &UserGroup{}
 
-// UserGroup Object containing the user group's attributes. 
+// UserGroup Object containing the user group's attributes.
 type UserGroup struct {
-	// The name of the user group. 
+	// The name of the user group.
 	Name *string `json:"name,omitempty"`
-	// The UNIX timestamp for when the user group was created, in UTC seconds.  A `null` value means the user group has no recorded date, which is often because the user group is very old, or because it was created via a data import tool or [management command][management-commands].  **Changes**: New in Zulip 10.0 (feature level 292). [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html 
+	// The UNIX timestamp for when the user group was created, in UTC seconds.  A `null` value means the user group has no recorded date, which is often because the user group is very old, or because it was created via a data import tool or [management command][management-commands].  **Changes**: New in Zulip 10.0 (feature level 292). [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 	DateCreated NullableInt32 `json:"date_created,omitempty"`
-	// The ID of the user who created this user group.  A `null` value means the user group has no recorded creator, which is often because the user group is very old, or because it was created via a data import tool or [management command][management-commands].  **Changes**: New in Zulip 10.0 (feature level 292). [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html 
+	// The ID of the user who created this user group.  A `null` value means the user group has no recorded creator, which is often because the user group is very old, or because it was created via a data import tool or [management command][management-commands].  **Changes**: New in Zulip 10.0 (feature level 292). [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 	CreatorId NullableInt32 `json:"creator_id,omitempty"`
-	// The description of the user group. 
+	// The description of the user group.
 	Description *string `json:"description,omitempty"`
-	// Array containing the ID of the users who are members of this user group.  **Changes**: Prior to Zulip 10.0 (feature level 303), this list also included deactivated users who were members of the user group before being deactivated. 
+	// Array containing the ID of the users who are members of this user group.  **Changes**: Prior to Zulip 10.0 (feature level 303), this list also included deactivated users who were members of the user group before being deactivated.
 	Members []int32 `json:"members,omitempty"`
-	// Array containing the ID of the direct_subgroups of this user group.  **Changes**: New in Zulip 6.0 (feature level 131). Introduced in feature level 127 as `subgroups`, but clients can ignore older events as this feature level predates subgroups being fully implemented. 
+	// Array containing the ID of the direct_subgroups of this user group.  **Changes**: New in Zulip 6.0 (feature level 131). Introduced in feature level 127 as `subgroups`, but clients can ignore older events as this feature level predates subgroups being fully implemented.
 	DirectSubgroupIds []int32 `json:"direct_subgroup_ids,omitempty"`
-	// The ID of the user group. 
+	// The ID of the user group.
 	Id *int32 `json:"id,omitempty"`
-	// Whether the user group is a system group which cannot be directly modified by users.  **Changes**: New in Zulip 5.0 (feature level 93). 
+	// Whether the user group is a system group which cannot be directly modified by users.  **Changes**: New in Zulip 5.0 (feature level 93).
 	IsSystemGroup *bool `json:"is_system_group,omitempty"`
-	// A [group-setting value][setting-values] defining the set of users who have permission to add members to this user group.  **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.  Will be one of the following:  [setting-values]: /api/group-setting-values 
+	// A [group-setting value][setting-values] defining the set of users who have permission to add members to this user group.  **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.  Will be one of the following:  [setting-values]: /api/group-setting-values
 	CanAddMembersGroup *GroupSettingValue `json:"can_add_members_group,omitempty"`
-	// A [group-setting value][setting-values] defining the set of users who have permission to join this user group.  **Changes**: New in Zulip 10.0 (feature level 301).  Will be one of the following:  [setting-values]: /api/group-setting-values 
+	// A [group-setting value][setting-values] defining the set of users who have permission to join this user group.  **Changes**: New in Zulip 10.0 (feature level 301).  Will be one of the following:  [setting-values]: /api/group-setting-values
 	CanJoinGroup *GroupSettingValue `json:"can_join_group,omitempty"`
-	// A [group-setting value][setting-values] defining the set of users who have permission to leave this user group.  **Changes**: New in Zulip 10.0 (feature level 308).  Will be one of the following:  [setting-values]: /api/group-setting-values 
+	// A [group-setting value][setting-values] defining the set of users who have permission to leave this user group.  **Changes**: New in Zulip 10.0 (feature level 308).  Will be one of the following:  [setting-values]: /api/group-setting-values
 	CanLeaveGroup *GroupSettingValue `json:"can_leave_group,omitempty"`
-	// A [group-setting value][setting-values] defining the set of users who have permission to [manage this user group][manage-user-groups].  **Changes**: New in Zulip 10.0 (feature level 283).  Will be one of the following:  [setting-values]: /api/group-setting-values [manage-user-groups]: /help/manage-user-groups 
+	// A [group-setting value][setting-values] defining the set of users who have permission to [manage this user group][manage-user-groups].  **Changes**: New in Zulip 10.0 (feature level 283).  Will be one of the following:  [setting-values]: /api/group-setting-values [manage-user-groups]: /help/manage-user-groups
 	CanManageGroup *GroupSettingValue `json:"can_manage_group,omitempty"`
-	// A [group-setting value][setting-values] defining the set of users who have permission to [mention this user group][mentions].  **Changes**: Before Zulip 9.0 (feature level 258), this setting was always the integer form of a [group-setting value][setting-values].  Before Zulip 8.0 (feature level 198), this setting was named `can_mention_group_id`.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups][system-groups].  Will be one of the following:  [setting-values]: /api/group-setting-values [system-groups]: /api/group-setting-values#system-groups [mentions]: /help/mention-a-user-or-group 
+	// A [group-setting value][setting-values] defining the set of users who have permission to [mention this user group][mentions].  **Changes**: Before Zulip 9.0 (feature level 258), this setting was always the integer form of a [group-setting value][setting-values].  Before Zulip 8.0 (feature level 198), this setting was named `can_mention_group_id`.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups][system-groups].  Will be one of the following:  [setting-values]: /api/group-setting-values [system-groups]: /api/group-setting-values#system-groups [mentions]: /help/mention-a-user-or-group
 	CanMentionGroup *GroupSettingValue `json:"can_mention_group,omitempty"`
-	// A [group-setting value][setting-values] defining the set of users who have permission to remove members from this user group.  **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.  Will be one of the following:  [setting-values]: /api/group-setting-values 
+	// A [group-setting value][setting-values] defining the set of users who have permission to remove members from this user group.  **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.  Will be one of the following:  [setting-values]: /api/group-setting-values
 	CanRemoveMembersGroup *GroupSettingValue `json:"can_remove_members_group,omitempty"`
-	// Whether the user group is deactivated. Deactivated groups cannot be used as a subgroup of another group or used for any other purpose.  **Changes**: New in Zulip 10.0 (feature level 290). 
+	// Whether the user group is deactivated. Deactivated groups cannot be used as a subgroup of another group or used for any other purpose.  **Changes**: New in Zulip 10.0 (feature level 290).
 	Deactivated *bool `json:"deactivated,omitempty"`
 }
 
@@ -132,6 +132,7 @@ func (o *UserGroup) HasDateCreated() bool {
 func (o *UserGroup) SetDateCreated(v int32) {
 	o.DateCreated.Set(&v)
 }
+
 // SetDateCreatedNil sets the value for DateCreated to be an explicit nil
 func (o *UserGroup) SetDateCreatedNil() {
 	o.DateCreated.Set(nil)
@@ -174,6 +175,7 @@ func (o *UserGroup) HasCreatorId() bool {
 func (o *UserGroup) SetCreatorId(v int32) {
 	o.CreatorId.Set(&v)
 }
+
 // SetCreatorIdNil sets the value for CreatorId to be an explicit nil
 func (o *UserGroup) SetCreatorIdNil() {
 	o.CreatorId.Set(nil)
@@ -569,7 +571,7 @@ func (o *UserGroup) SetDeactivated(v bool) {
 }
 
 func (o UserGroup) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -661,5 +663,3 @@ func (v *NullableUserGroup) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

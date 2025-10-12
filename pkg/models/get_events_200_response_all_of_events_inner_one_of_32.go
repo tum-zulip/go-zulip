@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,18 +17,18 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf32 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf32{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf32 Event sent to a user's clients when the user mutes/unmutes a topic, or otherwise modifies their personal per-topic configuration.  **Changes**: New in Zulip 6.0 (feature level 134). Previously, clients were notified about changes in muted topic configuration via the `muted_topics` event type. 
+// GetEvents200ResponseAllOfEventsInnerOneOf32 Event sent to a user's clients when the user mutes/unmutes a topic, or otherwise modifies their personal per-topic configuration.  **Changes**: New in Zulip 6.0 (feature level 134). Previously, clients were notified about changes in muted topic configuration via the `muted_topics` event type.
 type GetEvents200ResponseAllOfEventsInnerOneOf32 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// The ID of the channel to which the topic belongs. 
+	// The ID of the channel to which the topic belongs.
 	StreamId *int32 `json:"stream_id,omitempty"`
-	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities 
+	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	TopicName *string `json:"topic_name,omitempty"`
-	// An integer UNIX timestamp representing when the user-topic relationship was last changed. 
+	// An integer UNIX timestamp representing when the user-topic relationship was last changed.
 	LastUpdated *int32 `json:"last_updated,omitempty"`
-	// An integer indicating the user's visibility preferences for the topic, such as whether the topic is muted.  - 0 = None. Used to indicate that the user no   longer has a special visibility policy for this topic. - 1 = Muted. Used to record [muted topics](/help/mute-a-topic). - 2 = Unmuted. Used to record unmuted topics. - 3 = Followed. Used to record [followed topics](/help/follow-a-topic).  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.  In Zulip 7.0 (feature level 170), added unmuted as a visibility policy option. 
+	// An integer indicating the user's visibility preferences for the topic, such as whether the topic is muted.  - 0 = None. Used to indicate that the user no   longer has a special visibility policy for this topic. - 1 = Muted. Used to record [muted topics](/help/mute-a-topic). - 2 = Unmuted. Used to record unmuted topics. - 3 = Followed. Used to record [followed topics](/help/follow-a-topic).  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.  In Zulip 7.0 (feature level 170), added unmuted as a visibility policy option.
 	VisibilityPolicy *int32 `json:"visibility_policy,omitempty"`
 }
 
@@ -242,7 +242,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf32) SetVisibilityPolicy(v int3
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf32) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -307,5 +307,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf32) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

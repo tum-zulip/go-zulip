@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,12 +17,12 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf29 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf29{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf29 Event sent to all users in a Zulip organization when the default channels in the organization are changed by an organization administrator. 
+// GetEvents200ResponseAllOfEventsInnerOneOf29 Event sent to all users in a Zulip organization when the default channels in the organization are changed by an organization administrator.
 type GetEvents200ResponseAllOfEventsInnerOneOf29 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// An array of IDs of all the [default channels](/help/set-default-streams-for-new-users) in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization. 
+	// An array of IDs of all the [default channels](/help/set-default-streams-for-new-users) in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
 	DefaultStreams []int32 `json:"default_streams,omitempty"`
 }
 
@@ -140,7 +140,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf29) SetDefaultStreams(v []int3
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf29) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -196,5 +196,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf29) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

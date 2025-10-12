@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the LegacyPresenceFormat type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &LegacyPresenceFormat{}
 
-// LegacyPresenceFormat `{client_name}` or `\"aggregated\"`: Object containing the details of the user's presence.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always contain two keys, `\"website\"` and `\"aggregated\"`, with identical data. The server no longer stores which client submitted presence updates.  Previously, the `{client_name}` keys for these objects were the names of the different clients where the user was logged in, for example `website` or `ZulipDesktop`. 
+// LegacyPresenceFormat `{client_name}` or `\"aggregated\"`: Object containing the details of the user's presence.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always contain two keys, `\"website\"` and `\"aggregated\"`, with identical data. The server no longer stores which client submitted presence updates.  Previously, the `{client_name}` keys for these objects were the names of the different clients where the user was logged in, for example `website` or `ZulipDesktop`.
 type LegacyPresenceFormat struct {
-	// The client's platform name.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always be `\"website\"` as the server no longer stores which client submitted presence data. 
+	// The client's platform name.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always be `\"website\"` as the server no longer stores which client submitted presence data.
 	Client *string `json:"client,omitempty"`
-	// The status of the user on this client. Will be either `\"idle\"` or `\"active\"`. 
+	// The status of the user on this client. Will be either `\"idle\"` or `\"active\"`.
 	Status *string `json:"status,omitempty"`
-	// The UNIX timestamp of when this client sent the user's presence to the server with the precision of a second. 
+	// The UNIX timestamp of when this client sent the user's presence to the server with the precision of a second.
 	Timestamp *int32 `json:"timestamp,omitempty"`
-	// Whether the client is capable of showing mobile/push notifications to the user.  Not present in objects with the `\"aggregated\"` key.  **Changes**: Starting with Zulip 7.0 (feature level 178), always `false` when present as the server no longer stores which client submitted presence data. 
+	// Whether the client is capable of showing mobile/push notifications to the user.  Not present in objects with the `\"aggregated\"` key.  **Changes**: Starting with Zulip 7.0 (feature level 178), always `false` when present as the server no longer stores which client submitted presence data.
 	Pushable *bool `json:"pushable,omitempty"`
 }
 
@@ -175,7 +175,7 @@ func (o *LegacyPresenceFormat) SetPushable(v bool) {
 }
 
 func (o LegacyPresenceFormat) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,5 +234,3 @@ func (v *NullableLegacyPresenceFormat) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

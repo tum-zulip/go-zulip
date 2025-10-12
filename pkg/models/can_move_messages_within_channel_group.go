@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the CanMoveMessagesWithinChannelGroup type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &CanMoveMessagesWithinChannelGroup{}
 
-// CanMoveMessagesWithinChannelGroup A [group-setting value][setting-values] defining the set of users who have permission to move messages within this channel.  Note that a user must [have content access](/help/channel-permissions) to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_topics_group` setting can always move messages within the channel if they [have content access](/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in `can_move_messages_between_topics_group` were able move messages between topics of a channel.  [setting-values]: /api/group-setting-values 
+// CanMoveMessagesWithinChannelGroup A [group-setting value][setting-values] defining the set of users who have permission to move messages within this channel.  Note that a user must [have content access](/help/channel-permissions) to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_topics_group` setting can always move messages within the channel if they [have content access](/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in `can_move_messages_between_topics_group` were able move messages between topics of a channel.  [setting-values]: /api/group-setting-values
 type CanMoveMessagesWithinChannelGroup struct {
-	// The list of IDs of individual users in the collection of users with this permission.  **Changes**: Prior to Zulip 10.0 (feature level 303), this list would include deactivated users who had the permission before being deactivated. 
+	// The list of IDs of individual users in the collection of users with this permission.  **Changes**: Prior to Zulip 10.0 (feature level 303), this list would include deactivated users who had the permission before being deactivated.
 	DirectMembers []int32 `json:"direct_members,omitempty"`
-	// The list of IDs of the groups in the collection of users with this permission. 
+	// The list of IDs of the groups in the collection of users with this permission.
 	DirectSubgroups []int32 `json:"direct_subgroups,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *CanMoveMessagesWithinChannelGroup) SetDirectSubgroups(v []int32) {
 }
 
 func (o CanMoveMessagesWithinChannelGroup) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableCanMoveMessagesWithinChannelGroup) UnmarshalJSON(src []byte) er
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

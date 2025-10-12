@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,12 +13,13 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
-// GetEvents200ResponseAllOfEventsInnerOneOf4Person - Object containing the changed details of the user. It has multiple forms depending on the value changed.  **Changes**: Removed `is_billing_admin` field in Zulip 10.0 (feature level 363), as it was replaced by the `can_manage_billing_group` realm setting. 
+// GetEvents200ResponseAllOfEventsInnerOneOf4Person - Object containing the changed details of the user. It has multiple forms depending on the value changed.  **Changes**: Removed `is_billing_admin` field in Zulip 10.0 (feature level 363), as it was replaced by the `can_manage_billing_group` realm setting.
 type GetEvents200ResponseAllOfEventsInnerOneOf4Person struct {
-	GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf
+	GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf  *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf
 	GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf1 *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf1
 	GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2 *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2
 	GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf3 *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf3
@@ -91,7 +92,6 @@ func GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf8AsGetEvents200Respons
 		GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf8: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *GetEvents200ResponseAllOfEventsInnerOneOf4Person) UnmarshalJSON(data []byte) error {
@@ -312,7 +312,7 @@ func (src GetEvents200ResponseAllOfEventsInnerOneOf4Person) MarshalJSON() ([]byt
 }
 
 // Get the actual instance
-func (obj *GetEvents200ResponseAllOfEventsInnerOneOf4Person) GetActualInstance() (interface{}) {
+func (obj *GetEvents200ResponseAllOfEventsInnerOneOf4Person) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -357,7 +357,7 @@ func (obj *GetEvents200ResponseAllOfEventsInnerOneOf4Person) GetActualInstance()
 }
 
 // Get the actual instance value
-func (obj GetEvents200ResponseAllOfEventsInnerOneOf4Person) GetActualInstanceValue() (interface{}) {
+func (obj GetEvents200ResponseAllOfEventsInnerOneOf4Person) GetActualInstanceValue() interface{} {
 	if obj.GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf != nil {
 		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf
 	}
@@ -433,5 +433,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf4Person) UnmarshalJSON
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

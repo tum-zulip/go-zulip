@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,23 +17,23 @@ import (
 // checks if the ChannelFolder type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ChannelFolder{}
 
-// ChannelFolder Object containing the channel folder's attributes. 
+// ChannelFolder Object containing the channel folder's attributes.
 type ChannelFolder struct {
-	// The name of the channel folder. 
+	// The name of the channel folder.
 	Name *string `json:"name,omitempty"`
-	// The UNIX timestamp for when the channel folder was created, in UTC seconds. 
+	// The UNIX timestamp for when the channel folder was created, in UTC seconds.
 	DateCreated NullableInt32 `json:"date_created,omitempty"`
-	// The ID of the user who created this channel folder. 
+	// The ID of the user who created this channel folder.
 	CreatorId NullableInt32 `json:"creator_id,omitempty"`
-	// The description of the channel folder.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format. 
+	// The description of the channel folder.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
 	Description *string `json:"description,omitempty"`
-	// The description of the channel folder rendered as HTML, intended to be used when displaying the channel folder description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message. 
+	// The description of the channel folder rendered as HTML, intended to be used when displaying the channel folder description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.
 	RenderedDescription *string `json:"rendered_description,omitempty"`
-	// This value determines in which order the channel folders will be displayed in the UI. The value is 0 indexed, and the value with the lower order will be displayed first.  **Changes**: New in Zulip 11.0 (feature level 414). 
+	// This value determines in which order the channel folders will be displayed in the UI. The value is 0 indexed, and the value with the lower order will be displayed first.  **Changes**: New in Zulip 11.0 (feature level 414).
 	Order *int32 `json:"order,omitempty"`
-	// The ID of the channel folder. 
+	// The ID of the channel folder.
 	Id *int32 `json:"id,omitempty"`
-	// Whether the channel folder is archived or not. 
+	// Whether the channel folder is archived or not.
 	IsArchived *bool `json:"is_archived,omitempty"`
 }
 
@@ -118,6 +118,7 @@ func (o *ChannelFolder) HasDateCreated() bool {
 func (o *ChannelFolder) SetDateCreated(v int32) {
 	o.DateCreated.Set(&v)
 }
+
 // SetDateCreatedNil sets the value for DateCreated to be an explicit nil
 func (o *ChannelFolder) SetDateCreatedNil() {
 	o.DateCreated.Set(nil)
@@ -160,6 +161,7 @@ func (o *ChannelFolder) HasCreatorId() bool {
 func (o *ChannelFolder) SetCreatorId(v int32) {
 	o.CreatorId.Set(&v)
 }
+
 // SetCreatorIdNil sets the value for CreatorId to be an explicit nil
 func (o *ChannelFolder) SetCreatorIdNil() {
 	o.CreatorId.Set(nil)
@@ -331,7 +333,7 @@ func (o *ChannelFolder) SetIsArchived(v bool) {
 }
 
 func (o ChannelFolder) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -402,5 +404,3 @@ func (v *NullableChannelFolder) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

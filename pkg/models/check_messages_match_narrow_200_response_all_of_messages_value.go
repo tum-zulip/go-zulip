@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the CheckMessagesMatchNarrow200ResponseAllOfMessagesValue type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &CheckMessagesMatchNarrow200ResponseAllOfMessagesValue{}
 
-// CheckMessagesMatchNarrow200ResponseAllOfMessagesValue `message_id`: The ID of the message that matches the narrow. No record will be returned for queried messages that do not match the narrow. 
+// CheckMessagesMatchNarrow200ResponseAllOfMessagesValue `message_id`: The ID of the message that matches the narrow. No record will be returned for queried messages that do not match the narrow.
 type CheckMessagesMatchNarrow200ResponseAllOfMessagesValue struct {
-	// HTML content of a queried message that matches the narrow. If the narrow is a search narrow, `<span class=\"highlight\">` elements will be included, wrapping the matches for the search keywords. 
+	// HTML content of a queried message that matches the narrow. If the narrow is a search narrow, `<span class=\"highlight\">` elements will be included, wrapping the matches for the search keywords.
 	MatchContent *string `json:"match_content,omitempty"`
-	// HTML-escaped topic of a queried message that matches the narrow. If the narrow is a search narrow, `<span class=\"highlight\">` elements will be included wrapping the matches for the search keywords. 
+	// HTML-escaped topic of a queried message that matches the narrow. If the narrow is a search narrow, `<span class=\"highlight\">` elements will be included wrapping the matches for the search keywords.
 	MatchSubject *string `json:"match_subject,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *CheckMessagesMatchNarrow200ResponseAllOfMessagesValue) SetMatchSubject(
 }
 
 func (o CheckMessagesMatchNarrow200ResponseAllOfMessagesValue) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableCheckMessagesMatchNarrow200ResponseAllOfMessagesValue) Unmarsha
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

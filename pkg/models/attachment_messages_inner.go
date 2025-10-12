@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,9 +19,9 @@ var _ MappedNullable = &AttachmentMessagesInner{}
 
 // AttachmentMessagesInner struct for AttachmentMessagesInner
 type AttachmentMessagesInner struct {
-	// Time when the message was sent as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 3.0 (feature level 22). This field was previously strangely called `name` and was a floating point number. 
+	// Time when the message was sent as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 3.0 (feature level 22). This field was previously strangely called `name` and was a floating point number.
 	DateSent *int32 `json:"date_sent,omitempty"`
-	// The unique message ID. Messages should always be displayed sorted by ID. 
+	// The unique message ID. Messages should always be displayed sorted by ID.
 	Id *int32 `json:"id,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *AttachmentMessagesInner) SetId(v int32) {
 }
 
 func (o AttachmentMessagesInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableAttachmentMessagesInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

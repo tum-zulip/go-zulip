@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,9 +17,9 @@ import (
 // checks if the RegisterQueue200ResponseAllOfRealmBilling type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RegisterQueue200ResponseAllOfRealmBilling{}
 
-// RegisterQueue200ResponseAllOfRealmBilling Present if `realm_billing` is present in `fetch_event_types`.  A dictionary containing billing information of the organization.  **Changes**: New in Zulip 10.0 (feature level 363). 
+// RegisterQueue200ResponseAllOfRealmBilling Present if `realm_billing` is present in `fetch_event_types`.  A dictionary containing billing information of the organization.  **Changes**: New in Zulip 10.0 (feature level 363).
 type RegisterQueue200ResponseAllOfRealmBilling struct {
-	// Whether there is a pending sponsorship request for the organization. Note that this field will always be `false` if the user is not in `can_manage_billing_group`.  **Changes**: New in Zulip 10.0 (feature level 363). 
+	// Whether there is a pending sponsorship request for the organization. Note that this field will always be `false` if the user is not in `can_manage_billing_group`.  **Changes**: New in Zulip 10.0 (feature level 363).
 	HasPendingSponsorshipRequest *bool `json:"has_pending_sponsorship_request,omitempty"`
 }
 
@@ -73,7 +73,7 @@ func (o *RegisterQueue200ResponseAllOfRealmBilling) SetHasPendingSponsorshipRequ
 }
 
 func (o RegisterQueue200ResponseAllOfRealmBilling) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -123,5 +123,3 @@ func (v *NullableRegisterQueue200ResponseAllOfRealmBilling) UnmarshalJSON(src []
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

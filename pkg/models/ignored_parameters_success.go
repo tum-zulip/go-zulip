@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,19 +11,20 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
 // checks if the IgnoredParametersSuccess type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &IgnoredParametersSuccess{}
 
-// IgnoredParametersSuccess **Changes**: The [`ignored_parameters_unsupported`][ignored_params] array was added as a possible return value for all REST API endpoint JSON success responses in Zulip 7.0 (feature level 167).  Previously, it was added to [`POST /users/me/subscriptions/properties`](/api/update-subscription-settings) in Zulip 5.0 (feature level 111) and to [`PATCH /realm/user_settings_defaults`](/api/update-realm-user-settings-defaults) in Zulip 5.0 (feature level 96). The feature was introduced in Zulip 5.0 (feature level 78) as a return value for the [`PATCH /settings`](/api/update-settings) endpoint.  A typical successful JSON response with ignored parameters may look like:  [ignored_params]: /api/rest-error-handling#ignored-parameters 
+// IgnoredParametersSuccess **Changes**: The [`ignored_parameters_unsupported`][ignored_params] array was added as a possible return value for all REST API endpoint JSON success responses in Zulip 7.0 (feature level 167).  Previously, it was added to [`POST /users/me/subscriptions/properties`](/api/update-subscription-settings) in Zulip 5.0 (feature level 111) and to [`PATCH /realm/user_settings_defaults`](/api/update-realm-user-settings-defaults) in Zulip 5.0 (feature level 96). The feature was introduced in Zulip 5.0 (feature level 78) as a return value for the [`PATCH /settings`](/api/update-settings) endpoint.  A typical successful JSON response with ignored parameters may look like:  [ignored_params]: /api/rest-error-handling#ignored-parameters
 type IgnoredParametersSuccess struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	IgnoredParametersUnsupported interface{} `json:"ignored_parameters_unsupported,omitempty"`
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 }
 
 type _IgnoredParametersSuccess IgnoredParametersSuccess
@@ -32,7 +33,7 @@ type _IgnoredParametersSuccess IgnoredParametersSuccess
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewIgnoredParametersSuccess(result interface{}, msg interface{}) *IgnoredParametersSuccess {
+func NewIgnoredParametersSuccess(result string, msg string) *IgnoredParametersSuccess {
 	this := IgnoredParametersSuccess{}
 	this.Result = result
 	this.Msg = msg
@@ -48,10 +49,9 @@ func NewIgnoredParametersSuccessWithDefaults() *IgnoredParametersSuccess {
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *IgnoredParametersSuccess) GetResult() interface{} {
+func (o *IgnoredParametersSuccess) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -60,24 +60,22 @@ func (o *IgnoredParametersSuccess) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *IgnoredParametersSuccess) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *IgnoredParametersSuccess) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *IgnoredParametersSuccess) SetResult(v interface{}) {
+func (o *IgnoredParametersSuccess) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *IgnoredParametersSuccess) GetMsg() interface{} {
+func (o *IgnoredParametersSuccess) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -86,23 +84,22 @@ func (o *IgnoredParametersSuccess) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *IgnoredParametersSuccess) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *IgnoredParametersSuccess) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *IgnoredParametersSuccess) SetMsg(v interface{}) {
+func (o *IgnoredParametersSuccess) SetMsg(v string) {
 	o.Msg = v
 }
 
-// GetIgnoredParametersUnsupported returns the IgnoredParametersUnsupported field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *IgnoredParametersSuccess) GetIgnoredParametersUnsupported() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetIgnoredParametersUnsupported returns the IgnoredParametersUnsupported field value if set, zero value otherwise.
+func (o *IgnoredParametersSuccess) GetIgnoredParametersUnsupported() []string {
+	if o == nil || IsNil(o.IgnoredParametersUnsupported) {
+		var ret []string
 		return ret
 	}
 	return o.IgnoredParametersUnsupported
@@ -110,12 +107,11 @@ func (o *IgnoredParametersSuccess) GetIgnoredParametersUnsupported() interface{}
 
 // GetIgnoredParametersUnsupportedOk returns a tuple with the IgnoredParametersUnsupported field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *IgnoredParametersSuccess) GetIgnoredParametersUnsupportedOk() (*interface{}, bool) {
+func (o *IgnoredParametersSuccess) GetIgnoredParametersUnsupportedOk() ([]string, bool) {
 	if o == nil || IsNil(o.IgnoredParametersUnsupported) {
 		return nil, false
 	}
-	return &o.IgnoredParametersUnsupported, true
+	return o.IgnoredParametersUnsupported, true
 }
 
 // HasIgnoredParametersUnsupported returns a boolean if a field has been set.
@@ -127,13 +123,13 @@ func (o *IgnoredParametersSuccess) HasIgnoredParametersUnsupported() bool {
 	return false
 }
 
-// SetIgnoredParametersUnsupported gets a reference to the given interface{} and assigns it to the IgnoredParametersUnsupported field.
-func (o *IgnoredParametersSuccess) SetIgnoredParametersUnsupported(v interface{}) {
+// SetIgnoredParametersUnsupported gets a reference to the given []string and assigns it to the IgnoredParametersUnsupported field.
+func (o *IgnoredParametersSuccess) SetIgnoredParametersUnsupported(v []string) {
 	o.IgnoredParametersUnsupported = v
 }
 
 func (o IgnoredParametersSuccess) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -142,13 +138,9 @@ func (o IgnoredParametersSuccess) MarshalJSON() ([]byte, error) {
 
 func (o IgnoredParametersSuccess) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.IgnoredParametersUnsupported != nil {
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	if !IsNil(o.IgnoredParametersUnsupported) {
 		toSerialize["ignored_parameters_unsupported"] = o.IgnoredParametersUnsupported
 	}
 	return toSerialize, nil
@@ -168,10 +160,10 @@ func (o *IgnoredParametersSuccess) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -227,5 +219,3 @@ func (v *NullableIgnoredParametersSuccess) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

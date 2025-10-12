@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the ModernPresenceFormat type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ModernPresenceFormat{}
 
-// ModernPresenceFormat `{user_id}`: Presence data (modern format) for the user with the specified ID. 
+// ModernPresenceFormat `{user_id}`: Presence data (modern format) for the user with the specified ID.
 type ModernPresenceFormat struct {
-	// The UNIX timestamp of the last time a client connected to Zulip reported that the user was actually present (e.g. via focusing a browser window or interacting with a computer running the desktop app).  Clients should display users with a current `active_timestamp` as fully present. 
+	// The UNIX timestamp of the last time a client connected to Zulip reported that the user was actually present (e.g. via focusing a browser window or interacting with a computer running the desktop app).  Clients should display users with a current `active_timestamp` as fully present.
 	ActiveTimestamp *int32 `json:"active_timestamp,omitempty"`
-	// The UNIX timestamp of the last time the user had a client connected to Zulip, including idle clients where the user hasn't interacted with the system recently.  The Zulip server has no way of distinguishing whether an idle web app user is at their computer, but hasn't interacted with the Zulip tab recently, or simply left their desktop computer on when they left.  Thus, clients should display users with a current `idle_timestamp` but no current `active_timestamp` as potentially present. 
+	// The UNIX timestamp of the last time the user had a client connected to Zulip, including idle clients where the user hasn't interacted with the system recently.  The Zulip server has no way of distinguishing whether an idle web app user is at their computer, but hasn't interacted with the Zulip tab recently, or simply left their desktop computer on when they left.  Thus, clients should display users with a current `idle_timestamp` but no current `active_timestamp` as potentially present.
 	IdleTimestamp *int32 `json:"idle_timestamp,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *ModernPresenceFormat) SetIdleTimestamp(v int32) {
 }
 
 func (o ModernPresenceFormat) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableModernPresenceFormat) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

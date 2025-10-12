@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the EmojiReactionEventAllOfUser type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &EmojiReactionEventAllOfUser{}
 
-// EmojiReactionEventAllOfUser Dictionary with data on the user who added the reaction, including the user ID as the `user_id` field.  **Changes**: This field was re-added in Zulip 10.0 (feature level 339) after having been removed in Zulip 10.0 (feature level 328). It remains deprecated; it was re-added because the React Native mobile app was still using it.  **Deprecated** and to be removed in a future release once core clients have migrated to use the adjacent `user_id` field, which was introduced in Zulip 3.0 (feature level 2). Clients supporting older Zulip server versions should use the user ID mentioned in the description above as they would the `user_id` field. 
+// EmojiReactionEventAllOfUser Dictionary with data on the user who added the reaction, including the user ID as the `user_id` field.  **Changes**: This field was re-added in Zulip 10.0 (feature level 339) after having been removed in Zulip 10.0 (feature level 328). It remains deprecated; it was re-added because the React Native mobile app was still using it.  **Deprecated** and to be removed in a future release once core clients have migrated to use the adjacent `user_id` field, which was introduced in Zulip 3.0 (feature level 2). Clients supporting older Zulip server versions should use the user ID mentioned in the description above as they would the `user_id` field.
 type EmojiReactionEventAllOfUser struct {
-	// ID of the user. 
+	// ID of the user.
 	UserId *int32 `json:"user_id,omitempty"`
-	// Zulip API email of the user. 
+	// Zulip API email of the user.
 	Email *string `json:"email,omitempty"`
-	// Full name of the user. 
+	// Full name of the user.
 	FullName *string `json:"full_name,omitempty"`
-	// Whether the user is a mirror dummy. 
+	// Whether the user is a mirror dummy.
 	IsMirrorDummy *bool `json:"is_mirror_dummy,omitempty"`
 }
 
@@ -175,7 +175,7 @@ func (o *EmojiReactionEventAllOfUser) SetIsMirrorDummy(v bool) {
 }
 
 func (o EmojiReactionEventAllOfUser) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,5 +234,3 @@ func (v *NullableEmojiReactionEventAllOfUser) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

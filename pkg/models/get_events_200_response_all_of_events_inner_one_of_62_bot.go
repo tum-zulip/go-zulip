@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,9 +17,9 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf62Bot type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf62Bot{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf62Bot Object containing details about the deactivated bot. 
+// GetEvents200ResponseAllOfEventsInnerOneOf62Bot Object containing details about the deactivated bot.
 type GetEvents200ResponseAllOfEventsInnerOneOf62Bot struct {
-	// The user ID of the deactivated bot. 
+	// The user ID of the deactivated bot.
 	UserId *int32 `json:"user_id,omitempty"`
 }
 
@@ -73,7 +73,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf62Bot) SetUserId(v int32) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf62Bot) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -123,5 +123,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf62Bot) UnmarshalJSON(s
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

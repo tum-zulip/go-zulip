@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,14 +17,14 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf23 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf23{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf23 Event sent to a user's clients when the user deletes a file they had uploaded. Useful primarily for UI showing all the files the current user has uploaded. 
+// GetEvents200ResponseAllOfEventsInnerOneOf23 Event sent to a user's clients when the user deletes a file they had uploaded. Useful primarily for UI showing all the files the current user has uploaded.
 type GetEvents200ResponseAllOfEventsInnerOneOf23 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
-	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id         *int32                                                 `json:"id,omitempty"`
+	Type       *string                                                `json:"type,omitempty"`
+	Op         *string                                                `json:"op,omitempty"`
 	Attachment *GetEvents200ResponseAllOfEventsInnerOneOf23Attachment `json:"attachment,omitempty"`
-	// The total size of all files uploaded by in the organization, in bytes. 
+	// The total size of all files uploaded by in the organization, in bytes.
 	UploadSpaceUsed *int32 `json:"upload_space_used,omitempty"`
 }
 
@@ -206,7 +206,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf23) SetUploadSpaceUsed(v int32
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf23) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -268,5 +268,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf23) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

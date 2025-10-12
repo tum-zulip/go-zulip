@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,17 +17,17 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf1 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf1{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf1 When a user changes their avatar. 
+// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf1 When a user changes their avatar.
 type GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf1 struct {
-	// The ID of the user who is affected by this change. 
+	// The ID of the user who is affected by this change.
 	UserId *int32 `json:"user_id,omitempty"`
-	// The URL of the new avatar for the user. 
+	// The URL of the new avatar for the user.
 	AvatarUrl *string `json:"avatar_url,omitempty"`
-	// The new avatar data source type for the user.  Value values are `G` (gravatar) and `U` (uploaded by user). 
+	// The new avatar data source type for the user.  Value values are `G` (gravatar) and `U` (uploaded by user).
 	AvatarSource *string `json:"avatar_source,omitempty"`
-	// The new medium-size avatar URL for user. 
+	// The new medium-size avatar URL for user.
 	AvatarUrlMedium *string `json:"avatar_url_medium,omitempty"`
-	// The version number for the user's avatar. This is useful for cache-busting. 
+	// The version number for the user's avatar. This is useful for cache-busting.
 	AvatarVersion *int32 `json:"avatar_version,omitempty"`
 }
 
@@ -209,7 +209,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf1) SetAvatarVersio
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf1) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -271,5 +271,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf1) Unmarsh
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

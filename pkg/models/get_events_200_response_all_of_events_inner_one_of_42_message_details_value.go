@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,27 +11,27 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue `{message_id}`: Object containing details about the message with the specified ID. 
+// GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue `{message_id}`: Object containing details about the message with the specified ID.
 type GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue struct {
-	// The type of this message. Either `\"stream\"` or `\"private\"`. 
+	// The type of this message. Either `\"stream\"` or `\"private\"`.
 	Type string `json:"type"`
-	// A flag which indicates whether the message contains a mention of the user.  Present only if the message mentions the current user. 
+	// A flag which indicates whether the message contains a mention of the user.  Present only if the message mentions the current user.
 	Mentioned *bool `json:"mentioned,omitempty"`
-	// Present only if `type` is `private`.  The user IDs of every recipient of this direct message, excluding yourself. Will be the empty list for a message you had sent to only yourself. 
+	// Present only if `type` is `private`.  The user IDs of every recipient of this direct message, excluding yourself. Will be the empty list for a message you had sent to only yourself.
 	UserIds []int32 `json:"user_ids,omitempty"`
-	// Present only if `type` is `\"stream\"`.  The ID of the channel where the message was sent. 
+	// Present only if `type` is `\"stream\"`.  The ID of the channel where the message was sent.
 	StreamId *int32 `json:"stream_id,omitempty"`
-	// Present only if `type` is `\"stream\"`.  Name of the topic where the message was sent.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities 
+	// Present only if `type` is `\"stream\"`.  Name of the topic where the message was sent.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
-	// **Deprecated** internal implementation detail. Clients should ignore this field as it will be removed in the future. 
+	// **Deprecated** internal implementation detail. Clients should ignore this field as it will be removed in the future.
 	// Deprecated
 	UnmutedStreamMsg *bool `json:"unmuted_stream_msg,omitempty"`
 }
@@ -244,7 +244,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) SetUnmu
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -285,10 +285,10 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) Unmarsh
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -344,5 +344,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue)
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

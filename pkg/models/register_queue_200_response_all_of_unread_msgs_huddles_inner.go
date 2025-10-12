@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,9 +19,9 @@ var _ MappedNullable = &RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner{}
 
 // RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner struct for RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner
 type RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner struct {
-	// A string containing the IDs of all users in the group direct message conversation, including the current user, separated by commas and sorted numerically; for example: `\"1,2,3\"`. 
+	// A string containing the IDs of all users in the group direct message conversation, including the current user, separated by commas and sorted numerically; for example: `\"1,2,3\"`.
 	UserIdsString *string `json:"user_ids_string,omitempty"`
-	// The message IDs of the recent unread messages which have been sent in this group direct message conversation, sorted in ascending order. 
+	// The message IDs of the recent unread messages which have been sent in this group direct message conversation, sorted in ascending order.
 	UnreadMessageIds []int32 `json:"unread_message_ids,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) SetUnreadMessageId
 }
 
 func (o RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) UnmarshalJ
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,13 +13,14 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
-// MessagesBaseDisplayRecipient - Data on the recipient of the message; either the name of a channel or a dictionary containing basic data on the users who received the message. 
+// MessagesBaseDisplayRecipient - Data on the recipient of the message; either the name of a channel or a dictionary containing basic data on the users who received the message.
 type MessagesBaseDisplayRecipient struct {
 	ArrayOfMessagesBaseDisplayRecipientOneOfInner *[]MessagesBaseDisplayRecipientOneOfInner
-	String *string
+	String                                        *string
 }
 
 // []MessagesBaseDisplayRecipientOneOfInnerAsMessagesBaseDisplayRecipient is a convenience function that returns []MessagesBaseDisplayRecipientOneOfInner wrapped in MessagesBaseDisplayRecipient
@@ -35,7 +36,6 @@ func StringAsMessagesBaseDisplayRecipient(v *string) MessagesBaseDisplayRecipien
 		String: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *MessagesBaseDisplayRecipient) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src MessagesBaseDisplayRecipient) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *MessagesBaseDisplayRecipient) GetActualInstance() (interface{}) {
+func (obj *MessagesBaseDisplayRecipient) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *MessagesBaseDisplayRecipient) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj MessagesBaseDisplayRecipient) GetActualInstanceValue() (interface{}) {
+func (obj MessagesBaseDisplayRecipient) GetActualInstanceValue() interface{} {
 	if obj.ArrayOfMessagesBaseDisplayRecipientOneOfInner != nil {
 		return *obj.ArrayOfMessagesBaseDisplayRecipientOneOfInner
 	}
@@ -167,5 +167,3 @@ func (v *NullableMessagesBaseDisplayRecipient) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

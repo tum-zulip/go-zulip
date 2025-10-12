@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,15 +19,15 @@ var _ MappedNullable = &MessagesBaseSubmessagesInner{}
 
 // MessagesBaseSubmessagesInner struct for MessagesBaseSubmessagesInner
 type MessagesBaseSubmessagesInner struct {
-	// The type of the message. 
+	// The type of the message.
 	MsgType *string `json:"msg_type,omitempty"`
-	// The new content of the submessage. 
+	// The new content of the submessage.
 	Content *string `json:"content,omitempty"`
-	// The ID of the message to which the submessage has been added. 
+	// The ID of the message to which the submessage has been added.
 	MessageId *int32 `json:"message_id,omitempty"`
-	// The ID of the user who sent the message. 
+	// The ID of the user who sent the message.
 	SenderId *int32 `json:"sender_id,omitempty"`
-	// The ID of the submessage. 
+	// The ID of the submessage.
 	Id *int32 `json:"id,omitempty"`
 }
 
@@ -209,7 +209,7 @@ func (o *MessagesBaseSubmessagesInner) SetId(v int32) {
 }
 
 func (o MessagesBaseSubmessagesInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -271,5 +271,3 @@ func (v *NullableMessagesBaseSubmessagesInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

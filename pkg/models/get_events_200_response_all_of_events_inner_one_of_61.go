@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf61 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf61{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf61 Event sent to all users when a bot has been deactivated.  **Changes**: Deprecated and no longer sent since Zulip 8.0 (feature level 222).  Previously, this event was sent to all users in a Zulip organization when a bot was deactivated. 
+// GetEvents200ResponseAllOfEventsInnerOneOf61 Event sent to all users when a bot has been deactivated.  **Changes**: Deprecated and no longer sent since Zulip 8.0 (feature level 222).  Previously, this event was sent to all users in a Zulip organization when a bot was deactivated.
 type GetEvents200ResponseAllOfEventsInnerOneOf61 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
-	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	Bot *GetEvents200ResponseAllOfEventsInnerOneOf61Bot `json:"bot,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32                                          `json:"id,omitempty"`
+	Type *string                                         `json:"type,omitempty"`
+	Op   *string                                         `json:"op,omitempty"`
+	Bot  *GetEvents200ResponseAllOfEventsInnerOneOf61Bot `json:"bot,omitempty"`
 }
 
 // NewGetEvents200ResponseAllOfEventsInnerOneOf61 instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf61 object
@@ -172,7 +172,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf61) SetBot(v GetEvents200Respo
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf61) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -231,5 +231,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf61) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,12 +13,13 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
-// Principals - A list of user IDs (preferred) or Zulip API email addresses of the users to be subscribed to or unsubscribed from the channels specified in the `subscriptions` parameter. If not provided, then the requesting user/bot is subscribed.  **Changes**: The integer format is new in Zulip 3.0 (feature level 9). 
+// Principals - A list of user IDs (preferred) or Zulip API email addresses of the users to be subscribed to or unsubscribed from the channels specified in the `subscriptions` parameter. If not provided, then the requesting user/bot is subscribed.  **Changes**: The integer format is new in Zulip 3.0 (feature level 9).
 type Principals struct {
-	ArrayOfInt32 *[]int32
+	ArrayOfInt32  *[]int32
 	ArrayOfString *[]string
 }
 
@@ -35,7 +36,6 @@ func ArrayOfStringAsPrincipals(v *[]string) Principals {
 		ArrayOfString: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Principals) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src Principals) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *Principals) GetActualInstance() (interface{}) {
+func (obj *Principals) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *Principals) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj Principals) GetActualInstanceValue() (interface{}) {
+func (obj Principals) GetActualInstanceValue() interface{} {
 	if obj.ArrayOfInt32 != nil {
 		return *obj.ArrayOfInt32
 	}
@@ -167,5 +167,3 @@ func (v *NullablePrincipals) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

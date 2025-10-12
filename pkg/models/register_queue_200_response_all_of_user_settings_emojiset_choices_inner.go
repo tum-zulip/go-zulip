@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner{}
 
-// RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner Object describing a emoji set. 
+// RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner Object describing a emoji set.
 type RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner struct {
-	// The key or the name of the emoji set which will be the value of `emojiset` if this emoji set is chosen. 
+	// The key or the name of the emoji set which will be the value of `emojiset` if this emoji set is chosen.
 	Key *string `json:"key,omitempty"`
-	// The text describing the emoji set. 
+	// The text describing the emoji set.
 	Text *string `json:"text,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner) SetText(
 }
 
 func (o RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableRegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner) 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,12 +17,12 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf35 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf35{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf35 Event sent when the set of onboarding steps to show for the current user has changed (e.g. because the user dismissed one).  Clients that feature a similar tutorial experience to the Zulip web app may want to handle these events.  **Changes**: Before Zulip 8.0 (feature level 233), this event was named `hotspots`. Prior to this feature level, one-time notice onboarding steps were not supported. 
+// GetEvents200ResponseAllOfEventsInnerOneOf35 Event sent when the set of onboarding steps to show for the current user has changed (e.g. because the user dismissed one).  Clients that feature a similar tutorial experience to the Zulip web app may want to handle these events.  **Changes**: Before Zulip 8.0 (feature level 233), this event was named `hotspots`. Prior to this feature level, one-time notice onboarding steps were not supported.
 type GetEvents200ResponseAllOfEventsInnerOneOf35 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// An array of dictionaries where each dictionary contains details about a single onboarding step.  **Changes**: Before Zulip 8.0 (feature level 233), this array was named `hotspots`. Prior to this feature level, one-time notice onboarding steps were not supported, and the `type` field in these objects did not exist as all onboarding steps were implicitly hotspots. 
+	// An array of dictionaries where each dictionary contains details about a single onboarding step.  **Changes**: Before Zulip 8.0 (feature level 233), this array was named `hotspots`. Prior to this feature level, one-time notice onboarding steps were not supported, and the `type` field in these objects did not exist as all onboarding steps were implicitly hotspots.
 	OnboardingSteps []OnboardingStep `json:"onboarding_steps,omitempty"`
 }
 
@@ -140,7 +140,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf35) SetOnboardingSteps(v []Onb
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf35) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -196,5 +196,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf35) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

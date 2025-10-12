@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,16 +17,16 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf39 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf39{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf39 Event sent when a user starts editing a message. Event sent when a user starts typing in a textarea to edit the content of a message. See the [edit message typing notifications endpoint](/api/set-typing-status-for-message-edit).  Clients requesting `typing_edit_message` event type that have `receives_typing_notifications` enabled will receive this event if they would have been notified if the message's content edit were to be saved (E.g., because they were a direct message recipient or are a subscribe to the channel).  **Changes**: New in Zulip 10.0 (feature level 351). Previously, typing notifications were not available when editing messages. 
+// GetEvents200ResponseAllOfEventsInnerOneOf39 Event sent when a user starts editing a message. Event sent when a user starts typing in a textarea to edit the content of a message. See the [edit message typing notifications endpoint](/api/set-typing-status-for-message-edit).  Clients requesting `typing_edit_message` event type that have `receives_typing_notifications` enabled will receive this event if they would have been notified if the message's content edit were to be saved (E.g., because they were a direct message recipient or are a subscribe to the channel).  **Changes**: New in Zulip 10.0 (feature level 351). Previously, typing notifications were not available when editing messages.
 type GetEvents200ResponseAllOfEventsInnerOneOf39 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// The ID of the user who is typing the edit of the message.  Clients should be careful to display this user as the person who is typing, not that of the sender of the message, in case a collaborative editing feature be might be added in the future. 
+	Op   *string `json:"op,omitempty"`
+	// The ID of the user who is typing the edit of the message.  Clients should be careful to display this user as the person who is typing, not that of the sender of the message, in case a collaborative editing feature be might be added in the future.
 	SenderId *int32 `json:"sender_id,omitempty"`
-	// Indicates the message id of the message that is being edited. 
-	MessageId *int32 `json:"message_id,omitempty"`
+	// Indicates the message id of the message that is being edited.
+	MessageId *int32                                                `json:"message_id,omitempty"`
 	Recipient *GetEvents200ResponseAllOfEventsInnerOneOf39Recipient `json:"recipient,omitempty"`
 }
 
@@ -240,7 +240,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf39) SetRecipient(v GetEvents20
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf39) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -305,5 +305,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf39) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

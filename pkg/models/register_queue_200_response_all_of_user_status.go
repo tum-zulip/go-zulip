@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,18 +17,18 @@ import (
 // checks if the RegisterQueue200ResponseAllOfUserStatus type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RegisterQueue200ResponseAllOfUserStatus{}
 
-// RegisterQueue200ResponseAllOfUserStatus `{user_id}`: Object containing the status details of a user with the key of the object being the ID of the user. 
+// RegisterQueue200ResponseAllOfUserStatus `{user_id}`: Object containing the status details of a user with the key of the object being the ID of the user.
 type RegisterQueue200ResponseAllOfUserStatus struct {
-	// If present, the user has marked themself \"away\".  **Changes**: Deprecated in Zulip 6.0 (feature level 148); starting with that feature level, `away` is a legacy way to access the user's `presence_enabled` setting, with `away = !presence_enabled`. To be removed in a future release. 
+	// If present, the user has marked themself \"away\".  **Changes**: Deprecated in Zulip 6.0 (feature level 148); starting with that feature level, `away` is a legacy way to access the user's `presence_enabled` setting, with `away = !presence_enabled`. To be removed in a future release.
 	// Deprecated
 	Away *bool `json:"away,omitempty"`
-	// If present, the text content of the user's status message. 
+	// If present, the text content of the user's status message.
 	StatusText *string `json:"status_text,omitempty"`
-	// If present, the name for the emoji to associate with the user's status.  **Changes**: New in Zulip 5.0 (feature level 86). 
+	// If present, the name for the emoji to associate with the user's status.  **Changes**: New in Zulip 5.0 (feature level 86).
 	EmojiName *string `json:"emoji_name,omitempty"`
-	// If present, a unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  **Changes**: New in Zulip 5.0 (feature level 86). 
+	// If present, a unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  **Changes**: New in Zulip 5.0 (feature level 86).
 	EmojiCode *string `json:"emoji_code,omitempty"`
-	// If present, a string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the ID of   the uploaded [custom emoji](/help/custom-emoji).  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \"zulip\").  **Changes**: New in Zulip 5.0 (feature level 86). 
+	// If present, a string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the ID of   the uploaded [custom emoji](/help/custom-emoji).  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \"zulip\").  **Changes**: New in Zulip 5.0 (feature level 86).
 	ReactionType *string `json:"reaction_type,omitempty"`
 }
 
@@ -213,7 +213,7 @@ func (o *RegisterQueue200ResponseAllOfUserStatus) SetReactionType(v string) {
 }
 
 func (o RegisterQueue200ResponseAllOfUserStatus) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -275,5 +275,3 @@ func (v *NullableRegisterQueue200ResponseAllOfUserStatus) UnmarshalJSON(src []by
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

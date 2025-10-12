@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,11 +19,11 @@ var _ MappedNullable = &WebhookConfigOptionInner{}
 
 // WebhookConfigOptionInner struct for WebhookConfigOptionInner
 type WebhookConfigOptionInner struct {
-	// A key for the configuration option. 
+	// A key for the configuration option.
 	Key *string `json:"key,omitempty"`
-	// A human-readable label of the configuration option. 
+	// A human-readable label of the configuration option.
 	Label *string `json:"label,omitempty"`
-	// The name of the validator function for the configuration option. 
+	// The name of the validator function for the configuration option.
 	Validator *string `json:"validator,omitempty"`
 }
 
@@ -141,7 +141,7 @@ func (o *WebhookConfigOptionInner) SetValidator(v string) {
 }
 
 func (o WebhookConfigOptionInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -197,5 +197,3 @@ func (v *NullableWebhookConfigOptionInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

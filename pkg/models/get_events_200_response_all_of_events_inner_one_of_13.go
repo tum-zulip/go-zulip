@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf13 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf13{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf13 Event sent to all users in a Zulip organization when a new user joins or when a guest user gains access to a user. Processing this event is important to being able to display basic details on other users given only their ID.  If the current user is a guest whose access to a newly created user is limited by a `can_access_all_users_group` policy, and the event queue was registered with the `user_list_incomplete` client capability, then the event queue will not receive an event for such a new user. If a newly created user is inaccessible to the current user via such a policy, but the client lacks `user_list_incomplete` client capability, then this event will be delivered to the queue, with an \"Unknown user\" object with the usual format but placeholder data whose only variable content is the user ID.  **Changes**: Before Zulip 8.0 (feature level 232), the `user_list_incomplete` client capability did not exist, and so all clients whose access to a new user was prevented by `can_access_all_users_group` policy would receive a fake \"Unknown user\" event for such a user.  Starting with Zulip 8.0 (feature level 228), this event is also sent when a guest user gains access to a user. 
+// GetEvents200ResponseAllOfEventsInnerOneOf13 Event sent to all users in a Zulip organization when a new user joins or when a guest user gains access to a user. Processing this event is important to being able to display basic details on other users given only their ID.  If the current user is a guest whose access to a newly created user is limited by a `can_access_all_users_group` policy, and the event queue was registered with the `user_list_incomplete` client capability, then the event queue will not receive an event for such a new user. If a newly created user is inaccessible to the current user via such a policy, but the client lacks `user_list_incomplete` client capability, then this event will be delivered to the queue, with an \"Unknown user\" object with the usual format but placeholder data whose only variable content is the user ID.  **Changes**: Before Zulip 8.0 (feature level 232), the `user_list_incomplete` client capability did not exist, and so all clients whose access to a new user was prevented by `can_access_all_users_group` policy would receive a fake \"Unknown user\" event for such a user.  Starting with Zulip 8.0 (feature level 228), this event is also sent when a guest user gains access to a user.
 type GetEvents200ResponseAllOfEventsInnerOneOf13 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
-	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	Person *User `json:"person,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id     *int32  `json:"id,omitempty"`
+	Type   *string `json:"type,omitempty"`
+	Op     *string `json:"op,omitempty"`
+	Person *User   `json:"person,omitempty"`
 }
 
 // NewGetEvents200ResponseAllOfEventsInnerOneOf13 instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf13 object
@@ -172,7 +172,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf13) SetPerson(v User) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf13) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -231,5 +231,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf13) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

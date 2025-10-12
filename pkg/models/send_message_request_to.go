@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,15 +13,16 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
-// SendMessageRequestTo - For channel messages, either the name or integer ID of the channel. For direct messages, either a list containing integer user IDs or a list containing string Zulip API email addresses.  **Changes**: Support for using user/channel IDs was added in Zulip 2.0.0. 
+// SendMessageRequestTo - For channel messages, either the name or integer ID of the channel. For direct messages, either a list containing integer user IDs or a list containing string Zulip API email addresses.  **Changes**: Support for using user/channel IDs was added in Zulip 2.0.0.
 type SendMessageRequestTo struct {
-	ArrayOfInt32 *[]int32
+	ArrayOfInt32  *[]int32
 	ArrayOfString *[]string
-	Int32 *int32
-	String *string
+	Int32         *int32
+	String        *string
 }
 
 // []int32AsSendMessageRequestTo is a convenience function that returns []int32 wrapped in SendMessageRequestTo
@@ -51,7 +52,6 @@ func StringAsSendMessageRequestTo(v *string) SendMessageRequestTo {
 		String: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *SendMessageRequestTo) UnmarshalJSON(data []byte) error {
@@ -162,7 +162,7 @@ func (src SendMessageRequestTo) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *SendMessageRequestTo) GetActualInstance() (interface{}) {
+func (obj *SendMessageRequestTo) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -187,7 +187,7 @@ func (obj *SendMessageRequestTo) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj SendMessageRequestTo) GetActualInstanceValue() (interface{}) {
+func (obj SendMessageRequestTo) GetActualInstanceValue() interface{} {
 	if obj.ArrayOfInt32 != nil {
 		return *obj.ArrayOfInt32
 	}
@@ -243,5 +243,3 @@ func (v *NullableSendMessageRequestTo) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

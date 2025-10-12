@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,17 +17,17 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf1 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf1{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf1 Event sent to clients that have requested the `update_display_settings` event type and did not include `user_settings_object` in their `client_capabilities` when registering the event queue.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead. 
+// GetEvents200ResponseAllOfEventsInnerOneOf1 Event sent to clients that have requested the `update_display_settings` event type and did not include `user_settings_object` in their `client_capabilities` when registering the event queue.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
 type GetEvents200ResponseAllOfEventsInnerOneOf1 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// The Zulip API email of the user. 
+	// The Zulip API email of the user.
 	User *string `json:"user,omitempty"`
-	// Name of the changed display setting. 
-	SettingName *string `json:"setting_name,omitempty"`
-	Setting *GetEvents200ResponseAllOfEventsInnerOneOf1Setting `json:"setting,omitempty"`
-	// Present only if the setting to be changed is `default_language`. Contains the name of the new default language in English. 
+	// Name of the changed display setting.
+	SettingName *string                                            `json:"setting_name,omitempty"`
+	Setting     *GetEvents200ResponseAllOfEventsInnerOneOf1Setting `json:"setting,omitempty"`
+	// Present only if the setting to be changed is `default_language`. Contains the name of the new default language in English.
 	LanguageName *string `json:"language_name,omitempty"`
 }
 
@@ -241,7 +241,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf1) SetLanguageName(v string) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf1) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -306,5 +306,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf1) UnmarshalJSON(src [
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

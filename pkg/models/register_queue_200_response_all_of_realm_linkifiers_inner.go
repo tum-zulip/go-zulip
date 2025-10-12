@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,11 +19,11 @@ var _ MappedNullable = &RegisterQueue200ResponseAllOfRealmLinkifiersInner{}
 
 // RegisterQueue200ResponseAllOfRealmLinkifiersInner struct for RegisterQueue200ResponseAllOfRealmLinkifiersInner
 type RegisterQueue200ResponseAllOfRealmLinkifiersInner struct {
-	// The [Python regular expression](https://docs.python.org/3/howto/regex.html) pattern which represents the pattern that should be linkified on matching. 
+	// The [Python regular expression](https://docs.python.org/3/howto/regex.html) pattern which represents the pattern that should be linkified on matching.
 	Pattern *string `json:"pattern,omitempty"`
-	// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template with which the pattern matching string should be linkified.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced `url_format`, which contained a URL format string. 
+	// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template with which the pattern matching string should be linkified.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced `url_format`, which contained a URL format string.
 	UrlTemplate *string `json:"url_template,omitempty"`
-	// The ID of the linkifier. 
+	// The ID of the linkifier.
 	Id *int32 `json:"id,omitempty"`
 }
 
@@ -141,7 +141,7 @@ func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) SetId(v int32) {
 }
 
 func (o RegisterQueue200ResponseAllOfRealmLinkifiersInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -197,5 +197,3 @@ func (v *NullableRegisterQueue200ResponseAllOfRealmLinkifiersInner) UnmarshalJSO
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

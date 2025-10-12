@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain Object containing details of the edited domain. 
+// GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain Object containing details of the edited domain.
 type GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain struct {
-	// The domain whose settings have changed. 
+	// The domain whose settings have changed.
 	Domain *string `json:"domain,omitempty"`
-	// Whether subdomains are allowed for this domain. 
+	// Whether subdomains are allowed for this domain.
 	AllowSubdomains *bool `json:"allow_subdomains,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain) SetAllowSubdoma
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain) Unmarsh
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

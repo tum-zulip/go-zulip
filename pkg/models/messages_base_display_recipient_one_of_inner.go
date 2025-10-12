@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,13 +19,13 @@ var _ MappedNullable = &MessagesBaseDisplayRecipientOneOfInner{}
 
 // MessagesBaseDisplayRecipientOneOfInner struct for MessagesBaseDisplayRecipientOneOfInner
 type MessagesBaseDisplayRecipientOneOfInner struct {
-	// ID of the user. 
+	// ID of the user.
 	Id *int32 `json:"id,omitempty"`
-	// Zulip API email of the user. 
+	// Zulip API email of the user.
 	Email *string `json:"email,omitempty"`
-	// Full name of the user. 
+	// Full name of the user.
 	FullName *string `json:"full_name,omitempty"`
-	// Whether the user is a mirror dummy. 
+	// Whether the user is a mirror dummy.
 	IsMirrorDummy *bool `json:"is_mirror_dummy,omitempty"`
 }
 
@@ -175,7 +175,7 @@ func (o *MessagesBaseDisplayRecipientOneOfInner) SetIsMirrorDummy(v bool) {
 }
 
 func (o MessagesBaseDisplayRecipientOneOfInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,5 +234,3 @@ func (v *NullableMessagesBaseDisplayRecipientOneOfInner) UnmarshalJSON(src []byt
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

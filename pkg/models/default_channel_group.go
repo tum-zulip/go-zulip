@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the DefaultChannelGroup type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &DefaultChannelGroup{}
 
-// DefaultChannelGroup Dictionary containing details of a default channel group. 
+// DefaultChannelGroup Dictionary containing details of a default channel group.
 type DefaultChannelGroup struct {
-	// Name of the default channel group. 
+	// Name of the default channel group.
 	Name *string `json:"name,omitempty"`
-	// Description of the default channel group. 
+	// Description of the default channel group.
 	Description *string `json:"description,omitempty"`
-	// The ID of the default channel group. 
+	// The ID of the default channel group.
 	Id *int32 `json:"id,omitempty"`
-	// An array of IDs of all the channels in the default stream group.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single stream in the default stream group. 
+	// An array of IDs of all the channels in the default stream group.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single stream in the default stream group.
 	Streams []int32 `json:"streams,omitempty"`
 }
 
@@ -175,7 +175,7 @@ func (o *DefaultChannelGroup) SetStreams(v []int32) {
 }
 
 func (o DefaultChannelGroup) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,5 +234,3 @@ func (v *NullableDefaultChannelGroup) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

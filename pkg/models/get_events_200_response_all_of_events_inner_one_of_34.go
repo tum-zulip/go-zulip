@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,10 +17,10 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf34 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf34{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf34 Heartbeat events are sent by the server to avoid longpolling connections being affected by networks that kill idle HTTP connections.  Clients do not need to do anything to process these events, beyond the common `last_event_id` accounting. 
+// GetEvents200ResponseAllOfEventsInnerOneOf34 Heartbeat events are sent by the server to avoid longpolling connections being affected by networks that kill idle HTTP connections.  Clients do not need to do anything to process these events, beyond the common `last_event_id` accounting.
 type GetEvents200ResponseAllOfEventsInnerOneOf34 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
 }
 
@@ -106,7 +106,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf34) SetType(v string) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf34) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -159,5 +159,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf34) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,14 +17,14 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf58 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf58{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf58 Event sent to administrators when the [data export consent][help-export-consent] status for a user changes, whether due to a user changing their consent preferences or a user being created or reactivated (since user creation/activation events do not contain these data).  [help-export-consent]: /help/export-your-organization#configure-whether-administrators-can-export-your-private-data  **Changes**: New in Zulip 10.0 (feature level 312). Previously, there was not event available to administrators with these data. 
+// GetEvents200ResponseAllOfEventsInnerOneOf58 Event sent to administrators when the [data export consent][help-export-consent] status for a user changes, whether due to a user changing their consent preferences or a user being created or reactivated (since user creation/activation events do not contain these data).  [help-export-consent]: /help/export-your-organization#configure-whether-administrators-can-export-your-private-data  **Changes**: New in Zulip 10.0 (feature level 312). Previously, there was not event available to administrators with these data.
 type GetEvents200ResponseAllOfEventsInnerOneOf58 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// The ID of the user whose setting was changed. 
+	// The ID of the user whose setting was changed.
 	UserId *int32 `json:"user_id,omitempty"`
-	// Whether the user has consented for their private data export. 
+	// Whether the user has consented for their private data export.
 	Consented *bool `json:"consented,omitempty"`
 }
 
@@ -174,7 +174,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf58) SetConsented(v bool) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf58) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -233,5 +233,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf58) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

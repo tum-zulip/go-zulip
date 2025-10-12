@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,12 +17,12 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf14 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf14{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf14 Event sent to guest users when they lose access to a user.  **Changes**: As of Zulip 8.0 (feature level 228), this event is no longer deprecated.  In Zulip 8.0 (feature level 222), this event was deprecated and no longer sent to clients. Prior to this feature level, it was sent to all users in a Zulip organization when a user was deactivated. 
+// GetEvents200ResponseAllOfEventsInnerOneOf14 Event sent to guest users when they lose access to a user.  **Changes**: As of Zulip 8.0 (feature level 228), this event is no longer deprecated.  In Zulip 8.0 (feature level 222), this event was deprecated and no longer sent to clients. Prior to this feature level, it was sent to all users in a Zulip organization when a user was deactivated.
 type GetEvents200ResponseAllOfEventsInnerOneOf14 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
-	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id     *int32                                             `json:"id,omitempty"`
+	Type   *string                                            `json:"type,omitempty"`
+	Op     *string                                            `json:"op,omitempty"`
 	Person *GetEvents200ResponseAllOfEventsInnerOneOf14Person `json:"person,omitempty"`
 }
 
@@ -172,7 +172,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf14) SetPerson(v GetEvents200Re
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf14) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -231,5 +231,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf14) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

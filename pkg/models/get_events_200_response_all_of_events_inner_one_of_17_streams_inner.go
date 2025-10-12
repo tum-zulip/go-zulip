@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,7 +19,7 @@ var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner{
 
 // GetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner struct for GetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner
 type GetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner struct {
-	// ID of the deleted channel. 
+	// ID of the deleted channel.
 	StreamId *int32 `json:"stream_id,omitempty"`
 }
 
@@ -73,7 +73,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner) SetStreamId(v 
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -123,5 +123,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner) Unmars
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

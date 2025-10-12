@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,13 +13,14 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
 // RestErrorHandling401Response - struct for RestErrorHandling401Response
 type RestErrorHandling401Response struct {
 	RealmDeactivatedError *RealmDeactivatedError
-	UserDeactivatedError *UserDeactivatedError
+	UserDeactivatedError  *UserDeactivatedError
 }
 
 // RealmDeactivatedErrorAsRestErrorHandling401Response is a convenience function that returns RealmDeactivatedError wrapped in RestErrorHandling401Response
@@ -35,7 +36,6 @@ func UserDeactivatedErrorAsRestErrorHandling401Response(v *UserDeactivatedError)
 		UserDeactivatedError: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *RestErrorHandling401Response) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src RestErrorHandling401Response) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *RestErrorHandling401Response) GetActualInstance() (interface{}) {
+func (obj *RestErrorHandling401Response) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *RestErrorHandling401Response) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj RestErrorHandling401Response) GetActualInstanceValue() (interface{}) {
+func (obj RestErrorHandling401Response) GetActualInstanceValue() interface{} {
 	if obj.RealmDeactivatedError != nil {
 		return *obj.RealmDeactivatedError
 	}
@@ -167,5 +167,3 @@ func (v *NullableRestErrorHandling401Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

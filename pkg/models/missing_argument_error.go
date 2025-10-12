@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,10 +21,11 @@ var _ MappedNullable = &MissingArgumentError{}
 
 // MissingArgumentError struct for MissingArgumentError
 type MissingArgumentError struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	Code interface{} `json:"code"`
-	// It contains the information about the missing parameter. 
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// A string that identifies the error.
+	Code string `json:"code"`
+	// It contains the information about the missing parameter.
 	VarName *string `json:"var_name,omitempty"`
 }
 
@@ -34,7 +35,7 @@ type _MissingArgumentError MissingArgumentError
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMissingArgumentError(result interface{}, msg interface{}, code interface{}) *MissingArgumentError {
+func NewMissingArgumentError(result string, msg string, code string) *MissingArgumentError {
 	this := MissingArgumentError{}
 	this.Result = result
 	this.Msg = msg
@@ -51,10 +52,9 @@ func NewMissingArgumentErrorWithDefaults() *MissingArgumentError {
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *MissingArgumentError) GetResult() interface{} {
+func (o *MissingArgumentError) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -63,24 +63,22 @@ func (o *MissingArgumentError) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *MissingArgumentError) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *MissingArgumentError) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *MissingArgumentError) SetResult(v interface{}) {
+func (o *MissingArgumentError) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *MissingArgumentError) GetMsg() interface{} {
+func (o *MissingArgumentError) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -89,24 +87,22 @@ func (o *MissingArgumentError) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *MissingArgumentError) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *MissingArgumentError) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *MissingArgumentError) SetMsg(v interface{}) {
+func (o *MissingArgumentError) SetMsg(v string) {
 	o.Msg = v
 }
 
 // GetCode returns the Code field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *MissingArgumentError) GetCode() interface{} {
+func (o *MissingArgumentError) GetCode() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -115,16 +111,15 @@ func (o *MissingArgumentError) GetCode() interface{} {
 
 // GetCodeOk returns a tuple with the Code field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *MissingArgumentError) GetCodeOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Code) {
+func (o *MissingArgumentError) GetCodeOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Code, true
 }
 
 // SetCode sets field value
-func (o *MissingArgumentError) SetCode(v interface{}) {
+func (o *MissingArgumentError) SetCode(v string) {
 	o.Code = v
 }
 
@@ -161,7 +156,7 @@ func (o *MissingArgumentError) SetVarName(v string) {
 }
 
 func (o MissingArgumentError) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -170,15 +165,9 @@ func (o MissingArgumentError) MarshalJSON() ([]byte, error) {
 
 func (o MissingArgumentError) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.Code != nil {
-		toSerialize["code"] = o.Code
-	}
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	toSerialize["code"] = o.Code
 	if !IsNil(o.VarName) {
 		toSerialize["var_name"] = o.VarName
 	}
@@ -200,10 +189,10 @@ func (o *MissingArgumentError) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -259,5 +248,3 @@ func (v *NullableMissingArgumentError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

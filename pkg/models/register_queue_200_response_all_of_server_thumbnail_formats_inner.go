@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,15 +19,15 @@ var _ MappedNullable = &RegisterQueue200ResponseAllOfServerThumbnailFormatsInner
 
 // RegisterQueue200ResponseAllOfServerThumbnailFormatsInner struct for RegisterQueue200ResponseAllOfServerThumbnailFormatsInner
 type RegisterQueue200ResponseAllOfServerThumbnailFormatsInner struct {
-	// The file path component of the thumbnail format. 
+	// The file path component of the thumbnail format.
 	Name *string `json:"name,omitempty"`
-	// The maximum width of this format. 
+	// The maximum width of this format.
 	MaxWidth *int32 `json:"max_width,omitempty"`
-	// The maximum height of this format. 
+	// The maximum height of this format.
 	MaxHeight *int32 `json:"max_height,omitempty"`
-	// The extension of this format. 
+	// The extension of this format.
 	Format *string `json:"format,omitempty"`
-	// If this file format is animated. These formats are only generated for uploaded imates which themselves are animated. 
+	// If this file format is animated. These formats are only generated for uploaded imates which themselves are animated.
 	Animated *bool `json:"animated,omitempty"`
 }
 
@@ -209,7 +209,7 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) SetAnimated(v
 }
 
 func (o RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -271,5 +271,3 @@ func (v *NullableRegisterQueue200ResponseAllOfServerThumbnailFormatsInner) Unmar
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,12 +13,13 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
-// UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue - The new value of the property being modified.  If the property is `\"color\"`, then `value` is a string representing the hex value of the user's display color for the channel. For all other above properties, `value` is a boolean. 
+// UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue - The new value of the property being modified.  If the property is `\"color\"`, then `value` is a string representing the hex value of the user's display color for the channel. For all other above properties, `value` is a boolean.
 type UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue struct {
-	Bool *bool
+	Bool   *bool
 	String *string
 }
 
@@ -35,7 +36,6 @@ func StringAsUpdateSubscriptionSettingsRequestSubscriptionDataInnerValue(v *stri
 		String: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue) MarshalJS
 }
 
 // Get the actual instance
-func (obj *UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue) GetActualInstance() (interface{}) {
+func (obj *UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue) GetActua
 }
 
 // Get the actual instance value
-func (obj UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue) GetActualInstanceValue() (interface{}) {
+func (obj UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue) GetActualInstanceValue() interface{} {
 	if obj.Bool != nil {
 		return *obj.Bool
 	}
@@ -167,5 +167,3 @@ func (v *NullableUpdateSubscriptionSettingsRequestSubscriptionDataInnerValue) Un
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

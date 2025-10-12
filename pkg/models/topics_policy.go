@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -15,15 +15,15 @@ import (
 	"fmt"
 )
 
-// TopicsPolicy Whether [named topics](/help/introduction-to-topics) and the empty topic (i.e., [\"general chat\" topic](/help/general-chat-topic)) are enabled in this channel.  - `\"inherit\"`: Messages can be sent to named topics in this channel,   and the [organization-level `realm_topics_policy`][realm-topics-policy]   is used for whether messages can be sent to the empty topic in this   channel. - `\"allow_empty_topic\"`: Messages can be sent to both named topics and   the empty topic in this channel. - `\"disable_empty_topic\"`: Messages can be sent to named topics in this   channel, but the empty topic is disabled. - `\"empty_topic_only\"`: Messages can be sent to the empty topic in this   channel, but named topics are disabled. See [\"general chat\"   channels](/help/general-chat-channels).  The `\"empty_topic_only\"` policy can only be set if all existing messages in the channel are already in the empty topic.  When creating a new channel, if the `topics_policy` is not specified, the `\"inherit\"` option will be set.  **Changes**: In Zulip 11.0 (feature level 404), the `\"empty_topic_only\"` option was added.  New in Zulip 11.0 (feature level 392).  [realm-topics-policy]: /help/require-topics#set-the-default-general-chat-topic-configuration 
+// TopicsPolicy Whether [named topics](/help/introduction-to-topics) and the empty topic (i.e., [\"general chat\" topic](/help/general-chat-topic)) are enabled in this channel.  - `\"inherit\"`: Messages can be sent to named topics in this channel,   and the [organization-level `realm_topics_policy`][realm-topics-policy]   is used for whether messages can be sent to the empty topic in this   channel. - `\"allow_empty_topic\"`: Messages can be sent to both named topics and   the empty topic in this channel. - `\"disable_empty_topic\"`: Messages can be sent to named topics in this   channel, but the empty topic is disabled. - `\"empty_topic_only\"`: Messages can be sent to the empty topic in this   channel, but named topics are disabled. See [\"general chat\"   channels](/help/general-chat-channels).  The `\"empty_topic_only\"` policy can only be set if all existing messages in the channel are already in the empty topic.  When creating a new channel, if the `topics_policy` is not specified, the `\"inherit\"` option will be set.  **Changes**: In Zulip 11.0 (feature level 404), the `\"empty_topic_only\"` option was added.  New in Zulip 11.0 (feature level 392).  [realm-topics-policy]: /help/require-topics#set-the-default-general-chat-topic-configuration
 type TopicsPolicy string
 
 // List of TopicsPolicy
 const (
-	TOPICSPOLICY_INHERIT TopicsPolicy = "inherit"
-	TOPICSPOLICY_ALLOW_EMPTY_TOPIC TopicsPolicy = "allow_empty_topic"
+	TOPICSPOLICY_INHERIT             TopicsPolicy = "inherit"
+	TOPICSPOLICY_ALLOW_EMPTY_TOPIC   TopicsPolicy = "allow_empty_topic"
 	TOPICSPOLICY_DISABLE_EMPTY_TOPIC TopicsPolicy = "disable_empty_topic"
-	TOPICSPOLICY_EMPTY_TOPIC_ONLY TopicsPolicy = "empty_topic_only"
+	TOPICSPOLICY_EMPTY_TOPIC_ONLY    TopicsPolicy = "empty_topic_only"
 )
 
 // All allowed values of TopicsPolicy enum
@@ -112,4 +112,3 @@ func (v *NullableTopicsPolicy) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

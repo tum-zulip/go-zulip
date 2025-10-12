@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6CustomProfileField type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6CustomProfileField{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6CustomProfileField Object containing details about the custom profile data change. 
+// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6CustomProfileField Object containing details about the custom profile data change.
 type GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6CustomProfileField struct {
-	// The ID of the custom profile field which user updated. 
+	// The ID of the custom profile field which user updated.
 	Id *int32 `json:"id,omitempty"`
-	// User's personal value for this custom profile field, or `null` if unset. 
+	// User's personal value for this custom profile field, or `null` if unset.
 	Value NullableString `json:"value,omitempty"`
-	// The `value` rendered in HTML. Will only be present for custom profile field types that support Markdown rendering.  This user-generated HTML content should be rendered using the same CSS and client-side security protections as are used for message content.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format. 
+	// The `value` rendered in HTML. Will only be present for custom profile field types that support Markdown rendering.  This user-generated HTML content should be rendered using the same CSS and client-side security protections as are used for message content.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
 	RenderedValue *string `json:"rendered_value,omitempty"`
 }
 
@@ -108,6 +108,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6CustomProfileFiel
 func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6CustomProfileField) SetValue(v string) {
 	o.Value.Set(&v)
 }
+
 // SetValueNil sets the value for Value to be an explicit nil
 func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6CustomProfileField) SetValueNil() {
 	o.Value.Set(nil)
@@ -151,7 +152,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6CustomProfileFiel
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6CustomProfileField) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -207,5 +208,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf6CustomPro
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

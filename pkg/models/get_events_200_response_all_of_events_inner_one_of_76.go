@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,12 +17,12 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf76 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf76{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf76 Event containing details of the edited saved snippet.  Clients should update the existing saved snippet with the ID provided in the `saved_snippet` object.  **Changes**: New in Zulip 10.0 (feature level 368). 
+// GetEvents200ResponseAllOfEventsInnerOneOf76 Event containing details of the edited saved snippet.  Clients should update the existing saved snippet with the ID provided in the `saved_snippet` object.  **Changes**: New in Zulip 10.0 (feature level 368).
 type GetEvents200ResponseAllOfEventsInnerOneOf76 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
-	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id           *int32        `json:"id,omitempty"`
+	Type         *string       `json:"type,omitempty"`
+	Op           *string       `json:"op,omitempty"`
 	SavedSnippet *SavedSnippet `json:"saved_snippet,omitempty"`
 }
 
@@ -172,7 +172,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf76) SetSavedSnippet(v SavedSni
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf76) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -231,5 +231,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf76) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

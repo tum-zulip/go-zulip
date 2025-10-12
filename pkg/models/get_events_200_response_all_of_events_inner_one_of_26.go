@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,23 +17,23 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf26 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf26{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf26 Event sent to all users who can access the modified user when the status of a user changes.  **Changes**: Prior to Zulip 8.0 (feature level 228), this event was sent to all users in the organization. 
+// GetEvents200ResponseAllOfEventsInnerOneOf26 Event sent to all users who can access the modified user when the status of a user changes.  **Changes**: Prior to Zulip 8.0 (feature level 228), this event was sent to all users in the organization.
 type GetEvents200ResponseAllOfEventsInnerOneOf26 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// Whether the user has marked themself \"away\" with this status.  **Changes**: Deprecated in Zulip 6.0 (feature level 148); starting with that feature level, `away` is a legacy way to access the user's `presence_enabled` setting, with `away = !presence_enabled`. To be removed in a future release. 
+	// Whether the user has marked themself \"away\" with this status.  **Changes**: Deprecated in Zulip 6.0 (feature level 148); starting with that feature level, `away` is a legacy way to access the user's `presence_enabled` setting, with `away = !presence_enabled`. To be removed in a future release.
 	// Deprecated
 	Away *bool `json:"away,omitempty"`
-	// The text content of the status message.  This will be `\"\"` for users who set a status without selecting or writing a message. 
+	// The text content of the status message.  This will be `\"\"` for users who set a status without selecting or writing a message.
 	StatusText *string `json:"status_text,omitempty"`
-	// The [emoji name](/api/update-status#parameter-emoji_name) for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86). 
+	// The [emoji name](/api/update-status#parameter-emoji_name) for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
 	EmojiName *string `json:"emoji_name,omitempty"`
-	// The [emoji code](/api/update-status#parameter-emoji_code) for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86). 
+	// The [emoji code](/api/update-status#parameter-emoji_code) for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
 	EmojiCode *string `json:"emoji_code,omitempty"`
-	// The [emoji type](/api/update-status#parameter-reaction_type) for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86). 
+	// The [emoji type](/api/update-status#parameter-reaction_type) for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
 	ReactionType *string `json:"reaction_type,omitempty"`
-	// The ID of the user whose status changed. 
+	// The ID of the user whose status changed.
 	UserId *int32 `json:"user_id,omitempty"`
 }
 
@@ -314,7 +314,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf26) SetUserId(v int32) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf26) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -385,5 +385,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf26) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

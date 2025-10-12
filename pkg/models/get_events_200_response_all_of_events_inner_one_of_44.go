@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf44 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf44{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf44 Event sent to all users in a Zulip organization when a property of a user group is changed.  For group deactivation, this event is only sent if `include_deactivated_groups` client capability is set to `true`.  This event is also sent when deactivating or reactivating a user for settings set to anonymous user groups which the user is direct member of. When deactivating the user, event is only sent to users who cannot access the deactivated user.  **Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when deactivating or reactivating a user.  Prior to Zulip 10.0 (feature level 294), this event was sent to all clients when a user group was deactivated. 
+// GetEvents200ResponseAllOfEventsInnerOneOf44 Event sent to all users in a Zulip organization when a property of a user group is changed.  For group deactivation, this event is only sent if `include_deactivated_groups` client capability is set to `true`.  This event is also sent when deactivating or reactivating a user for settings set to anonymous user groups which the user is direct member of. When deactivating the user, event is only sent to users who cannot access the deactivated user.  **Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when deactivating or reactivating a user.  Prior to Zulip 10.0 (feature level 294), this event was sent to all clients when a user group was deactivated.
 type GetEvents200ResponseAllOfEventsInnerOneOf44 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// The ID of the user group whose details have changed. 
-	GroupId *int32 `json:"group_id,omitempty"`
-	Data *GetEvents200ResponseAllOfEventsInnerOneOf44Data `json:"data,omitempty"`
+	Op   *string `json:"op,omitempty"`
+	// The ID of the user group whose details have changed.
+	GroupId *int32                                           `json:"group_id,omitempty"`
+	Data    *GetEvents200ResponseAllOfEventsInnerOneOf44Data `json:"data,omitempty"`
 }
 
 // NewGetEvents200ResponseAllOfEventsInnerOneOf44 instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf44 object
@@ -206,7 +206,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf44) SetData(v GetEvents200Resp
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf44) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -268,5 +268,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf44) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

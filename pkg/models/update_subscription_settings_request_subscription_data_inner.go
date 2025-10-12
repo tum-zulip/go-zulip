@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,11 +21,11 @@ var _ MappedNullable = &UpdateSubscriptionSettingsRequestSubscriptionDataInner{}
 
 // UpdateSubscriptionSettingsRequestSubscriptionDataInner struct for UpdateSubscriptionSettingsRequestSubscriptionDataInner
 type UpdateSubscriptionSettingsRequestSubscriptionDataInner struct {
-	// The unique ID of a channel. 
+	// The unique ID of a channel.
 	StreamId int32 `json:"stream_id"`
-	// One of the channel properties described below:  - `\"color\"`: The hex value of the user's display color for the channel.  - `\"is_muted\"`: Whether the channel is [muted](/help/mute-a-channel).<br>   **Changes**: As of Zulip 6.0 (feature level 139), updating either   `\"is_muted\"` or `\"in_home_view\"` generates two [subscription update   events](/api/get-events#subscription-update), one for each property,   that are sent to clients. Prior to this feature level, updating either   property only generated a subscription update event for   `\"in_home_view\"`. <br>   Prior to Zulip 2.1.0, this feature was represented   by the more confusingly named `\"in_home_view\"` (with the   opposite value: `in_home_view=!is_muted`); for   backwards-compatibility, modern Zulip still accepts that property.  - `\"pin_to_top\"`: Whether to pin the channel at the top of the channel list.  - `\"desktop_notifications\"`: Whether to show desktop notifications   for all messages sent to the channel.  - `\"audible_notifications\"`: Whether to play a sound   notification for all messages sent to the channel.  - `\"push_notifications\"`: Whether to trigger a mobile push   notification for all messages sent to the channel.  - `\"email_notifications\"`: Whether to trigger an email   notification for all messages sent to the channel.  - `\"wildcard_mentions_notify\"`: Whether wildcard mentions trigger   notifications as though they were personal mentions in this channel. 
-	Property string `json:"property"`
-	Value UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue `json:"value"`
+	// One of the channel properties described below:  - `\"color\"`: The hex value of the user's display color for the channel.  - `\"is_muted\"`: Whether the channel is [muted](/help/mute-a-channel).<br>   **Changes**: As of Zulip 6.0 (feature level 139), updating either   `\"is_muted\"` or `\"in_home_view\"` generates two [subscription update   events](/api/get-events#subscription-update), one for each property,   that are sent to clients. Prior to this feature level, updating either   property only generated a subscription update event for   `\"in_home_view\"`. <br>   Prior to Zulip 2.1.0, this feature was represented   by the more confusingly named `\"in_home_view\"` (with the   opposite value: `in_home_view=!is_muted`); for   backwards-compatibility, modern Zulip still accepts that property.  - `\"pin_to_top\"`: Whether to pin the channel at the top of the channel list.  - `\"desktop_notifications\"`: Whether to show desktop notifications   for all messages sent to the channel.  - `\"audible_notifications\"`: Whether to play a sound   notification for all messages sent to the channel.  - `\"push_notifications\"`: Whether to trigger a mobile push   notification for all messages sent to the channel.  - `\"email_notifications\"`: Whether to trigger an email   notification for all messages sent to the channel.  - `\"wildcard_mentions_notify\"`: Whether wildcard mentions trigger   notifications as though they were personal mentions in this channel.
+	Property string                                                      `json:"property"`
+	Value    UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue `json:"value"`
 }
 
 type _UpdateSubscriptionSettingsRequestSubscriptionDataInner UpdateSubscriptionSettingsRequestSubscriptionDataInner
@@ -123,7 +123,7 @@ func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) SetValue(v Upda
 }
 
 func (o UpdateSubscriptionSettingsRequestSubscriptionDataInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -153,10 +153,10 @@ func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) UnmarshalJSON(d
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -212,5 +212,3 @@ func (v *NullableUpdateSubscriptionSettingsRequestSubscriptionDataInner) Unmarsh
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

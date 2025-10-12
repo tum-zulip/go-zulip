@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,14 +21,21 @@ var _ MappedNullable = &ScheduledMessage{}
 
 // ScheduledMessage struct for ScheduledMessage
 type ScheduledMessage struct {
-	ScheduledMessageId interface{} `json:"scheduled_message_id"`
-	Type interface{} `json:"type"`
-	To interface{} `json:"to"`
-	Topic interface{} `json:"topic,omitempty"`
-	Content interface{} `json:"content"`
-	RenderedContent interface{} `json:"rendered_content"`
-	ScheduledDeliveryTimestamp interface{} `json:"scheduled_delivery_timestamp"`
-	Failed interface{} `json:"failed"`
+	// The unique ID of the scheduled message, which can be used to modify or delete the scheduled message.  This is different from the unique ID that the message will have after it is sent.
+	ScheduledMessageId int32 `json:"scheduled_message_id"`
+	// The type of the scheduled message. Either `\"stream\"` or `\"private\"`.
+	Type string                 `json:"type"`
+	To   ScheduledMessageBaseTo `json:"to"`
+	// Only present if `type` is `\"stream\"`.  The topic for the channel message.
+	Topic *string `json:"topic,omitempty"`
+	// The content/body of the scheduled message, in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
+	Content string `json:"content"`
+	// The content/body of the scheduled message rendered in HTML.
+	RenderedContent string `json:"rendered_content"`
+	// The UNIX timestamp for when the message will be sent by the server, in UTC seconds.
+	ScheduledDeliveryTimestamp int32 `json:"scheduled_delivery_timestamp"`
+	// Whether the server has tried to send the scheduled message and it failed to successfully send.  Clients that support unscheduling and editing scheduled messages should display scheduled messages with `\"failed\": true` with an indicator that the server failed to send the message at the scheduled time, so that the user is aware of the failure and can get the content of the scheduled message.  **Changes**: New in Zulip 7.0 (feature level 181).
+	Failed bool `json:"failed"`
 }
 
 type _ScheduledMessage ScheduledMessage
@@ -37,7 +44,7 @@ type _ScheduledMessage ScheduledMessage
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewScheduledMessage(scheduledMessageId interface{}, type_ interface{}, to interface{}, content interface{}, renderedContent interface{}, scheduledDeliveryTimestamp interface{}, failed interface{}) *ScheduledMessage {
+func NewScheduledMessage(scheduledMessageId int32, type_ string, to ScheduledMessageBaseTo, content string, renderedContent string, scheduledDeliveryTimestamp int32, failed bool) *ScheduledMessage {
 	this := ScheduledMessage{}
 	this.ScheduledMessageId = scheduledMessageId
 	this.Type = type_
@@ -58,10 +65,9 @@ func NewScheduledMessageWithDefaults() *ScheduledMessage {
 }
 
 // GetScheduledMessageId returns the ScheduledMessageId field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *ScheduledMessage) GetScheduledMessageId() interface{} {
+func (o *ScheduledMessage) GetScheduledMessageId() int32 {
 	if o == nil {
-		var ret interface{}
+		var ret int32
 		return ret
 	}
 
@@ -70,24 +76,22 @@ func (o *ScheduledMessage) GetScheduledMessageId() interface{} {
 
 // GetScheduledMessageIdOk returns a tuple with the ScheduledMessageId field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ScheduledMessage) GetScheduledMessageIdOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.ScheduledMessageId) {
+func (o *ScheduledMessage) GetScheduledMessageIdOk() (*int32, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ScheduledMessageId, true
 }
 
 // SetScheduledMessageId sets field value
-func (o *ScheduledMessage) SetScheduledMessageId(v interface{}) {
+func (o *ScheduledMessage) SetScheduledMessageId(v int32) {
 	o.ScheduledMessageId = v
 }
 
 // GetType returns the Type field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *ScheduledMessage) GetType() interface{} {
+func (o *ScheduledMessage) GetType() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -96,24 +100,22 @@ func (o *ScheduledMessage) GetType() interface{} {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ScheduledMessage) GetTypeOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Type) {
+func (o *ScheduledMessage) GetTypeOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
 }
 
 // SetType sets field value
-func (o *ScheduledMessage) SetType(v interface{}) {
+func (o *ScheduledMessage) SetType(v string) {
 	o.Type = v
 }
 
 // GetTo returns the To field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *ScheduledMessage) GetTo() interface{} {
+func (o *ScheduledMessage) GetTo() ScheduledMessageBaseTo {
 	if o == nil {
-		var ret interface{}
+		var ret ScheduledMessageBaseTo
 		return ret
 	}
 
@@ -122,36 +124,34 @@ func (o *ScheduledMessage) GetTo() interface{} {
 
 // GetToOk returns a tuple with the To field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ScheduledMessage) GetToOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.To) {
+func (o *ScheduledMessage) GetToOk() (*ScheduledMessageBaseTo, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.To, true
 }
 
 // SetTo sets field value
-func (o *ScheduledMessage) SetTo(v interface{}) {
+func (o *ScheduledMessage) SetTo(v ScheduledMessageBaseTo) {
 	o.To = v
 }
 
-// GetTopic returns the Topic field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ScheduledMessage) GetTopic() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetTopic returns the Topic field value if set, zero value otherwise.
+func (o *ScheduledMessage) GetTopic() string {
+	if o == nil || IsNil(o.Topic) {
+		var ret string
 		return ret
 	}
-	return o.Topic
+	return *o.Topic
 }
 
 // GetTopicOk returns a tuple with the Topic field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ScheduledMessage) GetTopicOk() (*interface{}, bool) {
+func (o *ScheduledMessage) GetTopicOk() (*string, bool) {
 	if o == nil || IsNil(o.Topic) {
 		return nil, false
 	}
-	return &o.Topic, true
+	return o.Topic, true
 }
 
 // HasTopic returns a boolean if a field has been set.
@@ -163,16 +163,15 @@ func (o *ScheduledMessage) HasTopic() bool {
 	return false
 }
 
-// SetTopic gets a reference to the given interface{} and assigns it to the Topic field.
-func (o *ScheduledMessage) SetTopic(v interface{}) {
-	o.Topic = v
+// SetTopic gets a reference to the given string and assigns it to the Topic field.
+func (o *ScheduledMessage) SetTopic(v string) {
+	o.Topic = &v
 }
 
 // GetContent returns the Content field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *ScheduledMessage) GetContent() interface{} {
+func (o *ScheduledMessage) GetContent() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -181,24 +180,22 @@ func (o *ScheduledMessage) GetContent() interface{} {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ScheduledMessage) GetContentOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Content) {
+func (o *ScheduledMessage) GetContentOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Content, true
 }
 
 // SetContent sets field value
-func (o *ScheduledMessage) SetContent(v interface{}) {
+func (o *ScheduledMessage) SetContent(v string) {
 	o.Content = v
 }
 
 // GetRenderedContent returns the RenderedContent field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *ScheduledMessage) GetRenderedContent() interface{} {
+func (o *ScheduledMessage) GetRenderedContent() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -207,24 +204,22 @@ func (o *ScheduledMessage) GetRenderedContent() interface{} {
 
 // GetRenderedContentOk returns a tuple with the RenderedContent field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ScheduledMessage) GetRenderedContentOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.RenderedContent) {
+func (o *ScheduledMessage) GetRenderedContentOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.RenderedContent, true
 }
 
 // SetRenderedContent sets field value
-func (o *ScheduledMessage) SetRenderedContent(v interface{}) {
+func (o *ScheduledMessage) SetRenderedContent(v string) {
 	o.RenderedContent = v
 }
 
 // GetScheduledDeliveryTimestamp returns the ScheduledDeliveryTimestamp field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *ScheduledMessage) GetScheduledDeliveryTimestamp() interface{} {
+func (o *ScheduledMessage) GetScheduledDeliveryTimestamp() int32 {
 	if o == nil {
-		var ret interface{}
+		var ret int32
 		return ret
 	}
 
@@ -233,24 +228,22 @@ func (o *ScheduledMessage) GetScheduledDeliveryTimestamp() interface{} {
 
 // GetScheduledDeliveryTimestampOk returns a tuple with the ScheduledDeliveryTimestamp field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ScheduledMessage) GetScheduledDeliveryTimestampOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.ScheduledDeliveryTimestamp) {
+func (o *ScheduledMessage) GetScheduledDeliveryTimestampOk() (*int32, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ScheduledDeliveryTimestamp, true
 }
 
 // SetScheduledDeliveryTimestamp sets field value
-func (o *ScheduledMessage) SetScheduledDeliveryTimestamp(v interface{}) {
+func (o *ScheduledMessage) SetScheduledDeliveryTimestamp(v int32) {
 	o.ScheduledDeliveryTimestamp = v
 }
 
 // GetFailed returns the Failed field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *ScheduledMessage) GetFailed() interface{} {
+func (o *ScheduledMessage) GetFailed() bool {
 	if o == nil {
-		var ret interface{}
+		var ret bool
 		return ret
 	}
 
@@ -259,21 +252,20 @@ func (o *ScheduledMessage) GetFailed() interface{} {
 
 // GetFailedOk returns a tuple with the Failed field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ScheduledMessage) GetFailedOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Failed) {
+func (o *ScheduledMessage) GetFailedOk() (*bool, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Failed, true
 }
 
 // SetFailed sets field value
-func (o *ScheduledMessage) SetFailed(v interface{}) {
+func (o *ScheduledMessage) SetFailed(v bool) {
 	o.Failed = v
 }
 
 func (o ScheduledMessage) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -282,30 +274,16 @@ func (o ScheduledMessage) MarshalJSON() ([]byte, error) {
 
 func (o ScheduledMessage) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.ScheduledMessageId != nil {
-		toSerialize["scheduled_message_id"] = o.ScheduledMessageId
-	}
-	if o.Type != nil {
-		toSerialize["type"] = o.Type
-	}
-	if o.To != nil {
-		toSerialize["to"] = o.To
-	}
-	if o.Topic != nil {
+	toSerialize["scheduled_message_id"] = o.ScheduledMessageId
+	toSerialize["type"] = o.Type
+	toSerialize["to"] = o.To
+	if !IsNil(o.Topic) {
 		toSerialize["topic"] = o.Topic
 	}
-	if o.Content != nil {
-		toSerialize["content"] = o.Content
-	}
-	if o.RenderedContent != nil {
-		toSerialize["rendered_content"] = o.RenderedContent
-	}
-	if o.ScheduledDeliveryTimestamp != nil {
-		toSerialize["scheduled_delivery_timestamp"] = o.ScheduledDeliveryTimestamp
-	}
-	if o.Failed != nil {
-		toSerialize["failed"] = o.Failed
-	}
+	toSerialize["content"] = o.Content
+	toSerialize["rendered_content"] = o.RenderedContent
+	toSerialize["scheduled_delivery_timestamp"] = o.ScheduledDeliveryTimestamp
+	toSerialize["failed"] = o.Failed
 	return toSerialize, nil
 }
 
@@ -328,10 +306,10 @@ func (o *ScheduledMessage) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -387,5 +365,3 @@ func (v *NullableScheduledMessage) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

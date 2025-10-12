@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,25 +17,25 @@ import (
 // checks if the Invite type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Invite{}
 
-// Invite A dictionary containing details about an [invitation](/help/invite-new-users). 
+// Invite A dictionary containing details about an [invitation](/help/invite-new-users).
 type Invite struct {
-	// The ID of the invitation.  Note that email invitations and reusable invitation links are stored in different database tables on the server, so each ID is guaranteed to be unique in combination with the boolean value of `is_multiuse`, e.g. there can only be one invitation with `id: 1` and `is_multiuse: true`. 
+	// The ID of the invitation.  Note that email invitations and reusable invitation links are stored in different database tables on the server, so each ID is guaranteed to be unique in combination with the boolean value of `is_multiuse`, e.g. there can only be one invitation with `id: 1` and `is_multiuse: true`.
 	Id *int32 `json:"id,omitempty"`
-	// The [user ID](/api/get-user) of the user who created the invitation.  **Changes**: New in Zulip 3.0 (feature level 22), replacing the `ref` field which contained the Zulip display email address of the user who created the invitation. 
+	// The [user ID](/api/get-user) of the user who created the invitation.  **Changes**: New in Zulip 3.0 (feature level 22), replacing the `ref` field which contained the Zulip display email address of the user who created the invitation.
 	InvitedByUserId *int32 `json:"invited_by_user_id,omitempty"`
-	// The UNIX timestamp for when the invitation was created, in UTC seconds. 
+	// The UNIX timestamp for when the invitation was created, in UTC seconds.
 	Invited *int32 `json:"invited,omitempty"`
-	// The UNIX timestamp for when the invitation will expire, in UTC seconds. If `null`, the invitation never expires. 
+	// The UNIX timestamp for when the invitation will expire, in UTC seconds. If `null`, the invitation never expires.
 	ExpiryDate NullableInt32 `json:"expiry_date,omitempty"`
-	// The [organization-level role](/api/roles-and-permissions) of the user that is created when the invitation is accepted. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest 
+	// The [organization-level role](/api/roles-and-permissions) of the user that is created when the invitation is accepted. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest
 	InvitedAs *int32 `json:"invited_as,omitempty"`
-	// The email address the invitation was sent to. This will not be present when `is_multiuse` is `true` (i.e. the invitation is a reusable invitation link). 
+	// The email address the invitation was sent to. This will not be present when `is_multiuse` is `true` (i.e. the invitation is a reusable invitation link).
 	Email *string `json:"email,omitempty"`
-	// A boolean indicating whether the referrer has opted to receive a direct message from [notification bot](/help/configure-automated-notices) when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages. 
+	// A boolean indicating whether the referrer has opted to receive a direct message from [notification bot](/help/configure-automated-notices) when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
 	NotifyReferrerOnJoin *bool `json:"notify_referrer_on_join,omitempty"`
-	// The URL of the reusable invitation link. This will not be present when `is_multiuse` is `false` (i.e. the invitation is an email invitation). 
+	// The URL of the reusable invitation link. This will not be present when `is_multiuse` is `false` (i.e. the invitation is an email invitation).
 	LinkUrl *string `json:"link_url,omitempty"`
-	// A boolean specifying whether the [invitation](/help/invite-new-users) is a reusable invitation link or an email invitation. 
+	// A boolean specifying whether the [invitation](/help/invite-new-users) is a reusable invitation link or an email invitation.
 	IsMultiuse *bool `json:"is_multiuse,omitempty"`
 }
 
@@ -184,6 +184,7 @@ func (o *Invite) HasExpiryDate() bool {
 func (o *Invite) SetExpiryDate(v int32) {
 	o.ExpiryDate.Set(&v)
 }
+
 // SetExpiryDateNil sets the value for ExpiryDate to be an explicit nil
 func (o *Invite) SetExpiryDateNil() {
 	o.ExpiryDate.Set(nil)
@@ -355,7 +356,7 @@ func (o *Invite) SetIsMultiuse(v bool) {
 }
 
 func (o Invite) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -429,5 +430,3 @@ func (v *NullableInvite) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

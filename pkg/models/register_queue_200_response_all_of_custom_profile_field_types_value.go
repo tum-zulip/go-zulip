@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue{}
 
-// RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue `{FIELD_TYPE}`: Dictionary which contains the details of the field type with the field type as the name of the property itself. The current supported field types are as follows:  - `SHORT_TEXT` - `LONG_TEXT` - `DATE` for date-based fields. - `SELECT` for a list of options. - `URL` for links. - `EXTERNAL_ACCOUNT` for external accounts. - `USER` for selecting a user for the field. - `PRONOUNS` for a short text field with convenient typeahead for one's preferred pronouns.  **Changes**: `PRONOUNS` type added in Zulip 6.0 (feature level 151). 
+// RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue `{FIELD_TYPE}`: Dictionary which contains the details of the field type with the field type as the name of the property itself. The current supported field types are as follows:  - `SHORT_TEXT` - `LONG_TEXT` - `DATE` for date-based fields. - `SELECT` for a list of options. - `URL` for links. - `EXTERNAL_ACCOUNT` for external accounts. - `USER` for selecting a user for the field. - `PRONOUNS` for a short text field with convenient typeahead for one's preferred pronouns.  **Changes**: `PRONOUNS` type added in Zulip 6.0 (feature level 151).
 type RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue struct {
-	// The ID of the custom profile field type. 
+	// The ID of the custom profile field type.
 	Id *int32 `json:"id,omitempty"`
-	// The name of the custom profile field type. 
+	// The name of the custom profile field type.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue) SetName(v st
 }
 
 func (o RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableRegisterQueue200ResponseAllOfCustomProfileFieldTypesValue) Unma
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

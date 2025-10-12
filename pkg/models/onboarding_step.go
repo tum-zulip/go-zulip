@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the OnboardingStep type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &OnboardingStep{}
 
-// OnboardingStep Dictionary containing details of a single onboarding step. 
+// OnboardingStep Dictionary containing details of a single onboarding step.
 type OnboardingStep struct {
-	// The type of the onboarding step. Valid value is `\"one_time_notice\"`.  **Changes**: Removed type `\"hotspot\"` in Zulip 9.0 (feature level 259).  New in Zulip 8.0 (feature level 233). 
+	// The type of the onboarding step. Valid value is `\"one_time_notice\"`.  **Changes**: Removed type `\"hotspot\"` in Zulip 9.0 (feature level 259).  New in Zulip 8.0 (feature level 233).
 	Type *string `json:"type,omitempty"`
-	// The name of the onboarding step. 
+	// The name of the onboarding step.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *OnboardingStep) SetName(v string) {
 }
 
 func (o OnboardingStep) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableOnboardingStep) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

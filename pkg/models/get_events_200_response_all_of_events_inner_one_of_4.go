@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,12 +17,12 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf4 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf4{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf4 Event sent generally to all users who can access the modified user for changes in the set of users or those users metadata.  **Changes**: Prior to Zulip 8.0 (feature level 228), this event was sent to all users in the organization. 
+// GetEvents200ResponseAllOfEventsInnerOneOf4 Event sent generally to all users who can access the modified user for changes in the set of users or those users metadata.  **Changes**: Prior to Zulip 8.0 (feature level 228), this event was sent to all users in the organization.
 type GetEvents200ResponseAllOfEventsInnerOneOf4 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
-	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id     *int32                                            `json:"id,omitempty"`
+	Type   *string                                           `json:"type,omitempty"`
+	Op     *string                                           `json:"op,omitempty"`
 	Person *GetEvents200ResponseAllOfEventsInnerOneOf4Person `json:"person,omitempty"`
 }
 
@@ -172,7 +172,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf4) SetPerson(v GetEvents200Res
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf4) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -231,5 +231,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf4) UnmarshalJSON(src [
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

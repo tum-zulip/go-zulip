@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,23 +21,23 @@ var _ MappedNullable = &UpdateMessageFlagsForNarrow200Response{}
 
 // UpdateMessageFlagsForNarrow200Response struct for UpdateMessageFlagsForNarrow200Response
 type UpdateMessageFlagsForNarrow200Response struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history. 
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
-	// The number of messages that were within the update range (at most `num_before + 1 + num_after`). 
+	// The number of messages that were within the update range (at most `num_before + 1 + num_after`).
 	ProcessedCount int32 `json:"processed_count"`
-	// The number of messages where the flag's value was changed (at most `processed_count`). 
+	// The number of messages where the flag's value was changed (at most `processed_count`).
 	UpdatedCount int32 `json:"updated_count"`
-	// The ID of the oldest message within the update range, or `null` if the range was empty. 
+	// The ID of the oldest message within the update range, or `null` if the range was empty.
 	FirstProcessedId NullableInt32 `json:"first_processed_id"`
-	// The ID of the newest message within the update range, or `null` if the range was empty. 
+	// The ID of the newest message within the update range, or `null` if the range was empty.
 	LastProcessedId NullableInt32 `json:"last_processed_id"`
-	// Whether the update range reached backward far enough to include very oldest message matching the narrow (used by clients doing a bulk update to decide whether to issue another request anchored at `first_processed_id`). 
+	// Whether the update range reached backward far enough to include very oldest message matching the narrow (used by clients doing a bulk update to decide whether to issue another request anchored at `first_processed_id`).
 	FoundOldest bool `json:"found_oldest"`
-	// Whether the update range reached forward far enough to include very oldest message matching the narrow (used by clients doing a bulk update to decide whether to issue another request anchored at `last_processed_id`). 
+	// Whether the update range reached forward far enough to include very oldest message matching the narrow (used by clients doing a bulk update to decide whether to issue another request anchored at `last_processed_id`).
 	FoundNewest bool `json:"found_newest"`
-	// Only present if the flag is `read` and the operation is `remove`.  Zulip has an invariant that all unread messages must be in channels the user is subscribed to. This field will contain a list of the channels whose messages were skipped to mark as unread because the user is not subscribed to them.  **Changes**: New in Zulip 10.0 (feature level 355). 
+	// Only present if the flag is `read` and the operation is `remove`.  Zulip has an invariant that all unread messages must be in channels the user is subscribed to. This field will contain a list of the channels whose messages were skipped to mark as unread because the user is not subscribed to them.  **Changes**: New in Zulip 10.0 (feature level 355).
 	IgnoredBecauseNotSubscribedChannels []int32 `json:"ignored_because_not_subscribed_channels,omitempty"`
 }
 
@@ -47,7 +47,7 @@ type _UpdateMessageFlagsForNarrow200Response UpdateMessageFlagsForNarrow200Respo
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUpdateMessageFlagsForNarrow200Response(result interface{}, msg interface{}, processedCount int32, updatedCount int32, firstProcessedId NullableInt32, lastProcessedId NullableInt32, foundOldest bool, foundNewest bool) *UpdateMessageFlagsForNarrow200Response {
+func NewUpdateMessageFlagsForNarrow200Response(result string, msg string, processedCount int32, updatedCount int32, firstProcessedId NullableInt32, lastProcessedId NullableInt32, foundOldest bool, foundNewest bool) *UpdateMessageFlagsForNarrow200Response {
 	this := UpdateMessageFlagsForNarrow200Response{}
 	this.Result = result
 	this.Msg = msg
@@ -69,10 +69,9 @@ func NewUpdateMessageFlagsForNarrow200ResponseWithDefaults() *UpdateMessageFlags
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *UpdateMessageFlagsForNarrow200Response) GetResult() interface{} {
+func (o *UpdateMessageFlagsForNarrow200Response) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -81,24 +80,22 @@ func (o *UpdateMessageFlagsForNarrow200Response) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UpdateMessageFlagsForNarrow200Response) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *UpdateMessageFlagsForNarrow200Response) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *UpdateMessageFlagsForNarrow200Response) SetResult(v interface{}) {
+func (o *UpdateMessageFlagsForNarrow200Response) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *UpdateMessageFlagsForNarrow200Response) GetMsg() interface{} {
+func (o *UpdateMessageFlagsForNarrow200Response) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -107,16 +104,15 @@ func (o *UpdateMessageFlagsForNarrow200Response) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UpdateMessageFlagsForNarrow200Response) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *UpdateMessageFlagsForNarrow200Response) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *UpdateMessageFlagsForNarrow200Response) SetMsg(v interface{}) {
+func (o *UpdateMessageFlagsForNarrow200Response) SetMsg(v string) {
 	o.Msg = v
 }
 
@@ -333,7 +329,7 @@ func (o *UpdateMessageFlagsForNarrow200Response) SetIgnoredBecauseNotSubscribedC
 }
 
 func (o UpdateMessageFlagsForNarrow200Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -342,12 +338,8 @@ func (o UpdateMessageFlagsForNarrow200Response) MarshalJSON() ([]byte, error) {
 
 func (o UpdateMessageFlagsForNarrow200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
 	if !IsNil(o.IgnoredParametersUnsupported) {
 		toSerialize["ignored_parameters_unsupported"] = o.IgnoredParametersUnsupported
 	}
@@ -383,10 +375,10 @@ func (o *UpdateMessageFlagsForNarrow200Response) UnmarshalJSON(data []byte) (err
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -442,5 +434,3 @@ func (v *NullableUpdateMessageFlagsForNarrow200Response) UnmarshalJSON(src []byt
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,37 +21,52 @@ var _ MappedNullable = &GetStreams200ResponseAllOfStreamsInner{}
 
 // GetStreams200ResponseAllOfStreamsInner struct for GetStreams200ResponseAllOfStreamsInner
 type GetStreams200ResponseAllOfStreamsInner struct {
-	StreamId interface{} `json:"stream_id"`
-	Name interface{} `json:"name"`
-	IsArchived interface{} `json:"is_archived"`
-	Description interface{} `json:"description"`
-	DateCreated interface{} `json:"date_created"`
-	CreatorId interface{} `json:"creator_id"`
-	InviteOnly interface{} `json:"invite_only"`
-	RenderedDescription interface{} `json:"rendered_description"`
-	IsWebPublic interface{} `json:"is_web_public"`
-	StreamPostPolicy interface{} `json:"stream_post_policy"`
+	// The unique ID of the channel.
+	StreamId int32 `json:"stream_id"`
+	// The name of the channel.
+	Name string `json:"name"`
+	// A boolean indicating whether the channel is [archived](/help/archive-a-channel).  **Changes**: New in Zulip 10.0 (feature level 315). Previously, this endpoint never returned archived channels.
+	IsArchived bool `json:"is_archived"`
+	// The short description of the channel in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format, intended to be used to prepopulate UI for editing a channel's description.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
+	Description string `json:"description"`
+	// The UNIX timestamp for when the channel was created, in UTC seconds.  **Changes**: New in Zulip 4.0 (feature level 30).
+	DateCreated int32       `json:"date_created"`
+	CreatorId   interface{} `json:"creator_id"`
+	// Specifies whether the channel is private or not. Only people who have been invited can access a private channel.
+	InviteOnly bool `json:"invite_only"`
+	// The short description of the channel rendered as HTML, intended to be used when displaying the channel description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.
+	RenderedDescription string `json:"rendered_description"`
+	// Whether the channel has been configured to allow unauthenticated access to its message history from the web.  **Changes**: New in Zulip 2.1.0.
+	IsWebPublic bool `json:"is_web_public"`
+	// A deprecated representation of a superset of the users who have permission to post messages to the channel available for backwards-compatibility. Clients should use `can_send_message_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:  - 1 = Any user can post. - 2 = Only administrators can post. - 3 = Only [full members][calc-full-member] can post. - 4 = Only moderators can post.  **Changes**: Deprecated in Zulip 10.0 (feature level 333) and replaced by `can_send_message_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  New in Zulip 3.0 (feature level 1), replacing the previous `is_announcement_only` boolean.  [calc-full-member]: /api/roles-and-permissions#determining-if-a-user-is-a-full-member
+	// Deprecated
+	StreamPostPolicy     int32       `json:"stream_post_policy"`
 	MessageRetentionDays interface{} `json:"message_retention_days"`
-	HistoryPublicToSubscribers interface{} `json:"history_public_to_subscribers"`
-	TopicsPolicy interface{} `json:"topics_policy,omitempty"`
-	FirstMessageId interface{} `json:"first_message_id"`
-	FolderId interface{} `json:"folder_id"`
-	IsRecentlyActive interface{} `json:"is_recently_active"`
-	IsAnnouncementOnly interface{} `json:"is_announcement_only"`
-	CanAddSubscribersGroup interface{} `json:"can_add_subscribers_group,omitempty"`
-	CanRemoveSubscribersGroup interface{} `json:"can_remove_subscribers_group"`
-	CanAdministerChannelGroup interface{} `json:"can_administer_channel_group,omitempty"`
-	CanDeleteAnyMessageGroup interface{} `json:"can_delete_any_message_group,omitempty"`
-	CanDeleteOwnMessageGroup interface{} `json:"can_delete_own_message_group,omitempty"`
-	CanMoveMessagesOutOfChannelGroup interface{} `json:"can_move_messages_out_of_channel_group,omitempty"`
-	CanMoveMessagesWithinChannelGroup interface{} `json:"can_move_messages_within_channel_group,omitempty"`
-	CanSendMessageGroup interface{} `json:"can_send_message_group,omitempty"`
-	CanSubscribeGroup interface{} `json:"can_subscribe_group"`
-	CanResolveTopicsGroup interface{} `json:"can_resolve_topics_group,omitempty"`
-	SubscriberCount interface{} `json:"subscriber_count"`
-	// The average number of messages sent to the channel per week, as estimated based on recent weeks, rounded to the nearest integer.  If `null`, no information is provided on the average traffic. This can be because the channel was recently created and there is insufficient data to make an estimate, or because the server wishes to omit this information for this client, this realm, or this endpoint or type of event.  **Changes**: New in Zulip 8.0 (feature level 199). Previously, this statistic was available only in subscription objects. 
+	// Whether the history of the channel is public to its subscribers.  Currently always true for public channels (i.e. `\"invite_only\": false` implies `\"history_public_to_subscribers\": true`), but clients should not make that assumption, as we may change that behavior in the future.
+	HistoryPublicToSubscribers bool          `json:"history_public_to_subscribers"`
+	TopicsPolicy               *TopicsPolicy `json:"topics_policy,omitempty"`
+	FirstMessageId             interface{}   `json:"first_message_id"`
+	FolderId                   interface{}   `json:"folder_id"`
+	// Whether the channel has recent message activity. Clients should use this to implement [hide inactive channels](/help/manage-inactive-channels) if `demote_inactive_streams` is enabled.  **Changes**: New in Zulip 10.0 (feature level 323). Previously, clients implemented the demote_inactive_streams from local message history, resulting in a choppy loading experience.
+	IsRecentlyActive bool `json:"is_recently_active"`
+	// Whether the given channel is announcement only or not.  **Changes**: Deprecated in Zulip 3.0 (feature level 1). Clients should use `stream_post_policy` instead.
+	// Deprecated
+	IsAnnouncementOnly                bool                               `json:"is_announcement_only"`
+	CanAddSubscribersGroup            *ChannelCanAddSubscribersGroup     `json:"can_add_subscribers_group,omitempty"`
+	CanRemoveSubscribersGroup         CanRemoveSubscribersGroup          `json:"can_remove_subscribers_group"`
+	CanAdministerChannelGroup         *CanAdministerChannelGroup         `json:"can_administer_channel_group,omitempty"`
+	CanDeleteAnyMessageGroup          *CanDeleteAnyMessageGroup          `json:"can_delete_any_message_group,omitempty"`
+	CanDeleteOwnMessageGroup          *CanDeleteOwnMessageGroup          `json:"can_delete_own_message_group,omitempty"`
+	CanMoveMessagesOutOfChannelGroup  *CanMoveMessagesOutOfChannelGroup  `json:"can_move_messages_out_of_channel_group,omitempty"`
+	CanMoveMessagesWithinChannelGroup *CanMoveMessagesWithinChannelGroup `json:"can_move_messages_within_channel_group,omitempty"`
+	CanSendMessageGroup               *CanSendMessageGroup               `json:"can_send_message_group,omitempty"`
+	CanSubscribeGroup                 CanSubscribeGroup                  `json:"can_subscribe_group"`
+	CanResolveTopicsGroup             *CanResolveTopicsGroup             `json:"can_resolve_topics_group,omitempty"`
+	// The total number of non-deactivated users (including bots) who are subscribed to the channel. Clients are responsible for updating this value using `peer_add` and `peer_remove` events.  The server's internals cannot guarantee this value is correctly synced with `peer_add` and `peer_remove` events for the channel. As a result, if a (rare) race occurs between a change in the channel's subscribers and fetching this value, it is possible for a client that is correctly following the events protocol to end up with a permanently off-by-one error in the channel's subscriber count.  Clients are recommended to fetch full subscriber data for a channel in contexts where it is important to avoid this risk. The official web application, for example, uses this field primarily while waiting to fetch a given channel's full subscriber list from the server.  **Changes**: New in Zulip 11.0 (feature level 394).
+	SubscriberCount float32 `json:"subscriber_count"`
+	// The average number of messages sent to the channel per week, as estimated based on recent weeks, rounded to the nearest integer.  If `null`, no information is provided on the average traffic. This can be because the channel was recently created and there is insufficient data to make an estimate, or because the server wishes to omit this information for this client, this realm, or this endpoint or type of event.  **Changes**: New in Zulip 8.0 (feature level 199). Previously, this statistic was available only in subscription objects.
 	StreamWeeklyTraffic NullableInt32 `json:"stream_weekly_traffic"`
-	// Only present when [`include_default`][include_default] parameter is `true`.  Whether the given channel is a [default channel](/help/set-default-channels-for-new-users).  [include_default]: /api/get-streams#parameter-include_default 
+	// Only present when [`include_default`][include_default] parameter is `true`.  Whether the given channel is a [default channel](/help/set-default-channels-for-new-users).  [include_default]: /api/get-streams#parameter-include_default
 	IsDefault *bool `json:"is_default,omitempty"`
 }
 
@@ -61,7 +76,7 @@ type _GetStreams200ResponseAllOfStreamsInner GetStreams200ResponseAllOfStreamsIn
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetStreams200ResponseAllOfStreamsInner(streamId interface{}, name interface{}, isArchived interface{}, description interface{}, dateCreated interface{}, creatorId interface{}, inviteOnly interface{}, renderedDescription interface{}, isWebPublic interface{}, streamPostPolicy interface{}, messageRetentionDays interface{}, historyPublicToSubscribers interface{}, firstMessageId interface{}, folderId interface{}, isRecentlyActive interface{}, isAnnouncementOnly interface{}, canRemoveSubscribersGroup interface{}, canSubscribeGroup interface{}, subscriberCount interface{}, streamWeeklyTraffic NullableInt32) *GetStreams200ResponseAllOfStreamsInner {
+func NewGetStreams200ResponseAllOfStreamsInner(streamId int32, name string, isArchived bool, description string, dateCreated int32, creatorId interface{}, inviteOnly bool, renderedDescription string, isWebPublic bool, streamPostPolicy int32, messageRetentionDays interface{}, historyPublicToSubscribers bool, firstMessageId interface{}, folderId interface{}, isRecentlyActive bool, isAnnouncementOnly bool, canRemoveSubscribersGroup CanRemoveSubscribersGroup, canSubscribeGroup CanSubscribeGroup, subscriberCount float32, streamWeeklyTraffic NullableInt32) *GetStreams200ResponseAllOfStreamsInner {
 	this := GetStreams200ResponseAllOfStreamsInner{}
 	this.StreamId = streamId
 	this.Name = name
@@ -95,10 +110,9 @@ func NewGetStreams200ResponseAllOfStreamsInnerWithDefaults() *GetStreams200Respo
 }
 
 // GetStreamId returns the StreamId field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetStreamId() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetStreamId() int32 {
 	if o == nil {
-		var ret interface{}
+		var ret int32
 		return ret
 	}
 
@@ -107,24 +121,22 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetStreamId() interface{} {
 
 // GetStreamIdOk returns a tuple with the StreamId field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetStreamIdOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.StreamId) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetStreamIdOk() (*int32, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.StreamId, true
 }
 
 // SetStreamId sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetStreamId(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetStreamId(v int32) {
 	o.StreamId = v
 }
 
 // GetName returns the Name field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetName() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetName() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -133,24 +145,22 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetName() interface{} {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetNameOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Name) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetNameOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
 }
 
 // SetName sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetName(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetName(v string) {
 	o.Name = v
 }
 
 // GetIsArchived returns the IsArchived field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetIsArchived() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetIsArchived() bool {
 	if o == nil {
-		var ret interface{}
+		var ret bool
 		return ret
 	}
 
@@ -159,24 +169,22 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetIsArchived() interface{} {
 
 // GetIsArchivedOk returns a tuple with the IsArchived field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetIsArchivedOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.IsArchived) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetIsArchivedOk() (*bool, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.IsArchived, true
 }
 
 // SetIsArchived sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetIsArchived(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetIsArchived(v bool) {
 	o.IsArchived = v
 }
 
 // GetDescription returns the Description field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetDescription() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetDescription() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -185,24 +193,22 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetDescription() interface{} {
 
 // GetDescriptionOk returns a tuple with the Description field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetDescriptionOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Description) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetDescriptionOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Description, true
 }
 
 // SetDescription sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetDescription(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetDescription(v string) {
 	o.Description = v
 }
 
 // GetDateCreated returns the DateCreated field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetDateCreated() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetDateCreated() int32 {
 	if o == nil {
-		var ret interface{}
+		var ret int32
 		return ret
 	}
 
@@ -211,16 +217,15 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetDateCreated() interface{} {
 
 // GetDateCreatedOk returns a tuple with the DateCreated field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetDateCreatedOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.DateCreated) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetDateCreatedOk() (*int32, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.DateCreated, true
 }
 
 // SetDateCreated sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetDateCreated(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetDateCreated(v int32) {
 	o.DateCreated = v
 }
 
@@ -251,10 +256,9 @@ func (o *GetStreams200ResponseAllOfStreamsInner) SetCreatorId(v interface{}) {
 }
 
 // GetInviteOnly returns the InviteOnly field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetInviteOnly() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetInviteOnly() bool {
 	if o == nil {
-		var ret interface{}
+		var ret bool
 		return ret
 	}
 
@@ -263,24 +267,22 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetInviteOnly() interface{} {
 
 // GetInviteOnlyOk returns a tuple with the InviteOnly field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetInviteOnlyOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.InviteOnly) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetInviteOnlyOk() (*bool, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.InviteOnly, true
 }
 
 // SetInviteOnly sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetInviteOnly(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetInviteOnly(v bool) {
 	o.InviteOnly = v
 }
 
 // GetRenderedDescription returns the RenderedDescription field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetRenderedDescription() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetRenderedDescription() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -289,24 +291,22 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetRenderedDescription() interf
 
 // GetRenderedDescriptionOk returns a tuple with the RenderedDescription field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetRenderedDescriptionOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.RenderedDescription) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetRenderedDescriptionOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.RenderedDescription, true
 }
 
 // SetRenderedDescription sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetRenderedDescription(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetRenderedDescription(v string) {
 	o.RenderedDescription = v
 }
 
 // GetIsWebPublic returns the IsWebPublic field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetIsWebPublic() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetIsWebPublic() bool {
 	if o == nil {
-		var ret interface{}
+		var ret bool
 		return ret
 	}
 
@@ -315,24 +315,23 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetIsWebPublic() interface{} {
 
 // GetIsWebPublicOk returns a tuple with the IsWebPublic field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetIsWebPublicOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.IsWebPublic) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetIsWebPublicOk() (*bool, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.IsWebPublic, true
 }
 
 // SetIsWebPublic sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetIsWebPublic(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetIsWebPublic(v bool) {
 	o.IsWebPublic = v
 }
 
 // GetStreamPostPolicy returns the StreamPostPolicy field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetStreamPostPolicy() interface{} {
+// Deprecated
+func (o *GetStreams200ResponseAllOfStreamsInner) GetStreamPostPolicy() int32 {
 	if o == nil {
-		var ret interface{}
+		var ret int32
 		return ret
 	}
 
@@ -341,16 +340,17 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetStreamPostPolicy() interface
 
 // GetStreamPostPolicyOk returns a tuple with the StreamPostPolicy field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetStreamPostPolicyOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.StreamPostPolicy) {
+// Deprecated
+func (o *GetStreams200ResponseAllOfStreamsInner) GetStreamPostPolicyOk() (*int32, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.StreamPostPolicy, true
 }
 
 // SetStreamPostPolicy sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetStreamPostPolicy(v interface{}) {
+// Deprecated
+func (o *GetStreams200ResponseAllOfStreamsInner) SetStreamPostPolicy(v int32) {
 	o.StreamPostPolicy = v
 }
 
@@ -381,10 +381,9 @@ func (o *GetStreams200ResponseAllOfStreamsInner) SetMessageRetentionDays(v inter
 }
 
 // GetHistoryPublicToSubscribers returns the HistoryPublicToSubscribers field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetHistoryPublicToSubscribers() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetHistoryPublicToSubscribers() bool {
 	if o == nil {
-		var ret interface{}
+		var ret bool
 		return ret
 	}
 
@@ -393,36 +392,34 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetHistoryPublicToSubscribers()
 
 // GetHistoryPublicToSubscribersOk returns a tuple with the HistoryPublicToSubscribers field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetHistoryPublicToSubscribersOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.HistoryPublicToSubscribers) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetHistoryPublicToSubscribersOk() (*bool, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.HistoryPublicToSubscribers, true
 }
 
 // SetHistoryPublicToSubscribers sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetHistoryPublicToSubscribers(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetHistoryPublicToSubscribers(v bool) {
 	o.HistoryPublicToSubscribers = v
 }
 
-// GetTopicsPolicy returns the TopicsPolicy field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetStreams200ResponseAllOfStreamsInner) GetTopicsPolicy() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetTopicsPolicy returns the TopicsPolicy field value if set, zero value otherwise.
+func (o *GetStreams200ResponseAllOfStreamsInner) GetTopicsPolicy() TopicsPolicy {
+	if o == nil || IsNil(o.TopicsPolicy) {
+		var ret TopicsPolicy
 		return ret
 	}
-	return o.TopicsPolicy
+	return *o.TopicsPolicy
 }
 
 // GetTopicsPolicyOk returns a tuple with the TopicsPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetTopicsPolicyOk() (*interface{}, bool) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetTopicsPolicyOk() (*TopicsPolicy, bool) {
 	if o == nil || IsNil(o.TopicsPolicy) {
 		return nil, false
 	}
-	return &o.TopicsPolicy, true
+	return o.TopicsPolicy, true
 }
 
 // HasTopicsPolicy returns a boolean if a field has been set.
@@ -434,9 +431,9 @@ func (o *GetStreams200ResponseAllOfStreamsInner) HasTopicsPolicy() bool {
 	return false
 }
 
-// SetTopicsPolicy gets a reference to the given interface{} and assigns it to the TopicsPolicy field.
-func (o *GetStreams200ResponseAllOfStreamsInner) SetTopicsPolicy(v interface{}) {
-	o.TopicsPolicy = v
+// SetTopicsPolicy gets a reference to the given TopicsPolicy and assigns it to the TopicsPolicy field.
+func (o *GetStreams200ResponseAllOfStreamsInner) SetTopicsPolicy(v TopicsPolicy) {
+	o.TopicsPolicy = &v
 }
 
 // GetFirstMessageId returns the FirstMessageId field value
@@ -492,10 +489,9 @@ func (o *GetStreams200ResponseAllOfStreamsInner) SetFolderId(v interface{}) {
 }
 
 // GetIsRecentlyActive returns the IsRecentlyActive field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetIsRecentlyActive() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetIsRecentlyActive() bool {
 	if o == nil {
-		var ret interface{}
+		var ret bool
 		return ret
 	}
 
@@ -504,24 +500,23 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetIsRecentlyActive() interface
 
 // GetIsRecentlyActiveOk returns a tuple with the IsRecentlyActive field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetIsRecentlyActiveOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.IsRecentlyActive) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetIsRecentlyActiveOk() (*bool, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.IsRecentlyActive, true
 }
 
 // SetIsRecentlyActive sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetIsRecentlyActive(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetIsRecentlyActive(v bool) {
 	o.IsRecentlyActive = v
 }
 
 // GetIsAnnouncementOnly returns the IsAnnouncementOnly field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetIsAnnouncementOnly() interface{} {
+// Deprecated
+func (o *GetStreams200ResponseAllOfStreamsInner) GetIsAnnouncementOnly() bool {
 	if o == nil {
-		var ret interface{}
+		var ret bool
 		return ret
 	}
 
@@ -530,36 +525,36 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetIsAnnouncementOnly() interfa
 
 // GetIsAnnouncementOnlyOk returns a tuple with the IsAnnouncementOnly field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetIsAnnouncementOnlyOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.IsAnnouncementOnly) {
+// Deprecated
+func (o *GetStreams200ResponseAllOfStreamsInner) GetIsAnnouncementOnlyOk() (*bool, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.IsAnnouncementOnly, true
 }
 
 // SetIsAnnouncementOnly sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetIsAnnouncementOnly(v interface{}) {
+// Deprecated
+func (o *GetStreams200ResponseAllOfStreamsInner) SetIsAnnouncementOnly(v bool) {
 	o.IsAnnouncementOnly = v
 }
 
-// GetCanAddSubscribersGroup returns the CanAddSubscribersGroup field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanAddSubscribersGroup() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetCanAddSubscribersGroup returns the CanAddSubscribersGroup field value if set, zero value otherwise.
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanAddSubscribersGroup() ChannelCanAddSubscribersGroup {
+	if o == nil || IsNil(o.CanAddSubscribersGroup) {
+		var ret ChannelCanAddSubscribersGroup
 		return ret
 	}
-	return o.CanAddSubscribersGroup
+	return *o.CanAddSubscribersGroup
 }
 
 // GetCanAddSubscribersGroupOk returns a tuple with the CanAddSubscribersGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanAddSubscribersGroupOk() (*interface{}, bool) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanAddSubscribersGroupOk() (*ChannelCanAddSubscribersGroup, bool) {
 	if o == nil || IsNil(o.CanAddSubscribersGroup) {
 		return nil, false
 	}
-	return &o.CanAddSubscribersGroup, true
+	return o.CanAddSubscribersGroup, true
 }
 
 // HasCanAddSubscribersGroup returns a boolean if a field has been set.
@@ -571,16 +566,15 @@ func (o *GetStreams200ResponseAllOfStreamsInner) HasCanAddSubscribersGroup() boo
 	return false
 }
 
-// SetCanAddSubscribersGroup gets a reference to the given interface{} and assigns it to the CanAddSubscribersGroup field.
-func (o *GetStreams200ResponseAllOfStreamsInner) SetCanAddSubscribersGroup(v interface{}) {
-	o.CanAddSubscribersGroup = v
+// SetCanAddSubscribersGroup gets a reference to the given ChannelCanAddSubscribersGroup and assigns it to the CanAddSubscribersGroup field.
+func (o *GetStreams200ResponseAllOfStreamsInner) SetCanAddSubscribersGroup(v ChannelCanAddSubscribersGroup) {
+	o.CanAddSubscribersGroup = &v
 }
 
 // GetCanRemoveSubscribersGroup returns the CanRemoveSubscribersGroup field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanRemoveSubscribersGroup() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanRemoveSubscribersGroup() CanRemoveSubscribersGroup {
 	if o == nil {
-		var ret interface{}
+		var ret CanRemoveSubscribersGroup
 		return ret
 	}
 
@@ -589,36 +583,34 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetCanRemoveSubscribersGroup() 
 
 // GetCanRemoveSubscribersGroupOk returns a tuple with the CanRemoveSubscribersGroup field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanRemoveSubscribersGroupOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.CanRemoveSubscribersGroup) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanRemoveSubscribersGroupOk() (*CanRemoveSubscribersGroup, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CanRemoveSubscribersGroup, true
 }
 
 // SetCanRemoveSubscribersGroup sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetCanRemoveSubscribersGroup(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetCanRemoveSubscribersGroup(v CanRemoveSubscribersGroup) {
 	o.CanRemoveSubscribersGroup = v
 }
 
-// GetCanAdministerChannelGroup returns the CanAdministerChannelGroup field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanAdministerChannelGroup() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetCanAdministerChannelGroup returns the CanAdministerChannelGroup field value if set, zero value otherwise.
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanAdministerChannelGroup() CanAdministerChannelGroup {
+	if o == nil || IsNil(o.CanAdministerChannelGroup) {
+		var ret CanAdministerChannelGroup
 		return ret
 	}
-	return o.CanAdministerChannelGroup
+	return *o.CanAdministerChannelGroup
 }
 
 // GetCanAdministerChannelGroupOk returns a tuple with the CanAdministerChannelGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanAdministerChannelGroupOk() (*interface{}, bool) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanAdministerChannelGroupOk() (*CanAdministerChannelGroup, bool) {
 	if o == nil || IsNil(o.CanAdministerChannelGroup) {
 		return nil, false
 	}
-	return &o.CanAdministerChannelGroup, true
+	return o.CanAdministerChannelGroup, true
 }
 
 // HasCanAdministerChannelGroup returns a boolean if a field has been set.
@@ -630,28 +622,27 @@ func (o *GetStreams200ResponseAllOfStreamsInner) HasCanAdministerChannelGroup() 
 	return false
 }
 
-// SetCanAdministerChannelGroup gets a reference to the given interface{} and assigns it to the CanAdministerChannelGroup field.
-func (o *GetStreams200ResponseAllOfStreamsInner) SetCanAdministerChannelGroup(v interface{}) {
-	o.CanAdministerChannelGroup = v
+// SetCanAdministerChannelGroup gets a reference to the given CanAdministerChannelGroup and assigns it to the CanAdministerChannelGroup field.
+func (o *GetStreams200ResponseAllOfStreamsInner) SetCanAdministerChannelGroup(v CanAdministerChannelGroup) {
+	o.CanAdministerChannelGroup = &v
 }
 
-// GetCanDeleteAnyMessageGroup returns the CanDeleteAnyMessageGroup field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanDeleteAnyMessageGroup() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetCanDeleteAnyMessageGroup returns the CanDeleteAnyMessageGroup field value if set, zero value otherwise.
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanDeleteAnyMessageGroup() CanDeleteAnyMessageGroup {
+	if o == nil || IsNil(o.CanDeleteAnyMessageGroup) {
+		var ret CanDeleteAnyMessageGroup
 		return ret
 	}
-	return o.CanDeleteAnyMessageGroup
+	return *o.CanDeleteAnyMessageGroup
 }
 
 // GetCanDeleteAnyMessageGroupOk returns a tuple with the CanDeleteAnyMessageGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanDeleteAnyMessageGroupOk() (*interface{}, bool) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanDeleteAnyMessageGroupOk() (*CanDeleteAnyMessageGroup, bool) {
 	if o == nil || IsNil(o.CanDeleteAnyMessageGroup) {
 		return nil, false
 	}
-	return &o.CanDeleteAnyMessageGroup, true
+	return o.CanDeleteAnyMessageGroup, true
 }
 
 // HasCanDeleteAnyMessageGroup returns a boolean if a field has been set.
@@ -663,28 +654,27 @@ func (o *GetStreams200ResponseAllOfStreamsInner) HasCanDeleteAnyMessageGroup() b
 	return false
 }
 
-// SetCanDeleteAnyMessageGroup gets a reference to the given interface{} and assigns it to the CanDeleteAnyMessageGroup field.
-func (o *GetStreams200ResponseAllOfStreamsInner) SetCanDeleteAnyMessageGroup(v interface{}) {
-	o.CanDeleteAnyMessageGroup = v
+// SetCanDeleteAnyMessageGroup gets a reference to the given CanDeleteAnyMessageGroup and assigns it to the CanDeleteAnyMessageGroup field.
+func (o *GetStreams200ResponseAllOfStreamsInner) SetCanDeleteAnyMessageGroup(v CanDeleteAnyMessageGroup) {
+	o.CanDeleteAnyMessageGroup = &v
 }
 
-// GetCanDeleteOwnMessageGroup returns the CanDeleteOwnMessageGroup field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanDeleteOwnMessageGroup() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetCanDeleteOwnMessageGroup returns the CanDeleteOwnMessageGroup field value if set, zero value otherwise.
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanDeleteOwnMessageGroup() CanDeleteOwnMessageGroup {
+	if o == nil || IsNil(o.CanDeleteOwnMessageGroup) {
+		var ret CanDeleteOwnMessageGroup
 		return ret
 	}
-	return o.CanDeleteOwnMessageGroup
+	return *o.CanDeleteOwnMessageGroup
 }
 
 // GetCanDeleteOwnMessageGroupOk returns a tuple with the CanDeleteOwnMessageGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanDeleteOwnMessageGroupOk() (*interface{}, bool) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanDeleteOwnMessageGroupOk() (*CanDeleteOwnMessageGroup, bool) {
 	if o == nil || IsNil(o.CanDeleteOwnMessageGroup) {
 		return nil, false
 	}
-	return &o.CanDeleteOwnMessageGroup, true
+	return o.CanDeleteOwnMessageGroup, true
 }
 
 // HasCanDeleteOwnMessageGroup returns a boolean if a field has been set.
@@ -696,28 +686,27 @@ func (o *GetStreams200ResponseAllOfStreamsInner) HasCanDeleteOwnMessageGroup() b
 	return false
 }
 
-// SetCanDeleteOwnMessageGroup gets a reference to the given interface{} and assigns it to the CanDeleteOwnMessageGroup field.
-func (o *GetStreams200ResponseAllOfStreamsInner) SetCanDeleteOwnMessageGroup(v interface{}) {
-	o.CanDeleteOwnMessageGroup = v
+// SetCanDeleteOwnMessageGroup gets a reference to the given CanDeleteOwnMessageGroup and assigns it to the CanDeleteOwnMessageGroup field.
+func (o *GetStreams200ResponseAllOfStreamsInner) SetCanDeleteOwnMessageGroup(v CanDeleteOwnMessageGroup) {
+	o.CanDeleteOwnMessageGroup = &v
 }
 
-// GetCanMoveMessagesOutOfChannelGroup returns the CanMoveMessagesOutOfChannelGroup field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanMoveMessagesOutOfChannelGroup() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetCanMoveMessagesOutOfChannelGroup returns the CanMoveMessagesOutOfChannelGroup field value if set, zero value otherwise.
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanMoveMessagesOutOfChannelGroup() CanMoveMessagesOutOfChannelGroup {
+	if o == nil || IsNil(o.CanMoveMessagesOutOfChannelGroup) {
+		var ret CanMoveMessagesOutOfChannelGroup
 		return ret
 	}
-	return o.CanMoveMessagesOutOfChannelGroup
+	return *o.CanMoveMessagesOutOfChannelGroup
 }
 
 // GetCanMoveMessagesOutOfChannelGroupOk returns a tuple with the CanMoveMessagesOutOfChannelGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanMoveMessagesOutOfChannelGroupOk() (*interface{}, bool) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanMoveMessagesOutOfChannelGroupOk() (*CanMoveMessagesOutOfChannelGroup, bool) {
 	if o == nil || IsNil(o.CanMoveMessagesOutOfChannelGroup) {
 		return nil, false
 	}
-	return &o.CanMoveMessagesOutOfChannelGroup, true
+	return o.CanMoveMessagesOutOfChannelGroup, true
 }
 
 // HasCanMoveMessagesOutOfChannelGroup returns a boolean if a field has been set.
@@ -729,28 +718,27 @@ func (o *GetStreams200ResponseAllOfStreamsInner) HasCanMoveMessagesOutOfChannelG
 	return false
 }
 
-// SetCanMoveMessagesOutOfChannelGroup gets a reference to the given interface{} and assigns it to the CanMoveMessagesOutOfChannelGroup field.
-func (o *GetStreams200ResponseAllOfStreamsInner) SetCanMoveMessagesOutOfChannelGroup(v interface{}) {
-	o.CanMoveMessagesOutOfChannelGroup = v
+// SetCanMoveMessagesOutOfChannelGroup gets a reference to the given CanMoveMessagesOutOfChannelGroup and assigns it to the CanMoveMessagesOutOfChannelGroup field.
+func (o *GetStreams200ResponseAllOfStreamsInner) SetCanMoveMessagesOutOfChannelGroup(v CanMoveMessagesOutOfChannelGroup) {
+	o.CanMoveMessagesOutOfChannelGroup = &v
 }
 
-// GetCanMoveMessagesWithinChannelGroup returns the CanMoveMessagesWithinChannelGroup field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanMoveMessagesWithinChannelGroup() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetCanMoveMessagesWithinChannelGroup returns the CanMoveMessagesWithinChannelGroup field value if set, zero value otherwise.
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanMoveMessagesWithinChannelGroup() CanMoveMessagesWithinChannelGroup {
+	if o == nil || IsNil(o.CanMoveMessagesWithinChannelGroup) {
+		var ret CanMoveMessagesWithinChannelGroup
 		return ret
 	}
-	return o.CanMoveMessagesWithinChannelGroup
+	return *o.CanMoveMessagesWithinChannelGroup
 }
 
 // GetCanMoveMessagesWithinChannelGroupOk returns a tuple with the CanMoveMessagesWithinChannelGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanMoveMessagesWithinChannelGroupOk() (*interface{}, bool) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanMoveMessagesWithinChannelGroupOk() (*CanMoveMessagesWithinChannelGroup, bool) {
 	if o == nil || IsNil(o.CanMoveMessagesWithinChannelGroup) {
 		return nil, false
 	}
-	return &o.CanMoveMessagesWithinChannelGroup, true
+	return o.CanMoveMessagesWithinChannelGroup, true
 }
 
 // HasCanMoveMessagesWithinChannelGroup returns a boolean if a field has been set.
@@ -762,28 +750,27 @@ func (o *GetStreams200ResponseAllOfStreamsInner) HasCanMoveMessagesWithinChannel
 	return false
 }
 
-// SetCanMoveMessagesWithinChannelGroup gets a reference to the given interface{} and assigns it to the CanMoveMessagesWithinChannelGroup field.
-func (o *GetStreams200ResponseAllOfStreamsInner) SetCanMoveMessagesWithinChannelGroup(v interface{}) {
-	o.CanMoveMessagesWithinChannelGroup = v
+// SetCanMoveMessagesWithinChannelGroup gets a reference to the given CanMoveMessagesWithinChannelGroup and assigns it to the CanMoveMessagesWithinChannelGroup field.
+func (o *GetStreams200ResponseAllOfStreamsInner) SetCanMoveMessagesWithinChannelGroup(v CanMoveMessagesWithinChannelGroup) {
+	o.CanMoveMessagesWithinChannelGroup = &v
 }
 
-// GetCanSendMessageGroup returns the CanSendMessageGroup field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanSendMessageGroup() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetCanSendMessageGroup returns the CanSendMessageGroup field value if set, zero value otherwise.
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanSendMessageGroup() CanSendMessageGroup {
+	if o == nil || IsNil(o.CanSendMessageGroup) {
+		var ret CanSendMessageGroup
 		return ret
 	}
-	return o.CanSendMessageGroup
+	return *o.CanSendMessageGroup
 }
 
 // GetCanSendMessageGroupOk returns a tuple with the CanSendMessageGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanSendMessageGroupOk() (*interface{}, bool) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanSendMessageGroupOk() (*CanSendMessageGroup, bool) {
 	if o == nil || IsNil(o.CanSendMessageGroup) {
 		return nil, false
 	}
-	return &o.CanSendMessageGroup, true
+	return o.CanSendMessageGroup, true
 }
 
 // HasCanSendMessageGroup returns a boolean if a field has been set.
@@ -795,16 +782,15 @@ func (o *GetStreams200ResponseAllOfStreamsInner) HasCanSendMessageGroup() bool {
 	return false
 }
 
-// SetCanSendMessageGroup gets a reference to the given interface{} and assigns it to the CanSendMessageGroup field.
-func (o *GetStreams200ResponseAllOfStreamsInner) SetCanSendMessageGroup(v interface{}) {
-	o.CanSendMessageGroup = v
+// SetCanSendMessageGroup gets a reference to the given CanSendMessageGroup and assigns it to the CanSendMessageGroup field.
+func (o *GetStreams200ResponseAllOfStreamsInner) SetCanSendMessageGroup(v CanSendMessageGroup) {
+	o.CanSendMessageGroup = &v
 }
 
 // GetCanSubscribeGroup returns the CanSubscribeGroup field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanSubscribeGroup() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanSubscribeGroup() CanSubscribeGroup {
 	if o == nil {
-		var ret interface{}
+		var ret CanSubscribeGroup
 		return ret
 	}
 
@@ -813,36 +799,34 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetCanSubscribeGroup() interfac
 
 // GetCanSubscribeGroupOk returns a tuple with the CanSubscribeGroup field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanSubscribeGroupOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.CanSubscribeGroup) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanSubscribeGroupOk() (*CanSubscribeGroup, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CanSubscribeGroup, true
 }
 
 // SetCanSubscribeGroup sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetCanSubscribeGroup(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetCanSubscribeGroup(v CanSubscribeGroup) {
 	o.CanSubscribeGroup = v
 }
 
-// GetCanResolveTopicsGroup returns the CanResolveTopicsGroup field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanResolveTopicsGroup() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetCanResolveTopicsGroup returns the CanResolveTopicsGroup field value if set, zero value otherwise.
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanResolveTopicsGroup() CanResolveTopicsGroup {
+	if o == nil || IsNil(o.CanResolveTopicsGroup) {
+		var ret CanResolveTopicsGroup
 		return ret
 	}
-	return o.CanResolveTopicsGroup
+	return *o.CanResolveTopicsGroup
 }
 
 // GetCanResolveTopicsGroupOk returns a tuple with the CanResolveTopicsGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetCanResolveTopicsGroupOk() (*interface{}, bool) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetCanResolveTopicsGroupOk() (*CanResolveTopicsGroup, bool) {
 	if o == nil || IsNil(o.CanResolveTopicsGroup) {
 		return nil, false
 	}
-	return &o.CanResolveTopicsGroup, true
+	return o.CanResolveTopicsGroup, true
 }
 
 // HasCanResolveTopicsGroup returns a boolean if a field has been set.
@@ -854,16 +838,15 @@ func (o *GetStreams200ResponseAllOfStreamsInner) HasCanResolveTopicsGroup() bool
 	return false
 }
 
-// SetCanResolveTopicsGroup gets a reference to the given interface{} and assigns it to the CanResolveTopicsGroup field.
-func (o *GetStreams200ResponseAllOfStreamsInner) SetCanResolveTopicsGroup(v interface{}) {
-	o.CanResolveTopicsGroup = v
+// SetCanResolveTopicsGroup gets a reference to the given CanResolveTopicsGroup and assigns it to the CanResolveTopicsGroup field.
+func (o *GetStreams200ResponseAllOfStreamsInner) SetCanResolveTopicsGroup(v CanResolveTopicsGroup) {
+	o.CanResolveTopicsGroup = &v
 }
 
 // GetSubscriberCount returns the SubscriberCount field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetSubscriberCount() interface{} {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetSubscriberCount() float32 {
 	if o == nil {
-		var ret interface{}
+		var ret float32
 		return ret
 	}
 
@@ -872,16 +855,15 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetSubscriberCount() interface{
 
 // GetSubscriberCountOk returns a tuple with the SubscriberCount field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetStreams200ResponseAllOfStreamsInner) GetSubscriberCountOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.SubscriberCount) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetSubscriberCountOk() (*float32, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.SubscriberCount, true
 }
 
 // SetSubscriberCount sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetSubscriberCount(v interface{}) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetSubscriberCount(v float32) {
 	o.SubscriberCount = v
 }
 
@@ -944,7 +926,7 @@ func (o *GetStreams200ResponseAllOfStreamsInner) SetIsDefault(v bool) {
 }
 
 func (o GetStreams200ResponseAllOfStreamsInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -953,43 +935,23 @@ func (o GetStreams200ResponseAllOfStreamsInner) MarshalJSON() ([]byte, error) {
 
 func (o GetStreams200ResponseAllOfStreamsInner) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.StreamId != nil {
-		toSerialize["stream_id"] = o.StreamId
-	}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	if o.IsArchived != nil {
-		toSerialize["is_archived"] = o.IsArchived
-	}
-	if o.Description != nil {
-		toSerialize["description"] = o.Description
-	}
-	if o.DateCreated != nil {
-		toSerialize["date_created"] = o.DateCreated
-	}
+	toSerialize["stream_id"] = o.StreamId
+	toSerialize["name"] = o.Name
+	toSerialize["is_archived"] = o.IsArchived
+	toSerialize["description"] = o.Description
+	toSerialize["date_created"] = o.DateCreated
 	if o.CreatorId != nil {
 		toSerialize["creator_id"] = o.CreatorId
 	}
-	if o.InviteOnly != nil {
-		toSerialize["invite_only"] = o.InviteOnly
-	}
-	if o.RenderedDescription != nil {
-		toSerialize["rendered_description"] = o.RenderedDescription
-	}
-	if o.IsWebPublic != nil {
-		toSerialize["is_web_public"] = o.IsWebPublic
-	}
-	if o.StreamPostPolicy != nil {
-		toSerialize["stream_post_policy"] = o.StreamPostPolicy
-	}
+	toSerialize["invite_only"] = o.InviteOnly
+	toSerialize["rendered_description"] = o.RenderedDescription
+	toSerialize["is_web_public"] = o.IsWebPublic
+	toSerialize["stream_post_policy"] = o.StreamPostPolicy
 	if o.MessageRetentionDays != nil {
 		toSerialize["message_retention_days"] = o.MessageRetentionDays
 	}
-	if o.HistoryPublicToSubscribers != nil {
-		toSerialize["history_public_to_subscribers"] = o.HistoryPublicToSubscribers
-	}
-	if o.TopicsPolicy != nil {
+	toSerialize["history_public_to_subscribers"] = o.HistoryPublicToSubscribers
+	if !IsNil(o.TopicsPolicy) {
 		toSerialize["topics_policy"] = o.TopicsPolicy
 	}
 	if o.FirstMessageId != nil {
@@ -998,45 +960,35 @@ func (o GetStreams200ResponseAllOfStreamsInner) ToMap() (map[string]interface{},
 	if o.FolderId != nil {
 		toSerialize["folder_id"] = o.FolderId
 	}
-	if o.IsRecentlyActive != nil {
-		toSerialize["is_recently_active"] = o.IsRecentlyActive
-	}
-	if o.IsAnnouncementOnly != nil {
-		toSerialize["is_announcement_only"] = o.IsAnnouncementOnly
-	}
-	if o.CanAddSubscribersGroup != nil {
+	toSerialize["is_recently_active"] = o.IsRecentlyActive
+	toSerialize["is_announcement_only"] = o.IsAnnouncementOnly
+	if !IsNil(o.CanAddSubscribersGroup) {
 		toSerialize["can_add_subscribers_group"] = o.CanAddSubscribersGroup
 	}
-	if o.CanRemoveSubscribersGroup != nil {
-		toSerialize["can_remove_subscribers_group"] = o.CanRemoveSubscribersGroup
-	}
-	if o.CanAdministerChannelGroup != nil {
+	toSerialize["can_remove_subscribers_group"] = o.CanRemoveSubscribersGroup
+	if !IsNil(o.CanAdministerChannelGroup) {
 		toSerialize["can_administer_channel_group"] = o.CanAdministerChannelGroup
 	}
-	if o.CanDeleteAnyMessageGroup != nil {
+	if !IsNil(o.CanDeleteAnyMessageGroup) {
 		toSerialize["can_delete_any_message_group"] = o.CanDeleteAnyMessageGroup
 	}
-	if o.CanDeleteOwnMessageGroup != nil {
+	if !IsNil(o.CanDeleteOwnMessageGroup) {
 		toSerialize["can_delete_own_message_group"] = o.CanDeleteOwnMessageGroup
 	}
-	if o.CanMoveMessagesOutOfChannelGroup != nil {
+	if !IsNil(o.CanMoveMessagesOutOfChannelGroup) {
 		toSerialize["can_move_messages_out_of_channel_group"] = o.CanMoveMessagesOutOfChannelGroup
 	}
-	if o.CanMoveMessagesWithinChannelGroup != nil {
+	if !IsNil(o.CanMoveMessagesWithinChannelGroup) {
 		toSerialize["can_move_messages_within_channel_group"] = o.CanMoveMessagesWithinChannelGroup
 	}
-	if o.CanSendMessageGroup != nil {
+	if !IsNil(o.CanSendMessageGroup) {
 		toSerialize["can_send_message_group"] = o.CanSendMessageGroup
 	}
-	if o.CanSubscribeGroup != nil {
-		toSerialize["can_subscribe_group"] = o.CanSubscribeGroup
-	}
-	if o.CanResolveTopicsGroup != nil {
+	toSerialize["can_subscribe_group"] = o.CanSubscribeGroup
+	if !IsNil(o.CanResolveTopicsGroup) {
 		toSerialize["can_resolve_topics_group"] = o.CanResolveTopicsGroup
 	}
-	if o.SubscriberCount != nil {
-		toSerialize["subscriber_count"] = o.SubscriberCount
-	}
+	toSerialize["subscriber_count"] = o.SubscriberCount
 	toSerialize["stream_weekly_traffic"] = o.StreamWeeklyTraffic.Get()
 	if !IsNil(o.IsDefault) {
 		toSerialize["is_default"] = o.IsDefault
@@ -1076,10 +1028,10 @@ func (o *GetStreams200ResponseAllOfStreamsInner) UnmarshalJSON(data []byte) (err
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -1135,5 +1087,3 @@ func (v *NullableGetStreams200ResponseAllOfStreamsInner) UnmarshalJSON(src []byt
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf84Data type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf84Data{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf84Data Dictionary containing the changed details of the channel folder. 
+// GetEvents200ResponseAllOfEventsInnerOneOf84Data Dictionary containing the changed details of the channel folder.
 type GetEvents200ResponseAllOfEventsInnerOneOf84Data struct {
-	// The new name of the channel folder. Only present if the channel folder's name changed. 
+	// The new name of the channel folder. Only present if the channel folder's name changed.
 	Name *string `json:"name,omitempty"`
-	// The new description of the channel folder. Only present if the description changed.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format. 
+	// The new description of the channel folder. Only present if the description changed.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
 	Description *string `json:"description,omitempty"`
-	// The new rendered description of the channel folder. Only present if the description changed. 
+	// The new rendered description of the channel folder. Only present if the description changed.
 	RenderedDescription *string `json:"rendered_description,omitempty"`
-	// Whether the channel folder is archived or not. Only present if the channel folder is archived or unarchived. 
+	// Whether the channel folder is archived or not. Only present if the channel folder is archived or unarchived.
 	IsArchived *bool `json:"is_archived,omitempty"`
 }
 
@@ -175,7 +175,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf84Data) SetIsArchived(v bool) 
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf84Data) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,5 +234,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf84Data) UnmarshalJSON(
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

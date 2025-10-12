@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,20 +19,26 @@ var _ MappedNullable = &Bot{}
 
 // Bot struct for Bot
 type Bot struct {
-	UserId interface{} `json:"user_id,omitempty"`
-	FullName interface{} `json:"full_name,omitempty"`
-	ApiKey interface{} `json:"api_key,omitempty"`
-	DefaultSendingStream interface{} `json:"default_sending_stream,omitempty"`
+	// The user ID of the bot.
+	UserId *int32 `json:"user_id,omitempty"`
+	// The full name of the bot.
+	FullName *string `json:"full_name,omitempty"`
+	// The API key of the bot which it uses to make API requests.
+	ApiKey                      *string     `json:"api_key,omitempty"`
+	DefaultSendingStream        interface{} `json:"default_sending_stream,omitempty"`
 	DefaultEventsRegisterStream interface{} `json:"default_events_register_stream,omitempty"`
-	DefaultAllPublicStreams interface{} `json:"default_all_public_streams,omitempty"`
-	AvatarUrl interface{} `json:"avatar_url,omitempty"`
-	OwnerId interface{} `json:"owner_id,omitempty"`
-	Services interface{} `json:"services,omitempty"`
-	// The email of the bot. 
+	// Whether the bot can send messages to all channels by default.
+	DefaultAllPublicStreams *bool `json:"default_all_public_streams,omitempty"`
+	// The URL of the bot's avatar.
+	AvatarUrl *string     `json:"avatar_url,omitempty"`
+	OwnerId   interface{} `json:"owner_id,omitempty"`
+	// An array containing extra configuration fields only relevant for outgoing webhook bots and embedded bots. This is always a single-element array.  We consider this part of the Zulip API to be unstable; it is used only for UI elements for administering bots and is likely to change.
+	Services []BasicBotBaseServicesInner `json:"services,omitempty"`
+	// The email of the bot.
 	Email *string `json:"email,omitempty"`
-	// An integer describing the type of bot:  - `1` for a `Generic` bot. - `2` for an `Incoming webhook` bot. - `3` for an `Outgoing webhook` bot. - `4` for an `Embedded` bot. 
+	// An integer describing the type of bot:  - `1` for a `Generic` bot. - `2` for an `Incoming webhook` bot. - `3` for an `Outgoing webhook` bot. - `4` for an `Embedded` bot.
 	BotType NullableInt32 `json:"bot_type,omitempty"`
-	// A boolean describing whether the user account has been deactivated. 
+	// A boolean describing whether the user account has been deactivated.
 	IsActive *bool `json:"is_active,omitempty"`
 }
 
@@ -53,23 +59,22 @@ func NewBotWithDefaults() *Bot {
 	return &this
 }
 
-// GetUserId returns the UserId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Bot) GetUserId() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetUserId returns the UserId field value if set, zero value otherwise.
+func (o *Bot) GetUserId() int32 {
+	if o == nil || IsNil(o.UserId) {
+		var ret int32
 		return ret
 	}
-	return o.UserId
+	return *o.UserId
 }
 
 // GetUserIdOk returns a tuple with the UserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Bot) GetUserIdOk() (*interface{}, bool) {
+func (o *Bot) GetUserIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.UserId) {
 		return nil, false
 	}
-	return &o.UserId, true
+	return o.UserId, true
 }
 
 // HasUserId returns a boolean if a field has been set.
@@ -81,28 +86,27 @@ func (o *Bot) HasUserId() bool {
 	return false
 }
 
-// SetUserId gets a reference to the given interface{} and assigns it to the UserId field.
-func (o *Bot) SetUserId(v interface{}) {
-	o.UserId = v
+// SetUserId gets a reference to the given int32 and assigns it to the UserId field.
+func (o *Bot) SetUserId(v int32) {
+	o.UserId = &v
 }
 
-// GetFullName returns the FullName field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Bot) GetFullName() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetFullName returns the FullName field value if set, zero value otherwise.
+func (o *Bot) GetFullName() string {
+	if o == nil || IsNil(o.FullName) {
+		var ret string
 		return ret
 	}
-	return o.FullName
+	return *o.FullName
 }
 
 // GetFullNameOk returns a tuple with the FullName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Bot) GetFullNameOk() (*interface{}, bool) {
+func (o *Bot) GetFullNameOk() (*string, bool) {
 	if o == nil || IsNil(o.FullName) {
 		return nil, false
 	}
-	return &o.FullName, true
+	return o.FullName, true
 }
 
 // HasFullName returns a boolean if a field has been set.
@@ -114,28 +118,27 @@ func (o *Bot) HasFullName() bool {
 	return false
 }
 
-// SetFullName gets a reference to the given interface{} and assigns it to the FullName field.
-func (o *Bot) SetFullName(v interface{}) {
-	o.FullName = v
+// SetFullName gets a reference to the given string and assigns it to the FullName field.
+func (o *Bot) SetFullName(v string) {
+	o.FullName = &v
 }
 
-// GetApiKey returns the ApiKey field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Bot) GetApiKey() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetApiKey returns the ApiKey field value if set, zero value otherwise.
+func (o *Bot) GetApiKey() string {
+	if o == nil || IsNil(o.ApiKey) {
+		var ret string
 		return ret
 	}
-	return o.ApiKey
+	return *o.ApiKey
 }
 
 // GetApiKeyOk returns a tuple with the ApiKey field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Bot) GetApiKeyOk() (*interface{}, bool) {
+func (o *Bot) GetApiKeyOk() (*string, bool) {
 	if o == nil || IsNil(o.ApiKey) {
 		return nil, false
 	}
-	return &o.ApiKey, true
+	return o.ApiKey, true
 }
 
 // HasApiKey returns a boolean if a field has been set.
@@ -147,9 +150,9 @@ func (o *Bot) HasApiKey() bool {
 	return false
 }
 
-// SetApiKey gets a reference to the given interface{} and assigns it to the ApiKey field.
-func (o *Bot) SetApiKey(v interface{}) {
-	o.ApiKey = v
+// SetApiKey gets a reference to the given string and assigns it to the ApiKey field.
+func (o *Bot) SetApiKey(v string) {
+	o.ApiKey = &v
 }
 
 // GetDefaultSendingStream returns the DefaultSendingStream field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -218,23 +221,22 @@ func (o *Bot) SetDefaultEventsRegisterStream(v interface{}) {
 	o.DefaultEventsRegisterStream = v
 }
 
-// GetDefaultAllPublicStreams returns the DefaultAllPublicStreams field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Bot) GetDefaultAllPublicStreams() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetDefaultAllPublicStreams returns the DefaultAllPublicStreams field value if set, zero value otherwise.
+func (o *Bot) GetDefaultAllPublicStreams() bool {
+	if o == nil || IsNil(o.DefaultAllPublicStreams) {
+		var ret bool
 		return ret
 	}
-	return o.DefaultAllPublicStreams
+	return *o.DefaultAllPublicStreams
 }
 
 // GetDefaultAllPublicStreamsOk returns a tuple with the DefaultAllPublicStreams field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Bot) GetDefaultAllPublicStreamsOk() (*interface{}, bool) {
+func (o *Bot) GetDefaultAllPublicStreamsOk() (*bool, bool) {
 	if o == nil || IsNil(o.DefaultAllPublicStreams) {
 		return nil, false
 	}
-	return &o.DefaultAllPublicStreams, true
+	return o.DefaultAllPublicStreams, true
 }
 
 // HasDefaultAllPublicStreams returns a boolean if a field has been set.
@@ -246,28 +248,27 @@ func (o *Bot) HasDefaultAllPublicStreams() bool {
 	return false
 }
 
-// SetDefaultAllPublicStreams gets a reference to the given interface{} and assigns it to the DefaultAllPublicStreams field.
-func (o *Bot) SetDefaultAllPublicStreams(v interface{}) {
-	o.DefaultAllPublicStreams = v
+// SetDefaultAllPublicStreams gets a reference to the given bool and assigns it to the DefaultAllPublicStreams field.
+func (o *Bot) SetDefaultAllPublicStreams(v bool) {
+	o.DefaultAllPublicStreams = &v
 }
 
-// GetAvatarUrl returns the AvatarUrl field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Bot) GetAvatarUrl() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetAvatarUrl returns the AvatarUrl field value if set, zero value otherwise.
+func (o *Bot) GetAvatarUrl() string {
+	if o == nil || IsNil(o.AvatarUrl) {
+		var ret string
 		return ret
 	}
-	return o.AvatarUrl
+	return *o.AvatarUrl
 }
 
 // GetAvatarUrlOk returns a tuple with the AvatarUrl field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Bot) GetAvatarUrlOk() (*interface{}, bool) {
+func (o *Bot) GetAvatarUrlOk() (*string, bool) {
 	if o == nil || IsNil(o.AvatarUrl) {
 		return nil, false
 	}
-	return &o.AvatarUrl, true
+	return o.AvatarUrl, true
 }
 
 // HasAvatarUrl returns a boolean if a field has been set.
@@ -279,9 +280,9 @@ func (o *Bot) HasAvatarUrl() bool {
 	return false
 }
 
-// SetAvatarUrl gets a reference to the given interface{} and assigns it to the AvatarUrl field.
-func (o *Bot) SetAvatarUrl(v interface{}) {
-	o.AvatarUrl = v
+// SetAvatarUrl gets a reference to the given string and assigns it to the AvatarUrl field.
+func (o *Bot) SetAvatarUrl(v string) {
+	o.AvatarUrl = &v
 }
 
 // GetOwnerId returns the OwnerId field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -317,10 +318,10 @@ func (o *Bot) SetOwnerId(v interface{}) {
 	o.OwnerId = v
 }
 
-// GetServices returns the Services field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Bot) GetServices() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetServices returns the Services field value if set, zero value otherwise.
+func (o *Bot) GetServices() []BasicBotBaseServicesInner {
+	if o == nil || IsNil(o.Services) {
+		var ret []BasicBotBaseServicesInner
 		return ret
 	}
 	return o.Services
@@ -328,12 +329,11 @@ func (o *Bot) GetServices() interface{} {
 
 // GetServicesOk returns a tuple with the Services field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Bot) GetServicesOk() (*interface{}, bool) {
+func (o *Bot) GetServicesOk() ([]BasicBotBaseServicesInner, bool) {
 	if o == nil || IsNil(o.Services) {
 		return nil, false
 	}
-	return &o.Services, true
+	return o.Services, true
 }
 
 // HasServices returns a boolean if a field has been set.
@@ -345,8 +345,8 @@ func (o *Bot) HasServices() bool {
 	return false
 }
 
-// SetServices gets a reference to the given interface{} and assigns it to the Services field.
-func (o *Bot) SetServices(v interface{}) {
+// SetServices gets a reference to the given []BasicBotBaseServicesInner and assigns it to the Services field.
+func (o *Bot) SetServices(v []BasicBotBaseServicesInner) {
 	o.Services = v
 }
 
@@ -414,6 +414,7 @@ func (o *Bot) HasBotType() bool {
 func (o *Bot) SetBotType(v int32) {
 	o.BotType.Set(&v)
 }
+
 // SetBotTypeNil sets the value for BotType to be an explicit nil
 func (o *Bot) SetBotTypeNil() {
 	o.BotType.Set(nil)
@@ -457,7 +458,7 @@ func (o *Bot) SetIsActive(v bool) {
 }
 
 func (o Bot) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -466,13 +467,13 @@ func (o Bot) MarshalJSON() ([]byte, error) {
 
 func (o Bot) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.UserId != nil {
+	if !IsNil(o.UserId) {
 		toSerialize["user_id"] = o.UserId
 	}
-	if o.FullName != nil {
+	if !IsNil(o.FullName) {
 		toSerialize["full_name"] = o.FullName
 	}
-	if o.ApiKey != nil {
+	if !IsNil(o.ApiKey) {
 		toSerialize["api_key"] = o.ApiKey
 	}
 	if o.DefaultSendingStream != nil {
@@ -481,16 +482,16 @@ func (o Bot) ToMap() (map[string]interface{}, error) {
 	if o.DefaultEventsRegisterStream != nil {
 		toSerialize["default_events_register_stream"] = o.DefaultEventsRegisterStream
 	}
-	if o.DefaultAllPublicStreams != nil {
+	if !IsNil(o.DefaultAllPublicStreams) {
 		toSerialize["default_all_public_streams"] = o.DefaultAllPublicStreams
 	}
-	if o.AvatarUrl != nil {
+	if !IsNil(o.AvatarUrl) {
 		toSerialize["avatar_url"] = o.AvatarUrl
 	}
 	if o.OwnerId != nil {
 		toSerialize["owner_id"] = o.OwnerId
 	}
-	if o.Services != nil {
+	if !IsNil(o.Services) {
 		toSerialize["services"] = o.Services
 	}
 	if !IsNil(o.Email) {
@@ -540,5 +541,3 @@ func (v *NullableBot) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

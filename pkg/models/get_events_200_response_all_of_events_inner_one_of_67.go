@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,16 +17,16 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf67 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf67{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf67 The more general of two event types that may be used when sending an event to all users in a Zulip organization when the configuration of the organization (realm) has changed.  Unlike the simpler [realm/update](#realm-update) event format, this event type supports multiple properties being changed in a single event.  This event is also sent when deactivating or reactivating a user for settings set to anonymous user groups which the user is direct member of. When deactivating the user, event is only sent to users who cannot access the deactivated user.  **Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when deactivating or reactivating a user.  In Zulip 7.0 (feature level 163), the realm setting `email_address_visibility` was removed. It was replaced by a [user setting](/api/update-settings#parameter-email_address_visibility) with a [realm user default][user-defaults], with the encoding of different values preserved. Clients can support all versions by supporting the current API and treating every user as having the realm's `email_address_visibility` value.  [user-defaults]: /api/update-realm-user-settings-defaults#parameter-email_address_visibility 
+// GetEvents200ResponseAllOfEventsInnerOneOf67 The more general of two event types that may be used when sending an event to all users in a Zulip organization when the configuration of the organization (realm) has changed.  Unlike the simpler [realm/update](#realm-update) event format, this event type supports multiple properties being changed in a single event.  This event is also sent when deactivating or reactivating a user for settings set to anonymous user groups which the user is direct member of. When deactivating the user, event is only sent to users who cannot access the deactivated user.  **Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when deactivating or reactivating a user.  In Zulip 7.0 (feature level 163), the realm setting `email_address_visibility` was removed. It was replaced by a [user setting](/api/update-settings#parameter-email_address_visibility) with a [realm user default][user-defaults], with the encoding of different values preserved. Clients can support all versions by supporting the current API and treating every user as having the realm's `email_address_visibility` value.  [user-defaults]: /api/update-realm-user-settings-defaults#parameter-email_address_visibility
 type GetEvents200ResponseAllOfEventsInnerOneOf67 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// Always `\"default\"`. Present for backwards-compatibility with older clients that predate the `update_dict` event style.  **Deprecated** and will be removed in a future release. 
+	Op   *string `json:"op,omitempty"`
+	// Always `\"default\"`. Present for backwards-compatibility with older clients that predate the `update_dict` event style.  **Deprecated** and will be removed in a future release.
 	// Deprecated
-	Property *string `json:"property,omitempty"`
-	Data *GetEvents200ResponseAllOfEventsInnerOneOf67Data `json:"data,omitempty"`
+	Property *string                                          `json:"property,omitempty"`
+	Data     *GetEvents200ResponseAllOfEventsInnerOneOf67Data `json:"data,omitempty"`
 }
 
 // NewGetEvents200ResponseAllOfEventsInnerOneOf67 instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf67 object
@@ -210,7 +210,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf67) SetData(v GetEvents200Resp
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf67) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -272,5 +272,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf67) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

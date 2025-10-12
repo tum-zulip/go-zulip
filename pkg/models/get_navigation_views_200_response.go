@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,11 +21,11 @@ var _ MappedNullable = &GetNavigationViews200Response{}
 
 // GetNavigationViews200Response struct for GetNavigationViews200Response
 type GetNavigationViews200Response struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history. 
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
-	// An array of dictionaries containing the user's navigation views. 
+	// An array of dictionaries containing the user's navigation views.
 	NavigationViews []NavigationView `json:"navigation_views,omitempty"`
 }
 
@@ -35,7 +35,7 @@ type _GetNavigationViews200Response GetNavigationViews200Response
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetNavigationViews200Response(result interface{}, msg interface{}) *GetNavigationViews200Response {
+func NewGetNavigationViews200Response(result string, msg string) *GetNavigationViews200Response {
 	this := GetNavigationViews200Response{}
 	this.Result = result
 	this.Msg = msg
@@ -51,10 +51,9 @@ func NewGetNavigationViews200ResponseWithDefaults() *GetNavigationViews200Respon
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetNavigationViews200Response) GetResult() interface{} {
+func (o *GetNavigationViews200Response) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -63,24 +62,22 @@ func (o *GetNavigationViews200Response) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetNavigationViews200Response) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *GetNavigationViews200Response) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *GetNavigationViews200Response) SetResult(v interface{}) {
+func (o *GetNavigationViews200Response) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetNavigationViews200Response) GetMsg() interface{} {
+func (o *GetNavigationViews200Response) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -89,16 +86,15 @@ func (o *GetNavigationViews200Response) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetNavigationViews200Response) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *GetNavigationViews200Response) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *GetNavigationViews200Response) SetMsg(v interface{}) {
+func (o *GetNavigationViews200Response) SetMsg(v string) {
 	o.Msg = v
 }
 
@@ -167,7 +163,7 @@ func (o *GetNavigationViews200Response) SetNavigationViews(v []NavigationView) {
 }
 
 func (o GetNavigationViews200Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -176,12 +172,8 @@ func (o GetNavigationViews200Response) MarshalJSON() ([]byte, error) {
 
 func (o GetNavigationViews200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
 	if !IsNil(o.IgnoredParametersUnsupported) {
 		toSerialize["ignored_parameters_unsupported"] = o.IgnoredParametersUnsupported
 	}
@@ -205,10 +197,10 @@ func (o *GetNavigationViews200Response) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -264,5 +256,3 @@ func (v *NullableGetNavigationViews200Response) UnmarshalJSON(src []byte) error 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

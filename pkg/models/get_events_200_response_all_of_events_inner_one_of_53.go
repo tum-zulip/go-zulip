@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf53 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf53{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf53 Event sent to all users in a Zulip organization when a [custom emoji](/help/custom-emoji) has been updated, typically when a new emoji has been added or an old one has been deactivated. The event contains all custom emoji configured for the organization, not just the updated custom emoji. 
+// GetEvents200ResponseAllOfEventsInnerOneOf53 Event sent to all users in a Zulip organization when a [custom emoji](/help/custom-emoji) has been updated, typically when a new emoji has been added or an old one has been deactivated. The event contains all custom emoji configured for the organization, not just the updated custom emoji.
 type GetEvents200ResponseAllOfEventsInnerOneOf53 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// An object in which each key describes a realm emoji. 
+	Op   *string `json:"op,omitempty"`
+	// An object in which each key describes a realm emoji.
 	RealmEmoji *map[string]RealmEmoji `json:"realm_emoji,omitempty"`
 }
 
@@ -173,7 +173,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf53) SetRealmEmoji(v map[string
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf53) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -232,5 +232,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf53) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

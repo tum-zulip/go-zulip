@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,12 +19,12 @@ var _ MappedNullable = &RegisterQueue200ResponseAllOfUnreadMsgsPmsInner{}
 
 // RegisterQueue200ResponseAllOfUnreadMsgsPmsInner struct for RegisterQueue200ResponseAllOfUnreadMsgsPmsInner
 type RegisterQueue200ResponseAllOfUnreadMsgsPmsInner struct {
-	// The user ID of the other participant in this one-on-one direct message conversation. Will be the current user's ID for messages that they sent in a one-on-one direct message conversation with themself.  **Changes**: New in Zulip 5.0 (feature level 119), replacing the less clearly named `sender_id` field. 
+	// The user ID of the other participant in this one-on-one direct message conversation. Will be the current user's ID for messages that they sent in a one-on-one direct message conversation with themself.  **Changes**: New in Zulip 5.0 (feature level 119), replacing the less clearly named `sender_id` field.
 	OtherUserId *int32 `json:"other_user_id,omitempty"`
-	// Old name for the `other_user_id` field. Clients should access this field in Zulip server versions that do not yet support `other_user_id`.  **Changes**: Deprecated in Zulip 5.0 (feature level 119). We expect to provide a next version of the full `unread_msgs` API before removing this legacy name. 
+	// Old name for the `other_user_id` field. Clients should access this field in Zulip server versions that do not yet support `other_user_id`.  **Changes**: Deprecated in Zulip 5.0 (feature level 119). We expect to provide a next version of the full `unread_msgs` API before removing this legacy name.
 	// Deprecated
 	SenderId *int32 `json:"sender_id,omitempty"`
-	// The message IDs of the recent unread direct messages sent by either user in this one-on-one direct message conversation, sorted in ascending order. 
+	// The message IDs of the recent unread direct messages sent by either user in this one-on-one direct message conversation, sorted in ascending order.
 	UnreadMessageIds []int32 `json:"unread_message_ids,omitempty"`
 }
 
@@ -145,7 +145,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) SetUnreadMessageIds(v 
 }
 
 func (o RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -201,5 +201,3 @@ func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgsPmsInner) UnmarshalJSON(
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

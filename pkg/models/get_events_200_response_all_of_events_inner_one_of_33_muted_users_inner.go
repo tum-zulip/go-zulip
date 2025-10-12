@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner Object containing the user ID and timestamp of a muted user. 
+// GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner Object containing the user ID and timestamp of a muted user.
 type GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner struct {
-	// The ID of the muted user. 
+	// The ID of the muted user.
 	Id *int32 `json:"id,omitempty"`
-	// An integer UNIX timestamp representing when the user was muted. 
+	// An integer UNIX timestamp representing when the user was muted.
 	Timestamp *int32 `json:"timestamp,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner) SetTimestam
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner) Unm
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

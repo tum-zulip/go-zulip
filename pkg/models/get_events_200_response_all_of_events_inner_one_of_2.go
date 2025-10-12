@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,16 +17,16 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf2 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf2{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf2 Event sent to a user's clients when that user's [notification settings](/api/update-settings) have changed with an additional rule that it is only sent to clients that did not include `user_settings_object` in their `client_capabilities` when registering the event queue.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead. 
+// GetEvents200ResponseAllOfEventsInnerOneOf2 Event sent to a user's clients when that user's [notification settings](/api/update-settings) have changed with an additional rule that it is only sent to clients that did not include `user_settings_object` in their `client_capabilities` when registering the event queue.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
 type GetEvents200ResponseAllOfEventsInnerOneOf2 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// The Zulip API email of the user. 
+	// The Zulip API email of the user.
 	User *string `json:"user,omitempty"`
-	// Name of the changed notification setting. 
-	NotificationName *string `json:"notification_name,omitempty"`
-	Setting *GetEvents200ResponseAllOfEventsInnerOneOf1Setting `json:"setting,omitempty"`
+	// Name of the changed notification setting.
+	NotificationName *string                                            `json:"notification_name,omitempty"`
+	Setting          *GetEvents200ResponseAllOfEventsInnerOneOf1Setting `json:"setting,omitempty"`
 }
 
 // NewGetEvents200ResponseAllOfEventsInnerOneOf2 instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf2 object
@@ -207,7 +207,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf2) SetSetting(v GetEvents200Re
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf2) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -269,5 +269,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf2) UnmarshalJSON(src [
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,12 +13,13 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
 // CreateScheduledMessage400Response - struct for CreateScheduledMessage400Response
 type CreateScheduledMessage400Response struct {
-	CodedError *CodedError
+	CodedError                *CodedError
 	NonExistingChannelIdError *NonExistingChannelIdError
 }
 
@@ -35,7 +36,6 @@ func NonExistingChannelIdErrorAsCreateScheduledMessage400Response(v *NonExisting
 		NonExistingChannelIdError: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *CreateScheduledMessage400Response) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src CreateScheduledMessage400Response) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *CreateScheduledMessage400Response) GetActualInstance() (interface{}) {
+func (obj *CreateScheduledMessage400Response) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *CreateScheduledMessage400Response) GetActualInstance() (interface{}) 
 }
 
 // Get the actual instance value
-func (obj CreateScheduledMessage400Response) GetActualInstanceValue() (interface{}) {
+func (obj CreateScheduledMessage400Response) GetActualInstanceValue() interface{} {
 	if obj.CodedError != nil {
 		return *obj.CodedError
 	}
@@ -167,5 +167,3 @@ func (v *NullableCreateScheduledMessage400Response) UnmarshalJSON(src []byte) er
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

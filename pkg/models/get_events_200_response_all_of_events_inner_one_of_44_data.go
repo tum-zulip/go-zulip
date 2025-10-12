@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,25 +17,25 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf44Data type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf44Data{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf44Data Dictionary containing the changed details of the user group. 
+// GetEvents200ResponseAllOfEventsInnerOneOf44Data Dictionary containing the changed details of the user group.
 type GetEvents200ResponseAllOfEventsInnerOneOf44Data struct {
-	// The new name of the user group. Only present if the group's name changed. 
+	// The new name of the user group. Only present if the group's name changed.
 	Name *string `json:"name,omitempty"`
-	// The new description of the group. Only present if the description changed. 
+	// The new description of the group. Only present if the description changed.
 	Description *string `json:"description,omitempty"`
-	// A [group-setting value][setting-values] defining the set of users who have permission to add members to this group. Only present if this user group permission setting changed.  **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.  Will be one of the following:  [setting-values]: /api/group-setting-values 
+	// A [group-setting value][setting-values] defining the set of users who have permission to add members to this group. Only present if this user group permission setting changed.  **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.  Will be one of the following:  [setting-values]: /api/group-setting-values
 	CanAddMembersGroup *GroupSettingValue `json:"can_add_members_group,omitempty"`
-	// A [group-setting value][setting-values] defining the set of users who have permission to join this group. Only present if this user group permission setting changed.  **Changes**: New in Zulip 10.0 (feature level 301).  Will be one of the following:  [setting-values]: /api/group-setting-values 
+	// A [group-setting value][setting-values] defining the set of users who have permission to join this group. Only present if this user group permission setting changed.  **Changes**: New in Zulip 10.0 (feature level 301).  Will be one of the following:  [setting-values]: /api/group-setting-values
 	CanJoinGroup *GroupSettingValue `json:"can_join_group,omitempty"`
-	// A [group-setting value][setting-values] defining the set of users who have permission to leave this group. Only present if this user group permission setting changed.  **Changes**: New in Zulip 10.0 (feature level 308).  Will be one of the following:  [setting-values]: /api/group-setting-values 
+	// A [group-setting value][setting-values] defining the set of users who have permission to leave this group. Only present if this user group permission setting changed.  **Changes**: New in Zulip 10.0 (feature level 308).  Will be one of the following:  [setting-values]: /api/group-setting-values
 	CanLeaveGroup *GroupSettingValue `json:"can_leave_group,omitempty"`
-	// A [group-setting value][setting-values] defining the set of users who have permission to [manage this group][manage-user-groups]. Only present if this user group permission setting changed.  **Changes**: New in Zulip 10.0 (feature level 283).  Will be one of the following:  [setting-values]: /api/group-setting-values [manage-user-groups]: /help/manage-user-groups 
+	// A [group-setting value][setting-values] defining the set of users who have permission to [manage this group][manage-user-groups]. Only present if this user group permission setting changed.  **Changes**: New in Zulip 10.0 (feature level 283).  Will be one of the following:  [setting-values]: /api/group-setting-values [manage-user-groups]: /help/manage-user-groups
 	CanManageGroup *GroupSettingValue `json:"can_manage_group,omitempty"`
-	// A [group-setting value][setting-values] defining the set of users who have permission to [mention this user group][mentions]. Only present if this user group permission setting changed.  **Changes**: Before Zulip 9.0 (feature level 258), this setting was always the integer form of a [group-setting value][setting-values].  Before Zulip 8.0 (feature level 198), this setting was named `can_mention_group_id`.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups][system-groups].  Will be one of the following:  [setting-values]: /api/group-setting-values [system-groups]: /api/group-setting-values#system-groups [mentions]: /help/mention-a-user-or-group 
+	// A [group-setting value][setting-values] defining the set of users who have permission to [mention this user group][mentions]. Only present if this user group permission setting changed.  **Changes**: Before Zulip 9.0 (feature level 258), this setting was always the integer form of a [group-setting value][setting-values].  Before Zulip 8.0 (feature level 198), this setting was named `can_mention_group_id`.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups][system-groups].  Will be one of the following:  [setting-values]: /api/group-setting-values [system-groups]: /api/group-setting-values#system-groups [mentions]: /help/mention-a-user-or-group
 	CanMentionGroup *GroupSettingValue `json:"can_mention_group,omitempty"`
-	// A [group-setting value][setting-values] defining the set of users who have permission to remove members from this group. Only present if this user group permission setting changed.  **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.  Will be one of the following:  [setting-values]: /api/group-setting-values 
+	// A [group-setting value][setting-values] defining the set of users who have permission to remove members from this group. Only present if this user group permission setting changed.  **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.  Will be one of the following:  [setting-values]: /api/group-setting-values
 	CanRemoveMembersGroup *GroupSettingValue `json:"can_remove_members_group,omitempty"`
-	// Whether the user group is deactivated. Deactivated groups cannot be used as a subgroup of another group or used for any other purpose.  **Changes**: New in Zulip 10.0 (feature level 290). 
+	// Whether the user group is deactivated. Deactivated groups cannot be used as a subgroup of another group or used for any other purpose.  **Changes**: New in Zulip 10.0 (feature level 290).
 	Deactivated *bool `json:"deactivated,omitempty"`
 }
 
@@ -345,7 +345,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) SetDeactivated(v bool)
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf44Data) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -419,5 +419,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf44Data) UnmarshalJSON(
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

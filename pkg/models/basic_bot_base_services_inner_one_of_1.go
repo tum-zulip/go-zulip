@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the BasicBotBaseServicesInnerOneOf1 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &BasicBotBaseServicesInnerOneOf1{}
 
-// BasicBotBaseServicesInnerOneOf1 When the bot is an embedded bot. 
+// BasicBotBaseServicesInnerOneOf1 When the bot is an embedded bot.
 type BasicBotBaseServicesInnerOneOf1 struct {
-	// The name of the bot. 
+	// The name of the bot.
 	ServiceName *string `json:"service_name,omitempty"`
-	// A dictionary of string key/value pairs, which describe the configuration for the bot. These are usually details like API keys, and are unique to the integration/bot. Can be an empty dictionary. 
+	// A dictionary of string key/value pairs, which describe the configuration for the bot. These are usually details like API keys, and are unique to the integration/bot. Can be an empty dictionary.
 	ConfigData *map[string]string `json:"config_data,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *BasicBotBaseServicesInnerOneOf1) SetConfigData(v map[string]string) {
 }
 
 func (o BasicBotBaseServicesInnerOneOf1) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableBasicBotBaseServicesInnerOneOf1) UnmarshalJSON(src []byte) erro
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

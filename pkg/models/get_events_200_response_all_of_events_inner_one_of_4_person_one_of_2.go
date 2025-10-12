@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,14 +17,14 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2 When a user changes their [profile time zone](/help/change-your-timezone). 
+// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2 When a user changes their [profile time zone](/help/change-your-timezone).
 type GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2 struct {
-	// The ID of modified user. 
+	// The ID of modified user.
 	UserId *int32 `json:"user_id,omitempty"`
-	// The Zulip API email of the user.  **Deprecated**: This field will be removed in a future release as it is redundant with the `user_id`. 
+	// The Zulip API email of the user.  **Deprecated**: This field will be removed in a future release as it is redundant with the `user_id`.
 	// Deprecated
 	Email *string `json:"email,omitempty"`
-	// The IANA identifier of the new profile time zone for the user. 
+	// The IANA identifier of the new profile time zone for the user.
 	Timezone *string `json:"timezone,omitempty"`
 }
 
@@ -145,7 +145,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) SetTimezone(v s
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -201,5 +201,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) Unmarsh
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

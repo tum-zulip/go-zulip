@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf6 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf6{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf6 Event sent to a user's clients when that user has been unsubscribed from one or more channels. 
+// GetEvents200ResponseAllOfEventsInnerOneOf6 Event sent to a user's clients when that user has been unsubscribed from one or more channels.
 type GetEvents200ResponseAllOfEventsInnerOneOf6 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// A list of dictionaries, where each dictionary contains information about one of the newly unsubscribed channels. 
+	Op   *string `json:"op,omitempty"`
+	// A list of dictionaries, where each dictionary contains information about one of the newly unsubscribed channels.
 	Subscriptions []GetEvents200ResponseAllOfEventsInnerOneOf6SubscriptionsInner `json:"subscriptions,omitempty"`
 }
 
@@ -173,7 +173,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf6) SetSubscriptions(v []GetEve
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf6) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -232,5 +232,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf6) UnmarshalJSON(src [
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,12 +17,12 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf52 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf52{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf52 Event sent to all users in a Zulip organization when the set of configured [code playgrounds](/help/code-blocks#code-playgrounds) for the organization has changed.  **Changes**: New in Zulip 4.0 (feature level 49). 
+// GetEvents200ResponseAllOfEventsInnerOneOf52 Event sent to all users in a Zulip organization when the set of configured [code playgrounds](/help/code-blocks#code-playgrounds) for the organization has changed.  **Changes**: New in Zulip 4.0 (feature level 49).
 type GetEvents200ResponseAllOfEventsInnerOneOf52 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// An array of dictionaries where each dictionary contains data about a single playground entry. 
+	// An array of dictionaries where each dictionary contains data about a single playground entry.
 	RealmPlaygrounds []RealmPlayground `json:"realm_playgrounds,omitempty"`
 }
 
@@ -140,7 +140,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf52) SetRealmPlaygrounds(v []Re
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf52) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -196,5 +196,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf52) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

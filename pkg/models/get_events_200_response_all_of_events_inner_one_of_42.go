@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,23 +17,23 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf42 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf42{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf42 Event sent to a user when [message flags][message-flags] are removed from messages.  See the description for the [`update_message_flags` op: `add`](/api/get-events#update_message_flags-add) event for more details about these events.  [message-flags]: /api/update-message-flags#available-flags 
+// GetEvents200ResponseAllOfEventsInnerOneOf42 Event sent to a user when [message flags][message-flags] are removed from messages.  See the description for the [`update_message_flags` op: `add`](/api/get-events#update_message_flags-add) event for more details about these events.  [message-flags]: /api/update-message-flags#available-flags
 type GetEvents200ResponseAllOfEventsInnerOneOf42 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// Old name for the `op` field in this event type.  **Deprecated** in Zulip 4.0 (feature level 32), and replaced by the `op` field. 
+	Op   *string `json:"op,omitempty"`
+	// Old name for the `op` field in this event type.  **Deprecated** in Zulip 4.0 (feature level 32), and replaced by the `op` field.
 	// Deprecated
 	Operation *string `json:"operation,omitempty"`
-	// The [flag][message-flags] to be removed. 
+	// The [flag][message-flags] to be removed.
 	Flag *string `json:"flag,omitempty"`
-	// Array containing the IDs of the messages from which the flag was removed. 
+	// Array containing the IDs of the messages from which the flag was removed.
 	Messages []int32 `json:"messages,omitempty"`
-	// Will be `false` for all specified flags.  **Deprecated** and will be removed in a future release. 
+	// Will be `false` for all specified flags.  **Deprecated** and will be removed in a future release.
 	// Deprecated
 	All *bool `json:"all,omitempty"`
-	// Only present if the specified `flag` is `\"read\"`.  A set of data structures describing the messages that are being marked as unread with additional details to allow clients to update the `unread_msgs` data structure for these messages (which may not be otherwise known to the client).  **Changes**: New in Zulip 5.0 (feature level 121). Previously, marking already read messages as unread was not supported by the Zulip API. 
+	// Only present if the specified `flag` is `\"read\"`.  A set of data structures describing the messages that are being marked as unread with additional details to allow clients to update the `unread_msgs` data structure for these messages (which may not be otherwise known to the client).  **Changes**: New in Zulip 5.0 (feature level 121). Previously, marking already read messages as unread was not supported by the Zulip API.
 	MessageDetails *map[string]GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue `json:"message_details,omitempty"`
 }
 
@@ -317,7 +317,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf42) SetMessageDetails(v map[st
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf42) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -388,5 +388,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf42) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

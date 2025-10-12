@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,77 +19,77 @@ var _ MappedNullable = &Subscription{}
 
 // Subscription struct for Subscription
 type Subscription struct {
-	// The unique ID of a channel. 
+	// The unique ID of a channel.
 	StreamId *int32 `json:"stream_id,omitempty"`
-	// The name of a channel. 
+	// The name of a channel.
 	Name *string `json:"name,omitempty"`
-	// The [description](/help/change-the-channel-description) of the channel in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format, intended to be used to prepopulate UI for editing a channel's description.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.  See also `rendered_description`. 
+	// The [description](/help/change-the-channel-description) of the channel in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format, intended to be used to prepopulate UI for editing a channel's description.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.  See also `rendered_description`.
 	Description *string `json:"description,omitempty"`
-	// The [description](/help/change-the-channel-description) of the channel rendered as HTML, intended to be used when displaying the channel description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.  See also `description`. 
+	// The [description](/help/change-the-channel-description) of the channel rendered as HTML, intended to be used when displaying the channel description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.  See also `description`.
 	RenderedDescription *string `json:"rendered_description,omitempty"`
-	// The UNIX timestamp for when the channel was created, in UTC seconds.  **Changes**: New in Zulip 4.0 (feature level 30). 
+	// The UNIX timestamp for when the channel was created, in UTC seconds.  **Changes**: New in Zulip 4.0 (feature level 30).
 	DateCreated *int32 `json:"date_created,omitempty"`
-	// The ID of the user who created this channel.  A `null` value means the channel has no recorded creator, which is often because the channel is very old, or because it was created via a data import tool or [management command][management-commands].  **Changes**: New in Zulip 9.0 (feature level 254).  [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html 
+	// The ID of the user who created this channel.  A `null` value means the channel has no recorded creator, which is often because the channel is very old, or because it was created via a data import tool or [management command][management-commands].  **Changes**: New in Zulip 9.0 (feature level 254).  [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 	CreatorId NullableInt32 `json:"creator_id,omitempty"`
-	// Specifies whether the channel is private or not. Only people who have been invited can access a private channel. 
+	// Specifies whether the channel is private or not. Only people who have been invited can access a private channel.
 	InviteOnly *bool `json:"invite_only,omitempty"`
-	// A list of user IDs of users who are also subscribed to a given channel. Included only if `include_subscribers` is `true`. 
+	// A list of user IDs of users who are also subscribed to a given channel. Included only if `include_subscribers` is `true`.
 	Subscribers []int32 `json:"subscribers,omitempty"`
-	// If [`include_subscribers=\"partial\"`](/api/get-subscriptions#parameter-include_subscribers) was requested, the server may, at its discretion, send a `partial_subscribers` list rather than a `subscribers` list for channels with a large number of subscribers.  The `partial_subscribers` list contains an arbitrary subset of the channel's subscribers that is guaranteed to include all bot user subscribers as well as all users who have been active in the last 14 days, but otherwise can be chosen arbitrarily by the server.  **Changes**: New in Zulip 11.0 (feature level 412). 
+	// If [`include_subscribers=\"partial\"`](/api/get-subscriptions#parameter-include_subscribers) was requested, the server may, at its discretion, send a `partial_subscribers` list rather than a `subscribers` list for channels with a large number of subscribers.  The `partial_subscribers` list contains an arbitrary subset of the channel's subscribers that is guaranteed to include all bot user subscribers as well as all users who have been active in the last 14 days, but otherwise can be chosen arbitrarily by the server.  **Changes**: New in Zulip 11.0 (feature level 412).
 	PartialSubscribers []int32 `json:"partial_subscribers,omitempty"`
-	// A boolean specifying whether desktop notifications are enabled for the given channel.  A `null` value means the value of this setting should be inherited from the user-level default setting, `enable_stream_desktop_notifications`, for this channel. 
+	// A boolean specifying whether desktop notifications are enabled for the given channel.  A `null` value means the value of this setting should be inherited from the user-level default setting, `enable_stream_desktop_notifications`, for this channel.
 	DesktopNotifications NullableBool `json:"desktop_notifications,omitempty"`
-	// A boolean specifying whether email notifications are enabled for the given channel.  A `null` value means the value of this setting should be inherited from the user-level default setting, `enable_stream_email_notifications`, for this channel. 
+	// A boolean specifying whether email notifications are enabled for the given channel.  A `null` value means the value of this setting should be inherited from the user-level default setting, `enable_stream_email_notifications`, for this channel.
 	EmailNotifications NullableBool `json:"email_notifications,omitempty"`
-	// A boolean specifying whether wildcard mentions trigger notifications as though they were personal mentions in this channel.  A `null` value means the value of this setting should be inherited from the user-level default setting, wildcard_mentions_notify, for this channel. 
+	// A boolean specifying whether wildcard mentions trigger notifications as though they were personal mentions in this channel.  A `null` value means the value of this setting should be inherited from the user-level default setting, wildcard_mentions_notify, for this channel.
 	WildcardMentionsNotify NullableBool `json:"wildcard_mentions_notify,omitempty"`
-	// A boolean specifying whether push notifications are enabled for the given channel.  A `null` value means the value of this setting should be inherited from the user-level default setting, `enable_stream_push_notifications`, for this channel. 
+	// A boolean specifying whether push notifications are enabled for the given channel.  A `null` value means the value of this setting should be inherited from the user-level default setting, `enable_stream_push_notifications`, for this channel.
 	PushNotifications NullableBool `json:"push_notifications,omitempty"`
-	// A boolean specifying whether audible notifications are enabled for the given channel.  A `null` value means the value of this setting should be inherited from the user-level default setting, `enable_stream_audible_notifications`, for this channel. 
+	// A boolean specifying whether audible notifications are enabled for the given channel.  A `null` value means the value of this setting should be inherited from the user-level default setting, `enable_stream_audible_notifications`, for this channel.
 	AudibleNotifications NullableBool `json:"audible_notifications,omitempty"`
-	// A boolean specifying whether the given channel has been pinned to the top. 
+	// A boolean specifying whether the given channel has been pinned to the top.
 	PinToTop *bool `json:"pin_to_top,omitempty"`
-	// Whether the user has muted the channel. Muted channels do not count towards your total unread count and do not show up in the `Combined feed` view (previously known as `All messages`).  **Changes**: Prior to Zulip 2.1.0, this feature was represented by the more confusingly named `in_home_view` (with the opposite value, `in_home_view=!is_muted`). 
+	// Whether the user has muted the channel. Muted channels do not count towards your total unread count and do not show up in the `Combined feed` view (previously known as `All messages`).  **Changes**: Prior to Zulip 2.1.0, this feature was represented by the more confusingly named `in_home_view` (with the opposite value, `in_home_view=!is_muted`).
 	IsMuted *bool `json:"is_muted,omitempty"`
-	// Legacy property for if the given channel is muted, with inverted meaning.  **Changes**: Deprecated in Zulip 2.1.0. Clients should use `is_muted` where available. 
+	// Legacy property for if the given channel is muted, with inverted meaning.  **Changes**: Deprecated in Zulip 2.1.0. Clients should use `is_muted` where available.
 	// Deprecated
 	InHomeView *bool `json:"in_home_view,omitempty"`
-	// Whether only organization administrators can post to the channel.  **Changes**: Deprecated in Zulip 3.0 (feature level 1). Clients should use `stream_post_policy` instead. 
+	// Whether only organization administrators can post to the channel.  **Changes**: Deprecated in Zulip 3.0 (feature level 1). Clients should use `stream_post_policy` instead.
 	// Deprecated
 	IsAnnouncementOnly *bool `json:"is_announcement_only,omitempty"`
-	// Whether the channel has been configured to allow unauthenticated access to its message history from the web. 
+	// Whether the channel has been configured to allow unauthenticated access to its message history from the web.
 	IsWebPublic *bool `json:"is_web_public,omitempty"`
-	// The user's personal color for the channel. 
+	// The user's personal color for the channel.
 	Color *string `json:"color,omitempty"`
-	// A deprecated representation of a superset of the users who have permission to post messages to the channel available for backwards-compatibility. Clients should use `can_send_message_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:  - 1 = Any user can post. - 2 = Only administrators can post. - 3 = Only [full members][calc-full-member] can post. - 4 = Only moderators can post.  **Changes**: Deprecated in Zulip 10.0 (feature level 333) and replaced by `can_send_message_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  New in Zulip 3.0 (feature level 1), replacing the previous `is_announcement_only` boolean.  [calc-full-member]: /api/roles-and-permissions#determining-if-a-user-is-a-full-member 
+	// A deprecated representation of a superset of the users who have permission to post messages to the channel available for backwards-compatibility. Clients should use `can_send_message_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:  - 1 = Any user can post. - 2 = Only administrators can post. - 3 = Only [full members][calc-full-member] can post. - 4 = Only moderators can post.  **Changes**: Deprecated in Zulip 10.0 (feature level 333) and replaced by `can_send_message_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  New in Zulip 3.0 (feature level 1), replacing the previous `is_announcement_only` boolean.  [calc-full-member]: /api/roles-and-permissions#determining-if-a-user-is-a-full-member
 	// Deprecated
 	StreamPostPolicy *int32 `json:"stream_post_policy,omitempty"`
-	// Number of days that messages sent to this channel will be stored before being automatically deleted by the [message retention policy](/help/message-retention-policy). There are two special values:  - `null`, the default, means the channel will inherit the organization   level setting. - `-1` encodes retaining messages in this channel forever.  **Changes**: New in Zulip 3.0 (feature level 17). 
+	// Number of days that messages sent to this channel will be stored before being automatically deleted by the [message retention policy](/help/message-retention-policy). There are two special values:  - `null`, the default, means the channel will inherit the organization   level setting. - `-1` encodes retaining messages in this channel forever.  **Changes**: New in Zulip 3.0 (feature level 17).
 	MessageRetentionDays NullableInt32 `json:"message_retention_days,omitempty"`
-	// Whether the history of the channel is public to its subscribers.  Currently always true for public channels (i.e. `\"invite_only\": false` implies `\"history_public_to_subscribers\": true`), but clients should not make that assumption, as we may change that behavior in the future. 
+	// Whether the history of the channel is public to its subscribers.  Currently always true for public channels (i.e. `\"invite_only\": false` implies `\"history_public_to_subscribers\": true`), but clients should not make that assumption, as we may change that behavior in the future.
 	HistoryPublicToSubscribers *bool `json:"history_public_to_subscribers,omitempty"`
-	// The ID of the first message in the channel.  Intended to help clients determine whether they need to display UI like the \"show all topics\" widget that would suggest the channel has older history that can be accessed.  Is `null` for channels with no message history. 
+	// The ID of the first message in the channel.  Intended to help clients determine whether they need to display UI like the \"show all topics\" widget that would suggest the channel has older history that can be accessed.  Is `null` for channels with no message history.
 	FirstMessageId NullableInt32 `json:"first_message_id,omitempty"`
-	// The ID of the folder to which the channel belongs.  Is `null` if channel does not belong to any folder.  **Changes**: New in Zulip 11.0 (feature level 389). 
-	FolderId NullableInt32 `json:"folder_id,omitempty"`
+	// The ID of the folder to which the channel belongs.  Is `null` if channel does not belong to any folder.  **Changes**: New in Zulip 11.0 (feature level 389).
+	FolderId     NullableInt32 `json:"folder_id,omitempty"`
 	TopicsPolicy *TopicsPolicy `json:"topics_policy,omitempty"`
-	// Whether the channel has recent message activity. Clients should use this to implement [hiding inactive channels](/help/manage-inactive-channels).  **Changes**: New in Zulip 10.0 (feature level 323). Previously, clients implemented the demote_inactive_streams from local message history, resulting in a choppy loading experience. 
+	// Whether the channel has recent message activity. Clients should use this to implement [hiding inactive channels](/help/manage-inactive-channels).  **Changes**: New in Zulip 10.0 (feature level 323). Previously, clients implemented the demote_inactive_streams from local message history, resulting in a choppy loading experience.
 	IsRecentlyActive *bool `json:"is_recently_active,omitempty"`
-	// The average number of messages sent to the channel per week, as estimated based on recent weeks, rounded to the nearest integer.  If `null`, the channel was recently created and there is insufficient data to estimate the average traffic. 
-	StreamWeeklyTraffic NullableInt32 `json:"stream_weekly_traffic,omitempty"`
-	CanAddSubscribersGroup *ChannelCanAddSubscribersGroup `json:"can_add_subscribers_group,omitempty"`
-	CanRemoveSubscribersGroup *CanRemoveSubscribersGroup `json:"can_remove_subscribers_group,omitempty"`
-	CanAdministerChannelGroup *CanAdministerChannelGroup `json:"can_administer_channel_group,omitempty"`
-	CanDeleteAnyMessageGroup *CanDeleteAnyMessageGroup `json:"can_delete_any_message_group,omitempty"`
-	CanDeleteOwnMessageGroup *CanDeleteOwnMessageGroup `json:"can_delete_own_message_group,omitempty"`
-	CanMoveMessagesOutOfChannelGroup *CanMoveMessagesOutOfChannelGroup `json:"can_move_messages_out_of_channel_group,omitempty"`
+	// The average number of messages sent to the channel per week, as estimated based on recent weeks, rounded to the nearest integer.  If `null`, the channel was recently created and there is insufficient data to estimate the average traffic.
+	StreamWeeklyTraffic               NullableInt32                      `json:"stream_weekly_traffic,omitempty"`
+	CanAddSubscribersGroup            *ChannelCanAddSubscribersGroup     `json:"can_add_subscribers_group,omitempty"`
+	CanRemoveSubscribersGroup         *CanRemoveSubscribersGroup         `json:"can_remove_subscribers_group,omitempty"`
+	CanAdministerChannelGroup         *CanAdministerChannelGroup         `json:"can_administer_channel_group,omitempty"`
+	CanDeleteAnyMessageGroup          *CanDeleteAnyMessageGroup          `json:"can_delete_any_message_group,omitempty"`
+	CanDeleteOwnMessageGroup          *CanDeleteOwnMessageGroup          `json:"can_delete_own_message_group,omitempty"`
+	CanMoveMessagesOutOfChannelGroup  *CanMoveMessagesOutOfChannelGroup  `json:"can_move_messages_out_of_channel_group,omitempty"`
 	CanMoveMessagesWithinChannelGroup *CanMoveMessagesWithinChannelGroup `json:"can_move_messages_within_channel_group,omitempty"`
-	CanSendMessageGroup *CanSendMessageGroup `json:"can_send_message_group,omitempty"`
-	CanSubscribeGroup *CanSubscribeGroup `json:"can_subscribe_group,omitempty"`
-	CanResolveTopicsGroup *CanResolveTopicsGroup `json:"can_resolve_topics_group,omitempty"`
-	// A boolean indicating whether the channel is [archived](/help/archive-a-channel).  **Changes**: New in Zulip 10.0 (feature level 315). Previously, subscriptions only included active channels. Note that some endpoints will never return archived channels unless the client declares explicit support for them via the `archived_channels` client capability. 
+	CanSendMessageGroup               *CanSendMessageGroup               `json:"can_send_message_group,omitempty"`
+	CanSubscribeGroup                 *CanSubscribeGroup                 `json:"can_subscribe_group,omitempty"`
+	CanResolveTopicsGroup             *CanResolveTopicsGroup             `json:"can_resolve_topics_group,omitempty"`
+	// A boolean indicating whether the channel is [archived](/help/archive-a-channel).  **Changes**: New in Zulip 10.0 (feature level 315). Previously, subscriptions only included active channels. Note that some endpoints will never return archived channels unless the client declares explicit support for them via the `archived_channels` client capability.
 	IsArchived *bool `json:"is_archived,omitempty"`
-	// The total number of non-deactivated users (including bots) who are subscribed to the channel. Clients are responsible for updating this value using `peer_add` and `peer_remove` events.  The server's internals cannot guarantee this value is correctly synced with `peer_add` and `peer_remove` events for the channel. As a result, if a (rare) race occurs between a change in the channel's subscribers and fetching this value, it is possible for a client that is correctly following the events protocol to end up with a permanently off-by-one error in the channel's subscriber count.  Clients are recommended to fetch full subscriber data for a channel in contexts where it is important to avoid this risk. The official web application, for example, uses this field primarily while waiting to fetch a given channel's full subscriber list from the server.  **Changes**: New in Zulip 11.0 (feature level 394). 
+	// The total number of non-deactivated users (including bots) who are subscribed to the channel. Clients are responsible for updating this value using `peer_add` and `peer_remove` events.  The server's internals cannot guarantee this value is correctly synced with `peer_add` and `peer_remove` events for the channel. As a result, if a (rare) race occurs between a change in the channel's subscribers and fetching this value, it is possible for a client that is correctly following the events protocol to end up with a permanently off-by-one error in the channel's subscriber count.  Clients are recommended to fetch full subscriber data for a channel in contexts where it is important to avoid this risk. The official web application, for example, uses this field primarily while waiting to fetch a given channel's full subscriber list from the server.  **Changes**: New in Zulip 11.0 (feature level 394).
 	SubscriberCount *float32 `json:"subscriber_count,omitempty"`
 }
 
@@ -302,6 +302,7 @@ func (o *Subscription) HasCreatorId() bool {
 func (o *Subscription) SetCreatorId(v int32) {
 	o.CreatorId.Set(&v)
 }
+
 // SetCreatorIdNil sets the value for CreatorId to be an explicit nil
 func (o *Subscription) SetCreatorIdNil() {
 	o.CreatorId.Set(nil)
@@ -440,6 +441,7 @@ func (o *Subscription) HasDesktopNotifications() bool {
 func (o *Subscription) SetDesktopNotifications(v bool) {
 	o.DesktopNotifications.Set(&v)
 }
+
 // SetDesktopNotificationsNil sets the value for DesktopNotifications to be an explicit nil
 func (o *Subscription) SetDesktopNotificationsNil() {
 	o.DesktopNotifications.Set(nil)
@@ -482,6 +484,7 @@ func (o *Subscription) HasEmailNotifications() bool {
 func (o *Subscription) SetEmailNotifications(v bool) {
 	o.EmailNotifications.Set(&v)
 }
+
 // SetEmailNotificationsNil sets the value for EmailNotifications to be an explicit nil
 func (o *Subscription) SetEmailNotificationsNil() {
 	o.EmailNotifications.Set(nil)
@@ -524,6 +527,7 @@ func (o *Subscription) HasWildcardMentionsNotify() bool {
 func (o *Subscription) SetWildcardMentionsNotify(v bool) {
 	o.WildcardMentionsNotify.Set(&v)
 }
+
 // SetWildcardMentionsNotifyNil sets the value for WildcardMentionsNotify to be an explicit nil
 func (o *Subscription) SetWildcardMentionsNotifyNil() {
 	o.WildcardMentionsNotify.Set(nil)
@@ -566,6 +570,7 @@ func (o *Subscription) HasPushNotifications() bool {
 func (o *Subscription) SetPushNotifications(v bool) {
 	o.PushNotifications.Set(&v)
 }
+
 // SetPushNotificationsNil sets the value for PushNotifications to be an explicit nil
 func (o *Subscription) SetPushNotificationsNil() {
 	o.PushNotifications.Set(nil)
@@ -608,6 +613,7 @@ func (o *Subscription) HasAudibleNotifications() bool {
 func (o *Subscription) SetAudibleNotifications(v bool) {
 	o.AudibleNotifications.Set(&v)
 }
+
 // SetAudibleNotificationsNil sets the value for AudibleNotifications to be an explicit nil
 func (o *Subscription) SetAudibleNotificationsNil() {
 	o.AudibleNotifications.Set(nil)
@@ -883,6 +889,7 @@ func (o *Subscription) HasMessageRetentionDays() bool {
 func (o *Subscription) SetMessageRetentionDays(v int32) {
 	o.MessageRetentionDays.Set(&v)
 }
+
 // SetMessageRetentionDaysNil sets the value for MessageRetentionDays to be an explicit nil
 func (o *Subscription) SetMessageRetentionDaysNil() {
 	o.MessageRetentionDays.Set(nil)
@@ -957,6 +964,7 @@ func (o *Subscription) HasFirstMessageId() bool {
 func (o *Subscription) SetFirstMessageId(v int32) {
 	o.FirstMessageId.Set(&v)
 }
+
 // SetFirstMessageIdNil sets the value for FirstMessageId to be an explicit nil
 func (o *Subscription) SetFirstMessageIdNil() {
 	o.FirstMessageId.Set(nil)
@@ -999,6 +1007,7 @@ func (o *Subscription) HasFolderId() bool {
 func (o *Subscription) SetFolderId(v int32) {
 	o.FolderId.Set(&v)
 }
+
 // SetFolderIdNil sets the value for FolderId to be an explicit nil
 func (o *Subscription) SetFolderIdNil() {
 	o.FolderId.Set(nil)
@@ -1105,6 +1114,7 @@ func (o *Subscription) HasStreamWeeklyTraffic() bool {
 func (o *Subscription) SetStreamWeeklyTraffic(v int32) {
 	o.StreamWeeklyTraffic.Set(&v)
 }
+
 // SetStreamWeeklyTrafficNil sets the value for StreamWeeklyTraffic to be an explicit nil
 func (o *Subscription) SetStreamWeeklyTrafficNil() {
 	o.StreamWeeklyTraffic.Set(nil)
@@ -1500,7 +1510,7 @@ func (o *Subscription) SetSubscriberCount(v float32) {
 }
 
 func (o Subscription) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -1667,5 +1677,3 @@ func (v *NullableSubscription) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

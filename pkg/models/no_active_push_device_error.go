@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,19 +11,20 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
 // checks if the NoActivePushDeviceError type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &NoActivePushDeviceError{}
 
-// NoActivePushDeviceError ## No active push device  A typical failed JSON response for when no registered device is available for the user (and `push_account_id`) to receive a push notification. 
+// NoActivePushDeviceError ## No active push device  A typical failed JSON response for when no registered device is available for the user (and `push_account_id`) to receive a push notification.
 type NoActivePushDeviceError struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	Code interface{} `json:"code"`
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// A string that identifies the error.
+	Code string `json:"code"`
 }
 
 type _NoActivePushDeviceError NoActivePushDeviceError
@@ -32,7 +33,7 @@ type _NoActivePushDeviceError NoActivePushDeviceError
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNoActivePushDeviceError(result interface{}, msg interface{}, code interface{}) *NoActivePushDeviceError {
+func NewNoActivePushDeviceError(result string, msg string, code string) *NoActivePushDeviceError {
 	this := NoActivePushDeviceError{}
 	this.Result = result
 	this.Msg = msg
@@ -49,10 +50,9 @@ func NewNoActivePushDeviceErrorWithDefaults() *NoActivePushDeviceError {
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *NoActivePushDeviceError) GetResult() interface{} {
+func (o *NoActivePushDeviceError) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -61,24 +61,22 @@ func (o *NoActivePushDeviceError) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *NoActivePushDeviceError) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *NoActivePushDeviceError) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *NoActivePushDeviceError) SetResult(v interface{}) {
+func (o *NoActivePushDeviceError) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *NoActivePushDeviceError) GetMsg() interface{} {
+func (o *NoActivePushDeviceError) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -87,24 +85,22 @@ func (o *NoActivePushDeviceError) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *NoActivePushDeviceError) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *NoActivePushDeviceError) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *NoActivePushDeviceError) SetMsg(v interface{}) {
+func (o *NoActivePushDeviceError) SetMsg(v string) {
 	o.Msg = v
 }
 
 // GetCode returns the Code field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *NoActivePushDeviceError) GetCode() interface{} {
+func (o *NoActivePushDeviceError) GetCode() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -113,21 +109,20 @@ func (o *NoActivePushDeviceError) GetCode() interface{} {
 
 // GetCodeOk returns a tuple with the Code field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *NoActivePushDeviceError) GetCodeOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Code) {
+func (o *NoActivePushDeviceError) GetCodeOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Code, true
 }
 
 // SetCode sets field value
-func (o *NoActivePushDeviceError) SetCode(v interface{}) {
+func (o *NoActivePushDeviceError) SetCode(v string) {
 	o.Code = v
 }
 
 func (o NoActivePushDeviceError) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -136,15 +131,9 @@ func (o NoActivePushDeviceError) MarshalJSON() ([]byte, error) {
 
 func (o NoActivePushDeviceError) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.Code != nil {
-		toSerialize["code"] = o.Code
-	}
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	toSerialize["code"] = o.Code
 	return toSerialize, nil
 }
 
@@ -163,10 +152,10 @@ func (o *NoActivePushDeviceError) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -222,5 +211,3 @@ func (v *NullableNoActivePushDeviceError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

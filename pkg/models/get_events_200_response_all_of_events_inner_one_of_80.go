@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf80 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf80{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf80 Event sent to a user's clients when scheduled messages are created.  **Changes**: New in Zulip 7.0 (feature level 179). 
+// GetEvents200ResponseAllOfEventsInnerOneOf80 Event sent to a user's clients when scheduled messages are created.  **Changes**: New in Zulip 7.0 (feature level 179).
 type GetEvents200ResponseAllOfEventsInnerOneOf80 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// An array of objects containing details of the newly created scheduled messages. 
+	Op   *string `json:"op,omitempty"`
+	// An array of objects containing details of the newly created scheduled messages.
 	ScheduledMessages []ScheduledMessage `json:"scheduled_messages,omitempty"`
 }
 
@@ -173,7 +173,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf80) SetScheduledMessages(v []S
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf80) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -232,5 +232,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf80) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

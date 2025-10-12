@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,13 +13,14 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
 // UpdateMessageFlagsForNarrowRequestNarrowInner - struct for UpdateMessageFlagsForNarrowRequestNarrowInner
 type UpdateMessageFlagsForNarrowRequestNarrowInner struct {
 	UpdateMessageFlagsForNarrowRequestNarrowInnerOneOf *UpdateMessageFlagsForNarrowRequestNarrowInnerOneOf
-	ArrayOfString *[]string
+	ArrayOfString                                      *[]string
 }
 
 // UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfAsUpdateMessageFlagsForNarrowRequestNarrowInner is a convenience function that returns UpdateMessageFlagsForNarrowRequestNarrowInnerOneOf wrapped in UpdateMessageFlagsForNarrowRequestNarrowInner
@@ -35,7 +36,6 @@ func ArrayOfStringAsUpdateMessageFlagsForNarrowRequestNarrowInner(v *[]string) U
 		ArrayOfString: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *UpdateMessageFlagsForNarrowRequestNarrowInner) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src UpdateMessageFlagsForNarrowRequestNarrowInner) MarshalJSON() ([]byte, 
 }
 
 // Get the actual instance
-func (obj *UpdateMessageFlagsForNarrowRequestNarrowInner) GetActualInstance() (interface{}) {
+func (obj *UpdateMessageFlagsForNarrowRequestNarrowInner) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *UpdateMessageFlagsForNarrowRequestNarrowInner) GetActualInstance() (i
 }
 
 // Get the actual instance value
-func (obj UpdateMessageFlagsForNarrowRequestNarrowInner) GetActualInstanceValue() (interface{}) {
+func (obj UpdateMessageFlagsForNarrowRequestNarrowInner) GetActualInstanceValue() interface{} {
 	if obj.UpdateMessageFlagsForNarrowRequestNarrowInnerOneOf != nil {
 		return *obj.UpdateMessageFlagsForNarrowRequestNarrowInnerOneOf
 	}
@@ -167,5 +167,3 @@ func (v *NullableUpdateMessageFlagsForNarrowRequestNarrowInner) UnmarshalJSON(sr
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

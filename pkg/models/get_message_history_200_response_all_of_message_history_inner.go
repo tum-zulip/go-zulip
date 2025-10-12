@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,27 +19,27 @@ var _ MappedNullable = &GetMessageHistory200ResponseAllOfMessageHistoryInner{}
 
 // GetMessageHistory200ResponseAllOfMessageHistoryInner struct for GetMessageHistory200ResponseAllOfMessageHistoryInner
 type GetMessageHistory200ResponseAllOfMessageHistoryInner struct {
-	// The topic of the message immediately after this edit event. 
+	// The topic of the message immediately after this edit event.
 	Topic *string `json:"topic,omitempty"`
-	// Only present if message's topic was edited.  The topic of the message immediately prior to this edit event. 
+	// Only present if message's topic was edited.  The topic of the message immediately prior to this edit event.
 	PrevTopic *string `json:"prev_topic,omitempty"`
-	// Only present if message's channel was edited.  The ID of the channel containing the message immediately after this edit event.  **Changes**: New in Zulip 5.0 (feature level 118). 
+	// Only present if message's channel was edited.  The ID of the channel containing the message immediately after this edit event.  **Changes**: New in Zulip 5.0 (feature level 118).
 	Stream *int32 `json:"stream,omitempty"`
-	// Only present if message's channel was edited.  The ID of the channel containing the message immediately prior to this edit event.  **Changes**: New in Zulip 3.0 (feature level 1). 
+	// Only present if message's channel was edited.  The ID of the channel containing the message immediately prior to this edit event.  **Changes**: New in Zulip 3.0 (feature level 1).
 	PrevStream *int32 `json:"prev_stream,omitempty"`
-	// The raw [Zulip-flavored Markdown](/help/format-your-message-using-markdown) content of the message immediately after this edit event. 
+	// The raw [Zulip-flavored Markdown](/help/format-your-message-using-markdown) content of the message immediately after this edit event.
 	Content *string `json:"content,omitempty"`
-	// The rendered HTML representation of `content`.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format. 
+	// The rendered HTML representation of `content`.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
 	RenderedContent *string `json:"rendered_content,omitempty"`
-	// Only present if message's content was edited.  The raw [Zulip-flavored Markdown](/help/format-your-message-using-markdown) content of the message immediately prior to this edit event. 
+	// Only present if message's content was edited.  The raw [Zulip-flavored Markdown](/help/format-your-message-using-markdown) content of the message immediately prior to this edit event.
 	PrevContent *string `json:"prev_content,omitempty"`
-	// Only present if message's content was edited.  The rendered HTML representation of `prev_content`.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format. 
+	// Only present if message's content was edited.  The rendered HTML representation of `prev_content`.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
 	PrevRenderedContent *string `json:"prev_rendered_content,omitempty"`
-	// The ID of the user that made the edit.  Will be `null` only for edit history events predating March 2017.  Clients can display edit history events where this is `null` as modified by either the sender (for content edits) or an unknown user (for topic edits). 
+	// The ID of the user that made the edit.  Will be `null` only for edit history events predating March 2017.  Clients can display edit history events where this is `null` as modified by either the sender (for content edits) or an unknown user (for topic edits).
 	UserId NullableInt32 `json:"user_id,omitempty"`
-	// Only present if message's content was edited.  An HTML diff between this version of the message and the previous one. 
+	// Only present if message's content was edited.  An HTML diff between this version of the message and the previous one.
 	ContentHtmlDiff *string `json:"content_html_diff,omitempty"`
-	// The UNIX timestamp for this edit. 
+	// The UNIX timestamp for this edit.
 	Timestamp *int32 `json:"timestamp,omitempty"`
 }
 
@@ -348,6 +348,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasUserId() bool 
 func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetUserId(v int32) {
 	o.UserId.Set(&v)
 }
+
 // SetUserIdNil sets the value for UserId to be an explicit nil
 func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetUserIdNil() {
 	o.UserId.Set(nil)
@@ -423,7 +424,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetTimestamp(v in
 }
 
 func (o GetMessageHistory200ResponseAllOfMessageHistoryInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -503,5 +504,3 @@ func (v *NullableGetMessageHistory200ResponseAllOfMessageHistoryInner) Unmarshal
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

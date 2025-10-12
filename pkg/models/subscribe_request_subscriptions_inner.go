@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,9 +21,9 @@ var _ MappedNullable = &SubscribeRequestSubscriptionsInner{}
 
 // SubscribeRequestSubscriptionsInner struct for SubscribeRequestSubscriptionsInner
 type SubscribeRequestSubscriptionsInner struct {
-	// The name of the channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`](/api/register-queue) endpoint to determine the maximum channel name length. 
+	// The name of the channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`](/api/register-queue) endpoint to determine the maximum channel name length.
 	Name string `json:"name"`
-	// The [description](/help/change-the-channel-description) to use for a new channel being created, in text/markdown format.  See the help center article on [message formatting](/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.  Clients should use the `max_stream_description_length` returned by the [`POST /register`](/api/register-queue) endpoint to determine the maximum channel description length. 
+	// The [description](/help/change-the-channel-description) to use for a new channel being created, in text/markdown format.  See the help center article on [message formatting](/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.  Clients should use the `max_stream_description_length` returned by the [`POST /register`](/api/register-queue) endpoint to determine the maximum channel description length.
 	Description *string `json:"description,omitempty"`
 }
 
@@ -104,7 +104,7 @@ func (o *SubscribeRequestSubscriptionsInner) SetDescription(v string) {
 }
 
 func (o SubscribeRequestSubscriptionsInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -133,10 +133,10 @@ func (o *SubscribeRequestSubscriptionsInner) UnmarshalJSON(data []byte) (err err
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -192,5 +192,3 @@ func (v *NullableSubscribeRequestSubscriptionsInner) UnmarshalJSON(src []byte) e
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

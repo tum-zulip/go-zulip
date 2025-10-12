@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf60 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf60{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf60 Event sent to users who can administer a bot user when the bot is configured. Clients may also receive a `realm_user` event that for changes in public data about the bot (name, etc.).  The `realm_user` events are sufficient for clients that only need to interact with the bot; this `realm_bot` event type is relevant only for administering bots.  Only organization administrators and the user who owns the bot will receive this event. 
+// GetEvents200ResponseAllOfEventsInnerOneOf60 Event sent to users who can administer a bot user when the bot is configured. Clients may also receive a `realm_user` event that for changes in public data about the bot (name, etc.).  The `realm_user` events are sufficient for clients that only need to interact with the bot; this `realm_bot` event type is relevant only for administering bots.  Only organization administrators and the user who owns the bot will receive this event.
 type GetEvents200ResponseAllOfEventsInnerOneOf60 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// Object containing details about the changed bot. It contains two properties: the user ID of the bot and the property to be changed. The changed property is one of the remaining properties listed below. 
+	Op   *string `json:"op,omitempty"`
+	// Object containing details about the changed bot. It contains two properties: the user ID of the bot and the property to be changed. The changed property is one of the remaining properties listed below.
 	Bot *BasicBot `json:"bot,omitempty"`
 }
 
@@ -173,7 +173,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf60) SetBot(v BasicBot) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf60) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -232,5 +232,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf60) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

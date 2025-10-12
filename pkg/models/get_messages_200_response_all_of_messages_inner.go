@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -20,32 +20,52 @@ var _ MappedNullable = &GetMessages200ResponseAllOfMessagesInner{}
 // GetMessages200ResponseAllOfMessagesInner struct for GetMessages200ResponseAllOfMessagesInner
 type GetMessages200ResponseAllOfMessagesInner struct {
 	AvatarUrl interface{} `json:"avatar_url,omitempty"`
-	Client interface{} `json:"client,omitempty"`
-	Content interface{} `json:"content,omitempty"`
-	ContentType interface{} `json:"content_type,omitempty"`
-	DisplayRecipient interface{} `json:"display_recipient,omitempty"`
-	EditHistory interface{} `json:"edit_history,omitempty"`
-	Id interface{} `json:"id,omitempty"`
-	IsMeMessage interface{} `json:"is_me_message,omitempty"`
-	LastEditTimestamp interface{} `json:"last_edit_timestamp,omitempty"`
-	LastMovedTimestamp interface{} `json:"last_moved_timestamp,omitempty"`
-	Reactions interface{} `json:"reactions,omitempty"`
-	RecipientId interface{} `json:"recipient_id,omitempty"`
-	SenderEmail interface{} `json:"sender_email,omitempty"`
-	SenderFullName interface{} `json:"sender_full_name,omitempty"`
-	SenderId interface{} `json:"sender_id,omitempty"`
-	SenderRealmStr interface{} `json:"sender_realm_str,omitempty"`
-	StreamId interface{} `json:"stream_id,omitempty"`
-	Subject interface{} `json:"subject,omitempty"`
-	Submessages interface{} `json:"submessages,omitempty"`
-	Timestamp interface{} `json:"timestamp,omitempty"`
-	TopicLinks interface{} `json:"topic_links,omitempty"`
-	Type interface{} `json:"type,omitempty"`
-	// The user's [message flags][message-flags] for the message.  **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.  [message-flags]: /api/update-message-flags#available-flags 
+	// A Zulip \"client\" string, describing what Zulip client sent the message.
+	Client *string `json:"client,omitempty"`
+	// The content/body of the message. When `apply_markdown` is set, it will be in HTML format.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
+	Content *string `json:"content,omitempty"`
+	// The HTTP `content_type` for the message content. This will be `text/html` or `text/x-markdown`, depending on whether `apply_markdown` was set.  See the help center article on [message formatting](/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.
+	ContentType      *string                       `json:"content_type,omitempty"`
+	DisplayRecipient *MessagesBaseDisplayRecipient `json:"display_recipient,omitempty"`
+	// An array of objects, with each object documenting the changes in a previous edit made to the message, ordered chronologically from most recent to least recent edit.  Not present if the message has never been edited or moved, or if [viewing message edit history][edit-history-access] is not allowed in the organization.  Every object will contain `user_id` and `timestamp`.  The other fields are optional, and will be present or not depending on whether the channel, topic, and/or message content were modified in the edit event. For example, if only the topic was edited, only `prev_topic` and `topic` will be present in addition to `user_id` and `timestamp`.  [edit-history-access]: /help/restrict-message-edit-history-access  **Changes**: In Zulip 10.0 (feature level 284), removed the `prev_rendered_content_version` field as it is an internal server implementation detail not used by any client.
+	EditHistory []MessagesBaseEditHistoryInner `json:"edit_history,omitempty"`
+	// The unique message ID. Messages should always be displayed sorted by ID.
+	Id *int32 `json:"id,omitempty"`
+	// Whether the message is a [/me status message][status-messages]  [status-messages]: /help/format-your-message-using-markdown#status-messages
+	IsMeMessage *bool `json:"is_me_message,omitempty"`
+	// The UNIX timestamp for when the message's content was last edited, in UTC seconds.  Not present if the message's content has never been edited.  Clients should use this field, rather than parsing the `edit_history` array, to display an indicator that the message has been edited.  **Changes**: Prior to Zulip 10.0 (feature level 365), this was the time when the message was last edited or moved.
+	LastEditTimestamp *int32 `json:"last_edit_timestamp,omitempty"`
+	// The UNIX timestamp for when the message was last moved to a different channel or topic, in UTC seconds.  Not present if the message has never been moved, or if the only topic moves for the message are [resolving or unresolving](/help/resolve-a-topic) the message's topic.  Clients should use this field, rather than parsing the `edit_history` array, to display an indicator that the message has been moved.  **Changes**: New in Zulip 10.0 (feature level 365). Previously, parsing the `edit_history` array was required in order to correctly display moved message indicators.
+	LastMovedTimestamp *int32 `json:"last_moved_timestamp,omitempty"`
+	// Data on any reactions to the message.
+	Reactions []EmojiReaction `json:"reactions,omitempty"`
+	// A unique ID for the set of users receiving the message (either a channel or group of users). Useful primarily for hashing.  **Changes**: Before Zulip 10.0 (feature level 327), `recipient_id` was the same across all incoming 1:1 direct messages. Now, each incoming message uniquely shares a `recipient_id` with outgoing messages in the same conversation.
+	RecipientId *int32 `json:"recipient_id,omitempty"`
+	// The Zulip API email address of the message's sender.
+	SenderEmail *string `json:"sender_email,omitempty"`
+	// The full name of the message's sender.
+	SenderFullName *string `json:"sender_full_name,omitempty"`
+	// The user ID of the message's sender.
+	SenderId *int32 `json:"sender_id,omitempty"`
+	// A string identifier for the realm the sender is in. Unique only within the context of a given Zulip server.  E.g. on `example.zulip.com`, this will be `example`.
+	SenderRealmStr *string `json:"sender_realm_str,omitempty"`
+	// Only present for channel messages; the ID of the channel.
+	StreamId *int32 `json:"stream_id,omitempty"`
+	// The `topic` of the message. Currently always `\"\"` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called \"subjects\" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register](/api/register-queue) response, for channel messages.  **Changes**: Before Zulip 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	Subject *string `json:"subject,omitempty"`
+	// Data used for certain experimental Zulip integrations.
+	Submessages []MessagesBaseSubmessagesInner `json:"submessages,omitempty"`
+	// The UNIX timestamp for when the message was sent, in UTC seconds.
+	Timestamp *int32 `json:"timestamp,omitempty"`
+	// Data on any links to be included in the `topic` line (these are generated by [custom linkification filters](/help/add-a-custom-linkifier) that match content in the message's topic.)  **Changes**: This field contained a list of urls before Zulip 4.0 (feature level 46).  New in Zulip 3.0 (feature level 1). Previously, this field was called `subject_links`; clients are recommended to rename `subject_links` to `topic_links` if present for compatibility with older Zulip servers.
+	TopicLinks []GetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInner `json:"topic_links,omitempty"`
+	// The type of the message: `\"stream\"` or `\"private\"`.
+	Type *string `json:"type,omitempty"`
+	// The user's [message flags][message-flags] for the message.  **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.  [message-flags]: /api/update-message-flags#available-flags
 	Flags []string `json:"flags,omitempty"`
-	// Only present if keyword search was included among the narrow parameters.  HTML content of a queried message that matches the narrow, with `<span class=\"highlight\">` elements wrapping the matches for the search keywords. 
+	// Only present if keyword search was included among the narrow parameters.  HTML content of a queried message that matches the narrow, with `<span class=\"highlight\">` elements wrapping the matches for the search keywords.
 	MatchContent *string `json:"match_content,omitempty"`
-	// Only present if keyword search was included among the narrow parameters.  HTML-escaped topic of a queried message that matches the narrow, with `<span class=\"highlight\">` elements wrapping the matches for the search keywords. 
+	// Only present if keyword search was included among the narrow parameters.  HTML-escaped topic of a queried message that matches the narrow, with `<span class=\"highlight\">` elements wrapping the matches for the search keywords.
 	MatchSubject *string `json:"match_subject,omitempty"`
 }
 
@@ -99,23 +119,22 @@ func (o *GetMessages200ResponseAllOfMessagesInner) SetAvatarUrl(v interface{}) {
 	o.AvatarUrl = v
 }
 
-// GetClient returns the Client field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetClient() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetClient returns the Client field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetClient() string {
+	if o == nil || IsNil(o.Client) {
+		var ret string
 		return ret
 	}
-	return o.Client
+	return *o.Client
 }
 
 // GetClientOk returns a tuple with the Client field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetClientOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetClientOk() (*string, bool) {
 	if o == nil || IsNil(o.Client) {
 		return nil, false
 	}
-	return &o.Client, true
+	return o.Client, true
 }
 
 // HasClient returns a boolean if a field has been set.
@@ -127,28 +146,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasClient() bool {
 	return false
 }
 
-// SetClient gets a reference to the given interface{} and assigns it to the Client field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetClient(v interface{}) {
-	o.Client = v
+// SetClient gets a reference to the given string and assigns it to the Client field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetClient(v string) {
+	o.Client = &v
 }
 
-// GetContent returns the Content field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetContent() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetContent returns the Content field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetContent() string {
+	if o == nil || IsNil(o.Content) {
+		var ret string
 		return ret
 	}
-	return o.Content
+	return *o.Content
 }
 
 // GetContentOk returns a tuple with the Content field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetContentOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetContentOk() (*string, bool) {
 	if o == nil || IsNil(o.Content) {
 		return nil, false
 	}
-	return &o.Content, true
+	return o.Content, true
 }
 
 // HasContent returns a boolean if a field has been set.
@@ -160,28 +178,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasContent() bool {
 	return false
 }
 
-// SetContent gets a reference to the given interface{} and assigns it to the Content field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetContent(v interface{}) {
-	o.Content = v
+// SetContent gets a reference to the given string and assigns it to the Content field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetContent(v string) {
+	o.Content = &v
 }
 
-// GetContentType returns the ContentType field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetContentType() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetContentType returns the ContentType field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetContentType() string {
+	if o == nil || IsNil(o.ContentType) {
+		var ret string
 		return ret
 	}
-	return o.ContentType
+	return *o.ContentType
 }
 
 // GetContentTypeOk returns a tuple with the ContentType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetContentTypeOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetContentTypeOk() (*string, bool) {
 	if o == nil || IsNil(o.ContentType) {
 		return nil, false
 	}
-	return &o.ContentType, true
+	return o.ContentType, true
 }
 
 // HasContentType returns a boolean if a field has been set.
@@ -193,28 +210,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasContentType() bool {
 	return false
 }
 
-// SetContentType gets a reference to the given interface{} and assigns it to the ContentType field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetContentType(v interface{}) {
-	o.ContentType = v
+// SetContentType gets a reference to the given string and assigns it to the ContentType field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetContentType(v string) {
+	o.ContentType = &v
 }
 
-// GetDisplayRecipient returns the DisplayRecipient field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetDisplayRecipient() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetDisplayRecipient returns the DisplayRecipient field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetDisplayRecipient() MessagesBaseDisplayRecipient {
+	if o == nil || IsNil(o.DisplayRecipient) {
+		var ret MessagesBaseDisplayRecipient
 		return ret
 	}
-	return o.DisplayRecipient
+	return *o.DisplayRecipient
 }
 
 // GetDisplayRecipientOk returns a tuple with the DisplayRecipient field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetDisplayRecipientOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetDisplayRecipientOk() (*MessagesBaseDisplayRecipient, bool) {
 	if o == nil || IsNil(o.DisplayRecipient) {
 		return nil, false
 	}
-	return &o.DisplayRecipient, true
+	return o.DisplayRecipient, true
 }
 
 // HasDisplayRecipient returns a boolean if a field has been set.
@@ -226,15 +242,15 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasDisplayRecipient() bool {
 	return false
 }
 
-// SetDisplayRecipient gets a reference to the given interface{} and assigns it to the DisplayRecipient field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetDisplayRecipient(v interface{}) {
-	o.DisplayRecipient = v
+// SetDisplayRecipient gets a reference to the given MessagesBaseDisplayRecipient and assigns it to the DisplayRecipient field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetDisplayRecipient(v MessagesBaseDisplayRecipient) {
+	o.DisplayRecipient = &v
 }
 
-// GetEditHistory returns the EditHistory field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetEditHistory() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetEditHistory returns the EditHistory field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetEditHistory() []MessagesBaseEditHistoryInner {
+	if o == nil || IsNil(o.EditHistory) {
+		var ret []MessagesBaseEditHistoryInner
 		return ret
 	}
 	return o.EditHistory
@@ -242,12 +258,11 @@ func (o *GetMessages200ResponseAllOfMessagesInner) GetEditHistory() interface{} 
 
 // GetEditHistoryOk returns a tuple with the EditHistory field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetEditHistoryOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetEditHistoryOk() ([]MessagesBaseEditHistoryInner, bool) {
 	if o == nil || IsNil(o.EditHistory) {
 		return nil, false
 	}
-	return &o.EditHistory, true
+	return o.EditHistory, true
 }
 
 // HasEditHistory returns a boolean if a field has been set.
@@ -259,28 +274,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasEditHistory() bool {
 	return false
 }
 
-// SetEditHistory gets a reference to the given interface{} and assigns it to the EditHistory field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetEditHistory(v interface{}) {
+// SetEditHistory gets a reference to the given []MessagesBaseEditHistoryInner and assigns it to the EditHistory field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetEditHistory(v []MessagesBaseEditHistoryInner) {
 	o.EditHistory = v
 }
 
-// GetId returns the Id field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetId() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetId returns the Id field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetId() int32 {
+	if o == nil || IsNil(o.Id) {
+		var ret int32
 		return ret
 	}
-	return o.Id
+	return *o.Id
 }
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetIdOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
-	return &o.Id, true
+	return o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
@@ -292,28 +306,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasId() bool {
 	return false
 }
 
-// SetId gets a reference to the given interface{} and assigns it to the Id field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetId(v interface{}) {
-	o.Id = v
+// SetId gets a reference to the given int32 and assigns it to the Id field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetId(v int32) {
+	o.Id = &v
 }
 
-// GetIsMeMessage returns the IsMeMessage field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetIsMeMessage() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetIsMeMessage returns the IsMeMessage field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetIsMeMessage() bool {
+	if o == nil || IsNil(o.IsMeMessage) {
+		var ret bool
 		return ret
 	}
-	return o.IsMeMessage
+	return *o.IsMeMessage
 }
 
 // GetIsMeMessageOk returns a tuple with the IsMeMessage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetIsMeMessageOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetIsMeMessageOk() (*bool, bool) {
 	if o == nil || IsNil(o.IsMeMessage) {
 		return nil, false
 	}
-	return &o.IsMeMessage, true
+	return o.IsMeMessage, true
 }
 
 // HasIsMeMessage returns a boolean if a field has been set.
@@ -325,28 +338,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasIsMeMessage() bool {
 	return false
 }
 
-// SetIsMeMessage gets a reference to the given interface{} and assigns it to the IsMeMessage field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetIsMeMessage(v interface{}) {
-	o.IsMeMessage = v
+// SetIsMeMessage gets a reference to the given bool and assigns it to the IsMeMessage field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetIsMeMessage(v bool) {
+	o.IsMeMessage = &v
 }
 
-// GetLastEditTimestamp returns the LastEditTimestamp field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetLastEditTimestamp() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetLastEditTimestamp returns the LastEditTimestamp field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetLastEditTimestamp() int32 {
+	if o == nil || IsNil(o.LastEditTimestamp) {
+		var ret int32
 		return ret
 	}
-	return o.LastEditTimestamp
+	return *o.LastEditTimestamp
 }
 
 // GetLastEditTimestampOk returns a tuple with the LastEditTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetLastEditTimestampOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetLastEditTimestampOk() (*int32, bool) {
 	if o == nil || IsNil(o.LastEditTimestamp) {
 		return nil, false
 	}
-	return &o.LastEditTimestamp, true
+	return o.LastEditTimestamp, true
 }
 
 // HasLastEditTimestamp returns a boolean if a field has been set.
@@ -358,28 +370,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasLastEditTimestamp() bool {
 	return false
 }
 
-// SetLastEditTimestamp gets a reference to the given interface{} and assigns it to the LastEditTimestamp field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetLastEditTimestamp(v interface{}) {
-	o.LastEditTimestamp = v
+// SetLastEditTimestamp gets a reference to the given int32 and assigns it to the LastEditTimestamp field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetLastEditTimestamp(v int32) {
+	o.LastEditTimestamp = &v
 }
 
-// GetLastMovedTimestamp returns the LastMovedTimestamp field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetLastMovedTimestamp() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetLastMovedTimestamp returns the LastMovedTimestamp field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetLastMovedTimestamp() int32 {
+	if o == nil || IsNil(o.LastMovedTimestamp) {
+		var ret int32
 		return ret
 	}
-	return o.LastMovedTimestamp
+	return *o.LastMovedTimestamp
 }
 
 // GetLastMovedTimestampOk returns a tuple with the LastMovedTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetLastMovedTimestampOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetLastMovedTimestampOk() (*int32, bool) {
 	if o == nil || IsNil(o.LastMovedTimestamp) {
 		return nil, false
 	}
-	return &o.LastMovedTimestamp, true
+	return o.LastMovedTimestamp, true
 }
 
 // HasLastMovedTimestamp returns a boolean if a field has been set.
@@ -391,15 +402,15 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasLastMovedTimestamp() bool 
 	return false
 }
 
-// SetLastMovedTimestamp gets a reference to the given interface{} and assigns it to the LastMovedTimestamp field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetLastMovedTimestamp(v interface{}) {
-	o.LastMovedTimestamp = v
+// SetLastMovedTimestamp gets a reference to the given int32 and assigns it to the LastMovedTimestamp field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetLastMovedTimestamp(v int32) {
+	o.LastMovedTimestamp = &v
 }
 
-// GetReactions returns the Reactions field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetReactions() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetReactions returns the Reactions field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetReactions() []EmojiReaction {
+	if o == nil || IsNil(o.Reactions) {
+		var ret []EmojiReaction
 		return ret
 	}
 	return o.Reactions
@@ -407,12 +418,11 @@ func (o *GetMessages200ResponseAllOfMessagesInner) GetReactions() interface{} {
 
 // GetReactionsOk returns a tuple with the Reactions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetReactionsOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetReactionsOk() ([]EmojiReaction, bool) {
 	if o == nil || IsNil(o.Reactions) {
 		return nil, false
 	}
-	return &o.Reactions, true
+	return o.Reactions, true
 }
 
 // HasReactions returns a boolean if a field has been set.
@@ -424,28 +434,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasReactions() bool {
 	return false
 }
 
-// SetReactions gets a reference to the given interface{} and assigns it to the Reactions field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetReactions(v interface{}) {
+// SetReactions gets a reference to the given []EmojiReaction and assigns it to the Reactions field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetReactions(v []EmojiReaction) {
 	o.Reactions = v
 }
 
-// GetRecipientId returns the RecipientId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetRecipientId() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetRecipientId returns the RecipientId field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetRecipientId() int32 {
+	if o == nil || IsNil(o.RecipientId) {
+		var ret int32
 		return ret
 	}
-	return o.RecipientId
+	return *o.RecipientId
 }
 
 // GetRecipientIdOk returns a tuple with the RecipientId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetRecipientIdOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetRecipientIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.RecipientId) {
 		return nil, false
 	}
-	return &o.RecipientId, true
+	return o.RecipientId, true
 }
 
 // HasRecipientId returns a boolean if a field has been set.
@@ -457,28 +466,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasRecipientId() bool {
 	return false
 }
 
-// SetRecipientId gets a reference to the given interface{} and assigns it to the RecipientId field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetRecipientId(v interface{}) {
-	o.RecipientId = v
+// SetRecipientId gets a reference to the given int32 and assigns it to the RecipientId field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetRecipientId(v int32) {
+	o.RecipientId = &v
 }
 
-// GetSenderEmail returns the SenderEmail field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderEmail() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetSenderEmail returns the SenderEmail field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderEmail() string {
+	if o == nil || IsNil(o.SenderEmail) {
+		var ret string
 		return ret
 	}
-	return o.SenderEmail
+	return *o.SenderEmail
 }
 
 // GetSenderEmailOk returns a tuple with the SenderEmail field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderEmailOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderEmailOk() (*string, bool) {
 	if o == nil || IsNil(o.SenderEmail) {
 		return nil, false
 	}
-	return &o.SenderEmail, true
+	return o.SenderEmail, true
 }
 
 // HasSenderEmail returns a boolean if a field has been set.
@@ -490,28 +498,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasSenderEmail() bool {
 	return false
 }
 
-// SetSenderEmail gets a reference to the given interface{} and assigns it to the SenderEmail field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetSenderEmail(v interface{}) {
-	o.SenderEmail = v
+// SetSenderEmail gets a reference to the given string and assigns it to the SenderEmail field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetSenderEmail(v string) {
+	o.SenderEmail = &v
 }
 
-// GetSenderFullName returns the SenderFullName field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderFullName() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetSenderFullName returns the SenderFullName field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderFullName() string {
+	if o == nil || IsNil(o.SenderFullName) {
+		var ret string
 		return ret
 	}
-	return o.SenderFullName
+	return *o.SenderFullName
 }
 
 // GetSenderFullNameOk returns a tuple with the SenderFullName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderFullNameOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderFullNameOk() (*string, bool) {
 	if o == nil || IsNil(o.SenderFullName) {
 		return nil, false
 	}
-	return &o.SenderFullName, true
+	return o.SenderFullName, true
 }
 
 // HasSenderFullName returns a boolean if a field has been set.
@@ -523,28 +530,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasSenderFullName() bool {
 	return false
 }
 
-// SetSenderFullName gets a reference to the given interface{} and assigns it to the SenderFullName field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetSenderFullName(v interface{}) {
-	o.SenderFullName = v
+// SetSenderFullName gets a reference to the given string and assigns it to the SenderFullName field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetSenderFullName(v string) {
+	o.SenderFullName = &v
 }
 
-// GetSenderId returns the SenderId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderId() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetSenderId returns the SenderId field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderId() int32 {
+	if o == nil || IsNil(o.SenderId) {
+		var ret int32
 		return ret
 	}
-	return o.SenderId
+	return *o.SenderId
 }
 
 // GetSenderIdOk returns a tuple with the SenderId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderIdOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.SenderId) {
 		return nil, false
 	}
-	return &o.SenderId, true
+	return o.SenderId, true
 }
 
 // HasSenderId returns a boolean if a field has been set.
@@ -556,28 +562,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasSenderId() bool {
 	return false
 }
 
-// SetSenderId gets a reference to the given interface{} and assigns it to the SenderId field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetSenderId(v interface{}) {
-	o.SenderId = v
+// SetSenderId gets a reference to the given int32 and assigns it to the SenderId field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetSenderId(v int32) {
+	o.SenderId = &v
 }
 
-// GetSenderRealmStr returns the SenderRealmStr field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderRealmStr() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetSenderRealmStr returns the SenderRealmStr field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderRealmStr() string {
+	if o == nil || IsNil(o.SenderRealmStr) {
+		var ret string
 		return ret
 	}
-	return o.SenderRealmStr
+	return *o.SenderRealmStr
 }
 
 // GetSenderRealmStrOk returns a tuple with the SenderRealmStr field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderRealmStrOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetSenderRealmStrOk() (*string, bool) {
 	if o == nil || IsNil(o.SenderRealmStr) {
 		return nil, false
 	}
-	return &o.SenderRealmStr, true
+	return o.SenderRealmStr, true
 }
 
 // HasSenderRealmStr returns a boolean if a field has been set.
@@ -589,28 +594,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasSenderRealmStr() bool {
 	return false
 }
 
-// SetSenderRealmStr gets a reference to the given interface{} and assigns it to the SenderRealmStr field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetSenderRealmStr(v interface{}) {
-	o.SenderRealmStr = v
+// SetSenderRealmStr gets a reference to the given string and assigns it to the SenderRealmStr field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetSenderRealmStr(v string) {
+	o.SenderRealmStr = &v
 }
 
-// GetStreamId returns the StreamId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetStreamId() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetStreamId returns the StreamId field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetStreamId() int32 {
+	if o == nil || IsNil(o.StreamId) {
+		var ret int32
 		return ret
 	}
-	return o.StreamId
+	return *o.StreamId
 }
 
 // GetStreamIdOk returns a tuple with the StreamId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetStreamIdOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetStreamIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.StreamId) {
 		return nil, false
 	}
-	return &o.StreamId, true
+	return o.StreamId, true
 }
 
 // HasStreamId returns a boolean if a field has been set.
@@ -622,28 +626,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasStreamId() bool {
 	return false
 }
 
-// SetStreamId gets a reference to the given interface{} and assigns it to the StreamId field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetStreamId(v interface{}) {
-	o.StreamId = v
+// SetStreamId gets a reference to the given int32 and assigns it to the StreamId field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetStreamId(v int32) {
+	o.StreamId = &v
 }
 
-// GetSubject returns the Subject field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetSubject() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetSubject returns the Subject field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetSubject() string {
+	if o == nil || IsNil(o.Subject) {
+		var ret string
 		return ret
 	}
-	return o.Subject
+	return *o.Subject
 }
 
 // GetSubjectOk returns a tuple with the Subject field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetSubjectOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetSubjectOk() (*string, bool) {
 	if o == nil || IsNil(o.Subject) {
 		return nil, false
 	}
-	return &o.Subject, true
+	return o.Subject, true
 }
 
 // HasSubject returns a boolean if a field has been set.
@@ -655,15 +658,15 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasSubject() bool {
 	return false
 }
 
-// SetSubject gets a reference to the given interface{} and assigns it to the Subject field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetSubject(v interface{}) {
-	o.Subject = v
+// SetSubject gets a reference to the given string and assigns it to the Subject field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetSubject(v string) {
+	o.Subject = &v
 }
 
-// GetSubmessages returns the Submessages field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetSubmessages() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetSubmessages returns the Submessages field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetSubmessages() []MessagesBaseSubmessagesInner {
+	if o == nil || IsNil(o.Submessages) {
+		var ret []MessagesBaseSubmessagesInner
 		return ret
 	}
 	return o.Submessages
@@ -671,12 +674,11 @@ func (o *GetMessages200ResponseAllOfMessagesInner) GetSubmessages() interface{} 
 
 // GetSubmessagesOk returns a tuple with the Submessages field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetSubmessagesOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetSubmessagesOk() ([]MessagesBaseSubmessagesInner, bool) {
 	if o == nil || IsNil(o.Submessages) {
 		return nil, false
 	}
-	return &o.Submessages, true
+	return o.Submessages, true
 }
 
 // HasSubmessages returns a boolean if a field has been set.
@@ -688,28 +690,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasSubmessages() bool {
 	return false
 }
 
-// SetSubmessages gets a reference to the given interface{} and assigns it to the Submessages field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetSubmessages(v interface{}) {
+// SetSubmessages gets a reference to the given []MessagesBaseSubmessagesInner and assigns it to the Submessages field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetSubmessages(v []MessagesBaseSubmessagesInner) {
 	o.Submessages = v
 }
 
-// GetTimestamp returns the Timestamp field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetTimestamp() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetTimestamp returns the Timestamp field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetTimestamp() int32 {
+	if o == nil || IsNil(o.Timestamp) {
+		var ret int32
 		return ret
 	}
-	return o.Timestamp
+	return *o.Timestamp
 }
 
 // GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetTimestampOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetTimestampOk() (*int32, bool) {
 	if o == nil || IsNil(o.Timestamp) {
 		return nil, false
 	}
-	return &o.Timestamp, true
+	return o.Timestamp, true
 }
 
 // HasTimestamp returns a boolean if a field has been set.
@@ -721,15 +722,15 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasTimestamp() bool {
 	return false
 }
 
-// SetTimestamp gets a reference to the given interface{} and assigns it to the Timestamp field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetTimestamp(v interface{}) {
-	o.Timestamp = v
+// SetTimestamp gets a reference to the given int32 and assigns it to the Timestamp field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetTimestamp(v int32) {
+	o.Timestamp = &v
 }
 
-// GetTopicLinks returns the TopicLinks field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetTopicLinks() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetTopicLinks returns the TopicLinks field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetTopicLinks() []GetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInner {
+	if o == nil || IsNil(o.TopicLinks) {
+		var ret []GetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInner
 		return ret
 	}
 	return o.TopicLinks
@@ -737,12 +738,11 @@ func (o *GetMessages200ResponseAllOfMessagesInner) GetTopicLinks() interface{} {
 
 // GetTopicLinksOk returns a tuple with the TopicLinks field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetTopicLinksOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetTopicLinksOk() ([]GetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInner, bool) {
 	if o == nil || IsNil(o.TopicLinks) {
 		return nil, false
 	}
-	return &o.TopicLinks, true
+	return o.TopicLinks, true
 }
 
 // HasTopicLinks returns a boolean if a field has been set.
@@ -754,28 +754,27 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasTopicLinks() bool {
 	return false
 }
 
-// SetTopicLinks gets a reference to the given interface{} and assigns it to the TopicLinks field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetTopicLinks(v interface{}) {
+// SetTopicLinks gets a reference to the given []GetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInner and assigns it to the TopicLinks field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetTopicLinks(v []GetEvents200ResponseAllOfEventsInnerOneOf36TopicLinksInner) {
 	o.TopicLinks = v
 }
 
-// GetType returns the Type field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessages200ResponseAllOfMessagesInner) GetType() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetType returns the Type field value if set, zero value otherwise.
+func (o *GetMessages200ResponseAllOfMessagesInner) GetType() string {
+	if o == nil || IsNil(o.Type) {
+		var ret string
 		return ret
 	}
-	return o.Type
+	return *o.Type
 }
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessages200ResponseAllOfMessagesInner) GetTypeOk() (*interface{}, bool) {
+func (o *GetMessages200ResponseAllOfMessagesInner) GetTypeOk() (*string, bool) {
 	if o == nil || IsNil(o.Type) {
 		return nil, false
 	}
-	return &o.Type, true
+	return o.Type, true
 }
 
 // HasType returns a boolean if a field has been set.
@@ -787,9 +786,9 @@ func (o *GetMessages200ResponseAllOfMessagesInner) HasType() bool {
 	return false
 }
 
-// SetType gets a reference to the given interface{} and assigns it to the Type field.
-func (o *GetMessages200ResponseAllOfMessagesInner) SetType(v interface{}) {
-	o.Type = v
+// SetType gets a reference to the given string and assigns it to the Type field.
+func (o *GetMessages200ResponseAllOfMessagesInner) SetType(v string) {
+	o.Type = &v
 }
 
 // GetFlags returns the Flags field value if set, zero value otherwise.
@@ -889,7 +888,7 @@ func (o *GetMessages200ResponseAllOfMessagesInner) SetMatchSubject(v string) {
 }
 
 func (o GetMessages200ResponseAllOfMessagesInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -901,67 +900,67 @@ func (o GetMessages200ResponseAllOfMessagesInner) ToMap() (map[string]interface{
 	if o.AvatarUrl != nil {
 		toSerialize["avatar_url"] = o.AvatarUrl
 	}
-	if o.Client != nil {
+	if !IsNil(o.Client) {
 		toSerialize["client"] = o.Client
 	}
-	if o.Content != nil {
+	if !IsNil(o.Content) {
 		toSerialize["content"] = o.Content
 	}
-	if o.ContentType != nil {
+	if !IsNil(o.ContentType) {
 		toSerialize["content_type"] = o.ContentType
 	}
-	if o.DisplayRecipient != nil {
+	if !IsNil(o.DisplayRecipient) {
 		toSerialize["display_recipient"] = o.DisplayRecipient
 	}
-	if o.EditHistory != nil {
+	if !IsNil(o.EditHistory) {
 		toSerialize["edit_history"] = o.EditHistory
 	}
-	if o.Id != nil {
+	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
 	}
-	if o.IsMeMessage != nil {
+	if !IsNil(o.IsMeMessage) {
 		toSerialize["is_me_message"] = o.IsMeMessage
 	}
-	if o.LastEditTimestamp != nil {
+	if !IsNil(o.LastEditTimestamp) {
 		toSerialize["last_edit_timestamp"] = o.LastEditTimestamp
 	}
-	if o.LastMovedTimestamp != nil {
+	if !IsNil(o.LastMovedTimestamp) {
 		toSerialize["last_moved_timestamp"] = o.LastMovedTimestamp
 	}
-	if o.Reactions != nil {
+	if !IsNil(o.Reactions) {
 		toSerialize["reactions"] = o.Reactions
 	}
-	if o.RecipientId != nil {
+	if !IsNil(o.RecipientId) {
 		toSerialize["recipient_id"] = o.RecipientId
 	}
-	if o.SenderEmail != nil {
+	if !IsNil(o.SenderEmail) {
 		toSerialize["sender_email"] = o.SenderEmail
 	}
-	if o.SenderFullName != nil {
+	if !IsNil(o.SenderFullName) {
 		toSerialize["sender_full_name"] = o.SenderFullName
 	}
-	if o.SenderId != nil {
+	if !IsNil(o.SenderId) {
 		toSerialize["sender_id"] = o.SenderId
 	}
-	if o.SenderRealmStr != nil {
+	if !IsNil(o.SenderRealmStr) {
 		toSerialize["sender_realm_str"] = o.SenderRealmStr
 	}
-	if o.StreamId != nil {
+	if !IsNil(o.StreamId) {
 		toSerialize["stream_id"] = o.StreamId
 	}
-	if o.Subject != nil {
+	if !IsNil(o.Subject) {
 		toSerialize["subject"] = o.Subject
 	}
-	if o.Submessages != nil {
+	if !IsNil(o.Submessages) {
 		toSerialize["submessages"] = o.Submessages
 	}
-	if o.Timestamp != nil {
+	if !IsNil(o.Timestamp) {
 		toSerialize["timestamp"] = o.Timestamp
 	}
-	if o.TopicLinks != nil {
+	if !IsNil(o.TopicLinks) {
 		toSerialize["topic_links"] = o.TopicLinks
 	}
-	if o.Type != nil {
+	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
 	}
 	if !IsNil(o.Flags) {
@@ -1011,5 +1010,3 @@ func (v *NullableGetMessages200ResponseAllOfMessagesInner) UnmarshalJSON(src []b
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

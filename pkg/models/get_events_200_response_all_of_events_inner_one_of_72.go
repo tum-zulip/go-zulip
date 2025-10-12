@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,12 +17,12 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf72 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf72{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf72 Event containing details of a newly configured navigation view.  **Changes**: New in Zulip 11.0 (feature level 390). 
+// GetEvents200ResponseAllOfEventsInnerOneOf72 Event containing details of a newly configured navigation view.  **Changes**: New in Zulip 11.0 (feature level 390).
 type GetEvents200ResponseAllOfEventsInnerOneOf72 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
-	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id             *int32          `json:"id,omitempty"`
+	Type           *string         `json:"type,omitempty"`
+	Op             *string         `json:"op,omitempty"`
 	NavigationView *NavigationView `json:"navigation_view,omitempty"`
 }
 
@@ -172,7 +172,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf72) SetNavigationView(v Naviga
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf72) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -231,5 +231,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf72) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

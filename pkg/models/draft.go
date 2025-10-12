@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,27 +11,27 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
 // checks if the Draft type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Draft{}
 
-// Draft A dictionary for representing a message draft. 
+// Draft A dictionary for representing a message draft.
 type Draft struct {
-	// The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited. 
+	// The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited.
 	Id *int32 `json:"id,omitempty"`
-	// The type of the draft. Either unaddressed (empty string), `\"stream\"`, or `\"private\"` (for one-on-one and group direct messages). 
+	// The type of the draft. Either unaddressed (empty string), `\"stream\"`, or `\"private\"` (for one-on-one and group direct messages).
 	Type string `json:"type"`
-	// An array of the tentative target audience IDs. For channel messages, this should contain exactly 1 ID, the ID of the target channel. For direct messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array. 
+	// An array of the tentative target audience IDs. For channel messages, this should contain exactly 1 ID, the ID of the target channel. For direct messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array.
 	To []int32 `json:"to"`
-	// For channel message drafts, the tentative topic name. For direct or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. 
+	// For channel message drafts, the tentative topic name. For direct or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes.
 	Topic string `json:"topic"`
-	// The body of the draft. Should not contain null bytes. 
+	// The body of the draft. Should not contain null bytes.
 	Content string `json:"content"`
-	// A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server. 
+	// A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server.
 	Timestamp *int32 `json:"timestamp,omitempty"`
 }
 
@@ -219,7 +219,7 @@ func (o *Draft) SetTimestamp(v int32) {
 }
 
 func (o Draft) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -257,10 +257,10 @@ func (o *Draft) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -316,5 +316,3 @@ func (v *NullableDraft) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

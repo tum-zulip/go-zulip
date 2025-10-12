@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf5 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf5{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf5 When the value of a user's delivery email as visible to you changes, either due to the email address changing or your access to the user's email changing via an update to their `email_address_visibility` setting.  **Changes**: Prior to Zulip 7.0 (feature level 163), this event was sent only to the affected user, and this event would only be triggered by changing the affected user's delivery email. 
+// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf5 When the value of a user's delivery email as visible to you changes, either due to the email address changing or your access to the user's email changing via an update to their `email_address_visibility` setting.  **Changes**: Prior to Zulip 7.0 (feature level 163), this event was sent only to the affected user, and this event would only be triggered by changing the affected user's delivery email.
 type GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf5 struct {
-	// The ID of the user affected by this change. 
+	// The ID of the user affected by this change.
 	UserId *int32 `json:"user_id,omitempty"`
-	// The new delivery email of the user.  This value can be `null` if the affected user changed their `email_address_visibility` setting such that you cannot access their real email.  **Changes**: Before Zulip 7.0 (feature level 163), `null` was not a possible value for this event as it was only sent to the affected user when their email address was changed. 
+	// The new delivery email of the user.  This value can be `null` if the affected user changed their `email_address_visibility` setting such that you cannot access their real email.  **Changes**: Before Zulip 7.0 (feature level 163), `null` was not a possible value for this event as it was only sent to the affected user when their email address was changed.
 	DeliveryEmail NullableString `json:"delivery_email,omitempty"`
 }
 
@@ -106,6 +106,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf5) HasDeliveryEmai
 func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf5) SetDeliveryEmail(v string) {
 	o.DeliveryEmail.Set(&v)
 }
+
 // SetDeliveryEmailNil sets the value for DeliveryEmail to be an explicit nil
 func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf5) SetDeliveryEmailNil() {
 	o.DeliveryEmail.Set(nil)
@@ -117,7 +118,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf5) UnsetDeliveryEm
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf5) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -170,5 +171,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf5) Unmarsh
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

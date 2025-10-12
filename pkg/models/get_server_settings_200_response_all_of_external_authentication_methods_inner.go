@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,15 +19,15 @@ var _ MappedNullable = &GetServerSettings200ResponseAllOfExternalAuthenticationM
 
 // GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner struct for GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner
 type GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner struct {
-	// A unique, table, machine-readable name for the authentication method, intended to be used by clients with special behavior for specific authentication methods to correctly identify the method. 
+	// A unique, table, machine-readable name for the authentication method, intended to be used by clients with special behavior for specific authentication methods to correctly identify the method.
 	Name *string `json:"name,omitempty"`
-	// Display name of the authentication method, to be used in all buttons for the authentication method. 
+	// Display name of the authentication method, to be used in all buttons for the authentication method.
 	DisplayName *string `json:"display_name,omitempty"`
-	// URL for an image to be displayed as an icon in all buttons for the external authentication method.  When `null`, no icon should be displayed. 
+	// URL for an image to be displayed as an icon in all buttons for the external authentication method.  When `null`, no icon should be displayed.
 	DisplayIcon NullableString `json:"display_icon,omitempty"`
-	// URL to be used to initiate authentication using this method. 
+	// URL to be used to initiate authentication using this method.
 	LoginUrl *string `json:"login_url,omitempty"`
-	// URL to be used to initiate account registration using this method. 
+	// URL to be used to initiate account registration using this method.
 	SignupUrl *string `json:"signup_url,omitempty"`
 }
 
@@ -144,6 +144,7 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ha
 func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) SetDisplayIcon(v string) {
 	o.DisplayIcon.Set(&v)
 }
+
 // SetDisplayIconNil sets the value for DisplayIcon to be an explicit nil
 func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) SetDisplayIconNil() {
 	o.DisplayIcon.Set(nil)
@@ -219,7 +220,7 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Se
 }
 
 func (o GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -281,5 +282,3 @@ func (v *NullableGetServerSettings200ResponseAllOfExternalAuthenticationMethodsI
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

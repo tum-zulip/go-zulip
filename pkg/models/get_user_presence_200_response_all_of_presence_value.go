@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the GetUserPresence200ResponseAllOfPresenceValue type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetUserPresence200ResponseAllOfPresenceValue{}
 
-// GetUserPresence200ResponseAllOfPresenceValue `{client_name}` or `\"aggregated\"`: Object containing the details of the user's presence.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always contain two keys, `\"website\"` and `\"aggregated\"`, with identical data. The server no longer stores which client submitted presence updates.  Previously, the `{client_name}` keys for these objects were the names of the different clients where the user was logged in, for example `website` or `ZulipDesktop`. 
+// GetUserPresence200ResponseAllOfPresenceValue `{client_name}` or `\"aggregated\"`: Object containing the details of the user's presence.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always contain two keys, `\"website\"` and `\"aggregated\"`, with identical data. The server no longer stores which client submitted presence updates.  Previously, the `{client_name}` keys for these objects were the names of the different clients where the user was logged in, for example `website` or `ZulipDesktop`.
 type GetUserPresence200ResponseAllOfPresenceValue struct {
-	// When this update was received. If the timestamp is more than a few minutes in the past, the user is offline. 
+	// When this update was received. If the timestamp is more than a few minutes in the past, the user is offline.
 	Timestamp *int32 `json:"timestamp,omitempty"`
-	// Whether the user had recently interacted with Zulip at the time of the timestamp.  Will be either `\"active\"` or `\"idle\"` 
+	// Whether the user had recently interacted with Zulip at the time of the timestamp.  Will be either `\"active\"` or `\"idle\"`
 	Status *string `json:"status,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *GetUserPresence200ResponseAllOfPresenceValue) SetStatus(v string) {
 }
 
 func (o GetUserPresence200ResponseAllOfPresenceValue) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableGetUserPresence200ResponseAllOfPresenceValue) UnmarshalJSON(src
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

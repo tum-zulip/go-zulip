@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,13 +17,13 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf64 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf64{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf64 Event sent to all users in a Zulip organization when the organization (realm) is deactivated. Its main purpose is to flush active longpolling connections so clients can immediately show the organization as deactivated.  Clients cannot rely on receiving this event, because they will no longer be able to authenticate to the Zulip API due to the deactivation, and thus can miss it if they did not have an active longpolling connection at the moment of deactivation.  Correct handling of realm deactivations requires that clients parse authentication errors from GET /events; if that is done correctly, the client can ignore this event type and rely on its handling of the `GET /events` request it will do immediately after processing this batch of events. 
+// GetEvents200ResponseAllOfEventsInnerOneOf64 Event sent to all users in a Zulip organization when the organization (realm) is deactivated. Its main purpose is to flush active longpolling connections so clients can immediately show the organization as deactivated.  Clients cannot rely on receiving this event, because they will no longer be able to authenticate to the Zulip API due to the deactivation, and thus can miss it if they did not have an active longpolling connection at the moment of deactivation.  Correct handling of realm deactivations requires that clients parse authentication errors from GET /events; if that is done correctly, the client can ignore this event type and rely on its handling of the `GET /events` request it will do immediately after processing this batch of events.
 type GetEvents200ResponseAllOfEventsInnerOneOf64 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Op *string `json:"op,omitempty"`
-	// The ID of the deactivated realm. 
+	Op   *string `json:"op,omitempty"`
+	// The ID of the deactivated realm.
 	RealmId *int32 `json:"realm_id,omitempty"`
 }
 
@@ -173,7 +173,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf64) SetRealmId(v int32) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf64) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -232,5 +232,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf64) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,15 +17,15 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue `{client_name}`: Object containing the details of the user's presence.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always be `\"website\"` as the server no longer stores which client submitted presence updates.  Previously, the object key was the client's platform name, for example `website` or `ZulipDesktop`. 
+// GetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue `{client_name}`: Object containing the details of the user's presence.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always be `\"website\"` as the server no longer stores which client submitted presence updates.  Previously, the object key was the client's platform name, for example `website` or `ZulipDesktop`.
 type GetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue struct {
-	// The client's platform name.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always be `\"website\"` as the server no longer stores which client submitted presence updates. 
+	// The client's platform name.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always be `\"website\"` as the server no longer stores which client submitted presence updates.
 	Client *string `json:"client,omitempty"`
-	// The status of the user on this client. Will be either `idle` or `active`. 
+	// The status of the user on this client. Will be either `idle` or `active`.
 	Status *string `json:"status,omitempty"`
-	// The UNIX timestamp of when this client sent the user's presence to the server with the precision of a second. 
+	// The UNIX timestamp of when this client sent the user's presence to the server with the precision of a second.
 	Timestamp *int32 `json:"timestamp,omitempty"`
-	// Whether the client is capable of showing mobile/push notifications to the user.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always be `false` as the server no longer stores which client submitted presence updates. 
+	// Whether the client is capable of showing mobile/push notifications to the user.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always be `false` as the server no longer stores which client submitted presence updates.
 	Pushable *bool `json:"pushable,omitempty"`
 }
 
@@ -175,7 +175,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue) SetPushable(v
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,5 +234,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue) Unmar
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

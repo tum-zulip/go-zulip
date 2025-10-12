@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,31 +17,31 @@ import (
 // checks if the GetServerSettings200ResponseAllOfAuthenticationMethods type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetServerSettings200ResponseAllOfAuthenticationMethods{}
 
-// GetServerSettings200ResponseAllOfAuthenticationMethods Each key-value pair in the object indicates whether the authentication method is enabled on this server.  **Changes**: Deprecated in Zulip 2.1.0, in favor of the more expressive `external_authentication_methods`. 
+// GetServerSettings200ResponseAllOfAuthenticationMethods Each key-value pair in the object indicates whether the authentication method is enabled on this server.  **Changes**: Deprecated in Zulip 2.1.0, in favor of the more expressive `external_authentication_methods`.
 type GetServerSettings200ResponseAllOfAuthenticationMethods struct {
-	// Whether the user can authenticate using password. 
+	// Whether the user can authenticate using password.
 	Password *bool `json:"password,omitempty"`
-	// Whether the user can authenticate using development API key. 
+	// Whether the user can authenticate using development API key.
 	Dev *bool `json:"dev,omitempty"`
-	// Whether the user can authenticate using email. 
+	// Whether the user can authenticate using email.
 	Email *bool `json:"email,omitempty"`
-	// Whether the user can authenticate using LDAP. 
+	// Whether the user can authenticate using LDAP.
 	Ldap *bool `json:"ldap,omitempty"`
-	// Whether the user can authenticate using REMOTE_USER. 
+	// Whether the user can authenticate using REMOTE_USER.
 	Remoteuser *bool `json:"remoteuser,omitempty"`
-	// Whether the user can authenticate using their GitHub account. 
+	// Whether the user can authenticate using their GitHub account.
 	Github *bool `json:"github,omitempty"`
-	// Whether the user can authenticate using their Microsoft Entra ID account. 
+	// Whether the user can authenticate using their Microsoft Entra ID account.
 	Azuread *bool `json:"azuread,omitempty"`
-	// Whether the user can authenticate using their GitLab account.  **Changes**: New in Zulip 3.0 (feature level 1). 
+	// Whether the user can authenticate using their GitLab account.  **Changes**: New in Zulip 3.0 (feature level 1).
 	Gitlab *bool `json:"gitlab,omitempty"`
-	// Whether the user can authenticate using their Apple account. 
+	// Whether the user can authenticate using their Apple account.
 	Apple *bool `json:"apple,omitempty"`
-	// Whether the user can authenticate using their Google account. 
+	// Whether the user can authenticate using their Google account.
 	Google *bool `json:"google,omitempty"`
-	// Whether the user can authenticate using SAML. 
+	// Whether the user can authenticate using SAML.
 	Saml *bool `json:"saml,omitempty"`
-	// Whether the user can authenticate using OpenID Connect. 
+	// Whether the user can authenticate using OpenID Connect.
 	OpenidConnect *bool `json:"openid connect,omitempty"`
 }
 
@@ -447,7 +447,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetOpenidConnec
 }
 
 func (o GetServerSettings200ResponseAllOfAuthenticationMethods) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -530,5 +530,3 @@ func (v *NullableGetServerSettings200ResponseAllOfAuthenticationMethods) Unmarsh
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

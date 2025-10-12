@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the RegisterQueue200ResponseAllOfPushDevicesValue type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RegisterQueue200ResponseAllOfPushDevicesValue{}
 
-// RegisterQueue200ResponseAllOfPushDevicesValue `{push_account_id}`: Dictionary containing the details of a push device with the push account ID as the key. 
+// RegisterQueue200ResponseAllOfPushDevicesValue `{push_account_id}`: Dictionary containing the details of a push device with the push account ID as the key.
 type RegisterQueue200ResponseAllOfPushDevicesValue struct {
-	// The push account's registration status. Either `\"active\"`, `\"pending\"`, or `\"failed\"`. 
+	// The push account's registration status. Either `\"active\"`, `\"pending\"`, or `\"failed\"`.
 	Status *string `json:"status,omitempty"`
-	// If the status is `\"failed\"`, a [Zulip API error code](/api/rest-error-handling) indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `\"INVALID_BOUNCER_PUBLIC_KEY\"` - Inform the user to update app. - `\"REQUEST_EXPIRED` - Retry with a fresh payload. 
+	// If the status is `\"failed\"`, a [Zulip API error code](/api/rest-error-handling) indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `\"INVALID_BOUNCER_PUBLIC_KEY\"` - Inform the user to update app. - `\"REQUEST_EXPIRED` - Retry with a fresh payload.
 	ErrorCode NullableString `json:"error_code,omitempty"`
 }
 
@@ -106,6 +106,7 @@ func (o *RegisterQueue200ResponseAllOfPushDevicesValue) HasErrorCode() bool {
 func (o *RegisterQueue200ResponseAllOfPushDevicesValue) SetErrorCode(v string) {
 	o.ErrorCode.Set(&v)
 }
+
 // SetErrorCodeNil sets the value for ErrorCode to be an explicit nil
 func (o *RegisterQueue200ResponseAllOfPushDevicesValue) SetErrorCodeNil() {
 	o.ErrorCode.Set(nil)
@@ -117,7 +118,7 @@ func (o *RegisterQueue200ResponseAllOfPushDevicesValue) UnsetErrorCode() {
 }
 
 func (o RegisterQueue200ResponseAllOfPushDevicesValue) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -170,5 +171,3 @@ func (v *NullableRegisterQueue200ResponseAllOfPushDevicesValue) UnmarshalJSON(sr
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

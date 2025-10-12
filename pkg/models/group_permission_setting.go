@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,21 +17,21 @@ import (
 // checks if the GroupPermissionSetting type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GroupPermissionSetting{}
 
-// GroupPermissionSetting Configuration for a group permission setting specifying the groups to which the setting can be set to and the default values for the setting.  **Changes**: Removed `allow_owners_group` field in Zulip 10.0 (feature level 326), as we now support anonymous user groups. Previously, the `role:owners` system group was not offered when `allow_owners_group` was false.  Removed unnecessary `id_field_name` field in Zulip 10.0 (feature level 326). Previously, this always had the value of `\"{setting_name}_id\"`; it was an internal implementation detail of the server not intended to be included in the API. 
+// GroupPermissionSetting Configuration for a group permission setting specifying the groups to which the setting can be set to and the default values for the setting.  **Changes**: Removed `allow_owners_group` field in Zulip 10.0 (feature level 326), as we now support anonymous user groups. Previously, the `role:owners` system group was not offered when `allow_owners_group` was false.  Removed unnecessary `id_field_name` field in Zulip 10.0 (feature level 326). Previously, this always had the value of `\"{setting_name}_id\"`; it was an internal implementation detail of the server not intended to be included in the API.
 type GroupPermissionSetting struct {
-	// Whether the setting can only be set to a system user group. 
+	// Whether the setting can only be set to a system user group.
 	RequireSystemGroup *bool `json:"require_system_group,omitempty"`
-	// Whether the setting can be set to `role:internet` system group. 
+	// Whether the setting can be set to `role:internet` system group.
 	AllowInternetGroup *bool `json:"allow_internet_group,omitempty"`
-	// Whether the setting can be set to `role:nobody` system group. 
+	// Whether the setting can be set to `role:nobody` system group.
 	AllowNobodyGroup *bool `json:"allow_nobody_group,omitempty"`
-	// Whether the setting can be set to `role:everyone` system group.  If false, guest users cannot exercise this permission even if they are part of the [group-setting value](/api/group-setting-values) for this setting. 
+	// Whether the setting can be set to `role:everyone` system group.  If false, guest users cannot exercise this permission even if they are part of the [group-setting value](/api/group-setting-values) for this setting.
 	AllowEveryoneGroup *bool `json:"allow_everyone_group,omitempty"`
-	// Name of the default group for the setting. 
+	// Name of the default group for the setting.
 	DefaultGroupName *string `json:"default_group_name,omitempty"`
-	// Name of the default group for the setting for system groups.  This is non-null only for group-level settings. 
+	// Name of the default group for the setting for system groups.  This is non-null only for group-level settings.
 	DefaultForSystemGroups NullableString `json:"default_for_system_groups,omitempty"`
-	// An array of names of system groups to which the setting can be set to.  If the list is empty, the setting can be set to system groups based on the other boolean fields.  **Changes**: New in Zulip 8.0 (feature level 225). 
+	// An array of names of system groups to which the setting can be set to.  If the list is empty, the setting can be set to system groups based on the other boolean fields.  **Changes**: New in Zulip 8.0 (feature level 225).
 	AllowedSystemGroups []string `json:"allowed_system_groups,omitempty"`
 }
 
@@ -244,6 +244,7 @@ func (o *GroupPermissionSetting) HasDefaultForSystemGroups() bool {
 func (o *GroupPermissionSetting) SetDefaultForSystemGroups(v string) {
 	o.DefaultForSystemGroups.Set(&v)
 }
+
 // SetDefaultForSystemGroupsNil sets the value for DefaultForSystemGroups to be an explicit nil
 func (o *GroupPermissionSetting) SetDefaultForSystemGroupsNil() {
 	o.DefaultForSystemGroups.Set(nil)
@@ -287,7 +288,7 @@ func (o *GroupPermissionSetting) SetAllowedSystemGroups(v []string) {
 }
 
 func (o GroupPermissionSetting) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -355,5 +356,3 @@ func (v *NullableGroupPermissionSetting) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

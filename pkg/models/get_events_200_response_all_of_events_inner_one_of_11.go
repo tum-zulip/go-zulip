@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,12 +17,12 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf11 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf11{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf11 Event sent to a user's clients when the user completes the OAuth flow for the [Zoom integration](/help/configure-call-provider). Clients need to know whether initiating Zoom OAuth is required before creating a Zoom call. 
+// GetEvents200ResponseAllOfEventsInnerOneOf11 Event sent to a user's clients when the user completes the OAuth flow for the [Zoom integration](/help/configure-call-provider). Clients need to know whether initiating Zoom OAuth is required before creating a Zoom call.
 type GetEvents200ResponseAllOfEventsInnerOneOf11 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// A boolean specifying whether the user has zoom token or not. 
+	// A boolean specifying whether the user has zoom token or not.
 	Value *bool `json:"value,omitempty"`
 }
 
@@ -140,7 +140,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf11) SetValue(v bool) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf11) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -196,5 +196,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf11) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

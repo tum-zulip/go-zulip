@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -19,11 +19,11 @@ var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifie
 
 // GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner struct for GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner
 type GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner struct {
-	// The [Python regular expression](https://docs.python.org/3/howto/regex.html) that represents the pattern that should be linkified by this linkifier. 
+	// The [Python regular expression](https://docs.python.org/3/howto/regex.html) that represents the pattern that should be linkified by this linkifier.
 	Pattern *string `json:"pattern,omitempty"`
-	// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template to be used for linkifying matches.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced `url_format`, which contained a URL format string. 
+	// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template to be used for linkifying matches.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced `url_format`, which contained a URL format string.
 	UrlTemplate *string `json:"url_template,omitempty"`
-	// The ID of the linkifier. 
+	// The ID of the linkifier.
 	Id *int32 `json:"id,omitempty"`
 }
 
@@ -141,7 +141,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) SetId(
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -197,5 +197,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

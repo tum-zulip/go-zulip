@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,12 +13,13 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
-// BasicBotBaseServicesInner - Object with extra configuration details for the bot. The fields in the object depend on the type of bot. 
+// BasicBotBaseServicesInner - Object with extra configuration details for the bot. The fields in the object depend on the type of bot.
 type BasicBotBaseServicesInner struct {
-	BasicBotBaseServicesInnerOneOf *BasicBotBaseServicesInnerOneOf
+	BasicBotBaseServicesInnerOneOf  *BasicBotBaseServicesInnerOneOf
 	BasicBotBaseServicesInnerOneOf1 *BasicBotBaseServicesInnerOneOf1
 }
 
@@ -35,7 +36,6 @@ func BasicBotBaseServicesInnerOneOf1AsBasicBotBaseServicesInner(v *BasicBotBaseS
 		BasicBotBaseServicesInnerOneOf1: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *BasicBotBaseServicesInner) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src BasicBotBaseServicesInner) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *BasicBotBaseServicesInner) GetActualInstance() (interface{}) {
+func (obj *BasicBotBaseServicesInner) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *BasicBotBaseServicesInner) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj BasicBotBaseServicesInner) GetActualInstanceValue() (interface{}) {
+func (obj BasicBotBaseServicesInner) GetActualInstanceValue() interface{} {
 	if obj.BasicBotBaseServicesInnerOneOf != nil {
 		return *obj.BasicBotBaseServicesInnerOneOf
 	}
@@ -167,5 +167,3 @@ func (v *NullableBasicBotBaseServicesInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

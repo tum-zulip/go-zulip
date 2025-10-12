@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the RegisterQueue200ResponseAllOfGiphyRatingOptionsValue type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RegisterQueue200ResponseAllOfGiphyRatingOptionsValue{}
 
-// RegisterQueue200ResponseAllOfGiphyRatingOptionsValue `{rating_name}`: Dictionary containing the details of the rating with the name of the rating as the key. 
+// RegisterQueue200ResponseAllOfGiphyRatingOptionsValue `{rating_name}`: Dictionary containing the details of the rating with the name of the rating as the key.
 type RegisterQueue200ResponseAllOfGiphyRatingOptionsValue struct {
-	// The description of the rating option. 
+	// The description of the rating option.
 	Name *string `json:"name,omitempty"`
-	// The ID of the rating option. 
+	// The ID of the rating option.
 	Id *int32 `json:"id,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *RegisterQueue200ResponseAllOfGiphyRatingOptionsValue) SetId(v int32) {
 }
 
 func (o RegisterQueue200ResponseAllOfGiphyRatingOptionsValue) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableRegisterQueue200ResponseAllOfGiphyRatingOptionsValue) Unmarshal
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

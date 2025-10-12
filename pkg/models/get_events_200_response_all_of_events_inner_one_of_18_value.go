@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,15 +13,16 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
-// GetEvents200ResponseAllOfEventsInnerOneOf18Value - The new value of the changed property.  **Changes**: Starting with Zulip 11.0 (feature level 389), this value can be `null` when a channel is removed from the folder.  Starting with Zulip 10.0 (feature level 320), this field can be an object for `can_remove_subscribers_group` property, which is a [group-setting value][setting-values], when the setting is set to a combination of users and groups.  [setting-values]: /api/group-setting-values 
+// GetEvents200ResponseAllOfEventsInnerOneOf18Value - The new value of the changed property.  **Changes**: Starting with Zulip 11.0 (feature level 389), this value can be `null` when a channel is removed from the folder.  Starting with Zulip 10.0 (feature level 320), this field can be an object for `can_remove_subscribers_group` property, which is a [group-setting value][setting-values], when the setting is set to a combination of users and groups.  [setting-values]: /api/group-setting-values
 type GetEvents200ResponseAllOfEventsInnerOneOf18Value struct {
 	GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf *GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf
-	Bool *bool
-	Int32 *int32
-	String *string
+	Bool                                                  *bool
+	Int32                                                 *int32
+	String                                                *string
 }
 
 // GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOfAsGetEvents200ResponseAllOfEventsInnerOneOf18Value is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf wrapped in GetEvents200ResponseAllOfEventsInnerOneOf18Value
@@ -51,7 +52,6 @@ func StringAsGetEvents200ResponseAllOfEventsInnerOneOf18Value(v *string) GetEven
 		String: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *GetEvents200ResponseAllOfEventsInnerOneOf18Value) UnmarshalJSON(data []byte) error {
@@ -162,7 +162,7 @@ func (src GetEvents200ResponseAllOfEventsInnerOneOf18Value) MarshalJSON() ([]byt
 }
 
 // Get the actual instance
-func (obj *GetEvents200ResponseAllOfEventsInnerOneOf18Value) GetActualInstance() (interface{}) {
+func (obj *GetEvents200ResponseAllOfEventsInnerOneOf18Value) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -187,7 +187,7 @@ func (obj *GetEvents200ResponseAllOfEventsInnerOneOf18Value) GetActualInstance()
 }
 
 // Get the actual instance value
-func (obj GetEvents200ResponseAllOfEventsInnerOneOf18Value) GetActualInstanceValue() (interface{}) {
+func (obj GetEvents200ResponseAllOfEventsInnerOneOf18Value) GetActualInstanceValue() interface{} {
 	if obj.GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf != nil {
 		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf
 	}
@@ -243,5 +243,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf18Value) UnmarshalJSON
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

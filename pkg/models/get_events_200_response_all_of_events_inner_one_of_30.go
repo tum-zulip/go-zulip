@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,20 +17,20 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf30 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf30{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf30 Event sent when a message has been deleted.  Sent to all users who currently are subscribed to the messages' recipient. May also be sent to additional users who had access to it, including, in particular, an administrator user deleting messages in a stream that they are not subscribed to.  This means that clients can assume that they will always receive an event of this type for deletions that the client itself initiated.  This event is also sent when the user loses access to a message, such as when it is [moved to a channel][message-move-channel] that the user does not [have permission to access][channel-access].  **Changes**: Before Zulip 9.0 (feature level 274), this event was only sent to subscribers of the message's recipient.  Before Zulip 5.0 (feature level 77), events for direct messages contained additional `sender_id` and `recipient_id` fields.  [message-move-channel]: /help/move-content-to-another-channel [channel-access]: /help/channel-permissions 
+// GetEvents200ResponseAllOfEventsInnerOneOf30 Event sent when a message has been deleted.  Sent to all users who currently are subscribed to the messages' recipient. May also be sent to additional users who had access to it, including, in particular, an administrator user deleting messages in a stream that they are not subscribed to.  This means that clients can assume that they will always receive an event of this type for deletions that the client itself initiated.  This event is also sent when the user loses access to a message, such as when it is [moved to a channel][message-move-channel] that the user does not [have permission to access][channel-access].  **Changes**: Before Zulip 9.0 (feature level 274), this event was only sent to subscribers of the message's recipient.  Before Zulip 5.0 (feature level 77), events for direct messages contained additional `sender_id` and `recipient_id` fields.  [message-move-channel]: /help/move-content-to-another-channel [channel-access]: /help/channel-permissions
 type GetEvents200ResponseAllOfEventsInnerOneOf30 struct {
-	// The ID of the event. Events appear in increasing order but may not be consecutive. 
-	Id *int32 `json:"id,omitempty"`
+	// The ID of the event. Events appear in increasing order but may not be consecutive.
+	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// Only present for clients that support the `bulk_message_deletion` [client capability][client-capabilities].  A sorted list containing the IDs of the newly deleted messages.  **Changes**: Before Zulip 11.0 (feature level 393), this list was not guaranteed to be sorted.  [client-capabilities]: /api/register-queue#parameter-client_capabilities 
+	// Only present for clients that support the `bulk_message_deletion` [client capability][client-capabilities].  A sorted list containing the IDs of the newly deleted messages.  **Changes**: Before Zulip 11.0 (feature level 393), this list was not guaranteed to be sorted.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	MessageIds []int32 `json:"message_ids,omitempty"`
-	// Only present for clients that do not support the `bulk_message_deletion` [client capability][client-capabilities].  The ID of the newly deleted message.  [client-capabilities]: /api/register-queue#parameter-client_capabilities 
+	// Only present for clients that do not support the `bulk_message_deletion` [client capability][client-capabilities].  The ID of the newly deleted message.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	MessageId *int32 `json:"message_id,omitempty"`
-	// The type of message. Either `\"stream\"` or `\"private\"`. 
+	// The type of message. Either `\"stream\"` or `\"private\"`.
 	MessageType *string `json:"message_type,omitempty"`
-	// Only present if `message_type` is `\"stream\"`.  The ID of the channel to which the message was sent. 
+	// Only present if `message_type` is `\"stream\"`.  The ID of the channel to which the message was sent.
 	StreamId *int32 `json:"stream_id,omitempty"`
-	// Only present if `message_type` is `\"stream\"`.  The topic to which the message was sent.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name was empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities 
+	// Only present if `message_type` is `\"stream\"`.  The topic to which the message was sent.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name was empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
 }
 
@@ -276,7 +276,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf30) SetTopic(v string) {
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf30) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -344,5 +344,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf30) UnmarshalJSON(src 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

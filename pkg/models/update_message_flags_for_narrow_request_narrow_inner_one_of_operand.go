@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,14 +13,15 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
 // UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand - struct for UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand
 type UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand struct {
 	ArrayOfInt32 *[]int32
-	Int32 *int32
-	String *string
+	Int32        *int32
+	String       *string
 }
 
 // []int32AsUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand is a convenience function that returns []int32 wrapped in UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand
@@ -43,7 +44,6 @@ func StringAsUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand(v *string
 		String: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand) UnmarshalJSON(data []byte) error {
@@ -132,7 +132,7 @@ func (src UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand) MarshalJSON
 }
 
 // Get the actual instance
-func (obj *UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand) GetActualInstance() (interface{}) {
+func (obj *UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -153,7 +153,7 @@ func (obj *UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand) GetActualI
 }
 
 // Get the actual instance value
-func (obj UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand) GetActualInstanceValue() (interface{}) {
+func (obj UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand) GetActualInstanceValue() interface{} {
 	if obj.ArrayOfInt32 != nil {
 		return *obj.ArrayOfInt32
 	}
@@ -205,5 +205,3 @@ func (v *NullableUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand) Unma
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

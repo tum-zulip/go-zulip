@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the RegisterQueue200ResponseAllOfRecentPrivateConversationsInner type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RegisterQueue200ResponseAllOfRecentPrivateConversationsInner{}
 
-// RegisterQueue200ResponseAllOfRecentPrivateConversationsInner Object describing a single recent direct conversation in the user's history. 
+// RegisterQueue200ResponseAllOfRecentPrivateConversationsInner Object describing a single recent direct conversation in the user's history.
 type RegisterQueue200ResponseAllOfRecentPrivateConversationsInner struct {
-	// The highest message ID of the conversation, intended to support sorting the conversations by recency. 
+	// The highest message ID of the conversation, intended to support sorting the conversations by recency.
 	MaxMessageId *int32 `json:"max_message_id,omitempty"`
-	// The list of users other than the current user in the direct message conversation. This will be an empty list for direct messages sent to oneself. 
+	// The list of users other than the current user in the direct message conversation. This will be an empty list for direct messages sent to oneself.
 	UserIds []int32 `json:"user_ids,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *RegisterQueue200ResponseAllOfRecentPrivateConversationsInner) SetUserId
 }
 
 func (o RegisterQueue200ResponseAllOfRecentPrivateConversationsInner) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableRegisterQueue200ResponseAllOfRecentPrivateConversationsInner) U
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,13 +13,14 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
-// ScheduledMessageBaseTo - The scheduled message's tentative target audience.  For channel messages, it will be the unique ID of the target channel. For direct messages, it will be an array with the target users' IDs. 
+// ScheduledMessageBaseTo - The scheduled message's tentative target audience.  For channel messages, it will be the unique ID of the target channel. For direct messages, it will be an array with the target users' IDs.
 type ScheduledMessageBaseTo struct {
 	ArrayOfInt32 *[]int32
-	Int32 *int32
+	Int32        *int32
 }
 
 // []int32AsScheduledMessageBaseTo is a convenience function that returns []int32 wrapped in ScheduledMessageBaseTo
@@ -35,7 +36,6 @@ func Int32AsScheduledMessageBaseTo(v *int32) ScheduledMessageBaseTo {
 		Int32: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *ScheduledMessageBaseTo) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src ScheduledMessageBaseTo) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *ScheduledMessageBaseTo) GetActualInstance() (interface{}) {
+func (obj *ScheduledMessageBaseTo) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *ScheduledMessageBaseTo) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj ScheduledMessageBaseTo) GetActualInstanceValue() (interface{}) {
+func (obj ScheduledMessageBaseTo) GetActualInstanceValue() interface{} {
 	if obj.ArrayOfInt32 != nil {
 		return *obj.ArrayOfInt32
 	}
@@ -167,5 +167,3 @@ func (v *NullableScheduledMessageBaseTo) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

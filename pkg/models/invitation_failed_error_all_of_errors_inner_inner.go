@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,12 +13,13 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+
 	"gopkg.in/validator.v2"
 )
 
 // InvitationFailedErrorAllOfErrorsInnerInner - struct for InvitationFailedErrorAllOfErrorsInnerInner
 type InvitationFailedErrorAllOfErrorsInnerInner struct {
-	Bool *bool
+	Bool   *bool
 	String *string
 }
 
@@ -35,7 +36,6 @@ func StringAsInvitationFailedErrorAllOfErrorsInnerInner(v *string) InvitationFai
 		String: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *InvitationFailedErrorAllOfErrorsInnerInner) UnmarshalJSON(data []byte) error {
@@ -102,7 +102,7 @@ func (src InvitationFailedErrorAllOfErrorsInnerInner) MarshalJSON() ([]byte, err
 }
 
 // Get the actual instance
-func (obj *InvitationFailedErrorAllOfErrorsInnerInner) GetActualInstance() (interface{}) {
+func (obj *InvitationFailedErrorAllOfErrorsInnerInner) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func (obj *InvitationFailedErrorAllOfErrorsInnerInner) GetActualInstance() (inte
 }
 
 // Get the actual instance value
-func (obj InvitationFailedErrorAllOfErrorsInnerInner) GetActualInstanceValue() (interface{}) {
+func (obj InvitationFailedErrorAllOfErrorsInnerInner) GetActualInstanceValue() interface{} {
 	if obj.Bool != nil {
 		return *obj.Bool
 	}
@@ -167,5 +167,3 @@ func (v *NullableInvitationFailedErrorAllOfErrorsInnerInner) UnmarshalJSON(src [
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

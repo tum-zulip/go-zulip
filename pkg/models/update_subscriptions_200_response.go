@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -11,8 +11,8 @@ API version: 1.0.0
 package models
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,18 +21,19 @@ var _ MappedNullable = &UpdateSubscriptions200Response{}
 
 // UpdateSubscriptions200Response struct for UpdateSubscriptions200Response
 type UpdateSubscriptions200Response struct {
-	Result interface{} `json:"result"`
-	Msg interface{} `json:"msg"`
-	IgnoredParametersUnsupported interface{} `json:"ignored_parameters_unsupported,omitempty"`
-	// A dictionary where the key is the Zulip API email address of the user/bot and the value is a list of the names of the channels that were subscribed to as a result of the query. 
+	Result string `json:"result"`
+	Msg    string `json:"msg"`
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
+	// A dictionary where the key is the Zulip API email address of the user/bot and the value is a list of the names of the channels that were subscribed to as a result of the query.
 	Subscribed map[string][]string `json:"subscribed"`
-	// A dictionary where the key is the Zulip API email address of the user/bot and the value is a list of the names of the channels that the user/bot is already subscribed to. 
+	// A dictionary where the key is the Zulip API email address of the user/bot and the value is a list of the names of the channels that the user/bot is already subscribed to.
 	AlreadySubscribed map[string][]string `json:"already_subscribed"`
-	// A list of the names of channels that the user is already unsubscribed from, and hence doesn't need to be unsubscribed. 
+	// A list of the names of channels that the user is already unsubscribed from, and hence doesn't need to be unsubscribed.
 	NotRemoved []string `json:"not_removed,omitempty"`
-	// A list of the names of channels which were unsubscribed from as a result of the query. 
+	// A list of the names of channels which were unsubscribed from as a result of the query.
 	Removed []string `json:"removed"`
-	// Only present if the parameter `send_new_subscription_messages` in the request was `true`.  Whether Notification Bot DMs in fact sent to the added subscribers as requested by the `send_new_subscription_messages` parameter. Clients may find this value useful to communicate with users about the effect of this request.  **Changes**: New in Zulip 11.0 (feature level 397). 
+	// Only present if the parameter `send_new_subscription_messages` in the request was `true`.  Whether Notification Bot DMs in fact sent to the added subscribers as requested by the `send_new_subscription_messages` parameter. Clients may find this value useful to communicate with users about the effect of this request.  **Changes**: New in Zulip 11.0 (feature level 397).
 	NewSubscriptionMessagesSent *bool `json:"new_subscription_messages_sent,omitempty"`
 }
 
@@ -42,7 +43,7 @@ type _UpdateSubscriptions200Response UpdateSubscriptions200Response
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUpdateSubscriptions200Response(result interface{}, msg interface{}, subscribed map[string][]string, alreadySubscribed map[string][]string, removed []string) *UpdateSubscriptions200Response {
+func NewUpdateSubscriptions200Response(result string, msg string, subscribed map[string][]string, alreadySubscribed map[string][]string, removed []string) *UpdateSubscriptions200Response {
 	this := UpdateSubscriptions200Response{}
 	this.Result = result
 	this.Msg = msg
@@ -61,10 +62,9 @@ func NewUpdateSubscriptions200ResponseWithDefaults() *UpdateSubscriptions200Resp
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *UpdateSubscriptions200Response) GetResult() interface{} {
+func (o *UpdateSubscriptions200Response) GetResult() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -73,24 +73,22 @@ func (o *UpdateSubscriptions200Response) GetResult() interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UpdateSubscriptions200Response) GetResultOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Result) {
+func (o *UpdateSubscriptions200Response) GetResultOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Result, true
 }
 
 // SetResult sets field value
-func (o *UpdateSubscriptions200Response) SetResult(v interface{}) {
+func (o *UpdateSubscriptions200Response) SetResult(v string) {
 	o.Result = v
 }
 
 // GetMsg returns the Msg field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *UpdateSubscriptions200Response) GetMsg() interface{} {
+func (o *UpdateSubscriptions200Response) GetMsg() string {
 	if o == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
 
@@ -99,23 +97,22 @@ func (o *UpdateSubscriptions200Response) GetMsg() interface{} {
 
 // GetMsgOk returns a tuple with the Msg field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UpdateSubscriptions200Response) GetMsgOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Msg) {
+func (o *UpdateSubscriptions200Response) GetMsgOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Msg, true
 }
 
 // SetMsg sets field value
-func (o *UpdateSubscriptions200Response) SetMsg(v interface{}) {
+func (o *UpdateSubscriptions200Response) SetMsg(v string) {
 	o.Msg = v
 }
 
-// GetIgnoredParametersUnsupported returns the IgnoredParametersUnsupported field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *UpdateSubscriptions200Response) GetIgnoredParametersUnsupported() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetIgnoredParametersUnsupported returns the IgnoredParametersUnsupported field value if set, zero value otherwise.
+func (o *UpdateSubscriptions200Response) GetIgnoredParametersUnsupported() []string {
+	if o == nil || IsNil(o.IgnoredParametersUnsupported) {
+		var ret []string
 		return ret
 	}
 	return o.IgnoredParametersUnsupported
@@ -123,12 +120,11 @@ func (o *UpdateSubscriptions200Response) GetIgnoredParametersUnsupported() inter
 
 // GetIgnoredParametersUnsupportedOk returns a tuple with the IgnoredParametersUnsupported field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *UpdateSubscriptions200Response) GetIgnoredParametersUnsupportedOk() (*interface{}, bool) {
+func (o *UpdateSubscriptions200Response) GetIgnoredParametersUnsupportedOk() ([]string, bool) {
 	if o == nil || IsNil(o.IgnoredParametersUnsupported) {
 		return nil, false
 	}
-	return &o.IgnoredParametersUnsupported, true
+	return o.IgnoredParametersUnsupported, true
 }
 
 // HasIgnoredParametersUnsupported returns a boolean if a field has been set.
@@ -140,8 +136,8 @@ func (o *UpdateSubscriptions200Response) HasIgnoredParametersUnsupported() bool 
 	return false
 }
 
-// SetIgnoredParametersUnsupported gets a reference to the given interface{} and assigns it to the IgnoredParametersUnsupported field.
-func (o *UpdateSubscriptions200Response) SetIgnoredParametersUnsupported(v interface{}) {
+// SetIgnoredParametersUnsupported gets a reference to the given []string and assigns it to the IgnoredParametersUnsupported field.
+func (o *UpdateSubscriptions200Response) SetIgnoredParametersUnsupported(v []string) {
 	o.IgnoredParametersUnsupported = v
 }
 
@@ -282,7 +278,7 @@ func (o *UpdateSubscriptions200Response) SetNewSubscriptionMessagesSent(v bool) 
 }
 
 func (o UpdateSubscriptions200Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -291,13 +287,9 @@ func (o UpdateSubscriptions200Response) MarshalJSON() ([]byte, error) {
 
 func (o UpdateSubscriptions200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Result != nil {
-		toSerialize["result"] = o.Result
-	}
-	if o.Msg != nil {
-		toSerialize["msg"] = o.Msg
-	}
-	if o.IgnoredParametersUnsupported != nil {
+	toSerialize["result"] = o.Result
+	toSerialize["msg"] = o.Msg
+	if !IsNil(o.IgnoredParametersUnsupported) {
 		toSerialize["ignored_parameters_unsupported"] = o.IgnoredParametersUnsupported
 	}
 	toSerialize["subscribed"] = o.Subscribed
@@ -329,10 +321,10 @@ func (o *UpdateSubscriptions200Response) UnmarshalJSON(data []byte) (err error) 
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -388,5 +380,3 @@ func (v *NullableUpdateSubscriptions200Response) UnmarshalJSON(src []byte) error
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

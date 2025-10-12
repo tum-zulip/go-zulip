@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -17,11 +17,11 @@ import (
 // checks if the GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf4 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf4{}
 
-// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf4 When the [role](/help/user-roles) of a user changes. 
+// GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf4 When the [role](/help/user-roles) of a user changes.
 type GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf4 struct {
-	// The ID of the user affected by this change. 
+	// The ID of the user affected by this change.
 	UserId *int32 `json:"user_id,omitempty"`
-	// The new [role](/api/roles-and-permissions) of the user. 
+	// The new [role](/api/roles-and-permissions) of the user.
 	Role *int32 `json:"role,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf4) SetRole(v int32
 }
 
 func (o GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf4) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf4) Unmarsh
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
