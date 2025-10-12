@@ -1006,16 +1006,16 @@ type ApiCreateChannelRequest struct {
 	topicsPolicy                      *models.TopicsPolicy
 	historyPublicToSubscribers        *bool
 	messageRetentionDays              *models.MessageRetentionDays
-	canAddSubscribersGroup            *models.ChannelCanAddSubscribersGroup
-	canDeleteAnyMessageGroup          *models.CanDeleteAnyMessageGroup
-	canDeleteOwnMessageGroup          *models.CanDeleteOwnMessageGroup
-	canRemoveSubscribersGroup         *models.CanRemoveSubscribersGroup
-	canAdministerChannelGroup         *models.CanAdministerChannelGroup
-	canMoveMessagesOutOfChannelGroup  *models.CanMoveMessagesOutOfChannelGroup
-	canMoveMessagesWithinChannelGroup *models.CanMoveMessagesWithinChannelGroup
-	canSendMessageGroup               *models.CanSendMessageGroup
-	canSubscribeGroup                 *models.CanSubscribeGroup
-	canResolveTopicsGroup             *models.CanResolveTopicsGroup
+	canAddSubscribersGroup            *models.GroupSettingValue
+	canDeleteAnyMessageGroup          *models.GroupSettingValue
+	canDeleteOwnMessageGroup          *models.GroupSettingValue
+	canRemoveSubscribersGroup         *models.GroupSettingValue
+	canAdministerChannelGroup         *models.GroupSettingValue
+	canMoveMessagesOutOfChannelGroup  *models.GroupSettingValue
+	canMoveMessagesWithinChannelGroup *models.GroupSettingValue
+	canSendMessageGroup               *models.GroupSettingValue
+	canSubscribeGroup                 *models.GroupSettingValue
+	canResolveTopicsGroup             *models.GroupSettingValue
 }
 
 // The name of the new channel.  Clients should use the &#x60;max_stream_name_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel name length.
@@ -1088,52 +1088,52 @@ func (r ApiCreateChannelRequest) MessageRetentionDays(messageRetentionDays model
 	return r
 }
 
-func (r ApiCreateChannelRequest) CanAddSubscribersGroup(canAddSubscribersGroup models.ChannelCanAddSubscribersGroup) ApiCreateChannelRequest {
+func (r ApiCreateChannelRequest) CanAddSubscribersGroup(canAddSubscribersGroup models.GroupSettingValue) ApiCreateChannelRequest {
 	r.canAddSubscribersGroup = &canAddSubscribersGroup
 	return r
 }
 
-func (r ApiCreateChannelRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup models.CanDeleteAnyMessageGroup) ApiCreateChannelRequest {
+func (r ApiCreateChannelRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup models.GroupSettingValue) ApiCreateChannelRequest {
 	r.canDeleteAnyMessageGroup = &canDeleteAnyMessageGroup
 	return r
 }
 
-func (r ApiCreateChannelRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup models.CanDeleteOwnMessageGroup) ApiCreateChannelRequest {
+func (r ApiCreateChannelRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup models.GroupSettingValue) ApiCreateChannelRequest {
 	r.canDeleteOwnMessageGroup = &canDeleteOwnMessageGroup
 	return r
 }
 
-func (r ApiCreateChannelRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup models.CanRemoveSubscribersGroup) ApiCreateChannelRequest {
+func (r ApiCreateChannelRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup models.GroupSettingValue) ApiCreateChannelRequest {
 	r.canRemoveSubscribersGroup = &canRemoveSubscribersGroup
 	return r
 }
 
-func (r ApiCreateChannelRequest) CanAdministerChannelGroup(canAdministerChannelGroup models.CanAdministerChannelGroup) ApiCreateChannelRequest {
+func (r ApiCreateChannelRequest) CanAdministerChannelGroup(canAdministerChannelGroup models.GroupSettingValue) ApiCreateChannelRequest {
 	r.canAdministerChannelGroup = &canAdministerChannelGroup
 	return r
 }
 
-func (r ApiCreateChannelRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup models.CanMoveMessagesOutOfChannelGroup) ApiCreateChannelRequest {
+func (r ApiCreateChannelRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup models.GroupSettingValue) ApiCreateChannelRequest {
 	r.canMoveMessagesOutOfChannelGroup = &canMoveMessagesOutOfChannelGroup
 	return r
 }
 
-func (r ApiCreateChannelRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup models.CanMoveMessagesWithinChannelGroup) ApiCreateChannelRequest {
+func (r ApiCreateChannelRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup models.GroupSettingValue) ApiCreateChannelRequest {
 	r.canMoveMessagesWithinChannelGroup = &canMoveMessagesWithinChannelGroup
 	return r
 }
 
-func (r ApiCreateChannelRequest) CanSendMessageGroup(canSendMessageGroup models.CanSendMessageGroup) ApiCreateChannelRequest {
+func (r ApiCreateChannelRequest) CanSendMessageGroup(canSendMessageGroup models.GroupSettingValue) ApiCreateChannelRequest {
 	r.canSendMessageGroup = &canSendMessageGroup
 	return r
 }
 
-func (r ApiCreateChannelRequest) CanSubscribeGroup(canSubscribeGroup models.CanSubscribeGroup) ApiCreateChannelRequest {
+func (r ApiCreateChannelRequest) CanSubscribeGroup(canSubscribeGroup models.GroupSettingValue) ApiCreateChannelRequest {
 	r.canSubscribeGroup = &canSubscribeGroup
 	return r
 }
 
-func (r ApiCreateChannelRequest) CanResolveTopicsGroup(canResolveTopicsGroup models.CanResolveTopicsGroup) ApiCreateChannelRequest {
+func (r ApiCreateChannelRequest) CanResolveTopicsGroup(canResolveTopicsGroup models.GroupSettingValue) ApiCreateChannelRequest {
 	r.canResolveTopicsGroup = &canResolveTopicsGroup
 	return r
 }
@@ -3246,16 +3246,16 @@ type ApiSubscribeRequest struct {
 	historyPublicToSubscribers        *bool
 	messageRetentionDays              *models.MessageRetentionDays
 	topicsPolicy                      *models.TopicsPolicy
-	canAddSubscribersGroup            *models.ChannelCanAddSubscribersGroup
-	canRemoveSubscribersGroup         *models.CanRemoveSubscribersGroup
-	canAdministerChannelGroup         *models.CanAdministerChannelGroup
-	canDeleteAnyMessageGroup          *models.CanDeleteAnyMessageGroup
-	canDeleteOwnMessageGroup          *models.CanDeleteOwnMessageGroup
-	canMoveMessagesOutOfChannelGroup  *models.CanMoveMessagesOutOfChannelGroup
-	canMoveMessagesWithinChannelGroup *models.CanMoveMessagesWithinChannelGroup
-	canSendMessageGroup               *models.CanSendMessageGroup
-	canSubscribeGroup                 *models.CanSubscribeGroup
-	canResolveTopicsGroup             *models.CanResolveTopicsGroup
+	canAddSubscribersGroup            *models.GroupSettingValue
+	canRemoveSubscribersGroup         *models.GroupSettingValue
+	canAdministerChannelGroup         *models.GroupSettingValue
+	canDeleteAnyMessageGroup          *models.GroupSettingValue
+	canDeleteOwnMessageGroup          *models.GroupSettingValue
+	canMoveMessagesOutOfChannelGroup  *models.GroupSettingValue
+	canMoveMessagesWithinChannelGroup *models.GroupSettingValue
+	canSendMessageGroup               *models.GroupSettingValue
+	canSubscribeGroup                 *models.GroupSettingValue
+	canResolveTopicsGroup             *models.GroupSettingValue
 	folderId                          *int32
 	sendNewSubscriptionMessages       *bool
 }
@@ -3317,52 +3317,52 @@ func (r ApiSubscribeRequest) TopicsPolicy(topicsPolicy models.TopicsPolicy) ApiS
 	return r
 }
 
-func (r ApiSubscribeRequest) CanAddSubscribersGroup(canAddSubscribersGroup models.ChannelCanAddSubscribersGroup) ApiSubscribeRequest {
+func (r ApiSubscribeRequest) CanAddSubscribersGroup(canAddSubscribersGroup models.GroupSettingValue) ApiSubscribeRequest {
 	r.canAddSubscribersGroup = &canAddSubscribersGroup
 	return r
 }
 
-func (r ApiSubscribeRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup models.CanRemoveSubscribersGroup) ApiSubscribeRequest {
+func (r ApiSubscribeRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup models.GroupSettingValue) ApiSubscribeRequest {
 	r.canRemoveSubscribersGroup = &canRemoveSubscribersGroup
 	return r
 }
 
-func (r ApiSubscribeRequest) CanAdministerChannelGroup(canAdministerChannelGroup models.CanAdministerChannelGroup) ApiSubscribeRequest {
+func (r ApiSubscribeRequest) CanAdministerChannelGroup(canAdministerChannelGroup models.GroupSettingValue) ApiSubscribeRequest {
 	r.canAdministerChannelGroup = &canAdministerChannelGroup
 	return r
 }
 
-func (r ApiSubscribeRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup models.CanDeleteAnyMessageGroup) ApiSubscribeRequest {
+func (r ApiSubscribeRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup models.GroupSettingValue) ApiSubscribeRequest {
 	r.canDeleteAnyMessageGroup = &canDeleteAnyMessageGroup
 	return r
 }
 
-func (r ApiSubscribeRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup models.CanDeleteOwnMessageGroup) ApiSubscribeRequest {
+func (r ApiSubscribeRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup models.GroupSettingValue) ApiSubscribeRequest {
 	r.canDeleteOwnMessageGroup = &canDeleteOwnMessageGroup
 	return r
 }
 
-func (r ApiSubscribeRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup models.CanMoveMessagesOutOfChannelGroup) ApiSubscribeRequest {
+func (r ApiSubscribeRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup models.GroupSettingValue) ApiSubscribeRequest {
 	r.canMoveMessagesOutOfChannelGroup = &canMoveMessagesOutOfChannelGroup
 	return r
 }
 
-func (r ApiSubscribeRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup models.CanMoveMessagesWithinChannelGroup) ApiSubscribeRequest {
+func (r ApiSubscribeRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup models.GroupSettingValue) ApiSubscribeRequest {
 	r.canMoveMessagesWithinChannelGroup = &canMoveMessagesWithinChannelGroup
 	return r
 }
 
-func (r ApiSubscribeRequest) CanSendMessageGroup(canSendMessageGroup models.CanSendMessageGroup) ApiSubscribeRequest {
+func (r ApiSubscribeRequest) CanSendMessageGroup(canSendMessageGroup models.GroupSettingValue) ApiSubscribeRequest {
 	r.canSendMessageGroup = &canSendMessageGroup
 	return r
 }
 
-func (r ApiSubscribeRequest) CanSubscribeGroup(canSubscribeGroup models.CanSubscribeGroup) ApiSubscribeRequest {
+func (r ApiSubscribeRequest) CanSubscribeGroup(canSubscribeGroup models.GroupSettingValue) ApiSubscribeRequest {
 	r.canSubscribeGroup = &canSubscribeGroup
 	return r
 }
 
-func (r ApiSubscribeRequest) CanResolveTopicsGroup(canResolveTopicsGroup models.CanResolveTopicsGroup) ApiSubscribeRequest {
+func (r ApiSubscribeRequest) CanResolveTopicsGroup(canResolveTopicsGroup models.GroupSettingValue) ApiSubscribeRequest {
 	r.canResolveTopicsGroup = &canResolveTopicsGroup
 	return r
 }

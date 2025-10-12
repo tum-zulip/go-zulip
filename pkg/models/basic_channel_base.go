@@ -53,17 +53,17 @@ type BasicChannelBase struct {
 	IsRecentlyActive *bool `json:"is_recently_active,omitempty"`
 	// Whether the given channel is announcement only or not.  **Changes**: Deprecated in Zulip 3.0 (feature level 1). Clients should use `stream_post_policy` instead.
 	// Deprecated
-	IsAnnouncementOnly                *bool                              `json:"is_announcement_only,omitempty"`
-	CanAddSubscribersGroup            *ChannelCanAddSubscribersGroup     `json:"can_add_subscribers_group,omitempty"`
-	CanRemoveSubscribersGroup         *CanRemoveSubscribersGroup         `json:"can_remove_subscribers_group,omitempty"`
-	CanAdministerChannelGroup         *CanAdministerChannelGroup         `json:"can_administer_channel_group,omitempty"`
-	CanDeleteAnyMessageGroup          *CanDeleteAnyMessageGroup          `json:"can_delete_any_message_group,omitempty"`
-	CanDeleteOwnMessageGroup          *CanDeleteOwnMessageGroup          `json:"can_delete_own_message_group,omitempty"`
-	CanMoveMessagesOutOfChannelGroup  *CanMoveMessagesOutOfChannelGroup  `json:"can_move_messages_out_of_channel_group,omitempty"`
-	CanMoveMessagesWithinChannelGroup *CanMoveMessagesWithinChannelGroup `json:"can_move_messages_within_channel_group,omitempty"`
-	CanSendMessageGroup               *CanSendMessageGroup               `json:"can_send_message_group,omitempty"`
-	CanSubscribeGroup                 *CanSubscribeGroup                 `json:"can_subscribe_group,omitempty"`
-	CanResolveTopicsGroup             *CanResolveTopicsGroup             `json:"can_resolve_topics_group,omitempty"`
+	IsAnnouncementOnly                *bool              `json:"is_announcement_only,omitempty"`
+	CanAddSubscribersGroup            *GroupSettingValue `json:"can_add_subscribers_group,omitempty"`
+	CanRemoveSubscribersGroup         *GroupSettingValue `json:"can_remove_subscribers_group,omitempty"`
+	CanAdministerChannelGroup         *GroupSettingValue `json:"can_administer_channel_group,omitempty"`
+	CanDeleteAnyMessageGroup          *GroupSettingValue `json:"can_delete_any_message_group,omitempty"`
+	CanDeleteOwnMessageGroup          *GroupSettingValue `json:"can_delete_own_message_group,omitempty"`
+	CanMoveMessagesOutOfChannelGroup  *GroupSettingValue `json:"can_move_messages_out_of_channel_group,omitempty"`
+	CanMoveMessagesWithinChannelGroup *GroupSettingValue `json:"can_move_messages_within_channel_group,omitempty"`
+	CanSendMessageGroup               *GroupSettingValue `json:"can_send_message_group,omitempty"`
+	CanSubscribeGroup                 *GroupSettingValue `json:"can_subscribe_group,omitempty"`
+	CanResolveTopicsGroup             *GroupSettingValue `json:"can_resolve_topics_group,omitempty"`
 	// The total number of non-deactivated users (including bots) who are subscribed to the channel. Clients are responsible for updating this value using `peer_add` and `peer_remove` events.  The server's internals cannot guarantee this value is correctly synced with `peer_add` and `peer_remove` events for the channel. As a result, if a (rare) race occurs between a change in the channel's subscribers and fetching this value, it is possible for a client that is correctly following the events protocol to end up with a permanently off-by-one error in the channel's subscriber count.  Clients are recommended to fetch full subscriber data for a channel in contexts where it is important to avoid this risk. The official web application, for example, uses this field primarily while waiting to fetch a given channel's full subscriber list from the server.  **Changes**: New in Zulip 11.0 (feature level 394).
 	SubscriberCount *float32 `json:"subscriber_count,omitempty"`
 }
@@ -680,9 +680,9 @@ func (o *BasicChannelBase) SetIsAnnouncementOnly(v bool) {
 }
 
 // GetCanAddSubscribersGroup returns the CanAddSubscribersGroup field value if set, zero value otherwise.
-func (o *BasicChannelBase) GetCanAddSubscribersGroup() ChannelCanAddSubscribersGroup {
+func (o *BasicChannelBase) GetCanAddSubscribersGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanAddSubscribersGroup) {
-		var ret ChannelCanAddSubscribersGroup
+		var ret GroupSettingValue
 		return ret
 	}
 	return *o.CanAddSubscribersGroup
@@ -690,7 +690,7 @@ func (o *BasicChannelBase) GetCanAddSubscribersGroup() ChannelCanAddSubscribersG
 
 // GetCanAddSubscribersGroupOk returns a tuple with the CanAddSubscribersGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicChannelBase) GetCanAddSubscribersGroupOk() (*ChannelCanAddSubscribersGroup, bool) {
+func (o *BasicChannelBase) GetCanAddSubscribersGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanAddSubscribersGroup) {
 		return nil, false
 	}
@@ -706,15 +706,15 @@ func (o *BasicChannelBase) HasCanAddSubscribersGroup() bool {
 	return false
 }
 
-// SetCanAddSubscribersGroup gets a reference to the given ChannelCanAddSubscribersGroup and assigns it to the CanAddSubscribersGroup field.
-func (o *BasicChannelBase) SetCanAddSubscribersGroup(v ChannelCanAddSubscribersGroup) {
+// SetCanAddSubscribersGroup gets a reference to the given GroupSettingValue and assigns it to the CanAddSubscribersGroup field.
+func (o *BasicChannelBase) SetCanAddSubscribersGroup(v GroupSettingValue) {
 	o.CanAddSubscribersGroup = &v
 }
 
 // GetCanRemoveSubscribersGroup returns the CanRemoveSubscribersGroup field value if set, zero value otherwise.
-func (o *BasicChannelBase) GetCanRemoveSubscribersGroup() CanRemoveSubscribersGroup {
+func (o *BasicChannelBase) GetCanRemoveSubscribersGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanRemoveSubscribersGroup) {
-		var ret CanRemoveSubscribersGroup
+		var ret GroupSettingValue
 		return ret
 	}
 	return *o.CanRemoveSubscribersGroup
@@ -722,7 +722,7 @@ func (o *BasicChannelBase) GetCanRemoveSubscribersGroup() CanRemoveSubscribersGr
 
 // GetCanRemoveSubscribersGroupOk returns a tuple with the CanRemoveSubscribersGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicChannelBase) GetCanRemoveSubscribersGroupOk() (*CanRemoveSubscribersGroup, bool) {
+func (o *BasicChannelBase) GetCanRemoveSubscribersGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanRemoveSubscribersGroup) {
 		return nil, false
 	}
@@ -738,15 +738,15 @@ func (o *BasicChannelBase) HasCanRemoveSubscribersGroup() bool {
 	return false
 }
 
-// SetCanRemoveSubscribersGroup gets a reference to the given CanRemoveSubscribersGroup and assigns it to the CanRemoveSubscribersGroup field.
-func (o *BasicChannelBase) SetCanRemoveSubscribersGroup(v CanRemoveSubscribersGroup) {
+// SetCanRemoveSubscribersGroup gets a reference to the given GroupSettingValue and assigns it to the CanRemoveSubscribersGroup field.
+func (o *BasicChannelBase) SetCanRemoveSubscribersGroup(v GroupSettingValue) {
 	o.CanRemoveSubscribersGroup = &v
 }
 
 // GetCanAdministerChannelGroup returns the CanAdministerChannelGroup field value if set, zero value otherwise.
-func (o *BasicChannelBase) GetCanAdministerChannelGroup() CanAdministerChannelGroup {
+func (o *BasicChannelBase) GetCanAdministerChannelGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanAdministerChannelGroup) {
-		var ret CanAdministerChannelGroup
+		var ret GroupSettingValue
 		return ret
 	}
 	return *o.CanAdministerChannelGroup
@@ -754,7 +754,7 @@ func (o *BasicChannelBase) GetCanAdministerChannelGroup() CanAdministerChannelGr
 
 // GetCanAdministerChannelGroupOk returns a tuple with the CanAdministerChannelGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicChannelBase) GetCanAdministerChannelGroupOk() (*CanAdministerChannelGroup, bool) {
+func (o *BasicChannelBase) GetCanAdministerChannelGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanAdministerChannelGroup) {
 		return nil, false
 	}
@@ -770,15 +770,15 @@ func (o *BasicChannelBase) HasCanAdministerChannelGroup() bool {
 	return false
 }
 
-// SetCanAdministerChannelGroup gets a reference to the given CanAdministerChannelGroup and assigns it to the CanAdministerChannelGroup field.
-func (o *BasicChannelBase) SetCanAdministerChannelGroup(v CanAdministerChannelGroup) {
+// SetCanAdministerChannelGroup gets a reference to the given GroupSettingValue and assigns it to the CanAdministerChannelGroup field.
+func (o *BasicChannelBase) SetCanAdministerChannelGroup(v GroupSettingValue) {
 	o.CanAdministerChannelGroup = &v
 }
 
 // GetCanDeleteAnyMessageGroup returns the CanDeleteAnyMessageGroup field value if set, zero value otherwise.
-func (o *BasicChannelBase) GetCanDeleteAnyMessageGroup() CanDeleteAnyMessageGroup {
+func (o *BasicChannelBase) GetCanDeleteAnyMessageGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanDeleteAnyMessageGroup) {
-		var ret CanDeleteAnyMessageGroup
+		var ret GroupSettingValue
 		return ret
 	}
 	return *o.CanDeleteAnyMessageGroup
@@ -786,7 +786,7 @@ func (o *BasicChannelBase) GetCanDeleteAnyMessageGroup() CanDeleteAnyMessageGrou
 
 // GetCanDeleteAnyMessageGroupOk returns a tuple with the CanDeleteAnyMessageGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicChannelBase) GetCanDeleteAnyMessageGroupOk() (*CanDeleteAnyMessageGroup, bool) {
+func (o *BasicChannelBase) GetCanDeleteAnyMessageGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanDeleteAnyMessageGroup) {
 		return nil, false
 	}
@@ -802,15 +802,15 @@ func (o *BasicChannelBase) HasCanDeleteAnyMessageGroup() bool {
 	return false
 }
 
-// SetCanDeleteAnyMessageGroup gets a reference to the given CanDeleteAnyMessageGroup and assigns it to the CanDeleteAnyMessageGroup field.
-func (o *BasicChannelBase) SetCanDeleteAnyMessageGroup(v CanDeleteAnyMessageGroup) {
+// SetCanDeleteAnyMessageGroup gets a reference to the given GroupSettingValue and assigns it to the CanDeleteAnyMessageGroup field.
+func (o *BasicChannelBase) SetCanDeleteAnyMessageGroup(v GroupSettingValue) {
 	o.CanDeleteAnyMessageGroup = &v
 }
 
 // GetCanDeleteOwnMessageGroup returns the CanDeleteOwnMessageGroup field value if set, zero value otherwise.
-func (o *BasicChannelBase) GetCanDeleteOwnMessageGroup() CanDeleteOwnMessageGroup {
+func (o *BasicChannelBase) GetCanDeleteOwnMessageGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanDeleteOwnMessageGroup) {
-		var ret CanDeleteOwnMessageGroup
+		var ret GroupSettingValue
 		return ret
 	}
 	return *o.CanDeleteOwnMessageGroup
@@ -818,7 +818,7 @@ func (o *BasicChannelBase) GetCanDeleteOwnMessageGroup() CanDeleteOwnMessageGrou
 
 // GetCanDeleteOwnMessageGroupOk returns a tuple with the CanDeleteOwnMessageGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicChannelBase) GetCanDeleteOwnMessageGroupOk() (*CanDeleteOwnMessageGroup, bool) {
+func (o *BasicChannelBase) GetCanDeleteOwnMessageGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanDeleteOwnMessageGroup) {
 		return nil, false
 	}
@@ -834,15 +834,15 @@ func (o *BasicChannelBase) HasCanDeleteOwnMessageGroup() bool {
 	return false
 }
 
-// SetCanDeleteOwnMessageGroup gets a reference to the given CanDeleteOwnMessageGroup and assigns it to the CanDeleteOwnMessageGroup field.
-func (o *BasicChannelBase) SetCanDeleteOwnMessageGroup(v CanDeleteOwnMessageGroup) {
+// SetCanDeleteOwnMessageGroup gets a reference to the given GroupSettingValue and assigns it to the CanDeleteOwnMessageGroup field.
+func (o *BasicChannelBase) SetCanDeleteOwnMessageGroup(v GroupSettingValue) {
 	o.CanDeleteOwnMessageGroup = &v
 }
 
 // GetCanMoveMessagesOutOfChannelGroup returns the CanMoveMessagesOutOfChannelGroup field value if set, zero value otherwise.
-func (o *BasicChannelBase) GetCanMoveMessagesOutOfChannelGroup() CanMoveMessagesOutOfChannelGroup {
+func (o *BasicChannelBase) GetCanMoveMessagesOutOfChannelGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanMoveMessagesOutOfChannelGroup) {
-		var ret CanMoveMessagesOutOfChannelGroup
+		var ret GroupSettingValue
 		return ret
 	}
 	return *o.CanMoveMessagesOutOfChannelGroup
@@ -850,7 +850,7 @@ func (o *BasicChannelBase) GetCanMoveMessagesOutOfChannelGroup() CanMoveMessages
 
 // GetCanMoveMessagesOutOfChannelGroupOk returns a tuple with the CanMoveMessagesOutOfChannelGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicChannelBase) GetCanMoveMessagesOutOfChannelGroupOk() (*CanMoveMessagesOutOfChannelGroup, bool) {
+func (o *BasicChannelBase) GetCanMoveMessagesOutOfChannelGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanMoveMessagesOutOfChannelGroup) {
 		return nil, false
 	}
@@ -866,15 +866,15 @@ func (o *BasicChannelBase) HasCanMoveMessagesOutOfChannelGroup() bool {
 	return false
 }
 
-// SetCanMoveMessagesOutOfChannelGroup gets a reference to the given CanMoveMessagesOutOfChannelGroup and assigns it to the CanMoveMessagesOutOfChannelGroup field.
-func (o *BasicChannelBase) SetCanMoveMessagesOutOfChannelGroup(v CanMoveMessagesOutOfChannelGroup) {
+// SetCanMoveMessagesOutOfChannelGroup gets a reference to the given GroupSettingValue and assigns it to the CanMoveMessagesOutOfChannelGroup field.
+func (o *BasicChannelBase) SetCanMoveMessagesOutOfChannelGroup(v GroupSettingValue) {
 	o.CanMoveMessagesOutOfChannelGroup = &v
 }
 
 // GetCanMoveMessagesWithinChannelGroup returns the CanMoveMessagesWithinChannelGroup field value if set, zero value otherwise.
-func (o *BasicChannelBase) GetCanMoveMessagesWithinChannelGroup() CanMoveMessagesWithinChannelGroup {
+func (o *BasicChannelBase) GetCanMoveMessagesWithinChannelGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanMoveMessagesWithinChannelGroup) {
-		var ret CanMoveMessagesWithinChannelGroup
+		var ret GroupSettingValue
 		return ret
 	}
 	return *o.CanMoveMessagesWithinChannelGroup
@@ -882,7 +882,7 @@ func (o *BasicChannelBase) GetCanMoveMessagesWithinChannelGroup() CanMoveMessage
 
 // GetCanMoveMessagesWithinChannelGroupOk returns a tuple with the CanMoveMessagesWithinChannelGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicChannelBase) GetCanMoveMessagesWithinChannelGroupOk() (*CanMoveMessagesWithinChannelGroup, bool) {
+func (o *BasicChannelBase) GetCanMoveMessagesWithinChannelGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanMoveMessagesWithinChannelGroup) {
 		return nil, false
 	}
@@ -898,15 +898,15 @@ func (o *BasicChannelBase) HasCanMoveMessagesWithinChannelGroup() bool {
 	return false
 }
 
-// SetCanMoveMessagesWithinChannelGroup gets a reference to the given CanMoveMessagesWithinChannelGroup and assigns it to the CanMoveMessagesWithinChannelGroup field.
-func (o *BasicChannelBase) SetCanMoveMessagesWithinChannelGroup(v CanMoveMessagesWithinChannelGroup) {
+// SetCanMoveMessagesWithinChannelGroup gets a reference to the given GroupSettingValue and assigns it to the CanMoveMessagesWithinChannelGroup field.
+func (o *BasicChannelBase) SetCanMoveMessagesWithinChannelGroup(v GroupSettingValue) {
 	o.CanMoveMessagesWithinChannelGroup = &v
 }
 
 // GetCanSendMessageGroup returns the CanSendMessageGroup field value if set, zero value otherwise.
-func (o *BasicChannelBase) GetCanSendMessageGroup() CanSendMessageGroup {
+func (o *BasicChannelBase) GetCanSendMessageGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanSendMessageGroup) {
-		var ret CanSendMessageGroup
+		var ret GroupSettingValue
 		return ret
 	}
 	return *o.CanSendMessageGroup
@@ -914,7 +914,7 @@ func (o *BasicChannelBase) GetCanSendMessageGroup() CanSendMessageGroup {
 
 // GetCanSendMessageGroupOk returns a tuple with the CanSendMessageGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicChannelBase) GetCanSendMessageGroupOk() (*CanSendMessageGroup, bool) {
+func (o *BasicChannelBase) GetCanSendMessageGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanSendMessageGroup) {
 		return nil, false
 	}
@@ -930,15 +930,15 @@ func (o *BasicChannelBase) HasCanSendMessageGroup() bool {
 	return false
 }
 
-// SetCanSendMessageGroup gets a reference to the given CanSendMessageGroup and assigns it to the CanSendMessageGroup field.
-func (o *BasicChannelBase) SetCanSendMessageGroup(v CanSendMessageGroup) {
+// SetCanSendMessageGroup gets a reference to the given GroupSettingValue and assigns it to the CanSendMessageGroup field.
+func (o *BasicChannelBase) SetCanSendMessageGroup(v GroupSettingValue) {
 	o.CanSendMessageGroup = &v
 }
 
 // GetCanSubscribeGroup returns the CanSubscribeGroup field value if set, zero value otherwise.
-func (o *BasicChannelBase) GetCanSubscribeGroup() CanSubscribeGroup {
+func (o *BasicChannelBase) GetCanSubscribeGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanSubscribeGroup) {
-		var ret CanSubscribeGroup
+		var ret GroupSettingValue
 		return ret
 	}
 	return *o.CanSubscribeGroup
@@ -946,7 +946,7 @@ func (o *BasicChannelBase) GetCanSubscribeGroup() CanSubscribeGroup {
 
 // GetCanSubscribeGroupOk returns a tuple with the CanSubscribeGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicChannelBase) GetCanSubscribeGroupOk() (*CanSubscribeGroup, bool) {
+func (o *BasicChannelBase) GetCanSubscribeGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanSubscribeGroup) {
 		return nil, false
 	}
@@ -962,15 +962,15 @@ func (o *BasicChannelBase) HasCanSubscribeGroup() bool {
 	return false
 }
 
-// SetCanSubscribeGroup gets a reference to the given CanSubscribeGroup and assigns it to the CanSubscribeGroup field.
-func (o *BasicChannelBase) SetCanSubscribeGroup(v CanSubscribeGroup) {
+// SetCanSubscribeGroup gets a reference to the given GroupSettingValue and assigns it to the CanSubscribeGroup field.
+func (o *BasicChannelBase) SetCanSubscribeGroup(v GroupSettingValue) {
 	o.CanSubscribeGroup = &v
 }
 
 // GetCanResolveTopicsGroup returns the CanResolveTopicsGroup field value if set, zero value otherwise.
-func (o *BasicChannelBase) GetCanResolveTopicsGroup() CanResolveTopicsGroup {
+func (o *BasicChannelBase) GetCanResolveTopicsGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanResolveTopicsGroup) {
-		var ret CanResolveTopicsGroup
+		var ret GroupSettingValue
 		return ret
 	}
 	return *o.CanResolveTopicsGroup
@@ -978,7 +978,7 @@ func (o *BasicChannelBase) GetCanResolveTopicsGroup() CanResolveTopicsGroup {
 
 // GetCanResolveTopicsGroupOk returns a tuple with the CanResolveTopicsGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicChannelBase) GetCanResolveTopicsGroupOk() (*CanResolveTopicsGroup, bool) {
+func (o *BasicChannelBase) GetCanResolveTopicsGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanResolveTopicsGroup) {
 		return nil, false
 	}
@@ -994,8 +994,8 @@ func (o *BasicChannelBase) HasCanResolveTopicsGroup() bool {
 	return false
 }
 
-// SetCanResolveTopicsGroup gets a reference to the given CanResolveTopicsGroup and assigns it to the CanResolveTopicsGroup field.
-func (o *BasicChannelBase) SetCanResolveTopicsGroup(v CanResolveTopicsGroup) {
+// SetCanResolveTopicsGroup gets a reference to the given GroupSettingValue and assigns it to the CanResolveTopicsGroup field.
+func (o *BasicChannelBase) SetCanResolveTopicsGroup(v GroupSettingValue) {
 	o.CanResolveTopicsGroup = &v
 }
 

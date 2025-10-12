@@ -21,9 +21,7 @@ var _ MappedNullable = &GroupSettingValueUpdate{}
 
 // GroupSettingValueUpdate struct for GroupSettingValueUpdate
 type GroupSettingValueUpdate struct {
-	// The new [group-setting value](/api/group-setting-values) for who would have this permission.
-	New GroupSettingValue `json:"new"`
-	// The expected current [group-setting value](/api/group-setting-values) for who has this permission.
+	New GroupSettingValue  `json:"new"`
 	Old *GroupSettingValue `json:"old,omitempty"`
 }
 

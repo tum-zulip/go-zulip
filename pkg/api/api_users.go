@@ -1028,7 +1028,11 @@ func (c *ZulipClient) AddAlertWordsExecute(r ApiAddAlertWordsRequest) (*models.A
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "alert_words", r.alertWords, "form", "multi")
+	paramJson, err := parameterToJson(r.alertWords)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+	localVarFormParams.Add("alert_words", paramJson)
 	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -4275,7 +4279,7 @@ func (c *ZulipClient) RemoveFcmTokenExecute(r ApiRemoveFcmTokenRequest) (*models
 type ApiSetTypingStatusRequest struct {
 	ctx        context.Context
 	ApiService UsersAPI
-	op         *string
+	op         *TypingStatusOp
 	type_      *string
 	to         *[]int32
 	streamId   *int32
@@ -4283,7 +4287,7 @@ type ApiSetTypingStatusRequest struct {
 }
 
 // Whether the user has started (&#x60;\\\&quot;start\\\&quot;&#x60;) or stopped (&#x60;\\\&quot;stop\\\&quot;&#x60;) typing.
-func (r ApiSetTypingStatusRequest) Op(op string) ApiSetTypingStatusRequest {
+func (r ApiSetTypingStatusRequest) Op(op TypingStatusOp) ApiSetTypingStatusRequest {
 	r.op = &op
 	return r
 }
@@ -4431,7 +4435,11 @@ func (c *ZulipClient) SetTypingStatusExecute(r ApiSetTypingStatusRequest) (*mode
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "op", r.op, "", "")
 	if r.to != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "to", r.to, "form", "multi")
+		paramJson, err := parameterToJson(r.to)
+		if err != nil {
+			return localVarReturnValue, nil, err
+		}
+		localVarFormParams.Add("to", paramJson)
 	}
 	if r.streamId != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
@@ -4486,15 +4494,22 @@ func (c *ZulipClient) SetTypingStatusExecute(r ApiSetTypingStatusRequest) (*mode
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type TypingStatusOp string
+
+const (
+	TypingStatusOpStart TypingStatusOp = "start"
+	TypingStatusOpStop  TypingStatusOp = "stop"
+)
+
 type ApiSetTypingStatusForMessageEditRequest struct {
 	ctx        context.Context
 	ApiService UsersAPI
 	messageId  int32
-	op         *string
+	op         *TypingStatusOp
 }
 
 // Whether the user has started (&#x60;\\\&quot;start\\\&quot;&#x60;) or stopped (&#x60;\\\&quot;stop\\\&quot;&#x60;) editing.
-func (r ApiSetTypingStatusForMessageEditRequest) Op(op string) ApiSetTypingStatusForMessageEditRequest {
+func (r ApiSetTypingStatusForMessageEditRequest) Op(op TypingStatusOp) ApiSetTypingStatusForMessageEditRequest {
 	r.op = &op
 	return r
 }
@@ -4730,10 +4745,17 @@ func (c *ZulipClient) UnmuteUserExecute(r ApiUnmuteUserRequest) (*models.JsonSuc
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type PresenceStatus string
+
+const (
+	PresenceStatusActive PresenceStatus = "active"
+	PresenceStatusIdle   PresenceStatus = "idle"
+)
+
 type ApiUpdatePresenceRequest struct {
 	ctx              context.Context
 	ApiService       UsersAPI
-	status           *string
+	status           *PresenceStatus
 	lastUpdateId     *int32
 	historyLimitDays *int32
 	newUserInput     *bool
@@ -4742,7 +4764,7 @@ type ApiUpdatePresenceRequest struct {
 }
 
 // The status of the user on this client.  Clients should report the user as &#x60;\\\&quot;active\\\&quot;&#x60; on this device if the client knows that the user is presently using the device (and thus would potentially see a notification immediately), even if the user has not directly interacted with the Zulip client.  Otherwise, it should report the user as &#x60;\\\&quot;idle\\\&quot;&#x60;.  See the related [&#x60;new_user_input&#x60;](#parameter-new_user_input) parameter for how a client should report whether the user is actively using the Zulip client.
-func (r ApiUpdatePresenceRequest) Status(status string) ApiUpdatePresenceRequest {
+func (r ApiUpdatePresenceRequest) Status(status PresenceStatus) ApiUpdatePresenceRequest {
 	r.status = &status
 	return r
 }

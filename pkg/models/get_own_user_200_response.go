@@ -43,10 +43,6 @@ type GetOwnUser200Response struct {
 	IsGuest *bool `json:"is_guest,omitempty"`
 	// A boolean indicating if the requesting user is a bot.
 	IsBot *bool `json:"is_bot,omitempty"`
-	// An integer describing the type of bot:  - `1` for a `Generic` bot. - `2` for an `Incoming webhook` bot. - `3` for an `Outgoing webhook` bot. - `4` for an `Embedded` bot.
-	BotType NullableInt32 `json:"bot_type,omitempty"`
-	// The user ID of the new bot owner.
-	BotOwnerId *int32 `json:"bot_owner_id,omitempty"`
 	// A boolean specifying whether the requesting user account has been deactivated.  **Changes**: New in Zulip 3.0 (feature level 10).
 	IsActive *bool `json:"is_active,omitempty"`
 	// The IANA identifier of the requesting user's [profile time zone](/help/change-your-timezone), which is used primarily to display the user's local time to other users.  **Changes**: New in Zulip 3.0 (feature level 10).
@@ -721,12 +717,6 @@ func (o GetOwnUser200Response) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.IsBot) {
 		toSerialize["is_bot"] = o.IsBot
-	}
-	if !IsNil(o.BotType) {
-		toSerialize["bot_type"] = o.BotType
-	}
-	if !IsNil(o.BotOwnerId) {
-		toSerialize["bot_owner_id"] = o.BotOwnerId
 	}
 	if !IsNil(o.IsActive) {
 		toSerialize["is_active"] = o.IsActive
