@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -21,20 +21,19 @@ import (
 	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
-
 type ChannelsAPI interface {
 
 	/*
-	AddDefaultStream Add a default channel
+			AddDefaultStream Add a default channel
 
-	Add a channel to the set of [default channels][default-channels]
-for new users joining the organization.
+			Add a channel to the set of [default channels][default-channels]
+		for new users joining the organization.
 
-[default-channels]: /help/set-default-channels-for-new-users
+		[default-channels]: /help/set-default-channels-for-new-users
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiAddDefaultStreamRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiAddDefaultStreamRequest
 	*/
 	AddDefaultStream(ctx context.Context) ApiAddDefaultStreamRequest
 
@@ -43,14 +42,14 @@ for new users joining the organization.
 	AddDefaultStreamExecute(r ApiAddDefaultStreamRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	ArchiveStream Archive a channel
+		ArchiveStream Archive a channel
 
-	[Archive the channel](/help/archive-a-channel) with the ID `stream_id`.
+		[Archive the channel](/help/archive-a-channel) with the ID `stream_id`.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The ID of the channel to access. 
-	@return ApiArchiveStreamRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param streamId The ID of the channel to access.
+		@return ApiArchiveStreamRequest
 	*/
 	ArchiveStream(ctx context.Context, streamId int32) ApiArchiveStreamRequest
 
@@ -59,21 +58,21 @@ for new users joining the organization.
 	ArchiveStreamExecute(r ApiArchiveStreamRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	CreateBigBlueButtonVideoCall Create BigBlueButton video call
+			CreateBigBlueButtonVideoCall Create BigBlueButton video call
 
-	Create a video call URL for a BigBlueButton video call.
-Requires [BigBlueButton 2.4+](/integrations/doc/big-blue-button)
-to be configured on the Zulip server.
+			Create a video call URL for a BigBlueButton video call.
+		Requires [BigBlueButton 2.4+](/integrations/doc/big-blue-button)
+		to be configured on the Zulip server.
 
-The acting user will be given the moderator role on the call.
+		The acting user will be given the moderator role on the call.
 
-**Changes**: Prior to Zulip 10.0 (feature level 337), every
-user was given the moderator role on BigBlueButton calls, via
-encoding a moderator password in the generated URLs.
+		**Changes**: Prior to Zulip 10.0 (feature level 337), every
+		user was given the moderator role on BigBlueButton calls, via
+		encoding a moderator password in the generated URLs.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateBigBlueButtonVideoCallRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiCreateBigBlueButtonVideoCallRequest
 	*/
 	CreateBigBlueButtonVideoCall(ctx context.Context) ApiCreateBigBlueButtonVideoCallRequest
 
@@ -82,18 +81,18 @@ encoding a moderator password in the generated URLs.
 	CreateBigBlueButtonVideoCallExecute(r ApiCreateBigBlueButtonVideoCallRequest) (*models.CreateBigBlueButtonVideoCall200Response, *http.Response, error)
 
 	/*
-	CreateChannel Create a channel
+			CreateChannel Create a channel
 
-	Create a new [channel](/help/create-channels) and optionally
-subscribe users to the newly created channel. The initial [channel settings](/api/update-stream)
-will be determined by the optional parameters, like `invite_only`, detailed below.
+			Create a new [channel](/help/create-channels) and optionally
+		subscribe users to the newly created channel. The initial [channel settings](/api/update-stream)
+		will be determined by the optional parameters, like `invite_only`, detailed below.
 
-**Changes**: New in Zulip 11.0 (feature level 417). Previously, this was only possible via
-the [`POST /api/subscribe`](/api/subscribe) endpoint, which handled both creation and subscription.
+		**Changes**: New in Zulip 11.0 (feature level 417). Previously, this was only possible via
+		the [`POST /api/subscribe`](/api/subscribe) endpoint, which handled both creation and subscription.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateChannelRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiCreateChannelRequest
 	*/
 	CreateChannel(ctx context.Context) ApiCreateChannelRequest
 
@@ -102,19 +101,19 @@ the [`POST /api/subscribe`](/api/subscribe) endpoint, which handled both creatio
 	CreateChannelExecute(r ApiCreateChannelRequest) (*models.CreateChannel200Response, *http.Response, error)
 
 	/*
-	CreateChannelFolder Create a channel folder
+			CreateChannelFolder Create a channel folder
 
-	Create a new channel folder, that will be used to organize
-channels in left sidebar.
+			Create a new channel folder, that will be used to organize
+		channels in left sidebar.
 
-Only organization administrators can create a new channel
-folder.
+		Only organization administrators can create a new channel
+		folder.
 
-**Changes**: New in Zulip 11.0 (feature level 389).
+		**Changes**: New in Zulip 11.0 (feature level 389).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateChannelFolderRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiCreateChannelFolderRequest
 	*/
 	CreateChannelFolder(ctx context.Context) ApiCreateChannelFolderRequest
 
@@ -123,48 +122,48 @@ folder.
 	CreateChannelFolderExecute(r ApiCreateChannelFolderRequest) (*models.CreateChannelFolder200Response, *http.Response, error)
 
 	/*
-	DeleteTopic Delete a topic
+			DeleteTopic Delete a topic
 
-	Delete all messages in a topic.
+			Delete all messages in a topic.
 
-Topics are a field on messages (not an independent data structure), so
-deleting all the messages in the topic deletes the topic from Zulip.
+		Topics are a field on messages (not an independent data structure), so
+		deleting all the messages in the topic deletes the topic from Zulip.
 
-Because this endpoint deletes messages in batches, it is possible for
-the request to time out after only deleting some messages in the topic.
-When this happens, the `complete` boolean field in the success response
-will be `false`. Clients should repeat the request when handling such a
-response. If all messages in the topic were deleted, then the success
-response will return `"complete": true`.
+		Because this endpoint deletes messages in batches, it is possible for
+		the request to time out after only deleting some messages in the topic.
+		When this happens, the `complete` boolean field in the success response
+		will be `false`. Clients should repeat the request when handling such a
+		response. If all messages in the topic were deleted, then the success
+		response will return `"complete": true`.
 
-**Changes**: Before Zulip 9.0 (feature level 256), the server never sent
-[`stream` op: `update`](/api/get-events#stream-update) events with an
-updated `first_message_id` for a channel when the oldest message that
-had been sent to it changed.
+		**Changes**: Before Zulip 9.0 (feature level 256), the server never sent
+		[`stream` op: `update`](/api/get-events#stream-update) events with an
+		updated `first_message_id` for a channel when the oldest message that
+		had been sent to it changed.
 
-Before Zulip 8.0 (feature level 211), if the server's
-processing was interrupted by a timeout, but some messages in the topic
-were deleted, then it would return `"result": "partially_completed"`,
-along with a `code` field for an error string, in the success response
-to indicate that there was a timeout and that the client should repeat
-the request.
+		Before Zulip 8.0 (feature level 211), if the server's
+		processing was interrupted by a timeout, but some messages in the topic
+		were deleted, then it would return `"result": "partially_completed"`,
+		along with a `code` field for an error string, in the success response
+		to indicate that there was a timeout and that the client should repeat
+		the request.
 
-As of Zulip 6.0 (feature level 154), instead of returning an error
-response when a request times out after successfully deleting some of
-the messages in the topic, a success response is returned with
-`"result": "partially_completed"` to indicate that some messages were
-deleted.
+		As of Zulip 6.0 (feature level 154), instead of returning an error
+		response when a request times out after successfully deleting some of
+		the messages in the topic, a success response is returned with
+		`"result": "partially_completed"` to indicate that some messages were
+		deleted.
 
-Before Zulip 6.0 (feature level 147), this request did a single atomic
-operation, which could time out for very large topics. As of this
-feature level, messages are deleted in batches, starting with the newest
-messages, so that progress is made even if the request times out and
-returns an error.
+		Before Zulip 6.0 (feature level 147), this request did a single atomic
+		operation, which could time out for very large topics. As of this
+		feature level, messages are deleted in batches, starting with the newest
+		messages, so that progress is made even if the request times out and
+		returns an error.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The ID of the channel to access. 
-	@return ApiDeleteTopicRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param streamId The ID of the channel to access.
+			@return ApiDeleteTopicRequest
 	*/
 	DeleteTopic(ctx context.Context, streamId int32) ApiDeleteTopicRequest
 
@@ -173,19 +172,19 @@ returns an error.
 	DeleteTopicExecute(r ApiDeleteTopicRequest) (*models.MarkAllAsRead200Response, *http.Response, error)
 
 	/*
-	GetChannelFolders Get channel folders
+			GetChannelFolders Get channel folders
 
-	Fetches all of the channel folders in the organization.
-The folders are sorted by the `order` field.
+			Fetches all of the channel folders in the organization.
+		The folders are sorted by the `order` field.
 
-**Changes**: Before Zulip 11.0 (feature level 414),
-these were sorted by ID. (The `order` field didn't exist).
+		**Changes**: Before Zulip 11.0 (feature level 414),
+		these were sorted by ID. (The `order` field didn't exist).
 
-New in Zulip 11.0 (feature level 389).
+		New in Zulip 11.0 (feature level 389).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetChannelFoldersRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiGetChannelFoldersRequest
 	*/
 	GetChannelFolders(ctx context.Context) ApiGetChannelFoldersRequest
 
@@ -194,16 +193,16 @@ New in Zulip 11.0 (feature level 389).
 	GetChannelFoldersExecute(r ApiGetChannelFoldersRequest) (*models.GetChannelFolders200Response, *http.Response, error)
 
 	/*
-	GetStreamById Get a channel by ID
+			GetStreamById Get a channel by ID
 
-	Fetch details for the channel with the ID `stream_id`.
+			Fetch details for the channel with the ID `stream_id`.
 
-**Changes**: New in Zulip 6.0 (feature level 132).
+		**Changes**: New in Zulip 6.0 (feature level 132).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The ID of the channel to access. 
-	@return ApiGetStreamByIdRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param streamId The ID of the channel to access.
+			@return ApiGetStreamByIdRequest
 	*/
 	GetStreamById(ctx context.Context, streamId int32) ApiGetStreamByIdRequest
 
@@ -212,16 +211,16 @@ New in Zulip 11.0 (feature level 389).
 	GetStreamByIdExecute(r ApiGetStreamByIdRequest) (*models.GetStreamById200Response, *http.Response, error)
 
 	/*
-	GetStreamEmailAddress Get channel's email address
+			GetStreamEmailAddress Get channel's email address
 
-	Get email address of a channel.
+			Get email address of a channel.
 
-**Changes**: New in Zulip 8.0 (feature level 226).
+		**Changes**: New in Zulip 8.0 (feature level 226).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The ID of the channel to access. 
-	@return ApiGetStreamEmailAddressRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param streamId The ID of the channel to access.
+			@return ApiGetStreamEmailAddressRequest
 	*/
 	GetStreamEmailAddress(ctx context.Context, streamId int32) ApiGetStreamEmailAddressRequest
 
@@ -230,13 +229,13 @@ New in Zulip 11.0 (feature level 389).
 	GetStreamEmailAddressExecute(r ApiGetStreamEmailAddressRequest) (*models.GetStreamEmailAddress200Response, *http.Response, error)
 
 	/*
-	GetStreamId Get channel ID
+		GetStreamId Get channel ID
 
-	Get the unique ID of a given channel.
+		Get the unique ID of a given channel.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetStreamIdRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetStreamIdRequest
 	*/
 	GetStreamId(ctx context.Context) ApiGetStreamIdRequest
 
@@ -245,22 +244,22 @@ New in Zulip 11.0 (feature level 389).
 	GetStreamIdExecute(r ApiGetStreamIdRequest) (*models.GetStreamId200Response, *http.Response, error)
 
 	/*
-	GetStreamTopics Get topics in a channel
+			GetStreamTopics Get topics in a channel
 
-	Get all topics the user has access to in a specific channel.
+			Get all topics the user has access to in a specific channel.
 
-Note that for [private channels with
-protected history](/help/channel-permissions#private-channels),
-the user will only have access to topics of messages sent after they
-[subscribed to](/api/subscribe) the channel. Similarly, a user's
-[bot](/help/bots-overview#bot-type) will only have access to messages
-sent after the bot was subscribed to the channel, instead of when the
-user subscribed.
+		Note that for [private channels with
+		protected history](/help/channel-permissions#private-channels),
+		the user will only have access to topics of messages sent after they
+		[subscribed to](/api/subscribe) the channel. Similarly, a user's
+		[bot](/help/bots-overview#bot-type) will only have access to messages
+		sent after the bot was subscribed to the channel, instead of when the
+		user subscribed.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The ID of the channel to access. 
-	@return ApiGetStreamTopicsRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param streamId The ID of the channel to access.
+			@return ApiGetStreamTopicsRequest
 	*/
 	GetStreamTopics(ctx context.Context, streamId int32) ApiGetStreamTopicsRequest
 
@@ -269,13 +268,13 @@ user subscribed.
 	GetStreamTopicsExecute(r ApiGetStreamTopicsRequest) (*models.GetStreamTopics200Response, *http.Response, error)
 
 	/*
-	GetStreams Get all channels
+		GetStreams Get all channels
 
-	Get all channels that the user [has access to](/help/channel-permissions).
+		Get all channels that the user [has access to](/help/channel-permissions).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetStreamsRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetStreamsRequest
 	*/
 	GetStreams(ctx context.Context) ApiGetStreamsRequest
 
@@ -284,14 +283,14 @@ user subscribed.
 	GetStreamsExecute(r ApiGetStreamsRequest) (*models.GetStreams200Response, *http.Response, error)
 
 	/*
-	GetSubscribers Get channel subscribers
+		GetSubscribers Get channel subscribers
 
-	Get all users subscribed to a channel.
+		Get all users subscribed to a channel.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The ID of the channel to access. 
-	@return ApiGetSubscribersRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param streamId The ID of the channel to access.
+		@return ApiGetSubscribersRequest
 	*/
 	GetSubscribers(ctx context.Context, streamId int32) ApiGetSubscribersRequest
 
@@ -300,17 +299,17 @@ user subscribed.
 	GetSubscribersExecute(r ApiGetSubscribersRequest) (*models.GetSubscribers200Response, *http.Response, error)
 
 	/*
-	GetSubscriptionStatus Get subscription status
+			GetSubscriptionStatus Get subscription status
 
-	Check whether a user is subscribed to a channel.
+			Check whether a user is subscribed to a channel.
 
-**Changes**: New in Zulip 3.0 (feature level 12).
+		**Changes**: New in Zulip 3.0 (feature level 12).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userId The target user's ID. 
-	@param streamId The ID of the channel to access. 
-	@return ApiGetSubscriptionStatusRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param userId The target user's ID.
+			@param streamId The ID of the channel to access.
+			@return ApiGetSubscriptionStatusRequest
 	*/
 	GetSubscriptionStatus(ctx context.Context, userId int32, streamId int32) ApiGetSubscriptionStatusRequest
 
@@ -319,13 +318,13 @@ user subscribed.
 	GetSubscriptionStatusExecute(r ApiGetSubscriptionStatusRequest) (*models.GetSubscriptionStatus200Response, *http.Response, error)
 
 	/*
-	GetSubscriptions Get subscribed channels
+		GetSubscriptions Get subscribed channels
 
-	Get all channels that the user is subscribed to.
+		Get all channels that the user is subscribed to.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetSubscriptionsRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetSubscriptionsRequest
 	*/
 	GetSubscriptions(ctx context.Context) ApiGetSubscriptionsRequest
 
@@ -334,24 +333,24 @@ user subscribed.
 	GetSubscriptionsExecute(r ApiGetSubscriptionsRequest) (*models.GetSubscriptions200Response, *http.Response, error)
 
 	/*
-	MuteTopic Topic muting
+			MuteTopic Topic muting
 
-	[Mute or unmute a topic](/help/mute-a-topic) within a channel that
-the current user is subscribed to.
+			[Mute or unmute a topic](/help/mute-a-topic) within a channel that
+		the current user is subscribed to.
 
-**Changes**: Deprecated in Zulip 7.0 (feature level 170). Clients connecting
-to newer servers should use the [POST /user_topics](/api/update-user-topic)
-endpoint, as this endpoint may be removed in a future release.
+		**Changes**: Deprecated in Zulip 7.0 (feature level 170). Clients connecting
+		to newer servers should use the [POST /user_topics](/api/update-user-topic)
+		endpoint, as this endpoint may be removed in a future release.
 
-Before Zulip 7.0 (feature level 169), this endpoint
-returned an error if asked to mute a topic that was already muted
-or asked to unmute a topic that had not previously been muted.
+		Before Zulip 7.0 (feature level 169), this endpoint
+		returned an error if asked to mute a topic that was already muted
+		or asked to unmute a topic that had not previously been muted.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiMuteTopicRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiMuteTopicRequest
 
-	Deprecated
+			Deprecated
 	*/
 	MuteTopic(ctx context.Context) ApiMuteTopicRequest
 
@@ -361,17 +360,17 @@ or asked to unmute a topic that had not previously been muted.
 	MuteTopicExecute(r ApiMuteTopicRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	PatchChannelFolders Reorder channel folders
+			PatchChannelFolders Reorder channel folders
 
-	Given an array of channel folder IDs, this method will set the `order`
-property of all of the channel folders in the organization according to
-the order of the channel folder IDs specified in the request.
+			Given an array of channel folder IDs, this method will set the `order`
+		property of all of the channel folders in the organization according to
+		the order of the channel folder IDs specified in the request.
 
-**Changes**: New in Zulip 11.0 (feature level 414).
+		**Changes**: New in Zulip 11.0 (feature level 414).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiPatchChannelFoldersRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiPatchChannelFoldersRequest
 	*/
 	PatchChannelFolders(ctx context.Context) ApiPatchChannelFoldersRequest
 
@@ -380,16 +379,16 @@ the order of the channel folder IDs specified in the request.
 	PatchChannelFoldersExecute(r ApiPatchChannelFoldersRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	RemoveDefaultStream Remove a default channel
+			RemoveDefaultStream Remove a default channel
 
-	Remove a channel from the set of [default channels][default-channels]
-for new users joining the organization.
+			Remove a channel from the set of [default channels][default-channels]
+		for new users joining the organization.
 
-[default-channels]: /help/set-default-channels-for-new-users
+		[default-channels]: /help/set-default-channels-for-new-users
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiRemoveDefaultStreamRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiRemoveDefaultStreamRequest
 	*/
 	RemoveDefaultStream(ctx context.Context) ApiRemoveDefaultStreamRequest
 
@@ -398,47 +397,47 @@ for new users joining the organization.
 	RemoveDefaultStreamExecute(r ApiRemoveDefaultStreamRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	Subscribe Subscribe to a channel
+			Subscribe Subscribe to a channel
 
-	Subscribe one or more users to one or more channels.
+			Subscribe one or more users to one or more channels.
 
-If any of the specified channels do not exist, they are automatically
-created. The initial [channel settings](/api/update-stream) will be determined
-by the optional parameters, like `invite_only`, detailed below.
+		If any of the specified channels do not exist, they are automatically
+		created. The initial [channel settings](/api/update-stream) will be determined
+		by the optional parameters, like `invite_only`, detailed below.
 
-Note that the ability to subscribe oneself and/or other users
-to a specified channel depends on the [channel's permissions
-settings](/help/channel-permissions).
+		Note that the ability to subscribe oneself and/or other users
+		to a specified channel depends on the [channel's permissions
+		settings](/help/channel-permissions).
 
-**Changes**: Before Zulip 10.0 (feature level 362),
-subscriptions in archived channels could not be modified.
+		**Changes**: Before Zulip 10.0 (feature level 362),
+		subscriptions in archived channels could not be modified.
 
-Before Zulip 10.0 (feature level 357), the
-`can_subscribe_group` permission, which allows members of the
-group to subscribe themselves to the channel, did not exist.
+		Before Zulip 10.0 (feature level 357), the
+		`can_subscribe_group` permission, which allows members of the
+		group to subscribe themselves to the channel, did not exist.
 
-Before Zulip 10.0 (feature level 349), a user cannot subscribe
-other users to a private channel without being subscribed
-to that channel themselves. Now, If a user is part of
-`can_add_subscribers_group`, they can subscribe themselves or other
-users to a private channel without being subscribed to that channel.
+		Before Zulip 10.0 (feature level 349), a user cannot subscribe
+		other users to a private channel without being subscribed
+		to that channel themselves. Now, If a user is part of
+		`can_add_subscribers_group`, they can subscribe themselves or other
+		users to a private channel without being subscribed to that channel.
 
-Removed `stream_post_policy` and `is_announcement_only`
-parameters in Zulip 10.0 (feature level 333), as permission to post
-in the channel is now controlled by `can_send_message_group`.
+		Removed `stream_post_policy` and `is_announcement_only`
+		parameters in Zulip 10.0 (feature level 333), as permission to post
+		in the channel is now controlled by `can_send_message_group`.
 
-Before Zulip 8.0 (feature level 208), if a user specified by the
-[`principals`][principals-param] parameter was a deactivated user,
-or did not exist, then an HTTP status code of 403 was returned with
-`code: "UNAUTHORIZED_PRINCIPAL"` in the error response. As of this
-feature level, an HTTP status code of 400 is returned with
-`code: "BAD_REQUEST"` in the error response for these cases.
+		Before Zulip 8.0 (feature level 208), if a user specified by the
+		[`principals`][principals-param] parameter was a deactivated user,
+		or did not exist, then an HTTP status code of 403 was returned with
+		`code: "UNAUTHORIZED_PRINCIPAL"` in the error response. As of this
+		feature level, an HTTP status code of 400 is returned with
+		`code: "BAD_REQUEST"` in the error response for these cases.
 
-[principals-param]: /api/subscribe#parameter-principals
+		[principals-param]: /api/subscribe#parameter-principals
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiSubscribeRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiSubscribeRequest
 	*/
 	Subscribe(ctx context.Context) ApiSubscribeRequest
 
@@ -447,52 +446,52 @@ feature level, an HTTP status code of 400 is returned with
 	SubscribeExecute(r ApiSubscribeRequest) (*models.Subscribe200Response, *http.Response, error)
 
 	/*
-	Unsubscribe Unsubscribe from a channel
+			Unsubscribe Unsubscribe from a channel
 
-	Unsubscribe yourself or other users from one or more channels.
+			Unsubscribe yourself or other users from one or more channels.
 
-In addition to managing the current user's subscriptions, this
-endpoint can be used to remove other users from channels. This
-is possible in 3 situations:
+		In addition to managing the current user's subscriptions, this
+		endpoint can be used to remove other users from channels. This
+		is possible in 3 situations:
 
-- Organization administrators can remove any user from any
-  channel.
-- Users can remove a bot that they own from any channel that
-  the user [can access](/help/channel-permissions).
-- Users can unsubscribe any user from a channel if they [have
-  access](/help/channel-permissions) to the channel and are a
-  member of the [user group](/api/get-user-groups) specified
-  by the [`can_remove_subscribers_group`][can-remove-parameter]
-  for the channel.
+		- Organization administrators can remove any user from any
+		  channel.
+		- Users can remove a bot that they own from any channel that
+		  the user [can access](/help/channel-permissions).
+		- Users can unsubscribe any user from a channel if they [have
+		  access](/help/channel-permissions) to the channel and are a
+		  member of the [user group](/api/get-user-groups) specified
+		  by the [`can_remove_subscribers_group`][can-remove-parameter]
+		  for the channel.
 
-**Changes**: Before Zulip 10.0 (feature level 362),
-subscriptions in archived channels could not be modified.
+		**Changes**: Before Zulip 10.0 (feature level 362),
+		subscriptions in archived channels could not be modified.
 
-Before Zulip 8.0 (feature level 208), if a user specified by
-the [`principals`][principals-param] parameter was a
-deactivated user, or did not exist, then an HTTP status code
-of 403 was returned with `code: "UNAUTHORIZED_PRINCIPAL"` in
-the error response. As of this feature level, an HTTP status
-code of 400 is returned with `code: "BAD_REQUEST"` in the
-error response for these cases.
+		Before Zulip 8.0 (feature level 208), if a user specified by
+		the [`principals`][principals-param] parameter was a
+		deactivated user, or did not exist, then an HTTP status code
+		of 403 was returned with `code: "UNAUTHORIZED_PRINCIPAL"` in
+		the error response. As of this feature level, an HTTP status
+		code of 400 is returned with `code: "BAD_REQUEST"` in the
+		error response for these cases.
 
-Before Zulip 8.0 (feature level 197),
-the `can_remove_subscribers_group` setting
-was named `can_remove_subscribers_group_id`.
+		Before Zulip 8.0 (feature level 197),
+		the `can_remove_subscribers_group` setting
+		was named `can_remove_subscribers_group_id`.
 
-Before Zulip 7.0 (feature level 161), the
-`can_remove_subscribers_group_id` for all channels was always
-the system group for organization administrators.
+		Before Zulip 7.0 (feature level 161), the
+		`can_remove_subscribers_group_id` for all channels was always
+		the system group for organization administrators.
 
-Before Zulip 6.0 (feature level 145), users had no special
-privileges for managing bots that they own.
+		Before Zulip 6.0 (feature level 145), users had no special
+		privileges for managing bots that they own.
 
-[principals-param]: /api/unsubscribe#parameter-principals
-[can-remove-parameter]: /api/subscribe#parameter-can_remove_subscribers_group
+		[principals-param]: /api/unsubscribe#parameter-principals
+		[can-remove-parameter]: /api/subscribe#parameter-can_remove_subscribers_group
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiUnsubscribeRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiUnsubscribeRequest
 	*/
 	Unsubscribe(ctx context.Context) ApiUnsubscribeRequest
 
@@ -501,22 +500,22 @@ privileges for managing bots that they own.
 	UnsubscribeExecute(r ApiUnsubscribeRequest) (*models.Unsubscribe200Response, *http.Response, error)
 
 	/*
-	UpdateChannelFolder Update a channel folder
+			UpdateChannelFolder Update a channel folder
 
-	Update the name or description of a channel folder.
+			Update the name or description of a channel folder.
 
-This endpoint is also used to archive and unarchive
-a channel folder.
+		This endpoint is also used to archive and unarchive
+		a channel folder.
 
-Only organization administrators can update a
-channel folder.
+		Only organization administrators can update a
+		channel folder.
 
-**Changes**: New in Zulip 11.0 (feature level 389).
+		**Changes**: New in Zulip 11.0 (feature level 389).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param channelFolderId The ID of the target channel folder. 
-	@return ApiUpdateChannelFolderRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param channelFolderId The ID of the target channel folder.
+			@return ApiUpdateChannelFolderRequest
 	*/
 	UpdateChannelFolder(ctx context.Context, channelFolderId int32) ApiUpdateChannelFolderRequest
 
@@ -525,32 +524,32 @@ channel folder.
 	UpdateChannelFolderExecute(r ApiUpdateChannelFolderRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	UpdateStream Update a channel
+			UpdateStream Update a channel
 
-	Configure the channel with the ID `stream_id`. This endpoint supports
-an organization administrator editing any property of a channel,
-including:
+			Configure the channel with the ID `stream_id`. This endpoint supports
+		an organization administrator editing any property of a channel,
+		including:
 
-- Channel [name](/help/rename-a-channel) and [description](/help/change-the-channel-description)
-- Channel [permissions](/help/channel-permissions), including
-  [privacy](/help/change-the-privacy-of-a-channel) and [who can
-  send](/help/channel-posting-policy).
+		- Channel [name](/help/rename-a-channel) and [description](/help/change-the-channel-description)
+		- Channel [permissions](/help/channel-permissions), including
+		  [privacy](/help/change-the-privacy-of-a-channel) and [who can
+		  send](/help/channel-posting-policy).
 
-Note that an organization administrator's ability to change a
-[private channel's permissions](/help/channel-permissions#private-channels)
-depends on them being subscribed to the channel.
+		Note that an organization administrator's ability to change a
+		[private channel's permissions](/help/channel-permissions#private-channels)
+		depends on them being subscribed to the channel.
 
-**Changes**: Before Zulip 10.0 (feature level 362), channel privacy could not be
-edited for archived channels.
+		**Changes**: Before Zulip 10.0 (feature level 362), channel privacy could not be
+		edited for archived channels.
 
-Removed `stream_post_policy` and `is_announcement_only`
-parameters in Zulip 10.0 (feature level 333), as permission to post
-in the channel is now controlled by `can_send_message_group`.
+		Removed `stream_post_policy` and `is_announcement_only`
+		parameters in Zulip 10.0 (feature level 333), as permission to post
+		in the channel is now controlled by `can_send_message_group`.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The ID of the channel to access. 
-	@return ApiUpdateStreamRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param streamId The ID of the channel to access.
+			@return ApiUpdateStreamRequest
 	*/
 	UpdateStream(ctx context.Context, streamId int32) ApiUpdateStreamRequest
 
@@ -559,22 +558,22 @@ in the channel is now controlled by `can_send_message_group`.
 	UpdateStreamExecute(r ApiUpdateStreamRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	UpdateSubscriptionSettings Update subscription settings
+			UpdateSubscriptionSettings Update subscription settings
 
-	This endpoint is used to update the user's personal settings for the
-channels they are subscribed to, including muting, color, pinning, and
-per-channel notification settings.
+			This endpoint is used to update the user's personal settings for the
+		channels they are subscribed to, including muting, color, pinning, and
+		per-channel notification settings.
 
-**Changes**: Prior to Zulip 5.0 (feature level 111), response
-object included the `subscription_data` in the
-request. The endpoint now returns the more ergonomic
-[`ignored_parameters_unsupported`][ignored-parameters] array instead.
+		**Changes**: Prior to Zulip 5.0 (feature level 111), response
+		object included the `subscription_data` in the
+		request. The endpoint now returns the more ergonomic
+		[`ignored_parameters_unsupported`][ignored-parameters] array instead.
 
-[ignored-parameters]: /api/rest-error-handling#ignored-parameters
+		[ignored-parameters]: /api/rest-error-handling#ignored-parameters
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiUpdateSubscriptionSettingsRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiUpdateSubscriptionSettingsRequest
 	*/
 	UpdateSubscriptionSettings(ctx context.Context) ApiUpdateSubscriptionSettingsRequest
 
@@ -583,16 +582,16 @@ request. The endpoint now returns the more ergonomic
 	UpdateSubscriptionSettingsExecute(r ApiUpdateSubscriptionSettingsRequest) (*models.IgnoredParametersSuccess, *http.Response, error)
 
 	/*
-	UpdateSubscriptions Update subscriptions
+			UpdateSubscriptions Update subscriptions
 
-	Update which channels you are subscribed to.
+			Update which channels you are subscribed to.
 
-**Changes**: Before Zulip 10.0 (feature level 362),
-subscriptions in archived channels could not be modified.
+		**Changes**: Before Zulip 10.0 (feature level 362),
+		subscriptions in archived channels could not be modified.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiUpdateSubscriptionsRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiUpdateSubscriptionsRequest
 	*/
 	UpdateSubscriptions(ctx context.Context) ApiUpdateSubscriptionsRequest
 
@@ -601,22 +600,22 @@ subscriptions in archived channels could not be modified.
 	UpdateSubscriptionsExecute(r ApiUpdateSubscriptionsRequest) (*models.UpdateSubscriptions200Response, *http.Response, error)
 
 	/*
-	UpdateUserTopic Update personal preferences for a topic
+			UpdateUserTopic Update personal preferences for a topic
 
-	This endpoint is used to update the personal preferences for a topic,
-such as the topic's visibility policy, which is used to implement
-[mute a topic](/help/mute-a-topic) and related features.
+			This endpoint is used to update the personal preferences for a topic,
+		such as the topic's visibility policy, which is used to implement
+		[mute a topic](/help/mute-a-topic) and related features.
 
-This endpoint can be used to update the visibility policy for the single
-channel and topic pair indicated by the parameters for a user.
+		This endpoint can be used to update the visibility policy for the single
+		channel and topic pair indicated by the parameters for a user.
 
-**Changes**: New in Zulip 7.0 (feature level 170). Previously,
-toggling whether a topic was muted or unmuted was managed by the
-[PATCH /users/me/subscriptions/muted_topics](/api/mute-topic) endpoint.
+		**Changes**: New in Zulip 7.0 (feature level 170). Previously,
+		toggling whether a topic was muted or unmuted was managed by the
+		[PATCH /users/me/subscriptions/muted_topics](/api/mute-topic) endpoint.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiUpdateUserTopicRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiUpdateUserTopicRequest
 	*/
 	UpdateUserTopic(ctx context.Context) ApiUpdateUserTopicRequest
 
@@ -626,12 +625,12 @@ toggling whether a topic was muted or unmuted was managed by the
 }
 
 type ApiAddDefaultStreamRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId *int32
+	streamId   *int32
 }
 
-// The ID of the target channel. 
+// The ID of the target channel.
 func (r ApiAddDefaultStreamRequest) StreamId(streamId int32) ApiAddDefaultStreamRequest {
 	r.streamId = &streamId
 	return r
@@ -649,28 +648,28 @@ for new users joining the organization.
 
 [default-channels]: /help/set-default-channels-for-new-users
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiAddDefaultStreamRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiAddDefaultStreamRequest
 */
-func (a *ZulipClient) AddDefaultStream(ctx context.Context) ApiAddDefaultStreamRequest {
+func (c *ZulipClient) AddDefaultStream(ctx context.Context) ApiAddDefaultStreamRequest {
 	return ApiAddDefaultStreamRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) AddDefaultStreamExecute(r ApiAddDefaultStreamRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) AddDefaultStreamExecute(r ApiAddDefaultStreamRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -702,12 +701,12 @@ func (a *ZulipClient) AddDefaultStreamExecute(r ApiAddDefaultStreamRequest) (*mo
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -726,18 +725,18 @@ func (a *ZulipClient) AddDefaultStreamExecute(r ApiAddDefaultStreamRequest) (*mo
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.AddDefaultStream400Response
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -750,9 +749,9 @@ func (a *ZulipClient) AddDefaultStreamExecute(r ApiAddDefaultStreamRequest) (*mo
 }
 
 type ApiArchiveStreamRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId int32
+	streamId   int32
 }
 
 func (r ApiArchiveStreamRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
@@ -764,30 +763,30 @@ ArchiveStream Archive a channel
 
 [Archive the channel](/help/archive-a-channel) with the ID `stream_id`.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param streamId The ID of the channel to access. 
- @return ApiArchiveStreamRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param streamId The ID of the channel to access.
+	@return ApiArchiveStreamRequest
 */
-func (a *ZulipClient) ArchiveStream(ctx context.Context, streamId int32) ApiArchiveStreamRequest {
+func (c *ZulipClient) ArchiveStream(ctx context.Context, streamId int32) ApiArchiveStreamRequest {
 	return ApiArchiveStreamRequest{
-		ApiService: a,
-		ctx: ctx,
-		streamId: streamId,
+		ApiService: c,
+		ctx:        ctx,
+		streamId:   streamId,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) ArchiveStreamExecute(r ApiArchiveStreamRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) ArchiveStreamExecute(r ApiArchiveStreamRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -816,12 +815,12 @@ func (a *ZulipClient) ArchiveStreamExecute(r ApiArchiveStreamRequest) (*models.J
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -840,18 +839,18 @@ func (a *ZulipClient) ArchiveStreamExecute(r ApiArchiveStreamRequest) (*models.J
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.InvalidChannelError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -864,19 +863,19 @@ func (a *ZulipClient) ArchiveStreamExecute(r ApiArchiveStreamRequest) (*models.J
 }
 
 type ApiCreateBigBlueButtonVideoCallRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
+	ctx         context.Context
+	ApiService  ChannelsAPI
 	meetingName *string
-	voiceOnly *bool
+	voiceOnly   *bool
 }
 
-// Meeting name for the BigBlueButton video call. 
+// Meeting name for the BigBlueButton video call.
 func (r ApiCreateBigBlueButtonVideoCallRequest) MeetingName(meetingName string) ApiCreateBigBlueButtonVideoCallRequest {
 	r.meetingName = &meetingName
 	return r
 }
 
-// Configures whether the call is voice-only; if true, disables cameras for all users. Only the call creator/moderator can edit this configuration.  **Changes**: New in Zulip 10.0 (feature level 337). 
+// Configures whether the call is voice-only; if true, disables cameras for all users. Only the call creator/moderator can edit this configuration.  **Changes**: New in Zulip 10.0 (feature level 337).
 func (r ApiCreateBigBlueButtonVideoCallRequest) VoiceOnly(voiceOnly bool) ApiCreateBigBlueButtonVideoCallRequest {
 	r.voiceOnly = &voiceOnly
 	return r
@@ -899,28 +898,28 @@ The acting user will be given the moderator role on the call.
 user was given the moderator role on BigBlueButton calls, via
 encoding a moderator password in the generated URLs.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateBigBlueButtonVideoCallRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateBigBlueButtonVideoCallRequest
 */
-func (a *ZulipClient) CreateBigBlueButtonVideoCall(ctx context.Context) ApiCreateBigBlueButtonVideoCallRequest {
+func (c *ZulipClient) CreateBigBlueButtonVideoCall(ctx context.Context) ApiCreateBigBlueButtonVideoCallRequest {
 	return ApiCreateBigBlueButtonVideoCallRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return CreateBigBlueButtonVideoCall200Response
-func (a *ZulipClient) CreateBigBlueButtonVideoCallExecute(r ApiCreateBigBlueButtonVideoCallRequest) (*models.CreateBigBlueButtonVideoCall200Response, *http.Response, error) {
+//
+//	@return models.CreateBigBlueButtonVideoCall200Response
+func (c *ZulipClient) CreateBigBlueButtonVideoCallExecute(r ApiCreateBigBlueButtonVideoCallRequest) (*models.CreateBigBlueButtonVideoCall200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.CreateBigBlueButtonVideoCall200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.CreateBigBlueButtonVideoCall200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -955,12 +954,12 @@ func (a *ZulipClient) CreateBigBlueButtonVideoCallExecute(r ApiCreateBigBlueButt
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -980,7 +979,7 @@ func (a *ZulipClient) CreateBigBlueButtonVideoCallExecute(r ApiCreateBigBlueButt
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -993,81 +992,81 @@ func (a *ZulipClient) CreateBigBlueButtonVideoCallExecute(r ApiCreateBigBlueButt
 }
 
 type ApiCreateChannelRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
-	name *string
-	subscribers *[]int32
-	description *string
-	announce *bool
-	inviteOnly *bool
-	isWebPublic *bool
-	isDefaultStream *bool
-	folderId *int32
-	sendNewSubscriptionMessages *bool
-	topicsPolicy *models.TopicsPolicy
-	historyPublicToSubscribers *bool
-	messageRetentionDays *models.MessageRetentionDays
-	canAddSubscribersGroup *models.ChannelCanAddSubscribersGroup
-	canDeleteAnyMessageGroup *models.CanDeleteAnyMessageGroup
-	canDeleteOwnMessageGroup *models.CanDeleteOwnMessageGroup
-	canRemoveSubscribersGroup *models.CanRemoveSubscribersGroup
-	canAdministerChannelGroup *models.CanAdministerChannelGroup
-	canMoveMessagesOutOfChannelGroup *models.CanMoveMessagesOutOfChannelGroup
+	ctx                               context.Context
+	ApiService                        ChannelsAPI
+	name                              *string
+	subscribers                       *[]int32
+	description                       *string
+	announce                          *bool
+	inviteOnly                        *bool
+	isWebPublic                       *bool
+	isDefaultStream                   *bool
+	folderId                          *int32
+	sendNewSubscriptionMessages       *bool
+	topicsPolicy                      *models.TopicsPolicy
+	historyPublicToSubscribers        *bool
+	messageRetentionDays              *models.MessageRetentionDays
+	canAddSubscribersGroup            *models.ChannelCanAddSubscribersGroup
+	canDeleteAnyMessageGroup          *models.CanDeleteAnyMessageGroup
+	canDeleteOwnMessageGroup          *models.CanDeleteOwnMessageGroup
+	canRemoveSubscribersGroup         *models.CanRemoveSubscribersGroup
+	canAdministerChannelGroup         *models.CanAdministerChannelGroup
+	canMoveMessagesOutOfChannelGroup  *models.CanMoveMessagesOutOfChannelGroup
 	canMoveMessagesWithinChannelGroup *models.CanMoveMessagesWithinChannelGroup
-	canSendMessageGroup *models.CanSendMessageGroup
-	canSubscribeGroup *models.CanSubscribeGroup
-	canResolveTopicsGroup *models.CanResolveTopicsGroup
+	canSendMessageGroup               *models.CanSendMessageGroup
+	canSubscribeGroup                 *models.CanSubscribeGroup
+	canResolveTopicsGroup             *models.CanResolveTopicsGroup
 }
 
-// The name of the new channel.  Clients should use the &#x60;max_stream_name_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel name length. 
+// The name of the new channel.  Clients should use the &#x60;max_stream_name_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel name length.
 func (r ApiCreateChannelRequest) Name(name string) ApiCreateChannelRequest {
 	r.name = &name
 	return r
 }
 
-// A list of user IDs of the users to be subscribed to the new channel. 
+// A list of user IDs of the users to be subscribed to the new channel.
 func (r ApiCreateChannelRequest) Subscribers(subscribers []int32) ApiCreateChannelRequest {
 	r.subscribers = &subscribers
 	return r
 }
 
-// The [description](/help/change-the-channel-description) to use for the new channel being created, in text/markdown format.  Clients should use the &#x60;max_stream_description_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel description length. 
+// The [description](/help/change-the-channel-description) to use for the new channel being created, in text/markdown format.  Clients should use the &#x60;max_stream_description_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel description length.
 func (r ApiCreateChannelRequest) Description(description string) ApiCreateChannelRequest {
 	r.description = &description
 	return r
 }
 
-// This determines whether [notification bot](/help/configure-automated-notices) will send an announcement about the new channel&#39;s creation. 
+// This determines whether [notification bot](/help/configure-automated-notices) will send an announcement about the new channel&#39;s creation.
 func (r ApiCreateChannelRequest) Announce(announce bool) ApiCreateChannelRequest {
 	r.announce = &announce
 	return r
 }
 
-// This parameter and the ones that follow are used to request an initial configuration of the new channel.  This parameter determines whether the newly created channel will be a private channel. 
+// This parameter and the ones that follow are used to request an initial configuration of the new channel.  This parameter determines whether the newly created channel will be a private channel.
 func (r ApiCreateChannelRequest) InviteOnly(inviteOnly bool) ApiCreateChannelRequest {
 	r.inviteOnly = &inviteOnly
 	return r
 }
 
-// This parameter determines whether the newly created channel will be a web-public channel.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting][server-settings] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current user to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.  [server-settings]: https://zulip.readthedocs.io/en/stable/production/settings.html 
+// This parameter determines whether the newly created channel will be a web-public channel.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting][server-settings] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current user to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.  [server-settings]: https://zulip.readthedocs.io/en/stable/production/settings.html
 func (r ApiCreateChannelRequest) IsWebPublic(isWebPublic bool) ApiCreateChannelRequest {
 	r.isWebPublic = &isWebPublic
 	return r
 }
 
-// This parameter determines whether the newly created channel will be added as a [default channel][default-channels] for new users joining the organization.  [default-channels]: /help/set-default-channels-for-new-users 
+// This parameter determines whether the newly created channel will be added as a [default channel][default-channels] for new users joining the organization.  [default-channels]: /help/set-default-channels-for-new-users
 func (r ApiCreateChannelRequest) IsDefaultStream(isDefaultStream bool) ApiCreateChannelRequest {
 	r.isDefaultStream = &isDefaultStream
 	return r
 }
 
-// The ID of the folder to which the channel belongs.  Is &#x60;null&#x60; if channel does not belong to any folder.  **Changes**: New in Zulip 11.0 (feature level 389). 
+// The ID of the folder to which the channel belongs.  Is &#x60;null&#x60; if channel does not belong to any folder.  **Changes**: New in Zulip 11.0 (feature level 389).
 func (r ApiCreateChannelRequest) FolderId(folderId int32) ApiCreateChannelRequest {
 	r.folderId = &folderId
 	return r
 }
 
-// Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than &#x60;max_bulk_new_subscription_messages&#x60; (available in the [&#x60;POST /register&#x60;](/api/register-queue) response) users were subscribed in this request.  **Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel. 
+// Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than &#x60;max_bulk_new_subscription_messages&#x60; (available in the [&#x60;POST /register&#x60;](/api/register-queue) response) users were subscribed in this request.  **Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel.
 func (r ApiCreateChannelRequest) SendNewSubscriptionMessages(sendNewSubscriptionMessages bool) ApiCreateChannelRequest {
 	r.sendNewSubscriptionMessages = &sendNewSubscriptionMessages
 	return r
@@ -1078,7 +1077,7 @@ func (r ApiCreateChannelRequest) TopicsPolicy(topicsPolicy models.TopicsPolicy) 
 	return r
 }
 
-// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels](/help/channel-permissions#private-channels). 
+// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels](/help/channel-permissions#private-channels).
 func (r ApiCreateChannelRequest) HistoryPublicToSubscribers(historyPublicToSubscribers bool) ApiCreateChannelRequest {
 	r.historyPublicToSubscribers = &historyPublicToSubscribers
 	return r
@@ -1153,28 +1152,28 @@ will be determined by the optional parameters, like `invite_only`, detailed belo
 **Changes**: New in Zulip 11.0 (feature level 417). Previously, this was only possible via
 the [`POST /api/subscribe`](/api/subscribe) endpoint, which handled both creation and subscription.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateChannelRequest
 */
-func (a *ZulipClient) CreateChannel(ctx context.Context) ApiCreateChannelRequest {
+func (c *ZulipClient) CreateChannel(ctx context.Context) ApiCreateChannelRequest {
 	return ApiCreateChannelRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return CreateChannel200Response
-func (a *ZulipClient) CreateChannelExecute(r ApiCreateChannelRequest) (*models.CreateChannel200Response, *http.Response, error) {
+//
+//	@return models.CreateChannel200Response
+func (c *ZulipClient) CreateChannelExecute(r ApiCreateChannelRequest) (*models.CreateChannel200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.CreateChannel200Response
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.CreateChannel200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1212,7 +1211,13 @@ func (a *ZulipClient) CreateChannelExecute(r ApiCreateChannelRequest) (*models.C
 	if r.description != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "description", r.description, "", "")
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "subscribers", r.subscribers, "form", "multi")
+	if r.subscribers != nil {
+		paramJsonSubscribers, err := parameterToJson(*r.subscribers)
+		if err != nil {
+			return localVarReturnValue, nil, err
+		}
+		localVarFormParams.Add("subscribers", paramJsonSubscribers)
+	}
 	if r.announce != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "announce", r.announce, "form", "")
 	}
@@ -1314,12 +1319,12 @@ func (a *ZulipClient) CreateChannelExecute(r ApiCreateChannelRequest) (*models.C
 		}
 		localVarFormParams.Add("can_resolve_topics_group", paramJson)
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1338,18 +1343,18 @@ func (a *ZulipClient) CreateChannelExecute(r ApiCreateChannelRequest) (*models.C
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
 			var v models.CreateChannel409Response
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1362,19 +1367,19 @@ func (a *ZulipClient) CreateChannelExecute(r ApiCreateChannelRequest) (*models.C
 }
 
 type ApiCreateChannelFolderRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
-	name *string
+	ctx         context.Context
+	ApiService  ChannelsAPI
+	name        *string
 	description *string
 }
 
-// The name of the channel folder.  Clients should use the &#x60;max_channel_folder_name_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel folder name length. 
+// The name of the channel folder.  Clients should use the &#x60;max_channel_folder_name_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel folder name length.
 func (r ApiCreateChannelFolderRequest) Name(name string) ApiCreateChannelFolderRequest {
 	r.name = &name
 	return r
 }
 
-// The description of the channel folder.  Clients should use the &#x60;max_channel_folder_description_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel folder description length. 
+// The description of the channel folder.  Clients should use the &#x60;max_channel_folder_description_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel folder description length.
 func (r ApiCreateChannelFolderRequest) Description(description string) ApiCreateChannelFolderRequest {
 	r.description = &description
 	return r
@@ -1395,28 +1400,28 @@ folder.
 
 **Changes**: New in Zulip 11.0 (feature level 389).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateChannelFolderRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateChannelFolderRequest
 */
-func (a *ZulipClient) CreateChannelFolder(ctx context.Context) ApiCreateChannelFolderRequest {
+func (c *ZulipClient) CreateChannelFolder(ctx context.Context) ApiCreateChannelFolderRequest {
 	return ApiCreateChannelFolderRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return CreateChannelFolder200Response
-func (a *ZulipClient) CreateChannelFolderExecute(r ApiCreateChannelFolderRequest) (*models.CreateChannelFolder200Response, *http.Response, error) {
+//
+//	@return models.CreateChannelFolder200Response
+func (c *ZulipClient) CreateChannelFolderExecute(r ApiCreateChannelFolderRequest) (*models.CreateChannelFolder200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.CreateChannelFolder200Response
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.CreateChannelFolder200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1450,12 +1455,12 @@ func (a *ZulipClient) CreateChannelFolderExecute(r ApiCreateChannelFolderRequest
 	if r.description != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "description", r.description, "", "")
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1474,18 +1479,18 @@ func (a *ZulipClient) CreateChannelFolderExecute(r ApiCreateChannelFolderRequest
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.CodedError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1498,13 +1503,13 @@ func (a *ZulipClient) CreateChannelFolderExecute(r ApiCreateChannelFolderRequest
 }
 
 type ApiDeleteTopicRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId int32
-	topicName *string
+	streamId   int32
+	topicName  *string
 }
 
-// The name of the topic to delete.  Note: When the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages. 
+// The name of the topic to delete.  Note: When the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 func (r ApiDeleteTopicRequest) TopicName(topicName string) ApiDeleteTopicRequest {
 	r.topicName = &topicName
 	return r
@@ -1553,30 +1558,30 @@ feature level, messages are deleted in batches, starting with the newest
 messages, so that progress is made even if the request times out and
 returns an error.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param streamId The ID of the channel to access. 
- @return ApiDeleteTopicRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param streamId The ID of the channel to access.
+	@return ApiDeleteTopicRequest
 */
-func (a *ZulipClient) DeleteTopic(ctx context.Context, streamId int32) ApiDeleteTopicRequest {
+func (c *ZulipClient) DeleteTopic(ctx context.Context, streamId int32) ApiDeleteTopicRequest {
 	return ApiDeleteTopicRequest{
-		ApiService: a,
-		ctx: ctx,
-		streamId: streamId,
+		ApiService: c,
+		ctx:        ctx,
+		streamId:   streamId,
 	}
 }
 
 // Execute executes the request
-//  @return MarkAllAsRead200Response
-func (a *ZulipClient) DeleteTopicExecute(r ApiDeleteTopicRequest) (*models.MarkAllAsRead200Response, *http.Response, error) {
+//
+//	@return models.MarkAllAsRead200Response
+func (c *ZulipClient) DeleteTopicExecute(r ApiDeleteTopicRequest) (*models.MarkAllAsRead200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.MarkAllAsRead200Response
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.MarkAllAsRead200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1609,12 +1614,12 @@ func (a *ZulipClient) DeleteTopicExecute(r ApiDeleteTopicRequest) (*models.MarkA
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "topic_name", r.topicName, "", "")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1633,18 +1638,18 @@ func (a *ZulipClient) DeleteTopicExecute(r ApiDeleteTopicRequest) (*models.MarkA
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.CodedError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1657,12 +1662,12 @@ func (a *ZulipClient) DeleteTopicExecute(r ApiDeleteTopicRequest) (*models.MarkA
 }
 
 type ApiGetChannelFoldersRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
+	ctx             context.Context
+	ApiService      ChannelsAPI
 	includeArchived *bool
 }
 
-// Whether to include archived channel folders in the response. 
+// Whether to include archived channel folders in the response.
 func (r ApiGetChannelFoldersRequest) IncludeArchived(includeArchived bool) ApiGetChannelFoldersRequest {
 	r.includeArchived = &includeArchived
 	return r
@@ -1683,28 +1688,28 @@ these were sorted by ID. (The `order` field didn't exist).
 
 New in Zulip 11.0 (feature level 389).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetChannelFoldersRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetChannelFoldersRequest
 */
-func (a *ZulipClient) GetChannelFolders(ctx context.Context) ApiGetChannelFoldersRequest {
+func (c *ZulipClient) GetChannelFolders(ctx context.Context) ApiGetChannelFoldersRequest {
 	return ApiGetChannelFoldersRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return GetChannelFolders200Response
-func (a *ZulipClient) GetChannelFoldersExecute(r ApiGetChannelFoldersRequest) (*models.GetChannelFolders200Response, *http.Response, error) {
+//
+//	@return models.GetChannelFolders200Response
+func (c *ZulipClient) GetChannelFoldersExecute(r ApiGetChannelFoldersRequest) (*models.GetChannelFolders200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetChannelFolders200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetChannelFolders200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1735,12 +1740,12 @@ func (a *ZulipClient) GetChannelFoldersExecute(r ApiGetChannelFoldersRequest) (*
 	if r.includeArchived != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "include_archived", r.includeArchived, "form", "")
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1760,7 +1765,7 @@ func (a *ZulipClient) GetChannelFoldersExecute(r ApiGetChannelFoldersRequest) (*
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1773,9 +1778,9 @@ func (a *ZulipClient) GetChannelFoldersExecute(r ApiGetChannelFoldersRequest) (*
 }
 
 type ApiGetStreamByIdRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId int32
+	streamId   int32
 }
 
 func (r ApiGetStreamByIdRequest) Execute() (*models.GetStreamById200Response, *http.Response, error) {
@@ -1789,30 +1794,30 @@ Fetch details for the channel with the ID `stream_id`.
 
 **Changes**: New in Zulip 6.0 (feature level 132).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param streamId The ID of the channel to access. 
- @return ApiGetStreamByIdRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param streamId The ID of the channel to access.
+	@return ApiGetStreamByIdRequest
 */
-func (a *ZulipClient) GetStreamById(ctx context.Context, streamId int32) ApiGetStreamByIdRequest {
+func (c *ZulipClient) GetStreamById(ctx context.Context, streamId int32) ApiGetStreamByIdRequest {
 	return ApiGetStreamByIdRequest{
-		ApiService: a,
-		ctx: ctx,
-		streamId: streamId,
+		ApiService: c,
+		ctx:        ctx,
+		streamId:   streamId,
 	}
 }
 
 // Execute executes the request
-//  @return GetStreamById200Response
-func (a *ZulipClient) GetStreamByIdExecute(r ApiGetStreamByIdRequest) (*models.GetStreamById200Response, *http.Response, error) {
+//
+//	@return models.GetStreamById200Response
+func (c *ZulipClient) GetStreamByIdExecute(r ApiGetStreamByIdRequest) (*models.GetStreamById200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetStreamById200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetStreamById200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1841,12 +1846,12 @@ func (a *ZulipClient) GetStreamByIdExecute(r ApiGetStreamByIdRequest) (*models.G
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1865,18 +1870,18 @@ func (a *ZulipClient) GetStreamByIdExecute(r ApiGetStreamByIdRequest) (*models.G
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.InvalidChannelError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1889,13 +1894,13 @@ func (a *ZulipClient) GetStreamByIdExecute(r ApiGetStreamByIdRequest) (*models.G
 }
 
 type ApiGetStreamEmailAddressRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId int32
-	senderId *int32
+	streamId   int32
+	senderId   *int32
 }
 
-// The ID of a user or bot which should appear as the sender when messages are sent to the channel using the returned channel email address.  &#x60;sender_id&#x60; can be:  - ID of the current user. - ID of the Email gateway bot. (Default value) - ID of a bot owned by the current user.  **Changes**: New in Zulip 10.0 (feature level 335).  Previously, the sender was always Email gateway bot. 
+// The ID of a user or bot which should appear as the sender when messages are sent to the channel using the returned channel email address.  &#x60;sender_id&#x60; can be:  - ID of the current user. - ID of the Email gateway bot. (Default value) - ID of a bot owned by the current user.  **Changes**: New in Zulip 10.0 (feature level 335).  Previously, the sender was always Email gateway bot.
 func (r ApiGetStreamEmailAddressRequest) SenderId(senderId int32) ApiGetStreamEmailAddressRequest {
 	r.senderId = &senderId
 	return r
@@ -1912,30 +1917,30 @@ Get email address of a channel.
 
 **Changes**: New in Zulip 8.0 (feature level 226).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param streamId The ID of the channel to access. 
- @return ApiGetStreamEmailAddressRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param streamId The ID of the channel to access.
+	@return ApiGetStreamEmailAddressRequest
 */
-func (a *ZulipClient) GetStreamEmailAddress(ctx context.Context, streamId int32) ApiGetStreamEmailAddressRequest {
+func (c *ZulipClient) GetStreamEmailAddress(ctx context.Context, streamId int32) ApiGetStreamEmailAddressRequest {
 	return ApiGetStreamEmailAddressRequest{
-		ApiService: a,
-		ctx: ctx,
-		streamId: streamId,
+		ApiService: c,
+		ctx:        ctx,
+		streamId:   streamId,
 	}
 }
 
 // Execute executes the request
-//  @return GetStreamEmailAddress200Response
-func (a *ZulipClient) GetStreamEmailAddressExecute(r ApiGetStreamEmailAddressRequest) (*models.GetStreamEmailAddress200Response, *http.Response, error) {
+//
+//	@return models.GetStreamEmailAddress200Response
+func (c *ZulipClient) GetStreamEmailAddressExecute(r ApiGetStreamEmailAddressRequest) (*models.GetStreamEmailAddress200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetStreamEmailAddress200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetStreamEmailAddress200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1967,12 +1972,12 @@ func (a *ZulipClient) GetStreamEmailAddressExecute(r ApiGetStreamEmailAddressReq
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1991,18 +1996,18 @@ func (a *ZulipClient) GetStreamEmailAddressExecute(r ApiGetStreamEmailAddressReq
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.InvalidChannelError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2015,12 +2020,12 @@ func (a *ZulipClient) GetStreamEmailAddressExecute(r ApiGetStreamEmailAddressReq
 }
 
 type ApiGetStreamIdRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ChannelsAPI
-	stream *string
+	stream     *string
 }
 
-// The name of the channel to access. 
+// The name of the channel to access.
 func (r ApiGetStreamIdRequest) Stream(stream string) ApiGetStreamIdRequest {
 	r.stream = &stream
 	return r
@@ -2035,28 +2040,28 @@ GetStreamId Get channel ID
 
 Get the unique ID of a given channel.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetStreamIdRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetStreamIdRequest
 */
-func (a *ZulipClient) GetStreamId(ctx context.Context) ApiGetStreamIdRequest {
+func (c *ZulipClient) GetStreamId(ctx context.Context) ApiGetStreamIdRequest {
 	return ApiGetStreamIdRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return GetStreamId200Response
-func (a *ZulipClient) GetStreamIdExecute(r ApiGetStreamIdRequest) (*models.GetStreamId200Response, *http.Response, error) {
+//
+//	@return models.GetStreamId200Response
+func (c *ZulipClient) GetStreamIdExecute(r ApiGetStreamIdRequest) (*models.GetStreamId200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetStreamId200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetStreamId200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2088,12 +2093,12 @@ func (a *ZulipClient) GetStreamIdExecute(r ApiGetStreamIdRequest) (*models.GetSt
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2112,18 +2117,18 @@ func (a *ZulipClient) GetStreamIdExecute(r ApiGetStreamIdRequest) (*models.GetSt
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.CodedError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2136,13 +2141,13 @@ func (a *ZulipClient) GetStreamIdExecute(r ApiGetStreamIdRequest) (*models.GetSt
 }
 
 type ApiGetStreamTopicsRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
-	streamId int32
+	ctx                 context.Context
+	ApiService          ChannelsAPI
+	streamId            int32
 	allowEmptyTopicName *bool
 }
 
-// Whether the client supports processing the empty string as a topic name in the returned data.  If &#x60;false&#x60;, the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](/api/register-queue) response is returned replacing the empty string as the topic name.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic. 
+// Whether the client supports processing the empty string as a topic name in the returned data.  If &#x60;false&#x60;, the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](/api/register-queue) response is returned replacing the empty string as the topic name.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
 func (r ApiGetStreamTopicsRequest) AllowEmptyTopicName(allowEmptyTopicName bool) ApiGetStreamTopicsRequest {
 	r.allowEmptyTopicName = &allowEmptyTopicName
 	return r
@@ -2165,30 +2170,30 @@ the user will only have access to topics of messages sent after they
 sent after the bot was subscribed to the channel, instead of when the
 user subscribed.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param streamId The ID of the channel to access. 
- @return ApiGetStreamTopicsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param streamId The ID of the channel to access.
+	@return ApiGetStreamTopicsRequest
 */
-func (a *ZulipClient) GetStreamTopics(ctx context.Context, streamId int32) ApiGetStreamTopicsRequest {
+func (c *ZulipClient) GetStreamTopics(ctx context.Context, streamId int32) ApiGetStreamTopicsRequest {
 	return ApiGetStreamTopicsRequest{
-		ApiService: a,
-		ctx: ctx,
-		streamId: streamId,
+		ApiService: c,
+		ctx:        ctx,
+		streamId:   streamId,
 	}
 }
 
 // Execute executes the request
-//  @return GetStreamTopics200Response
-func (a *ZulipClient) GetStreamTopicsExecute(r ApiGetStreamTopicsRequest) (*models.GetStreamTopics200Response, *http.Response, error) {
+//
+//	@return models.GetStreamTopics200Response
+func (c *ZulipClient) GetStreamTopicsExecute(r ApiGetStreamTopicsRequest) (*models.GetStreamTopics200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetStreamTopics200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetStreamTopics200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2223,12 +2228,12 @@ func (a *ZulipClient) GetStreamTopicsExecute(r ApiGetStreamTopicsRequest) (*mode
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2247,18 +2252,18 @@ func (a *ZulipClient) GetStreamTopicsExecute(r ApiGetStreamTopicsRequest) (*mode
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.InvalidChannelError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2271,69 +2276,69 @@ func (a *ZulipClient) GetStreamTopicsExecute(r ApiGetStreamTopicsRequest) (*mode
 }
 
 type ApiGetStreamsRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
-	includePublic *bool
-	includeWebPublic *bool
-	includeSubscribed *bool
-	excludeArchived *bool
-	includeAllActive *bool
-	includeAll *bool
-	includeDefault *bool
-	includeOwnerSubscribed *bool
+	ctx                     context.Context
+	ApiService              ChannelsAPI
+	includePublic           *bool
+	includeWebPublic        *bool
+	includeSubscribed       *bool
+	excludeArchived         *bool
+	includeAllActive        *bool
+	includeAll              *bool
+	includeDefault          *bool
+	includeOwnerSubscribed  *bool
 	includeCanAccessContent *bool
 }
 
-// Include all public channels. 
+// Include all public channels.
 func (r ApiGetStreamsRequest) IncludePublic(includePublic bool) ApiGetStreamsRequest {
 	r.includePublic = &includePublic
 	return r
 }
 
-// Include all web-public channels. 
+// Include all web-public channels.
 func (r ApiGetStreamsRequest) IncludeWebPublic(includeWebPublic bool) ApiGetStreamsRequest {
 	r.includeWebPublic = &includeWebPublic
 	return r
 }
 
-// Include all channels that the user is subscribed to. 
+// Include all channels that the user is subscribed to.
 func (r ApiGetStreamsRequest) IncludeSubscribed(includeSubscribed bool) ApiGetStreamsRequest {
 	r.includeSubscribed = &includeSubscribed
 	return r
 }
 
-// Whether to exclude archived streams from the results.  **Changes**: New in Zulip 10.0 (feature level 315). 
+// Whether to exclude archived streams from the results.  **Changes**: New in Zulip 10.0 (feature level 315).
 func (r ApiGetStreamsRequest) ExcludeArchived(excludeArchived bool) ApiGetStreamsRequest {
 	r.excludeArchived = &excludeArchived
 	return r
 }
 
-// Deprecated parameter to include all channels. The user must have administrative privileges to use this parameter.  **Changes**: Deprecated in Zulip 10.0 (feature level 356). Clients interacting with newer servers should use the equivalent &#x60;include_all&#x60; parameter, which does not incorrectly hint that this parameter, and not &#x60;exclude_archived&#x60;, controls whether archived channels appear in the response. 
+// Deprecated parameter to include all channels. The user must have administrative privileges to use this parameter.  **Changes**: Deprecated in Zulip 10.0 (feature level 356). Clients interacting with newer servers should use the equivalent &#x60;include_all&#x60; parameter, which does not incorrectly hint that this parameter, and not &#x60;exclude_archived&#x60;, controls whether archived channels appear in the response.
 // Deprecated
 func (r ApiGetStreamsRequest) IncludeAllActive(includeAllActive bool) ApiGetStreamsRequest {
 	r.includeAllActive = &includeAllActive
 	return r
 }
 
-// Include all channels that the user has metadata access to.  For organization administrators, this will be all channels in the organization, since organization administrators implicitly have metadata access to all channels.  **Changes**: New in Zulip 10.0 (feature level 356). On older versions, use &#x60;include_all_active&#x60;, which this replaces. 
+// Include all channels that the user has metadata access to.  For organization administrators, this will be all channels in the organization, since organization administrators implicitly have metadata access to all channels.  **Changes**: New in Zulip 10.0 (feature level 356). On older versions, use &#x60;include_all_active&#x60;, which this replaces.
 func (r ApiGetStreamsRequest) IncludeAll(includeAll bool) ApiGetStreamsRequest {
 	r.includeAll = &includeAll
 	return r
 }
 
-// Include all default channels for the user&#39;s realm. 
+// Include all default channels for the user&#39;s realm.
 func (r ApiGetStreamsRequest) IncludeDefault(includeDefault bool) ApiGetStreamsRequest {
 	r.includeDefault = &includeDefault
 	return r
 }
 
-// If the user is a bot, include all channels that the bot&#39;s owner is subscribed to. 
+// If the user is a bot, include all channels that the bot&#39;s owner is subscribed to.
 func (r ApiGetStreamsRequest) IncludeOwnerSubscribed(includeOwnerSubscribed bool) ApiGetStreamsRequest {
 	r.includeOwnerSubscribed = &includeOwnerSubscribed
 	return r
 }
 
-// Include all the channels that the user has content access to.  **Changes**: New in Zulip 10.0 (feature level 356). 
+// Include all the channels that the user has content access to.  **Changes**: New in Zulip 10.0 (feature level 356).
 func (r ApiGetStreamsRequest) IncludeCanAccessContent(includeCanAccessContent bool) ApiGetStreamsRequest {
 	r.includeCanAccessContent = &includeCanAccessContent
 	return r
@@ -2348,28 +2353,28 @@ GetStreams Get all channels
 
 Get all channels that the user [has access to](/help/channel-permissions).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetStreamsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetStreamsRequest
 */
-func (a *ZulipClient) GetStreams(ctx context.Context) ApiGetStreamsRequest {
+func (c *ZulipClient) GetStreams(ctx context.Context) ApiGetStreamsRequest {
 	return ApiGetStreamsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return GetStreams200Response
-func (a *ZulipClient) GetStreamsExecute(r ApiGetStreamsRequest) (*models.GetStreams200Response, *http.Response, error) {
+//
+//	@return models.GetStreams200Response
+func (c *ZulipClient) GetStreamsExecute(r ApiGetStreamsRequest) (*models.GetStreams200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetStreams200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetStreams200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2451,12 +2456,12 @@ func (a *ZulipClient) GetStreamsExecute(r ApiGetStreamsRequest) (*models.GetStre
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2476,7 +2481,7 @@ func (a *ZulipClient) GetStreamsExecute(r ApiGetStreamsRequest) (*models.GetStre
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2489,9 +2494,9 @@ func (a *ZulipClient) GetStreamsExecute(r ApiGetStreamsRequest) (*models.GetStre
 }
 
 type ApiGetSubscribersRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId int32
+	streamId   int32
 }
 
 func (r ApiGetSubscribersRequest) Execute() (*models.GetSubscribers200Response, *http.Response, error) {
@@ -2503,30 +2508,30 @@ GetSubscribers Get channel subscribers
 
 Get all users subscribed to a channel.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param streamId The ID of the channel to access. 
- @return ApiGetSubscribersRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param streamId The ID of the channel to access.
+	@return ApiGetSubscribersRequest
 */
-func (a *ZulipClient) GetSubscribers(ctx context.Context, streamId int32) ApiGetSubscribersRequest {
+func (c *ZulipClient) GetSubscribers(ctx context.Context, streamId int32) ApiGetSubscribersRequest {
 	return ApiGetSubscribersRequest{
-		ApiService: a,
-		ctx: ctx,
-		streamId: streamId,
+		ApiService: c,
+		ctx:        ctx,
+		streamId:   streamId,
 	}
 }
 
 // Execute executes the request
-//  @return GetSubscribers200Response
-func (a *ZulipClient) GetSubscribersExecute(r ApiGetSubscribersRequest) (*models.GetSubscribers200Response, *http.Response, error) {
+//
+//	@return models.GetSubscribers200Response
+func (c *ZulipClient) GetSubscribersExecute(r ApiGetSubscribersRequest) (*models.GetSubscribers200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetSubscribers200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetSubscribers200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2555,12 +2560,12 @@ func (a *ZulipClient) GetSubscribersExecute(r ApiGetSubscribersRequest) (*models
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2579,18 +2584,18 @@ func (a *ZulipClient) GetSubscribersExecute(r ApiGetSubscribersRequest) (*models
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.InvalidChannelError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2603,10 +2608,10 @@ func (a *ZulipClient) GetSubscribersExecute(r ApiGetSubscribersRequest) (*models
 }
 
 type ApiGetSubscriptionStatusRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ChannelsAPI
-	userId int32
-	streamId int32
+	userId     int32
+	streamId   int32
 }
 
 func (r ApiGetSubscriptionStatusRequest) Execute() (*models.GetSubscriptionStatus200Response, *http.Response, error) {
@@ -2620,32 +2625,32 @@ Check whether a user is subscribed to a channel.
 
 **Changes**: New in Zulip 3.0 (feature level 12).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param userId The target user's ID. 
- @param streamId The ID of the channel to access. 
- @return ApiGetSubscriptionStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param userId The target user's ID.
+	@param streamId The ID of the channel to access.
+	@return ApiGetSubscriptionStatusRequest
 */
-func (a *ZulipClient) GetSubscriptionStatus(ctx context.Context, userId int32, streamId int32) ApiGetSubscriptionStatusRequest {
+func (c *ZulipClient) GetSubscriptionStatus(ctx context.Context, userId int32, streamId int32) ApiGetSubscriptionStatusRequest {
 	return ApiGetSubscriptionStatusRequest{
-		ApiService: a,
-		ctx: ctx,
-		userId: userId,
-		streamId: streamId,
+		ApiService: c,
+		ctx:        ctx,
+		userId:     userId,
+		streamId:   streamId,
 	}
 }
 
 // Execute executes the request
-//  @return GetSubscriptionStatus200Response
-func (a *ZulipClient) GetSubscriptionStatusExecute(r ApiGetSubscriptionStatusRequest) (*models.GetSubscriptionStatus200Response, *http.Response, error) {
+//
+//	@return models.GetSubscriptionStatus200Response
+func (c *ZulipClient) GetSubscriptionStatusExecute(r ApiGetSubscriptionStatusRequest) (*models.GetSubscriptionStatus200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetSubscriptionStatus200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetSubscriptionStatus200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2675,12 +2680,12 @@ func (a *ZulipClient) GetSubscriptionStatusExecute(r ApiGetSubscriptionStatusReq
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2700,7 +2705,7 @@ func (a *ZulipClient) GetSubscriptionStatusExecute(r ApiGetSubscriptionStatusReq
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2713,12 +2718,12 @@ func (a *ZulipClient) GetSubscriptionStatusExecute(r ApiGetSubscriptionStatusReq
 }
 
 type ApiGetSubscriptionsRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
+	ctx                context.Context
+	ApiService         ChannelsAPI
 	includeSubscribers *string
 }
 
-// Whether each returned channel object should include a &#x60;subscribers&#x60; field containing a list of the user IDs of its subscribers.  Client apps supporting organizations with many thousands of users should not pass &#x60;true&#x60;, because the full subscriber matrix may be several megabytes of data. The &#x60;partial&#x60; value, combined with the &#x60;subscriber_count&#x60; and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes &#x60;partial&#x60; for this parameter, the server may, for some channels, return a subset of the channel&#39;s subscribers in the &#x60;partial_subscribers&#x60; field instead of the &#x60;subscribers&#x60; field, which always contains the complete set of subscribers.  The server guarantees that it will always return a &#x60;subscribers&#x60; field for channels with fewer than 250 total subscribers. When returning a &#x60;partial_subscribers&#x60; field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  **Changes**: The &#x60;partial&#x60; value is new in Zulip 11.0 (feature level 412).  New in Zulip 2.1.0. 
+// Whether each returned channel object should include a &#x60;subscribers&#x60; field containing a list of the user IDs of its subscribers.  Client apps supporting organizations with many thousands of users should not pass &#x60;true&#x60;, because the full subscriber matrix may be several megabytes of data. The &#x60;partial&#x60; value, combined with the &#x60;subscriber_count&#x60; and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes &#x60;partial&#x60; for this parameter, the server may, for some channels, return a subset of the channel&#39;s subscribers in the &#x60;partial_subscribers&#x60; field instead of the &#x60;subscribers&#x60; field, which always contains the complete set of subscribers.  The server guarantees that it will always return a &#x60;subscribers&#x60; field for channels with fewer than 250 total subscribers. When returning a &#x60;partial_subscribers&#x60; field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  **Changes**: The &#x60;partial&#x60; value is new in Zulip 11.0 (feature level 412).  New in Zulip 2.1.0.
 func (r ApiGetSubscriptionsRequest) IncludeSubscribers(includeSubscribers string) ApiGetSubscriptionsRequest {
 	r.includeSubscribers = &includeSubscribers
 	return r
@@ -2733,28 +2738,28 @@ GetSubscriptions Get subscribed channels
 
 Get all channels that the user is subscribed to.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetSubscriptionsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetSubscriptionsRequest
 */
-func (a *ZulipClient) GetSubscriptions(ctx context.Context) ApiGetSubscriptionsRequest {
+func (c *ZulipClient) GetSubscriptions(ctx context.Context) ApiGetSubscriptionsRequest {
 	return ApiGetSubscriptionsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return GetSubscriptions200Response
-func (a *ZulipClient) GetSubscriptionsExecute(r ApiGetSubscriptionsRequest) (*models.GetSubscriptions200Response, *http.Response, error) {
+//
+//	@return models.GetSubscriptions200Response
+func (c *ZulipClient) GetSubscriptionsExecute(r ApiGetSubscriptionsRequest) (*models.GetSubscriptions200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetSubscriptions200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetSubscriptions200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2788,12 +2793,12 @@ func (a *ZulipClient) GetSubscriptionsExecute(r ApiGetSubscriptionsRequest) (*mo
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2813,7 +2818,7 @@ func (a *ZulipClient) GetSubscriptionsExecute(r ApiGetSubscriptionsRequest) (*mo
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2826,33 +2831,33 @@ func (a *ZulipClient) GetSubscriptionsExecute(r ApiGetSubscriptionsRequest) (*mo
 }
 
 type ApiMuteTopicRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ChannelsAPI
-	topic *string
-	op *string
-	streamId *int32
-	stream *string
+	topic      *string
+	op         *string
+	streamId   *int32
+	stream     *string
 }
 
-// The topic to (un)mute. Note that the request will succeed regardless of whether any messages have been sent to the specified topic.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum topic length. 
+// The topic to (un)mute. Note that the request will succeed regardless of whether any messages have been sent to the specified topic.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum topic length.
 func (r ApiMuteTopicRequest) Topic(topic string) ApiMuteTopicRequest {
 	r.topic = &topic
 	return r
 }
 
-// Whether to mute (&#x60;add&#x60;) or unmute (&#x60;remove&#x60;) the provided topic. 
+// Whether to mute (&#x60;add&#x60;) or unmute (&#x60;remove&#x60;) the provided topic.
 func (r ApiMuteTopicRequest) Op(op string) ApiMuteTopicRequest {
 	r.op = &op
 	return r
 }
 
-// The ID of the channel to access.  Clients must provide either &#x60;stream&#x60; or &#x60;stream_id&#x60; as a parameter to this endpoint, but not both.  **Changes**: New in Zulip 2.0.0. 
+// The ID of the channel to access.  Clients must provide either &#x60;stream&#x60; or &#x60;stream_id&#x60; as a parameter to this endpoint, but not both.  **Changes**: New in Zulip 2.0.0.
 func (r ApiMuteTopicRequest) StreamId(streamId int32) ApiMuteTopicRequest {
 	r.streamId = &streamId
 	return r
 }
 
-// The name of the channel to access.  Clients must provide either &#x60;stream&#x60; or &#x60;stream_id&#x60; as a parameter to this endpoint, but not both. Clients should use &#x60;stream_id&#x60; instead of the &#x60;stream&#x60; parameter when possible. 
+// The name of the channel to access.  Clients must provide either &#x60;stream&#x60; or &#x60;stream_id&#x60; as a parameter to this endpoint, but not both. Clients should use &#x60;stream_id&#x60; instead of the &#x60;stream&#x60; parameter when possible.
 func (r ApiMuteTopicRequest) Stream(stream string) ApiMuteTopicRequest {
 	r.stream = &stream
 	return r
@@ -2876,31 +2881,32 @@ Before Zulip 7.0 (feature level 169), this endpoint
 returned an error if asked to mute a topic that was already muted
 or asked to unmute a topic that had not previously been muted.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiMuteTopicRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiMuteTopicRequest
 
 Deprecated
 */
-func (a *ZulipClient) MuteTopic(ctx context.Context) ApiMuteTopicRequest {
+func (c *ZulipClient) MuteTopic(ctx context.Context) ApiMuteTopicRequest {
 	return ApiMuteTopicRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
+//
+//	@return models.JsonSuccess
+//
 // Deprecated
-func (a *ZulipClient) MuteTopicExecute(r ApiMuteTopicRequest) (*models.JsonSuccess, *http.Response, error) {
+func (c *ZulipClient) MuteTopicExecute(r ApiMuteTopicRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2942,12 +2948,12 @@ func (a *ZulipClient) MuteTopicExecute(r ApiMuteTopicRequest) (*models.JsonSucce
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "op", r.op, "", "")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2967,7 +2973,7 @@ func (a *ZulipClient) MuteTopicExecute(r ApiMuteTopicRequest) (*models.JsonSucce
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2980,12 +2986,12 @@ func (a *ZulipClient) MuteTopicExecute(r ApiMuteTopicRequest) (*models.JsonSucce
 }
 
 type ApiPatchChannelFoldersRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ChannelsAPI
-	order *[]int32
+	order      *[]int32
 }
 
-// A list of channel folder IDs representing the new order.  This list must include the IDs of all the organization&#39;s channel folders, including archived folders. 
+// A list of channel folder IDs representing the new order.  This list must include the IDs of all the organization&#39;s channel folders, including archived folders.
 func (r ApiPatchChannelFoldersRequest) Order(order []int32) ApiPatchChannelFoldersRequest {
 	r.order = &order
 	return r
@@ -3004,28 +3010,28 @@ the order of the channel folder IDs specified in the request.
 
 **Changes**: New in Zulip 11.0 (feature level 414).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPatchChannelFoldersRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPatchChannelFoldersRequest
 */
-func (a *ZulipClient) PatchChannelFolders(ctx context.Context) ApiPatchChannelFoldersRequest {
+func (c *ZulipClient) PatchChannelFolders(ctx context.Context) ApiPatchChannelFoldersRequest {
 	return ApiPatchChannelFoldersRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) PatchChannelFoldersExecute(r ApiPatchChannelFoldersRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) PatchChannelFoldersExecute(r ApiPatchChannelFoldersRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3056,12 +3062,12 @@ func (a *ZulipClient) PatchChannelFoldersExecute(r ApiPatchChannelFoldersRequest
 	if r.order != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "order", r.order, "form", "multi")
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3080,18 +3086,18 @@ func (a *ZulipClient) PatchChannelFoldersExecute(r ApiPatchChannelFoldersRequest
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.CodedError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -3104,12 +3110,12 @@ func (a *ZulipClient) PatchChannelFoldersExecute(r ApiPatchChannelFoldersRequest
 }
 
 type ApiRemoveDefaultStreamRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId *int32
+	streamId   *int32
 }
 
-// The ID of the target channel. 
+// The ID of the target channel.
 func (r ApiRemoveDefaultStreamRequest) StreamId(streamId int32) ApiRemoveDefaultStreamRequest {
 	r.streamId = &streamId
 	return r
@@ -3127,28 +3133,28 @@ for new users joining the organization.
 
 [default-channels]: /help/set-default-channels-for-new-users
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRemoveDefaultStreamRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRemoveDefaultStreamRequest
 */
-func (a *ZulipClient) RemoveDefaultStream(ctx context.Context) ApiRemoveDefaultStreamRequest {
+func (c *ZulipClient) RemoveDefaultStream(ctx context.Context) ApiRemoveDefaultStreamRequest {
 	return ApiRemoveDefaultStreamRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) RemoveDefaultStreamExecute(r ApiRemoveDefaultStreamRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) RemoveDefaultStreamExecute(r ApiRemoveDefaultStreamRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3180,12 +3186,12 @@ func (a *ZulipClient) RemoveDefaultStreamExecute(r ApiRemoveDefaultStreamRequest
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3204,18 +3210,18 @@ func (a *ZulipClient) RemoveDefaultStreamExecute(r ApiRemoveDefaultStreamRequest
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.InvalidChannelError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -3228,33 +3234,33 @@ func (a *ZulipClient) RemoveDefaultStreamExecute(r ApiRemoveDefaultStreamRequest
 }
 
 type ApiSubscribeRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
-	subscriptions *[]models.SubscribeRequestSubscriptionsInner
-	principals *models.Principals
-	authorizationErrorsFatal *bool
-	announce *bool
-	inviteOnly *bool
-	isWebPublic *bool
-	isDefaultStream *bool
-	historyPublicToSubscribers *bool
-	messageRetentionDays *models.MessageRetentionDays
-	topicsPolicy *models.TopicsPolicy
-	canAddSubscribersGroup *models.ChannelCanAddSubscribersGroup
-	canRemoveSubscribersGroup *models.CanRemoveSubscribersGroup
-	canAdministerChannelGroup *models.CanAdministerChannelGroup
-	canDeleteAnyMessageGroup *models.CanDeleteAnyMessageGroup
-	canDeleteOwnMessageGroup *models.CanDeleteOwnMessageGroup
-	canMoveMessagesOutOfChannelGroup *models.CanMoveMessagesOutOfChannelGroup
+	ctx                               context.Context
+	ApiService                        ChannelsAPI
+	subscriptions                     *[]models.SubscribeRequestSubscriptionsInner
+	principals                        *models.Principals
+	authorizationErrorsFatal          *bool
+	announce                          *bool
+	inviteOnly                        *bool
+	isWebPublic                       *bool
+	isDefaultStream                   *bool
+	historyPublicToSubscribers        *bool
+	messageRetentionDays              *models.MessageRetentionDays
+	topicsPolicy                      *models.TopicsPolicy
+	canAddSubscribersGroup            *models.ChannelCanAddSubscribersGroup
+	canRemoveSubscribersGroup         *models.CanRemoveSubscribersGroup
+	canAdministerChannelGroup         *models.CanAdministerChannelGroup
+	canDeleteAnyMessageGroup          *models.CanDeleteAnyMessageGroup
+	canDeleteOwnMessageGroup          *models.CanDeleteOwnMessageGroup
+	canMoveMessagesOutOfChannelGroup  *models.CanMoveMessagesOutOfChannelGroup
 	canMoveMessagesWithinChannelGroup *models.CanMoveMessagesWithinChannelGroup
-	canSendMessageGroup *models.CanSendMessageGroup
-	canSubscribeGroup *models.CanSubscribeGroup
-	canResolveTopicsGroup *models.CanResolveTopicsGroup
-	folderId *int32
-	sendNewSubscriptionMessages *bool
+	canSendMessageGroup               *models.CanSendMessageGroup
+	canSubscribeGroup                 *models.CanSubscribeGroup
+	canResolveTopicsGroup             *models.CanResolveTopicsGroup
+	folderId                          *int32
+	sendNewSubscriptionMessages       *bool
 }
 
-// A list of dictionaries containing the key &#x60;name&#x60; and value specifying the name of the channel to subscribe. If the channel does not exist a new channel is created. The description of the channel created can be specified by setting the dictionary key &#x60;description&#x60; with an appropriate value. 
+// A list of dictionaries containing the key &#x60;name&#x60; and value specifying the name of the channel to subscribe. If the channel does not exist a new channel is created. The description of the channel created can be specified by setting the dictionary key &#x60;description&#x60; with an appropriate value.
 func (r ApiSubscribeRequest) Subscriptions(subscriptions []models.SubscribeRequestSubscriptionsInner) ApiSubscribeRequest {
 	r.subscriptions = &subscriptions
 	return r
@@ -3265,37 +3271,37 @@ func (r ApiSubscribeRequest) Principals(principals models.Principals) ApiSubscri
 	return r
 }
 
-// A boolean specifying whether authorization errors (such as when the requesting user is not authorized to access a private channel) should be considered fatal or not. When &#x60;true&#x60;, an authorization error is reported as such. When set to &#x60;false&#x60;, the response will be a 200 and any channels where the request encountered an authorization error will be listed in the &#x60;unauthorized&#x60; key. 
+// A boolean specifying whether authorization errors (such as when the requesting user is not authorized to access a private channel) should be considered fatal or not. When &#x60;true&#x60;, an authorization error is reported as such. When set to &#x60;false&#x60;, the response will be a 200 and any channels where the request encountered an authorization error will be listed in the &#x60;unauthorized&#x60; key.
 func (r ApiSubscribeRequest) AuthorizationErrorsFatal(authorizationErrorsFatal bool) ApiSubscribeRequest {
 	r.authorizationErrorsFatal = &authorizationErrorsFatal
 	return r
 }
 
-// If one of the channels specified did not exist previously and is thus created by this call, this determines whether [notification bot](/help/configure-automated-notices) will send an announcement about the new channel&#39;s creation. 
+// If one of the channels specified did not exist previously and is thus created by this call, this determines whether [notification bot](/help/configure-automated-notices) will send an announcement about the new channel&#39;s creation.
 func (r ApiSubscribeRequest) Announce(announce bool) ApiSubscribeRequest {
 	r.announce = &announce
 	return r
 }
 
-// As described above, this endpoint will create a new channel if passed a channel name that doesn&#39;t already exist. This parameters and the ones that follow are used to request an initial configuration of a created channel; they are ignored for channels that already exist.  This parameter determines whether any newly created channels will be private channels. 
+// As described above, this endpoint will create a new channel if passed a channel name that doesn&#39;t already exist. This parameters and the ones that follow are used to request an initial configuration of a created channel; they are ignored for channels that already exist.  This parameter determines whether any newly created channels will be private channels.
 func (r ApiSubscribeRequest) InviteOnly(inviteOnly bool) ApiSubscribeRequest {
 	r.inviteOnly = &inviteOnly
 	return r
 }
 
-// This parameter determines whether any newly created channels will be web-public channels.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting][server-settings] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current use to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.  [server-settings]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98). 
+// This parameter determines whether any newly created channels will be web-public channels.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting][server-settings] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current use to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.  [server-settings]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
 func (r ApiSubscribeRequest) IsWebPublic(isWebPublic bool) ApiSubscribeRequest {
 	r.isWebPublic = &isWebPublic
 	return r
 }
 
-// This parameter determines whether any newly created channels will be added as [default channels][default-channels] for new users joining the organization.  [default-channels]: /help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint](/api/add-default-stream). 
+// This parameter determines whether any newly created channels will be added as [default channels][default-channels] for new users joining the organization.  [default-channels]: /help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint](/api/add-default-stream).
 func (r ApiSubscribeRequest) IsDefaultStream(isDefaultStream bool) ApiSubscribeRequest {
 	r.isDefaultStream = &isDefaultStream
 	return r
 }
 
-// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels](/help/channel-permissions#private-channels). 
+// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels](/help/channel-permissions#private-channels).
 func (r ApiSubscribeRequest) HistoryPublicToSubscribers(historyPublicToSubscribers bool) ApiSubscribeRequest {
 	r.historyPublicToSubscribers = &historyPublicToSubscribers
 	return r
@@ -3361,13 +3367,13 @@ func (r ApiSubscribeRequest) CanResolveTopicsGroup(canResolveTopicsGroup models.
 	return r
 }
 
-// This parameter determines the folder to which the newly created channel will be added.  If the value is &#x60;None&#x60;, the channel will not be added to any folder.  **Changes**: New in Zulip 11.0 (feature level 389). 
+// This parameter determines the folder to which the newly created channel will be added.  If the value is &#x60;None&#x60;, the channel will not be added to any folder.  **Changes**: New in Zulip 11.0 (feature level 389).
 func (r ApiSubscribeRequest) FolderId(folderId int32) ApiSubscribeRequest {
 	r.folderId = &folderId
 	return r
 }
 
-// Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than &#x60;max_bulk_new_subscription_messages&#x60; (available in the [&#x60;POST /register&#x60;](/api/register-queue) response) users were subscribed in this request.  **Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel. 
+// Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than &#x60;max_bulk_new_subscription_messages&#x60; (available in the [&#x60;POST /register&#x60;](/api/register-queue) response) users were subscribed in this request.  **Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel.
 func (r ApiSubscribeRequest) SendNewSubscriptionMessages(sendNewSubscriptionMessages bool) ApiSubscribeRequest {
 	r.sendNewSubscriptionMessages = &sendNewSubscriptionMessages
 	return r
@@ -3416,28 +3422,28 @@ feature level, an HTTP status code of 400 is returned with
 
 [principals-param]: /api/subscribe#parameter-principals
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSubscribeRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSubscribeRequest
 */
-func (a *ZulipClient) Subscribe(ctx context.Context) ApiSubscribeRequest {
+func (c *ZulipClient) Subscribe(ctx context.Context) ApiSubscribeRequest {
 	return ApiSubscribeRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return Subscribe200Response
-func (a *ZulipClient) SubscribeExecute(r ApiSubscribeRequest) (*models.Subscribe200Response, *http.Response, error) {
+//
+//	@return models.Subscribe200Response
+func (c *ZulipClient) SubscribeExecute(r ApiSubscribeRequest) (*models.Subscribe200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.Subscribe200Response
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.Subscribe200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3580,12 +3586,12 @@ func (a *ZulipClient) SubscribeExecute(r ApiSubscribeRequest) (*models.Subscribe
 	if r.sendNewSubscriptionMessages != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "send_new_subscription_messages", r.sendNewSubscriptionMessages, "", "")
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3604,18 +3610,18 @@ func (a *ZulipClient) SubscribeExecute(r ApiSubscribeRequest) (*models.Subscribe
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.CodedError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -3628,13 +3634,13 @@ func (a *ZulipClient) SubscribeExecute(r ApiSubscribeRequest) (*models.Subscribe
 }
 
 type ApiUnsubscribeRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
+	ctx           context.Context
+	ApiService    ChannelsAPI
 	subscriptions *[]string
-	principals *models.Principals
+	principals    *models.Principals
 }
 
-// A list of channel names to unsubscribe from. This parameter is called &#x60;streams&#x60; in our Python API. 
+// A list of channel names to unsubscribe from. This parameter is called &#x60;streams&#x60; in our Python API.
 func (r ApiUnsubscribeRequest) Subscriptions(subscriptions []string) ApiUnsubscribeRequest {
 	r.subscriptions = &subscriptions
 	return r
@@ -3658,15 +3664,15 @@ In addition to managing the current user's subscriptions, this
 endpoint can be used to remove other users from channels. This
 is possible in 3 situations:
 
-- Organization administrators can remove any user from any
-  channel.
-- Users can remove a bot that they own from any channel that
-  the user [can access](/help/channel-permissions).
-- Users can unsubscribe any user from a channel if they [have
-  access](/help/channel-permissions) to the channel and are a
-  member of the [user group](/api/get-user-groups) specified
-  by the [`can_remove_subscribers_group`][can-remove-parameter]
-  for the channel.
+  - Organization administrators can remove any user from any
+    channel.
+  - Users can remove a bot that they own from any channel that
+    the user [can access](/help/channel-permissions).
+  - Users can unsubscribe any user from a channel if they [have
+    access](/help/channel-permissions) to the channel and are a
+    member of the [user group](/api/get-user-groups) specified
+    by the [`can_remove_subscribers_group`][can-remove-parameter]
+    for the channel.
 
 **Changes**: Before Zulip 10.0 (feature level 362),
 subscriptions in archived channels could not be modified.
@@ -3693,28 +3699,28 @@ privileges for managing bots that they own.
 [principals-param]: /api/unsubscribe#parameter-principals
 [can-remove-parameter]: /api/subscribe#parameter-can_remove_subscribers_group
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiUnsubscribeRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUnsubscribeRequest
 */
-func (a *ZulipClient) Unsubscribe(ctx context.Context) ApiUnsubscribeRequest {
+func (c *ZulipClient) Unsubscribe(ctx context.Context) ApiUnsubscribeRequest {
 	return ApiUnsubscribeRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return Unsubscribe200Response
-func (a *ZulipClient) UnsubscribeExecute(r ApiUnsubscribeRequest) (*models.Unsubscribe200Response, *http.Response, error) {
+//
+//	@return models.Unsubscribe200Response
+func (c *ZulipClient) UnsubscribeExecute(r ApiUnsubscribeRequest) (*models.Unsubscribe200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.Unsubscribe200Response
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.Unsubscribe200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3753,12 +3759,12 @@ func (a *ZulipClient) UnsubscribeExecute(r ApiUnsubscribeRequest) (*models.Unsub
 		}
 		localVarFormParams.Add("principals", paramJson)
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3777,18 +3783,18 @@ func (a *ZulipClient) UnsubscribeExecute(r ApiUnsubscribeRequest) (*models.Unsub
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.NonExistingChannelNameError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -3801,27 +3807,27 @@ func (a *ZulipClient) UnsubscribeExecute(r ApiUnsubscribeRequest) (*models.Unsub
 }
 
 type ApiUpdateChannelFolderRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
+	ctx             context.Context
+	ApiService      ChannelsAPI
 	channelFolderId int32
-	name *string
-	description *string
-	isArchived *bool
+	name            *string
+	description     *string
+	isArchived      *bool
 }
 
-// The new name of the channel folder.  Clients should use the &#x60;max_channel_folder_name_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel folder name length. 
+// The new name of the channel folder.  Clients should use the &#x60;max_channel_folder_name_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel folder name length.
 func (r ApiUpdateChannelFolderRequest) Name(name string) ApiUpdateChannelFolderRequest {
 	r.name = &name
 	return r
 }
 
-// The new description of the channel folder.  Clients should use the &#x60;max_channel_folder_description_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel folder description length. 
+// The new description of the channel folder.  Clients should use the &#x60;max_channel_folder_description_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel folder description length.
 func (r ApiUpdateChannelFolderRequest) Description(description string) ApiUpdateChannelFolderRequest {
 	r.description = &description
 	return r
 }
 
-// Whether to archive or unarchive the channel folder. 
+// Whether to archive or unarchive the channel folder.
 func (r ApiUpdateChannelFolderRequest) IsArchived(isArchived bool) ApiUpdateChannelFolderRequest {
 	r.isArchived = &isArchived
 	return r
@@ -3844,30 +3850,30 @@ channel folder.
 
 **Changes**: New in Zulip 11.0 (feature level 389).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelFolderId The ID of the target channel folder. 
- @return ApiUpdateChannelFolderRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelFolderId The ID of the target channel folder.
+	@return ApiUpdateChannelFolderRequest
 */
-func (a *ZulipClient) UpdateChannelFolder(ctx context.Context, channelFolderId int32) ApiUpdateChannelFolderRequest {
+func (c *ZulipClient) UpdateChannelFolder(ctx context.Context, channelFolderId int32) ApiUpdateChannelFolderRequest {
 	return ApiUpdateChannelFolderRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:      c,
+		ctx:             ctx,
 		channelFolderId: channelFolderId,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) UpdateChannelFolderExecute(r ApiUpdateChannelFolderRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) UpdateChannelFolderExecute(r ApiUpdateChannelFolderRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3905,12 +3911,12 @@ func (a *ZulipClient) UpdateChannelFolderExecute(r ApiUpdateChannelFolderRequest
 	if r.isArchived != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "is_archived", r.isArchived, "", "")
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3929,18 +3935,18 @@ func (a *ZulipClient) UpdateChannelFolderExecute(r ApiUpdateChannelFolderRequest
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.CodedError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -3953,62 +3959,62 @@ func (a *ZulipClient) UpdateChannelFolderExecute(r ApiUpdateChannelFolderRequest
 }
 
 type ApiUpdateStreamRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
-	streamId int32
-	description *string
-	newName *string
-	isPrivate *bool
-	isWebPublic *bool
-	historyPublicToSubscribers *bool
-	isDefaultStream *bool
-	messageRetentionDays *models.MessageRetentionDays
-	isArchived *bool
-	folderId *int32
-	topicsPolicy *models.TopicsPolicy
-	canAddSubscribersGroup *models.GroupSettingValueUpdate
-	canRemoveSubscribersGroup *models.GroupSettingValueUpdate
-	canAdministerChannelGroup *models.GroupSettingValueUpdate
-	canDeleteAnyMessageGroup *models.GroupSettingValueUpdate
-	canDeleteOwnMessageGroup *models.GroupSettingValueUpdate
-	canMoveMessagesOutOfChannelGroup *models.GroupSettingValueUpdate
+	ctx                               context.Context
+	ApiService                        ChannelsAPI
+	streamId                          int32
+	description                       *string
+	newName                           *string
+	isPrivate                         *bool
+	isWebPublic                       *bool
+	historyPublicToSubscribers        *bool
+	isDefaultStream                   *bool
+	messageRetentionDays              *models.MessageRetentionDays
+	isArchived                        *bool
+	folderId                          *int32
+	topicsPolicy                      *models.TopicsPolicy
+	canAddSubscribersGroup            *models.GroupSettingValueUpdate
+	canRemoveSubscribersGroup         *models.GroupSettingValueUpdate
+	canAdministerChannelGroup         *models.GroupSettingValueUpdate
+	canDeleteAnyMessageGroup          *models.GroupSettingValueUpdate
+	canDeleteOwnMessageGroup          *models.GroupSettingValueUpdate
+	canMoveMessagesOutOfChannelGroup  *models.GroupSettingValueUpdate
 	canMoveMessagesWithinChannelGroup *models.GroupSettingValueUpdate
-	canSendMessageGroup *models.GroupSettingValueUpdate
-	canSubscribeGroup *models.GroupSettingValueUpdate
-	canResolveTopicsGroup *models.GroupSettingValueUpdate
+	canSendMessageGroup               *models.GroupSettingValueUpdate
+	canSubscribeGroup                 *models.GroupSettingValueUpdate
+	canResolveTopicsGroup             *models.GroupSettingValueUpdate
 }
 
-// The new [description](/help/change-the-channel-description) for the channel, in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  Clients should use the &#x60;max_stream_description_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel description length.  **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64). 
+// The new [description](/help/change-the-channel-description) for the channel, in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  Clients should use the &#x60;max_stream_description_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel description length.  **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64).
 func (r ApiUpdateStreamRequest) Description(description string) ApiUpdateStreamRequest {
 	r.description = &description
 	return r
 }
 
-// The new name for the channel.  Clients should use the &#x60;max_stream_name_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel name length.  **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64). 
+// The new name for the channel.  Clients should use the &#x60;max_stream_name_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel name length.  **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64).
 func (r ApiUpdateStreamRequest) NewName(newName string) ApiUpdateStreamRequest {
 	r.newName = &newName
 	return r
 }
 
-// Change whether the channel is a private channel. 
+// Change whether the channel is a private channel.
 func (r ApiUpdateStreamRequest) IsPrivate(isPrivate bool) ApiUpdateStreamRequest {
 	r.isPrivate = &isPrivate
 	return r
 }
 
-// Change whether the channel is a web-public channel.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting][server-settings] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current use to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.  [server-settings]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98). 
+// Change whether the channel is a web-public channel.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting][server-settings] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current use to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.  [server-settings]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
 func (r ApiUpdateStreamRequest) IsWebPublic(isWebPublic bool) ApiUpdateStreamRequest {
 	r.isWebPublic = &isWebPublic
 	return r
 }
 
-// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels](/help/channel-permissions#private-channels).  It&#39;s an error for this parameter to be false for a public or web-public channel and when is_private is false.  **Changes**: Before Zulip 6.0 (feature level 136), &#x60;history_public_to_subscribers&#x60; was silently ignored unless the request also contained either &#x60;is_private&#x60; or &#x60;is_web_public&#x60;. 
+// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels](/help/channel-permissions#private-channels).  It&#39;s an error for this parameter to be false for a public or web-public channel and when is_private is false.  **Changes**: Before Zulip 6.0 (feature level 136), &#x60;history_public_to_subscribers&#x60; was silently ignored unless the request also contained either &#x60;is_private&#x60; or &#x60;is_web_public&#x60;.
 func (r ApiUpdateStreamRequest) HistoryPublicToSubscribers(historyPublicToSubscribers bool) ApiUpdateStreamRequest {
 	r.historyPublicToSubscribers = &historyPublicToSubscribers
 	return r
 }
 
-// Add or remove the channel as a [default channel][default-channel] for new users joining the organization.  [default-channel]: /help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint](/api/add-default-stream). 
+// Add or remove the channel as a [default channel][default-channel] for new users joining the organization.  [default-channel]: /help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint](/api/add-default-stream).
 func (r ApiUpdateStreamRequest) IsDefaultStream(isDefaultStream bool) ApiUpdateStreamRequest {
 	r.isDefaultStream = &isDefaultStream
 	return r
@@ -4019,13 +4025,13 @@ func (r ApiUpdateStreamRequest) MessageRetentionDays(messageRetentionDays models
 	return r
 }
 
-// A boolean indicating whether the channel is [archived](/help/archive-a-channel) or unarchived. Currently only allows unarchiving previously archived channels.  **Changes**: New in Zulip 11.0 (feature level 388). 
+// A boolean indicating whether the channel is [archived](/help/archive-a-channel) or unarchived. Currently only allows unarchiving previously archived channels.  **Changes**: New in Zulip 11.0 (feature level 388).
 func (r ApiUpdateStreamRequest) IsArchived(isArchived bool) ApiUpdateStreamRequest {
 	r.isArchived = &isArchived
 	return r
 }
 
-// ID of the new folder to which the channel should belong.  It can be &#x60;None&#x60; if the user wants to just remove the channel from its existing folder.  **Changes**: New in Zulip 11.0 (feature level 389). 
+// ID of the new folder to which the channel should belong.  It can be &#x60;None&#x60; if the user wants to just remove the channel from its existing folder.  **Changes**: New in Zulip 11.0 (feature level 389).
 func (r ApiUpdateStreamRequest) FolderId(folderId int32) ApiUpdateStreamRequest {
 	r.folderId = &folderId
 	return r
@@ -4036,61 +4042,61 @@ func (r ApiUpdateStreamRequest) TopicsPolicy(topicsPolicy models.TopicsPolicy) A
 	return r
 }
 
-// The set of users who have permission to add subscribers to this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Users who can administer the channel or have similar realm-level permissions can add subscribers to a public channel regardless of the value of this setting.  Users in this group need not be subscribed to a private channel to add subscribers to it.  Note that a user must [have content access](/help/channel-permissions) to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 342). Previously, there was no channel-level setting for this permission. 
+// The set of users who have permission to add subscribers to this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Users who can administer the channel or have similar realm-level permissions can add subscribers to a public channel regardless of the value of this setting.  Users in this group need not be subscribed to a private channel to add subscribers to it.  Note that a user must [have content access](/help/channel-permissions) to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 342). Previously, there was no channel-level setting for this permission.
 func (r ApiUpdateStreamRequest) CanAddSubscribersGroup(canAddSubscribersGroup models.GroupSettingValueUpdate) ApiUpdateStreamRequest {
 	r.canAddSubscribersGroup = &canAddSubscribersGroup
 	return r
 }
 
-// The set of users who have permission to unsubscribe others from this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Organization administrators can unsubscribe others from a channel as though they were in this group without being explicitly listed here.  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.  **Changes**: Prior to Zulip 10.0 (feature level 349), channel administrators could not unsubscribe other users if they were not an organization administrator or part of &#x60;can_remove_subscribers_group&#x60;. Realm administrators were not allowed to unsubscribe other users from a private channel if they were not subscribed to that channel.  Prior to Zulip 10.0 (feature level 320), this value was always the integer ID of a system group.  Before Zulip 8.0 (feature level 197), the &#x60;can_remove_subscribers_group&#x60; setting was named &#x60;can_remove_subscribers_group_id&#x60;.  New in Zulip 7.0 (feature level 161). 
+// The set of users who have permission to unsubscribe others from this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Organization administrators can unsubscribe others from a channel as though they were in this group without being explicitly listed here.  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.  **Changes**: Prior to Zulip 10.0 (feature level 349), channel administrators could not unsubscribe other users if they were not an organization administrator or part of &#x60;can_remove_subscribers_group&#x60;. Realm administrators were not allowed to unsubscribe other users from a private channel if they were not subscribed to that channel.  Prior to Zulip 10.0 (feature level 320), this value was always the integer ID of a system group.  Before Zulip 8.0 (feature level 197), the &#x60;can_remove_subscribers_group&#x60; setting was named &#x60;can_remove_subscribers_group_id&#x60;.  New in Zulip 7.0 (feature level 161).
 func (r ApiUpdateStreamRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup models.GroupSettingValueUpdate) ApiUpdateStreamRequest {
 	r.canRemoveSubscribersGroup = &canRemoveSubscribersGroup
 	return r
 }
 
-// The set of users who have permission to administer this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Organization administrators can administer every channel as though they were in this group without being explicitly listed here.  Note that a user must [have content access](/help/channel-permissions) to a channel in order to add other subscribers to the channel.  **Changes**: Prior to Zulip 10.0 (feature level 349) a user needed to [have content access](/help/channel-permissions) to a channel in order to modify it. The exception to this rule was that organization administrators can edit channel names and descriptions without having full access to the channel.  New in Zulip 10.0 (feature level 325). Prior to this change, the permission to administer channels was limited to realm administrators. 
+// The set of users who have permission to administer this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Organization administrators can administer every channel as though they were in this group without being explicitly listed here.  Note that a user must [have content access](/help/channel-permissions) to a channel in order to add other subscribers to the channel.  **Changes**: Prior to Zulip 10.0 (feature level 349) a user needed to [have content access](/help/channel-permissions) to a channel in order to modify it. The exception to this rule was that organization administrators can edit channel names and descriptions without having full access to the channel.  New in Zulip 10.0 (feature level 325). Prior to this change, the permission to administer channels was limited to realm administrators.
 func (r ApiUpdateStreamRequest) CanAdministerChannelGroup(canAdministerChannelGroup models.GroupSettingValueUpdate) ApiUpdateStreamRequest {
 	r.canAdministerChannelGroup = &canAdministerChannelGroup
 	return r
 }
 
-// The set of users who have permission to delete any message in the channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](/help/channel-permissions) to a channel in order to delete any message in the channel.  Users present in the organization-level &#x60;can_delete_any_message_group&#x60; setting can always delete any message in the channel if they [have content access](/help/channel-permissions) to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in &#x60;can_delete_any_message_group&#x60; were able delete any message in the organization. 
+// The set of users who have permission to delete any message in the channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](/help/channel-permissions) to a channel in order to delete any message in the channel.  Users present in the organization-level &#x60;can_delete_any_message_group&#x60; setting can always delete any message in the channel if they [have content access](/help/channel-permissions) to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in &#x60;can_delete_any_message_group&#x60; were able delete any message in the organization.
 func (r ApiUpdateStreamRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup models.GroupSettingValueUpdate) ApiUpdateStreamRequest {
 	r.canDeleteAnyMessageGroup = &canDeleteAnyMessageGroup
 	return r
 }
 
-// The set of users who have permission to delete the messages that they have sent in the channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](/help/channel-permissions) to a channel in order to delete their own message in the channel.  Users with permission to delete any message in the channel and users present in the organization-level &#x60;can_delete_own_message_group&#x60; setting can always delete their own messages in the channel if they [have content access](/help/channel-permissions) to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in the organization-level &#x60;can_delete_any_message_group&#x60; and &#x60;can_delete_own_message_group&#x60; settings were able delete their own messages in the organization. 
+// The set of users who have permission to delete the messages that they have sent in the channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](/help/channel-permissions) to a channel in order to delete their own message in the channel.  Users with permission to delete any message in the channel and users present in the organization-level &#x60;can_delete_own_message_group&#x60; setting can always delete their own messages in the channel if they [have content access](/help/channel-permissions) to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in the organization-level &#x60;can_delete_any_message_group&#x60; and &#x60;can_delete_own_message_group&#x60; settings were able delete their own messages in the organization.
 func (r ApiUpdateStreamRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup models.GroupSettingValueUpdate) ApiUpdateStreamRequest {
 	r.canDeleteOwnMessageGroup = &canDeleteOwnMessageGroup
 	return r
 }
 
-// The set of users who have permission to move messages out of this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](/help/channel-permissions) to a channel in order to move messages out of the channel.  Channel administrators and users present in the organization-level &#x60;can_move_messages_between_channels_group&#x60; setting can always move messages out of the channel if they [have content access](/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in &#x60;can_move_messages_between_channels_group&#x60; were able move messages between channels. 
+// The set of users who have permission to move messages out of this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](/help/channel-permissions) to a channel in order to move messages out of the channel.  Channel administrators and users present in the organization-level &#x60;can_move_messages_between_channels_group&#x60; setting can always move messages out of the channel if they [have content access](/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in &#x60;can_move_messages_between_channels_group&#x60; were able move messages between channels.
 func (r ApiUpdateStreamRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup models.GroupSettingValueUpdate) ApiUpdateStreamRequest {
 	r.canMoveMessagesOutOfChannelGroup = &canMoveMessagesOutOfChannelGroup
 	return r
 }
 
-// The set of users who have permission to move messages within this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](/help/channel-permissions) to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level &#x60;can_move_messages_between_topics_group&#x60; setting can always move messages within the channel if they [have content access](/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in &#x60;can_move_messages_between_topics_group&#x60; were able move messages between topics of a channel. 
+// The set of users who have permission to move messages within this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](/help/channel-permissions) to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level &#x60;can_move_messages_between_topics_group&#x60; setting can always move messages within the channel if they [have content access](/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in &#x60;can_move_messages_between_topics_group&#x60; were able move messages between topics of a channel.
 func (r ApiUpdateStreamRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup models.GroupSettingValueUpdate) ApiUpdateStreamRequest {
 	r.canMoveMessagesWithinChannelGroup = &canMoveMessagesWithinChannelGroup
 	return r
 }
 
-// The set of users who have permission to post in this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 333). Previously &#x60;stream_post_policy&#x60; field used to control the permission to post in the channel. 
+// The set of users who have permission to post in this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 333). Previously &#x60;stream_post_policy&#x60; field used to control the permission to post in the channel.
 func (r ApiUpdateStreamRequest) CanSendMessageGroup(canSendMessageGroup models.GroupSettingValueUpdate) ApiUpdateStreamRequest {
 	r.canSendMessageGroup = &canSendMessageGroup
 	return r
 }
 
-// The set of users who have permission to subscribe themselves to this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Everyone, excluding guests, can subscribe to any public channel irrespective of this setting.  Users in this group can subscribe to a private channel as well.  Note that a user must [have content access](/help/channel-permissions) to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 357). 
+// The set of users who have permission to subscribe themselves to this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Everyone, excluding guests, can subscribe to any public channel irrespective of this setting.  Users in this group can subscribe to a private channel as well.  Note that a user must [have content access](/help/channel-permissions) to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 357).
 func (r ApiUpdateStreamRequest) CanSubscribeGroup(canSubscribeGroup models.GroupSettingValueUpdate) ApiUpdateStreamRequest {
 	r.canSubscribeGroup = &canSubscribeGroup
 	return r
 }
 
-// The set of users who have permission to to resolve topics in this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Users who have similar realm-level permissions can resolve topics in a channel regardless of the value of this setting.  **Changes**: New in Zulip 11.0 (feature level 402). 
+// The set of users who have permission to to resolve topics in this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Users who have similar realm-level permissions can resolve topics in a channel regardless of the value of this setting.  **Changes**: New in Zulip 11.0 (feature level 402).
 func (r ApiUpdateStreamRequest) CanResolveTopicsGroup(canResolveTopicsGroup models.GroupSettingValueUpdate) ApiUpdateStreamRequest {
 	r.canResolveTopicsGroup = &canResolveTopicsGroup
 	return r
@@ -4107,10 +4113,10 @@ Configure the channel with the ID `stream_id`. This endpoint supports
 an organization administrator editing any property of a channel,
 including:
 
-- Channel [name](/help/rename-a-channel) and [description](/help/change-the-channel-description)
-- Channel [permissions](/help/channel-permissions), including
-  [privacy](/help/change-the-privacy-of-a-channel) and [who can
-  send](/help/channel-posting-policy).
+  - Channel [name](/help/rename-a-channel) and [description](/help/change-the-channel-description)
+  - Channel [permissions](/help/channel-permissions), including
+    [privacy](/help/change-the-privacy-of-a-channel) and [who can
+    send](/help/channel-posting-policy).
 
 Note that an organization administrator's ability to change a
 [private channel's permissions](/help/channel-permissions#private-channels)
@@ -4123,30 +4129,30 @@ Removed `stream_post_policy` and `is_announcement_only`
 parameters in Zulip 10.0 (feature level 333), as permission to post
 in the channel is now controlled by `can_send_message_group`.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param streamId The ID of the channel to access. 
- @return ApiUpdateStreamRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param streamId The ID of the channel to access.
+	@return ApiUpdateStreamRequest
 */
-func (a *ZulipClient) UpdateStream(ctx context.Context, streamId int32) ApiUpdateStreamRequest {
+func (c *ZulipClient) UpdateStream(ctx context.Context, streamId int32) ApiUpdateStreamRequest {
 	return ApiUpdateStreamRequest{
-		ApiService: a,
-		ctx: ctx,
-		streamId: streamId,
+		ApiService: c,
+		ctx:        ctx,
+		streamId:   streamId,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) UpdateStreamExecute(r ApiUpdateStreamRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) UpdateStreamExecute(r ApiUpdateStreamRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4279,12 +4285,12 @@ func (a *ZulipClient) UpdateStreamExecute(r ApiUpdateStreamRequest) (*models.Jso
 		}
 		localVarFormParams.Add("can_resolve_topics_group", paramJson)
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4303,18 +4309,18 @@ func (a *ZulipClient) UpdateStreamExecute(r ApiUpdateStreamRequest) (*models.Jso
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.UpdateStream400Response
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -4327,12 +4333,12 @@ func (a *ZulipClient) UpdateStreamExecute(r ApiUpdateStreamRequest) (*models.Jso
 }
 
 type ApiUpdateSubscriptionSettingsRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
+	ctx              context.Context
+	ApiService       ChannelsAPI
 	subscriptionData *[]models.UpdateSubscriptionSettingsRequestSubscriptionDataInner
 }
 
-// A list of objects that describe the changes that should be applied in each subscription. Each object represents a subscription, and must have a &#x60;stream_id&#x60; key that identifies the channel, as well as the &#x60;property&#x60; being modified and its new &#x60;value&#x60;. 
+// A list of objects that describe the changes that should be applied in each subscription. Each object represents a subscription, and must have a &#x60;stream_id&#x60; key that identifies the channel, as well as the &#x60;property&#x60; being modified and its new &#x60;value&#x60;.
 func (r ApiUpdateSubscriptionSettingsRequest) SubscriptionData(subscriptionData []models.UpdateSubscriptionSettingsRequestSubscriptionDataInner) ApiUpdateSubscriptionSettingsRequest {
 	r.subscriptionData = &subscriptionData
 	return r
@@ -4356,28 +4362,28 @@ request. The endpoint now returns the more ergonomic
 
 [ignored-parameters]: /api/rest-error-handling#ignored-parameters
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiUpdateSubscriptionSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateSubscriptionSettingsRequest
 */
-func (a *ZulipClient) UpdateSubscriptionSettings(ctx context.Context) ApiUpdateSubscriptionSettingsRequest {
+func (c *ZulipClient) UpdateSubscriptionSettings(ctx context.Context) ApiUpdateSubscriptionSettingsRequest {
 	return ApiUpdateSubscriptionSettingsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return IgnoredParametersSuccess
-func (a *ZulipClient) UpdateSubscriptionSettingsExecute(r ApiUpdateSubscriptionSettingsRequest) (*models.IgnoredParametersSuccess, *http.Response, error) {
+//
+//	@return models.IgnoredParametersSuccess
+func (c *ZulipClient) UpdateSubscriptionSettingsExecute(r ApiUpdateSubscriptionSettingsRequest) (*models.IgnoredParametersSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.IgnoredParametersSuccess
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.IgnoredParametersSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4409,12 +4415,12 @@ func (a *ZulipClient) UpdateSubscriptionSettingsExecute(r ApiUpdateSubscriptionS
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "subscription_data", r.subscriptionData, "form", "multi")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4434,7 +4440,7 @@ func (a *ZulipClient) UpdateSubscriptionSettingsExecute(r ApiUpdateSubscriptionS
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -4447,19 +4453,19 @@ func (a *ZulipClient) UpdateSubscriptionSettingsExecute(r ApiUpdateSubscriptionS
 }
 
 type ApiUpdateSubscriptionsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ChannelsAPI
-	delete *[]string
-	add *[]models.UpdateSubscriptionsRequestAddInner
+	delete     *[]string
+	add        *[]models.UpdateSubscriptionsRequestAddInner
 }
 
-// A list of channel names to unsubscribe from. 
+// A list of channel names to unsubscribe from.
 func (r ApiUpdateSubscriptionsRequest) Delete(delete []string) ApiUpdateSubscriptionsRequest {
 	r.delete = &delete
 	return r
 }
 
-// A list of objects describing which channels to subscribe to, optionally including per-user subscription parameters (e.g. color) and if the channel is to be created, its description. 
+// A list of objects describing which channels to subscribe to, optionally including per-user subscription parameters (e.g. color) and if the channel is to be created, its description.
 func (r ApiUpdateSubscriptionsRequest) Add(add []models.UpdateSubscriptionsRequestAddInner) ApiUpdateSubscriptionsRequest {
 	r.add = &add
 	return r
@@ -4477,28 +4483,28 @@ Update which channels you are subscribed to.
 **Changes**: Before Zulip 10.0 (feature level 362),
 subscriptions in archived channels could not be modified.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiUpdateSubscriptionsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateSubscriptionsRequest
 */
-func (a *ZulipClient) UpdateSubscriptions(ctx context.Context) ApiUpdateSubscriptionsRequest {
+func (c *ZulipClient) UpdateSubscriptions(ctx context.Context) ApiUpdateSubscriptionsRequest {
 	return ApiUpdateSubscriptionsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return UpdateSubscriptions200Response
-func (a *ZulipClient) UpdateSubscriptionsExecute(r ApiUpdateSubscriptionsRequest) (*models.UpdateSubscriptions200Response, *http.Response, error) {
+//
+//	@return models.UpdateSubscriptions200Response
+func (c *ZulipClient) UpdateSubscriptionsExecute(r ApiUpdateSubscriptionsRequest) (*models.UpdateSubscriptions200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.UpdateSubscriptions200Response
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.UpdateSubscriptions200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4532,12 +4538,12 @@ func (a *ZulipClient) UpdateSubscriptionsExecute(r ApiUpdateSubscriptionsRequest
 	if r.add != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "add", r.add, "form", "multi")
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4557,7 +4563,7 @@ func (a *ZulipClient) UpdateSubscriptionsExecute(r ApiUpdateSubscriptionsRequest
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -4570,26 +4576,26 @@ func (a *ZulipClient) UpdateSubscriptionsExecute(r ApiUpdateSubscriptionsRequest
 }
 
 type ApiUpdateUserTopicRequest struct {
-	ctx context.Context
-	ApiService ChannelsAPI
-	streamId *int32
-	topic *string
+	ctx              context.Context
+	ApiService       ChannelsAPI
+	streamId         *int32
+	topic            *string
 	visibilityPolicy *int32
 }
 
-// The ID of the channel to access. 
+// The ID of the channel to access.
 func (r ApiUpdateUserTopicRequest) StreamId(streamId int32) ApiUpdateUserTopicRequest {
 	r.streamId = &streamId
 	return r
 }
 
-// The topic for which the personal preferences needs to be updated. Note that the request will succeed regardless of whether any messages have been sent to the specified topic.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum topic length.  Note: When the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages. 
+// The topic for which the personal preferences needs to be updated. Note that the request will succeed regardless of whether any messages have been sent to the specified topic.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum topic length.  Note: When the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 func (r ApiUpdateUserTopicRequest) Topic(topic string) ApiUpdateUserTopicRequest {
 	r.topic = &topic
 	return r
 }
 
-// Controls which visibility policy to set.  - 0 &#x3D; None. Removes the visibility policy previously set for the topic. - 1 &#x3D; Muted. [Mutes the topic](/help/mute-a-topic) in a channel. - 2 &#x3D; Unmuted. [Unmutes the topic](/help/mute-a-topic) in a muted channel. - 3 &#x3D; Followed. [Follows the topic](/help/follow-a-topic).  In an unmuted channel, a topic visibility policy of unmuted will have the same effect as the \\\&quot;None\\\&quot; visibility policy.  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option. 
+// Controls which visibility policy to set.  - 0 &#x3D; None. Removes the visibility policy previously set for the topic. - 1 &#x3D; Muted. [Mutes the topic](/help/mute-a-topic) in a channel. - 2 &#x3D; Unmuted. [Unmutes the topic](/help/mute-a-topic) in a muted channel. - 3 &#x3D; Followed. [Follows the topic](/help/follow-a-topic).  In an unmuted channel, a topic visibility policy of unmuted will have the same effect as the \\\&quot;None\\\&quot; visibility policy.  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.
 func (r ApiUpdateUserTopicRequest) VisibilityPolicy(visibilityPolicy int32) ApiUpdateUserTopicRequest {
 	r.visibilityPolicy = &visibilityPolicy
 	return r
@@ -4613,28 +4619,28 @@ channel and topic pair indicated by the parameters for a user.
 toggling whether a topic was muted or unmuted was managed by the
 [PATCH /users/me/subscriptions/muted_topics](/api/mute-topic) endpoint.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiUpdateUserTopicRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateUserTopicRequest
 */
-func (a *ZulipClient) UpdateUserTopic(ctx context.Context) ApiUpdateUserTopicRequest {
+func (c *ZulipClient) UpdateUserTopic(ctx context.Context) ApiUpdateUserTopicRequest {
 	return ApiUpdateUserTopicRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) UpdateUserTopicExecute(r ApiUpdateUserTopicRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) UpdateUserTopicExecute(r ApiUpdateUserTopicRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4674,12 +4680,12 @@ func (a *ZulipClient) UpdateUserTopicExecute(r ApiUpdateUserTopicRequest) (*mode
 	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "visibility_policy", r.visibilityPolicy, "form", "")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4699,7 +4705,7 @@ func (a *ZulipClient) UpdateUserTopicExecute(r ApiUpdateUserTopicRequest) (*mode
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,

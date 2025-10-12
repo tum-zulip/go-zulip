@@ -36,9 +36,10 @@ notified when certain types of messages are sent in Zulip.
 	ZulipOutgoingWebhooks(ctx context.Context) ApiZulipOutgoingWebhooksRequest
 
 	// ZulipOutgoingWebhooksExecute executes the request
-	//  @return ZulipOutgoingWebhooks200Response
+	//  @return models.ZulipOutgoingWebhooks200Response
 	ZulipOutgoingWebhooksExecute(r ApiZulipOutgoingWebhooksRequest) (*models.ZulipOutgoingWebhooks200Response, *http.Response, error)
 }
+
 
 type ApiZulipOutgoingWebhooksRequest struct {
 	ctx context.Context
@@ -59,16 +60,16 @@ notified when certain types of messages are sent in Zulip.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiZulipOutgoingWebhooksRequest
 */
-func (a *ZulipClient) ZulipOutgoingWebhooks(ctx context.Context) ApiZulipOutgoingWebhooksRequest {
+func (c *ZulipClient) ZulipOutgoingWebhooks(ctx context.Context) ApiZulipOutgoingWebhooksRequest {
 	return ApiZulipOutgoingWebhooksRequest{
-		ApiService: a,
+		ApiService: c,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return ZulipOutgoingWebhooks200Response
-func (a *ZulipClient) ZulipOutgoingWebhooksExecute(r ApiZulipOutgoingWebhooksRequest) (*models.ZulipOutgoingWebhooks200Response, *http.Response, error) {
+//  @return models.ZulipOutgoingWebhooks200Response
+func (c *ZulipClient) ZulipOutgoingWebhooksExecute(r ApiZulipOutgoingWebhooksRequest) (*models.ZulipOutgoingWebhooks200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -76,7 +77,7 @@ func (a *ZulipClient) ZulipOutgoingWebhooksExecute(r ApiZulipOutgoingWebhooksReq
 		localVarReturnValue  *models.ZulipOutgoingWebhooks200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -104,12 +105,12 @@ func (a *ZulipClient) ZulipOutgoingWebhooksExecute(r ApiZulipOutgoingWebhooksReq
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -129,7 +130,7 @@ func (a *ZulipClient) ZulipOutgoingWebhooksExecute(r ApiZulipOutgoingWebhooksReq
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,

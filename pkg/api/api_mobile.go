@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -20,76 +20,75 @@ import (
 	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
-
 type MobileAPI interface {
 
 	/*
-	E2eeTestNotify Send an E2EE test notification to mobile device(s)
+			E2eeTestNotify Send an E2EE test notification to mobile device(s)
 
-	Trigger sending an end-to-end encrypted (E2EE) test push notification
-to the user's selected mobile device or all of their mobile devices.
+			Trigger sending an end-to-end encrypted (E2EE) test push notification
+		to the user's selected mobile device or all of their mobile devices.
 
-**Changes**: New in Zulip 11.0 (feature level 420).
+		**Changes**: New in Zulip 11.0 (feature level 420).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiE2eeTestNotifyRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiE2eeTestNotifyRequest
 	*/
 	E2eeTestNotify(ctx context.Context) ApiE2eeTestNotifyRequest
 
 	// E2eeTestNotifyExecute executes the request
-	//  @return JsonSuccess
+	//  @return models.JsonSuccess
 	E2eeTestNotifyExecute(r ApiE2eeTestNotifyRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	RegisterPushDevice Register E2EE push device
+			RegisterPushDevice Register E2EE push device
 
-	Register a device to receive end-to-end encrypted mobile push notifications.
+			Register a device to receive end-to-end encrypted mobile push notifications.
 
-**Changes**: New in Zulip 11.0 (feature level 406).
+		**Changes**: New in Zulip 11.0 (feature level 406).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiRegisterPushDeviceRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiRegisterPushDeviceRequest
 	*/
 	RegisterPushDevice(ctx context.Context) ApiRegisterPushDeviceRequest
 
 	// RegisterPushDeviceExecute executes the request
-	//  @return JsonSuccess
+	//  @return models.JsonSuccess
 	RegisterPushDeviceExecute(r ApiRegisterPushDeviceRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	TestNotify Send a test notification to mobile device(s)
+			TestNotify Send a test notification to mobile device(s)
 
-	Trigger sending a test push notification to the user's
-selected mobile device or all of their mobile devices.
+			Trigger sending a test push notification to the user's
+		selected mobile device or all of their mobile devices.
 
-**Changes**: Starting with Zulip 8.0 (feature level 234), test
-notifications sent via this endpoint use `test` rather than
-`test-by-device-token` in the `event` field. Also, as of this
-feature level, all mobile push notifications now include a
-`realm_name` field.
+		**Changes**: Starting with Zulip 8.0 (feature level 234), test
+		notifications sent via this endpoint use `test` rather than
+		`test-by-device-token` in the `event` field. Also, as of this
+		feature level, all mobile push notifications now include a
+		`realm_name` field.
 
-New in Zulip 8.0 (feature level 217).
+		New in Zulip 8.0 (feature level 217).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiTestNotifyRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiTestNotifyRequest
 	*/
 	TestNotify(ctx context.Context) ApiTestNotifyRequest
 
 	// TestNotifyExecute executes the request
-	//  @return JsonSuccess
+	//  @return models.JsonSuccess
 	TestNotifyExecute(r ApiTestNotifyRequest) (*models.JsonSuccess, *http.Response, error)
 }
 
 type ApiE2eeTestNotifyRequest struct {
-	ctx context.Context
-	ApiService MobileAPI
+	ctx           context.Context
+	ApiService    MobileAPI
 	pushAccountId *int32
 }
 
-// The push account ID for the device to which to send the test notification.  If this parameter is not submitted, the E2EE test notification will be sent to all of the user&#39;s devices registered on the server.  A mobile client should pass this parameter, to avoid triggering a test notification for other clients.  See [&#x60;POST /mobile_push/register&#x60;](/api/register-push-device) for details on push account IDs. 
+// The push account ID for the device to which to send the test notification.  If this parameter is not submitted, the E2EE test notification will be sent to all of the user&#39;s devices registered on the server.  A mobile client should pass this parameter, to avoid triggering a test notification for other clients.  See [&#x60;POST /mobile_push/register&#x60;](/api/register-push-device) for details on push account IDs.
 func (r ApiE2eeTestNotifyRequest) PushAccountId(pushAccountId int32) ApiE2eeTestNotifyRequest {
 	r.pushAccountId = &pushAccountId
 	return r
@@ -107,28 +106,28 @@ to the user's selected mobile device or all of their mobile devices.
 
 **Changes**: New in Zulip 11.0 (feature level 420).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiE2eeTestNotifyRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiE2eeTestNotifyRequest
 */
-func (a *ZulipClient) E2eeTestNotify(ctx context.Context) ApiE2eeTestNotifyRequest {
+func (c *ZulipClient) E2eeTestNotify(ctx context.Context) ApiE2eeTestNotifyRequest {
 	return ApiE2eeTestNotifyRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) E2eeTestNotifyExecute(r ApiE2eeTestNotifyRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) E2eeTestNotifyExecute(r ApiE2eeTestNotifyRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -159,12 +158,12 @@ func (a *ZulipClient) E2eeTestNotifyExecute(r ApiE2eeTestNotifyRequest) (*models
 	if r.pushAccountId != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "push_account_id", r.pushAccountId, "", "")
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -183,40 +182,40 @@ func (a *ZulipClient) E2eeTestNotifyExecute(r ApiE2eeTestNotifyRequest) (*models
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.NoActivePushDeviceError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
 			var v models.PushNotificationAdminActionRequiredError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 502 {
 			var v models.E2eeTestNotify502Response
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -229,40 +228,40 @@ func (a *ZulipClient) E2eeTestNotifyExecute(r ApiE2eeTestNotifyRequest) (*models
 }
 
 type ApiRegisterPushDeviceRequest struct {
-	ctx context.Context
-	ApiService MobileAPI
-	tokenKind *string
-	pushAccountId *int32
-	pushPublicKey *string
-	bouncerPublicKey *string
+	ctx                       context.Context
+	ApiService                MobileAPI
+	tokenKind                 *string
+	pushAccountId             *int32
+	pushPublicKey             *string
+	bouncerPublicKey          *string
 	encryptedPushRegistration *string
 }
 
-// Whether the token was generated by FCM or APNs. 
+// Whether the token was generated by FCM or APNs.
 func (r ApiRegisterPushDeviceRequest) TokenKind(tokenKind string) ApiRegisterPushDeviceRequest {
 	r.tokenKind = &tokenKind
 	return r
 }
 
-// A random integer generated by the client that will be included in mobile push notifications along with encrypted payloads to identify pushes as being related to this registration. Must be unique in the client&#39;s table of accounts. 
+// A random integer generated by the client that will be included in mobile push notifications along with encrypted payloads to identify pushes as being related to this registration. Must be unique in the client&#39;s table of accounts.
 func (r ApiRegisterPushDeviceRequest) PushAccountId(pushAccountId int32) ApiRegisterPushDeviceRequest {
 	r.pushAccountId = &pushAccountId
 	return r
 }
 
-// Public part of the asymmetric key pair generated by the client using NaCl (the Networking and Cryptography Library), encoded using a RFC 4648 standard base64 encoder.  It is used to encrypt notifications for delivery to the client. 
+// Public part of the asymmetric key pair generated by the client using NaCl (the Networking and Cryptography Library), encoded using a RFC 4648 standard base64 encoder.  It is used to encrypt notifications for delivery to the client.
 func (r ApiRegisterPushDeviceRequest) PushPublicKey(pushPublicKey string) ApiRegisterPushDeviceRequest {
 	r.pushPublicKey = &pushPublicKey
 	return r
 }
 
-// Which of the bouncer&#39;s public keys the client used to encrypt the &#x60;PushRegistration&#x60; dictionary.  When the bouncer rotates the key, a new asymmetric key pair is created, and the new public key is baked into a new client release. Because the bouncer routinely rotates key, this field clarifies which public key the client is using. 
+// Which of the bouncer&#39;s public keys the client used to encrypt the &#x60;PushRegistration&#x60; dictionary.  When the bouncer rotates the key, a new asymmetric key pair is created, and the new public key is baked into a new client release. Because the bouncer routinely rotates key, this field clarifies which public key the client is using.
 func (r ApiRegisterPushDeviceRequest) BouncerPublicKey(bouncerPublicKey string) ApiRegisterPushDeviceRequest {
 	r.bouncerPublicKey = &bouncerPublicKey
 	return r
 }
 
-// Ciphertext generated by encrypting a &#x60;PushRegistration&#x60; dictionary using the &#x60;bouncer_public_key&#x60;, encoded using a RFC 4648 standard base64 encoder.  The &#x60;PushRegistration&#x60; dictionary contains the fields &#x60;token&#x60;, &#x60;token_kind&#x60;, &#x60;timestamp&#x60;, and (for iOS devices) &#x60;ios_app_id&#x60;. The dictionary is JSON-encoded before encryption. 
+// Ciphertext generated by encrypting a &#x60;PushRegistration&#x60; dictionary using the &#x60;bouncer_public_key&#x60;, encoded using a RFC 4648 standard base64 encoder.  The &#x60;PushRegistration&#x60; dictionary contains the fields &#x60;token&#x60;, &#x60;token_kind&#x60;, &#x60;timestamp&#x60;, and (for iOS devices) &#x60;ios_app_id&#x60;. The dictionary is JSON-encoded before encryption.
 func (r ApiRegisterPushDeviceRequest) EncryptedPushRegistration(encryptedPushRegistration string) ApiRegisterPushDeviceRequest {
 	r.encryptedPushRegistration = &encryptedPushRegistration
 	return r
@@ -279,28 +278,28 @@ Register a device to receive end-to-end encrypted mobile push notifications.
 
 **Changes**: New in Zulip 11.0 (feature level 406).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRegisterPushDeviceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRegisterPushDeviceRequest
 */
-func (a *ZulipClient) RegisterPushDevice(ctx context.Context) ApiRegisterPushDeviceRequest {
+func (c *ZulipClient) RegisterPushDevice(ctx context.Context) ApiRegisterPushDeviceRequest {
 	return ApiRegisterPushDeviceRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) RegisterPushDeviceExecute(r ApiRegisterPushDeviceRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) RegisterPushDeviceExecute(r ApiRegisterPushDeviceRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -348,12 +347,12 @@ func (a *ZulipClient) RegisterPushDeviceExecute(r ApiRegisterPushDeviceRequest) 
 	parameterAddToHeaderOrQuery(localVarFormParams, "push_public_key", r.pushPublicKey, "", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "bouncer_public_key", r.bouncerPublicKey, "", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "encrypted_push_registration", r.encryptedPushRegistration, "", "")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -372,18 +371,18 @@ func (a *ZulipClient) RegisterPushDeviceExecute(r ApiRegisterPushDeviceRequest) 
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.CodedError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -396,12 +395,12 @@ func (a *ZulipClient) RegisterPushDeviceExecute(r ApiRegisterPushDeviceRequest) 
 }
 
 type ApiTestNotifyRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService MobileAPI
-	token *string
+	token      *string
 }
 
-// The push token for the device to which to send the test notification.  If this parameter is not submitted, the test notification will be sent to all of the user&#39;s devices registered on the server.  A mobile client should pass this parameter, to avoid triggering a test notification for other clients. 
+// The push token for the device to which to send the test notification.  If this parameter is not submitted, the test notification will be sent to all of the user&#39;s devices registered on the server.  A mobile client should pass this parameter, to avoid triggering a test notification for other clients.
 func (r ApiTestNotifyRequest) Token(token string) ApiTestNotifyRequest {
 	r.token = &token
 	return r
@@ -425,28 +424,28 @@ feature level, all mobile push notifications now include a
 
 New in Zulip 8.0 (feature level 217).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiTestNotifyRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestNotifyRequest
 */
-func (a *ZulipClient) TestNotify(ctx context.Context) ApiTestNotifyRequest {
+func (c *ZulipClient) TestNotify(ctx context.Context) ApiTestNotifyRequest {
 	return ApiTestNotifyRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) TestNotifyExecute(r ApiTestNotifyRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) TestNotifyExecute(r ApiTestNotifyRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -477,12 +476,12 @@ func (a *ZulipClient) TestNotifyExecute(r ApiTestNotifyRequest) (*models.JsonSuc
 	if r.token != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "token", r.token, "", "")
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -501,18 +500,18 @@ func (a *ZulipClient) TestNotifyExecute(r ApiTestNotifyRequest) (*models.JsonSuc
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.TestNotify400Response
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,

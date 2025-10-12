@@ -27,12 +27,12 @@ type AuthenticationAPI interface {
 	DevFetchApiKey Fetch an API key (development only)
 
 	For easy testing of mobile apps and other clients and against Zulip
-	development servers, we support fetching a Zulip API key for any user
-	on the development server without authentication (so that they can
-	implement analogues of the one-click login process available for Zulip
-	development servers on the web).
+development servers, we support fetching a Zulip API key for any user
+on the development server without authentication (so that they can
+implement analogues of the one-click login process available for Zulip
+development servers on the web).
 
-	!!! warn ""
+!!! warn ""
 
     **Note:** This endpoint is only available on Zulip development
     servers; for obvious security reasons it will always return an error
@@ -45,36 +45,36 @@ type AuthenticationAPI interface {
 	DevFetchApiKey(ctx context.Context) ApiDevFetchApiKeyRequest
 
 	// DevFetchApiKeyExecute executes the request
-	//  @return ApiKeyResponse
+	//  @return models.ApiKeyResponse
 	DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error)
 
 	/*
 	FetchApiKey Fetch an API key (production)
 
 	This API endpoint is used by clients such as the Zulip mobile and
-	terminal apps to implement password-based authentication. Given the
-	user's Zulip login credentials, it returns a Zulip API key that the client
-	can use to make requests as the user.
-	
-	This endpoint is only useful for Zulip servers/organizations with
-	EmailAuthBackend or LDAPAuthBackend enabled.
-	
-	The Zulip mobile apps also support SSO/social authentication (GitHub
-	auth, Google auth, SAML, etc.) that does not use this endpoint. Instead,
-	the mobile apps reuse the web login flow passing the `mobile_flow_otp` in
-	a webview, and the credentials are returned to the app (encrypted) via a redirect
-	to a `zulip://` URL.
-	
-	!!! warn ""
-	
-	    **Note:** If you signed up using passwordless authentication and
-	    never had a password, you can [reset your password](/help/change-your-password).
-	
-	See the [API keys](/api/api-keys) documentation for more details
-	on how to download an API key manually.
-	
-	In a [Zulip development environment](https://zulip.readthedocs.io/en/latest/development/overview.html),
-	see also [the unauthenticated variant](/api/dev-fetch-api-key).
+terminal apps to implement password-based authentication. Given the
+user's Zulip login credentials, it returns a Zulip API key that the client
+can use to make requests as the user.
+
+This endpoint is only useful for Zulip servers/organizations with
+EmailAuthBackend or LDAPAuthBackend enabled.
+
+The Zulip mobile apps also support SSO/social authentication (GitHub
+auth, Google auth, SAML, etc.) that does not use this endpoint. Instead,
+the mobile apps reuse the web login flow passing the `mobile_flow_otp` in
+a webview, and the credentials are returned to the app (encrypted) via a redirect
+to a `zulip://` URL.
+
+!!! warn ""
+
+    **Note:** If you signed up using passwordless authentication and
+    never had a password, you can [reset your password](/help/change-your-password).
+
+See the [API keys](/api/api-keys) documentation for more details
+on how to download an API key manually.
+
+In a [Zulip development environment](https://zulip.readthedocs.io/en/latest/development/overview.html),
+see also [the unauthenticated variant](/api/dev-fetch-api-key).
 
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -83,9 +83,10 @@ type AuthenticationAPI interface {
 	FetchApiKey(ctx context.Context) ApiFetchApiKeyRequest
 
 	// FetchApiKeyExecute executes the request
-	//  @return ApiKeyResponse
+	//  @return models.ApiKeyResponse
 	FetchApiKeyExecute(r ApiFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error)
 }
+
 
 type ApiDevFetchApiKeyRequest struct {
 	ctx context.Context
@@ -122,16 +123,16 @@ development servers on the web).
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiDevFetchApiKeyRequest
 */
-func (a *ZulipClient) DevFetchApiKey(ctx context.Context) ApiDevFetchApiKeyRequest {
+func (c *ZulipClient) DevFetchApiKey(ctx context.Context) ApiDevFetchApiKeyRequest {
 	return ApiDevFetchApiKeyRequest{
-		ApiService: a,
+		ApiService: c,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return ApiKeyResponse
-func (a *ZulipClient) DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error) {
+//  @return models.ApiKeyResponse
+func (c *ZulipClient) DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -139,7 +140,7 @@ func (a *ZulipClient) DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models
 		localVarReturnValue  *models.ApiKeyResponse
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -171,12 +172,12 @@ func (a *ZulipClient) DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "username", r.username, "", "")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -196,7 +197,7 @@ func (a *ZulipClient) DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -263,16 +264,16 @@ see also [the unauthenticated variant](/api/dev-fetch-api-key).
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiFetchApiKeyRequest
 */
-func (a *ZulipClient) FetchApiKey(ctx context.Context) ApiFetchApiKeyRequest {
+func (c *ZulipClient) FetchApiKey(ctx context.Context) ApiFetchApiKeyRequest {
 	return ApiFetchApiKeyRequest{
-		ApiService: a,
+		ApiService: c,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return ApiKeyResponse
-func (a *ZulipClient) FetchApiKeyExecute(r ApiFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error) {
+//  @return models.ApiKeyResponse
+func (c *ZulipClient) FetchApiKeyExecute(r ApiFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -280,7 +281,7 @@ func (a *ZulipClient) FetchApiKeyExecute(r ApiFetchApiKeyRequest) (*models.ApiKe
 		localVarReturnValue  *models.ApiKeyResponse
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -316,12 +317,12 @@ func (a *ZulipClient) FetchApiKeyExecute(r ApiFetchApiKeyRequest) (*models.ApiKe
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "username", r.username, "", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "password", r.password, "", "")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -341,7 +342,7 @@ func (a *ZulipClient) FetchApiKeyExecute(r ApiFetchApiKeyRequest) (*models.ApiKe
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,

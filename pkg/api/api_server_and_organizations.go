@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -16,458 +16,457 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
+	"strings"
 
 	"github.com/tum-zulip/go-zulip/pkg/models"
-	"strings"
-	"os"
 )
-
 
 type ServerAndOrganizationsAPI interface {
 
 	/*
-	AddCodePlayground Add a code playground
+			AddCodePlayground Add a code playground
 
-	Configure [code playgrounds](/help/code-blocks#code-playgrounds) for the organization.
+			Configure [code playgrounds](/help/code-blocks#code-playgrounds) for the organization.
 
-**Changes**: New in Zulip 4.0 (feature level 49). A parameter encoding bug was
-fixed in Zulip 4.0 (feature level 57).
+		**Changes**: New in Zulip 4.0 (feature level 49). A parameter encoding bug was
+		fixed in Zulip 4.0 (feature level 57).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiAddCodePlaygroundRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiAddCodePlaygroundRequest
 	*/
 	AddCodePlayground(ctx context.Context) ApiAddCodePlaygroundRequest
 
 	// AddCodePlaygroundExecute executes the request
-	//  @return AddCodePlayground200Response
+	//  @return models.AddCodePlayground200Response
 	AddCodePlaygroundExecute(r ApiAddCodePlaygroundRequest) (*models.AddCodePlayground200Response, *http.Response, error)
 
 	/*
-	AddLinkifier Add a linkifier
+			AddLinkifier Add a linkifier
 
-	Configure [linkifiers](/help/add-a-custom-linkifier),
-regular expression patterns that are automatically linkified when they
-appear in messages and topics.
+			Configure [linkifiers](/help/add-a-custom-linkifier),
+		regular expression patterns that are automatically linkified when they
+		appear in messages and topics.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiAddLinkifierRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiAddLinkifierRequest
 	*/
 	AddLinkifier(ctx context.Context) ApiAddLinkifierRequest
 
 	// AddLinkifierExecute executes the request
-	//  @return AddLinkifier200Response
+	//  @return models.AddLinkifier200Response
 	AddLinkifierExecute(r ApiAddLinkifierRequest) (*models.AddLinkifier200Response, *http.Response, error)
 
 	/*
-	CreateCustomProfileField Create a custom profile field
+		CreateCustomProfileField Create a custom profile field
 
-	[Create a custom profile field](/help/custom-profile-fields#add-a-custom-profile-field) in the user's organization.
+		[Create a custom profile field](/help/custom-profile-fields#add-a-custom-profile-field) in the user's organization.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateCustomProfileFieldRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiCreateCustomProfileFieldRequest
 	*/
 	CreateCustomProfileField(ctx context.Context) ApiCreateCustomProfileFieldRequest
 
 	// CreateCustomProfileFieldExecute executes the request
-	//  @return CreateCustomProfileField200Response
+	//  @return models.CreateCustomProfileField200Response
 	CreateCustomProfileFieldExecute(r ApiCreateCustomProfileFieldRequest) (*models.CreateCustomProfileField200Response, *http.Response, error)
 
 	/*
-	DeactivateCustomEmoji Deactivate custom emoji
+			DeactivateCustomEmoji Deactivate custom emoji
 
-	[Deactivate a custom emoji](/help/custom-emoji#deactivate-custom-emoji) from
-the user's organization.
+			[Deactivate a custom emoji](/help/custom-emoji#deactivate-custom-emoji) from
+		the user's organization.
 
-Users can only deactivate custom emoji that they added themselves except for
-organization administrators, who can deactivate any custom emoji.
+		Users can only deactivate custom emoji that they added themselves except for
+		organization administrators, who can deactivate any custom emoji.
 
-Note that deactivated emoji will still be visible in old messages, reactions,
-user statuses and channel descriptions.
+		Note that deactivated emoji will still be visible in old messages, reactions,
+		user statuses and channel descriptions.
 
-**Changes**: Before Zulip 8.0 (feature level 190), this endpoint returned an
-HTTP status code of 400 when the emoji did not exist, instead of 404.
+		**Changes**: Before Zulip 8.0 (feature level 190), this endpoint returned an
+		HTTP status code of 400 when the emoji did not exist, instead of 404.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param emojiName The name of the custom emoji to deactivate. 
-	@return ApiDeactivateCustomEmojiRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param emojiName The name of the custom emoji to deactivate.
+			@return ApiDeactivateCustomEmojiRequest
 	*/
 	DeactivateCustomEmoji(ctx context.Context, emojiName string) ApiDeactivateCustomEmojiRequest
 
 	// DeactivateCustomEmojiExecute executes the request
-	//  @return JsonSuccess
+	//  @return models.JsonSuccess
 	DeactivateCustomEmojiExecute(r ApiDeactivateCustomEmojiRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	ExportRealm Create a data export
+			ExportRealm Create a data export
 
-	Create a public or a standard [data export][export-data] of the organization.
+			Create a public or a standard [data export][export-data] of the organization.
 
-!!! warn ""
+		!!! warn ""
 
-    **Note**: If you're the administrator of a self-hosted installation,
-    you may be looking for the documentation on [server data export and
-    import][data-export] or [server backups][backups].
+		    **Note**: If you're the administrator of a self-hosted installation,
+		    you may be looking for the documentation on [server data export and
+		    import][data-export] or [server backups][backups].
 
-**Changes**: Prior to Zulip 10.0 (feature level 304), only
-public data exports could be created using this endpoint.
+		**Changes**: Prior to Zulip 10.0 (feature level 304), only
+		public data exports could be created using this endpoint.
 
-New in Zulip 2.1.
+		New in Zulip 2.1.
 
-[export-data]: /help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
-[data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
-[backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
+		[export-data]: /help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+		[data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
+		[backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiExportRealmRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiExportRealmRequest
 	*/
 	ExportRealm(ctx context.Context) ApiExportRealmRequest
 
 	// ExportRealmExecute executes the request
-	//  @return ExportRealm200Response
+	//  @return models.ExportRealm200Response
 	ExportRealmExecute(r ApiExportRealmRequest) (*models.ExportRealm200Response, *http.Response, error)
 
 	/*
-	GetCustomEmoji Get all custom emoji
+		GetCustomEmoji Get all custom emoji
 
-	Get all the custom emoji in the user's organization.
+		Get all the custom emoji in the user's organization.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetCustomEmojiRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetCustomEmojiRequest
 	*/
 	GetCustomEmoji(ctx context.Context) ApiGetCustomEmojiRequest
 
 	// GetCustomEmojiExecute executes the request
-	//  @return GetCustomEmoji200Response
+	//  @return models.GetCustomEmoji200Response
 	GetCustomEmojiExecute(r ApiGetCustomEmojiRequest) (*models.GetCustomEmoji200Response, *http.Response, error)
 
 	/*
-	GetCustomProfileFields Get all custom profile fields
+			GetCustomProfileFields Get all custom profile fields
 
-	Get all the [custom profile fields](/help/custom-profile-fields)
-configured for the user's organization.
+			Get all the [custom profile fields](/help/custom-profile-fields)
+		configured for the user's organization.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetCustomProfileFieldsRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiGetCustomProfileFieldsRequest
 	*/
 	GetCustomProfileFields(ctx context.Context) ApiGetCustomProfileFieldsRequest
 
 	// GetCustomProfileFieldsExecute executes the request
-	//  @return GetCustomProfileFields200Response
+	//  @return models.GetCustomProfileFields200Response
 	GetCustomProfileFieldsExecute(r ApiGetCustomProfileFieldsRequest) (*models.GetCustomProfileFields200Response, *http.Response, error)
 
 	/*
-	GetLinkifiers Get linkifiers
+			GetLinkifiers Get linkifiers
 
-	List all of an organization's configured
-[linkifiers](/help/add-a-custom-linkifier), regular
-expression patterns that are automatically linkified when they appear
-in messages and topics.
+			List all of an organization's configured
+		[linkifiers](/help/add-a-custom-linkifier), regular
+		expression patterns that are automatically linkified when they appear
+		in messages and topics.
 
-**Changes**: New in Zulip 4.0 (feature level 54). On older versions,
-a similar `GET /realm/filters` endpoint was available with each entry in
-a `[pattern, url_format, id]` tuple format.
+		**Changes**: New in Zulip 4.0 (feature level 54). On older versions,
+		a similar `GET /realm/filters` endpoint was available with each entry in
+		a `[pattern, url_format, id]` tuple format.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetLinkifiersRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiGetLinkifiersRequest
 	*/
 	GetLinkifiers(ctx context.Context) ApiGetLinkifiersRequest
 
 	// GetLinkifiersExecute executes the request
-	//  @return GetLinkifiers200Response
+	//  @return models.GetLinkifiers200Response
 	GetLinkifiersExecute(r ApiGetLinkifiersRequest) (*models.GetLinkifiers200Response, *http.Response, error)
 
 	/*
-	GetPresence Get presence of all users
+			GetPresence Get presence of all users
 
-	Get the presence information of all the users in an organization.
+			Get the presence information of all the users in an organization.
 
-If the `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level
-setting is set to `true`, presence information of only accessible
-users are returned.
+		If the `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level
+		setting is set to `true`, presence information of only accessible
+		users are returned.
 
-Complete Zulip apps are recommended to fetch presence
-information when they post their own state using the [`POST
-/presence`](/api/update-presence) API endpoint.
+		Complete Zulip apps are recommended to fetch presence
+		information when they post their own state using the [`POST
+		/presence`](/api/update-presence) API endpoint.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetPresenceRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiGetPresenceRequest
 	*/
 	GetPresence(ctx context.Context) ApiGetPresenceRequest
 
 	// GetPresenceExecute executes the request
-	//  @return GetPresence200Response
+	//  @return models.GetPresence200Response
 	GetPresenceExecute(r ApiGetPresenceRequest) (*models.GetPresence200Response, *http.Response, error)
 
 	/*
-	GetRealmExportConsents Get data export consent state
+			GetRealmExportConsents Get data export consent state
 
-	Fetches which users have [consented](/help/export-your-organization#configure-whether-administrators-can-export-your-private-data)
-for their private data to be exported by organization administrators.
+			Fetches which users have [consented](/help/export-your-organization#configure-whether-administrators-can-export-your-private-data)
+		for their private data to be exported by organization administrators.
 
-**Changes**: New in Zulip 10.0 (feature level 295).
+		**Changes**: New in Zulip 10.0 (feature level 295).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetRealmExportConsentsRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiGetRealmExportConsentsRequest
 	*/
 	GetRealmExportConsents(ctx context.Context) ApiGetRealmExportConsentsRequest
 
 	// GetRealmExportConsentsExecute executes the request
-	//  @return GetRealmExportConsents200Response
+	//  @return models.GetRealmExportConsents200Response
 	GetRealmExportConsentsExecute(r ApiGetRealmExportConsentsRequest) (*models.GetRealmExportConsents200Response, *http.Response, error)
 
 	/*
-	GetRealmExports Get all data exports
+			GetRealmExports Get all data exports
 
-	Fetch all the public and standard [data exports][export-data]
-of the organization.
+			Fetch all the public and standard [data exports][export-data]
+		of the organization.
 
-**Changes**: Prior to Zulip 10.0 (feature level 304), only
-public data exports could be fetched using this endpoint.
+		**Changes**: Prior to Zulip 10.0 (feature level 304), only
+		public data exports could be fetched using this endpoint.
 
-New in Zulip 2.1.
+		New in Zulip 2.1.
 
-[export-data]: /help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+		[export-data]: /help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetRealmExportsRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiGetRealmExportsRequest
 	*/
 	GetRealmExports(ctx context.Context) ApiGetRealmExportsRequest
 
 	// GetRealmExportsExecute executes the request
-	//  @return GetRealmExports200Response
+	//  @return models.GetRealmExports200Response
 	GetRealmExportsExecute(r ApiGetRealmExportsRequest) (*models.GetRealmExports200Response, *http.Response, error)
 
 	/*
-	GetServerSettings Get server settings
+			GetServerSettings Get server settings
 
-	Fetch global settings for a Zulip server.
+			Fetch global settings for a Zulip server.
 
-**Note:** this endpoint does not require any authentication at all, and you can use it to check:
+		**Note:** this endpoint does not require any authentication at all, and you can use it to check:
 
-- If this is a Zulip server, and if so, what version of Zulip it's running.
-- What a Zulip client (e.g. a mobile app or
-  [zulip-terminal](https://github.com/zulip/zulip-terminal/)) needs to
-  know in order to display a login prompt for the server (e.g. what
-  authentication methods are available).
+		- If this is a Zulip server, and if so, what version of Zulip it's running.
+		- What a Zulip client (e.g. a mobile app or
+		  [zulip-terminal](https://github.com/zulip/zulip-terminal/)) needs to
+		  know in order to display a login prompt for the server (e.g. what
+		  authentication methods are available).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetServerSettingsRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiGetServerSettingsRequest
 	*/
 	GetServerSettings(ctx context.Context) ApiGetServerSettingsRequest
 
 	// GetServerSettingsExecute executes the request
-	//  @return GetServerSettings200Response
+	//  @return models.GetServerSettings200Response
 	GetServerSettingsExecute(r ApiGetServerSettingsRequest) (*models.GetServerSettings200Response, *http.Response, error)
 
 	/*
-	RemoveCodePlayground Remove a code playground
+			RemoveCodePlayground Remove a code playground
 
-	Remove a [code playground](/help/code-blocks#code-playgrounds) previously
-configured for an organization.
+			Remove a [code playground](/help/code-blocks#code-playgrounds) previously
+		configured for an organization.
 
-**Changes**: New in Zulip 4.0 (feature level 49).
+		**Changes**: New in Zulip 4.0 (feature level 49).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param playgroundId The ID of the playground that you want to remove. 
-	@return ApiRemoveCodePlaygroundRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param playgroundId The ID of the playground that you want to remove.
+			@return ApiRemoveCodePlaygroundRequest
 	*/
 	RemoveCodePlayground(ctx context.Context, playgroundId int32) ApiRemoveCodePlaygroundRequest
 
 	// RemoveCodePlaygroundExecute executes the request
-	//  @return JsonSuccess
+	//  @return models.JsonSuccess
 	RemoveCodePlaygroundExecute(r ApiRemoveCodePlaygroundRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	RemoveLinkifier Remove a linkifier
+			RemoveLinkifier Remove a linkifier
 
-	Remove [linkifiers](/help/add-a-custom-linkifier), regular
-expression patterns that are automatically linkified when they appear
-in messages and topics.
+			Remove [linkifiers](/help/add-a-custom-linkifier), regular
+		expression patterns that are automatically linkified when they appear
+		in messages and topics.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param filterId The ID of the linkifier that you want to remove. 
-	@return ApiRemoveLinkifierRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param filterId The ID of the linkifier that you want to remove.
+			@return ApiRemoveLinkifierRequest
 	*/
 	RemoveLinkifier(ctx context.Context, filterId int32) ApiRemoveLinkifierRequest
 
 	// RemoveLinkifierExecute executes the request
-	//  @return JsonSuccess
+	//  @return models.JsonSuccess
 	RemoveLinkifierExecute(r ApiRemoveLinkifierRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	ReorderCustomProfileFields Reorder custom profile fields
+			ReorderCustomProfileFields Reorder custom profile fields
 
-	Reorder the custom profile fields in the user's organization.
+			Reorder the custom profile fields in the user's organization.
 
-Custom profile fields are displayed in Zulip UI widgets in order; this
-endpoint allows administrative settings UI to change the field ordering.
+		Custom profile fields are displayed in Zulip UI widgets in order; this
+		endpoint allows administrative settings UI to change the field ordering.
 
-This endpoint is used to implement the dragging feature described in the
-[custom profile fields documentation](/help/custom-profile-fields).
+		This endpoint is used to implement the dragging feature described in the
+		[custom profile fields documentation](/help/custom-profile-fields).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiReorderCustomProfileFieldsRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiReorderCustomProfileFieldsRequest
 	*/
 	ReorderCustomProfileFields(ctx context.Context) ApiReorderCustomProfileFieldsRequest
 
 	// ReorderCustomProfileFieldsExecute executes the request
-	//  @return JsonSuccess
+	//  @return models.JsonSuccess
 	ReorderCustomProfileFieldsExecute(r ApiReorderCustomProfileFieldsRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	ReorderLinkifiers Reorder linkifiers
+			ReorderLinkifiers Reorder linkifiers
 
-	Change the order that the regular expression patterns in the organization's
-[linkifiers](/help/add-a-custom-linkifier) are matched in messages and topics.
-Useful when defining linkifiers with overlapping patterns.
+			Change the order that the regular expression patterns in the organization's
+		[linkifiers](/help/add-a-custom-linkifier) are matched in messages and topics.
+		Useful when defining linkifiers with overlapping patterns.
 
-**Changes**: New in Zulip 8.0 (feature level 202). Before this feature level,
-linkifiers were always processed in order by ID, which meant users would
-need to delete and recreate them to reorder the list of linkifiers.
+		**Changes**: New in Zulip 8.0 (feature level 202). Before this feature level,
+		linkifiers were always processed in order by ID, which meant users would
+		need to delete and recreate them to reorder the list of linkifiers.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiReorderLinkifiersRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiReorderLinkifiersRequest
 	*/
 	ReorderLinkifiers(ctx context.Context) ApiReorderLinkifiersRequest
 
 	// ReorderLinkifiersExecute executes the request
-	//  @return JsonSuccess
+	//  @return models.JsonSuccess
 	ReorderLinkifiersExecute(r ApiReorderLinkifiersRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	TestWelcomeBotCustomMessage Test welcome bot custom message
+			TestWelcomeBotCustomMessage Test welcome bot custom message
 
-	Sends a test Welcome Bot custom message to the acting administrator.
-This allows administrators to preview how the custom welcome message will
-appear when received by new users upon joining the organization.
+			Sends a test Welcome Bot custom message to the acting administrator.
+		This allows administrators to preview how the custom welcome message will
+		appear when received by new users upon joining the organization.
 
-**Changes**: New in Zulip 11.0 (feature level 416).
+		**Changes**: New in Zulip 11.0 (feature level 416).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiTestWelcomeBotCustomMessageRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiTestWelcomeBotCustomMessageRequest
 	*/
 	TestWelcomeBotCustomMessage(ctx context.Context) ApiTestWelcomeBotCustomMessageRequest
 
 	// TestWelcomeBotCustomMessageExecute executes the request
-	//  @return TestWelcomeBotCustomMessage200Response
+	//  @return models.TestWelcomeBotCustomMessage200Response
 	TestWelcomeBotCustomMessageExecute(r ApiTestWelcomeBotCustomMessageRequest) (*models.TestWelcomeBotCustomMessage200Response, *http.Response, error)
 
 	/*
-	UpdateLinkifier Update a linkifier
+			UpdateLinkifier Update a linkifier
 
-	Update a [linkifier](/help/add-a-custom-linkifier), regular
-expression patterns that are automatically linkified when they appear
-in messages and topics.
+			Update a [linkifier](/help/add-a-custom-linkifier), regular
+		expression patterns that are automatically linkified when they appear
+		in messages and topics.
 
-**Changes**: New in Zulip 4.0 (feature level 57).
+		**Changes**: New in Zulip 4.0 (feature level 57).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param filterId The ID of the linkifier that you want to update. 
-	@return ApiUpdateLinkifierRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param filterId The ID of the linkifier that you want to update.
+			@return ApiUpdateLinkifierRequest
 	*/
 	UpdateLinkifier(ctx context.Context, filterId int32) ApiUpdateLinkifierRequest
 
 	// UpdateLinkifierExecute executes the request
-	//  @return JsonSuccess
+	//  @return models.JsonSuccess
 	UpdateLinkifierExecute(r ApiUpdateLinkifierRequest) (*models.JsonSuccess, *http.Response, error)
 
 	/*
-	UpdateRealmUserSettingsDefaults Update realm-level defaults of user settings
+			UpdateRealmUserSettingsDefaults Update realm-level defaults of user settings
 
-	Change the [default values of settings][new-user-defaults] for new users
-joining the organization. Essentially all
-[personal preference settings](/api/update-settings) are supported.
+			Change the [default values of settings][new-user-defaults] for new users
+		joining the organization. Essentially all
+		[personal preference settings](/api/update-settings) are supported.
 
-This feature can be invaluable for customizing Zulip's default
-settings for notifications or UI to be appropriate for how the
-organization is using Zulip. (Note that this only supports
-personal preference settings, like when to send push
-notifications or what emoji set to use, not profile or
-identity settings that naturally should be different for each user).
+		This feature can be invaluable for customizing Zulip's default
+		settings for notifications or UI to be appropriate for how the
+		organization is using Zulip. (Note that this only supports
+		personal preference settings, like when to send push
+		notifications or what emoji set to use, not profile or
+		identity settings that naturally should be different for each user).
 
-Note that this endpoint cannot, at present, be used to modify
-settings for existing users in any way.
+		Note that this endpoint cannot, at present, be used to modify
+		settings for existing users in any way.
 
-**Changes**: Removed `dense_mode` setting in Zulip 10.0 (feature level 364)
-as we now have `web_font_size_px` and `web_line_height_percent`
-settings for more control.
+		**Changes**: Removed `dense_mode` setting in Zulip 10.0 (feature level 364)
+		as we now have `web_font_size_px` and `web_line_height_percent`
+		settings for more control.
 
-New in Zulip 5.0 (feature level 96). If any parameters sent in the
-request are not supported by this endpoint, an
-[`ignored_parameters_unsupported`][ignored-parameters] array will
-be returned in the JSON success response.
+		New in Zulip 5.0 (feature level 96). If any parameters sent in the
+		request are not supported by this endpoint, an
+		[`ignored_parameters_unsupported`][ignored-parameters] array will
+		be returned in the JSON success response.
 
-[new-user-defaults]: /help/configure-default-new-user-settings
-[ignored-parameters]: /api/rest-error-handling#ignored-parameters
+		[new-user-defaults]: /help/configure-default-new-user-settings
+		[ignored-parameters]: /api/rest-error-handling#ignored-parameters
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiUpdateRealmUserSettingsDefaultsRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiUpdateRealmUserSettingsDefaultsRequest
 	*/
 	UpdateRealmUserSettingsDefaults(ctx context.Context) ApiUpdateRealmUserSettingsDefaultsRequest
 
 	// UpdateRealmUserSettingsDefaultsExecute executes the request
-	//  @return IgnoredParametersSuccess
+	//  @return models.IgnoredParametersSuccess
 	UpdateRealmUserSettingsDefaultsExecute(r ApiUpdateRealmUserSettingsDefaultsRequest) (*models.IgnoredParametersSuccess, *http.Response, error)
 
 	/*
-	UploadCustomEmoji Upload custom emoji
+			UploadCustomEmoji Upload custom emoji
 
-	This endpoint is used to upload a custom emoji for use in the user's
-organization. Access to this endpoint depends on the
-[organization's configuration](https://zulip.com/help/custom-emoji#change-who-can-add-custom-emoji).
+			This endpoint is used to upload a custom emoji for use in the user's
+		organization. Access to this endpoint depends on the
+		[organization's configuration](https://zulip.com/help/custom-emoji#change-who-can-add-custom-emoji).
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param emojiName The name that should be associated with the uploaded emoji image/gif. The emoji name can only contain letters, numbers, dashes, and spaces. Upper and lower case letters are treated the same, and underscores (\\_) are treated the same as spaces (consistent with how the Zulip UI handles emoji). 
-	@return ApiUploadCustomEmojiRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param emojiName The name that should be associated with the uploaded emoji image/gif. The emoji name can only contain letters, numbers, dashes, and spaces. Upper and lower case letters are treated the same, and underscores (\\_) are treated the same as spaces (consistent with how the Zulip UI handles emoji).
+			@return ApiUploadCustomEmojiRequest
 	*/
 	UploadCustomEmoji(ctx context.Context, emojiName string) ApiUploadCustomEmojiRequest
 
 	// UploadCustomEmojiExecute executes the request
-	//  @return JsonSuccess
+	//  @return models.JsonSuccess
 	UploadCustomEmojiExecute(r ApiUploadCustomEmojiRequest) (*models.JsonSuccess, *http.Response, error)
 }
 
 type ApiAddCodePlaygroundRequest struct {
-	ctx context.Context
-	ApiService ServerAndOrganizationsAPI
-	name *string
+	ctx              context.Context
+	ApiService       ServerAndOrganizationsAPI
+	name             *string
 	pygmentsLanguage *string
-	urlTemplate *string
+	urlTemplate      *string
 }
 
-// The user-visible display name of the playground which can be used to pick the target playground, especially when multiple playground options exist for that programming language. 
+// The user-visible display name of the playground which can be used to pick the target playground, especially when multiple playground options exist for that programming language.
 func (r ApiAddCodePlaygroundRequest) Name(name string) ApiAddCodePlaygroundRequest {
 	r.name = &name
 	return r
 }
 
-// The name of the Pygments language lexer for that programming language. 
+// The name of the Pygments language lexer for that programming language.
 func (r ApiAddCodePlaygroundRequest) PygmentsLanguage(pygmentsLanguage string) ApiAddCodePlaygroundRequest {
 	r.pygmentsLanguage = &pygmentsLanguage
 	return r
 }
 
-// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template for the playground. The template should contain exactly one variable named &#x60;code&#x60;, which determines how the extracted code should be substituted in the playground URL.  **Changes**: New in Zulip 8.0 (feature level 196). This replaced the &#x60;url_prefix&#x60; parameter, which was used to construct URLs by just concatenating &#x60;url_prefix&#x60; and &#x60;code&#x60;. 
+// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template for the playground. The template should contain exactly one variable named &#x60;code&#x60;, which determines how the extracted code should be substituted in the playground URL.  **Changes**: New in Zulip 8.0 (feature level 196). This replaced the &#x60;url_prefix&#x60; parameter, which was used to construct URLs by just concatenating &#x60;url_prefix&#x60; and &#x60;code&#x60;.
 func (r ApiAddCodePlaygroundRequest) UrlTemplate(urlTemplate string) ApiAddCodePlaygroundRequest {
 	r.urlTemplate = &urlTemplate
 	return r
@@ -485,28 +484,28 @@ Configure [code playgrounds](/help/code-blocks#code-playgrounds) for the organiz
 **Changes**: New in Zulip 4.0 (feature level 49). A parameter encoding bug was
 fixed in Zulip 4.0 (feature level 57).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiAddCodePlaygroundRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiAddCodePlaygroundRequest
 */
-func (a *ZulipClient) AddCodePlayground(ctx context.Context) ApiAddCodePlaygroundRequest {
+func (c *ZulipClient) AddCodePlayground(ctx context.Context) ApiAddCodePlaygroundRequest {
 	return ApiAddCodePlaygroundRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return AddCodePlayground200Response
-func (a *ZulipClient) AddCodePlaygroundExecute(r ApiAddCodePlaygroundRequest) (*models.AddCodePlayground200Response, *http.Response, error) {
+//
+//	@return models.AddCodePlayground200Response
+func (c *ZulipClient) AddCodePlaygroundExecute(r ApiAddCodePlaygroundRequest) (*models.AddCodePlayground200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.AddCodePlayground200Response
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.AddCodePlayground200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -546,12 +545,12 @@ func (a *ZulipClient) AddCodePlaygroundExecute(r ApiAddCodePlaygroundRequest) (*
 	parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "pygments_language", r.pygmentsLanguage, "", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "url_template", r.urlTemplate, "", "")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -571,7 +570,7 @@ func (a *ZulipClient) AddCodePlaygroundExecute(r ApiAddCodePlaygroundRequest) (*
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -584,19 +583,19 @@ func (a *ZulipClient) AddCodePlaygroundExecute(r ApiAddCodePlaygroundRequest) (*
 }
 
 type ApiAddLinkifierRequest struct {
-	ctx context.Context
-	ApiService ServerAndOrganizationsAPI
-	pattern *string
+	ctx         context.Context
+	ApiService  ServerAndOrganizationsAPI
+	pattern     *string
 	urlTemplate *string
 }
 
-// The [Python regular expression](https://docs.python.org/3/howto/regex.html) that should trigger the linkifier. 
+// The [Python regular expression](https://docs.python.org/3/howto/regex.html) that should trigger the linkifier.
 func (r ApiAddLinkifierRequest) Pattern(pattern string) ApiAddLinkifierRequest {
 	r.pattern = &pattern
 	return r
 }
 
-// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template used for the link. If you used named groups in &#x60;pattern&#x60;, you can insert their content here with &#x60;{name_of_group}&#x60;.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced the &#x60;url_format_string&#x60; parameter, which was a format string in which named groups&#39; content could be inserted with &#x60;%(name_of_group)s&#x60;. 
+// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template used for the link. If you used named groups in &#x60;pattern&#x60;, you can insert their content here with &#x60;{name_of_group}&#x60;.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced the &#x60;url_format_string&#x60; parameter, which was a format string in which named groups&#39; content could be inserted with &#x60;%(name_of_group)s&#x60;.
 func (r ApiAddLinkifierRequest) UrlTemplate(urlTemplate string) ApiAddLinkifierRequest {
 	r.urlTemplate = &urlTemplate
 	return r
@@ -613,28 +612,28 @@ Configure [linkifiers](/help/add-a-custom-linkifier),
 regular expression patterns that are automatically linkified when they
 appear in messages and topics.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiAddLinkifierRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiAddLinkifierRequest
 */
-func (a *ZulipClient) AddLinkifier(ctx context.Context) ApiAddLinkifierRequest {
+func (c *ZulipClient) AddLinkifier(ctx context.Context) ApiAddLinkifierRequest {
 	return ApiAddLinkifierRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return AddLinkifier200Response
-func (a *ZulipClient) AddLinkifierExecute(r ApiAddLinkifierRequest) (*models.AddLinkifier200Response, *http.Response, error) {
+//
+//	@return models.AddLinkifier200Response
+func (c *ZulipClient) AddLinkifierExecute(r ApiAddLinkifierRequest) (*models.AddLinkifier200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.AddLinkifier200Response
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.AddLinkifier200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -670,12 +669,12 @@ func (a *ZulipClient) AddLinkifierExecute(r ApiAddLinkifierRequest) (*models.Add
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "pattern", r.pattern, "", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "url_template", r.urlTemplate, "", "")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -695,7 +694,7 @@ func (a *ZulipClient) AddLinkifierExecute(r ApiAddLinkifierRequest) (*models.Add
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -708,54 +707,54 @@ func (a *ZulipClient) AddLinkifierExecute(r ApiAddLinkifierRequest) (*models.Add
 }
 
 type ApiCreateCustomProfileFieldRequest struct {
-	ctx context.Context
-	ApiService ServerAndOrganizationsAPI
-	fieldType *int32
-	name *string
-	hint *string
-	fieldData *map[string]interface{}
+	ctx                     context.Context
+	ApiService              ServerAndOrganizationsAPI
+	fieldType               *int32
+	name                    *string
+	hint                    *string
+	fieldData               *map[string]interface{}
 	displayInProfileSummary *bool
-	required *bool
-	editableByUser *bool
+	required                *bool
+	editableByUser          *bool
 }
 
-// The field type can be any of the supported custom profile field types. See the [custom profile fields documentation](/help/custom-profile-fields) for more details on what each type means.  - **1**: Short text - **2**: Long text - **3**: List of options - **4**: Date picker - **5**: Link - **6**: Person picker - **7**: External account - **8**: Pronouns  **Changes**: Field type &#x60;8&#x60; added in Zulip 6.0 (feature level 151). 
+// The field type can be any of the supported custom profile field types. See the [custom profile fields documentation](/help/custom-profile-fields) for more details on what each type means.  - **1**: Short text - **2**: Long text - **3**: List of options - **4**: Date picker - **5**: Link - **6**: Person picker - **7**: External account - **8**: Pronouns  **Changes**: Field type &#x60;8&#x60; added in Zulip 6.0 (feature level 151).
 func (r ApiCreateCustomProfileFieldRequest) FieldType(fieldType int32) ApiCreateCustomProfileFieldRequest {
 	r.fieldType = &fieldType
 	return r
 }
 
-// The name of the custom profile field, which will appear both in user-facing settings UI for configuring custom profile fields and in UI displaying a user&#39;s profile. 
+// The name of the custom profile field, which will appear both in user-facing settings UI for configuring custom profile fields and in UI displaying a user&#39;s profile.
 func (r ApiCreateCustomProfileFieldRequest) Name(name string) ApiCreateCustomProfileFieldRequest {
 	r.name = &name
 	return r
 }
 
-// The help text to be displayed for the custom profile field in user-facing settings UI for configuring custom profile fields. 
+// The help text to be displayed for the custom profile field in user-facing settings UI for configuring custom profile fields.
 func (r ApiCreateCustomProfileFieldRequest) Hint(hint string) ApiCreateCustomProfileFieldRequest {
 	r.hint = &hint
 	return r
 }
 
-// Field types 3 (List of options) and 7 (External account) support storing additional configuration for the field type in the &#x60;field_data&#x60; attribute.  For field type 3 (List of options), this attribute is a JSON dictionary defining the choices and the order they will be displayed in the dropdown UI for individual users to select an option.  The interface for field type 7 is not yet stabilized. 
+// Field types 3 (List of options) and 7 (External account) support storing additional configuration for the field type in the &#x60;field_data&#x60; attribute.  For field type 3 (List of options), this attribute is a JSON dictionary defining the choices and the order they will be displayed in the dropdown UI for individual users to select an option.  The interface for field type 7 is not yet stabilized.
 func (r ApiCreateCustomProfileFieldRequest) FieldData(fieldData map[string]interface{}) ApiCreateCustomProfileFieldRequest {
 	r.fieldData = &fieldData
 	return r
 }
 
-// Whether clients should display this profile field in a summary section of a user&#39;s profile (or in a more easily accessible \\\&quot;small profile\\\&quot;).  At most 2 profile fields may have this property be true in a given organization. The \\\&quot;Long text\\\&quot; [profile field types][profile-field-types] profile field types cannot be selected to be displayed in profile summaries.  The \\\&quot;Person picker\\\&quot; profile field is also not supported, but that is likely to be temporary.  [profile-field-types]: /help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146). 
+// Whether clients should display this profile field in a summary section of a user&#39;s profile (or in a more easily accessible \\\&quot;small profile\\\&quot;).  At most 2 profile fields may have this property be true in a given organization. The \\\&quot;Long text\\\&quot; [profile field types][profile-field-types] profile field types cannot be selected to be displayed in profile summaries.  The \\\&quot;Person picker\\\&quot; profile field is also not supported, but that is likely to be temporary.  [profile-field-types]: /help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146).
 func (r ApiCreateCustomProfileFieldRequest) DisplayInProfileSummary(displayInProfileSummary bool) ApiCreateCustomProfileFieldRequest {
 	r.displayInProfileSummary = &displayInProfileSummary
 	return r
 }
 
-// Whether an organization administrator has configured this profile field as required.  Because the required property is mutable, clients cannot assume that a required custom profile field has a value. The Zulip web application displays a prominent banner to any user who has not set a value for a required field.  **Changes**: New in Zulip 9.0 (feature level 244). 
+// Whether an organization administrator has configured this profile field as required.  Because the required property is mutable, clients cannot assume that a required custom profile field has a value. The Zulip web application displays a prominent banner to any user who has not set a value for a required field.  **Changes**: New in Zulip 9.0 (feature level 244).
 func (r ApiCreateCustomProfileFieldRequest) Required(required bool) ApiCreateCustomProfileFieldRequest {
 	r.required = &required
 	return r
 }
 
-// Whether regular users can edit this profile field on their own account.  Note that organization administrators can edit custom profile fields for any user regardless of this setting.  **Changes**: New in Zulip 10.0 (feature level 296). 
+// Whether regular users can edit this profile field on their own account.  Note that organization administrators can edit custom profile fields for any user regardless of this setting.  **Changes**: New in Zulip 10.0 (feature level 296).
 func (r ApiCreateCustomProfileFieldRequest) EditableByUser(editableByUser bool) ApiCreateCustomProfileFieldRequest {
 	r.editableByUser = &editableByUser
 	return r
@@ -770,28 +769,28 @@ CreateCustomProfileField Create a custom profile field
 
 [Create a custom profile field](/help/custom-profile-fields#add-a-custom-profile-field) in the user's organization.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateCustomProfileFieldRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateCustomProfileFieldRequest
 */
-func (a *ZulipClient) CreateCustomProfileField(ctx context.Context) ApiCreateCustomProfileFieldRequest {
+func (c *ZulipClient) CreateCustomProfileField(ctx context.Context) ApiCreateCustomProfileFieldRequest {
 	return ApiCreateCustomProfileFieldRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return CreateCustomProfileField200Response
-func (a *ZulipClient) CreateCustomProfileFieldExecute(r ApiCreateCustomProfileFieldRequest) (*models.CreateCustomProfileField200Response, *http.Response, error) {
+//
+//	@return models.CreateCustomProfileField200Response
+func (c *ZulipClient) CreateCustomProfileFieldExecute(r ApiCreateCustomProfileFieldRequest) (*models.CreateCustomProfileField200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.CreateCustomProfileField200Response
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.CreateCustomProfileField200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -841,12 +840,12 @@ func (a *ZulipClient) CreateCustomProfileFieldExecute(r ApiCreateCustomProfileFi
 	if r.editableByUser != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "editable_by_user", r.editableByUser, "form", "")
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -866,7 +865,7 @@ func (a *ZulipClient) CreateCustomProfileFieldExecute(r ApiCreateCustomProfileFi
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -879,9 +878,9 @@ func (a *ZulipClient) CreateCustomProfileFieldExecute(r ApiCreateCustomProfileFi
 }
 
 type ApiDeactivateCustomEmojiRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
-	emojiName string
+	emojiName  string
 }
 
 func (r ApiDeactivateCustomEmojiRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
@@ -903,30 +902,30 @@ user statuses and channel descriptions.
 **Changes**: Before Zulip 8.0 (feature level 190), this endpoint returned an
 HTTP status code of 400 when the emoji did not exist, instead of 404.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param emojiName The name of the custom emoji to deactivate. 
- @return ApiDeactivateCustomEmojiRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param emojiName The name of the custom emoji to deactivate.
+	@return ApiDeactivateCustomEmojiRequest
 */
-func (a *ZulipClient) DeactivateCustomEmoji(ctx context.Context, emojiName string) ApiDeactivateCustomEmojiRequest {
+func (c *ZulipClient) DeactivateCustomEmoji(ctx context.Context, emojiName string) ApiDeactivateCustomEmojiRequest {
 	return ApiDeactivateCustomEmojiRequest{
-		ApiService: a,
-		ctx: ctx,
-		emojiName: emojiName,
+		ApiService: c,
+		ctx:        ctx,
+		emojiName:  emojiName,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) DeactivateCustomEmojiExecute(r ApiDeactivateCustomEmojiRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) DeactivateCustomEmojiExecute(r ApiDeactivateCustomEmojiRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -955,12 +954,12 @@ func (a *ZulipClient) DeactivateCustomEmojiExecute(r ApiDeactivateCustomEmojiReq
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -979,18 +978,18 @@ func (a *ZulipClient) DeactivateCustomEmojiExecute(r ApiDeactivateCustomEmojiReq
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v models.CodedError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1003,12 +1002,12 @@ func (a *ZulipClient) DeactivateCustomEmojiExecute(r ApiDeactivateCustomEmojiReq
 }
 
 type ApiExportRealmRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
 	exportType *int32
 }
 
-// Whether to create a public or a standard data export.  - 1 &#x3D; Public data export. - 2 &#x3D; Standard data export.  If not specified, defaults to 1.  **Changes**: New in Zulip 10.0 (feature level 304). Previously, all export requests were public data exports. 
+// Whether to create a public or a standard data export.  - 1 &#x3D; Public data export. - 2 &#x3D; Standard data export.  If not specified, defaults to 1.  **Changes**: New in Zulip 10.0 (feature level 304). Previously, all export requests were public data exports.
 func (r ApiExportRealmRequest) ExportType(exportType int32) ApiExportRealmRequest {
 	r.exportType = &exportType
 	return r
@@ -1025,9 +1024,9 @@ Create a public or a standard [data export][export-data] of the organization.
 
 !!! warn ""
 
-    **Note**: If you're the administrator of a self-hosted installation,
-    you may be looking for the documentation on [server data export and
-    import][data-export] or [server backups][backups].
+	**Note**: If you're the administrator of a self-hosted installation,
+	you may be looking for the documentation on [server data export and
+	import][data-export] or [server backups][backups].
 
 **Changes**: Prior to Zulip 10.0 (feature level 304), only
 public data exports could be created using this endpoint.
@@ -1038,28 +1037,28 @@ New in Zulip 2.1.
 [data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
 [backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiExportRealmRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiExportRealmRequest
 */
-func (a *ZulipClient) ExportRealm(ctx context.Context) ApiExportRealmRequest {
+func (c *ZulipClient) ExportRealm(ctx context.Context) ApiExportRealmRequest {
 	return ApiExportRealmRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return ExportRealm200Response
-func (a *ZulipClient) ExportRealmExecute(r ApiExportRealmRequest) (*models.ExportRealm200Response, *http.Response, error) {
+//
+//	@return models.ExportRealm200Response
+func (c *ZulipClient) ExportRealmExecute(r ApiExportRealmRequest) (*models.ExportRealm200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.ExportRealm200Response
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.ExportRealm200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1090,12 +1089,12 @@ func (a *ZulipClient) ExportRealmExecute(r ApiExportRealmRequest) (*models.Expor
 	if r.exportType != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "export_type", r.exportType, "", "")
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1114,18 +1113,18 @@ func (a *ZulipClient) ExportRealmExecute(r ApiExportRealmRequest) (*models.Expor
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v models.CodedError
-			err = a.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1138,7 +1137,7 @@ func (a *ZulipClient) ExportRealmExecute(r ApiExportRealmRequest) (*models.Expor
 }
 
 type ApiGetCustomEmojiRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
 }
 
@@ -1151,28 +1150,28 @@ GetCustomEmoji Get all custom emoji
 
 Get all the custom emoji in the user's organization.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetCustomEmojiRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetCustomEmojiRequest
 */
-func (a *ZulipClient) GetCustomEmoji(ctx context.Context) ApiGetCustomEmojiRequest {
+func (c *ZulipClient) GetCustomEmoji(ctx context.Context) ApiGetCustomEmojiRequest {
 	return ApiGetCustomEmojiRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return GetCustomEmoji200Response
-func (a *ZulipClient) GetCustomEmojiExecute(r ApiGetCustomEmojiRequest) (*models.GetCustomEmoji200Response, *http.Response, error) {
+//
+//	@return models.GetCustomEmoji200Response
+func (c *ZulipClient) GetCustomEmojiExecute(r ApiGetCustomEmojiRequest) (*models.GetCustomEmoji200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetCustomEmoji200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetCustomEmoji200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1200,12 +1199,12 @@ func (a *ZulipClient) GetCustomEmojiExecute(r ApiGetCustomEmojiRequest) (*models
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1225,7 +1224,7 @@ func (a *ZulipClient) GetCustomEmojiExecute(r ApiGetCustomEmojiRequest) (*models
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1238,7 +1237,7 @@ func (a *ZulipClient) GetCustomEmojiExecute(r ApiGetCustomEmojiRequest) (*models
 }
 
 type ApiGetCustomProfileFieldsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
 }
 
@@ -1252,28 +1251,28 @@ GetCustomProfileFields Get all custom profile fields
 Get all the [custom profile fields](/help/custom-profile-fields)
 configured for the user's organization.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetCustomProfileFieldsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetCustomProfileFieldsRequest
 */
-func (a *ZulipClient) GetCustomProfileFields(ctx context.Context) ApiGetCustomProfileFieldsRequest {
+func (c *ZulipClient) GetCustomProfileFields(ctx context.Context) ApiGetCustomProfileFieldsRequest {
 	return ApiGetCustomProfileFieldsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return GetCustomProfileFields200Response
-func (a *ZulipClient) GetCustomProfileFieldsExecute(r ApiGetCustomProfileFieldsRequest) (*models.GetCustomProfileFields200Response, *http.Response, error) {
+//
+//	@return models.GetCustomProfileFields200Response
+func (c *ZulipClient) GetCustomProfileFieldsExecute(r ApiGetCustomProfileFieldsRequest) (*models.GetCustomProfileFields200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetCustomProfileFields200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetCustomProfileFields200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1301,12 +1300,12 @@ func (a *ZulipClient) GetCustomProfileFieldsExecute(r ApiGetCustomProfileFieldsR
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1326,7 +1325,7 @@ func (a *ZulipClient) GetCustomProfileFieldsExecute(r ApiGetCustomProfileFieldsR
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1339,7 +1338,7 @@ func (a *ZulipClient) GetCustomProfileFieldsExecute(r ApiGetCustomProfileFieldsR
 }
 
 type ApiGetLinkifiersRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
 }
 
@@ -1359,28 +1358,28 @@ in messages and topics.
 a similar `GET /realm/filters` endpoint was available with each entry in
 a `[pattern, url_format, id]` tuple format.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetLinkifiersRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetLinkifiersRequest
 */
-func (a *ZulipClient) GetLinkifiers(ctx context.Context) ApiGetLinkifiersRequest {
+func (c *ZulipClient) GetLinkifiers(ctx context.Context) ApiGetLinkifiersRequest {
 	return ApiGetLinkifiersRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return GetLinkifiers200Response
-func (a *ZulipClient) GetLinkifiersExecute(r ApiGetLinkifiersRequest) (*models.GetLinkifiers200Response, *http.Response, error) {
+//
+//	@return models.GetLinkifiers200Response
+func (c *ZulipClient) GetLinkifiersExecute(r ApiGetLinkifiersRequest) (*models.GetLinkifiers200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetLinkifiers200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetLinkifiers200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1408,12 +1407,12 @@ func (a *ZulipClient) GetLinkifiersExecute(r ApiGetLinkifiersRequest) (*models.G
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1433,7 +1432,7 @@ func (a *ZulipClient) GetLinkifiersExecute(r ApiGetLinkifiersRequest) (*models.G
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1446,7 +1445,7 @@ func (a *ZulipClient) GetLinkifiersExecute(r ApiGetLinkifiersRequest) (*models.G
 }
 
 type ApiGetPresenceRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
 }
 
@@ -1467,28 +1466,28 @@ Complete Zulip apps are recommended to fetch presence
 information when they post their own state using the [`POST
 /presence`](/api/update-presence) API endpoint.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetPresenceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetPresenceRequest
 */
-func (a *ZulipClient) GetPresence(ctx context.Context) ApiGetPresenceRequest {
+func (c *ZulipClient) GetPresence(ctx context.Context) ApiGetPresenceRequest {
 	return ApiGetPresenceRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return GetPresence200Response
-func (a *ZulipClient) GetPresenceExecute(r ApiGetPresenceRequest) (*models.GetPresence200Response, *http.Response, error) {
+//
+//	@return models.GetPresence200Response
+func (c *ZulipClient) GetPresenceExecute(r ApiGetPresenceRequest) (*models.GetPresence200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetPresence200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetPresence200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1516,12 +1515,12 @@ func (a *ZulipClient) GetPresenceExecute(r ApiGetPresenceRequest) (*models.GetPr
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1541,7 +1540,7 @@ func (a *ZulipClient) GetPresenceExecute(r ApiGetPresenceRequest) (*models.GetPr
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1554,7 +1553,7 @@ func (a *ZulipClient) GetPresenceExecute(r ApiGetPresenceRequest) (*models.GetPr
 }
 
 type ApiGetRealmExportConsentsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
 }
 
@@ -1570,28 +1569,28 @@ for their private data to be exported by organization administrators.
 
 **Changes**: New in Zulip 10.0 (feature level 295).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetRealmExportConsentsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetRealmExportConsentsRequest
 */
-func (a *ZulipClient) GetRealmExportConsents(ctx context.Context) ApiGetRealmExportConsentsRequest {
+func (c *ZulipClient) GetRealmExportConsents(ctx context.Context) ApiGetRealmExportConsentsRequest {
 	return ApiGetRealmExportConsentsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return GetRealmExportConsents200Response
-func (a *ZulipClient) GetRealmExportConsentsExecute(r ApiGetRealmExportConsentsRequest) (*models.GetRealmExportConsents200Response, *http.Response, error) {
+//
+//	@return models.GetRealmExportConsents200Response
+func (c *ZulipClient) GetRealmExportConsentsExecute(r ApiGetRealmExportConsentsRequest) (*models.GetRealmExportConsents200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetRealmExportConsents200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetRealmExportConsents200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1619,12 +1618,12 @@ func (a *ZulipClient) GetRealmExportConsentsExecute(r ApiGetRealmExportConsentsR
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1644,7 +1643,7 @@ func (a *ZulipClient) GetRealmExportConsentsExecute(r ApiGetRealmExportConsentsR
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1657,7 +1656,7 @@ func (a *ZulipClient) GetRealmExportConsentsExecute(r ApiGetRealmExportConsentsR
 }
 
 type ApiGetRealmExportsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
 }
 
@@ -1678,28 +1677,28 @@ New in Zulip 2.1.
 
 [export-data]: /help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetRealmExportsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetRealmExportsRequest
 */
-func (a *ZulipClient) GetRealmExports(ctx context.Context) ApiGetRealmExportsRequest {
+func (c *ZulipClient) GetRealmExports(ctx context.Context) ApiGetRealmExportsRequest {
 	return ApiGetRealmExportsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return GetRealmExports200Response
-func (a *ZulipClient) GetRealmExportsExecute(r ApiGetRealmExportsRequest) (*models.GetRealmExports200Response, *http.Response, error) {
+//
+//	@return models.GetRealmExports200Response
+func (c *ZulipClient) GetRealmExportsExecute(r ApiGetRealmExportsRequest) (*models.GetRealmExports200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetRealmExports200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetRealmExports200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1727,12 +1726,12 @@ func (a *ZulipClient) GetRealmExportsExecute(r ApiGetRealmExportsRequest) (*mode
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1752,7 +1751,7 @@ func (a *ZulipClient) GetRealmExportsExecute(r ApiGetRealmExportsRequest) (*mode
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1765,7 +1764,7 @@ func (a *ZulipClient) GetRealmExportsExecute(r ApiGetRealmExportsRequest) (*mode
 }
 
 type ApiGetServerSettingsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
 }
 
@@ -1780,34 +1779,35 @@ Fetch global settings for a Zulip server.
 
 **Note:** this endpoint does not require any authentication at all, and you can use it to check:
 
-- If this is a Zulip server, and if so, what version of Zulip it's running.
-- What a Zulip client (e.g. a mobile app or
-  [zulip-terminal](https://github.com/zulip/zulip-terminal/)) needs to
-  know in order to display a login prompt for the server (e.g. what
-  authentication methods are available).
+  - If this is a Zulip server, and if so, what version of Zulip it's running.
 
+  - What a Zulip client (e.g. a mobile app or
+    [zulip-terminal](https://github.com/zulip/zulip-terminal/)) needs to
+    know in order to display a login prompt for the server (e.g. what
+    authentication methods are available).
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetServerSettingsRequest
+    @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+    @return ApiGetServerSettingsRequest
 */
-func (a *ZulipClient) GetServerSettings(ctx context.Context) ApiGetServerSettingsRequest {
+func (c *ZulipClient) GetServerSettings(ctx context.Context) ApiGetServerSettingsRequest {
 	return ApiGetServerSettingsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return GetServerSettings200Response
-func (a *ZulipClient) GetServerSettingsExecute(r ApiGetServerSettingsRequest) (*models.GetServerSettings200Response, *http.Response, error) {
+//
+//	@return models.GetServerSettings200Response
+func (c *ZulipClient) GetServerSettingsExecute(r ApiGetServerSettingsRequest) (*models.GetServerSettings200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.GetServerSettings200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.GetServerSettings200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1835,12 +1835,12 @@ func (a *ZulipClient) GetServerSettingsExecute(r ApiGetServerSettingsRequest) (*
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1860,7 +1860,7 @@ func (a *ZulipClient) GetServerSettingsExecute(r ApiGetServerSettingsRequest) (*
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1873,8 +1873,8 @@ func (a *ZulipClient) GetServerSettingsExecute(r ApiGetServerSettingsRequest) (*
 }
 
 type ApiRemoveCodePlaygroundRequest struct {
-	ctx context.Context
-	ApiService ServerAndOrganizationsAPI
+	ctx          context.Context
+	ApiService   ServerAndOrganizationsAPI
 	playgroundId int32
 }
 
@@ -1890,30 +1890,30 @@ configured for an organization.
 
 **Changes**: New in Zulip 4.0 (feature level 49).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param playgroundId The ID of the playground that you want to remove. 
- @return ApiRemoveCodePlaygroundRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param playgroundId The ID of the playground that you want to remove.
+	@return ApiRemoveCodePlaygroundRequest
 */
-func (a *ZulipClient) RemoveCodePlayground(ctx context.Context, playgroundId int32) ApiRemoveCodePlaygroundRequest {
+func (c *ZulipClient) RemoveCodePlayground(ctx context.Context, playgroundId int32) ApiRemoveCodePlaygroundRequest {
 	return ApiRemoveCodePlaygroundRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:   c,
+		ctx:          ctx,
 		playgroundId: playgroundId,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) RemoveCodePlaygroundExecute(r ApiRemoveCodePlaygroundRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) RemoveCodePlaygroundExecute(r ApiRemoveCodePlaygroundRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1942,12 +1942,12 @@ func (a *ZulipClient) RemoveCodePlaygroundExecute(r ApiRemoveCodePlaygroundReque
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1967,7 +1967,7 @@ func (a *ZulipClient) RemoveCodePlaygroundExecute(r ApiRemoveCodePlaygroundReque
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1980,9 +1980,9 @@ func (a *ZulipClient) RemoveCodePlaygroundExecute(r ApiRemoveCodePlaygroundReque
 }
 
 type ApiRemoveLinkifierRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
-	filterId int32
+	filterId   int32
 }
 
 func (r ApiRemoveLinkifierRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
@@ -1996,30 +1996,30 @@ Remove [linkifiers](/help/add-a-custom-linkifier), regular
 expression patterns that are automatically linkified when they appear
 in messages and topics.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param filterId The ID of the linkifier that you want to remove. 
- @return ApiRemoveLinkifierRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param filterId The ID of the linkifier that you want to remove.
+	@return ApiRemoveLinkifierRequest
 */
-func (a *ZulipClient) RemoveLinkifier(ctx context.Context, filterId int32) ApiRemoveLinkifierRequest {
+func (c *ZulipClient) RemoveLinkifier(ctx context.Context, filterId int32) ApiRemoveLinkifierRequest {
 	return ApiRemoveLinkifierRequest{
-		ApiService: a,
-		ctx: ctx,
-		filterId: filterId,
+		ApiService: c,
+		ctx:        ctx,
+		filterId:   filterId,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) RemoveLinkifierExecute(r ApiRemoveLinkifierRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) RemoveLinkifierExecute(r ApiRemoveLinkifierRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2048,12 +2048,12 @@ func (a *ZulipClient) RemoveLinkifierExecute(r ApiRemoveLinkifierRequest) (*mode
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2073,7 +2073,7 @@ func (a *ZulipClient) RemoveLinkifierExecute(r ApiRemoveLinkifierRequest) (*mode
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2086,12 +2086,12 @@ func (a *ZulipClient) RemoveLinkifierExecute(r ApiRemoveLinkifierRequest) (*mode
 }
 
 type ApiReorderCustomProfileFieldsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
-	order *[]int32
+	order      *[]int32
 }
 
-// A list of the IDs of all the custom profile fields defined in this organization, in the desired new order. 
+// A list of the IDs of all the custom profile fields defined in this organization, in the desired new order.
 func (r ApiReorderCustomProfileFieldsRequest) Order(order []int32) ApiReorderCustomProfileFieldsRequest {
 	r.order = &order
 	return r
@@ -2112,28 +2112,28 @@ endpoint allows administrative settings UI to change the field ordering.
 This endpoint is used to implement the dragging feature described in the
 [custom profile fields documentation](/help/custom-profile-fields).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiReorderCustomProfileFieldsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiReorderCustomProfileFieldsRequest
 */
-func (a *ZulipClient) ReorderCustomProfileFields(ctx context.Context) ApiReorderCustomProfileFieldsRequest {
+func (c *ZulipClient) ReorderCustomProfileFields(ctx context.Context) ApiReorderCustomProfileFieldsRequest {
 	return ApiReorderCustomProfileFieldsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) ReorderCustomProfileFieldsExecute(r ApiReorderCustomProfileFieldsRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) ReorderCustomProfileFieldsExecute(r ApiReorderCustomProfileFieldsRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2165,12 +2165,12 @@ func (a *ZulipClient) ReorderCustomProfileFieldsExecute(r ApiReorderCustomProfil
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "order", r.order, "form", "multi")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2190,7 +2190,7 @@ func (a *ZulipClient) ReorderCustomProfileFieldsExecute(r ApiReorderCustomProfil
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2203,12 +2203,12 @@ func (a *ZulipClient) ReorderCustomProfileFieldsExecute(r ApiReorderCustomProfil
 }
 
 type ApiReorderLinkifiersRequest struct {
-	ctx context.Context
-	ApiService ServerAndOrganizationsAPI
+	ctx                 context.Context
+	ApiService          ServerAndOrganizationsAPI
 	orderedLinkifierIds *[]int32
 }
 
-// A list of the IDs of all the linkifiers defined in this organization, in the desired new order. 
+// A list of the IDs of all the linkifiers defined in this organization, in the desired new order.
 func (r ApiReorderLinkifiersRequest) OrderedLinkifierIds(orderedLinkifierIds []int32) ApiReorderLinkifiersRequest {
 	r.orderedLinkifierIds = &orderedLinkifierIds
 	return r
@@ -2229,28 +2229,28 @@ Useful when defining linkifiers with overlapping patterns.
 linkifiers were always processed in order by ID, which meant users would
 need to delete and recreate them to reorder the list of linkifiers.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiReorderLinkifiersRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiReorderLinkifiersRequest
 */
-func (a *ZulipClient) ReorderLinkifiers(ctx context.Context) ApiReorderLinkifiersRequest {
+func (c *ZulipClient) ReorderLinkifiers(ctx context.Context) ApiReorderLinkifiersRequest {
 	return ApiReorderLinkifiersRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) ReorderLinkifiersExecute(r ApiReorderLinkifiersRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) ReorderLinkifiersExecute(r ApiReorderLinkifiersRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2282,12 +2282,12 @@ func (a *ZulipClient) ReorderLinkifiersExecute(r ApiReorderLinkifiersRequest) (*
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "ordered_linkifier_ids", r.orderedLinkifierIds, "form", "multi")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2307,7 +2307,7 @@ func (a *ZulipClient) ReorderLinkifiersExecute(r ApiReorderLinkifiersRequest) (*
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2320,12 +2320,12 @@ func (a *ZulipClient) ReorderLinkifiersExecute(r ApiReorderLinkifiersRequest) (*
 }
 
 type ApiTestWelcomeBotCustomMessageRequest struct {
-	ctx context.Context
-	ApiService ServerAndOrganizationsAPI
+	ctx                      context.Context
+	ApiService               ServerAndOrganizationsAPI
 	welcomeMessageCustomText *string
 }
 
-// Custom message text, in Zulip Markdown format, to be used for this test message.  Maximum length is 8000 characters. 
+// Custom message text, in Zulip Markdown format, to be used for this test message.  Maximum length is 8000 characters.
 func (r ApiTestWelcomeBotCustomMessageRequest) WelcomeMessageCustomText(welcomeMessageCustomText string) ApiTestWelcomeBotCustomMessageRequest {
 	r.welcomeMessageCustomText = &welcomeMessageCustomText
 	return r
@@ -2344,28 +2344,28 @@ appear when received by new users upon joining the organization.
 
 **Changes**: New in Zulip 11.0 (feature level 416).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiTestWelcomeBotCustomMessageRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestWelcomeBotCustomMessageRequest
 */
-func (a *ZulipClient) TestWelcomeBotCustomMessage(ctx context.Context) ApiTestWelcomeBotCustomMessageRequest {
+func (c *ZulipClient) TestWelcomeBotCustomMessage(ctx context.Context) ApiTestWelcomeBotCustomMessageRequest {
 	return ApiTestWelcomeBotCustomMessageRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return TestWelcomeBotCustomMessage200Response
-func (a *ZulipClient) TestWelcomeBotCustomMessageExecute(r ApiTestWelcomeBotCustomMessageRequest) (*models.TestWelcomeBotCustomMessage200Response, *http.Response, error) {
+//
+//	@return models.TestWelcomeBotCustomMessage200Response
+func (c *ZulipClient) TestWelcomeBotCustomMessageExecute(r ApiTestWelcomeBotCustomMessageRequest) (*models.TestWelcomeBotCustomMessage200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.TestWelcomeBotCustomMessage200Response
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.TestWelcomeBotCustomMessage200Response
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2400,12 +2400,12 @@ func (a *ZulipClient) TestWelcomeBotCustomMessageExecute(r ApiTestWelcomeBotCust
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "welcome_message_custom_text", r.welcomeMessageCustomText, "", "")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2425,7 +2425,7 @@ func (a *ZulipClient) TestWelcomeBotCustomMessageExecute(r ApiTestWelcomeBotCust
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2438,20 +2438,20 @@ func (a *ZulipClient) TestWelcomeBotCustomMessageExecute(r ApiTestWelcomeBotCust
 }
 
 type ApiUpdateLinkifierRequest struct {
-	ctx context.Context
-	ApiService ServerAndOrganizationsAPI
-	filterId int32
-	pattern *string
+	ctx         context.Context
+	ApiService  ServerAndOrganizationsAPI
+	filterId    int32
+	pattern     *string
 	urlTemplate *string
 }
 
-// The [Python regular expression](https://docs.python.org/3/howto/regex.html) that should trigger the linkifier. 
+// The [Python regular expression](https://docs.python.org/3/howto/regex.html) that should trigger the linkifier.
 func (r ApiUpdateLinkifierRequest) Pattern(pattern string) ApiUpdateLinkifierRequest {
 	r.pattern = &pattern
 	return r
 }
 
-// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template used for the link. If you used named groups in &#x60;pattern&#x60;, you can insert their content here with &#x60;{name_of_group}&#x60;.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced the &#x60;url_format_string&#x60; parameter, which was a format string in which named groups&#39; content could be inserted with &#x60;%(name_of_group)s&#x60;. 
+// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template used for the link. If you used named groups in &#x60;pattern&#x60;, you can insert their content here with &#x60;{name_of_group}&#x60;.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced the &#x60;url_format_string&#x60; parameter, which was a format string in which named groups&#39; content could be inserted with &#x60;%(name_of_group)s&#x60;.
 func (r ApiUpdateLinkifierRequest) UrlTemplate(urlTemplate string) ApiUpdateLinkifierRequest {
 	r.urlTemplate = &urlTemplate
 	return r
@@ -2470,30 +2470,30 @@ in messages and topics.
 
 **Changes**: New in Zulip 4.0 (feature level 57).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param filterId The ID of the linkifier that you want to update. 
- @return ApiUpdateLinkifierRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param filterId The ID of the linkifier that you want to update.
+	@return ApiUpdateLinkifierRequest
 */
-func (a *ZulipClient) UpdateLinkifier(ctx context.Context, filterId int32) ApiUpdateLinkifierRequest {
+func (c *ZulipClient) UpdateLinkifier(ctx context.Context, filterId int32) ApiUpdateLinkifierRequest {
 	return ApiUpdateLinkifierRequest{
-		ApiService: a,
-		ctx: ctx,
-		filterId: filterId,
+		ApiService: c,
+		ctx:        ctx,
+		filterId:   filterId,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) UpdateLinkifierExecute(r ApiUpdateLinkifierRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) UpdateLinkifierExecute(r ApiUpdateLinkifierRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2530,12 +2530,12 @@ func (a *ZulipClient) UpdateLinkifierExecute(r ApiUpdateLinkifierRequest) (*mode
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "pattern", r.pattern, "", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "url_template", r.urlTemplate, "", "")
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2555,7 +2555,7 @@ func (a *ZulipClient) UpdateLinkifierExecute(r ApiUpdateLinkifierRequest) (*mode
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2568,411 +2568,411 @@ func (a *ZulipClient) UpdateLinkifierExecute(r ApiUpdateLinkifierRequest) (*mode
 }
 
 type ApiUpdateRealmUserSettingsDefaultsRequest struct {
-	ctx context.Context
-	ApiService ServerAndOrganizationsAPI
-	starredMessageCounts *bool
-	receivesTypingNotifications *bool
-	webSuggestUpdateTimezone *bool
-	fluidLayoutWidth *bool
-	highContrastMode *bool
-	webMarkReadOnScrollPolicy *int32
-	webChannelDefaultView *int32
-	webFontSizePx *int32
-	webLineHeightPercent *int32
-	colorScheme *int32
-	enableDraftsSynchronization *bool
-	translateEmoticons *bool
-	displayEmojiReactionUsers *bool
-	webHomeView *string
-	webEscapeNavigatesToHomeView *bool
-	leftSideUserlist *bool
-	emojiset *string
-	demoteInactiveStreams *int32
-	userListStyle *int32
-	webAnimateImagePreviews *string
-	webStreamUnreadsCountDisplayPolicy *int32
-	hideAiFeatures *bool
-	webLeftSidebarShowChannelFolders *bool
-	webLeftSidebarUnreadsCountSummary *bool
-	enableStreamDesktopNotifications *bool
-	enableStreamEmailNotifications *bool
-	enableStreamPushNotifications *bool
-	enableStreamAudibleNotifications *bool
-	notificationSound *string
-	enableDesktopNotifications *bool
-	enableSounds *bool
-	enableFollowedTopicDesktopNotifications *bool
-	enableFollowedTopicEmailNotifications *bool
-	enableFollowedTopicPushNotifications *bool
-	enableFollowedTopicAudibleNotifications *bool
-	emailNotificationsBatchingPeriodSeconds *int32
-	enableOfflineEmailNotifications *bool
-	enableOfflinePushNotifications *bool
-	enableOnlinePushNotifications *bool
-	enableDigestEmails *bool
-	messageContentInEmailNotifications *bool
-	pmContentInDesktopNotifications *bool
-	wildcardMentionsNotify *bool
-	enableFollowedTopicWildcardMentionsNotify *bool
-	desktopIconCountDisplay *int32
-	realmNameInEmailNotificationsPolicy *int32
-	automaticallyFollowTopicsPolicy *int32
+	ctx                                           context.Context
+	ApiService                                    ServerAndOrganizationsAPI
+	starredMessageCounts                          *bool
+	receivesTypingNotifications                   *bool
+	webSuggestUpdateTimezone                      *bool
+	fluidLayoutWidth                              *bool
+	highContrastMode                              *bool
+	webMarkReadOnScrollPolicy                     *int32
+	webChannelDefaultView                         *int32
+	webFontSizePx                                 *int32
+	webLineHeightPercent                          *int32
+	colorScheme                                   *int32
+	enableDraftsSynchronization                   *bool
+	translateEmoticons                            *bool
+	displayEmojiReactionUsers                     *bool
+	webHomeView                                   *string
+	webEscapeNavigatesToHomeView                  *bool
+	leftSideUserlist                              *bool
+	emojiset                                      *string
+	demoteInactiveStreams                         *int32
+	userListStyle                                 *int32
+	webAnimateImagePreviews                       *string
+	webStreamUnreadsCountDisplayPolicy            *int32
+	hideAiFeatures                                *bool
+	webLeftSidebarShowChannelFolders              *bool
+	webLeftSidebarUnreadsCountSummary             *bool
+	enableStreamDesktopNotifications              *bool
+	enableStreamEmailNotifications                *bool
+	enableStreamPushNotifications                 *bool
+	enableStreamAudibleNotifications              *bool
+	notificationSound                             *string
+	enableDesktopNotifications                    *bool
+	enableSounds                                  *bool
+	enableFollowedTopicDesktopNotifications       *bool
+	enableFollowedTopicEmailNotifications         *bool
+	enableFollowedTopicPushNotifications          *bool
+	enableFollowedTopicAudibleNotifications       *bool
+	emailNotificationsBatchingPeriodSeconds       *int32
+	enableOfflineEmailNotifications               *bool
+	enableOfflinePushNotifications                *bool
+	enableOnlinePushNotifications                 *bool
+	enableDigestEmails                            *bool
+	messageContentInEmailNotifications            *bool
+	pmContentInDesktopNotifications               *bool
+	wildcardMentionsNotify                        *bool
+	enableFollowedTopicWildcardMentionsNotify     *bool
+	desktopIconCountDisplay                       *int32
+	realmNameInEmailNotificationsPolicy           *int32
+	automaticallyFollowTopicsPolicy               *int32
 	automaticallyUnmuteTopicsInMutedStreamsPolicy *int32
-	automaticallyFollowTopicsWhereMentioned *bool
-	resolvedTopicNoticeAutoReadPolicy *string
-	presenceEnabled *bool
-	enterSends *bool
-	twentyFourHourTime *bool
-	sendPrivateTypingNotifications *bool
-	sendStreamTypingNotifications *bool
-	sendReadReceipts *bool
-	emailAddressVisibility *int32
-	webNavigateToSentMessage *bool
+	automaticallyFollowTopicsWhereMentioned       *bool
+	resolvedTopicNoticeAutoReadPolicy             *string
+	presenceEnabled                               *bool
+	enterSends                                    *bool
+	twentyFourHourTime                            *bool
+	sendPrivateTypingNotifications                *bool
+	sendStreamTypingNotifications                 *bool
+	sendReadReceipts                              *bool
+	emailAddressVisibility                        *int32
+	webNavigateToSentMessage                      *bool
 }
 
-// Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
+// Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) StarredMessageCounts(starredMessageCounts bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.starredMessageCounts = &starredMessageCounts
 	return r
 }
 
-// Whether the user is configured to receive typing notifications from other users. The server will only deliver typing notifications events to users who for whom this is enabled.  **Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications. 
+// Whether the user is configured to receive typing notifications from other users. The server will only deliver typing notifications events to users who for whom this is enabled.  **Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) ReceivesTypingNotifications(receivesTypingNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.receivesTypingNotifications = &receivesTypingNotifications
 	return r
 }
 
-// Whether the user should be shown an alert, offering to update their [profile time zone](/help/change-your-timezone), when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.  **Changes**: New in Zulip 10.0 (feature level 329). 
+// Whether the user should be shown an alert, offering to update their [profile time zone](/help/change-your-timezone), when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.  **Changes**: New in Zulip 10.0 (feature level 329).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WebSuggestUpdateTimezone(webSuggestUpdateTimezone bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.webSuggestUpdateTimezone = &webSuggestUpdateTimezone
 	return r
 }
 
-// Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent conversations) on wide screens. 
+// Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent conversations) on wide screens.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) FluidLayoutWidth(fluidLayoutWidth bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.fluidLayoutWidth = &fluidLayoutWidth
 	return r
 }
 
-// This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users. 
+// This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) HighContrastMode(highContrastMode bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.highContrastMode = &highContrastMode
 	return r
 }
 
-// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the \\\&quot;Always\\\&quot; setting when marking messages as read. 
+// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the \\\&quot;Always\\\&quot; setting when marking messages as read.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WebMarkReadOnScrollPolicy(webMarkReadOnScrollPolicy int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.webMarkReadOnScrollPolicy = &webMarkReadOnScrollPolicy
 	return r
 }
 
-// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The \\\&quot;Top unread topic in channel\\\&quot; is new in Zulip 11.0 (feature level 401).  The \\\&quot;List of topics\\\&quot; option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the \\\&quot;Channel feed\\\&quot; behavior. 
+// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The \\\&quot;Top unread topic in channel\\\&quot; is new in Zulip 11.0 (feature level 401).  The \\\&quot;List of topics\\\&quot; option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the \\\&quot;Channel feed\\\&quot; behavior.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WebChannelDefaultView(webChannelDefaultView int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.webChannelDefaultView = &webChannelDefaultView
 	return r
 }
 
-// User-configured primary &#x60;font-size&#x60; for the web application, in pixels.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level. 
+// User-configured primary &#x60;font-size&#x60; for the web application, in pixels.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WebFontSizePx(webFontSizePx int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.webFontSizePx = &webFontSizePx
 	return r
 }
 
-// User-configured primary &#x60;line-height&#x60; for the web application, in percent, so a value of 120 represents a &#x60;line-height&#x60; of 1.2.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level. 
+// User-configured primary &#x60;line-height&#x60; for the web application, in percent, so a value of 120 represents a &#x60;line-height&#x60; of 1.2.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WebLineHeightPercent(webLineHeightPercent int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.webLineHeightPercent = &webLineHeightPercent
 	return r
 }
 
-// Controls which [color theme](/help/dark-theme) to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query. 
+// Controls which [color theme](/help/dark-theme) to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) ColorScheme(colorScheme int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.colorScheme = &colorScheme
 	return r
 }
 
-// A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients. 
+// A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableDraftsSynchronization(enableDraftsSynchronization bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableDraftsSynchronization = &enableDraftsSynchronization
 	return r
 }
 
-// Whether to [translate emoticons to emoji](/help/configure-emoticon-translations) in messages the user sends. 
+// Whether to [translate emoticons to emoji](/help/configure-emoticon-translations) in messages the user sends.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) TranslateEmoticons(translateEmoticons bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.translateEmoticons = &translateEmoticons
 	return r
 }
 
-// Whether to display the names of reacting users on a message.  When enabled, clients should display the names of reacting users, rather than a count, for messages with few total reactions. The ideal cutoff may depend on the space available for displaying reactions; the official web application displays names when 3 or fewer total reactions are present with this setting enabled.  **Changes**: New in Zulip 6.0 (feature level 125). 
+// Whether to display the names of reacting users on a message.  When enabled, clients should display the names of reacting users, rather than a count, for messages with few total reactions. The ideal cutoff may depend on the space available for displaying reactions; the official web application displays names when 3 or fewer total reactions are present with this setting enabled.  **Changes**: New in Zulip 6.0 (feature level 125).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) DisplayEmojiReactionUsers(displayEmojiReactionUsers bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.displayEmojiReactionUsers = &displayEmojiReactionUsers
 	return r
 }
 
-// The [home view](/help/configure-home-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  - \\\&quot;recent_topics\\\&quot; - Recent conversations view - \\\&quot;inbox\\\&quot; - Inbox view - \\\&quot;all_messages\\\&quot; - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;default_view&#x60;, which was new in Zulip 4.0 (feature level 42). 
+// The [home view](/help/configure-home-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  - \\\&quot;recent_topics\\\&quot; - Recent conversations view - \\\&quot;inbox\\\&quot; - Inbox view - \\\&quot;all_messages\\\&quot; - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;default_view&#x60;, which was new in Zulip 4.0 (feature level 42).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WebHomeView(webHomeView string) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.webHomeView = &webHomeView
 	return r
 }
 
-// Whether the escape key navigates to the [configured home view](/help/configure-home-view).  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;escape_navigates_to_default_view&#x60;, which was new in Zulip 5.0 (feature level 107). 
+// Whether the escape key navigates to the [configured home view](/help/configure-home-view).  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;escape_navigates_to_default_view&#x60;, which was new in Zulip 5.0 (feature level 107).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WebEscapeNavigatesToHomeView(webEscapeNavigatesToHomeView bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.webEscapeNavigatesToHomeView = &webEscapeNavigatesToHomeView
 	return r
 }
 
-// Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
+// Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) LeftSideUserlist(leftSideUserlist bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.leftSideUserlist = &leftSideUserlist
 	return r
 }
 
-// The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everywhere they appear in the UI.  - \\\&quot;google\\\&quot; - Google - \\\&quot;twitter\\\&quot; - Twitter - \\\&quot;text\\\&quot; - Plain text - \\\&quot;google-blob\\\&quot; - Google blobs 
+// The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everywhere they appear in the UI.  - \\\&quot;google\\\&quot; - Google - \\\&quot;twitter\\\&quot; - Twitter - \\\&quot;text\\\&quot; - Plain text - \\\&quot;google-blob\\\&quot; - Google blobs
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset string) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.emojiset = &emojiset
 	return r
 }
 
-// Whether to [hide inactive channels](/help/manage-inactive-channels) in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never 
+// Whether to [hide inactive channels](/help/manage-inactive-channels) in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) DemoteInactiveStreams(demoteInactiveStreams int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.demoteInactiveStreams = &demoteInactiveStreams
 	return r
 }
 
-// The style selected by the user for the right sidebar user list.  - 1 - Compact - 2 - With status - 3 - With avatar and status  **Changes**: New in Zulip 6.0 (feature level 141). 
+// The style selected by the user for the right sidebar user list.  - 1 - Compact - 2 - With status - 3 - With avatar and status  **Changes**: New in Zulip 6.0 (feature level 141).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) UserListStyle(userListStyle int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.userListStyle = &userListStyle
 	return r
 }
 
-// Controls how animated images should be played in the message feed in the web/desktop application.  - \\\&quot;always\\\&quot; - Always play the animated images in the message feed. - \\\&quot;on_hover\\\&quot; - Play the animated images on hover over them in the message feed. - \\\&quot;never\\\&quot; - Never play animated images in the message feed.  **Changes**: New in Zulip 9.0 (feature level 275). Previously, animated images always used to play in the message feed by default. This setting controls this behaviour. 
+// Controls how animated images should be played in the message feed in the web/desktop application.  - \\\&quot;always\\\&quot; - Always play the animated images in the message feed. - \\\&quot;on_hover\\\&quot; - Play the animated images on hover over them in the message feed. - \\\&quot;never\\\&quot; - Never play animated images in the message feed.  **Changes**: New in Zulip 9.0 (feature level 275). Previously, animated images always used to play in the message feed by default. This setting controls this behaviour.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(webAnimateImagePreviews string) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.webAnimateImagePreviews = &webAnimateImagePreviews
 	return r
 }
 
-// Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.  - 1 - All channels - 2 - Unmuted channels and topics - 3 - No channels  **Changes**: New in Zulip 8.0 (feature level 210). 
+// Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.  - 1 - All channels - 2 - Unmuted channels and topics - 3 - No channels  **Changes**: New in Zulip 8.0 (feature level 210).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WebStreamUnreadsCountDisplayPolicy(webStreamUnreadsCountDisplayPolicy int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.webStreamUnreadsCountDisplayPolicy = &webStreamUnreadsCountDisplayPolicy
 	return r
 }
 
-// Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.  **Changes**: New in Zulip 10.0 (feature level 350). 
+// Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.  **Changes**: New in Zulip 10.0 (feature level 350).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) HideAiFeatures(hideAiFeatures bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.hideAiFeatures = &hideAiFeatures
 	return r
 }
 
-// Determines whether the web/desktop application&#39;s left sidebar displays any channel folders configured by the organization.  **Changes**: New in Zulip 11.0 (feature level 411). 
+// Determines whether the web/desktop application&#39;s left sidebar displays any channel folders configured by the organization.  **Changes**: New in Zulip 11.0 (feature level 411).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarShowChannelFolders(webLeftSidebarShowChannelFolders bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.webLeftSidebarShowChannelFolders = &webLeftSidebarShowChannelFolders
 	return r
 }
 
-// Determines whether the web/desktop application&#39;s left sidebar displays the unread message count summary.  **Changes**: New in Zulip 11.0 (feature level 398). 
+// Determines whether the web/desktop application&#39;s left sidebar displays the unread message count summary.  **Changes**: New in Zulip 11.0 (feature level 398).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarUnreadsCountSummary(webLeftSidebarUnreadsCountSummary bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.webLeftSidebarUnreadsCountSummary = &webLeftSidebarUnreadsCountSummary
 	return r
 }
 
-// Enable visual desktop notifications for channel messages. 
+// Enable visual desktop notifications for channel messages.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableStreamDesktopNotifications(enableStreamDesktopNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableStreamDesktopNotifications = &enableStreamDesktopNotifications
 	return r
 }
 
-// Enable email notifications for channel messages. 
+// Enable email notifications for channel messages.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableStreamEmailNotifications(enableStreamEmailNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableStreamEmailNotifications = &enableStreamEmailNotifications
 	return r
 }
 
-// Enable mobile notifications for channel messages. 
+// Enable mobile notifications for channel messages.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableStreamPushNotifications(enableStreamPushNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableStreamPushNotifications = &enableStreamPushNotifications
 	return r
 }
 
-// Enable audible desktop notifications for channel messages. 
+// Enable audible desktop notifications for channel messages.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableStreamAudibleNotifications(enableStreamAudibleNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableStreamAudibleNotifications = &enableStreamAudibleNotifications
 	return r
 }
 
-// Notification sound name. 
+// Notification sound name.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) NotificationSound(notificationSound string) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.notificationSound = &notificationSound
 	return r
 }
 
-// Enable visual desktop notifications for direct messages and @-mentions. 
+// Enable visual desktop notifications for direct messages and @-mentions.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableDesktopNotifications(enableDesktopNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableDesktopNotifications = &enableDesktopNotifications
 	return r
 }
 
-// Enable audible desktop notifications for direct messages and @-mentions. 
+// Enable audible desktop notifications for direct messages and @-mentions.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableSounds(enableSounds bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableSounds = &enableSounds
 	return r
 }
 
-// Enable visual desktop notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189). 
+// Enable visual desktop notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicDesktopNotifications(enableFollowedTopicDesktopNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicDesktopNotifications = &enableFollowedTopicDesktopNotifications
 	return r
 }
 
-// Enable email notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189). 
+// Enable email notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicEmailNotifications(enableFollowedTopicEmailNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicEmailNotifications = &enableFollowedTopicEmailNotifications
 	return r
 }
 
-// Enable push notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189). 
+// Enable push notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicPushNotifications(enableFollowedTopicPushNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicPushNotifications = &enableFollowedTopicPushNotifications
 	return r
 }
 
-// Enable audible desktop notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189). 
+// Enable audible desktop notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicAudibleNotifications(enableFollowedTopicAudibleNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicAudibleNotifications = &enableFollowedTopicAudibleNotifications
 	return r
 }
 
-// The duration (in seconds) for which the server should wait to batch email notifications before sending them. 
+// The duration (in seconds) for which the server should wait to batch email notifications before sending them.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EmailNotificationsBatchingPeriodSeconds(emailNotificationsBatchingPeriodSeconds int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.emailNotificationsBatchingPeriodSeconds = &emailNotificationsBatchingPeriodSeconds
 	return r
 }
 
-// Enable email notifications for direct messages and @-mentions received when the user is offline. 
+// Enable email notifications for direct messages and @-mentions received when the user is offline.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableOfflineEmailNotifications(enableOfflineEmailNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableOfflineEmailNotifications = &enableOfflineEmailNotifications
 	return r
 }
 
-// Enable mobile notification for direct messages and @-mentions received when the user is offline. 
+// Enable mobile notification for direct messages and @-mentions received when the user is offline.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableOfflinePushNotifications(enableOfflinePushNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableOfflinePushNotifications = &enableOfflinePushNotifications
 	return r
 }
 
-// Enable mobile notification for direct messages and @-mentions received when the user is online. 
+// Enable mobile notification for direct messages and @-mentions received when the user is online.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableOnlinePushNotifications(enableOnlinePushNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableOnlinePushNotifications = &enableOnlinePushNotifications
 	return r
 }
 
-// Enable digest emails when the user is away. 
+// Enable digest emails when the user is away.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableDigestEmails(enableDigestEmails bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableDigestEmails = &enableDigestEmails
 	return r
 }
 
-// Include the message&#39;s content in email notifications for new messages. 
+// Include the message&#39;s content in email notifications for new messages.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) MessageContentInEmailNotifications(messageContentInEmailNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.messageContentInEmailNotifications = &messageContentInEmailNotifications
 	return r
 }
 
-// Include content of direct messages in desktop notifications. 
+// Include content of direct messages in desktop notifications.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) PmContentInDesktopNotifications(pmContentInDesktopNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.pmContentInDesktopNotifications = &pmContentInDesktopNotifications
 	return r
 }
 
-// Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
+// Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WildcardMentionsNotify(wildcardMentionsNotify bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.wildcardMentionsNotify = &wildcardMentionsNotify
 	return r
 }
 
-// Whether wildcard mentions (e.g., @**all**) in messages sent to followed topics should send notifications like a personal mention.  **Changes**: New in Zulip 8.0 (feature level 189). 
+// Whether wildcard mentions (e.g., @**all**) in messages sent to followed topics should send notifications like a personal mention.  **Changes**: New in Zulip 8.0 (feature level 189).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicWildcardMentionsNotify(enableFollowedTopicWildcardMentionsNotify bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicWildcardMentionsNotify = &enableFollowedTopicWildcardMentionsNotify
 	return r
 }
 
-// Unread count badge (appears in desktop sidebar and browser tab)  - 1 - All unread messages - 2 - DMs, mentions, and followed topics - 3 - DMs and mentions - 4 - None  **Changes**: In Zulip 8.0 (feature level 227), added &#x60;DMs, mentions, and followed topics&#x60; option, renumbering the options to insert it in order. 
+// Unread count badge (appears in desktop sidebar and browser tab)  - 1 - All unread messages - 2 - DMs, mentions, and followed topics - 3 - DMs and mentions - 4 - None  **Changes**: In Zulip 8.0 (feature level 227), added &#x60;DMs, mentions, and followed topics&#x60; option, renumbering the options to insert it in order.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) DesktopIconCountDisplay(desktopIconCountDisplay int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.desktopIconCountDisplay = &desktopIconCountDisplay
 	return r
 }
 
-// Whether to [include organization name in subject of message notification emails](/help/email-notifications#include-organization-name-in-subject-line).  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous &#x60;realm_name_in_notifications&#x60; boolean; &#x60;true&#x60; corresponded to &#x60;Always&#x60;, and &#x60;false&#x60; to &#x60;Never&#x60;. 
+// Whether to [include organization name in subject of message notification emails](/help/email-notifications#include-organization-name-in-subject-line).  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous &#x60;realm_name_in_notifications&#x60; boolean; &#x60;true&#x60; corresponded to &#x60;Always&#x60;, and &#x60;false&#x60; to &#x60;Never&#x60;.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) RealmNameInEmailNotificationsPolicy(realmNameInEmailNotificationsPolicy int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.realmNameInEmailNotificationsPolicy = &realmNameInEmailNotificationsPolicy
 	return r
 }
 
-// Which [topics to follow automatically](/help/mute-a-topic).  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214). 
+// Which [topics to follow automatically](/help/mute-a-topic).  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyFollowTopicsPolicy = &automaticallyFollowTopicsPolicy
 	return r
 }
 
-// Which [topics to unmute automatically in muted channels](/help/mute-a-topic).  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214). 
+// Which [topics to unmute automatically in muted channels](/help/mute-a-topic).  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMutedStreamsPolicy(automaticallyUnmuteTopicsInMutedStreamsPolicy int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyUnmuteTopicsInMutedStreamsPolicy = &automaticallyUnmuteTopicsInMutedStreamsPolicy
 	return r
 }
 
-// Whether the server will automatically mark the user as following topics where the user is mentioned.  **Changes**: New in Zulip 8.0 (feature level 235). 
+// Whether the server will automatically mark the user as following topics where the user is mentioned.  **Changes**: New in Zulip 8.0 (feature level 235).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsWhereMentioned(automaticallyFollowTopicsWhereMentioned bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyFollowTopicsWhereMentioned = &automaticallyFollowTopicsWhereMentioned
 	return r
 }
 
-// Controls whether the resolved-topic notices are marked as read.  - \\\&quot;always\\\&quot; - Always mark resolved-topic notices as read. - \\\&quot;except_followed\\\&quot; - Mark resolved-topic notices as read in topics not followed by the user. - \\\&quot;never\\\&quot; - Never mark resolved-topic notices as read.  **Changes**: New in Zulip 11.0 (feature level 385). 
+// Controls whether the resolved-topic notices are marked as read.  - \\\&quot;always\\\&quot; - Always mark resolved-topic notices as read. - \\\&quot;except_followed\\\&quot; - Mark resolved-topic notices as read in topics not followed by the user. - \\\&quot;never\\\&quot; - Never mark resolved-topic notices as read.  **Changes**: New in Zulip 11.0 (feature level 385).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy string) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.resolvedTopicNoticeAutoReadPolicy = &resolvedTopicNoticeAutoReadPolicy
 	return r
 }
 
-// Display the presence status to other users when online. 
+// Display the presence status to other users when online.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) PresenceEnabled(presenceEnabled bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.presenceEnabled = &presenceEnabled
 	return r
 }
 
-// Whether pressing Enter in the compose box sends a message (or saves a message edit). 
+// Whether pressing Enter in the compose box sends a message (or saves a message edit).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EnterSends(enterSends bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.enterSends = &enterSends
 	return r
 }
 
-// Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: New in Zulip 5.0 (feature level 99). Previously, this default was edited using the &#x60;default_twenty_four_hour_time&#x60; parameter to the &#x60;PATCH /realm&#x60; endpoint. 
+// Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: New in Zulip 5.0 (feature level 99). Previously, this default was edited using the &#x60;default_twenty_four_hour_time&#x60; parameter to the &#x60;PATCH /realm&#x60; endpoint.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) TwentyFourHourTime(twentyFourHourTime bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.twentyFourHourTime = &twentyFourHourTime
 	return r
 }
 
-// Whether [typing notifications](/help/typing-notifications) be sent when composing direct messages.  **Changes**: New in Zulip 5.0 (feature level 105). 
+// Whether [typing notifications](/help/typing-notifications) be sent when composing direct messages.  **Changes**: New in Zulip 5.0 (feature level 105).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) SendPrivateTypingNotifications(sendPrivateTypingNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.sendPrivateTypingNotifications = &sendPrivateTypingNotifications
 	return r
 }
 
-// Whether [typing notifications](/help/typing-notifications) be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105). 
+// Whether [typing notifications](/help/typing-notifications) be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) SendStreamTypingNotifications(sendStreamTypingNotifications bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.sendStreamTypingNotifications = &sendStreamTypingNotifications
 	return r
 }
 
-// Whether other users are allowed to see whether you&#39;ve read messages.  **Changes**: New in Zulip 5.0 (feature level 105). 
+// Whether other users are allowed to see whether you&#39;ve read messages.  **Changes**: New in Zulip 5.0 (feature level 105).
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(sendReadReceipts bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.sendReadReceipts = &sendReadReceipts
 	return r
 }
 
-// The [policy][permission-level] for [which other users][help-email-visibility] in this organization can see the user&#39;s real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.  [permission-level]: /api/roles-and-permissions#permission-levels [help-email-visibility]: /help/configure-email-visibility 
+// The [policy][permission-level] for [which other users][help-email-visibility] in this organization can see the user&#39;s real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.  [permission-level]: /api/roles-and-permissions#permission-levels [help-email-visibility]: /help/configure-email-visibility
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(emailAddressVisibility int32) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.emailAddressVisibility = &emailAddressVisibility
 	return r
 }
 
-// Web/desktop app setting for whether the user&#39;s view should automatically go to the conversation where they sent a message.  **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable. 
+// Web/desktop app setting for whether the user&#39;s view should automatically go to the conversation where they sent a message.  **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
 func (r ApiUpdateRealmUserSettingsDefaultsRequest) WebNavigateToSentMessage(webNavigateToSentMessage bool) ApiUpdateRealmUserSettingsDefaultsRequest {
 	r.webNavigateToSentMessage = &webNavigateToSentMessage
 	return r
@@ -3011,28 +3011,28 @@ be returned in the JSON success response.
 [new-user-defaults]: /help/configure-default-new-user-settings
 [ignored-parameters]: /api/rest-error-handling#ignored-parameters
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiUpdateRealmUserSettingsDefaultsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateRealmUserSettingsDefaultsRequest
 */
-func (a *ZulipClient) UpdateRealmUserSettingsDefaults(ctx context.Context) ApiUpdateRealmUserSettingsDefaultsRequest {
+func (c *ZulipClient) UpdateRealmUserSettingsDefaults(ctx context.Context) ApiUpdateRealmUserSettingsDefaultsRequest {
 	return ApiUpdateRealmUserSettingsDefaultsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService: c,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return IgnoredParametersSuccess
-func (a *ZulipClient) UpdateRealmUserSettingsDefaultsExecute(r ApiUpdateRealmUserSettingsDefaultsRequest) (*models.IgnoredParametersSuccess, *http.Response, error) {
+//
+//	@return models.IgnoredParametersSuccess
+func (c *ZulipClient) UpdateRealmUserSettingsDefaultsExecute(r ApiUpdateRealmUserSettingsDefaultsRequest) (*models.IgnoredParametersSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.IgnoredParametersSuccess
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.IgnoredParametersSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3234,12 +3234,12 @@ func (a *ZulipClient) UpdateRealmUserSettingsDefaultsExecute(r ApiUpdateRealmUse
 	if r.webNavigateToSentMessage != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "web_navigate_to_sent_message", r.webNavigateToSentMessage, "form", "")
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3259,7 +3259,7 @@ func (a *ZulipClient) UpdateRealmUserSettingsDefaultsExecute(r ApiUpdateRealmUse
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -3272,10 +3272,10 @@ func (a *ZulipClient) UpdateRealmUserSettingsDefaultsExecute(r ApiUpdateRealmUse
 }
 
 type ApiUploadCustomEmojiRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
-	emojiName string
-	filename *os.File
+	emojiName  string
+	filename   *os.File
 }
 
 func (r ApiUploadCustomEmojiRequest) Filename(filename *os.File) ApiUploadCustomEmojiRequest {
@@ -3294,30 +3294,30 @@ This endpoint is used to upload a custom emoji for use in the user's
 organization. Access to this endpoint depends on the
 [organization's configuration](https://zulip.com/help/custom-emoji#change-who-can-add-custom-emoji).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param emojiName The name that should be associated with the uploaded emoji image/gif. The emoji name can only contain letters, numbers, dashes, and spaces. Upper and lower case letters are treated the same, and underscores (\\_) are treated the same as spaces (consistent with how the Zulip UI handles emoji). 
- @return ApiUploadCustomEmojiRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param emojiName The name that should be associated with the uploaded emoji image/gif. The emoji name can only contain letters, numbers, dashes, and spaces. Upper and lower case letters are treated the same, and underscores (\\_) are treated the same as spaces (consistent with how the Zulip UI handles emoji).
+	@return ApiUploadCustomEmojiRequest
 */
-func (a *ZulipClient) UploadCustomEmoji(ctx context.Context, emojiName string) ApiUploadCustomEmojiRequest {
+func (c *ZulipClient) UploadCustomEmoji(ctx context.Context, emojiName string) ApiUploadCustomEmojiRequest {
 	return ApiUploadCustomEmojiRequest{
-		ApiService: a,
-		ctx: ctx,
-		emojiName: emojiName,
+		ApiService: c,
+		ctx:        ctx,
+		emojiName:  emojiName,
 	}
 }
 
 // Execute executes the request
-//  @return JsonSuccess
-func (a *ZulipClient) UploadCustomEmojiExecute(r ApiUploadCustomEmojiRequest) (*models.JsonSuccess, *http.Response, error) {
+//
+//	@return models.JsonSuccess
+func (c *ZulipClient) UploadCustomEmojiExecute(r ApiUploadCustomEmojiRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *models.JsonSuccess
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *models.JsonSuccess
 	)
 
-	localBasePath, err := a.ServerURL()
+	localBasePath, err := c.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3347,8 +3347,8 @@ func (a *ZulipClient) UploadCustomEmojiExecute(r ApiUploadCustomEmojiRequest) (*
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	var filenameLocalVarFormFileName string
-	var filenameLocalVarFileName     string
-	var filenameLocalVarFileBytes    []byte
+	var filenameLocalVarFileName string
+	var filenameLocalVarFileBytes []byte
 
 	filenameLocalVarFormFileName = "filename"
 	filenameLocalVarFile := r.filename
@@ -3361,12 +3361,12 @@ func (a *ZulipClient) UploadCustomEmojiExecute(r ApiUploadCustomEmojiRequest) (*
 		filenameLocalVarFile.Close()
 		formFiles = append(formFiles, formFile{fileBytes: filenameLocalVarFileBytes, fileName: filenameLocalVarFileName, formFileName: filenameLocalVarFormFileName})
 	}
-	req, err := a.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3386,7 +3386,7 @@ func (a *ZulipClient) UploadCustomEmojiExecute(r ApiUploadCustomEmojiRequest) (*
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,

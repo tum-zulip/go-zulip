@@ -62,10 +62,8 @@ type ZulipClient struct {
 	clientName    string
 	retryOnErrors bool
 
-	apiSuffix    string
-	apiVersion   string
-	zulipVersion string
-	featureLevel int32
+	apiSuffix  string
+	apiVersion string
 }
 
 type Option func(*ZulipClient)
@@ -131,10 +129,6 @@ func NewZulipClient(zuliprc *ZulipRC, options ...Option) (*ZulipClient, error) {
 
 	client.httpClient = httpClient
 	client.userAgent = userAgent
-
-	if err := client.initializeServerMetadata(); err != nil {
-		client.logger.Warn("could not initialize server metadata", "error", err)
-	}
 
 	return client, nil
 }
@@ -278,20 +272,6 @@ func buildHTTPClient(params *ZulipRC, logger *slog.Logger) (*http.Client, string
 	}
 
 	return client, userAgent, nil
-}
-
-func (c *ZulipClient) initializeServerMetadata() error {
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
-
-	resp, _, err := c.GetServerSettings(ctx).Execute()
-	if err != nil {
-		return err
-	}
-
-	c.zulipVersion = resp.GetZulipVersion()
-	c.featureLevel = resp.GetZulipFeatureLevel()
-	return nil
 }
 
 // selectHeaderContentType select a content type from the available list.
