@@ -489,7 +489,7 @@ fixed in Zulip 4.0 (feature level 57).
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiAddCodePlaygroundRequest
 */
-func (a *APIClient) AddCodePlayground(ctx context.Context) ApiAddCodePlaygroundRequest {
+func (a *ZulipClient) AddCodePlayground(ctx context.Context) ApiAddCodePlaygroundRequest {
 	return ApiAddCodePlaygroundRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -498,7 +498,7 @@ func (a *APIClient) AddCodePlayground(ctx context.Context) ApiAddCodePlaygroundR
 
 // Execute executes the request
 //  @return AddCodePlayground200Response
-func (a *APIClient) AddCodePlaygroundExecute(r ApiAddCodePlaygroundRequest) (*models.AddCodePlayground200Response, *http.Response, error) {
+func (a *ZulipClient) AddCodePlaygroundExecute(r ApiAddCodePlaygroundRequest) (*models.AddCodePlayground200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -506,7 +506,7 @@ func (a *APIClient) AddCodePlaygroundExecute(r ApiAddCodePlaygroundRequest) (*mo
 		localVarReturnValue  *models.AddCodePlayground200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.AddCodePlayground")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -551,7 +551,7 @@ func (a *APIClient) AddCodePlaygroundExecute(r ApiAddCodePlaygroundRequest) (*mo
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -617,7 +617,7 @@ appear in messages and topics.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiAddLinkifierRequest
 */
-func (a *APIClient) AddLinkifier(ctx context.Context) ApiAddLinkifierRequest {
+func (a *ZulipClient) AddLinkifier(ctx context.Context) ApiAddLinkifierRequest {
 	return ApiAddLinkifierRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -626,7 +626,7 @@ func (a *APIClient) AddLinkifier(ctx context.Context) ApiAddLinkifierRequest {
 
 // Execute executes the request
 //  @return AddLinkifier200Response
-func (a *APIClient) AddLinkifierExecute(r ApiAddLinkifierRequest) (*models.AddLinkifier200Response, *http.Response, error) {
+func (a *ZulipClient) AddLinkifierExecute(r ApiAddLinkifierRequest) (*models.AddLinkifier200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -634,7 +634,7 @@ func (a *APIClient) AddLinkifierExecute(r ApiAddLinkifierRequest) (*models.AddLi
 		localVarReturnValue  *models.AddLinkifier200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.AddLinkifier")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -675,7 +675,7 @@ func (a *APIClient) AddLinkifierExecute(r ApiAddLinkifierRequest) (*models.AddLi
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -774,7 +774,7 @@ CreateCustomProfileField Create a custom profile field
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateCustomProfileFieldRequest
 */
-func (a *APIClient) CreateCustomProfileField(ctx context.Context) ApiCreateCustomProfileFieldRequest {
+func (a *ZulipClient) CreateCustomProfileField(ctx context.Context) ApiCreateCustomProfileFieldRequest {
 	return ApiCreateCustomProfileFieldRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -783,7 +783,7 @@ func (a *APIClient) CreateCustomProfileField(ctx context.Context) ApiCreateCusto
 
 // Execute executes the request
 //  @return CreateCustomProfileField200Response
-func (a *APIClient) CreateCustomProfileFieldExecute(r ApiCreateCustomProfileFieldRequest) (*models.CreateCustomProfileField200Response, *http.Response, error) {
+func (a *ZulipClient) CreateCustomProfileFieldExecute(r ApiCreateCustomProfileFieldRequest) (*models.CreateCustomProfileField200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -791,7 +791,7 @@ func (a *APIClient) CreateCustomProfileFieldExecute(r ApiCreateCustomProfileFiel
 		localVarReturnValue  *models.CreateCustomProfileField200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.CreateCustomProfileField")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -846,7 +846,7 @@ func (a *APIClient) CreateCustomProfileFieldExecute(r ApiCreateCustomProfileFiel
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -908,7 +908,7 @@ HTTP status code of 400 when the emoji did not exist, instead of 404.
  @param emojiName The name of the custom emoji to deactivate. 
  @return ApiDeactivateCustomEmojiRequest
 */
-func (a *APIClient) DeactivateCustomEmoji(ctx context.Context, emojiName string) ApiDeactivateCustomEmojiRequest {
+func (a *ZulipClient) DeactivateCustomEmoji(ctx context.Context, emojiName string) ApiDeactivateCustomEmojiRequest {
 	return ApiDeactivateCustomEmojiRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -918,7 +918,7 @@ func (a *APIClient) DeactivateCustomEmoji(ctx context.Context, emojiName string)
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) DeactivateCustomEmojiExecute(r ApiDeactivateCustomEmojiRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) DeactivateCustomEmojiExecute(r ApiDeactivateCustomEmojiRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -926,7 +926,7 @@ func (a *APIClient) DeactivateCustomEmojiExecute(r ApiDeactivateCustomEmojiReque
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.DeactivateCustomEmoji")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -960,7 +960,7 @@ func (a *APIClient) DeactivateCustomEmojiExecute(r ApiDeactivateCustomEmojiReque
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1042,7 +1042,7 @@ New in Zulip 2.1.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiExportRealmRequest
 */
-func (a *APIClient) ExportRealm(ctx context.Context) ApiExportRealmRequest {
+func (a *ZulipClient) ExportRealm(ctx context.Context) ApiExportRealmRequest {
 	return ApiExportRealmRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1051,7 +1051,7 @@ func (a *APIClient) ExportRealm(ctx context.Context) ApiExportRealmRequest {
 
 // Execute executes the request
 //  @return ExportRealm200Response
-func (a *APIClient) ExportRealmExecute(r ApiExportRealmRequest) (*models.ExportRealm200Response, *http.Response, error) {
+func (a *ZulipClient) ExportRealmExecute(r ApiExportRealmRequest) (*models.ExportRealm200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -1059,7 +1059,7 @@ func (a *APIClient) ExportRealmExecute(r ApiExportRealmRequest) (*models.ExportR
 		localVarReturnValue  *models.ExportRealm200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.ExportRealm")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1095,7 +1095,7 @@ func (a *APIClient) ExportRealmExecute(r ApiExportRealmRequest) (*models.ExportR
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1155,7 +1155,7 @@ Get all the custom emoji in the user's organization.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetCustomEmojiRequest
 */
-func (a *APIClient) GetCustomEmoji(ctx context.Context) ApiGetCustomEmojiRequest {
+func (a *ZulipClient) GetCustomEmoji(ctx context.Context) ApiGetCustomEmojiRequest {
 	return ApiGetCustomEmojiRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1164,7 +1164,7 @@ func (a *APIClient) GetCustomEmoji(ctx context.Context) ApiGetCustomEmojiRequest
 
 // Execute executes the request
 //  @return GetCustomEmoji200Response
-func (a *APIClient) GetCustomEmojiExecute(r ApiGetCustomEmojiRequest) (*models.GetCustomEmoji200Response, *http.Response, error) {
+func (a *ZulipClient) GetCustomEmojiExecute(r ApiGetCustomEmojiRequest) (*models.GetCustomEmoji200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1172,7 +1172,7 @@ func (a *APIClient) GetCustomEmojiExecute(r ApiGetCustomEmojiRequest) (*models.G
 		localVarReturnValue  *models.GetCustomEmoji200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.GetCustomEmoji")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1205,7 +1205,7 @@ func (a *APIClient) GetCustomEmojiExecute(r ApiGetCustomEmojiRequest) (*models.G
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1256,7 +1256,7 @@ configured for the user's organization.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetCustomProfileFieldsRequest
 */
-func (a *APIClient) GetCustomProfileFields(ctx context.Context) ApiGetCustomProfileFieldsRequest {
+func (a *ZulipClient) GetCustomProfileFields(ctx context.Context) ApiGetCustomProfileFieldsRequest {
 	return ApiGetCustomProfileFieldsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1265,7 +1265,7 @@ func (a *APIClient) GetCustomProfileFields(ctx context.Context) ApiGetCustomProf
 
 // Execute executes the request
 //  @return GetCustomProfileFields200Response
-func (a *APIClient) GetCustomProfileFieldsExecute(r ApiGetCustomProfileFieldsRequest) (*models.GetCustomProfileFields200Response, *http.Response, error) {
+func (a *ZulipClient) GetCustomProfileFieldsExecute(r ApiGetCustomProfileFieldsRequest) (*models.GetCustomProfileFields200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1273,7 +1273,7 @@ func (a *APIClient) GetCustomProfileFieldsExecute(r ApiGetCustomProfileFieldsReq
 		localVarReturnValue  *models.GetCustomProfileFields200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.GetCustomProfileFields")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1306,7 +1306,7 @@ func (a *APIClient) GetCustomProfileFieldsExecute(r ApiGetCustomProfileFieldsReq
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1363,7 +1363,7 @@ a `[pattern, url_format, id]` tuple format.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetLinkifiersRequest
 */
-func (a *APIClient) GetLinkifiers(ctx context.Context) ApiGetLinkifiersRequest {
+func (a *ZulipClient) GetLinkifiers(ctx context.Context) ApiGetLinkifiersRequest {
 	return ApiGetLinkifiersRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1372,7 +1372,7 @@ func (a *APIClient) GetLinkifiers(ctx context.Context) ApiGetLinkifiersRequest {
 
 // Execute executes the request
 //  @return GetLinkifiers200Response
-func (a *APIClient) GetLinkifiersExecute(r ApiGetLinkifiersRequest) (*models.GetLinkifiers200Response, *http.Response, error) {
+func (a *ZulipClient) GetLinkifiersExecute(r ApiGetLinkifiersRequest) (*models.GetLinkifiers200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1380,7 +1380,7 @@ func (a *APIClient) GetLinkifiersExecute(r ApiGetLinkifiersRequest) (*models.Get
 		localVarReturnValue  *models.GetLinkifiers200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.GetLinkifiers")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1413,7 +1413,7 @@ func (a *APIClient) GetLinkifiersExecute(r ApiGetLinkifiersRequest) (*models.Get
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1471,7 +1471,7 @@ information when they post their own state using the [`POST
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetPresenceRequest
 */
-func (a *APIClient) GetPresence(ctx context.Context) ApiGetPresenceRequest {
+func (a *ZulipClient) GetPresence(ctx context.Context) ApiGetPresenceRequest {
 	return ApiGetPresenceRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1480,7 +1480,7 @@ func (a *APIClient) GetPresence(ctx context.Context) ApiGetPresenceRequest {
 
 // Execute executes the request
 //  @return GetPresence200Response
-func (a *APIClient) GetPresenceExecute(r ApiGetPresenceRequest) (*models.GetPresence200Response, *http.Response, error) {
+func (a *ZulipClient) GetPresenceExecute(r ApiGetPresenceRequest) (*models.GetPresence200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1488,7 +1488,7 @@ func (a *APIClient) GetPresenceExecute(r ApiGetPresenceRequest) (*models.GetPres
 		localVarReturnValue  *models.GetPresence200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.GetPresence")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1521,7 +1521,7 @@ func (a *APIClient) GetPresenceExecute(r ApiGetPresenceRequest) (*models.GetPres
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1574,7 +1574,7 @@ for their private data to be exported by organization administrators.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetRealmExportConsentsRequest
 */
-func (a *APIClient) GetRealmExportConsents(ctx context.Context) ApiGetRealmExportConsentsRequest {
+func (a *ZulipClient) GetRealmExportConsents(ctx context.Context) ApiGetRealmExportConsentsRequest {
 	return ApiGetRealmExportConsentsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1583,7 +1583,7 @@ func (a *APIClient) GetRealmExportConsents(ctx context.Context) ApiGetRealmExpor
 
 // Execute executes the request
 //  @return GetRealmExportConsents200Response
-func (a *APIClient) GetRealmExportConsentsExecute(r ApiGetRealmExportConsentsRequest) (*models.GetRealmExportConsents200Response, *http.Response, error) {
+func (a *ZulipClient) GetRealmExportConsentsExecute(r ApiGetRealmExportConsentsRequest) (*models.GetRealmExportConsents200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1591,7 +1591,7 @@ func (a *APIClient) GetRealmExportConsentsExecute(r ApiGetRealmExportConsentsReq
 		localVarReturnValue  *models.GetRealmExportConsents200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.GetRealmExportConsents")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1624,7 +1624,7 @@ func (a *APIClient) GetRealmExportConsentsExecute(r ApiGetRealmExportConsentsReq
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1682,7 +1682,7 @@ New in Zulip 2.1.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetRealmExportsRequest
 */
-func (a *APIClient) GetRealmExports(ctx context.Context) ApiGetRealmExportsRequest {
+func (a *ZulipClient) GetRealmExports(ctx context.Context) ApiGetRealmExportsRequest {
 	return ApiGetRealmExportsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1691,7 +1691,7 @@ func (a *APIClient) GetRealmExports(ctx context.Context) ApiGetRealmExportsReque
 
 // Execute executes the request
 //  @return GetRealmExports200Response
-func (a *APIClient) GetRealmExportsExecute(r ApiGetRealmExportsRequest) (*models.GetRealmExports200Response, *http.Response, error) {
+func (a *ZulipClient) GetRealmExportsExecute(r ApiGetRealmExportsRequest) (*models.GetRealmExports200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1699,7 +1699,7 @@ func (a *APIClient) GetRealmExportsExecute(r ApiGetRealmExportsRequest) (*models
 		localVarReturnValue  *models.GetRealmExports200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.GetRealmExports")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1732,7 +1732,7 @@ func (a *APIClient) GetRealmExportsExecute(r ApiGetRealmExportsRequest) (*models
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1790,7 +1790,7 @@ Fetch global settings for a Zulip server.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetServerSettingsRequest
 */
-func (a *APIClient) GetServerSettings(ctx context.Context) ApiGetServerSettingsRequest {
+func (a *ZulipClient) GetServerSettings(ctx context.Context) ApiGetServerSettingsRequest {
 	return ApiGetServerSettingsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1799,7 +1799,7 @@ func (a *APIClient) GetServerSettings(ctx context.Context) ApiGetServerSettingsR
 
 // Execute executes the request
 //  @return GetServerSettings200Response
-func (a *APIClient) GetServerSettingsExecute(r ApiGetServerSettingsRequest) (*models.GetServerSettings200Response, *http.Response, error) {
+func (a *ZulipClient) GetServerSettingsExecute(r ApiGetServerSettingsRequest) (*models.GetServerSettings200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1807,7 +1807,7 @@ func (a *APIClient) GetServerSettingsExecute(r ApiGetServerSettingsRequest) (*mo
 		localVarReturnValue  *models.GetServerSettings200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.GetServerSettings")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1840,7 +1840,7 @@ func (a *APIClient) GetServerSettingsExecute(r ApiGetServerSettingsRequest) (*mo
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1895,7 +1895,7 @@ configured for an organization.
  @param playgroundId The ID of the playground that you want to remove. 
  @return ApiRemoveCodePlaygroundRequest
 */
-func (a *APIClient) RemoveCodePlayground(ctx context.Context, playgroundId int32) ApiRemoveCodePlaygroundRequest {
+func (a *ZulipClient) RemoveCodePlayground(ctx context.Context, playgroundId int32) ApiRemoveCodePlaygroundRequest {
 	return ApiRemoveCodePlaygroundRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1905,7 +1905,7 @@ func (a *APIClient) RemoveCodePlayground(ctx context.Context, playgroundId int32
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) RemoveCodePlaygroundExecute(r ApiRemoveCodePlaygroundRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) RemoveCodePlaygroundExecute(r ApiRemoveCodePlaygroundRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -1913,7 +1913,7 @@ func (a *APIClient) RemoveCodePlaygroundExecute(r ApiRemoveCodePlaygroundRequest
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.RemoveCodePlayground")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1947,7 +1947,7 @@ func (a *APIClient) RemoveCodePlaygroundExecute(r ApiRemoveCodePlaygroundRequest
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2001,7 +2001,7 @@ in messages and topics.
  @param filterId The ID of the linkifier that you want to remove. 
  @return ApiRemoveLinkifierRequest
 */
-func (a *APIClient) RemoveLinkifier(ctx context.Context, filterId int32) ApiRemoveLinkifierRequest {
+func (a *ZulipClient) RemoveLinkifier(ctx context.Context, filterId int32) ApiRemoveLinkifierRequest {
 	return ApiRemoveLinkifierRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2011,7 +2011,7 @@ func (a *APIClient) RemoveLinkifier(ctx context.Context, filterId int32) ApiRemo
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) RemoveLinkifierExecute(r ApiRemoveLinkifierRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) RemoveLinkifierExecute(r ApiRemoveLinkifierRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -2019,7 +2019,7 @@ func (a *APIClient) RemoveLinkifierExecute(r ApiRemoveLinkifierRequest) (*models
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.RemoveLinkifier")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2053,7 +2053,7 @@ func (a *APIClient) RemoveLinkifierExecute(r ApiRemoveLinkifierRequest) (*models
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2116,7 +2116,7 @@ This endpoint is used to implement the dragging feature described in the
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiReorderCustomProfileFieldsRequest
 */
-func (a *APIClient) ReorderCustomProfileFields(ctx context.Context) ApiReorderCustomProfileFieldsRequest {
+func (a *ZulipClient) ReorderCustomProfileFields(ctx context.Context) ApiReorderCustomProfileFieldsRequest {
 	return ApiReorderCustomProfileFieldsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2125,7 +2125,7 @@ func (a *APIClient) ReorderCustomProfileFields(ctx context.Context) ApiReorderCu
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) ReorderCustomProfileFieldsExecute(r ApiReorderCustomProfileFieldsRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) ReorderCustomProfileFieldsExecute(r ApiReorderCustomProfileFieldsRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -2133,7 +2133,7 @@ func (a *APIClient) ReorderCustomProfileFieldsExecute(r ApiReorderCustomProfileF
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.ReorderCustomProfileFields")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2170,7 +2170,7 @@ func (a *APIClient) ReorderCustomProfileFieldsExecute(r ApiReorderCustomProfileF
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2233,7 +2233,7 @@ need to delete and recreate them to reorder the list of linkifiers.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiReorderLinkifiersRequest
 */
-func (a *APIClient) ReorderLinkifiers(ctx context.Context) ApiReorderLinkifiersRequest {
+func (a *ZulipClient) ReorderLinkifiers(ctx context.Context) ApiReorderLinkifiersRequest {
 	return ApiReorderLinkifiersRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2242,7 +2242,7 @@ func (a *APIClient) ReorderLinkifiers(ctx context.Context) ApiReorderLinkifiersR
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) ReorderLinkifiersExecute(r ApiReorderLinkifiersRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) ReorderLinkifiersExecute(r ApiReorderLinkifiersRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -2250,7 +2250,7 @@ func (a *APIClient) ReorderLinkifiersExecute(r ApiReorderLinkifiersRequest) (*mo
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.ReorderLinkifiers")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2287,7 +2287,7 @@ func (a *APIClient) ReorderLinkifiersExecute(r ApiReorderLinkifiersRequest) (*mo
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2348,7 +2348,7 @@ appear when received by new users upon joining the organization.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiTestWelcomeBotCustomMessageRequest
 */
-func (a *APIClient) TestWelcomeBotCustomMessage(ctx context.Context) ApiTestWelcomeBotCustomMessageRequest {
+func (a *ZulipClient) TestWelcomeBotCustomMessage(ctx context.Context) ApiTestWelcomeBotCustomMessageRequest {
 	return ApiTestWelcomeBotCustomMessageRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2357,7 +2357,7 @@ func (a *APIClient) TestWelcomeBotCustomMessage(ctx context.Context) ApiTestWelc
 
 // Execute executes the request
 //  @return TestWelcomeBotCustomMessage200Response
-func (a *APIClient) TestWelcomeBotCustomMessageExecute(r ApiTestWelcomeBotCustomMessageRequest) (*models.TestWelcomeBotCustomMessage200Response, *http.Response, error) {
+func (a *ZulipClient) TestWelcomeBotCustomMessageExecute(r ApiTestWelcomeBotCustomMessageRequest) (*models.TestWelcomeBotCustomMessage200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -2365,7 +2365,7 @@ func (a *APIClient) TestWelcomeBotCustomMessageExecute(r ApiTestWelcomeBotCustom
 		localVarReturnValue  *models.TestWelcomeBotCustomMessage200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.TestWelcomeBotCustomMessage")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2405,7 +2405,7 @@ func (a *APIClient) TestWelcomeBotCustomMessageExecute(r ApiTestWelcomeBotCustom
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2475,7 +2475,7 @@ in messages and topics.
  @param filterId The ID of the linkifier that you want to update. 
  @return ApiUpdateLinkifierRequest
 */
-func (a *APIClient) UpdateLinkifier(ctx context.Context, filterId int32) ApiUpdateLinkifierRequest {
+func (a *ZulipClient) UpdateLinkifier(ctx context.Context, filterId int32) ApiUpdateLinkifierRequest {
 	return ApiUpdateLinkifierRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2485,7 +2485,7 @@ func (a *APIClient) UpdateLinkifier(ctx context.Context, filterId int32) ApiUpda
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UpdateLinkifierExecute(r ApiUpdateLinkifierRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateLinkifierExecute(r ApiUpdateLinkifierRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -2493,7 +2493,7 @@ func (a *APIClient) UpdateLinkifierExecute(r ApiUpdateLinkifierRequest) (*models
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.UpdateLinkifier")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2535,7 +2535,7 @@ func (a *APIClient) UpdateLinkifierExecute(r ApiUpdateLinkifierRequest) (*models
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3015,7 +3015,7 @@ be returned in the JSON success response.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUpdateRealmUserSettingsDefaultsRequest
 */
-func (a *APIClient) UpdateRealmUserSettingsDefaults(ctx context.Context) ApiUpdateRealmUserSettingsDefaultsRequest {
+func (a *ZulipClient) UpdateRealmUserSettingsDefaults(ctx context.Context) ApiUpdateRealmUserSettingsDefaultsRequest {
 	return ApiUpdateRealmUserSettingsDefaultsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3024,7 +3024,7 @@ func (a *APIClient) UpdateRealmUserSettingsDefaults(ctx context.Context) ApiUpda
 
 // Execute executes the request
 //  @return IgnoredParametersSuccess
-func (a *APIClient) UpdateRealmUserSettingsDefaultsExecute(r ApiUpdateRealmUserSettingsDefaultsRequest) (*models.IgnoredParametersSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateRealmUserSettingsDefaultsExecute(r ApiUpdateRealmUserSettingsDefaultsRequest) (*models.IgnoredParametersSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -3032,7 +3032,7 @@ func (a *APIClient) UpdateRealmUserSettingsDefaultsExecute(r ApiUpdateRealmUserS
 		localVarReturnValue  *models.IgnoredParametersSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.UpdateRealmUserSettingsDefaults")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3239,7 +3239,7 @@ func (a *APIClient) UpdateRealmUserSettingsDefaultsExecute(r ApiUpdateRealmUserS
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3299,7 +3299,7 @@ organization. Access to this endpoint depends on the
  @param emojiName The name that should be associated with the uploaded emoji image/gif. The emoji name can only contain letters, numbers, dashes, and spaces. Upper and lower case letters are treated the same, and underscores (\\_) are treated the same as spaces (consistent with how the Zulip UI handles emoji). 
  @return ApiUploadCustomEmojiRequest
 */
-func (a *APIClient) UploadCustomEmoji(ctx context.Context, emojiName string) ApiUploadCustomEmojiRequest {
+func (a *ZulipClient) UploadCustomEmoji(ctx context.Context, emojiName string) ApiUploadCustomEmojiRequest {
 	return ApiUploadCustomEmojiRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3309,7 +3309,7 @@ func (a *APIClient) UploadCustomEmoji(ctx context.Context, emojiName string) Api
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UploadCustomEmojiExecute(r ApiUploadCustomEmojiRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UploadCustomEmojiExecute(r ApiUploadCustomEmojiRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -3317,7 +3317,7 @@ func (a *APIClient) UploadCustomEmojiExecute(r ApiUploadCustomEmojiRequest) (*mo
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ServerAndOrganizationsAPI.UploadCustomEmoji")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3366,7 +3366,7 @@ func (a *APIClient) UploadCustomEmojiExecute(r ApiUploadCustomEmojiRequest) (*mo
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

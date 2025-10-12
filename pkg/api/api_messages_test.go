@@ -14,21 +14,20 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	
+
+	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
 func Test_gozulip_MessagesAPIService(t *testing.T) {
 
-	configuration := NewConfiguration()
-	apiClient := NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	t.Run("Test MessagesAPIService AddReaction", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var messageId int32
 
-		resp, httpRes, err := apiClient.MessagesAPI.AddReaction(context.Background(), messageId).Execute()
+		resp, httpRes, err := apiClient.AddReaction(context.Background(), messageId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -38,9 +37,7 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService CheckMessagesMatchNarrow", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.MessagesAPI.CheckMessagesMatchNarrow(context.Background()).Execute()
+		resp, httpRes, err := apiClient.CheckMessagesMatchNarrow(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -50,11 +47,9 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService DeleteMessage", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var messageId int32
 
-		resp, httpRes, err := apiClient.MessagesAPI.DeleteMessage(context.Background(), messageId).Execute()
+		resp, httpRes, err := apiClient.DeleteMessage(context.Background(), messageId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -64,12 +59,10 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService GetFileTemporaryUrl", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var realmIdStr int32
 		var filename string
 
-		resp, httpRes, err := apiClient.MessagesAPI.GetFileTemporaryUrl(context.Background(), realmIdStr, filename).Execute()
+		resp, httpRes, err := apiClient.GetFileTemporaryUrl(context.Background(), realmIdStr, filename).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -79,11 +72,9 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService GetMessage", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var messageId int32
 
-		resp, httpRes, err := apiClient.MessagesAPI.GetMessage(context.Background(), messageId).Execute()
+		resp, httpRes, err := apiClient.GetMessage(context.Background(), messageId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -93,11 +84,9 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService GetMessageHistory", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var messageId int32
 
-		resp, httpRes, err := apiClient.MessagesAPI.GetMessageHistory(context.Background(), messageId).Execute()
+		resp, httpRes, err := apiClient.GetMessageHistory(context.Background(), messageId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -107,9 +96,7 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService GetMessages", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.MessagesAPI.GetMessages(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetMessages(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -119,11 +106,9 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService GetReadReceipts", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var messageId int32
 
-		resp, httpRes, err := apiClient.MessagesAPI.GetReadReceipts(context.Background(), messageId).Execute()
+		resp, httpRes, err := apiClient.GetReadReceipts(context.Background(), messageId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -133,9 +118,7 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService MarkAllAsRead", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.MessagesAPI.MarkAllAsRead(context.Background()).Execute()
+		resp, httpRes, err := apiClient.MarkAllAsRead(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -145,9 +128,7 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService MarkStreamAsRead", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.MessagesAPI.MarkStreamAsRead(context.Background()).Execute()
+		resp, httpRes, err := apiClient.MarkStreamAsRead(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -157,9 +138,7 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService MarkTopicAsRead", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.MessagesAPI.MarkTopicAsRead(context.Background()).Execute()
+		resp, httpRes, err := apiClient.MarkTopicAsRead(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -169,11 +148,9 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService RemoveReaction", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var messageId int32
 
-		resp, httpRes, err := apiClient.MessagesAPI.RemoveReaction(context.Background(), messageId).Execute()
+		resp, httpRes, err := apiClient.RemoveReaction(context.Background(), messageId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -183,9 +160,7 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService RenderMessage", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.MessagesAPI.RenderMessage(context.Background()).Execute()
+		resp, httpRes, err := apiClient.RenderMessage(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -195,11 +170,9 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService ReportMessage", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var messageId int32
 
-		resp, httpRes, err := apiClient.MessagesAPI.ReportMessage(context.Background(), messageId).Execute()
+		resp, httpRes, err := apiClient.ReportMessage(context.Background(), messageId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -209,9 +182,7 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService SendMessage", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.MessagesAPI.SendMessage(context.Background()).Execute()
+		resp, httpRes, err := apiClient.SendMessage(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -221,11 +192,9 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService UpdateMessage", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var messageId int32
 
-		resp, httpRes, err := apiClient.MessagesAPI.UpdateMessage(context.Background(), messageId).Execute()
+		resp, httpRes, err := apiClient.UpdateMessage(context.Background(), messageId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -235,9 +204,7 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService UpdateMessageFlags", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.MessagesAPI.UpdateMessageFlags(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UpdateMessageFlags(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -247,9 +214,7 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService UpdateMessageFlagsForNarrow", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.MessagesAPI.UpdateMessageFlagsForNarrow(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UpdateMessageFlagsForNarrow(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -259,9 +224,7 @@ func Test_gozulip_MessagesAPIService(t *testing.T) {
 
 	t.Run("Test MessagesAPIService UploadFile", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.MessagesAPI.UploadFile(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UploadFile(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

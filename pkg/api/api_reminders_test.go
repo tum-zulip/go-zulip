@@ -15,18 +15,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 	
+	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
 func Test_gozulip_RemindersAPIService(t *testing.T) {
 
-	configuration := NewConfiguration()
-	apiClient := NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	t.Run("Test RemindersAPIService CreateMessageReminder", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.RemindersAPI.CreateMessageReminder(context.Background()).Execute()
+		resp, httpRes, err := apiClient.CreateMessageReminder(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,11 +35,9 @@ func Test_gozulip_RemindersAPIService(t *testing.T) {
 
 	t.Run("Test RemindersAPIService DeleteReminder", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var reminderId int32
 
-		resp, httpRes, err := apiClient.RemindersAPI.DeleteReminder(context.Background(), reminderId).Execute()
+		resp, httpRes, err := apiClient.DeleteReminder(context.Background(), reminderId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -50,9 +47,7 @@ func Test_gozulip_RemindersAPIService(t *testing.T) {
 
 	t.Run("Test RemindersAPIService GetReminders", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.RemindersAPI.GetReminders(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetReminders(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

@@ -15,18 +15,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 	
+	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
 func Test_gozulip_ScheduledMessagesAPIService(t *testing.T) {
 
-	configuration := NewConfiguration()
-	apiClient := NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	t.Run("Test ScheduledMessagesAPIService CreateScheduledMessage", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ScheduledMessagesAPI.CreateScheduledMessage(context.Background()).Execute()
+		resp, httpRes, err := apiClient.CreateScheduledMessage(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,11 +35,9 @@ func Test_gozulip_ScheduledMessagesAPIService(t *testing.T) {
 
 	t.Run("Test ScheduledMessagesAPIService DeleteScheduledMessage", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var scheduledMessageId int32
 
-		resp, httpRes, err := apiClient.ScheduledMessagesAPI.DeleteScheduledMessage(context.Background(), scheduledMessageId).Execute()
+		resp, httpRes, err := apiClient.DeleteScheduledMessage(context.Background(), scheduledMessageId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -50,9 +47,7 @@ func Test_gozulip_ScheduledMessagesAPIService(t *testing.T) {
 
 	t.Run("Test ScheduledMessagesAPIService GetScheduledMessages", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ScheduledMessagesAPI.GetScheduledMessages(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetScheduledMessages(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -62,11 +57,9 @@ func Test_gozulip_ScheduledMessagesAPIService(t *testing.T) {
 
 	t.Run("Test ScheduledMessagesAPIService UpdateScheduledMessage", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var scheduledMessageId int32
 
-		resp, httpRes, err := apiClient.ScheduledMessagesAPI.UpdateScheduledMessage(context.Background(), scheduledMessageId).Execute()
+		resp, httpRes, err := apiClient.UpdateScheduledMessage(context.Background(), scheduledMessageId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

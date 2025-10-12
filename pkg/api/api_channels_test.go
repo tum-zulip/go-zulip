@@ -15,18 +15,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 	
+	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
 func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
-	configuration := NewConfiguration()
-	apiClient := NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	t.Run("Test ChannelsAPIService AddDefaultStream", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.AddDefaultStream(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AddDefaultStream(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,11 +35,9 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService ArchiveStream", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var streamId int32
 
-		resp, httpRes, err := apiClient.ChannelsAPI.ArchiveStream(context.Background(), streamId).Execute()
+		resp, httpRes, err := apiClient.ArchiveStream(context.Background(), streamId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -50,9 +47,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService CreateBigBlueButtonVideoCall", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.CreateBigBlueButtonVideoCall(context.Background()).Execute()
+		resp, httpRes, err := apiClient.CreateBigBlueButtonVideoCall(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -62,9 +57,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService CreateChannel", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.CreateChannel(context.Background()).Execute()
+		resp, httpRes, err := apiClient.CreateChannel(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -74,9 +67,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService CreateChannelFolder", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.CreateChannelFolder(context.Background()).Execute()
+		resp, httpRes, err := apiClient.CreateChannelFolder(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -86,11 +77,9 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService DeleteTopic", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var streamId int32
 
-		resp, httpRes, err := apiClient.ChannelsAPI.DeleteTopic(context.Background(), streamId).Execute()
+		resp, httpRes, err := apiClient.DeleteTopic(context.Background(), streamId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -100,9 +89,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService GetChannelFolders", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.GetChannelFolders(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetChannelFolders(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -112,11 +99,9 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService GetStreamById", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var streamId int32
 
-		resp, httpRes, err := apiClient.ChannelsAPI.GetStreamById(context.Background(), streamId).Execute()
+		resp, httpRes, err := apiClient.GetStreamById(context.Background(), streamId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -126,11 +111,9 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService GetStreamEmailAddress", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var streamId int32
 
-		resp, httpRes, err := apiClient.ChannelsAPI.GetStreamEmailAddress(context.Background(), streamId).Execute()
+		resp, httpRes, err := apiClient.GetStreamEmailAddress(context.Background(), streamId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -140,9 +123,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService GetStreamId", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.GetStreamId(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetStreamId(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -152,11 +133,9 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService GetStreamTopics", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var streamId int32
 
-		resp, httpRes, err := apiClient.ChannelsAPI.GetStreamTopics(context.Background(), streamId).Execute()
+		resp, httpRes, err := apiClient.GetStreamTopics(context.Background(), streamId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -166,9 +145,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService GetStreams", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.GetStreams(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetStreams(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -178,11 +155,9 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService GetSubscribers", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var streamId int32
 
-		resp, httpRes, err := apiClient.ChannelsAPI.GetSubscribers(context.Background(), streamId).Execute()
+		resp, httpRes, err := apiClient.GetSubscribers(context.Background(), streamId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -192,12 +167,10 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService GetSubscriptionStatus", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userId int32
 		var streamId int32
 
-		resp, httpRes, err := apiClient.ChannelsAPI.GetSubscriptionStatus(context.Background(), userId, streamId).Execute()
+		resp, httpRes, err := apiClient.GetSubscriptionStatus(context.Background(), userId, streamId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -207,9 +180,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService GetSubscriptions", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.GetSubscriptions(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetSubscriptions(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -219,9 +190,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService MuteTopic", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.MuteTopic(context.Background()).Execute()
+		resp, httpRes, err := apiClient.MuteTopic(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -231,9 +200,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService PatchChannelFolders", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.PatchChannelFolders(context.Background()).Execute()
+		resp, httpRes, err := apiClient.PatchChannelFolders(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -243,9 +210,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService RemoveDefaultStream", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.RemoveDefaultStream(context.Background()).Execute()
+		resp, httpRes, err := apiClient.RemoveDefaultStream(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -255,9 +220,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService Subscribe", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.Subscribe(context.Background()).Execute()
+		resp, httpRes, err := apiClient.Subscribe(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -267,9 +230,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService Unsubscribe", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.Unsubscribe(context.Background()).Execute()
+		resp, httpRes, err := apiClient.Unsubscribe(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -279,11 +240,9 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService UpdateChannelFolder", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var channelFolderId int32
 
-		resp, httpRes, err := apiClient.ChannelsAPI.UpdateChannelFolder(context.Background(), channelFolderId).Execute()
+		resp, httpRes, err := apiClient.UpdateChannelFolder(context.Background(), channelFolderId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -293,11 +252,9 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService UpdateStream", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var streamId int32
 
-		resp, httpRes, err := apiClient.ChannelsAPI.UpdateStream(context.Background(), streamId).Execute()
+		resp, httpRes, err := apiClient.UpdateStream(context.Background(), streamId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -307,9 +264,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService UpdateSubscriptionSettings", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.UpdateSubscriptionSettings(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UpdateSubscriptionSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -319,9 +274,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService UpdateSubscriptions", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.UpdateSubscriptions(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UpdateSubscriptions(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -331,9 +284,7 @@ func Test_gozulip_ChannelsAPIService(t *testing.T) {
 
 	t.Run("Test ChannelsAPIService UpdateUserTopic", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ChannelsAPI.UpdateUserTopic(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UpdateUserTopic(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

@@ -111,7 +111,7 @@ to the user's selected mobile device or all of their mobile devices.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiE2eeTestNotifyRequest
 */
-func (a *APIClient) E2eeTestNotify(ctx context.Context) ApiE2eeTestNotifyRequest {
+func (a *ZulipClient) E2eeTestNotify(ctx context.Context) ApiE2eeTestNotifyRequest {
 	return ApiE2eeTestNotifyRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -120,7 +120,7 @@ func (a *APIClient) E2eeTestNotify(ctx context.Context) ApiE2eeTestNotifyRequest
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) E2eeTestNotifyExecute(r ApiE2eeTestNotifyRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) E2eeTestNotifyExecute(r ApiE2eeTestNotifyRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -128,7 +128,7 @@ func (a *APIClient) E2eeTestNotifyExecute(r ApiE2eeTestNotifyRequest) (*models.J
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MobileAPI.E2eeTestNotify")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -164,7 +164,7 @@ func (a *APIClient) E2eeTestNotifyExecute(r ApiE2eeTestNotifyRequest) (*models.J
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -283,7 +283,7 @@ Register a device to receive end-to-end encrypted mobile push notifications.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiRegisterPushDeviceRequest
 */
-func (a *APIClient) RegisterPushDevice(ctx context.Context) ApiRegisterPushDeviceRequest {
+func (a *ZulipClient) RegisterPushDevice(ctx context.Context) ApiRegisterPushDeviceRequest {
 	return ApiRegisterPushDeviceRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -292,7 +292,7 @@ func (a *APIClient) RegisterPushDevice(ctx context.Context) ApiRegisterPushDevic
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) RegisterPushDeviceExecute(r ApiRegisterPushDeviceRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) RegisterPushDeviceExecute(r ApiRegisterPushDeviceRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -300,7 +300,7 @@ func (a *APIClient) RegisterPushDeviceExecute(r ApiRegisterPushDeviceRequest) (*
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MobileAPI.RegisterPushDevice")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -353,7 +353,7 @@ func (a *APIClient) RegisterPushDeviceExecute(r ApiRegisterPushDeviceRequest) (*
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -429,7 +429,7 @@ New in Zulip 8.0 (feature level 217).
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiTestNotifyRequest
 */
-func (a *APIClient) TestNotify(ctx context.Context) ApiTestNotifyRequest {
+func (a *ZulipClient) TestNotify(ctx context.Context) ApiTestNotifyRequest {
 	return ApiTestNotifyRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -438,7 +438,7 @@ func (a *APIClient) TestNotify(ctx context.Context) ApiTestNotifyRequest {
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) TestNotifyExecute(r ApiTestNotifyRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) TestNotifyExecute(r ApiTestNotifyRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -446,7 +446,7 @@ func (a *APIClient) TestNotifyExecute(r ApiTestNotifyRequest) (*models.JsonSucce
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MobileAPI.TestNotify")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -482,7 +482,7 @@ func (a *APIClient) TestNotifyExecute(r ApiTestNotifyRequest) (*models.JsonSucce
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

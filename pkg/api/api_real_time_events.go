@@ -192,7 +192,7 @@ Delete a previously registered queue.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiDeleteQueueRequest
 */
-func (a *APIClient) DeleteQueue(ctx context.Context) ApiDeleteQueueRequest {
+func (a *ZulipClient) DeleteQueue(ctx context.Context) ApiDeleteQueueRequest {
 	return ApiDeleteQueueRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -201,7 +201,7 @@ func (a *APIClient) DeleteQueue(ctx context.Context) ApiDeleteQueueRequest {
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) DeleteQueueExecute(r ApiDeleteQueueRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) DeleteQueueExecute(r ApiDeleteQueueRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -209,7 +209,7 @@ func (a *APIClient) DeleteQueueExecute(r ApiDeleteQueueRequest) (*models.JsonSuc
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "RealTimeEventsAPI.DeleteQueue")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -246,7 +246,7 @@ func (a *APIClient) DeleteQueueExecute(r ApiDeleteQueueRequest) (*models.JsonSuc
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -335,7 +335,7 @@ avoid breaking when heartbeat frequency increases.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetEventsRequest
 */
-func (a *APIClient) GetEvents(ctx context.Context) ApiGetEventsRequest {
+func (a *ZulipClient) GetEvents(ctx context.Context) ApiGetEventsRequest {
 	return ApiGetEventsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -344,7 +344,7 @@ func (a *APIClient) GetEvents(ctx context.Context) ApiGetEventsRequest {
 
 // Execute executes the request
 //  @return GetEvents200Response
-func (a *APIClient) GetEventsExecute(r ApiGetEventsRequest) (*models.GetEvents200Response, *http.Response, error) {
+func (a *ZulipClient) GetEventsExecute(r ApiGetEventsRequest) (*models.GetEvents200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -352,7 +352,7 @@ func (a *APIClient) GetEventsExecute(r ApiGetEventsRequest) (*models.GetEvents20
 		localVarReturnValue  *models.GetEvents200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "RealTimeEventsAPI.GetEvents")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -398,7 +398,7 @@ func (a *APIClient) GetEventsExecute(r ApiGetEventsRequest) (*models.GetEvents20
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -479,7 +479,7 @@ RealTimePost Method for RealTimePost
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiRealTimePostRequest
 */
-func (a *APIClient) RealTimePost(ctx context.Context) ApiRealTimePostRequest {
+func (a *ZulipClient) RealTimePost(ctx context.Context) ApiRealTimePostRequest {
 	return ApiRealTimePostRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -487,14 +487,14 @@ func (a *APIClient) RealTimePost(ctx context.Context) ApiRealTimePostRequest {
 }
 
 // Execute executes the request
-func (a *APIClient) RealTimePostExecute(r ApiRealTimePostRequest) (*http.Response, error) {
+func (a *ZulipClient) RealTimePostExecute(r ApiRealTimePostRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "RealTimeEventsAPI.RealTimePost")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -536,7 +536,7 @@ func (a *APIClient) RealTimePostExecute(r ApiRealTimePostRequest) (*http.Respons
 		return nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarHTTPResponse, err
 	}
@@ -709,7 +709,7 @@ current API and treating every user as having the realm's
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiRegisterQueueRequest
 */
-func (a *APIClient) RegisterQueue(ctx context.Context) ApiRegisterQueueRequest {
+func (a *ZulipClient) RegisterQueue(ctx context.Context) ApiRegisterQueueRequest {
 	return ApiRegisterQueueRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -718,7 +718,7 @@ func (a *APIClient) RegisterQueue(ctx context.Context) ApiRegisterQueueRequest {
 
 // Execute executes the request
 //  @return RegisterQueue200Response
-func (a *APIClient) RegisterQueueExecute(r ApiRegisterQueueRequest) (*models.RegisterQueue200Response, *http.Response, error) {
+func (a *ZulipClient) RegisterQueueExecute(r ApiRegisterQueueRequest) (*models.RegisterQueue200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -726,7 +726,7 @@ func (a *APIClient) RegisterQueueExecute(r ApiRegisterQueueRequest) (*models.Reg
 		localVarReturnValue  *models.RegisterQueue200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "RealTimeEventsAPI.RegisterQueue")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -789,7 +789,7 @@ func (a *APIClient) RegisterQueueExecute(r ApiRegisterQueueRequest) (*models.Reg
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -839,7 +839,7 @@ Common error to many endpoints
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiRestErrorHandlingRequest
 */
-func (a *APIClient) RestErrorHandling(ctx context.Context) ApiRestErrorHandlingRequest {
+func (a *ZulipClient) RestErrorHandling(ctx context.Context) ApiRestErrorHandlingRequest {
 	return ApiRestErrorHandlingRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -847,14 +847,14 @@ func (a *APIClient) RestErrorHandling(ctx context.Context) ApiRestErrorHandlingR
 }
 
 // Execute executes the request
-func (a *APIClient) RestErrorHandlingExecute(r ApiRestErrorHandlingRequest) (*http.Response, error) {
+func (a *ZulipClient) RestErrorHandlingExecute(r ApiRestErrorHandlingRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "RealTimeEventsAPI.RestErrorHandling")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -887,7 +887,7 @@ func (a *APIClient) RestErrorHandlingExecute(r ApiRestErrorHandlingRequest) (*ht
 		return nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarHTTPResponse, err
 	}

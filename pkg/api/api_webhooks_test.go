@@ -15,18 +15,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 	
+	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
 func Test_gozulip_WebhooksAPIService(t *testing.T) {
 
-	configuration := NewConfiguration()
-	apiClient := NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	t.Run("Test WebhooksAPIService ZulipOutgoingWebhooks", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.WebhooksAPI.ZulipOutgoingWebhooks(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ZulipOutgoingWebhooks(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

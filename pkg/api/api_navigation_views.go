@@ -145,7 +145,7 @@ or to add new navigation views.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiAddNavigationViewRequest
 */
-func (a *APIClient) AddNavigationView(ctx context.Context) ApiAddNavigationViewRequest {
+func (a *ZulipClient) AddNavigationView(ctx context.Context) ApiAddNavigationViewRequest {
 	return ApiAddNavigationViewRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -154,7 +154,7 @@ func (a *APIClient) AddNavigationView(ctx context.Context) ApiAddNavigationViewR
 
 // Execute executes the request
 //  @return AddNavigationView200Response
-func (a *APIClient) AddNavigationViewExecute(r ApiAddNavigationViewRequest) (*models.AddNavigationView200Response, *http.Response, error) {
+func (a *ZulipClient) AddNavigationViewExecute(r ApiAddNavigationViewRequest) (*models.AddNavigationView200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -162,7 +162,7 @@ func (a *APIClient) AddNavigationViewExecute(r ApiAddNavigationViewRequest) (*mo
 		localVarReturnValue  *models.AddNavigationView200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "NavigationViewsAPI.AddNavigationView")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -206,7 +206,7 @@ func (a *APIClient) AddNavigationViewExecute(r ApiAddNavigationViewRequest) (*mo
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -285,7 +285,7 @@ such as its name or whether it's pinned.
  @param fragment The unique URL hash of the navigation view to be updated.  This also serves as the identifier for the navigation view. 
  @return ApiEditNavigationViewRequest
 */
-func (a *APIClient) EditNavigationView(ctx context.Context, fragment string) ApiEditNavigationViewRequest {
+func (a *ZulipClient) EditNavigationView(ctx context.Context, fragment string) ApiEditNavigationViewRequest {
 	return ApiEditNavigationViewRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -295,7 +295,7 @@ func (a *APIClient) EditNavigationView(ctx context.Context, fragment string) Api
 
 // Execute executes the request
 //  @return AddNavigationView200Response
-func (a *APIClient) EditNavigationViewExecute(r ApiEditNavigationViewRequest) (*models.AddNavigationView200Response, *http.Response, error) {
+func (a *ZulipClient) EditNavigationViewExecute(r ApiEditNavigationViewRequest) (*models.AddNavigationView200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -303,7 +303,7 @@ func (a *APIClient) EditNavigationViewExecute(r ApiEditNavigationViewRequest) (*
 		localVarReturnValue  *models.AddNavigationView200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "NavigationViewsAPI.EditNavigationView")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -343,7 +343,7 @@ func (a *APIClient) EditNavigationViewExecute(r ApiEditNavigationViewRequest) (*
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -416,7 +416,7 @@ Fetch all configured custom navigation views for the current user.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetNavigationViewsRequest
 */
-func (a *APIClient) GetNavigationViews(ctx context.Context) ApiGetNavigationViewsRequest {
+func (a *ZulipClient) GetNavigationViews(ctx context.Context) ApiGetNavigationViewsRequest {
 	return ApiGetNavigationViewsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -425,7 +425,7 @@ func (a *APIClient) GetNavigationViews(ctx context.Context) ApiGetNavigationView
 
 // Execute executes the request
 //  @return GetNavigationViews200Response
-func (a *APIClient) GetNavigationViewsExecute(r ApiGetNavigationViewsRequest) (*models.GetNavigationViews200Response, *http.Response, error) {
+func (a *ZulipClient) GetNavigationViewsExecute(r ApiGetNavigationViewsRequest) (*models.GetNavigationViews200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -433,7 +433,7 @@ func (a *APIClient) GetNavigationViewsExecute(r ApiGetNavigationViewsRequest) (*
 		localVarReturnValue  *models.GetNavigationViews200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "NavigationViewsAPI.GetNavigationViews")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -466,7 +466,7 @@ func (a *APIClient) GetNavigationViewsExecute(r ApiGetNavigationViewsRequest) (*
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -520,7 +520,7 @@ Remove a navigation view.
  @param fragment The unique URL hash of the navigation view to be removed.  This also serves as the identifier for the navigation view. 
  @return ApiRemoveNavigationViewRequest
 */
-func (a *APIClient) RemoveNavigationView(ctx context.Context, fragment string) ApiRemoveNavigationViewRequest {
+func (a *ZulipClient) RemoveNavigationView(ctx context.Context, fragment string) ApiRemoveNavigationViewRequest {
 	return ApiRemoveNavigationViewRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -530,7 +530,7 @@ func (a *APIClient) RemoveNavigationView(ctx context.Context, fragment string) A
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) RemoveNavigationViewExecute(r ApiRemoveNavigationViewRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) RemoveNavigationViewExecute(r ApiRemoveNavigationViewRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -538,7 +538,7 @@ func (a *APIClient) RemoveNavigationViewExecute(r ApiRemoveNavigationViewRequest
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "NavigationViewsAPI.RemoveNavigationView")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -572,7 +572,7 @@ func (a *APIClient) RemoveNavigationViewExecute(r ApiRemoveNavigationViewRequest
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

@@ -619,7 +619,7 @@ Add an [emoji reaction](/help/emoji-reactions) to a message.
  @param messageId The target message's ID. 
  @return ApiAddReactionRequest
 */
-func (a *APIClient) AddReaction(ctx context.Context, messageId int32) ApiAddReactionRequest {
+func (a *ZulipClient) AddReaction(ctx context.Context, messageId int32) ApiAddReactionRequest {
 	return ApiAddReactionRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -629,7 +629,7 @@ func (a *APIClient) AddReaction(ctx context.Context, messageId int32) ApiAddReac
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) AddReactionExecute(r ApiAddReactionRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) AddReactionExecute(r ApiAddReactionRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -637,7 +637,7 @@ func (a *APIClient) AddReactionExecute(r ApiAddReactionRequest) (*models.JsonSuc
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.AddReaction")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -681,7 +681,7 @@ func (a *APIClient) AddReactionExecute(r ApiAddReactionRequest) (*models.JsonSuc
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -770,7 +770,7 @@ request for the current narrow would have returned the message.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCheckMessagesMatchNarrowRequest
 */
-func (a *APIClient) CheckMessagesMatchNarrow(ctx context.Context) ApiCheckMessagesMatchNarrowRequest {
+func (a *ZulipClient) CheckMessagesMatchNarrow(ctx context.Context) ApiCheckMessagesMatchNarrowRequest {
 	return ApiCheckMessagesMatchNarrowRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -779,7 +779,7 @@ func (a *APIClient) CheckMessagesMatchNarrow(ctx context.Context) ApiCheckMessag
 
 // Execute executes the request
 //  @return CheckMessagesMatchNarrow200Response
-func (a *APIClient) CheckMessagesMatchNarrowExecute(r ApiCheckMessagesMatchNarrowRequest) (*models.CheckMessagesMatchNarrow200Response, *http.Response, error) {
+func (a *ZulipClient) CheckMessagesMatchNarrowExecute(r ApiCheckMessagesMatchNarrowRequest) (*models.CheckMessagesMatchNarrow200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -787,7 +787,7 @@ func (a *APIClient) CheckMessagesMatchNarrowExecute(r ApiCheckMessagesMatchNarro
 		localVarReturnValue  *models.CheckMessagesMatchNarrow200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.CheckMessagesMatchNarrow")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -828,7 +828,7 @@ func (a *APIClient) CheckMessagesMatchNarrowExecute(r ApiCheckMessagesMatchNarro
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -886,7 +886,7 @@ the Zulip Help Center.
  @param messageId The target message's ID. 
  @return ApiDeleteMessageRequest
 */
-func (a *APIClient) DeleteMessage(ctx context.Context, messageId int32) ApiDeleteMessageRequest {
+func (a *ZulipClient) DeleteMessage(ctx context.Context, messageId int32) ApiDeleteMessageRequest {
 	return ApiDeleteMessageRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -896,7 +896,7 @@ func (a *APIClient) DeleteMessage(ctx context.Context, messageId int32) ApiDelet
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) DeleteMessageExecute(r ApiDeleteMessageRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) DeleteMessageExecute(r ApiDeleteMessageRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -904,7 +904,7 @@ func (a *APIClient) DeleteMessageExecute(r ApiDeleteMessageRequest) (*models.Jso
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.DeleteMessage")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -938,7 +938,7 @@ func (a *APIClient) DeleteMessageExecute(r ApiDeleteMessageRequest) (*models.Jso
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1004,7 +1004,7 @@ Get a temporary URL for access to the file that doesn't require authentication.
  @param filename Path to the URL. 
  @return ApiGetFileTemporaryUrlRequest
 */
-func (a *APIClient) GetFileTemporaryUrl(ctx context.Context, realmIdStr int32, filename string) ApiGetFileTemporaryUrlRequest {
+func (a *ZulipClient) GetFileTemporaryUrl(ctx context.Context, realmIdStr int32, filename string) ApiGetFileTemporaryUrlRequest {
 	return ApiGetFileTemporaryUrlRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1015,7 +1015,7 @@ func (a *APIClient) GetFileTemporaryUrl(ctx context.Context, realmIdStr int32, f
 
 // Execute executes the request
 //  @return GetFileTemporaryUrl200Response
-func (a *APIClient) GetFileTemporaryUrlExecute(r ApiGetFileTemporaryUrlRequest) (*models.GetFileTemporaryUrl200Response, *http.Response, error) {
+func (a *ZulipClient) GetFileTemporaryUrlExecute(r ApiGetFileTemporaryUrlRequest) (*models.GetFileTemporaryUrl200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1023,7 +1023,7 @@ func (a *APIClient) GetFileTemporaryUrlExecute(r ApiGetFileTemporaryUrlRequest) 
 		localVarReturnValue  *models.GetFileTemporaryUrl200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.GetFileTemporaryUrl")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1058,7 +1058,7 @@ func (a *APIClient) GetFileTemporaryUrlExecute(r ApiGetFileTemporaryUrlRequest) 
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1134,7 +1134,7 @@ endpoint only returned the `raw_content` field.
  @param messageId The target message's ID. 
  @return ApiGetMessageRequest
 */
-func (a *APIClient) GetMessage(ctx context.Context, messageId int32) ApiGetMessageRequest {
+func (a *ZulipClient) GetMessage(ctx context.Context, messageId int32) ApiGetMessageRequest {
 	return ApiGetMessageRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1144,7 +1144,7 @@ func (a *APIClient) GetMessage(ctx context.Context, messageId int32) ApiGetMessa
 
 // Execute executes the request
 //  @return GetMessage200Response
-func (a *APIClient) GetMessageExecute(r ApiGetMessageRequest) (*models.GetMessage200Response, *http.Response, error) {
+func (a *ZulipClient) GetMessageExecute(r ApiGetMessageRequest) (*models.GetMessage200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1152,7 +1152,7 @@ func (a *APIClient) GetMessageExecute(r ApiGetMessageRequest) (*models.GetMessag
 		localVarReturnValue  *models.GetMessage200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.GetMessage")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1198,7 +1198,7 @@ func (a *APIClient) GetMessageExecute(r ApiGetMessageRequest) (*models.GetMessag
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1272,7 +1272,7 @@ Note that edit history may be disabled in some organizations; see the
  @param messageId The target message's ID. 
  @return ApiGetMessageHistoryRequest
 */
-func (a *APIClient) GetMessageHistory(ctx context.Context, messageId int32) ApiGetMessageHistoryRequest {
+func (a *ZulipClient) GetMessageHistory(ctx context.Context, messageId int32) ApiGetMessageHistoryRequest {
 	return ApiGetMessageHistoryRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1282,7 +1282,7 @@ func (a *APIClient) GetMessageHistory(ctx context.Context, messageId int32) ApiG
 
 // Execute executes the request
 //  @return GetMessageHistory200Response
-func (a *APIClient) GetMessageHistoryExecute(r ApiGetMessageHistoryRequest) (*models.GetMessageHistory200Response, *http.Response, error) {
+func (a *ZulipClient) GetMessageHistoryExecute(r ApiGetMessageHistoryRequest) (*models.GetMessageHistory200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1290,7 +1290,7 @@ func (a *APIClient) GetMessageHistoryExecute(r ApiGetMessageHistoryRequest) (*mo
 		localVarReturnValue  *models.GetMessageHistory200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.GetMessageHistory")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1330,7 +1330,7 @@ func (a *APIClient) GetMessageHistoryExecute(r ApiGetMessageHistoryRequest) (*mo
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1491,7 +1491,7 @@ attempting to exceed this will result in an error.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetMessagesRequest
 */
-func (a *APIClient) GetMessages(ctx context.Context) ApiGetMessagesRequest {
+func (a *ZulipClient) GetMessages(ctx context.Context) ApiGetMessagesRequest {
 	return ApiGetMessagesRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1500,7 +1500,7 @@ func (a *APIClient) GetMessages(ctx context.Context) ApiGetMessagesRequest {
 
 // Execute executes the request
 //  @return GetMessages200Response
-func (a *APIClient) GetMessagesExecute(r ApiGetMessagesRequest) (*models.GetMessages200Response, *http.Response, error) {
+func (a *ZulipClient) GetMessagesExecute(r ApiGetMessagesRequest) (*models.GetMessages200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1508,7 +1508,7 @@ func (a *APIClient) GetMessagesExecute(r ApiGetMessagesRequest) (*models.GetMess
 		localVarReturnValue  *models.GetMessages200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.GetMessages")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1589,7 +1589,7 @@ func (a *APIClient) GetMessagesExecute(r ApiGetMessagesRequest) (*models.GetMess
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1654,7 +1654,7 @@ It will never contain the message's sender.
  @param messageId The target message's ID. 
  @return ApiGetReadReceiptsRequest
 */
-func (a *APIClient) GetReadReceipts(ctx context.Context, messageId int32) ApiGetReadReceiptsRequest {
+func (a *ZulipClient) GetReadReceipts(ctx context.Context, messageId int32) ApiGetReadReceiptsRequest {
 	return ApiGetReadReceiptsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1664,7 +1664,7 @@ func (a *APIClient) GetReadReceipts(ctx context.Context, messageId int32) ApiGet
 
 // Execute executes the request
 //  @return GetReadReceipts200Response
-func (a *APIClient) GetReadReceiptsExecute(r ApiGetReadReceiptsRequest) (*models.GetReadReceipts200Response, *http.Response, error) {
+func (a *ZulipClient) GetReadReceiptsExecute(r ApiGetReadReceiptsRequest) (*models.GetReadReceipts200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1672,7 +1672,7 @@ func (a *APIClient) GetReadReceiptsExecute(r ApiGetReadReceiptsRequest) (*models
 		localVarReturnValue  *models.GetReadReceipts200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.GetReadReceipts")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1706,7 +1706,7 @@ func (a *APIClient) GetReadReceiptsExecute(r ApiGetReadReceiptsRequest) (*models
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1794,7 +1794,7 @@ success response with `"result": "partially_completed"` is returned.
 
 Deprecated
 */
-func (a *APIClient) MarkAllAsRead(ctx context.Context) ApiMarkAllAsReadRequest {
+func (a *ZulipClient) MarkAllAsRead(ctx context.Context) ApiMarkAllAsReadRequest {
 	return ApiMarkAllAsReadRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1804,7 +1804,7 @@ func (a *APIClient) MarkAllAsRead(ctx context.Context) ApiMarkAllAsReadRequest {
 // Execute executes the request
 //  @return MarkAllAsRead200Response
 // Deprecated
-func (a *APIClient) MarkAllAsReadExecute(r ApiMarkAllAsReadRequest) (*models.MarkAllAsRead200Response, *http.Response, error) {
+func (a *ZulipClient) MarkAllAsReadExecute(r ApiMarkAllAsReadRequest) (*models.MarkAllAsRead200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -1812,7 +1812,7 @@ func (a *APIClient) MarkAllAsReadExecute(r ApiMarkAllAsReadRequest) (*models.Mar
 		localVarReturnValue  *models.MarkAllAsRead200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.MarkAllAsRead")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1845,7 +1845,7 @@ func (a *APIClient) MarkAllAsReadExecute(r ApiMarkAllAsReadRequest) (*models.Mar
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1908,7 +1908,7 @@ as this endpoint will be removed in a future release.
 
 Deprecated
 */
-func (a *APIClient) MarkStreamAsRead(ctx context.Context) ApiMarkStreamAsReadRequest {
+func (a *ZulipClient) MarkStreamAsRead(ctx context.Context) ApiMarkStreamAsReadRequest {
 	return ApiMarkStreamAsReadRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1918,7 +1918,7 @@ func (a *APIClient) MarkStreamAsRead(ctx context.Context) ApiMarkStreamAsReadReq
 // Execute executes the request
 //  @return JsonSuccess
 // Deprecated
-func (a *APIClient) MarkStreamAsReadExecute(r ApiMarkStreamAsReadRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) MarkStreamAsReadExecute(r ApiMarkStreamAsReadRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -1926,7 +1926,7 @@ func (a *APIClient) MarkStreamAsReadExecute(r ApiMarkStreamAsReadRequest) (*mode
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.MarkStreamAsRead")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1963,7 +1963,7 @@ func (a *APIClient) MarkStreamAsReadExecute(r ApiMarkStreamAsReadRequest) (*mode
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2033,7 +2033,7 @@ as this endpoint will be removed in a future release.
 
 Deprecated
 */
-func (a *APIClient) MarkTopicAsRead(ctx context.Context) ApiMarkTopicAsReadRequest {
+func (a *ZulipClient) MarkTopicAsRead(ctx context.Context) ApiMarkTopicAsReadRequest {
 	return ApiMarkTopicAsReadRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2043,7 +2043,7 @@ func (a *APIClient) MarkTopicAsRead(ctx context.Context) ApiMarkTopicAsReadReque
 // Execute executes the request
 //  @return JsonSuccess
 // Deprecated
-func (a *APIClient) MarkTopicAsReadExecute(r ApiMarkTopicAsReadRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) MarkTopicAsReadExecute(r ApiMarkTopicAsReadRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -2051,7 +2051,7 @@ func (a *APIClient) MarkTopicAsReadExecute(r ApiMarkTopicAsReadRequest) (*models
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.MarkTopicAsRead")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2092,7 +2092,7 @@ func (a *APIClient) MarkTopicAsReadExecute(r ApiMarkTopicAsReadRequest) (*models
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2165,7 +2165,7 @@ Remove an [emoji reaction](/help/emoji-reactions) from a message.
  @param messageId The target message's ID. 
  @return ApiRemoveReactionRequest
 */
-func (a *APIClient) RemoveReaction(ctx context.Context, messageId int32) ApiRemoveReactionRequest {
+func (a *ZulipClient) RemoveReaction(ctx context.Context, messageId int32) ApiRemoveReactionRequest {
 	return ApiRemoveReactionRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2175,7 +2175,7 @@ func (a *APIClient) RemoveReaction(ctx context.Context, messageId int32) ApiRemo
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) RemoveReactionExecute(r ApiRemoveReactionRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) RemoveReactionExecute(r ApiRemoveReactionRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -2183,7 +2183,7 @@ func (a *APIClient) RemoveReactionExecute(r ApiRemoveReactionRequest) (*models.J
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.RemoveReaction")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2226,7 +2226,7 @@ func (a *APIClient) RemoveReactionExecute(r ApiRemoveReactionRequest) (*models.J
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2293,7 +2293,7 @@ Render a message to HTML.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiRenderMessageRequest
 */
-func (a *APIClient) RenderMessage(ctx context.Context) ApiRenderMessageRequest {
+func (a *ZulipClient) RenderMessage(ctx context.Context) ApiRenderMessageRequest {
 	return ApiRenderMessageRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2302,7 +2302,7 @@ func (a *APIClient) RenderMessage(ctx context.Context) ApiRenderMessageRequest {
 
 // Execute executes the request
 //  @return RenderMessage200Response
-func (a *APIClient) RenderMessageExecute(r ApiRenderMessageRequest) (*models.RenderMessage200Response, *http.Response, error) {
+func (a *ZulipClient) RenderMessageExecute(r ApiRenderMessageRequest) (*models.RenderMessage200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -2310,7 +2310,7 @@ func (a *APIClient) RenderMessageExecute(r ApiRenderMessageRequest) (*models.Ren
 		localVarReturnValue  *models.RenderMessage200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.RenderMessage")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2347,7 +2347,7 @@ func (a *APIClient) RenderMessageExecute(r ApiRenderMessageRequest) (*models.Ren
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2426,7 +2426,7 @@ feature level 331.
  @param messageId The target message's ID. 
  @return ApiReportMessageRequest
 */
-func (a *APIClient) ReportMessage(ctx context.Context, messageId int32) ApiReportMessageRequest {
+func (a *ZulipClient) ReportMessage(ctx context.Context, messageId int32) ApiReportMessageRequest {
 	return ApiReportMessageRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2436,7 +2436,7 @@ func (a *APIClient) ReportMessage(ctx context.Context, messageId int32) ApiRepor
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) ReportMessageExecute(r ApiReportMessageRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) ReportMessageExecute(r ApiReportMessageRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -2444,7 +2444,7 @@ func (a *APIClient) ReportMessageExecute(r ApiReportMessageRequest) (*models.Jso
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.ReportMessage")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2485,7 +2485,7 @@ func (a *APIClient) ReportMessageExecute(r ApiReportMessageRequest) (*models.Jso
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2594,7 +2594,7 @@ Send a [channel message](/help/introduction-to-topics) or a
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiSendMessageRequest
 */
-func (a *APIClient) SendMessage(ctx context.Context) ApiSendMessageRequest {
+func (a *ZulipClient) SendMessage(ctx context.Context) ApiSendMessageRequest {
 	return ApiSendMessageRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2603,7 +2603,7 @@ func (a *APIClient) SendMessage(ctx context.Context) ApiSendMessageRequest {
 
 // Execute executes the request
 //  @return SendMessage200Response
-func (a *APIClient) SendMessageExecute(r ApiSendMessageRequest) (*models.SendMessage200Response, *http.Response, error) {
+func (a *ZulipClient) SendMessageExecute(r ApiSendMessageRequest) (*models.SendMessage200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -2611,7 +2611,7 @@ func (a *APIClient) SendMessageExecute(r ApiSendMessageRequest) (*models.SendMes
 		localVarReturnValue  *models.SendMessage200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.SendMessage")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2668,7 +2668,7 @@ func (a *APIClient) SendMessageExecute(r ApiSendMessageRequest) (*models.SendMes
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2861,7 +2861,7 @@ realm setting was added.
  @param messageId The target message's ID. 
  @return ApiUpdateMessageRequest
 */
-func (a *APIClient) UpdateMessage(ctx context.Context, messageId int32) ApiUpdateMessageRequest {
+func (a *ZulipClient) UpdateMessage(ctx context.Context, messageId int32) ApiUpdateMessageRequest {
 	return ApiUpdateMessageRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2871,7 +2871,7 @@ func (a *APIClient) UpdateMessage(ctx context.Context, messageId int32) ApiUpdat
 
 // Execute executes the request
 //  @return UpdateMessage200Response
-func (a *APIClient) UpdateMessageExecute(r ApiUpdateMessageRequest) (*models.UpdateMessage200Response, *http.Response, error) {
+func (a *ZulipClient) UpdateMessageExecute(r ApiUpdateMessageRequest) (*models.UpdateMessage200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -2879,7 +2879,7 @@ func (a *APIClient) UpdateMessageExecute(r ApiUpdateMessageRequest) (*models.Upd
 		localVarReturnValue  *models.UpdateMessage200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.UpdateMessage")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2934,7 +2934,7 @@ func (a *APIClient) UpdateMessageExecute(r ApiUpdateMessageRequest) (*models.Upd
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3019,7 +3019,7 @@ messages within a narrow](/api/update-message-flags-for-narrow).
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUpdateMessageFlagsRequest
 */
-func (a *APIClient) UpdateMessageFlags(ctx context.Context) ApiUpdateMessageFlagsRequest {
+func (a *ZulipClient) UpdateMessageFlags(ctx context.Context) ApiUpdateMessageFlagsRequest {
 	return ApiUpdateMessageFlagsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3028,7 +3028,7 @@ func (a *APIClient) UpdateMessageFlags(ctx context.Context) ApiUpdateMessageFlag
 
 // Execute executes the request
 //  @return UpdateMessageFlags200Response
-func (a *APIClient) UpdateMessageFlagsExecute(r ApiUpdateMessageFlagsRequest) (*models.UpdateMessageFlags200Response, *http.Response, error) {
+func (a *ZulipClient) UpdateMessageFlagsExecute(r ApiUpdateMessageFlagsRequest) (*models.UpdateMessageFlags200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -3036,7 +3036,7 @@ func (a *APIClient) UpdateMessageFlagsExecute(r ApiUpdateMessageFlagsRequest) (*
 		localVarReturnValue  *models.UpdateMessageFlags200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.UpdateMessageFlags")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3081,7 +3081,7 @@ func (a *APIClient) UpdateMessageFlagsExecute(r ApiUpdateMessageFlagsRequest) (*
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3186,7 +3186,7 @@ IDs](/api/update-message-flags).
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUpdateMessageFlagsForNarrowRequest
 */
-func (a *APIClient) UpdateMessageFlagsForNarrow(ctx context.Context) ApiUpdateMessageFlagsForNarrowRequest {
+func (a *ZulipClient) UpdateMessageFlagsForNarrow(ctx context.Context) ApiUpdateMessageFlagsForNarrowRequest {
 	return ApiUpdateMessageFlagsForNarrowRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3195,7 +3195,7 @@ func (a *APIClient) UpdateMessageFlagsForNarrow(ctx context.Context) ApiUpdateMe
 
 // Execute executes the request
 //  @return UpdateMessageFlagsForNarrow200Response
-func (a *APIClient) UpdateMessageFlagsForNarrowExecute(r ApiUpdateMessageFlagsForNarrowRequest) (*models.UpdateMessageFlagsForNarrow200Response, *http.Response, error) {
+func (a *ZulipClient) UpdateMessageFlagsForNarrowExecute(r ApiUpdateMessageFlagsForNarrowRequest) (*models.UpdateMessageFlagsForNarrow200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -3203,7 +3203,7 @@ func (a *APIClient) UpdateMessageFlagsForNarrowExecute(r ApiUpdateMessageFlagsFo
 		localVarReturnValue  *models.UpdateMessageFlagsForNarrow200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.UpdateMessageFlagsForNarrow")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3269,7 +3269,7 @@ func (a *APIClient) UpdateMessageFlagsForNarrowExecute(r ApiUpdateMessageFlagsFo
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3352,7 +3352,7 @@ introduced in Zulip 10.0 (feature level 296). Previously,
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUploadFileRequest
 */
-func (a *APIClient) UploadFile(ctx context.Context) ApiUploadFileRequest {
+func (a *ZulipClient) UploadFile(ctx context.Context) ApiUploadFileRequest {
 	return ApiUploadFileRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3361,7 +3361,7 @@ func (a *APIClient) UploadFile(ctx context.Context) ApiUploadFileRequest {
 
 // Execute executes the request
 //  @return UploadFile200Response
-func (a *APIClient) UploadFileExecute(r ApiUploadFileRequest) (*models.UploadFile200Response, *http.Response, error) {
+func (a *ZulipClient) UploadFileExecute(r ApiUploadFileRequest) (*models.UploadFile200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -3369,7 +3369,7 @@ func (a *APIClient) UploadFileExecute(r ApiUploadFileRequest) (*models.UploadFil
 		localVarReturnValue  *models.UploadFile200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "MessagesAPI.UploadFile")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3417,7 +3417,7 @@ func (a *APIClient) UploadFileExecute(r ApiUploadFileRequest) (*models.UploadFil
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

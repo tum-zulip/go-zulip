@@ -171,7 +171,7 @@ New in Zulip 7.0 (feature level 179).
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateScheduledMessageRequest
 */
-func (a *APIClient) CreateScheduledMessage(ctx context.Context) ApiCreateScheduledMessageRequest {
+func (a *ZulipClient) CreateScheduledMessage(ctx context.Context) ApiCreateScheduledMessageRequest {
 	return ApiCreateScheduledMessageRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -180,7 +180,7 @@ func (a *APIClient) CreateScheduledMessage(ctx context.Context) ApiCreateSchedul
 
 // Execute executes the request
 //  @return CreateScheduledMessage200Response
-func (a *APIClient) CreateScheduledMessageExecute(r ApiCreateScheduledMessageRequest) (*models.CreateScheduledMessage200Response, *http.Response, error) {
+func (a *ZulipClient) CreateScheduledMessageExecute(r ApiCreateScheduledMessageRequest) (*models.CreateScheduledMessage200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -188,7 +188,7 @@ func (a *APIClient) CreateScheduledMessageExecute(r ApiCreateScheduledMessageReq
 		localVarReturnValue  *models.CreateScheduledMessage200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ScheduledMessagesAPI.CreateScheduledMessage")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -243,7 +243,7 @@ func (a *APIClient) CreateScheduledMessageExecute(r ApiCreateScheduledMessageReq
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -308,7 +308,7 @@ message](/help/schedule-a-message).
  @param scheduledMessageId The ID of the scheduled message to delete.  This is different from the unique ID that the message would have after being sent. 
  @return ApiDeleteScheduledMessageRequest
 */
-func (a *APIClient) DeleteScheduledMessage(ctx context.Context, scheduledMessageId int32) ApiDeleteScheduledMessageRequest {
+func (a *ZulipClient) DeleteScheduledMessage(ctx context.Context, scheduledMessageId int32) ApiDeleteScheduledMessageRequest {
 	return ApiDeleteScheduledMessageRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -318,7 +318,7 @@ func (a *APIClient) DeleteScheduledMessage(ctx context.Context, scheduledMessage
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) DeleteScheduledMessageExecute(r ApiDeleteScheduledMessageRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) DeleteScheduledMessageExecute(r ApiDeleteScheduledMessageRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -326,7 +326,7 @@ func (a *APIClient) DeleteScheduledMessageExecute(r ApiDeleteScheduledMessageReq
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ScheduledMessagesAPI.DeleteScheduledMessage")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -360,7 +360,7 @@ func (a *APIClient) DeleteScheduledMessageExecute(r ApiDeleteScheduledMessageReq
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -426,7 +426,7 @@ sent in the future via the send later feature.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetScheduledMessagesRequest
 */
-func (a *APIClient) GetScheduledMessages(ctx context.Context) ApiGetScheduledMessagesRequest {
+func (a *ZulipClient) GetScheduledMessages(ctx context.Context) ApiGetScheduledMessagesRequest {
 	return ApiGetScheduledMessagesRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -435,7 +435,7 @@ func (a *APIClient) GetScheduledMessages(ctx context.Context) ApiGetScheduledMes
 
 // Execute executes the request
 //  @return GetScheduledMessages200Response
-func (a *APIClient) GetScheduledMessagesExecute(r ApiGetScheduledMessagesRequest) (*models.GetScheduledMessages200Response, *http.Response, error) {
+func (a *ZulipClient) GetScheduledMessagesExecute(r ApiGetScheduledMessagesRequest) (*models.GetScheduledMessages200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -443,7 +443,7 @@ func (a *APIClient) GetScheduledMessagesExecute(r ApiGetScheduledMessagesRequest
 		localVarReturnValue  *models.GetScheduledMessages200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ScheduledMessagesAPI.GetScheduledMessages")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -476,7 +476,7 @@ func (a *APIClient) GetScheduledMessagesExecute(r ApiGetScheduledMessagesRequest
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -564,7 +564,7 @@ Edit an existing [scheduled message](/help/schedule-a-message).
  @param scheduledMessageId The ID of the scheduled message to update.  This is different from the unique ID that the message would have after being sent. 
  @return ApiUpdateScheduledMessageRequest
 */
-func (a *APIClient) UpdateScheduledMessage(ctx context.Context, scheduledMessageId int32) ApiUpdateScheduledMessageRequest {
+func (a *ZulipClient) UpdateScheduledMessage(ctx context.Context, scheduledMessageId int32) ApiUpdateScheduledMessageRequest {
 	return ApiUpdateScheduledMessageRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -574,7 +574,7 @@ func (a *APIClient) UpdateScheduledMessage(ctx context.Context, scheduledMessage
 
 // Execute executes the request
 //  @return UpdateScheduledMessage200Response
-func (a *APIClient) UpdateScheduledMessageExecute(r ApiUpdateScheduledMessageRequest) (*models.UpdateScheduledMessage200Response, *http.Response, error) {
+func (a *ZulipClient) UpdateScheduledMessageExecute(r ApiUpdateScheduledMessageRequest) (*models.UpdateScheduledMessage200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -582,7 +582,7 @@ func (a *APIClient) UpdateScheduledMessageExecute(r ApiUpdateScheduledMessageReq
 		localVarReturnValue  *models.UpdateScheduledMessage200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ScheduledMessagesAPI.UpdateScheduledMessage")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -635,7 +635,7 @@ func (a *APIClient) UpdateScheduledMessageExecute(r ApiUpdateScheduledMessageReq
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

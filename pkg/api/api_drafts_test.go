@@ -15,18 +15,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 	
+	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
 func Test_gozulip_DraftsAPIService(t *testing.T) {
 
-	configuration := NewConfiguration()
-	apiClient := NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	t.Run("Test DraftsAPIService CreateDrafts", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.DraftsAPI.CreateDrafts(context.Background()).Execute()
+		resp, httpRes, err := apiClient.CreateDrafts(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,9 +35,7 @@ func Test_gozulip_DraftsAPIService(t *testing.T) {
 
 	t.Run("Test DraftsAPIService CreateSavedSnippet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.DraftsAPI.CreateSavedSnippet(context.Background()).Execute()
+		resp, httpRes, err := apiClient.CreateSavedSnippet(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,11 +45,9 @@ func Test_gozulip_DraftsAPIService(t *testing.T) {
 
 	t.Run("Test DraftsAPIService DeleteDraft", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var draftId int32
 
-		resp, httpRes, err := apiClient.DraftsAPI.DeleteDraft(context.Background(), draftId).Execute()
+		resp, httpRes, err := apiClient.DeleteDraft(context.Background(), draftId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -62,11 +57,9 @@ func Test_gozulip_DraftsAPIService(t *testing.T) {
 
 	t.Run("Test DraftsAPIService DeleteSavedSnippet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var savedSnippetId int32
 
-		resp, httpRes, err := apiClient.DraftsAPI.DeleteSavedSnippet(context.Background(), savedSnippetId).Execute()
+		resp, httpRes, err := apiClient.DeleteSavedSnippet(context.Background(), savedSnippetId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -76,11 +69,9 @@ func Test_gozulip_DraftsAPIService(t *testing.T) {
 
 	t.Run("Test DraftsAPIService EditDraft", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var draftId int32
 
-		resp, httpRes, err := apiClient.DraftsAPI.EditDraft(context.Background(), draftId).Execute()
+		resp, httpRes, err := apiClient.EditDraft(context.Background(), draftId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -90,11 +81,9 @@ func Test_gozulip_DraftsAPIService(t *testing.T) {
 
 	t.Run("Test DraftsAPIService EditSavedSnippet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var savedSnippetId int32
 
-		resp, httpRes, err := apiClient.DraftsAPI.EditSavedSnippet(context.Background(), savedSnippetId).Execute()
+		resp, httpRes, err := apiClient.EditSavedSnippet(context.Background(), savedSnippetId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -104,9 +93,7 @@ func Test_gozulip_DraftsAPIService(t *testing.T) {
 
 	t.Run("Test DraftsAPIService GetDrafts", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.DraftsAPI.GetDrafts(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetDrafts(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -116,9 +103,7 @@ func Test_gozulip_DraftsAPIService(t *testing.T) {
 
 	t.Run("Test DraftsAPIService GetSavedSnippets", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.DraftsAPI.GetSavedSnippets(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetSavedSnippets(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

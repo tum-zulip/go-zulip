@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */
@@ -13,12 +13,14 @@ package api
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
+	"crypto/x509"
 	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"fmt"
 	"io"
-	"log"
+	"log/slog"
 	"mime/multipart"
 	"net/http"
 	"net/http/httputil"
@@ -30,36 +32,266 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"unicode/utf8"
 
 	"github.com/tum-zulip/go-zulip/pkg/models"
+)
+
+const (
+	defaultClientName = "go-zulip/1.0.0"
+	defaultAPISuffix  = "api"
+	defaultAPIVersion = "v1"
 )
 
 var (
 	JsonCheck       = regexp.MustCompile(`(?i:(?:application|text)/(?:[^;]+\+)?json)`)
 	XmlCheck        = regexp.MustCompile(`(?i:(?:application|text)/(?:[^;]+\+)?xml)`)
 	queryParamSplit = regexp.MustCompile(`(^|&)([^&]+)`)
-	queryDescape    = strings.NewReplacer( "%5B", "[", "%5D", "]" )
+	queryDescape    = strings.NewReplacer("%5B", "[", "%5D", "]")
 )
 
-// APIClient manages communication with the Zulip REST API API v1.0.0
-// In most cases there should be only one, shared, APIClient.
-type APIClient struct {
-	cfg    *Configuration
+// ZulipClient manages communication with the Zulip REST API API v1.0.0
+// In most cases there should be only one, shared, ZulipClient.
+type ZulipClient struct {
+	cfg *ZulipRC
+
+	defaultHeader map[string]string
+	userAgent     string
+	httpClient    *http.Client
+	logger        *slog.Logger
+
+	clientName    string
+	retryOnErrors bool
+
+	apiSuffix    string
+	apiVersion   string
+	zulipVersion string
+	featureLevel int32
 }
 
-// NewAPIClient creates a new API client. Requires a userAgent string describing your application.
+type Option func(*ZulipClient)
+
+// NewZulipClient creates a new API client. Requires a userAgent string describing your application.
 // optionally a custom http.Client to allow for advanced features such as caching.
-func NewAPIClient(cfg *Configuration) *APIClient {
-	if cfg.HTTPClient == nil {
-		cfg.HTTPClient = http.DefaultClient
+func NewZulipClient(zuliprc *ZulipRC, options ...Option) (*ZulipClient, error) {
+	if zuliprc == nil {
+		return nil, errors.New("invalid configuration: nil")
 	}
 
-	return &APIClient{cfg: cfg}
+	if zuliprc.APIKey == "" {
+		return nil, ConfigMissingError{message: fmt.Sprintf("api_key not specified")}
+	}
+
+	if zuliprc.Email == "" {
+		return nil, ConfigMissingError{message: fmt.Sprintf("email not specified")}
+	}
+
+	if zuliprc.Site == "" {
+		return nil, ErrMissingURLError
+	}
+
+	if zuliprc.ClientCert == "" && zuliprc.ClientCertKey != "" {
+		return nil, ConfigMissingError{message: fmt.Sprintf("client cert key '%s' specified, but no client cert public part provided", zuliprc.ClientCertKey)}
+	}
+
+	if zuliprc.ClientCert != "" {
+		if _, err := os.Stat(zuliprc.ClientCert); err != nil {
+			return nil, ConfigMissingError{message: fmt.Sprintf("client cert '%s' does not exist", zuliprc.ClientCert)}
+		}
+		if zuliprc.ClientCertKey != "" {
+			if _, err := os.Stat(zuliprc.ClientCertKey); err != nil {
+				return nil, ConfigMissingError{message: fmt.Sprintf("client cert key '%s' does not exist", zuliprc.ClientCertKey)}
+			}
+		}
+	}
+
+	if zuliprc.CertBundle != "" {
+		if _, err := os.Stat(zuliprc.CertBundle); err != nil {
+			return nil, ConfigMissingError{message: fmt.Sprintf("tls bundle '%s' does not exist", zuliprc.CertBundle)}
+		}
+	}
+
+	client := &ZulipClient{
+		cfg:           zuliprc,
+		defaultHeader: make(map[string]string),
+		clientName:    defaultClientName,
+		retryOnErrors: true,
+		apiSuffix:     defaultAPISuffix,
+		apiVersion:    defaultAPIVersion,
+		logger:        slog.Default(),
+	}
+
+	for _, option := range options {
+		option(client)
+	}
+
+	httpClient, userAgent, err := buildHTTPClient(zuliprc, client.logger)
+	if err != nil {
+		return nil, err
+	}
+
+	client.httpClient = httpClient
+	client.userAgent = userAgent
+
+	if err := client.initializeServerMetadata(); err != nil {
+		client.logger.Warn("could not initialize server metadata", "error", err)
+	}
+
+	return client, nil
 }
 
-func atoi(in string) (int, error) {
-	return strconv.Atoi(in)
+func WithAPISuffix(suffix string) Option {
+	return func(c *ZulipClient) {
+		c.apiSuffix = suffix
+	}
+}
+
+func WithAPIVersion(version string) Option {
+	return func(c *ZulipClient) {
+		c.apiVersion = version
+	}
+}
+
+func WithDefaultHeader(key string, value string) Option {
+	return func(c *ZulipClient) {
+		if c.defaultHeader == nil {
+			c.defaultHeader = make(map[string]string)
+		}
+		c.defaultHeader[key] = value
+	}
+}
+
+func WithLogger(logger *slog.Logger) Option {
+	return func(c *ZulipClient) {
+		if logger == nil {
+			c.logger = slog.Default()
+			return
+		}
+		c.logger = logger
+	}
+}
+
+func WithHTTPClient(httpClient *http.Client) Option {
+	return func(c *ZulipClient) {
+		c.httpClient = httpClient
+	}
+}
+
+func WithClientName(name string) Option {
+	return func(c *ZulipClient) {
+		c.clientName = name
+	}
+}
+
+func (c *ZulipClient) ServerURL() (string, error) {
+	if c.cfg.Site != "" {
+		return fmt.Sprintf("%s/%s/%s", c.cfg.Site, c.apiSuffix, c.apiVersion), nil
+	}
+	return "", errors.New("base URL is not set")
+}
+
+func buildHTTPClient(params *ZulipRC, logger *slog.Logger) (*http.Client, string, error) {
+	if params == nil {
+		return nil, "", errors.New("invalid configuration: nil")
+	}
+
+	if logger == nil {
+		logger = slog.Default()
+	}
+
+	clientName := defaultClientName
+	userAgent := buildUserAgent(clientName)
+
+	var transport *http.Transport
+	if def, ok := http.DefaultTransport.(*http.Transport); ok {
+		transport = def.Clone()
+	} else {
+		transport = &http.Transport{}
+	}
+
+	if transport.TLSClientConfig == nil {
+		transport.TLSClientConfig = &tls.Config{}
+	} else {
+		transport.TLSClientConfig = transport.TLSClientConfig.Clone()
+	}
+
+	if params.Insecure != nil && *params.Insecure {
+		logger.Warn("Insecure mode enabled. The server's SSL/TLS certificate will not be validated, making the HTTPS connection potentially insecure")
+		transport.TLSClientConfig.InsecureSkipVerify = true
+	}
+
+	if params.CertBundle != "" {
+		bundlePath, err := normalizePath(params.CertBundle)
+		if err != nil {
+			return nil, "", err
+		}
+
+		data, err := os.ReadFile(bundlePath)
+		if err != nil {
+			return nil, "", err
+		}
+
+		var pool *x509.CertPool
+		if transport.TLSClientConfig.RootCAs != nil {
+			pool = transport.TLSClientConfig.RootCAs
+		} else {
+			pool, err = x509.SystemCertPool()
+			if err != nil {
+				pool = x509.NewCertPool()
+			}
+		}
+
+		if ok := pool.AppendCertsFromPEM(data); !ok {
+			return nil, "", fmt.Errorf("failed to parse certificate bundle %s", bundlePath)
+		}
+		transport.TLSClientConfig.RootCAs = pool
+	}
+
+	if params.ClientCert != "" {
+		certPath, err := normalizePath(params.ClientCert)
+		if err != nil {
+			return nil, "", err
+		}
+
+		keyPath := params.ClientCertKey
+		if keyPath == "" {
+			keyPath = params.ClientCert
+		}
+
+		keyPath, err = normalizePath(keyPath)
+		if err != nil {
+			return nil, "", err
+		}
+
+		cert, err := tls.LoadX509KeyPair(certPath, keyPath)
+		if err != nil {
+			return nil, "", fmt.Errorf("failed to load client certificate: %w", err)
+		}
+		transport.TLSClientConfig.Certificates = []tls.Certificate{cert}
+	}
+
+	baseClient := http.DefaultClient
+	client := &http.Client{
+		Timeout:       baseClient.Timeout,
+		Transport:     &basicAuthRoundTripper{email: params.Email, apiKey: params.APIKey, userAgent: userAgent, base: transport},
+		CheckRedirect: baseClient.CheckRedirect,
+		Jar:           baseClient.Jar,
+	}
+
+	return client, userAgent, nil
+}
+
+func (c *ZulipClient) initializeServerMetadata() error {
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	resp, _, err := c.GetServerSettings(ctx).Execute()
+	if err != nil {
+		return err
+	}
+
+	c.zulipVersion = resp.GetZulipVersion()
+	c.featureLevel = resp.GetZulipFeatureLevel()
+	return nil
 }
 
 // selectHeaderContentType select a content type from the available list.
@@ -110,7 +342,7 @@ func typeCheckParameter(obj interface{}, expected string, name string) error {
 	return nil
 }
 
-func parameterValueToString( obj interface{}, key string ) string {
+func parameterValueToString(obj interface{}, key string) string {
 	if reflect.TypeOf(obj).Kind() != reflect.Ptr {
 		if actualObj, ok := obj.(interface{ GetActualInstanceValue() interface{} }); ok {
 			return fmt.Sprintf("%v", actualObj.GetActualInstanceValue())
@@ -118,11 +350,11 @@ func parameterValueToString( obj interface{}, key string ) string {
 
 		return fmt.Sprintf("%v", obj)
 	}
-	var param,ok = obj.(models.MappedNullable)
+	var param, ok = obj.(models.MappedNullable)
 	if !ok {
 		return ""
 	}
-	dataMap,err := param.ToMap()
+	dataMap, err := param.ToMap()
 	if err != nil {
 		return ""
 	}
@@ -138,85 +370,85 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 		value = "null"
 	} else {
 		switch v.Kind() {
-			case reflect.Invalid:
-				value = "invalid"
+		case reflect.Invalid:
+			value = "invalid"
 
-			case reflect.Struct:
-				if t,ok := obj.(models.MappedNullable); ok {
-					dataMap,err := t.ToMap()
-					if err != nil {
-						return
-					}
-					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, dataMap, style, collectionType)
+		case reflect.Struct:
+			if t, ok := obj.(models.MappedNullable); ok {
+				dataMap, err := t.ToMap()
+				if err != nil {
 					return
 				}
-				if t, ok := obj.(time.Time); ok {
-					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, t.Format(time.RFC3339Nano), style, collectionType)
-					return
-				}
-				value = v.Type().String() + " value"
-			case reflect.Slice:
-				var indValue = reflect.ValueOf(obj)
-				if indValue == reflect.ValueOf(nil) {
-					return
-				}
-				var lenIndValue = indValue.Len()
-				for i:=0;i<lenIndValue;i++ {
-					var arrayValue = indValue.Index(i)
-					var keyPrefixForCollectionType = keyPrefix
-					if style == "deepObject" {
-						keyPrefixForCollectionType = keyPrefix + "[" + strconv.Itoa(i) + "]"
-					}
-					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), style, collectionType)
-				}
+				parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, dataMap, style, collectionType)
 				return
-
-			case reflect.Map:
-				var indValue = reflect.ValueOf(obj)
-				if indValue == reflect.ValueOf(nil) {
-					return
-				}
-				iter := indValue.MapRange()
-				for iter.Next() {
-					k,v := iter.Key(), iter.Value()
-					parameterAddToHeaderOrQuery(headerOrQueryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface(), style, collectionType)
-				}
+			}
+			if t, ok := obj.(time.Time); ok {
+				parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, t.Format(time.RFC3339Nano), style, collectionType)
 				return
-
-			case reflect.Interface:
-				fallthrough
-			case reflect.Ptr:
-				parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, v.Elem().Interface(), style, collectionType)
+			}
+			value = v.Type().String() + " value"
+		case reflect.Slice:
+			var indValue = reflect.ValueOf(obj)
+			if indValue == reflect.ValueOf(nil) {
 				return
+			}
+			var lenIndValue = indValue.Len()
+			for i := 0; i < lenIndValue; i++ {
+				var arrayValue = indValue.Index(i)
+				var keyPrefixForCollectionType = keyPrefix
+				if style == "deepObject" {
+					keyPrefixForCollectionType = keyPrefix + "[" + strconv.Itoa(i) + "]"
+				}
+				parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), style, collectionType)
+			}
+			return
 
-			case reflect.Int, reflect.Int8, reflect.Int16,
-				reflect.Int32, reflect.Int64:
-				value = strconv.FormatInt(v.Int(), 10)
-			case reflect.Uint, reflect.Uint8, reflect.Uint16,
-				reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-				value = strconv.FormatUint(v.Uint(), 10)
-			case reflect.Float32, reflect.Float64:
-				value = strconv.FormatFloat(v.Float(), 'g', -1, 32)
-			case reflect.Bool:
-				value = strconv.FormatBool(v.Bool())
-			case reflect.String:
-				value = v.String()
-			default:
-				value = v.Type().String() + " value"
+		case reflect.Map:
+			var indValue = reflect.ValueOf(obj)
+			if indValue == reflect.ValueOf(nil) {
+				return
+			}
+			iter := indValue.MapRange()
+			for iter.Next() {
+				k, v := iter.Key(), iter.Value()
+				parameterAddToHeaderOrQuery(headerOrQueryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface(), style, collectionType)
+			}
+			return
+
+		case reflect.Interface:
+			fallthrough
+		case reflect.Ptr:
+			parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, v.Elem().Interface(), style, collectionType)
+			return
+
+		case reflect.Int, reflect.Int8, reflect.Int16,
+			reflect.Int32, reflect.Int64:
+			value = strconv.FormatInt(v.Int(), 10)
+		case reflect.Uint, reflect.Uint8, reflect.Uint16,
+			reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+			value = strconv.FormatUint(v.Uint(), 10)
+		case reflect.Float32, reflect.Float64:
+			value = strconv.FormatFloat(v.Float(), 'g', -1, 32)
+		case reflect.Bool:
+			value = strconv.FormatBool(v.Bool())
+		case reflect.String:
+			value = v.String()
+		default:
+			value = v.Type().String() + " value"
 		}
 	}
 
 	switch valuesMap := headerOrQueryParams.(type) {
-		case url.Values:
-			if collectionType == "csv" && valuesMap.Get(keyPrefix) != "" {
-				valuesMap.Set(keyPrefix, valuesMap.Get(keyPrefix) + "," + value)
-			} else {
-				valuesMap.Add(keyPrefix, value)
-			}
-			break
-		case map[string]string:
-			valuesMap[keyPrefix] = value
-			break
+	case url.Values:
+		if collectionType == "csv" && valuesMap.Get(keyPrefix) != "" {
+			valuesMap.Set(keyPrefix, valuesMap.Get(keyPrefix)+","+value)
+		} else {
+			valuesMap.Add(keyPrefix, value)
+		}
+		break
+	case map[string]string:
+		valuesMap[keyPrefix] = value
+		break
 	}
 }
 
@@ -230,44 +462,50 @@ func parameterToJson(obj interface{}) (string, error) {
 }
 
 // callAPI do the request.
-func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
-	if c.cfg.Debug {
+func (c *ZulipClient) callAPI(ctx context.Context, request *http.Request) (*http.Response, error) {
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	debug := c.logger.Enabled(ctx, slog.LevelDebug)
+
+	if debug {
 		dump, err := httputil.DumpRequestOut(request, true)
 		if err != nil {
 			return nil, err
 		}
-		log.Printf("\n%s\n", string(dump))
+		c.logger.DebugContext(ctx, "HTTP Request", "dump", string(dump))
 	}
 
-	resp, err := c.cfg.HTTPClient.Do(request)
+	resp, err := c.httpClient.Do(request)
 	if err != nil {
 		return resp, err
 	}
 
-	if c.cfg.Debug {
+	if debug {
 		dump, err := httputil.DumpResponse(resp, true)
 		if err != nil {
 			return resp, err
 		}
-		log.Printf("\n%s\n", string(dump))
+		c.logger.DebugContext(ctx, "HTTP Response", "dump", string(dump))
 	}
 	return resp, err
 }
 
 // Allow modification of underlying config for alternate implementations and testing
 // Caution: modifying the configuration while live can cause data races and potentially unwanted behavior
-func (c *APIClient) GetConfig() *Configuration {
+func (c *ZulipClient) GetZulipRC() *ZulipRC {
 	return c.cfg
 }
 
 type formFile struct {
-		fileBytes []byte
-		fileName string
-		formFileName string
+	fileBytes    []byte
+	fileName     string
+	formFileName string
 }
 
 // prepareRequest build the request
-func (c *APIClient) prepareRequest(
+func (c *ZulipClient) prepareRequest(
 	ctx context.Context,
 	path string, method string,
 	postBody interface{},
@@ -317,11 +555,11 @@ func (c *APIClient) prepareRequest(
 				w.Boundary()
 				part, err := w.CreateFormFile(formFile.formFileName, filepath.Base(formFile.fileName))
 				if err != nil {
-						return nil, err
+					return nil, err
 				}
 				_, err = part.Write(formFile.fileBytes)
 				if err != nil {
-						return nil, err
+					return nil, err
 				}
 			}
 		}
@@ -348,16 +586,6 @@ func (c *APIClient) prepareRequest(
 	url, err := url.Parse(path)
 	if err != nil {
 		return nil, err
-	}
-
-	// Override request host, if applicable
-	if c.cfg.Host != "" {
-		url.Host = c.cfg.Host
-	}
-
-	// Override request scheme, if applicable
-	if c.cfg.Scheme != "" {
-		url.Scheme = c.cfg.Scheme
 	}
 
 	// Adding Query Param
@@ -395,7 +623,7 @@ func (c *APIClient) prepareRequest(
 	}
 
 	// Add the user agent to the request.
-	localVarRequest.Header.Add("User-Agent", c.cfg.UserAgent)
+	localVarRequest.Header.Add("User-Agent", c.userAgent)
 
 	if ctx != nil {
 		// add context to the request
@@ -410,13 +638,13 @@ func (c *APIClient) prepareRequest(
 
 	}
 
-	for header, value := range c.cfg.DefaultHeader {
+	for header, value := range c.defaultHeader {
 		localVarRequest.Header.Add(header, value)
 	}
 	return localVarRequest, nil
 }
 
-func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err error) {
+func (c *ZulipClient) decode(v interface{}, b []byte, contentType string) (err error) {
 	if len(b) == 0 {
 		return nil
 	}
@@ -469,178 +697,4 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 		return nil
 	}
 	return errors.New("undefined response type")
-}
-
-// Add a file to the multipart request
-func addFile(w *multipart.Writer, fieldName, path string) error {
-	file, err := os.Open(filepath.Clean(path))
-	if err != nil {
-		return err
-	}
-	err = file.Close()
-	if err != nil {
-		return err
-	}
-
-	part, err := w.CreateFormFile(fieldName, filepath.Base(path))
-	if err != nil {
-		return err
-	}
-	_, err = io.Copy(part, file)
-
-	return err
-}
-
-// Set request body from an interface{}
-func setBody(body interface{}, contentType string) (bodyBuf *bytes.Buffer, err error) {
-	if bodyBuf == nil {
-		bodyBuf = &bytes.Buffer{}
-	}
-
-	if reader, ok := body.(io.Reader); ok {
-		_, err = bodyBuf.ReadFrom(reader)
-	} else if fp, ok := body.(*os.File); ok {
-		_, err = bodyBuf.ReadFrom(fp)
-	} else if b, ok := body.([]byte); ok {
-		_, err = bodyBuf.Write(b)
-	} else if s, ok := body.(string); ok {
-		_, err = bodyBuf.WriteString(s)
-	} else if s, ok := body.(*string); ok {
-		_, err = bodyBuf.WriteString(*s)
-	} else if JsonCheck.MatchString(contentType) {
-		err = json.NewEncoder(bodyBuf).Encode(body)
-	} else if XmlCheck.MatchString(contentType) {
-		var bs []byte
-		bs, err = xml.Marshal(body)
-		if err == nil {
-			bodyBuf.Write(bs)
-		}
-	}
-
-	if err != nil {
-		return nil, err
-	}
-
-	if bodyBuf.Len() == 0 {
-		err = fmt.Errorf("invalid body type %s\n", contentType)
-		return nil, err
-	}
-	return bodyBuf, nil
-}
-
-// detectContentType method is used to figure out `Request.Body` content type for request header
-func detectContentType(body interface{}) string {
-	contentType := "text/plain; charset=utf-8"
-	kind := reflect.TypeOf(body).Kind()
-
-	switch kind {
-	case reflect.Struct, reflect.Map, reflect.Ptr:
-		contentType = "application/json; charset=utf-8"
-	case reflect.String:
-		contentType = "text/plain; charset=utf-8"
-	default:
-		if b, ok := body.([]byte); ok {
-			contentType = http.DetectContentType(b)
-		} else if kind == reflect.Slice {
-			contentType = "application/json; charset=utf-8"
-		}
-	}
-
-	return contentType
-}
-
-// Ripped from https://github.com/gregjones/httpcache/blob/master/httpcache.go
-type cacheControl map[string]string
-
-func parseCacheControl(headers http.Header) cacheControl {
-	cc := cacheControl{}
-	ccHeader := headers.Get("Cache-Control")
-	for _, part := range strings.Split(ccHeader, ",") {
-		part = strings.Trim(part, " ")
-		if part == "" {
-			continue
-		}
-		if strings.ContainsRune(part, '=') {
-			keyval := strings.Split(part, "=")
-			cc[strings.Trim(keyval[0], " ")] = strings.Trim(keyval[1], ",")
-		} else {
-			cc[part] = ""
-		}
-	}
-	return cc
-}
-
-// CacheExpires helper function to determine remaining time before repeating a request.
-func CacheExpires(r *http.Response) time.Time {
-	// Figure out when the cache expires.
-	var expires time.Time
-	now, err := time.Parse(time.RFC1123, r.Header.Get("date"))
-	if err != nil {
-		return time.Now()
-	}
-	respCacheControl := parseCacheControl(r.Header)
-
-	if maxAge, ok := respCacheControl["max-age"]; ok {
-		lifetime, err := time.ParseDuration(maxAge + "s")
-		if err != nil {
-			expires = now
-		} else {
-			expires = now.Add(lifetime)
-		}
-	} else {
-		expiresHeader := r.Header.Get("Expires")
-		if expiresHeader != "" {
-			expires, err = time.Parse(time.RFC1123, expiresHeader)
-			if err != nil {
-				expires = now
-			}
-		}
-	}
-	return expires
-}
-
-func strlen(s string) int {
-	return utf8.RuneCountInString(s)
-}
-
-// GenericOpenAPIError Provides access to the body, error and model on returned errors.
-type GenericOpenAPIError struct {
-	body  []byte
-	error string
-	model interface{}
-}
-
-// Error returns non-empty string if there was an error.
-func (e GenericOpenAPIError) Error() string {
-	return e.error
-}
-
-// Body returns the raw bytes of the response
-func (e GenericOpenAPIError) Body() []byte {
-	return e.body
-}
-
-// Model returns the unpacked model of the error
-func (e GenericOpenAPIError) Model() interface{} {
-	return e.model
-}
-
-// format error message using title and detail when model implements rfc7807
-func formatErrorMessage(status string, v interface{}) string {
-	str := ""
-	metaValue := reflect.ValueOf(v).Elem()
-
-	if metaValue.Kind() == reflect.Struct {
-		field := metaValue.FieldByName("Title")
-		if field != (reflect.Value{}) {
-			str = fmt.Sprintf("%s", field.Interface())
-		}
-
-		field = metaValue.FieldByName("Detail")
-		if field != (reflect.Value{}) {
-			str = fmt.Sprintf("%s (%s)", str, field.Interface())
-		}
-	}
-
-	return strings.TrimSpace(fmt.Sprintf("%s %s", status, str))
 }

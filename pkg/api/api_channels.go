@@ -653,7 +653,7 @@ for new users joining the organization.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiAddDefaultStreamRequest
 */
-func (a *APIClient) AddDefaultStream(ctx context.Context) ApiAddDefaultStreamRequest {
+func (a *ZulipClient) AddDefaultStream(ctx context.Context) ApiAddDefaultStreamRequest {
 	return ApiAddDefaultStreamRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -662,7 +662,7 @@ func (a *APIClient) AddDefaultStream(ctx context.Context) ApiAddDefaultStreamReq
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) AddDefaultStreamExecute(r ApiAddDefaultStreamRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) AddDefaultStreamExecute(r ApiAddDefaultStreamRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -670,7 +670,7 @@ func (a *APIClient) AddDefaultStreamExecute(r ApiAddDefaultStreamRequest) (*mode
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.AddDefaultStream")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -707,7 +707,7 @@ func (a *APIClient) AddDefaultStreamExecute(r ApiAddDefaultStreamRequest) (*mode
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -769,7 +769,7 @@ ArchiveStream Archive a channel
  @param streamId The ID of the channel to access. 
  @return ApiArchiveStreamRequest
 */
-func (a *APIClient) ArchiveStream(ctx context.Context, streamId int32) ApiArchiveStreamRequest {
+func (a *ZulipClient) ArchiveStream(ctx context.Context, streamId int32) ApiArchiveStreamRequest {
 	return ApiArchiveStreamRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -779,7 +779,7 @@ func (a *APIClient) ArchiveStream(ctx context.Context, streamId int32) ApiArchiv
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) ArchiveStreamExecute(r ApiArchiveStreamRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) ArchiveStreamExecute(r ApiArchiveStreamRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -787,7 +787,7 @@ func (a *APIClient) ArchiveStreamExecute(r ApiArchiveStreamRequest) (*models.Jso
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.ArchiveStream")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -821,7 +821,7 @@ func (a *APIClient) ArchiveStreamExecute(r ApiArchiveStreamRequest) (*models.Jso
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -903,7 +903,7 @@ encoding a moderator password in the generated URLs.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateBigBlueButtonVideoCallRequest
 */
-func (a *APIClient) CreateBigBlueButtonVideoCall(ctx context.Context) ApiCreateBigBlueButtonVideoCallRequest {
+func (a *ZulipClient) CreateBigBlueButtonVideoCall(ctx context.Context) ApiCreateBigBlueButtonVideoCallRequest {
 	return ApiCreateBigBlueButtonVideoCallRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -912,7 +912,7 @@ func (a *APIClient) CreateBigBlueButtonVideoCall(ctx context.Context) ApiCreateB
 
 // Execute executes the request
 //  @return CreateBigBlueButtonVideoCall200Response
-func (a *APIClient) CreateBigBlueButtonVideoCallExecute(r ApiCreateBigBlueButtonVideoCallRequest) (*models.CreateBigBlueButtonVideoCall200Response, *http.Response, error) {
+func (a *ZulipClient) CreateBigBlueButtonVideoCallExecute(r ApiCreateBigBlueButtonVideoCallRequest) (*models.CreateBigBlueButtonVideoCall200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -920,7 +920,7 @@ func (a *APIClient) CreateBigBlueButtonVideoCallExecute(r ApiCreateBigBlueButton
 		localVarReturnValue  *models.CreateBigBlueButtonVideoCall200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.CreateBigBlueButtonVideoCall")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -960,7 +960,7 @@ func (a *APIClient) CreateBigBlueButtonVideoCallExecute(r ApiCreateBigBlueButton
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1157,7 +1157,7 @@ the [`POST /api/subscribe`](/api/subscribe) endpoint, which handled both creatio
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateChannelRequest
 */
-func (a *APIClient) CreateChannel(ctx context.Context) ApiCreateChannelRequest {
+func (a *ZulipClient) CreateChannel(ctx context.Context) ApiCreateChannelRequest {
 	return ApiCreateChannelRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1166,7 +1166,7 @@ func (a *APIClient) CreateChannel(ctx context.Context) ApiCreateChannelRequest {
 
 // Execute executes the request
 //  @return CreateChannel200Response
-func (a *APIClient) CreateChannelExecute(r ApiCreateChannelRequest) (*models.CreateChannel200Response, *http.Response, error) {
+func (a *ZulipClient) CreateChannelExecute(r ApiCreateChannelRequest) (*models.CreateChannel200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -1174,7 +1174,7 @@ func (a *APIClient) CreateChannelExecute(r ApiCreateChannelRequest) (*models.Cre
 		localVarReturnValue  *models.CreateChannel200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.CreateChannel")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1319,7 +1319,7 @@ func (a *APIClient) CreateChannelExecute(r ApiCreateChannelRequest) (*models.Cre
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1399,7 +1399,7 @@ folder.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateChannelFolderRequest
 */
-func (a *APIClient) CreateChannelFolder(ctx context.Context) ApiCreateChannelFolderRequest {
+func (a *ZulipClient) CreateChannelFolder(ctx context.Context) ApiCreateChannelFolderRequest {
 	return ApiCreateChannelFolderRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1408,7 +1408,7 @@ func (a *APIClient) CreateChannelFolder(ctx context.Context) ApiCreateChannelFol
 
 // Execute executes the request
 //  @return CreateChannelFolder200Response
-func (a *APIClient) CreateChannelFolderExecute(r ApiCreateChannelFolderRequest) (*models.CreateChannelFolder200Response, *http.Response, error) {
+func (a *ZulipClient) CreateChannelFolderExecute(r ApiCreateChannelFolderRequest) (*models.CreateChannelFolder200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -1416,7 +1416,7 @@ func (a *APIClient) CreateChannelFolderExecute(r ApiCreateChannelFolderRequest) 
 		localVarReturnValue  *models.CreateChannelFolder200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.CreateChannelFolder")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1455,7 +1455,7 @@ func (a *APIClient) CreateChannelFolderExecute(r ApiCreateChannelFolderRequest) 
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1558,7 +1558,7 @@ returns an error.
  @param streamId The ID of the channel to access. 
  @return ApiDeleteTopicRequest
 */
-func (a *APIClient) DeleteTopic(ctx context.Context, streamId int32) ApiDeleteTopicRequest {
+func (a *ZulipClient) DeleteTopic(ctx context.Context, streamId int32) ApiDeleteTopicRequest {
 	return ApiDeleteTopicRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1568,7 +1568,7 @@ func (a *APIClient) DeleteTopic(ctx context.Context, streamId int32) ApiDeleteTo
 
 // Execute executes the request
 //  @return MarkAllAsRead200Response
-func (a *APIClient) DeleteTopicExecute(r ApiDeleteTopicRequest) (*models.MarkAllAsRead200Response, *http.Response, error) {
+func (a *ZulipClient) DeleteTopicExecute(r ApiDeleteTopicRequest) (*models.MarkAllAsRead200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -1576,7 +1576,7 @@ func (a *APIClient) DeleteTopicExecute(r ApiDeleteTopicRequest) (*models.MarkAll
 		localVarReturnValue  *models.MarkAllAsRead200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.DeleteTopic")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1614,7 +1614,7 @@ func (a *APIClient) DeleteTopicExecute(r ApiDeleteTopicRequest) (*models.MarkAll
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1687,7 +1687,7 @@ New in Zulip 11.0 (feature level 389).
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetChannelFoldersRequest
 */
-func (a *APIClient) GetChannelFolders(ctx context.Context) ApiGetChannelFoldersRequest {
+func (a *ZulipClient) GetChannelFolders(ctx context.Context) ApiGetChannelFoldersRequest {
 	return ApiGetChannelFoldersRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1696,7 +1696,7 @@ func (a *APIClient) GetChannelFolders(ctx context.Context) ApiGetChannelFoldersR
 
 // Execute executes the request
 //  @return GetChannelFolders200Response
-func (a *APIClient) GetChannelFoldersExecute(r ApiGetChannelFoldersRequest) (*models.GetChannelFolders200Response, *http.Response, error) {
+func (a *ZulipClient) GetChannelFoldersExecute(r ApiGetChannelFoldersRequest) (*models.GetChannelFolders200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1704,7 +1704,7 @@ func (a *APIClient) GetChannelFoldersExecute(r ApiGetChannelFoldersRequest) (*mo
 		localVarReturnValue  *models.GetChannelFolders200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.GetChannelFolders")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1740,7 +1740,7 @@ func (a *APIClient) GetChannelFoldersExecute(r ApiGetChannelFoldersRequest) (*mo
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1794,7 +1794,7 @@ Fetch details for the channel with the ID `stream_id`.
  @param streamId The ID of the channel to access. 
  @return ApiGetStreamByIdRequest
 */
-func (a *APIClient) GetStreamById(ctx context.Context, streamId int32) ApiGetStreamByIdRequest {
+func (a *ZulipClient) GetStreamById(ctx context.Context, streamId int32) ApiGetStreamByIdRequest {
 	return ApiGetStreamByIdRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1804,7 +1804,7 @@ func (a *APIClient) GetStreamById(ctx context.Context, streamId int32) ApiGetStr
 
 // Execute executes the request
 //  @return GetStreamById200Response
-func (a *APIClient) GetStreamByIdExecute(r ApiGetStreamByIdRequest) (*models.GetStreamById200Response, *http.Response, error) {
+func (a *ZulipClient) GetStreamByIdExecute(r ApiGetStreamByIdRequest) (*models.GetStreamById200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1812,7 +1812,7 @@ func (a *APIClient) GetStreamByIdExecute(r ApiGetStreamByIdRequest) (*models.Get
 		localVarReturnValue  *models.GetStreamById200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.GetStreamById")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1846,7 +1846,7 @@ func (a *APIClient) GetStreamByIdExecute(r ApiGetStreamByIdRequest) (*models.Get
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1917,7 +1917,7 @@ Get email address of a channel.
  @param streamId The ID of the channel to access. 
  @return ApiGetStreamEmailAddressRequest
 */
-func (a *APIClient) GetStreamEmailAddress(ctx context.Context, streamId int32) ApiGetStreamEmailAddressRequest {
+func (a *ZulipClient) GetStreamEmailAddress(ctx context.Context, streamId int32) ApiGetStreamEmailAddressRequest {
 	return ApiGetStreamEmailAddressRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1927,7 +1927,7 @@ func (a *APIClient) GetStreamEmailAddress(ctx context.Context, streamId int32) A
 
 // Execute executes the request
 //  @return GetStreamEmailAddress200Response
-func (a *APIClient) GetStreamEmailAddressExecute(r ApiGetStreamEmailAddressRequest) (*models.GetStreamEmailAddress200Response, *http.Response, error) {
+func (a *ZulipClient) GetStreamEmailAddressExecute(r ApiGetStreamEmailAddressRequest) (*models.GetStreamEmailAddress200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1935,7 +1935,7 @@ func (a *APIClient) GetStreamEmailAddressExecute(r ApiGetStreamEmailAddressReque
 		localVarReturnValue  *models.GetStreamEmailAddress200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.GetStreamEmailAddress")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1972,7 +1972,7 @@ func (a *APIClient) GetStreamEmailAddressExecute(r ApiGetStreamEmailAddressReque
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2039,7 +2039,7 @@ Get the unique ID of a given channel.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetStreamIdRequest
 */
-func (a *APIClient) GetStreamId(ctx context.Context) ApiGetStreamIdRequest {
+func (a *ZulipClient) GetStreamId(ctx context.Context) ApiGetStreamIdRequest {
 	return ApiGetStreamIdRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2048,7 +2048,7 @@ func (a *APIClient) GetStreamId(ctx context.Context) ApiGetStreamIdRequest {
 
 // Execute executes the request
 //  @return GetStreamId200Response
-func (a *APIClient) GetStreamIdExecute(r ApiGetStreamIdRequest) (*models.GetStreamId200Response, *http.Response, error) {
+func (a *ZulipClient) GetStreamIdExecute(r ApiGetStreamIdRequest) (*models.GetStreamId200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2056,7 +2056,7 @@ func (a *APIClient) GetStreamIdExecute(r ApiGetStreamIdRequest) (*models.GetStre
 		localVarReturnValue  *models.GetStreamId200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.GetStreamId")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2093,7 +2093,7 @@ func (a *APIClient) GetStreamIdExecute(r ApiGetStreamIdRequest) (*models.GetStre
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2170,7 +2170,7 @@ user subscribed.
  @param streamId The ID of the channel to access. 
  @return ApiGetStreamTopicsRequest
 */
-func (a *APIClient) GetStreamTopics(ctx context.Context, streamId int32) ApiGetStreamTopicsRequest {
+func (a *ZulipClient) GetStreamTopics(ctx context.Context, streamId int32) ApiGetStreamTopicsRequest {
 	return ApiGetStreamTopicsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2180,7 +2180,7 @@ func (a *APIClient) GetStreamTopics(ctx context.Context, streamId int32) ApiGetS
 
 // Execute executes the request
 //  @return GetStreamTopics200Response
-func (a *APIClient) GetStreamTopicsExecute(r ApiGetStreamTopicsRequest) (*models.GetStreamTopics200Response, *http.Response, error) {
+func (a *ZulipClient) GetStreamTopicsExecute(r ApiGetStreamTopicsRequest) (*models.GetStreamTopics200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2188,7 +2188,7 @@ func (a *APIClient) GetStreamTopicsExecute(r ApiGetStreamTopicsRequest) (*models
 		localVarReturnValue  *models.GetStreamTopics200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.GetStreamTopics")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2228,7 +2228,7 @@ func (a *APIClient) GetStreamTopicsExecute(r ApiGetStreamTopicsRequest) (*models
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2352,7 +2352,7 @@ Get all channels that the user [has access to](/help/channel-permissions).
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetStreamsRequest
 */
-func (a *APIClient) GetStreams(ctx context.Context) ApiGetStreamsRequest {
+func (a *ZulipClient) GetStreams(ctx context.Context) ApiGetStreamsRequest {
 	return ApiGetStreamsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2361,7 +2361,7 @@ func (a *APIClient) GetStreams(ctx context.Context) ApiGetStreamsRequest {
 
 // Execute executes the request
 //  @return GetStreams200Response
-func (a *APIClient) GetStreamsExecute(r ApiGetStreamsRequest) (*models.GetStreams200Response, *http.Response, error) {
+func (a *ZulipClient) GetStreamsExecute(r ApiGetStreamsRequest) (*models.GetStreams200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2369,7 +2369,7 @@ func (a *APIClient) GetStreamsExecute(r ApiGetStreamsRequest) (*models.GetStream
 		localVarReturnValue  *models.GetStreams200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.GetStreams")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2456,7 +2456,7 @@ func (a *APIClient) GetStreamsExecute(r ApiGetStreamsRequest) (*models.GetStream
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2508,7 +2508,7 @@ Get all users subscribed to a channel.
  @param streamId The ID of the channel to access. 
  @return ApiGetSubscribersRequest
 */
-func (a *APIClient) GetSubscribers(ctx context.Context, streamId int32) ApiGetSubscribersRequest {
+func (a *ZulipClient) GetSubscribers(ctx context.Context, streamId int32) ApiGetSubscribersRequest {
 	return ApiGetSubscribersRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2518,7 +2518,7 @@ func (a *APIClient) GetSubscribers(ctx context.Context, streamId int32) ApiGetSu
 
 // Execute executes the request
 //  @return GetSubscribers200Response
-func (a *APIClient) GetSubscribersExecute(r ApiGetSubscribersRequest) (*models.GetSubscribers200Response, *http.Response, error) {
+func (a *ZulipClient) GetSubscribersExecute(r ApiGetSubscribersRequest) (*models.GetSubscribers200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2526,7 +2526,7 @@ func (a *APIClient) GetSubscribersExecute(r ApiGetSubscribersRequest) (*models.G
 		localVarReturnValue  *models.GetSubscribers200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.GetSubscribers")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2560,7 +2560,7 @@ func (a *APIClient) GetSubscribersExecute(r ApiGetSubscribersRequest) (*models.G
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2626,7 +2626,7 @@ Check whether a user is subscribed to a channel.
  @param streamId The ID of the channel to access. 
  @return ApiGetSubscriptionStatusRequest
 */
-func (a *APIClient) GetSubscriptionStatus(ctx context.Context, userId int32, streamId int32) ApiGetSubscriptionStatusRequest {
+func (a *ZulipClient) GetSubscriptionStatus(ctx context.Context, userId int32, streamId int32) ApiGetSubscriptionStatusRequest {
 	return ApiGetSubscriptionStatusRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2637,7 +2637,7 @@ func (a *APIClient) GetSubscriptionStatus(ctx context.Context, userId int32, str
 
 // Execute executes the request
 //  @return GetSubscriptionStatus200Response
-func (a *APIClient) GetSubscriptionStatusExecute(r ApiGetSubscriptionStatusRequest) (*models.GetSubscriptionStatus200Response, *http.Response, error) {
+func (a *ZulipClient) GetSubscriptionStatusExecute(r ApiGetSubscriptionStatusRequest) (*models.GetSubscriptionStatus200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2645,7 +2645,7 @@ func (a *APIClient) GetSubscriptionStatusExecute(r ApiGetSubscriptionStatusReque
 		localVarReturnValue  *models.GetSubscriptionStatus200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.GetSubscriptionStatus")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2680,7 +2680,7 @@ func (a *APIClient) GetSubscriptionStatusExecute(r ApiGetSubscriptionStatusReque
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2737,7 +2737,7 @@ Get all channels that the user is subscribed to.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetSubscriptionsRequest
 */
-func (a *APIClient) GetSubscriptions(ctx context.Context) ApiGetSubscriptionsRequest {
+func (a *ZulipClient) GetSubscriptions(ctx context.Context) ApiGetSubscriptionsRequest {
 	return ApiGetSubscriptionsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2746,7 +2746,7 @@ func (a *APIClient) GetSubscriptions(ctx context.Context) ApiGetSubscriptionsReq
 
 // Execute executes the request
 //  @return GetSubscriptions200Response
-func (a *APIClient) GetSubscriptionsExecute(r ApiGetSubscriptionsRequest) (*models.GetSubscriptions200Response, *http.Response, error) {
+func (a *ZulipClient) GetSubscriptionsExecute(r ApiGetSubscriptionsRequest) (*models.GetSubscriptions200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2754,7 +2754,7 @@ func (a *APIClient) GetSubscriptionsExecute(r ApiGetSubscriptionsRequest) (*mode
 		localVarReturnValue  *models.GetSubscriptions200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.GetSubscriptions")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2793,7 +2793,7 @@ func (a *APIClient) GetSubscriptionsExecute(r ApiGetSubscriptionsRequest) (*mode
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2882,7 +2882,7 @@ or asked to unmute a topic that had not previously been muted.
 
 Deprecated
 */
-func (a *APIClient) MuteTopic(ctx context.Context) ApiMuteTopicRequest {
+func (a *ZulipClient) MuteTopic(ctx context.Context) ApiMuteTopicRequest {
 	return ApiMuteTopicRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2892,7 +2892,7 @@ func (a *APIClient) MuteTopic(ctx context.Context) ApiMuteTopicRequest {
 // Execute executes the request
 //  @return JsonSuccess
 // Deprecated
-func (a *APIClient) MuteTopicExecute(r ApiMuteTopicRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) MuteTopicExecute(r ApiMuteTopicRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -2900,7 +2900,7 @@ func (a *APIClient) MuteTopicExecute(r ApiMuteTopicRequest) (*models.JsonSuccess
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.MuteTopic")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2947,7 +2947,7 @@ func (a *APIClient) MuteTopicExecute(r ApiMuteTopicRequest) (*models.JsonSuccess
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3008,7 +3008,7 @@ the order of the channel folder IDs specified in the request.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiPatchChannelFoldersRequest
 */
-func (a *APIClient) PatchChannelFolders(ctx context.Context) ApiPatchChannelFoldersRequest {
+func (a *ZulipClient) PatchChannelFolders(ctx context.Context) ApiPatchChannelFoldersRequest {
 	return ApiPatchChannelFoldersRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3017,7 +3017,7 @@ func (a *APIClient) PatchChannelFolders(ctx context.Context) ApiPatchChannelFold
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) PatchChannelFoldersExecute(r ApiPatchChannelFoldersRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) PatchChannelFoldersExecute(r ApiPatchChannelFoldersRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -3025,7 +3025,7 @@ func (a *APIClient) PatchChannelFoldersExecute(r ApiPatchChannelFoldersRequest) 
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.PatchChannelFolders")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3061,7 +3061,7 @@ func (a *APIClient) PatchChannelFoldersExecute(r ApiPatchChannelFoldersRequest) 
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3131,7 +3131,7 @@ for new users joining the organization.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiRemoveDefaultStreamRequest
 */
-func (a *APIClient) RemoveDefaultStream(ctx context.Context) ApiRemoveDefaultStreamRequest {
+func (a *ZulipClient) RemoveDefaultStream(ctx context.Context) ApiRemoveDefaultStreamRequest {
 	return ApiRemoveDefaultStreamRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3140,7 +3140,7 @@ func (a *APIClient) RemoveDefaultStream(ctx context.Context) ApiRemoveDefaultStr
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) RemoveDefaultStreamExecute(r ApiRemoveDefaultStreamRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) RemoveDefaultStreamExecute(r ApiRemoveDefaultStreamRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -3148,7 +3148,7 @@ func (a *APIClient) RemoveDefaultStreamExecute(r ApiRemoveDefaultStreamRequest) 
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.RemoveDefaultStream")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3185,7 +3185,7 @@ func (a *APIClient) RemoveDefaultStreamExecute(r ApiRemoveDefaultStreamRequest) 
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3420,7 +3420,7 @@ feature level, an HTTP status code of 400 is returned with
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiSubscribeRequest
 */
-func (a *APIClient) Subscribe(ctx context.Context) ApiSubscribeRequest {
+func (a *ZulipClient) Subscribe(ctx context.Context) ApiSubscribeRequest {
 	return ApiSubscribeRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3429,7 +3429,7 @@ func (a *APIClient) Subscribe(ctx context.Context) ApiSubscribeRequest {
 
 // Execute executes the request
 //  @return Subscribe200Response
-func (a *APIClient) SubscribeExecute(r ApiSubscribeRequest) (*models.Subscribe200Response, *http.Response, error) {
+func (a *ZulipClient) SubscribeExecute(r ApiSubscribeRequest) (*models.Subscribe200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -3437,7 +3437,7 @@ func (a *APIClient) SubscribeExecute(r ApiSubscribeRequest) (*models.Subscribe20
 		localVarReturnValue  *models.Subscribe200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.Subscribe")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3585,7 +3585,7 @@ func (a *APIClient) SubscribeExecute(r ApiSubscribeRequest) (*models.Subscribe20
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3697,7 +3697,7 @@ privileges for managing bots that they own.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUnsubscribeRequest
 */
-func (a *APIClient) Unsubscribe(ctx context.Context) ApiUnsubscribeRequest {
+func (a *ZulipClient) Unsubscribe(ctx context.Context) ApiUnsubscribeRequest {
 	return ApiUnsubscribeRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3706,7 +3706,7 @@ func (a *APIClient) Unsubscribe(ctx context.Context) ApiUnsubscribeRequest {
 
 // Execute executes the request
 //  @return Unsubscribe200Response
-func (a *APIClient) UnsubscribeExecute(r ApiUnsubscribeRequest) (*models.Unsubscribe200Response, *http.Response, error) {
+func (a *ZulipClient) UnsubscribeExecute(r ApiUnsubscribeRequest) (*models.Unsubscribe200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -3714,7 +3714,7 @@ func (a *APIClient) UnsubscribeExecute(r ApiUnsubscribeRequest) (*models.Unsubsc
 		localVarReturnValue  *models.Unsubscribe200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.Unsubscribe")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3758,7 +3758,7 @@ func (a *APIClient) UnsubscribeExecute(r ApiUnsubscribeRequest) (*models.Unsubsc
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3849,7 +3849,7 @@ channel folder.
  @param channelFolderId The ID of the target channel folder. 
  @return ApiUpdateChannelFolderRequest
 */
-func (a *APIClient) UpdateChannelFolder(ctx context.Context, channelFolderId int32) ApiUpdateChannelFolderRequest {
+func (a *ZulipClient) UpdateChannelFolder(ctx context.Context, channelFolderId int32) ApiUpdateChannelFolderRequest {
 	return ApiUpdateChannelFolderRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3859,7 +3859,7 @@ func (a *APIClient) UpdateChannelFolder(ctx context.Context, channelFolderId int
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UpdateChannelFolderExecute(r ApiUpdateChannelFolderRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateChannelFolderExecute(r ApiUpdateChannelFolderRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -3867,7 +3867,7 @@ func (a *APIClient) UpdateChannelFolderExecute(r ApiUpdateChannelFolderRequest) 
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.UpdateChannelFolder")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3910,7 +3910,7 @@ func (a *APIClient) UpdateChannelFolderExecute(r ApiUpdateChannelFolderRequest) 
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4128,7 +4128,7 @@ in the channel is now controlled by `can_send_message_group`.
  @param streamId The ID of the channel to access. 
  @return ApiUpdateStreamRequest
 */
-func (a *APIClient) UpdateStream(ctx context.Context, streamId int32) ApiUpdateStreamRequest {
+func (a *ZulipClient) UpdateStream(ctx context.Context, streamId int32) ApiUpdateStreamRequest {
 	return ApiUpdateStreamRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -4138,7 +4138,7 @@ func (a *APIClient) UpdateStream(ctx context.Context, streamId int32) ApiUpdateS
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UpdateStreamExecute(r ApiUpdateStreamRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateStreamExecute(r ApiUpdateStreamRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -4146,7 +4146,7 @@ func (a *APIClient) UpdateStreamExecute(r ApiUpdateStreamRequest) (*models.JsonS
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.UpdateStream")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4284,7 +4284,7 @@ func (a *APIClient) UpdateStreamExecute(r ApiUpdateStreamRequest) (*models.JsonS
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4360,7 +4360,7 @@ request. The endpoint now returns the more ergonomic
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUpdateSubscriptionSettingsRequest
 */
-func (a *APIClient) UpdateSubscriptionSettings(ctx context.Context) ApiUpdateSubscriptionSettingsRequest {
+func (a *ZulipClient) UpdateSubscriptionSettings(ctx context.Context) ApiUpdateSubscriptionSettingsRequest {
 	return ApiUpdateSubscriptionSettingsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -4369,7 +4369,7 @@ func (a *APIClient) UpdateSubscriptionSettings(ctx context.Context) ApiUpdateSub
 
 // Execute executes the request
 //  @return IgnoredParametersSuccess
-func (a *APIClient) UpdateSubscriptionSettingsExecute(r ApiUpdateSubscriptionSettingsRequest) (*models.IgnoredParametersSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateSubscriptionSettingsExecute(r ApiUpdateSubscriptionSettingsRequest) (*models.IgnoredParametersSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -4377,7 +4377,7 @@ func (a *APIClient) UpdateSubscriptionSettingsExecute(r ApiUpdateSubscriptionSet
 		localVarReturnValue  *models.IgnoredParametersSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.UpdateSubscriptionSettings")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4414,7 +4414,7 @@ func (a *APIClient) UpdateSubscriptionSettingsExecute(r ApiUpdateSubscriptionSet
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4481,7 +4481,7 @@ subscriptions in archived channels could not be modified.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUpdateSubscriptionsRequest
 */
-func (a *APIClient) UpdateSubscriptions(ctx context.Context) ApiUpdateSubscriptionsRequest {
+func (a *ZulipClient) UpdateSubscriptions(ctx context.Context) ApiUpdateSubscriptionsRequest {
 	return ApiUpdateSubscriptionsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -4490,7 +4490,7 @@ func (a *APIClient) UpdateSubscriptions(ctx context.Context) ApiUpdateSubscripti
 
 // Execute executes the request
 //  @return UpdateSubscriptions200Response
-func (a *APIClient) UpdateSubscriptionsExecute(r ApiUpdateSubscriptionsRequest) (*models.UpdateSubscriptions200Response, *http.Response, error) {
+func (a *ZulipClient) UpdateSubscriptionsExecute(r ApiUpdateSubscriptionsRequest) (*models.UpdateSubscriptions200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -4498,7 +4498,7 @@ func (a *APIClient) UpdateSubscriptionsExecute(r ApiUpdateSubscriptionsRequest) 
 		localVarReturnValue  *models.UpdateSubscriptions200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.UpdateSubscriptions")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4537,7 +4537,7 @@ func (a *APIClient) UpdateSubscriptionsExecute(r ApiUpdateSubscriptionsRequest) 
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4617,7 +4617,7 @@ toggling whether a topic was muted or unmuted was managed by the
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUpdateUserTopicRequest
 */
-func (a *APIClient) UpdateUserTopic(ctx context.Context) ApiUpdateUserTopicRequest {
+func (a *ZulipClient) UpdateUserTopic(ctx context.Context) ApiUpdateUserTopicRequest {
 	return ApiUpdateUserTopicRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -4626,7 +4626,7 @@ func (a *APIClient) UpdateUserTopic(ctx context.Context) ApiUpdateUserTopicReque
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UpdateUserTopicExecute(r ApiUpdateUserTopicRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateUserTopicExecute(r ApiUpdateUserTopicRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -4634,7 +4634,7 @@ func (a *APIClient) UpdateUserTopicExecute(r ApiUpdateUserTopicRequest) (*models
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "ChannelsAPI.UpdateUserTopic")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4679,7 +4679,7 @@ func (a *APIClient) UpdateUserTopicExecute(r ApiUpdateUserTopicRequest) (*models
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

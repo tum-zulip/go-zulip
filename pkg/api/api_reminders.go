@@ -123,7 +123,7 @@ Schedule a reminder to be sent to the current user at the specified time. The re
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateMessageReminderRequest
 */
-func (a *APIClient) CreateMessageReminder(ctx context.Context) ApiCreateMessageReminderRequest {
+func (a *ZulipClient) CreateMessageReminder(ctx context.Context) ApiCreateMessageReminderRequest {
 	return ApiCreateMessageReminderRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -132,7 +132,7 @@ func (a *APIClient) CreateMessageReminder(ctx context.Context) ApiCreateMessageR
 
 // Execute executes the request
 //  @return CreateMessageReminder200Response
-func (a *APIClient) CreateMessageReminderExecute(r ApiCreateMessageReminderRequest) (*models.CreateMessageReminder200Response, *http.Response, error) {
+func (a *ZulipClient) CreateMessageReminderExecute(r ApiCreateMessageReminderRequest) (*models.CreateMessageReminder200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -140,7 +140,7 @@ func (a *APIClient) CreateMessageReminderExecute(r ApiCreateMessageReminderReque
 		localVarReturnValue  *models.CreateMessageReminder200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "RemindersAPI.CreateMessageReminder")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -182,7 +182,7 @@ func (a *APIClient) CreateMessageReminderExecute(r ApiCreateMessageReminderReque
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -237,7 +237,7 @@ reminder](/help/schedule-a-reminder).
  @param reminderId The ID of the reminder to delete.  This is different from the unique ID that the message would have after being sent. 
  @return ApiDeleteReminderRequest
 */
-func (a *APIClient) DeleteReminder(ctx context.Context, reminderId int32) ApiDeleteReminderRequest {
+func (a *ZulipClient) DeleteReminder(ctx context.Context, reminderId int32) ApiDeleteReminderRequest {
 	return ApiDeleteReminderRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -247,7 +247,7 @@ func (a *APIClient) DeleteReminder(ctx context.Context, reminderId int32) ApiDel
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) DeleteReminderExecute(r ApiDeleteReminderRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) DeleteReminderExecute(r ApiDeleteReminderRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -255,7 +255,7 @@ func (a *APIClient) DeleteReminderExecute(r ApiDeleteReminderRequest) (*models.J
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "RemindersAPI.DeleteReminder")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -289,7 +289,7 @@ func (a *APIClient) DeleteReminderExecute(r ApiDeleteReminderRequest) (*models.J
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -355,7 +355,7 @@ future to themself.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetRemindersRequest
 */
-func (a *APIClient) GetReminders(ctx context.Context) ApiGetRemindersRequest {
+func (a *ZulipClient) GetReminders(ctx context.Context) ApiGetRemindersRequest {
 	return ApiGetRemindersRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -364,7 +364,7 @@ func (a *APIClient) GetReminders(ctx context.Context) ApiGetRemindersRequest {
 
 // Execute executes the request
 //  @return GetReminders200Response
-func (a *APIClient) GetRemindersExecute(r ApiGetRemindersRequest) (*models.GetReminders200Response, *http.Response, error) {
+func (a *ZulipClient) GetRemindersExecute(r ApiGetRemindersRequest) (*models.GetReminders200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -372,7 +372,7 @@ func (a *APIClient) GetRemindersExecute(r ApiGetRemindersRequest) (*models.GetRe
 		localVarReturnValue  *models.GetReminders200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "RemindersAPI.GetReminders")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -405,7 +405,7 @@ func (a *APIClient) GetRemindersExecute(r ApiGetRemindersRequest) (*models.GetRe
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

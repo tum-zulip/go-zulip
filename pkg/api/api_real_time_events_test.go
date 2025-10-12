@@ -15,18 +15,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 	
+	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
 func Test_gozulip_RealTimeEventsAPIService(t *testing.T) {
 
-	configuration := NewConfiguration()
-	apiClient := NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	t.Run("Test RealTimeEventsAPIService DeleteQueue", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.RealTimeEventsAPI.DeleteQueue(context.Background()).Execute()
+		resp, httpRes, err := apiClient.DeleteQueue(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,9 +35,7 @@ func Test_gozulip_RealTimeEventsAPIService(t *testing.T) {
 
 	t.Run("Test RealTimeEventsAPIService GetEvents", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.RealTimeEventsAPI.GetEvents(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetEvents(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,9 +45,7 @@ func Test_gozulip_RealTimeEventsAPIService(t *testing.T) {
 
 	t.Run("Test RealTimeEventsAPIService RealTimePost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		httpRes, err := apiClient.RealTimeEventsAPI.RealTimePost(context.Background()).Execute()
+		httpRes, err := apiClient.RealTimePost(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
@@ -59,9 +54,7 @@ func Test_gozulip_RealTimeEventsAPIService(t *testing.T) {
 
 	t.Run("Test RealTimeEventsAPIService RegisterQueue", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.RealTimeEventsAPI.RegisterQueue(context.Background()).Execute()
+		resp, httpRes, err := apiClient.RegisterQueue(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -71,9 +64,7 @@ func Test_gozulip_RealTimeEventsAPIService(t *testing.T) {
 
 	t.Run("Test RealTimeEventsAPIService RestErrorHandling", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		httpRes, err := apiClient.RealTimeEventsAPI.RestErrorHandling(context.Background()).Execute()
+		httpRes, err := apiClient.RestErrorHandling(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

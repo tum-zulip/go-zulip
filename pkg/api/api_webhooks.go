@@ -59,7 +59,7 @@ notified when certain types of messages are sent in Zulip.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiZulipOutgoingWebhooksRequest
 */
-func (a *APIClient) ZulipOutgoingWebhooks(ctx context.Context) ApiZulipOutgoingWebhooksRequest {
+func (a *ZulipClient) ZulipOutgoingWebhooks(ctx context.Context) ApiZulipOutgoingWebhooksRequest {
 	return ApiZulipOutgoingWebhooksRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -68,7 +68,7 @@ func (a *APIClient) ZulipOutgoingWebhooks(ctx context.Context) ApiZulipOutgoingW
 
 // Execute executes the request
 //  @return ZulipOutgoingWebhooks200Response
-func (a *APIClient) ZulipOutgoingWebhooksExecute(r ApiZulipOutgoingWebhooksRequest) (*models.ZulipOutgoingWebhooks200Response, *http.Response, error) {
+func (a *ZulipClient) ZulipOutgoingWebhooksExecute(r ApiZulipOutgoingWebhooksRequest) (*models.ZulipOutgoingWebhooks200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -76,7 +76,7 @@ func (a *APIClient) ZulipOutgoingWebhooksExecute(r ApiZulipOutgoingWebhooksReque
 		localVarReturnValue  *models.ZulipOutgoingWebhooks200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "WebhooksAPI.ZulipOutgoingWebhooks")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -109,7 +109,7 @@ func (a *APIClient) ZulipOutgoingWebhooksExecute(r ApiZulipOutgoingWebhooksReque
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

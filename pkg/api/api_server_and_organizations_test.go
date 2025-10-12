@@ -15,18 +15,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 	
+	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
 func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
-	configuration := NewConfiguration()
-	apiClient := NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	t.Run("Test ServerAndOrganizationsAPIService AddCodePlayground", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.AddCodePlayground(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AddCodePlayground(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,9 +35,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService AddLinkifier", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.AddLinkifier(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AddLinkifier(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,9 +45,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService CreateCustomProfileField", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.CreateCustomProfileField(context.Background()).Execute()
+		resp, httpRes, err := apiClient.CreateCustomProfileField(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -60,11 +55,9 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService DeactivateCustomEmoji", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var emojiName string
 
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.DeactivateCustomEmoji(context.Background(), emojiName).Execute()
+		resp, httpRes, err := apiClient.DeactivateCustomEmoji(context.Background(), emojiName).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -74,9 +67,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService ExportRealm", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.ExportRealm(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ExportRealm(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -86,9 +77,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService GetCustomEmoji", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.GetCustomEmoji(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetCustomEmoji(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -98,9 +87,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService GetCustomProfileFields", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.GetCustomProfileFields(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetCustomProfileFields(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -110,9 +97,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService GetLinkifiers", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.GetLinkifiers(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetLinkifiers(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -122,9 +107,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService GetPresence", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.GetPresence(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetPresence(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -134,9 +117,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService GetRealmExportConsents", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.GetRealmExportConsents(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetRealmExportConsents(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -146,9 +127,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService GetRealmExports", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.GetRealmExports(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetRealmExports(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -158,9 +137,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService GetServerSettings", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.GetServerSettings(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetServerSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -170,11 +147,9 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService RemoveCodePlayground", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var playgroundId int32
 
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.RemoveCodePlayground(context.Background(), playgroundId).Execute()
+		resp, httpRes, err := apiClient.RemoveCodePlayground(context.Background(), playgroundId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -184,11 +159,9 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService RemoveLinkifier", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var filterId int32
 
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.RemoveLinkifier(context.Background(), filterId).Execute()
+		resp, httpRes, err := apiClient.RemoveLinkifier(context.Background(), filterId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -198,9 +171,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService ReorderCustomProfileFields", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.ReorderCustomProfileFields(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ReorderCustomProfileFields(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -210,9 +181,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService ReorderLinkifiers", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.ReorderLinkifiers(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ReorderLinkifiers(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -222,9 +191,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService TestWelcomeBotCustomMessage", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.TestWelcomeBotCustomMessage(context.Background()).Execute()
+		resp, httpRes, err := apiClient.TestWelcomeBotCustomMessage(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -234,11 +201,9 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService UpdateLinkifier", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var filterId int32
 
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.UpdateLinkifier(context.Background(), filterId).Execute()
+		resp, httpRes, err := apiClient.UpdateLinkifier(context.Background(), filterId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -248,9 +213,7 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService UpdateRealmUserSettingsDefaults", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.UpdateRealmUserSettingsDefaults(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UpdateRealmUserSettingsDefaults(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -260,11 +223,9 @@ func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
 
 	t.Run("Test ServerAndOrganizationsAPIService UploadCustomEmoji", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var emojiName string
 
-		resp, httpRes, err := apiClient.ServerAndOrganizationsAPI.UploadCustomEmoji(context.Background(), emojiName).Execute()
+		resp, httpRes, err := apiClient.UploadCustomEmoji(context.Background(), emojiName).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

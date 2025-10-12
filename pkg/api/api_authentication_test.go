@@ -15,18 +15,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 	
+	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
 func Test_gozulip_AuthenticationAPIService(t *testing.T) {
 
-	configuration := NewConfiguration()
-	apiClient := NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	t.Run("Test AuthenticationAPIService DevFetchApiKey", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.AuthenticationAPI.DevFetchApiKey(context.Background()).Execute()
+		resp, httpRes, err := apiClient.DevFetchApiKey(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,9 +35,7 @@ func Test_gozulip_AuthenticationAPIService(t *testing.T) {
 
 	t.Run("Test AuthenticationAPIService FetchApiKey", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.AuthenticationAPI.FetchApiKey(context.Background()).Execute()
+		resp, httpRes, err := apiClient.FetchApiKey(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

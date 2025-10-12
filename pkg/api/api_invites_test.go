@@ -15,18 +15,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 	
+	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
 func Test_gozulip_InvitesAPIService(t *testing.T) {
 
-	configuration := NewConfiguration()
-	apiClient := NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	t.Run("Test InvitesAPIService CreateInviteLink", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.InvitesAPI.CreateInviteLink(context.Background()).Execute()
+		resp, httpRes, err := apiClient.CreateInviteLink(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,9 +35,7 @@ func Test_gozulip_InvitesAPIService(t *testing.T) {
 
 	t.Run("Test InvitesAPIService GetInvites", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.InvitesAPI.GetInvites(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetInvites(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,11 +45,9 @@ func Test_gozulip_InvitesAPIService(t *testing.T) {
 
 	t.Run("Test InvitesAPIService ResendEmailInvite", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var inviteId int32
 
-		resp, httpRes, err := apiClient.InvitesAPI.ResendEmailInvite(context.Background(), inviteId).Execute()
+		resp, httpRes, err := apiClient.ResendEmailInvite(context.Background(), inviteId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -62,11 +57,9 @@ func Test_gozulip_InvitesAPIService(t *testing.T) {
 
 	t.Run("Test InvitesAPIService RevokeEmailInvite", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var inviteId int32
 
-		resp, httpRes, err := apiClient.InvitesAPI.RevokeEmailInvite(context.Background(), inviteId).Execute()
+		resp, httpRes, err := apiClient.RevokeEmailInvite(context.Background(), inviteId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -76,11 +69,9 @@ func Test_gozulip_InvitesAPIService(t *testing.T) {
 
 	t.Run("Test InvitesAPIService RevokeInviteLink", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var inviteId int32
 
-		resp, httpRes, err := apiClient.InvitesAPI.RevokeInviteLink(context.Background(), inviteId).Execute()
+		resp, httpRes, err := apiClient.RevokeInviteLink(context.Background(), inviteId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -90,9 +81,7 @@ func Test_gozulip_InvitesAPIService(t *testing.T) {
 
 	t.Run("Test InvitesAPIService SendInvites", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.InvitesAPI.SendInvites(context.Background()).Execute()
+		resp, httpRes, err := apiClient.SendInvites(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

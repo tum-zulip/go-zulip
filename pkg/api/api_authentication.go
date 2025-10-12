@@ -122,7 +122,7 @@ development servers on the web).
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiDevFetchApiKeyRequest
 */
-func (a *APIClient) DevFetchApiKey(ctx context.Context) ApiDevFetchApiKeyRequest {
+func (a *ZulipClient) DevFetchApiKey(ctx context.Context) ApiDevFetchApiKeyRequest {
 	return ApiDevFetchApiKeyRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -131,7 +131,7 @@ func (a *APIClient) DevFetchApiKey(ctx context.Context) ApiDevFetchApiKeyRequest
 
 // Execute executes the request
 //  @return ApiKeyResponse
-func (a *APIClient) DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error) {
+func (a *ZulipClient) DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -139,7 +139,7 @@ func (a *APIClient) DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models.A
 		localVarReturnValue  *models.ApiKeyResponse
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "AuthenticationAPI.DevFetchApiKey")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -176,7 +176,7 @@ func (a *APIClient) DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models.A
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -263,7 +263,7 @@ see also [the unauthenticated variant](/api/dev-fetch-api-key).
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiFetchApiKeyRequest
 */
-func (a *APIClient) FetchApiKey(ctx context.Context) ApiFetchApiKeyRequest {
+func (a *ZulipClient) FetchApiKey(ctx context.Context) ApiFetchApiKeyRequest {
 	return ApiFetchApiKeyRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -272,7 +272,7 @@ func (a *APIClient) FetchApiKey(ctx context.Context) ApiFetchApiKeyRequest {
 
 // Execute executes the request
 //  @return ApiKeyResponse
-func (a *APIClient) FetchApiKeyExecute(r ApiFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error) {
+func (a *ZulipClient) FetchApiKeyExecute(r ApiFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -280,7 +280,7 @@ func (a *APIClient) FetchApiKeyExecute(r ApiFetchApiKeyRequest) (*models.ApiKeyR
 		localVarReturnValue  *models.ApiKeyResponse
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "AuthenticationAPI.FetchApiKey")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -321,7 +321,7 @@ func (a *APIClient) FetchApiKeyExecute(r ApiFetchApiKeyRequest) (*models.ApiKeyR
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

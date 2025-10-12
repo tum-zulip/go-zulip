@@ -15,18 +15,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 	
+	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
 func Test_gozulip_UsersAPIService(t *testing.T) {
 
-	configuration := NewConfiguration()
-	apiClient := NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	t.Run("Test UsersAPIService AddAlertWords", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.AddAlertWords(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AddAlertWords(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,9 +35,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService AddApnsToken", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.AddApnsToken(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AddApnsToken(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,9 +45,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService AddFcmToken", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.AddFcmToken(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AddFcmToken(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -60,9 +55,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService CreateUser", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.CreateUser(context.Background()).Execute()
+		resp, httpRes, err := apiClient.CreateUser(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -72,9 +65,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService CreateUserGroup", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.CreateUserGroup(context.Background()).Execute()
+		resp, httpRes, err := apiClient.CreateUserGroup(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -84,9 +75,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService DeactivateOwnUser", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.DeactivateOwnUser(context.Background()).Execute()
+		resp, httpRes, err := apiClient.DeactivateOwnUser(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -96,11 +85,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService DeactivateUser", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.DeactivateUser(context.Background(), userId).Execute()
+		resp, httpRes, err := apiClient.DeactivateUser(context.Background(), userId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -110,11 +97,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService DeactivateUserGroup", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userGroupId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.DeactivateUserGroup(context.Background(), userGroupId).Execute()
+		resp, httpRes, err := apiClient.DeactivateUserGroup(context.Background(), userGroupId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -124,9 +109,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetAlertWords", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.GetAlertWords(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetAlertWords(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -136,9 +119,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetAttachments", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.GetAttachments(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetAttachments(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -148,12 +129,10 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetIsUserGroupMember", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userGroupId int32
 		var userId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.GetIsUserGroupMember(context.Background(), userGroupId, userId).Execute()
+		resp, httpRes, err := apiClient.GetIsUserGroupMember(context.Background(), userGroupId, userId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -163,9 +142,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetOwnUser", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.GetOwnUser(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetOwnUser(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -175,11 +152,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetUser", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.GetUser(context.Background(), userId).Execute()
+		resp, httpRes, err := apiClient.GetUser(context.Background(), userId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -189,11 +164,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetUserByEmail", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var email string
 
-		resp, httpRes, err := apiClient.UsersAPI.GetUserByEmail(context.Background(), email).Execute()
+		resp, httpRes, err := apiClient.GetUserByEmail(context.Background(), email).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -203,11 +176,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetUserGroupMembers", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userGroupId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.GetUserGroupMembers(context.Background(), userGroupId).Execute()
+		resp, httpRes, err := apiClient.GetUserGroupMembers(context.Background(), userGroupId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -217,11 +188,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetUserGroupSubgroups", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userGroupId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.GetUserGroupSubgroups(context.Background(), userGroupId).Execute()
+		resp, httpRes, err := apiClient.GetUserGroupSubgroups(context.Background(), userGroupId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -231,9 +200,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetUserGroups", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.GetUserGroups(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetUserGroups(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -243,11 +210,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetUserPresence", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userIdOrEmail string
 
-		resp, httpRes, err := apiClient.UsersAPI.GetUserPresence(context.Background(), userIdOrEmail).Execute()
+		resp, httpRes, err := apiClient.GetUserPresence(context.Background(), userIdOrEmail).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -257,11 +222,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetUserStatus", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.GetUserStatus(context.Background(), userId).Execute()
+		resp, httpRes, err := apiClient.GetUserStatus(context.Background(), userId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -271,9 +234,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService GetUsers", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.GetUsers(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetUsers(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -283,11 +244,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService MuteUser", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var mutedUserId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.MuteUser(context.Background(), mutedUserId).Execute()
+		resp, httpRes, err := apiClient.MuteUser(context.Background(), mutedUserId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -297,11 +256,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService ReactivateUser", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.ReactivateUser(context.Background(), userId).Execute()
+		resp, httpRes, err := apiClient.ReactivateUser(context.Background(), userId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -311,9 +268,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService RemoveAlertWords", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.RemoveAlertWords(context.Background()).Execute()
+		resp, httpRes, err := apiClient.RemoveAlertWords(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -323,9 +278,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService RemoveApnsToken", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.RemoveApnsToken(context.Background()).Execute()
+		resp, httpRes, err := apiClient.RemoveApnsToken(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -335,11 +288,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService RemoveAttachment", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var attachmentId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.RemoveAttachment(context.Background(), attachmentId).Execute()
+		resp, httpRes, err := apiClient.RemoveAttachment(context.Background(), attachmentId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -349,9 +300,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService RemoveFcmToken", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.RemoveFcmToken(context.Background()).Execute()
+		resp, httpRes, err := apiClient.RemoveFcmToken(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -361,9 +310,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService SetTypingStatus", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.SetTypingStatus(context.Background()).Execute()
+		resp, httpRes, err := apiClient.SetTypingStatus(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -373,11 +320,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService SetTypingStatusForMessageEdit", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var messageId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.SetTypingStatusForMessageEdit(context.Background(), messageId).Execute()
+		resp, httpRes, err := apiClient.SetTypingStatusForMessageEdit(context.Background(), messageId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -387,11 +332,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService UnmuteUser", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var mutedUserId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.UnmuteUser(context.Background(), mutedUserId).Execute()
+		resp, httpRes, err := apiClient.UnmuteUser(context.Background(), mutedUserId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -401,9 +344,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService UpdatePresence", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.UpdatePresence(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UpdatePresence(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -413,9 +354,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService UpdateSettings", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.UpdateSettings(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UpdateSettings(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -425,9 +364,7 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService UpdateStatus", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.UsersAPI.UpdateStatus(context.Background()).Execute()
+		resp, httpRes, err := apiClient.UpdateStatus(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -437,11 +374,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService UpdateStatusForUser", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.UpdateStatusForUser(context.Background(), userId).Execute()
+		resp, httpRes, err := apiClient.UpdateStatusForUser(context.Background(), userId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -451,11 +386,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService UpdateUser", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.UpdateUser(context.Background(), userId).Execute()
+		resp, httpRes, err := apiClient.UpdateUser(context.Background(), userId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -465,11 +398,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService UpdateUserByEmail", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var email string
 
-		resp, httpRes, err := apiClient.UsersAPI.UpdateUserByEmail(context.Background(), email).Execute()
+		resp, httpRes, err := apiClient.UpdateUserByEmail(context.Background(), email).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -479,11 +410,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService UpdateUserGroup", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userGroupId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.UpdateUserGroup(context.Background(), userGroupId).Execute()
+		resp, httpRes, err := apiClient.UpdateUserGroup(context.Background(), userGroupId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -493,11 +422,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService UpdateUserGroupMembers", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userGroupId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.UpdateUserGroupMembers(context.Background(), userGroupId).Execute()
+		resp, httpRes, err := apiClient.UpdateUserGroupMembers(context.Background(), userGroupId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -507,11 +434,9 @@ func Test_gozulip_UsersAPIService(t *testing.T) {
 
 	t.Run("Test UsersAPIService UpdateUserGroupSubgroups", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var userGroupId int32
 
-		resp, httpRes, err := apiClient.UsersAPI.UpdateUserGroupSubgroups(context.Background(), userGroupId).Execute()
+		resp, httpRes, err := apiClient.UpdateUserGroupSubgroups(context.Background(), userGroupId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

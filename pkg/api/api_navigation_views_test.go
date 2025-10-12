@@ -15,18 +15,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 	
+	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
 func Test_gozulip_NavigationViewsAPIService(t *testing.T) {
 
-	configuration := NewConfiguration()
-	apiClient := NewAPIClient(configuration)
+	configuration := api.NewConfiguration()
+	apiClient := api.NewAPIClient(configuration)
 
 	t.Run("Test NavigationViewsAPIService AddNavigationView", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.NavigationViewsAPI.AddNavigationView(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AddNavigationView(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,11 +35,9 @@ func Test_gozulip_NavigationViewsAPIService(t *testing.T) {
 
 	t.Run("Test NavigationViewsAPIService EditNavigationView", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var fragment string
 
-		resp, httpRes, err := apiClient.NavigationViewsAPI.EditNavigationView(context.Background(), fragment).Execute()
+		resp, httpRes, err := apiClient.EditNavigationView(context.Background(), fragment).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -50,9 +47,7 @@ func Test_gozulip_NavigationViewsAPIService(t *testing.T) {
 
 	t.Run("Test NavigationViewsAPIService GetNavigationViews", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.NavigationViewsAPI.GetNavigationViews(context.Background()).Execute()
+		resp, httpRes, err := apiClient.GetNavigationViews(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -62,11 +57,9 @@ func Test_gozulip_NavigationViewsAPIService(t *testing.T) {
 
 	t.Run("Test NavigationViewsAPIService RemoveNavigationView", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		var fragment string
 
-		resp, httpRes, err := apiClient.NavigationViewsAPI.RemoveNavigationView(context.Background(), fragment).Execute()
+		resp, httpRes, err := apiClient.RemoveNavigationView(context.Background(), fragment).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

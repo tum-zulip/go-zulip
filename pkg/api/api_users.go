@@ -981,7 +981,7 @@ Add words (or phrases) to the user's set of configured [alert words][alert-words
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiAddAlertWordsRequest
 */
-func (a *APIClient) AddAlertWords(ctx context.Context) ApiAddAlertWordsRequest {
+func (a *ZulipClient) AddAlertWords(ctx context.Context) ApiAddAlertWordsRequest {
 	return ApiAddAlertWordsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -990,7 +990,7 @@ func (a *APIClient) AddAlertWords(ctx context.Context) ApiAddAlertWordsRequest {
 
 // Execute executes the request
 //  @return AddAlertWords200Response
-func (a *APIClient) AddAlertWordsExecute(r ApiAddAlertWordsRequest) (*models.AddAlertWords200Response, *http.Response, error) {
+func (a *ZulipClient) AddAlertWordsExecute(r ApiAddAlertWordsRequest) (*models.AddAlertWords200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -998,7 +998,7 @@ func (a *APIClient) AddAlertWordsExecute(r ApiAddAlertWordsRequest) (*models.Add
 		localVarReturnValue  *models.AddAlertWords200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.AddAlertWords")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1035,7 +1035,7 @@ func (a *APIClient) AddAlertWordsExecute(r ApiAddAlertWordsRequest) (*models.Add
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1109,7 +1109,7 @@ This endpoint adds an APNs device token to register for iOS push notifications.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiAddApnsTokenRequest
 */
-func (a *APIClient) AddApnsToken(ctx context.Context) ApiAddApnsTokenRequest {
+func (a *ZulipClient) AddApnsToken(ctx context.Context) ApiAddApnsTokenRequest {
 	return ApiAddApnsTokenRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1118,7 +1118,7 @@ func (a *APIClient) AddApnsToken(ctx context.Context) ApiAddApnsTokenRequest {
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) AddApnsTokenExecute(r ApiAddApnsTokenRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) AddApnsTokenExecute(r ApiAddApnsTokenRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -1126,7 +1126,7 @@ func (a *APIClient) AddApnsTokenExecute(r ApiAddApnsTokenRequest) (*models.JsonS
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.AddApnsToken")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1167,7 +1167,7 @@ func (a *APIClient) AddApnsTokenExecute(r ApiAddApnsTokenRequest) (*models.JsonS
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1234,7 +1234,7 @@ This endpoint adds an FCM registration token for push notifications.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiAddFcmTokenRequest
 */
-func (a *APIClient) AddFcmToken(ctx context.Context) ApiAddFcmTokenRequest {
+func (a *ZulipClient) AddFcmToken(ctx context.Context) ApiAddFcmTokenRequest {
 	return ApiAddFcmTokenRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1243,7 +1243,7 @@ func (a *APIClient) AddFcmToken(ctx context.Context) ApiAddFcmTokenRequest {
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) AddFcmTokenExecute(r ApiAddFcmTokenRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) AddFcmTokenExecute(r ApiAddFcmTokenRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -1251,7 +1251,7 @@ func (a *APIClient) AddFcmTokenExecute(r ApiAddFcmTokenRequest) (*models.JsonSuc
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.AddFcmToken")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1288,7 +1288,7 @@ func (a *APIClient) AddFcmTokenExecute(r ApiAddFcmTokenRequest) (*models.JsonSuc
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1386,7 +1386,7 @@ available to all organization administrators.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateUserRequest
 */
-func (a *APIClient) CreateUser(ctx context.Context) ApiCreateUserRequest {
+func (a *ZulipClient) CreateUser(ctx context.Context) ApiCreateUserRequest {
 	return ApiCreateUserRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1395,7 +1395,7 @@ func (a *APIClient) CreateUser(ctx context.Context) ApiCreateUserRequest {
 
 // Execute executes the request
 //  @return CreateUser200Response
-func (a *APIClient) CreateUserExecute(r ApiCreateUserRequest) (*models.CreateUser200Response, *http.Response, error) {
+func (a *ZulipClient) CreateUserExecute(r ApiCreateUserRequest) (*models.CreateUser200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -1403,7 +1403,7 @@ func (a *APIClient) CreateUserExecute(r ApiCreateUserRequest) (*models.CreateUse
 		localVarReturnValue  *models.CreateUser200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.CreateUser")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1448,7 +1448,7 @@ func (a *APIClient) CreateUserExecute(r ApiCreateUserRequest) (*models.CreateUse
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1578,7 +1578,7 @@ Create a new [user group](/help/user-groups).
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateUserGroupRequest
 */
-func (a *APIClient) CreateUserGroup(ctx context.Context) ApiCreateUserGroupRequest {
+func (a *ZulipClient) CreateUserGroup(ctx context.Context) ApiCreateUserGroupRequest {
 	return ApiCreateUserGroupRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1587,7 +1587,7 @@ func (a *APIClient) CreateUserGroup(ctx context.Context) ApiCreateUserGroupReque
 
 // Execute executes the request
 //  @return CreateUserGroup200Response
-func (a *APIClient) CreateUserGroupExecute(r ApiCreateUserGroupRequest) (*models.CreateUserGroup200Response, *http.Response, error) {
+func (a *ZulipClient) CreateUserGroupExecute(r ApiCreateUserGroupRequest) (*models.CreateUserGroup200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -1595,7 +1595,7 @@ func (a *APIClient) CreateUserGroupExecute(r ApiCreateUserGroupRequest) (*models
 		localVarReturnValue  *models.CreateUserGroup200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.CreateUserGroup")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1685,7 +1685,7 @@ func (a *APIClient) CreateUserGroupExecute(r ApiCreateUserGroupRequest) (*models
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1748,7 +1748,7 @@ This endpoint is primarily useful to Zulip clients providing a user settings UI.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiDeactivateOwnUserRequest
 */
-func (a *APIClient) DeactivateOwnUser(ctx context.Context) ApiDeactivateOwnUserRequest {
+func (a *ZulipClient) DeactivateOwnUser(ctx context.Context) ApiDeactivateOwnUserRequest {
 	return ApiDeactivateOwnUserRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1757,7 +1757,7 @@ func (a *APIClient) DeactivateOwnUser(ctx context.Context) ApiDeactivateOwnUserR
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) DeactivateOwnUserExecute(r ApiDeactivateOwnUserRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) DeactivateOwnUserExecute(r ApiDeactivateOwnUserRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -1765,7 +1765,7 @@ func (a *APIClient) DeactivateOwnUserExecute(r ApiDeactivateOwnUserRequest) (*mo
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.DeactivateOwnUser")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1798,7 +1798,7 @@ func (a *APIClient) DeactivateOwnUserExecute(r ApiDeactivateOwnUserRequest) (*mo
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1869,7 +1869,7 @@ given their user ID.
  @param userId The target user's ID. 
  @return ApiDeactivateUserRequest
 */
-func (a *APIClient) DeactivateUser(ctx context.Context, userId int32) ApiDeactivateUserRequest {
+func (a *ZulipClient) DeactivateUser(ctx context.Context, userId int32) ApiDeactivateUserRequest {
 	return ApiDeactivateUserRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1879,7 +1879,7 @@ func (a *APIClient) DeactivateUser(ctx context.Context, userId int32) ApiDeactiv
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) DeactivateUserExecute(r ApiDeactivateUserRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) DeactivateUserExecute(r ApiDeactivateUserRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -1887,7 +1887,7 @@ func (a *APIClient) DeactivateUserExecute(r ApiDeactivateUserRequest) (*models.J
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.DeactivateUser")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1924,7 +1924,7 @@ func (a *APIClient) DeactivateUserExecute(r ApiDeactivateUserRequest) (*models.J
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1995,7 +1995,7 @@ maintained.
  @param userGroupId The ID of the target user group. 
  @return ApiDeactivateUserGroupRequest
 */
-func (a *APIClient) DeactivateUserGroup(ctx context.Context, userGroupId int32) ApiDeactivateUserGroupRequest {
+func (a *ZulipClient) DeactivateUserGroup(ctx context.Context, userGroupId int32) ApiDeactivateUserGroupRequest {
 	return ApiDeactivateUserGroupRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2005,7 +2005,7 @@ func (a *APIClient) DeactivateUserGroup(ctx context.Context, userGroupId int32) 
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) DeactivateUserGroupExecute(r ApiDeactivateUserGroupRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) DeactivateUserGroupExecute(r ApiDeactivateUserGroupRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -2013,7 +2013,7 @@ func (a *APIClient) DeactivateUserGroupExecute(r ApiDeactivateUserGroupRequest) 
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.DeactivateUserGroup")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2047,7 +2047,7 @@ func (a *APIClient) DeactivateUserGroupExecute(r ApiDeactivateUserGroupRequest) 
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2109,7 +2109,7 @@ Get all of the user's configured [alert words][alert-words].
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetAlertWordsRequest
 */
-func (a *APIClient) GetAlertWords(ctx context.Context) ApiGetAlertWordsRequest {
+func (a *ZulipClient) GetAlertWords(ctx context.Context) ApiGetAlertWordsRequest {
 	return ApiGetAlertWordsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2118,7 +2118,7 @@ func (a *APIClient) GetAlertWords(ctx context.Context) ApiGetAlertWordsRequest {
 
 // Execute executes the request
 //  @return GetAlertWords200Response
-func (a *APIClient) GetAlertWordsExecute(r ApiGetAlertWordsRequest) (*models.GetAlertWords200Response, *http.Response, error) {
+func (a *ZulipClient) GetAlertWordsExecute(r ApiGetAlertWordsRequest) (*models.GetAlertWords200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2126,7 +2126,7 @@ func (a *APIClient) GetAlertWordsExecute(r ApiGetAlertWordsRequest) (*models.Get
 		localVarReturnValue  *models.GetAlertWords200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.GetAlertWords")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2159,7 +2159,7 @@ func (a *APIClient) GetAlertWordsExecute(r ApiGetAlertWordsRequest) (*models.Get
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2209,7 +2209,7 @@ Fetch metadata on files uploaded by the requesting user.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetAttachmentsRequest
 */
-func (a *APIClient) GetAttachments(ctx context.Context) ApiGetAttachmentsRequest {
+func (a *ZulipClient) GetAttachments(ctx context.Context) ApiGetAttachmentsRequest {
 	return ApiGetAttachmentsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2218,7 +2218,7 @@ func (a *APIClient) GetAttachments(ctx context.Context) ApiGetAttachmentsRequest
 
 // Execute executes the request
 //  @return GetAttachments200Response
-func (a *APIClient) GetAttachmentsExecute(r ApiGetAttachmentsRequest) (*models.GetAttachments200Response, *http.Response, error) {
+func (a *ZulipClient) GetAttachmentsExecute(r ApiGetAttachmentsRequest) (*models.GetAttachments200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2226,7 +2226,7 @@ func (a *APIClient) GetAttachmentsExecute(r ApiGetAttachmentsRequest) (*models.G
 		localVarReturnValue  *models.GetAttachments200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.GetAttachments")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2259,7 +2259,7 @@ func (a *APIClient) GetAttachmentsExecute(r ApiGetAttachmentsRequest) (*models.G
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2326,7 +2326,7 @@ New in Zulip 6.0 (feature level 127).
  @param userId The target user's ID. 
  @return ApiGetIsUserGroupMemberRequest
 */
-func (a *APIClient) GetIsUserGroupMember(ctx context.Context, userGroupId int32, userId int32) ApiGetIsUserGroupMemberRequest {
+func (a *ZulipClient) GetIsUserGroupMember(ctx context.Context, userGroupId int32, userId int32) ApiGetIsUserGroupMemberRequest {
 	return ApiGetIsUserGroupMemberRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2337,7 +2337,7 @@ func (a *APIClient) GetIsUserGroupMember(ctx context.Context, userGroupId int32,
 
 // Execute executes the request
 //  @return GetIsUserGroupMember200Response
-func (a *APIClient) GetIsUserGroupMemberExecute(r ApiGetIsUserGroupMemberRequest) (*models.GetIsUserGroupMember200Response, *http.Response, error) {
+func (a *ZulipClient) GetIsUserGroupMemberExecute(r ApiGetIsUserGroupMemberRequest) (*models.GetIsUserGroupMember200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2345,7 +2345,7 @@ func (a *APIClient) GetIsUserGroupMemberExecute(r ApiGetIsUserGroupMemberRequest
 		localVarReturnValue  *models.GetIsUserGroupMember200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.GetIsUserGroupMember")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2383,7 +2383,7 @@ func (a *APIClient) GetIsUserGroupMemberExecute(r ApiGetIsUserGroupMemberRequest
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2436,7 +2436,7 @@ replaced by the `can_manage_billing_group` realm setting.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetOwnUserRequest
 */
-func (a *APIClient) GetOwnUser(ctx context.Context) ApiGetOwnUserRequest {
+func (a *ZulipClient) GetOwnUser(ctx context.Context) ApiGetOwnUserRequest {
 	return ApiGetOwnUserRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2445,7 +2445,7 @@ func (a *APIClient) GetOwnUser(ctx context.Context) ApiGetOwnUserRequest {
 
 // Execute executes the request
 //  @return GetOwnUser200Response
-func (a *APIClient) GetOwnUserExecute(r ApiGetOwnUserRequest) (*models.GetOwnUser200Response, *http.Response, error) {
+func (a *ZulipClient) GetOwnUserExecute(r ApiGetOwnUserRequest) (*models.GetOwnUser200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2453,7 +2453,7 @@ func (a *APIClient) GetOwnUserExecute(r ApiGetOwnUserRequest) (*models.GetOwnUse
 		localVarReturnValue  *models.GetOwnUser200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.GetOwnUser")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2486,7 +2486,7 @@ func (a *APIClient) GetOwnUserExecute(r ApiGetOwnUserRequest) (*models.GetOwnUse
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2557,7 +2557,7 @@ or [by a user's Zulip API email](/api/get-user-by-email).
  @param userId The target user's ID. 
  @return ApiGetUserRequest
 */
-func (a *APIClient) GetUser(ctx context.Context, userId int32) ApiGetUserRequest {
+func (a *ZulipClient) GetUser(ctx context.Context, userId int32) ApiGetUserRequest {
 	return ApiGetUserRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2567,7 +2567,7 @@ func (a *APIClient) GetUser(ctx context.Context, userId int32) ApiGetUserRequest
 
 // Execute executes the request
 //  @return GetUserByEmail200Response
-func (a *APIClient) GetUserExecute(r ApiGetUserRequest) (*models.GetUserByEmail200Response, *http.Response, error) {
+func (a *ZulipClient) GetUserExecute(r ApiGetUserRequest) (*models.GetUserByEmail200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2575,7 +2575,7 @@ func (a *APIClient) GetUserExecute(r ApiGetUserRequest) (*models.GetUserByEmail2
 		localVarReturnValue  *models.GetUserByEmail200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.GetUser")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2621,7 +2621,7 @@ func (a *APIClient) GetUserExecute(r ApiGetUserRequest) (*models.GetUserByEmail2
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2706,7 +2706,7 @@ New in Zulip Server 4.0 (feature level 39).
  @param email The email address of the user to fetch. Two forms are supported:  - The real email address of the user (`delivery_email`). The lookup will   succeed if and only if the user exists and their email address visibility   setting permits the client to see the email address.  - The dummy Zulip API email address of the form `user{user_id}@{realm_host}`. This   is identical to simply [getting user by ID](/api/get-user). If the server or   realm change domains, the dummy email address used has to be adjustment to   match the new realm domain. This is legacy behavior for   backwards-compatibility, and will be removed in a future release.  **Changes**: Starting with Zulip 10.0 (feature level 302), lookups by real email address match the semantics of the target's email visibility setting and dummy email addresses work for all users, independently of their email visibility setting.  Previously, lookups were done only using the Zulip API email addresses. 
  @return ApiGetUserByEmailRequest
 */
-func (a *APIClient) GetUserByEmail(ctx context.Context, email string) ApiGetUserByEmailRequest {
+func (a *ZulipClient) GetUserByEmail(ctx context.Context, email string) ApiGetUserByEmailRequest {
 	return ApiGetUserByEmailRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2716,7 +2716,7 @@ func (a *APIClient) GetUserByEmail(ctx context.Context, email string) ApiGetUser
 
 // Execute executes the request
 //  @return GetUserByEmail200Response
-func (a *APIClient) GetUserByEmailExecute(r ApiGetUserByEmailRequest) (*models.GetUserByEmail200Response, *http.Response, error) {
+func (a *ZulipClient) GetUserByEmailExecute(r ApiGetUserByEmailRequest) (*models.GetUserByEmail200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2724,7 +2724,7 @@ func (a *APIClient) GetUserByEmailExecute(r ApiGetUserByEmailRequest) (*models.G
 		localVarReturnValue  *models.GetUserByEmail200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.GetUserByEmail")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2770,7 +2770,7 @@ func (a *APIClient) GetUserByEmailExecute(r ApiGetUserByEmailRequest) (*models.G
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2831,7 +2831,7 @@ Get the members of a [user group](/help/user-groups).
  @param userGroupId The ID of the target user group. 
  @return ApiGetUserGroupMembersRequest
 */
-func (a *APIClient) GetUserGroupMembers(ctx context.Context, userGroupId int32) ApiGetUserGroupMembersRequest {
+func (a *ZulipClient) GetUserGroupMembers(ctx context.Context, userGroupId int32) ApiGetUserGroupMembersRequest {
 	return ApiGetUserGroupMembersRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2841,7 +2841,7 @@ func (a *APIClient) GetUserGroupMembers(ctx context.Context, userGroupId int32) 
 
 // Execute executes the request
 //  @return GetUserGroupMembers200Response
-func (a *APIClient) GetUserGroupMembersExecute(r ApiGetUserGroupMembersRequest) (*models.GetUserGroupMembers200Response, *http.Response, error) {
+func (a *ZulipClient) GetUserGroupMembersExecute(r ApiGetUserGroupMembersRequest) (*models.GetUserGroupMembers200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2849,7 +2849,7 @@ func (a *APIClient) GetUserGroupMembersExecute(r ApiGetUserGroupMembersRequest) 
 		localVarReturnValue  *models.GetUserGroupMembers200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.GetUserGroupMembers")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2886,7 +2886,7 @@ func (a *APIClient) GetUserGroupMembersExecute(r ApiGetUserGroupMembersRequest) 
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -2947,7 +2947,7 @@ Get the subgroups of a [user group](/help/user-groups).
  @param userGroupId The ID of the target user group. 
  @return ApiGetUserGroupSubgroupsRequest
 */
-func (a *APIClient) GetUserGroupSubgroups(ctx context.Context, userGroupId int32) ApiGetUserGroupSubgroupsRequest {
+func (a *ZulipClient) GetUserGroupSubgroups(ctx context.Context, userGroupId int32) ApiGetUserGroupSubgroupsRequest {
 	return ApiGetUserGroupSubgroupsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -2957,7 +2957,7 @@ func (a *APIClient) GetUserGroupSubgroups(ctx context.Context, userGroupId int32
 
 // Execute executes the request
 //  @return GetUserGroupSubgroups200Response
-func (a *APIClient) GetUserGroupSubgroupsExecute(r ApiGetUserGroupSubgroupsRequest) (*models.GetUserGroupSubgroups200Response, *http.Response, error) {
+func (a *ZulipClient) GetUserGroupSubgroupsExecute(r ApiGetUserGroupSubgroupsRequest) (*models.GetUserGroupSubgroups200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -2965,7 +2965,7 @@ func (a *APIClient) GetUserGroupSubgroupsExecute(r ApiGetUserGroupSubgroupsReque
 		localVarReturnValue  *models.GetUserGroupSubgroups200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.GetUserGroupSubgroups")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3005,7 +3005,7 @@ func (a *APIClient) GetUserGroupSubgroupsExecute(r ApiGetUserGroupSubgroupsReque
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3068,7 +3068,7 @@ Fetches all of the user groups in the organization.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetUserGroupsRequest
 */
-func (a *APIClient) GetUserGroups(ctx context.Context) ApiGetUserGroupsRequest {
+func (a *ZulipClient) GetUserGroups(ctx context.Context) ApiGetUserGroupsRequest {
 	return ApiGetUserGroupsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3077,7 +3077,7 @@ func (a *APIClient) GetUserGroups(ctx context.Context) ApiGetUserGroupsRequest {
 
 // Execute executes the request
 //  @return GetUserGroups200Response
-func (a *APIClient) GetUserGroupsExecute(r ApiGetUserGroupsRequest) (*models.GetUserGroups200Response, *http.Response, error) {
+func (a *ZulipClient) GetUserGroupsExecute(r ApiGetUserGroupsRequest) (*models.GetUserGroups200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -3085,7 +3085,7 @@ func (a *APIClient) GetUserGroupsExecute(r ApiGetUserGroupsRequest) (*models.Get
 		localVarReturnValue  *models.GetUserGroups200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.GetUserGroups")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3121,7 +3121,7 @@ func (a *APIClient) GetUserGroupsExecute(r ApiGetUserGroupsRequest) (*models.Get
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3179,7 +3179,7 @@ active users in the organization, instead.
  @param userIdOrEmail The ID or Zulip API email address of the user whose presence you want to fetch.  **Changes**: New in Zulip 4.0 (feature level 43). Previous versions only supported identifying the user by Zulip API email. 
  @return ApiGetUserPresenceRequest
 */
-func (a *APIClient) GetUserPresence(ctx context.Context, userIdOrEmail string) ApiGetUserPresenceRequest {
+func (a *ZulipClient) GetUserPresence(ctx context.Context, userIdOrEmail string) ApiGetUserPresenceRequest {
 	return ApiGetUserPresenceRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3189,7 +3189,7 @@ func (a *APIClient) GetUserPresence(ctx context.Context, userIdOrEmail string) A
 
 // Execute executes the request
 //  @return GetUserPresence200Response
-func (a *APIClient) GetUserPresenceExecute(r ApiGetUserPresenceRequest) (*models.GetUserPresence200Response, *http.Response, error) {
+func (a *ZulipClient) GetUserPresenceExecute(r ApiGetUserPresenceRequest) (*models.GetUserPresence200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -3197,7 +3197,7 @@ func (a *APIClient) GetUserPresenceExecute(r ApiGetUserPresenceRequest) (*models
 		localVarReturnValue  *models.GetUserPresence200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.GetUserPresence")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3231,7 +3231,7 @@ func (a *APIClient) GetUserPresenceExecute(r ApiGetUserPresenceRequest) (*models
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3288,7 +3288,7 @@ user statuses could only be fetched via the [`POST
  @param userId The target user's ID. 
  @return ApiGetUserStatusRequest
 */
-func (a *APIClient) GetUserStatus(ctx context.Context, userId int32) ApiGetUserStatusRequest {
+func (a *ZulipClient) GetUserStatus(ctx context.Context, userId int32) ApiGetUserStatusRequest {
 	return ApiGetUserStatusRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3298,7 +3298,7 @@ func (a *APIClient) GetUserStatus(ctx context.Context, userId int32) ApiGetUserS
 
 // Execute executes the request
 //  @return GetUserStatus200Response
-func (a *APIClient) GetUserStatusExecute(r ApiGetUserStatusRequest) (*models.GetUserStatus200Response, *http.Response, error) {
+func (a *ZulipClient) GetUserStatusExecute(r ApiGetUserStatusRequest) (*models.GetUserStatus200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -3306,7 +3306,7 @@ func (a *APIClient) GetUserStatusExecute(r ApiGetUserStatusRequest) (*models.Get
 		localVarReturnValue  *models.GetUserStatus200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.GetUserStatus")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3340,7 +3340,7 @@ func (a *APIClient) GetUserStatusExecute(r ApiGetUserStatusRequest) (*models.Get
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3434,7 +3434,7 @@ option](/help/public-access-option) prior to Zulip 11.0
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetUsersRequest
 */
-func (a *APIClient) GetUsers(ctx context.Context) ApiGetUsersRequest {
+func (a *ZulipClient) GetUsers(ctx context.Context) ApiGetUsersRequest {
 	return ApiGetUsersRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3443,7 +3443,7 @@ func (a *APIClient) GetUsers(ctx context.Context) ApiGetUsersRequest {
 
 // Execute executes the request
 //  @return GetUsers200Response
-func (a *APIClient) GetUsersExecute(r ApiGetUsersRequest) (*models.GetUsers200Response, *http.Response, error) {
+func (a *ZulipClient) GetUsersExecute(r ApiGetUsersRequest) (*models.GetUsers200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -3451,7 +3451,7 @@ func (a *APIClient) GetUsersExecute(r ApiGetUsersRequest) (*models.GetUsers200Re
 		localVarReturnValue  *models.GetUsers200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.GetUsers")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3499,7 +3499,7 @@ func (a *APIClient) GetUsersExecute(r ApiGetUsersRequest) (*models.GetUsers200Re
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3580,7 +3580,7 @@ Muted users should be implemented by clients as follows:
  @param mutedUserId The ID of the user to mute/unmute.  **Changes**: Before Zulip 8.0 (feature level 188), bot users could not be muted/unmuted, and specifying a bot user's ID returned an error response. 
  @return ApiMuteUserRequest
 */
-func (a *APIClient) MuteUser(ctx context.Context, mutedUserId int32) ApiMuteUserRequest {
+func (a *ZulipClient) MuteUser(ctx context.Context, mutedUserId int32) ApiMuteUserRequest {
 	return ApiMuteUserRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3590,7 +3590,7 @@ func (a *APIClient) MuteUser(ctx context.Context, mutedUserId int32) ApiMuteUser
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) MuteUserExecute(r ApiMuteUserRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) MuteUserExecute(r ApiMuteUserRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -3598,7 +3598,7 @@ func (a *APIClient) MuteUserExecute(r ApiMuteUserRequest) (*models.JsonSuccess, 
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.MuteUser")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3632,7 +3632,7 @@ func (a *APIClient) MuteUserExecute(r ApiMuteUserRequest) (*models.JsonSuccess, 
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3696,7 +3696,7 @@ given their user ID.
  @param userId The target user's ID. 
  @return ApiReactivateUserRequest
 */
-func (a *APIClient) ReactivateUser(ctx context.Context, userId int32) ApiReactivateUserRequest {
+func (a *ZulipClient) ReactivateUser(ctx context.Context, userId int32) ApiReactivateUserRequest {
 	return ApiReactivateUserRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3706,7 +3706,7 @@ func (a *APIClient) ReactivateUser(ctx context.Context, userId int32) ApiReactiv
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) ReactivateUserExecute(r ApiReactivateUserRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) ReactivateUserExecute(r ApiReactivateUserRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -3714,7 +3714,7 @@ func (a *APIClient) ReactivateUserExecute(r ApiReactivateUserRequest) (*models.J
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.ReactivateUser")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3748,7 +3748,7 @@ func (a *APIClient) ReactivateUserExecute(r ApiReactivateUserRequest) (*models.J
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3809,7 +3809,7 @@ Alert words are case insensitive.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiRemoveAlertWordsRequest
 */
-func (a *APIClient) RemoveAlertWords(ctx context.Context) ApiRemoveAlertWordsRequest {
+func (a *ZulipClient) RemoveAlertWords(ctx context.Context) ApiRemoveAlertWordsRequest {
 	return ApiRemoveAlertWordsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3818,7 +3818,7 @@ func (a *APIClient) RemoveAlertWords(ctx context.Context) ApiRemoveAlertWordsReq
 
 // Execute executes the request
 //  @return RemoveAlertWords200Response
-func (a *APIClient) RemoveAlertWordsExecute(r ApiRemoveAlertWordsRequest) (*models.RemoveAlertWords200Response, *http.Response, error) {
+func (a *ZulipClient) RemoveAlertWordsExecute(r ApiRemoveAlertWordsRequest) (*models.RemoveAlertWords200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -3826,7 +3826,7 @@ func (a *APIClient) RemoveAlertWordsExecute(r ApiRemoveAlertWordsRequest) (*mode
 		localVarReturnValue  *models.RemoveAlertWords200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.RemoveAlertWords")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3863,7 +3863,7 @@ func (a *APIClient) RemoveAlertWordsExecute(r ApiRemoveAlertWordsRequest) (*mode
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -3920,7 +3920,7 @@ This endpoint removes an APNs device token for iOS push notifications.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiRemoveApnsTokenRequest
 */
-func (a *APIClient) RemoveApnsToken(ctx context.Context) ApiRemoveApnsTokenRequest {
+func (a *ZulipClient) RemoveApnsToken(ctx context.Context) ApiRemoveApnsTokenRequest {
 	return ApiRemoveApnsTokenRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -3929,7 +3929,7 @@ func (a *APIClient) RemoveApnsToken(ctx context.Context) ApiRemoveApnsTokenReque
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) RemoveApnsTokenExecute(r ApiRemoveApnsTokenRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) RemoveApnsTokenExecute(r ApiRemoveApnsTokenRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -3937,7 +3937,7 @@ func (a *APIClient) RemoveApnsTokenExecute(r ApiRemoveApnsTokenRequest) (*models
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.RemoveApnsToken")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3974,7 +3974,7 @@ func (a *APIClient) RemoveApnsTokenExecute(r ApiRemoveApnsTokenRequest) (*models
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4046,7 +4046,7 @@ Attachment IDs can be contained from [GET /attachments](/api/get-attachments).
  @param attachmentId The ID of the attachment to be deleted. 
  @return ApiRemoveAttachmentRequest
 */
-func (a *APIClient) RemoveAttachment(ctx context.Context, attachmentId int32) ApiRemoveAttachmentRequest {
+func (a *ZulipClient) RemoveAttachment(ctx context.Context, attachmentId int32) ApiRemoveAttachmentRequest {
 	return ApiRemoveAttachmentRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -4056,7 +4056,7 @@ func (a *APIClient) RemoveAttachment(ctx context.Context, attachmentId int32) Ap
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) RemoveAttachmentExecute(r ApiRemoveAttachmentRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) RemoveAttachmentExecute(r ApiRemoveAttachmentRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -4064,7 +4064,7 @@ func (a *APIClient) RemoveAttachmentExecute(r ApiRemoveAttachmentRequest) (*mode
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.RemoveAttachment")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4098,7 +4098,7 @@ func (a *APIClient) RemoveAttachmentExecute(r ApiRemoveAttachmentRequest) (*mode
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4176,7 +4176,7 @@ This endpoint removes an FCM registration token for push notifications.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiRemoveFcmTokenRequest
 */
-func (a *APIClient) RemoveFcmToken(ctx context.Context) ApiRemoveFcmTokenRequest {
+func (a *ZulipClient) RemoveFcmToken(ctx context.Context) ApiRemoveFcmTokenRequest {
 	return ApiRemoveFcmTokenRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -4185,7 +4185,7 @@ func (a *APIClient) RemoveFcmToken(ctx context.Context) ApiRemoveFcmTokenRequest
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) RemoveFcmTokenExecute(r ApiRemoveFcmTokenRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) RemoveFcmTokenExecute(r ApiRemoveFcmTokenRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -4193,7 +4193,7 @@ func (a *APIClient) RemoveFcmTokenExecute(r ApiRemoveFcmTokenRequest) (*models.J
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.RemoveFcmToken")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4230,7 +4230,7 @@ func (a *APIClient) RemoveFcmTokenExecute(r ApiRemoveFcmTokenRequest) (*models.J
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4378,7 +4378,7 @@ value in the `client_capabilities` parameter of the
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiSetTypingStatusRequest
 */
-func (a *APIClient) SetTypingStatus(ctx context.Context) ApiSetTypingStatusRequest {
+func (a *ZulipClient) SetTypingStatus(ctx context.Context) ApiSetTypingStatusRequest {
 	return ApiSetTypingStatusRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -4387,7 +4387,7 @@ func (a *APIClient) SetTypingStatus(ctx context.Context) ApiSetTypingStatusReque
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) SetTypingStatusExecute(r ApiSetTypingStatusRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) SetTypingStatusExecute(r ApiSetTypingStatusRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -4395,7 +4395,7 @@ func (a *APIClient) SetTypingStatusExecute(r ApiSetTypingStatusRequest) (*models
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.SetTypingStatus")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4444,7 +4444,7 @@ func (a *APIClient) SetTypingStatusExecute(r ApiSetTypingStatusRequest) (*models
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4525,7 +4525,7 @@ not available when editing messages.
  @param messageId The target message's ID. 
  @return ApiSetTypingStatusForMessageEditRequest
 */
-func (a *APIClient) SetTypingStatusForMessageEdit(ctx context.Context, messageId int32) ApiSetTypingStatusForMessageEditRequest {
+func (a *ZulipClient) SetTypingStatusForMessageEdit(ctx context.Context, messageId int32) ApiSetTypingStatusForMessageEditRequest {
 	return ApiSetTypingStatusForMessageEditRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -4535,7 +4535,7 @@ func (a *APIClient) SetTypingStatusForMessageEdit(ctx context.Context, messageId
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) SetTypingStatusForMessageEditExecute(r ApiSetTypingStatusForMessageEditRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) SetTypingStatusForMessageEditExecute(r ApiSetTypingStatusForMessageEditRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -4543,7 +4543,7 @@ func (a *APIClient) SetTypingStatusForMessageEditExecute(r ApiSetTypingStatusFor
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.SetTypingStatusForMessageEdit")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4581,7 +4581,7 @@ func (a *APIClient) SetTypingStatusForMessageEditExecute(r ApiSetTypingStatusFor
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4636,7 +4636,7 @@ from the perspective of the requesting user.
  @param mutedUserId The ID of the user to mute/unmute.  **Changes**: Before Zulip 8.0 (feature level 188), bot users could not be muted/unmuted, and specifying a bot user's ID returned an error response. 
  @return ApiUnmuteUserRequest
 */
-func (a *APIClient) UnmuteUser(ctx context.Context, mutedUserId int32) ApiUnmuteUserRequest {
+func (a *ZulipClient) UnmuteUser(ctx context.Context, mutedUserId int32) ApiUnmuteUserRequest {
 	return ApiUnmuteUserRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -4646,7 +4646,7 @@ func (a *APIClient) UnmuteUser(ctx context.Context, mutedUserId int32) ApiUnmute
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UnmuteUserExecute(r ApiUnmuteUserRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UnmuteUserExecute(r ApiUnmuteUserRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -4654,7 +4654,7 @@ func (a *APIClient) UnmuteUserExecute(r ApiUnmuteUserRequest) (*models.JsonSucce
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.UnmuteUser")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4688,7 +4688,7 @@ func (a *APIClient) UnmuteUserExecute(r ApiUnmuteUserRequest) (*models.JsonSucce
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -4824,7 +4824,7 @@ the current user can see/access][limit-visibility].
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUpdatePresenceRequest
 */
-func (a *APIClient) UpdatePresence(ctx context.Context) ApiUpdatePresenceRequest {
+func (a *ZulipClient) UpdatePresence(ctx context.Context) ApiUpdatePresenceRequest {
 	return ApiUpdatePresenceRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -4833,7 +4833,7 @@ func (a *APIClient) UpdatePresence(ctx context.Context) ApiUpdatePresenceRequest
 
 // Execute executes the request
 //  @return UpdatePresence200Response
-func (a *APIClient) UpdatePresenceExecute(r ApiUpdatePresenceRequest) (*models.UpdatePresence200Response, *http.Response, error) {
+func (a *ZulipClient) UpdatePresenceExecute(r ApiUpdatePresenceRequest) (*models.UpdatePresence200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -4841,7 +4841,7 @@ func (a *APIClient) UpdatePresenceExecute(r ApiUpdatePresenceRequest) (*models.U
 		localVarReturnValue  *models.UpdatePresence200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.UpdatePresence")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -4893,7 +4893,7 @@ func (a *APIClient) UpdatePresenceExecute(r ApiUpdatePresenceRequest) (*models.U
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -5448,7 +5448,7 @@ Before feature level 78, request parameters that were not supported
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUpdateSettingsRequest
 */
-func (a *APIClient) UpdateSettings(ctx context.Context) ApiUpdateSettingsRequest {
+func (a *ZulipClient) UpdateSettings(ctx context.Context) ApiUpdateSettingsRequest {
 	return ApiUpdateSettingsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -5457,7 +5457,7 @@ func (a *APIClient) UpdateSettings(ctx context.Context) ApiUpdateSettingsRequest
 
 // Execute executes the request
 //  @return IgnoredParametersSuccess
-func (a *APIClient) UpdateSettingsExecute(r ApiUpdateSettingsRequest) (*models.IgnoredParametersSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateSettingsExecute(r ApiUpdateSettingsRequest) (*models.IgnoredParametersSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -5465,7 +5465,7 @@ func (a *APIClient) UpdateSettingsExecute(r ApiUpdateSettingsRequest) (*models.I
 		localVarReturnValue  *models.IgnoredParametersSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.UpdateSettings")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -5699,7 +5699,7 @@ func (a *APIClient) UpdateSettingsExecute(r ApiUpdateSettingsRequest) (*models.I
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -5794,7 +5794,7 @@ pass all supported parameters.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUpdateStatusRequest
 */
-func (a *APIClient) UpdateStatus(ctx context.Context) ApiUpdateStatusRequest {
+func (a *ZulipClient) UpdateStatus(ctx context.Context) ApiUpdateStatusRequest {
 	return ApiUpdateStatusRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -5803,7 +5803,7 @@ func (a *APIClient) UpdateStatus(ctx context.Context) ApiUpdateStatusRequest {
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UpdateStatusExecute(r ApiUpdateStatusRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateStatusExecute(r ApiUpdateStatusRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -5811,7 +5811,7 @@ func (a *APIClient) UpdateStatusExecute(r ApiUpdateStatusRequest) (*models.JsonS
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.UpdateStatus")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -5859,7 +5859,7 @@ func (a *APIClient) UpdateStatusExecute(r ApiUpdateStatusRequest) (*models.JsonS
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -5952,7 +5952,7 @@ another user.
  @param userId The target user's ID. 
  @return ApiUpdateStatusForUserRequest
 */
-func (a *APIClient) UpdateStatusForUser(ctx context.Context, userId int32) ApiUpdateStatusForUserRequest {
+func (a *ZulipClient) UpdateStatusForUser(ctx context.Context, userId int32) ApiUpdateStatusForUserRequest {
 	return ApiUpdateStatusForUserRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -5962,7 +5962,7 @@ func (a *APIClient) UpdateStatusForUser(ctx context.Context, userId int32) ApiUp
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UpdateStatusForUserExecute(r ApiUpdateStatusForUserRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateStatusForUserExecute(r ApiUpdateStatusForUserRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -5970,7 +5970,7 @@ func (a *APIClient) UpdateStatusForUserExecute(r ApiUpdateStatusForUserRequest) 
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.UpdateStatusForUser")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -6016,7 +6016,7 @@ func (a *APIClient) UpdateStatusForUserExecute(r ApiUpdateStatusForUserRequest) 
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -6111,7 +6111,7 @@ fields](/help/custom-profile-fields).
  @param userId The target user's ID. 
  @return ApiUpdateUserRequest
 */
-func (a *APIClient) UpdateUser(ctx context.Context, userId int32) ApiUpdateUserRequest {
+func (a *ZulipClient) UpdateUser(ctx context.Context, userId int32) ApiUpdateUserRequest {
 	return ApiUpdateUserRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -6121,7 +6121,7 @@ func (a *APIClient) UpdateUser(ctx context.Context, userId int32) ApiUpdateUserR
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UpdateUserExecute(r ApiUpdateUserRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateUserExecute(r ApiUpdateUserRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -6129,7 +6129,7 @@ func (a *APIClient) UpdateUserExecute(r ApiUpdateUserRequest) (*models.JsonSucce
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.UpdateUser")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -6175,7 +6175,7 @@ func (a *APIClient) UpdateUserExecute(r ApiUpdateUserRequest) (*models.JsonSucce
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -6273,7 +6273,7 @@ user's email address visibility setting. Otherwise, the dummy address of the for
  @param email The email address of the user, specified following the same rules as [`GET /users/{email}`](/api/get-user-by-email). 
  @return ApiUpdateUserByEmailRequest
 */
-func (a *APIClient) UpdateUserByEmail(ctx context.Context, email string) ApiUpdateUserByEmailRequest {
+func (a *ZulipClient) UpdateUserByEmail(ctx context.Context, email string) ApiUpdateUserByEmailRequest {
 	return ApiUpdateUserByEmailRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -6283,7 +6283,7 @@ func (a *APIClient) UpdateUserByEmail(ctx context.Context, email string) ApiUpda
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UpdateUserByEmailExecute(r ApiUpdateUserByEmailRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateUserByEmailExecute(r ApiUpdateUserByEmailRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -6291,7 +6291,7 @@ func (a *APIClient) UpdateUserByEmailExecute(r ApiUpdateUserByEmailRequest) (*mo
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.UpdateUserByEmail")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -6337,7 +6337,7 @@ func (a *APIClient) UpdateUserByEmailExecute(r ApiUpdateUserByEmailRequest) (*mo
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -6477,7 +6477,7 @@ of deactivated groups could be modified.
  @param userGroupId The ID of the target user group. 
  @return ApiUpdateUserGroupRequest
 */
-func (a *APIClient) UpdateUserGroup(ctx context.Context, userGroupId int32) ApiUpdateUserGroupRequest {
+func (a *ZulipClient) UpdateUserGroup(ctx context.Context, userGroupId int32) ApiUpdateUserGroupRequest {
 	return ApiUpdateUserGroupRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -6487,7 +6487,7 @@ func (a *APIClient) UpdateUserGroup(ctx context.Context, userGroupId int32) ApiU
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UpdateUserGroupExecute(r ApiUpdateUserGroupRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateUserGroupExecute(r ApiUpdateUserGroupRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -6495,7 +6495,7 @@ func (a *APIClient) UpdateUserGroupExecute(r ApiUpdateUserGroupRequest) (*models
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.UpdateUserGroup")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -6580,7 +6580,7 @@ func (a *APIClient) UpdateUserGroupExecute(r ApiUpdateUserGroupRequest) (*models
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -6677,7 +6677,7 @@ deactivated users were visible to the API and could be edited via this endpoint.
  @param userGroupId The ID of the target user group. 
  @return ApiUpdateUserGroupMembersRequest
 */
-func (a *APIClient) UpdateUserGroupMembers(ctx context.Context, userGroupId int32) ApiUpdateUserGroupMembersRequest {
+func (a *ZulipClient) UpdateUserGroupMembers(ctx context.Context, userGroupId int32) ApiUpdateUserGroupMembersRequest {
 	return ApiUpdateUserGroupMembersRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -6687,7 +6687,7 @@ func (a *APIClient) UpdateUserGroupMembers(ctx context.Context, userGroupId int3
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UpdateUserGroupMembersExecute(r ApiUpdateUserGroupMembersRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateUserGroupMembersExecute(r ApiUpdateUserGroupMembersRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -6695,7 +6695,7 @@ func (a *APIClient) UpdateUserGroupMembersExecute(r ApiUpdateUserGroupMembersReq
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.UpdateUserGroupMembers")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -6741,7 +6741,7 @@ func (a *APIClient) UpdateUserGroupMembersExecute(r ApiUpdateUserGroupMembersReq
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -6812,7 +6812,7 @@ could not be added or removed from a deactivated group.
  @param userGroupId The ID of the target user group. 
  @return ApiUpdateUserGroupSubgroupsRequest
 */
-func (a *APIClient) UpdateUserGroupSubgroups(ctx context.Context, userGroupId int32) ApiUpdateUserGroupSubgroupsRequest {
+func (a *ZulipClient) UpdateUserGroupSubgroups(ctx context.Context, userGroupId int32) ApiUpdateUserGroupSubgroupsRequest {
 	return ApiUpdateUserGroupSubgroupsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -6822,7 +6822,7 @@ func (a *APIClient) UpdateUserGroupSubgroups(ctx context.Context, userGroupId in
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) UpdateUserGroupSubgroupsExecute(r ApiUpdateUserGroupSubgroupsRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) UpdateUserGroupSubgroupsExecute(r ApiUpdateUserGroupSubgroupsRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -6830,7 +6830,7 @@ func (a *APIClient) UpdateUserGroupSubgroupsExecute(r ApiUpdateUserGroupSubgroup
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "UsersAPI.UpdateUserGroupSubgroups")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -6870,7 +6870,7 @@ func (a *APIClient) UpdateUserGroupSubgroupsExecute(r ApiUpdateUserGroupSubgroup
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

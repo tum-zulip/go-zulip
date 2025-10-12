@@ -236,7 +236,7 @@ added which specified the number of days before the invitation would expire.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateInviteLinkRequest
 */
-func (a *APIClient) CreateInviteLink(ctx context.Context) ApiCreateInviteLinkRequest {
+func (a *ZulipClient) CreateInviteLink(ctx context.Context) ApiCreateInviteLinkRequest {
 	return ApiCreateInviteLinkRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -245,7 +245,7 @@ func (a *APIClient) CreateInviteLink(ctx context.Context) ApiCreateInviteLinkReq
 
 // Execute executes the request
 //  @return CreateInviteLink200Response
-func (a *APIClient) CreateInviteLinkExecute(r ApiCreateInviteLinkRequest) (*models.CreateInviteLink200Response, *http.Response, error) {
+func (a *ZulipClient) CreateInviteLinkExecute(r ApiCreateInviteLinkRequest) (*models.CreateInviteLink200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -253,7 +253,7 @@ func (a *APIClient) CreateInviteLinkExecute(r ApiCreateInviteLinkRequest) (*mode
 		localVarReturnValue  *models.CreateInviteLink200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "InvitesAPI.CreateInviteLink")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -304,7 +304,7 @@ func (a *APIClient) CreateInviteLinkExecute(r ApiCreateInviteLinkRequest) (*mode
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -371,7 +371,7 @@ reusable invitation links for these users.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetInvitesRequest
 */
-func (a *APIClient) GetInvites(ctx context.Context) ApiGetInvitesRequest {
+func (a *ZulipClient) GetInvites(ctx context.Context) ApiGetInvitesRequest {
 	return ApiGetInvitesRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -380,7 +380,7 @@ func (a *APIClient) GetInvites(ctx context.Context) ApiGetInvitesRequest {
 
 // Execute executes the request
 //  @return GetInvites200Response
-func (a *APIClient) GetInvitesExecute(r ApiGetInvitesRequest) (*models.GetInvites200Response, *http.Response, error) {
+func (a *ZulipClient) GetInvitesExecute(r ApiGetInvitesRequest) (*models.GetInvites200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -388,7 +388,7 @@ func (a *APIClient) GetInvitesExecute(r ApiGetInvitesRequest) (*models.GetInvite
 		localVarReturnValue  *models.GetInvites200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "InvitesAPI.GetInvites")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -421,7 +421,7 @@ func (a *APIClient) GetInvitesExecute(r ApiGetInvitesRequest) (*models.GetInvite
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -476,7 +476,7 @@ manage](/help/invite-new-users#manage-pending-invitations).
  @param inviteId The ID of the email invitation to be resent. 
  @return ApiResendEmailInviteRequest
 */
-func (a *APIClient) ResendEmailInvite(ctx context.Context, inviteId int32) ApiResendEmailInviteRequest {
+func (a *ZulipClient) ResendEmailInvite(ctx context.Context, inviteId int32) ApiResendEmailInviteRequest {
 	return ApiResendEmailInviteRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -486,7 +486,7 @@ func (a *APIClient) ResendEmailInvite(ctx context.Context, inviteId int32) ApiRe
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) ResendEmailInviteExecute(r ApiResendEmailInviteRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) ResendEmailInviteExecute(r ApiResendEmailInviteRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -494,7 +494,7 @@ func (a *APIClient) ResendEmailInviteExecute(r ApiResendEmailInviteRequest) (*mo
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "InvitesAPI.ResendEmailInvite")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -528,7 +528,7 @@ func (a *APIClient) ResendEmailInviteExecute(r ApiResendEmailInviteRequest) (*mo
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -593,7 +593,7 @@ manage](/help/invite-new-users#manage-pending-invitations).
  @param inviteId The ID of the email invitation to be revoked. 
  @return ApiRevokeEmailInviteRequest
 */
-func (a *APIClient) RevokeEmailInvite(ctx context.Context, inviteId int32) ApiRevokeEmailInviteRequest {
+func (a *ZulipClient) RevokeEmailInvite(ctx context.Context, inviteId int32) ApiRevokeEmailInviteRequest {
 	return ApiRevokeEmailInviteRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -603,7 +603,7 @@ func (a *APIClient) RevokeEmailInvite(ctx context.Context, inviteId int32) ApiRe
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) RevokeEmailInviteExecute(r ApiRevokeEmailInviteRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) RevokeEmailInviteExecute(r ApiRevokeEmailInviteRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -611,7 +611,7 @@ func (a *APIClient) RevokeEmailInviteExecute(r ApiRevokeEmailInviteRequest) (*mo
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "InvitesAPI.RevokeEmailInvite")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -645,7 +645,7 @@ func (a *APIClient) RevokeEmailInviteExecute(r ApiRevokeEmailInviteRequest) (*mo
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -713,7 +713,7 @@ administrators were able to create and revoke reusable invitation links.
  @param inviteId The ID of the reusable invitation link to be revoked. 
  @return ApiRevokeInviteLinkRequest
 */
-func (a *APIClient) RevokeInviteLink(ctx context.Context, inviteId int32) ApiRevokeInviteLinkRequest {
+func (a *ZulipClient) RevokeInviteLink(ctx context.Context, inviteId int32) ApiRevokeInviteLinkRequest {
 	return ApiRevokeInviteLinkRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -723,7 +723,7 @@ func (a *APIClient) RevokeInviteLink(ctx context.Context, inviteId int32) ApiRev
 
 // Execute executes the request
 //  @return JsonSuccess
-func (a *APIClient) RevokeInviteLinkExecute(r ApiRevokeInviteLinkRequest) (*models.JsonSuccess, *http.Response, error) {
+func (a *ZulipClient) RevokeInviteLinkExecute(r ApiRevokeInviteLinkRequest) (*models.JsonSuccess, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -731,7 +731,7 @@ func (a *APIClient) RevokeInviteLinkExecute(r ApiRevokeInviteLinkRequest) (*mode
 		localVarReturnValue  *models.JsonSuccess
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "InvitesAPI.RevokeInviteLink")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -765,7 +765,7 @@ func (a *APIClient) RevokeInviteLinkExecute(r ApiRevokeInviteLinkRequest) (*mode
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -890,7 +890,7 @@ added which specified the number of days before the invitation would expire.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiSendInvitesRequest
 */
-func (a *APIClient) SendInvites(ctx context.Context) ApiSendInvitesRequest {
+func (a *ZulipClient) SendInvites(ctx context.Context) ApiSendInvitesRequest {
 	return ApiSendInvitesRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -899,7 +899,7 @@ func (a *APIClient) SendInvites(ctx context.Context) ApiSendInvitesRequest {
 
 // Execute executes the request
 //  @return SendInvites200Response
-func (a *APIClient) SendInvitesExecute(r ApiSendInvitesRequest) (*models.SendInvites200Response, *http.Response, error) {
+func (a *ZulipClient) SendInvitesExecute(r ApiSendInvitesRequest) (*models.SendInvites200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -907,7 +907,7 @@ func (a *APIClient) SendInvitesExecute(r ApiSendInvitesRequest) (*models.SendInv
 		localVarReturnValue  *models.SendInvites200Response
 	)
 
-	localBasePath, err := a.cfg.ServerURLWithContext(r.ctx, "InvitesAPI.SendInvites")
+	localBasePath, err := a.ServerURL()
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -966,7 +966,7 @@ func (a *APIClient) SendInvitesExecute(r ApiSendInvitesRequest) (*models.SendInv
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.callAPI(req)
+	localVarHTTPResponse, err := a.callAPI(r.ctx, req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
