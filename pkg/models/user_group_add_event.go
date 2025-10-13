@@ -26,19 +26,19 @@ type UserGroupAddEvent struct {
 	Group *UserGroup `json:"group,omitempty"`
 }
 
-// NewRealmUserUpdateEvent3 instantiates a new UserGroupAddEvent object
+// NewUserGroupAddEvent instantiates a new UserGroupAddEvent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEvent3() *UserGroupAddEvent {
+func NewUserGroupAddEvent() *UserGroupAddEvent {
 	this := UserGroupAddEvent{}
 	return &this
 }
 
-// NewRealmUserUpdateEvent3WithDefaults instantiates a new UserGroupAddEvent object
+// NewUserGroupAddEventWithDefaults instantiates a new UserGroupAddEvent object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEvent3WithDefaults() *UserGroupAddEvent {
+func NewUserGroupAddEventWithDefaults() *UserGroupAddEvent {
 	this := UserGroupAddEvent{}
 	return &this
 }
@@ -196,38 +196,38 @@ func (o UserGroupAddEvent) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-type NullableRealmUserUpdateEvent3 struct {
+type NullableUserGroupAddEvent struct {
 	value *UserGroupAddEvent
 	isSet bool
 }
 
-func (v NullableRealmUserUpdateEvent3) Get() *UserGroupAddEvent {
+func (v NullableUserGroupAddEvent) Get() *UserGroupAddEvent {
 	return v.value
 }
 
-func (v *NullableRealmUserUpdateEvent3) Set(val *UserGroupAddEvent) {
+func (v *NullableUserGroupAddEvent) Set(val *UserGroupAddEvent) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRealmUserUpdateEvent3) IsSet() bool {
+func (v NullableUserGroupAddEvent) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRealmUserUpdateEvent3) Unset() {
+func (v *NullableUserGroupAddEvent) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRealmUserUpdateEvent3(val *UserGroupAddEvent) *NullableRealmUserUpdateEvent3 {
-	return &NullableRealmUserUpdateEvent3{value: val, isSet: true}
+func NewNullableUserGroupAddEvent(val *UserGroupAddEvent) *NullableUserGroupAddEvent {
+	return &NullableUserGroupAddEvent{value: val, isSet: true}
 }
 
-func (v NullableRealmUserUpdateEvent3) MarshalJSON() ([]byte, error) {
+func (v NullableUserGroupAddEvent) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRealmUserUpdateEvent3) UnmarshalJSON(src []byte) error {
+func (v *NullableUserGroupAddEvent) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
