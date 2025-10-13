@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the RealmUserUpdateEventPersonOneOf1 type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RealmUserUpdateEventPersonOneOf1{}
+// checks if the UserUpdateEventAvatar type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UserUpdateEventAvatar{}
 
-// RealmUserUpdateEventPersonOneOf1 When a user changes their avatar.
-type RealmUserUpdateEventPersonOneOf1 struct {
+// UserUpdateEventAvatar When a user changes their avatar.
+type UserUpdateEventAvatar struct {
 	// The ID of the user who is affected by this change.
 	UserId *int32 `json:"user_id,omitempty"`
 	// The URL of the new avatar for the user.
@@ -31,25 +31,25 @@ type RealmUserUpdateEventPersonOneOf1 struct {
 	AvatarVersion *int32 `json:"avatar_version,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf1 instantiates a new RealmUserUpdateEventPersonOneOf1 object
+// NewRealmUserUpdateEventPersonOneOf1 instantiates a new UserUpdateEventAvatar object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf1() *RealmUserUpdateEventPersonOneOf1 {
-	this := RealmUserUpdateEventPersonOneOf1{}
+func NewRealmUserUpdateEventPersonOneOf1() *UserUpdateEventAvatar {
+	this := UserUpdateEventAvatar{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOf1WithDefaults instantiates a new RealmUserUpdateEventPersonOneOf1 object
+// NewRealmUserUpdateEventPersonOneOf1WithDefaults instantiates a new UserUpdateEventAvatar object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOf1WithDefaults() *RealmUserUpdateEventPersonOneOf1 {
-	this := RealmUserUpdateEventPersonOneOf1{}
+func NewRealmUserUpdateEventPersonOneOf1WithDefaults() *UserUpdateEventAvatar {
+	this := UserUpdateEventAvatar{}
 	return &this
 }
 
 // GetUserId returns the UserId field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf1) GetUserId() int32 {
+func (o *UserUpdateEventAvatar) GetUserId() int32 {
 	if o == nil || IsNil(o.UserId) {
 		var ret int32
 		return ret
@@ -59,7 +59,7 @@ func (o *RealmUserUpdateEventPersonOneOf1) GetUserId() int32 {
 
 // GetUserIdOk returns a tuple with the UserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf1) GetUserIdOk() (*int32, bool) {
+func (o *UserUpdateEventAvatar) GetUserIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.UserId) {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *RealmUserUpdateEventPersonOneOf1) GetUserIdOk() (*int32, bool) {
 }
 
 // HasUserId returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf1) HasUserId() bool {
+func (o *UserUpdateEventAvatar) HasUserId() bool {
 	if o != nil && !IsNil(o.UserId) {
 		return true
 	}
@@ -76,12 +76,12 @@ func (o *RealmUserUpdateEventPersonOneOf1) HasUserId() bool {
 }
 
 // SetUserId gets a reference to the given int32 and assigns it to the UserId field.
-func (o *RealmUserUpdateEventPersonOneOf1) SetUserId(v int32) {
+func (o *UserUpdateEventAvatar) SetUserId(v int32) {
 	o.UserId = &v
 }
 
 // GetAvatarUrl returns the AvatarUrl field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarUrl() string {
+func (o *UserUpdateEventAvatar) GetAvatarUrl() string {
 	if o == nil || IsNil(o.AvatarUrl) {
 		var ret string
 		return ret
@@ -91,7 +91,7 @@ func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarUrl() string {
 
 // GetAvatarUrlOk returns a tuple with the AvatarUrl field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarUrlOk() (*string, bool) {
+func (o *UserUpdateEventAvatar) GetAvatarUrlOk() (*string, bool) {
 	if o == nil || IsNil(o.AvatarUrl) {
 		return nil, false
 	}
@@ -99,7 +99,7 @@ func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarUrlOk() (*string, bool) {
 }
 
 // HasAvatarUrl returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf1) HasAvatarUrl() bool {
+func (o *UserUpdateEventAvatar) HasAvatarUrl() bool {
 	if o != nil && !IsNil(o.AvatarUrl) {
 		return true
 	}
@@ -108,12 +108,12 @@ func (o *RealmUserUpdateEventPersonOneOf1) HasAvatarUrl() bool {
 }
 
 // SetAvatarUrl gets a reference to the given string and assigns it to the AvatarUrl field.
-func (o *RealmUserUpdateEventPersonOneOf1) SetAvatarUrl(v string) {
+func (o *UserUpdateEventAvatar) SetAvatarUrl(v string) {
 	o.AvatarUrl = &v
 }
 
 // GetAvatarSource returns the AvatarSource field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarSource() string {
+func (o *UserUpdateEventAvatar) GetAvatarSource() string {
 	if o == nil || IsNil(o.AvatarSource) {
 		var ret string
 		return ret
@@ -123,7 +123,7 @@ func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarSource() string {
 
 // GetAvatarSourceOk returns a tuple with the AvatarSource field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarSourceOk() (*string, bool) {
+func (o *UserUpdateEventAvatar) GetAvatarSourceOk() (*string, bool) {
 	if o == nil || IsNil(o.AvatarSource) {
 		return nil, false
 	}
@@ -131,7 +131,7 @@ func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarSourceOk() (*string, bool) {
 }
 
 // HasAvatarSource returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf1) HasAvatarSource() bool {
+func (o *UserUpdateEventAvatar) HasAvatarSource() bool {
 	if o != nil && !IsNil(o.AvatarSource) {
 		return true
 	}
@@ -140,12 +140,12 @@ func (o *RealmUserUpdateEventPersonOneOf1) HasAvatarSource() bool {
 }
 
 // SetAvatarSource gets a reference to the given string and assigns it to the AvatarSource field.
-func (o *RealmUserUpdateEventPersonOneOf1) SetAvatarSource(v string) {
+func (o *UserUpdateEventAvatar) SetAvatarSource(v string) {
 	o.AvatarSource = &v
 }
 
 // GetAvatarUrlMedium returns the AvatarUrlMedium field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarUrlMedium() string {
+func (o *UserUpdateEventAvatar) GetAvatarUrlMedium() string {
 	if o == nil || IsNil(o.AvatarUrlMedium) {
 		var ret string
 		return ret
@@ -155,7 +155,7 @@ func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarUrlMedium() string {
 
 // GetAvatarUrlMediumOk returns a tuple with the AvatarUrlMedium field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarUrlMediumOk() (*string, bool) {
+func (o *UserUpdateEventAvatar) GetAvatarUrlMediumOk() (*string, bool) {
 	if o == nil || IsNil(o.AvatarUrlMedium) {
 		return nil, false
 	}
@@ -163,7 +163,7 @@ func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarUrlMediumOk() (*string, bool
 }
 
 // HasAvatarUrlMedium returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf1) HasAvatarUrlMedium() bool {
+func (o *UserUpdateEventAvatar) HasAvatarUrlMedium() bool {
 	if o != nil && !IsNil(o.AvatarUrlMedium) {
 		return true
 	}
@@ -172,12 +172,12 @@ func (o *RealmUserUpdateEventPersonOneOf1) HasAvatarUrlMedium() bool {
 }
 
 // SetAvatarUrlMedium gets a reference to the given string and assigns it to the AvatarUrlMedium field.
-func (o *RealmUserUpdateEventPersonOneOf1) SetAvatarUrlMedium(v string) {
+func (o *UserUpdateEventAvatar) SetAvatarUrlMedium(v string) {
 	o.AvatarUrlMedium = &v
 }
 
 // GetAvatarVersion returns the AvatarVersion field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarVersion() int32 {
+func (o *UserUpdateEventAvatar) GetAvatarVersion() int32 {
 	if o == nil || IsNil(o.AvatarVersion) {
 		var ret int32
 		return ret
@@ -187,7 +187,7 @@ func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarVersion() int32 {
 
 // GetAvatarVersionOk returns a tuple with the AvatarVersion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarVersionOk() (*int32, bool) {
+func (o *UserUpdateEventAvatar) GetAvatarVersionOk() (*int32, bool) {
 	if o == nil || IsNil(o.AvatarVersion) {
 		return nil, false
 	}
@@ -195,7 +195,7 @@ func (o *RealmUserUpdateEventPersonOneOf1) GetAvatarVersionOk() (*int32, bool) {
 }
 
 // HasAvatarVersion returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf1) HasAvatarVersion() bool {
+func (o *UserUpdateEventAvatar) HasAvatarVersion() bool {
 	if o != nil && !IsNil(o.AvatarVersion) {
 		return true
 	}
@@ -204,11 +204,11 @@ func (o *RealmUserUpdateEventPersonOneOf1) HasAvatarVersion() bool {
 }
 
 // SetAvatarVersion gets a reference to the given int32 and assigns it to the AvatarVersion field.
-func (o *RealmUserUpdateEventPersonOneOf1) SetAvatarVersion(v int32) {
+func (o *UserUpdateEventAvatar) SetAvatarVersion(v int32) {
 	o.AvatarVersion = &v
 }
 
-func (o RealmUserUpdateEventPersonOneOf1) MarshalJSON() ([]byte, error) {
+func (o UserUpdateEventAvatar) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -216,7 +216,7 @@ func (o RealmUserUpdateEventPersonOneOf1) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o RealmUserUpdateEventPersonOneOf1) ToMap() (map[string]interface{}, error) {
+func (o UserUpdateEventAvatar) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.UserId) {
 		toSerialize["user_id"] = o.UserId
@@ -236,38 +236,38 @@ func (o RealmUserUpdateEventPersonOneOf1) ToMap() (map[string]interface{}, error
 	return toSerialize, nil
 }
 
-type NullableRealmUserUpdateEventPersonOneOf1 struct {
-	value *RealmUserUpdateEventPersonOneOf1
+type NullableUserUpdateEventAvatar struct {
+	value *UserUpdateEventAvatar
 	isSet bool
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf1) Get() *RealmUserUpdateEventPersonOneOf1 {
+func (v NullableUserUpdateEventAvatar) Get() *UserUpdateEventAvatar {
 	return v.value
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf1) Set(val *RealmUserUpdateEventPersonOneOf1) {
+func (v *NullableUserUpdateEventAvatar) Set(val *UserUpdateEventAvatar) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf1) IsSet() bool {
+func (v NullableUserUpdateEventAvatar) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf1) Unset() {
+func (v *NullableUserUpdateEventAvatar) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRealmUserUpdateEventPersonOneOf1(val *RealmUserUpdateEventPersonOneOf1) *NullableRealmUserUpdateEventPersonOneOf1 {
-	return &NullableRealmUserUpdateEventPersonOneOf1{value: val, isSet: true}
+func NewNullableUserUpdateEventAvatar(val *UserUpdateEventAvatar) *NullableUserUpdateEventAvatar {
+	return &NullableUserUpdateEventAvatar{value: val, isSet: true}
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf1) MarshalJSON() ([]byte, error) {
+func (v NullableUserUpdateEventAvatar) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf1) UnmarshalJSON(src []byte) error {
+func (v *NullableUserUpdateEventAvatar) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

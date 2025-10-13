@@ -14,36 +14,36 @@ import (
 	"encoding/json"
 )
 
-// checks if the RealmUserUpdateEventPersonOneOf3 type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RealmUserUpdateEventPersonOneOf3{}
+// checks if the UserUpdateEventBotOwner type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UserUpdateEventBotOwner{}
 
-// RealmUserUpdateEventPersonOneOf3 When the owner of a bot changes.
-type RealmUserUpdateEventPersonOneOf3 struct {
+// UserUpdateEventBotOwner When the owner of a bot changes.
+type UserUpdateEventBotOwner struct {
 	// The ID of the user/bot whose owner has changed.
 	UserId *int32 `json:"user_id,omitempty"`
 	// The user ID of the new bot owner.
 	BotOwnerId *int32 `json:"bot_owner_id,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf3 instantiates a new RealmUserUpdateEventPersonOneOf3 object
+// NewRealmUserUpdateEventPersonOneOf3 instantiates a new UserUpdateEventBotOwner object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf3() *RealmUserUpdateEventPersonOneOf3 {
-	this := RealmUserUpdateEventPersonOneOf3{}
+func NewRealmUserUpdateEventPersonOneOf3() *UserUpdateEventBotOwner {
+	this := UserUpdateEventBotOwner{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOf3WithDefaults instantiates a new RealmUserUpdateEventPersonOneOf3 object
+// NewRealmUserUpdateEventPersonOneOf3WithDefaults instantiates a new UserUpdateEventBotOwner object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOf3WithDefaults() *RealmUserUpdateEventPersonOneOf3 {
-	this := RealmUserUpdateEventPersonOneOf3{}
+func NewRealmUserUpdateEventPersonOneOf3WithDefaults() *UserUpdateEventBotOwner {
+	this := UserUpdateEventBotOwner{}
 	return &this
 }
 
 // GetUserId returns the UserId field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf3) GetUserId() int32 {
+func (o *UserUpdateEventBotOwner) GetUserId() int32 {
 	if o == nil || IsNil(o.UserId) {
 		var ret int32
 		return ret
@@ -53,7 +53,7 @@ func (o *RealmUserUpdateEventPersonOneOf3) GetUserId() int32 {
 
 // GetUserIdOk returns a tuple with the UserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf3) GetUserIdOk() (*int32, bool) {
+func (o *UserUpdateEventBotOwner) GetUserIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.UserId) {
 		return nil, false
 	}
@@ -61,7 +61,7 @@ func (o *RealmUserUpdateEventPersonOneOf3) GetUserIdOk() (*int32, bool) {
 }
 
 // HasUserId returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf3) HasUserId() bool {
+func (o *UserUpdateEventBotOwner) HasUserId() bool {
 	if o != nil && !IsNil(o.UserId) {
 		return true
 	}
@@ -70,12 +70,12 @@ func (o *RealmUserUpdateEventPersonOneOf3) HasUserId() bool {
 }
 
 // SetUserId gets a reference to the given int32 and assigns it to the UserId field.
-func (o *RealmUserUpdateEventPersonOneOf3) SetUserId(v int32) {
+func (o *UserUpdateEventBotOwner) SetUserId(v int32) {
 	o.UserId = &v
 }
 
 // GetBotOwnerId returns the BotOwnerId field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf3) GetBotOwnerId() int32 {
+func (o *UserUpdateEventBotOwner) GetBotOwnerId() int32 {
 	if o == nil || IsNil(o.BotOwnerId) {
 		var ret int32
 		return ret
@@ -85,7 +85,7 @@ func (o *RealmUserUpdateEventPersonOneOf3) GetBotOwnerId() int32 {
 
 // GetBotOwnerIdOk returns a tuple with the BotOwnerId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf3) GetBotOwnerIdOk() (*int32, bool) {
+func (o *UserUpdateEventBotOwner) GetBotOwnerIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.BotOwnerId) {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *RealmUserUpdateEventPersonOneOf3) GetBotOwnerIdOk() (*int32, bool) {
 }
 
 // HasBotOwnerId returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf3) HasBotOwnerId() bool {
+func (o *UserUpdateEventBotOwner) HasBotOwnerId() bool {
 	if o != nil && !IsNil(o.BotOwnerId) {
 		return true
 	}
@@ -102,11 +102,11 @@ func (o *RealmUserUpdateEventPersonOneOf3) HasBotOwnerId() bool {
 }
 
 // SetBotOwnerId gets a reference to the given int32 and assigns it to the BotOwnerId field.
-func (o *RealmUserUpdateEventPersonOneOf3) SetBotOwnerId(v int32) {
+func (o *UserUpdateEventBotOwner) SetBotOwnerId(v int32) {
 	o.BotOwnerId = &v
 }
 
-func (o RealmUserUpdateEventPersonOneOf3) MarshalJSON() ([]byte, error) {
+func (o UserUpdateEventBotOwner) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -114,7 +114,7 @@ func (o RealmUserUpdateEventPersonOneOf3) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o RealmUserUpdateEventPersonOneOf3) ToMap() (map[string]interface{}, error) {
+func (o UserUpdateEventBotOwner) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.UserId) {
 		toSerialize["user_id"] = o.UserId
@@ -125,38 +125,38 @@ func (o RealmUserUpdateEventPersonOneOf3) ToMap() (map[string]interface{}, error
 	return toSerialize, nil
 }
 
-type NullableRealmUserUpdateEventPersonOneOf3 struct {
-	value *RealmUserUpdateEventPersonOneOf3
+type NullableUserUpdateEventBotOwner struct {
+	value *UserUpdateEventBotOwner
 	isSet bool
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf3) Get() *RealmUserUpdateEventPersonOneOf3 {
+func (v NullableUserUpdateEventBotOwner) Get() *UserUpdateEventBotOwner {
 	return v.value
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf3) Set(val *RealmUserUpdateEventPersonOneOf3) {
+func (v *NullableUserUpdateEventBotOwner) Set(val *UserUpdateEventBotOwner) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf3) IsSet() bool {
+func (v NullableUserUpdateEventBotOwner) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf3) Unset() {
+func (v *NullableUserUpdateEventBotOwner) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRealmUserUpdateEventPersonOneOf3(val *RealmUserUpdateEventPersonOneOf3) *NullableRealmUserUpdateEventPersonOneOf3 {
-	return &NullableRealmUserUpdateEventPersonOneOf3{value: val, isSet: true}
+func NewNullableUserUpdateEventBotOwner(val *UserUpdateEventBotOwner) *NullableUserUpdateEventBotOwner {
+	return &NullableUserUpdateEventBotOwner{value: val, isSet: true}
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf3) MarshalJSON() ([]byte, error) {
+func (v NullableUserUpdateEventBotOwner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf3) UnmarshalJSON(src []byte) error {
+func (v *NullableUserUpdateEventBotOwner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

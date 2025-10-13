@@ -14,36 +14,36 @@ import (
 	"encoding/json"
 )
 
-// checks if the RealmUserUpdateEventPersonOneOf7 type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RealmUserUpdateEventPersonOneOf7{}
+// checks if the UserUpdateEventEmail type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UserUpdateEventEmail{}
 
-// RealmUserUpdateEventPersonOneOf7 When the Zulip API email address of a user changes, either due to the user's email address changing, or due to changes in the user's [email address visibility][help-email-visibility].  [help-email-visibility]: /help/configure-email-visibility
-type RealmUserUpdateEventPersonOneOf7 struct {
+// UserUpdateEventEmail When the Zulip API email address of a user changes, either due to the user's email address changing, or due to changes in the user's [email address visibility][help-email-visibility].  [help-email-visibility]: /help/configure-email-visibility
+type UserUpdateEventEmail struct {
 	// The ID of the user affected by this change.
 	UserId *int32 `json:"user_id,omitempty"`
 	// The new value of `email` for the user. The client should update any data structures associated with this user to use this new value as the user's Zulip API email address.
 	NewEmail *string `json:"new_email,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf7 instantiates a new RealmUserUpdateEventPersonOneOf7 object
+// NewRealmUserUpdateEventPersonOneOf7 instantiates a new UserUpdateEventEmail object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf7() *RealmUserUpdateEventPersonOneOf7 {
-	this := RealmUserUpdateEventPersonOneOf7{}
+func NewRealmUserUpdateEventPersonOneOf7() *UserUpdateEventEmail {
+	this := UserUpdateEventEmail{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOf7WithDefaults instantiates a new RealmUserUpdateEventPersonOneOf7 object
+// NewRealmUserUpdateEventPersonOneOf7WithDefaults instantiates a new UserUpdateEventEmail object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOf7WithDefaults() *RealmUserUpdateEventPersonOneOf7 {
-	this := RealmUserUpdateEventPersonOneOf7{}
+func NewRealmUserUpdateEventPersonOneOf7WithDefaults() *UserUpdateEventEmail {
+	this := UserUpdateEventEmail{}
 	return &this
 }
 
 // GetUserId returns the UserId field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf7) GetUserId() int32 {
+func (o *UserUpdateEventEmail) GetUserId() int32 {
 	if o == nil || IsNil(o.UserId) {
 		var ret int32
 		return ret
@@ -53,7 +53,7 @@ func (o *RealmUserUpdateEventPersonOneOf7) GetUserId() int32 {
 
 // GetUserIdOk returns a tuple with the UserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf7) GetUserIdOk() (*int32, bool) {
+func (o *UserUpdateEventEmail) GetUserIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.UserId) {
 		return nil, false
 	}
@@ -61,7 +61,7 @@ func (o *RealmUserUpdateEventPersonOneOf7) GetUserIdOk() (*int32, bool) {
 }
 
 // HasUserId returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf7) HasUserId() bool {
+func (o *UserUpdateEventEmail) HasUserId() bool {
 	if o != nil && !IsNil(o.UserId) {
 		return true
 	}
@@ -70,12 +70,12 @@ func (o *RealmUserUpdateEventPersonOneOf7) HasUserId() bool {
 }
 
 // SetUserId gets a reference to the given int32 and assigns it to the UserId field.
-func (o *RealmUserUpdateEventPersonOneOf7) SetUserId(v int32) {
+func (o *UserUpdateEventEmail) SetUserId(v int32) {
 	o.UserId = &v
 }
 
 // GetNewEmail returns the NewEmail field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf7) GetNewEmail() string {
+func (o *UserUpdateEventEmail) GetNewEmail() string {
 	if o == nil || IsNil(o.NewEmail) {
 		var ret string
 		return ret
@@ -85,7 +85,7 @@ func (o *RealmUserUpdateEventPersonOneOf7) GetNewEmail() string {
 
 // GetNewEmailOk returns a tuple with the NewEmail field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf7) GetNewEmailOk() (*string, bool) {
+func (o *UserUpdateEventEmail) GetNewEmailOk() (*string, bool) {
 	if o == nil || IsNil(o.NewEmail) {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *RealmUserUpdateEventPersonOneOf7) GetNewEmailOk() (*string, bool) {
 }
 
 // HasNewEmail returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf7) HasNewEmail() bool {
+func (o *UserUpdateEventEmail) HasNewEmail() bool {
 	if o != nil && !IsNil(o.NewEmail) {
 		return true
 	}
@@ -102,11 +102,11 @@ func (o *RealmUserUpdateEventPersonOneOf7) HasNewEmail() bool {
 }
 
 // SetNewEmail gets a reference to the given string and assigns it to the NewEmail field.
-func (o *RealmUserUpdateEventPersonOneOf7) SetNewEmail(v string) {
+func (o *UserUpdateEventEmail) SetNewEmail(v string) {
 	o.NewEmail = &v
 }
 
-func (o RealmUserUpdateEventPersonOneOf7) MarshalJSON() ([]byte, error) {
+func (o UserUpdateEventEmail) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -114,7 +114,7 @@ func (o RealmUserUpdateEventPersonOneOf7) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o RealmUserUpdateEventPersonOneOf7) ToMap() (map[string]interface{}, error) {
+func (o UserUpdateEventEmail) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.UserId) {
 		toSerialize["user_id"] = o.UserId
@@ -125,38 +125,38 @@ func (o RealmUserUpdateEventPersonOneOf7) ToMap() (map[string]interface{}, error
 	return toSerialize, nil
 }
 
-type NullableRealmUserUpdateEventPersonOneOf7 struct {
-	value *RealmUserUpdateEventPersonOneOf7
+type NullableUserUpdateEventEmail struct {
+	value *UserUpdateEventEmail
 	isSet bool
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf7) Get() *RealmUserUpdateEventPersonOneOf7 {
+func (v NullableUserUpdateEventEmail) Get() *UserUpdateEventEmail {
 	return v.value
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf7) Set(val *RealmUserUpdateEventPersonOneOf7) {
+func (v *NullableUserUpdateEventEmail) Set(val *UserUpdateEventEmail) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf7) IsSet() bool {
+func (v NullableUserUpdateEventEmail) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf7) Unset() {
+func (v *NullableUserUpdateEventEmail) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRealmUserUpdateEventPersonOneOf7(val *RealmUserUpdateEventPersonOneOf7) *NullableRealmUserUpdateEventPersonOneOf7 {
-	return &NullableRealmUserUpdateEventPersonOneOf7{value: val, isSet: true}
+func NewNullableUserUpdateEventEmail(val *UserUpdateEventEmail) *NullableUserUpdateEventEmail {
+	return &NullableUserUpdateEventEmail{value: val, isSet: true}
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf7) MarshalJSON() ([]byte, error) {
+func (v NullableUserUpdateEventEmail) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf7) UnmarshalJSON(src []byte) error {
+func (v *NullableUserUpdateEventEmail) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

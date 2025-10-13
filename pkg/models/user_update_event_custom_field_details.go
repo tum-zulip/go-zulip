@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the RealmUserUpdateEventPersonOneOf6CustomProfileField type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RealmUserUpdateEventPersonOneOf6CustomProfileField{}
+// checks if the UserUpdateEventCustomFieldDetails type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UserUpdateEventCustomFieldDetails{}
 
-// RealmUserUpdateEventPersonOneOf6CustomProfileField Object containing details about the custom profile data change.
-type RealmUserUpdateEventPersonOneOf6CustomProfileField struct {
+// UserUpdateEventCustomFieldDetails Object containing details about the custom profile data change.
+type UserUpdateEventCustomFieldDetails struct {
 	// The ID of the custom profile field which user updated.
 	Id *int32 `json:"id,omitempty"`
 	// User's personal value for this custom profile field, or `null` if unset.
@@ -27,25 +27,25 @@ type RealmUserUpdateEventPersonOneOf6CustomProfileField struct {
 	RenderedValue *string `json:"rendered_value,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf6CustomProfileField instantiates a new RealmUserUpdateEventPersonOneOf6CustomProfileField object
+// NewUserUpdateEventCustomFieldDetails instantiates a new UserUpdateEventCustomFieldDetails object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf6CustomProfileField() *RealmUserUpdateEventPersonOneOf6CustomProfileField {
-	this := RealmUserUpdateEventPersonOneOf6CustomProfileField{}
+func NewUserUpdateEventCustomFieldDetails() *UserUpdateEventCustomFieldDetails {
+	this := UserUpdateEventCustomFieldDetails{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOf6CustomProfileFieldWithDefaults instantiates a new RealmUserUpdateEventPersonOneOf6CustomProfileField object
+// NewUserUpdateEventCustomFieldDetailsWithDefaults instantiates a new UserUpdateEventCustomFieldDetails object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOf6CustomProfileFieldWithDefaults() *RealmUserUpdateEventPersonOneOf6CustomProfileField {
-	this := RealmUserUpdateEventPersonOneOf6CustomProfileField{}
+func NewUserUpdateEventCustomFieldDetailsWithDefaults() *UserUpdateEventCustomFieldDetails {
+	this := UserUpdateEventCustomFieldDetails{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) GetId() int32 {
+func (o *UserUpdateEventCustomFieldDetails) GetId() int32 {
 	if o == nil || IsNil(o.Id) {
 		var ret int32
 		return ret
@@ -55,7 +55,7 @@ func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) GetIdOk() (*int32, bool) {
+func (o *UserUpdateEventCustomFieldDetails) GetIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
@@ -63,7 +63,7 @@ func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) GetIdOk() (*int32, 
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) HasId() bool {
+func (o *UserUpdateEventCustomFieldDetails) HasId() bool {
 	if o != nil && !IsNil(o.Id) {
 		return true
 	}
@@ -72,12 +72,12 @@ func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) HasId() bool {
 }
 
 // SetId gets a reference to the given int32 and assigns it to the Id field.
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) SetId(v int32) {
+func (o *UserUpdateEventCustomFieldDetails) SetId(v int32) {
 	o.Id = &v
 }
 
 // GetValue returns the Value field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) GetValue() string {
+func (o *UserUpdateEventCustomFieldDetails) GetValue() string {
 	if o == nil || IsNil(o.Value.Get()) {
 		var ret string
 		return ret
@@ -88,7 +88,7 @@ func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) GetValue() string {
 // GetValueOk returns a tuple with the Value field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) GetValueOk() (*string, bool) {
+func (o *UserUpdateEventCustomFieldDetails) GetValueOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -96,7 +96,7 @@ func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) GetValueOk() (*stri
 }
 
 // HasValue returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) HasValue() bool {
+func (o *UserUpdateEventCustomFieldDetails) HasValue() bool {
 	if o != nil && o.Value.IsSet() {
 		return true
 	}
@@ -105,22 +105,22 @@ func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) HasValue() bool {
 }
 
 // SetValue gets a reference to the given NullableString and assigns it to the Value field.
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) SetValue(v string) {
+func (o *UserUpdateEventCustomFieldDetails) SetValue(v string) {
 	o.Value.Set(&v)
 }
 
 // SetValueNil sets the value for Value to be an explicit nil
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) SetValueNil() {
+func (o *UserUpdateEventCustomFieldDetails) SetValueNil() {
 	o.Value.Set(nil)
 }
 
 // UnsetValue ensures that no value is present for Value, not even an explicit nil
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) UnsetValue() {
+func (o *UserUpdateEventCustomFieldDetails) UnsetValue() {
 	o.Value.Unset()
 }
 
 // GetRenderedValue returns the RenderedValue field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) GetRenderedValue() string {
+func (o *UserUpdateEventCustomFieldDetails) GetRenderedValue() string {
 	if o == nil || IsNil(o.RenderedValue) {
 		var ret string
 		return ret
@@ -130,7 +130,7 @@ func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) GetRenderedValue() 
 
 // GetRenderedValueOk returns a tuple with the RenderedValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) GetRenderedValueOk() (*string, bool) {
+func (o *UserUpdateEventCustomFieldDetails) GetRenderedValueOk() (*string, bool) {
 	if o == nil || IsNil(o.RenderedValue) {
 		return nil, false
 	}
@@ -138,7 +138,7 @@ func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) GetRenderedValueOk(
 }
 
 // HasRenderedValue returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) HasRenderedValue() bool {
+func (o *UserUpdateEventCustomFieldDetails) HasRenderedValue() bool {
 	if o != nil && !IsNil(o.RenderedValue) {
 		return true
 	}
@@ -147,11 +147,11 @@ func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) HasRenderedValue() 
 }
 
 // SetRenderedValue gets a reference to the given string and assigns it to the RenderedValue field.
-func (o *RealmUserUpdateEventPersonOneOf6CustomProfileField) SetRenderedValue(v string) {
+func (o *UserUpdateEventCustomFieldDetails) SetRenderedValue(v string) {
 	o.RenderedValue = &v
 }
 
-func (o RealmUserUpdateEventPersonOneOf6CustomProfileField) MarshalJSON() ([]byte, error) {
+func (o UserUpdateEventCustomFieldDetails) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -159,7 +159,7 @@ func (o RealmUserUpdateEventPersonOneOf6CustomProfileField) MarshalJSON() ([]byt
 	return json.Marshal(toSerialize)
 }
 
-func (o RealmUserUpdateEventPersonOneOf6CustomProfileField) ToMap() (map[string]interface{}, error) {
+func (o UserUpdateEventCustomFieldDetails) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
@@ -173,38 +173,38 @@ func (o RealmUserUpdateEventPersonOneOf6CustomProfileField) ToMap() (map[string]
 	return toSerialize, nil
 }
 
-type NullableRealmUserUpdateEventPersonOneOf6CustomProfileField struct {
-	value *RealmUserUpdateEventPersonOneOf6CustomProfileField
+type NullableUserUpdateEventCustomFieldDetails struct {
+	value *UserUpdateEventCustomFieldDetails
 	isSet bool
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf6CustomProfileField) Get() *RealmUserUpdateEventPersonOneOf6CustomProfileField {
+func (v NullableUserUpdateEventCustomFieldDetails) Get() *UserUpdateEventCustomFieldDetails {
 	return v.value
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf6CustomProfileField) Set(val *RealmUserUpdateEventPersonOneOf6CustomProfileField) {
+func (v *NullableUserUpdateEventCustomFieldDetails) Set(val *UserUpdateEventCustomFieldDetails) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf6CustomProfileField) IsSet() bool {
+func (v NullableUserUpdateEventCustomFieldDetails) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf6CustomProfileField) Unset() {
+func (v *NullableUserUpdateEventCustomFieldDetails) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRealmUserUpdateEventPersonOneOf6CustomProfileField(val *RealmUserUpdateEventPersonOneOf6CustomProfileField) *NullableRealmUserUpdateEventPersonOneOf6CustomProfileField {
-	return &NullableRealmUserUpdateEventPersonOneOf6CustomProfileField{value: val, isSet: true}
+func NewNullableUserUpdateEventCustomFieldDetails(val *UserUpdateEventCustomFieldDetails) *NullableUserUpdateEventCustomFieldDetails {
+	return &NullableUserUpdateEventCustomFieldDetails{value: val, isSet: true}
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf6CustomProfileField) MarshalJSON() ([]byte, error) {
+func (v NullableUserUpdateEventCustomFieldDetails) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf6CustomProfileField) UnmarshalJSON(src []byte) error {
+func (v *NullableUserUpdateEventCustomFieldDetails) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

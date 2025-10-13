@@ -23,7 +23,7 @@ type RealmUserUpdateEvent struct {
 	Id     *int32                      `json:"id,omitempty"`
 	Type   *string                     `json:"type,omitempty"`
 	Op     *string                     `json:"op,omitempty"`
-	Person *RealmUserUpdateEventPerson `json:"person,omitempty"`
+	Person *UserUpdateEventEnvalop `json:"person,omitempty"`
 }
 
 // NewRealmUserUpdateEvent instantiates a new RealmUserUpdateEvent object
@@ -140,9 +140,9 @@ func (o *RealmUserUpdateEvent) SetOp(v string) {
 }
 
 // GetPerson returns the Person field value if set, zero value otherwise.
-func (o *RealmUserUpdateEvent) GetPerson() RealmUserUpdateEventPerson {
+func (o *RealmUserUpdateEvent) GetPerson() UserUpdateEventEnvalop {
 	if o == nil || IsNil(o.Person) {
-		var ret RealmUserUpdateEventPerson
+		var ret UserUpdateEventEnvalop
 		return ret
 	}
 	return *o.Person
@@ -150,7 +150,7 @@ func (o *RealmUserUpdateEvent) GetPerson() RealmUserUpdateEventPerson {
 
 // GetPersonOk returns a tuple with the Person field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEvent) GetPersonOk() (*RealmUserUpdateEventPerson, bool) {
+func (o *RealmUserUpdateEvent) GetPersonOk() (*UserUpdateEventEnvalop, bool) {
 	if o == nil || IsNil(o.Person) {
 		return nil, false
 	}
@@ -166,8 +166,8 @@ func (o *RealmUserUpdateEvent) HasPerson() bool {
 	return false
 }
 
-// SetPerson gets a reference to the given RealmUserUpdateEventPerson and assigns it to the Person field.
-func (o *RealmUserUpdateEvent) SetPerson(v RealmUserUpdateEventPerson) {
+// SetPerson gets a reference to the given UserUpdateEventEnvalop and assigns it to the Person field.
+func (o *RealmUserUpdateEvent) SetPerson(v UserUpdateEventEnvalop) {
 	o.Person = &v
 }
 

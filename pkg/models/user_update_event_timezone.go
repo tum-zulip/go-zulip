@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the RealmUserUpdateEventPersonOneOf2 type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RealmUserUpdateEventPersonOneOf2{}
+// checks if the UserUpdateEventTimezone type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UserUpdateEventTimezone{}
 
-// RealmUserUpdateEventPersonOneOf2 When a user changes their [profile time zone](/help/change-your-timezone).
-type RealmUserUpdateEventPersonOneOf2 struct {
+// UserUpdateEventTimezone When a user changes their [profile time zone](/help/change-your-timezone).
+type UserUpdateEventTimezone struct {
 	// The ID of modified user.
 	UserId *int32 `json:"user_id,omitempty"`
 	// The Zulip API email of the user.  **Deprecated**: This field will be removed in a future release as it is redundant with the `user_id`.
@@ -28,25 +28,25 @@ type RealmUserUpdateEventPersonOneOf2 struct {
 	Timezone *string `json:"timezone,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf2 instantiates a new RealmUserUpdateEventPersonOneOf2 object
+// NewRealmUserUpdateEventPersonOneOf2 instantiates a new UserUpdateEventTimezone object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf2() *RealmUserUpdateEventPersonOneOf2 {
-	this := RealmUserUpdateEventPersonOneOf2{}
+func NewRealmUserUpdateEventPersonOneOf2() *UserUpdateEventTimezone {
+	this := UserUpdateEventTimezone{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOf2WithDefaults instantiates a new RealmUserUpdateEventPersonOneOf2 object
+// NewRealmUserUpdateEventPersonOneOf2WithDefaults instantiates a new UserUpdateEventTimezone object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOf2WithDefaults() *RealmUserUpdateEventPersonOneOf2 {
-	this := RealmUserUpdateEventPersonOneOf2{}
+func NewRealmUserUpdateEventPersonOneOf2WithDefaults() *UserUpdateEventTimezone {
+	this := UserUpdateEventTimezone{}
 	return &this
 }
 
 // GetUserId returns the UserId field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf2) GetUserId() int32 {
+func (o *UserUpdateEventTimezone) GetUserId() int32 {
 	if o == nil || IsNil(o.UserId) {
 		var ret int32
 		return ret
@@ -56,7 +56,7 @@ func (o *RealmUserUpdateEventPersonOneOf2) GetUserId() int32 {
 
 // GetUserIdOk returns a tuple with the UserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf2) GetUserIdOk() (*int32, bool) {
+func (o *UserUpdateEventTimezone) GetUserIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.UserId) {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *RealmUserUpdateEventPersonOneOf2) GetUserIdOk() (*int32, bool) {
 }
 
 // HasUserId returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf2) HasUserId() bool {
+func (o *UserUpdateEventTimezone) HasUserId() bool {
 	if o != nil && !IsNil(o.UserId) {
 		return true
 	}
@@ -73,13 +73,13 @@ func (o *RealmUserUpdateEventPersonOneOf2) HasUserId() bool {
 }
 
 // SetUserId gets a reference to the given int32 and assigns it to the UserId field.
-func (o *RealmUserUpdateEventPersonOneOf2) SetUserId(v int32) {
+func (o *UserUpdateEventTimezone) SetUserId(v int32) {
 	o.UserId = &v
 }
 
 // GetEmail returns the Email field value if set, zero value otherwise.
 // Deprecated
-func (o *RealmUserUpdateEventPersonOneOf2) GetEmail() string {
+func (o *UserUpdateEventTimezone) GetEmail() string {
 	if o == nil || IsNil(o.Email) {
 		var ret string
 		return ret
@@ -90,7 +90,7 @@ func (o *RealmUserUpdateEventPersonOneOf2) GetEmail() string {
 // GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // Deprecated
-func (o *RealmUserUpdateEventPersonOneOf2) GetEmailOk() (*string, bool) {
+func (o *UserUpdateEventTimezone) GetEmailOk() (*string, bool) {
 	if o == nil || IsNil(o.Email) {
 		return nil, false
 	}
@@ -98,7 +98,7 @@ func (o *RealmUserUpdateEventPersonOneOf2) GetEmailOk() (*string, bool) {
 }
 
 // HasEmail returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf2) HasEmail() bool {
+func (o *UserUpdateEventTimezone) HasEmail() bool {
 	if o != nil && !IsNil(o.Email) {
 		return true
 	}
@@ -108,12 +108,12 @@ func (o *RealmUserUpdateEventPersonOneOf2) HasEmail() bool {
 
 // SetEmail gets a reference to the given string and assigns it to the Email field.
 // Deprecated
-func (o *RealmUserUpdateEventPersonOneOf2) SetEmail(v string) {
+func (o *UserUpdateEventTimezone) SetEmail(v string) {
 	o.Email = &v
 }
 
 // GetTimezone returns the Timezone field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf2) GetTimezone() string {
+func (o *UserUpdateEventTimezone) GetTimezone() string {
 	if o == nil || IsNil(o.Timezone) {
 		var ret string
 		return ret
@@ -123,7 +123,7 @@ func (o *RealmUserUpdateEventPersonOneOf2) GetTimezone() string {
 
 // GetTimezoneOk returns a tuple with the Timezone field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf2) GetTimezoneOk() (*string, bool) {
+func (o *UserUpdateEventTimezone) GetTimezoneOk() (*string, bool) {
 	if o == nil || IsNil(o.Timezone) {
 		return nil, false
 	}
@@ -131,7 +131,7 @@ func (o *RealmUserUpdateEventPersonOneOf2) GetTimezoneOk() (*string, bool) {
 }
 
 // HasTimezone returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf2) HasTimezone() bool {
+func (o *UserUpdateEventTimezone) HasTimezone() bool {
 	if o != nil && !IsNil(o.Timezone) {
 		return true
 	}
@@ -140,11 +140,11 @@ func (o *RealmUserUpdateEventPersonOneOf2) HasTimezone() bool {
 }
 
 // SetTimezone gets a reference to the given string and assigns it to the Timezone field.
-func (o *RealmUserUpdateEventPersonOneOf2) SetTimezone(v string) {
+func (o *UserUpdateEventTimezone) SetTimezone(v string) {
 	o.Timezone = &v
 }
 
-func (o RealmUserUpdateEventPersonOneOf2) MarshalJSON() ([]byte, error) {
+func (o UserUpdateEventTimezone) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -152,7 +152,7 @@ func (o RealmUserUpdateEventPersonOneOf2) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o RealmUserUpdateEventPersonOneOf2) ToMap() (map[string]interface{}, error) {
+func (o UserUpdateEventTimezone) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.UserId) {
 		toSerialize["user_id"] = o.UserId
@@ -166,38 +166,38 @@ func (o RealmUserUpdateEventPersonOneOf2) ToMap() (map[string]interface{}, error
 	return toSerialize, nil
 }
 
-type NullableRealmUserUpdateEventPersonOneOf2 struct {
-	value *RealmUserUpdateEventPersonOneOf2
+type NullableUserUpdateEventTimezone struct {
+	value *UserUpdateEventTimezone
 	isSet bool
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf2) Get() *RealmUserUpdateEventPersonOneOf2 {
+func (v NullableUserUpdateEventTimezone) Get() *UserUpdateEventTimezone {
 	return v.value
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf2) Set(val *RealmUserUpdateEventPersonOneOf2) {
+func (v *NullableUserUpdateEventTimezone) Set(val *UserUpdateEventTimezone) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf2) IsSet() bool {
+func (v NullableUserUpdateEventTimezone) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf2) Unset() {
+func (v *NullableUserUpdateEventTimezone) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRealmUserUpdateEventPersonOneOf2(val *RealmUserUpdateEventPersonOneOf2) *NullableRealmUserUpdateEventPersonOneOf2 {
-	return &NullableRealmUserUpdateEventPersonOneOf2{value: val, isSet: true}
+func NewNullableUserUpdateEventTimezone(val *UserUpdateEventTimezone) *NullableUserUpdateEventTimezone {
+	return &NullableUserUpdateEventTimezone{value: val, isSet: true}
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf2) MarshalJSON() ([]byte, error) {
+func (v NullableUserUpdateEventTimezone) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf2) UnmarshalJSON(src []byte) error {
+func (v *NullableUserUpdateEventTimezone) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

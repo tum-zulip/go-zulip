@@ -14,36 +14,36 @@ import (
 	"encoding/json"
 )
 
-// checks if the RealmUserUpdateEventPersonOneOf type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RealmUserUpdateEventPersonOneOf{}
+// checks if the UserUpdateEventFullName type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UserUpdateEventFullName{}
 
-// RealmUserUpdateEventPersonOneOf When a user changes their full name.
-type RealmUserUpdateEventPersonOneOf struct {
+// UserUpdateEventFullName When a user changes their full name.
+type UserUpdateEventFullName struct {
 	// The ID of modified user.
 	UserId *int32 `json:"user_id,omitempty"`
 	// The new full name for the user.
 	FullName *string `json:"full_name,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf instantiates a new RealmUserUpdateEventPersonOneOf object
+// NewRealmUserUpdateEventPersonOneOf instantiates a new UserUpdateEventFullName object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf() *RealmUserUpdateEventPersonOneOf {
-	this := RealmUserUpdateEventPersonOneOf{}
+func NewRealmUserUpdateEventPersonOneOf() *UserUpdateEventFullName {
+	this := UserUpdateEventFullName{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOfWithDefaults instantiates a new RealmUserUpdateEventPersonOneOf object
+// NewRealmUserUpdateEventPersonOneOfWithDefaults instantiates a new UserUpdateEventFullName object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOfWithDefaults() *RealmUserUpdateEventPersonOneOf {
-	this := RealmUserUpdateEventPersonOneOf{}
+func NewRealmUserUpdateEventPersonOneOfWithDefaults() *UserUpdateEventFullName {
+	this := UserUpdateEventFullName{}
 	return &this
 }
 
 // GetUserId returns the UserId field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf) GetUserId() int32 {
+func (o *UserUpdateEventFullName) GetUserId() int32 {
 	if o == nil || IsNil(o.UserId) {
 		var ret int32
 		return ret
@@ -53,7 +53,7 @@ func (o *RealmUserUpdateEventPersonOneOf) GetUserId() int32 {
 
 // GetUserIdOk returns a tuple with the UserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf) GetUserIdOk() (*int32, bool) {
+func (o *UserUpdateEventFullName) GetUserIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.UserId) {
 		return nil, false
 	}
@@ -61,7 +61,7 @@ func (o *RealmUserUpdateEventPersonOneOf) GetUserIdOk() (*int32, bool) {
 }
 
 // HasUserId returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf) HasUserId() bool {
+func (o *UserUpdateEventFullName) HasUserId() bool {
 	if o != nil && !IsNil(o.UserId) {
 		return true
 	}
@@ -70,12 +70,12 @@ func (o *RealmUserUpdateEventPersonOneOf) HasUserId() bool {
 }
 
 // SetUserId gets a reference to the given int32 and assigns it to the UserId field.
-func (o *RealmUserUpdateEventPersonOneOf) SetUserId(v int32) {
+func (o *UserUpdateEventFullName) SetUserId(v int32) {
 	o.UserId = &v
 }
 
 // GetFullName returns the FullName field value if set, zero value otherwise.
-func (o *RealmUserUpdateEventPersonOneOf) GetFullName() string {
+func (o *UserUpdateEventFullName) GetFullName() string {
 	if o == nil || IsNil(o.FullName) {
 		var ret string
 		return ret
@@ -85,7 +85,7 @@ func (o *RealmUserUpdateEventPersonOneOf) GetFullName() string {
 
 // GetFullNameOk returns a tuple with the FullName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEventPersonOneOf) GetFullNameOk() (*string, bool) {
+func (o *UserUpdateEventFullName) GetFullNameOk() (*string, bool) {
 	if o == nil || IsNil(o.FullName) {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *RealmUserUpdateEventPersonOneOf) GetFullNameOk() (*string, bool) {
 }
 
 // HasFullName returns a boolean if a field has been set.
-func (o *RealmUserUpdateEventPersonOneOf) HasFullName() bool {
+func (o *UserUpdateEventFullName) HasFullName() bool {
 	if o != nil && !IsNil(o.FullName) {
 		return true
 	}
@@ -102,11 +102,11 @@ func (o *RealmUserUpdateEventPersonOneOf) HasFullName() bool {
 }
 
 // SetFullName gets a reference to the given string and assigns it to the FullName field.
-func (o *RealmUserUpdateEventPersonOneOf) SetFullName(v string) {
+func (o *UserUpdateEventFullName) SetFullName(v string) {
 	o.FullName = &v
 }
 
-func (o RealmUserUpdateEventPersonOneOf) MarshalJSON() ([]byte, error) {
+func (o UserUpdateEventFullName) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -114,7 +114,7 @@ func (o RealmUserUpdateEventPersonOneOf) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o RealmUserUpdateEventPersonOneOf) ToMap() (map[string]interface{}, error) {
+func (o UserUpdateEventFullName) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.UserId) {
 		toSerialize["user_id"] = o.UserId
@@ -125,38 +125,38 @@ func (o RealmUserUpdateEventPersonOneOf) ToMap() (map[string]interface{}, error)
 	return toSerialize, nil
 }
 
-type NullableRealmUserUpdateEventPersonOneOf struct {
-	value *RealmUserUpdateEventPersonOneOf
+type NullableUserUpdateEventFullName struct {
+	value *UserUpdateEventFullName
 	isSet bool
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf) Get() *RealmUserUpdateEventPersonOneOf {
+func (v NullableUserUpdateEventFullName) Get() *UserUpdateEventFullName {
 	return v.value
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf) Set(val *RealmUserUpdateEventPersonOneOf) {
+func (v *NullableUserUpdateEventFullName) Set(val *UserUpdateEventFullName) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf) IsSet() bool {
+func (v NullableUserUpdateEventFullName) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf) Unset() {
+func (v *NullableUserUpdateEventFullName) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRealmUserUpdateEventPersonOneOf(val *RealmUserUpdateEventPersonOneOf) *NullableRealmUserUpdateEventPersonOneOf {
-	return &NullableRealmUserUpdateEventPersonOneOf{value: val, isSet: true}
+func NewNullableUserUpdateEventFullName(val *UserUpdateEventFullName) *NullableUserUpdateEventFullName {
+	return &NullableUserUpdateEventFullName{value: val, isSet: true}
 }
 
-func (v NullableRealmUserUpdateEventPersonOneOf) MarshalJSON() ([]byte, error) {
+func (v NullableUserUpdateEventFullName) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRealmUserUpdateEventPersonOneOf) UnmarshalJSON(src []byte) error {
+func (v *NullableUserUpdateEventFullName) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
