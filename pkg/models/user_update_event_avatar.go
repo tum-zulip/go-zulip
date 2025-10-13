@@ -31,19 +31,19 @@ type UserUpdateEventAvatar struct {
 	AvatarVersion *int32 `json:"avatar_version,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf1 instantiates a new UserUpdateEventAvatar object
+// NewUserUpdateEventAvatar instantiates a new UserUpdateEventAvatar object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf1() *UserUpdateEventAvatar {
+func NewUserUpdateEventAvatar() *UserUpdateEventAvatar {
 	this := UserUpdateEventAvatar{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOf1WithDefaults instantiates a new UserUpdateEventAvatar object
+// NewUserUpdateEventAvatarWithDefaults instantiates a new UserUpdateEventAvatar object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOf1WithDefaults() *UserUpdateEventAvatar {
+func NewUserUpdateEventAvatarWithDefaults() *UserUpdateEventAvatar {
 	this := UserUpdateEventAvatar{}
 	return &this
 }

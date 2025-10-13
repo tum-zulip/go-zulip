@@ -20,23 +20,23 @@ var _ MappedNullable = &UserUpdateEventCustomField{}
 // UserUpdateEventCustomField When the user updates one of their custom profile fields.
 type UserUpdateEventCustomField struct {
 	// The ID of the user affected by this change.
-	UserId             *int32                                              `json:"user_id,omitempty"`
+	UserId             *int32                             `json:"user_id,omitempty"`
 	CustomProfileField *UserUpdateEventCustomFieldDetails `json:"custom_profile_field,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf6 instantiates a new UserUpdateEventCustomField object
+// NewUserUpdateEventCustomField instantiates a new UserUpdateEventCustomField object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf6() *UserUpdateEventCustomField {
+func NewUserUpdateEventCustomField() *UserUpdateEventCustomField {
 	this := UserUpdateEventCustomField{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOf6WithDefaults instantiates a new UserUpdateEventCustomField object
+// NewUserUpdateEventCustomFieldWithDefaults instantiates a new UserUpdateEventCustomField object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOf6WithDefaults() *UserUpdateEventCustomField {
+func NewUserUpdateEventCustomFieldWithDefaults() *UserUpdateEventCustomField {
 	this := UserUpdateEventCustomField{}
 	return &this
 }

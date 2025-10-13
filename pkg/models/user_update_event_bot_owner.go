@@ -25,19 +25,19 @@ type UserUpdateEventBotOwner struct {
 	BotOwnerId *int32 `json:"bot_owner_id,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf3 instantiates a new UserUpdateEventBotOwner object
+// NewUserUpdateEventBotOwner instantiates a new UserUpdateEventBotOwner object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf3() *UserUpdateEventBotOwner {
+func NewUserUpdateEventBotOwner() *UserUpdateEventBotOwner {
 	this := UserUpdateEventBotOwner{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOf3WithDefaults instantiates a new UserUpdateEventBotOwner object
+// NewUserUpdateEventBotOwnerWithDefaults instantiates a new UserUpdateEventBotOwner object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOf3WithDefaults() *UserUpdateEventBotOwner {
+func NewUserUpdateEventBotOwnerWithDefaults() *UserUpdateEventBotOwner {
 	this := UserUpdateEventBotOwner{}
 	return &this
 }

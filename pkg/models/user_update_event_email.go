@@ -25,19 +25,19 @@ type UserUpdateEventEmail struct {
 	NewEmail *string `json:"new_email,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf7 instantiates a new UserUpdateEventEmail object
+// NewUserUpdateEventEmail instantiates a new UserUpdateEventEmail object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf7() *UserUpdateEventEmail {
+func NewUserUpdateEventEmail() *UserUpdateEventEmail {
 	this := UserUpdateEventEmail{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOf7WithDefaults instantiates a new UserUpdateEventEmail object
+// NewUserUpdateEventEmailWithDefaults instantiates a new UserUpdateEventEmail object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOf7WithDefaults() *UserUpdateEventEmail {
+func NewUserUpdateEventEmailWithDefaults() *UserUpdateEventEmail {
 	this := UserUpdateEventEmail{}
 	return &this
 }

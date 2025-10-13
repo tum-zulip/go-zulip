@@ -25,19 +25,19 @@ type UserUpdateEventActivation struct {
 	IsActive *bool `json:"is_active,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf8 instantiates a new UserUpdateEventActivation object
+// NewUserUpdateEventActivation instantiates a new UserUpdateEventActivation object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf8() *UserUpdateEventActivation {
+func NewUserUpdateEventActivation() *UserUpdateEventActivation {
 	this := UserUpdateEventActivation{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOf8WithDefaults instantiates a new UserUpdateEventActivation object
+// NewUserUpdateEventActivationWithDefaults instantiates a new UserUpdateEventActivation object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOf8WithDefaults() *UserUpdateEventActivation {
+func NewUserUpdateEventActivationWithDefaults() *UserUpdateEventActivation {
 	this := UserUpdateEventActivation{}
 	return &this
 }

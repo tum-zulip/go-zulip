@@ -28,19 +28,19 @@ type UserUpdateEventTimezone struct {
 	Timezone *string `json:"timezone,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf2 instantiates a new UserUpdateEventTimezone object
+// NewUserUpdateEventTimezone instantiates a new UserUpdateEventTimezone object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf2() *UserUpdateEventTimezone {
+func NewUserUpdateEventTimezone() *UserUpdateEventTimezone {
 	this := UserUpdateEventTimezone{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOf2WithDefaults instantiates a new UserUpdateEventTimezone object
+// NewUserUpdateEventTimezoneWithDefaults instantiates a new UserUpdateEventTimezone object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOf2WithDefaults() *UserUpdateEventTimezone {
+func NewUserUpdateEventTimezoneWithDefaults() *UserUpdateEventTimezone {
 	this := UserUpdateEventTimezone{}
 	return &this
 }

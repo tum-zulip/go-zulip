@@ -25,19 +25,19 @@ type UserUpdateEventFullName struct {
 	FullName *string `json:"full_name,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf instantiates a new UserUpdateEventFullName object
+// NewUserUpdateEventFullName instantiates a new UserUpdateEventFullName object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf() *UserUpdateEventFullName {
+func NewUserUpdateEventFullName() *UserUpdateEventFullName {
 	this := UserUpdateEventFullName{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOfWithDefaults instantiates a new UserUpdateEventFullName object
+// NewUserUpdateEventFullNameWithDefaults instantiates a new UserUpdateEventFullName object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOfWithDefaults() *UserUpdateEventFullName {
+func NewUserUpdateEventFullNameWithDefaults() *UserUpdateEventFullName {
 	this := UserUpdateEventFullName{}
 	return &this
 }

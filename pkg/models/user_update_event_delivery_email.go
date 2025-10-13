@@ -25,19 +25,19 @@ type UserUpdateEventDeliveryEmail struct {
 	DeliveryEmail NullableString `json:"delivery_email,omitempty"`
 }
 
-// NewRealmUserUpdateEventPersonOneOf5 instantiates a new UserUpdateEventDeliveryEmail object
+// NewUserUpdateEventDeliveryEmail instantiates a new UserUpdateEventDeliveryEmail object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEventPersonOneOf5() *UserUpdateEventDeliveryEmail {
+func NewUserUpdateEventDeliveryEmail() *UserUpdateEventDeliveryEmail {
 	this := UserUpdateEventDeliveryEmail{}
 	return &this
 }
 
-// NewRealmUserUpdateEventPersonOneOf5WithDefaults instantiates a new UserUpdateEventDeliveryEmail object
+// NewUserUpdateEventDeliveryEmailWithDefaults instantiates a new UserUpdateEventDeliveryEmail object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEventPersonOneOf5WithDefaults() *UserUpdateEventDeliveryEmail {
+func NewUserUpdateEventDeliveryEmailWithDefaults() *UserUpdateEventDeliveryEmail {
 	this := UserUpdateEventDeliveryEmail{}
 	return &this
 }
