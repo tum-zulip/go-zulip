@@ -92,7 +92,7 @@ type RegisterQueue200Response struct {
 	// Present if `muted_users` is present in `fetch_event_types`.  A list of dictionaries where each dictionary describes a [muted user](/api/mute-user).  **Changes**: New in Zulip 4.0 (feature level 48).
 	MutedUsers []UserSettingsUpdateEvent3MutedUsersInner `json:"muted_users,omitempty"`
 	// Present if `presence` is present in `fetch_event_types`.  A dictionary where each entry describes the presence details of a user in the Zulip organization.  The format of the entry (modern or legacy) depends on the value of [`slim_presence`](#parameter-slim_presence).  Users who have been offline for multiple weeks may not appear in this object.
-	Presences *map[string]RegisterQueue200ResponseAllOfPresencesValue `json:"presences,omitempty"`
+	Presences *map[string]RegisterQueuePresenceValue `json:"presences,omitempty"`
 	// Present if `presence` is present in `fetch_event_types`.  Provides the `last_update_id` value of the latest presence data fetched by the server and included in the response in `presences`. This can be used as the value of the `presence_last_update_id` parameter when polling for presence data at the [/users/me/presence](/api/update-presence) endpoint to tell the server to only fetch the relevant newer data in order to skip redundant already-known presence information.  **Changes**: New in Zulip 9.0 (feature level 263).
 	PresenceLastUpdateId *int32 `json:"presence_last_update_id,omitempty"`
 	// Present if `presence` is present in `fetch_event_types`.  The time when the server fetched the `presences` data included in the response. Matches the similar field in presence responses.  **Changes**: New in Zulip 5.0 (feature level 70).
@@ -105,7 +105,7 @@ type RegisterQueue200Response struct {
 	RealmLinkifiers []RegisterQueue200ResponseAllOfRealmLinkifiersInner `json:"realm_linkifiers,omitempty"`
 	// Legacy property for [linkifiers](/help/add-a-custom-linkifier). Present if `realm_filters` is present in `fetch_event_types`.  When present, this is always an empty array.  **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `\"#(?P<id>[123])\"`. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be `\"https://realm.com/my_realm_filter/%(id)s\"`. And the third element was the ID of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the `realm_linkifiers` key.
 	// Deprecated
-	RealmFilters [][]SubscriptionAddEvent1RealmFiltersInnerInner `json:"realm_filters,omitempty"`
+	RealmFilters [][]RealmFilterTuple `json:"realm_filters,omitempty"`
 	// Present if `realm_playgrounds` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a [code playground](/help/code-blocks#code-playgrounds) configured for this Zulip organization.  **Changes**: New in Zulip 4.0 (feature level 49).
 	RealmPlaygrounds []RealmPlayground `json:"realm_playgrounds,omitempty"`
 	// Present if `realm_user_groups` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a [user group](/help/user-groups) in the Zulip organization.  Deactivated groups will only be included if `include_deactivated_groups` client capability is set to `true`.  **Changes**: Prior to Zulip 10.0 (feature level 294), deactivated groups were included for all the clients.
@@ -418,7 +418,7 @@ type RegisterQueue200Response struct {
 	// Present if `realm` is present in `fetch_event_types`.  The URL for the organization.  **Changes**: New in Zulip 9.0 (feature level 257), replacing the deprecated `realm_uri`.
 	RealmUrl *string `json:"realm_url,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  Dictionary where each entry describes a supported [video call provider](/help/configure-call-provider) that is configured on this server and could be selected by an organization administrator.  Useful for administrative settings UI that allows changing the realm setting `video_chat_provider`.
-	RealmAvailableVideoChatProviders *map[string]RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue `json:"realm_available_video_chat_providers,omitempty"`
+	RealmAvailableVideoChatProviders *map[string]VideoChatProviderInfo `json:"realm_available_video_chat_providers,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  Whether online presence of other users is shown in this organization.
 	RealmPresenceDisabled *bool `json:"realm_presence_disabled,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  Whether this Zulip server is configured to allow organizations to enable [digest emails](/help/digest-emails).  Relevant for administrative settings UI that can change the digest email settings.
@@ -1728,9 +1728,9 @@ func (o *RegisterQueue200Response) SetMutedUsers(v []UserSettingsUpdateEvent3Mut
 }
 
 // GetPresences returns the Presences field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetPresences() map[string]RegisterQueue200ResponseAllOfPresencesValue {
+func (o *RegisterQueue200Response) GetPresences() map[string]RegisterQueuePresenceValue {
 	if o == nil || IsNil(o.Presences) {
-		var ret map[string]RegisterQueue200ResponseAllOfPresencesValue
+		var ret map[string]RegisterQueuePresenceValue
 		return ret
 	}
 	return *o.Presences
@@ -1738,7 +1738,7 @@ func (o *RegisterQueue200Response) GetPresences() map[string]RegisterQueue200Res
 
 // GetPresencesOk returns a tuple with the Presences field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetPresencesOk() (*map[string]RegisterQueue200ResponseAllOfPresencesValue, bool) {
+func (o *RegisterQueue200Response) GetPresencesOk() (*map[string]RegisterQueuePresenceValue, bool) {
 	if o == nil || IsNil(o.Presences) {
 		return nil, false
 	}
@@ -1754,8 +1754,8 @@ func (o *RegisterQueue200Response) HasPresences() bool {
 	return false
 }
 
-// SetPresences gets a reference to the given map[string]RegisterQueue200ResponseAllOfPresencesValue and assigns it to the Presences field.
-func (o *RegisterQueue200Response) SetPresences(v map[string]RegisterQueue200ResponseAllOfPresencesValue) {
+// SetPresences gets a reference to the given map[string]RegisterQueuePresenceValue and assigns it to the Presences field.
+func (o *RegisterQueue200Response) SetPresences(v map[string]RegisterQueuePresenceValue) {
 	o.Presences = &v
 }
 
@@ -1921,9 +1921,9 @@ func (o *RegisterQueue200Response) SetRealmLinkifiers(v []RegisterQueue200Respon
 
 // GetRealmFilters returns the RealmFilters field value if set, zero value otherwise.
 // Deprecated
-func (o *RegisterQueue200Response) GetRealmFilters() [][]SubscriptionAddEvent1RealmFiltersInnerInner {
+func (o *RegisterQueue200Response) GetRealmFilters() [][]RealmFilterTuple {
 	if o == nil || IsNil(o.RealmFilters) {
-		var ret [][]SubscriptionAddEvent1RealmFiltersInnerInner
+		var ret [][]RealmFilterTuple
 		return ret
 	}
 	return o.RealmFilters
@@ -1932,7 +1932,7 @@ func (o *RegisterQueue200Response) GetRealmFilters() [][]SubscriptionAddEvent1Re
 // GetRealmFiltersOk returns a tuple with the RealmFilters field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // Deprecated
-func (o *RegisterQueue200Response) GetRealmFiltersOk() ([][]SubscriptionAddEvent1RealmFiltersInnerInner, bool) {
+func (o *RegisterQueue200Response) GetRealmFiltersOk() ([][]RealmFilterTuple, bool) {
 	if o == nil || IsNil(o.RealmFilters) {
 		return nil, false
 	}
@@ -1948,9 +1948,9 @@ func (o *RegisterQueue200Response) HasRealmFilters() bool {
 	return false
 }
 
-// SetRealmFilters gets a reference to the given [][]SubscriptionAddEvent1RealmFiltersInnerInner and assigns it to the RealmFilters field.
+// SetRealmFilters gets a reference to the given [][]RealmFilterTuple and assigns it to the RealmFilters field.
 // Deprecated
-func (o *RegisterQueue200Response) SetRealmFilters(v [][]SubscriptionAddEvent1RealmFiltersInnerInner) {
+func (o *RegisterQueue200Response) SetRealmFilters(v [][]RealmFilterTuple) {
 	o.RealmFilters = v
 }
 
@@ -6459,9 +6459,9 @@ func (o *RegisterQueue200Response) SetRealmUrl(v string) {
 }
 
 // GetRealmAvailableVideoChatProviders returns the RealmAvailableVideoChatProviders field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetRealmAvailableVideoChatProviders() map[string]RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue {
+func (o *RegisterQueue200Response) GetRealmAvailableVideoChatProviders() map[string]VideoChatProviderInfo {
 	if o == nil || IsNil(o.RealmAvailableVideoChatProviders) {
-		var ret map[string]RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue
+		var ret map[string]VideoChatProviderInfo
 		return ret
 	}
 	return *o.RealmAvailableVideoChatProviders
@@ -6469,7 +6469,7 @@ func (o *RegisterQueue200Response) GetRealmAvailableVideoChatProviders() map[str
 
 // GetRealmAvailableVideoChatProvidersOk returns a tuple with the RealmAvailableVideoChatProviders field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetRealmAvailableVideoChatProvidersOk() (*map[string]RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue, bool) {
+func (o *RegisterQueue200Response) GetRealmAvailableVideoChatProvidersOk() (*map[string]VideoChatProviderInfo, bool) {
 	if o == nil || IsNil(o.RealmAvailableVideoChatProviders) {
 		return nil, false
 	}
@@ -6485,8 +6485,8 @@ func (o *RegisterQueue200Response) HasRealmAvailableVideoChatProviders() bool {
 	return false
 }
 
-// SetRealmAvailableVideoChatProviders gets a reference to the given map[string]RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue and assigns it to the RealmAvailableVideoChatProviders field.
-func (o *RegisterQueue200Response) SetRealmAvailableVideoChatProviders(v map[string]RegisterQueue200ResponseAllOfRealmAvailableVideoChatProvidersValue) {
+// SetRealmAvailableVideoChatProviders gets a reference to the given map[string]VideoChatProviderInfo and assigns it to the RealmAvailableVideoChatProviders field.
+func (o *RegisterQueue200Response) SetRealmAvailableVideoChatProviders(v map[string]VideoChatProviderInfo) {
 	o.RealmAvailableVideoChatProviders = &v
 }
 

@@ -30,7 +30,7 @@ type UpdatePresence200Response struct {
 	// Only present if `ping_only` is `false`.  The time when the server fetched the `presences` data included in the response.
 	ServerTimestamp *float32 `json:"server_timestamp,omitempty"`
 	// Only present if `ping_only` is `false`.  A dictionary where each entry describes the presence details of a user in the Zulip organization. Entries can be in either the modern presence format or the legacy presence format.  These entries will be the modern presence format when the `last_updated_id` parameter is passed, or when the deprecated `slim_presence` parameter is `true`.  If the deprecated `slim_presence` parameter is `false` and the `last_updated_id` parameter is omitted, the entries will be in the legacy presence API format.  **Note**: The legacy presence format should only be used when interacting with old servers. It will be removed as soon as doing so is practical.
-	Presences map[string]UpdatePresence200ResponseAllOfPresencesValue `json:"presences,omitempty"`
+	Presences map[string]PresenceUpdateValue `json:"presences,omitempty"`
 	// Legacy property for a part of the Zephyr mirroring system.  **Deprecated**. Clients should ignore this field.
 	// Deprecated
 	ZephyrMirrorActive *bool `json:"zephyr_mirror_active,omitempty"`
@@ -202,9 +202,9 @@ func (o *UpdatePresence200Response) SetServerTimestamp(v float32) {
 }
 
 // GetPresences returns the Presences field value if set, zero value otherwise.
-func (o *UpdatePresence200Response) GetPresences() map[string]UpdatePresence200ResponseAllOfPresencesValue {
+func (o *UpdatePresence200Response) GetPresences() map[string]PresenceUpdateValue {
 	if o == nil || IsNil(o.Presences) {
-		var ret map[string]UpdatePresence200ResponseAllOfPresencesValue
+		var ret map[string]PresenceUpdateValue
 		return ret
 	}
 	return o.Presences
@@ -212,9 +212,9 @@ func (o *UpdatePresence200Response) GetPresences() map[string]UpdatePresence200R
 
 // GetPresencesOk returns a tuple with the Presences field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdatePresence200Response) GetPresencesOk() (map[string]UpdatePresence200ResponseAllOfPresencesValue, bool) {
+func (o *UpdatePresence200Response) GetPresencesOk() (map[string]PresenceUpdateValue, bool) {
 	if o == nil || IsNil(o.Presences) {
-		return map[string]UpdatePresence200ResponseAllOfPresencesValue{}, false
+		return map[string]PresenceUpdateValue{}, false
 	}
 	return o.Presences, true
 }
@@ -228,8 +228,8 @@ func (o *UpdatePresence200Response) HasPresences() bool {
 	return false
 }
 
-// SetPresences gets a reference to the given map[string]UpdatePresence200ResponseAllOfPresencesValue and assigns it to the Presences field.
-func (o *UpdatePresence200Response) SetPresences(v map[string]UpdatePresence200ResponseAllOfPresencesValue) {
+// SetPresences gets a reference to the given map[string]PresenceUpdateValue and assigns it to the Presences field.
+func (o *UpdatePresence200Response) SetPresences(v map[string]PresenceUpdateValue) {
 	o.Presences = v
 }
 

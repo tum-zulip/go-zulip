@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner{}
+// checks if the ExternalAuthMethod type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ExternalAuthMethod{}
 
-// GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner struct for GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner
-type GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner struct {
+// ExternalAuthMethod struct for ExternalAuthMethod
+type ExternalAuthMethod struct {
 	// A unique, table, machine-readable name for the authentication method, intended to be used by clients with special behavior for specific authentication methods to correctly identify the method.
 	Name *string `json:"name,omitempty"`
 	// Display name of the authentication method, to be used in all buttons for the authentication method.
@@ -31,25 +31,25 @@ type GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner struct 
 	SignupUrl *string `json:"signup_url,omitempty"`
 }
 
-// NewGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner instantiates a new GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner object
+// NewExternalAuthMethod instantiates a new ExternalAuthMethod object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner() *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner {
-	this := GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner{}
+func NewExternalAuthMethod() *ExternalAuthMethod {
+	this := ExternalAuthMethod{}
 	return &this
 }
 
-// NewGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInnerWithDefaults instantiates a new GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner object
+// NewExternalAuthMethodWithDefaults instantiates a new ExternalAuthMethod object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInnerWithDefaults() *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner {
-	this := GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner{}
+func NewExternalAuthMethodWithDefaults() *ExternalAuthMethod {
+	this := ExternalAuthMethod{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) GetName() string {
+func (o *ExternalAuthMethod) GetName() string {
 	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
@@ -59,7 +59,7 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ge
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) GetNameOk() (*string, bool) {
+func (o *ExternalAuthMethod) GetNameOk() (*string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ge
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) HasName() bool {
+func (o *ExternalAuthMethod) HasName() bool {
 	if o != nil && !IsNil(o.Name) {
 		return true
 	}
@@ -76,12 +76,12 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ha
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) SetName(v string) {
+func (o *ExternalAuthMethod) SetName(v string) {
 	o.Name = &v
 }
 
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) GetDisplayName() string {
+func (o *ExternalAuthMethod) GetDisplayName() string {
 	if o == nil || IsNil(o.DisplayName) {
 		var ret string
 		return ret
@@ -91,7 +91,7 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ge
 
 // GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) GetDisplayNameOk() (*string, bool) {
+func (o *ExternalAuthMethod) GetDisplayNameOk() (*string, bool) {
 	if o == nil || IsNil(o.DisplayName) {
 		return nil, false
 	}
@@ -99,7 +99,7 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ge
 }
 
 // HasDisplayName returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) HasDisplayName() bool {
+func (o *ExternalAuthMethod) HasDisplayName() bool {
 	if o != nil && !IsNil(o.DisplayName) {
 		return true
 	}
@@ -108,12 +108,12 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ha
 }
 
 // SetDisplayName gets a reference to the given string and assigns it to the DisplayName field.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) SetDisplayName(v string) {
+func (o *ExternalAuthMethod) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
 
 // GetDisplayIcon returns the DisplayIcon field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) GetDisplayIcon() string {
+func (o *ExternalAuthMethod) GetDisplayIcon() string {
 	if o == nil || IsNil(o.DisplayIcon.Get()) {
 		var ret string
 		return ret
@@ -124,7 +124,7 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ge
 // GetDisplayIconOk returns a tuple with the DisplayIcon field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) GetDisplayIconOk() (*string, bool) {
+func (o *ExternalAuthMethod) GetDisplayIconOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -132,7 +132,7 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ge
 }
 
 // HasDisplayIcon returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) HasDisplayIcon() bool {
+func (o *ExternalAuthMethod) HasDisplayIcon() bool {
 	if o != nil && o.DisplayIcon.IsSet() {
 		return true
 	}
@@ -141,22 +141,22 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ha
 }
 
 // SetDisplayIcon gets a reference to the given NullableString and assigns it to the DisplayIcon field.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) SetDisplayIcon(v string) {
+func (o *ExternalAuthMethod) SetDisplayIcon(v string) {
 	o.DisplayIcon.Set(&v)
 }
 
 // SetDisplayIconNil sets the value for DisplayIcon to be an explicit nil
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) SetDisplayIconNil() {
+func (o *ExternalAuthMethod) SetDisplayIconNil() {
 	o.DisplayIcon.Set(nil)
 }
 
 // UnsetDisplayIcon ensures that no value is present for DisplayIcon, not even an explicit nil
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) UnsetDisplayIcon() {
+func (o *ExternalAuthMethod) UnsetDisplayIcon() {
 	o.DisplayIcon.Unset()
 }
 
 // GetLoginUrl returns the LoginUrl field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) GetLoginUrl() string {
+func (o *ExternalAuthMethod) GetLoginUrl() string {
 	if o == nil || IsNil(o.LoginUrl) {
 		var ret string
 		return ret
@@ -166,7 +166,7 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ge
 
 // GetLoginUrlOk returns a tuple with the LoginUrl field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) GetLoginUrlOk() (*string, bool) {
+func (o *ExternalAuthMethod) GetLoginUrlOk() (*string, bool) {
 	if o == nil || IsNil(o.LoginUrl) {
 		return nil, false
 	}
@@ -174,7 +174,7 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ge
 }
 
 // HasLoginUrl returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) HasLoginUrl() bool {
+func (o *ExternalAuthMethod) HasLoginUrl() bool {
 	if o != nil && !IsNil(o.LoginUrl) {
 		return true
 	}
@@ -183,12 +183,12 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ha
 }
 
 // SetLoginUrl gets a reference to the given string and assigns it to the LoginUrl field.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) SetLoginUrl(v string) {
+func (o *ExternalAuthMethod) SetLoginUrl(v string) {
 	o.LoginUrl = &v
 }
 
 // GetSignupUrl returns the SignupUrl field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) GetSignupUrl() string {
+func (o *ExternalAuthMethod) GetSignupUrl() string {
 	if o == nil || IsNil(o.SignupUrl) {
 		var ret string
 		return ret
@@ -198,7 +198,7 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ge
 
 // GetSignupUrlOk returns a tuple with the SignupUrl field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) GetSignupUrlOk() (*string, bool) {
+func (o *ExternalAuthMethod) GetSignupUrlOk() (*string, bool) {
 	if o == nil || IsNil(o.SignupUrl) {
 		return nil, false
 	}
@@ -206,7 +206,7 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ge
 }
 
 // HasSignupUrl returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) HasSignupUrl() bool {
+func (o *ExternalAuthMethod) HasSignupUrl() bool {
 	if o != nil && !IsNil(o.SignupUrl) {
 		return true
 	}
@@ -215,11 +215,11 @@ func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Ha
 }
 
 // SetSignupUrl gets a reference to the given string and assigns it to the SignupUrl field.
-func (o *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) SetSignupUrl(v string) {
+func (o *ExternalAuthMethod) SetSignupUrl(v string) {
 	o.SignupUrl = &v
 }
 
-func (o GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) MarshalJSON() ([]byte, error) {
+func (o ExternalAuthMethod) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -227,7 +227,7 @@ func (o GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Mar
 	return json.Marshal(toSerialize)
 }
 
-func (o GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) ToMap() (map[string]interface{}, error) {
+func (o ExternalAuthMethod) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
@@ -247,38 +247,38 @@ func (o GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) ToM
 	return toSerialize, nil
 }
 
-type NullableGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner struct {
-	value *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner
+type NullableExternalAuthMethod struct {
+	value *ExternalAuthMethod
 	isSet bool
 }
 
-func (v NullableGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Get() *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner {
+func (v NullableExternalAuthMethod) Get() *ExternalAuthMethod {
 	return v.value
 }
 
-func (v *NullableGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Set(val *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) {
+func (v *NullableExternalAuthMethod) Set(val *ExternalAuthMethod) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) IsSet() bool {
+func (v NullableExternalAuthMethod) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) Unset() {
+func (v *NullableExternalAuthMethod) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner(val *GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) *NullableGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner {
-	return &NullableGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner{value: val, isSet: true}
+func NewNullableExternalAuthMethod(val *ExternalAuthMethod) *NullableExternalAuthMethod {
+	return &NullableExternalAuthMethod{value: val, isSet: true}
 }
 
-func (v NullableGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) MarshalJSON() ([]byte, error) {
+func (v NullableExternalAuthMethod) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableGetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) UnmarshalJSON(src []byte) error {
+func (v *NullableExternalAuthMethod) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

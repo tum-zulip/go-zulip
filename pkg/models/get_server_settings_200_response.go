@@ -28,7 +28,7 @@ type GetServerSettings200Response struct {
 	// Deprecated
 	AuthenticationMethods *GetServerSettings200ResponseAllOfAuthenticationMethods `json:"authentication_methods,omitempty"`
 	// A list of dictionaries describing the available external authentication methods (E.g. Google, GitHub, or SAML) enabled for this organization.  The list is sorted in the order in which these authentication methods should be displayed.  **Changes**: New in Zulip 2.1.0.
-	ExternalAuthenticationMethods []GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner `json:"external_authentication_methods,omitempty"`
+	ExternalAuthenticationMethods []ExternalAuthMethod `json:"external_authentication_methods,omitempty"`
 	// An integer indicating what features are available on the server. The feature level increases monotonically; a value of N means the server supports all API features introduced before feature level N. This is designed to provide a simple way for client apps to decide whether the server supports a given feature or API change. See the [changelog](/api/changelog) for details on what each feature level means.  **Changes**: New in Zulip 3.0 (feature level 1). We recommend using an implied value of 0 for Zulip servers that do not send this field.
 	ZulipFeatureLevel *int32 `json:"zulip_feature_level,omitempty"`
 	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git][git-release], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.  [git-release]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
@@ -195,9 +195,9 @@ func (o *GetServerSettings200Response) SetAuthenticationMethods(v GetServerSetti
 }
 
 // GetExternalAuthenticationMethods returns the ExternalAuthenticationMethods field value if set, zero value otherwise.
-func (o *GetServerSettings200Response) GetExternalAuthenticationMethods() []GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner {
+func (o *GetServerSettings200Response) GetExternalAuthenticationMethods() []ExternalAuthMethod {
 	if o == nil || IsNil(o.ExternalAuthenticationMethods) {
-		var ret []GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner
+		var ret []ExternalAuthMethod
 		return ret
 	}
 	return o.ExternalAuthenticationMethods
@@ -205,7 +205,7 @@ func (o *GetServerSettings200Response) GetExternalAuthenticationMethods() []GetS
 
 // GetExternalAuthenticationMethodsOk returns a tuple with the ExternalAuthenticationMethods field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200Response) GetExternalAuthenticationMethodsOk() ([]GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner, bool) {
+func (o *GetServerSettings200Response) GetExternalAuthenticationMethodsOk() ([]ExternalAuthMethod, bool) {
 	if o == nil || IsNil(o.ExternalAuthenticationMethods) {
 		return nil, false
 	}
@@ -221,8 +221,8 @@ func (o *GetServerSettings200Response) HasExternalAuthenticationMethods() bool {
 	return false
 }
 
-// SetExternalAuthenticationMethods gets a reference to the given []GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner and assigns it to the ExternalAuthenticationMethods field.
-func (o *GetServerSettings200Response) SetExternalAuthenticationMethods(v []GetServerSettings200ResponseAllOfExternalAuthenticationMethodsInner) {
+// SetExternalAuthenticationMethods gets a reference to the given []ExternalAuthMethod and assigns it to the ExternalAuthenticationMethods field.
+func (o *GetServerSettings200Response) SetExternalAuthenticationMethods(v []ExternalAuthMethod) {
 	o.ExternalAuthenticationMethods = v
 }
 

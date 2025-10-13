@@ -23,7 +23,7 @@ type RealmFiltersEvent struct {
 	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
 	// An array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `\"#(?P<id>[123])\"`. The second element was the URL format string that the pattern should be linkified with. A URL format string for the above example would be `\"https://realm.com/my_realm_filter/%(id)s\"`. And the third element was the ID of the realm filter.
-	RealmFilters [][]SubscriptionAddEvent1RealmFiltersInnerInner `json:"realm_filters,omitempty"`
+	RealmFilters [][]RealmFilterTuple `json:"realm_filters,omitempty"`
 }
 
 // NewSubscriptionAddEvent1 instantiates a new RealmFiltersEvent object
@@ -108,9 +108,9 @@ func (o *RealmFiltersEvent) SetType(v string) {
 }
 
 // GetRealmFilters returns the RealmFilters field value if set, zero value otherwise.
-func (o *RealmFiltersEvent) GetRealmFilters() [][]SubscriptionAddEvent1RealmFiltersInnerInner {
+func (o *RealmFiltersEvent) GetRealmFilters() [][]RealmFilterTuple {
 	if o == nil || IsNil(o.RealmFilters) {
-		var ret [][]SubscriptionAddEvent1RealmFiltersInnerInner
+		var ret [][]RealmFilterTuple
 		return ret
 	}
 	return o.RealmFilters
@@ -118,7 +118,7 @@ func (o *RealmFiltersEvent) GetRealmFilters() [][]SubscriptionAddEvent1RealmFilt
 
 // GetRealmFiltersOk returns a tuple with the RealmFilters field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmFiltersEvent) GetRealmFiltersOk() ([][]SubscriptionAddEvent1RealmFiltersInnerInner, bool) {
+func (o *RealmFiltersEvent) GetRealmFiltersOk() ([][]RealmFilterTuple, bool) {
 	if o == nil || IsNil(o.RealmFilters) {
 		return nil, false
 	}
@@ -134,8 +134,8 @@ func (o *RealmFiltersEvent) HasRealmFilters() bool {
 	return false
 }
 
-// SetRealmFilters gets a reference to the given [][]SubscriptionAddEvent1RealmFiltersInnerInner and assigns it to the RealmFilters field.
-func (o *RealmFiltersEvent) SetRealmFilters(v [][]SubscriptionAddEvent1RealmFiltersInnerInner) {
+// SetRealmFilters gets a reference to the given [][]RealmFilterTuple and assigns it to the RealmFilters field.
+func (o *RealmFiltersEvent) SetRealmFilters(v [][]RealmFilterTuple) {
 	o.RealmFilters = v
 }
 

@@ -3121,7 +3121,7 @@ type ApiUpdateMessageFlagsForNarrowRequest struct {
 	anchor        *string
 	numBefore     *int32
 	numAfter      *int32
-	narrow        *[]models.UpdateMessageFlagsForNarrowRequestNarrowInner
+	narrow        *[]models.UpdateFlagsNarrowClause
 	op            *string
 	flag          *string
 	includeAnchor *bool
@@ -3146,7 +3146,7 @@ func (r ApiUpdateMessageFlagsForNarrowRequest) NumAfter(numAfter int32) ApiUpdat
 }
 
 // The narrow you want update flags within. See how to [construct a narrow](/api/construct-narrow).  Note that, when adding the &#x60;read&#x60; flag to messages, clients should consider including a narrow with the &#x60;is:unread&#x60; filter as an optimization. Including that filter takes advantage of the fact that the server has a database index for unread messages.  **Changes**: See [changes section](/api/construct-narrow#changes) of search/narrow filter documentation.
-func (r ApiUpdateMessageFlagsForNarrowRequest) Narrow(narrow []models.UpdateMessageFlagsForNarrowRequestNarrowInner) ApiUpdateMessageFlagsForNarrowRequest {
+func (r ApiUpdateMessageFlagsForNarrowRequest) Narrow(narrow []models.UpdateFlagsNarrowClause) ApiUpdateMessageFlagsForNarrowRequest {
 	r.narrow = &narrow
 	return r
 }
