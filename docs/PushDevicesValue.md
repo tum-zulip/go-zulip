@@ -1,4 +1,4 @@
-# RegisterQueueResponsePushDevicesEntry
+# PushDevicesValue
 
 ## Properties
 

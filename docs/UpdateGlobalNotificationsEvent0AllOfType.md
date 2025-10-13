@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf20AllOfType
+# UpdateGlobalNotificationsEvent0AllOfType
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf67Data
+# SubscriptionRemoveEvent7Data
 
 ## Properties
 

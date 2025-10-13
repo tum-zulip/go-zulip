@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf39Recipient
+# UserSettingsUpdateEvent9Recipient
 
 ## Properties
 

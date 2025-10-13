@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf23Attachment
+# UpdateGlobalNotificationsEvent3Attachment
 
 ## Properties
 

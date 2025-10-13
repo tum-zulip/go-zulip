@@ -1,4 +1,4 @@
-# RegisterQueueResponseRealmEmbeddedBotsItem
+# RealmEmbeddedBots
 
 ## Properties
 

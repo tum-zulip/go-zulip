@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf73Data
+# SubscriptionUpdateEvent3Data
 
 ## Properties
 

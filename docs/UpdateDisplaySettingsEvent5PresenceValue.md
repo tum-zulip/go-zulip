@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf15PresenceValue
+# UpdateDisplaySettingsEvent5PresenceValue
 
 ## Properties
 

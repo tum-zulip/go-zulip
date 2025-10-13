@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf36TopicLinksInner
+# UserSettingsUpdateEvent6TopicLinksInner
 
 ## Properties
 

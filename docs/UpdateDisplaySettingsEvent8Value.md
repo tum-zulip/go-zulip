@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf18Value
+# UpdateDisplaySettingsEvent8Value
 
 ## Properties
 

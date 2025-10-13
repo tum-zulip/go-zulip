@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf50RealmLinkifiersInner
+# SubscriptionAddEvent0RealmLinkifiersInner
 
 ## Properties
 

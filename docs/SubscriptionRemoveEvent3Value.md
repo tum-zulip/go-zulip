@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf63Value
+# SubscriptionRemoveEvent3Value
 
 ## Properties
 

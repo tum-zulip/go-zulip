@@ -1,4 +1,4 @@
-# RegisterQueueResponseRealmLinkifiersItem
+# RealmLinkifiers
 
 ## Properties
 

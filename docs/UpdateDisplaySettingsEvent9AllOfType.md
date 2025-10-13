@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf19AllOfType
+# UpdateDisplaySettingsEvent9AllOfType
 
 ## Properties
 

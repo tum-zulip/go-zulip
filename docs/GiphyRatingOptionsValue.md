@@ -1,4 +1,4 @@
-# RegisterQueueResponseGiphyRatingOptionsEntry
+# GiphyRatingOptionsValue
 
 ## Properties
 

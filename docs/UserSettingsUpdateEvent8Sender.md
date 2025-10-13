@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf38Sender
+# UserSettingsUpdateEvent8Sender
 
 ## Properties
 

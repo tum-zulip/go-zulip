@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf17StreamsInner
+# UpdateDisplaySettingsEvent7StreamsInner
 
 ## Properties
 

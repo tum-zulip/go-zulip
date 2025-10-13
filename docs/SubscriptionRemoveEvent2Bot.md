@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf62Bot
+# SubscriptionRemoveEvent2Bot
 
 ## Properties
 

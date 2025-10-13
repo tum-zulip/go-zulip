@@ -1,4 +1,4 @@
-# RegisterQueueResponseNeverSubscribedItem
+# NeverSubscribed
 
 ## Properties
 

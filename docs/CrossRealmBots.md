@@ -1,4 +1,4 @@
-# RegisterQueueResponseCrossRealmBotsItem
+# CrossRealmBots
 
 ## Properties
 

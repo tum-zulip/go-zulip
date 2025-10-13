@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf14Person
+# UpdateDisplaySettingsEvent4Person
 
 ## Properties
 

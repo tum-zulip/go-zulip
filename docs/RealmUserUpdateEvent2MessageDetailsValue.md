@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf42MessageDetailsValue
+# RealmUserUpdateEvent2MessageDetailsValue
 
 ## Properties
 

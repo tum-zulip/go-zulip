@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf55RealmDomain
+# SubscriptionAddEvent5RealmDomain
 
 ## Properties
 

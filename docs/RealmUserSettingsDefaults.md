@@ -1,4 +1,4 @@
-# RegisterQueueResponseRealmUserSettingsDefaults
+# RealmUserSettingsDefaults
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# RegisterQueueResponseRealmDefaultExternalAccountsEntry
+# RealmDefaultExternalAccounts
 
 ## Properties
 

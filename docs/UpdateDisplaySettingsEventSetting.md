@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf1Setting
+# UpdateDisplaySettingsEventSetting
 
 ## Properties
 

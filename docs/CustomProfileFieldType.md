@@ -1,4 +1,4 @@
-# RegisterQueueResponseCustomProfileFieldTypesEntry
+# CustomProfileFieldType
 
 ## Properties
 

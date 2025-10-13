@@ -1,4 +1,4 @@
-# RegisterQueueResponseRealmIncomingWebhookBotsItem
+# RealmIncomingWebhookBot
 
 ## Properties
 

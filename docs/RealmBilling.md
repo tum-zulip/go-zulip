@@ -1,4 +1,4 @@
-# RegisterQueueResponseRealmBilling
+# RealmBilling
 
 ## Properties
 

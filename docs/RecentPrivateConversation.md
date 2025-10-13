@@ -1,4 +1,4 @@
-# RegisterQueueResponseRecentPrivateConversationsItem
+# RecentPrivateConversation
 
 ## Properties
 

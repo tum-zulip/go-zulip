@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf37Sender
+# UserSettingsUpdateEvent7Sender
 
 ## Properties
 

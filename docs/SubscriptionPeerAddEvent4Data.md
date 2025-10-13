@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf84Data
+# SubscriptionPeerAddEvent4Data
 
 ## Properties
 

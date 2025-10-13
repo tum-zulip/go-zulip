@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf33MutedUsersInner
+# UserSettingsUpdateEvent3MutedUsersInner
 
 ## Properties
 

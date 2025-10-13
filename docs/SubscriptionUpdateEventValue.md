@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf7Value
+# SubscriptionUpdateEventValue
 
 ## Properties
 

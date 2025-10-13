@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf6SubscriptionsInner
+# SubscriptionRemoveEventSubscriptionsInner
 
 ## Properties
 

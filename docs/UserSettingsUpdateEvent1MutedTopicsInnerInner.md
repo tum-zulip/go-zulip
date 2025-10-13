@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf31MutedTopicsInnerInner
+# UserSettingsUpdateEvent1MutedTopicsInnerInner
 
 ## Properties
 
