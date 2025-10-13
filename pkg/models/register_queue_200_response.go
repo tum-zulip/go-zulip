@@ -40,7 +40,7 @@ type RegisterQueue200Response struct {
 	// Present if `custom_profile_fields` is present in `fetch_event_types`.  An array of dictionaries where each dictionary contains the details of a single custom profile field that is available to users in this Zulip organization. This must be combined with the custom profile field values on individual user objects to display users' profiles.
 	CustomProfileFields []CustomProfileField `json:"custom_profile_fields,omitempty"`
 	// Present if `custom_profile_fields` is present in `fetch_event_types`.  An array of objects; each object describes a type of custom profile field that could be configured on this Zulip server. Each custom profile type has an ID and the `type` property of a custom profile field is equal to one of these IDs.  This attribute is only useful for clients containing UI for changing the set of configured custom profile fields in a Zulip organization.
-	CustomProfileFieldTypes *map[string]RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue `json:"custom_profile_field_types,omitempty"`
+	CustomProfileFieldTypes *map[string]CustomProfileFieldType `json:"custom_profile_field_types,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  The UNIX timestamp (UTC) for when the organization was created.  **Changes**: New in Zulip 8.0 (feature level 203).
 	RealmDateCreated *int32 `json:"realm_date_created,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`, and the realm is a demo organization.  The UNIX timestamp (UTC) when the demo organization will be automatically deleted. Clients should use this to display a prominent warning to the user that the organization will be deleted at the indicated time.  **Changes**: New in Zulip 5.0 (feature level 94).
@@ -115,9 +115,9 @@ type RegisterQueue200Response struct {
 	// Present if `realm_embedded_bots` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes an type of embedded bot that is available to be configured on this Zulip server.  Clients only need these data if they contain UI for creating or administering bots.
 	RealmEmbeddedBots []RegisterQueue200ResponseAllOfRealmEmbeddedBotsInner `json:"realm_embedded_bots,omitempty"`
 	// Present if `realm_incoming_webhook_bots` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a type of incoming webhook integration that is available to be configured on this Zulip server.  Clients only need these data if they contain UI for creating or administering bots.
-	RealmIncomingWebhookBots []RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner `json:"realm_incoming_webhook_bots,omitempty"`
+	RealmIncomingWebhookBots []RealmIncomingWebhookBot `json:"realm_incoming_webhook_bots,omitempty"`
 	// Present if `recent_private_conversations` is present in `fetch_event_types`.  An array of dictionaries containing data on all direct message and group direct message conversations that the user has received (or sent) messages in, organized by conversation. This data set is designed to support UI elements such as the \"Direct messages\" widget in the web application showing recent direct message conversations that the user has participated in.  \"Recent\" is defined as the server's discretion; the original implementation interpreted that as \"the 1000 most recent direct messages the user received\".
-	RecentPrivateConversations []RegisterQueue200ResponseAllOfRecentPrivateConversationsInner `json:"recent_private_conversations,omitempty"`
+	RecentPrivateConversations []RecentPrivateConversation `json:"recent_private_conversations,omitempty"`
 	// Present if `navigation_views` is present in `fetch_event_types`. An array of dictionaries containing data on all of the current user's navigation views.  **Changes**: New in Zulip 11.0 (feature level 390).
 	NavigationViews []NavigationView `json:"navigation_views,omitempty"`
 	// Present if `saved_snippets` is present in `fetch_event_types`.  An array of dictionaries containing data on all of the current user's saved snippets.  **Changes**: New in Zulip 10.0 (feature level 297).
@@ -261,7 +261,7 @@ type RegisterQueue200Response struct {
 	EnterSends *bool `json:"enter_sends,omitempty"`
 	// Present if `update_display_settings` is present in `fetch_event_types` and only for clients that did not include `user_settings_object` in their [`client_capabilities`][capabilities] when registering the event queue.  Array of dictionaries where each dictionary describes an emoji set supported by this version of the Zulip server.  Only relevant to clients with configuration UI for choosing an emoji set; the currently selected emoji set is available in the `emojiset` key.  See [PATCH /settings](/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: /api/register-queue#parameter-client_capabilities
 	// Deprecated
-	EmojisetChoices []RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner `json:"emojiset_choices,omitempty"`
+	EmojisetChoices []UserSettingsEmojisetChoice `json:"emojiset_choices,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  What typesof message edit history are accessible to users via [message edit history](/help/view-a-messages-edit-history).  - \"all\" = All edit history is visible. - \"moves\" = Only moves are visible. - \"none\" = No edit history is visible.  **Changes**: New in Zulip 10.0 (feature level 358), replacing the previous `allow_edit_history` boolean setting; `true` corresponds to `all`, and `false` to `none`.
 	RealmMessageEditHistoryVisibilityPolicy *string `json:"realm_message_edit_history_visibility_policy,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  Whether this organization is configured to allow users to access [message edit history](/help/view-a-messages-edit-history).  The value of `realm_allow_edit_history` is set as `false` if the `realm_message_edit_history_visibility_policy` is configured as \"None\" and `true` if it is configured as \"Moves only\" or \"All\".  **Changes**: Deprecated in Zulip 10.0 (feature level 358) and will be removed in the future, as it is an inaccurate version `realm_message_edit_history_visibility_policy`, which replaces this field.
@@ -452,7 +452,7 @@ type RegisterQueue200Response struct {
 	// Present if `realm` is present in `fetch_event_types`.  Text to use when displaying UI for wide organization logos, a feature that is currently not available on the Zulip Cloud Free plan.  Useful only for clients supporting administrative UI for uploading a new wide organization logo to brand the organization.
 	UpgradeTextForWideOrganizationLogo *string `json:"upgrade_text_for_wide_organization_logo,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  Dictionary where each entry describes a default external account type that can be configured with Zulip's [custom profile fields feature](/help/custom-profile-fields).  **Changes**: New in Zulip 2.1.0.
-	RealmDefaultExternalAccounts *map[string]RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue `json:"realm_default_external_accounts,omitempty"`
+	RealmDefaultExternalAccounts *map[string]RealmDefaultExternalAccounts `json:"realm_default_external_accounts,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  The base URL to be used to create Jitsi video calls. Equals `realm_jitsi_server_url || server_jitsi_server_url`.  **Changes**: Deprecated in Zulip 8.0 (feature level 212) and will eventually be removed. Previously, the Jitsi server to use was not configurable on a per-realm basis, and this field contained the server's configured Jitsi server. (Which is now provided as `server_jitsi_server_url`). Clients supporting older versions should fall back to this field when creating calls: using `realm_jitsi_server_url || server_jitsi_server_url` with newer servers and using `jitsi_server_url` with servers below feature level 212.
 	// Deprecated
 	JitsiServerUrl *string `json:"jitsi_server_url,omitempty"`
@@ -477,7 +477,7 @@ type RegisterQueue200Response struct {
 	// Present if `realm` is present in `fetch_event_types`.  Whether the server is configured with support for inline URL previews. Clients containing administrative UI for changing `realm_inline_url_embed_preview` should consult this field before offering that feature.
 	ServerInlineUrlEmbedPreview *bool `json:"server_inline_url_embed_preview,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  A list describing the image formats that uploaded images will be thumbnailed into. Any image with a source starting with `/user_uploads/thumbnail/` can have its last path component replaced with any of the names contained in this list, to obtain the desired thumbnail size.  **Changes**: New in Zulip 9.0 (feature level 273).
-	ServerThumbnailFormats []RegisterQueue200ResponseAllOfServerThumbnailFormatsInner `json:"server_thumbnail_formats,omitempty"`
+	ServerThumbnailFormats []ServerThumbnailFormat `json:"server_thumbnail_formats,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  Whether the server allows avatar changes. Similar to `realm_avatar_changes_disabled` but based on the `AVATAR_CHANGES_DISABLED` Zulip server level setting.
 	ServerAvatarChangesDisabled *bool `json:"server_avatar_changes_disabled,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  Whether the server allows name changes. Similar to `realm_name_changes_disabled` but based on the `NAME_CHANGES_DISABLED` Zulip server level setting.
@@ -546,8 +546,8 @@ type RegisterQueue200Response struct {
 	// Present if `realm_user` is present in `fetch_event_types`.  The full name of the current user.
 	FullName *string `json:"full_name,omitempty"`
 	// Present if `realm_user` is present in `fetch_event_types`.  Array of dictionaries where each dictionary contains details of a single cross realm bot. Cross-realm bots are special system bot accounts like Notification Bot.  Most clients will want to combine this with `realm_users` in many contexts.
-	CrossRealmBots                    []RegisterQueue200ResponseAllOfCrossRealmBotsInner              `json:"cross_realm_bots,omitempty"`
-	ServerSupportedPermissionSettings *RegisterQueue200ResponseAllOfServerSupportedPermissionSettings `json:"server_supported_permission_settings,omitempty"`
+	CrossRealmBots                    []RegisterQueue200ResponseAllOfCrossRealmBotsInner `json:"cross_realm_bots,omitempty"`
+	ServerSupportedPermissionSettings *ServerSupportedPermissionSettings                 `json:"server_supported_permission_settings,omitempty"`
 	// Maximum number of new subscribers for which the server will respect the `send_new_subscription_messages` parameter when [adding subscribers to a channel](/api/subscribe#parameter-send_new_subscription_messages).  **Changes**: New in Zulip 11.0 (feature level 397).
 	MaxBulkNewSubscriptionMessages *float32 `json:"max_bulk_new_subscription_messages,omitempty"`
 }
@@ -889,9 +889,9 @@ func (o *RegisterQueue200Response) SetCustomProfileFields(v []CustomProfileField
 }
 
 // GetCustomProfileFieldTypes returns the CustomProfileFieldTypes field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetCustomProfileFieldTypes() map[string]RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue {
+func (o *RegisterQueue200Response) GetCustomProfileFieldTypes() map[string]CustomProfileFieldType {
 	if o == nil || IsNil(o.CustomProfileFieldTypes) {
-		var ret map[string]RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue
+		var ret map[string]CustomProfileFieldType
 		return ret
 	}
 	return *o.CustomProfileFieldTypes
@@ -899,7 +899,7 @@ func (o *RegisterQueue200Response) GetCustomProfileFieldTypes() map[string]Regis
 
 // GetCustomProfileFieldTypesOk returns a tuple with the CustomProfileFieldTypes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetCustomProfileFieldTypesOk() (*map[string]RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue, bool) {
+func (o *RegisterQueue200Response) GetCustomProfileFieldTypesOk() (*map[string]CustomProfileFieldType, bool) {
 	if o == nil || IsNil(o.CustomProfileFieldTypes) {
 		return nil, false
 	}
@@ -915,8 +915,8 @@ func (o *RegisterQueue200Response) HasCustomProfileFieldTypes() bool {
 	return false
 }
 
-// SetCustomProfileFieldTypes gets a reference to the given map[string]RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue and assigns it to the CustomProfileFieldTypes field.
-func (o *RegisterQueue200Response) SetCustomProfileFieldTypes(v map[string]RegisterQueue200ResponseAllOfCustomProfileFieldTypesValue) {
+// SetCustomProfileFieldTypes gets a reference to the given map[string]CustomProfileFieldType and assigns it to the CustomProfileFieldTypes field.
+func (o *RegisterQueue200Response) SetCustomProfileFieldTypes(v map[string]CustomProfileFieldType) {
 	o.CustomProfileFieldTypes = &v
 }
 
@@ -2083,9 +2083,9 @@ func (o *RegisterQueue200Response) SetRealmEmbeddedBots(v []RegisterQueue200Resp
 }
 
 // GetRealmIncomingWebhookBots returns the RealmIncomingWebhookBots field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetRealmIncomingWebhookBots() []RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner {
+func (o *RegisterQueue200Response) GetRealmIncomingWebhookBots() []RealmIncomingWebhookBot {
 	if o == nil || IsNil(o.RealmIncomingWebhookBots) {
-		var ret []RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner
+		var ret []RealmIncomingWebhookBot
 		return ret
 	}
 	return o.RealmIncomingWebhookBots
@@ -2093,7 +2093,7 @@ func (o *RegisterQueue200Response) GetRealmIncomingWebhookBots() []RegisterQueue
 
 // GetRealmIncomingWebhookBotsOk returns a tuple with the RealmIncomingWebhookBots field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetRealmIncomingWebhookBotsOk() ([]RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner, bool) {
+func (o *RegisterQueue200Response) GetRealmIncomingWebhookBotsOk() ([]RealmIncomingWebhookBot, bool) {
 	if o == nil || IsNil(o.RealmIncomingWebhookBots) {
 		return nil, false
 	}
@@ -2109,15 +2109,15 @@ func (o *RegisterQueue200Response) HasRealmIncomingWebhookBots() bool {
 	return false
 }
 
-// SetRealmIncomingWebhookBots gets a reference to the given []RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner and assigns it to the RealmIncomingWebhookBots field.
-func (o *RegisterQueue200Response) SetRealmIncomingWebhookBots(v []RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) {
+// SetRealmIncomingWebhookBots gets a reference to the given []RealmIncomingWebhookBot and assigns it to the RealmIncomingWebhookBots field.
+func (o *RegisterQueue200Response) SetRealmIncomingWebhookBots(v []RealmIncomingWebhookBot) {
 	o.RealmIncomingWebhookBots = v
 }
 
 // GetRecentPrivateConversations returns the RecentPrivateConversations field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetRecentPrivateConversations() []RegisterQueue200ResponseAllOfRecentPrivateConversationsInner {
+func (o *RegisterQueue200Response) GetRecentPrivateConversations() []RecentPrivateConversation {
 	if o == nil || IsNil(o.RecentPrivateConversations) {
-		var ret []RegisterQueue200ResponseAllOfRecentPrivateConversationsInner
+		var ret []RecentPrivateConversation
 		return ret
 	}
 	return o.RecentPrivateConversations
@@ -2125,7 +2125,7 @@ func (o *RegisterQueue200Response) GetRecentPrivateConversations() []RegisterQue
 
 // GetRecentPrivateConversationsOk returns a tuple with the RecentPrivateConversations field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetRecentPrivateConversationsOk() ([]RegisterQueue200ResponseAllOfRecentPrivateConversationsInner, bool) {
+func (o *RegisterQueue200Response) GetRecentPrivateConversationsOk() ([]RecentPrivateConversation, bool) {
 	if o == nil || IsNil(o.RecentPrivateConversations) {
 		return nil, false
 	}
@@ -2141,8 +2141,8 @@ func (o *RegisterQueue200Response) HasRecentPrivateConversations() bool {
 	return false
 }
 
-// SetRecentPrivateConversations gets a reference to the given []RegisterQueue200ResponseAllOfRecentPrivateConversationsInner and assigns it to the RecentPrivateConversations field.
-func (o *RegisterQueue200Response) SetRecentPrivateConversations(v []RegisterQueue200ResponseAllOfRecentPrivateConversationsInner) {
+// SetRecentPrivateConversations gets a reference to the given []RecentPrivateConversation and assigns it to the RecentPrivateConversations field.
+func (o *RegisterQueue200Response) SetRecentPrivateConversations(v []RecentPrivateConversation) {
 	o.RecentPrivateConversations = v
 }
 
@@ -3981,9 +3981,9 @@ func (o *RegisterQueue200Response) SetEnterSends(v bool) {
 
 // GetEmojisetChoices returns the EmojisetChoices field value if set, zero value otherwise.
 // Deprecated
-func (o *RegisterQueue200Response) GetEmojisetChoices() []RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner {
+func (o *RegisterQueue200Response) GetEmojisetChoices() []UserSettingsEmojisetChoice {
 	if o == nil || IsNil(o.EmojisetChoices) {
-		var ret []RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner
+		var ret []UserSettingsEmojisetChoice
 		return ret
 	}
 	return o.EmojisetChoices
@@ -3992,7 +3992,7 @@ func (o *RegisterQueue200Response) GetEmojisetChoices() []RegisterQueue200Respon
 // GetEmojisetChoicesOk returns a tuple with the EmojisetChoices field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // Deprecated
-func (o *RegisterQueue200Response) GetEmojisetChoicesOk() ([]RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner, bool) {
+func (o *RegisterQueue200Response) GetEmojisetChoicesOk() ([]UserSettingsEmojisetChoice, bool) {
 	if o == nil || IsNil(o.EmojisetChoices) {
 		return nil, false
 	}
@@ -4008,9 +4008,9 @@ func (o *RegisterQueue200Response) HasEmojisetChoices() bool {
 	return false
 }
 
-// SetEmojisetChoices gets a reference to the given []RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner and assigns it to the EmojisetChoices field.
+// SetEmojisetChoices gets a reference to the given []UserSettingsEmojisetChoice and assigns it to the EmojisetChoices field.
 // Deprecated
-func (o *RegisterQueue200Response) SetEmojisetChoices(v []RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner) {
+func (o *RegisterQueue200Response) SetEmojisetChoices(v []UserSettingsEmojisetChoice) {
 	o.EmojisetChoices = v
 }
 
@@ -7025,9 +7025,9 @@ func (o *RegisterQueue200Response) SetUpgradeTextForWideOrganizationLogo(v strin
 }
 
 // GetRealmDefaultExternalAccounts returns the RealmDefaultExternalAccounts field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetRealmDefaultExternalAccounts() map[string]RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue {
+func (o *RegisterQueue200Response) GetRealmDefaultExternalAccounts() map[string]RealmDefaultExternalAccounts {
 	if o == nil || IsNil(o.RealmDefaultExternalAccounts) {
-		var ret map[string]RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue
+		var ret map[string]RealmDefaultExternalAccounts
 		return ret
 	}
 	return *o.RealmDefaultExternalAccounts
@@ -7035,7 +7035,7 @@ func (o *RegisterQueue200Response) GetRealmDefaultExternalAccounts() map[string]
 
 // GetRealmDefaultExternalAccountsOk returns a tuple with the RealmDefaultExternalAccounts field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetRealmDefaultExternalAccountsOk() (*map[string]RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue, bool) {
+func (o *RegisterQueue200Response) GetRealmDefaultExternalAccountsOk() (*map[string]RealmDefaultExternalAccounts, bool) {
 	if o == nil || IsNil(o.RealmDefaultExternalAccounts) {
 		return nil, false
 	}
@@ -7051,8 +7051,8 @@ func (o *RegisterQueue200Response) HasRealmDefaultExternalAccounts() bool {
 	return false
 }
 
-// SetRealmDefaultExternalAccounts gets a reference to the given map[string]RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue and assigns it to the RealmDefaultExternalAccounts field.
-func (o *RegisterQueue200Response) SetRealmDefaultExternalAccounts(v map[string]RegisterQueue200ResponseAllOfRealmDefaultExternalAccountsValue) {
+// SetRealmDefaultExternalAccounts gets a reference to the given map[string]RealmDefaultExternalAccounts and assigns it to the RealmDefaultExternalAccounts field.
+func (o *RegisterQueue200Response) SetRealmDefaultExternalAccounts(v map[string]RealmDefaultExternalAccounts) {
 	o.RealmDefaultExternalAccounts = &v
 }
 
@@ -7412,9 +7412,9 @@ func (o *RegisterQueue200Response) SetServerInlineUrlEmbedPreview(v bool) {
 }
 
 // GetServerThumbnailFormats returns the ServerThumbnailFormats field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetServerThumbnailFormats() []RegisterQueue200ResponseAllOfServerThumbnailFormatsInner {
+func (o *RegisterQueue200Response) GetServerThumbnailFormats() []ServerThumbnailFormat {
 	if o == nil || IsNil(o.ServerThumbnailFormats) {
-		var ret []RegisterQueue200ResponseAllOfServerThumbnailFormatsInner
+		var ret []ServerThumbnailFormat
 		return ret
 	}
 	return o.ServerThumbnailFormats
@@ -7422,7 +7422,7 @@ func (o *RegisterQueue200Response) GetServerThumbnailFormats() []RegisterQueue20
 
 // GetServerThumbnailFormatsOk returns a tuple with the ServerThumbnailFormats field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetServerThumbnailFormatsOk() ([]RegisterQueue200ResponseAllOfServerThumbnailFormatsInner, bool) {
+func (o *RegisterQueue200Response) GetServerThumbnailFormatsOk() ([]ServerThumbnailFormat, bool) {
 	if o == nil || IsNil(o.ServerThumbnailFormats) {
 		return nil, false
 	}
@@ -7438,8 +7438,8 @@ func (o *RegisterQueue200Response) HasServerThumbnailFormats() bool {
 	return false
 }
 
-// SetServerThumbnailFormats gets a reference to the given []RegisterQueue200ResponseAllOfServerThumbnailFormatsInner and assigns it to the ServerThumbnailFormats field.
-func (o *RegisterQueue200Response) SetServerThumbnailFormats(v []RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) {
+// SetServerThumbnailFormats gets a reference to the given []ServerThumbnailFormat and assigns it to the ServerThumbnailFormats field.
+func (o *RegisterQueue200Response) SetServerThumbnailFormats(v []ServerThumbnailFormat) {
 	o.ServerThumbnailFormats = v
 }
 
@@ -8578,9 +8578,9 @@ func (o *RegisterQueue200Response) SetCrossRealmBots(v []RegisterQueue200Respons
 }
 
 // GetServerSupportedPermissionSettings returns the ServerSupportedPermissionSettings field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetServerSupportedPermissionSettings() RegisterQueue200ResponseAllOfServerSupportedPermissionSettings {
+func (o *RegisterQueue200Response) GetServerSupportedPermissionSettings() ServerSupportedPermissionSettings {
 	if o == nil || IsNil(o.ServerSupportedPermissionSettings) {
-		var ret RegisterQueue200ResponseAllOfServerSupportedPermissionSettings
+		var ret ServerSupportedPermissionSettings
 		return ret
 	}
 	return *o.ServerSupportedPermissionSettings
@@ -8588,7 +8588,7 @@ func (o *RegisterQueue200Response) GetServerSupportedPermissionSettings() Regist
 
 // GetServerSupportedPermissionSettingsOk returns a tuple with the ServerSupportedPermissionSettings field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetServerSupportedPermissionSettingsOk() (*RegisterQueue200ResponseAllOfServerSupportedPermissionSettings, bool) {
+func (o *RegisterQueue200Response) GetServerSupportedPermissionSettingsOk() (*ServerSupportedPermissionSettings, bool) {
 	if o == nil || IsNil(o.ServerSupportedPermissionSettings) {
 		return nil, false
 	}
@@ -8604,8 +8604,8 @@ func (o *RegisterQueue200Response) HasServerSupportedPermissionSettings() bool {
 	return false
 }
 
-// SetServerSupportedPermissionSettings gets a reference to the given RegisterQueue200ResponseAllOfServerSupportedPermissionSettings and assigns it to the ServerSupportedPermissionSettings field.
-func (o *RegisterQueue200Response) SetServerSupportedPermissionSettings(v RegisterQueue200ResponseAllOfServerSupportedPermissionSettings) {
+// SetServerSupportedPermissionSettings gets a reference to the given ServerSupportedPermissionSettings and assigns it to the ServerSupportedPermissionSettings field.
+func (o *RegisterQueue200Response) SetServerSupportedPermissionSettings(v ServerSupportedPermissionSettings) {
 	o.ServerSupportedPermissionSettings = &v
 }
 

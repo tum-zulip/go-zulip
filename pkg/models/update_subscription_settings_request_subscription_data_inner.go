@@ -24,8 +24,8 @@ type UpdateSubscriptionSettingsRequestSubscriptionDataInner struct {
 	// The unique ID of a channel.
 	StreamId int32 `json:"stream_id"`
 	// One of the channel properties described below:  - `\"color\"`: The hex value of the user's display color for the channel.  - `\"is_muted\"`: Whether the channel is [muted](/help/mute-a-channel).<br>   **Changes**: As of Zulip 6.0 (feature level 139), updating either   `\"is_muted\"` or `\"in_home_view\"` generates two [subscription update   events](/api/get-events#subscription-update), one for each property,   that are sent to clients. Prior to this feature level, updating either   property only generated a subscription update event for   `\"in_home_view\"`. <br>   Prior to Zulip 2.1.0, this feature was represented   by the more confusingly named `\"in_home_view\"` (with the   opposite value: `in_home_view=!is_muted`); for   backwards-compatibility, modern Zulip still accepts that property.  - `\"pin_to_top\"`: Whether to pin the channel at the top of the channel list.  - `\"desktop_notifications\"`: Whether to show desktop notifications   for all messages sent to the channel.  - `\"audible_notifications\"`: Whether to play a sound   notification for all messages sent to the channel.  - `\"push_notifications\"`: Whether to trigger a mobile push   notification for all messages sent to the channel.  - `\"email_notifications\"`: Whether to trigger an email   notification for all messages sent to the channel.  - `\"wildcard_mentions_notify\"`: Whether wildcard mentions trigger   notifications as though they were personal mentions in this channel.
-	Property string                                                      `json:"property"`
-	Value    UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue `json:"value"`
+	Property string                `json:"property"`
+	Value    SubscriptionDataValue `json:"value"`
 }
 
 type _UpdateSubscriptionSettingsRequestSubscriptionDataInner UpdateSubscriptionSettingsRequestSubscriptionDataInner
@@ -34,7 +34,7 @@ type _UpdateSubscriptionSettingsRequestSubscriptionDataInner UpdateSubscriptionS
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUpdateSubscriptionSettingsRequestSubscriptionDataInner(streamId int32, property string, value UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue) *UpdateSubscriptionSettingsRequestSubscriptionDataInner {
+func NewUpdateSubscriptionSettingsRequestSubscriptionDataInner(streamId int32, property string, value SubscriptionDataValue) *UpdateSubscriptionSettingsRequestSubscriptionDataInner {
 	this := UpdateSubscriptionSettingsRequestSubscriptionDataInner{}
 	this.StreamId = streamId
 	this.Property = property
@@ -99,9 +99,9 @@ func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) SetProperty(v s
 }
 
 // GetValue returns the Value field value
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetValue() UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue {
+func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetValue() SubscriptionDataValue {
 	if o == nil {
-		var ret UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue
+		var ret SubscriptionDataValue
 		return ret
 	}
 
@@ -110,7 +110,7 @@ func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetValue() Upda
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetValueOk() (*UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue, bool) {
+func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetValueOk() (*SubscriptionDataValue, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -118,7 +118,7 @@ func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetValueOk() (*
 }
 
 // SetValue sets field value
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) SetValue(v UpdateSubscriptionSettingsRequestSubscriptionDataInnerValue) {
+func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) SetValue(v SubscriptionDataValue) {
 	o.Value = v
 }
 

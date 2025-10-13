@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner{}
+// checks if the RealmIncomingWebhookBot type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &RealmIncomingWebhookBot{}
 
-// RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner Object containing details of the bot.
-type RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner struct {
+// RealmIncomingWebhookBot Object containing details of the bot.
+type RealmIncomingWebhookBot struct {
 	// A machine-readable unique name identifying the integration, all-lower-case without spaces.
 	Name *string `json:"name,omitempty"`
 	// A human-readable display name identifying the integration that this bot implements, intended to be used in menus for selecting which integration to create.  **Changes**: New in Zulip 8.0 (feature level 207).
@@ -31,25 +31,25 @@ type RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner struct {
 	UrlOptions []WebhookUrlOptionInner `json:"url_options,omitempty"`
 }
 
-// NewRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner instantiates a new RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner object
+// NewRealmIncomingWebhookBot instantiates a new RealmIncomingWebhookBot object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner() *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner {
-	this := RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner{}
+func NewRealmIncomingWebhookBot() *RealmIncomingWebhookBot {
+	this := RealmIncomingWebhookBot{}
 	return &this
 }
 
-// NewRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInnerWithDefaults instantiates a new RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner object
+// NewRealmIncomingWebhookBotWithDefaults instantiates a new RealmIncomingWebhookBot object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInnerWithDefaults() *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner {
-	this := RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner{}
+func NewRealmIncomingWebhookBotWithDefaults() *RealmIncomingWebhookBot {
+	this := RealmIncomingWebhookBot{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetName() string {
+func (o *RealmIncomingWebhookBot) GetName() string {
 	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
@@ -59,7 +59,7 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetName() s
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetNameOk() (*string, bool) {
+func (o *RealmIncomingWebhookBot) GetNameOk() (*string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetNameOk()
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) HasName() bool {
+func (o *RealmIncomingWebhookBot) HasName() bool {
 	if o != nil && !IsNil(o.Name) {
 		return true
 	}
@@ -76,12 +76,12 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) HasName() b
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) SetName(v string) {
+func (o *RealmIncomingWebhookBot) SetName(v string) {
 	o.Name = &v
 }
 
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetDisplayName() string {
+func (o *RealmIncomingWebhookBot) GetDisplayName() string {
 	if o == nil || IsNil(o.DisplayName) {
 		var ret string
 		return ret
@@ -91,7 +91,7 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetDisplayN
 
 // GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetDisplayNameOk() (*string, bool) {
+func (o *RealmIncomingWebhookBot) GetDisplayNameOk() (*string, bool) {
 	if o == nil || IsNil(o.DisplayName) {
 		return nil, false
 	}
@@ -99,7 +99,7 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetDisplayN
 }
 
 // HasDisplayName returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) HasDisplayName() bool {
+func (o *RealmIncomingWebhookBot) HasDisplayName() bool {
 	if o != nil && !IsNil(o.DisplayName) {
 		return true
 	}
@@ -108,12 +108,12 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) HasDisplayN
 }
 
 // SetDisplayName gets a reference to the given string and assigns it to the DisplayName field.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) SetDisplayName(v string) {
+func (o *RealmIncomingWebhookBot) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
 
 // GetAllEventTypes returns the AllEventTypes field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetAllEventTypes() []string {
+func (o *RealmIncomingWebhookBot) GetAllEventTypes() []string {
 	if o == nil {
 		var ret []string
 		return ret
@@ -124,7 +124,7 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetAllEvent
 // GetAllEventTypesOk returns a tuple with the AllEventTypes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetAllEventTypesOk() ([]string, bool) {
+func (o *RealmIncomingWebhookBot) GetAllEventTypesOk() ([]string, bool) {
 	if o == nil || IsNil(o.AllEventTypes) {
 		return nil, false
 	}
@@ -132,7 +132,7 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetAllEvent
 }
 
 // HasAllEventTypes returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) HasAllEventTypes() bool {
+func (o *RealmIncomingWebhookBot) HasAllEventTypes() bool {
 	if o != nil && !IsNil(o.AllEventTypes) {
 		return true
 	}
@@ -141,12 +141,12 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) HasAllEvent
 }
 
 // SetAllEventTypes gets a reference to the given []string and assigns it to the AllEventTypes field.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) SetAllEventTypes(v []string) {
+func (o *RealmIncomingWebhookBot) SetAllEventTypes(v []string) {
 	o.AllEventTypes = v
 }
 
 // GetConfigOptions returns the ConfigOptions field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetConfigOptions() []WebhookConfigOptionInner {
+func (o *RealmIncomingWebhookBot) GetConfigOptions() []WebhookConfigOptionInner {
 	if o == nil || IsNil(o.ConfigOptions) {
 		var ret []WebhookConfigOptionInner
 		return ret
@@ -156,7 +156,7 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetConfigOp
 
 // GetConfigOptionsOk returns a tuple with the ConfigOptions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetConfigOptionsOk() ([]WebhookConfigOptionInner, bool) {
+func (o *RealmIncomingWebhookBot) GetConfigOptionsOk() ([]WebhookConfigOptionInner, bool) {
 	if o == nil || IsNil(o.ConfigOptions) {
 		return nil, false
 	}
@@ -164,7 +164,7 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetConfigOp
 }
 
 // HasConfigOptions returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) HasConfigOptions() bool {
+func (o *RealmIncomingWebhookBot) HasConfigOptions() bool {
 	if o != nil && !IsNil(o.ConfigOptions) {
 		return true
 	}
@@ -173,12 +173,12 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) HasConfigOp
 }
 
 // SetConfigOptions gets a reference to the given []WebhookConfigOptionInner and assigns it to the ConfigOptions field.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) SetConfigOptions(v []WebhookConfigOptionInner) {
+func (o *RealmIncomingWebhookBot) SetConfigOptions(v []WebhookConfigOptionInner) {
 	o.ConfigOptions = v
 }
 
 // GetUrlOptions returns the UrlOptions field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetUrlOptions() []WebhookUrlOptionInner {
+func (o *RealmIncomingWebhookBot) GetUrlOptions() []WebhookUrlOptionInner {
 	if o == nil || IsNil(o.UrlOptions) {
 		var ret []WebhookUrlOptionInner
 		return ret
@@ -188,7 +188,7 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetUrlOptio
 
 // GetUrlOptionsOk returns a tuple with the UrlOptions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetUrlOptionsOk() ([]WebhookUrlOptionInner, bool) {
+func (o *RealmIncomingWebhookBot) GetUrlOptionsOk() ([]WebhookUrlOptionInner, bool) {
 	if o == nil || IsNil(o.UrlOptions) {
 		return nil, false
 	}
@@ -196,7 +196,7 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) GetUrlOptio
 }
 
 // HasUrlOptions returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) HasUrlOptions() bool {
+func (o *RealmIncomingWebhookBot) HasUrlOptions() bool {
 	if o != nil && !IsNil(o.UrlOptions) {
 		return true
 	}
@@ -205,11 +205,11 @@ func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) HasUrlOptio
 }
 
 // SetUrlOptions gets a reference to the given []WebhookUrlOptionInner and assigns it to the UrlOptions field.
-func (o *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) SetUrlOptions(v []WebhookUrlOptionInner) {
+func (o *RealmIncomingWebhookBot) SetUrlOptions(v []WebhookUrlOptionInner) {
 	o.UrlOptions = v
 }
 
-func (o RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) MarshalJSON() ([]byte, error) {
+func (o RealmIncomingWebhookBot) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -217,7 +217,7 @@ func (o RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) MarshalJSON(
 	return json.Marshal(toSerialize)
 }
 
-func (o RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) ToMap() (map[string]interface{}, error) {
+func (o RealmIncomingWebhookBot) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
@@ -237,38 +237,38 @@ func (o RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) ToMap() (map
 	return toSerialize, nil
 }
 
-type NullableRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner struct {
-	value *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner
+type NullableRealmIncomingWebhookBot struct {
+	value *RealmIncomingWebhookBot
 	isSet bool
 }
 
-func (v NullableRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) Get() *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner {
+func (v NullableRealmIncomingWebhookBot) Get() *RealmIncomingWebhookBot {
 	return v.value
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) Set(val *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) {
+func (v *NullableRealmIncomingWebhookBot) Set(val *RealmIncomingWebhookBot) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) IsSet() bool {
+func (v NullableRealmIncomingWebhookBot) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) Unset() {
+func (v *NullableRealmIncomingWebhookBot) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner(val *RegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) *NullableRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner {
-	return &NullableRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner{value: val, isSet: true}
+func NewNullableRealmIncomingWebhookBot(val *RealmIncomingWebhookBot) *NullableRealmIncomingWebhookBot {
+	return &NullableRealmIncomingWebhookBot{value: val, isSet: true}
 }
 
-func (v NullableRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) MarshalJSON() ([]byte, error) {
+func (v NullableRealmIncomingWebhookBot) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfRealmIncomingWebhookBotsInner) UnmarshalJSON(src []byte) error {
+func (v *NullableRealmIncomingWebhookBot) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

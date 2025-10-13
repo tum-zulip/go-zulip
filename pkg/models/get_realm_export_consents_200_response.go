@@ -26,7 +26,7 @@ type GetRealmExportConsents200Response struct {
 	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// An array of objects where each object contains a user ID and whether the user has consented for their private data to be exported.
-	ExportConsents []GetRealmExportConsents200ResponseAllOfExportConsentsInner `json:"export_consents,omitempty"`
+	ExportConsents []ExportConsent `json:"export_consents,omitempty"`
 }
 
 type _GetRealmExportConsents200Response GetRealmExportConsents200Response
@@ -131,9 +131,9 @@ func (o *GetRealmExportConsents200Response) SetIgnoredParametersUnsupported(v []
 }
 
 // GetExportConsents returns the ExportConsents field value if set, zero value otherwise.
-func (o *GetRealmExportConsents200Response) GetExportConsents() []GetRealmExportConsents200ResponseAllOfExportConsentsInner {
+func (o *GetRealmExportConsents200Response) GetExportConsents() []ExportConsent {
 	if o == nil || IsNil(o.ExportConsents) {
-		var ret []GetRealmExportConsents200ResponseAllOfExportConsentsInner
+		var ret []ExportConsent
 		return ret
 	}
 	return o.ExportConsents
@@ -141,7 +141,7 @@ func (o *GetRealmExportConsents200Response) GetExportConsents() []GetRealmExport
 
 // GetExportConsentsOk returns a tuple with the ExportConsents field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetRealmExportConsents200Response) GetExportConsentsOk() ([]GetRealmExportConsents200ResponseAllOfExportConsentsInner, bool) {
+func (o *GetRealmExportConsents200Response) GetExportConsentsOk() ([]ExportConsent, bool) {
 	if o == nil || IsNil(o.ExportConsents) {
 		return nil, false
 	}
@@ -157,8 +157,8 @@ func (o *GetRealmExportConsents200Response) HasExportConsents() bool {
 	return false
 }
 
-// SetExportConsents gets a reference to the given []GetRealmExportConsents200ResponseAllOfExportConsentsInner and assigns it to the ExportConsents field.
-func (o *GetRealmExportConsents200Response) SetExportConsents(v []GetRealmExportConsents200ResponseAllOfExportConsentsInner) {
+// SetExportConsents gets a reference to the given []ExportConsent and assigns it to the ExportConsents field.
+func (o *GetRealmExportConsents200Response) SetExportConsents(v []ExportConsent) {
 	o.ExportConsents = v
 }
 

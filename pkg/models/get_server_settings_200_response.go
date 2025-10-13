@@ -26,7 +26,7 @@ type GetServerSettings200Response struct {
 	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// Deprecated
-	AuthenticationMethods *GetServerSettings200ResponseAllOfAuthenticationMethods `json:"authentication_methods,omitempty"`
+	AuthenticationMethods *AuthMethods `json:"authentication_methods,omitempty"`
 	// A list of dictionaries describing the available external authentication methods (E.g. Google, GitHub, or SAML) enabled for this organization.  The list is sorted in the order in which these authentication methods should be displayed.  **Changes**: New in Zulip 2.1.0.
 	ExternalAuthenticationMethods []ExternalAuthMethod `json:"external_authentication_methods,omitempty"`
 	// An integer indicating what features are available on the server. The feature level increases monotonically; a value of N means the server supports all API features introduced before feature level N. This is designed to provide a simple way for client apps to decide whether the server supports a given feature or API change. See the [changelog](/api/changelog) for details on what each feature level means.  **Changes**: New in Zulip 3.0 (feature level 1). We recommend using an implied value of 0 for Zulip servers that do not send this field.
@@ -161,9 +161,9 @@ func (o *GetServerSettings200Response) SetIgnoredParametersUnsupported(v []strin
 
 // GetAuthenticationMethods returns the AuthenticationMethods field value if set, zero value otherwise.
 // Deprecated
-func (o *GetServerSettings200Response) GetAuthenticationMethods() GetServerSettings200ResponseAllOfAuthenticationMethods {
+func (o *GetServerSettings200Response) GetAuthenticationMethods() AuthMethods {
 	if o == nil || IsNil(o.AuthenticationMethods) {
-		var ret GetServerSettings200ResponseAllOfAuthenticationMethods
+		var ret AuthMethods
 		return ret
 	}
 	return *o.AuthenticationMethods
@@ -172,7 +172,7 @@ func (o *GetServerSettings200Response) GetAuthenticationMethods() GetServerSetti
 // GetAuthenticationMethodsOk returns a tuple with the AuthenticationMethods field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // Deprecated
-func (o *GetServerSettings200Response) GetAuthenticationMethodsOk() (*GetServerSettings200ResponseAllOfAuthenticationMethods, bool) {
+func (o *GetServerSettings200Response) GetAuthenticationMethodsOk() (*AuthMethods, bool) {
 	if o == nil || IsNil(o.AuthenticationMethods) {
 		return nil, false
 	}
@@ -188,9 +188,9 @@ func (o *GetServerSettings200Response) HasAuthenticationMethods() bool {
 	return false
 }
 
-// SetAuthenticationMethods gets a reference to the given GetServerSettings200ResponseAllOfAuthenticationMethods and assigns it to the AuthenticationMethods field.
+// SetAuthenticationMethods gets a reference to the given AuthMethods and assigns it to the AuthenticationMethods field.
 // Deprecated
-func (o *GetServerSettings200Response) SetAuthenticationMethods(v GetServerSettings200ResponseAllOfAuthenticationMethods) {
+func (o *GetServerSettings200Response) SetAuthenticationMethods(v AuthMethods) {
 	o.AuthenticationMethods = &v
 }
 

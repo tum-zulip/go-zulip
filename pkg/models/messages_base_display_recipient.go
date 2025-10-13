@@ -24,7 +24,7 @@ type MessagesBaseDisplayRecipient struct {
 }
 
 // []MessagesBaseDisplayRecipientOneOfInnerAsMessagesBaseDisplayRecipient is a convenience function that returns []MessagesBaseDisplayRecipientOneOfInner wrapped in MessagesBaseDisplayRecipient
-func ArrayOfMessagesBaseDisplayRecipientOneOfInnerAsMessagesBaseDisplayRecipient(v *[]MessagesBaseDisplayRecipientOneOfInner) MessagesBaseDisplayRecipient {
+func MessagesBaseRecipientFromInnerArray(v *[]MessagesBaseDisplayRecipientOneOfInner) MessagesBaseDisplayRecipient {
 	return MessagesBaseDisplayRecipient{
 		ArrayOfMessagesBaseDisplayRecipientOneOfInner: v,
 	}

@@ -20,7 +20,7 @@ var _ MappedNullable = &RealmUserUpdateEventPersonOneOf6{}
 // RealmUserUpdateEventPersonOneOf6 When the user updates one of their custom profile fields.
 type RealmUserUpdateEventPersonOneOf6 struct {
 	// The ID of the user affected by this change.
-	UserId             *int32                                                                    `json:"user_id,omitempty"`
+	UserId             *int32                                              `json:"user_id,omitempty"`
 	CustomProfileField *RealmUserUpdateEventPersonOneOf6CustomProfileField `json:"custom_profile_field,omitempty"`
 }
 

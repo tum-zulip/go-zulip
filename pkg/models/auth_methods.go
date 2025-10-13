@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the GetServerSettings200ResponseAllOfAuthenticationMethods type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &GetServerSettings200ResponseAllOfAuthenticationMethods{}
+// checks if the AuthMethods type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AuthMethods{}
 
-// GetServerSettings200ResponseAllOfAuthenticationMethods Each key-value pair in the object indicates whether the authentication method is enabled on this server.  **Changes**: Deprecated in Zulip 2.1.0, in favor of the more expressive `external_authentication_methods`.
-type GetServerSettings200ResponseAllOfAuthenticationMethods struct {
+// AuthMethods Each key-value pair in the object indicates whether the authentication method is enabled on this server.  **Changes**: Deprecated in Zulip 2.1.0, in favor of the more expressive `external_authentication_methods`.
+type AuthMethods struct {
 	// Whether the user can authenticate using password.
 	Password *bool `json:"password,omitempty"`
 	// Whether the user can authenticate using development API key.
@@ -45,25 +45,25 @@ type GetServerSettings200ResponseAllOfAuthenticationMethods struct {
 	OpenidConnect *bool `json:"openid connect,omitempty"`
 }
 
-// NewGetServerSettings200ResponseAllOfAuthenticationMethods instantiates a new GetServerSettings200ResponseAllOfAuthenticationMethods object
+// NewAuthMethods instantiates a new AuthMethods object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetServerSettings200ResponseAllOfAuthenticationMethods() *GetServerSettings200ResponseAllOfAuthenticationMethods {
-	this := GetServerSettings200ResponseAllOfAuthenticationMethods{}
+func NewAuthMethods() *AuthMethods {
+	this := AuthMethods{}
 	return &this
 }
 
-// NewGetServerSettings200ResponseAllOfAuthenticationMethodsWithDefaults instantiates a new GetServerSettings200ResponseAllOfAuthenticationMethods object
+// NewAuthMethodsWithDefaults instantiates a new AuthMethods object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewGetServerSettings200ResponseAllOfAuthenticationMethodsWithDefaults() *GetServerSettings200ResponseAllOfAuthenticationMethods {
-	this := GetServerSettings200ResponseAllOfAuthenticationMethods{}
+func NewAuthMethodsWithDefaults() *AuthMethods {
+	this := AuthMethods{}
 	return &this
 }
 
 // GetPassword returns the Password field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetPassword() bool {
+func (o *AuthMethods) GetPassword() bool {
 	if o == nil || IsNil(o.Password) {
 		var ret bool
 		return ret
@@ -73,7 +73,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetPassword() b
 
 // GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetPasswordOk() (*bool, bool) {
+func (o *AuthMethods) GetPasswordOk() (*bool, bool) {
 	if o == nil || IsNil(o.Password) {
 		return nil, false
 	}
@@ -81,7 +81,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetPasswordOk()
 }
 
 // HasPassword returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasPassword() bool {
+func (o *AuthMethods) HasPassword() bool {
 	if o != nil && !IsNil(o.Password) {
 		return true
 	}
@@ -90,12 +90,12 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasPassword() b
 }
 
 // SetPassword gets a reference to the given bool and assigns it to the Password field.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetPassword(v bool) {
+func (o *AuthMethods) SetPassword(v bool) {
 	o.Password = &v
 }
 
 // GetDev returns the Dev field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetDev() bool {
+func (o *AuthMethods) GetDev() bool {
 	if o == nil || IsNil(o.Dev) {
 		var ret bool
 		return ret
@@ -105,7 +105,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetDev() bool {
 
 // GetDevOk returns a tuple with the Dev field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetDevOk() (*bool, bool) {
+func (o *AuthMethods) GetDevOk() (*bool, bool) {
 	if o == nil || IsNil(o.Dev) {
 		return nil, false
 	}
@@ -113,7 +113,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetDevOk() (*bo
 }
 
 // HasDev returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasDev() bool {
+func (o *AuthMethods) HasDev() bool {
 	if o != nil && !IsNil(o.Dev) {
 		return true
 	}
@@ -122,12 +122,12 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasDev() bool {
 }
 
 // SetDev gets a reference to the given bool and assigns it to the Dev field.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetDev(v bool) {
+func (o *AuthMethods) SetDev(v bool) {
 	o.Dev = &v
 }
 
 // GetEmail returns the Email field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetEmail() bool {
+func (o *AuthMethods) GetEmail() bool {
 	if o == nil || IsNil(o.Email) {
 		var ret bool
 		return ret
@@ -137,7 +137,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetEmail() bool
 
 // GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetEmailOk() (*bool, bool) {
+func (o *AuthMethods) GetEmailOk() (*bool, bool) {
 	if o == nil || IsNil(o.Email) {
 		return nil, false
 	}
@@ -145,7 +145,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetEmailOk() (*
 }
 
 // HasEmail returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasEmail() bool {
+func (o *AuthMethods) HasEmail() bool {
 	if o != nil && !IsNil(o.Email) {
 		return true
 	}
@@ -154,12 +154,12 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasEmail() bool
 }
 
 // SetEmail gets a reference to the given bool and assigns it to the Email field.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetEmail(v bool) {
+func (o *AuthMethods) SetEmail(v bool) {
 	o.Email = &v
 }
 
 // GetLdap returns the Ldap field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetLdap() bool {
+func (o *AuthMethods) GetLdap() bool {
 	if o == nil || IsNil(o.Ldap) {
 		var ret bool
 		return ret
@@ -169,7 +169,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetLdap() bool 
 
 // GetLdapOk returns a tuple with the Ldap field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetLdapOk() (*bool, bool) {
+func (o *AuthMethods) GetLdapOk() (*bool, bool) {
 	if o == nil || IsNil(o.Ldap) {
 		return nil, false
 	}
@@ -177,7 +177,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetLdapOk() (*b
 }
 
 // HasLdap returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasLdap() bool {
+func (o *AuthMethods) HasLdap() bool {
 	if o != nil && !IsNil(o.Ldap) {
 		return true
 	}
@@ -186,12 +186,12 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasLdap() bool 
 }
 
 // SetLdap gets a reference to the given bool and assigns it to the Ldap field.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetLdap(v bool) {
+func (o *AuthMethods) SetLdap(v bool) {
 	o.Ldap = &v
 }
 
 // GetRemoteuser returns the Remoteuser field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetRemoteuser() bool {
+func (o *AuthMethods) GetRemoteuser() bool {
 	if o == nil || IsNil(o.Remoteuser) {
 		var ret bool
 		return ret
@@ -201,7 +201,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetRemoteuser()
 
 // GetRemoteuserOk returns a tuple with the Remoteuser field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetRemoteuserOk() (*bool, bool) {
+func (o *AuthMethods) GetRemoteuserOk() (*bool, bool) {
 	if o == nil || IsNil(o.Remoteuser) {
 		return nil, false
 	}
@@ -209,7 +209,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetRemoteuserOk
 }
 
 // HasRemoteuser returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasRemoteuser() bool {
+func (o *AuthMethods) HasRemoteuser() bool {
 	if o != nil && !IsNil(o.Remoteuser) {
 		return true
 	}
@@ -218,12 +218,12 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasRemoteuser()
 }
 
 // SetRemoteuser gets a reference to the given bool and assigns it to the Remoteuser field.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetRemoteuser(v bool) {
+func (o *AuthMethods) SetRemoteuser(v bool) {
 	o.Remoteuser = &v
 }
 
 // GetGithub returns the Github field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGithub() bool {
+func (o *AuthMethods) GetGithub() bool {
 	if o == nil || IsNil(o.Github) {
 		var ret bool
 		return ret
@@ -233,7 +233,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGithub() boo
 
 // GetGithubOk returns a tuple with the Github field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGithubOk() (*bool, bool) {
+func (o *AuthMethods) GetGithubOk() (*bool, bool) {
 	if o == nil || IsNil(o.Github) {
 		return nil, false
 	}
@@ -241,7 +241,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGithubOk() (
 }
 
 // HasGithub returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasGithub() bool {
+func (o *AuthMethods) HasGithub() bool {
 	if o != nil && !IsNil(o.Github) {
 		return true
 	}
@@ -250,12 +250,12 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasGithub() boo
 }
 
 // SetGithub gets a reference to the given bool and assigns it to the Github field.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetGithub(v bool) {
+func (o *AuthMethods) SetGithub(v bool) {
 	o.Github = &v
 }
 
 // GetAzuread returns the Azuread field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetAzuread() bool {
+func (o *AuthMethods) GetAzuread() bool {
 	if o == nil || IsNil(o.Azuread) {
 		var ret bool
 		return ret
@@ -265,7 +265,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetAzuread() bo
 
 // GetAzureadOk returns a tuple with the Azuread field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetAzureadOk() (*bool, bool) {
+func (o *AuthMethods) GetAzureadOk() (*bool, bool) {
 	if o == nil || IsNil(o.Azuread) {
 		return nil, false
 	}
@@ -273,7 +273,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetAzureadOk() 
 }
 
 // HasAzuread returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasAzuread() bool {
+func (o *AuthMethods) HasAzuread() bool {
 	if o != nil && !IsNil(o.Azuread) {
 		return true
 	}
@@ -282,12 +282,12 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasAzuread() bo
 }
 
 // SetAzuread gets a reference to the given bool and assigns it to the Azuread field.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetAzuread(v bool) {
+func (o *AuthMethods) SetAzuread(v bool) {
 	o.Azuread = &v
 }
 
 // GetGitlab returns the Gitlab field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGitlab() bool {
+func (o *AuthMethods) GetGitlab() bool {
 	if o == nil || IsNil(o.Gitlab) {
 		var ret bool
 		return ret
@@ -297,7 +297,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGitlab() boo
 
 // GetGitlabOk returns a tuple with the Gitlab field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGitlabOk() (*bool, bool) {
+func (o *AuthMethods) GetGitlabOk() (*bool, bool) {
 	if o == nil || IsNil(o.Gitlab) {
 		return nil, false
 	}
@@ -305,7 +305,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGitlabOk() (
 }
 
 // HasGitlab returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasGitlab() bool {
+func (o *AuthMethods) HasGitlab() bool {
 	if o != nil && !IsNil(o.Gitlab) {
 		return true
 	}
@@ -314,12 +314,12 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasGitlab() boo
 }
 
 // SetGitlab gets a reference to the given bool and assigns it to the Gitlab field.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetGitlab(v bool) {
+func (o *AuthMethods) SetGitlab(v bool) {
 	o.Gitlab = &v
 }
 
 // GetApple returns the Apple field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetApple() bool {
+func (o *AuthMethods) GetApple() bool {
 	if o == nil || IsNil(o.Apple) {
 		var ret bool
 		return ret
@@ -329,7 +329,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetApple() bool
 
 // GetAppleOk returns a tuple with the Apple field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetAppleOk() (*bool, bool) {
+func (o *AuthMethods) GetAppleOk() (*bool, bool) {
 	if o == nil || IsNil(o.Apple) {
 		return nil, false
 	}
@@ -337,7 +337,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetAppleOk() (*
 }
 
 // HasApple returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasApple() bool {
+func (o *AuthMethods) HasApple() bool {
 	if o != nil && !IsNil(o.Apple) {
 		return true
 	}
@@ -346,12 +346,12 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasApple() bool
 }
 
 // SetApple gets a reference to the given bool and assigns it to the Apple field.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetApple(v bool) {
+func (o *AuthMethods) SetApple(v bool) {
 	o.Apple = &v
 }
 
 // GetGoogle returns the Google field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGoogle() bool {
+func (o *AuthMethods) GetGoogle() bool {
 	if o == nil || IsNil(o.Google) {
 		var ret bool
 		return ret
@@ -361,7 +361,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGoogle() boo
 
 // GetGoogleOk returns a tuple with the Google field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGoogleOk() (*bool, bool) {
+func (o *AuthMethods) GetGoogleOk() (*bool, bool) {
 	if o == nil || IsNil(o.Google) {
 		return nil, false
 	}
@@ -369,7 +369,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGoogleOk() (
 }
 
 // HasGoogle returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasGoogle() bool {
+func (o *AuthMethods) HasGoogle() bool {
 	if o != nil && !IsNil(o.Google) {
 		return true
 	}
@@ -378,12 +378,12 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasGoogle() boo
 }
 
 // SetGoogle gets a reference to the given bool and assigns it to the Google field.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetGoogle(v bool) {
+func (o *AuthMethods) SetGoogle(v bool) {
 	o.Google = &v
 }
 
 // GetSaml returns the Saml field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetSaml() bool {
+func (o *AuthMethods) GetSaml() bool {
 	if o == nil || IsNil(o.Saml) {
 		var ret bool
 		return ret
@@ -393,7 +393,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetSaml() bool 
 
 // GetSamlOk returns a tuple with the Saml field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetSamlOk() (*bool, bool) {
+func (o *AuthMethods) GetSamlOk() (*bool, bool) {
 	if o == nil || IsNil(o.Saml) {
 		return nil, false
 	}
@@ -401,7 +401,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetSamlOk() (*b
 }
 
 // HasSaml returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasSaml() bool {
+func (o *AuthMethods) HasSaml() bool {
 	if o != nil && !IsNil(o.Saml) {
 		return true
 	}
@@ -410,12 +410,12 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasSaml() bool 
 }
 
 // SetSaml gets a reference to the given bool and assigns it to the Saml field.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetSaml(v bool) {
+func (o *AuthMethods) SetSaml(v bool) {
 	o.Saml = &v
 }
 
 // GetOpenidConnect returns the OpenidConnect field value if set, zero value otherwise.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetOpenidConnect() bool {
+func (o *AuthMethods) GetOpenidConnect() bool {
 	if o == nil || IsNil(o.OpenidConnect) {
 		var ret bool
 		return ret
@@ -425,7 +425,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetOpenidConnec
 
 // GetOpenidConnectOk returns a tuple with the OpenidConnect field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetOpenidConnectOk() (*bool, bool) {
+func (o *AuthMethods) GetOpenidConnectOk() (*bool, bool) {
 	if o == nil || IsNil(o.OpenidConnect) {
 		return nil, false
 	}
@@ -433,7 +433,7 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetOpenidConnec
 }
 
 // HasOpenidConnect returns a boolean if a field has been set.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasOpenidConnect() bool {
+func (o *AuthMethods) HasOpenidConnect() bool {
 	if o != nil && !IsNil(o.OpenidConnect) {
 		return true
 	}
@@ -442,11 +442,11 @@ func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasOpenidConnec
 }
 
 // SetOpenidConnect gets a reference to the given bool and assigns it to the OpenidConnect field.
-func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetOpenidConnect(v bool) {
+func (o *AuthMethods) SetOpenidConnect(v bool) {
 	o.OpenidConnect = &v
 }
 
-func (o GetServerSettings200ResponseAllOfAuthenticationMethods) MarshalJSON() ([]byte, error) {
+func (o AuthMethods) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -454,7 +454,7 @@ func (o GetServerSettings200ResponseAllOfAuthenticationMethods) MarshalJSON() ([
 	return json.Marshal(toSerialize)
 }
 
-func (o GetServerSettings200ResponseAllOfAuthenticationMethods) ToMap() (map[string]interface{}, error) {
+func (o AuthMethods) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Password) {
 		toSerialize["password"] = o.Password
@@ -495,38 +495,38 @@ func (o GetServerSettings200ResponseAllOfAuthenticationMethods) ToMap() (map[str
 	return toSerialize, nil
 }
 
-type NullableGetServerSettings200ResponseAllOfAuthenticationMethods struct {
-	value *GetServerSettings200ResponseAllOfAuthenticationMethods
+type NullableAuthMethods struct {
+	value *AuthMethods
 	isSet bool
 }
 
-func (v NullableGetServerSettings200ResponseAllOfAuthenticationMethods) Get() *GetServerSettings200ResponseAllOfAuthenticationMethods {
+func (v NullableAuthMethods) Get() *AuthMethods {
 	return v.value
 }
 
-func (v *NullableGetServerSettings200ResponseAllOfAuthenticationMethods) Set(val *GetServerSettings200ResponseAllOfAuthenticationMethods) {
+func (v *NullableAuthMethods) Set(val *AuthMethods) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableGetServerSettings200ResponseAllOfAuthenticationMethods) IsSet() bool {
+func (v NullableAuthMethods) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableGetServerSettings200ResponseAllOfAuthenticationMethods) Unset() {
+func (v *NullableAuthMethods) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableGetServerSettings200ResponseAllOfAuthenticationMethods(val *GetServerSettings200ResponseAllOfAuthenticationMethods) *NullableGetServerSettings200ResponseAllOfAuthenticationMethods {
-	return &NullableGetServerSettings200ResponseAllOfAuthenticationMethods{value: val, isSet: true}
+func NewNullableAuthMethods(val *AuthMethods) *NullableAuthMethods {
+	return &NullableAuthMethods{value: val, isSet: true}
 }
 
-func (v NullableGetServerSettings200ResponseAllOfAuthenticationMethods) MarshalJSON() ([]byte, error) {
+func (v NullableAuthMethods) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableGetServerSettings200ResponseAllOfAuthenticationMethods) UnmarshalJSON(src []byte) error {
+func (v *NullableAuthMethods) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

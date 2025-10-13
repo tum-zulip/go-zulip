@@ -20,13 +20,13 @@ import (
 // UpdateDisplaySettingsEvent8Value - The new value of the changed property.  **Changes**: Starting with Zulip 11.0 (feature level 389), this value can be `null` when a channel is removed from the folder.  Starting with Zulip 10.0 (feature level 320), this field can be an object for `can_remove_subscribers_group` property, which is a [group-setting value][setting-values], when the setting is set to a combination of users and groups.  [setting-values]: /api/group-setting-values
 type UpdateDisplaySettingsEvent8Value struct {
 	UpdateDisplaySettingsEvent8ValueOneOf *UpdateDisplaySettingsEvent8ValueOneOf
-	Bool                                                  *bool
-	Int32                                                 *int32
-	String                                                *string
+	Bool                                  *bool
+	Int32                                 *int32
+	String                                *string
 }
 
-// UpdateDisplaySettingsEvent8ValueOneOfAsUpdateDisplaySettingsEvent8Value is a convenience function that returns UpdateDisplaySettingsEvent8ValueOneOf wrapped in UpdateDisplaySettingsEvent8Value
-func UpdateDisplaySettingsEvent8ValueOneOfAsUpdateDisplaySettingsEvent8Value(v *UpdateDisplaySettingsEvent8ValueOneOf) UpdateDisplaySettingsEvent8Value {
+// UpdateDisplaySettingsEvent8ValueFromOneOf is a convenience function that returns UpdateDisplaySettingsEvent8ValueOneOf wrapped in UpdateDisplaySettingsEvent8Value
+func UpdateDisplaySettingsEvent8ValueFromOneOf(v *UpdateDisplaySettingsEvent8ValueOneOf) UpdateDisplaySettingsEvent8Value {
 	return UpdateDisplaySettingsEvent8Value{
 		UpdateDisplaySettingsEvent8ValueOneOf: v,
 	}

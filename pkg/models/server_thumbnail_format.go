@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the RegisterQueue200ResponseAllOfServerThumbnailFormatsInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RegisterQueue200ResponseAllOfServerThumbnailFormatsInner{}
+// checks if the ServerThumbnailFormat type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ServerThumbnailFormat{}
 
-// RegisterQueue200ResponseAllOfServerThumbnailFormatsInner struct for RegisterQueue200ResponseAllOfServerThumbnailFormatsInner
-type RegisterQueue200ResponseAllOfServerThumbnailFormatsInner struct {
+// ServerThumbnailFormat struct for ServerThumbnailFormat
+type ServerThumbnailFormat struct {
 	// The file path component of the thumbnail format.
 	Name *string `json:"name,omitempty"`
 	// The maximum width of this format.
@@ -31,25 +31,25 @@ type RegisterQueue200ResponseAllOfServerThumbnailFormatsInner struct {
 	Animated *bool `json:"animated,omitempty"`
 }
 
-// NewRegisterQueue200ResponseAllOfServerThumbnailFormatsInner instantiates a new RegisterQueue200ResponseAllOfServerThumbnailFormatsInner object
+// NewServerThumbnailFormat instantiates a new ServerThumbnailFormat object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterQueue200ResponseAllOfServerThumbnailFormatsInner() *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner {
-	this := RegisterQueue200ResponseAllOfServerThumbnailFormatsInner{}
+func NewServerThumbnailFormat() *ServerThumbnailFormat {
+	this := ServerThumbnailFormat{}
 	return &this
 }
 
-// NewRegisterQueue200ResponseAllOfServerThumbnailFormatsInnerWithDefaults instantiates a new RegisterQueue200ResponseAllOfServerThumbnailFormatsInner object
+// NewServerThumbnailFormatWithDefaults instantiates a new ServerThumbnailFormat object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRegisterQueue200ResponseAllOfServerThumbnailFormatsInnerWithDefaults() *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner {
-	this := RegisterQueue200ResponseAllOfServerThumbnailFormatsInner{}
+func NewServerThumbnailFormatWithDefaults() *ServerThumbnailFormat {
+	this := ServerThumbnailFormat{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetName() string {
+func (o *ServerThumbnailFormat) GetName() string {
 	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
@@ -59,7 +59,7 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetName() str
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetNameOk() (*string, bool) {
+func (o *ServerThumbnailFormat) GetNameOk() (*string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetNameOk() (
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) HasName() bool {
+func (o *ServerThumbnailFormat) HasName() bool {
 	if o != nil && !IsNil(o.Name) {
 		return true
 	}
@@ -76,12 +76,12 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) HasName() boo
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) SetName(v string) {
+func (o *ServerThumbnailFormat) SetName(v string) {
 	o.Name = &v
 }
 
 // GetMaxWidth returns the MaxWidth field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetMaxWidth() int32 {
+func (o *ServerThumbnailFormat) GetMaxWidth() int32 {
 	if o == nil || IsNil(o.MaxWidth) {
 		var ret int32
 		return ret
@@ -91,7 +91,7 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetMaxWidth()
 
 // GetMaxWidthOk returns a tuple with the MaxWidth field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetMaxWidthOk() (*int32, bool) {
+func (o *ServerThumbnailFormat) GetMaxWidthOk() (*int32, bool) {
 	if o == nil || IsNil(o.MaxWidth) {
 		return nil, false
 	}
@@ -99,7 +99,7 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetMaxWidthOk
 }
 
 // HasMaxWidth returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) HasMaxWidth() bool {
+func (o *ServerThumbnailFormat) HasMaxWidth() bool {
 	if o != nil && !IsNil(o.MaxWidth) {
 		return true
 	}
@@ -108,12 +108,12 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) HasMaxWidth()
 }
 
 // SetMaxWidth gets a reference to the given int32 and assigns it to the MaxWidth field.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) SetMaxWidth(v int32) {
+func (o *ServerThumbnailFormat) SetMaxWidth(v int32) {
 	o.MaxWidth = &v
 }
 
 // GetMaxHeight returns the MaxHeight field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetMaxHeight() int32 {
+func (o *ServerThumbnailFormat) GetMaxHeight() int32 {
 	if o == nil || IsNil(o.MaxHeight) {
 		var ret int32
 		return ret
@@ -123,7 +123,7 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetMaxHeight(
 
 // GetMaxHeightOk returns a tuple with the MaxHeight field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetMaxHeightOk() (*int32, bool) {
+func (o *ServerThumbnailFormat) GetMaxHeightOk() (*int32, bool) {
 	if o == nil || IsNil(o.MaxHeight) {
 		return nil, false
 	}
@@ -131,7 +131,7 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetMaxHeightO
 }
 
 // HasMaxHeight returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) HasMaxHeight() bool {
+func (o *ServerThumbnailFormat) HasMaxHeight() bool {
 	if o != nil && !IsNil(o.MaxHeight) {
 		return true
 	}
@@ -140,12 +140,12 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) HasMaxHeight(
 }
 
 // SetMaxHeight gets a reference to the given int32 and assigns it to the MaxHeight field.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) SetMaxHeight(v int32) {
+func (o *ServerThumbnailFormat) SetMaxHeight(v int32) {
 	o.MaxHeight = &v
 }
 
 // GetFormat returns the Format field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetFormat() string {
+func (o *ServerThumbnailFormat) GetFormat() string {
 	if o == nil || IsNil(o.Format) {
 		var ret string
 		return ret
@@ -155,7 +155,7 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetFormat() s
 
 // GetFormatOk returns a tuple with the Format field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetFormatOk() (*string, bool) {
+func (o *ServerThumbnailFormat) GetFormatOk() (*string, bool) {
 	if o == nil || IsNil(o.Format) {
 		return nil, false
 	}
@@ -163,7 +163,7 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetFormatOk()
 }
 
 // HasFormat returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) HasFormat() bool {
+func (o *ServerThumbnailFormat) HasFormat() bool {
 	if o != nil && !IsNil(o.Format) {
 		return true
 	}
@@ -172,12 +172,12 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) HasFormat() b
 }
 
 // SetFormat gets a reference to the given string and assigns it to the Format field.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) SetFormat(v string) {
+func (o *ServerThumbnailFormat) SetFormat(v string) {
 	o.Format = &v
 }
 
 // GetAnimated returns the Animated field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetAnimated() bool {
+func (o *ServerThumbnailFormat) GetAnimated() bool {
 	if o == nil || IsNil(o.Animated) {
 		var ret bool
 		return ret
@@ -187,7 +187,7 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetAnimated()
 
 // GetAnimatedOk returns a tuple with the Animated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetAnimatedOk() (*bool, bool) {
+func (o *ServerThumbnailFormat) GetAnimatedOk() (*bool, bool) {
 	if o == nil || IsNil(o.Animated) {
 		return nil, false
 	}
@@ -195,7 +195,7 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) GetAnimatedOk
 }
 
 // HasAnimated returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) HasAnimated() bool {
+func (o *ServerThumbnailFormat) HasAnimated() bool {
 	if o != nil && !IsNil(o.Animated) {
 		return true
 	}
@@ -204,11 +204,11 @@ func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) HasAnimated()
 }
 
 // SetAnimated gets a reference to the given bool and assigns it to the Animated field.
-func (o *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) SetAnimated(v bool) {
+func (o *ServerThumbnailFormat) SetAnimated(v bool) {
 	o.Animated = &v
 }
 
-func (o RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) MarshalJSON() ([]byte, error) {
+func (o ServerThumbnailFormat) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -216,7 +216,7 @@ func (o RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) MarshalJSON() 
 	return json.Marshal(toSerialize)
 }
 
-func (o RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) ToMap() (map[string]interface{}, error) {
+func (o ServerThumbnailFormat) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
@@ -236,38 +236,38 @@ func (o RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) ToMap() (map[s
 	return toSerialize, nil
 }
 
-type NullableRegisterQueue200ResponseAllOfServerThumbnailFormatsInner struct {
-	value *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner
+type NullableServerThumbnailFormat struct {
+	value *ServerThumbnailFormat
 	isSet bool
 }
 
-func (v NullableRegisterQueue200ResponseAllOfServerThumbnailFormatsInner) Get() *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner {
+func (v NullableServerThumbnailFormat) Get() *ServerThumbnailFormat {
 	return v.value
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfServerThumbnailFormatsInner) Set(val *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) {
+func (v *NullableServerThumbnailFormat) Set(val *ServerThumbnailFormat) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRegisterQueue200ResponseAllOfServerThumbnailFormatsInner) IsSet() bool {
+func (v NullableServerThumbnailFormat) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfServerThumbnailFormatsInner) Unset() {
+func (v *NullableServerThumbnailFormat) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRegisterQueue200ResponseAllOfServerThumbnailFormatsInner(val *RegisterQueue200ResponseAllOfServerThumbnailFormatsInner) *NullableRegisterQueue200ResponseAllOfServerThumbnailFormatsInner {
-	return &NullableRegisterQueue200ResponseAllOfServerThumbnailFormatsInner{value: val, isSet: true}
+func NewNullableServerThumbnailFormat(val *ServerThumbnailFormat) *NullableServerThumbnailFormat {
+	return &NullableServerThumbnailFormat{value: val, isSet: true}
 }
 
-func (v NullableRegisterQueue200ResponseAllOfServerThumbnailFormatsInner) MarshalJSON() ([]byte, error) {
+func (v NullableServerThumbnailFormat) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfServerThumbnailFormatsInner) UnmarshalJSON(src []byte) error {
+func (v *NullableServerThumbnailFormat) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

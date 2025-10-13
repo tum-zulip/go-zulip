@@ -134,7 +134,7 @@ type RegisterQueue200ResponseAllOfRealmUserSettingsDefaults struct {
 	// Array containing the names of the notification sound options supported by this Zulip server. Only relevant to support UI for configuring notification sounds.
 	AvailableNotificationSounds []string `json:"available_notification_sounds,omitempty"`
 	// Array of dictionaries where each dictionary describes an emoji set supported by this version of the Zulip server.  Only relevant to clients with configuration UI for choosing an emoji set; the currently selected emoji set is available in the `emojiset` key.  See [PATCH /settings](/api/update-settings) for details on the meaning of this setting.
-	EmojisetChoices []RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner `json:"emojiset_choices,omitempty"`
+	EmojisetChoices []UserSettingsEmojisetChoice `json:"emojiset_choices,omitempty"`
 	// Whether [typing notifications](/help/typing-notifications) be sent when composing direct messages.  **Changes**: New in Zulip 5.0 (feature level 105).
 	SendPrivateTypingNotifications *bool `json:"send_private_typing_notifications,omitempty"`
 	// Whether [typing notifications](/help/typing-notifications) be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105).
@@ -2002,9 +2002,9 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetAvailableNot
 }
 
 // GetEmojisetChoices returns the EmojisetChoices field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojisetChoices() []RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner {
+func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojisetChoices() []UserSettingsEmojisetChoice {
 	if o == nil || IsNil(o.EmojisetChoices) {
-		var ret []RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner
+		var ret []UserSettingsEmojisetChoice
 		return ret
 	}
 	return o.EmojisetChoices
@@ -2012,7 +2012,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojisetChoi
 
 // GetEmojisetChoicesOk returns a tuple with the EmojisetChoices field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojisetChoicesOk() ([]RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner, bool) {
+func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojisetChoicesOk() ([]UserSettingsEmojisetChoice, bool) {
 	if o == nil || IsNil(o.EmojisetChoices) {
 		return nil, false
 	}
@@ -2028,8 +2028,8 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEmojisetChoi
 	return false
 }
 
-// SetEmojisetChoices gets a reference to the given []RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner and assigns it to the EmojisetChoices field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEmojisetChoices(v []RegisterQueue200ResponseAllOfUserSettingsEmojisetChoicesInner) {
+// SetEmojisetChoices gets a reference to the given []UserSettingsEmojisetChoice and assigns it to the EmojisetChoices field.
+func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEmojisetChoices(v []UserSettingsEmojisetChoice) {
 	o.EmojisetChoices = v
 }
 
