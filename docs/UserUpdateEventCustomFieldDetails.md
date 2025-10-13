@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf4PersonOneOf6CustomProfileField
+# UserUpdateEventCustomFieldDetails
 
 ## Properties
 
@@ -10,105 +10,105 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewPersonProfileFieldEvent
+### NewUserUpdateEventCustomFieldDetails
 
-`func NewPersonProfileFieldEvent() *EventEnvelopeOneOf4PersonOneOf6CustomProfileField`
+`func NewUserUpdateEventCustomFieldDetails() *UserUpdateEventCustomFieldDetails`
 
-NewPersonProfileFieldEvent instantiates a new EventEnvelopeOneOf4PersonOneOf6CustomProfileField object
+NewUserUpdateEventCustomFieldDetails instantiates a new UserUpdateEventCustomFieldDetails object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewPersonProfileFieldEventWithDefaults
+### NewUserUpdateEventCustomFieldDetailsWithDefaults
 
-`func NewPersonProfileFieldEventWithDefaults() *EventEnvelopeOneOf4PersonOneOf6CustomProfileField`
+`func NewUserUpdateEventCustomFieldDetailsWithDefaults() *UserUpdateEventCustomFieldDetails`
 
-NewPersonProfileFieldEventWithDefaults instantiates a new EventEnvelopeOneOf4PersonOneOf6CustomProfileField object
+NewUserUpdateEventCustomFieldDetailsWithDefaults instantiates a new UserUpdateEventCustomFieldDetails object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) GetId() int32`
+`func (o *UserUpdateEventCustomFieldDetails) GetId() int32`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) GetIdOk() (*int32, bool)`
+`func (o *UserUpdateEventCustomFieldDetails) GetIdOk() (*int32, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) SetId(v int32)`
+`func (o *UserUpdateEventCustomFieldDetails) SetId(v int32)`
 
 SetId sets Id field to given value.
 
 ### HasId
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) HasId() bool`
+`func (o *UserUpdateEventCustomFieldDetails) HasId() bool`
 
 HasId returns a boolean if a field has been set.
 
 ### GetValue
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) GetValue() string`
+`func (o *UserUpdateEventCustomFieldDetails) GetValue() string`
 
 GetValue returns the Value field if non-nil, zero value otherwise.
 
 ### GetValueOk
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) GetValueOk() (*string, bool)`
+`func (o *UserUpdateEventCustomFieldDetails) GetValueOk() (*string, bool)`
 
 GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetValue
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) SetValue(v string)`
+`func (o *UserUpdateEventCustomFieldDetails) SetValue(v string)`
 
 SetValue sets Value field to given value.
 
 ### HasValue
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) HasValue() bool`
+`func (o *UserUpdateEventCustomFieldDetails) HasValue() bool`
 
 HasValue returns a boolean if a field has been set.
 
 ### SetValueNil
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) SetValueNil(b bool)`
+`func (o *UserUpdateEventCustomFieldDetails) SetValueNil(b bool)`
 
  SetValueNil sets the value for Value to be an explicit nil
 
 ### UnsetValue
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) UnsetValue()`
+`func (o *UserUpdateEventCustomFieldDetails) UnsetValue()`
 
 UnsetValue ensures that no value is present for Value, not even an explicit nil
 ### GetRenderedValue
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) GetRenderedValue() string`
+`func (o *UserUpdateEventCustomFieldDetails) GetRenderedValue() string`
 
 GetRenderedValue returns the RenderedValue field if non-nil, zero value otherwise.
 
 ### GetRenderedValueOk
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) GetRenderedValueOk() (*string, bool)`
+`func (o *UserUpdateEventCustomFieldDetails) GetRenderedValueOk() (*string, bool)`
 
 GetRenderedValueOk returns a tuple with the RenderedValue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRenderedValue
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) SetRenderedValue(v string)`
+`func (o *UserUpdateEventCustomFieldDetails) SetRenderedValue(v string)`
 
 SetRenderedValue sets RenderedValue field to given value.
 
 ### HasRenderedValue
 
-`func (o *EventEnvelopeOneOf4PersonOneOf6CustomProfileField) HasRenderedValue() bool`
+`func (o *UserUpdateEventCustomFieldDetails) HasRenderedValue() bool`
 
 HasRenderedValue returns a boolean if a field has been set.
 

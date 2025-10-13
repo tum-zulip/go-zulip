@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf4PersonOneOf
+# UserUpdateEventFullName
 
 ## Properties
 
@@ -9,70 +9,70 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewEventEnvelopeOneOf4PersonOneOf
+### NewUserUpdateEventFullName
 
-`func NewEventEnvelopeOneOf4PersonOneOf() *EventEnvelopeOneOf4PersonOneOf`
+`func NewUserUpdateEventFullName() *UserUpdateEventFullName`
 
-NewEventEnvelopeOneOf4PersonOneOf instantiates a new EventEnvelopeOneOf4PersonOneOf object
+NewUserUpdateEventFullName instantiates a new UserUpdateEventFullName object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewEventEnvelopeOneOf4PersonOneOfWithDefaults
+### NewUserUpdateEventFullNameWithDefaults
 
-`func NewEventEnvelopeOneOf4PersonOneOfWithDefaults() *EventEnvelopeOneOf4PersonOneOf`
+`func NewUserUpdateEventFullNameWithDefaults() *UserUpdateEventFullName`
 
-NewEventEnvelopeOneOf4PersonOneOfWithDefaults instantiates a new EventEnvelopeOneOf4PersonOneOf object
+NewUserUpdateEventFullNameWithDefaults instantiates a new UserUpdateEventFullName object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetUserId
 
-`func (o *EventEnvelopeOneOf4PersonOneOf) GetUserId() int32`
+`func (o *UserUpdateEventFullName) GetUserId() int32`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *EventEnvelopeOneOf4PersonOneOf) GetUserIdOk() (*int32, bool)`
+`func (o *UserUpdateEventFullName) GetUserIdOk() (*int32, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *EventEnvelopeOneOf4PersonOneOf) SetUserId(v int32)`
+`func (o *UserUpdateEventFullName) SetUserId(v int32)`
 
 SetUserId sets UserId field to given value.
 
 ### HasUserId
 
-`func (o *EventEnvelopeOneOf4PersonOneOf) HasUserId() bool`
+`func (o *UserUpdateEventFullName) HasUserId() bool`
 
 HasUserId returns a boolean if a field has been set.
 
 ### GetFullName
 
-`func (o *EventEnvelopeOneOf4PersonOneOf) GetFullName() string`
+`func (o *UserUpdateEventFullName) GetFullName() string`
 
 GetFullName returns the FullName field if non-nil, zero value otherwise.
 
 ### GetFullNameOk
 
-`func (o *EventEnvelopeOneOf4PersonOneOf) GetFullNameOk() (*string, bool)`
+`func (o *UserUpdateEventFullName) GetFullNameOk() (*string, bool)`
 
 GetFullNameOk returns a tuple with the FullName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFullName
 
-`func (o *EventEnvelopeOneOf4PersonOneOf) SetFullName(v string)`
+`func (o *UserUpdateEventFullName) SetFullName(v string)`
 
 SetFullName sets FullName field to given value.
 
 ### HasFullName
 
-`func (o *EventEnvelopeOneOf4PersonOneOf) HasFullName() bool`
+`func (o *UserUpdateEventFullName) HasFullName() bool`
 
 HasFullName returns a boolean if a field has been set.
 

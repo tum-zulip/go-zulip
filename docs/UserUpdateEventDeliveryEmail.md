@@ -1,4 +1,4 @@
-# EventEnvelopeOneOf4PersonOneOf5
+# UserUpdateEventDeliveryEmail
 
 ## Properties
 
@@ -9,81 +9,81 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewEventEnvelopeOneOf4PersonOneOf5
+### NewUserUpdateEventDeliveryEmail
 
-`func NewEventEnvelopeOneOf4PersonOneOf5() *EventEnvelopeOneOf4PersonOneOf5`
+`func NewUserUpdateEventDeliveryEmail() *UserUpdateEventDeliveryEmail`
 
-NewEventEnvelopeOneOf4PersonOneOf5 instantiates a new EventEnvelopeOneOf4PersonOneOf5 object
+NewUserUpdateEventDeliveryEmail instantiates a new UserUpdateEventDeliveryEmail object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewEventEnvelopeOneOf4PersonOneOf5WithDefaults
+### NewUserUpdateEventDeliveryEmailWithDefaults
 
-`func NewEventEnvelopeOneOf4PersonOneOf5WithDefaults() *EventEnvelopeOneOf4PersonOneOf5`
+`func NewUserUpdateEventDeliveryEmailWithDefaults() *UserUpdateEventDeliveryEmail`
 
-NewEventEnvelopeOneOf4PersonOneOf5WithDefaults instantiates a new EventEnvelopeOneOf4PersonOneOf5 object
+NewUserUpdateEventDeliveryEmailWithDefaults instantiates a new UserUpdateEventDeliveryEmail object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetUserId
 
-`func (o *EventEnvelopeOneOf4PersonOneOf5) GetUserId() int32`
+`func (o *UserUpdateEventDeliveryEmail) GetUserId() int32`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *EventEnvelopeOneOf4PersonOneOf5) GetUserIdOk() (*int32, bool)`
+`func (o *UserUpdateEventDeliveryEmail) GetUserIdOk() (*int32, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *EventEnvelopeOneOf4PersonOneOf5) SetUserId(v int32)`
+`func (o *UserUpdateEventDeliveryEmail) SetUserId(v int32)`
 
 SetUserId sets UserId field to given value.
 
 ### HasUserId
 
-`func (o *EventEnvelopeOneOf4PersonOneOf5) HasUserId() bool`
+`func (o *UserUpdateEventDeliveryEmail) HasUserId() bool`
 
 HasUserId returns a boolean if a field has been set.
 
 ### GetDeliveryEmail
 
-`func (o *EventEnvelopeOneOf4PersonOneOf5) GetDeliveryEmail() string`
+`func (o *UserUpdateEventDeliveryEmail) GetDeliveryEmail() string`
 
 GetDeliveryEmail returns the DeliveryEmail field if non-nil, zero value otherwise.
 
 ### GetDeliveryEmailOk
 
-`func (o *EventEnvelopeOneOf4PersonOneOf5) GetDeliveryEmailOk() (*string, bool)`
+`func (o *UserUpdateEventDeliveryEmail) GetDeliveryEmailOk() (*string, bool)`
 
 GetDeliveryEmailOk returns a tuple with the DeliveryEmail field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDeliveryEmail
 
-`func (o *EventEnvelopeOneOf4PersonOneOf5) SetDeliveryEmail(v string)`
+`func (o *UserUpdateEventDeliveryEmail) SetDeliveryEmail(v string)`
 
 SetDeliveryEmail sets DeliveryEmail field to given value.
 
 ### HasDeliveryEmail
 
-`func (o *EventEnvelopeOneOf4PersonOneOf5) HasDeliveryEmail() bool`
+`func (o *UserUpdateEventDeliveryEmail) HasDeliveryEmail() bool`
 
 HasDeliveryEmail returns a boolean if a field has been set.
 
 ### SetDeliveryEmailNil
 
-`func (o *EventEnvelopeOneOf4PersonOneOf5) SetDeliveryEmailNil(b bool)`
+`func (o *UserUpdateEventDeliveryEmail) SetDeliveryEmailNil(b bool)`
 
  SetDeliveryEmailNil sets the value for DeliveryEmail to be an explicit nil
 
 ### UnsetDeliveryEmail
-`func (o *EventEnvelopeOneOf4PersonOneOf5) UnsetDeliveryEmail()`
+`func (o *UserUpdateEventDeliveryEmail) UnsetDeliveryEmail()`
 
 UnsetDeliveryEmail ensures that no value is present for DeliveryEmail, not even an explicit nil
 
