@@ -33,7 +33,7 @@ type BasicBot struct {
 	AvatarUrl *string     `json:"avatar_url,omitempty"`
 	OwnerId   interface{} `json:"owner_id,omitempty"`
 	// An array containing extra configuration fields only relevant for outgoing webhook bots and embedded bots. This is always a single-element array.  We consider this part of the Zulip API to be unstable; it is used only for UI elements for administering bots and is likely to change.
-	Services []BasicBotBaseServicesInner `json:"services,omitempty"`
+	Services []BotData `json:"services,omitempty"`
 	// A boolean describing whether the user account has been deactivated.  **Changes**: New in Zulip 8.0 (feature level 222). Previously we sent `realm_user` event with `op` field set to `remove` when deactivating a bot and `realm_user` event with `op` field set to `add` when reactivating a bot.
 	IsActive *bool `json:"is_active,omitempty"`
 }
@@ -315,9 +315,9 @@ func (o *BasicBot) SetOwnerId(v interface{}) {
 }
 
 // GetServices returns the Services field value if set, zero value otherwise.
-func (o *BasicBot) GetServices() []BasicBotBaseServicesInner {
+func (o *BasicBot) GetServices() []BotData {
 	if o == nil || IsNil(o.Services) {
-		var ret []BasicBotBaseServicesInner
+		var ret []BotData
 		return ret
 	}
 	return o.Services
@@ -325,7 +325,7 @@ func (o *BasicBot) GetServices() []BasicBotBaseServicesInner {
 
 // GetServicesOk returns a tuple with the Services field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicBot) GetServicesOk() ([]BasicBotBaseServicesInner, bool) {
+func (o *BasicBot) GetServicesOk() ([]BotData, bool) {
 	if o == nil || IsNil(o.Services) {
 		return nil, false
 	}
@@ -341,8 +341,8 @@ func (o *BasicBot) HasServices() bool {
 	return false
 }
 
-// SetServices gets a reference to the given []BasicBotBaseServicesInner and assigns it to the Services field.
-func (o *BasicBot) SetServices(v []BasicBotBaseServicesInner) {
+// SetServices gets a reference to the given []BotData and assigns it to the Services field.
+func (o *BasicBot) SetServices(v []BotData) {
 	o.Services = v
 }
 

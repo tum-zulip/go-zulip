@@ -29,7 +29,7 @@ type RestartEvent struct {
 	// The [Zulip feature level](zulip.com/api/changelog of the server after the restart.  Clients should use this to update their tracking of the server's capabilities, and may choose to refetch their state and create a new event queue when the API feature level has changed in a way that the client finds significant. Clients choosing to do so must implement a random delay strategy to spread such restarts over 5 or more minutes to avoid creating a synchronized thundering herd effect.  **Changes**: New in Zulip 4.0 (feature level 59).
 	ZulipFeatureLevel *int32 `json:"zulip_feature_level,omitempty"`
 	// The timestamp at which the server started.
-	ServerGeneration *int32 `json:"server_generation,omitempty"`
+	ServerGeneration *Timestamp `json:"server_generation,omitempty"`
 }
 
 // NewSubscriptionRemoveEvent5 instantiates a new RestartEvent object
@@ -210,9 +210,9 @@ func (o *RestartEvent) SetZulipFeatureLevel(v int32) {
 }
 
 // GetServerGeneration returns the ServerGeneration field value if set, zero value otherwise.
-func (o *RestartEvent) GetServerGeneration() int32 {
+func (o *RestartEvent) GetServerGeneration() Timestamp {
 	if o == nil || IsNil(o.ServerGeneration) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.ServerGeneration
@@ -220,7 +220,7 @@ func (o *RestartEvent) GetServerGeneration() int32 {
 
 // GetServerGenerationOk returns a tuple with the ServerGeneration field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RestartEvent) GetServerGenerationOk() (*int32, bool) {
+func (o *RestartEvent) GetServerGenerationOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.ServerGeneration) {
 		return nil, false
 	}
@@ -236,8 +236,8 @@ func (o *RestartEvent) HasServerGeneration() bool {
 	return false
 }
 
-// SetServerGeneration gets a reference to the given int32 and assigns it to the ServerGeneration field.
-func (o *RestartEvent) SetServerGeneration(v int32) {
+// SetServerGeneration gets a reference to the given Timestamp and assigns it to the ServerGeneration field.
+func (o *RestartEvent) SetServerGeneration(v Timestamp) {
 	o.ServerGeneration = &v
 }
 

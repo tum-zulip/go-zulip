@@ -32,7 +32,7 @@ type Draft struct {
 	// The body of the draft. Should not contain null bytes.
 	Content string `json:"content"`
 	// A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server.
-	Timestamp *int32 `json:"timestamp,omitempty"`
+	Timestamp *Timestamp `json:"timestamp,omitempty"`
 }
 
 type _Draft Draft
@@ -187,9 +187,9 @@ func (o *Draft) SetContent(v string) {
 }
 
 // GetTimestamp returns the Timestamp field value if set, zero value otherwise.
-func (o *Draft) GetTimestamp() int32 {
+func (o *Draft) GetTimestamp() Timestamp {
 	if o == nil || IsNil(o.Timestamp) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.Timestamp
@@ -197,7 +197,7 @@ func (o *Draft) GetTimestamp() int32 {
 
 // GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Draft) GetTimestampOk() (*int32, bool) {
+func (o *Draft) GetTimestampOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.Timestamp) {
 		return nil, false
 	}
@@ -213,8 +213,8 @@ func (o *Draft) HasTimestamp() bool {
 	return false
 }
 
-// SetTimestamp gets a reference to the given int32 and assigns it to the Timestamp field.
-func (o *Draft) SetTimestamp(v int32) {
+// SetTimestamp gets a reference to the given Timestamp and assigns it to the Timestamp field.
+func (o *Draft) SetTimestamp(v Timestamp) {
 	o.Timestamp = &v
 }
 

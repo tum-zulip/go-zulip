@@ -32,6 +32,7 @@ type MessagesBaseEditHistoryInner struct {
 	// Only present if message's channel was edited.  The ID of the channel containing the message immediately after this edit event.  **Changes**: New in Zulip 5.0 (feature level 118).
 	Stream *int32 `json:"stream,omitempty"`
 	// The UNIX timestamp for the edit.
+	// TODO: check if this timestamp follows the same format as other timestamps
 	Timestamp int32 `json:"timestamp"`
 	// Only present if message's topic was edited.  The topic of the message immediately after this edit event.  **Changes**: New in Zulip 5.0 (feature level 118).
 	Topic *string `json:"topic,omitempty"`

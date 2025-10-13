@@ -22,7 +22,7 @@ type UserSettingsUpdateEvent3MutedUsersInner struct {
 	// The ID of the muted user.
 	Id *int32 `json:"id,omitempty"`
 	// An integer UNIX timestamp representing when the user was muted.
-	Timestamp *int32 `json:"timestamp,omitempty"`
+	Timestamp *Timestamp `json:"timestamp,omitempty"`
 }
 
 // NewUserSettingsUpdateEvent3MutedUsersInner instantiates a new UserSettingsUpdateEvent3MutedUsersInner object
@@ -75,9 +75,9 @@ func (o *UserSettingsUpdateEvent3MutedUsersInner) SetId(v int32) {
 }
 
 // GetTimestamp returns the Timestamp field value if set, zero value otherwise.
-func (o *UserSettingsUpdateEvent3MutedUsersInner) GetTimestamp() int32 {
+func (o *UserSettingsUpdateEvent3MutedUsersInner) GetTimestamp() Timestamp {
 	if o == nil || IsNil(o.Timestamp) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.Timestamp
@@ -85,7 +85,7 @@ func (o *UserSettingsUpdateEvent3MutedUsersInner) GetTimestamp() int32 {
 
 // GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UserSettingsUpdateEvent3MutedUsersInner) GetTimestampOk() (*int32, bool) {
+func (o *UserSettingsUpdateEvent3MutedUsersInner) GetTimestampOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.Timestamp) {
 		return nil, false
 	}
@@ -101,8 +101,8 @@ func (o *UserSettingsUpdateEvent3MutedUsersInner) HasTimestamp() bool {
 	return false
 }
 
-// SetTimestamp gets a reference to the given int32 and assigns it to the Timestamp field.
-func (o *UserSettingsUpdateEvent3MutedUsersInner) SetTimestamp(v int32) {
+// SetTimestamp gets a reference to the given Timestamp and assigns it to the Timestamp field.
+func (o *UserSettingsUpdateEvent3MutedUsersInner) SetTimestamp(v Timestamp) {
 	o.Timestamp = &v
 }
 

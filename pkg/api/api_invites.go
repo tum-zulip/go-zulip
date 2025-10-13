@@ -321,7 +321,7 @@ func (c *ZulipClient) CreateInviteLinkExecute(r ApiCreateInviteLinkRequest) (*mo
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CreateInviteLink400Response
+			var v models.CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -782,7 +782,7 @@ func (c *ZulipClient) RevokeInviteLinkExecute(r ApiRevokeInviteLinkRequest) (*mo
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.RevokeInviteLink400Response
+			var v models.CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

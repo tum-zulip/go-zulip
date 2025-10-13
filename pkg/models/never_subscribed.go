@@ -28,7 +28,7 @@ type NeverSubscribed struct {
 	// The short description of the channel in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format, intended to be used to prepopulate UI for editing a channel's description.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
 	Description *string `json:"description,omitempty"`
 	// The UNIX timestamp for when the channel was created, in UTC seconds.  **Changes**: New in Zulip 4.0 (feature level 30).
-	DateCreated *int32      `json:"date_created,omitempty"`
+	DateCreated *Timestamp  `json:"date_created,omitempty"`
 	CreatorId   interface{} `json:"creator_id,omitempty"`
 	// Specifies whether the channel is private or not. Only people who have been invited can access a private channel.
 	InviteOnly *bool `json:"invite_only,omitempty"`
@@ -216,9 +216,9 @@ func (o *NeverSubscribed) SetDescription(v string) {
 }
 
 // GetDateCreated returns the DateCreated field value if set, zero value otherwise.
-func (o *NeverSubscribed) GetDateCreated() int32 {
+func (o *NeverSubscribed) GetDateCreated() Timestamp {
 	if o == nil || IsNil(o.DateCreated) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.DateCreated
@@ -226,7 +226,7 @@ func (o *NeverSubscribed) GetDateCreated() int32 {
 
 // GetDateCreatedOk returns a tuple with the DateCreated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NeverSubscribed) GetDateCreatedOk() (*int32, bool) {
+func (o *NeverSubscribed) GetDateCreatedOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.DateCreated) {
 		return nil, false
 	}
@@ -242,8 +242,8 @@ func (o *NeverSubscribed) HasDateCreated() bool {
 	return false
 }
 
-// SetDateCreated gets a reference to the given int32 and assigns it to the DateCreated field.
-func (o *NeverSubscribed) SetDateCreated(v int32) {
+// SetDateCreated gets a reference to the given Timestamp and assigns it to the DateCreated field.
+func (o *NeverSubscribed) SetDateCreated(v Timestamp) {
 	o.DateCreated = &v
 }
 

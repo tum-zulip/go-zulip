@@ -24,7 +24,7 @@ type GetUserGroups200ResponseAllOfUserGroupsInner struct {
 	// The user group's integer ID.
 	Id *int32 `json:"id,omitempty"`
 	// The UNIX timestamp for when the user group was created, in UTC seconds.  A `null` value means the user group has no recorded date, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command][management-commands].  **Changes**: New in Zulip 10.0 (feature level 292).  [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
-	DateCreated NullableInt32 `json:"date_created,omitempty"`
+	DateCreated NullableTimestamp `json:"date_created,omitempty"`
 	// The ID of the user who created this user group.  A `null` value means the user group has no recorded creator, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command][management-commands].  **Changes**: New in Zulip 10.0 (feature level 292).  [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 	CreatorId NullableInt32 `json:"creator_id,omitempty"`
 	// The integer user IDs of the user group's members, which are guaranteed to be non-deactivated users in the organization.  **Changes**: Prior to Zulip 10.0 (feature level 303), this list also included deactivated users who were members of the user group before being deactivated.
@@ -127,9 +127,9 @@ func (o *GetUserGroups200ResponseAllOfUserGroupsInner) SetId(v int32) {
 }
 
 // GetDateCreated returns the DateCreated field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetUserGroups200ResponseAllOfUserGroupsInner) GetDateCreated() int32 {
+func (o *GetUserGroups200ResponseAllOfUserGroupsInner) GetDateCreated() Timestamp {
 	if o == nil || IsNil(o.DateCreated.Get()) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.DateCreated.Get()
@@ -138,7 +138,7 @@ func (o *GetUserGroups200ResponseAllOfUserGroupsInner) GetDateCreated() int32 {
 // GetDateCreatedOk returns a tuple with the DateCreated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetUserGroups200ResponseAllOfUserGroupsInner) GetDateCreatedOk() (*int32, bool) {
+func (o *GetUserGroups200ResponseAllOfUserGroupsInner) GetDateCreatedOk() (*Timestamp, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -155,7 +155,7 @@ func (o *GetUserGroups200ResponseAllOfUserGroupsInner) HasDateCreated() bool {
 }
 
 // SetDateCreated gets a reference to the given NullableInt32 and assigns it to the DateCreated field.
-func (o *GetUserGroups200ResponseAllOfUserGroupsInner) SetDateCreated(v int32) {
+func (o *GetUserGroups200ResponseAllOfUserGroupsInner) SetDateCreated(v Timestamp) {
 	o.DateCreated.Set(&v)
 }
 

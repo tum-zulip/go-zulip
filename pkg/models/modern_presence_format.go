@@ -20,9 +20,9 @@ var _ MappedNullable = &ModernPresenceFormat{}
 // ModernPresenceFormat `{user_id}`: Presence data (modern format) for the user with the specified ID.
 type ModernPresenceFormat struct {
 	// The UNIX timestamp of the last time a client connected to Zulip reported that the user was actually present (e.g. via focusing a browser window or interacting with a computer running the desktop app).  Clients should display users with a current `active_timestamp` as fully present.
-	ActiveTimestamp *int32 `json:"active_timestamp,omitempty"`
+	ActiveTimestamp *Timestamp `json:"active_timestamp,omitempty"`
 	// The UNIX timestamp of the last time the user had a client connected to Zulip, including idle clients where the user hasn't interacted with the system recently.  The Zulip server has no way of distinguishing whether an idle web app user is at their computer, but hasn't interacted with the Zulip tab recently, or simply left their desktop computer on when they left.  Thus, clients should display users with a current `idle_timestamp` but no current `active_timestamp` as potentially present.
-	IdleTimestamp *int32 `json:"idle_timestamp,omitempty"`
+	IdleTimestamp *Timestamp `json:"idle_timestamp,omitempty"`
 }
 
 // NewModernPresenceFormat instantiates a new ModernPresenceFormat object
@@ -43,9 +43,9 @@ func NewModernPresenceFormatWithDefaults() *ModernPresenceFormat {
 }
 
 // GetActiveTimestamp returns the ActiveTimestamp field value if set, zero value otherwise.
-func (o *ModernPresenceFormat) GetActiveTimestamp() int32 {
+func (o *ModernPresenceFormat) GetActiveTimestamp() Timestamp {
 	if o == nil || IsNil(o.ActiveTimestamp) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.ActiveTimestamp
@@ -53,7 +53,7 @@ func (o *ModernPresenceFormat) GetActiveTimestamp() int32 {
 
 // GetActiveTimestampOk returns a tuple with the ActiveTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModernPresenceFormat) GetActiveTimestampOk() (*int32, bool) {
+func (o *ModernPresenceFormat) GetActiveTimestampOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.ActiveTimestamp) {
 		return nil, false
 	}
@@ -69,15 +69,15 @@ func (o *ModernPresenceFormat) HasActiveTimestamp() bool {
 	return false
 }
 
-// SetActiveTimestamp gets a reference to the given int32 and assigns it to the ActiveTimestamp field.
-func (o *ModernPresenceFormat) SetActiveTimestamp(v int32) {
+// SetActiveTimestamp gets a reference to the given Timestamp and assigns it to the ActiveTimestamp field.
+func (o *ModernPresenceFormat) SetActiveTimestamp(v Timestamp) {
 	o.ActiveTimestamp = &v
 }
 
 // GetIdleTimestamp returns the IdleTimestamp field value if set, zero value otherwise.
-func (o *ModernPresenceFormat) GetIdleTimestamp() int32 {
+func (o *ModernPresenceFormat) GetIdleTimestamp() Timestamp {
 	if o == nil || IsNil(o.IdleTimestamp) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.IdleTimestamp
@@ -85,7 +85,7 @@ func (o *ModernPresenceFormat) GetIdleTimestamp() int32 {
 
 // GetIdleTimestampOk returns a tuple with the IdleTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModernPresenceFormat) GetIdleTimestampOk() (*int32, bool) {
+func (o *ModernPresenceFormat) GetIdleTimestampOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.IdleTimestamp) {
 		return nil, false
 	}
@@ -101,8 +101,8 @@ func (o *ModernPresenceFormat) HasIdleTimestamp() bool {
 	return false
 }
 
-// SetIdleTimestamp gets a reference to the given int32 and assigns it to the IdleTimestamp field.
-func (o *ModernPresenceFormat) SetIdleTimestamp(v int32) {
+// SetIdleTimestamp gets a reference to the given Timestamp and assigns it to the IdleTimestamp field.
+func (o *ModernPresenceFormat) SetIdleTimestamp(v Timestamp) {
 	o.IdleTimestamp = &v
 }
 

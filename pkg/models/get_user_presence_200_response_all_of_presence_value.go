@@ -20,7 +20,7 @@ var _ MappedNullable = &GetUserPresence200ResponseAllOfPresenceValue{}
 // GetUserPresence200ResponseAllOfPresenceValue `{client_name}` or `\"aggregated\"`: Object containing the details of the user's presence.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always contain two keys, `\"website\"` and `\"aggregated\"`, with identical data. The server no longer stores which client submitted presence updates.  Previously, the `{client_name}` keys for these objects were the names of the different clients where the user was logged in, for example `website` or `ZulipDesktop`.
 type GetUserPresence200ResponseAllOfPresenceValue struct {
 	// When this update was received. If the timestamp is more than a few minutes in the past, the user is offline.
-	Timestamp *int32 `json:"timestamp,omitempty"`
+	Timestamp *Timestamp `json:"timestamp,omitempty"`
 	// Whether the user had recently interacted with Zulip at the time of the timestamp.  Will be either `\"active\"` or `\"idle\"`
 	Status *string `json:"status,omitempty"`
 }
@@ -43,9 +43,9 @@ func NewGetUserPresence200ResponseAllOfPresenceValueWithDefaults() *GetUserPrese
 }
 
 // GetTimestamp returns the Timestamp field value if set, zero value otherwise.
-func (o *GetUserPresence200ResponseAllOfPresenceValue) GetTimestamp() int32 {
+func (o *GetUserPresence200ResponseAllOfPresenceValue) GetTimestamp() Timestamp {
 	if o == nil || IsNil(o.Timestamp) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.Timestamp
@@ -53,7 +53,7 @@ func (o *GetUserPresence200ResponseAllOfPresenceValue) GetTimestamp() int32 {
 
 // GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetUserPresence200ResponseAllOfPresenceValue) GetTimestampOk() (*int32, bool) {
+func (o *GetUserPresence200ResponseAllOfPresenceValue) GetTimestampOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.Timestamp) {
 		return nil, false
 	}
@@ -69,8 +69,8 @@ func (o *GetUserPresence200ResponseAllOfPresenceValue) HasTimestamp() bool {
 	return false
 }
 
-// SetTimestamp gets a reference to the given int32 and assigns it to the Timestamp field.
-func (o *GetUserPresence200ResponseAllOfPresenceValue) SetTimestamp(v int32) {
+// SetTimestamp gets a reference to the given Timestamp and assigns it to the Timestamp field.
+func (o *GetUserPresence200ResponseAllOfPresenceValue) SetTimestamp(v Timestamp) {
 	o.Timestamp = &v
 }
 

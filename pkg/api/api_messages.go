@@ -698,7 +698,7 @@ func (c *ZulipClient) AddReactionExecute(r ApiAddReactionRequest) (*models.JsonS
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.AddReaction400Response
+			var v models.CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -2246,7 +2246,7 @@ func (c *ZulipClient) RemoveReactionExecute(r ApiRemoveReactionRequest) (*models
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.RemoveReaction400Response
+			var v models.CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

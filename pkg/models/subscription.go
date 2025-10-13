@@ -28,7 +28,7 @@ type Subscription struct {
 	// The [description](zulip.com/help/change-the-channel-description of the channel rendered as HTML, intended to be used when displaying the channel description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.  See also `description`.
 	RenderedDescription *string `json:"rendered_description,omitempty"`
 	// The UNIX timestamp for when the channel was created, in UTC seconds.  **Changes**: New in Zulip 4.0 (feature level 30).
-	DateCreated *int32 `json:"date_created,omitempty"`
+	DateCreated *Timestamp `json:"date_created,omitempty"`
 	// The ID of the user who created this channel.  A `null` value means the channel has no recorded creator, which is often because the channel is very old, or because it was created via a data import tool or [management command][management-commands].  **Changes**: New in Zulip 9.0 (feature level 254).  [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 	CreatorId NullableInt32 `json:"creator_id,omitempty"`
 	// Specifies whether the channel is private or not. Only people who have been invited can access a private channel.
@@ -239,9 +239,9 @@ func (o *Subscription) SetRenderedDescription(v string) {
 }
 
 // GetDateCreated returns the DateCreated field value if set, zero value otherwise.
-func (o *Subscription) GetDateCreated() int32 {
+func (o *Subscription) GetDateCreated() Timestamp {
 	if o == nil || IsNil(o.DateCreated) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.DateCreated
@@ -249,7 +249,7 @@ func (o *Subscription) GetDateCreated() int32 {
 
 // GetDateCreatedOk returns a tuple with the DateCreated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Subscription) GetDateCreatedOk() (*int32, bool) {
+func (o *Subscription) GetDateCreatedOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.DateCreated) {
 		return nil, false
 	}
@@ -265,8 +265,8 @@ func (o *Subscription) HasDateCreated() bool {
 	return false
 }
 
-// SetDateCreated gets a reference to the given int32 and assigns it to the DateCreated field.
-func (o *Subscription) SetDateCreated(v int32) {
+// SetDateCreated gets a reference to the given Timestamp and assigns it to the DateCreated field.
+func (o *Subscription) SetDateCreated(v Timestamp) {
 	o.DateCreated = &v
 }
 

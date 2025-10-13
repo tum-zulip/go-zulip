@@ -24,7 +24,7 @@ type Reminder struct {
 	// The unique ID of the reminder, which can be used to delete the reminder.  This is different from the unique ID that the message would have after being sent.
 	ReminderId int32 `json:"reminder_id"`
 	// The type of the reminder. Always set to `\"private\"`.
-	Type string `json:"type"`
+	Type RecipientType `json:"type"`
 	// Contains the ID of the user who scheduled the reminder, and to which the reminder will be sent.
 	To []int32 `json:"to"`
 	// The content/body of the reminder, in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
@@ -32,7 +32,7 @@ type Reminder struct {
 	// The content/body of the reminder rendered in HTML.
 	RenderedContent string `json:"rendered_content"`
 	// The UNIX timestamp for when the message will be sent by the server, in UTC seconds.
-	ScheduledDeliveryTimestamp int32 `json:"scheduled_delivery_timestamp"`
+	ScheduledDeliveryTimestamp Timestamp `json:"scheduled_delivery_timestamp"`
 	// Whether the server has tried to send the reminder and it failed to successfully send.  Clients that support unscheduling reminders should display scheduled messages with `\"failed\": true` with an indicator that the server failed to send the message at the scheduled time, so that the user is aware of the failure and can get the content of the scheduled message.
 	Failed bool `json:"failed"`
 	// The ID of the message that the reminder is created for.
@@ -45,10 +45,10 @@ type _Reminder Reminder
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewReminder(reminderId int32, type_ string, to []int32, content string, renderedContent string, scheduledDeliveryTimestamp int32, failed bool, reminderTargetMessageId int32) *Reminder {
+func NewReminder(reminderId int32, recipientType RecipientType, to []int32, content string, renderedContent string, scheduledDeliveryTimestamp Timestamp, failed bool, reminderTargetMessageId int32) *Reminder {
 	this := Reminder{}
 	this.ReminderId = reminderId
-	this.Type = type_
+	this.Type = recipientType
 	this.To = to
 	this.Content = content
 	this.RenderedContent = renderedContent
@@ -91,9 +91,9 @@ func (o *Reminder) SetReminderId(v int32) {
 }
 
 // GetType returns the Type field value
-func (o *Reminder) GetType() string {
+func (o *Reminder) GetType() RecipientType {
 	if o == nil {
-		var ret string
+		var ret RecipientType
 		return ret
 	}
 
@@ -102,7 +102,7 @@ func (o *Reminder) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *Reminder) GetTypeOk() (*string, bool) {
+func (o *Reminder) GetTypeOk() (*RecipientType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -110,7 +110,7 @@ func (o *Reminder) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *Reminder) SetType(v string) {
+func (o *Reminder) SetType(v RecipientType) {
 	o.Type = v
 }
 
@@ -187,9 +187,9 @@ func (o *Reminder) SetRenderedContent(v string) {
 }
 
 // GetScheduledDeliveryTimestamp returns the ScheduledDeliveryTimestamp field value
-func (o *Reminder) GetScheduledDeliveryTimestamp() int32 {
+func (o *Reminder) GetScheduledDeliveryTimestamp() Timestamp {
 	if o == nil {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 
@@ -198,7 +198,7 @@ func (o *Reminder) GetScheduledDeliveryTimestamp() int32 {
 
 // GetScheduledDeliveryTimestampOk returns a tuple with the ScheduledDeliveryTimestamp field value
 // and a boolean to check if the value has been set.
-func (o *Reminder) GetScheduledDeliveryTimestampOk() (*int32, bool) {
+func (o *Reminder) GetScheduledDeliveryTimestampOk() (*Timestamp, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -206,7 +206,7 @@ func (o *Reminder) GetScheduledDeliveryTimestampOk() (*int32, bool) {
 }
 
 // SetScheduledDeliveryTimestamp sets field value
-func (o *Reminder) SetScheduledDeliveryTimestamp(v int32) {
+func (o *Reminder) SetScheduledDeliveryTimestamp(v Timestamp) {
 	o.ScheduledDeliveryTimestamp = v
 }
 

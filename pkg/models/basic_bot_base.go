@@ -36,7 +36,7 @@ type BasicBotBase struct {
 	// The user ID of the bot's owner.  If `null`, the bot has no owner.
 	OwnerId NullableInt32 `json:"owner_id,omitempty"`
 	// An array containing extra configuration fields only relevant for outgoing webhook bots and embedded bots. This is always a single-element array.  We consider this part of the Zulip API to be unstable; it is used only for UI elements for administering bots and is likely to change.
-	Services []BasicBotBaseServicesInner `json:"services,omitempty"`
+	Services []BotData `json:"services,omitempty"`
 }
 
 // NewBasicBotBase instantiates a new BasicBotBase object
@@ -346,9 +346,9 @@ func (o *BasicBotBase) UnsetOwnerId() {
 }
 
 // GetServices returns the Services field value if set, zero value otherwise.
-func (o *BasicBotBase) GetServices() []BasicBotBaseServicesInner {
+func (o *BasicBotBase) GetServices() []BotData {
 	if o == nil || IsNil(o.Services) {
-		var ret []BasicBotBaseServicesInner
+		var ret []BotData
 		return ret
 	}
 	return o.Services
@@ -356,7 +356,7 @@ func (o *BasicBotBase) GetServices() []BasicBotBaseServicesInner {
 
 // GetServicesOk returns a tuple with the Services field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicBotBase) GetServicesOk() ([]BasicBotBaseServicesInner, bool) {
+func (o *BasicBotBase) GetServicesOk() ([]BotData, bool) {
 	if o == nil || IsNil(o.Services) {
 		return nil, false
 	}
@@ -372,8 +372,8 @@ func (o *BasicBotBase) HasServices() bool {
 	return false
 }
 
-// SetServices gets a reference to the given []BasicBotBaseServicesInner and assigns it to the Services field.
-func (o *BasicBotBase) SetServices(v []BasicBotBaseServicesInner) {
+// SetServices gets a reference to the given []BotData and assigns it to the Services field.
+func (o *BasicBotBase) SetServices(v []BotData) {
 	o.Services = v
 }
 

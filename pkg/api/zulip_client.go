@@ -24,6 +24,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/http/httputil"
+	"net/textproto"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -560,13 +561,17 @@ func (c *ZulipClient) prepareRequest(
 		}
 		for _, formFile := range formFiles {
 			if len(formFile.fileBytes) > 0 && formFile.fileName != "" {
-				w.Boundary()
-				part, err := w.CreateFormFile(formFile.formFileName, filepath.Base(formFile.fileName))
+				headers := make(textproto.MIMEHeader)
+				headers.Set("Content-Disposition", fmt.Sprintf(`form-data; name="%s"; filename="%s"`, formFile.formFileName, filepath.Base(formFile.fileName)))
+				if detected := http.DetectContentType(formFile.fileBytes); detected != "" {
+					headers.Set("Content-Type", detected)
+				}
+
+				part, err := w.CreatePart(headers)
 				if err != nil {
 					return nil, err
 				}
-				_, err = part.Write(formFile.fileBytes)
-				if err != nil {
+				if _, err = part.Write(formFile.fileBytes); err != nil {
 					return nil, err
 				}
 			}

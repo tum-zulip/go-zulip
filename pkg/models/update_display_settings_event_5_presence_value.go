@@ -24,7 +24,7 @@ type UpdateDisplaySettingsEvent5PresenceValue struct {
 	// The status of the user on this client. Will be either `idle` or `active`.
 	Status *string `json:"status,omitempty"`
 	// The UNIX timestamp of when this client sent the user's presence to the server with the precision of a second.
-	Timestamp *int32 `json:"timestamp,omitempty"`
+	Timestamp *Timestamp `json:"timestamp,omitempty"`
 	// Whether the client is capable of showing mobile/push notifications to the user.  **Changes**: Starting with Zulip 7.0 (feature level 178), this will always be `false` as the server no longer stores which client submitted presence updates.
 	Pushable *bool `json:"pushable,omitempty"`
 }
@@ -111,9 +111,9 @@ func (o *UpdateDisplaySettingsEvent5PresenceValue) SetStatus(v string) {
 }
 
 // GetTimestamp returns the Timestamp field value if set, zero value otherwise.
-func (o *UpdateDisplaySettingsEvent5PresenceValue) GetTimestamp() int32 {
+func (o *UpdateDisplaySettingsEvent5PresenceValue) GetTimestamp() Timestamp {
 	if o == nil || IsNil(o.Timestamp) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.Timestamp
@@ -121,7 +121,7 @@ func (o *UpdateDisplaySettingsEvent5PresenceValue) GetTimestamp() int32 {
 
 // GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdateDisplaySettingsEvent5PresenceValue) GetTimestampOk() (*int32, bool) {
+func (o *UpdateDisplaySettingsEvent5PresenceValue) GetTimestampOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.Timestamp) {
 		return nil, false
 	}
@@ -137,8 +137,8 @@ func (o *UpdateDisplaySettingsEvent5PresenceValue) HasTimestamp() bool {
 	return false
 }
 
-// SetTimestamp gets a reference to the given int32 and assigns it to the Timestamp field.
-func (o *UpdateDisplaySettingsEvent5PresenceValue) SetTimestamp(v int32) {
+// SetTimestamp gets a reference to the given Timestamp and assigns it to the Timestamp field.
+func (o *UpdateDisplaySettingsEvent5PresenceValue) SetTimestamp(v Timestamp) {
 	o.Timestamp = &v
 }
 

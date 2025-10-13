@@ -40,7 +40,7 @@ type Snapshot struct {
 	// Only present if message's content was edited.  An HTML diff between this version of the message and the previous one.
 	ContentHtmlDiff *string `json:"content_html_diff,omitempty"`
 	// The UNIX timestamp for this edit.
-	Timestamp *int32 `json:"timestamp,omitempty"`
+	Timestamp *Timestamp `json:"timestamp,omitempty"`
 }
 
 // NewSnapshot instantiates a new Snapshot object
@@ -392,9 +392,9 @@ func (o *Snapshot) SetContentHtmlDiff(v string) {
 }
 
 // GetTimestamp returns the Timestamp field value if set, zero value otherwise.
-func (o *Snapshot) GetTimestamp() int32 {
+func (o *Snapshot) GetTimestamp() Timestamp {
 	if o == nil || IsNil(o.Timestamp) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.Timestamp
@@ -402,7 +402,7 @@ func (o *Snapshot) GetTimestamp() int32 {
 
 // GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Snapshot) GetTimestampOk() (*int32, bool) {
+func (o *Snapshot) GetTimestampOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.Timestamp) {
 		return nil, false
 	}
@@ -418,8 +418,8 @@ func (o *Snapshot) HasTimestamp() bool {
 	return false
 }
 
-// SetTimestamp gets a reference to the given int32 and assigns it to the Timestamp field.
-func (o *Snapshot) SetTimestamp(v int32) {
+// SetTimestamp gets a reference to the given Timestamp and assigns it to the Timestamp field.
+func (o *Snapshot) SetTimestamp(v Timestamp) {
 	o.Timestamp = &v
 }
 

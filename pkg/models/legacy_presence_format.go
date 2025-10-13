@@ -24,6 +24,7 @@ type LegacyPresenceFormat struct {
 	// The status of the user on this client. Will be either `\"idle\"` or `\"active\"`.
 	Status *string `json:"status,omitempty"`
 	// The UNIX timestamp of when this client sent the user's presence to the server with the precision of a second.
+	// TODO: check if this timestamp follows the same format as other timestamps
 	Timestamp *int32 `json:"timestamp,omitempty"`
 	// Whether the client is capable of showing mobile/push notifications to the user.  Not present in objects with the `\"aggregated\"` key.  **Changes**: Starting with Zulip 7.0 (feature level 178), always `false` when present as the server no longer stores which client submitted presence data.
 	Pushable *bool `json:"pushable,omitempty"`

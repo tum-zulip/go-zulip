@@ -22,8 +22,8 @@ var _ MappedNullable = &UpdateMessageEvent{}
 // UpdateMessageEvent Event sent when a message's content, topic and/or channel has been edited or when a message's content has a rendering update, such as for an [inline URL preview][inline-url-previews]. Sent to all users who had received the original message.  [inline-url-previews]: https://zulip.readthedocs.io/en/latest/subsystems/sending-messages.html#inline-url-previews  **Changes**: In Zulip 10.0 (feature level 284), removed the `prev_rendered_content_version` field as it is an internal server implementation detail not used by any client.
 type UpdateMessageEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
-	Id   int32  `json:"id"`
-	Type string `json:"type"`
+	Id   int32         `json:"id"`
+	Type RecipientType `json:"type"`
 	// The ID of the user who sent the message.  Is `null` when event is for a rendering update of the original message, such as for an [inline URL preview][inline-url-previews].  **Changes**: As of Zulip 5.0 (feature level 114), this field is present for all `update_message` events. Previously, this field was omitted for [inline URL preview][inline-url-previews] updates.
 	UserId NullableInt32 `json:"user_id"`
 	// Whether the event only updates the rendered content of the message.  This field should be used by clients to determine if the event only provides a rendering update to the message content, such as for an [inline URL preview][inline-url-previews]. When `true`, the event does not reflect a user-generated edit and does not modify the message history.  **Changes**: New in Zulip 5.0 (feature level 114). Clients can correctly identify these rendering update event with earlier Zulip versions by checking whether the `user_id` field was omitted.
@@ -35,7 +35,7 @@ type UpdateMessageEvent struct {
 	// The user's personal [message flags][message-flags] for the message with ID `message_id` following the edit.  A client application should compare these to the original flags to identify cases where a mention or alert word was added by the edit.  **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.  [message-flags]: /api/update-message-flags#available-flags
 	Flags []string `json:"flags"`
 	// The time when this message edit operation was processed by the server.  **Changes**: As of Zulip 5.0 (feature level 114), this field is present for all `update_message` events. Previously, this field was omitted for [inline URL preview][inline-url-previews] updates.
-	EditTimestamp int32 `json:"edit_timestamp"`
+	EditTimestamp Timestamp `json:"edit_timestamp"`
 	// Only present if the message was edited and originally sent to a channel.  The name of the channel that the message was sent to. Clients are recommended to use the `stream_id` field instead.
 	StreamName *string `json:"stream_name,omitempty"`
 	// Only present if the message was edited and originally sent to a channel.  The pre-edit channel for all of the messages with IDs in `message_ids`.  **Changes**: As of Zulip 5.0 (feature level 112), this field is present for all edits to a channel message. Previously, it was not present when only the content of the channel message was edited.
@@ -68,10 +68,10 @@ type _UserSettingsUpdateEvent6 UpdateMessageEvent
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUserSettingsUpdateEvent6(id int32, type_ string, userId NullableInt32, renderingOnly bool, messageId int32, messageIds []int32, flags []string, editTimestamp int32) *UpdateMessageEvent {
+func NewUserSettingsUpdateEvent6(id int32, recipientType RecipientType, userId NullableInt32, renderingOnly bool, messageId int32, messageIds []int32, flags []string, editTimestamp Timestamp) *UpdateMessageEvent {
 	this := UpdateMessageEvent{}
 	this.Id = id
-	this.Type = type_
+	this.Type = recipientType
 	this.UserId = userId
 	this.RenderingOnly = renderingOnly
 	this.MessageId = messageId
@@ -114,9 +114,9 @@ func (o *UpdateMessageEvent) SetId(v int32) {
 }
 
 // GetType returns the Type field value
-func (o *UpdateMessageEvent) GetType() string {
+func (o *UpdateMessageEvent) GetType() RecipientType {
 	if o == nil {
-		var ret string
+		var ret RecipientType
 		return ret
 	}
 
@@ -125,7 +125,7 @@ func (o *UpdateMessageEvent) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *UpdateMessageEvent) GetTypeOk() (*string, bool) {
+func (o *UpdateMessageEvent) GetTypeOk() (*RecipientType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -133,7 +133,7 @@ func (o *UpdateMessageEvent) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *UpdateMessageEvent) SetType(v string) {
+func (o *UpdateMessageEvent) SetType(v RecipientType) {
 	o.Type = v
 }
 
@@ -260,9 +260,9 @@ func (o *UpdateMessageEvent) SetFlags(v []string) {
 }
 
 // GetEditTimestamp returns the EditTimestamp field value
-func (o *UpdateMessageEvent) GetEditTimestamp() int32 {
+func (o *UpdateMessageEvent) GetEditTimestamp() Timestamp {
 	if o == nil {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 
@@ -271,7 +271,7 @@ func (o *UpdateMessageEvent) GetEditTimestamp() int32 {
 
 // GetEditTimestampOk returns a tuple with the EditTimestamp field value
 // and a boolean to check if the value has been set.
-func (o *UpdateMessageEvent) GetEditTimestampOk() (*int32, bool) {
+func (o *UpdateMessageEvent) GetEditTimestampOk() (*Timestamp, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -279,7 +279,7 @@ func (o *UpdateMessageEvent) GetEditTimestampOk() (*int32, bool) {
 }
 
 // SetEditTimestamp sets field value
-func (o *UpdateMessageEvent) SetEditTimestamp(v int32) {
+func (o *UpdateMessageEvent) SetEditTimestamp(v Timestamp) {
 	o.EditTimestamp = v
 }
 

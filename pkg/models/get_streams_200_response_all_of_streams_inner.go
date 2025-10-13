@@ -30,7 +30,7 @@ type GetStreams200ResponseAllOfStreamsInner struct {
 	// The short description of the channel in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format, intended to be used to prepopulate UI for editing a channel's description.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
 	Description string `json:"description"`
 	// The UNIX timestamp for when the channel was created, in UTC seconds.  **Changes**: New in Zulip 4.0 (feature level 30).
-	DateCreated int32       `json:"date_created"`
+	DateCreated Timestamp   `json:"date_created"`
 	CreatorId   interface{} `json:"creator_id"`
 	// Specifies whether the channel is private or not. Only people who have been invited can access a private channel.
 	InviteOnly bool `json:"invite_only"`
@@ -76,7 +76,7 @@ type _GetStreams200ResponseAllOfStreamsInner GetStreams200ResponseAllOfStreamsIn
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetStreams200ResponseAllOfStreamsInner(streamId int32, name string, isArchived bool, description string, dateCreated int32, creatorId interface{}, inviteOnly bool, renderedDescription string, isWebPublic bool, streamPostPolicy int32, messageRetentionDays interface{}, historyPublicToSubscribers bool, firstMessageId interface{}, folderId interface{}, isRecentlyActive bool, isAnnouncementOnly bool, canRemoveSubscribersGroup GroupSettingValue, canSubscribeGroup GroupSettingValue, subscriberCount float32, streamWeeklyTraffic NullableInt32) *GetStreams200ResponseAllOfStreamsInner {
+func NewGetStreams200ResponseAllOfStreamsInner(streamId int32, name string, isArchived bool, description string, dateCreated Timestamp, creatorId interface{}, inviteOnly bool, renderedDescription string, isWebPublic bool, streamPostPolicy int32, messageRetentionDays interface{}, historyPublicToSubscribers bool, firstMessageId interface{}, folderId interface{}, isRecentlyActive bool, isAnnouncementOnly bool, canRemoveSubscribersGroup GroupSettingValue, canSubscribeGroup GroupSettingValue, subscriberCount float32, streamWeeklyTraffic NullableInt32) *GetStreams200ResponseAllOfStreamsInner {
 	this := GetStreams200ResponseAllOfStreamsInner{}
 	this.StreamId = streamId
 	this.Name = name
@@ -206,9 +206,9 @@ func (o *GetStreams200ResponseAllOfStreamsInner) SetDescription(v string) {
 }
 
 // GetDateCreated returns the DateCreated field value
-func (o *GetStreams200ResponseAllOfStreamsInner) GetDateCreated() int32 {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetDateCreated() Timestamp {
 	if o == nil {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 
@@ -217,7 +217,7 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetDateCreated() int32 {
 
 // GetDateCreatedOk returns a tuple with the DateCreated field value
 // and a boolean to check if the value has been set.
-func (o *GetStreams200ResponseAllOfStreamsInner) GetDateCreatedOk() (*int32, bool) {
+func (o *GetStreams200ResponseAllOfStreamsInner) GetDateCreatedOk() (*Timestamp, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -225,7 +225,7 @@ func (o *GetStreams200ResponseAllOfStreamsInner) GetDateCreatedOk() (*int32, boo
 }
 
 // SetDateCreated sets field value
-func (o *GetStreams200ResponseAllOfStreamsInner) SetDateCreated(v int32) {
+func (o *GetStreams200ResponseAllOfStreamsInner) SetDateCreated(v Timestamp) {
 	o.DateCreated = v
 }
 

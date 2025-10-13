@@ -24,9 +24,9 @@ type Invite struct {
 	// The [user ID](zulip.com/api/get-user of the user who created the invitation.  **Changes**: New in Zulip 3.0 (feature level 22), replacing the `ref` field which contained the Zulip display email address of the user who created the invitation.
 	InvitedByUserId *int32 `json:"invited_by_user_id,omitempty"`
 	// The UNIX timestamp for when the invitation was created, in UTC seconds.
-	Invited *int32 `json:"invited,omitempty"`
+	Invited *Timestamp `json:"invited,omitempty"`
 	// The UNIX timestamp for when the invitation will expire, in UTC seconds. If `null`, the invitation never expires.
-	ExpiryDate NullableInt32 `json:"expiry_date,omitempty"`
+	ExpiryDate NullableTimestamp `json:"expiry_date,omitempty"`
 	// The [organization-level role](zulip.com/api/roles-and-permissions of the user that is created when the invitation is accepted. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest
 	InvitedAs *int32 `json:"invited_as,omitempty"`
 	// The email address the invitation was sent to. This will not be present when `is_multiuse` is `true` (i.e. the invitation is a reusable invitation link).
@@ -121,9 +121,9 @@ func (o *Invite) SetInvitedByUserId(v int32) {
 }
 
 // GetInvited returns the Invited field value if set, zero value otherwise.
-func (o *Invite) GetInvited() int32 {
+func (o *Invite) GetInvited() Timestamp {
 	if o == nil || IsNil(o.Invited) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.Invited
@@ -131,7 +131,7 @@ func (o *Invite) GetInvited() int32 {
 
 // GetInvitedOk returns a tuple with the Invited field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Invite) GetInvitedOk() (*int32, bool) {
+func (o *Invite) GetInvitedOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.Invited) {
 		return nil, false
 	}
@@ -148,14 +148,14 @@ func (o *Invite) HasInvited() bool {
 }
 
 // SetInvited gets a reference to the given int32 and assigns it to the Invited field.
-func (o *Invite) SetInvited(v int32) {
+func (o *Invite) SetInvited(v Timestamp) {
 	o.Invited = &v
 }
 
 // GetExpiryDate returns the ExpiryDate field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Invite) GetExpiryDate() int32 {
+func (o *Invite) GetExpiryDate() Timestamp {
 	if o == nil || IsNil(o.ExpiryDate.Get()) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.ExpiryDate.Get()
@@ -164,7 +164,7 @@ func (o *Invite) GetExpiryDate() int32 {
 // GetExpiryDateOk returns a tuple with the ExpiryDate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Invite) GetExpiryDateOk() (*int32, bool) {
+func (o *Invite) GetExpiryDateOk() (*Timestamp, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -180,8 +180,8 @@ func (o *Invite) HasExpiryDate() bool {
 	return false
 }
 
-// SetExpiryDate gets a reference to the given NullableInt32 and assigns it to the ExpiryDate field.
-func (o *Invite) SetExpiryDate(v int32) {
+// SetExpiryDate gets a reference to the given NullableTimestamp and assigns it to the ExpiryDate field.
+func (o *Invite) SetExpiryDate(v Timestamp) {
 	o.ExpiryDate.Set(&v)
 }
 

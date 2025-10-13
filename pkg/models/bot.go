@@ -33,11 +33,11 @@ type Bot struct {
 	AvatarUrl *string     `json:"avatar_url,omitempty"`
 	OwnerId   interface{} `json:"owner_id,omitempty"`
 	// An array containing extra configuration fields only relevant for outgoing webhook bots and embedded bots. This is always a single-element array.  We consider this part of the Zulip API to be unstable; it is used only for UI elements for administering bots and is likely to change.
-	Services []BasicBotBaseServicesInner `json:"services,omitempty"`
+	Services []BotData `json:"services,omitempty"`
 	// The email of the bot.
 	Email *string `json:"email,omitempty"`
 	// An integer describing the type of bot:  - `1` for a `Generic` bot. - `2` for an `Incoming webhook` bot. - `3` for an `Outgoing webhook` bot. - `4` for an `Embedded` bot.
-	BotType NullableInt32 `json:"bot_type,omitempty"`
+	BotType *BotType `json:"bot_type,omitempty"`
 	// A boolean describing whether the user account has been deactivated.
 	IsActive *bool `json:"is_active,omitempty"`
 }
@@ -319,9 +319,9 @@ func (o *Bot) SetOwnerId(v interface{}) {
 }
 
 // GetServices returns the Services field value if set, zero value otherwise.
-func (o *Bot) GetServices() []BasicBotBaseServicesInner {
+func (o *Bot) GetServices() []BotData {
 	if o == nil || IsNil(o.Services) {
-		var ret []BasicBotBaseServicesInner
+		var ret []BotData
 		return ret
 	}
 	return o.Services
@@ -329,7 +329,7 @@ func (o *Bot) GetServices() []BasicBotBaseServicesInner {
 
 // GetServicesOk returns a tuple with the Services field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Bot) GetServicesOk() ([]BasicBotBaseServicesInner, bool) {
+func (o *Bot) GetServicesOk() ([]BotData, bool) {
 	if o == nil || IsNil(o.Services) {
 		return nil, false
 	}
@@ -345,8 +345,8 @@ func (o *Bot) HasServices() bool {
 	return false
 }
 
-// SetServices gets a reference to the given []BasicBotBaseServicesInner and assigns it to the Services field.
-func (o *Bot) SetServices(v []BasicBotBaseServicesInner) {
+// SetServices gets a reference to the given []BotData and assigns it to the Services field.
+func (o *Bot) SetServices(v []BotData) {
 	o.Services = v
 }
 
@@ -383,27 +383,27 @@ func (o *Bot) SetEmail(v string) {
 }
 
 // GetBotType returns the BotType field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Bot) GetBotType() int32 {
-	if o == nil || IsNil(o.BotType.Get()) {
-		var ret int32
+func (o *Bot) GetBotType() BotType {
+	if o == nil || IsNil(o.BotType) {
+		var ret BotType
 		return ret
 	}
-	return *o.BotType.Get()
+	return *o.BotType
 }
 
 // GetBotTypeOk returns a tuple with the BotType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Bot) GetBotTypeOk() (*int32, bool) {
+func (o *Bot) GetBotTypeOk() (*BotType, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.BotType.Get(), o.BotType.IsSet()
+	return o.BotType, true
 }
 
 // HasBotType returns a boolean if a field has been set.
 func (o *Bot) HasBotType() bool {
-	if o != nil && o.BotType.IsSet() {
+	if o != nil && !IsNil(o.BotType) {
 		return true
 	}
 
@@ -411,18 +411,18 @@ func (o *Bot) HasBotType() bool {
 }
 
 // SetBotType gets a reference to the given NullableInt32 and assigns it to the BotType field.
-func (o *Bot) SetBotType(v int32) {
-	o.BotType.Set(&v)
+func (o *Bot) SetBotType(v BotType) {
+	o.BotType = &v
 }
 
 // SetBotTypeNil sets the value for BotType to be an explicit nil
 func (o *Bot) SetBotTypeNil() {
-	o.BotType.Set(nil)
+	o.BotType = nil
 }
 
 // UnsetBotType ensures that no value is present for BotType, not even an explicit nil
 func (o *Bot) UnsetBotType() {
-	o.BotType.Unset()
+	o.BotType = nil
 }
 
 // GetIsActive returns the IsActive field value if set, zero value otherwise.
@@ -497,8 +497,8 @@ func (o Bot) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Email) {
 		toSerialize["email"] = o.Email
 	}
-	if o.BotType.IsSet() {
-		toSerialize["bot_type"] = o.BotType.Get()
+	if !IsNil(o.BotType) {
+		toSerialize["bot_type"] = o.BotType
 	}
 	if !IsNil(o.IsActive) {
 		toSerialize["is_active"] = o.IsActive

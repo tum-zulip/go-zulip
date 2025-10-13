@@ -330,6 +330,42 @@ func (v *NullableTime) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
+type NullableTimestamp struct {
+	value *Timestamp
+	isSet bool
+}
+
+func (v NullableTimestamp) Get() *Timestamp {
+	return v.value
+}
+
+func (v *NullableTimestamp) Set(val *Timestamp) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableTimestamp) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableTimestamp) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableTimestamp(val *Timestamp) *NullableTimestamp {
+	return &NullableTimestamp{value: val, isSet: true}
+}
+
+func (v NullableTimestamp) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableTimestamp) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
 // IsNil checks if an input is nil
 func IsNil(i interface{}) bool {
 	if i == nil {

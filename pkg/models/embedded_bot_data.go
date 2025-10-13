@@ -14,36 +14,36 @@ import (
 	"encoding/json"
 )
 
-// checks if the BasicBotBaseServicesInnerOneOf1 type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &BasicBotBaseServicesInnerOneOf1{}
+// checks if the EmbeddedBotData type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &EmbeddedBotData{}
 
-// BasicBotBaseServicesInnerOneOf1 When the bot is an embedded bot.
-type BasicBotBaseServicesInnerOneOf1 struct {
+// EmbeddedBotData When the bot is an embedded bot.
+type EmbeddedBotData struct {
 	// The name of the bot.
 	ServiceName *string `json:"service_name,omitempty"`
 	// A dictionary of string key/value pairs, which describe the configuration for the bot. These are usually details like API keys, and are unique to the integration/bot. Can be an empty dictionary.
 	ConfigData *map[string]string `json:"config_data,omitempty"`
 }
 
-// NewBasicBotBaseServicesInnerOneOf1 instantiates a new BasicBotBaseServicesInnerOneOf1 object
+// NewEmbeddedBotData instantiates a new EmbeddedBotData object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewBasicBotBaseServicesInnerOneOf1() *BasicBotBaseServicesInnerOneOf1 {
-	this := BasicBotBaseServicesInnerOneOf1{}
+func NewEmbeddedBotData() *EmbeddedBotData {
+	this := EmbeddedBotData{}
 	return &this
 }
 
-// NewBasicBotBaseServicesInnerOneOf1WithDefaults instantiates a new BasicBotBaseServicesInnerOneOf1 object
+// NewEmbeddedBotDataWithDefaults instantiates a new EmbeddedBotData object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewBasicBotBaseServicesInnerOneOf1WithDefaults() *BasicBotBaseServicesInnerOneOf1 {
-	this := BasicBotBaseServicesInnerOneOf1{}
+func NewEmbeddedBotDataWithDefaults() *EmbeddedBotData {
+	this := EmbeddedBotData{}
 	return &this
 }
 
 // GetServiceName returns the ServiceName field value if set, zero value otherwise.
-func (o *BasicBotBaseServicesInnerOneOf1) GetServiceName() string {
+func (o *EmbeddedBotData) GetServiceName() string {
 	if o == nil || IsNil(o.ServiceName) {
 		var ret string
 		return ret
@@ -53,7 +53,7 @@ func (o *BasicBotBaseServicesInnerOneOf1) GetServiceName() string {
 
 // GetServiceNameOk returns a tuple with the ServiceName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicBotBaseServicesInnerOneOf1) GetServiceNameOk() (*string, bool) {
+func (o *EmbeddedBotData) GetServiceNameOk() (*string, bool) {
 	if o == nil || IsNil(o.ServiceName) {
 		return nil, false
 	}
@@ -61,7 +61,7 @@ func (o *BasicBotBaseServicesInnerOneOf1) GetServiceNameOk() (*string, bool) {
 }
 
 // HasServiceName returns a boolean if a field has been set.
-func (o *BasicBotBaseServicesInnerOneOf1) HasServiceName() bool {
+func (o *EmbeddedBotData) HasServiceName() bool {
 	if o != nil && !IsNil(o.ServiceName) {
 		return true
 	}
@@ -70,12 +70,12 @@ func (o *BasicBotBaseServicesInnerOneOf1) HasServiceName() bool {
 }
 
 // SetServiceName gets a reference to the given string and assigns it to the ServiceName field.
-func (o *BasicBotBaseServicesInnerOneOf1) SetServiceName(v string) {
+func (o *EmbeddedBotData) SetServiceName(v string) {
 	o.ServiceName = &v
 }
 
 // GetConfigData returns the ConfigData field value if set, zero value otherwise.
-func (o *BasicBotBaseServicesInnerOneOf1) GetConfigData() map[string]string {
+func (o *EmbeddedBotData) GetConfigData() map[string]string {
 	if o == nil || IsNil(o.ConfigData) {
 		var ret map[string]string
 		return ret
@@ -85,7 +85,7 @@ func (o *BasicBotBaseServicesInnerOneOf1) GetConfigData() map[string]string {
 
 // GetConfigDataOk returns a tuple with the ConfigData field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicBotBaseServicesInnerOneOf1) GetConfigDataOk() (*map[string]string, bool) {
+func (o *EmbeddedBotData) GetConfigDataOk() (*map[string]string, bool) {
 	if o == nil || IsNil(o.ConfigData) {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *BasicBotBaseServicesInnerOneOf1) GetConfigDataOk() (*map[string]string,
 }
 
 // HasConfigData returns a boolean if a field has been set.
-func (o *BasicBotBaseServicesInnerOneOf1) HasConfigData() bool {
+func (o *EmbeddedBotData) HasConfigData() bool {
 	if o != nil && !IsNil(o.ConfigData) {
 		return true
 	}
@@ -102,11 +102,11 @@ func (o *BasicBotBaseServicesInnerOneOf1) HasConfigData() bool {
 }
 
 // SetConfigData gets a reference to the given map[string]string and assigns it to the ConfigData field.
-func (o *BasicBotBaseServicesInnerOneOf1) SetConfigData(v map[string]string) {
+func (o *EmbeddedBotData) SetConfigData(v map[string]string) {
 	o.ConfigData = &v
 }
 
-func (o BasicBotBaseServicesInnerOneOf1) MarshalJSON() ([]byte, error) {
+func (o EmbeddedBotData) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -114,7 +114,7 @@ func (o BasicBotBaseServicesInnerOneOf1) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o BasicBotBaseServicesInnerOneOf1) ToMap() (map[string]interface{}, error) {
+func (o EmbeddedBotData) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.ServiceName) {
 		toSerialize["service_name"] = o.ServiceName
@@ -125,38 +125,38 @@ func (o BasicBotBaseServicesInnerOneOf1) ToMap() (map[string]interface{}, error)
 	return toSerialize, nil
 }
 
-type NullableBasicBotBaseServicesInnerOneOf1 struct {
-	value *BasicBotBaseServicesInnerOneOf1
+type NullableEmbeddedBotData struct {
+	value *EmbeddedBotData
 	isSet bool
 }
 
-func (v NullableBasicBotBaseServicesInnerOneOf1) Get() *BasicBotBaseServicesInnerOneOf1 {
+func (v NullableEmbeddedBotData) Get() *EmbeddedBotData {
 	return v.value
 }
 
-func (v *NullableBasicBotBaseServicesInnerOneOf1) Set(val *BasicBotBaseServicesInnerOneOf1) {
+func (v *NullableEmbeddedBotData) Set(val *EmbeddedBotData) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableBasicBotBaseServicesInnerOneOf1) IsSet() bool {
+func (v NullableEmbeddedBotData) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableBasicBotBaseServicesInnerOneOf1) Unset() {
+func (v *NullableEmbeddedBotData) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableBasicBotBaseServicesInnerOneOf1(val *BasicBotBaseServicesInnerOneOf1) *NullableBasicBotBaseServicesInnerOneOf1 {
-	return &NullableBasicBotBaseServicesInnerOneOf1{value: val, isSet: true}
+func NewNullableEmbeddedBotData(val *EmbeddedBotData) *NullableEmbeddedBotData {
+	return &NullableEmbeddedBotData{value: val, isSet: true}
 }
 
-func (v NullableBasicBotBaseServicesInnerOneOf1) MarshalJSON() ([]byte, error) {
+func (v NullableEmbeddedBotData) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableBasicBotBaseServicesInnerOneOf1) UnmarshalJSON(src []byte) error {
+func (v *NullableEmbeddedBotData) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

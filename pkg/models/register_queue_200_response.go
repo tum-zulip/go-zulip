@@ -42,9 +42,9 @@ type RegisterQueue200Response struct {
 	// Present if `custom_profile_fields` is present in `fetch_event_types`.  An array of objects; each object describes a type of custom profile field that could be configured on this Zulip server. Each custom profile type has an ID and the `type` property of a custom profile field is equal to one of these IDs.  This attribute is only useful for clients containing UI for changing the set of configured custom profile fields in a Zulip organization.
 	CustomProfileFieldTypes *map[string]CustomProfileFieldType `json:"custom_profile_field_types,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  The UNIX timestamp (UTC) for when the organization was created.  **Changes**: New in Zulip 8.0 (feature level 203).
-	RealmDateCreated *int32 `json:"realm_date_created,omitempty"`
+	RealmDateCreated *Timestamp `json:"realm_date_created,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`, and the realm is a demo organization.  The UNIX timestamp (UTC) when the demo organization will be automatically deleted. Clients should use this to display a prominent warning to the user that the organization will be deleted at the indicated time.  **Changes**: New in Zulip 5.0 (feature level 94).
-	DemoOrganizationScheduledDeletionDate *int32 `json:"demo_organization_scheduled_deletion_date,omitempty"`
+	DemoOrganizationScheduledDeletionDate *Timestamp `json:"demo_organization_scheduled_deletion_date,omitempty"`
 	// An array containing draft objects for the user. These drafts are being stored on the backend for the purpose of syncing across devices. This array will be empty if `enable_drafts_synchronization` is set to `false`.
 	Drafts []Draft `json:"drafts,omitempty"`
 	// Present if `onboarding_steps` is present in `fetch_event_types`.  An array of dictionaries, where each dictionary contains details about a single onboarding step that should be shown to the user.  We expect that only official Zulip clients will interact with this data.  **Changes**: Before Zulip 8.0 (feature level 233), this array was named `hotspots`. Prior to this feature level, one-time notice onboarding steps were not supported, and the `type` field in these objects did not exist as all onboarding steps were implicitly hotspots.
@@ -921,9 +921,9 @@ func (o *RegisterQueue200Response) SetCustomProfileFieldTypes(v map[string]Custo
 }
 
 // GetRealmDateCreated returns the RealmDateCreated field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetRealmDateCreated() int32 {
+func (o *RegisterQueue200Response) GetRealmDateCreated() Timestamp {
 	if o == nil || IsNil(o.RealmDateCreated) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.RealmDateCreated
@@ -931,7 +931,7 @@ func (o *RegisterQueue200Response) GetRealmDateCreated() int32 {
 
 // GetRealmDateCreatedOk returns a tuple with the RealmDateCreated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetRealmDateCreatedOk() (*int32, bool) {
+func (o *RegisterQueue200Response) GetRealmDateCreatedOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.RealmDateCreated) {
 		return nil, false
 	}
@@ -947,15 +947,15 @@ func (o *RegisterQueue200Response) HasRealmDateCreated() bool {
 	return false
 }
 
-// SetRealmDateCreated gets a reference to the given int32 and assigns it to the RealmDateCreated field.
-func (o *RegisterQueue200Response) SetRealmDateCreated(v int32) {
+// SetRealmDateCreated gets a reference to the given Timestamp and assigns it to the RealmDateCreated field.
+func (o *RegisterQueue200Response) SetRealmDateCreated(v Timestamp) {
 	o.RealmDateCreated = &v
 }
 
 // GetDemoOrganizationScheduledDeletionDate returns the DemoOrganizationScheduledDeletionDate field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetDemoOrganizationScheduledDeletionDate() int32 {
+func (o *RegisterQueue200Response) GetDemoOrganizationScheduledDeletionDate() Timestamp {
 	if o == nil || IsNil(o.DemoOrganizationScheduledDeletionDate) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.DemoOrganizationScheduledDeletionDate
@@ -963,7 +963,7 @@ func (o *RegisterQueue200Response) GetDemoOrganizationScheduledDeletionDate() in
 
 // GetDemoOrganizationScheduledDeletionDateOk returns a tuple with the DemoOrganizationScheduledDeletionDate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetDemoOrganizationScheduledDeletionDateOk() (*int32, bool) {
+func (o *RegisterQueue200Response) GetDemoOrganizationScheduledDeletionDateOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.DemoOrganizationScheduledDeletionDate) {
 		return nil, false
 	}
@@ -979,8 +979,8 @@ func (o *RegisterQueue200Response) HasDemoOrganizationScheduledDeletionDate() bo
 	return false
 }
 
-// SetDemoOrganizationScheduledDeletionDate gets a reference to the given int32 and assigns it to the DemoOrganizationScheduledDeletionDate field.
-func (o *RegisterQueue200Response) SetDemoOrganizationScheduledDeletionDate(v int32) {
+// SetDemoOrganizationScheduledDeletionDate gets a reference to the given Timestamp and assigns it to the DemoOrganizationScheduledDeletionDate field.
+func (o *RegisterQueue200Response) SetDemoOrganizationScheduledDeletionDate(v Timestamp) {
 	o.DemoOrganizationScheduledDeletionDate = &v
 }
 

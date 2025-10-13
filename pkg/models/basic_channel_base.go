@@ -28,7 +28,7 @@ type BasicChannelBase struct {
 	// The short description of the channel in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format, intended to be used to prepopulate UI for editing a channel's description.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
 	Description *string `json:"description,omitempty"`
 	// The UNIX timestamp for when the channel was created, in UTC seconds.  **Changes**: New in Zulip 4.0 (feature level 30).
-	DateCreated *int32 `json:"date_created,omitempty"`
+	DateCreated *Timestamp `json:"date_created,omitempty"`
 	// The ID of the user who created this channel.  A `null` value means the channel has no recorded creator, which is often because the channel is very old, or because it was created via a data import tool or [management command][management-commands].  **Changes**: New in Zulip 9.0 (feature level 254).  [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 	CreatorId NullableInt32 `json:"creator_id,omitempty"`
 	// Specifies whether the channel is private or not. Only people who have been invited can access a private channel.
@@ -214,9 +214,9 @@ func (o *BasicChannelBase) SetDescription(v string) {
 }
 
 // GetDateCreated returns the DateCreated field value if set, zero value otherwise.
-func (o *BasicChannelBase) GetDateCreated() int32 {
+func (o *BasicChannelBase) GetDateCreated() Timestamp {
 	if o == nil || IsNil(o.DateCreated) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.DateCreated
@@ -224,7 +224,7 @@ func (o *BasicChannelBase) GetDateCreated() int32 {
 
 // GetDateCreatedOk returns a tuple with the DateCreated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicChannelBase) GetDateCreatedOk() (*int32, bool) {
+func (o *BasicChannelBase) GetDateCreatedOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.DateCreated) {
 		return nil, false
 	}
@@ -240,8 +240,8 @@ func (o *BasicChannelBase) HasDateCreated() bool {
 	return false
 }
 
-// SetDateCreated gets a reference to the given int32 and assigns it to the DateCreated field.
-func (o *BasicChannelBase) SetDateCreated(v int32) {
+// SetDateCreated gets a reference to the given Timestamp and assigns it to the DateCreated field.
+func (o *BasicChannelBase) SetDateCreated(v Timestamp) {
 	o.DateCreated = &v
 }
 

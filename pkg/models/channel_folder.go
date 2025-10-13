@@ -22,7 +22,7 @@ type ChannelFolder struct {
 	// The name of the channel folder.
 	Name *string `json:"name,omitempty"`
 	// The UNIX timestamp for when the channel folder was created, in UTC seconds.
-	DateCreated NullableInt32 `json:"date_created,omitempty"`
+	DateCreated NullableTimestamp `json:"date_created,omitempty"`
 	// The ID of the user who created this channel folder.
 	CreatorId NullableInt32 `json:"creator_id,omitempty"`
 	// The description of the channel folder.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
@@ -87,9 +87,9 @@ func (o *ChannelFolder) SetName(v string) {
 }
 
 // GetDateCreated returns the DateCreated field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ChannelFolder) GetDateCreated() int32 {
+func (o *ChannelFolder) GetDateCreated() Timestamp {
 	if o == nil || IsNil(o.DateCreated.Get()) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.DateCreated.Get()
@@ -98,7 +98,7 @@ func (o *ChannelFolder) GetDateCreated() int32 {
 // GetDateCreatedOk returns a tuple with the DateCreated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ChannelFolder) GetDateCreatedOk() (*int32, bool) {
+func (o *ChannelFolder) GetDateCreatedOk() (*Timestamp, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -115,7 +115,7 @@ func (o *ChannelFolder) HasDateCreated() bool {
 }
 
 // SetDateCreated gets a reference to the given NullableInt32 and assigns it to the DateCreated field.
-func (o *ChannelFolder) SetDateCreated(v int32) {
+func (o *ChannelFolder) SetDateCreated(v Timestamp) {
 	o.DateCreated.Set(&v)
 }
 

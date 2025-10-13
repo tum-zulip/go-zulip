@@ -26,7 +26,7 @@ type SavedSnippet struct {
 	// The content of the saved snippet in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  Clients should insert this content into a message when using a saved snippet.
 	Content *string `json:"content,omitempty"`
 	// The UNIX timestamp for when the saved snippet was created, in UTC seconds.
-	DateCreated *int32 `json:"date_created,omitempty"`
+	DateCreated *Timestamp `json:"date_created,omitempty"`
 }
 
 // NewSavedSnippet instantiates a new SavedSnippet object
@@ -143,9 +143,9 @@ func (o *SavedSnippet) SetContent(v string) {
 }
 
 // GetDateCreated returns the DateCreated field value if set, zero value otherwise.
-func (o *SavedSnippet) GetDateCreated() int32 {
+func (o *SavedSnippet) GetDateCreated() Timestamp {
 	if o == nil || IsNil(o.DateCreated) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.DateCreated
@@ -153,7 +153,7 @@ func (o *SavedSnippet) GetDateCreated() int32 {
 
 // GetDateCreatedOk returns a tuple with the DateCreated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SavedSnippet) GetDateCreatedOk() (*int32, bool) {
+func (o *SavedSnippet) GetDateCreatedOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.DateCreated) {
 		return nil, false
 	}
@@ -169,8 +169,8 @@ func (o *SavedSnippet) HasDateCreated() bool {
 	return false
 }
 
-// SetDateCreated gets a reference to the given int32 and assigns it to the DateCreated field.
-func (o *SavedSnippet) SetDateCreated(v int32) {
+// SetDateCreated gets a reference to the given Timestamp and assigns it to the DateCreated field.
+func (o *SavedSnippet) SetDateCreated(v Timestamp) {
 	o.DateCreated = &v
 }
 

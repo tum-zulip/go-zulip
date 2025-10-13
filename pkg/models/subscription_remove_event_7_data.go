@@ -129,7 +129,7 @@ type SubscriptionRemoveEvent7Data struct {
 	// Whether push notifications are enabled for this organization. Typically `true` for Zulip Cloud and self-hosted realms that have a valid registration for the [Mobile push notifications service](https://zulip.readthedocs.io/en/latest/production/mobile-push-notifications.html), and `false` for self-hosted servers that do not.  **Changes**: New in Zulip 8.0 (feature level 231). Previously, this value was never updated via events.
 	PushNotificationsEnabled *bool `json:"push_notifications_enabled,omitempty"`
 	// If the server expects the realm's push notifications access to end at a definite time in the future, the time at which this is expected to happen. Mobile clients should use this field to display warnings to users when the indicated timestamp is near.  **Changes**: New in Zulip 8.0 (feature level 231).
-	PushNotificationsEnabledEndTimestamp NullableInt32 `json:"push_notifications_enabled_end_timestamp,omitempty"`
+	PushNotificationsEnabledEndTimestamp NullableTimestamp `json:"push_notifications_enabled_end_timestamp,omitempty"`
 	// Whether this realm is configured to disallow sending mobile push notifications with message content through the legacy mobile push notifications APIs. The new API uses end-to-end encryption to protect message content and metadata from being accessible to the push bouncer service, APNs, and FCM. Clients that support the new E2EE API will use it automatically regardless of this setting.  If `true`, mobile push notifications sent to clients that lack support for E2EE push notifications will always have \"New message\" as their content. Note that these legacy mobile notifications will still contain metadata, which may include the message's ID, the sender's name, email address, and avatar.  In a future release, once the official mobile apps have implemented fully validated their E2EE protocol support, this setting will become strict, and disable the legacy protocol entirely.  **Changes**: New in Zulip 11.0 (feature level 409). Previously, this behavior was available only via the `PUSH_NOTIFICATION_REDACT_CONTENT` global server setting.
 	RequireE2eePushNotifications *bool `json:"require_e2ee_push_notifications,omitempty"`
 	// Indicates whether the organization is configured to require users to have unique full names. If true, the server will reject attempts to create a new user, or change the name of an existing user, where doing so would lead to two users whose names are identical modulo case and unicode normalization.  **Changes**: New in Zulip 9.0 (feature level 246). Previously, the Zulip server could not be configured to enforce unique names.
@@ -2340,9 +2340,9 @@ func (o *SubscriptionRemoveEvent7Data) SetPushNotificationsEnabled(v bool) {
 }
 
 // GetPushNotificationsEnabledEndTimestamp returns the PushNotificationsEnabledEndTimestamp field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *SubscriptionRemoveEvent7Data) GetPushNotificationsEnabledEndTimestamp() int32 {
+func (o *SubscriptionRemoveEvent7Data) GetPushNotificationsEnabledEndTimestamp() Timestamp {
 	if o == nil || IsNil(o.PushNotificationsEnabledEndTimestamp.Get()) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.PushNotificationsEnabledEndTimestamp.Get()
@@ -2351,7 +2351,7 @@ func (o *SubscriptionRemoveEvent7Data) GetPushNotificationsEnabledEndTimestamp()
 // GetPushNotificationsEnabledEndTimestampOk returns a tuple with the PushNotificationsEnabledEndTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *SubscriptionRemoveEvent7Data) GetPushNotificationsEnabledEndTimestampOk() (*int32, bool) {
+func (o *SubscriptionRemoveEvent7Data) GetPushNotificationsEnabledEndTimestampOk() (*Timestamp, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -2367,8 +2367,8 @@ func (o *SubscriptionRemoveEvent7Data) HasPushNotificationsEnabledEndTimestamp()
 	return false
 }
 
-// SetPushNotificationsEnabledEndTimestamp gets a reference to the given NullableInt32 and assigns it to the PushNotificationsEnabledEndTimestamp field.
-func (o *SubscriptionRemoveEvent7Data) SetPushNotificationsEnabledEndTimestamp(v int32) {
+// SetPushNotificationsEnabledEndTimestamp gets a reference to the given NullableTimestamp and assigns it to the PushNotificationsEnabledEndTimestamp field.
+func (o *SubscriptionRemoveEvent7Data) SetPushNotificationsEnabledEndTimestamp(v Timestamp) {
 	o.PushNotificationsEnabledEndTimestamp.Set(&v)
 }
 

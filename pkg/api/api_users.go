@@ -1188,7 +1188,7 @@ func (c *ZulipClient) AddApnsTokenExecute(r ApiAddApnsTokenRequest) (*models.Jso
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.AddApnsToken400Response
+			var v models.CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -2068,7 +2068,7 @@ func (c *ZulipClient) DeactivateUserGroupExecute(r ApiDeactivateUserGroupRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.DeactivateUserGroup400Response
+			var v models.CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -3654,7 +3654,7 @@ func (c *ZulipClient) MuteUserExecute(r ApiMuteUserRequest) (*models.JsonSuccess
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.MuteUser400Response
+			var v models.CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -3996,7 +3996,7 @@ func (c *ZulipClient) RemoveApnsTokenExecute(r ApiRemoveApnsTokenRequest) (*mode
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.RemoveApnsToken400Response
+			var v models.CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -4252,7 +4252,7 @@ func (c *ZulipClient) RemoveFcmTokenExecute(r ApiRemoveFcmTokenRequest) (*models
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.RemoveFcmToken400Response
+			var v models.CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -4721,7 +4721,7 @@ func (c *ZulipClient) UnmuteUserExecute(r ApiUnmuteUserRequest) (*models.JsonSuc
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.UnmuteUser400Response
+			var v models.CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -5899,7 +5899,7 @@ func (c *ZulipClient) UpdateStatusExecute(r ApiUpdateStatusRequest) (*models.Jso
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.UpdateStatus400Response
+			var v models.CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -6056,7 +6056,7 @@ func (c *ZulipClient) UpdateStatusForUserExecute(r ApiUpdateStatusForUserRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.UpdateStatusForUser400Response
+			var v models.CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

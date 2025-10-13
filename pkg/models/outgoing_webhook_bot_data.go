@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the BasicBotBaseServicesInnerOneOf type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &BasicBotBaseServicesInnerOneOf{}
+// checks if the OutgoingWebhookBotData type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &OutgoingWebhookBotData{}
 
-// BasicBotBaseServicesInnerOneOf When the bot is an outgoing webhook.
-type BasicBotBaseServicesInnerOneOf struct {
+// OutgoingWebhookBotData When the bot is an outgoing webhook.
+type OutgoingWebhookBotData struct {
 	// The URL the outgoing webhook is configured to post to.
 	BaseUrl *string `json:"base_url,omitempty"`
 	// A unique token that the third-party service can use to confirm that the request is indeed coming from Zulip.
@@ -27,25 +27,25 @@ type BasicBotBaseServicesInnerOneOf struct {
 	Interface *int32 `json:"interface,omitempty"`
 }
 
-// NewBasicBotBaseServicesInnerOneOf instantiates a new BasicBotBaseServicesInnerOneOf object
+// NewOutgoingWebhookBotData instantiates a new OutgoingWebhookBotData object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewBasicBotBaseServicesInnerOneOf() *BasicBotBaseServicesInnerOneOf {
-	this := BasicBotBaseServicesInnerOneOf{}
+func NewOutgoingWebhookBotData() *OutgoingWebhookBotData {
+	this := OutgoingWebhookBotData{}
 	return &this
 }
 
-// NewBasicBotBaseServicesInnerOneOfWithDefaults instantiates a new BasicBotBaseServicesInnerOneOf object
+// NewOutgoingWebhookBotDataWithDefaults instantiates a new OutgoingWebhookBotData object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewBasicBotBaseServicesInnerOneOfWithDefaults() *BasicBotBaseServicesInnerOneOf {
-	this := BasicBotBaseServicesInnerOneOf{}
+func NewOutgoingWebhookBotDataWithDefaults() *OutgoingWebhookBotData {
+	this := OutgoingWebhookBotData{}
 	return &this
 }
 
 // GetBaseUrl returns the BaseUrl field value if set, zero value otherwise.
-func (o *BasicBotBaseServicesInnerOneOf) GetBaseUrl() string {
+func (o *OutgoingWebhookBotData) GetBaseUrl() string {
 	if o == nil || IsNil(o.BaseUrl) {
 		var ret string
 		return ret
@@ -55,7 +55,7 @@ func (o *BasicBotBaseServicesInnerOneOf) GetBaseUrl() string {
 
 // GetBaseUrlOk returns a tuple with the BaseUrl field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicBotBaseServicesInnerOneOf) GetBaseUrlOk() (*string, bool) {
+func (o *OutgoingWebhookBotData) GetBaseUrlOk() (*string, bool) {
 	if o == nil || IsNil(o.BaseUrl) {
 		return nil, false
 	}
@@ -63,7 +63,7 @@ func (o *BasicBotBaseServicesInnerOneOf) GetBaseUrlOk() (*string, bool) {
 }
 
 // HasBaseUrl returns a boolean if a field has been set.
-func (o *BasicBotBaseServicesInnerOneOf) HasBaseUrl() bool {
+func (o *OutgoingWebhookBotData) HasBaseUrl() bool {
 	if o != nil && !IsNil(o.BaseUrl) {
 		return true
 	}
@@ -72,12 +72,12 @@ func (o *BasicBotBaseServicesInnerOneOf) HasBaseUrl() bool {
 }
 
 // SetBaseUrl gets a reference to the given string and assigns it to the BaseUrl field.
-func (o *BasicBotBaseServicesInnerOneOf) SetBaseUrl(v string) {
+func (o *OutgoingWebhookBotData) SetBaseUrl(v string) {
 	o.BaseUrl = &v
 }
 
 // GetToken returns the Token field value if set, zero value otherwise.
-func (o *BasicBotBaseServicesInnerOneOf) GetToken() string {
+func (o *OutgoingWebhookBotData) GetToken() string {
 	if o == nil || IsNil(o.Token) {
 		var ret string
 		return ret
@@ -87,7 +87,7 @@ func (o *BasicBotBaseServicesInnerOneOf) GetToken() string {
 
 // GetTokenOk returns a tuple with the Token field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicBotBaseServicesInnerOneOf) GetTokenOk() (*string, bool) {
+func (o *OutgoingWebhookBotData) GetTokenOk() (*string, bool) {
 	if o == nil || IsNil(o.Token) {
 		return nil, false
 	}
@@ -95,7 +95,7 @@ func (o *BasicBotBaseServicesInnerOneOf) GetTokenOk() (*string, bool) {
 }
 
 // HasToken returns a boolean if a field has been set.
-func (o *BasicBotBaseServicesInnerOneOf) HasToken() bool {
+func (o *OutgoingWebhookBotData) HasToken() bool {
 	if o != nil && !IsNil(o.Token) {
 		return true
 	}
@@ -104,12 +104,12 @@ func (o *BasicBotBaseServicesInnerOneOf) HasToken() bool {
 }
 
 // SetToken gets a reference to the given string and assigns it to the Token field.
-func (o *BasicBotBaseServicesInnerOneOf) SetToken(v string) {
+func (o *OutgoingWebhookBotData) SetToken(v string) {
 	o.Token = &v
 }
 
 // GetInterface returns the Interface field value if set, zero value otherwise.
-func (o *BasicBotBaseServicesInnerOneOf) GetInterface() int32 {
+func (o *OutgoingWebhookBotData) GetInterface() int32 {
 	if o == nil || IsNil(o.Interface) {
 		var ret int32
 		return ret
@@ -119,7 +119,7 @@ func (o *BasicBotBaseServicesInnerOneOf) GetInterface() int32 {
 
 // GetInterfaceOk returns a tuple with the Interface field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BasicBotBaseServicesInnerOneOf) GetInterfaceOk() (*int32, bool) {
+func (o *OutgoingWebhookBotData) GetInterfaceOk() (*int32, bool) {
 	if o == nil || IsNil(o.Interface) {
 		return nil, false
 	}
@@ -127,7 +127,7 @@ func (o *BasicBotBaseServicesInnerOneOf) GetInterfaceOk() (*int32, bool) {
 }
 
 // HasInterface returns a boolean if a field has been set.
-func (o *BasicBotBaseServicesInnerOneOf) HasInterface() bool {
+func (o *OutgoingWebhookBotData) HasInterface() bool {
 	if o != nil && !IsNil(o.Interface) {
 		return true
 	}
@@ -136,11 +136,11 @@ func (o *BasicBotBaseServicesInnerOneOf) HasInterface() bool {
 }
 
 // SetInterface gets a reference to the given int32 and assigns it to the Interface field.
-func (o *BasicBotBaseServicesInnerOneOf) SetInterface(v int32) {
+func (o *OutgoingWebhookBotData) SetInterface(v int32) {
 	o.Interface = &v
 }
 
-func (o BasicBotBaseServicesInnerOneOf) MarshalJSON() ([]byte, error) {
+func (o OutgoingWebhookBotData) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -148,7 +148,7 @@ func (o BasicBotBaseServicesInnerOneOf) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o BasicBotBaseServicesInnerOneOf) ToMap() (map[string]interface{}, error) {
+func (o OutgoingWebhookBotData) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.BaseUrl) {
 		toSerialize["base_url"] = o.BaseUrl
@@ -162,38 +162,38 @@ func (o BasicBotBaseServicesInnerOneOf) ToMap() (map[string]interface{}, error) 
 	return toSerialize, nil
 }
 
-type NullableBasicBotBaseServicesInnerOneOf struct {
-	value *BasicBotBaseServicesInnerOneOf
+type NullableOutgoingWebhookBotData struct {
+	value *OutgoingWebhookBotData
 	isSet bool
 }
 
-func (v NullableBasicBotBaseServicesInnerOneOf) Get() *BasicBotBaseServicesInnerOneOf {
+func (v NullableOutgoingWebhookBotData) Get() *OutgoingWebhookBotData {
 	return v.value
 }
 
-func (v *NullableBasicBotBaseServicesInnerOneOf) Set(val *BasicBotBaseServicesInnerOneOf) {
+func (v *NullableOutgoingWebhookBotData) Set(val *OutgoingWebhookBotData) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableBasicBotBaseServicesInnerOneOf) IsSet() bool {
+func (v NullableOutgoingWebhookBotData) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableBasicBotBaseServicesInnerOneOf) Unset() {
+func (v *NullableOutgoingWebhookBotData) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableBasicBotBaseServicesInnerOneOf(val *BasicBotBaseServicesInnerOneOf) *NullableBasicBotBaseServicesInnerOneOf {
-	return &NullableBasicBotBaseServicesInnerOneOf{value: val, isSet: true}
+func NewNullableOutgoingWebhookBotData(val *OutgoingWebhookBotData) *NullableOutgoingWebhookBotData {
+	return &NullableOutgoingWebhookBotData{value: val, isSet: true}
 }
 
-func (v NullableBasicBotBaseServicesInnerOneOf) MarshalJSON() ([]byte, error) {
+func (v NullableOutgoingWebhookBotData) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableBasicBotBaseServicesInnerOneOf) UnmarshalJSON(src []byte) error {
+func (v *NullableOutgoingWebhookBotData) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

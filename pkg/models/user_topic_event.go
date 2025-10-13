@@ -27,7 +27,7 @@ type UserTopicEvent struct {
 	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	TopicName *string `json:"topic_name,omitempty"`
 	// An integer UNIX timestamp representing when the user-topic relationship was last changed.
-	LastUpdated *int32 `json:"last_updated,omitempty"`
+	LastUpdated *Timestamp `json:"last_updated,omitempty"`
 	// An integer indicating the user's visibility preferences for the topic, such as whether the topic is muted.  - 0 = None. Used to indicate that the user no   longer has a special visibility policy for this topic. - 1 = Muted. Used to record [muted topics](zulip.com/help/mute-a-topic. - 2 = Unmuted. Used to record unmuted topics. - 3 = Followed. Used to record [followed topics](zulip.com/help/follow-a-topic.  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.  In Zulip 7.0 (feature level 170), added unmuted as a visibility policy option.
 	VisibilityPolicy *int32 `json:"visibility_policy,omitempty"`
 }
@@ -178,9 +178,9 @@ func (o *UserTopicEvent) SetTopicName(v string) {
 }
 
 // GetLastUpdated returns the LastUpdated field value if set, zero value otherwise.
-func (o *UserTopicEvent) GetLastUpdated() int32 {
+func (o *UserTopicEvent) GetLastUpdated() Timestamp {
 	if o == nil || IsNil(o.LastUpdated) {
-		var ret int32
+		var ret Timestamp
 		return ret
 	}
 	return *o.LastUpdated
@@ -188,7 +188,7 @@ func (o *UserTopicEvent) GetLastUpdated() int32 {
 
 // GetLastUpdatedOk returns a tuple with the LastUpdated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UserTopicEvent) GetLastUpdatedOk() (*int32, bool) {
+func (o *UserTopicEvent) GetLastUpdatedOk() (*Timestamp, bool) {
 	if o == nil || IsNil(o.LastUpdated) {
 		return nil, false
 	}
@@ -204,8 +204,8 @@ func (o *UserTopicEvent) HasLastUpdated() bool {
 	return false
 }
 
-// SetLastUpdated gets a reference to the given int32 and assigns it to the LastUpdated field.
-func (o *UserTopicEvent) SetLastUpdated(v int32) {
+// SetLastUpdated gets a reference to the given Timestamp and assigns it to the LastUpdated field.
+func (o *UserTopicEvent) SetLastUpdated(v Timestamp) {
 	o.LastUpdated = &v
 }
 
