@@ -181,7 +181,7 @@ Name | Type | Description | Notes
 **RealmBotDomain** | Pointer to **string** | Present if &#x60;realm&#x60; is present in &#x60;fetch_event_types&#x60;.  The fake email domain that will be used for new bots created this organization. Useful for UI for creating bots.  | [optional] 
 **RealmUri** | Pointer to **string** | Present if &#x60;realm&#x60; is present in &#x60;fetch_event_types&#x60;.  The URL for the organization. Alias of &#x60;realm_url&#x60;.  **Changes**: Deprecated in Zulip 9.0 (feature level 257). The term \&quot;URI\&quot; is deprecated in [web standards](https://url.spec.whatwg.org/#goals).  | [optional] 
 **RealmUrl** | Pointer to **string** | Present if &#x60;realm&#x60; is present in &#x60;fetch_event_types&#x60;.  The URL for the organization.  **Changes**: New in Zulip 9.0 (feature level 257), replacing the deprecated &#x60;realm_uri&#x60;.  | [optional] 
-**RealmAvailableVideoChatProviders** | Pointer to [**map[string]RegisterQueueResponseRealmAvailableVideoChatProvidersEntry**](RegisterQueueResponseRealmAvailableVideoChatProvidersEntry.md) | Present if &#x60;realm&#x60; is present in &#x60;fetch_event_types&#x60;.  Dictionary where each entry describes a supported [video call provider](/help/configure-call-provider) that is configured on this server and could be selected by an organization administrator.  Useful for administrative settings UI that allows changing the realm setting &#x60;video_chat_provider&#x60;.  | [optional] 
+**RealmAvailableVideoChatProviders** | Pointer to [**map[string]VideoChatProviderEntry**](VideoChatProviderEntry.md) | Present if &#x60;realm&#x60; is present in &#x60;fetch_event_types&#x60;.  Dictionary where each entry describes a supported [video call provider](/help/configure-call-provider) that is configured on this server and could be selected by an organization administrator.  Useful for administrative settings UI that allows changing the realm setting &#x60;video_chat_provider&#x60;.  | [optional] 
 **RealmPresenceDisabled** | Pointer to **bool** | Present if &#x60;realm&#x60; is present in &#x60;fetch_event_types&#x60;.  Whether online presence of other users is shown in this organization.  | [optional] 
 **SettingsSendDigestEmails** | Pointer to **bool** | Present if &#x60;realm&#x60; is present in &#x60;fetch_event_types&#x60;.  Whether this Zulip server is configured to allow organizations to enable [digest emails](/help/digest-emails).  Relevant for administrative settings UI that can change the digest email settings.  | [optional] 
 **RealmIsZephyrMirrorRealm** | Pointer to **bool** | Present if &#x60;realm&#x60; is present in &#x60;fetch_event_types&#x60;.  Whether the organization is a Zephyr mirror realm.  | [optional] 
@@ -4805,20 +4805,20 @@ HasRealmUrl returns a boolean if a field has been set.
 
 ### GetRealmAvailableVideoChatProviders
 
-`func (o *RegisterQueue200Response) GetRealmAvailableVideoChatProviders() map[string]RegisterQueueResponseRealmAvailableVideoChatProvidersEntry`
+`func (o *RegisterQueue200Response) GetRealmAvailableVideoChatProviders() map[string]VideoChatProviderEntry`
 
 GetRealmAvailableVideoChatProviders returns the RealmAvailableVideoChatProviders field if non-nil, zero value otherwise.
 
 ### GetRealmAvailableVideoChatProvidersOk
 
-`func (o *RegisterQueue200Response) GetRealmAvailableVideoChatProvidersOk() (*map[string]RegisterQueueResponseRealmAvailableVideoChatProvidersEntry, bool)`
+`func (o *RegisterQueue200Response) GetRealmAvailableVideoChatProvidersOk() (*map[string]VideoChatProviderEntry, bool)`
 
 GetRealmAvailableVideoChatProvidersOk returns a tuple with the RealmAvailableVideoChatProviders field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRealmAvailableVideoChatProviders
 
-`func (o *RegisterQueue200Response) SetRealmAvailableVideoChatProviders(v map[string]RegisterQueueResponseRealmAvailableVideoChatProvidersEntry)`
+`func (o *RegisterQueue200Response) SetRealmAvailableVideoChatProviders(v map[string]VideoChatProviderEntry)`
 
 SetRealmAvailableVideoChatProviders sets RealmAvailableVideoChatProviders field to given value.
 

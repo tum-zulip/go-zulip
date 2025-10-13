@@ -1,4 +1,4 @@
-# GetServerSettings200ResponseAllOfAuthenticationMethods
+# AuthMethods
 
 ## Properties
 
@@ -19,320 +19,320 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetServerSettings200ResponseAllOfAuthenticationMethods
+### NewAuthMethods
 
-`func NewGetServerSettings200ResponseAllOfAuthenticationMethods() *GetServerSettings200ResponseAllOfAuthenticationMethods`
+`func NewAuthMethods() *AuthMethods`
 
-NewGetServerSettings200ResponseAllOfAuthenticationMethods instantiates a new GetServerSettings200ResponseAllOfAuthenticationMethods object
+NewAuthMethods instantiates a new AuthMethods object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetServerSettings200ResponseAllOfAuthenticationMethodsWithDefaults
+### NewAuthMethodsWithDefaults
 
-`func NewGetServerSettings200ResponseAllOfAuthenticationMethodsWithDefaults() *GetServerSettings200ResponseAllOfAuthenticationMethods`
+`func NewAuthMethodsWithDefaults() *AuthMethods`
 
-NewGetServerSettings200ResponseAllOfAuthenticationMethodsWithDefaults instantiates a new GetServerSettings200ResponseAllOfAuthenticationMethods object
+NewAuthMethodsWithDefaults instantiates a new AuthMethods object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetPassword
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetPassword() bool`
+`func (o *AuthMethods) GetPassword() bool`
 
 GetPassword returns the Password field if non-nil, zero value otherwise.
 
 ### GetPasswordOk
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetPasswordOk() (*bool, bool)`
+`func (o *AuthMethods) GetPasswordOk() (*bool, bool)`
 
 GetPasswordOk returns a tuple with the Password field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPassword
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetPassword(v bool)`
+`func (o *AuthMethods) SetPassword(v bool)`
 
 SetPassword sets Password field to given value.
 
 ### HasPassword
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasPassword() bool`
+`func (o *AuthMethods) HasPassword() bool`
 
 HasPassword returns a boolean if a field has been set.
 
 ### GetDev
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetDev() bool`
+`func (o *AuthMethods) GetDev() bool`
 
 GetDev returns the Dev field if non-nil, zero value otherwise.
 
 ### GetDevOk
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetDevOk() (*bool, bool)`
+`func (o *AuthMethods) GetDevOk() (*bool, bool)`
 
 GetDevOk returns a tuple with the Dev field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDev
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetDev(v bool)`
+`func (o *AuthMethods) SetDev(v bool)`
 
 SetDev sets Dev field to given value.
 
 ### HasDev
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasDev() bool`
+`func (o *AuthMethods) HasDev() bool`
 
 HasDev returns a boolean if a field has been set.
 
 ### GetEmail
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetEmail() bool`
+`func (o *AuthMethods) GetEmail() bool`
 
 GetEmail returns the Email field if non-nil, zero value otherwise.
 
 ### GetEmailOk
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetEmailOk() (*bool, bool)`
+`func (o *AuthMethods) GetEmailOk() (*bool, bool)`
 
 GetEmailOk returns a tuple with the Email field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEmail
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetEmail(v bool)`
+`func (o *AuthMethods) SetEmail(v bool)`
 
 SetEmail sets Email field to given value.
 
 ### HasEmail
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasEmail() bool`
+`func (o *AuthMethods) HasEmail() bool`
 
 HasEmail returns a boolean if a field has been set.
 
 ### GetLdap
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetLdap() bool`
+`func (o *AuthMethods) GetLdap() bool`
 
 GetLdap returns the Ldap field if non-nil, zero value otherwise.
 
 ### GetLdapOk
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetLdapOk() (*bool, bool)`
+`func (o *AuthMethods) GetLdapOk() (*bool, bool)`
 
 GetLdapOk returns a tuple with the Ldap field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLdap
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetLdap(v bool)`
+`func (o *AuthMethods) SetLdap(v bool)`
 
 SetLdap sets Ldap field to given value.
 
 ### HasLdap
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasLdap() bool`
+`func (o *AuthMethods) HasLdap() bool`
 
 HasLdap returns a boolean if a field has been set.
 
 ### GetRemoteuser
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetRemoteuser() bool`
+`func (o *AuthMethods) GetRemoteuser() bool`
 
 GetRemoteuser returns the Remoteuser field if non-nil, zero value otherwise.
 
 ### GetRemoteuserOk
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetRemoteuserOk() (*bool, bool)`
+`func (o *AuthMethods) GetRemoteuserOk() (*bool, bool)`
 
 GetRemoteuserOk returns a tuple with the Remoteuser field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRemoteuser
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetRemoteuser(v bool)`
+`func (o *AuthMethods) SetRemoteuser(v bool)`
 
 SetRemoteuser sets Remoteuser field to given value.
 
 ### HasRemoteuser
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasRemoteuser() bool`
+`func (o *AuthMethods) HasRemoteuser() bool`
 
 HasRemoteuser returns a boolean if a field has been set.
 
 ### GetGithub
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGithub() bool`
+`func (o *AuthMethods) GetGithub() bool`
 
 GetGithub returns the Github field if non-nil, zero value otherwise.
 
 ### GetGithubOk
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGithubOk() (*bool, bool)`
+`func (o *AuthMethods) GetGithubOk() (*bool, bool)`
 
 GetGithubOk returns a tuple with the Github field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGithub
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetGithub(v bool)`
+`func (o *AuthMethods) SetGithub(v bool)`
 
 SetGithub sets Github field to given value.
 
 ### HasGithub
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasGithub() bool`
+`func (o *AuthMethods) HasGithub() bool`
 
 HasGithub returns a boolean if a field has been set.
 
 ### GetAzuread
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetAzuread() bool`
+`func (o *AuthMethods) GetAzuread() bool`
 
 GetAzuread returns the Azuread field if non-nil, zero value otherwise.
 
 ### GetAzureadOk
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetAzureadOk() (*bool, bool)`
+`func (o *AuthMethods) GetAzureadOk() (*bool, bool)`
 
 GetAzureadOk returns a tuple with the Azuread field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAzuread
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetAzuread(v bool)`
+`func (o *AuthMethods) SetAzuread(v bool)`
 
 SetAzuread sets Azuread field to given value.
 
 ### HasAzuread
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasAzuread() bool`
+`func (o *AuthMethods) HasAzuread() bool`
 
 HasAzuread returns a boolean if a field has been set.
 
 ### GetGitlab
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGitlab() bool`
+`func (o *AuthMethods) GetGitlab() bool`
 
 GetGitlab returns the Gitlab field if non-nil, zero value otherwise.
 
 ### GetGitlabOk
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGitlabOk() (*bool, bool)`
+`func (o *AuthMethods) GetGitlabOk() (*bool, bool)`
 
 GetGitlabOk returns a tuple with the Gitlab field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGitlab
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetGitlab(v bool)`
+`func (o *AuthMethods) SetGitlab(v bool)`
 
 SetGitlab sets Gitlab field to given value.
 
 ### HasGitlab
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasGitlab() bool`
+`func (o *AuthMethods) HasGitlab() bool`
 
 HasGitlab returns a boolean if a field has been set.
 
 ### GetApple
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetApple() bool`
+`func (o *AuthMethods) GetApple() bool`
 
 GetApple returns the Apple field if non-nil, zero value otherwise.
 
 ### GetAppleOk
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetAppleOk() (*bool, bool)`
+`func (o *AuthMethods) GetAppleOk() (*bool, bool)`
 
 GetAppleOk returns a tuple with the Apple field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetApple
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetApple(v bool)`
+`func (o *AuthMethods) SetApple(v bool)`
 
 SetApple sets Apple field to given value.
 
 ### HasApple
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasApple() bool`
+`func (o *AuthMethods) HasApple() bool`
 
 HasApple returns a boolean if a field has been set.
 
 ### GetGoogle
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGoogle() bool`
+`func (o *AuthMethods) GetGoogle() bool`
 
 GetGoogle returns the Google field if non-nil, zero value otherwise.
 
 ### GetGoogleOk
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetGoogleOk() (*bool, bool)`
+`func (o *AuthMethods) GetGoogleOk() (*bool, bool)`
 
 GetGoogleOk returns a tuple with the Google field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGoogle
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetGoogle(v bool)`
+`func (o *AuthMethods) SetGoogle(v bool)`
 
 SetGoogle sets Google field to given value.
 
 ### HasGoogle
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasGoogle() bool`
+`func (o *AuthMethods) HasGoogle() bool`
 
 HasGoogle returns a boolean if a field has been set.
 
 ### GetSaml
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetSaml() bool`
+`func (o *AuthMethods) GetSaml() bool`
 
 GetSaml returns the Saml field if non-nil, zero value otherwise.
 
 ### GetSamlOk
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetSamlOk() (*bool, bool)`
+`func (o *AuthMethods) GetSamlOk() (*bool, bool)`
 
 GetSamlOk returns a tuple with the Saml field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSaml
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetSaml(v bool)`
+`func (o *AuthMethods) SetSaml(v bool)`
 
 SetSaml sets Saml field to given value.
 
 ### HasSaml
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasSaml() bool`
+`func (o *AuthMethods) HasSaml() bool`
 
 HasSaml returns a boolean if a field has been set.
 
 ### GetOpenidConnect
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetOpenidConnect() bool`
+`func (o *AuthMethods) GetOpenidConnect() bool`
 
 GetOpenidConnect returns the OpenidConnect field if non-nil, zero value otherwise.
 
 ### GetOpenidConnectOk
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) GetOpenidConnectOk() (*bool, bool)`
+`func (o *AuthMethods) GetOpenidConnectOk() (*bool, bool)`
 
 GetOpenidConnectOk returns a tuple with the OpenidConnect field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOpenidConnect
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) SetOpenidConnect(v bool)`
+`func (o *AuthMethods) SetOpenidConnect(v bool)`
 
 SetOpenidConnect sets OpenidConnect field to given value.
 
 ### HasOpenidConnect
 
-`func (o *GetServerSettings200ResponseAllOfAuthenticationMethods) HasOpenidConnect() bool`
+`func (o *AuthMethods) HasOpenidConnect() bool`
 
 HasOpenidConnect returns a boolean if a field has been set.
 

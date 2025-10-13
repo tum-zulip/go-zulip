@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Result** | **interface{}** |  | 
 **Msg** | **interface{}** |  | 
 **IgnoredParametersUnsupported** | Pointer to **interface{}** |  | [optional] 
-**AuthenticationMethods** | Pointer to [**GetServerSettings200ResponseAllOfAuthenticationMethods**](GetServerSettings200ResponseAllOfAuthenticationMethods.md) |  | [optional] 
+**AuthenticationMethods** | Pointer to [**AuthMethods**](AuthMethods.md) |  | [optional] 
 **ExternalAuthenticationMethods** | Pointer to [**[]ExternalAuthMethod**](ExternalAuthMethod.md) | A list of dictionaries describing the available external authentication methods (E.g. Google, GitHub, or SAML) enabled for this organization.  The list is sorted in the order in which these authentication methods should be displayed.  **Changes**: New in Zulip 2.1.0.  | [optional] 
 **ZulipFeatureLevel** | Pointer to **int32** | An integer indicating what features are available on the server. The feature level increases monotonically; a value of N means the server supports all API features introduced before feature level N. This is designed to provide a simple way for client apps to decide whether the server supports a given feature or API change. See the [changelog](/api/changelog) for details on what each feature level means.  **Changes**: New in Zulip 3.0 (feature level 1). We recommend using an implied value of 0 for Zulip servers that do not send this field.  | [optional] 
 **ZulipVersion** | Pointer to **string** | The server&#39;s version number. This is often a release version number, like &#x60;2.1.7&#x60;. But for a server running a [version from Git][git-release], it will be a Git reference to the commit, like &#x60;5.0-dev-1650-gc3fd37755f&#x60;.  [git-release]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions  | [optional] 
@@ -139,20 +139,20 @@ HasIgnoredParametersUnsupported returns a boolean if a field has been set.
 UnsetIgnoredParametersUnsupported ensures that no value is present for IgnoredParametersUnsupported, not even an explicit nil
 ### GetAuthenticationMethods
 
-`func (o *GetServerSettings200Response) GetAuthenticationMethods() GetServerSettings200ResponseAllOfAuthenticationMethods`
+`func (o *GetServerSettings200Response) GetAuthenticationMethods() AuthMethods`
 
 GetAuthenticationMethods returns the AuthenticationMethods field if non-nil, zero value otherwise.
 
 ### GetAuthenticationMethodsOk
 
-`func (o *GetServerSettings200Response) GetAuthenticationMethodsOk() (*GetServerSettings200ResponseAllOfAuthenticationMethods, bool)`
+`func (o *GetServerSettings200Response) GetAuthenticationMethodsOk() (*AuthMethods, bool)`
 
 GetAuthenticationMethodsOk returns a tuple with the AuthenticationMethods field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAuthenticationMethods
 
-`func (o *GetServerSettings200Response) SetAuthenticationMethods(v GetServerSettings200ResponseAllOfAuthenticationMethods)`
+`func (o *GetServerSettings200Response) SetAuthenticationMethods(v AuthMethods)`
 
 SetAuthenticationMethods sets AuthenticationMethods field to given value.
 

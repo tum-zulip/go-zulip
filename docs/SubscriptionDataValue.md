@@ -1,4 +1,4 @@
-# UpdateFlagsNarrowOperand
+# SubscriptionDataValue
 
 ## Properties
 
@@ -7,20 +7,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand
+### NewSubscriptionDataValue
 
-`func NewUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand() *UpdateFlagsNarrowOperand`
+`func NewSubscriptionDataValue() *SubscriptionDataValue`
 
-NewUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand instantiates a new UpdateFlagsNarrowOperand object
+NewSubscriptionDataValue instantiates a new SubscriptionDataValue object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewUpdateFlagsNarrowOperandWithDefaults
+### NewSubscriptionDataValueWithDefaults
 
-`func NewUpdateFlagsNarrowOperandWithDefaults() *UpdateFlagsNarrowOperand`
+`func NewSubscriptionDataValueWithDefaults() *SubscriptionDataValue`
 
-NewUpdateFlagsNarrowOperandWithDefaults instantiates a new UpdateFlagsNarrowOperand object
+NewSubscriptionDataValueWithDefaults instantiates a new SubscriptionDataValue object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

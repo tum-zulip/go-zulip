@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Result** | **interface{}** |  | 
 **Msg** | **interface{}** |  | 
 **IgnoredParametersUnsupported** | Pointer to **interface{}** |  | [optional] 
-**ExportConsents** | Pointer to [**[]GetRealmExportConsents200ResponseAllOfExportConsentsInner**](GetRealmExportConsents200ResponseAllOfExportConsentsInner.md) | An array of objects where each object contains a user ID and whether the user has consented for their private data to be exported.  | [optional] 
+**ExportConsents** | Pointer to [**[]ExportConsent**](ExportConsent.md) | An array of objects where each object contains a user ID and whether the user has consented for their private data to be exported.  | [optional] 
 
 ## Methods
 
@@ -125,20 +125,20 @@ HasIgnoredParametersUnsupported returns a boolean if a field has been set.
 UnsetIgnoredParametersUnsupported ensures that no value is present for IgnoredParametersUnsupported, not even an explicit nil
 ### GetExportConsents
 
-`func (o *GetRealmExportConsents200Response) GetExportConsents() []GetRealmExportConsents200ResponseAllOfExportConsentsInner`
+`func (o *GetRealmExportConsents200Response) GetExportConsents() []ExportConsent`
 
 GetExportConsents returns the ExportConsents field if non-nil, zero value otherwise.
 
 ### GetExportConsentsOk
 
-`func (o *GetRealmExportConsents200Response) GetExportConsentsOk() (*[]GetRealmExportConsents200ResponseAllOfExportConsentsInner, bool)`
+`func (o *GetRealmExportConsents200Response) GetExportConsentsOk() (*[]ExportConsent, bool)`
 
 GetExportConsentsOk returns a tuple with the ExportConsents field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExportConsents
 
-`func (o *GetRealmExportConsents200Response) SetExportConsents(v []GetRealmExportConsents200ResponseAllOfExportConsentsInner)`
+`func (o *GetRealmExportConsents200Response) SetExportConsents(v []ExportConsent)`
 
 SetExportConsents sets ExportConsents field to given value.
 
