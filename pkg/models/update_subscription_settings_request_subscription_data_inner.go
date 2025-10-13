@@ -16,11 +16,11 @@ import (
 	"fmt"
 )
 
-// checks if the UpdateSubscriptionSettingsRequestSubscriptionDataInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &UpdateSubscriptionSettingsRequestSubscriptionDataInner{}
+// checks if the UpdateSubscriptionSetting type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UpdateSubscriptionSetting{}
 
-// UpdateSubscriptionSettingsRequestSubscriptionDataInner struct for UpdateSubscriptionSettingsRequestSubscriptionDataInner
-type UpdateSubscriptionSettingsRequestSubscriptionDataInner struct {
+// UpdateSubscriptionSetting struct for UpdateSubscriptionSetting
+type UpdateSubscriptionSetting struct {
 	// The unique ID of a channel.
 	StreamId int32 `json:"stream_id"`
 	// One of the channel properties described below:  - `\"color\"`: The hex value of the user's display color for the channel.  - `\"is_muted\"`: Whether the channel is [muted](/help/mute-a-channel).<br>   **Changes**: As of Zulip 6.0 (feature level 139), updating either   `\"is_muted\"` or `\"in_home_view\"` generates two [subscription update   events](/api/get-events#subscription-update), one for each property,   that are sent to clients. Prior to this feature level, updating either   property only generated a subscription update event for   `\"in_home_view\"`. <br>   Prior to Zulip 2.1.0, this feature was represented   by the more confusingly named `\"in_home_view\"` (with the   opposite value: `in_home_view=!is_muted`); for   backwards-compatibility, modern Zulip still accepts that property.  - `\"pin_to_top\"`: Whether to pin the channel at the top of the channel list.  - `\"desktop_notifications\"`: Whether to show desktop notifications   for all messages sent to the channel.  - `\"audible_notifications\"`: Whether to play a sound   notification for all messages sent to the channel.  - `\"push_notifications\"`: Whether to trigger a mobile push   notification for all messages sent to the channel.  - `\"email_notifications\"`: Whether to trigger an email   notification for all messages sent to the channel.  - `\"wildcard_mentions_notify\"`: Whether wildcard mentions trigger   notifications as though they were personal mentions in this channel.
@@ -28,30 +28,30 @@ type UpdateSubscriptionSettingsRequestSubscriptionDataInner struct {
 	Value    SubscriptionDataValue `json:"value"`
 }
 
-type _UpdateSubscriptionSettingsRequestSubscriptionDataInner UpdateSubscriptionSettingsRequestSubscriptionDataInner
+type _UpdateSubscriptionSetting UpdateSubscriptionSetting
 
-// NewUpdateSubscriptionSettingsRequestSubscriptionDataInner instantiates a new UpdateSubscriptionSettingsRequestSubscriptionDataInner object
+// NewUpdateSubscriptionSetting instantiates a new UpdateSubscriptionSetting object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUpdateSubscriptionSettingsRequestSubscriptionDataInner(streamId int32, property string, value SubscriptionDataValue) *UpdateSubscriptionSettingsRequestSubscriptionDataInner {
-	this := UpdateSubscriptionSettingsRequestSubscriptionDataInner{}
+func NewUpdateSubscriptionSetting(streamId int32, property string, value SubscriptionDataValue) *UpdateSubscriptionSetting {
+	this := UpdateSubscriptionSetting{}
 	this.StreamId = streamId
 	this.Property = property
 	this.Value = value
 	return &this
 }
 
-// NewUpdateSubscriptionSettingsRequestSubscriptionDataInnerWithDefaults instantiates a new UpdateSubscriptionSettingsRequestSubscriptionDataInner object
+// NewUpdateSubscriptionSettingWithDefaults instantiates a new UpdateSubscriptionSetting object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewUpdateSubscriptionSettingsRequestSubscriptionDataInnerWithDefaults() *UpdateSubscriptionSettingsRequestSubscriptionDataInner {
-	this := UpdateSubscriptionSettingsRequestSubscriptionDataInner{}
+func NewUpdateSubscriptionSettingWithDefaults() *UpdateSubscriptionSetting {
+	this := UpdateSubscriptionSetting{}
 	return &this
 }
 
 // GetStreamId returns the StreamId field value
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetStreamId() int32 {
+func (o *UpdateSubscriptionSetting) GetStreamId() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -62,7 +62,7 @@ func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetStreamId() i
 
 // GetStreamIdOk returns a tuple with the StreamId field value
 // and a boolean to check if the value has been set.
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetStreamIdOk() (*int32, bool) {
+func (o *UpdateSubscriptionSetting) GetStreamIdOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -70,12 +70,12 @@ func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetStreamIdOk()
 }
 
 // SetStreamId sets field value
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) SetStreamId(v int32) {
+func (o *UpdateSubscriptionSetting) SetStreamId(v int32) {
 	o.StreamId = v
 }
 
 // GetProperty returns the Property field value
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetProperty() string {
+func (o *UpdateSubscriptionSetting) GetProperty() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -86,7 +86,7 @@ func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetProperty() s
 
 // GetPropertyOk returns a tuple with the Property field value
 // and a boolean to check if the value has been set.
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetPropertyOk() (*string, bool) {
+func (o *UpdateSubscriptionSetting) GetPropertyOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -94,12 +94,12 @@ func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetPropertyOk()
 }
 
 // SetProperty sets field value
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) SetProperty(v string) {
+func (o *UpdateSubscriptionSetting) SetProperty(v string) {
 	o.Property = v
 }
 
 // GetValue returns the Value field value
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetValue() SubscriptionDataValue {
+func (o *UpdateSubscriptionSetting) GetValue() SubscriptionDataValue {
 	if o == nil {
 		var ret SubscriptionDataValue
 		return ret
@@ -110,7 +110,7 @@ func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetValue() Subs
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetValueOk() (*SubscriptionDataValue, bool) {
+func (o *UpdateSubscriptionSetting) GetValueOk() (*SubscriptionDataValue, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -118,11 +118,11 @@ func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetValueOk() (*
 }
 
 // SetValue sets field value
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) SetValue(v SubscriptionDataValue) {
+func (o *UpdateSubscriptionSetting) SetValue(v SubscriptionDataValue) {
 	o.Value = v
 }
 
-func (o UpdateSubscriptionSettingsRequestSubscriptionDataInner) MarshalJSON() ([]byte, error) {
+func (o UpdateSubscriptionSetting) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -130,7 +130,7 @@ func (o UpdateSubscriptionSettingsRequestSubscriptionDataInner) MarshalJSON() ([
 	return json.Marshal(toSerialize)
 }
 
-func (o UpdateSubscriptionSettingsRequestSubscriptionDataInner) ToMap() (map[string]interface{}, error) {
+func (o UpdateSubscriptionSetting) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["stream_id"] = o.StreamId
 	toSerialize["property"] = o.Property
@@ -138,7 +138,7 @@ func (o UpdateSubscriptionSettingsRequestSubscriptionDataInner) ToMap() (map[str
 	return toSerialize, nil
 }
 
-func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) UnmarshalJSON(data []byte) (err error) {
+func (o *UpdateSubscriptionSetting) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -162,53 +162,53 @@ func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) UnmarshalJSON(d
 		}
 	}
 
-	varUpdateSubscriptionSettingsRequestSubscriptionDataInner := _UpdateSubscriptionSettingsRequestSubscriptionDataInner{}
+	varUpdateSubscriptionSetting := _UpdateSubscriptionSetting{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))
 	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varUpdateSubscriptionSettingsRequestSubscriptionDataInner)
+	err = decoder.Decode(&varUpdateSubscriptionSetting)
 
 	if err != nil {
 		return err
 	}
 
-	*o = UpdateSubscriptionSettingsRequestSubscriptionDataInner(varUpdateSubscriptionSettingsRequestSubscriptionDataInner)
+	*o = UpdateSubscriptionSetting(varUpdateSubscriptionSetting)
 
 	return err
 }
 
-type NullableUpdateSubscriptionSettingsRequestSubscriptionDataInner struct {
-	value *UpdateSubscriptionSettingsRequestSubscriptionDataInner
+type NullableUpdateSubscriptionSetting struct {
+	value *UpdateSubscriptionSetting
 	isSet bool
 }
 
-func (v NullableUpdateSubscriptionSettingsRequestSubscriptionDataInner) Get() *UpdateSubscriptionSettingsRequestSubscriptionDataInner {
+func (v NullableUpdateSubscriptionSetting) Get() *UpdateSubscriptionSetting {
 	return v.value
 }
 
-func (v *NullableUpdateSubscriptionSettingsRequestSubscriptionDataInner) Set(val *UpdateSubscriptionSettingsRequestSubscriptionDataInner) {
+func (v *NullableUpdateSubscriptionSetting) Set(val *UpdateSubscriptionSetting) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableUpdateSubscriptionSettingsRequestSubscriptionDataInner) IsSet() bool {
+func (v NullableUpdateSubscriptionSetting) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableUpdateSubscriptionSettingsRequestSubscriptionDataInner) Unset() {
+func (v *NullableUpdateSubscriptionSetting) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableUpdateSubscriptionSettingsRequestSubscriptionDataInner(val *UpdateSubscriptionSettingsRequestSubscriptionDataInner) *NullableUpdateSubscriptionSettingsRequestSubscriptionDataInner {
-	return &NullableUpdateSubscriptionSettingsRequestSubscriptionDataInner{value: val, isSet: true}
+func NewNullableUpdateSubscriptionSetting(val *UpdateSubscriptionSetting) *NullableUpdateSubscriptionSetting {
+	return &NullableUpdateSubscriptionSetting{value: val, isSet: true}
 }
 
-func (v NullableUpdateSubscriptionSettingsRequestSubscriptionDataInner) MarshalJSON() ([]byte, error) {
+func (v NullableUpdateSubscriptionSetting) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableUpdateSubscriptionSettingsRequestSubscriptionDataInner) UnmarshalJSON(src []byte) error {
+func (v *NullableUpdateSubscriptionSetting) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

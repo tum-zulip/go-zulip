@@ -4335,11 +4335,11 @@ func (c *ZulipClient) UpdateStreamExecute(r ApiUpdateStreamRequest) (*models.Jso
 type ApiUpdateSubscriptionSettingsRequest struct {
 	ctx              context.Context
 	ApiService       ChannelsAPI
-	subscriptionData *[]models.UpdateSubscriptionSettingsRequestSubscriptionDataInner
+	subscriptionData *[]models.UpdateSubscriptionSetting
 }
 
 // A list of objects that describe the changes that should be applied in each subscription. Each object represents a subscription, and must have a &#x60;stream_id&#x60; key that identifies the channel, as well as the &#x60;property&#x60; being modified and its new &#x60;value&#x60;.
-func (r ApiUpdateSubscriptionSettingsRequest) SubscriptionData(subscriptionData []models.UpdateSubscriptionSettingsRequestSubscriptionDataInner) ApiUpdateSubscriptionSettingsRequest {
+func (r ApiUpdateSubscriptionSettingsRequest) SubscriptionData(subscriptionData []models.UpdateSubscriptionSetting) ApiUpdateSubscriptionSettingsRequest {
 	r.subscriptionData = &subscriptionData
 	return r
 }
