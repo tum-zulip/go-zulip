@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Result** | **interface{}** |  | 
 **Msg** | **interface{}** |  | 
 **IgnoredParametersUnsupported** | Pointer to **interface{}** |  | [optional] 
-**Messages** | Pointer to [**map[string]CheckMessagesMatchNarrow200ResponseAllOfMessagesValue**](CheckMessagesMatchNarrow200ResponseAllOfMessagesValue.md) | A dictionary with a key for each queried message that matches the narrow, with message IDs as keys and search rendering data as values.  | [optional] 
+**Messages** | Pointer to [**map[string]NarrowMatch**](NarrowMatch.md) | A dictionary with a key for each queried message that matches the narrow, with message IDs as keys and search rendering data as values.  | [optional] 
 
 ## Methods
 
@@ -125,20 +125,20 @@ HasIgnoredParametersUnsupported returns a boolean if a field has been set.
 UnsetIgnoredParametersUnsupported ensures that no value is present for IgnoredParametersUnsupported, not even an explicit nil
 ### GetMessages
 
-`func (o *CheckMessagesMatchNarrow200Response) GetMessages() map[string]CheckMessagesMatchNarrow200ResponseAllOfMessagesValue`
+`func (o *CheckMessagesMatchNarrow200Response) GetMessages() map[string]NarrowMatch`
 
 GetMessages returns the Messages field if non-nil, zero value otherwise.
 
 ### GetMessagesOk
 
-`func (o *CheckMessagesMatchNarrow200Response) GetMessagesOk() (*map[string]CheckMessagesMatchNarrow200ResponseAllOfMessagesValue, bool)`
+`func (o *CheckMessagesMatchNarrow200Response) GetMessagesOk() (*map[string]NarrowMatch, bool)`
 
 GetMessagesOk returns a tuple with the Messages field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessages
 
-`func (o *CheckMessagesMatchNarrow200Response) SetMessages(v map[string]CheckMessagesMatchNarrow200ResponseAllOfMessagesValue)`
+`func (o *CheckMessagesMatchNarrow200Response) SetMessages(v map[string]NarrowMatch)`
 
 SetMessages sets Messages field to given value.
 

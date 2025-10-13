@@ -1,4 +1,4 @@
-# CheckMessagesMatchNarrow200ResponseAllOfMessagesValue
+# NarrowMatch
 
 ## Properties
 
@@ -9,70 +9,70 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewCheckMessagesMatchNarrow200ResponseAllOfMessagesValue
+### NewNarrowMatch
 
-`func NewCheckMessagesMatchNarrow200ResponseAllOfMessagesValue() *CheckMessagesMatchNarrow200ResponseAllOfMessagesValue`
+`func NewNarrowMatch() *NarrowMatch`
 
-NewCheckMessagesMatchNarrow200ResponseAllOfMessagesValue instantiates a new CheckMessagesMatchNarrow200ResponseAllOfMessagesValue object
+NewNarrowMatch instantiates a new NarrowMatch object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewCheckMessagesMatchNarrow200ResponseAllOfMessagesValueWithDefaults
+### NewNarrowMatchWithDefaults
 
-`func NewCheckMessagesMatchNarrow200ResponseAllOfMessagesValueWithDefaults() *CheckMessagesMatchNarrow200ResponseAllOfMessagesValue`
+`func NewNarrowMatchWithDefaults() *NarrowMatch`
 
-NewCheckMessagesMatchNarrow200ResponseAllOfMessagesValueWithDefaults instantiates a new CheckMessagesMatchNarrow200ResponseAllOfMessagesValue object
+NewNarrowMatchWithDefaults instantiates a new NarrowMatch object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetMatchContent
 
-`func (o *CheckMessagesMatchNarrow200ResponseAllOfMessagesValue) GetMatchContent() string`
+`func (o *NarrowMatch) GetMatchContent() string`
 
 GetMatchContent returns the MatchContent field if non-nil, zero value otherwise.
 
 ### GetMatchContentOk
 
-`func (o *CheckMessagesMatchNarrow200ResponseAllOfMessagesValue) GetMatchContentOk() (*string, bool)`
+`func (o *NarrowMatch) GetMatchContentOk() (*string, bool)`
 
 GetMatchContentOk returns a tuple with the MatchContent field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMatchContent
 
-`func (o *CheckMessagesMatchNarrow200ResponseAllOfMessagesValue) SetMatchContent(v string)`
+`func (o *NarrowMatch) SetMatchContent(v string)`
 
 SetMatchContent sets MatchContent field to given value.
 
 ### HasMatchContent
 
-`func (o *CheckMessagesMatchNarrow200ResponseAllOfMessagesValue) HasMatchContent() bool`
+`func (o *NarrowMatch) HasMatchContent() bool`
 
 HasMatchContent returns a boolean if a field has been set.
 
 ### GetMatchSubject
 
-`func (o *CheckMessagesMatchNarrow200ResponseAllOfMessagesValue) GetMatchSubject() string`
+`func (o *NarrowMatch) GetMatchSubject() string`
 
 GetMatchSubject returns the MatchSubject field if non-nil, zero value otherwise.
 
 ### GetMatchSubjectOk
 
-`func (o *CheckMessagesMatchNarrow200ResponseAllOfMessagesValue) GetMatchSubjectOk() (*string, bool)`
+`func (o *NarrowMatch) GetMatchSubjectOk() (*string, bool)`
 
 GetMatchSubjectOk returns a tuple with the MatchSubject field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMatchSubject
 
-`func (o *CheckMessagesMatchNarrow200ResponseAllOfMessagesValue) SetMatchSubject(v string)`
+`func (o *NarrowMatch) SetMatchSubject(v string)`
 
 SetMatchSubject sets MatchSubject field to given value.
 
 ### HasMatchSubject
 
-`func (o *CheckMessagesMatchNarrow200ResponseAllOfMessagesValue) HasMatchSubject() bool`
+`func (o *NarrowMatch) HasMatchSubject() bool`
 
 HasMatchSubject returns a boolean if a field has been set.
 
