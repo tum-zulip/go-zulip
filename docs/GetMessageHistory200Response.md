@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Result** | **interface{}** |  | 
 **Msg** | **interface{}** |  | 
 **IgnoredParametersUnsupported** | Pointer to **interface{}** |  | [optional] 
-**MessageHistory** | Pointer to [**[]GetMessageHistory200ResponseAllOfMessageHistoryInner**](GetMessageHistory200ResponseAllOfMessageHistoryInner.md) | A chronologically sorted, oldest to newest, array of &#x60;snapshot&#x60; objects, each one with the values of the message after the edit.  | [optional] 
+**MessageHistory** | Pointer to [**[]Snapshot**](Snapshot.md) | A chronologically sorted, oldest to newest, array of &#x60;snapshot&#x60; objects, each one with the values of the message after the edit.  | [optional] 
 
 ## Methods
 
@@ -125,20 +125,20 @@ HasIgnoredParametersUnsupported returns a boolean if a field has been set.
 UnsetIgnoredParametersUnsupported ensures that no value is present for IgnoredParametersUnsupported, not even an explicit nil
 ### GetMessageHistory
 
-`func (o *GetMessageHistory200Response) GetMessageHistory() []GetMessageHistory200ResponseAllOfMessageHistoryInner`
+`func (o *GetMessageHistory200Response) GetMessageHistory() []Snapshot`
 
 GetMessageHistory returns the MessageHistory field if non-nil, zero value otherwise.
 
 ### GetMessageHistoryOk
 
-`func (o *GetMessageHistory200Response) GetMessageHistoryOk() (*[]GetMessageHistory200ResponseAllOfMessageHistoryInner, bool)`
+`func (o *GetMessageHistory200Response) GetMessageHistoryOk() (*[]Snapshot, bool)`
 
 GetMessageHistoryOk returns a tuple with the MessageHistory field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessageHistory
 
-`func (o *GetMessageHistory200Response) SetMessageHistory(v []GetMessageHistory200ResponseAllOfMessageHistoryInner)`
+`func (o *GetMessageHistory200Response) SetMessageHistory(v []Snapshot)`
 
 SetMessageHistory sets MessageHistory field to given value.
 

@@ -1,4 +1,4 @@
-# GetMessageHistory200ResponseAllOfMessageHistoryInner
+# Snapshot
 
 ## Properties
 
@@ -18,305 +18,305 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetMessageHistory200ResponseAllOfMessageHistoryInner
+### NewSnapshot
 
-`func NewGetMessageHistory200ResponseAllOfMessageHistoryInner() *GetMessageHistory200ResponseAllOfMessageHistoryInner`
+`func NewSnapshot() *Snapshot`
 
-NewGetMessageHistory200ResponseAllOfMessageHistoryInner instantiates a new GetMessageHistory200ResponseAllOfMessageHistoryInner object
+NewSnapshot instantiates a new Snapshot object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetMessageHistory200ResponseAllOfMessageHistoryInnerWithDefaults
+### NewSnapshotWithDefaults
 
-`func NewGetMessageHistory200ResponseAllOfMessageHistoryInnerWithDefaults() *GetMessageHistory200ResponseAllOfMessageHistoryInner`
+`func NewSnapshotWithDefaults() *Snapshot`
 
-NewGetMessageHistory200ResponseAllOfMessageHistoryInnerWithDefaults instantiates a new GetMessageHistory200ResponseAllOfMessageHistoryInner object
+NewSnapshotWithDefaults instantiates a new Snapshot object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetTopic
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetTopic() string`
+`func (o *Snapshot) GetTopic() string`
 
 GetTopic returns the Topic field if non-nil, zero value otherwise.
 
 ### GetTopicOk
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetTopicOk() (*string, bool)`
+`func (o *Snapshot) GetTopicOk() (*string, bool)`
 
 GetTopicOk returns a tuple with the Topic field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTopic
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetTopic(v string)`
+`func (o *Snapshot) SetTopic(v string)`
 
 SetTopic sets Topic field to given value.
 
 ### HasTopic
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasTopic() bool`
+`func (o *Snapshot) HasTopic() bool`
 
 HasTopic returns a boolean if a field has been set.
 
 ### GetPrevTopic
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevTopic() string`
+`func (o *Snapshot) GetPrevTopic() string`
 
 GetPrevTopic returns the PrevTopic field if non-nil, zero value otherwise.
 
 ### GetPrevTopicOk
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevTopicOk() (*string, bool)`
+`func (o *Snapshot) GetPrevTopicOk() (*string, bool)`
 
 GetPrevTopicOk returns a tuple with the PrevTopic field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPrevTopic
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetPrevTopic(v string)`
+`func (o *Snapshot) SetPrevTopic(v string)`
 
 SetPrevTopic sets PrevTopic field to given value.
 
 ### HasPrevTopic
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasPrevTopic() bool`
+`func (o *Snapshot) HasPrevTopic() bool`
 
 HasPrevTopic returns a boolean if a field has been set.
 
 ### GetStream
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetStream() int32`
+`func (o *Snapshot) GetStream() int32`
 
 GetStream returns the Stream field if non-nil, zero value otherwise.
 
 ### GetStreamOk
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetStreamOk() (*int32, bool)`
+`func (o *Snapshot) GetStreamOk() (*int32, bool)`
 
 GetStreamOk returns a tuple with the Stream field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStream
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetStream(v int32)`
+`func (o *Snapshot) SetStream(v int32)`
 
 SetStream sets Stream field to given value.
 
 ### HasStream
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasStream() bool`
+`func (o *Snapshot) HasStream() bool`
 
 HasStream returns a boolean if a field has been set.
 
 ### GetPrevStream
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevStream() int32`
+`func (o *Snapshot) GetPrevStream() int32`
 
 GetPrevStream returns the PrevStream field if non-nil, zero value otherwise.
 
 ### GetPrevStreamOk
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevStreamOk() (*int32, bool)`
+`func (o *Snapshot) GetPrevStreamOk() (*int32, bool)`
 
 GetPrevStreamOk returns a tuple with the PrevStream field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPrevStream
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetPrevStream(v int32)`
+`func (o *Snapshot) SetPrevStream(v int32)`
 
 SetPrevStream sets PrevStream field to given value.
 
 ### HasPrevStream
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasPrevStream() bool`
+`func (o *Snapshot) HasPrevStream() bool`
 
 HasPrevStream returns a boolean if a field has been set.
 
 ### GetContent
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetContent() string`
+`func (o *Snapshot) GetContent() string`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetContentOk() (*string, bool)`
+`func (o *Snapshot) GetContentOk() (*string, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetContent(v string)`
+`func (o *Snapshot) SetContent(v string)`
 
 SetContent sets Content field to given value.
 
 ### HasContent
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasContent() bool`
+`func (o *Snapshot) HasContent() bool`
 
 HasContent returns a boolean if a field has been set.
 
 ### GetRenderedContent
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetRenderedContent() string`
+`func (o *Snapshot) GetRenderedContent() string`
 
 GetRenderedContent returns the RenderedContent field if non-nil, zero value otherwise.
 
 ### GetRenderedContentOk
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetRenderedContentOk() (*string, bool)`
+`func (o *Snapshot) GetRenderedContentOk() (*string, bool)`
 
 GetRenderedContentOk returns a tuple with the RenderedContent field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRenderedContent
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetRenderedContent(v string)`
+`func (o *Snapshot) SetRenderedContent(v string)`
 
 SetRenderedContent sets RenderedContent field to given value.
 
 ### HasRenderedContent
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasRenderedContent() bool`
+`func (o *Snapshot) HasRenderedContent() bool`
 
 HasRenderedContent returns a boolean if a field has been set.
 
 ### GetPrevContent
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevContent() string`
+`func (o *Snapshot) GetPrevContent() string`
 
 GetPrevContent returns the PrevContent field if non-nil, zero value otherwise.
 
 ### GetPrevContentOk
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevContentOk() (*string, bool)`
+`func (o *Snapshot) GetPrevContentOk() (*string, bool)`
 
 GetPrevContentOk returns a tuple with the PrevContent field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPrevContent
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetPrevContent(v string)`
+`func (o *Snapshot) SetPrevContent(v string)`
 
 SetPrevContent sets PrevContent field to given value.
 
 ### HasPrevContent
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasPrevContent() bool`
+`func (o *Snapshot) HasPrevContent() bool`
 
 HasPrevContent returns a boolean if a field has been set.
 
 ### GetPrevRenderedContent
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevRenderedContent() string`
+`func (o *Snapshot) GetPrevRenderedContent() string`
 
 GetPrevRenderedContent returns the PrevRenderedContent field if non-nil, zero value otherwise.
 
 ### GetPrevRenderedContentOk
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevRenderedContentOk() (*string, bool)`
+`func (o *Snapshot) GetPrevRenderedContentOk() (*string, bool)`
 
 GetPrevRenderedContentOk returns a tuple with the PrevRenderedContent field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPrevRenderedContent
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetPrevRenderedContent(v string)`
+`func (o *Snapshot) SetPrevRenderedContent(v string)`
 
 SetPrevRenderedContent sets PrevRenderedContent field to given value.
 
 ### HasPrevRenderedContent
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasPrevRenderedContent() bool`
+`func (o *Snapshot) HasPrevRenderedContent() bool`
 
 HasPrevRenderedContent returns a boolean if a field has been set.
 
 ### GetUserId
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetUserId() int32`
+`func (o *Snapshot) GetUserId() int32`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetUserIdOk() (*int32, bool)`
+`func (o *Snapshot) GetUserIdOk() (*int32, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetUserId(v int32)`
+`func (o *Snapshot) SetUserId(v int32)`
 
 SetUserId sets UserId field to given value.
 
 ### HasUserId
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasUserId() bool`
+`func (o *Snapshot) HasUserId() bool`
 
 HasUserId returns a boolean if a field has been set.
 
 ### SetUserIdNil
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetUserIdNil(b bool)`
+`func (o *Snapshot) SetUserIdNil(b bool)`
 
  SetUserIdNil sets the value for UserId to be an explicit nil
 
 ### UnsetUserId
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) UnsetUserId()`
+`func (o *Snapshot) UnsetUserId()`
 
 UnsetUserId ensures that no value is present for UserId, not even an explicit nil
 ### GetContentHtmlDiff
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetContentHtmlDiff() string`
+`func (o *Snapshot) GetContentHtmlDiff() string`
 
 GetContentHtmlDiff returns the ContentHtmlDiff field if non-nil, zero value otherwise.
 
 ### GetContentHtmlDiffOk
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetContentHtmlDiffOk() (*string, bool)`
+`func (o *Snapshot) GetContentHtmlDiffOk() (*string, bool)`
 
 GetContentHtmlDiffOk returns a tuple with the ContentHtmlDiff field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContentHtmlDiff
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetContentHtmlDiff(v string)`
+`func (o *Snapshot) SetContentHtmlDiff(v string)`
 
 SetContentHtmlDiff sets ContentHtmlDiff field to given value.
 
 ### HasContentHtmlDiff
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasContentHtmlDiff() bool`
+`func (o *Snapshot) HasContentHtmlDiff() bool`
 
 HasContentHtmlDiff returns a boolean if a field has been set.
 
 ### GetTimestamp
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetTimestamp() int32`
+`func (o *Snapshot) GetTimestamp() int32`
 
 GetTimestamp returns the Timestamp field if non-nil, zero value otherwise.
 
 ### GetTimestampOk
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetTimestampOk() (*int32, bool)`
+`func (o *Snapshot) GetTimestampOk() (*int32, bool)`
 
 GetTimestampOk returns a tuple with the Timestamp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTimestamp
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetTimestamp(v int32)`
+`func (o *Snapshot) SetTimestamp(v int32)`
 
 SetTimestamp sets Timestamp field to given value.
 
 ### HasTimestamp
 
-`func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasTimestamp() bool`
+`func (o *Snapshot) HasTimestamp() bool`
 
 HasTimestamp returns a boolean if a field has been set.
 
