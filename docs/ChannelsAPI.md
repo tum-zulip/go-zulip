@@ -1708,7 +1708,7 @@ import (
 )
 
 func main() {
-	subscriptionData := []openapiclient.UpdateSubscriptionSettingsRequestSubscriptionDataInner{*openapiclient.NewUpdateSubscriptionSettingsRequestSubscriptionDataInner(int32(123), "Property_example", openapiclient.update_subscription_settings_request_subscription_data_inner_value{Bool: new(bool)})} // []UpdateSubscriptionSettingsRequestSubscriptionDataInner | A list of objects that describe the changes that should be applied in each subscription. Each object represents a subscription, and must have a `stream_id` key that identifies the channel, as well as the `property` being modified and its new `value`. 
+	subscriptionData := []openapiclient.UpdateSubscriptionSetting{*openapiclient.NewUpdateSubscriptionSetting(int32(123), "Property_example", openapiclient.update_subscription_setting_value{Bool: new(bool)})} // []UpdateSubscriptionSetting | A list of objects that describe the changes that should be applied in each subscription. Each object represents a subscription, and must have a `stream_id` key that identifies the channel, as well as the `property` being modified and its new `value`. 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -1733,7 +1733,7 @@ Other parameters are passed through a pointer to a apiUpdateSubscriptionSettings
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **subscriptionData** | [**[]UpdateSubscriptionSettingsRequestSubscriptionDataInner**](UpdateSubscriptionSettingsRequestSubscriptionDataInner.md) | A list of objects that describe the changes that should be applied in each subscription. Each object represents a subscription, and must have a &#x60;stream_id&#x60; key that identifies the channel, as well as the &#x60;property&#x60; being modified and its new &#x60;value&#x60;.  | 
+ **subscriptionData** | [**[]UpdateSubscriptionSetting**](UpdateSubscriptionSetting.md) | A list of objects that describe the changes that should be applied in each subscription. Each object represents a subscription, and must have a &#x60;stream_id&#x60; key that identifies the channel, as well as the &#x60;property&#x60; being modified and its new &#x60;value&#x60;.  | 
 
 ### Return type
 

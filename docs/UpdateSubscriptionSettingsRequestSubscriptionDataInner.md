@@ -1,4 +1,4 @@
-# UpdateSubscriptionSettingsRequestSubscriptionDataInner
+# UpdateSubscriptionSetting
 
 ## Properties
 
@@ -10,79 +10,79 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewUpdateSubscriptionSettingsRequestSubscriptionDataInner
+### NewUpdateSubscriptionSetting
 
-`func NewUpdateSubscriptionSettingsRequestSubscriptionDataInner(streamId int32, property string, value SubscriptionDataValue, ) *UpdateSubscriptionSettingsRequestSubscriptionDataInner`
+`func NewUpdateSubscriptionSetting(streamId int32, property string, value SubscriptionDataValue, ) *UpdateSubscriptionSetting`
 
-NewUpdateSubscriptionSettingsRequestSubscriptionDataInner instantiates a new UpdateSubscriptionSettingsRequestSubscriptionDataInner object
+NewUpdateSubscriptionSetting instantiates a new UpdateSubscriptionSetting object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewUpdateSubscriptionSettingsRequestSubscriptionDataInnerWithDefaults
+### NewUpdateSubscriptionSettingWithDefaults
 
-`func NewUpdateSubscriptionSettingsRequestSubscriptionDataInnerWithDefaults() *UpdateSubscriptionSettingsRequestSubscriptionDataInner`
+`func NewUpdateSubscriptionSettingWithDefaults() *UpdateSubscriptionSetting`
 
-NewUpdateSubscriptionSettingsRequestSubscriptionDataInnerWithDefaults instantiates a new UpdateSubscriptionSettingsRequestSubscriptionDataInner object
+NewUpdateSubscriptionSettingWithDefaults instantiates a new UpdateSubscriptionSetting object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetStreamId
 
-`func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetStreamId() int32`
+`func (o *UpdateSubscriptionSetting) GetStreamId() int32`
 
 GetStreamId returns the StreamId field if non-nil, zero value otherwise.
 
 ### GetStreamIdOk
 
-`func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetStreamIdOk() (*int32, bool)`
+`func (o *UpdateSubscriptionSetting) GetStreamIdOk() (*int32, bool)`
 
 GetStreamIdOk returns a tuple with the StreamId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStreamId
 
-`func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) SetStreamId(v int32)`
+`func (o *UpdateSubscriptionSetting) SetStreamId(v int32)`
 
 SetStreamId sets StreamId field to given value.
 
 
 ### GetProperty
 
-`func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetProperty() string`
+`func (o *UpdateSubscriptionSetting) GetProperty() string`
 
 GetProperty returns the Property field if non-nil, zero value otherwise.
 
 ### GetPropertyOk
 
-`func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetPropertyOk() (*string, bool)`
+`func (o *UpdateSubscriptionSetting) GetPropertyOk() (*string, bool)`
 
 GetPropertyOk returns a tuple with the Property field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProperty
 
-`func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) SetProperty(v string)`
+`func (o *UpdateSubscriptionSetting) SetProperty(v string)`
 
 SetProperty sets Property field to given value.
 
 
 ### GetValue
 
-`func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetValue() SubscriptionDataValue`
+`func (o *UpdateSubscriptionSetting) GetValue() SubscriptionDataValue`
 
 GetValue returns the Value field if non-nil, zero value otherwise.
 
 ### GetValueOk
 
-`func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) GetValueOk() (*SubscriptionDataValue, bool)`
+`func (o *UpdateSubscriptionSetting) GetValueOk() (*SubscriptionDataValue, bool)`
 
 GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetValue
 
-`func (o *UpdateSubscriptionSettingsRequestSubscriptionDataInner) SetValue(v SubscriptionDataValue)`
+`func (o *UpdateSubscriptionSetting) SetValue(v SubscriptionDataValue)`
 
 SetValue sets Value field to given value.
 
