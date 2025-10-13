@@ -1,7 +1,7 @@
 /*
 Zulip REST API
 
-Powerful open source group chat 
+Powerful open source group chat
 
 API version: 1.0.0
 */

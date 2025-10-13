@@ -88,9 +88,9 @@ type RegisterQueue200Response struct {
 	Reminders []ScheduledMessage `json:"reminders,omitempty"`
 	// Present if `muted_topics` is present in `fetch_event_types`.  Array of tuples, where each tuple describes a muted topic. The first element of the tuple is the channel name in which the topic has to be muted, the second element is the topic name to be muted and the third element is an integer UNIX timestamp representing when the topic was muted.  **Changes**: Deprecated in Zulip 6.0 (feature level 134). Starting with this version, `muted_topics` will only be present in the response if the `user_topic` object, which generalizes and replaces this field, is not explicitly requested via `fetch_event_types`.  Before Zulip 3.0 (feature level 1), the `muted_topics` array objects were 2-item tuples and did not include the timestamp information for when the topic was muted.
 	// Deprecated
-	MutedTopics [][]GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner `json:"muted_topics,omitempty"`
+	MutedTopics [][]UserSettingsUpdateEvent1MutedTopicsInnerInner `json:"muted_topics,omitempty"`
 	// Present if `muted_users` is present in `fetch_event_types`.  A list of dictionaries where each dictionary describes a [muted user](/api/mute-user).  **Changes**: New in Zulip 4.0 (feature level 48).
-	MutedUsers []GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner `json:"muted_users,omitempty"`
+	MutedUsers []UserSettingsUpdateEvent3MutedUsersInner `json:"muted_users,omitempty"`
 	// Present if `presence` is present in `fetch_event_types`.  A dictionary where each entry describes the presence details of a user in the Zulip organization.  The format of the entry (modern or legacy) depends on the value of [`slim_presence`](#parameter-slim_presence).  Users who have been offline for multiple weeks may not appear in this object.
 	Presences *map[string]RegisterQueue200ResponseAllOfPresencesValue `json:"presences,omitempty"`
 	// Present if `presence` is present in `fetch_event_types`.  Provides the `last_update_id` value of the latest presence data fetched by the server and included in the response in `presences`. This can be used as the value of the `presence_last_update_id` parameter when polling for presence data at the [/users/me/presence](/api/update-presence) endpoint to tell the server to only fetch the relevant newer data in order to skip redundant already-known presence information.  **Changes**: New in Zulip 9.0 (feature level 263).
@@ -105,7 +105,7 @@ type RegisterQueue200Response struct {
 	RealmLinkifiers []RegisterQueue200ResponseAllOfRealmLinkifiersInner `json:"realm_linkifiers,omitempty"`
 	// Legacy property for [linkifiers](/help/add-a-custom-linkifier). Present if `realm_filters` is present in `fetch_event_types`.  When present, this is always an empty array.  **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `\"#(?P<id>[123])\"`. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be `\"https://realm.com/my_realm_filter/%(id)s\"`. And the third element was the ID of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the `realm_linkifiers` key.
 	// Deprecated
-	RealmFilters [][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner `json:"realm_filters,omitempty"`
+	RealmFilters [][]SubscriptionAddEvent1RealmFiltersInnerInner `json:"realm_filters,omitempty"`
 	// Present if `realm_playgrounds` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a [code playground](/help/code-blocks#code-playgrounds) configured for this Zulip organization.  **Changes**: New in Zulip 4.0 (feature level 49).
 	RealmPlaygrounds []RealmPlayground `json:"realm_playgrounds,omitempty"`
 	// Present if `realm_user_groups` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a [user group](/help/user-groups) in the Zulip organization.  Deactivated groups will only be included if `include_deactivated_groups` client capability is set to `true`.  **Changes**: Prior to Zulip 10.0 (feature level 294), deactivated groups were included for all the clients.
@@ -1662,9 +1662,9 @@ func (o *RegisterQueue200Response) SetReminders(v []ScheduledMessage) {
 
 // GetMutedTopics returns the MutedTopics field value if set, zero value otherwise.
 // Deprecated
-func (o *RegisterQueue200Response) GetMutedTopics() [][]GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner {
+func (o *RegisterQueue200Response) GetMutedTopics() [][]UserSettingsUpdateEvent1MutedTopicsInnerInner {
 	if o == nil || IsNil(o.MutedTopics) {
-		var ret [][]GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner
+		var ret [][]UserSettingsUpdateEvent1MutedTopicsInnerInner
 		return ret
 	}
 	return o.MutedTopics
@@ -1673,7 +1673,7 @@ func (o *RegisterQueue200Response) GetMutedTopics() [][]GetEvents200ResponseAllO
 // GetMutedTopicsOk returns a tuple with the MutedTopics field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // Deprecated
-func (o *RegisterQueue200Response) GetMutedTopicsOk() ([][]GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner, bool) {
+func (o *RegisterQueue200Response) GetMutedTopicsOk() ([][]UserSettingsUpdateEvent1MutedTopicsInnerInner, bool) {
 	if o == nil || IsNil(o.MutedTopics) {
 		return nil, false
 	}
@@ -1689,16 +1689,16 @@ func (o *RegisterQueue200Response) HasMutedTopics() bool {
 	return false
 }
 
-// SetMutedTopics gets a reference to the given [][]GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner and assigns it to the MutedTopics field.
+// SetMutedTopics gets a reference to the given [][]UserSettingsUpdateEvent1MutedTopicsInnerInner and assigns it to the MutedTopics field.
 // Deprecated
-func (o *RegisterQueue200Response) SetMutedTopics(v [][]GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner) {
+func (o *RegisterQueue200Response) SetMutedTopics(v [][]UserSettingsUpdateEvent1MutedTopicsInnerInner) {
 	o.MutedTopics = v
 }
 
 // GetMutedUsers returns the MutedUsers field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetMutedUsers() []GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner {
+func (o *RegisterQueue200Response) GetMutedUsers() []UserSettingsUpdateEvent3MutedUsersInner {
 	if o == nil || IsNil(o.MutedUsers) {
-		var ret []GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner
+		var ret []UserSettingsUpdateEvent3MutedUsersInner
 		return ret
 	}
 	return o.MutedUsers
@@ -1706,7 +1706,7 @@ func (o *RegisterQueue200Response) GetMutedUsers() []GetEvents200ResponseAllOfEv
 
 // GetMutedUsersOk returns a tuple with the MutedUsers field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetMutedUsersOk() ([]GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner, bool) {
+func (o *RegisterQueue200Response) GetMutedUsersOk() ([]UserSettingsUpdateEvent3MutedUsersInner, bool) {
 	if o == nil || IsNil(o.MutedUsers) {
 		return nil, false
 	}
@@ -1722,8 +1722,8 @@ func (o *RegisterQueue200Response) HasMutedUsers() bool {
 	return false
 }
 
-// SetMutedUsers gets a reference to the given []GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner and assigns it to the MutedUsers field.
-func (o *RegisterQueue200Response) SetMutedUsers(v []GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner) {
+// SetMutedUsers gets a reference to the given []UserSettingsUpdateEvent3MutedUsersInner and assigns it to the MutedUsers field.
+func (o *RegisterQueue200Response) SetMutedUsers(v []UserSettingsUpdateEvent3MutedUsersInner) {
 	o.MutedUsers = v
 }
 
@@ -1921,9 +1921,9 @@ func (o *RegisterQueue200Response) SetRealmLinkifiers(v []RegisterQueue200Respon
 
 // GetRealmFilters returns the RealmFilters field value if set, zero value otherwise.
 // Deprecated
-func (o *RegisterQueue200Response) GetRealmFilters() [][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner {
+func (o *RegisterQueue200Response) GetRealmFilters() [][]SubscriptionAddEvent1RealmFiltersInnerInner {
 	if o == nil || IsNil(o.RealmFilters) {
-		var ret [][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner
+		var ret [][]SubscriptionAddEvent1RealmFiltersInnerInner
 		return ret
 	}
 	return o.RealmFilters
@@ -1932,7 +1932,7 @@ func (o *RegisterQueue200Response) GetRealmFilters() [][]GetEvents200ResponseAll
 // GetRealmFiltersOk returns a tuple with the RealmFilters field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // Deprecated
-func (o *RegisterQueue200Response) GetRealmFiltersOk() ([][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner, bool) {
+func (o *RegisterQueue200Response) GetRealmFiltersOk() ([][]SubscriptionAddEvent1RealmFiltersInnerInner, bool) {
 	if o == nil || IsNil(o.RealmFilters) {
 		return nil, false
 	}
@@ -1948,9 +1948,9 @@ func (o *RegisterQueue200Response) HasRealmFilters() bool {
 	return false
 }
 
-// SetRealmFilters gets a reference to the given [][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner and assigns it to the RealmFilters field.
+// SetRealmFilters gets a reference to the given [][]SubscriptionAddEvent1RealmFiltersInnerInner and assigns it to the RealmFilters field.
 // Deprecated
-func (o *RegisterQueue200Response) SetRealmFilters(v [][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner) {
+func (o *RegisterQueue200Response) SetRealmFilters(v [][]SubscriptionAddEvent1RealmFiltersInnerInner) {
 	o.RealmFilters = v
 }
 

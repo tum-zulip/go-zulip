@@ -19,693 +19,693 @@ import (
 
 // GetEvents200ResponseAllOfEventsInner - struct for GetEvents200ResponseAllOfEventsInner
 type GetEvents200ResponseAllOfEventsInner struct {
-	GetEvents200ResponseAllOfEventsInnerOneOf   *GetEvents200ResponseAllOfEventsInnerOneOf
-	GetEvents200ResponseAllOfEventsInnerOneOf1  *GetEvents200ResponseAllOfEventsInnerOneOf1
-	GetEvents200ResponseAllOfEventsInnerOneOf10 *GetEvents200ResponseAllOfEventsInnerOneOf10
-	GetEvents200ResponseAllOfEventsInnerOneOf11 *GetEvents200ResponseAllOfEventsInnerOneOf11
-	GetEvents200ResponseAllOfEventsInnerOneOf12 *GetEvents200ResponseAllOfEventsInnerOneOf12
-	GetEvents200ResponseAllOfEventsInnerOneOf13 *GetEvents200ResponseAllOfEventsInnerOneOf13
-	GetEvents200ResponseAllOfEventsInnerOneOf14 *GetEvents200ResponseAllOfEventsInnerOneOf14
-	GetEvents200ResponseAllOfEventsInnerOneOf15 *GetEvents200ResponseAllOfEventsInnerOneOf15
-	GetEvents200ResponseAllOfEventsInnerOneOf16 *GetEvents200ResponseAllOfEventsInnerOneOf16
-	GetEvents200ResponseAllOfEventsInnerOneOf17 *GetEvents200ResponseAllOfEventsInnerOneOf17
-	GetEvents200ResponseAllOfEventsInnerOneOf18 *GetEvents200ResponseAllOfEventsInnerOneOf18
-	GetEvents200ResponseAllOfEventsInnerOneOf19 *GetEvents200ResponseAllOfEventsInnerOneOf19
-	GetEvents200ResponseAllOfEventsInnerOneOf2  *GetEvents200ResponseAllOfEventsInnerOneOf2
-	GetEvents200ResponseAllOfEventsInnerOneOf20 *GetEvents200ResponseAllOfEventsInnerOneOf20
-	GetEvents200ResponseAllOfEventsInnerOneOf21 *GetEvents200ResponseAllOfEventsInnerOneOf21
-	GetEvents200ResponseAllOfEventsInnerOneOf22 *GetEvents200ResponseAllOfEventsInnerOneOf22
-	GetEvents200ResponseAllOfEventsInnerOneOf23 *GetEvents200ResponseAllOfEventsInnerOneOf23
-	GetEvents200ResponseAllOfEventsInnerOneOf24 *GetEvents200ResponseAllOfEventsInnerOneOf24
-	GetEvents200ResponseAllOfEventsInnerOneOf25 *GetEvents200ResponseAllOfEventsInnerOneOf25
-	GetEvents200ResponseAllOfEventsInnerOneOf26 *GetEvents200ResponseAllOfEventsInnerOneOf26
-	GetEvents200ResponseAllOfEventsInnerOneOf27 *GetEvents200ResponseAllOfEventsInnerOneOf27
-	GetEvents200ResponseAllOfEventsInnerOneOf28 *GetEvents200ResponseAllOfEventsInnerOneOf28
-	GetEvents200ResponseAllOfEventsInnerOneOf29 *GetEvents200ResponseAllOfEventsInnerOneOf29
-	GetEvents200ResponseAllOfEventsInnerOneOf3  *GetEvents200ResponseAllOfEventsInnerOneOf3
-	GetEvents200ResponseAllOfEventsInnerOneOf30 *GetEvents200ResponseAllOfEventsInnerOneOf30
-	GetEvents200ResponseAllOfEventsInnerOneOf31 *GetEvents200ResponseAllOfEventsInnerOneOf31
-	GetEvents200ResponseAllOfEventsInnerOneOf32 *GetEvents200ResponseAllOfEventsInnerOneOf32
-	GetEvents200ResponseAllOfEventsInnerOneOf33 *GetEvents200ResponseAllOfEventsInnerOneOf33
-	GetEvents200ResponseAllOfEventsInnerOneOf34 *GetEvents200ResponseAllOfEventsInnerOneOf34
-	GetEvents200ResponseAllOfEventsInnerOneOf35 *GetEvents200ResponseAllOfEventsInnerOneOf35
-	GetEvents200ResponseAllOfEventsInnerOneOf36 *GetEvents200ResponseAllOfEventsInnerOneOf36
-	GetEvents200ResponseAllOfEventsInnerOneOf37 *GetEvents200ResponseAllOfEventsInnerOneOf37
-	GetEvents200ResponseAllOfEventsInnerOneOf38 *GetEvents200ResponseAllOfEventsInnerOneOf38
-	GetEvents200ResponseAllOfEventsInnerOneOf39 *GetEvents200ResponseAllOfEventsInnerOneOf39
-	GetEvents200ResponseAllOfEventsInnerOneOf4  *GetEvents200ResponseAllOfEventsInnerOneOf4
-	GetEvents200ResponseAllOfEventsInnerOneOf40 *GetEvents200ResponseAllOfEventsInnerOneOf40
-	GetEvents200ResponseAllOfEventsInnerOneOf41 *GetEvents200ResponseAllOfEventsInnerOneOf41
-	GetEvents200ResponseAllOfEventsInnerOneOf42 *GetEvents200ResponseAllOfEventsInnerOneOf42
-	GetEvents200ResponseAllOfEventsInnerOneOf43 *GetEvents200ResponseAllOfEventsInnerOneOf43
-	GetEvents200ResponseAllOfEventsInnerOneOf44 *GetEvents200ResponseAllOfEventsInnerOneOf44
-	GetEvents200ResponseAllOfEventsInnerOneOf45 *GetEvents200ResponseAllOfEventsInnerOneOf45
-	GetEvents200ResponseAllOfEventsInnerOneOf46 *GetEvents200ResponseAllOfEventsInnerOneOf46
-	GetEvents200ResponseAllOfEventsInnerOneOf47 *GetEvents200ResponseAllOfEventsInnerOneOf47
-	GetEvents200ResponseAllOfEventsInnerOneOf48 *GetEvents200ResponseAllOfEventsInnerOneOf48
-	GetEvents200ResponseAllOfEventsInnerOneOf49 *GetEvents200ResponseAllOfEventsInnerOneOf49
-	GetEvents200ResponseAllOfEventsInnerOneOf5  *GetEvents200ResponseAllOfEventsInnerOneOf5
-	GetEvents200ResponseAllOfEventsInnerOneOf50 *GetEvents200ResponseAllOfEventsInnerOneOf50
-	GetEvents200ResponseAllOfEventsInnerOneOf51 *GetEvents200ResponseAllOfEventsInnerOneOf51
-	GetEvents200ResponseAllOfEventsInnerOneOf52 *GetEvents200ResponseAllOfEventsInnerOneOf52
-	GetEvents200ResponseAllOfEventsInnerOneOf53 *GetEvents200ResponseAllOfEventsInnerOneOf53
-	GetEvents200ResponseAllOfEventsInnerOneOf54 *GetEvents200ResponseAllOfEventsInnerOneOf54
-	GetEvents200ResponseAllOfEventsInnerOneOf55 *GetEvents200ResponseAllOfEventsInnerOneOf55
-	GetEvents200ResponseAllOfEventsInnerOneOf56 *GetEvents200ResponseAllOfEventsInnerOneOf56
-	GetEvents200ResponseAllOfEventsInnerOneOf57 *GetEvents200ResponseAllOfEventsInnerOneOf57
-	GetEvents200ResponseAllOfEventsInnerOneOf58 *GetEvents200ResponseAllOfEventsInnerOneOf58
-	GetEvents200ResponseAllOfEventsInnerOneOf59 *GetEvents200ResponseAllOfEventsInnerOneOf59
-	GetEvents200ResponseAllOfEventsInnerOneOf6  *GetEvents200ResponseAllOfEventsInnerOneOf6
-	GetEvents200ResponseAllOfEventsInnerOneOf60 *GetEvents200ResponseAllOfEventsInnerOneOf60
-	GetEvents200ResponseAllOfEventsInnerOneOf61 *GetEvents200ResponseAllOfEventsInnerOneOf61
-	GetEvents200ResponseAllOfEventsInnerOneOf62 *GetEvents200ResponseAllOfEventsInnerOneOf62
-	GetEvents200ResponseAllOfEventsInnerOneOf63 *GetEvents200ResponseAllOfEventsInnerOneOf63
-	GetEvents200ResponseAllOfEventsInnerOneOf64 *GetEvents200ResponseAllOfEventsInnerOneOf64
-	GetEvents200ResponseAllOfEventsInnerOneOf65 *GetEvents200ResponseAllOfEventsInnerOneOf65
-	GetEvents200ResponseAllOfEventsInnerOneOf66 *GetEvents200ResponseAllOfEventsInnerOneOf66
-	GetEvents200ResponseAllOfEventsInnerOneOf67 *GetEvents200ResponseAllOfEventsInnerOneOf67
-	GetEvents200ResponseAllOfEventsInnerOneOf68 *GetEvents200ResponseAllOfEventsInnerOneOf68
-	GetEvents200ResponseAllOfEventsInnerOneOf69 *GetEvents200ResponseAllOfEventsInnerOneOf69
-	GetEvents200ResponseAllOfEventsInnerOneOf7  *GetEvents200ResponseAllOfEventsInnerOneOf7
-	GetEvents200ResponseAllOfEventsInnerOneOf70 *GetEvents200ResponseAllOfEventsInnerOneOf70
-	GetEvents200ResponseAllOfEventsInnerOneOf71 *GetEvents200ResponseAllOfEventsInnerOneOf71
-	GetEvents200ResponseAllOfEventsInnerOneOf72 *GetEvents200ResponseAllOfEventsInnerOneOf72
-	GetEvents200ResponseAllOfEventsInnerOneOf73 *GetEvents200ResponseAllOfEventsInnerOneOf73
-	GetEvents200ResponseAllOfEventsInnerOneOf74 *GetEvents200ResponseAllOfEventsInnerOneOf74
-	GetEvents200ResponseAllOfEventsInnerOneOf75 *GetEvents200ResponseAllOfEventsInnerOneOf75
-	GetEvents200ResponseAllOfEventsInnerOneOf76 *GetEvents200ResponseAllOfEventsInnerOneOf76
-	GetEvents200ResponseAllOfEventsInnerOneOf77 *GetEvents200ResponseAllOfEventsInnerOneOf77
-	GetEvents200ResponseAllOfEventsInnerOneOf78 *GetEvents200ResponseAllOfEventsInnerOneOf78
-	GetEvents200ResponseAllOfEventsInnerOneOf79 *GetEvents200ResponseAllOfEventsInnerOneOf79
-	GetEvents200ResponseAllOfEventsInnerOneOf8  *GetEvents200ResponseAllOfEventsInnerOneOf8
-	GetEvents200ResponseAllOfEventsInnerOneOf80 *GetEvents200ResponseAllOfEventsInnerOneOf80
-	GetEvents200ResponseAllOfEventsInnerOneOf81 *GetEvents200ResponseAllOfEventsInnerOneOf81
-	GetEvents200ResponseAllOfEventsInnerOneOf82 *GetEvents200ResponseAllOfEventsInnerOneOf82
-	GetEvents200ResponseAllOfEventsInnerOneOf83 *GetEvents200ResponseAllOfEventsInnerOneOf83
-	GetEvents200ResponseAllOfEventsInnerOneOf84 *GetEvents200ResponseAllOfEventsInnerOneOf84
-	GetEvents200ResponseAllOfEventsInnerOneOf85 *GetEvents200ResponseAllOfEventsInnerOneOf85
-	GetEvents200ResponseAllOfEventsInnerOneOf9  *GetEvents200ResponseAllOfEventsInnerOneOf9
+	AlertWordsEvent                      *AlertWordsEvent
+	UpdateDisplaySettingsEvent           *UpdateDisplaySettingsEvent
+	MessageEvent                         *MessageEvent
+	HasZoomTokenEvent                    *HasZoomTokenEvent
+	InvitesChangedEvent                  *InvitesChangedEvent
+	RealmUserAddEvent                    *RealmUserAddEvent
+	RealmUserRemoveEvent                 *RealmUserRemoveEvent
+	PresenceEvent                        *PresenceEvent
+	StreamCreateEvent                    *StreamCreateEvent
+	StreamDeleteEvent                    *StreamDeleteEvent
+	StreamUpdateEvent                    *StreamUpdateEvent
+	ReactionAddEvent                     *ReactionAddEvent
+	UpdateGlobalNotificationsEvent       *UpdateGlobalNotificationsEvent
+	ReactionRemoveEvent                  *ReactionRemoveEvent
+	AttachmentAddEvent                   *AttachmentAddEvent
+	AttachmentUpdateEvent                *AttachmentUpdateEvent
+	AttachmentRemoveEvent                *AttachmentRemoveEvent
+	PushDeviceEvent                      *PushDeviceEvent
+	SubmessageEvent                      *SubmessageEvent
+	UserStatusEvent                      *UserStatusEvent
+	CustomProfileFieldsEvent             *CustomProfileFieldsEvent
+	DefaultStreamGroupsEvent             *DefaultStreamGroupsEvent
+	DefaultStreamsEvent                  *DefaultStreamsEvent
+	UserSettingsUpdateEvent              *UserSettingsUpdateEvent
+	DeleteMessageEvent                   *DeleteMessageEvent
+	MutedTopicsEvent                     *MutedTopicsEvent
+	UserTopicEvent                       *UserTopicEvent
+	MutedUsersEvent                      *MutedUsersEvent
+	HeartbeatEvent                       *HeartbeatEvent
+	OnboardingStepsEvent                 *OnboardingStepsEvent
+	UpdateMessageEvent                   *UpdateMessageEvent
+	TypingStartEvent                     *TypingStartEvent
+	TypingStopEvent                      *TypingStopEvent
+	TypingEditMessageStartEvent          *TypingEditMessageStartEvent
+	RealmUserUpdateEvent                 *RealmUserUpdateEvent
+	TypingEditMessageStopEvent           *TypingEditMessageStopEvent
+	UpdateMessageFlagsAddEvent           *UpdateMessageFlagsAddEvent
+	UpdateMessageFlagsRemoveEvent        *UpdateMessageFlagsRemoveEvent
+	UserGroupAddEvent                    *UserGroupAddEvent
+	UserGroupUpdateEvent                 *UserGroupUpdateEvent
+	UserGroupAddMembersEvent             *UserGroupAddMembersEvent
+	UserGroupRemoveMembersEvent          *UserGroupRemoveMembersEvent
+	UserGroupAddSubgroupsEvent           *UserGroupAddSubgroupsEvent
+	UserGroupRemoveSubgroupsEvent        *UserGroupRemoveSubgroupsEvent
+	UserGroupRemoveEvent                 *UserGroupRemoveEvent
+	SubscriptionAddEvent                 *SubscriptionAddEvent
+	RealmLinkifiersEvent                 *RealmLinkifiersEvent
+	RealmFiltersEvent                    *RealmFiltersEvent
+	RealmPlaygroundsEvent                *RealmPlaygroundsEvent
+	RealmEmojiUpdateEvent                *RealmEmojiUpdateEvent
+	RealmDomainsAddEvent                 *RealmDomainsAddEvent
+	RealmDomainsChangeEvent              *RealmDomainsChangeEvent
+	RealmDomainsRemoveEvent              *RealmDomainsRemoveEvent
+	RealmExportEvent                     *RealmExportEvent
+	RealmExportConsentEvent              *RealmExportConsentEvent
+	RealmBotAddEvent                     *RealmBotAddEvent
+	SubscriptionRemoveEvent              *SubscriptionRemoveEvent
+	RealmBotUpdateEvent                  *RealmBotUpdateEvent
+	RealmBotRemoveEvent                  *RealmBotRemoveEvent
+	RealmBotDeleteEvent                  *RealmBotDeleteEvent
+	RealmUpdateEvent                     *RealmUpdateEvent
+	RealmDeactivatedEvent                *RealmDeactivatedEvent
+	RestartEvent                         *RestartEvent
+	WebReloadClientEvent                 *WebReloadClientEvent
+	RealmUpdateDictEvent                 *RealmUpdateDictEvent
+	RealmUserSettingsDefaultsUpdateEvent *RealmUserSettingsDefaultsUpdateEvent
+	DraftsAddEvent                       *DraftsAddEvent
+	SubscriptionUpdateEvent              *SubscriptionUpdateEvent
+	DraftsUpdateEvent                    *DraftsUpdateEvent
+	DraftsRemoveEvent                    *DraftsRemoveEvent
+	NavigationViewAddEvent               *NavigationViewAddEvent
+	NavigationViewUpdateEvent            *NavigationViewUpdateEvent
+	NavigationViewRemoveEvent            *NavigationViewRemoveEvent
+	SavedSnippetsAddEvent                *SavedSnippetsAddEvent
+	SavedSnippetsUpdateEvent             *SavedSnippetsUpdateEvent
+	SavedSnippetsRemoveEvent             *SavedSnippetsRemoveEvent
+	RemindersAddEvent                    *RemindersAddEvent
+	RemindersRemoveEvent                 *RemindersRemoveEvent
+	SubscriptionPeerAddEvent             *SubscriptionPeerAddEvent
+	ScheduledMessagesAddEvent            *ScheduledMessagesAddEvent
+	ScheduledMessagesUpdateEvent         *ScheduledMessagesUpdateEvent
+	ScheduledMessagesRemoveEvent         *ScheduledMessagesRemoveEvent
+	ChannelFolderAddEvent                *ChannelFolderAddEvent
+	ChannelFolderUpdateEvent             *ChannelFolderUpdateEvent
+	ChannelFolderReorderEvent            *ChannelFolderReorderEvent
+	SubscriptionPeerRemoveEvent          *SubscriptionPeerRemoveEvent
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOfAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOfAsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf) GetEvents200ResponseAllOfEventsInner {
+// AlertWordsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns AlertWordsEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func AlertWordsEventAsGetEvents200ResponseAllOfEventsInner(v *AlertWordsEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf: v,
+		AlertWordsEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf1AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf1 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf1AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf1) GetEvents200ResponseAllOfEventsInner {
+// UpdateDisplaySettingsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UpdateDisplaySettingsEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UpdateDisplaySettingsEventAsGetEvents200ResponseAllOfEventsInner(v *UpdateDisplaySettingsEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf1: v,
+		UpdateDisplaySettingsEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf10AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf10 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf10AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf10) GetEvents200ResponseAllOfEventsInner {
+// MessageEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns MessageEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func MessageEventAsGetEvents200ResponseAllOfEventsInner(v *MessageEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf10: v,
+		MessageEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf11AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf11 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf11AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf11) GetEvents200ResponseAllOfEventsInner {
+// HasZoomTokenEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns HasZoomTokenEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func HasZoomTokenEventAsGetEvents200ResponseAllOfEventsInner(v *HasZoomTokenEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf11: v,
+		HasZoomTokenEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf12AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf12 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf12AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf12) GetEvents200ResponseAllOfEventsInner {
+// InvitesChangedEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns InvitesChangedEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func InvitesChangedEventAsGetEvents200ResponseAllOfEventsInner(v *InvitesChangedEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf12: v,
+		InvitesChangedEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf13AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf13 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf13AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf13) GetEvents200ResponseAllOfEventsInner {
+// RealmUserAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmUserAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmUserAddEventAsGetEvents200ResponseAllOfEventsInner(v *RealmUserAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf13: v,
+		RealmUserAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf14AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf14 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf14AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf14) GetEvents200ResponseAllOfEventsInner {
+// RealmUserRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmUserRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmUserRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *RealmUserRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf14: v,
+		RealmUserRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf15AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf15 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf15AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf15) GetEvents200ResponseAllOfEventsInner {
+// PresenceEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns PresenceEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func PresenceEventAsGetEvents200ResponseAllOfEventsInner(v *PresenceEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf15: v,
+		PresenceEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf16AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf16 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf16AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf16) GetEvents200ResponseAllOfEventsInner {
+// StreamCreateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns StreamCreateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func StreamCreateEventAsGetEvents200ResponseAllOfEventsInner(v *StreamCreateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf16: v,
+		StreamCreateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf17AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf17 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf17AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf17) GetEvents200ResponseAllOfEventsInner {
+// StreamDeleteEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns StreamDeleteEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func StreamDeleteEventAsGetEvents200ResponseAllOfEventsInner(v *StreamDeleteEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf17: v,
+		StreamDeleteEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf18AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf18 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf18AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf18) GetEvents200ResponseAllOfEventsInner {
+// StreamUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns StreamUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func StreamUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *StreamUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf18: v,
+		StreamUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf19AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf19 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf19AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf19) GetEvents200ResponseAllOfEventsInner {
+// ReactionAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ReactionAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func ReactionAddEventAsGetEvents200ResponseAllOfEventsInner(v *ReactionAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf19: v,
+		ReactionAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf2AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf2 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf2AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf2) GetEvents200ResponseAllOfEventsInner {
+// UpdateGlobalNotificationsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UpdateGlobalNotificationsEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UpdateGlobalNotificationsEventAsGetEvents200ResponseAllOfEventsInner(v *UpdateGlobalNotificationsEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf2: v,
+		UpdateGlobalNotificationsEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf20AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf20 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf20AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf20) GetEvents200ResponseAllOfEventsInner {
+// ReactionRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ReactionRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func ReactionRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *ReactionRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf20: v,
+		ReactionRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf21AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf21 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf21AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf21) GetEvents200ResponseAllOfEventsInner {
+// AttachmentAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns AttachmentAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func AttachmentAddEventAsGetEvents200ResponseAllOfEventsInner(v *AttachmentAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf21: v,
+		AttachmentAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf22AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf22 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf22AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf22) GetEvents200ResponseAllOfEventsInner {
+// AttachmentUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns AttachmentUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func AttachmentUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *AttachmentUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf22: v,
+		AttachmentUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf23AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf23 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf23AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf23) GetEvents200ResponseAllOfEventsInner {
+// AttachmentRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns AttachmentRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func AttachmentRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *AttachmentRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf23: v,
+		AttachmentRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf24AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf24 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf24AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf24) GetEvents200ResponseAllOfEventsInner {
+// PushDeviceEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns PushDeviceEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func PushDeviceEventAsGetEvents200ResponseAllOfEventsInner(v *PushDeviceEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf24: v,
+		PushDeviceEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf25AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf25 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf25AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf25) GetEvents200ResponseAllOfEventsInner {
+// SubmessageEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SubmessageEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func SubmessageEventAsGetEvents200ResponseAllOfEventsInner(v *SubmessageEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf25: v,
+		SubmessageEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf26AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf26 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf26AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf26) GetEvents200ResponseAllOfEventsInner {
+// UserStatusEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserStatusEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UserStatusEventAsGetEvents200ResponseAllOfEventsInner(v *UserStatusEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf26: v,
+		UserStatusEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf27AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf27 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf27AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf27) GetEvents200ResponseAllOfEventsInner {
+// CustomProfileFieldsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns CustomProfileFieldsEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func CustomProfileFieldsEventAsGetEvents200ResponseAllOfEventsInner(v *CustomProfileFieldsEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf27: v,
+		CustomProfileFieldsEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf28AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf28 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf28AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf28) GetEvents200ResponseAllOfEventsInner {
+// DefaultStreamGroupsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns DefaultStreamGroupsEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func DefaultStreamGroupsEventAsGetEvents200ResponseAllOfEventsInner(v *DefaultStreamGroupsEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf28: v,
+		DefaultStreamGroupsEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf29AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf29 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf29AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf29) GetEvents200ResponseAllOfEventsInner {
+// DefaultStreamsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns DefaultStreamsEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func DefaultStreamsEventAsGetEvents200ResponseAllOfEventsInner(v *DefaultStreamsEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf29: v,
+		DefaultStreamsEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf3AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf3 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf3AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf3) GetEvents200ResponseAllOfEventsInner {
+// UserSettingsUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserSettingsUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UserSettingsUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *UserSettingsUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf3: v,
+		UserSettingsUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf30AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf30 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf30AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf30) GetEvents200ResponseAllOfEventsInner {
+// DeleteMessageEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns DeleteMessageEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func DeleteMessageEventAsGetEvents200ResponseAllOfEventsInner(v *DeleteMessageEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf30: v,
+		DeleteMessageEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf31AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf31 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf31AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf31) GetEvents200ResponseAllOfEventsInner {
+// MutedTopicsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns MutedTopicsEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func MutedTopicsEventAsGetEvents200ResponseAllOfEventsInner(v *MutedTopicsEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf31: v,
+		MutedTopicsEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf32AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf32 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf32AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf32) GetEvents200ResponseAllOfEventsInner {
+// UserTopicEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserTopicEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UserTopicEventAsGetEvents200ResponseAllOfEventsInner(v *UserTopicEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf32: v,
+		UserTopicEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf33AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf33 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf33AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf33) GetEvents200ResponseAllOfEventsInner {
+// MutedUsersEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns MutedUsersEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func MutedUsersEventAsGetEvents200ResponseAllOfEventsInner(v *MutedUsersEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf33: v,
+		MutedUsersEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf34AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf34 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf34AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf34) GetEvents200ResponseAllOfEventsInner {
+// HeartbeatEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns HeartbeatEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func HeartbeatEventAsGetEvents200ResponseAllOfEventsInner(v *HeartbeatEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf34: v,
+		HeartbeatEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf35AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf35 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf35AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf35) GetEvents200ResponseAllOfEventsInner {
+// OnboardingStepsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns OnboardingStepsEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func OnboardingStepsEventAsGetEvents200ResponseAllOfEventsInner(v *OnboardingStepsEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf35: v,
+		OnboardingStepsEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf36AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf36 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf36AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf36) GetEvents200ResponseAllOfEventsInner {
+// UpdateMessageEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UpdateMessageEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UpdateMessageEventAsGetEvents200ResponseAllOfEventsInner(v *UpdateMessageEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf36: v,
+		UpdateMessageEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf37AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf37 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf37AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf37) GetEvents200ResponseAllOfEventsInner {
+// TypingStartEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns TypingStartEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func TypingStartEventAsGetEvents200ResponseAllOfEventsInner(v *TypingStartEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf37: v,
+		TypingStartEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf38AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf38 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf38AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf38) GetEvents200ResponseAllOfEventsInner {
+// TypingStopEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns TypingStopEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func TypingStopEventAsGetEvents200ResponseAllOfEventsInner(v *TypingStopEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf38: v,
+		TypingStopEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf39AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf39 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf39AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf39) GetEvents200ResponseAllOfEventsInner {
+// TypingEditMessageStartEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns TypingEditMessageStartEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func TypingEditMessageStartEventAsGetEvents200ResponseAllOfEventsInner(v *TypingEditMessageStartEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf39: v,
+		TypingEditMessageStartEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf4AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf4 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf4AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf4) GetEvents200ResponseAllOfEventsInner {
+// RealmUserUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmUserUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmUserUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *RealmUserUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf4: v,
+		RealmUserUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf40AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf40 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf40AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf40) GetEvents200ResponseAllOfEventsInner {
+// TypingEditMessageStopEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns TypingEditMessageStopEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func TypingEditMessageStopEventAsGetEvents200ResponseAllOfEventsInner(v *TypingEditMessageStopEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf40: v,
+		TypingEditMessageStopEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf41AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf41 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf41AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf41) GetEvents200ResponseAllOfEventsInner {
+// UpdateMessageFlagsAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UpdateMessageFlagsAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UpdateMessageFlagsAddEventAsGetEvents200ResponseAllOfEventsInner(v *UpdateMessageFlagsAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf41: v,
+		UpdateMessageFlagsAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf42AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf42 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf42AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf42) GetEvents200ResponseAllOfEventsInner {
+// UpdateMessageFlagsRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UpdateMessageFlagsRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UpdateMessageFlagsRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *UpdateMessageFlagsRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf42: v,
+		UpdateMessageFlagsRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf43AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf43 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf43AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf43) GetEvents200ResponseAllOfEventsInner {
+// UserGroupAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UserGroupAddEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf43: v,
+		UserGroupAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf44AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf44 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf44AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf44) GetEvents200ResponseAllOfEventsInner {
+// UserGroupUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UserGroupUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf44: v,
+		UserGroupUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf45AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf45 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf45AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf45) GetEvents200ResponseAllOfEventsInner {
+// UserGroupAddMembersEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupAddMembersEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UserGroupAddMembersEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupAddMembersEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf45: v,
+		UserGroupAddMembersEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf46AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf46 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf46AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf46) GetEvents200ResponseAllOfEventsInner {
+// UserGroupRemoveMembersEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupRemoveMembersEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UserGroupRemoveMembersEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupRemoveMembersEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf46: v,
+		UserGroupRemoveMembersEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf47AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf47 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf47AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf47) GetEvents200ResponseAllOfEventsInner {
+// UserGroupAddSubgroupsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupAddSubgroupsEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UserGroupAddSubgroupsEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupAddSubgroupsEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf47: v,
+		UserGroupAddSubgroupsEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf48AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf48 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf48AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf48) GetEvents200ResponseAllOfEventsInner {
+// UserGroupRemoveSubgroupsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupRemoveSubgroupsEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UserGroupRemoveSubgroupsEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupRemoveSubgroupsEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf48: v,
+		UserGroupRemoveSubgroupsEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf49AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf49 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf49AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf49) GetEvents200ResponseAllOfEventsInner {
+// UserGroupRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func UserGroupRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf49: v,
+		UserGroupRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf5AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf5 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf5AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf5) GetEvents200ResponseAllOfEventsInner {
+// SubscriptionAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SubscriptionAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func SubscriptionAddEventAsGetEvents200ResponseAllOfEventsInner(v *SubscriptionAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf5: v,
+		SubscriptionAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf50AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf50 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf50AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf50) GetEvents200ResponseAllOfEventsInner {
+// RealmLinkifiersEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmLinkifiersEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmLinkifiersEventAsGetEvents200ResponseAllOfEventsInner(v *RealmLinkifiersEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf50: v,
+		RealmLinkifiersEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf51AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf51 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf51AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf51) GetEvents200ResponseAllOfEventsInner {
+// RealmFiltersEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmFiltersEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmFiltersEventAsGetEvents200ResponseAllOfEventsInner(v *RealmFiltersEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf51: v,
+		RealmFiltersEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf52AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf52 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf52AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf52) GetEvents200ResponseAllOfEventsInner {
+// RealmPlaygroundsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmPlaygroundsEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmPlaygroundsEventAsGetEvents200ResponseAllOfEventsInner(v *RealmPlaygroundsEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf52: v,
+		RealmPlaygroundsEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf53AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf53 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf53AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf53) GetEvents200ResponseAllOfEventsInner {
+// RealmEmojiUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmEmojiUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmEmojiUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *RealmEmojiUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf53: v,
+		RealmEmojiUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf54AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf54 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf54AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf54) GetEvents200ResponseAllOfEventsInner {
+// RealmDomainsAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmDomainsAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmDomainsAddEventAsGetEvents200ResponseAllOfEventsInner(v *RealmDomainsAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf54: v,
+		RealmDomainsAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf55AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf55 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf55AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf55) GetEvents200ResponseAllOfEventsInner {
+// RealmDomainsChangeEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmDomainsChangeEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmDomainsChangeEventAsGetEvents200ResponseAllOfEventsInner(v *RealmDomainsChangeEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf55: v,
+		RealmDomainsChangeEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf56AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf56 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf56AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf56) GetEvents200ResponseAllOfEventsInner {
+// RealmDomainsRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmDomainsRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmDomainsRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *RealmDomainsRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf56: v,
+		RealmDomainsRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf57AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf57 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf57AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf57) GetEvents200ResponseAllOfEventsInner {
+// RealmExportEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmExportEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmExportEventAsGetEvents200ResponseAllOfEventsInner(v *RealmExportEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf57: v,
+		RealmExportEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf58AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf58 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf58AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf58) GetEvents200ResponseAllOfEventsInner {
+// RealmExportConsentEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmExportConsentEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmExportConsentEventAsGetEvents200ResponseAllOfEventsInner(v *RealmExportConsentEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf58: v,
+		RealmExportConsentEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf59AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf59 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf59AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf59) GetEvents200ResponseAllOfEventsInner {
+// RealmBotAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmBotAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmBotAddEventAsGetEvents200ResponseAllOfEventsInner(v *RealmBotAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf59: v,
+		RealmBotAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf6AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf6 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf6AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf6) GetEvents200ResponseAllOfEventsInner {
+// SubscriptionRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SubscriptionRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func SubscriptionRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *SubscriptionRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf6: v,
+		SubscriptionRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf60AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf60 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf60AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf60) GetEvents200ResponseAllOfEventsInner {
+// RealmBotUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmBotUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmBotUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *RealmBotUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf60: v,
+		RealmBotUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf61AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf61 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf61AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf61) GetEvents200ResponseAllOfEventsInner {
+// RealmBotRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmBotRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmBotRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *RealmBotRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf61: v,
+		RealmBotRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf62AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf62 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf62AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf62) GetEvents200ResponseAllOfEventsInner {
+// RealmBotDeleteEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmBotDeleteEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmBotDeleteEventAsGetEvents200ResponseAllOfEventsInner(v *RealmBotDeleteEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf62: v,
+		RealmBotDeleteEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf63AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf63 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf63AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf63) GetEvents200ResponseAllOfEventsInner {
+// RealmUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *RealmUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf63: v,
+		RealmUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf64AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf64 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf64AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf64) GetEvents200ResponseAllOfEventsInner {
+// RealmDeactivatedEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmDeactivatedEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmDeactivatedEventAsGetEvents200ResponseAllOfEventsInner(v *RealmDeactivatedEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf64: v,
+		RealmDeactivatedEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf65AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf65 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf65AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf65) GetEvents200ResponseAllOfEventsInner {
+// RestartEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RestartEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RestartEventAsGetEvents200ResponseAllOfEventsInner(v *RestartEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf65: v,
+		RestartEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf66AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf66 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf66AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf66) GetEvents200ResponseAllOfEventsInner {
+// WebReloadClientEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns WebReloadClientEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func WebReloadClientEventAsGetEvents200ResponseAllOfEventsInner(v *WebReloadClientEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf66: v,
+		WebReloadClientEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf67AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf67 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf67AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf67) GetEvents200ResponseAllOfEventsInner {
+// RealmUpdateDictEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmUpdateDictEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmUpdateDictEventAsGetEvents200ResponseAllOfEventsInner(v *RealmUpdateDictEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf67: v,
+		RealmUpdateDictEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf68AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf68 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf68AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf68) GetEvents200ResponseAllOfEventsInner {
+// RealmUserSettingsDefaultsUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmUserSettingsDefaultsUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RealmUserSettingsDefaultsUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *RealmUserSettingsDefaultsUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf68: v,
+		RealmUserSettingsDefaultsUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf69AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf69 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf69AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf69) GetEvents200ResponseAllOfEventsInner {
+// DraftsAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns DraftsAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func DraftsAddEventAsGetEvents200ResponseAllOfEventsInner(v *DraftsAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf69: v,
+		DraftsAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf7AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf7 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf7AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf7) GetEvents200ResponseAllOfEventsInner {
+// SubscriptionUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SubscriptionUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func SubscriptionUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *SubscriptionUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf7: v,
+		SubscriptionUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf70AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf70 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf70AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf70) GetEvents200ResponseAllOfEventsInner {
+// DraftsUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns DraftsUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func DraftsUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *DraftsUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf70: v,
+		DraftsUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf71AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf71 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf71AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf71) GetEvents200ResponseAllOfEventsInner {
+// DraftsRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns DraftsRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func DraftsRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *DraftsRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf71: v,
+		DraftsRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf72AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf72 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf72AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf72) GetEvents200ResponseAllOfEventsInner {
+// NavigationViewAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns NavigationViewAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func NavigationViewAddEventAsGetEvents200ResponseAllOfEventsInner(v *NavigationViewAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf72: v,
+		NavigationViewAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf73AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf73 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf73AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf73) GetEvents200ResponseAllOfEventsInner {
+// NavigationViewUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns NavigationViewUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func NavigationViewUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *NavigationViewUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf73: v,
+		NavigationViewUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf74AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf74 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf74AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf74) GetEvents200ResponseAllOfEventsInner {
+// NavigationViewRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns NavigationViewRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func NavigationViewRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *NavigationViewRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf74: v,
+		NavigationViewRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf75AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf75 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf75AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf75) GetEvents200ResponseAllOfEventsInner {
+// SavedSnippetsAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SavedSnippetsAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func SavedSnippetsAddEventAsGetEvents200ResponseAllOfEventsInner(v *SavedSnippetsAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf75: v,
+		SavedSnippetsAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf76AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf76 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf76AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf76) GetEvents200ResponseAllOfEventsInner {
+// SavedSnippetsUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SavedSnippetsUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func SavedSnippetsUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *SavedSnippetsUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf76: v,
+		SavedSnippetsUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf77AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf77 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf77AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf77) GetEvents200ResponseAllOfEventsInner {
+// SavedSnippetsRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SavedSnippetsRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func SavedSnippetsRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *SavedSnippetsRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf77: v,
+		SavedSnippetsRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf78AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf78 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf78AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf78) GetEvents200ResponseAllOfEventsInner {
+// RemindersAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RemindersAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RemindersAddEventAsGetEvents200ResponseAllOfEventsInner(v *RemindersAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf78: v,
+		RemindersAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf79AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf79 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf79AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf79) GetEvents200ResponseAllOfEventsInner {
+// RemindersRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RemindersRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func RemindersRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *RemindersRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf79: v,
+		RemindersRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf8AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf8 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf8AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf8) GetEvents200ResponseAllOfEventsInner {
+// SubscriptionPeerAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SubscriptionPeerAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func SubscriptionPeerAddEventAsGetEvents200ResponseAllOfEventsInner(v *SubscriptionPeerAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf8: v,
+		SubscriptionPeerAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf80AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf80 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf80AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf80) GetEvents200ResponseAllOfEventsInner {
+// ScheduledMessagesAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ScheduledMessagesAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func ScheduledMessagesAddEventAsGetEvents200ResponseAllOfEventsInner(v *ScheduledMessagesAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf80: v,
+		ScheduledMessagesAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf81AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf81 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf81AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf81) GetEvents200ResponseAllOfEventsInner {
+// ScheduledMessagesUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ScheduledMessagesUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func ScheduledMessagesUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *ScheduledMessagesUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf81: v,
+		ScheduledMessagesUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf82AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf82 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf82AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf82) GetEvents200ResponseAllOfEventsInner {
+// ScheduledMessagesRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ScheduledMessagesRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func ScheduledMessagesRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *ScheduledMessagesRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf82: v,
+		ScheduledMessagesRemoveEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf83AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf83 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf83AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf83) GetEvents200ResponseAllOfEventsInner {
+// ChannelFolderAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ChannelFolderAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func ChannelFolderAddEventAsGetEvents200ResponseAllOfEventsInner(v *ChannelFolderAddEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf83: v,
+		ChannelFolderAddEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf84AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf84 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf84AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf84) GetEvents200ResponseAllOfEventsInner {
+// ChannelFolderUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ChannelFolderUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func ChannelFolderUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *ChannelFolderUpdateEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf84: v,
+		ChannelFolderUpdateEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf85AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf85 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf85AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf85) GetEvents200ResponseAllOfEventsInner {
+// ChannelFolderReorderEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ChannelFolderReorderEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func ChannelFolderReorderEventAsGetEvents200ResponseAllOfEventsInner(v *ChannelFolderReorderEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf85: v,
+		ChannelFolderReorderEvent: v,
 	}
 }
 
-// GetEvents200ResponseAllOfEventsInnerOneOf9AsGetEvents200ResponseAllOfEventsInner is a convenience function that returns GetEvents200ResponseAllOfEventsInnerOneOf9 wrapped in GetEvents200ResponseAllOfEventsInner
-func GetEvents200ResponseAllOfEventsInnerOneOf9AsGetEvents200ResponseAllOfEventsInner(v *GetEvents200ResponseAllOfEventsInnerOneOf9) GetEvents200ResponseAllOfEventsInner {
+// SubscriptionPeerRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SubscriptionPeerRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
+func SubscriptionPeerRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *SubscriptionPeerRemoveEvent) GetEvents200ResponseAllOfEventsInner {
 	return GetEvents200ResponseAllOfEventsInner{
-		GetEvents200ResponseAllOfEventsInnerOneOf9: v,
+		SubscriptionPeerRemoveEvent: v,
 	}
 }
 
@@ -713,1556 +713,1556 @@ func GetEvents200ResponseAllOfEventsInnerOneOf9AsGetEvents200ResponseAllOfEvents
 func (dst *GetEvents200ResponseAllOfEventsInner) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf)
+	// try to unmarshal data into AlertWordsEvent
+	err = newStrictDecoder(data).Decode(&dst.AlertWordsEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf = nil
+		jsonAlertWordsEvent, _ := json.Marshal(dst.AlertWordsEvent)
+		if string(jsonAlertWordsEvent) == "{}" { // empty struct
+			dst.AlertWordsEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf = nil
+			if err = validator.Validate(dst.AlertWordsEvent); err != nil {
+				dst.AlertWordsEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf = nil
+		dst.AlertWordsEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf1
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf1)
+	// try to unmarshal data into UpdateDisplaySettingsEvent
+	err = newStrictDecoder(data).Decode(&dst.UpdateDisplaySettingsEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf1, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf1)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf1) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf1 = nil
+		jsonUpdateDisplaySettingsEvent, _ := json.Marshal(dst.UpdateDisplaySettingsEvent)
+		if string(jsonUpdateDisplaySettingsEvent) == "{}" { // empty struct
+			dst.UpdateDisplaySettingsEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf1); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf1 = nil
+			if err = validator.Validate(dst.UpdateDisplaySettingsEvent); err != nil {
+				dst.UpdateDisplaySettingsEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf1 = nil
+		dst.UpdateDisplaySettingsEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf10
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf10)
+	// try to unmarshal data into MessageEvent
+	err = newStrictDecoder(data).Decode(&dst.MessageEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf10, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf10)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf10) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf10 = nil
+		jsonUpdateDisplaySettingsEvent0, _ := json.Marshal(dst.MessageEvent)
+		if string(jsonUpdateDisplaySettingsEvent0) == "{}" { // empty struct
+			dst.MessageEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf10); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf10 = nil
+			if err = validator.Validate(dst.MessageEvent); err != nil {
+				dst.MessageEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf10 = nil
+		dst.MessageEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf11
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf11)
+	// try to unmarshal data into HasZoomTokenEvent
+	err = newStrictDecoder(data).Decode(&dst.HasZoomTokenEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf11, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf11)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf11) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf11 = nil
+		jsonUpdateDisplaySettingsEvent1, _ := json.Marshal(dst.HasZoomTokenEvent)
+		if string(jsonUpdateDisplaySettingsEvent1) == "{}" { // empty struct
+			dst.HasZoomTokenEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf11); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf11 = nil
+			if err = validator.Validate(dst.HasZoomTokenEvent); err != nil {
+				dst.HasZoomTokenEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf11 = nil
+		dst.HasZoomTokenEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf12
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf12)
+	// try to unmarshal data into InvitesChangedEvent
+	err = newStrictDecoder(data).Decode(&dst.InvitesChangedEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf12, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf12)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf12) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf12 = nil
+		jsonUpdateDisplaySettingsEvent2, _ := json.Marshal(dst.InvitesChangedEvent)
+		if string(jsonUpdateDisplaySettingsEvent2) == "{}" { // empty struct
+			dst.InvitesChangedEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf12); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf12 = nil
+			if err = validator.Validate(dst.InvitesChangedEvent); err != nil {
+				dst.InvitesChangedEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf12 = nil
+		dst.InvitesChangedEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf13
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf13)
+	// try to unmarshal data into RealmUserAddEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmUserAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf13, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf13)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf13) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf13 = nil
+		jsonUpdateDisplaySettingsEvent3, _ := json.Marshal(dst.RealmUserAddEvent)
+		if string(jsonUpdateDisplaySettingsEvent3) == "{}" { // empty struct
+			dst.RealmUserAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf13); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf13 = nil
+			if err = validator.Validate(dst.RealmUserAddEvent); err != nil {
+				dst.RealmUserAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf13 = nil
+		dst.RealmUserAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf14
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf14)
+	// try to unmarshal data into RealmUserRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmUserRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf14, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf14)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf14) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf14 = nil
+		jsonUpdateDisplaySettingsEvent4, _ := json.Marshal(dst.RealmUserRemoveEvent)
+		if string(jsonUpdateDisplaySettingsEvent4) == "{}" { // empty struct
+			dst.RealmUserRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf14); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf14 = nil
+			if err = validator.Validate(dst.RealmUserRemoveEvent); err != nil {
+				dst.RealmUserRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf14 = nil
+		dst.RealmUserRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf15
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf15)
+	// try to unmarshal data into PresenceEvent
+	err = newStrictDecoder(data).Decode(&dst.PresenceEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf15, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf15)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf15) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf15 = nil
+		jsonUpdateDisplaySettingsEvent5, _ := json.Marshal(dst.PresenceEvent)
+		if string(jsonUpdateDisplaySettingsEvent5) == "{}" { // empty struct
+			dst.PresenceEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf15); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf15 = nil
+			if err = validator.Validate(dst.PresenceEvent); err != nil {
+				dst.PresenceEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf15 = nil
+		dst.PresenceEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf16
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf16)
+	// try to unmarshal data into StreamCreateEvent
+	err = newStrictDecoder(data).Decode(&dst.StreamCreateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf16, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf16)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf16) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf16 = nil
+		jsonUpdateDisplaySettingsEvent6, _ := json.Marshal(dst.StreamCreateEvent)
+		if string(jsonUpdateDisplaySettingsEvent6) == "{}" { // empty struct
+			dst.StreamCreateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf16); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf16 = nil
+			if err = validator.Validate(dst.StreamCreateEvent); err != nil {
+				dst.StreamCreateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf16 = nil
+		dst.StreamCreateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf17
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf17)
+	// try to unmarshal data into StreamDeleteEvent
+	err = newStrictDecoder(data).Decode(&dst.StreamDeleteEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf17, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf17)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf17) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf17 = nil
+		jsonUpdateDisplaySettingsEvent7, _ := json.Marshal(dst.StreamDeleteEvent)
+		if string(jsonUpdateDisplaySettingsEvent7) == "{}" { // empty struct
+			dst.StreamDeleteEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf17); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf17 = nil
+			if err = validator.Validate(dst.StreamDeleteEvent); err != nil {
+				dst.StreamDeleteEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf17 = nil
+		dst.StreamDeleteEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf18
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf18)
+	// try to unmarshal data into StreamUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.StreamUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf18, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf18)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf18) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf18 = nil
+		jsonUpdateDisplaySettingsEvent8, _ := json.Marshal(dst.StreamUpdateEvent)
+		if string(jsonUpdateDisplaySettingsEvent8) == "{}" { // empty struct
+			dst.StreamUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf18); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf18 = nil
+			if err = validator.Validate(dst.StreamUpdateEvent); err != nil {
+				dst.StreamUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf18 = nil
+		dst.StreamUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf19
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf19)
+	// try to unmarshal data into ReactionAddEvent
+	err = newStrictDecoder(data).Decode(&dst.ReactionAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf19, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf19)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf19) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf19 = nil
+		jsonUpdateDisplaySettingsEvent9, _ := json.Marshal(dst.ReactionAddEvent)
+		if string(jsonUpdateDisplaySettingsEvent9) == "{}" { // empty struct
+			dst.ReactionAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf19); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf19 = nil
+			if err = validator.Validate(dst.ReactionAddEvent); err != nil {
+				dst.ReactionAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf19 = nil
+		dst.ReactionAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf2
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf2)
+	// try to unmarshal data into UpdateGlobalNotificationsEvent
+	err = newStrictDecoder(data).Decode(&dst.UpdateGlobalNotificationsEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf2, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf2)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf2) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf2 = nil
+		jsonUpdateGlobalNotificationsEvent, _ := json.Marshal(dst.UpdateGlobalNotificationsEvent)
+		if string(jsonUpdateGlobalNotificationsEvent) == "{}" { // empty struct
+			dst.UpdateGlobalNotificationsEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf2); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf2 = nil
+			if err = validator.Validate(dst.UpdateGlobalNotificationsEvent); err != nil {
+				dst.UpdateGlobalNotificationsEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf2 = nil
+		dst.UpdateGlobalNotificationsEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf20
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf20)
+	// try to unmarshal data into ReactionRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.ReactionRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf20, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf20)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf20) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf20 = nil
+		jsonUpdateGlobalNotificationsEvent0, _ := json.Marshal(dst.ReactionRemoveEvent)
+		if string(jsonUpdateGlobalNotificationsEvent0) == "{}" { // empty struct
+			dst.ReactionRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf20); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf20 = nil
+			if err = validator.Validate(dst.ReactionRemoveEvent); err != nil {
+				dst.ReactionRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf20 = nil
+		dst.ReactionRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf21
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf21)
+	// try to unmarshal data into AttachmentAddEvent
+	err = newStrictDecoder(data).Decode(&dst.AttachmentAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf21, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf21)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf21) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf21 = nil
+		jsonUpdateGlobalNotificationsEvent1, _ := json.Marshal(dst.AttachmentAddEvent)
+		if string(jsonUpdateGlobalNotificationsEvent1) == "{}" { // empty struct
+			dst.AttachmentAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf21); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf21 = nil
+			if err = validator.Validate(dst.AttachmentAddEvent); err != nil {
+				dst.AttachmentAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf21 = nil
+		dst.AttachmentAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf22
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf22)
+	// try to unmarshal data into AttachmentUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.AttachmentUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf22, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf22)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf22) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf22 = nil
+		jsonUpdateGlobalNotificationsEvent2, _ := json.Marshal(dst.AttachmentUpdateEvent)
+		if string(jsonUpdateGlobalNotificationsEvent2) == "{}" { // empty struct
+			dst.AttachmentUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf22); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf22 = nil
+			if err = validator.Validate(dst.AttachmentUpdateEvent); err != nil {
+				dst.AttachmentUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf22 = nil
+		dst.AttachmentUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf23
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf23)
+	// try to unmarshal data into AttachmentRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.AttachmentRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf23, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf23)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf23) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf23 = nil
+		jsonUpdateGlobalNotificationsEvent3, _ := json.Marshal(dst.AttachmentRemoveEvent)
+		if string(jsonUpdateGlobalNotificationsEvent3) == "{}" { // empty struct
+			dst.AttachmentRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf23); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf23 = nil
+			if err = validator.Validate(dst.AttachmentRemoveEvent); err != nil {
+				dst.AttachmentRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf23 = nil
+		dst.AttachmentRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf24
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf24)
+	// try to unmarshal data into PushDeviceEvent
+	err = newStrictDecoder(data).Decode(&dst.PushDeviceEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf24, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf24)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf24) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf24 = nil
+		jsonUpdateGlobalNotificationsEvent4, _ := json.Marshal(dst.PushDeviceEvent)
+		if string(jsonUpdateGlobalNotificationsEvent4) == "{}" { // empty struct
+			dst.PushDeviceEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf24); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf24 = nil
+			if err = validator.Validate(dst.PushDeviceEvent); err != nil {
+				dst.PushDeviceEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf24 = nil
+		dst.PushDeviceEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf25
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf25)
+	// try to unmarshal data into SubmessageEvent
+	err = newStrictDecoder(data).Decode(&dst.SubmessageEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf25, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf25)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf25) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf25 = nil
+		jsonUpdateGlobalNotificationsEvent5, _ := json.Marshal(dst.SubmessageEvent)
+		if string(jsonUpdateGlobalNotificationsEvent5) == "{}" { // empty struct
+			dst.SubmessageEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf25); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf25 = nil
+			if err = validator.Validate(dst.SubmessageEvent); err != nil {
+				dst.SubmessageEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf25 = nil
+		dst.SubmessageEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf26
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf26)
+	// try to unmarshal data into UserStatusEvent
+	err = newStrictDecoder(data).Decode(&dst.UserStatusEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf26, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf26)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf26) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf26 = nil
+		jsonUpdateGlobalNotificationsEvent6, _ := json.Marshal(dst.UserStatusEvent)
+		if string(jsonUpdateGlobalNotificationsEvent6) == "{}" { // empty struct
+			dst.UserStatusEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf26); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf26 = nil
+			if err = validator.Validate(dst.UserStatusEvent); err != nil {
+				dst.UserStatusEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf26 = nil
+		dst.UserStatusEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf27
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf27)
+	// try to unmarshal data into CustomProfileFieldsEvent
+	err = newStrictDecoder(data).Decode(&dst.CustomProfileFieldsEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf27, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf27)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf27) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf27 = nil
+		jsonUpdateGlobalNotificationsEvent7, _ := json.Marshal(dst.CustomProfileFieldsEvent)
+		if string(jsonUpdateGlobalNotificationsEvent7) == "{}" { // empty struct
+			dst.CustomProfileFieldsEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf27); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf27 = nil
+			if err = validator.Validate(dst.CustomProfileFieldsEvent); err != nil {
+				dst.CustomProfileFieldsEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf27 = nil
+		dst.CustomProfileFieldsEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf28
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf28)
+	// try to unmarshal data into DefaultStreamGroupsEvent
+	err = newStrictDecoder(data).Decode(&dst.DefaultStreamGroupsEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf28, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf28)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf28) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf28 = nil
+		jsonUpdateGlobalNotificationsEvent8, _ := json.Marshal(dst.DefaultStreamGroupsEvent)
+		if string(jsonUpdateGlobalNotificationsEvent8) == "{}" { // empty struct
+			dst.DefaultStreamGroupsEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf28); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf28 = nil
+			if err = validator.Validate(dst.DefaultStreamGroupsEvent); err != nil {
+				dst.DefaultStreamGroupsEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf28 = nil
+		dst.DefaultStreamGroupsEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf29
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf29)
+	// try to unmarshal data into DefaultStreamsEvent
+	err = newStrictDecoder(data).Decode(&dst.DefaultStreamsEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf29, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf29)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf29) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf29 = nil
+		jsonUpdateGlobalNotificationsEvent9, _ := json.Marshal(dst.DefaultStreamsEvent)
+		if string(jsonUpdateGlobalNotificationsEvent9) == "{}" { // empty struct
+			dst.DefaultStreamsEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf29); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf29 = nil
+			if err = validator.Validate(dst.DefaultStreamsEvent); err != nil {
+				dst.DefaultStreamsEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf29 = nil
+		dst.DefaultStreamsEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf3
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf3)
+	// try to unmarshal data into UserSettingsUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.UserSettingsUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf3, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf3)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf3) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf3 = nil
+		jsonUserSettingsUpdateEvent, _ := json.Marshal(dst.UserSettingsUpdateEvent)
+		if string(jsonUserSettingsUpdateEvent) == "{}" { // empty struct
+			dst.UserSettingsUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf3); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf3 = nil
+			if err = validator.Validate(dst.UserSettingsUpdateEvent); err != nil {
+				dst.UserSettingsUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf3 = nil
+		dst.UserSettingsUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf30
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf30)
+	// try to unmarshal data into DeleteMessageEvent
+	err = newStrictDecoder(data).Decode(&dst.DeleteMessageEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf30, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf30)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf30) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf30 = nil
+		jsonUserSettingsUpdateEvent0, _ := json.Marshal(dst.DeleteMessageEvent)
+		if string(jsonUserSettingsUpdateEvent0) == "{}" { // empty struct
+			dst.DeleteMessageEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf30); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf30 = nil
+			if err = validator.Validate(dst.DeleteMessageEvent); err != nil {
+				dst.DeleteMessageEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf30 = nil
+		dst.DeleteMessageEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf31
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf31)
+	// try to unmarshal data into MutedTopicsEvent
+	err = newStrictDecoder(data).Decode(&dst.MutedTopicsEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf31, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf31)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf31) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf31 = nil
+		jsonUserSettingsUpdateEvent1, _ := json.Marshal(dst.MutedTopicsEvent)
+		if string(jsonUserSettingsUpdateEvent1) == "{}" { // empty struct
+			dst.MutedTopicsEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf31); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf31 = nil
+			if err = validator.Validate(dst.MutedTopicsEvent); err != nil {
+				dst.MutedTopicsEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf31 = nil
+		dst.MutedTopicsEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf32
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf32)
+	// try to unmarshal data into UserTopicEvent
+	err = newStrictDecoder(data).Decode(&dst.UserTopicEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf32, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf32)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf32) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf32 = nil
+		jsonUserSettingsUpdateEvent2, _ := json.Marshal(dst.UserTopicEvent)
+		if string(jsonUserSettingsUpdateEvent2) == "{}" { // empty struct
+			dst.UserTopicEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf32); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf32 = nil
+			if err = validator.Validate(dst.UserTopicEvent); err != nil {
+				dst.UserTopicEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf32 = nil
+		dst.UserTopicEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf33
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf33)
+	// try to unmarshal data into MutedUsersEvent
+	err = newStrictDecoder(data).Decode(&dst.MutedUsersEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf33, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf33)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf33) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf33 = nil
+		jsonUserSettingsUpdateEvent3, _ := json.Marshal(dst.MutedUsersEvent)
+		if string(jsonUserSettingsUpdateEvent3) == "{}" { // empty struct
+			dst.MutedUsersEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf33); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf33 = nil
+			if err = validator.Validate(dst.MutedUsersEvent); err != nil {
+				dst.MutedUsersEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf33 = nil
+		dst.MutedUsersEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf34
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf34)
+	// try to unmarshal data into HeartbeatEvent
+	err = newStrictDecoder(data).Decode(&dst.HeartbeatEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf34, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf34)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf34) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf34 = nil
+		jsonUserSettingsUpdateEvent4, _ := json.Marshal(dst.HeartbeatEvent)
+		if string(jsonUserSettingsUpdateEvent4) == "{}" { // empty struct
+			dst.HeartbeatEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf34); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf34 = nil
+			if err = validator.Validate(dst.HeartbeatEvent); err != nil {
+				dst.HeartbeatEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf34 = nil
+		dst.HeartbeatEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf35
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf35)
+	// try to unmarshal data into OnboardingStepsEvent
+	err = newStrictDecoder(data).Decode(&dst.OnboardingStepsEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf35, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf35)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf35) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf35 = nil
+		jsonUserSettingsUpdateEvent5, _ := json.Marshal(dst.OnboardingStepsEvent)
+		if string(jsonUserSettingsUpdateEvent5) == "{}" { // empty struct
+			dst.OnboardingStepsEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf35); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf35 = nil
+			if err = validator.Validate(dst.OnboardingStepsEvent); err != nil {
+				dst.OnboardingStepsEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf35 = nil
+		dst.OnboardingStepsEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf36
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf36)
+	// try to unmarshal data into UpdateMessageEvent
+	err = newStrictDecoder(data).Decode(&dst.UpdateMessageEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf36, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf36)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf36) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf36 = nil
+		jsonUserSettingsUpdateEvent6, _ := json.Marshal(dst.UpdateMessageEvent)
+		if string(jsonUserSettingsUpdateEvent6) == "{}" { // empty struct
+			dst.UpdateMessageEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf36); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf36 = nil
+			if err = validator.Validate(dst.UpdateMessageEvent); err != nil {
+				dst.UpdateMessageEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf36 = nil
+		dst.UpdateMessageEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf37
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf37)
+	// try to unmarshal data into TypingStartEvent
+	err = newStrictDecoder(data).Decode(&dst.TypingStartEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf37, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf37)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf37) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf37 = nil
+		jsonUserSettingsUpdateEvent7, _ := json.Marshal(dst.TypingStartEvent)
+		if string(jsonUserSettingsUpdateEvent7) == "{}" { // empty struct
+			dst.TypingStartEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf37); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf37 = nil
+			if err = validator.Validate(dst.TypingStartEvent); err != nil {
+				dst.TypingStartEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf37 = nil
+		dst.TypingStartEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf38
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf38)
+	// try to unmarshal data into TypingStopEvent
+	err = newStrictDecoder(data).Decode(&dst.TypingStopEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf38, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf38)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf38) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf38 = nil
+		jsonUserSettingsUpdateEvent8, _ := json.Marshal(dst.TypingStopEvent)
+		if string(jsonUserSettingsUpdateEvent8) == "{}" { // empty struct
+			dst.TypingStopEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf38); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf38 = nil
+			if err = validator.Validate(dst.TypingStopEvent); err != nil {
+				dst.TypingStopEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf38 = nil
+		dst.TypingStopEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf39
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf39)
+	// try to unmarshal data into TypingEditMessageStartEvent
+	err = newStrictDecoder(data).Decode(&dst.TypingEditMessageStartEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf39, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf39)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf39) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf39 = nil
+		jsonUserSettingsUpdateEvent9, _ := json.Marshal(dst.TypingEditMessageStartEvent)
+		if string(jsonUserSettingsUpdateEvent9) == "{}" { // empty struct
+			dst.TypingEditMessageStartEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf39); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf39 = nil
+			if err = validator.Validate(dst.TypingEditMessageStartEvent); err != nil {
+				dst.TypingEditMessageStartEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf39 = nil
+		dst.TypingEditMessageStartEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf4
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf4)
+	// try to unmarshal data into RealmUserUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmUserUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf4, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf4)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf4) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf4 = nil
+		jsonRealmUserUpdateEvent, _ := json.Marshal(dst.RealmUserUpdateEvent)
+		if string(jsonRealmUserUpdateEvent) == "{}" { // empty struct
+			dst.RealmUserUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf4); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf4 = nil
+			if err = validator.Validate(dst.RealmUserUpdateEvent); err != nil {
+				dst.RealmUserUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf4 = nil
+		dst.RealmUserUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf40
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf40)
+	// try to unmarshal data into TypingEditMessageStopEvent
+	err = newStrictDecoder(data).Decode(&dst.TypingEditMessageStopEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf40, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf40)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf40) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf40 = nil
+		jsonRealmUserUpdateEvent0, _ := json.Marshal(dst.TypingEditMessageStopEvent)
+		if string(jsonRealmUserUpdateEvent0) == "{}" { // empty struct
+			dst.TypingEditMessageStopEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf40); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf40 = nil
+			if err = validator.Validate(dst.TypingEditMessageStopEvent); err != nil {
+				dst.TypingEditMessageStopEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf40 = nil
+		dst.TypingEditMessageStopEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf41
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf41)
+	// try to unmarshal data into UpdateMessageFlagsAddEvent
+	err = newStrictDecoder(data).Decode(&dst.UpdateMessageFlagsAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf41, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf41)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf41) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf41 = nil
+		jsonRealmUserUpdateEvent1, _ := json.Marshal(dst.UpdateMessageFlagsAddEvent)
+		if string(jsonRealmUserUpdateEvent1) == "{}" { // empty struct
+			dst.UpdateMessageFlagsAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf41); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf41 = nil
+			if err = validator.Validate(dst.UpdateMessageFlagsAddEvent); err != nil {
+				dst.UpdateMessageFlagsAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf41 = nil
+		dst.UpdateMessageFlagsAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf42
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf42)
+	// try to unmarshal data into UpdateMessageFlagsRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.UpdateMessageFlagsRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf42, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf42)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf42) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf42 = nil
+		jsonRealmUserUpdateEvent2, _ := json.Marshal(dst.UpdateMessageFlagsRemoveEvent)
+		if string(jsonRealmUserUpdateEvent2) == "{}" { // empty struct
+			dst.UpdateMessageFlagsRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf42); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf42 = nil
+			if err = validator.Validate(dst.UpdateMessageFlagsRemoveEvent); err != nil {
+				dst.UpdateMessageFlagsRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf42 = nil
+		dst.UpdateMessageFlagsRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf43
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf43)
+	// try to unmarshal data into UserGroupAddEvent
+	err = newStrictDecoder(data).Decode(&dst.UserGroupAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf43, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf43)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf43) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf43 = nil
+		jsonRealmUserUpdateEvent3, _ := json.Marshal(dst.UserGroupAddEvent)
+		if string(jsonRealmUserUpdateEvent3) == "{}" { // empty struct
+			dst.UserGroupAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf43); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf43 = nil
+			if err = validator.Validate(dst.UserGroupAddEvent); err != nil {
+				dst.UserGroupAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf43 = nil
+		dst.UserGroupAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf44
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf44)
+	// try to unmarshal data into UserGroupUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.UserGroupUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf44, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf44)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf44) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf44 = nil
+		jsonRealmUserUpdateEvent4, _ := json.Marshal(dst.UserGroupUpdateEvent)
+		if string(jsonRealmUserUpdateEvent4) == "{}" { // empty struct
+			dst.UserGroupUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf44); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf44 = nil
+			if err = validator.Validate(dst.UserGroupUpdateEvent); err != nil {
+				dst.UserGroupUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf44 = nil
+		dst.UserGroupUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf45
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf45)
+	// try to unmarshal data into UserGroupAddMembersEvent
+	err = newStrictDecoder(data).Decode(&dst.UserGroupAddMembersEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf45, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf45)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf45) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf45 = nil
+		jsonRealmUserUpdateEvent5, _ := json.Marshal(dst.UserGroupAddMembersEvent)
+		if string(jsonRealmUserUpdateEvent5) == "{}" { // empty struct
+			dst.UserGroupAddMembersEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf45); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf45 = nil
+			if err = validator.Validate(dst.UserGroupAddMembersEvent); err != nil {
+				dst.UserGroupAddMembersEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf45 = nil
+		dst.UserGroupAddMembersEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf46
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf46)
+	// try to unmarshal data into UserGroupRemoveMembersEvent
+	err = newStrictDecoder(data).Decode(&dst.UserGroupRemoveMembersEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf46, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf46)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf46) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf46 = nil
+		jsonRealmUserUpdateEvent6, _ := json.Marshal(dst.UserGroupRemoveMembersEvent)
+		if string(jsonRealmUserUpdateEvent6) == "{}" { // empty struct
+			dst.UserGroupRemoveMembersEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf46); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf46 = nil
+			if err = validator.Validate(dst.UserGroupRemoveMembersEvent); err != nil {
+				dst.UserGroupRemoveMembersEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf46 = nil
+		dst.UserGroupRemoveMembersEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf47
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf47)
+	// try to unmarshal data into UserGroupAddSubgroupsEvent
+	err = newStrictDecoder(data).Decode(&dst.UserGroupAddSubgroupsEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf47, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf47)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf47) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf47 = nil
+		jsonRealmUserUpdateEvent7, _ := json.Marshal(dst.UserGroupAddSubgroupsEvent)
+		if string(jsonRealmUserUpdateEvent7) == "{}" { // empty struct
+			dst.UserGroupAddSubgroupsEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf47); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf47 = nil
+			if err = validator.Validate(dst.UserGroupAddSubgroupsEvent); err != nil {
+				dst.UserGroupAddSubgroupsEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf47 = nil
+		dst.UserGroupAddSubgroupsEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf48
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf48)
+	// try to unmarshal data into UserGroupRemoveSubgroupsEvent
+	err = newStrictDecoder(data).Decode(&dst.UserGroupRemoveSubgroupsEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf48, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf48)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf48) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf48 = nil
+		jsonRealmUserUpdateEvent8, _ := json.Marshal(dst.UserGroupRemoveSubgroupsEvent)
+		if string(jsonRealmUserUpdateEvent8) == "{}" { // empty struct
+			dst.UserGroupRemoveSubgroupsEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf48); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf48 = nil
+			if err = validator.Validate(dst.UserGroupRemoveSubgroupsEvent); err != nil {
+				dst.UserGroupRemoveSubgroupsEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf48 = nil
+		dst.UserGroupRemoveSubgroupsEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf49
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf49)
+	// try to unmarshal data into UserGroupRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.UserGroupRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf49, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf49)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf49) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf49 = nil
+		jsonRealmUserUpdateEvent9, _ := json.Marshal(dst.UserGroupRemoveEvent)
+		if string(jsonRealmUserUpdateEvent9) == "{}" { // empty struct
+			dst.UserGroupRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf49); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf49 = nil
+			if err = validator.Validate(dst.UserGroupRemoveEvent); err != nil {
+				dst.UserGroupRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf49 = nil
+		dst.UserGroupRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf5
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf5)
+	// try to unmarshal data into SubscriptionAddEvent
+	err = newStrictDecoder(data).Decode(&dst.SubscriptionAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf5, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf5)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf5) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf5 = nil
+		jsonSubscriptionAddEvent, _ := json.Marshal(dst.SubscriptionAddEvent)
+		if string(jsonSubscriptionAddEvent) == "{}" { // empty struct
+			dst.SubscriptionAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf5); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf5 = nil
+			if err = validator.Validate(dst.SubscriptionAddEvent); err != nil {
+				dst.SubscriptionAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf5 = nil
+		dst.SubscriptionAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf50
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf50)
+	// try to unmarshal data into RealmLinkifiersEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmLinkifiersEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf50, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf50)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf50) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf50 = nil
+		jsonSubscriptionAddEvent0, _ := json.Marshal(dst.RealmLinkifiersEvent)
+		if string(jsonSubscriptionAddEvent0) == "{}" { // empty struct
+			dst.RealmLinkifiersEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf50); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf50 = nil
+			if err = validator.Validate(dst.RealmLinkifiersEvent); err != nil {
+				dst.RealmLinkifiersEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf50 = nil
+		dst.RealmLinkifiersEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf51
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf51)
+	// try to unmarshal data into RealmFiltersEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmFiltersEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf51, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf51)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf51) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf51 = nil
+		jsonSubscriptionAddEvent1, _ := json.Marshal(dst.RealmFiltersEvent)
+		if string(jsonSubscriptionAddEvent1) == "{}" { // empty struct
+			dst.RealmFiltersEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf51); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf51 = nil
+			if err = validator.Validate(dst.RealmFiltersEvent); err != nil {
+				dst.RealmFiltersEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf51 = nil
+		dst.RealmFiltersEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf52
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf52)
+	// try to unmarshal data into RealmPlaygroundsEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmPlaygroundsEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf52, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf52)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf52) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf52 = nil
+		jsonSubscriptionAddEvent2, _ := json.Marshal(dst.RealmPlaygroundsEvent)
+		if string(jsonSubscriptionAddEvent2) == "{}" { // empty struct
+			dst.RealmPlaygroundsEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf52); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf52 = nil
+			if err = validator.Validate(dst.RealmPlaygroundsEvent); err != nil {
+				dst.RealmPlaygroundsEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf52 = nil
+		dst.RealmPlaygroundsEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf53
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf53)
+	// try to unmarshal data into RealmEmojiUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmEmojiUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf53, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf53)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf53) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf53 = nil
+		jsonSubscriptionAddEvent3, _ := json.Marshal(dst.RealmEmojiUpdateEvent)
+		if string(jsonSubscriptionAddEvent3) == "{}" { // empty struct
+			dst.RealmEmojiUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf53); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf53 = nil
+			if err = validator.Validate(dst.RealmEmojiUpdateEvent); err != nil {
+				dst.RealmEmojiUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf53 = nil
+		dst.RealmEmojiUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf54
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf54)
+	// try to unmarshal data into RealmDomainsAddEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmDomainsAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf54, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf54)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf54) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf54 = nil
+		jsonSubscriptionAddEvent4, _ := json.Marshal(dst.RealmDomainsAddEvent)
+		if string(jsonSubscriptionAddEvent4) == "{}" { // empty struct
+			dst.RealmDomainsAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf54); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf54 = nil
+			if err = validator.Validate(dst.RealmDomainsAddEvent); err != nil {
+				dst.RealmDomainsAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf54 = nil
+		dst.RealmDomainsAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf55
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf55)
+	// try to unmarshal data into RealmDomainsChangeEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmDomainsChangeEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf55, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf55)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf55) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf55 = nil
+		jsonSubscriptionAddEvent5, _ := json.Marshal(dst.RealmDomainsChangeEvent)
+		if string(jsonSubscriptionAddEvent5) == "{}" { // empty struct
+			dst.RealmDomainsChangeEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf55); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf55 = nil
+			if err = validator.Validate(dst.RealmDomainsChangeEvent); err != nil {
+				dst.RealmDomainsChangeEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf55 = nil
+		dst.RealmDomainsChangeEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf56
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf56)
+	// try to unmarshal data into RealmDomainsRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmDomainsRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf56, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf56)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf56) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf56 = nil
+		jsonSubscriptionAddEvent6, _ := json.Marshal(dst.RealmDomainsRemoveEvent)
+		if string(jsonSubscriptionAddEvent6) == "{}" { // empty struct
+			dst.RealmDomainsRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf56); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf56 = nil
+			if err = validator.Validate(dst.RealmDomainsRemoveEvent); err != nil {
+				dst.RealmDomainsRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf56 = nil
+		dst.RealmDomainsRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf57
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf57)
+	// try to unmarshal data into RealmExportEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmExportEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf57, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf57)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf57) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf57 = nil
+		jsonSubscriptionAddEvent7, _ := json.Marshal(dst.RealmExportEvent)
+		if string(jsonSubscriptionAddEvent7) == "{}" { // empty struct
+			dst.RealmExportEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf57); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf57 = nil
+			if err = validator.Validate(dst.RealmExportEvent); err != nil {
+				dst.RealmExportEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf57 = nil
+		dst.RealmExportEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf58
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf58)
+	// try to unmarshal data into RealmExportConsentEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmExportConsentEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf58, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf58)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf58) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf58 = nil
+		jsonSubscriptionAddEvent8, _ := json.Marshal(dst.RealmExportConsentEvent)
+		if string(jsonSubscriptionAddEvent8) == "{}" { // empty struct
+			dst.RealmExportConsentEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf58); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf58 = nil
+			if err = validator.Validate(dst.RealmExportConsentEvent); err != nil {
+				dst.RealmExportConsentEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf58 = nil
+		dst.RealmExportConsentEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf59
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf59)
+	// try to unmarshal data into RealmBotAddEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmBotAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf59, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf59)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf59) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf59 = nil
+		jsonSubscriptionAddEvent9, _ := json.Marshal(dst.RealmBotAddEvent)
+		if string(jsonSubscriptionAddEvent9) == "{}" { // empty struct
+			dst.RealmBotAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf59); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf59 = nil
+			if err = validator.Validate(dst.RealmBotAddEvent); err != nil {
+				dst.RealmBotAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf59 = nil
+		dst.RealmBotAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf6
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf6)
+	// try to unmarshal data into SubscriptionRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.SubscriptionRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf6, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf6)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf6) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf6 = nil
+		jsonSubscriptionRemoveEvent, _ := json.Marshal(dst.SubscriptionRemoveEvent)
+		if string(jsonSubscriptionRemoveEvent) == "{}" { // empty struct
+			dst.SubscriptionRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf6); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf6 = nil
+			if err = validator.Validate(dst.SubscriptionRemoveEvent); err != nil {
+				dst.SubscriptionRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf6 = nil
+		dst.SubscriptionRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf60
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf60)
+	// try to unmarshal data into RealmBotUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmBotUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf60, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf60)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf60) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf60 = nil
+		jsonSubscriptionRemoveEvent0, _ := json.Marshal(dst.RealmBotUpdateEvent)
+		if string(jsonSubscriptionRemoveEvent0) == "{}" { // empty struct
+			dst.RealmBotUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf60); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf60 = nil
+			if err = validator.Validate(dst.RealmBotUpdateEvent); err != nil {
+				dst.RealmBotUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf60 = nil
+		dst.RealmBotUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf61
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf61)
+	// try to unmarshal data into RealmBotRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmBotRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf61, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf61)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf61) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf61 = nil
+		jsonSubscriptionRemoveEvent1, _ := json.Marshal(dst.RealmBotRemoveEvent)
+		if string(jsonSubscriptionRemoveEvent1) == "{}" { // empty struct
+			dst.RealmBotRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf61); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf61 = nil
+			if err = validator.Validate(dst.RealmBotRemoveEvent); err != nil {
+				dst.RealmBotRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf61 = nil
+		dst.RealmBotRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf62
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf62)
+	// try to unmarshal data into RealmBotDeleteEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmBotDeleteEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf62, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf62)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf62) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf62 = nil
+		jsonSubscriptionRemoveEvent2, _ := json.Marshal(dst.RealmBotDeleteEvent)
+		if string(jsonSubscriptionRemoveEvent2) == "{}" { // empty struct
+			dst.RealmBotDeleteEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf62); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf62 = nil
+			if err = validator.Validate(dst.RealmBotDeleteEvent); err != nil {
+				dst.RealmBotDeleteEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf62 = nil
+		dst.RealmBotDeleteEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf63
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf63)
+	// try to unmarshal data into RealmUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf63, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf63)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf63) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf63 = nil
+		jsonSubscriptionRemoveEvent3, _ := json.Marshal(dst.RealmUpdateEvent)
+		if string(jsonSubscriptionRemoveEvent3) == "{}" { // empty struct
+			dst.RealmUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf63); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf63 = nil
+			if err = validator.Validate(dst.RealmUpdateEvent); err != nil {
+				dst.RealmUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf63 = nil
+		dst.RealmUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf64
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf64)
+	// try to unmarshal data into RealmDeactivatedEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmDeactivatedEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf64, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf64)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf64) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf64 = nil
+		jsonSubscriptionRemoveEvent4, _ := json.Marshal(dst.RealmDeactivatedEvent)
+		if string(jsonSubscriptionRemoveEvent4) == "{}" { // empty struct
+			dst.RealmDeactivatedEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf64); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf64 = nil
+			if err = validator.Validate(dst.RealmDeactivatedEvent); err != nil {
+				dst.RealmDeactivatedEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf64 = nil
+		dst.RealmDeactivatedEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf65
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf65)
+	// try to unmarshal data into RestartEvent
+	err = newStrictDecoder(data).Decode(&dst.RestartEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf65, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf65)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf65) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf65 = nil
+		jsonSubscriptionRemoveEvent5, _ := json.Marshal(dst.RestartEvent)
+		if string(jsonSubscriptionRemoveEvent5) == "{}" { // empty struct
+			dst.RestartEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf65); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf65 = nil
+			if err = validator.Validate(dst.RestartEvent); err != nil {
+				dst.RestartEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf65 = nil
+		dst.RestartEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf66
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf66)
+	// try to unmarshal data into WebReloadClientEvent
+	err = newStrictDecoder(data).Decode(&dst.WebReloadClientEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf66, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf66)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf66) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf66 = nil
+		jsonSubscriptionRemoveEvent6, _ := json.Marshal(dst.WebReloadClientEvent)
+		if string(jsonSubscriptionRemoveEvent6) == "{}" { // empty struct
+			dst.WebReloadClientEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf66); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf66 = nil
+			if err = validator.Validate(dst.WebReloadClientEvent); err != nil {
+				dst.WebReloadClientEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf66 = nil
+		dst.WebReloadClientEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf67
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf67)
+	// try to unmarshal data into RealmUpdateDictEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmUpdateDictEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf67, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf67)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf67) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf67 = nil
+		jsonSubscriptionRemoveEvent7, _ := json.Marshal(dst.RealmUpdateDictEvent)
+		if string(jsonSubscriptionRemoveEvent7) == "{}" { // empty struct
+			dst.RealmUpdateDictEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf67); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf67 = nil
+			if err = validator.Validate(dst.RealmUpdateDictEvent); err != nil {
+				dst.RealmUpdateDictEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf67 = nil
+		dst.RealmUpdateDictEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf68
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf68)
+	// try to unmarshal data into RealmUserSettingsDefaultsUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.RealmUserSettingsDefaultsUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf68, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf68)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf68) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf68 = nil
+		jsonSubscriptionRemoveEvent8, _ := json.Marshal(dst.RealmUserSettingsDefaultsUpdateEvent)
+		if string(jsonSubscriptionRemoveEvent8) == "{}" { // empty struct
+			dst.RealmUserSettingsDefaultsUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf68); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf68 = nil
+			if err = validator.Validate(dst.RealmUserSettingsDefaultsUpdateEvent); err != nil {
+				dst.RealmUserSettingsDefaultsUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf68 = nil
+		dst.RealmUserSettingsDefaultsUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf69
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf69)
+	// try to unmarshal data into DraftsAddEvent
+	err = newStrictDecoder(data).Decode(&dst.DraftsAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf69, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf69)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf69) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf69 = nil
+		jsonSubscriptionRemoveEvent9, _ := json.Marshal(dst.DraftsAddEvent)
+		if string(jsonSubscriptionRemoveEvent9) == "{}" { // empty struct
+			dst.DraftsAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf69); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf69 = nil
+			if err = validator.Validate(dst.DraftsAddEvent); err != nil {
+				dst.DraftsAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf69 = nil
+		dst.DraftsAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf7
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf7)
+	// try to unmarshal data into SubscriptionUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.SubscriptionUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf7, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf7)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf7) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf7 = nil
+		jsonSubscriptionUpdateEvent, _ := json.Marshal(dst.SubscriptionUpdateEvent)
+		if string(jsonSubscriptionUpdateEvent) == "{}" { // empty struct
+			dst.SubscriptionUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf7); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf7 = nil
+			if err = validator.Validate(dst.SubscriptionUpdateEvent); err != nil {
+				dst.SubscriptionUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf7 = nil
+		dst.SubscriptionUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf70
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf70)
+	// try to unmarshal data into DraftsUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.DraftsUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf70, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf70)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf70) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf70 = nil
+		jsonSubscriptionUpdateEvent0, _ := json.Marshal(dst.DraftsUpdateEvent)
+		if string(jsonSubscriptionUpdateEvent0) == "{}" { // empty struct
+			dst.DraftsUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf70); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf70 = nil
+			if err = validator.Validate(dst.DraftsUpdateEvent); err != nil {
+				dst.DraftsUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf70 = nil
+		dst.DraftsUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf71
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf71)
+	// try to unmarshal data into DraftsRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.DraftsRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf71, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf71)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf71) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf71 = nil
+		jsonSubscriptionUpdateEvent1, _ := json.Marshal(dst.DraftsRemoveEvent)
+		if string(jsonSubscriptionUpdateEvent1) == "{}" { // empty struct
+			dst.DraftsRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf71); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf71 = nil
+			if err = validator.Validate(dst.DraftsRemoveEvent); err != nil {
+				dst.DraftsRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf71 = nil
+		dst.DraftsRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf72
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf72)
+	// try to unmarshal data into NavigationViewAddEvent
+	err = newStrictDecoder(data).Decode(&dst.NavigationViewAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf72, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf72)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf72) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf72 = nil
+		jsonSubscriptionUpdateEvent2, _ := json.Marshal(dst.NavigationViewAddEvent)
+		if string(jsonSubscriptionUpdateEvent2) == "{}" { // empty struct
+			dst.NavigationViewAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf72); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf72 = nil
+			if err = validator.Validate(dst.NavigationViewAddEvent); err != nil {
+				dst.NavigationViewAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf72 = nil
+		dst.NavigationViewAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf73
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf73)
+	// try to unmarshal data into NavigationViewUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.NavigationViewUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf73, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf73)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf73) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf73 = nil
+		jsonSubscriptionUpdateEvent3, _ := json.Marshal(dst.NavigationViewUpdateEvent)
+		if string(jsonSubscriptionUpdateEvent3) == "{}" { // empty struct
+			dst.NavigationViewUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf73); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf73 = nil
+			if err = validator.Validate(dst.NavigationViewUpdateEvent); err != nil {
+				dst.NavigationViewUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf73 = nil
+		dst.NavigationViewUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf74
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf74)
+	// try to unmarshal data into NavigationViewRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.NavigationViewRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf74, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf74)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf74) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf74 = nil
+		jsonSubscriptionUpdateEvent4, _ := json.Marshal(dst.NavigationViewRemoveEvent)
+		if string(jsonSubscriptionUpdateEvent4) == "{}" { // empty struct
+			dst.NavigationViewRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf74); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf74 = nil
+			if err = validator.Validate(dst.NavigationViewRemoveEvent); err != nil {
+				dst.NavigationViewRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf74 = nil
+		dst.NavigationViewRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf75
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf75)
+	// try to unmarshal data into SavedSnippetsAddEvent
+	err = newStrictDecoder(data).Decode(&dst.SavedSnippetsAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf75, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf75)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf75) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf75 = nil
+		jsonSubscriptionUpdateEvent5, _ := json.Marshal(dst.SavedSnippetsAddEvent)
+		if string(jsonSubscriptionUpdateEvent5) == "{}" { // empty struct
+			dst.SavedSnippetsAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf75); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf75 = nil
+			if err = validator.Validate(dst.SavedSnippetsAddEvent); err != nil {
+				dst.SavedSnippetsAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf75 = nil
+		dst.SavedSnippetsAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf76
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf76)
+	// try to unmarshal data into SavedSnippetsUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.SavedSnippetsUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf76, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf76)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf76) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf76 = nil
+		jsonSubscriptionUpdateEvent6, _ := json.Marshal(dst.SavedSnippetsUpdateEvent)
+		if string(jsonSubscriptionUpdateEvent6) == "{}" { // empty struct
+			dst.SavedSnippetsUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf76); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf76 = nil
+			if err = validator.Validate(dst.SavedSnippetsUpdateEvent); err != nil {
+				dst.SavedSnippetsUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf76 = nil
+		dst.SavedSnippetsUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf77
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf77)
+	// try to unmarshal data into SavedSnippetsRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.SavedSnippetsRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf77, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf77)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf77) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf77 = nil
+		jsonSubscriptionUpdateEvent7, _ := json.Marshal(dst.SavedSnippetsRemoveEvent)
+		if string(jsonSubscriptionUpdateEvent7) == "{}" { // empty struct
+			dst.SavedSnippetsRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf77); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf77 = nil
+			if err = validator.Validate(dst.SavedSnippetsRemoveEvent); err != nil {
+				dst.SavedSnippetsRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf77 = nil
+		dst.SavedSnippetsRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf78
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf78)
+	// try to unmarshal data into RemindersAddEvent
+	err = newStrictDecoder(data).Decode(&dst.RemindersAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf78, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf78)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf78) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf78 = nil
+		jsonSubscriptionUpdateEvent8, _ := json.Marshal(dst.RemindersAddEvent)
+		if string(jsonSubscriptionUpdateEvent8) == "{}" { // empty struct
+			dst.RemindersAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf78); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf78 = nil
+			if err = validator.Validate(dst.RemindersAddEvent); err != nil {
+				dst.RemindersAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf78 = nil
+		dst.RemindersAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf79
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf79)
+	// try to unmarshal data into RemindersRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.RemindersRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf79, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf79)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf79) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf79 = nil
+		jsonSubscriptionUpdateEvent9, _ := json.Marshal(dst.RemindersRemoveEvent)
+		if string(jsonSubscriptionUpdateEvent9) == "{}" { // empty struct
+			dst.RemindersRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf79); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf79 = nil
+			if err = validator.Validate(dst.RemindersRemoveEvent); err != nil {
+				dst.RemindersRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf79 = nil
+		dst.RemindersRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf8
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf8)
+	// try to unmarshal data into SubscriptionPeerAddEvent
+	err = newStrictDecoder(data).Decode(&dst.SubscriptionPeerAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf8, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf8)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf8) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf8 = nil
+		jsonSubscriptionPeerAddEvent, _ := json.Marshal(dst.SubscriptionPeerAddEvent)
+		if string(jsonSubscriptionPeerAddEvent) == "{}" { // empty struct
+			dst.SubscriptionPeerAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf8); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf8 = nil
+			if err = validator.Validate(dst.SubscriptionPeerAddEvent); err != nil {
+				dst.SubscriptionPeerAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf8 = nil
+		dst.SubscriptionPeerAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf80
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf80)
+	// try to unmarshal data into ScheduledMessagesAddEvent
+	err = newStrictDecoder(data).Decode(&dst.ScheduledMessagesAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf80, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf80)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf80) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf80 = nil
+		jsonSubscriptionPeerAddEvent0, _ := json.Marshal(dst.ScheduledMessagesAddEvent)
+		if string(jsonSubscriptionPeerAddEvent0) == "{}" { // empty struct
+			dst.ScheduledMessagesAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf80); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf80 = nil
+			if err = validator.Validate(dst.ScheduledMessagesAddEvent); err != nil {
+				dst.ScheduledMessagesAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf80 = nil
+		dst.ScheduledMessagesAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf81
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf81)
+	// try to unmarshal data into ScheduledMessagesUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.ScheduledMessagesUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf81, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf81)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf81) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf81 = nil
+		jsonSubscriptionPeerAddEvent1, _ := json.Marshal(dst.ScheduledMessagesUpdateEvent)
+		if string(jsonSubscriptionPeerAddEvent1) == "{}" { // empty struct
+			dst.ScheduledMessagesUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf81); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf81 = nil
+			if err = validator.Validate(dst.ScheduledMessagesUpdateEvent); err != nil {
+				dst.ScheduledMessagesUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf81 = nil
+		dst.ScheduledMessagesUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf82
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf82)
+	// try to unmarshal data into ScheduledMessagesRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.ScheduledMessagesRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf82, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf82)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf82) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf82 = nil
+		jsonSubscriptionPeerAddEvent2, _ := json.Marshal(dst.ScheduledMessagesRemoveEvent)
+		if string(jsonSubscriptionPeerAddEvent2) == "{}" { // empty struct
+			dst.ScheduledMessagesRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf82); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf82 = nil
+			if err = validator.Validate(dst.ScheduledMessagesRemoveEvent); err != nil {
+				dst.ScheduledMessagesRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf82 = nil
+		dst.ScheduledMessagesRemoveEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf83
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf83)
+	// try to unmarshal data into ChannelFolderAddEvent
+	err = newStrictDecoder(data).Decode(&dst.ChannelFolderAddEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf83, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf83)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf83) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf83 = nil
+		jsonSubscriptionPeerAddEvent3, _ := json.Marshal(dst.ChannelFolderAddEvent)
+		if string(jsonSubscriptionPeerAddEvent3) == "{}" { // empty struct
+			dst.ChannelFolderAddEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf83); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf83 = nil
+			if err = validator.Validate(dst.ChannelFolderAddEvent); err != nil {
+				dst.ChannelFolderAddEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf83 = nil
+		dst.ChannelFolderAddEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf84
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf84)
+	// try to unmarshal data into ChannelFolderUpdateEvent
+	err = newStrictDecoder(data).Decode(&dst.ChannelFolderUpdateEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf84, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf84)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf84) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf84 = nil
+		jsonSubscriptionPeerAddEvent4, _ := json.Marshal(dst.ChannelFolderUpdateEvent)
+		if string(jsonSubscriptionPeerAddEvent4) == "{}" { // empty struct
+			dst.ChannelFolderUpdateEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf84); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf84 = nil
+			if err = validator.Validate(dst.ChannelFolderUpdateEvent); err != nil {
+				dst.ChannelFolderUpdateEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf84 = nil
+		dst.ChannelFolderUpdateEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf85
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf85)
+	// try to unmarshal data into ChannelFolderReorderEvent
+	err = newStrictDecoder(data).Decode(&dst.ChannelFolderReorderEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf85, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf85)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf85) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf85 = nil
+		jsonSubscriptionPeerAddEvent5, _ := json.Marshal(dst.ChannelFolderReorderEvent)
+		if string(jsonSubscriptionPeerAddEvent5) == "{}" { // empty struct
+			dst.ChannelFolderReorderEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf85); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf85 = nil
+			if err = validator.Validate(dst.ChannelFolderReorderEvent); err != nil {
+				dst.ChannelFolderReorderEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf85 = nil
+		dst.ChannelFolderReorderEvent = nil
 	}
 
-	// try to unmarshal data into GetEvents200ResponseAllOfEventsInnerOneOf9
-	err = newStrictDecoder(data).Decode(&dst.GetEvents200ResponseAllOfEventsInnerOneOf9)
+	// try to unmarshal data into SubscriptionPeerRemoveEvent
+	err = newStrictDecoder(data).Decode(&dst.SubscriptionPeerRemoveEvent)
 	if err == nil {
-		jsonGetEvents200ResponseAllOfEventsInnerOneOf9, _ := json.Marshal(dst.GetEvents200ResponseAllOfEventsInnerOneOf9)
-		if string(jsonGetEvents200ResponseAllOfEventsInnerOneOf9) == "{}" { // empty struct
-			dst.GetEvents200ResponseAllOfEventsInnerOneOf9 = nil
+		jsonSubscriptionPeerRemoveEvent, _ := json.Marshal(dst.SubscriptionPeerRemoveEvent)
+		if string(jsonSubscriptionPeerRemoveEvent) == "{}" { // empty struct
+			dst.SubscriptionPeerRemoveEvent = nil
 		} else {
-			if err = validator.Validate(dst.GetEvents200ResponseAllOfEventsInnerOneOf9); err != nil {
-				dst.GetEvents200ResponseAllOfEventsInnerOneOf9 = nil
+			if err = validator.Validate(dst.SubscriptionPeerRemoveEvent); err != nil {
+				dst.SubscriptionPeerRemoveEvent = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf9 = nil
+		dst.SubscriptionPeerRemoveEvent = nil
 	}
 
 	if match > 1 { // more than 1 match
 		// reset to nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf1 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf10 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf11 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf12 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf13 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf14 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf15 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf16 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf17 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf18 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf19 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf2 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf20 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf21 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf22 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf23 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf24 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf25 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf26 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf27 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf28 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf29 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf3 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf30 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf31 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf32 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf33 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf34 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf35 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf36 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf37 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf38 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf39 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf4 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf40 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf41 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf42 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf43 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf44 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf45 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf46 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf47 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf48 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf49 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf5 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf50 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf51 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf52 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf53 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf54 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf55 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf56 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf57 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf58 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf59 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf6 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf60 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf61 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf62 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf63 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf64 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf65 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf66 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf67 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf68 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf69 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf7 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf70 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf71 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf72 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf73 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf74 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf75 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf76 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf77 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf78 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf79 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf8 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf80 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf81 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf82 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf83 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf84 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf85 = nil
-		dst.GetEvents200ResponseAllOfEventsInnerOneOf9 = nil
+		dst.AlertWordsEvent = nil
+		dst.UpdateDisplaySettingsEvent = nil
+		dst.MessageEvent = nil
+		dst.HasZoomTokenEvent = nil
+		dst.InvitesChangedEvent = nil
+		dst.RealmUserAddEvent = nil
+		dst.RealmUserRemoveEvent = nil
+		dst.PresenceEvent = nil
+		dst.StreamCreateEvent = nil
+		dst.StreamDeleteEvent = nil
+		dst.StreamUpdateEvent = nil
+		dst.ReactionAddEvent = nil
+		dst.UpdateGlobalNotificationsEvent = nil
+		dst.ReactionRemoveEvent = nil
+		dst.AttachmentAddEvent = nil
+		dst.AttachmentUpdateEvent = nil
+		dst.AttachmentRemoveEvent = nil
+		dst.PushDeviceEvent = nil
+		dst.SubmessageEvent = nil
+		dst.UserStatusEvent = nil
+		dst.CustomProfileFieldsEvent = nil
+		dst.DefaultStreamGroupsEvent = nil
+		dst.DefaultStreamsEvent = nil
+		dst.UserSettingsUpdateEvent = nil
+		dst.DeleteMessageEvent = nil
+		dst.MutedTopicsEvent = nil
+		dst.UserTopicEvent = nil
+		dst.MutedUsersEvent = nil
+		dst.HeartbeatEvent = nil
+		dst.OnboardingStepsEvent = nil
+		dst.UpdateMessageEvent = nil
+		dst.TypingStartEvent = nil
+		dst.TypingStopEvent = nil
+		dst.TypingEditMessageStartEvent = nil
+		dst.RealmUserUpdateEvent = nil
+		dst.TypingEditMessageStopEvent = nil
+		dst.UpdateMessageFlagsAddEvent = nil
+		dst.UpdateMessageFlagsRemoveEvent = nil
+		dst.UserGroupAddEvent = nil
+		dst.UserGroupUpdateEvent = nil
+		dst.UserGroupAddMembersEvent = nil
+		dst.UserGroupRemoveMembersEvent = nil
+		dst.UserGroupAddSubgroupsEvent = nil
+		dst.UserGroupRemoveSubgroupsEvent = nil
+		dst.UserGroupRemoveEvent = nil
+		dst.SubscriptionAddEvent = nil
+		dst.RealmLinkifiersEvent = nil
+		dst.RealmFiltersEvent = nil
+		dst.RealmPlaygroundsEvent = nil
+		dst.RealmEmojiUpdateEvent = nil
+		dst.RealmDomainsAddEvent = nil
+		dst.RealmDomainsChangeEvent = nil
+		dst.RealmDomainsRemoveEvent = nil
+		dst.RealmExportEvent = nil
+		dst.RealmExportConsentEvent = nil
+		dst.RealmBotAddEvent = nil
+		dst.SubscriptionRemoveEvent = nil
+		dst.RealmBotUpdateEvent = nil
+		dst.RealmBotRemoveEvent = nil
+		dst.RealmBotDeleteEvent = nil
+		dst.RealmUpdateEvent = nil
+		dst.RealmDeactivatedEvent = nil
+		dst.RestartEvent = nil
+		dst.WebReloadClientEvent = nil
+		dst.RealmUpdateDictEvent = nil
+		dst.RealmUserSettingsDefaultsUpdateEvent = nil
+		dst.DraftsAddEvent = nil
+		dst.SubscriptionUpdateEvent = nil
+		dst.DraftsUpdateEvent = nil
+		dst.DraftsRemoveEvent = nil
+		dst.NavigationViewAddEvent = nil
+		dst.NavigationViewUpdateEvent = nil
+		dst.NavigationViewRemoveEvent = nil
+		dst.SavedSnippetsAddEvent = nil
+		dst.SavedSnippetsUpdateEvent = nil
+		dst.SavedSnippetsRemoveEvent = nil
+		dst.RemindersAddEvent = nil
+		dst.RemindersRemoveEvent = nil
+		dst.SubscriptionPeerAddEvent = nil
+		dst.ScheduledMessagesAddEvent = nil
+		dst.ScheduledMessagesUpdateEvent = nil
+		dst.ScheduledMessagesRemoveEvent = nil
+		dst.ChannelFolderAddEvent = nil
+		dst.ChannelFolderUpdateEvent = nil
+		dst.ChannelFolderReorderEvent = nil
+		dst.SubscriptionPeerRemoveEvent = nil
 
 		return fmt.Errorf("data matches more than one schema in oneOf(GetEvents200ResponseAllOfEventsInner)")
 	} else if match == 1 {
@@ -2274,348 +2274,348 @@ func (dst *GetEvents200ResponseAllOfEventsInner) UnmarshalJSON(data []byte) erro
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src GetEvents200ResponseAllOfEventsInner) MarshalJSON() ([]byte, error) {
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf)
+	if src.AlertWordsEvent != nil {
+		return json.Marshal(&src.AlertWordsEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf1 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf1)
+	if src.UpdateDisplaySettingsEvent != nil {
+		return json.Marshal(&src.UpdateDisplaySettingsEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf10 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf10)
+	if src.MessageEvent != nil {
+		return json.Marshal(&src.MessageEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf11 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf11)
+	if src.HasZoomTokenEvent != nil {
+		return json.Marshal(&src.HasZoomTokenEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf12 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf12)
+	if src.InvitesChangedEvent != nil {
+		return json.Marshal(&src.InvitesChangedEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf13 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf13)
+	if src.RealmUserAddEvent != nil {
+		return json.Marshal(&src.RealmUserAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf14 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf14)
+	if src.RealmUserRemoveEvent != nil {
+		return json.Marshal(&src.RealmUserRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf15 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf15)
+	if src.PresenceEvent != nil {
+		return json.Marshal(&src.PresenceEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf16 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf16)
+	if src.StreamCreateEvent != nil {
+		return json.Marshal(&src.StreamCreateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf17 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf17)
+	if src.StreamDeleteEvent != nil {
+		return json.Marshal(&src.StreamDeleteEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf18 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf18)
+	if src.StreamUpdateEvent != nil {
+		return json.Marshal(&src.StreamUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf19 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf19)
+	if src.ReactionAddEvent != nil {
+		return json.Marshal(&src.ReactionAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf2 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf2)
+	if src.UpdateGlobalNotificationsEvent != nil {
+		return json.Marshal(&src.UpdateGlobalNotificationsEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf20 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf20)
+	if src.ReactionRemoveEvent != nil {
+		return json.Marshal(&src.ReactionRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf21 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf21)
+	if src.AttachmentAddEvent != nil {
+		return json.Marshal(&src.AttachmentAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf22 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf22)
+	if src.AttachmentUpdateEvent != nil {
+		return json.Marshal(&src.AttachmentUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf23 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf23)
+	if src.AttachmentRemoveEvent != nil {
+		return json.Marshal(&src.AttachmentRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf24 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf24)
+	if src.PushDeviceEvent != nil {
+		return json.Marshal(&src.PushDeviceEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf25 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf25)
+	if src.SubmessageEvent != nil {
+		return json.Marshal(&src.SubmessageEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf26 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf26)
+	if src.UserStatusEvent != nil {
+		return json.Marshal(&src.UserStatusEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf27 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf27)
+	if src.CustomProfileFieldsEvent != nil {
+		return json.Marshal(&src.CustomProfileFieldsEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf28 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf28)
+	if src.DefaultStreamGroupsEvent != nil {
+		return json.Marshal(&src.DefaultStreamGroupsEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf29 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf29)
+	if src.DefaultStreamsEvent != nil {
+		return json.Marshal(&src.DefaultStreamsEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf3 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf3)
+	if src.UserSettingsUpdateEvent != nil {
+		return json.Marshal(&src.UserSettingsUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf30 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf30)
+	if src.DeleteMessageEvent != nil {
+		return json.Marshal(&src.DeleteMessageEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf31 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf31)
+	if src.MutedTopicsEvent != nil {
+		return json.Marshal(&src.MutedTopicsEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf32 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf32)
+	if src.UserTopicEvent != nil {
+		return json.Marshal(&src.UserTopicEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf33 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf33)
+	if src.MutedUsersEvent != nil {
+		return json.Marshal(&src.MutedUsersEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf34 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf34)
+	if src.HeartbeatEvent != nil {
+		return json.Marshal(&src.HeartbeatEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf35 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf35)
+	if src.OnboardingStepsEvent != nil {
+		return json.Marshal(&src.OnboardingStepsEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf36 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf36)
+	if src.UpdateMessageEvent != nil {
+		return json.Marshal(&src.UpdateMessageEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf37 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf37)
+	if src.TypingStartEvent != nil {
+		return json.Marshal(&src.TypingStartEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf38 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf38)
+	if src.TypingStopEvent != nil {
+		return json.Marshal(&src.TypingStopEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf39 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf39)
+	if src.TypingEditMessageStartEvent != nil {
+		return json.Marshal(&src.TypingEditMessageStartEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf4 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf4)
+	if src.RealmUserUpdateEvent != nil {
+		return json.Marshal(&src.RealmUserUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf40 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf40)
+	if src.TypingEditMessageStopEvent != nil {
+		return json.Marshal(&src.TypingEditMessageStopEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf41 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf41)
+	if src.UpdateMessageFlagsAddEvent != nil {
+		return json.Marshal(&src.UpdateMessageFlagsAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf42 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf42)
+	if src.UpdateMessageFlagsRemoveEvent != nil {
+		return json.Marshal(&src.UpdateMessageFlagsRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf43 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf43)
+	if src.UserGroupAddEvent != nil {
+		return json.Marshal(&src.UserGroupAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf44 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf44)
+	if src.UserGroupUpdateEvent != nil {
+		return json.Marshal(&src.UserGroupUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf45 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf45)
+	if src.UserGroupAddMembersEvent != nil {
+		return json.Marshal(&src.UserGroupAddMembersEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf46 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf46)
+	if src.UserGroupRemoveMembersEvent != nil {
+		return json.Marshal(&src.UserGroupRemoveMembersEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf47 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf47)
+	if src.UserGroupAddSubgroupsEvent != nil {
+		return json.Marshal(&src.UserGroupAddSubgroupsEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf48 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf48)
+	if src.UserGroupRemoveSubgroupsEvent != nil {
+		return json.Marshal(&src.UserGroupRemoveSubgroupsEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf49 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf49)
+	if src.UserGroupRemoveEvent != nil {
+		return json.Marshal(&src.UserGroupRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf5 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf5)
+	if src.SubscriptionAddEvent != nil {
+		return json.Marshal(&src.SubscriptionAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf50 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf50)
+	if src.RealmLinkifiersEvent != nil {
+		return json.Marshal(&src.RealmLinkifiersEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf51 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf51)
+	if src.RealmFiltersEvent != nil {
+		return json.Marshal(&src.RealmFiltersEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf52 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf52)
+	if src.RealmPlaygroundsEvent != nil {
+		return json.Marshal(&src.RealmPlaygroundsEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf53 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf53)
+	if src.RealmEmojiUpdateEvent != nil {
+		return json.Marshal(&src.RealmEmojiUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf54 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf54)
+	if src.RealmDomainsAddEvent != nil {
+		return json.Marshal(&src.RealmDomainsAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf55 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf55)
+	if src.RealmDomainsChangeEvent != nil {
+		return json.Marshal(&src.RealmDomainsChangeEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf56 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf56)
+	if src.RealmDomainsRemoveEvent != nil {
+		return json.Marshal(&src.RealmDomainsRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf57 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf57)
+	if src.RealmExportEvent != nil {
+		return json.Marshal(&src.RealmExportEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf58 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf58)
+	if src.RealmExportConsentEvent != nil {
+		return json.Marshal(&src.RealmExportConsentEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf59 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf59)
+	if src.RealmBotAddEvent != nil {
+		return json.Marshal(&src.RealmBotAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf6 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf6)
+	if src.SubscriptionRemoveEvent != nil {
+		return json.Marshal(&src.SubscriptionRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf60 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf60)
+	if src.RealmBotUpdateEvent != nil {
+		return json.Marshal(&src.RealmBotUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf61 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf61)
+	if src.RealmBotRemoveEvent != nil {
+		return json.Marshal(&src.RealmBotRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf62 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf62)
+	if src.RealmBotDeleteEvent != nil {
+		return json.Marshal(&src.RealmBotDeleteEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf63 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf63)
+	if src.RealmUpdateEvent != nil {
+		return json.Marshal(&src.RealmUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf64 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf64)
+	if src.RealmDeactivatedEvent != nil {
+		return json.Marshal(&src.RealmDeactivatedEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf65 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf65)
+	if src.RestartEvent != nil {
+		return json.Marshal(&src.RestartEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf66 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf66)
+	if src.WebReloadClientEvent != nil {
+		return json.Marshal(&src.WebReloadClientEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf67 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf67)
+	if src.RealmUpdateDictEvent != nil {
+		return json.Marshal(&src.RealmUpdateDictEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf68 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf68)
+	if src.RealmUserSettingsDefaultsUpdateEvent != nil {
+		return json.Marshal(&src.RealmUserSettingsDefaultsUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf69 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf69)
+	if src.DraftsAddEvent != nil {
+		return json.Marshal(&src.DraftsAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf7 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf7)
+	if src.SubscriptionUpdateEvent != nil {
+		return json.Marshal(&src.SubscriptionUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf70 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf70)
+	if src.DraftsUpdateEvent != nil {
+		return json.Marshal(&src.DraftsUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf71 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf71)
+	if src.DraftsRemoveEvent != nil {
+		return json.Marshal(&src.DraftsRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf72 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf72)
+	if src.NavigationViewAddEvent != nil {
+		return json.Marshal(&src.NavigationViewAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf73 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf73)
+	if src.NavigationViewUpdateEvent != nil {
+		return json.Marshal(&src.NavigationViewUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf74 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf74)
+	if src.NavigationViewRemoveEvent != nil {
+		return json.Marshal(&src.NavigationViewRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf75 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf75)
+	if src.SavedSnippetsAddEvent != nil {
+		return json.Marshal(&src.SavedSnippetsAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf76 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf76)
+	if src.SavedSnippetsUpdateEvent != nil {
+		return json.Marshal(&src.SavedSnippetsUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf77 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf77)
+	if src.SavedSnippetsRemoveEvent != nil {
+		return json.Marshal(&src.SavedSnippetsRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf78 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf78)
+	if src.RemindersAddEvent != nil {
+		return json.Marshal(&src.RemindersAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf79 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf79)
+	if src.RemindersRemoveEvent != nil {
+		return json.Marshal(&src.RemindersRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf8 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf8)
+	if src.SubscriptionPeerAddEvent != nil {
+		return json.Marshal(&src.SubscriptionPeerAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf80 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf80)
+	if src.ScheduledMessagesAddEvent != nil {
+		return json.Marshal(&src.ScheduledMessagesAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf81 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf81)
+	if src.ScheduledMessagesUpdateEvent != nil {
+		return json.Marshal(&src.ScheduledMessagesUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf82 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf82)
+	if src.ScheduledMessagesRemoveEvent != nil {
+		return json.Marshal(&src.ScheduledMessagesRemoveEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf83 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf83)
+	if src.ChannelFolderAddEvent != nil {
+		return json.Marshal(&src.ChannelFolderAddEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf84 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf84)
+	if src.ChannelFolderUpdateEvent != nil {
+		return json.Marshal(&src.ChannelFolderUpdateEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf85 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf85)
+	if src.ChannelFolderReorderEvent != nil {
+		return json.Marshal(&src.ChannelFolderReorderEvent)
 	}
 
-	if src.GetEvents200ResponseAllOfEventsInnerOneOf9 != nil {
-		return json.Marshal(&src.GetEvents200ResponseAllOfEventsInnerOneOf9)
+	if src.SubscriptionPeerRemoveEvent != nil {
+		return json.Marshal(&src.SubscriptionPeerRemoveEvent)
 	}
 
 	return nil, nil // no data in oneOf schemas
@@ -2626,348 +2626,348 @@ func (obj *GetEvents200ResponseAllOfEventsInner) GetActualInstance() interface{}
 	if obj == nil {
 		return nil
 	}
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf
+	if obj.AlertWordsEvent != nil {
+		return obj.AlertWordsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf1 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf1
+	if obj.UpdateDisplaySettingsEvent != nil {
+		return obj.UpdateDisplaySettingsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf10 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf10
+	if obj.MessageEvent != nil {
+		return obj.MessageEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf11 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf11
+	if obj.HasZoomTokenEvent != nil {
+		return obj.HasZoomTokenEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf12 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf12
+	if obj.InvitesChangedEvent != nil {
+		return obj.InvitesChangedEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf13 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf13
+	if obj.RealmUserAddEvent != nil {
+		return obj.RealmUserAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf14 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf14
+	if obj.RealmUserRemoveEvent != nil {
+		return obj.RealmUserRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf15 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf15
+	if obj.PresenceEvent != nil {
+		return obj.PresenceEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf16 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf16
+	if obj.StreamCreateEvent != nil {
+		return obj.StreamCreateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf17 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf17
+	if obj.StreamDeleteEvent != nil {
+		return obj.StreamDeleteEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf18 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf18
+	if obj.StreamUpdateEvent != nil {
+		return obj.StreamUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf19 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf19
+	if obj.ReactionAddEvent != nil {
+		return obj.ReactionAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf2 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf2
+	if obj.UpdateGlobalNotificationsEvent != nil {
+		return obj.UpdateGlobalNotificationsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf20 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf20
+	if obj.ReactionRemoveEvent != nil {
+		return obj.ReactionRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf21 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf21
+	if obj.AttachmentAddEvent != nil {
+		return obj.AttachmentAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf22 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf22
+	if obj.AttachmentUpdateEvent != nil {
+		return obj.AttachmentUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf23 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf23
+	if obj.AttachmentRemoveEvent != nil {
+		return obj.AttachmentRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf24 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf24
+	if obj.PushDeviceEvent != nil {
+		return obj.PushDeviceEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf25 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf25
+	if obj.SubmessageEvent != nil {
+		return obj.SubmessageEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf26 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf26
+	if obj.UserStatusEvent != nil {
+		return obj.UserStatusEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf27 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf27
+	if obj.CustomProfileFieldsEvent != nil {
+		return obj.CustomProfileFieldsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf28 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf28
+	if obj.DefaultStreamGroupsEvent != nil {
+		return obj.DefaultStreamGroupsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf29 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf29
+	if obj.DefaultStreamsEvent != nil {
+		return obj.DefaultStreamsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf3 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf3
+	if obj.UserSettingsUpdateEvent != nil {
+		return obj.UserSettingsUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf30 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf30
+	if obj.DeleteMessageEvent != nil {
+		return obj.DeleteMessageEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf31 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf31
+	if obj.MutedTopicsEvent != nil {
+		return obj.MutedTopicsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf32 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf32
+	if obj.UserTopicEvent != nil {
+		return obj.UserTopicEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf33 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf33
+	if obj.MutedUsersEvent != nil {
+		return obj.MutedUsersEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf34 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf34
+	if obj.HeartbeatEvent != nil {
+		return obj.HeartbeatEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf35 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf35
+	if obj.OnboardingStepsEvent != nil {
+		return obj.OnboardingStepsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf36 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf36
+	if obj.UpdateMessageEvent != nil {
+		return obj.UpdateMessageEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf37 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf37
+	if obj.TypingStartEvent != nil {
+		return obj.TypingStartEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf38 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf38
+	if obj.TypingStopEvent != nil {
+		return obj.TypingStopEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf39 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf39
+	if obj.TypingEditMessageStartEvent != nil {
+		return obj.TypingEditMessageStartEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf4 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf4
+	if obj.RealmUserUpdateEvent != nil {
+		return obj.RealmUserUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf40 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf40
+	if obj.TypingEditMessageStopEvent != nil {
+		return obj.TypingEditMessageStopEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf41 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf41
+	if obj.UpdateMessageFlagsAddEvent != nil {
+		return obj.UpdateMessageFlagsAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf42 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf42
+	if obj.UpdateMessageFlagsRemoveEvent != nil {
+		return obj.UpdateMessageFlagsRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf43 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf43
+	if obj.UserGroupAddEvent != nil {
+		return obj.UserGroupAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf44 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf44
+	if obj.UserGroupUpdateEvent != nil {
+		return obj.UserGroupUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf45 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf45
+	if obj.UserGroupAddMembersEvent != nil {
+		return obj.UserGroupAddMembersEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf46 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf46
+	if obj.UserGroupRemoveMembersEvent != nil {
+		return obj.UserGroupRemoveMembersEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf47 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf47
+	if obj.UserGroupAddSubgroupsEvent != nil {
+		return obj.UserGroupAddSubgroupsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf48 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf48
+	if obj.UserGroupRemoveSubgroupsEvent != nil {
+		return obj.UserGroupRemoveSubgroupsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf49 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf49
+	if obj.UserGroupRemoveEvent != nil {
+		return obj.UserGroupRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf5 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf5
+	if obj.SubscriptionAddEvent != nil {
+		return obj.SubscriptionAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf50 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf50
+	if obj.RealmLinkifiersEvent != nil {
+		return obj.RealmLinkifiersEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf51 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf51
+	if obj.RealmFiltersEvent != nil {
+		return obj.RealmFiltersEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf52 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf52
+	if obj.RealmPlaygroundsEvent != nil {
+		return obj.RealmPlaygroundsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf53 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf53
+	if obj.RealmEmojiUpdateEvent != nil {
+		return obj.RealmEmojiUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf54 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf54
+	if obj.RealmDomainsAddEvent != nil {
+		return obj.RealmDomainsAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf55 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf55
+	if obj.RealmDomainsChangeEvent != nil {
+		return obj.RealmDomainsChangeEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf56 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf56
+	if obj.RealmDomainsRemoveEvent != nil {
+		return obj.RealmDomainsRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf57 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf57
+	if obj.RealmExportEvent != nil {
+		return obj.RealmExportEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf58 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf58
+	if obj.RealmExportConsentEvent != nil {
+		return obj.RealmExportConsentEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf59 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf59
+	if obj.RealmBotAddEvent != nil {
+		return obj.RealmBotAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf6 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf6
+	if obj.SubscriptionRemoveEvent != nil {
+		return obj.SubscriptionRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf60 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf60
+	if obj.RealmBotUpdateEvent != nil {
+		return obj.RealmBotUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf61 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf61
+	if obj.RealmBotRemoveEvent != nil {
+		return obj.RealmBotRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf62 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf62
+	if obj.RealmBotDeleteEvent != nil {
+		return obj.RealmBotDeleteEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf63 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf63
+	if obj.RealmUpdateEvent != nil {
+		return obj.RealmUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf64 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf64
+	if obj.RealmDeactivatedEvent != nil {
+		return obj.RealmDeactivatedEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf65 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf65
+	if obj.RestartEvent != nil {
+		return obj.RestartEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf66 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf66
+	if obj.WebReloadClientEvent != nil {
+		return obj.WebReloadClientEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf67 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf67
+	if obj.RealmUpdateDictEvent != nil {
+		return obj.RealmUpdateDictEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf68 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf68
+	if obj.RealmUserSettingsDefaultsUpdateEvent != nil {
+		return obj.RealmUserSettingsDefaultsUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf69 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf69
+	if obj.DraftsAddEvent != nil {
+		return obj.DraftsAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf7 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf7
+	if obj.SubscriptionUpdateEvent != nil {
+		return obj.SubscriptionUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf70 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf70
+	if obj.DraftsUpdateEvent != nil {
+		return obj.DraftsUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf71 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf71
+	if obj.DraftsRemoveEvent != nil {
+		return obj.DraftsRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf72 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf72
+	if obj.NavigationViewAddEvent != nil {
+		return obj.NavigationViewAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf73 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf73
+	if obj.NavigationViewUpdateEvent != nil {
+		return obj.NavigationViewUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf74 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf74
+	if obj.NavigationViewRemoveEvent != nil {
+		return obj.NavigationViewRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf75 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf75
+	if obj.SavedSnippetsAddEvent != nil {
+		return obj.SavedSnippetsAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf76 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf76
+	if obj.SavedSnippetsUpdateEvent != nil {
+		return obj.SavedSnippetsUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf77 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf77
+	if obj.SavedSnippetsRemoveEvent != nil {
+		return obj.SavedSnippetsRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf78 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf78
+	if obj.RemindersAddEvent != nil {
+		return obj.RemindersAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf79 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf79
+	if obj.RemindersRemoveEvent != nil {
+		return obj.RemindersRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf8 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf8
+	if obj.SubscriptionPeerAddEvent != nil {
+		return obj.SubscriptionPeerAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf80 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf80
+	if obj.ScheduledMessagesAddEvent != nil {
+		return obj.ScheduledMessagesAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf81 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf81
+	if obj.ScheduledMessagesUpdateEvent != nil {
+		return obj.ScheduledMessagesUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf82 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf82
+	if obj.ScheduledMessagesRemoveEvent != nil {
+		return obj.ScheduledMessagesRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf83 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf83
+	if obj.ChannelFolderAddEvent != nil {
+		return obj.ChannelFolderAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf84 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf84
+	if obj.ChannelFolderUpdateEvent != nil {
+		return obj.ChannelFolderUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf85 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf85
+	if obj.ChannelFolderReorderEvent != nil {
+		return obj.ChannelFolderReorderEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf9 != nil {
-		return obj.GetEvents200ResponseAllOfEventsInnerOneOf9
+	if obj.SubscriptionPeerRemoveEvent != nil {
+		return obj.SubscriptionPeerRemoveEvent
 	}
 
 	// all schemas are nil
@@ -2976,348 +2976,348 @@ func (obj *GetEvents200ResponseAllOfEventsInner) GetActualInstance() interface{}
 
 // Get the actual instance value
 func (obj GetEvents200ResponseAllOfEventsInner) GetActualInstanceValue() interface{} {
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf
+	if obj.AlertWordsEvent != nil {
+		return *obj.AlertWordsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf1 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf1
+	if obj.UpdateDisplaySettingsEvent != nil {
+		return *obj.UpdateDisplaySettingsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf10 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf10
+	if obj.MessageEvent != nil {
+		return *obj.MessageEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf11 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf11
+	if obj.HasZoomTokenEvent != nil {
+		return *obj.HasZoomTokenEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf12 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf12
+	if obj.InvitesChangedEvent != nil {
+		return *obj.InvitesChangedEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf13 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf13
+	if obj.RealmUserAddEvent != nil {
+		return *obj.RealmUserAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf14 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf14
+	if obj.RealmUserRemoveEvent != nil {
+		return *obj.RealmUserRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf15 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf15
+	if obj.PresenceEvent != nil {
+		return *obj.PresenceEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf16 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf16
+	if obj.StreamCreateEvent != nil {
+		return *obj.StreamCreateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf17 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf17
+	if obj.StreamDeleteEvent != nil {
+		return *obj.StreamDeleteEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf18 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf18
+	if obj.StreamUpdateEvent != nil {
+		return *obj.StreamUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf19 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf19
+	if obj.ReactionAddEvent != nil {
+		return *obj.ReactionAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf2 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf2
+	if obj.UpdateGlobalNotificationsEvent != nil {
+		return *obj.UpdateGlobalNotificationsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf20 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf20
+	if obj.ReactionRemoveEvent != nil {
+		return *obj.ReactionRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf21 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf21
+	if obj.AttachmentAddEvent != nil {
+		return *obj.AttachmentAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf22 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf22
+	if obj.AttachmentUpdateEvent != nil {
+		return *obj.AttachmentUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf23 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf23
+	if obj.AttachmentRemoveEvent != nil {
+		return *obj.AttachmentRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf24 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf24
+	if obj.PushDeviceEvent != nil {
+		return *obj.PushDeviceEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf25 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf25
+	if obj.SubmessageEvent != nil {
+		return *obj.SubmessageEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf26 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf26
+	if obj.UserStatusEvent != nil {
+		return *obj.UserStatusEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf27 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf27
+	if obj.CustomProfileFieldsEvent != nil {
+		return *obj.CustomProfileFieldsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf28 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf28
+	if obj.DefaultStreamGroupsEvent != nil {
+		return *obj.DefaultStreamGroupsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf29 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf29
+	if obj.DefaultStreamsEvent != nil {
+		return *obj.DefaultStreamsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf3 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf3
+	if obj.UserSettingsUpdateEvent != nil {
+		return *obj.UserSettingsUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf30 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf30
+	if obj.DeleteMessageEvent != nil {
+		return *obj.DeleteMessageEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf31 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf31
+	if obj.MutedTopicsEvent != nil {
+		return *obj.MutedTopicsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf32 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf32
+	if obj.UserTopicEvent != nil {
+		return *obj.UserTopicEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf33 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf33
+	if obj.MutedUsersEvent != nil {
+		return *obj.MutedUsersEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf34 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf34
+	if obj.HeartbeatEvent != nil {
+		return *obj.HeartbeatEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf35 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf35
+	if obj.OnboardingStepsEvent != nil {
+		return *obj.OnboardingStepsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf36 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf36
+	if obj.UpdateMessageEvent != nil {
+		return *obj.UpdateMessageEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf37 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf37
+	if obj.TypingStartEvent != nil {
+		return *obj.TypingStartEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf38 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf38
+	if obj.TypingStopEvent != nil {
+		return *obj.TypingStopEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf39 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf39
+	if obj.TypingEditMessageStartEvent != nil {
+		return *obj.TypingEditMessageStartEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf4 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf4
+	if obj.RealmUserUpdateEvent != nil {
+		return *obj.RealmUserUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf40 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf40
+	if obj.TypingEditMessageStopEvent != nil {
+		return *obj.TypingEditMessageStopEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf41 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf41
+	if obj.UpdateMessageFlagsAddEvent != nil {
+		return *obj.UpdateMessageFlagsAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf42 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf42
+	if obj.UpdateMessageFlagsRemoveEvent != nil {
+		return *obj.UpdateMessageFlagsRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf43 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf43
+	if obj.UserGroupAddEvent != nil {
+		return *obj.UserGroupAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf44 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf44
+	if obj.UserGroupUpdateEvent != nil {
+		return *obj.UserGroupUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf45 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf45
+	if obj.UserGroupAddMembersEvent != nil {
+		return *obj.UserGroupAddMembersEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf46 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf46
+	if obj.UserGroupRemoveMembersEvent != nil {
+		return *obj.UserGroupRemoveMembersEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf47 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf47
+	if obj.UserGroupAddSubgroupsEvent != nil {
+		return *obj.UserGroupAddSubgroupsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf48 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf48
+	if obj.UserGroupRemoveSubgroupsEvent != nil {
+		return *obj.UserGroupRemoveSubgroupsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf49 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf49
+	if obj.UserGroupRemoveEvent != nil {
+		return *obj.UserGroupRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf5 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf5
+	if obj.SubscriptionAddEvent != nil {
+		return *obj.SubscriptionAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf50 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf50
+	if obj.RealmLinkifiersEvent != nil {
+		return *obj.RealmLinkifiersEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf51 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf51
+	if obj.RealmFiltersEvent != nil {
+		return *obj.RealmFiltersEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf52 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf52
+	if obj.RealmPlaygroundsEvent != nil {
+		return *obj.RealmPlaygroundsEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf53 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf53
+	if obj.RealmEmojiUpdateEvent != nil {
+		return *obj.RealmEmojiUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf54 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf54
+	if obj.RealmDomainsAddEvent != nil {
+		return *obj.RealmDomainsAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf55 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf55
+	if obj.RealmDomainsChangeEvent != nil {
+		return *obj.RealmDomainsChangeEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf56 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf56
+	if obj.RealmDomainsRemoveEvent != nil {
+		return *obj.RealmDomainsRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf57 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf57
+	if obj.RealmExportEvent != nil {
+		return *obj.RealmExportEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf58 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf58
+	if obj.RealmExportConsentEvent != nil {
+		return *obj.RealmExportConsentEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf59 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf59
+	if obj.RealmBotAddEvent != nil {
+		return *obj.RealmBotAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf6 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf6
+	if obj.SubscriptionRemoveEvent != nil {
+		return *obj.SubscriptionRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf60 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf60
+	if obj.RealmBotUpdateEvent != nil {
+		return *obj.RealmBotUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf61 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf61
+	if obj.RealmBotRemoveEvent != nil {
+		return *obj.RealmBotRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf62 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf62
+	if obj.RealmBotDeleteEvent != nil {
+		return *obj.RealmBotDeleteEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf63 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf63
+	if obj.RealmUpdateEvent != nil {
+		return *obj.RealmUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf64 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf64
+	if obj.RealmDeactivatedEvent != nil {
+		return *obj.RealmDeactivatedEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf65 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf65
+	if obj.RestartEvent != nil {
+		return *obj.RestartEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf66 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf66
+	if obj.WebReloadClientEvent != nil {
+		return *obj.WebReloadClientEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf67 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf67
+	if obj.RealmUpdateDictEvent != nil {
+		return *obj.RealmUpdateDictEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf68 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf68
+	if obj.RealmUserSettingsDefaultsUpdateEvent != nil {
+		return *obj.RealmUserSettingsDefaultsUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf69 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf69
+	if obj.DraftsAddEvent != nil {
+		return *obj.DraftsAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf7 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf7
+	if obj.SubscriptionUpdateEvent != nil {
+		return *obj.SubscriptionUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf70 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf70
+	if obj.DraftsUpdateEvent != nil {
+		return *obj.DraftsUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf71 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf71
+	if obj.DraftsRemoveEvent != nil {
+		return *obj.DraftsRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf72 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf72
+	if obj.NavigationViewAddEvent != nil {
+		return *obj.NavigationViewAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf73 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf73
+	if obj.NavigationViewUpdateEvent != nil {
+		return *obj.NavigationViewUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf74 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf74
+	if obj.NavigationViewRemoveEvent != nil {
+		return *obj.NavigationViewRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf75 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf75
+	if obj.SavedSnippetsAddEvent != nil {
+		return *obj.SavedSnippetsAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf76 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf76
+	if obj.SavedSnippetsUpdateEvent != nil {
+		return *obj.SavedSnippetsUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf77 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf77
+	if obj.SavedSnippetsRemoveEvent != nil {
+		return *obj.SavedSnippetsRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf78 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf78
+	if obj.RemindersAddEvent != nil {
+		return *obj.RemindersAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf79 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf79
+	if obj.RemindersRemoveEvent != nil {
+		return *obj.RemindersRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf8 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf8
+	if obj.SubscriptionPeerAddEvent != nil {
+		return *obj.SubscriptionPeerAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf80 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf80
+	if obj.ScheduledMessagesAddEvent != nil {
+		return *obj.ScheduledMessagesAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf81 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf81
+	if obj.ScheduledMessagesUpdateEvent != nil {
+		return *obj.ScheduledMessagesUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf82 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf82
+	if obj.ScheduledMessagesRemoveEvent != nil {
+		return *obj.ScheduledMessagesRemoveEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf83 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf83
+	if obj.ChannelFolderAddEvent != nil {
+		return *obj.ChannelFolderAddEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf84 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf84
+	if obj.ChannelFolderUpdateEvent != nil {
+		return *obj.ChannelFolderUpdateEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf85 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf85
+	if obj.ChannelFolderReorderEvent != nil {
+		return *obj.ChannelFolderReorderEvent
 	}
 
-	if obj.GetEvents200ResponseAllOfEventsInnerOneOf9 != nil {
-		return *obj.GetEvents200ResponseAllOfEventsInnerOneOf9
+	if obj.SubscriptionPeerRemoveEvent != nil {
+		return *obj.SubscriptionPeerRemoveEvent
 	}
 
 	// all schemas are nil

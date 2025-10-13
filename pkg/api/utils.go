@@ -1,22 +1,21 @@
 package api
 
 import (
+	"bytes"
+	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"io"
+	"mime/multipart"
+	"net/http"
 	"os"
+	"path/filepath"
+	"reflect"
 	"runtime"
 	"strings"
 	"time"
 	"unicode/utf8"
-	"bytes"
-	"encoding/json"
-	"encoding/xml"
-	"mime/multipart"
-	"net/http"
-	"path/filepath"
-	"reflect"
 )
-
 
 // Add a file to the multipart request
 func addFile(w *multipart.Writer, fieldName, path string) error {
@@ -149,7 +148,6 @@ func CacheExpires(r *http.Response) time.Time {
 func strlen(s string) int {
 	return utf8.RuneCountInString(s)
 }
-
 
 func buildUserAgent(clientName string) string {
 	vendor, version := detectPlatform()
