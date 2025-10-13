@@ -11,104 +11,103 @@ package api_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	
+
 	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
-func Test_gozulip_DraftsAPIService(t *testing.T) {
+func Test_DraftsAPIService(t *testing.T) {
+	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
 
-	configuration := api.NewConfiguration()
-	apiClient := api.NewAPIClient(configuration)
+		t.Run("CreateDrafts", func(t *testing.T) {
 
-	t.Run("Test DraftsAPIService CreateDrafts", func(t *testing.T) {
+			resp, httpRes, err := apiClient.CreateDrafts(context.Background()).Execute()
 
-		resp, httpRes, err := apiClient.CreateDrafts(context.Background()).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		})
 
+		t.Run("CreateSavedSnippet", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.CreateSavedSnippet(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("DeleteDraft", func(t *testing.T) {
+
+			var draftId int32
+
+			resp, httpRes, err := apiClient.DeleteDraft(context.Background(), draftId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("DeleteSavedSnippet", func(t *testing.T) {
+
+			var savedSnippetId int32
+
+			resp, httpRes, err := apiClient.DeleteSavedSnippet(context.Background(), savedSnippetId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("EditDraft", func(t *testing.T) {
+
+			var draftId int32
+
+			resp, httpRes, err := apiClient.EditDraft(context.Background(), draftId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("EditSavedSnippet", func(t *testing.T) {
+
+			var savedSnippetId int32
+
+			resp, httpRes, err := apiClient.EditSavedSnippet(context.Background(), savedSnippetId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetDrafts", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetDrafts(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetSavedSnippets", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetSavedSnippets(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
 	})
-
-	t.Run("Test DraftsAPIService CreateSavedSnippet", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.CreateSavedSnippet(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test DraftsAPIService DeleteDraft", func(t *testing.T) {
-
-		var draftId int32
-
-		resp, httpRes, err := apiClient.DeleteDraft(context.Background(), draftId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test DraftsAPIService DeleteSavedSnippet", func(t *testing.T) {
-
-		var savedSnippetId int32
-
-		resp, httpRes, err := apiClient.DeleteSavedSnippet(context.Background(), savedSnippetId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test DraftsAPIService EditDraft", func(t *testing.T) {
-
-		var draftId int32
-
-		resp, httpRes, err := apiClient.EditDraft(context.Background(), draftId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test DraftsAPIService EditSavedSnippet", func(t *testing.T) {
-
-		var savedSnippetId int32
-
-		resp, httpRes, err := apiClient.EditSavedSnippet(context.Background(), savedSnippetId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test DraftsAPIService GetDrafts", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetDrafts(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test DraftsAPIService GetSavedSnippets", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetSavedSnippets(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 }

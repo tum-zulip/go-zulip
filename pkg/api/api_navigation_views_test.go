@@ -11,60 +11,59 @@ package api_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	
+
 	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
-func Test_gozulip_NavigationViewsAPIService(t *testing.T) {
+func Test_NavigationViewsAPIService(t *testing.T) {
+	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
 
-	configuration := api.NewConfiguration()
-	apiClient := api.NewAPIClient(configuration)
+		t.Run("AddNavigationView", func(t *testing.T) {
 
-	t.Run("Test NavigationViewsAPIService AddNavigationView", func(t *testing.T) {
+			resp, httpRes, err := apiClient.AddNavigationView(context.Background()).Execute()
 
-		resp, httpRes, err := apiClient.AddNavigationView(context.Background()).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		})
 
+		t.Run("EditNavigationView", func(t *testing.T) {
+
+			var fragment string
+
+			resp, httpRes, err := apiClient.EditNavigationView(context.Background(), fragment).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetNavigationViews", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetNavigationViews(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("RemoveNavigationView", func(t *testing.T) {
+
+			var fragment string
+
+			resp, httpRes, err := apiClient.RemoveNavigationView(context.Background(), fragment).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
 	})
-
-	t.Run("Test NavigationViewsAPIService EditNavigationView", func(t *testing.T) {
-
-		var fragment string
-
-		resp, httpRes, err := apiClient.EditNavigationView(context.Background(), fragment).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test NavigationViewsAPIService GetNavigationViews", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetNavigationViews(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test NavigationViewsAPIService RemoveNavigationView", func(t *testing.T) {
-
-		var fragment string
-
-		resp, httpRes, err := apiClient.RemoveNavigationView(context.Background(), fragment).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 }

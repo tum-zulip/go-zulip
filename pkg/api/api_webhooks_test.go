@@ -11,26 +11,27 @@ package api_test
 
 import (
 	"context"
+	"net/http"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	
+
 	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
-func Test_gozulip_WebhooksAPIService(t *testing.T) {
+func Test_WebhooksAPIService(t *testing.T) {
+	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
 
-	configuration := api.NewConfiguration()
-	apiClient := api.NewAPIClient(configuration)
+		t.Run("ZulipOutgoingWebhooks", func(t *testing.T) {
 
-	t.Run("Test WebhooksAPIService ZulipOutgoingWebhooks", func(t *testing.T) {
+			resp, httpRes, err := apiClient.ZulipOutgoingWebhooks(context.Background()).Execute()
 
-		resp, httpRes, err := apiClient.ZulipOutgoingWebhooks(context.Background()).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			require.NotNil(t, httpRes)
+			assert.Equal(t, http.StatusOK, httpRes.StatusCode)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
+		})
 	})
-
 }

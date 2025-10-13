@@ -11,285 +11,494 @@ package api_test
 
 import (
 	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"io"
+	"net/http"
+	"net/url"
+	"strings"
+	"testing"
+	"time"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	
+
 	"github.com/tum-zulip/go-zulip/pkg/api"
+	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
-func Test_gozulip_ChannelsAPIService(t *testing.T) {
+func Test_ChannelsAPIService(t *testing.T) {
+	t.Run("Admin operations", func(t *testing.T) {
+		apiClient := GetAdminClient(t)
 
-	configuration := api.NewConfiguration()
-	apiClient := api.NewAPIClient(configuration)
+		ctx := context.Background()
+		userId := getOwnUserId(t, apiClient)
 
-	t.Run("Test ChannelsAPIService AddDefaultStream", func(t *testing.T) {
+		t.Run("AddDefaultStream", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, userId)
 
-		resp, httpRes, err := apiClient.AddDefaultStream(context.Background()).Execute()
+			resp, httpRes, err := apiClient.AddDefaultStream(ctx).StreamId(streamID).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		t.Run("ArchiveStream", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, userId)
 
+			resp, httpRes, err := apiClient.ArchiveStream(ctx, streamID).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("CreateChannelFolder", func(t *testing.T) {
+			resp, httpRes, err := apiClient.CreateChannelFolder(ctx).
+				Name(uniqueName("test-folder")).
+				Description("Created during Channels API tests").
+				Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.Greater(t, resp.GetChannelFolderId(), int32(0))
+		})
+
+		t.Run("DeleteTopic", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, userId)
+			topic := createTopicWithMessage(t, apiClient, streamID)
+
+			resp, httpRes, err := apiClient.DeleteTopic(ctx, streamID).
+				TopicName(topic).
+				Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.True(t, resp.GetComplete())
+		})
+
+		t.Run("PatchChannelFolders", func(t *testing.T) {
+			createChannelFolder(t, apiClient, uniqueName("patch-folder"), "first test folder")
+			createChannelFolder(t, apiClient, uniqueName("patch-folder"), "second test folder")
+
+			originalOrder := getChannelFolderIDs(t, apiClient)
+			if len(originalOrder) < 2 {
+				t.Skip("need at least two channel folders to reorder")
+			}
+
+			reordered := append([]int32(nil), originalOrder...)
+			reverseInt32Slice(reordered)
+
+			resp, httpRes, err := apiClient.PatchChannelFolders(ctx).
+				Order(reordered).
+				Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("RemoveDefaultStream", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, userId)
+			reqResp, _, err := apiClient.AddDefaultStream(ctx).StreamId(streamID).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, reqResp)
+
+			resp, httpRes, err := apiClient.RemoveDefaultStream(ctx).StreamId(streamID).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("UpdateChannelFolder", func(t *testing.T) {
+			folderID := createChannelFolder(t, apiClient, uniqueName("update-folder"), "initial description")
+
+			resp, httpRes, err := apiClient.UpdateChannelFolder(ctx, folderID).
+				Description("updated folder description").
+				Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("UpdateStream", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, userId)
+
+			resp, httpRes, err := apiClient.UpdateStream(ctx, streamID).
+				Description("updated by test").
+				Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
 	})
 
-	t.Run("Test ChannelsAPIService ArchiveStream", func(t *testing.T) {
+	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+		info := loadClientInfo(t, apiClient)
 
-		var streamId int32
+		t.Run("CreateBigBlueButtonVideoCall", func(t *testing.T) {
+			resp, httpRes, err := apiClient.CreateBigBlueButtonVideoCall(ctx).
+				MeetingName(uniqueName("bbb-meeting")).
+				Execute()
+			if err != nil {
+				skipIfBigBlueButtonUnavailable(t, err)
+			}
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.NotEmpty(t, resp.GetUrl())
+		})
 
-		resp, httpRes, err := apiClient.ArchiveStream(context.Background(), streamId).Execute()
+		t.Run("CreateChannel", func(t *testing.T) {
+			createRandomChannel(t, apiClient, info.userID)
+		})
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		t.Run("GetChannelFolders", func(t *testing.T) {
+			resp, httpRes, err := apiClient.GetChannelFolders(ctx).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
 
+		t.Run("GetStreamById", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, info.userID)
+
+			resp, httpRes, err := apiClient.GetStreamById(ctx, streamID).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			require.True(t, resp.HasStream())
+			stream := resp.GetStream()
+			assert.Equal(t, streamID, stream.StreamId)
+		})
+
+		t.Run("GetStreamEmailAddress", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, info.userID)
+
+			resp, httpRes, err := apiClient.GetStreamEmailAddress(ctx, streamID).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.NotEmpty(t, resp.GetEmail())
+		})
+
+		t.Run("GetStreamId", func(t *testing.T) {
+			streamName, streamID := createRandomChannel(t, apiClient, info.userID)
+
+			resp, httpRes, err := apiClient.GetStreamId(ctx).
+				Stream(streamName).
+				Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.Equal(t, streamID, resp.GetStreamId())
+		})
+
+		t.Run("GetStreamTopics", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, info.userID)
+			topic := createTopicWithMessage(t, apiClient, streamID)
+
+			resp, httpRes, err := apiClient.GetStreamTopics(ctx, streamID).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+
+			found := false
+			for _, entry := range resp.GetTopics() {
+				if strings.EqualFold(entry.GetName(), topic) {
+					found = true
+					break
+				}
+			}
+			assert.True(t, found, "expected topic %q in list", topic)
+		})
+
+		t.Run("GetStreams", func(t *testing.T) {
+			resp, httpRes, err := apiClient.GetStreams(ctx).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.NotEmpty(t, resp.GetStreams())
+		})
+
+		t.Run("GetSubscribers", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, info.userID)
+
+			resp, httpRes, err := apiClient.GetSubscribers(ctx, streamID).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+
+			subscribers := resp.GetSubscribers()
+			assert.Contains(t, subscribers, info.userID)
+		})
+
+		t.Run("GetSubscriptionStatus", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, info.userID)
+
+			resp, httpRes, err := apiClient.GetSubscriptionStatus(ctx, info.userID, streamID).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.True(t, resp.GetIsSubscribed())
+		})
+
+		t.Run("GetSubscriptions", func(t *testing.T) {
+			resp, httpRes, err := apiClient.GetSubscriptions(ctx).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.NotEmpty(t, resp.GetSubscriptions())
+		})
+
+		t.Run("MuteTopic", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, info.userID)
+			topic := createTopicWithMessage(t, apiClient, streamID)
+
+			resp, httpRes, err := apiClient.MuteTopic(ctx).
+				StreamId(streamID).
+				Topic(topic).
+				Op("add").
+				Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("Subscribe", func(t *testing.T) {
+			subscription := models.NewSubscribeRequestSubscriptionsInner(uniqueName("subscribe-stream"))
+			subscription.SetDescription("Created via Subscribe test")
+
+			resp, httpRes, err := apiClient.Subscribe(ctx).
+				Subscriptions([]models.SubscribeRequestSubscriptionsInner{*subscription}).
+				Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.Equal(t, "success", resp.GetResult())
+		})
+
+		t.Run("Unsubscribe", func(t *testing.T) {
+			streamName, _ := createRandomChannel(t, apiClient, info.userID)
+
+			resp, httpRes, err := apiClient.Unsubscribe(ctx).
+				Subscriptions([]string{streamName}).
+				Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+
+			if len(resp.GetRemoved()) > 0 {
+				assert.Contains(t, resp.GetRemoved(), streamName)
+			}
+		})
+
+		t.Run("UpdateSubscriptionSettings", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, info.userID)
+			mute := true
+			update := models.NewUpdateSubscriptionSettingsRequestSubscriptionDataInner(streamID, "is_muted", models.BoolAsUpdateSubscriptionSettingsRequestSubscriptionDataInnerValue(&mute))
+
+			resp, httpRes, err := apiClient.UpdateSubscriptionSettings(ctx).
+				SubscriptionData([]models.UpdateSubscriptionSettingsRequestSubscriptionDataInner{*update}).
+				Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("UpdateSubscriptions", func(t *testing.T) {
+			streamName := uniqueName("update-subscriptions")
+			add := models.NewUpdateSubscriptionsRequestAddInner()
+			add.SetName(streamName)
+			add.SetDescription("Created in UpdateSubscriptions test")
+
+			resp, httpRes, err := apiClient.UpdateSubscriptions(ctx).
+				Add([]models.UpdateSubscriptionsRequestAddInner{*add}).
+				Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.Equal(t, "success", resp.GetResult())
+		})
+
+		t.Run("UpdateUserTopic", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, info.userID)
+			topic := createTopicWithMessage(t, apiClient, streamID)
+
+			resp, httpRes, err := apiClient.UpdateUserTopic(ctx).
+				StreamId(streamID).
+				Topic(topic).
+				VisibilityPolicy(1).
+				Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
 	})
+}
 
-	t.Run("Test ChannelsAPIService CreateBigBlueButtonVideoCall", func(t *testing.T) {
+type clientInfo struct {
+	userID  int32
+	isAdmin bool
+}
 
-		resp, httpRes, err := apiClient.CreateBigBlueButtonVideoCall(context.Background()).Execute()
+func loadClientInfo(t *testing.T, apiClient *api.ZulipClient) clientInfo {
+	t.Helper()
 
-		require.Nil(t, err)
+	resp, httpRes, err := apiClient.GetOwnUser(context.Background()).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	requireStatusOK(t, httpRes)
+
+	info := clientInfo{}
+	if id, ok := resp.GetUserIdOk(); ok && id != nil {
+		info.userID = *id
+	} else {
+		t.Fatalf("test client missing user id")
+	}
+
+	if isAdmin, ok := resp.GetIsAdminOk(); ok && isAdmin != nil {
+		info.isAdmin = info.isAdmin || *isAdmin
+	}
+	if isOwner, ok := resp.GetIsOwnerOk(); ok && isOwner != nil {
+		info.isAdmin = info.isAdmin || *isOwner
+	}
+
+	return info
+}
+
+func createRandomChannel(t *testing.T, apiClient *api.ZulipClient, subscribers ...int32) (string, int32) {
+	t.Helper()
+
+	subs := append([]int32(nil), subscribers...)
+	if len(subs) == 0 {
+		resp, httpRes, err := apiClient.GetOwnUser(context.Background()).Execute()
+		require.NoError(t, err)
 		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService CreateChannel", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.CreateChannel(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService CreateChannelFolder", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.CreateChannelFolder(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService DeleteTopic", func(t *testing.T) {
-
-		var streamId int32
-
-		resp, httpRes, err := apiClient.DeleteTopic(context.Background(), streamId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService GetChannelFolders", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetChannelFolders(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService GetStreamById", func(t *testing.T) {
-
-		var streamId int32
-
-		resp, httpRes, err := apiClient.GetStreamById(context.Background(), streamId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService GetStreamEmailAddress", func(t *testing.T) {
-
-		var streamId int32
-
-		resp, httpRes, err := apiClient.GetStreamEmailAddress(context.Background(), streamId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService GetStreamId", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetStreamId(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService GetStreamTopics", func(t *testing.T) {
-
-		var streamId int32
-
-		resp, httpRes, err := apiClient.GetStreamTopics(context.Background(), streamId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService GetStreams", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetStreams(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService GetSubscribers", func(t *testing.T) {
-
-		var streamId int32
-
-		resp, httpRes, err := apiClient.GetSubscribers(context.Background(), streamId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService GetSubscriptionStatus", func(t *testing.T) {
-
-		var userId int32
-		var streamId int32
-
-		resp, httpRes, err := apiClient.GetSubscriptionStatus(context.Background(), userId, streamId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService GetSubscriptions", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetSubscriptions(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService MuteTopic", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.MuteTopic(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService PatchChannelFolders", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.PatchChannelFolders(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService RemoveDefaultStream", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.RemoveDefaultStream(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService Subscribe", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.Subscribe(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService Unsubscribe", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.Unsubscribe(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService UpdateChannelFolder", func(t *testing.T) {
-
-		var channelFolderId int32
-
-		resp, httpRes, err := apiClient.UpdateChannelFolder(context.Background(), channelFolderId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService UpdateStream", func(t *testing.T) {
-
-		var streamId int32
-
-		resp, httpRes, err := apiClient.UpdateStream(context.Background(), streamId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService UpdateSubscriptionSettings", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.UpdateSubscriptionSettings(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService UpdateSubscriptions", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.UpdateSubscriptions(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ChannelsAPIService UpdateUserTopic", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.UpdateUserTopic(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
+		requireStatusOK(t, httpRes)
+		subs = []int32{resp.GetUserId()}
+	}
+
+	name := uniqueName("test-channel")
+	resp, httpRes, err := apiClient.CreateChannel(context.Background()).
+		Name(name).
+		Description("Created by channel API tests").
+		Subscribers(subs).
+		Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	requireStatusOK(t, httpRes)
+	require.True(t, resp.HasId())
+
+	return name, resp.GetId()
+}
+
+func sendStreamMessage(t *testing.T, apiClient *api.ZulipClient, streamID int32, topic, content string) int32 {
+	t.Helper()
+
+	rc := apiClient.GetZulipRC()
+	require.NotNil(t, rc)
+	require.NotEmpty(t, rc.Site)
+	require.NotEmpty(t, rc.Email)
+	require.NotEmpty(t, rc.APIKey)
+
+	form := url.Values{}
+	form.Set("type", "stream")
+	form.Set("to", fmt.Sprintf("%d", streamID))
+	form.Set("topic", topic)
+	form.Set("content", content)
+
+	endpoint := strings.TrimRight(rc.Site, "/") + "/api/v1/messages"
+	req, err := http.NewRequestWithContext(context.Background(), http.MethodPost, endpoint, strings.NewReader(form.Encode()))
+	require.NoError(t, err)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.SetBasicAuth(rc.Email, rc.APIKey)
+
+	client := &http.Client{Timeout: 15 * time.Second}
+	res, err := client.Do(req)
+	require.NoError(t, err)
+	defer res.Body.Close()
+	require.Equal(t, http.StatusOK, res.StatusCode)
+
+	body, err := io.ReadAll(res.Body)
+	require.NoError(t, err)
+
+	var payload struct {
+		Result string `json:"result"`
+		Msg    string `json:"msg"`
+		Id     int32  `json:"id"`
+	}
+	require.NoError(t, json.Unmarshal(body, &payload))
+	require.Equal(t, "success", payload.Result)
+	assert.Greater(t, payload.Id, int32(0))
+
+	return payload.Id
+}
+
+func createTopicWithMessage(t *testing.T, apiClient *api.ZulipClient, streamID int32) string {
+	t.Helper()
+
+	topic := uniqueName("topic")
+	messageID := sendStreamMessage(t, apiClient, streamID, topic, fmt.Sprintf("message for %s", topic))
+	assert.Greater(t, messageID, int32(0))
+	return topic
+}
+
+func createChannelFolder(t *testing.T, apiClient *api.ZulipClient, name, description string) int32 {
+	t.Helper()
+
+	resp, httpRes, err := apiClient.CreateChannelFolder(context.Background()).
+		Name(name).
+		Description(description).
+		Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	requireStatusOK(t, httpRes)
+
+	return resp.GetChannelFolderId()
+}
+
+func getChannelFolderIDs(t *testing.T, apiClient *api.ZulipClient) []int32 {
+	t.Helper()
+
+	resp, httpRes, err := apiClient.GetChannelFolders(context.Background()).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	requireStatusOK(t, httpRes)
+
+	var ids []int32
+	for _, folder := range resp.GetChannelFolders() {
+		if folder.HasId() {
+			ids = append(ids, folder.GetId())
+		}
+	}
+	return ids
+}
+
+func reverseInt32Slice(values []int32) {
+	for i, j := 0, len(values)-1; i < j; i, j = i+1, j-1 {
+		values[i], values[j] = values[j], values[i]
+	}
+}
+
+func skipIfBigBlueButtonUnavailable(t *testing.T, err error) {
+	t.Helper()
+
+	var apiErr *api.GenericOpenAPIError
+	if !errors.As(err, &apiErr) {
+		return
+	}
+
+	message := strings.ToLower(fmt.Sprintf("%s %s", apiErr.Error(), string(apiErr.Body())))
+	if strings.Contains(message, "bigbluebutton") ||
+		strings.Contains(message, "not configured") ||
+		strings.Contains(message, "not implemented") {
+		t.Skipf("BigBlueButton not available: %s", strings.TrimSpace(string(apiErr.Body())))
+	}
+}
+
+func requireStatusOK(t *testing.T, httpRes *http.Response) {
+	t.Helper()
+	require.NotNil(t, httpRes)
+	assert.Equal(t, 200, httpRes.StatusCode)
 }

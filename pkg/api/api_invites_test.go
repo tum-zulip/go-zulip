@@ -11,82 +11,81 @@ package api_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	
+
 	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
-func Test_gozulip_InvitesAPIService(t *testing.T) {
+func Test_InvitesAPIService(t *testing.T) {
+	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
 
-	configuration := api.NewConfiguration()
-	apiClient := api.NewAPIClient(configuration)
+		t.Run("CreateInviteLink", func(t *testing.T) {
 
-	t.Run("Test InvitesAPIService CreateInviteLink", func(t *testing.T) {
+			resp, httpRes, err := apiClient.CreateInviteLink(context.Background()).Execute()
 
-		resp, httpRes, err := apiClient.CreateInviteLink(context.Background()).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		})
 
+		t.Run("GetInvites", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetInvites(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("ResendEmailInvite", func(t *testing.T) {
+
+			var inviteId int32
+
+			resp, httpRes, err := apiClient.ResendEmailInvite(context.Background(), inviteId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("RevokeEmailInvite", func(t *testing.T) {
+
+			var inviteId int32
+
+			resp, httpRes, err := apiClient.RevokeEmailInvite(context.Background(), inviteId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("RevokeInviteLink", func(t *testing.T) {
+
+			var inviteId int32
+
+			resp, httpRes, err := apiClient.RevokeInviteLink(context.Background(), inviteId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("SendInvites", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.SendInvites(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
 	})
-
-	t.Run("Test InvitesAPIService GetInvites", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetInvites(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test InvitesAPIService ResendEmailInvite", func(t *testing.T) {
-
-		var inviteId int32
-
-		resp, httpRes, err := apiClient.ResendEmailInvite(context.Background(), inviteId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test InvitesAPIService RevokeEmailInvite", func(t *testing.T) {
-
-		var inviteId int32
-
-		resp, httpRes, err := apiClient.RevokeEmailInvite(context.Background(), inviteId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test InvitesAPIService RevokeInviteLink", func(t *testing.T) {
-
-		var inviteId int32
-
-		resp, httpRes, err := apiClient.RevokeInviteLink(context.Background(), inviteId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test InvitesAPIService SendInvites", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.SendInvites(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 }

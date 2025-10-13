@@ -11,64 +11,63 @@ package api_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	
+
 	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
-func Test_gozulip_RealTimeEventsAPIService(t *testing.T) {
+func Test_RealTimeEventsAPIService(t *testing.T) {
+	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
 
-	configuration := api.NewConfiguration()
-	apiClient := api.NewAPIClient(configuration)
+		t.Run("DeleteQueue", func(t *testing.T) {
 
-	t.Run("Test RealTimeEventsAPIService DeleteQueue", func(t *testing.T) {
+			resp, httpRes, err := apiClient.DeleteQueue(context.Background()).Execute()
 
-		resp, httpRes, err := apiClient.DeleteQueue(context.Background()).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		})
 
+		t.Run("GetEvents", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetEvents(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("RealTimePost", func(t *testing.T) {
+
+			httpRes, err := apiClient.RealTimePost(context.Background()).Execute()
+
+			require.NoError(t, err)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("RegisterQueue", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.RegisterQueue(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("RestErrorHandling", func(t *testing.T) {
+
+			httpRes, err := apiClient.RestErrorHandling(context.Background()).Execute()
+
+			require.NoError(t, err)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
 	})
-
-	t.Run("Test RealTimeEventsAPIService GetEvents", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetEvents(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test RealTimeEventsAPIService RealTimePost", func(t *testing.T) {
-
-		httpRes, err := apiClient.RealTimePost(context.Background()).Execute()
-
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test RealTimeEventsAPIService RegisterQueue", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.RegisterQueue(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test RealTimeEventsAPIService RestErrorHandling", func(t *testing.T) {
-
-		httpRes, err := apiClient.RestErrorHandling(context.Background()).Execute()
-
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 }

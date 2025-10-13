@@ -11,60 +11,59 @@ package api_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	
+
 	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
-func Test_gozulip_ScheduledMessagesAPIService(t *testing.T) {
+func Test_ScheduledMessagesAPIService(t *testing.T) {
+	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
 
-	configuration := api.NewConfiguration()
-	apiClient := api.NewAPIClient(configuration)
+		t.Run("CreateScheduledMessage", func(t *testing.T) {
 
-	t.Run("Test ScheduledMessagesAPIService CreateScheduledMessage", func(t *testing.T) {
+			resp, httpRes, err := apiClient.CreateScheduledMessage(context.Background()).Execute()
 
-		resp, httpRes, err := apiClient.CreateScheduledMessage(context.Background()).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		})
 
+		t.Run("DeleteScheduledMessage", func(t *testing.T) {
+
+			var scheduledMessageId int32
+
+			resp, httpRes, err := apiClient.DeleteScheduledMessage(context.Background(), scheduledMessageId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetScheduledMessages", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetScheduledMessages(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UpdateScheduledMessage", func(t *testing.T) {
+
+			var scheduledMessageId int32
+
+			resp, httpRes, err := apiClient.UpdateScheduledMessage(context.Background(), scheduledMessageId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
 	})
-
-	t.Run("Test ScheduledMessagesAPIService DeleteScheduledMessage", func(t *testing.T) {
-
-		var scheduledMessageId int32
-
-		resp, httpRes, err := apiClient.DeleteScheduledMessage(context.Background(), scheduledMessageId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ScheduledMessagesAPIService GetScheduledMessages", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetScheduledMessages(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ScheduledMessagesAPIService UpdateScheduledMessage", func(t *testing.T) {
-
-		var scheduledMessageId int32
-
-		resp, httpRes, err := apiClient.UpdateScheduledMessage(context.Background(), scheduledMessageId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 }

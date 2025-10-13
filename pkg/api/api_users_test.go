@@ -11,437 +11,486 @@ package api_test
 
 import (
 	"context"
+	"fmt"
+	"math/rand"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	
+
 	"github.com/tum-zulip/go-zulip/pkg/api"
+	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
-func Test_gozulip_UsersAPIService(t *testing.T) {
+func Test_UsersAPIService(t *testing.T) {
+	t.Run("Admin Operations", func(t *testing.T) {
+		ctx := context.Background()
+		apiClient := GetAdminClient(t)
+		otherUserId := getOwnUserId(t, GetOtherNormalClient(t))
 
-	configuration := api.NewConfiguration()
-	apiClient := api.NewAPIClient(configuration)
+		t.Run("DeactivateUser", func(t *testing.T) {
+			// ensure the user is active before deactivating
+			apiClient.ReactivateUser(ctx, otherUserId).Execute()
 
-	t.Run("Test UsersAPIService AddAlertWords", func(t *testing.T) {
+			resp, httpRes, err := apiClient.DeactivateUser(ctx, otherUserId).Execute()
 
-		resp, httpRes, err := apiClient.AddAlertWords(context.Background()).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+		})
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		t.Run("ReactivateUser", func(t *testing.T) {
+			// ensure the user is deactivated before reactivating
+			apiClient.DeactivateUser(ctx, otherUserId).Execute()
 
+			resp, httpRes, err := apiClient.ReactivateUser(ctx, otherUserId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("CreateUser", func(t *testing.T) {
+			t.Skip("TODO: not implemented")
+
+			resp, httpRes, err := apiClient.CreateUser(ctx).Email("test@example.com").Password("password").FullName("Test User").Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
 	})
 
-	t.Run("Test UsersAPIService AddApnsToken", func(t *testing.T) {
+	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+		otherUserId := getOwnUserId(t, otherClient.factory(t))
 
-		resp, httpRes, err := apiClient.AddApnsToken(context.Background()).Execute()
+		t.Run("AddAlertWords", func(t *testing.T) {
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+			resp, httpRes, err := apiClient.AddAlertWords(ctx).AlertWords([]string{"word1", "word2"}).Execute()
 
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("CreateUserGroup", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.CreateUserGroup(ctx).Name(uniqueName("test-usergroup")).Description("Test User Group").Members([]int32{getOwnUserId(t, apiClient)}).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("DeactivateOwnUser", func(t *testing.T) {
+			t.Skip("TODO: This test deactivates the user running the tests, so it should be the last test and the client should be recreated after this.")
+
+			resp, httpRes, err := apiClient.DeactivateOwnUser(ctx).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("DeactivateUserGroup", func(t *testing.T) {
+			userGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
+			resp, httpRes, err := apiClient.DeactivateUserGroup(ctx, userGroupId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetAlertWords", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetAlertWords(ctx).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetAttachments", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetAttachments(ctx).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetIsUserGroupMember", func(t *testing.T) {
+
+			userId := getOwnUserId(t, apiClient)
+			userGroupId := createRandomUserGroup(t, apiClient, userId)
+
+			resp, httpRes, err := apiClient.GetIsUserGroupMember(ctx, userGroupId, userId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+			assert.True(t, resp.HasIsUserGroupMember())
+			assert.True(t, resp.GetIsUserGroupMember())
+		})
+
+		t.Run("GetOwnUser", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetOwnUser(ctx).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetUser", func(t *testing.T) {
+			resp, httpRes, err := apiClient.GetUser(ctx, getOwnUserId(t, apiClient)).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetUserByEmail", func(t *testing.T) {
+
+			var email string = getOwnUserEmail(t, apiClient)
+
+			resp, httpRes, err := apiClient.GetUserByEmail(ctx, email).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetUserGroupMembers", func(t *testing.T) {
+
+			userGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
+
+			resp, httpRes, err := apiClient.GetUserGroupMembers(ctx, userGroupId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetUserGroupSubgroups", func(t *testing.T) {
+
+			userGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
+			subGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
+			sgResp, sgHttpResp, err := apiClient.UpdateUserGroupSubgroups(ctx, userGroupId).Add([]int32{subGroupId}).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, sgResp)
+			assert.Equal(t, 200, sgHttpResp.StatusCode)
+
+			resp, httpRes, err := apiClient.GetUserGroupSubgroups(ctx, userGroupId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetUserGroups", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetUserGroups(ctx).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetUserPresence", func(t *testing.T) {
+
+			var userIdOrEmail string = fmt.Sprintf("%d", getOwnUserId(t, apiClient))
+
+			resp, httpRes, err := apiClient.GetUserPresence(ctx, userIdOrEmail).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetUserStatus", func(t *testing.T) {
+
+			var userId int32 = getOwnUserId(t, apiClient)
+
+			resp, httpRes, err := apiClient.GetUserStatus(ctx, userId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetUsers", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetUsers(ctx).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("MuteUser", func(t *testing.T) {
+			// ensure the user is not muted before muting
+			apiClient.UnmuteUser(ctx, otherUserId).Execute()
+
+			resp, httpRes, err := apiClient.MuteUser(ctx, otherUserId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("RemoveAlertWords", func(t *testing.T) {
+
+			alterWord := uniqueName("word")
+			// ensure the alert word is added before removing
+			apiClient.AddAlertWords(ctx).AlertWords([]string{alterWord}).Execute()
+
+			resp, httpRes, err := apiClient.RemoveAlertWords(ctx).AlertWords([]string{alterWord}).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("SetTypingStatus", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.SetTypingStatus(ctx).Op(api.TypingStatusOpStart).To([]int32{getOwnUserId(t, apiClient)}).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("SetTypingStatusForMessageEdit", func(t *testing.T) {
+
+			var messageId int32
+
+			resp, httpRes, err := apiClient.SetTypingStatusForMessageEdit(ctx, messageId).Op(api.TypingStatusOpStart).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UnmuteUser", func(t *testing.T) {
+			// ensure the user is muted before unmuting
+			apiClient.MuteUser(ctx, otherUserId).Execute()
+
+			resp, httpRes, err := apiClient.UnmuteUser(ctx, otherUserId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UpdatePresence", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.UpdatePresence(ctx).Status(api.PresenceStatusActive).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UpdateSettings", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.UpdateSettings(ctx).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UpdateStatus", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.UpdateStatus(ctx).StatusText(uniqueName("status")).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UpdateStatusForUser", func(t *testing.T) {
+			resp, httpRes, err := apiClient.UpdateStatusForUser(ctx, getOwnUserId(t, apiClient)).StatusText(uniqueName("status")).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UpdateUser", func(t *testing.T) {
+			resp, httpRes, err := apiClient.UpdateUser(ctx, getOwnUserId(t, apiClient)).ProfileData([]map[string]interface{}{{"id": 9, "value": uniqueName("they/them")}}).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UpdateUserByEmail", func(t *testing.T) {
+
+			var email string = getOwnUserEmail(t, apiClient)
+
+			resp, httpRes, err := apiClient.UpdateUserByEmail(ctx, email).ProfileData([]map[string]interface{}{{"id": 9, "value": uniqueName("they/them")}}).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UpdateUserGroup", func(t *testing.T) {
+
+			userGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
+
+			resp, httpRes, err := apiClient.UpdateUserGroup(ctx, userGroupId).Description(uniqueName("test group")).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UpdateUserGroupMembers", func(t *testing.T) {
+
+			userGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
+			resp, httpRes, err := apiClient.UpdateUserGroupMembers(ctx, userGroupId).Add([]int32{otherUserId}).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UpdateUserGroupSubgroups", func(t *testing.T) {
+			userId := getOwnUserId(t, apiClient)
+			userGroupId := createRandomUserGroup(t, apiClient, userId)
+			subGroupId := createRandomUserGroup(t, apiClient, userId)
+
+			resp, httpRes, err := apiClient.UpdateUserGroupSubgroups(ctx, userGroupId).Add([]int32{subGroupId}).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("AddApnsToken", func(t *testing.T) {
+			t.Skip("TODO: Not implemented")
+			resp, httpRes, err := apiClient.AddApnsToken(ctx).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("AddFcmToken", func(t *testing.T) {
+			t.Skip("TODO: Not implemented")
+			resp, httpRes, err := apiClient.AddFcmToken(ctx).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("RemoveApnsToken", func(t *testing.T) {
+			t.Skip("TODO: Not implemented")
+			resp, httpRes, err := apiClient.RemoveApnsToken(ctx).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("RemoveAttachment", func(t *testing.T) {
+
+			var attachmentId int32
+
+			resp, httpRes, err := apiClient.RemoveAttachment(ctx, attachmentId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("RemoveFcmToken", func(t *testing.T) {
+			t.Skip("TODO: Not implemented")
+			resp, httpRes, err := apiClient.RemoveFcmToken(ctx).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
 	})
+}
 
-	t.Run("Test UsersAPIService AddFcmToken", func(t *testing.T) {
+func getOwnUser(t *testing.T, apiClient *api.ZulipClient) *models.GetOwnUser200Response {
+	resp, httpRes, err := apiClient.GetOwnUser(context.Background()).Execute()
 
-		resp, httpRes, err := apiClient.AddFcmToken(context.Background()).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	assert.Equal(t, 200, httpRes.StatusCode)
+	return resp
+}
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+func getOwnUserId(t *testing.T, apiClient *api.ZulipClient) int32 {
+	t.Helper()
 
-	})
+	resp := getOwnUser(t, apiClient)
+	assert.True(t, resp.HasUserId())
 
-	t.Run("Test UsersAPIService CreateUser", func(t *testing.T) {
+	return resp.GetUserId()
+}
 
-		resp, httpRes, err := apiClient.CreateUser(context.Background()).Execute()
+func getOwnUserEmail(t *testing.T, apiClient *api.ZulipClient) string {
+	t.Helper()
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+	resp := getOwnUser(t, apiClient)
+	assert.True(t, resp.HasEmail())
 
-	})
+	return resp.GetEmail()
+}
 
-	t.Run("Test UsersAPIService CreateUserGroup", func(t *testing.T) {
+func createRandomUserGroup(t *testing.T, apiClient *api.ZulipClient, members ...int32) int32 {
+	t.Helper()
 
-		resp, httpRes, err := apiClient.CreateUserGroup(context.Background()).Execute()
+	groupId := rand.Intn(1000000)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+	resp, httpRes, err := apiClient.CreateUserGroup(context.Background()).Name(fmt.Sprintf("test-group-%d", groupId)).Description("Test Group").Members(members).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	assert.Equal(t, 200, httpRes.StatusCode)
 
-	})
-
-	t.Run("Test UsersAPIService DeactivateOwnUser", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.DeactivateOwnUser(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService DeactivateUser", func(t *testing.T) {
-
-		var userId int32
-
-		resp, httpRes, err := apiClient.DeactivateUser(context.Background(), userId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService DeactivateUserGroup", func(t *testing.T) {
-
-		var userGroupId int32
-
-		resp, httpRes, err := apiClient.DeactivateUserGroup(context.Background(), userGroupId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetAlertWords", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetAlertWords(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetAttachments", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetAttachments(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetIsUserGroupMember", func(t *testing.T) {
-
-		var userGroupId int32
-		var userId int32
-
-		resp, httpRes, err := apiClient.GetIsUserGroupMember(context.Background(), userGroupId, userId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetOwnUser", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetOwnUser(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetUser", func(t *testing.T) {
-
-		var userId int32
-
-		resp, httpRes, err := apiClient.GetUser(context.Background(), userId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetUserByEmail", func(t *testing.T) {
-
-		var email string
-
-		resp, httpRes, err := apiClient.GetUserByEmail(context.Background(), email).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetUserGroupMembers", func(t *testing.T) {
-
-		var userGroupId int32
-
-		resp, httpRes, err := apiClient.GetUserGroupMembers(context.Background(), userGroupId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetUserGroupSubgroups", func(t *testing.T) {
-
-		var userGroupId int32
-
-		resp, httpRes, err := apiClient.GetUserGroupSubgroups(context.Background(), userGroupId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetUserGroups", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetUserGroups(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetUserPresence", func(t *testing.T) {
-
-		var userIdOrEmail string
-
-		resp, httpRes, err := apiClient.GetUserPresence(context.Background(), userIdOrEmail).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetUserStatus", func(t *testing.T) {
-
-		var userId int32
-
-		resp, httpRes, err := apiClient.GetUserStatus(context.Background(), userId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService GetUsers", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetUsers(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService MuteUser", func(t *testing.T) {
-
-		var mutedUserId int32
-
-		resp, httpRes, err := apiClient.MuteUser(context.Background(), mutedUserId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService ReactivateUser", func(t *testing.T) {
-
-		var userId int32
-
-		resp, httpRes, err := apiClient.ReactivateUser(context.Background(), userId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService RemoveAlertWords", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.RemoveAlertWords(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService RemoveApnsToken", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.RemoveApnsToken(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService RemoveAttachment", func(t *testing.T) {
-
-		var attachmentId int32
-
-		resp, httpRes, err := apiClient.RemoveAttachment(context.Background(), attachmentId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService RemoveFcmToken", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.RemoveFcmToken(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService SetTypingStatus", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.SetTypingStatus(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService SetTypingStatusForMessageEdit", func(t *testing.T) {
-
-		var messageId int32
-
-		resp, httpRes, err := apiClient.SetTypingStatusForMessageEdit(context.Background(), messageId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService UnmuteUser", func(t *testing.T) {
-
-		var mutedUserId int32
-
-		resp, httpRes, err := apiClient.UnmuteUser(context.Background(), mutedUserId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService UpdatePresence", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.UpdatePresence(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService UpdateSettings", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.UpdateSettings(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService UpdateStatus", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.UpdateStatus(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService UpdateStatusForUser", func(t *testing.T) {
-
-		var userId int32
-
-		resp, httpRes, err := apiClient.UpdateStatusForUser(context.Background(), userId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService UpdateUser", func(t *testing.T) {
-
-		var userId int32
-
-		resp, httpRes, err := apiClient.UpdateUser(context.Background(), userId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService UpdateUserByEmail", func(t *testing.T) {
-
-		var email string
-
-		resp, httpRes, err := apiClient.UpdateUserByEmail(context.Background(), email).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService UpdateUserGroup", func(t *testing.T) {
-
-		var userGroupId int32
-
-		resp, httpRes, err := apiClient.UpdateUserGroup(context.Background(), userGroupId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService UpdateUserGroupMembers", func(t *testing.T) {
-
-		var userGroupId int32
-
-		resp, httpRes, err := apiClient.UpdateUserGroupMembers(context.Background(), userGroupId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test UsersAPIService UpdateUserGroupSubgroups", func(t *testing.T) {
-
-		var userGroupId int32
-
-		resp, httpRes, err := apiClient.UpdateUserGroupSubgroups(context.Background(), userGroupId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
+	return resp.GroupId
 }

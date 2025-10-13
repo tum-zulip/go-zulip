@@ -366,8 +366,22 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 				parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, t.Format(time.RFC3339Nano), style, collectionType)
 				return
 			}
+			if marshaler, ok := obj.(json.Marshaler); ok {
+				if data, err := marshaler.MarshalJSON(); err == nil {
+					value = string(data)
+					break
+				}
+			}
 			value = v.Type().String() + " value"
 		case reflect.Slice:
+			if v.Type().Elem().Kind() == reflect.Uint8 {
+				value = string(v.Bytes())
+				break
+			}
+			if data, err := json.Marshal(obj); err == nil {
+				value = string(data)
+				break
+			}
 			var indValue = reflect.ValueOf(obj)
 			if indValue == reflect.ValueOf(nil) {
 				return
@@ -384,6 +398,10 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 			return
 
 		case reflect.Map:
+			if data, err := json.Marshal(obj); err == nil {
+				value = string(data)
+				break
+			}
 			var indValue = reflect.ValueOf(obj)
 			if indValue == reflect.ValueOf(nil) {
 				return
@@ -414,6 +432,16 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 		case reflect.String:
 			value = v.String()
 		default:
+			if marshaler, ok := obj.(json.Marshaler); ok {
+				if data, err := marshaler.MarshalJSON(); err == nil {
+					value = string(data)
+					break
+				}
+			}
+			if data, err := json.Marshal(obj); err == nil {
+				value = string(data)
+				break
+			}
 			value = v.Type().String() + " value"
 		}
 	}

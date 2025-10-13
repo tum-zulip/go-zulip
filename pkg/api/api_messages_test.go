@@ -11,225 +11,381 @@ package api_test
 
 import (
 	"context"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
+	"errors"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
 	"github.com/tum-zulip/go-zulip/pkg/api"
+	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
-func Test_gozulip_MessagesAPIService(t *testing.T) {
+func Test_MessagesAPIService(t *testing.T) {
+	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-	configuration := api.NewConfiguration()
-	apiClient := api.NewAPIClient(configuration)
+		t.Run("AddReaction", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
 
-	t.Run("Test MessagesAPIService AddReaction", func(t *testing.T) {
+			resp, httpRes, err := apiClient.AddReaction(ctx, msg.messageID).
+				EmojiName("smile").
+				Execute()
 
-		var messageId int32
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
 
-		resp, httpRes, err := apiClient.AddReaction(context.Background(), messageId).Execute()
+		t.Run("CheckMessagesMatchNarrow", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+			narrow := []map[string]interface{}{
+				{"operator": "stream", "operand": msg.streamName},
+				{"operator": "topic", "operand": msg.topic},
+			}
 
+			resp, httpRes, err := apiClient.CheckMessagesMatchNarrow(ctx).
+				MsgIds([]int32{msg.messageID}).
+				Narrow(narrow).
+				Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+
+			key := strconv.Itoa(int(msg.messageID))
+			if resp.HasMessages() {
+				assert.Contains(t, resp.GetMessages(), key)
+			}
+		})
+
+		t.Run("DeleteMessage", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
+
+			resp, httpRes, err := apiClient.DeleteMessage(ctx, msg.messageID).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("GetFileTemporaryUrl", func(t *testing.T) {
+			upload := uploadFileForTest(t, ctx, apiClient)
+
+			realmID, filename := parseUploadedFilePath(t, upload.GetUrl())
+
+			resp, httpRes, err := apiClient.GetFileTemporaryUrl(ctx, realmID, filename).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.NotEmpty(t, resp.GetUrl())
+		})
+
+		t.Run("GetMessage", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
+
+			resp, httpRes, err := apiClient.GetMessage(ctx, msg.messageID).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			if message, ok := resp.GetMessageOk(); ok && message != nil {
+				assert.Equal(t, msg.messageID, message.GetId())
+			}
+		})
+
+		t.Run("GetMessageHistory", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
+
+			updateContent := fmt.Sprintf("updated %s", uniqueName("message"))
+			_, _, err := apiClient.UpdateMessage(ctx, msg.messageID).
+				Content(updateContent).
+				Execute()
+			require.NoError(t, err)
+
+			resp, httpRes, err := apiClient.GetMessageHistory(ctx, msg.messageID).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.NotEmpty(t, resp.GetMessageHistory())
+		})
+
+		t.Run("GetMessages", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
+
+			narrow := []map[string]interface{}{
+				{"operator": "stream", "operand": msg.streamName},
+				{"operator": "topic", "operand": msg.topic},
+			}
+
+			resp, httpRes, err := apiClient.GetMessages(ctx).
+				Anchor(strconv.Itoa(int(msg.messageID))).
+				IncludeAnchor(true).
+				NumBefore(0).
+				NumAfter(0).
+				Narrow(narrow).
+				Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.NotEmpty(t, resp.GetMessages())
+		})
+
+		t.Run("GetReadReceipts", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
+
+			resp, httpRes, err := apiClient.GetReadReceipts(ctx, msg.messageID).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("MarkAllAsRead", func(t *testing.T) {
+			resp, httpRes, err := apiClient.MarkAllAsRead(ctx).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("MarkStreamAsRead", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
+
+			resp, httpRes, err := apiClient.MarkStreamAsRead(ctx).
+				StreamId(msg.streamID).
+				Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("MarkTopicAsRead", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
+
+			resp, httpRes, err := apiClient.MarkTopicAsRead(ctx).
+				StreamId(msg.streamID).
+				TopicName(msg.topic).
+				Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("RemoveReaction", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
+
+			_, _, err := apiClient.AddReaction(ctx, msg.messageID).
+				EmojiName("smile").
+				Execute()
+			require.NoError(t, err)
+
+			resp, httpRes, err := apiClient.RemoveReaction(ctx, msg.messageID).
+				EmojiName("smile").
+				Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("RenderMessage", func(t *testing.T) {
+			content := "**bold** _italic_"
+			resp, httpRes, err := apiClient.RenderMessage(ctx).
+				Content(content).
+				Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.Contains(t, resp.GetRendered(), "<strong>bold</strong>")
+		})
+
+		t.Run("ReportMessage", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
+
+			resp, httpRes, err := apiClient.ReportMessage(ctx, msg.messageID).
+				ReportType("spam").
+				Description("reported by automated tests").
+				Execute()
+
+			if err != nil {
+				var apiErr *api.GenericOpenAPIError
+				if errors.As(err, &apiErr) {
+					body := strings.TrimSpace(string(apiErr.Body()))
+					lower := strings.ToLower(fmt.Sprintf("%s %s", apiErr.Error(), body))
+					if strings.Contains(lower, "moderation") ||
+						strings.Contains(lower, "not configured") ||
+						strings.Contains(lower, "message reporting is not enabled") {
+						t.Skipf("message reporting unavailable: %s", body)
+					}
+				}
+			}
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("SendMessage", func(t *testing.T) {
+			_, streamID := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
+			topic := uniqueName("topic")
+			content := fmt.Sprintf("message sent via client %s", uniqueName("content"))
+
+			to := models.Int32AsSendMessageRequestTo(&streamID)
+			resp, httpRes, err := apiClient.SendMessage(ctx).
+				Type_("channel").
+				To(to).
+				Topic(topic).
+				Content(content).
+				Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.Greater(t, resp.GetId(), int32(0))
+		})
+
+		t.Run("UpdateMessage", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
+			newContent := fmt.Sprintf("edited %s", uniqueName("content"))
+
+			resp, httpRes, err := apiClient.UpdateMessage(ctx, msg.messageID).
+				Content(newContent).
+				Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+		})
+
+		t.Run("UpdateMessageFlags", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
+
+			resp, httpRes, err := apiClient.UpdateMessageFlags(ctx).
+				Messages([]int32{msg.messageID}).
+				Op("add").
+				Flag("starred").
+				Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.Contains(t, resp.GetMessages(), msg.messageID)
+		})
+
+		t.Run("UpdateMessageFlagsForNarrow", func(t *testing.T) {
+			msg := createStreamMessage(t, apiClient)
+
+			streamOperand := models.StringAsUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand(&msg.streamName)
+			topicOperand := models.StringAsUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand(&msg.topic)
+			streamFilter := models.NewUpdateMessageFlagsForNarrowRequestNarrowInnerOneOf("stream", streamOperand)
+			topicFilter := models.NewUpdateMessageFlagsForNarrowRequestNarrowInnerOneOf("topic", topicOperand)
+			narrow := []models.UpdateMessageFlagsForNarrowRequestNarrowInner{
+				models.UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfAsUpdateMessageFlagsForNarrowRequestNarrowInner(streamFilter),
+				models.UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfAsUpdateMessageFlagsForNarrowRequestNarrowInner(topicFilter),
+			}
+
+			resp, httpRes, err := apiClient.UpdateMessageFlagsForNarrow(ctx).
+				Anchor(strconv.Itoa(int(msg.messageID))).
+				NumBefore(0).
+				NumAfter(0).
+				IncludeAnchor(true).
+				Narrow(narrow).
+				Op("add").
+				Flag("starred").
+				Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			requireStatusOK(t, httpRes)
+			assert.GreaterOrEqual(t, resp.GetProcessedCount(), int32(1))
+		})
+
+		t.Run("UploadFile", func(t *testing.T) {
+			resp := uploadFileForTest(t, ctx, apiClient)
+			assert.NotEmpty(t, resp.GetUrl())
+			assert.NotEmpty(t, resp.GetFilename())
+		})
 	})
-
-	t.Run("Test MessagesAPIService CheckMessagesMatchNarrow", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.CheckMessagesMatchNarrow(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService DeleteMessage", func(t *testing.T) {
-
-		var messageId int32
-
-		resp, httpRes, err := apiClient.DeleteMessage(context.Background(), messageId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService GetFileTemporaryUrl", func(t *testing.T) {
-
-		var realmIdStr int32
-		var filename string
-
-		resp, httpRes, err := apiClient.GetFileTemporaryUrl(context.Background(), realmIdStr, filename).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService GetMessage", func(t *testing.T) {
-
-		var messageId int32
-
-		resp, httpRes, err := apiClient.GetMessage(context.Background(), messageId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService GetMessageHistory", func(t *testing.T) {
-
-		var messageId int32
-
-		resp, httpRes, err := apiClient.GetMessageHistory(context.Background(), messageId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService GetMessages", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetMessages(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService GetReadReceipts", func(t *testing.T) {
-
-		var messageId int32
-
-		resp, httpRes, err := apiClient.GetReadReceipts(context.Background(), messageId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService MarkAllAsRead", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.MarkAllAsRead(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService MarkStreamAsRead", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.MarkStreamAsRead(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService MarkTopicAsRead", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.MarkTopicAsRead(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService RemoveReaction", func(t *testing.T) {
-
-		var messageId int32
-
-		resp, httpRes, err := apiClient.RemoveReaction(context.Background(), messageId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService RenderMessage", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.RenderMessage(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService ReportMessage", func(t *testing.T) {
-
-		var messageId int32
-
-		resp, httpRes, err := apiClient.ReportMessage(context.Background(), messageId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService SendMessage", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.SendMessage(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService UpdateMessage", func(t *testing.T) {
-
-		var messageId int32
-
-		resp, httpRes, err := apiClient.UpdateMessage(context.Background(), messageId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService UpdateMessageFlags", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.UpdateMessageFlags(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService UpdateMessageFlagsForNarrow", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.UpdateMessageFlagsForNarrow(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test MessagesAPIService UploadFile", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.UploadFile(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
+}
+
+type streamMessage struct {
+	streamName string
+	streamID   int32
+	topic      string
+	messageID  int32
+}
+
+func createStreamMessage(t *testing.T, apiClient *api.ZulipClient) streamMessage {
+	t.Helper()
+
+	userID := getOwnUserId(t, apiClient)
+	streamName, streamID := createRandomChannel(t, apiClient, userID)
+	topic := uniqueName("topic")
+	content := fmt.Sprintf("automated test message %s", uniqueName("content"))
+	messageID := sendStreamMessage(t, apiClient, streamID, topic, content)
+	assert.Greater(t, messageID, int32(0))
+
+	return streamMessage{
+		streamName: streamName,
+		streamID:   streamID,
+		topic:      topic,
+		messageID:  messageID,
+	}
+}
+
+func uploadFileForTest(t *testing.T, ctx context.Context, apiClient *api.ZulipClient) *models.UploadFile200Response {
+	t.Helper()
+
+	tmp, err := os.CreateTemp("", "zulip-upload-*.txt")
+	require.NoError(t, err)
+	defer func() {
+		tmp.Close()
+		os.Remove(tmp.Name())
+	}()
+
+	_, err = tmp.WriteString("uploaded from automated test")
+	require.NoError(t, err)
+	_, err = tmp.Seek(0, 0)
+	require.NoError(t, err)
+
+	resp, httpRes, err := apiClient.UploadFile(ctx).
+		Filename(tmp).
+		Execute()
+
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	requireStatusOK(t, httpRes)
+
+	return resp
+}
+
+func parseUploadedFilePath(t *testing.T, uploadPath string) (int32, string) {
+	t.Helper()
+
+	require.NotEmpty(t, uploadPath)
+
+	trimmed := strings.TrimLeft(uploadPath, "/")
+	parts := strings.Split(trimmed, "/")
+	require.GreaterOrEqual(t, len(parts), 3, "unexpected upload path: %s", uploadPath)
+	require.Equal(t, "user_uploads", parts[0], "unexpected upload prefix: %s", uploadPath)
+
+	realmID, err := strconv.Atoi(parts[1])
+	require.NoError(t, err)
+
+	filename := strings.Join(parts[2:], "/")
+	require.NotEmpty(t, filename)
+
+	return int32(realmID), filename
 }

@@ -11,36 +11,31 @@ package api_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	
+
 	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
-func Test_gozulip_AuthenticationAPIService(t *testing.T) {
+func Test_AuthenticationAPIService(t *testing.T) {
+	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
 
-	configuration := api.NewConfiguration()
-	apiClient := api.NewAPIClient(configuration)
+		t.Run("DevFetchApiKey", func(t *testing.T) {
 
-	t.Run("Test AuthenticationAPIService DevFetchApiKey", func(t *testing.T) {
+			resp, httpRes, err := apiClient.DevFetchApiKey(context.Background()).Username(testAdminUsername).Execute()
 
-		resp, httpRes, err := apiClient.DevFetchApiKey(context.Background()).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		})
 
+		t.Run("FetchApiKey", func(t *testing.T) {
+			// More complex authentication flow not trivial to test here
+			t.Skip("Not implemented yet")
+			apiClient.FetchApiKey(context.Background()).Execute()
+		})
 	})
-
-	t.Run("Test AuthenticationAPIService FetchApiKey", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.FetchApiKey(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 }

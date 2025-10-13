@@ -11,226 +11,225 @@ package api_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	
+
 	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
-func Test_gozulip_ServerAndOrganizationsAPIService(t *testing.T) {
+func Test_ServerAndOrganizationsAPIService(t *testing.T) {
+	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
 
-	configuration := api.NewConfiguration()
-	apiClient := api.NewAPIClient(configuration)
+		t.Run("AddCodePlayground", func(t *testing.T) {
 
-	t.Run("Test ServerAndOrganizationsAPIService AddCodePlayground", func(t *testing.T) {
+			resp, httpRes, err := apiClient.AddCodePlayground(context.Background()).Execute()
 
-		resp, httpRes, err := apiClient.AddCodePlayground(context.Background()).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		})
 
+		t.Run("AddLinkifier", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.AddLinkifier(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("CreateCustomProfileField", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.CreateCustomProfileField(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("DeactivateCustomEmoji", func(t *testing.T) {
+
+			var emojiName string
+
+			resp, httpRes, err := apiClient.DeactivateCustomEmoji(context.Background(), emojiName).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("ExportRealm", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.ExportRealm(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetCustomEmoji", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetCustomEmoji(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetCustomProfileFields", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetCustomProfileFields(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetLinkifiers", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetLinkifiers(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetPresence", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetPresence(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetRealmExportConsents", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetRealmExportConsents(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetRealmExports", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetRealmExports(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetServerSettings", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetServerSettings(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("RemoveCodePlayground", func(t *testing.T) {
+
+			var playgroundId int32
+
+			resp, httpRes, err := apiClient.RemoveCodePlayground(context.Background(), playgroundId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("RemoveLinkifier", func(t *testing.T) {
+
+			var filterId int32
+
+			resp, httpRes, err := apiClient.RemoveLinkifier(context.Background(), filterId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("ReorderCustomProfileFields", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.ReorderCustomProfileFields(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("ReorderLinkifiers", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.ReorderLinkifiers(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("TestWelcomeBotCustomMessage", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.TestWelcomeBotCustomMessage(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UpdateLinkifier", func(t *testing.T) {
+
+			var filterId int32
+
+			resp, httpRes, err := apiClient.UpdateLinkifier(context.Background(), filterId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UpdateRealmUserSettingsDefaults", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.UpdateRealmUserSettingsDefaults(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("UploadCustomEmoji", func(t *testing.T) {
+
+			var emojiName string
+
+			resp, httpRes, err := apiClient.UploadCustomEmoji(context.Background(), emojiName).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
 	})
-
-	t.Run("Test ServerAndOrganizationsAPIService AddLinkifier", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.AddLinkifier(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService CreateCustomProfileField", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.CreateCustomProfileField(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService DeactivateCustomEmoji", func(t *testing.T) {
-
-		var emojiName string
-
-		resp, httpRes, err := apiClient.DeactivateCustomEmoji(context.Background(), emojiName).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService ExportRealm", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.ExportRealm(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService GetCustomEmoji", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetCustomEmoji(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService GetCustomProfileFields", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetCustomProfileFields(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService GetLinkifiers", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetLinkifiers(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService GetPresence", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetPresence(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService GetRealmExportConsents", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetRealmExportConsents(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService GetRealmExports", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetRealmExports(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService GetServerSettings", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetServerSettings(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService RemoveCodePlayground", func(t *testing.T) {
-
-		var playgroundId int32
-
-		resp, httpRes, err := apiClient.RemoveCodePlayground(context.Background(), playgroundId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService RemoveLinkifier", func(t *testing.T) {
-
-		var filterId int32
-
-		resp, httpRes, err := apiClient.RemoveLinkifier(context.Background(), filterId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService ReorderCustomProfileFields", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.ReorderCustomProfileFields(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService ReorderLinkifiers", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.ReorderLinkifiers(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService TestWelcomeBotCustomMessage", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.TestWelcomeBotCustomMessage(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService UpdateLinkifier", func(t *testing.T) {
-
-		var filterId int32
-
-		resp, httpRes, err := apiClient.UpdateLinkifier(context.Background(), filterId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService UpdateRealmUserSettingsDefaults", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.UpdateRealmUserSettingsDefaults(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test ServerAndOrganizationsAPIService UploadCustomEmoji", func(t *testing.T) {
-
-		var emojiName string
-
-		resp, httpRes, err := apiClient.UploadCustomEmoji(context.Background(), emojiName).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 }

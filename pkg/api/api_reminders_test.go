@@ -11,48 +11,47 @@ package api_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	
+
 	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
-func Test_gozulip_RemindersAPIService(t *testing.T) {
+func Test_RemindersAPIService(t *testing.T) {
+	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
 
-	configuration := api.NewConfiguration()
-	apiClient := api.NewAPIClient(configuration)
+		t.Run("CreateMessageReminder", func(t *testing.T) {
 
-	t.Run("Test RemindersAPIService CreateMessageReminder", func(t *testing.T) {
+			resp, httpRes, err := apiClient.CreateMessageReminder(context.Background()).Execute()
 
-		resp, httpRes, err := apiClient.CreateMessageReminder(context.Background()).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
 
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		})
 
+		t.Run("DeleteReminder", func(t *testing.T) {
+
+			var reminderId int32
+
+			resp, httpRes, err := apiClient.DeleteReminder(context.Background(), reminderId).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
+
+		t.Run("GetReminders", func(t *testing.T) {
+
+			resp, httpRes, err := apiClient.GetReminders(context.Background()).Execute()
+
+			require.NoError(t, err)
+			require.NotNil(t, resp)
+			assert.Equal(t, 200, httpRes.StatusCode)
+
+		})
 	})
-
-	t.Run("Test RemindersAPIService DeleteReminder", func(t *testing.T) {
-
-		var reminderId int32
-
-		resp, httpRes, err := apiClient.DeleteReminder(context.Background(), reminderId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test RemindersAPIService GetReminders", func(t *testing.T) {
-
-		resp, httpRes, err := apiClient.GetReminders(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 }
