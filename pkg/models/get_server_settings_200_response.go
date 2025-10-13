@@ -23,13 +23,13 @@ var _ MappedNullable = &GetServerSettings200Response{}
 type GetServerSettings200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// Deprecated
 	AuthenticationMethods *AuthMethods `json:"authentication_methods,omitempty"`
 	// A list of dictionaries describing the available external authentication methods (E.g. Google, GitHub, or SAML) enabled for this organization.  The list is sorted in the order in which these authentication methods should be displayed.  **Changes**: New in Zulip 2.1.0.
 	ExternalAuthenticationMethods []ExternalAuthMethod `json:"external_authentication_methods,omitempty"`
-	// An integer indicating what features are available on the server. The feature level increases monotonically; a value of N means the server supports all API features introduced before feature level N. This is designed to provide a simple way for client apps to decide whether the server supports a given feature or API change. See the [changelog](/api/changelog) for details on what each feature level means.  **Changes**: New in Zulip 3.0 (feature level 1). We recommend using an implied value of 0 for Zulip servers that do not send this field.
+	// An integer indicating what features are available on the server. The feature level increases monotonically; a value of N means the server supports all API features introduced before feature level N. This is designed to provide a simple way for client apps to decide whether the server supports a given feature or API change. See the [changelog](zulip.com/api/changelog for details on what each feature level means.  **Changes**: New in Zulip 3.0 (feature level 1). We recommend using an implied value of 0 for Zulip servers that do not send this field.
 	ZulipFeatureLevel *int32 `json:"zulip_feature_level,omitempty"`
 	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git][git-release], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.  [git-release]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
 	ZulipVersion *string `json:"zulip_version,omitempty"`
@@ -52,9 +52,9 @@ type GetServerSettings200Response struct {
 	RealmName *string `json:"realm_name,omitempty"`
 	// The URL for the organization's logo formatted as a square image, used for identifying the organization in small locations in the mobile and desktop apps.
 	RealmIcon *string `json:"realm_icon,omitempty"`
-	// HTML description of the organization, as configured by the [organization profile](/help/create-your-organization-profile).
+	// HTML description of the organization, as configured by the [organization profile](zulip.com/help/create-your-organization-profile.
 	RealmDescription *string `json:"realm_description,omitempty"`
-	// Whether the organization has enabled the creation of [web-public channels](/help/public-access-option) and at least one web-public channel on the server currently exists. Clients that support viewing content in web-public channels without an account can use this to determine whether to offer that feature on the login page for an organization.  **Changes**: New in Zulip 5.0 (feature level 116).
+	// Whether the organization has enabled the creation of [web-public channels](zulip.com/help/public-access-option and at least one web-public channel on the server currently exists. Clients that support viewing content in web-public channels without an account can use this to determine whether to offer that feature on the login page for an organization.  **Changes**: New in Zulip 5.0 (feature level 116).
 	RealmWebPublicAccessEnabled *bool `json:"realm_web_public_access_enabled,omitempty"`
 }
 

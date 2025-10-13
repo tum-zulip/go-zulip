@@ -23,7 +23,7 @@ var _ MappedNullable = &UploadFile200Response{}
 type UploadFile200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// The URL of the uploaded file. Alias of `url`.  **Changes**: Deprecated in Zulip 9.0 (feature level 272). The term \"URI\" is deprecated in [web standards](https://url.spec.whatwg.org/#goals).
 	// Deprecated

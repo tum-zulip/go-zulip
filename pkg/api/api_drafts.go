@@ -293,7 +293,7 @@ func (r ApiCreateSavedSnippetRequest) Title(title string) ApiCreateSavedSnippetR
 	return r
 }
 
-// The content of the saved snippet in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.
+// The content of the saved snippet in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  Clients should insert this content into a message when using a saved snippet.
 func (r ApiCreateSavedSnippetRequest) Content(content string) ApiCreateSavedSnippetRequest {
 	r.content = &content
 	return r
@@ -785,7 +785,7 @@ func (r ApiEditSavedSnippetRequest) Title(title string) ApiEditSavedSnippetReque
 	return r
 }
 
-// The content of the saved snippet in the original [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.
+// The content of the saved snippet in the original [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  Clients should insert this content into a message when using a saved snippet.
 func (r ApiEditSavedSnippetRequest) Content(content string) ApiEditSavedSnippetRequest {
 	r.content = &content
 	return r

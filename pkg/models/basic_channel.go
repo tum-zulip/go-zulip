@@ -25,9 +25,9 @@ type BasicChannel struct {
 	StreamId int32 `json:"stream_id"`
 	// The name of the channel.
 	Name string `json:"name"`
-	// A boolean indicating whether the channel is [archived](/help/archive-a-channel).  **Changes**: New in Zulip 10.0 (feature level 315). Previously, this endpoint never returned archived channels.
+	// A boolean indicating whether the channel is [archived](zulip.com/help/archive-a-channel.  **Changes**: New in Zulip 10.0 (feature level 315). Previously, this endpoint never returned archived channels.
 	IsArchived bool `json:"is_archived"`
-	// The short description of the channel in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format, intended to be used to prepopulate UI for editing a channel's description.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
+	// The short description of the channel in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format, intended to be used to prepopulate UI for editing a channel's description.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
 	Description string `json:"description"`
 	// The UNIX timestamp for when the channel was created, in UTC seconds.  **Changes**: New in Zulip 4.0 (feature level 30).
 	DateCreated int32       `json:"date_created"`
@@ -47,7 +47,7 @@ type BasicChannel struct {
 	TopicsPolicy               *TopicsPolicy `json:"topics_policy,omitempty"`
 	FirstMessageId             interface{}   `json:"first_message_id"`
 	FolderId                   interface{}   `json:"folder_id"`
-	// Whether the channel has recent message activity. Clients should use this to implement [hide inactive channels](/help/manage-inactive-channels) if `demote_inactive_streams` is enabled.  **Changes**: New in Zulip 10.0 (feature level 323). Previously, clients implemented the demote_inactive_streams from local message history, resulting in a choppy loading experience.
+	// Whether the channel has recent message activity. Clients should use this to implement [hide inactive channels](zulip.com/help/manage-inactive-channels if `demote_inactive_streams` is enabled.  **Changes**: New in Zulip 10.0 (feature level 323). Previously, clients implemented the demote_inactive_streams from local message history, resulting in a choppy loading experience.
 	IsRecentlyActive bool `json:"is_recently_active"`
 	// Whether the given channel is announcement only or not.  **Changes**: Deprecated in Zulip 3.0 (feature level 1). Clients should use `stream_post_policy` instead.
 	// Deprecated

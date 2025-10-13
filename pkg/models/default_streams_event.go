@@ -22,7 +22,7 @@ type DefaultStreamsEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// An array of IDs of all the [default channels](/help/set-default-streams-for-new-users) in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
+	// An array of IDs of all the [default channels](zulip.com/help/set-default-streams-for-new-users in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
 	DefaultStreams []int32 `json:"default_streams,omitempty"`
 }
 

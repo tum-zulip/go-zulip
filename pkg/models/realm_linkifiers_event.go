@@ -17,12 +17,12 @@ import (
 // checks if the RealmLinkifiersEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmLinkifiersEvent{}
 
-// RealmLinkifiersEvent Event sent to all users in a Zulip organization when the set of configured [linkifiers](/help/add-a-custom-linkifier) for the organization has changed.  Processing this event is important for doing Markdown local echo correctly.  Clients will not receive this event unless the event queue is registered with the client capability `{\"linkifier_url_template\": true}`. See [`POST /register`](/api/register-queue#parameter-client_capabilities) for how client capabilities can be specified.  **Changes**: Before Zulip 7.0 (feature level 176), the `linkifier_url_template` client capability was not required. The requirement was added because linkifiers were updated to contain a URL template instead of a URL format string, which was not a backwards-compatible change.  New in Zulip 4.0 (feature level 54), replacing the deprecated `realm_filters` event type.
+// RealmLinkifiersEvent Event sent to all users in a Zulip organization when the set of configured [linkifiers](zulip.com/help/add-a-custom-linkifier for the organization has changed.  Processing this event is important for doing Markdown local echo correctly.  Clients will not receive this event unless the event queue is registered with the client capability `{\"linkifier_url_template\": true}`. See [`POST /register`](zulip.com/api/register-queue#parameter-client_capabilities for how client capabilities can be specified.  **Changes**: Before Zulip 7.0 (feature level 176), the `linkifier_url_template` client capability was not required. The requirement was added because linkifiers were updated to contain a URL template instead of a URL format string, which was not a backwards-compatible change.  New in Zulip 4.0 (feature level 54), replacing the deprecated `realm_filters` event type.
 type RealmLinkifiersEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// An ordered array of dictionaries where each dictionary contains details about a single linkifier.  Clients should always process linkifiers in the order given; this is important if the realm has linkifiers with overlapping patterns. The order can be modified using [`PATCH /realm/linkifiers`](/api/reorder-linkifiers).
+	// An ordered array of dictionaries where each dictionary contains details about a single linkifier.  Clients should always process linkifiers in the order given; this is important if the realm has linkifiers with overlapping patterns. The order can be modified using [`PATCH /realm/linkifiers`](zulip.com/api/reorder-linkifiers.
 	RealmLinkifiers []SubscriptionAddEvent0RealmLinkifiersInner `json:"realm_linkifiers,omitempty"`
 }
 

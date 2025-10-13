@@ -23,7 +23,7 @@ var _ MappedNullable = &GetStreamId200Response{}
 type GetStreamId200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// The ID of the given channel.
 	StreamId *int32 `json:"stream_id,omitempty"`

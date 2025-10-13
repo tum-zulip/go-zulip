@@ -24,11 +24,11 @@ type ScheduledMessageBase struct {
 	// The unique ID of the scheduled message, which can be used to modify or delete the scheduled message.  This is different from the unique ID that the message will have after it is sent.
 	ScheduledMessageId int32 `json:"scheduled_message_id"`
 	// The type of the scheduled message. Either `\"stream\"` or `\"private\"`.
-	Type string                 `json:"type"`
-	To   ScheduledMessageBaseTo `json:"to"`
+	Type string     `json:"type"`
+	To   Recipients `json:"to"`
 	// Only present if `type` is `\"stream\"`.  The topic for the channel message.
 	Topic *string `json:"topic,omitempty"`
-	// The content/body of the scheduled message, in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
+	// The content/body of the scheduled message, in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
 	Content string `json:"content"`
 	// The content/body of the scheduled message rendered in HTML.
 	RenderedContent string `json:"rendered_content"`
@@ -44,7 +44,7 @@ type _ScheduledMessageBase ScheduledMessageBase
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewScheduledMessageBase(scheduledMessageId int32, type_ string, to ScheduledMessageBaseTo, content string, renderedContent string, scheduledDeliveryTimestamp int32, failed bool) *ScheduledMessageBase {
+func NewScheduledMessageBase(scheduledMessageId int32, type_ string, to Recipients, content string, renderedContent string, scheduledDeliveryTimestamp int32, failed bool) *ScheduledMessageBase {
 	this := ScheduledMessageBase{}
 	this.ScheduledMessageId = scheduledMessageId
 	this.Type = type_
@@ -113,9 +113,9 @@ func (o *ScheduledMessageBase) SetType(v string) {
 }
 
 // GetTo returns the To field value
-func (o *ScheduledMessageBase) GetTo() ScheduledMessageBaseTo {
+func (o *ScheduledMessageBase) GetTo() Recipients {
 	if o == nil {
-		var ret ScheduledMessageBaseTo
+		var ret Recipients
 		return ret
 	}
 
@@ -124,7 +124,7 @@ func (o *ScheduledMessageBase) GetTo() ScheduledMessageBaseTo {
 
 // GetToOk returns a tuple with the To field value
 // and a boolean to check if the value has been set.
-func (o *ScheduledMessageBase) GetToOk() (*ScheduledMessageBaseTo, bool) {
+func (o *ScheduledMessageBase) GetToOk() (*Recipients, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -132,7 +132,7 @@ func (o *ScheduledMessageBase) GetToOk() (*ScheduledMessageBaseTo, bool) {
 }
 
 // SetTo sets field value
-func (o *ScheduledMessageBase) SetTo(v ScheduledMessageBaseTo) {
+func (o *ScheduledMessageBase) SetTo(v Recipients) {
 	o.To = v
 }
 

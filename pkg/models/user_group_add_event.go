@@ -17,7 +17,7 @@ import (
 // checks if the UserGroupAddEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &UserGroupAddEvent{}
 
-// UserGroupAddEvent Event sent to users in an organization when a [user group](/help/user-groups) is created.
+// UserGroupAddEvent Event sent to users in an organization when a [user group](zulip.com/help/user-groups is created.
 type UserGroupAddEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id    *int32     `json:"id,omitempty"`

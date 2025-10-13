@@ -21,11 +21,11 @@ var _ MappedNullable = &UserTopics{}
 type UserTopics struct {
 	// The ID of the channel to which the topic belongs.
 	StreamId *int32 `json:"stream_id,omitempty"`
-	// The name of the topic.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response depending on the value of the `empty_topic_name` [client capability][client-capabilities].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	// The name of the topic.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue response depending on the value of the `empty_topic_name` [client capability][client-capabilities].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	TopicName *string `json:"topic_name,omitempty"`
 	// An integer UNIX timestamp representing when the user-topic relationship was changed.
 	LastUpdated *int32 `json:"last_updated,omitempty"`
-	// An integer indicating the user's visibility configuration for the topic.  - 1 = Muted. Used to record [muted topics](/help/mute-a-topic). - 2 = Unmuted. Used to record [unmuted topics](/help/mute-a-topic). - 3 = Followed. Used to record [followed topics](/help/follow-a-topic).  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.  In Zulip 7.0 (feature level 170), added unmuted as a visibility policy option.
+	// An integer indicating the user's visibility configuration for the topic.  - 1 = Muted. Used to record [muted topics](zulip.com/help/mute-a-topic. - 2 = Unmuted. Used to record [unmuted topics](zulip.com/help/mute-a-topic. - 3 = Followed. Used to record [followed topics](zulip.com/help/follow-a-topic.  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.  In Zulip 7.0 (feature level 170), added unmuted as a visibility policy option.
 	VisibilityPolicy *int32 `json:"visibility_policy,omitempty"`
 }
 

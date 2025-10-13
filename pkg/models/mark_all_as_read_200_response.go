@@ -23,7 +23,7 @@ var _ MappedNullable = &MarkAllAsRead200Response{}
 type MarkAllAsRead200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// Whether all unread messages were marked as read.  Will be `false` if the request successfully marked some, but not all, messages as read.
 	Complete bool `json:"complete"`

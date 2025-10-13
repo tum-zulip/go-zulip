@@ -27,13 +27,13 @@ type Snapshot struct {
 	Stream *int32 `json:"stream,omitempty"`
 	// Only present if message's channel was edited.  The ID of the channel containing the message immediately prior to this edit event.  **Changes**: New in Zulip 3.0 (feature level 1).
 	PrevStream *int32 `json:"prev_stream,omitempty"`
-	// The raw [Zulip-flavored Markdown](/help/format-your-message-using-markdown) content of the message immediately after this edit event.
+	// The raw [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown content of the message immediately after this edit event.
 	Content *string `json:"content,omitempty"`
-	// The rendered HTML representation of `content`.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
+	// The rendered HTML representation of `content`.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
 	RenderedContent *string `json:"rendered_content,omitempty"`
-	// Only present if message's content was edited.  The raw [Zulip-flavored Markdown](/help/format-your-message-using-markdown) content of the message immediately prior to this edit event.
+	// Only present if message's content was edited.  The raw [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown content of the message immediately prior to this edit event.
 	PrevContent *string `json:"prev_content,omitempty"`
-	// Only present if message's content was edited.  The rendered HTML representation of `prev_content`.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
+	// Only present if message's content was edited.  The rendered HTML representation of `prev_content`.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
 	PrevRenderedContent *string `json:"prev_rendered_content,omitempty"`
 	// The ID of the user that made the edit.  Will be `null` only for edit history events predating March 2017.  Clients can display edit history events where this is `null` as modified by either the sender (for content edits) or an unknown user (for topic edits).
 	UserId NullableInt32 `json:"user_id,omitempty"`

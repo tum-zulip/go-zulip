@@ -19,11 +19,11 @@ import (
 // checks if the IgnoredParametersSuccess type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &IgnoredParametersSuccess{}
 
-// IgnoredParametersSuccess **Changes**: The [`ignored_parameters_unsupported`][ignored_params] array was added as a possible return value for all REST API endpoint JSON success responses in Zulip 7.0 (feature level 167).  Previously, it was added to [`POST /users/me/subscriptions/properties`](/api/update-subscription-settings) in Zulip 5.0 (feature level 111) and to [`PATCH /realm/user_settings_defaults`](/api/update-realm-user-settings-defaults) in Zulip 5.0 (feature level 96). The feature was introduced in Zulip 5.0 (feature level 78) as a return value for the [`PATCH /settings`](/api/update-settings) endpoint.  A typical successful JSON response with ignored parameters may look like:  [ignored_params]: /api/rest-error-handling#ignored-parameters
+// IgnoredParametersSuccess **Changes**: The [`ignored_parameters_unsupported`][ignored_params] array was added as a possible return value for all REST API endpoint JSON success responses in Zulip 7.0 (feature level 167).  Previously, it was added to [`POST /users/me/subscriptions/properties`](zulip.com/api/update-subscription-settings in Zulip 5.0 (feature level 111) and to [`PATCH /realm/user_settings_defaults`](zulip.com/api/update-realm-user-settings-defaults in Zulip 5.0 (feature level 96). The feature was introduced in Zulip 5.0 (feature level 78) as a return value for the [`PATCH /settings`](zulip.com/api/update-settings endpoint.  A typical successful JSON response with ignored parameters may look like:  [ignored_params]: /api/rest-error-handling#ignored-parameters
 type IgnoredParametersSuccess struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 }
 

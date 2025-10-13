@@ -23,7 +23,7 @@ var _ MappedNullable = &GetRealmExportConsents200Response{}
 type GetRealmExportConsents200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// An array of objects where each object contains a user ID and whether the user has consented for their private data to be exported.
 	ExportConsents []ExportConsent `json:"export_consents,omitempty"`

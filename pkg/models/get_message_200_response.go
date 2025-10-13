@@ -23,9 +23,9 @@ var _ MappedNullable = &GetMessage200Response{}
 type GetMessage200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
-	// The raw Markdown content of the message.  See the help center article on [message formatting](/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.  **Deprecated** and to be removed once no longer required for legacy clients. Modern clients should prefer passing `\"apply_markdown\": false` to request raw message content.
+	// The raw Markdown content of the message.  See the help center article on [message formatting](zulip.com/help/format-your-message-using-markdown for details on Zulip-flavored Markdown.  **Deprecated** and to be removed once no longer required for legacy clients. Modern clients should prefer passing `\"apply_markdown\": false` to request raw message content.
 	// Deprecated
 	RawContent *string                            `json:"raw_content,omitempty"`
 	Message    *GetMessage200ResponseAllOfMessage `json:"message,omitempty"`

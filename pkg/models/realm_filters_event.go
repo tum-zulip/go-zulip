@@ -17,7 +17,7 @@ import (
 // checks if the RealmFiltersEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmFiltersEvent{}
 
-// RealmFiltersEvent Legacy event type that is no longer sent to clients. Previously, sent to all users in a Zulip organization when the set of configured [linkifiers](/help/add-a-custom-linkifier) for the organization was changed.  **Changes**: Prior to Zulip 7.0 (feature level 176), this event type was sent to clients.  **Deprecated** in Zulip 4.0 (feature level 54), and replaced by the `realm_linkifiers` event type, which has a clearer name and format.
+// RealmFiltersEvent Legacy event type that is no longer sent to clients. Previously, sent to all users in a Zulip organization when the set of configured [linkifiers](zulip.com/help/add-a-custom-linkifier for the organization was changed.  **Changes**: Prior to Zulip 7.0 (feature level 176), this event type was sent to clients.  **Deprecated** in Zulip 4.0 (feature level 54), and replaced by the `realm_linkifiers` event type, which has a clearer name and format.
 type RealmFiltersEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`

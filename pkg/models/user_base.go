@@ -43,9 +43,9 @@ type UserBase struct {
 	BotType NullableInt32 `json:"bot_type,omitempty"`
 	// If the user is a bot (i.e. `is_bot` is true), then `bot_owner_id` is the user ID of the bot's owner (usually, whoever created the bot).  Will be `null` for legacy bots that do not have an owner.  **Changes**: New in Zulip 3.0 (feature level 1). In previous versions, there was a `bot_owner` field containing the email address of the bot's owner.
 	BotOwnerId NullableInt32 `json:"bot_owner_id,omitempty"`
-	// [Organization-level role](/api/roles-and-permissions) of the user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59).
+	// [Organization-level role](zulip.com/api/roles-and-permissions of the user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59).
 	Role *int32 `json:"role,omitempty"`
-	// The IANA identifier of the user's [profile time zone](/help/change-your-timezone), which is used primarily to display the user's local time to other users.
+	// The IANA identifier of the user's [profile time zone](zulip.com/help/change-your-timezone, which is used primarily to display the user's local time to other users.
 	Timezone *string `json:"timezone,omitempty"`
 	// URL for the user's avatar.  Will be `null` if the `client_gravatar` query parameter was set to `true`, the current user has access to this user's real email address, and this user's avatar is hosted by the Gravatar provider (i.e. this user has never uploaded an avatar).  **Changes**: Before Zulip 7.0 (feature level 163), access to a user's real email address was a realm-level setting. As of this feature level, `email_address_visibility` is a user setting.  In Zulip 3.0 (feature level 18), if the client has the `user_avatar_url_field_optional` capability, this will be missing at the server's sole discretion.
 	AvatarUrl NullableString `json:"avatar_url,omitempty"`

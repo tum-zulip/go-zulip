@@ -17,7 +17,7 @@ import (
 // checks if the UserUpdateEventTimezone type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &UserUpdateEventTimezone{}
 
-// UserUpdateEventTimezone When a user changes their [profile time zone](/help/change-your-timezone).
+// UserUpdateEventTimezone When a user changes their [profile time zone](zulip.com/help/change-your-timezone.
 type UserUpdateEventTimezone struct {
 	// The ID of modified user.
 	UserId *int32 `json:"user_id,omitempty"`

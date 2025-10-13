@@ -23,7 +23,7 @@ var _ MappedNullable = &GetDrafts200Response{}
 type GetDrafts200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// The number of drafts the user currently has. Also the number of drafts returned under \"drafts\".
 	Count *int32 `json:"count,omitempty"`

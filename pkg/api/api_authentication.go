@@ -67,13 +67,13 @@ type AuthenticationAPI interface {
 		!!! warn ""
 
 		    **Note:** If you signed up using passwordless authentication and
-		    never had a password, you can [reset your password](/help/change-your-password).
+		    never had a password, you can [reset your password](zulip.com/help/change-your-password.
 
-		See the [API keys](/api/api-keys) documentation for more details
+		See the [API keys](zulip.com/api/api-keys documentation for more details
 		on how to download an API key manually.
 
 		In a [Zulip development environment](https://zulip.readthedocs.io/en/latest/development/overview.html),
-		see also [the unauthenticated variant](/api/dev-fetch-api-key).
+		see also [the unauthenticated variant](zulip.com/api/dev-fetch-api-key.
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -215,7 +215,7 @@ type ApiFetchApiKeyRequest struct {
 	password   *string
 }
 
-// The username to be used for authentication (typically, the email address, but depending on configuration, it could be an LDAP username).  See the &#x60;require_email_format_usernames&#x60; parameter documented in [GET /server_settings](/api/get-server-settings) for details.
+// The username to be used for authentication (typically, the email address, but depending on configuration, it could be an LDAP username).  See the &#x60;require_email_format_usernames&#x60; parameter documented in [GET /server_settings](zulip.com/api/get-server-settings for details.
 func (r ApiFetchApiKeyRequest) Username(username string) ApiFetchApiKeyRequest {
 	r.username = &username
 	return r
@@ -251,13 +251,13 @@ to a `zulip://` URL.
 !!! warn ""
 
 	**Note:** If you signed up using passwordless authentication and
-	never had a password, you can [reset your password](/help/change-your-password).
+	never had a password, you can [reset your password](zulip.com/help/change-your-password.
 
-See the [API keys](/api/api-keys) documentation for more details
+See the [API keys](zulip.com/api/api-keys documentation for more details
 on how to download an API key manually.
 
 In a [Zulip development environment](https://zulip.readthedocs.io/en/latest/development/overview.html),
-see also [the unauthenticated variant](/api/dev-fetch-api-key).
+see also [the unauthenticated variant](zulip.com/api/dev-fetch-api-key.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiFetchApiKeyRequest

@@ -25,7 +25,7 @@ type GroupPermissionSetting struct {
 	AllowInternetGroup *bool `json:"allow_internet_group,omitempty"`
 	// Whether the setting can be set to `role:nobody` system group.
 	AllowNobodyGroup *bool `json:"allow_nobody_group,omitempty"`
-	// Whether the setting can be set to `role:everyone` system group.  If false, guest users cannot exercise this permission even if they are part of the [group-setting value](/api/group-setting-values) for this setting.
+	// Whether the setting can be set to `role:everyone` system group.  If false, guest users cannot exercise this permission even if they are part of the [group-setting value](zulip.com/api/group-setting-values for this setting.
 	AllowEveryoneGroup *bool `json:"allow_everyone_group,omitempty"`
 	// Name of the default group for the setting.
 	DefaultGroupName *string `json:"default_group_name,omitempty"`

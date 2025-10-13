@@ -21,7 +21,7 @@ var _ MappedNullable = &PushDevicesValue{}
 type PushDevicesValue struct {
 	// The push account's registration status. Either `\"active\"`, `\"pending\"`, or `\"failed\"`.
 	Status *string `json:"status,omitempty"`
-	// If the status is `\"failed\"`, a [Zulip API error code](/api/rest-error-handling) indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `\"INVALID_BOUNCER_PUBLIC_KEY\"` - Inform the user to update app. - `\"REQUEST_EXPIRED` - Retry with a fresh payload.
+	// If the status is `\"failed\"`, a [Zulip API error code](zulip.com/api/rest-error-handling indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `\"INVALID_BOUNCER_PUBLIC_KEY\"` - Inform the user to update app. - `\"REQUEST_EXPIRED` - Retry with a fresh payload.
 	ErrorCode NullableString `json:"error_code,omitempty"`
 }
 

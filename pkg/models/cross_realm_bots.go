@@ -41,9 +41,9 @@ type CrossRealmBots struct {
 	IsBot      *bool       `json:"is_bot,omitempty"`
 	BotType    interface{} `json:"bot_type,omitempty"`
 	BotOwnerId interface{} `json:"bot_owner_id,omitempty"`
-	// [Organization-level role](/api/roles-and-permissions) of the user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59).
+	// [Organization-level role](zulip.com/api/roles-and-permissions of the user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59).
 	Role *int32 `json:"role,omitempty"`
-	// The IANA identifier of the user's [profile time zone](/help/change-your-timezone), which is used primarily to display the user's local time to other users.
+	// The IANA identifier of the user's [profile time zone](zulip.com/help/change-your-timezone, which is used primarily to display the user's local time to other users.
 	Timezone  *string     `json:"timezone,omitempty"`
 	AvatarUrl interface{} `json:"avatar_url,omitempty"`
 	// Version for the user's avatar. Used for cache-busting requests for the user's avatar. Clients generally shouldn't need to use this; most avatar URLs sent by Zulip will already end with `?v={avatar_version}`.

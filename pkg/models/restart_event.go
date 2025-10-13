@@ -22,11 +22,11 @@ type RestartEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// The Zulip version number, in the format where this appears in the [server_settings](/api/get-server-settings) and [register](/api/register-queue) responses.  **Changes**: New in Zulip 4.0 (feature level 59).
+	// The Zulip version number, in the format where this appears in the [server_settings](zulip.com/api/get-server-settings and [register](zulip.com/api/register-queue responses.  **Changes**: New in Zulip 4.0 (feature level 59).
 	ZulipVersion *string `json:"zulip_version,omitempty"`
-	// The Zulip merge base number, in the format where this appears in the [server_settings](/api/get-server-settings) and [register](/api/register-queue) responses.  **Changes**: New in Zulip 5.0 (feature level 88).
+	// The Zulip merge base number, in the format where this appears in the [server_settings](zulip.com/api/get-server-settings and [register](zulip.com/api/register-queue responses.  **Changes**: New in Zulip 5.0 (feature level 88).
 	ZulipMergeBase *string `json:"zulip_merge_base,omitempty"`
-	// The [Zulip feature level](/api/changelog) of the server after the restart.  Clients should use this to update their tracking of the server's capabilities, and may choose to refetch their state and create a new event queue when the API feature level has changed in a way that the client finds significant. Clients choosing to do so must implement a random delay strategy to spread such restarts over 5 or more minutes to avoid creating a synchronized thundering herd effect.  **Changes**: New in Zulip 4.0 (feature level 59).
+	// The [Zulip feature level](zulip.com/api/changelog of the server after the restart.  Clients should use this to update their tracking of the server's capabilities, and may choose to refetch their state and create a new event queue when the API feature level has changed in a way that the client finds significant. Clients choosing to do so must implement a random delay strategy to spread such restarts over 5 or more minutes to avoid creating a synchronized thundering herd effect.  **Changes**: New in Zulip 4.0 (feature level 59).
 	ZulipFeatureLevel *int32 `json:"zulip_feature_level,omitempty"`
 	// The timestamp at which the server started.
 	ServerGeneration *int32 `json:"server_generation,omitempty"`

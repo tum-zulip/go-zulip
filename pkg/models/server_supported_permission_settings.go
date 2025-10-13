@@ -17,7 +17,7 @@ import (
 // checks if the ServerSupportedPermissionSettings type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ServerSupportedPermissionSettings{}
 
-// ServerSupportedPermissionSettings Present if `realm` is present in `fetch_event_types`.  Metadata detailing the valid values for permission settings that use [group-setting values](/api/group-setting-values). Clients should use these data as explained in the [main documentation](/api/group-setting-values#permitted-values) to determine what values to present as possible values for these settings in UI components.  This part of the Zulip API is unstable and may change significantly in future versions.  **Changes**: New in Zulip 8.0 (feature level 221).
+// ServerSupportedPermissionSettings Present if `realm` is present in `fetch_event_types`.  Metadata detailing the valid values for permission settings that use [group-setting values](zulip.com/api/group-setting-values. Clients should use these data as explained in the [main documentation](zulip.com/api/group-setting-values#permitted-values to determine what values to present as possible values for these settings in UI components.  This part of the Zulip API is unstable and may change significantly in future versions.  **Changes**: New in Zulip 8.0 (feature level 221).
 type ServerSupportedPermissionSettings struct {
 	// Configuration for realm level group permission settings.
 	Realm *map[string]GroupPermissionSetting `json:"realm,omitempty"`

@@ -23,7 +23,7 @@ var _ MappedNullable = &GetReadReceipts200Response{}
 type GetReadReceipts200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// An array of IDs of users who have marked the target message as read and whose read status is available to the current user.  The IDs of users who have disabled sending read receipts (`\"send_read_receipts\": false`) will never appear in the response, nor will the message's sender. Additionally, the IDs of any users who have been muted by the current user or who have muted the current user will not be included in the response.  The current user's ID will appear if they have marked the target message as read.  **Changes**: Prior to Zulip 6.0 (feature level 143), the IDs of users who have been muted by or have muted the current user were included in the response.
 	UserIds []int32 `json:"user_ids,omitempty"`

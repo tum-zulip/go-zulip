@@ -28,7 +28,7 @@ type UserStatus struct {
 	EmojiName *string `json:"emoji_name,omitempty"`
 	// If present, a unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  **Changes**: New in Zulip 5.0 (feature level 86).
 	EmojiCode *string `json:"emoji_code,omitempty"`
-	// If present, a string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the ID of   the uploaded [custom emoji](/help/custom-emoji).  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \"zulip\").  **Changes**: New in Zulip 5.0 (feature level 86).
+	// If present, a string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the ID of   the uploaded [custom emoji](zulip.com/help/custom-emoji.  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \"zulip\").  **Changes**: New in Zulip 5.0 (feature level 86).
 	ReactionType *string `json:"reaction_type,omitempty"`
 }
 

@@ -27,11 +27,11 @@ type UserStatusEvent struct {
 	Away *bool `json:"away,omitempty"`
 	// The text content of the status message.  This will be `\"\"` for users who set a status without selecting or writing a message.
 	StatusText *string `json:"status_text,omitempty"`
-	// The [emoji name](/api/update-status#parameter-emoji_name) for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
+	// The [emoji name](zulip.com/api/update-status#parameter-emoji_name for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
 	EmojiName *string `json:"emoji_name,omitempty"`
-	// The [emoji code](/api/update-status#parameter-emoji_code) for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
+	// The [emoji code](zulip.com/api/update-status#parameter-emoji_code for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
 	EmojiCode *string `json:"emoji_code,omitempty"`
-	// The [emoji type](/api/update-status#parameter-reaction_type) for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
+	// The [emoji type](zulip.com/api/update-status#parameter-reaction_type for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
 	ReactionType *string `json:"reaction_type,omitempty"`
 	// The ID of the user whose status changed.
 	UserId *int32 `json:"user_id,omitempty"`

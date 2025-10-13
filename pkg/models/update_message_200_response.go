@@ -23,7 +23,7 @@ var _ MappedNullable = &UpdateMessage200Response{}
 type UpdateMessage200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// Details on all files uploaded by the acting user whose only references were removed when editing this message. Clients should ask the acting user if they wish to delete the uploaded files returned in this response, which might otherwise remain visible only in message edit history.  Note that [access to message edit history][edit-history-access] is configurable; this detail may be important in presenting the question clearly to users.  New in Zulip 10.0 (feature level 285).  [edit-history-access]: /help/restrict-message-edit-history-access
 	DetachedUploads []Attachment `json:"detached_uploads,omitempty"`

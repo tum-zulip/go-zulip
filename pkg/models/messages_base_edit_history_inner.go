@@ -23,7 +23,7 @@ var _ MappedNullable = &MessagesBaseEditHistoryInner{}
 type MessagesBaseEditHistoryInner struct {
 	// Only present if message's content was edited.  The content of the message immediately prior to this edit event.
 	PrevContent *string `json:"prev_content,omitempty"`
-	// Only present if message's content was edited.  The rendered HTML representation of `prev_content`.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
+	// Only present if message's content was edited.  The rendered HTML representation of `prev_content`.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
 	PrevRenderedContent *string `json:"prev_rendered_content,omitempty"`
 	// Only present if message's channel was edited.  The channel ID of the message immediately prior to this edit event.  **Changes**: New in Zulip 3.0 (feature level 1).
 	PrevStream *int32 `json:"prev_stream,omitempty"`

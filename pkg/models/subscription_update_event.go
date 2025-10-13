@@ -17,7 +17,7 @@ import (
 // checks if the SubscriptionUpdateEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &SubscriptionUpdateEvent{}
 
-// SubscriptionUpdateEvent Event sent to a user's clients when a property of the user's subscription to a channel has been updated. This event is used only for personal properties like `is_muted` or `pin_to_top`. See the [`stream op: update` event](/api/get-events#stream-update) for updates to global properties of a channel.
+// SubscriptionUpdateEvent Event sent to a user's clients when a property of the user's subscription to a channel has been updated. This event is used only for personal properties like `is_muted` or `pin_to_top`. See the [`stream op: update` event](zulip.com/api/get-events#stream-update for updates to global properties of a channel.
 type SubscriptionUpdateEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`
@@ -25,7 +25,7 @@ type SubscriptionUpdateEvent struct {
 	Op   *string `json:"op,omitempty"`
 	// The ID of the channel whose subscription details have changed.
 	StreamId *int32 `json:"stream_id,omitempty"`
-	// The property of the subscription which has changed. For details on the various subscription properties that a user can change, see [POST /users/me/subscriptions/properties](/api/update-subscription-settings).  Clients should generally handle an unknown property received here without crashing, since that will naturally happen when connecting to a Zulip server running a new version that adds a new subscription property.  **Changes**: As of Zulip 6.0 (feature level 139), updates to the `is_muted` property or the deprecated `in_home_view` property will send two `subscription` update events, one for each property, to support clients fully migrating to use the `is_muted` property. Prior to this feature level, updates to either property only sent one event with the deprecated `in_home_view` property.
+	// The property of the subscription which has changed. For details on the various subscription properties that a user can change, see [POST /users/me/subscriptions/properties](zulip.com/api/update-subscription-settings.  Clients should generally handle an unknown property received here without crashing, since that will naturally happen when connecting to a Zulip server running a new version that adds a new subscription property.  **Changes**: As of Zulip 6.0 (feature level 139), updates to the `is_muted` property or the deprecated `in_home_view` property will send two `subscription` update events, one for each property, to support clients fully migrating to use the `is_muted` property. Prior to this feature level, updates to either property only sent one event with the deprecated `in_home_view` property.
 	Property *string                       `json:"property,omitempty"`
 	Value    *SubscriptionUpdateEventValue `json:"value,omitempty"`
 }

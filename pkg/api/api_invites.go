@@ -26,11 +26,11 @@ type InvitesAPI interface {
 	/*
 			CreateInviteLink Create a reusable invitation link
 
-			Create a [reusable invitation link](/help/invite-new-users#create-a-reusable-invitation-link)
+			Create a [reusable invitation link](zulip.com/help/invite-new-users#create-a-reusable-invitation-link
 		which can be used to invite new users to the organization.
 
 		**Changes**: In Zulip 8.0 (feature level 209), added support for non-admin
-		users [with permission](/help/restrict-account-creation#change-who-can-send-invitations)
+		users [with permission](zulip.com/help/restrict-account-creation#change-who-can-send-invitations
 		to use this endpoint. Previously, it was restricted to administrators only.
 
 		In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
@@ -56,7 +56,7 @@ type InvitesAPI interface {
 	/*
 			GetInvites Get all invitations
 
-			Fetch all unexpired [invitations](/help/invite-new-users) (i.e. email
+			Fetch all unexpired [invitations](zulip.com/help/invite-new-users (i.e. email
 		invitations and reusable invitation links) that can be managed by the user.
 
 		Note that administrators can manage invitations that were created by other users.
@@ -78,10 +78,10 @@ type InvitesAPI interface {
 	/*
 			ResendEmailInvite Resend an email invitation
 
-			Resend an [email invitation](/help/invite-new-users#send-email-invitations).
+			Resend an [email invitation](zulip.com/help/invite-new-users#send-email-invitations.
 
 		A user can only resend [invitations that they can
-		manage](/help/invite-new-users#manage-pending-invitations).
+		manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -97,10 +97,10 @@ type InvitesAPI interface {
 	/*
 			RevokeEmailInvite Revoke an email invitation
 
-			Revoke an [email invitation](/help/invite-new-users#send-email-invitations).
+			Revoke an [email invitation](zulip.com/help/invite-new-users#send-email-invitations.
 
 		A user can only revoke [invitations that they can
-		manage](/help/invite-new-users#manage-pending-invitations).
+		manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -116,10 +116,10 @@ type InvitesAPI interface {
 	/*
 			RevokeInviteLink Revoke a reusable invitation link
 
-			Revoke a [reusable invitation link](/help/invite-new-users#create-a-reusable-invitation-link).
+			Revoke a [reusable invitation link](zulip.com/help/invite-new-users#create-a-reusable-invitation-link.
 
 		A user can only revoke [invitations that they can
-		manage](/help/invite-new-users#manage-pending-invitations).
+		manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 
 		**Changes**: Prior to Zulip 8.0 (feature level 209), only organization
 		administrators were able to create and revoke reusable invitation links.
@@ -138,7 +138,7 @@ type InvitesAPI interface {
 	/*
 			SendInvites Send invitations
 
-			Send [invitations](/help/invite-new-users) to specified email addresses.
+			Send [invitations](zulip.com/help/invite-new-users to specified email addresses.
 
 		**Changes**: In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
 		parameter was removed and replaced by `invite_expires_in_minutes`.
@@ -183,13 +183,13 @@ func (r ApiCreateInviteLinkRequest) InviteAs(inviteAs models.InviteRoleParameter
 	return r
 }
 
-// A list containing the [IDs of the channels](/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  [can-subscribe-others]: /help/configure-who-can-invite-to-channels
+// A list containing the [IDs of the channels](zulip.com/api/get-stream-id that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  [can-subscribe-others]: /help/configure-who-can-invite-to-channels
 func (r ApiCreateInviteLinkRequest) StreamIds(streamIds []int32) ApiCreateInviteLinkRequest {
 	r.streamIds = &streamIds
 	return r
 }
 
-// A list containing the [IDs of the user groups](/api/get-user-groups) that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.  **Changes**: New in Zulip 10.0 (feature level 322).
+// A list containing the [IDs of the user groups](zulip.com/api/get-user-groups that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.  **Changes**: New in Zulip 10.0 (feature level 322).
 func (r ApiCreateInviteLinkRequest) GroupIds(groupIds []int32) ApiCreateInviteLinkRequest {
 	r.groupIds = &groupIds
 	return r
@@ -214,11 +214,11 @@ func (r ApiCreateInviteLinkRequest) Execute() (*models.CreateInviteLink200Respon
 /*
 CreateInviteLink Create a reusable invitation link
 
-Create a [reusable invitation link](/help/invite-new-users#create-a-reusable-invitation-link)
+Create a [reusable invitation link](zulip.com/help/invite-new-users#create-a-reusable-invitation-link
 which can be used to invite new users to the organization.
 
 **Changes**: In Zulip 8.0 (feature level 209), added support for non-admin
-users [with permission](/help/restrict-account-creation#change-who-can-send-invitations)
+users [with permission](zulip.com/help/restrict-account-creation#change-who-can-send-invitations
 to use this endpoint. Previously, it was restricted to administrators only.
 
 In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
@@ -357,7 +357,7 @@ func (r ApiGetInvitesRequest) Execute() (*models.GetInvites200Response, *http.Re
 /*
 GetInvites Get all invitations
 
-Fetch all unexpired [invitations](/help/invite-new-users) (i.e. email
+Fetch all unexpired [invitations](zulip.com/help/invite-new-users (i.e. email
 invitations and reusable invitation links) that can be managed by the user.
 
 Note that administrators can manage invitations that were created by other users.
@@ -465,10 +465,10 @@ func (r ApiResendEmailInviteRequest) Execute() (*models.JsonSuccess, *http.Respo
 /*
 ResendEmailInvite Resend an email invitation
 
-Resend an [email invitation](/help/invite-new-users#send-email-invitations).
+Resend an [email invitation](zulip.com/help/invite-new-users#send-email-invitations.
 
 A user can only resend [invitations that they can
-manage](/help/invite-new-users#manage-pending-invitations).
+manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param inviteId The ID of the email invitation to be resent.
@@ -582,10 +582,10 @@ func (r ApiRevokeEmailInviteRequest) Execute() (*models.JsonSuccess, *http.Respo
 /*
 RevokeEmailInvite Revoke an email invitation
 
-Revoke an [email invitation](/help/invite-new-users#send-email-invitations).
+Revoke an [email invitation](zulip.com/help/invite-new-users#send-email-invitations.
 
 A user can only revoke [invitations that they can
-manage](/help/invite-new-users#manage-pending-invitations).
+manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param inviteId The ID of the email invitation to be revoked.
@@ -699,10 +699,10 @@ func (r ApiRevokeInviteLinkRequest) Execute() (*models.JsonSuccess, *http.Respon
 /*
 RevokeInviteLink Revoke a reusable invitation link
 
-Revoke a [reusable invitation link](/help/invite-new-users#create-a-reusable-invitation-link).
+Revoke a [reusable invitation link](zulip.com/help/invite-new-users#create-a-reusable-invitation-link.
 
 A user can only revoke [invitations that they can
-manage](/help/invite-new-users#manage-pending-invitations).
+manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 
 **Changes**: Prior to Zulip 8.0 (feature level 209), only organization
 administrators were able to create and revoke reusable invitation links.
@@ -825,7 +825,7 @@ func (r ApiSendInvitesRequest) InviteeEmails(inviteeEmails string) ApiSendInvite
 	return r
 }
 
-// A list containing the [IDs of the channels](/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying &#x60;stream_ids&#x60; as an empty list resulted in an error.  [can-subscribe-others]: /help/configure-who-can-invite-to-channels
+// A list containing the [IDs of the channels](zulip.com/api/get-stream-id that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying &#x60;stream_ids&#x60; as an empty list resulted in an error.  [can-subscribe-others]: /help/configure-who-can-invite-to-channels
 func (r ApiSendInvitesRequest) StreamIds(streamIds []int32) ApiSendInvitesRequest {
 	r.streamIds = &streamIds
 	return r
@@ -842,7 +842,7 @@ func (r ApiSendInvitesRequest) InviteAs(inviteAs models.InviteRoleParameter) Api
 	return r
 }
 
-// A list containing the [IDs of the user groups](/api/get-user-groups) that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.  **Changes**: New in Zulip 10.0 (feature level 322).
+// A list containing the [IDs of the user groups](zulip.com/api/get-user-groups that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.  **Changes**: New in Zulip 10.0 (feature level 322).
 func (r ApiSendInvitesRequest) GroupIds(groupIds []int32) ApiSendInvitesRequest {
 	r.groupIds = &groupIds
 	return r
@@ -854,7 +854,7 @@ func (r ApiSendInvitesRequest) IncludeRealmDefaultSubscriptions(includeRealmDefa
 	return r
 }
 
-// A boolean indicating whether the referrer would like to receive a direct message from [notification bot](/help/configure-automated-notices) when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
+// A boolean indicating whether the referrer would like to receive a direct message from [notification bot](zulip.com/help/configure-automated-notices when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
 func (r ApiSendInvitesRequest) NotifyReferrerOnJoin(notifyReferrerOnJoin bool) ApiSendInvitesRequest {
 	r.notifyReferrerOnJoin = &notifyReferrerOnJoin
 	return r
@@ -873,7 +873,7 @@ func (r ApiSendInvitesRequest) Execute() (*models.SendInvites200Response, *http.
 /*
 SendInvites Send invitations
 
-Send [invitations](/help/invite-new-users) to specified email addresses.
+Send [invitations](zulip.com/help/invite-new-users to specified email addresses.
 
 **Changes**: In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
 parameter was removed and replaced by `invite_expires_in_minutes`.

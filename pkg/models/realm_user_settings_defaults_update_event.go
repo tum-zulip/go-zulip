@@ -17,7 +17,7 @@ import (
 // checks if the RealmUserSettingsDefaultsUpdateEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmUserSettingsDefaultsUpdateEvent{}
 
-// RealmUserSettingsDefaultsUpdateEvent Event sent to all users in a Zulip organization when the [default settings for new users][new-user-defaults] of the organization (realm) have changed.  [new-user-defaults]: /help/configure-default-new-user-settings  See [PATCH /realm/user_settings_defaults](/api/update-realm-user-settings-defaults) for details on possible properties.  **Changes**: New in Zulip 5.0 (feature level 95).
+// RealmUserSettingsDefaultsUpdateEvent Event sent to all users in a Zulip organization when the [default settings for new users][new-user-defaults] of the organization (realm) have changed.  [new-user-defaults]: /help/configure-default-new-user-settings  See [PATCH /realm/user_settings_defaults](zulip.com/api/update-realm-user-settings-defaults for details on possible properties.  **Changes**: New in Zulip 5.0 (feature level 95).
 type RealmUserSettingsDefaultsUpdateEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`

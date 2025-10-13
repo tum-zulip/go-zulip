@@ -23,7 +23,7 @@ type ZulipOutgoingWebhooks200Response struct {
 	BotEmail *string `json:"bot_email,omitempty"`
 	// The full name of the bot user.
 	BotFullName *string `json:"bot_full_name,omitempty"`
-	// The message content, in raw [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format (not rendered to HTML).
+	// The message content, in raw [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format (not rendered to HTML).
 	Data *string `json:"data,omitempty"`
 	// What aspect of the message triggered the outgoing webhook notification. Possible values include `direct_message` and `mention`.  **Changes**: In Zulip 8.0 (feature level 201), renamed the trigger `private_message` to `direct_message`.
 	Trigger *string `json:"trigger,omitempty"`

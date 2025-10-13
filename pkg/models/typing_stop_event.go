@@ -17,7 +17,7 @@ import (
 // checks if the TypingStopEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &TypingStopEvent{}
 
-// TypingStopEvent Event sent when a user stops typing a message.  Sent to all clients for users who would receive the message that was previously being typed, with the additional rule that typing notifications for channel messages are only sent to clients that included `stream_typing_notifications` in their [client capabilities][client-capabilities] when registering the event queue.  See [POST /typing](/api/set-typing-status) endpoint for more details.  **Changes**: Typing notifications for channel messages are new in Zulip 4.0 (feature level 58).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+// TypingStopEvent Event sent when a user stops typing a message.  Sent to all clients for users who would receive the message that was previously being typed, with the additional rule that typing notifications for channel messages are only sent to clients that included `stream_typing_notifications` in their [client capabilities][client-capabilities] when registering the event queue.  See [POST /typing](zulip.com/api/set-typing-status endpoint for more details.  **Changes**: Typing notifications for channel messages are new in Zulip 4.0 (feature level 58).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 type TypingStopEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`

@@ -88,7 +88,7 @@ type ApiE2eeTestNotifyRequest struct {
 	pushAccountId *int32
 }
 
-// The push account ID for the device to which to send the test notification.  If this parameter is not submitted, the E2EE test notification will be sent to all of the user&#39;s devices registered on the server.  A mobile client should pass this parameter, to avoid triggering a test notification for other clients.  See [&#x60;POST /mobile_push/register&#x60;](/api/register-push-device) for details on push account IDs.
+// The push account ID for the device to which to send the test notification.  If this parameter is not submitted, the E2EE test notification will be sent to all of the user&#39;s devices registered on the server.  A mobile client should pass this parameter, to avoid triggering a test notification for other clients.  See [&#x60;POST /mobile_push/register&#x60;](zulip.com/api/register-push-device for details on push account IDs.
 func (r ApiE2eeTestNotifyRequest) PushAccountId(pushAccountId int32) ApiE2eeTestNotifyRequest {
 	r.pushAccountId = &pushAccountId
 	return r

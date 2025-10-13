@@ -17,7 +17,7 @@ import (
 // checks if the RealmExport type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmExport{}
 
-// RealmExport Object containing details about a [data export](/help/export-your-organization).
+// RealmExport Object containing details about a [data export](zulip.com/help/export-your-organization.
 type RealmExport struct {
 	// The ID of the data export.
 	Id *int32 `json:"id,omitempty"`

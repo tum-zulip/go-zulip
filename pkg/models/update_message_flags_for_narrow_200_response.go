@@ -23,7 +23,7 @@ var _ MappedNullable = &UpdateMessageFlagsForNarrow200Response{}
 type UpdateMessageFlagsForNarrow200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// The number of messages that were within the update range (at most `num_before + 1 + num_after`).
 	ProcessedCount int32 `json:"processed_count"`

@@ -23,9 +23,9 @@ type BasicChannelBase struct {
 	StreamId *int32 `json:"stream_id,omitempty"`
 	// The name of the channel.
 	Name *string `json:"name,omitempty"`
-	// A boolean indicating whether the channel is [archived](/help/archive-a-channel).  **Changes**: New in Zulip 10.0 (feature level 315). Previously, this endpoint never returned archived channels.
+	// A boolean indicating whether the channel is [archived](zulip.com/help/archive-a-channel.  **Changes**: New in Zulip 10.0 (feature level 315). Previously, this endpoint never returned archived channels.
 	IsArchived *bool `json:"is_archived,omitempty"`
-	// The short description of the channel in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format, intended to be used to prepopulate UI for editing a channel's description.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
+	// The short description of the channel in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format, intended to be used to prepopulate UI for editing a channel's description.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
 	Description *string `json:"description,omitempty"`
 	// The UNIX timestamp for when the channel was created, in UTC seconds.  **Changes**: New in Zulip 4.0 (feature level 30).
 	DateCreated *int32 `json:"date_created,omitempty"`
@@ -40,7 +40,7 @@ type BasicChannelBase struct {
 	// A deprecated representation of a superset of the users who have permission to post messages to the channel available for backwards-compatibility. Clients should use `can_send_message_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:  - 1 = Any user can post. - 2 = Only administrators can post. - 3 = Only [full members][calc-full-member] can post. - 4 = Only moderators can post.  **Changes**: Deprecated in Zulip 10.0 (feature level 333) and replaced by `can_send_message_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  New in Zulip 3.0 (feature level 1), replacing the previous `is_announcement_only` boolean.  [calc-full-member]: /api/roles-and-permissions#determining-if-a-user-is-a-full-member
 	// Deprecated
 	StreamPostPolicy *int32 `json:"stream_post_policy,omitempty"`
-	// Number of days that messages sent to this channel will be stored before being automatically deleted by the [message retention policy](/help/message-retention-policy). There are two special values:  - `null`, the default, means the channel will inherit the organization   level setting. - `-1` encodes retaining messages in this channel forever.  **Changes**: New in Zulip 3.0 (feature level 17).
+	// Number of days that messages sent to this channel will be stored before being automatically deleted by the [message retention policy](zulip.com/help/message-retention-policy. There are two special values:  - `null`, the default, means the channel will inherit the organization   level setting. - `-1` encodes retaining messages in this channel forever.  **Changes**: New in Zulip 3.0 (feature level 17).
 	MessageRetentionDays NullableInt32 `json:"message_retention_days,omitempty"`
 	// Whether the history of the channel is public to its subscribers.  Currently always true for public channels (i.e. `\"invite_only\": false` implies `\"history_public_to_subscribers\": true`), but clients should not make that assumption, as we may change that behavior in the future.
 	HistoryPublicToSubscribers *bool         `json:"history_public_to_subscribers,omitempty"`
@@ -49,7 +49,7 @@ type BasicChannelBase struct {
 	FirstMessageId NullableInt32 `json:"first_message_id,omitempty"`
 	// The ID of the folder to which the channel belongs.  Is `null` if channel does not belong to any folder.  **Changes**: New in Zulip 11.0 (feature level 389).
 	FolderId NullableInt32 `json:"folder_id,omitempty"`
-	// Whether the channel has recent message activity. Clients should use this to implement [hide inactive channels](/help/manage-inactive-channels) if `demote_inactive_streams` is enabled.  **Changes**: New in Zulip 10.0 (feature level 323). Previously, clients implemented the demote_inactive_streams from local message history, resulting in a choppy loading experience.
+	// Whether the channel has recent message activity. Clients should use this to implement [hide inactive channels](zulip.com/help/manage-inactive-channels if `demote_inactive_streams` is enabled.  **Changes**: New in Zulip 10.0 (feature level 323). Previously, clients implemented the demote_inactive_streams from local message history, resulting in a choppy loading experience.
 	IsRecentlyActive *bool `json:"is_recently_active,omitempty"`
 	// Whether the given channel is announcement only or not.  **Changes**: Deprecated in Zulip 3.0 (feature level 1). Clients should use `stream_post_policy` instead.
 	// Deprecated

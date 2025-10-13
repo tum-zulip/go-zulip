@@ -23,7 +23,7 @@ var _ MappedNullable = &GetSavedSnippets200Response{}
 type GetSavedSnippets200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// An array of dictionaries containing data on all of the current user's saved snippets.
 	SavedSnippets []SavedSnippet `json:"saved_snippets,omitempty"`

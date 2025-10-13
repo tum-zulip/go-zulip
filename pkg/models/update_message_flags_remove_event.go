@@ -17,7 +17,7 @@ import (
 // checks if the UpdateMessageFlagsRemoveEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &UpdateMessageFlagsRemoveEvent{}
 
-// UpdateMessageFlagsRemoveEvent Event sent to a user when [message flags][message-flags] are removed from messages.  See the description for the [`update_message_flags` op: `add`](/api/get-events#update_message_flags-add) event for more details about these events.  [message-flags]: /api/update-message-flags#available-flags
+// UpdateMessageFlagsRemoveEvent Event sent to a user when [message flags][message-flags] are removed from messages.  See the description for the [`update_message_flags` op: `add`](zulip.com/api/get-events#update_message_flags-add event for more details about these events.  [message-flags]: /api/update-message-flags#available-flags
 type UpdateMessageFlagsRemoveEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`

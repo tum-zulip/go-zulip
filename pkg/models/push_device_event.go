@@ -17,16 +17,16 @@ import (
 // checks if the PushDeviceEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &PushDeviceEvent{}
 
-// PushDeviceEvent Event sent to a user's clients when the metadata in the `push_devices` dictionary for the user changes.  Helps clients to live-update the `push_devices` dictionary returned in [`POST /register`](/api/register-queue) response.  **Changes**: New in Zulip 11.0 (feature level 406).
+// PushDeviceEvent Event sent to a user's clients when the metadata in the `push_devices` dictionary for the user changes.  Helps clients to live-update the `push_devices` dictionary returned in [`POST /register`](zulip.com/api/register-queue response.  **Changes**: New in Zulip 11.0 (feature level 406).
 type PushDeviceEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`
 	Type *string `json:"type,omitempty"`
-	// The push account ID for this client registration.  See [`POST /mobile_push/register`](/api/register-push-device) for details on push account IDs.
+	// The push account ID for this client registration.  See [`POST /mobile_push/register`](zulip.com/api/register-push-device for details on push account IDs.
 	PushAccountId *string `json:"push_account_id,omitempty"`
 	// The updated registration status. Will be `\"active\"`, `\"failed\"`, or `\"pending\"`.
 	Status *string `json:"status,omitempty"`
-	// If the status is `\"failed\"`, a [Zulip API error code](/api/rest-error-handling) indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `\"INVALID_BOUNCER_PUBLIC_KEY\"` - Inform the user to update app. - `\"REQUEST_EXPIRED` - Retry with a fresh payload.   If the status is \"failed\", an error code explaining the failure.
+	// If the status is `\"failed\"`, a [Zulip API error code](zulip.com/api/rest-error-handling indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `\"INVALID_BOUNCER_PUBLIC_KEY\"` - Inform the user to update app. - `\"REQUEST_EXPIRED` - Retry with a fresh payload.   If the status is \"failed\", an error code explaining the failure.
 	ErrorCode NullableString `json:"error_code,omitempty"`
 }
 

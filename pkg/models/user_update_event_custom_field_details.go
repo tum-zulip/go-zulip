@@ -23,7 +23,7 @@ type UserUpdateEventCustomFieldDetails struct {
 	Id *int32 `json:"id,omitempty"`
 	// User's personal value for this custom profile field, or `null` if unset.
 	Value NullableString `json:"value,omitempty"`
-	// The `value` rendered in HTML. Will only be present for custom profile field types that support Markdown rendering.  This user-generated HTML content should be rendered using the same CSS and client-side security protections as are used for message content.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
+	// The `value` rendered in HTML. Will only be present for custom profile field types that support Markdown rendering.  This user-generated HTML content should be rendered using the same CSS and client-side security protections as are used for message content.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
 	RenderedValue *string `json:"rendered_value,omitempty"`
 }
 

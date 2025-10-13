@@ -23,7 +23,7 @@ var _ MappedNullable = &UpdateSubscriptions200Response{}
 type UpdateSubscriptions200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// A dictionary where the key is the Zulip API email address of the user/bot and the value is a list of the names of the channels that were subscribed to as a result of the query.
 	Subscribed map[string][]string `json:"subscribed"`

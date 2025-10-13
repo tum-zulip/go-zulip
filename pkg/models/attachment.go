@@ -29,7 +29,7 @@ type Attachment struct {
 	Size *int32 `json:"size,omitempty"`
 	// Time when the attachment was uploaded as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 3.0 (feature level 22). This field was previously a floating point number.
 	CreateTime *int32 `json:"create_time,omitempty"`
-	// Contains basic details on any Zulip messages that have been sent referencing this [uploaded file](/api/upload-file). This includes messages sent by any user in the Zulip organization who sent a message containing a link to the uploaded file.
+	// Contains basic details on any Zulip messages that have been sent referencing this [uploaded file](zulip.com/api/upload-file. This includes messages sent by any user in the Zulip organization who sent a message containing a link to the uploaded file.
 	Messages []AttachmentMessagesInner `json:"messages,omitempty"`
 }
 

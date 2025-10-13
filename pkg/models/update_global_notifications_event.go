@@ -17,7 +17,7 @@ import (
 // checks if the UpdateGlobalNotificationsEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &UpdateGlobalNotificationsEvent{}
 
-// UpdateGlobalNotificationsEvent Event sent to a user's clients when that user's [notification settings](/api/update-settings) have changed with an additional rule that it is only sent to clients that did not include `user_settings_object` in their `client_capabilities` when registering the event queue.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
+// UpdateGlobalNotificationsEvent Event sent to a user's clients when that user's [notification settings](zulip.com/api/update-settings have changed with an additional rule that it is only sent to clients that did not include `user_settings_object` in their `client_capabilities` when registering the event queue.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
 type UpdateGlobalNotificationsEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`

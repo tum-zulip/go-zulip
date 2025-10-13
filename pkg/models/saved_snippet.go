@@ -23,7 +23,7 @@ type SavedSnippet struct {
 	Id *int32 `json:"id,omitempty"`
 	// The title of the saved snippet.
 	Title *string `json:"title,omitempty"`
-	// The content of the saved snippet in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.
+	// The content of the saved snippet in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  Clients should insert this content into a message when using a saved snippet.
 	Content *string `json:"content,omitempty"`
 	// The UNIX timestamp for when the saved snippet was created, in UTC seconds.
 	DateCreated *int32 `json:"date_created,omitempty"`

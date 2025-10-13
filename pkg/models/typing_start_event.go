@@ -17,7 +17,7 @@ import (
 // checks if the TypingStartEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &TypingStartEvent{}
 
-// TypingStartEvent Event sent when a user starts typing a message.  Sent to all clients for users who would receive the message being typed, with the additional rule that typing notifications for channel messages are only sent to clients that included `stream_typing_notifications` in their [client capabilities][client-capabilities] when registering the event queue.  See [POST /typing](/api/set-typing-status) endpoint for more details.  **Changes**: Typing notifications for channel messages are new in Zulip 4.0 (feature level 58).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+// TypingStartEvent Event sent when a user starts typing a message.  Sent to all clients for users who would receive the message being typed, with the additional rule that typing notifications for channel messages are only sent to clients that included `stream_typing_notifications` in their [client capabilities][client-capabilities] when registering the event queue.  See [POST /typing](zulip.com/api/set-typing-status endpoint for more details.  **Changes**: Typing notifications for channel messages are new in Zulip 4.0 (feature level 58).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 type TypingStartEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`
@@ -30,7 +30,7 @@ type TypingStartEvent struct {
 	Recipients []UserSettingsUpdateEvent7RecipientsInner `json:"recipients,omitempty"`
 	// Only present if `message_type` is `\"stream\"`.  The unique ID of the channel to which message is being typed.  **Changes**: New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 	StreamId *int32 `json:"stream_id,omitempty"`
-	// Only present if `message_type` is `\"stream\"`.  Topic within the channel where the message is being typed.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	// Only present if `message_type` is `\"stream\"`.  Topic within the channel where the message is being typed.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
 }
 

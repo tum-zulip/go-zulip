@@ -23,7 +23,7 @@ var _ MappedNullable = &GetStreamTopics200Response{}
 type GetStreamTopics200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// An array of objects with information about user-accessible topics in the specified channel, sorted by recency (i.e., the topic with the most recent message is ordered first).
 	Topics []GetStreamTopics200ResponseAllOfTopicsInner `json:"topics,omitempty"`

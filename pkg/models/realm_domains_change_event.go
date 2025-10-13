@@ -17,7 +17,7 @@ import (
 // checks if the RealmDomainsChangeEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmDomainsChangeEvent{}
 
-// RealmDomainsChangeEvent Event sent to all users in a Zulip organization when the set of [allowed domains for new users](/help/restrict-account-creation#configuring-email-domain-restrictions) has changed.
+// RealmDomainsChangeEvent Event sent to all users in a Zulip organization when the set of [allowed domains for new users](zulip.com/help/restrict-account-creation#configuring-email-domain-restrictions has changed.
 type RealmDomainsChangeEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id          *int32                            `json:"id,omitempty"`

@@ -17,7 +17,7 @@ import (
 // checks if the RealmPlaygroundsEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmPlaygroundsEvent{}
 
-// RealmPlaygroundsEvent Event sent to all users in a Zulip organization when the set of configured [code playgrounds](/help/code-blocks#code-playgrounds) for the organization has changed.  **Changes**: New in Zulip 4.0 (feature level 49).
+// RealmPlaygroundsEvent Event sent to all users in a Zulip organization when the set of configured [code playgrounds](zulip.com/help/code-blocks#code-playgrounds for the organization has changed.  **Changes**: New in Zulip 4.0 (feature level 49).
 type RealmPlaygroundsEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`

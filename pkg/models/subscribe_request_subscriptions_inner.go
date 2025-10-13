@@ -21,9 +21,9 @@ var _ MappedNullable = &SubscribeRequestSubscriptionsInner{}
 
 // SubscribeRequestSubscriptionsInner struct for SubscribeRequestSubscriptionsInner
 type SubscribeRequestSubscriptionsInner struct {
-	// The name of the channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`](/api/register-queue) endpoint to determine the maximum channel name length.
+	// The name of the channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`](zulip.com/api/register-queue endpoint to determine the maximum channel name length.
 	Name string `json:"name"`
-	// The [description](/help/change-the-channel-description) to use for a new channel being created, in text/markdown format.  See the help center article on [message formatting](/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.  Clients should use the `max_stream_description_length` returned by the [`POST /register`](/api/register-queue) endpoint to determine the maximum channel description length.
+	// The [description](zulip.com/help/change-the-channel-description to use for a new channel being created, in text/markdown format.  See the help center article on [message formatting](zulip.com/help/format-your-message-using-markdown for details on Zulip-flavored Markdown.  Clients should use the `max_stream_description_length` returned by the [`POST /register`](zulip.com/api/register-queue endpoint to determine the maximum channel description length.
 	Description *string `json:"description,omitempty"`
 }
 

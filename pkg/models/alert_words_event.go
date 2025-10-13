@@ -17,7 +17,7 @@ import (
 // checks if the AlertWordsEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &AlertWordsEvent{}
 
-// AlertWordsEvent Event sent to a user's clients when that user's set of configured [alert words](/help/dm-mention-alert-notifications#alert-words) have changed.
+// AlertWordsEvent Event sent to a user's clients when that user's set of configured [alert words](zulip.com/help/dm-mention-alert-notifications#alert-words have changed.
 type AlertWordsEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`

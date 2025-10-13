@@ -23,7 +23,7 @@ var _ MappedNullable = &GetUserStatus200Response{}
 type GetUserStatus200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// The status set by the user. Note that, if the user doesn't have a status currently set, then the returned dictionary will be empty as none of the keys listed below will be present.
 	Status *UserStatus `json:"status,omitempty"`

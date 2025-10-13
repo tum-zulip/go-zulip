@@ -244,7 +244,7 @@ func Test_MessagesAPIService(t *testing.T) {
 
 			to := models.Int32AsSendMessageRequestTo(&streamID)
 			resp, httpRes, err := apiClient.SendMessage(ctx).
-				Type_("channel").
+				RecipientType(models.RecipientsTypeChannel).
 				To(to).
 				Topic(topic).
 				Content(content).
@@ -287,13 +287,13 @@ func Test_MessagesAPIService(t *testing.T) {
 		t.Run("UpdateMessageFlagsForNarrow", func(t *testing.T) {
 			msg := createStreamMessage(t, apiClient)
 
-			streamOperand := models.StringAsUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand(&msg.streamName)
-			topicOperand := models.StringAsUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand(&msg.topic)
-			streamFilter := models.NewUpdateMessageFlagsForNarrowRequestNarrowInnerOneOf("stream", streamOperand)
-			topicFilter := models.NewUpdateMessageFlagsForNarrowRequestNarrowInnerOneOf("topic", topicOperand)
-			narrow := []models.UpdateMessageFlagsForNarrowRequestNarrowInner{
-				models.UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfAsUpdateMessageFlagsForNarrowRequestNarrowInner(streamFilter),
-				models.UpdateMessageFlagsForNarrowRequestNarrowInnerOneOfAsUpdateMessageFlagsForNarrowRequestNarrowInner(topicFilter),
+			streamOperand := models.UpdateFlagsNarrowOperandFromString(&msg.streamName)
+			topicOperand := models.UpdateFlagsNarrowOperandFromString(&msg.topic)
+			streamFilter := models.NewUpdateFlagsNarrowFilter("stream", streamOperand)
+			topicFilter := models.NewUpdateFlagsNarrowFilter("topic", topicOperand)
+			narrow := []models.UpdateFlagsNarrowClause{
+				models.UpdateFlagsNarrowClauseFromFilter(streamFilter),
+				models.UpdateFlagsNarrowClauseFromFilter(topicFilter),
 			}
 
 			resp, httpRes, err := apiClient.UpdateMessageFlagsForNarrow(ctx).

@@ -17,7 +17,7 @@ import (
 // checks if the TypingEditMessageStopEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &TypingEditMessageStopEvent{}
 
-// TypingEditMessageStopEvent Event sent when a user stops typing in a textarea to edit the content of a message. See the [edit message typing notifications endpoint](/api/set-typing-status-for-message-edit).  Clients requesting `typing_edit_message` event type that have `receives_typing_notifications` enabled will receive this event if they would have been notified if the message's content edit were to be saved (E.g., because they were a direct message recipient or are a subscribe to the channel).  **Changes**: New in Zulip 10.0 (feature level 351). Previously, typing notifications were not available when editing messages.
+// TypingEditMessageStopEvent Event sent when a user stops typing in a textarea to edit the content of a message. See the [edit message typing notifications endpoint](zulip.com/api/set-typing-status-for-message-edit.  Clients requesting `typing_edit_message` event type that have `receives_typing_notifications` enabled will receive this event if they would have been notified if the message's content edit were to be saved (E.g., because they were a direct message recipient or are a subscribe to the channel).  **Changes**: New in Zulip 10.0 (feature level 351). Previously, typing notifications were not available when editing messages.
 type TypingEditMessageStopEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`

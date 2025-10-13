@@ -17,7 +17,7 @@ import (
 // checks if the HasZoomTokenEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &HasZoomTokenEvent{}
 
-// HasZoomTokenEvent Event sent to a user's clients when the user completes the OAuth flow for the [Zoom integration](/help/configure-call-provider). Clients need to know whether initiating Zoom OAuth is required before creating a Zoom call.
+// HasZoomTokenEvent Event sent to a user's clients when the user completes the OAuth flow for the [Zoom integration](zulip.com/help/configure-call-provider. Clients need to know whether initiating Zoom OAuth is required before creating a Zoom call.
 type HasZoomTokenEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`

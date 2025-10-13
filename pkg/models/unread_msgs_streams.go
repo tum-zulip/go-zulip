@@ -19,7 +19,7 @@ var _ MappedNullable = &UnreadMsgsStreams{}
 
 // UnreadMsgsStreams struct for UnreadMsgsStreams
 type UnreadMsgsStreams struct {
-	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response depending on the value of the `empty_topic_name` [client capability][client-capabilities].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue response depending on the value of the `empty_topic_name` [client capability][client-capabilities].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
 	// The ID of the channel to which the messages were sent.
 	StreamId *int32 `json:"stream_id,omitempty"`

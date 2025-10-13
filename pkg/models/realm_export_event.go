@@ -17,7 +17,7 @@ import (
 // checks if the RealmExportEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmExportEvent{}
 
-// RealmExportEvent Event sent to the user who requested a [data export](/help/export-your-organization) when the status of the data export changes.
+// RealmExportEvent Event sent to the user who requested a [data export](zulip.com/help/export-your-organization when the status of the data export changes.
 type RealmExportEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`

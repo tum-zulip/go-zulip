@@ -17,7 +17,7 @@ import (
 // checks if the RealmEmojiUpdateEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RealmEmojiUpdateEvent{}
 
-// RealmEmojiUpdateEvent Event sent to all users in a Zulip organization when a [custom emoji](/help/custom-emoji) has been updated, typically when a new emoji has been added or an old one has been deactivated. The event contains all custom emoji configured for the organization, not just the updated custom emoji.
+// RealmEmojiUpdateEvent Event sent to all users in a Zulip organization when a [custom emoji](zulip.com/help/custom-emoji has been updated, typically when a new emoji has been added or an old one has been deactivated. The event contains all custom emoji configured for the organization, not just the updated custom emoji.
 type RealmEmojiUpdateEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`

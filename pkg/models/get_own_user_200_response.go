@@ -23,7 +23,7 @@ var _ MappedNullable = &GetOwnUser200Response{}
 type GetOwnUser200Response struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// URL for the requesting user's avatar.  **Changes**: New in Zulip 2.1.0.
 	AvatarUrl *string `json:"avatar_url,omitempty"`
@@ -37,7 +37,7 @@ type GetOwnUser200Response struct {
 	IsAdmin *bool `json:"is_admin,omitempty"`
 	// A boolean indicating if the requesting user is an organization owner.  **Changes**: New in Zulip 3.0 (feature level 8).
 	IsOwner *bool `json:"is_owner,omitempty"`
-	// [Organization-level role](/api/roles-and-permissions) of the requesting user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59).
+	// [Organization-level role](zulip.com/api/roles-and-permissions of the requesting user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59).
 	Role *int32 `json:"role,omitempty"`
 	// A boolean indicating if the requesting user is a guest.  **Changes**: New in Zulip 3.0 (feature level 10).
 	IsGuest *bool `json:"is_guest,omitempty"`
@@ -45,7 +45,7 @@ type GetOwnUser200Response struct {
 	IsBot *bool `json:"is_bot,omitempty"`
 	// A boolean specifying whether the requesting user account has been deactivated.  **Changes**: New in Zulip 3.0 (feature level 10).
 	IsActive *bool `json:"is_active,omitempty"`
-	// The IANA identifier of the requesting user's [profile time zone](/help/change-your-timezone), which is used primarily to display the user's local time to other users.  **Changes**: New in Zulip 3.0 (feature level 10).
+	// The IANA identifier of the requesting user's [profile time zone](zulip.com/help/change-your-timezone, which is used primarily to display the user's local time to other users.  **Changes**: New in Zulip 3.0 (feature level 10).
 	Timezone *string `json:"timezone,omitempty"`
 	// The time the requesting user's account was created.  **Changes**: New in Zulip 3.0 (feature level 10).
 	DateJoined *string `json:"date_joined,omitempty"`

@@ -17,7 +17,7 @@ import (
 // checks if the MutedUsersEvent type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &MutedUsersEvent{}
 
-// MutedUsersEvent Event sent to a user's clients when that user's set of configured [muted users](/api/mute-user) have changed.  **Changes**: New in Zulip 4.0 (feature level 48).
+// MutedUsersEvent Event sent to a user's clients when that user's set of configured [muted users](zulip.com/api/mute-user have changed.  **Changes**: New in Zulip 4.0 (feature level 48).
 type MutedUsersEvent struct {
 	// The ID of the event. Events appear in increasing order but may not be consecutive.
 	Id   *int32  `json:"id,omitempty"`

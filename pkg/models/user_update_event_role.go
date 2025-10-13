@@ -17,11 +17,11 @@ import (
 // checks if the UserUpdateEventRole type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &UserUpdateEventRole{}
 
-// UserUpdateEventRole When the [role](/help/user-roles) of a user changes.
+// UserUpdateEventRole When the [role](zulip.com/help/user-roles of a user changes.
 type UserUpdateEventRole struct {
 	// The ID of the user affected by this change.
 	UserId *int32 `json:"user_id,omitempty"`
-	// The new [role](/api/roles-and-permissions) of the user.
+	// The new [role](zulip.com/api/roles-and-permissions of the user.
 	Role *int32 `json:"role,omitempty"`
 }
 

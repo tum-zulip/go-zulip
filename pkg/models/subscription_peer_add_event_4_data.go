@@ -21,7 +21,7 @@ var _ MappedNullable = &SubscriptionPeerAddEvent4Data{}
 type SubscriptionPeerAddEvent4Data struct {
 	// The new name of the channel folder. Only present if the channel folder's name changed.
 	Name *string `json:"name,omitempty"`
-	// The new description of the channel folder. Only present if the description changed.  See [Markdown message formatting](/api/message-formatting) for details on Zulip's HTML format.
+	// The new description of the channel folder. Only present if the description changed.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip's HTML format.
 	Description *string `json:"description,omitempty"`
 	// The new rendered description of the channel folder. Only present if the description changed.
 	RenderedDescription *string `json:"rendered_description,omitempty"`
