@@ -23,14 +23,14 @@ import (
 type WebhooksAPI interface {
 
 	/*
-		ZulipOutgoingWebhooks Outgoing webhooks
+			ZulipOutgoingWebhooks Outgoing webhooks
 
-		Outgoing webhooks allow you to build or set up Zulip integrations which are
-	notified when certain types of messages are sent in Zulip.
+			Outgoing webhooks allow you to build or set up Zulip integrations which are
+		notified when certain types of messages are sent in Zulip.
 
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiZulipOutgoingWebhooksRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiZulipOutgoingWebhooksRequest
 	*/
 	ZulipOutgoingWebhooks(ctx context.Context) ApiZulipOutgoingWebhooksRequest
 
