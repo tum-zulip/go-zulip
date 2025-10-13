@@ -17,8 +17,8 @@ import (
 	"gopkg.in/validator.v2"
 )
 
-// GetEvents200ResponseAllOfEventsInner - struct for GetEvents200ResponseAllOfEventsInner
-type GetEvents200ResponseAllOfEventsInner struct {
+// EventEnvelope - struct for EventEnvelope
+type EventEnvelope struct {
 	AlertWordsEvent                      *AlertWordsEvent
 	UpdateDisplaySettingsEvent           *UpdateDisplaySettingsEvent
 	MessageEvent                         *MessageEvent
@@ -107,610 +107,610 @@ type GetEvents200ResponseAllOfEventsInner struct {
 	SubscriptionPeerRemoveEvent          *SubscriptionPeerRemoveEvent
 }
 
-// AlertWordsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns AlertWordsEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func AlertWordsEventAsGetEvents200ResponseAllOfEventsInner(v *AlertWordsEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// AlertWordsEventAsEventEnvelope is a convenience function that returns AlertWordsEvent wrapped in EventEnvelope
+func AlertWordsEventAsEventEnvelope(v *AlertWordsEvent) EventEnvelope {
+	return EventEnvelope{
 		AlertWordsEvent: v,
 	}
 }
 
-// UpdateDisplaySettingsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UpdateDisplaySettingsEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UpdateDisplaySettingsEventAsGetEvents200ResponseAllOfEventsInner(v *UpdateDisplaySettingsEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UpdateDisplaySettingsEventAsEventEnvelope is a convenience function that returns UpdateDisplaySettingsEvent wrapped in EventEnvelope
+func UpdateDisplaySettingsEventAsEventEnvelope(v *UpdateDisplaySettingsEvent) EventEnvelope {
+	return EventEnvelope{
 		UpdateDisplaySettingsEvent: v,
 	}
 }
 
-// MessageEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns MessageEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func MessageEventAsGetEvents200ResponseAllOfEventsInner(v *MessageEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// MessageEventAsEventEnvelope is a convenience function that returns MessageEvent wrapped in EventEnvelope
+func MessageEventAsEventEnvelope(v *MessageEvent) EventEnvelope {
+	return EventEnvelope{
 		MessageEvent: v,
 	}
 }
 
-// HasZoomTokenEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns HasZoomTokenEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func HasZoomTokenEventAsGetEvents200ResponseAllOfEventsInner(v *HasZoomTokenEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// HasZoomTokenEventAsEventEnvelope is a convenience function that returns HasZoomTokenEvent wrapped in EventEnvelope
+func HasZoomTokenEventAsEventEnvelope(v *HasZoomTokenEvent) EventEnvelope {
+	return EventEnvelope{
 		HasZoomTokenEvent: v,
 	}
 }
 
-// InvitesChangedEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns InvitesChangedEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func InvitesChangedEventAsGetEvents200ResponseAllOfEventsInner(v *InvitesChangedEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// InvitesChangedEventAsEventEnvelope is a convenience function that returns InvitesChangedEvent wrapped in EventEnvelope
+func InvitesChangedEventAsEventEnvelope(v *InvitesChangedEvent) EventEnvelope {
+	return EventEnvelope{
 		InvitesChangedEvent: v,
 	}
 }
 
-// RealmUserAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmUserAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmUserAddEventAsGetEvents200ResponseAllOfEventsInner(v *RealmUserAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmUserAddEventAsEventEnvelope is a convenience function that returns RealmUserAddEvent wrapped in EventEnvelope
+func RealmUserAddEventAsEventEnvelope(v *RealmUserAddEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmUserAddEvent: v,
 	}
 }
 
-// RealmUserRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmUserRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmUserRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *RealmUserRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmUserRemoveEventAsEventEnvelope is a convenience function that returns RealmUserRemoveEvent wrapped in EventEnvelope
+func RealmUserRemoveEventAsEventEnvelope(v *RealmUserRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmUserRemoveEvent: v,
 	}
 }
 
-// PresenceEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns PresenceEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func PresenceEventAsGetEvents200ResponseAllOfEventsInner(v *PresenceEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// PresenceEventAsEventEnvelope is a convenience function that returns PresenceEvent wrapped in EventEnvelope
+func PresenceEventAsEventEnvelope(v *PresenceEvent) EventEnvelope {
+	return EventEnvelope{
 		PresenceEvent: v,
 	}
 }
 
-// StreamCreateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns StreamCreateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func StreamCreateEventAsGetEvents200ResponseAllOfEventsInner(v *StreamCreateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// StreamCreateEventAsEventEnvelope is a convenience function that returns StreamCreateEvent wrapped in EventEnvelope
+func StreamCreateEventAsEventEnvelope(v *StreamCreateEvent) EventEnvelope {
+	return EventEnvelope{
 		StreamCreateEvent: v,
 	}
 }
 
-// StreamDeleteEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns StreamDeleteEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func StreamDeleteEventAsGetEvents200ResponseAllOfEventsInner(v *StreamDeleteEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// StreamDeleteEventAsEventEnvelope is a convenience function that returns StreamDeleteEvent wrapped in EventEnvelope
+func StreamDeleteEventAsEventEnvelope(v *StreamDeleteEvent) EventEnvelope {
+	return EventEnvelope{
 		StreamDeleteEvent: v,
 	}
 }
 
-// StreamUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns StreamUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func StreamUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *StreamUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// StreamUpdateEventAsEventEnvelope is a convenience function that returns StreamUpdateEvent wrapped in EventEnvelope
+func StreamUpdateEventAsEventEnvelope(v *StreamUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		StreamUpdateEvent: v,
 	}
 }
 
-// ReactionAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ReactionAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func ReactionAddEventAsGetEvents200ResponseAllOfEventsInner(v *ReactionAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// ReactionAddEventAsEventEnvelope is a convenience function that returns ReactionAddEvent wrapped in EventEnvelope
+func ReactionAddEventAsEventEnvelope(v *ReactionAddEvent) EventEnvelope {
+	return EventEnvelope{
 		ReactionAddEvent: v,
 	}
 }
 
-// UpdateGlobalNotificationsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UpdateGlobalNotificationsEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UpdateGlobalNotificationsEventAsGetEvents200ResponseAllOfEventsInner(v *UpdateGlobalNotificationsEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UpdateGlobalNotificationsEventAsEventEnvelope is a convenience function that returns UpdateGlobalNotificationsEvent wrapped in EventEnvelope
+func UpdateGlobalNotificationsEventAsEventEnvelope(v *UpdateGlobalNotificationsEvent) EventEnvelope {
+	return EventEnvelope{
 		UpdateGlobalNotificationsEvent: v,
 	}
 }
 
-// ReactionRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ReactionRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func ReactionRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *ReactionRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// ReactionRemoveEventAsEventEnvelope is a convenience function that returns ReactionRemoveEvent wrapped in EventEnvelope
+func ReactionRemoveEventAsEventEnvelope(v *ReactionRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		ReactionRemoveEvent: v,
 	}
 }
 
-// AttachmentAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns AttachmentAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func AttachmentAddEventAsGetEvents200ResponseAllOfEventsInner(v *AttachmentAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// AttachmentAddEventAsEventEnvelope is a convenience function that returns AttachmentAddEvent wrapped in EventEnvelope
+func AttachmentAddEventAsEventEnvelope(v *AttachmentAddEvent) EventEnvelope {
+	return EventEnvelope{
 		AttachmentAddEvent: v,
 	}
 }
 
-// AttachmentUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns AttachmentUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func AttachmentUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *AttachmentUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// AttachmentUpdateEventAsEventEnvelope is a convenience function that returns AttachmentUpdateEvent wrapped in EventEnvelope
+func AttachmentUpdateEventAsEventEnvelope(v *AttachmentUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		AttachmentUpdateEvent: v,
 	}
 }
 
-// AttachmentRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns AttachmentRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func AttachmentRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *AttachmentRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// AttachmentRemoveEventAsEventEnvelope is a convenience function that returns AttachmentRemoveEvent wrapped in EventEnvelope
+func AttachmentRemoveEventAsEventEnvelope(v *AttachmentRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		AttachmentRemoveEvent: v,
 	}
 }
 
-// PushDeviceEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns PushDeviceEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func PushDeviceEventAsGetEvents200ResponseAllOfEventsInner(v *PushDeviceEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// PushDeviceEventAsEventEnvelope is a convenience function that returns PushDeviceEvent wrapped in EventEnvelope
+func PushDeviceEventAsEventEnvelope(v *PushDeviceEvent) EventEnvelope {
+	return EventEnvelope{
 		PushDeviceEvent: v,
 	}
 }
 
-// SubmessageEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SubmessageEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func SubmessageEventAsGetEvents200ResponseAllOfEventsInner(v *SubmessageEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// SubmessageEventAsEventEnvelope is a convenience function that returns SubmessageEvent wrapped in EventEnvelope
+func SubmessageEventAsEventEnvelope(v *SubmessageEvent) EventEnvelope {
+	return EventEnvelope{
 		SubmessageEvent: v,
 	}
 }
 
-// UserStatusEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserStatusEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UserStatusEventAsGetEvents200ResponseAllOfEventsInner(v *UserStatusEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UserStatusEventAsEventEnvelope is a convenience function that returns UserStatusEvent wrapped in EventEnvelope
+func UserStatusEventAsEventEnvelope(v *UserStatusEvent) EventEnvelope {
+	return EventEnvelope{
 		UserStatusEvent: v,
 	}
 }
 
-// CustomProfileFieldsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns CustomProfileFieldsEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func CustomProfileFieldsEventAsGetEvents200ResponseAllOfEventsInner(v *CustomProfileFieldsEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// CustomProfileFieldsEventAsEventEnvelope is a convenience function that returns CustomProfileFieldsEvent wrapped in EventEnvelope
+func CustomProfileFieldsEventAsEventEnvelope(v *CustomProfileFieldsEvent) EventEnvelope {
+	return EventEnvelope{
 		CustomProfileFieldsEvent: v,
 	}
 }
 
-// DefaultStreamGroupsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns DefaultStreamGroupsEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func DefaultStreamGroupsEventAsGetEvents200ResponseAllOfEventsInner(v *DefaultStreamGroupsEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// DefaultStreamGroupsEventAsEventEnvelope is a convenience function that returns DefaultStreamGroupsEvent wrapped in EventEnvelope
+func DefaultStreamGroupsEventAsEventEnvelope(v *DefaultStreamGroupsEvent) EventEnvelope {
+	return EventEnvelope{
 		DefaultStreamGroupsEvent: v,
 	}
 }
 
-// DefaultStreamsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns DefaultStreamsEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func DefaultStreamsEventAsGetEvents200ResponseAllOfEventsInner(v *DefaultStreamsEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// DefaultStreamsEventAsEventEnvelope is a convenience function that returns DefaultStreamsEvent wrapped in EventEnvelope
+func DefaultStreamsEventAsEventEnvelope(v *DefaultStreamsEvent) EventEnvelope {
+	return EventEnvelope{
 		DefaultStreamsEvent: v,
 	}
 }
 
-// UserSettingsUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserSettingsUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UserSettingsUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *UserSettingsUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UserSettingsUpdateEventAsEventEnvelope is a convenience function that returns UserSettingsUpdateEvent wrapped in EventEnvelope
+func UserSettingsUpdateEventAsEventEnvelope(v *UserSettingsUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		UserSettingsUpdateEvent: v,
 	}
 }
 
-// DeleteMessageEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns DeleteMessageEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func DeleteMessageEventAsGetEvents200ResponseAllOfEventsInner(v *DeleteMessageEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// DeleteMessageEventAsEventEnvelope is a convenience function that returns DeleteMessageEvent wrapped in EventEnvelope
+func DeleteMessageEventAsEventEnvelope(v *DeleteMessageEvent) EventEnvelope {
+	return EventEnvelope{
 		DeleteMessageEvent: v,
 	}
 }
 
-// MutedTopicsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns MutedTopicsEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func MutedTopicsEventAsGetEvents200ResponseAllOfEventsInner(v *MutedTopicsEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// MutedTopicsEventAsEventEnvelope is a convenience function that returns MutedTopicsEvent wrapped in EventEnvelope
+func MutedTopicsEventAsEventEnvelope(v *MutedTopicsEvent) EventEnvelope {
+	return EventEnvelope{
 		MutedTopicsEvent: v,
 	}
 }
 
-// UserTopicEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserTopicEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UserTopicEventAsGetEvents200ResponseAllOfEventsInner(v *UserTopicEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UserTopicEventAsEventEnvelope is a convenience function that returns UserTopicEvent wrapped in EventEnvelope
+func UserTopicEventAsEventEnvelope(v *UserTopicEvent) EventEnvelope {
+	return EventEnvelope{
 		UserTopicEvent: v,
 	}
 }
 
-// MutedUsersEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns MutedUsersEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func MutedUsersEventAsGetEvents200ResponseAllOfEventsInner(v *MutedUsersEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// MutedUsersEventAsEventEnvelope is a convenience function that returns MutedUsersEvent wrapped in EventEnvelope
+func MutedUsersEventAsEventEnvelope(v *MutedUsersEvent) EventEnvelope {
+	return EventEnvelope{
 		MutedUsersEvent: v,
 	}
 }
 
-// HeartbeatEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns HeartbeatEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func HeartbeatEventAsGetEvents200ResponseAllOfEventsInner(v *HeartbeatEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// HeartbeatEventAsEventEnvelope is a convenience function that returns HeartbeatEvent wrapped in EventEnvelope
+func HeartbeatEventAsEventEnvelope(v *HeartbeatEvent) EventEnvelope {
+	return EventEnvelope{
 		HeartbeatEvent: v,
 	}
 }
 
-// OnboardingStepsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns OnboardingStepsEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func OnboardingStepsEventAsGetEvents200ResponseAllOfEventsInner(v *OnboardingStepsEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// OnboardingStepsEventAsEventEnvelope is a convenience function that returns OnboardingStepsEvent wrapped in EventEnvelope
+func OnboardingStepsEventAsEventEnvelope(v *OnboardingStepsEvent) EventEnvelope {
+	return EventEnvelope{
 		OnboardingStepsEvent: v,
 	}
 }
 
-// UpdateMessageEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UpdateMessageEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UpdateMessageEventAsGetEvents200ResponseAllOfEventsInner(v *UpdateMessageEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UpdateMessageEventAsEventEnvelope is a convenience function that returns UpdateMessageEvent wrapped in EventEnvelope
+func UpdateMessageEventAsEventEnvelope(v *UpdateMessageEvent) EventEnvelope {
+	return EventEnvelope{
 		UpdateMessageEvent: v,
 	}
 }
 
-// TypingStartEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns TypingStartEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func TypingStartEventAsGetEvents200ResponseAllOfEventsInner(v *TypingStartEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// TypingStartEventAsEventEnvelope is a convenience function that returns TypingStartEvent wrapped in EventEnvelope
+func TypingStartEventAsEventEnvelope(v *TypingStartEvent) EventEnvelope {
+	return EventEnvelope{
 		TypingStartEvent: v,
 	}
 }
 
-// TypingStopEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns TypingStopEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func TypingStopEventAsGetEvents200ResponseAllOfEventsInner(v *TypingStopEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// TypingStopEventAsEventEnvelope is a convenience function that returns TypingStopEvent wrapped in EventEnvelope
+func TypingStopEventAsEventEnvelope(v *TypingStopEvent) EventEnvelope {
+	return EventEnvelope{
 		TypingStopEvent: v,
 	}
 }
 
-// TypingEditMessageStartEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns TypingEditMessageStartEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func TypingEditMessageStartEventAsGetEvents200ResponseAllOfEventsInner(v *TypingEditMessageStartEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// TypingEditMessageStartEventAsEventEnvelope is a convenience function that returns TypingEditMessageStartEvent wrapped in EventEnvelope
+func TypingEditMessageStartEventAsEventEnvelope(v *TypingEditMessageStartEvent) EventEnvelope {
+	return EventEnvelope{
 		TypingEditMessageStartEvent: v,
 	}
 }
 
-// RealmUserUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmUserUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmUserUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *RealmUserUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmUserUpdateEventAsEventEnvelope is a convenience function that returns RealmUserUpdateEvent wrapped in EventEnvelope
+func RealmUserUpdateEventAsEventEnvelope(v *RealmUserUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmUserUpdateEvent: v,
 	}
 }
 
-// TypingEditMessageStopEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns TypingEditMessageStopEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func TypingEditMessageStopEventAsGetEvents200ResponseAllOfEventsInner(v *TypingEditMessageStopEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// TypingEditMessageStopEventAsEventEnvelope is a convenience function that returns TypingEditMessageStopEvent wrapped in EventEnvelope
+func TypingEditMessageStopEventAsEventEnvelope(v *TypingEditMessageStopEvent) EventEnvelope {
+	return EventEnvelope{
 		TypingEditMessageStopEvent: v,
 	}
 }
 
-// UpdateMessageFlagsAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UpdateMessageFlagsAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UpdateMessageFlagsAddEventAsGetEvents200ResponseAllOfEventsInner(v *UpdateMessageFlagsAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UpdateMessageFlagsAddEventAsEventEnvelope is a convenience function that returns UpdateMessageFlagsAddEvent wrapped in EventEnvelope
+func UpdateMessageFlagsAddEventAsEventEnvelope(v *UpdateMessageFlagsAddEvent) EventEnvelope {
+	return EventEnvelope{
 		UpdateMessageFlagsAddEvent: v,
 	}
 }
 
-// UpdateMessageFlagsRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UpdateMessageFlagsRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UpdateMessageFlagsRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *UpdateMessageFlagsRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UpdateMessageFlagsRemoveEventAsEventEnvelope is a convenience function that returns UpdateMessageFlagsRemoveEvent wrapped in EventEnvelope
+func UpdateMessageFlagsRemoveEventAsEventEnvelope(v *UpdateMessageFlagsRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		UpdateMessageFlagsRemoveEvent: v,
 	}
 }
 
-// UserGroupAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UserGroupAddEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UserGroupAddEventAsEventEnvelope is a convenience function that returns UserGroupAddEvent wrapped in EventEnvelope
+func UserGroupAddEventAsEventEnvelope(v *UserGroupAddEvent) EventEnvelope {
+	return EventEnvelope{
 		UserGroupAddEvent: v,
 	}
 }
 
-// UserGroupUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UserGroupUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UserGroupUpdateEventAsEventEnvelope is a convenience function that returns UserGroupUpdateEvent wrapped in EventEnvelope
+func UserGroupUpdateEventAsEventEnvelope(v *UserGroupUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		UserGroupUpdateEvent: v,
 	}
 }
 
-// UserGroupAddMembersEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupAddMembersEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UserGroupAddMembersEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupAddMembersEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UserGroupAddMembersEventAsEventEnvelope is a convenience function that returns UserGroupAddMembersEvent wrapped in EventEnvelope
+func UserGroupAddMembersEventAsEventEnvelope(v *UserGroupAddMembersEvent) EventEnvelope {
+	return EventEnvelope{
 		UserGroupAddMembersEvent: v,
 	}
 }
 
-// UserGroupRemoveMembersEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupRemoveMembersEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UserGroupRemoveMembersEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupRemoveMembersEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UserGroupRemoveMembersEventAsEventEnvelope is a convenience function that returns UserGroupRemoveMembersEvent wrapped in EventEnvelope
+func UserGroupRemoveMembersEventAsEventEnvelope(v *UserGroupRemoveMembersEvent) EventEnvelope {
+	return EventEnvelope{
 		UserGroupRemoveMembersEvent: v,
 	}
 }
 
-// UserGroupAddSubgroupsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupAddSubgroupsEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UserGroupAddSubgroupsEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupAddSubgroupsEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UserGroupAddSubgroupsEventAsEventEnvelope is a convenience function that returns UserGroupAddSubgroupsEvent wrapped in EventEnvelope
+func UserGroupAddSubgroupsEventAsEventEnvelope(v *UserGroupAddSubgroupsEvent) EventEnvelope {
+	return EventEnvelope{
 		UserGroupAddSubgroupsEvent: v,
 	}
 }
 
-// UserGroupRemoveSubgroupsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupRemoveSubgroupsEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UserGroupRemoveSubgroupsEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupRemoveSubgroupsEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UserGroupRemoveSubgroupsEventAsEventEnvelope is a convenience function that returns UserGroupRemoveSubgroupsEvent wrapped in EventEnvelope
+func UserGroupRemoveSubgroupsEventAsEventEnvelope(v *UserGroupRemoveSubgroupsEvent) EventEnvelope {
+	return EventEnvelope{
 		UserGroupRemoveSubgroupsEvent: v,
 	}
 }
 
-// UserGroupRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns UserGroupRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func UserGroupRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *UserGroupRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// UserGroupRemoveEventAsEventEnvelope is a convenience function that returns UserGroupRemoveEvent wrapped in EventEnvelope
+func UserGroupRemoveEventAsEventEnvelope(v *UserGroupRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		UserGroupRemoveEvent: v,
 	}
 }
 
-// SubscriptionAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SubscriptionAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func SubscriptionAddEventAsGetEvents200ResponseAllOfEventsInner(v *SubscriptionAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// SubscriptionAddEventAsEventEnvelope is a convenience function that returns SubscriptionAddEvent wrapped in EventEnvelope
+func SubscriptionAddEventAsEventEnvelope(v *SubscriptionAddEvent) EventEnvelope {
+	return EventEnvelope{
 		SubscriptionAddEvent: v,
 	}
 }
 
-// RealmLinkifiersEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmLinkifiersEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmLinkifiersEventAsGetEvents200ResponseAllOfEventsInner(v *RealmLinkifiersEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmLinkifiersEventAsEventEnvelope is a convenience function that returns RealmLinkifiersEvent wrapped in EventEnvelope
+func RealmLinkifiersEventAsEventEnvelope(v *RealmLinkifiersEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmLinkifiersEvent: v,
 	}
 }
 
-// RealmFiltersEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmFiltersEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmFiltersEventAsGetEvents200ResponseAllOfEventsInner(v *RealmFiltersEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmFiltersEventAsEventEnvelope is a convenience function that returns RealmFiltersEvent wrapped in EventEnvelope
+func RealmFiltersEventAsEventEnvelope(v *RealmFiltersEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmFiltersEvent: v,
 	}
 }
 
-// RealmPlaygroundsEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmPlaygroundsEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmPlaygroundsEventAsGetEvents200ResponseAllOfEventsInner(v *RealmPlaygroundsEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmPlaygroundsEventAsEventEnvelope is a convenience function that returns RealmPlaygroundsEvent wrapped in EventEnvelope
+func RealmPlaygroundsEventAsEventEnvelope(v *RealmPlaygroundsEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmPlaygroundsEvent: v,
 	}
 }
 
-// RealmEmojiUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmEmojiUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmEmojiUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *RealmEmojiUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmEmojiUpdateEventAsEventEnvelope is a convenience function that returns RealmEmojiUpdateEvent wrapped in EventEnvelope
+func RealmEmojiUpdateEventAsEventEnvelope(v *RealmEmojiUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmEmojiUpdateEvent: v,
 	}
 }
 
-// RealmDomainsAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmDomainsAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmDomainsAddEventAsGetEvents200ResponseAllOfEventsInner(v *RealmDomainsAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmDomainsAddEventAsEventEnvelope is a convenience function that returns RealmDomainsAddEvent wrapped in EventEnvelope
+func RealmDomainsAddEventAsEventEnvelope(v *RealmDomainsAddEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmDomainsAddEvent: v,
 	}
 }
 
-// RealmDomainsChangeEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmDomainsChangeEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmDomainsChangeEventAsGetEvents200ResponseAllOfEventsInner(v *RealmDomainsChangeEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmDomainsChangeEventAsEventEnvelope is a convenience function that returns RealmDomainsChangeEvent wrapped in EventEnvelope
+func RealmDomainsChangeEventAsEventEnvelope(v *RealmDomainsChangeEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmDomainsChangeEvent: v,
 	}
 }
 
-// RealmDomainsRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmDomainsRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmDomainsRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *RealmDomainsRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmDomainsRemoveEventAsEventEnvelope is a convenience function that returns RealmDomainsRemoveEvent wrapped in EventEnvelope
+func RealmDomainsRemoveEventAsEventEnvelope(v *RealmDomainsRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmDomainsRemoveEvent: v,
 	}
 }
 
-// RealmExportEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmExportEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmExportEventAsGetEvents200ResponseAllOfEventsInner(v *RealmExportEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmExportEventAsEventEnvelope is a convenience function that returns RealmExportEvent wrapped in EventEnvelope
+func RealmExportEventAsEventEnvelope(v *RealmExportEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmExportEvent: v,
 	}
 }
 
-// RealmExportConsentEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmExportConsentEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmExportConsentEventAsGetEvents200ResponseAllOfEventsInner(v *RealmExportConsentEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmExportConsentEventAsEventEnvelope is a convenience function that returns RealmExportConsentEvent wrapped in EventEnvelope
+func RealmExportConsentEventAsEventEnvelope(v *RealmExportConsentEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmExportConsentEvent: v,
 	}
 }
 
-// RealmBotAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmBotAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmBotAddEventAsGetEvents200ResponseAllOfEventsInner(v *RealmBotAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmBotAddEventAsEventEnvelope is a convenience function that returns RealmBotAddEvent wrapped in EventEnvelope
+func RealmBotAddEventAsEventEnvelope(v *RealmBotAddEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmBotAddEvent: v,
 	}
 }
 
-// SubscriptionRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SubscriptionRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func SubscriptionRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *SubscriptionRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// SubscriptionRemoveEventAsEventEnvelope is a convenience function that returns SubscriptionRemoveEvent wrapped in EventEnvelope
+func SubscriptionRemoveEventAsEventEnvelope(v *SubscriptionRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		SubscriptionRemoveEvent: v,
 	}
 }
 
-// RealmBotUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmBotUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmBotUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *RealmBotUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmBotUpdateEventAsEventEnvelope is a convenience function that returns RealmBotUpdateEvent wrapped in EventEnvelope
+func RealmBotUpdateEventAsEventEnvelope(v *RealmBotUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmBotUpdateEvent: v,
 	}
 }
 
-// RealmBotRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmBotRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmBotRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *RealmBotRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmBotRemoveEventAsEventEnvelope is a convenience function that returns RealmBotRemoveEvent wrapped in EventEnvelope
+func RealmBotRemoveEventAsEventEnvelope(v *RealmBotRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmBotRemoveEvent: v,
 	}
 }
 
-// RealmBotDeleteEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmBotDeleteEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmBotDeleteEventAsGetEvents200ResponseAllOfEventsInner(v *RealmBotDeleteEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmBotDeleteEventAsEventEnvelope is a convenience function that returns RealmBotDeleteEvent wrapped in EventEnvelope
+func RealmBotDeleteEventAsEventEnvelope(v *RealmBotDeleteEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmBotDeleteEvent: v,
 	}
 }
 
-// RealmUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *RealmUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmUpdateEventAsEventEnvelope is a convenience function that returns RealmUpdateEvent wrapped in EventEnvelope
+func RealmUpdateEventAsEventEnvelope(v *RealmUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmUpdateEvent: v,
 	}
 }
 
-// RealmDeactivatedEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmDeactivatedEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmDeactivatedEventAsGetEvents200ResponseAllOfEventsInner(v *RealmDeactivatedEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmDeactivatedEventAsEventEnvelope is a convenience function that returns RealmDeactivatedEvent wrapped in EventEnvelope
+func RealmDeactivatedEventAsEventEnvelope(v *RealmDeactivatedEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmDeactivatedEvent: v,
 	}
 }
 
-// RestartEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RestartEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RestartEventAsGetEvents200ResponseAllOfEventsInner(v *RestartEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RestartEventAsEventEnvelope is a convenience function that returns RestartEvent wrapped in EventEnvelope
+func RestartEventAsEventEnvelope(v *RestartEvent) EventEnvelope {
+	return EventEnvelope{
 		RestartEvent: v,
 	}
 }
 
-// WebReloadClientEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns WebReloadClientEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func WebReloadClientEventAsGetEvents200ResponseAllOfEventsInner(v *WebReloadClientEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// WebReloadClientEventAsEventEnvelope is a convenience function that returns WebReloadClientEvent wrapped in EventEnvelope
+func WebReloadClientEventAsEventEnvelope(v *WebReloadClientEvent) EventEnvelope {
+	return EventEnvelope{
 		WebReloadClientEvent: v,
 	}
 }
 
-// RealmUpdateDictEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmUpdateDictEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmUpdateDictEventAsGetEvents200ResponseAllOfEventsInner(v *RealmUpdateDictEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmUpdateDictEventAsEventEnvelope is a convenience function that returns RealmUpdateDictEvent wrapped in EventEnvelope
+func RealmUpdateDictEventAsEventEnvelope(v *RealmUpdateDictEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmUpdateDictEvent: v,
 	}
 }
 
-// RealmUserSettingsDefaultsUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RealmUserSettingsDefaultsUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RealmUserSettingsDefaultsUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *RealmUserSettingsDefaultsUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RealmUserSettingsDefaultsUpdateEventAsEventEnvelope is a convenience function that returns RealmUserSettingsDefaultsUpdateEvent wrapped in EventEnvelope
+func RealmUserSettingsDefaultsUpdateEventAsEventEnvelope(v *RealmUserSettingsDefaultsUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		RealmUserSettingsDefaultsUpdateEvent: v,
 	}
 }
 
-// DraftsAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns DraftsAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func DraftsAddEventAsGetEvents200ResponseAllOfEventsInner(v *DraftsAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// DraftsAddEventAsEventEnvelope is a convenience function that returns DraftsAddEvent wrapped in EventEnvelope
+func DraftsAddEventAsEventEnvelope(v *DraftsAddEvent) EventEnvelope {
+	return EventEnvelope{
 		DraftsAddEvent: v,
 	}
 }
 
-// SubscriptionUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SubscriptionUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func SubscriptionUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *SubscriptionUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// SubscriptionUpdateEventAsEventEnvelope is a convenience function that returns SubscriptionUpdateEvent wrapped in EventEnvelope
+func SubscriptionUpdateEventAsEventEnvelope(v *SubscriptionUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		SubscriptionUpdateEvent: v,
 	}
 }
 
-// DraftsUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns DraftsUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func DraftsUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *DraftsUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// DraftsUpdateEventAsEventEnvelope is a convenience function that returns DraftsUpdateEvent wrapped in EventEnvelope
+func DraftsUpdateEventAsEventEnvelope(v *DraftsUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		DraftsUpdateEvent: v,
 	}
 }
 
-// DraftsRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns DraftsRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func DraftsRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *DraftsRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// DraftsRemoveEventAsEventEnvelope is a convenience function that returns DraftsRemoveEvent wrapped in EventEnvelope
+func DraftsRemoveEventAsEventEnvelope(v *DraftsRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		DraftsRemoveEvent: v,
 	}
 }
 
-// NavigationViewAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns NavigationViewAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func NavigationViewAddEventAsGetEvents200ResponseAllOfEventsInner(v *NavigationViewAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// NavigationViewAddEventAsEventEnvelope is a convenience function that returns NavigationViewAddEvent wrapped in EventEnvelope
+func NavigationViewAddEventAsEventEnvelope(v *NavigationViewAddEvent) EventEnvelope {
+	return EventEnvelope{
 		NavigationViewAddEvent: v,
 	}
 }
 
-// NavigationViewUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns NavigationViewUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func NavigationViewUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *NavigationViewUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// NavigationViewUpdateEventAsEventEnvelope is a convenience function that returns NavigationViewUpdateEvent wrapped in EventEnvelope
+func NavigationViewUpdateEventAsEventEnvelope(v *NavigationViewUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		NavigationViewUpdateEvent: v,
 	}
 }
 
-// NavigationViewRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns NavigationViewRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func NavigationViewRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *NavigationViewRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// NavigationViewRemoveEventAsEventEnvelope is a convenience function that returns NavigationViewRemoveEvent wrapped in EventEnvelope
+func NavigationViewRemoveEventAsEventEnvelope(v *NavigationViewRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		NavigationViewRemoveEvent: v,
 	}
 }
 
-// SavedSnippetsAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SavedSnippetsAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func SavedSnippetsAddEventAsGetEvents200ResponseAllOfEventsInner(v *SavedSnippetsAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// SavedSnippetsAddEventAsEventEnvelope is a convenience function that returns SavedSnippetsAddEvent wrapped in EventEnvelope
+func SavedSnippetsAddEventAsEventEnvelope(v *SavedSnippetsAddEvent) EventEnvelope {
+	return EventEnvelope{
 		SavedSnippetsAddEvent: v,
 	}
 }
 
-// SavedSnippetsUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SavedSnippetsUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func SavedSnippetsUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *SavedSnippetsUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// SavedSnippetsUpdateEventAsEventEnvelope is a convenience function that returns SavedSnippetsUpdateEvent wrapped in EventEnvelope
+func SavedSnippetsUpdateEventAsEventEnvelope(v *SavedSnippetsUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		SavedSnippetsUpdateEvent: v,
 	}
 }
 
-// SavedSnippetsRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SavedSnippetsRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func SavedSnippetsRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *SavedSnippetsRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// SavedSnippetsRemoveEventAsEventEnvelope is a convenience function that returns SavedSnippetsRemoveEvent wrapped in EventEnvelope
+func SavedSnippetsRemoveEventAsEventEnvelope(v *SavedSnippetsRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		SavedSnippetsRemoveEvent: v,
 	}
 }
 
-// RemindersAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RemindersAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RemindersAddEventAsGetEvents200ResponseAllOfEventsInner(v *RemindersAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RemindersAddEventAsEventEnvelope is a convenience function that returns RemindersAddEvent wrapped in EventEnvelope
+func RemindersAddEventAsEventEnvelope(v *RemindersAddEvent) EventEnvelope {
+	return EventEnvelope{
 		RemindersAddEvent: v,
 	}
 }
 
-// RemindersRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns RemindersRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func RemindersRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *RemindersRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// RemindersRemoveEventAsEventEnvelope is a convenience function that returns RemindersRemoveEvent wrapped in EventEnvelope
+func RemindersRemoveEventAsEventEnvelope(v *RemindersRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		RemindersRemoveEvent: v,
 	}
 }
 
-// SubscriptionPeerAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SubscriptionPeerAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func SubscriptionPeerAddEventAsGetEvents200ResponseAllOfEventsInner(v *SubscriptionPeerAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// SubscriptionPeerAddEventAsEventEnvelope is a convenience function that returns SubscriptionPeerAddEvent wrapped in EventEnvelope
+func SubscriptionPeerAddEventAsEventEnvelope(v *SubscriptionPeerAddEvent) EventEnvelope {
+	return EventEnvelope{
 		SubscriptionPeerAddEvent: v,
 	}
 }
 
-// ScheduledMessagesAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ScheduledMessagesAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func ScheduledMessagesAddEventAsGetEvents200ResponseAllOfEventsInner(v *ScheduledMessagesAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// ScheduledMessagesAddEventAsEventEnvelope is a convenience function that returns ScheduledMessagesAddEvent wrapped in EventEnvelope
+func ScheduledMessagesAddEventAsEventEnvelope(v *ScheduledMessagesAddEvent) EventEnvelope {
+	return EventEnvelope{
 		ScheduledMessagesAddEvent: v,
 	}
 }
 
-// ScheduledMessagesUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ScheduledMessagesUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func ScheduledMessagesUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *ScheduledMessagesUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// ScheduledMessagesUpdateEventAsEventEnvelope is a convenience function that returns ScheduledMessagesUpdateEvent wrapped in EventEnvelope
+func ScheduledMessagesUpdateEventAsEventEnvelope(v *ScheduledMessagesUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		ScheduledMessagesUpdateEvent: v,
 	}
 }
 
-// ScheduledMessagesRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ScheduledMessagesRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func ScheduledMessagesRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *ScheduledMessagesRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// ScheduledMessagesRemoveEventAsEventEnvelope is a convenience function that returns ScheduledMessagesRemoveEvent wrapped in EventEnvelope
+func ScheduledMessagesRemoveEventAsEventEnvelope(v *ScheduledMessagesRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		ScheduledMessagesRemoveEvent: v,
 	}
 }
 
-// ChannelFolderAddEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ChannelFolderAddEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func ChannelFolderAddEventAsGetEvents200ResponseAllOfEventsInner(v *ChannelFolderAddEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// ChannelFolderAddEventAsEventEnvelope is a convenience function that returns ChannelFolderAddEvent wrapped in EventEnvelope
+func ChannelFolderAddEventAsEventEnvelope(v *ChannelFolderAddEvent) EventEnvelope {
+	return EventEnvelope{
 		ChannelFolderAddEvent: v,
 	}
 }
 
-// ChannelFolderUpdateEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ChannelFolderUpdateEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func ChannelFolderUpdateEventAsGetEvents200ResponseAllOfEventsInner(v *ChannelFolderUpdateEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// ChannelFolderUpdateEventAsEventEnvelope is a convenience function that returns ChannelFolderUpdateEvent wrapped in EventEnvelope
+func ChannelFolderUpdateEventAsEventEnvelope(v *ChannelFolderUpdateEvent) EventEnvelope {
+	return EventEnvelope{
 		ChannelFolderUpdateEvent: v,
 	}
 }
 
-// ChannelFolderReorderEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns ChannelFolderReorderEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func ChannelFolderReorderEventAsGetEvents200ResponseAllOfEventsInner(v *ChannelFolderReorderEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// ChannelFolderReorderEventAsEventEnvelope is a convenience function that returns ChannelFolderReorderEvent wrapped in EventEnvelope
+func ChannelFolderReorderEventAsEventEnvelope(v *ChannelFolderReorderEvent) EventEnvelope {
+	return EventEnvelope{
 		ChannelFolderReorderEvent: v,
 	}
 }
 
-// SubscriptionPeerRemoveEventAsGetEvents200ResponseAllOfEventsInner is a convenience function that returns SubscriptionPeerRemoveEvent wrapped in GetEvents200ResponseAllOfEventsInner
-func SubscriptionPeerRemoveEventAsGetEvents200ResponseAllOfEventsInner(v *SubscriptionPeerRemoveEvent) GetEvents200ResponseAllOfEventsInner {
-	return GetEvents200ResponseAllOfEventsInner{
+// SubscriptionPeerRemoveEventAsEventEnvelope is a convenience function that returns SubscriptionPeerRemoveEvent wrapped in EventEnvelope
+func SubscriptionPeerRemoveEventAsEventEnvelope(v *SubscriptionPeerRemoveEvent) EventEnvelope {
+	return EventEnvelope{
 		SubscriptionPeerRemoveEvent: v,
 	}
 }
 
 // Unmarshal JSON data into one of the pointers in the struct
-func (dst *GetEvents200ResponseAllOfEventsInner) UnmarshalJSON(data []byte) error {
+func (dst *EventEnvelope) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
 	// try to unmarshal data into AlertWordsEvent
@@ -2264,16 +2264,16 @@ func (dst *GetEvents200ResponseAllOfEventsInner) UnmarshalJSON(data []byte) erro
 		dst.ChannelFolderReorderEvent = nil
 		dst.SubscriptionPeerRemoveEvent = nil
 
-		return fmt.Errorf("data matches more than one schema in oneOf(GetEvents200ResponseAllOfEventsInner)")
+		return fmt.Errorf("data matches more than one schema in oneOf(EventEnvelope)")
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
-		return fmt.Errorf("data failed to match schemas in oneOf(GetEvents200ResponseAllOfEventsInner)")
+		return fmt.Errorf("data failed to match schemas in oneOf(EventEnvelope)")
 	}
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src GetEvents200ResponseAllOfEventsInner) MarshalJSON() ([]byte, error) {
+func (src EventEnvelope) MarshalJSON() ([]byte, error) {
 	if src.AlertWordsEvent != nil {
 		return json.Marshal(&src.AlertWordsEvent)
 	}
@@ -2622,7 +2622,7 @@ func (src GetEvents200ResponseAllOfEventsInner) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *GetEvents200ResponseAllOfEventsInner) GetActualInstance() interface{} {
+func (obj *EventEnvelope) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -2975,7 +2975,7 @@ func (obj *GetEvents200ResponseAllOfEventsInner) GetActualInstance() interface{}
 }
 
 // Get the actual instance value
-func (obj GetEvents200ResponseAllOfEventsInner) GetActualInstanceValue() interface{} {
+func (obj EventEnvelope) GetActualInstanceValue() interface{} {
 	if obj.AlertWordsEvent != nil {
 		return *obj.AlertWordsEvent
 	}
@@ -3324,38 +3324,38 @@ func (obj GetEvents200ResponseAllOfEventsInner) GetActualInstanceValue() interfa
 	return nil
 }
 
-type NullableGetEvents200ResponseAllOfEventsInner struct {
-	value *GetEvents200ResponseAllOfEventsInner
+type NullableEventEnvelope struct {
+	value *EventEnvelope
 	isSet bool
 }
 
-func (v NullableGetEvents200ResponseAllOfEventsInner) Get() *GetEvents200ResponseAllOfEventsInner {
+func (v NullableEventEnvelope) Get() *EventEnvelope {
 	return v.value
 }
 
-func (v *NullableGetEvents200ResponseAllOfEventsInner) Set(val *GetEvents200ResponseAllOfEventsInner) {
+func (v *NullableEventEnvelope) Set(val *EventEnvelope) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableGetEvents200ResponseAllOfEventsInner) IsSet() bool {
+func (v NullableEventEnvelope) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableGetEvents200ResponseAllOfEventsInner) Unset() {
+func (v *NullableEventEnvelope) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableGetEvents200ResponseAllOfEventsInner(val *GetEvents200ResponseAllOfEventsInner) *NullableGetEvents200ResponseAllOfEventsInner {
-	return &NullableGetEvents200ResponseAllOfEventsInner{value: val, isSet: true}
+func NewNullableEventEnvelope(val *EventEnvelope) *NullableEventEnvelope {
+	return &NullableEventEnvelope{value: val, isSet: true}
 }
 
-func (v NullableGetEvents200ResponseAllOfEventsInner) MarshalJSON() ([]byte, error) {
+func (v NullableEventEnvelope) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableGetEvents200ResponseAllOfEventsInner) UnmarshalJSON(src []byte) error {
+func (v *NullableEventEnvelope) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

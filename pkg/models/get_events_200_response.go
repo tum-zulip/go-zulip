@@ -26,7 +26,7 @@ type GetEvents200Response struct {
 	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// An array of `event` objects (possibly zero-length if `dont_block` is set) with IDs newer than `last_event_id`. Event IDs are guaranteed to be increasing, but they are not guaranteed to be consecutive.
-	Events []GetEvents200ResponseAllOfEventsInner `json:"events,omitempty"`
+	Events []EventEnvelope `json:"events,omitempty"`
 	// The ID of the registered queue.
 	QueueId *string `json:"queue_id,omitempty"`
 }
@@ -133,9 +133,9 @@ func (o *GetEvents200Response) SetIgnoredParametersUnsupported(v []string) {
 }
 
 // GetEvents returns the Events field value if set, zero value otherwise.
-func (o *GetEvents200Response) GetEvents() []GetEvents200ResponseAllOfEventsInner {
+func (o *GetEvents200Response) GetEvents() []EventEnvelope {
 	if o == nil || IsNil(o.Events) {
-		var ret []GetEvents200ResponseAllOfEventsInner
+		var ret []EventEnvelope
 		return ret
 	}
 	return o.Events
@@ -143,7 +143,7 @@ func (o *GetEvents200Response) GetEvents() []GetEvents200ResponseAllOfEventsInne
 
 // GetEventsOk returns a tuple with the Events field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetEvents200Response) GetEventsOk() ([]GetEvents200ResponseAllOfEventsInner, bool) {
+func (o *GetEvents200Response) GetEventsOk() ([]EventEnvelope, bool) {
 	if o == nil || IsNil(o.Events) {
 		return nil, false
 	}
@@ -159,8 +159,8 @@ func (o *GetEvents200Response) HasEvents() bool {
 	return false
 }
 
-// SetEvents gets a reference to the given []GetEvents200ResponseAllOfEventsInner and assigns it to the Events field.
-func (o *GetEvents200Response) SetEvents(v []GetEvents200ResponseAllOfEventsInner) {
+// SetEvents gets a reference to the given []EventEnvelope and assigns it to the Events field.
+func (o *GetEvents200Response) SetEvents(v []EventEnvelope) {
 	o.Events = v
 }
 
