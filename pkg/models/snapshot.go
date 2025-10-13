@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the GetMessageHistory200ResponseAllOfMessageHistoryInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &GetMessageHistory200ResponseAllOfMessageHistoryInner{}
+// checks if the Snapshot type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Snapshot{}
 
-// GetMessageHistory200ResponseAllOfMessageHistoryInner struct for GetMessageHistory200ResponseAllOfMessageHistoryInner
-type GetMessageHistory200ResponseAllOfMessageHistoryInner struct {
+// Snapshot struct for Snapshot
+type Snapshot struct {
 	// The topic of the message immediately after this edit event.
 	Topic *string `json:"topic,omitempty"`
 	// Only present if message's topic was edited.  The topic of the message immediately prior to this edit event.
@@ -43,25 +43,25 @@ type GetMessageHistory200ResponseAllOfMessageHistoryInner struct {
 	Timestamp *int32 `json:"timestamp,omitempty"`
 }
 
-// NewGetMessageHistory200ResponseAllOfMessageHistoryInner instantiates a new GetMessageHistory200ResponseAllOfMessageHistoryInner object
+// NewSnapshot instantiates a new Snapshot object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetMessageHistory200ResponseAllOfMessageHistoryInner() *GetMessageHistory200ResponseAllOfMessageHistoryInner {
-	this := GetMessageHistory200ResponseAllOfMessageHistoryInner{}
+func NewSnapshot() *Snapshot {
+	this := Snapshot{}
 	return &this
 }
 
-// NewGetMessageHistory200ResponseAllOfMessageHistoryInnerWithDefaults instantiates a new GetMessageHistory200ResponseAllOfMessageHistoryInner object
+// NewSnapshotWithDefaults instantiates a new Snapshot object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewGetMessageHistory200ResponseAllOfMessageHistoryInnerWithDefaults() *GetMessageHistory200ResponseAllOfMessageHistoryInner {
-	this := GetMessageHistory200ResponseAllOfMessageHistoryInner{}
+func NewSnapshotWithDefaults() *Snapshot {
+	this := Snapshot{}
 	return &this
 }
 
 // GetTopic returns the Topic field value if set, zero value otherwise.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetTopic() string {
+func (o *Snapshot) GetTopic() string {
 	if o == nil || IsNil(o.Topic) {
 		var ret string
 		return ret
@@ -71,7 +71,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetTopic() string
 
 // GetTopicOk returns a tuple with the Topic field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetTopicOk() (*string, bool) {
+func (o *Snapshot) GetTopicOk() (*string, bool) {
 	if o == nil || IsNil(o.Topic) {
 		return nil, false
 	}
@@ -79,7 +79,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetTopicOk() (*st
 }
 
 // HasTopic returns a boolean if a field has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasTopic() bool {
+func (o *Snapshot) HasTopic() bool {
 	if o != nil && !IsNil(o.Topic) {
 		return true
 	}
@@ -88,12 +88,12 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasTopic() bool {
 }
 
 // SetTopic gets a reference to the given string and assigns it to the Topic field.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetTopic(v string) {
+func (o *Snapshot) SetTopic(v string) {
 	o.Topic = &v
 }
 
 // GetPrevTopic returns the PrevTopic field value if set, zero value otherwise.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevTopic() string {
+func (o *Snapshot) GetPrevTopic() string {
 	if o == nil || IsNil(o.PrevTopic) {
 		var ret string
 		return ret
@@ -103,7 +103,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevTopic() st
 
 // GetPrevTopicOk returns a tuple with the PrevTopic field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevTopicOk() (*string, bool) {
+func (o *Snapshot) GetPrevTopicOk() (*string, bool) {
 	if o == nil || IsNil(o.PrevTopic) {
 		return nil, false
 	}
@@ -111,7 +111,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevTopicOk() 
 }
 
 // HasPrevTopic returns a boolean if a field has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasPrevTopic() bool {
+func (o *Snapshot) HasPrevTopic() bool {
 	if o != nil && !IsNil(o.PrevTopic) {
 		return true
 	}
@@ -120,12 +120,12 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasPrevTopic() bo
 }
 
 // SetPrevTopic gets a reference to the given string and assigns it to the PrevTopic field.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetPrevTopic(v string) {
+func (o *Snapshot) SetPrevTopic(v string) {
 	o.PrevTopic = &v
 }
 
 // GetStream returns the Stream field value if set, zero value otherwise.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetStream() int32 {
+func (o *Snapshot) GetStream() int32 {
 	if o == nil || IsNil(o.Stream) {
 		var ret int32
 		return ret
@@ -135,7 +135,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetStream() int32
 
 // GetStreamOk returns a tuple with the Stream field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetStreamOk() (*int32, bool) {
+func (o *Snapshot) GetStreamOk() (*int32, bool) {
 	if o == nil || IsNil(o.Stream) {
 		return nil, false
 	}
@@ -143,7 +143,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetStreamOk() (*i
 }
 
 // HasStream returns a boolean if a field has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasStream() bool {
+func (o *Snapshot) HasStream() bool {
 	if o != nil && !IsNil(o.Stream) {
 		return true
 	}
@@ -152,12 +152,12 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasStream() bool 
 }
 
 // SetStream gets a reference to the given int32 and assigns it to the Stream field.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetStream(v int32) {
+func (o *Snapshot) SetStream(v int32) {
 	o.Stream = &v
 }
 
 // GetPrevStream returns the PrevStream field value if set, zero value otherwise.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevStream() int32 {
+func (o *Snapshot) GetPrevStream() int32 {
 	if o == nil || IsNil(o.PrevStream) {
 		var ret int32
 		return ret
@@ -167,7 +167,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevStream() i
 
 // GetPrevStreamOk returns a tuple with the PrevStream field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevStreamOk() (*int32, bool) {
+func (o *Snapshot) GetPrevStreamOk() (*int32, bool) {
 	if o == nil || IsNil(o.PrevStream) {
 		return nil, false
 	}
@@ -175,7 +175,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevStreamOk()
 }
 
 // HasPrevStream returns a boolean if a field has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasPrevStream() bool {
+func (o *Snapshot) HasPrevStream() bool {
 	if o != nil && !IsNil(o.PrevStream) {
 		return true
 	}
@@ -184,12 +184,12 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasPrevStream() b
 }
 
 // SetPrevStream gets a reference to the given int32 and assigns it to the PrevStream field.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetPrevStream(v int32) {
+func (o *Snapshot) SetPrevStream(v int32) {
 	o.PrevStream = &v
 }
 
 // GetContent returns the Content field value if set, zero value otherwise.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetContent() string {
+func (o *Snapshot) GetContent() string {
 	if o == nil || IsNil(o.Content) {
 		var ret string
 		return ret
@@ -199,7 +199,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetContent() stri
 
 // GetContentOk returns a tuple with the Content field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetContentOk() (*string, bool) {
+func (o *Snapshot) GetContentOk() (*string, bool) {
 	if o == nil || IsNil(o.Content) {
 		return nil, false
 	}
@@ -207,7 +207,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetContentOk() (*
 }
 
 // HasContent returns a boolean if a field has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasContent() bool {
+func (o *Snapshot) HasContent() bool {
 	if o != nil && !IsNil(o.Content) {
 		return true
 	}
@@ -216,12 +216,12 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasContent() bool
 }
 
 // SetContent gets a reference to the given string and assigns it to the Content field.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetContent(v string) {
+func (o *Snapshot) SetContent(v string) {
 	o.Content = &v
 }
 
 // GetRenderedContent returns the RenderedContent field value if set, zero value otherwise.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetRenderedContent() string {
+func (o *Snapshot) GetRenderedContent() string {
 	if o == nil || IsNil(o.RenderedContent) {
 		var ret string
 		return ret
@@ -231,7 +231,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetRenderedConten
 
 // GetRenderedContentOk returns a tuple with the RenderedContent field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetRenderedContentOk() (*string, bool) {
+func (o *Snapshot) GetRenderedContentOk() (*string, bool) {
 	if o == nil || IsNil(o.RenderedContent) {
 		return nil, false
 	}
@@ -239,7 +239,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetRenderedConten
 }
 
 // HasRenderedContent returns a boolean if a field has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasRenderedContent() bool {
+func (o *Snapshot) HasRenderedContent() bool {
 	if o != nil && !IsNil(o.RenderedContent) {
 		return true
 	}
@@ -248,12 +248,12 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasRenderedConten
 }
 
 // SetRenderedContent gets a reference to the given string and assigns it to the RenderedContent field.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetRenderedContent(v string) {
+func (o *Snapshot) SetRenderedContent(v string) {
 	o.RenderedContent = &v
 }
 
 // GetPrevContent returns the PrevContent field value if set, zero value otherwise.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevContent() string {
+func (o *Snapshot) GetPrevContent() string {
 	if o == nil || IsNil(o.PrevContent) {
 		var ret string
 		return ret
@@ -263,7 +263,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevContent() 
 
 // GetPrevContentOk returns a tuple with the PrevContent field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevContentOk() (*string, bool) {
+func (o *Snapshot) GetPrevContentOk() (*string, bool) {
 	if o == nil || IsNil(o.PrevContent) {
 		return nil, false
 	}
@@ -271,7 +271,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevContentOk(
 }
 
 // HasPrevContent returns a boolean if a field has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasPrevContent() bool {
+func (o *Snapshot) HasPrevContent() bool {
 	if o != nil && !IsNil(o.PrevContent) {
 		return true
 	}
@@ -280,12 +280,12 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasPrevContent() 
 }
 
 // SetPrevContent gets a reference to the given string and assigns it to the PrevContent field.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetPrevContent(v string) {
+func (o *Snapshot) SetPrevContent(v string) {
 	o.PrevContent = &v
 }
 
 // GetPrevRenderedContent returns the PrevRenderedContent field value if set, zero value otherwise.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevRenderedContent() string {
+func (o *Snapshot) GetPrevRenderedContent() string {
 	if o == nil || IsNil(o.PrevRenderedContent) {
 		var ret string
 		return ret
@@ -295,7 +295,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevRenderedCo
 
 // GetPrevRenderedContentOk returns a tuple with the PrevRenderedContent field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevRenderedContentOk() (*string, bool) {
+func (o *Snapshot) GetPrevRenderedContentOk() (*string, bool) {
 	if o == nil || IsNil(o.PrevRenderedContent) {
 		return nil, false
 	}
@@ -303,7 +303,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetPrevRenderedCo
 }
 
 // HasPrevRenderedContent returns a boolean if a field has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasPrevRenderedContent() bool {
+func (o *Snapshot) HasPrevRenderedContent() bool {
 	if o != nil && !IsNil(o.PrevRenderedContent) {
 		return true
 	}
@@ -312,12 +312,12 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasPrevRenderedCo
 }
 
 // SetPrevRenderedContent gets a reference to the given string and assigns it to the PrevRenderedContent field.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetPrevRenderedContent(v string) {
+func (o *Snapshot) SetPrevRenderedContent(v string) {
 	o.PrevRenderedContent = &v
 }
 
 // GetUserId returns the UserId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetUserId() int32 {
+func (o *Snapshot) GetUserId() int32 {
 	if o == nil || IsNil(o.UserId.Get()) {
 		var ret int32
 		return ret
@@ -328,7 +328,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetUserId() int32
 // GetUserIdOk returns a tuple with the UserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetUserIdOk() (*int32, bool) {
+func (o *Snapshot) GetUserIdOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -336,7 +336,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetUserIdOk() (*i
 }
 
 // HasUserId returns a boolean if a field has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasUserId() bool {
+func (o *Snapshot) HasUserId() bool {
 	if o != nil && o.UserId.IsSet() {
 		return true
 	}
@@ -345,22 +345,22 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasUserId() bool 
 }
 
 // SetUserId gets a reference to the given NullableInt32 and assigns it to the UserId field.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetUserId(v int32) {
+func (o *Snapshot) SetUserId(v int32) {
 	o.UserId.Set(&v)
 }
 
 // SetUserIdNil sets the value for UserId to be an explicit nil
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetUserIdNil() {
+func (o *Snapshot) SetUserIdNil() {
 	o.UserId.Set(nil)
 }
 
 // UnsetUserId ensures that no value is present for UserId, not even an explicit nil
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) UnsetUserId() {
+func (o *Snapshot) UnsetUserId() {
 	o.UserId.Unset()
 }
 
 // GetContentHtmlDiff returns the ContentHtmlDiff field value if set, zero value otherwise.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetContentHtmlDiff() string {
+func (o *Snapshot) GetContentHtmlDiff() string {
 	if o == nil || IsNil(o.ContentHtmlDiff) {
 		var ret string
 		return ret
@@ -370,7 +370,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetContentHtmlDif
 
 // GetContentHtmlDiffOk returns a tuple with the ContentHtmlDiff field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetContentHtmlDiffOk() (*string, bool) {
+func (o *Snapshot) GetContentHtmlDiffOk() (*string, bool) {
 	if o == nil || IsNil(o.ContentHtmlDiff) {
 		return nil, false
 	}
@@ -378,7 +378,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetContentHtmlDif
 }
 
 // HasContentHtmlDiff returns a boolean if a field has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasContentHtmlDiff() bool {
+func (o *Snapshot) HasContentHtmlDiff() bool {
 	if o != nil && !IsNil(o.ContentHtmlDiff) {
 		return true
 	}
@@ -387,12 +387,12 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasContentHtmlDif
 }
 
 // SetContentHtmlDiff gets a reference to the given string and assigns it to the ContentHtmlDiff field.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetContentHtmlDiff(v string) {
+func (o *Snapshot) SetContentHtmlDiff(v string) {
 	o.ContentHtmlDiff = &v
 }
 
 // GetTimestamp returns the Timestamp field value if set, zero value otherwise.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetTimestamp() int32 {
+func (o *Snapshot) GetTimestamp() int32 {
 	if o == nil || IsNil(o.Timestamp) {
 		var ret int32
 		return ret
@@ -402,7 +402,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetTimestamp() in
 
 // GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetTimestampOk() (*int32, bool) {
+func (o *Snapshot) GetTimestampOk() (*int32, bool) {
 	if o == nil || IsNil(o.Timestamp) {
 		return nil, false
 	}
@@ -410,7 +410,7 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) GetTimestampOk() 
 }
 
 // HasTimestamp returns a boolean if a field has been set.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasTimestamp() bool {
+func (o *Snapshot) HasTimestamp() bool {
 	if o != nil && !IsNil(o.Timestamp) {
 		return true
 	}
@@ -419,11 +419,11 @@ func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) HasTimestamp() bo
 }
 
 // SetTimestamp gets a reference to the given int32 and assigns it to the Timestamp field.
-func (o *GetMessageHistory200ResponseAllOfMessageHistoryInner) SetTimestamp(v int32) {
+func (o *Snapshot) SetTimestamp(v int32) {
 	o.Timestamp = &v
 }
 
-func (o GetMessageHistory200ResponseAllOfMessageHistoryInner) MarshalJSON() ([]byte, error) {
+func (o Snapshot) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -431,7 +431,7 @@ func (o GetMessageHistory200ResponseAllOfMessageHistoryInner) MarshalJSON() ([]b
 	return json.Marshal(toSerialize)
 }
 
-func (o GetMessageHistory200ResponseAllOfMessageHistoryInner) ToMap() (map[string]interface{}, error) {
+func (o Snapshot) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Topic) {
 		toSerialize["topic"] = o.Topic
@@ -469,38 +469,38 @@ func (o GetMessageHistory200ResponseAllOfMessageHistoryInner) ToMap() (map[strin
 	return toSerialize, nil
 }
 
-type NullableGetMessageHistory200ResponseAllOfMessageHistoryInner struct {
-	value *GetMessageHistory200ResponseAllOfMessageHistoryInner
+type NullableSnapshot struct {
+	value *Snapshot
 	isSet bool
 }
 
-func (v NullableGetMessageHistory200ResponseAllOfMessageHistoryInner) Get() *GetMessageHistory200ResponseAllOfMessageHistoryInner {
+func (v NullableSnapshot) Get() *Snapshot {
 	return v.value
 }
 
-func (v *NullableGetMessageHistory200ResponseAllOfMessageHistoryInner) Set(val *GetMessageHistory200ResponseAllOfMessageHistoryInner) {
+func (v *NullableSnapshot) Set(val *Snapshot) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableGetMessageHistory200ResponseAllOfMessageHistoryInner) IsSet() bool {
+func (v NullableSnapshot) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableGetMessageHistory200ResponseAllOfMessageHistoryInner) Unset() {
+func (v *NullableSnapshot) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableGetMessageHistory200ResponseAllOfMessageHistoryInner(val *GetMessageHistory200ResponseAllOfMessageHistoryInner) *NullableGetMessageHistory200ResponseAllOfMessageHistoryInner {
-	return &NullableGetMessageHistory200ResponseAllOfMessageHistoryInner{value: val, isSet: true}
+func NewNullableSnapshot(val *Snapshot) *NullableSnapshot {
+	return &NullableSnapshot{value: val, isSet: true}
 }
 
-func (v NullableGetMessageHistory200ResponseAllOfMessageHistoryInner) MarshalJSON() ([]byte, error) {
+func (v NullableSnapshot) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableGetMessageHistory200ResponseAllOfMessageHistoryInner) UnmarshalJSON(src []byte) error {
+func (v *NullableSnapshot) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

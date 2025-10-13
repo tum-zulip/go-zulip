@@ -1328,8 +1328,8 @@ func (dst *EventEnvelope) UnmarshalJSON(data []byte) error {
 	// try to unmarshal data into UpdateMessageFlagsAddEvent
 	err = newStrictDecoder(data).Decode(&dst.UpdateMessageFlagsAddEvent)
 	if err == nil {
-		jsonRealmUserUpdateEvent1, _ := json.Marshal(dst.UpdateMessageFlagsAddEvent)
-		if string(jsonRealmUserUpdateEvent1) == "{}" { // empty struct
+		jsonUpdateMessageFlagsAddEvent, _ := json.Marshal(dst.UpdateMessageFlagsAddEvent)
+		if string(jsonUpdateMessageFlagsAddEvent) == "{}" { // empty struct
 			dst.UpdateMessageFlagsAddEvent = nil
 		} else {
 			if err = validator.Validate(dst.UpdateMessageFlagsAddEvent); err != nil {
@@ -1345,8 +1345,8 @@ func (dst *EventEnvelope) UnmarshalJSON(data []byte) error {
 	// try to unmarshal data into UpdateMessageFlagsRemoveEvent
 	err = newStrictDecoder(data).Decode(&dst.UpdateMessageFlagsRemoveEvent)
 	if err == nil {
-		jsonRealmUserUpdateEvent2, _ := json.Marshal(dst.UpdateMessageFlagsRemoveEvent)
-		if string(jsonRealmUserUpdateEvent2) == "{}" { // empty struct
+		jsonUpdateMessageFlagsRemoveEvent, _ := json.Marshal(dst.UpdateMessageFlagsRemoveEvent)
+		if string(jsonUpdateMessageFlagsRemoveEvent) == "{}" { // empty struct
 			dst.UpdateMessageFlagsRemoveEvent = nil
 		} else {
 			if err = validator.Validate(dst.UpdateMessageFlagsRemoveEvent); err != nil {
@@ -1362,8 +1362,8 @@ func (dst *EventEnvelope) UnmarshalJSON(data []byte) error {
 	// try to unmarshal data into UserGroupAddEvent
 	err = newStrictDecoder(data).Decode(&dst.UserGroupAddEvent)
 	if err == nil {
-		jsonRealmUserUpdateEvent3, _ := json.Marshal(dst.UserGroupAddEvent)
-		if string(jsonRealmUserUpdateEvent3) == "{}" { // empty struct
+		jsonUserGroupAddEvent, _ := json.Marshal(dst.UserGroupAddEvent)
+		if string(jsonUserGroupAddEvent) == "{}" { // empty struct
 			dst.UserGroupAddEvent = nil
 		} else {
 			if err = validator.Validate(dst.UserGroupAddEvent); err != nil {

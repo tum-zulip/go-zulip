@@ -16,11 +16,11 @@ import (
 	"fmt"
 )
 
-// checks if the RealmUserUpdateEvent2MessageDetailsValue type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RealmUserUpdateEvent2MessageDetailsValue{}
+// checks if the UpdateMessageFlagsRemoveEventMessageDetailsValue type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UpdateMessageFlagsRemoveEventMessageDetailsValue{}
 
-// RealmUserUpdateEvent2MessageDetailsValue `{message_id}`: Object containing details about the message with the specified ID.
-type RealmUserUpdateEvent2MessageDetailsValue struct {
+// UpdateMessageFlagsRemoveEventMessageDetailsValue `{message_id}`: Object containing details about the message with the specified ID.
+type UpdateMessageFlagsRemoveEventMessageDetailsValue struct {
 	// The type of this message. Either `\"stream\"` or `\"private\"`.
 	Type string `json:"type"`
 	// A flag which indicates whether the message contains a mention of the user.  Present only if the message mentions the current user.
@@ -36,28 +36,28 @@ type RealmUserUpdateEvent2MessageDetailsValue struct {
 	UnmutedStreamMsg *bool `json:"unmuted_stream_msg,omitempty"`
 }
 
-type _RealmUserUpdateEvent2MessageDetailsValue RealmUserUpdateEvent2MessageDetailsValue
+type _UpdateMessageFlagsRemoveEventMessageDetailsValue UpdateMessageFlagsRemoveEventMessageDetailsValue
 
-// NewRealmUserUpdateEvent2MessageDetailsValue instantiates a new RealmUserUpdateEvent2MessageDetailsValue object
+// NewUpdateMessageFlagsRemoveEventMessageDetailsValue instantiates a new UpdateMessageFlagsRemoveEventMessageDetailsValue object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEvent2MessageDetailsValue(type_ string) *RealmUserUpdateEvent2MessageDetailsValue {
-	this := RealmUserUpdateEvent2MessageDetailsValue{}
+func NewUpdateMessageFlagsRemoveEventMessageDetailsValue(type_ string) *UpdateMessageFlagsRemoveEventMessageDetailsValue {
+	this := UpdateMessageFlagsRemoveEventMessageDetailsValue{}
 	this.Type = type_
 	return &this
 }
 
-// NewRealmUserUpdateEvent2MessageDetailsValueWithDefaults instantiates a new RealmUserUpdateEvent2MessageDetailsValue object
+// NewUpdateMessageFlagsRemoveEventMessageDetailsValueWithDefaults instantiates a new UpdateMessageFlagsRemoveEventMessageDetailsValue object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEvent2MessageDetailsValueWithDefaults() *RealmUserUpdateEvent2MessageDetailsValue {
-	this := RealmUserUpdateEvent2MessageDetailsValue{}
+func NewUpdateMessageFlagsRemoveEventMessageDetailsValueWithDefaults() *UpdateMessageFlagsRemoveEventMessageDetailsValue {
+	this := UpdateMessageFlagsRemoveEventMessageDetailsValue{}
 	return &this
 }
 
 // GetType returns the Type field value
-func (o *RealmUserUpdateEvent2MessageDetailsValue) GetType() string {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) GetType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -68,7 +68,7 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) GetTypeOk() (*string, bool) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) GetTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -76,12 +76,12 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *RealmUserUpdateEvent2MessageDetailsValue) SetType(v string) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) SetType(v string) {
 	o.Type = v
 }
 
 // GetMentioned returns the Mentioned field value if set, zero value otherwise.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) GetMentioned() bool {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) GetMentioned() bool {
 	if o == nil || IsNil(o.Mentioned) {
 		var ret bool
 		return ret
@@ -91,7 +91,7 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) GetMentioned() bool {
 
 // GetMentionedOk returns a tuple with the Mentioned field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) GetMentionedOk() (*bool, bool) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) GetMentionedOk() (*bool, bool) {
 	if o == nil || IsNil(o.Mentioned) {
 		return nil, false
 	}
@@ -99,7 +99,7 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) GetMentionedOk() (*bool, bool
 }
 
 // HasMentioned returns a boolean if a field has been set.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) HasMentioned() bool {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) HasMentioned() bool {
 	if o != nil && !IsNil(o.Mentioned) {
 		return true
 	}
@@ -108,12 +108,12 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) HasMentioned() bool {
 }
 
 // SetMentioned gets a reference to the given bool and assigns it to the Mentioned field.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) SetMentioned(v bool) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) SetMentioned(v bool) {
 	o.Mentioned = &v
 }
 
 // GetUserIds returns the UserIds field value if set, zero value otherwise.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) GetUserIds() []int32 {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) GetUserIds() []int32 {
 	if o == nil || IsNil(o.UserIds) {
 		var ret []int32
 		return ret
@@ -123,7 +123,7 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) GetUserIds() []int32 {
 
 // GetUserIdsOk returns a tuple with the UserIds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) GetUserIdsOk() ([]int32, bool) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) GetUserIdsOk() ([]int32, bool) {
 	if o == nil || IsNil(o.UserIds) {
 		return nil, false
 	}
@@ -131,7 +131,7 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) GetUserIdsOk() ([]int32, bool
 }
 
 // HasUserIds returns a boolean if a field has been set.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) HasUserIds() bool {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) HasUserIds() bool {
 	if o != nil && !IsNil(o.UserIds) {
 		return true
 	}
@@ -140,12 +140,12 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) HasUserIds() bool {
 }
 
 // SetUserIds gets a reference to the given []int32 and assigns it to the UserIds field.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) SetUserIds(v []int32) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) SetUserIds(v []int32) {
 	o.UserIds = v
 }
 
 // GetStreamId returns the StreamId field value if set, zero value otherwise.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) GetStreamId() int32 {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) GetStreamId() int32 {
 	if o == nil || IsNil(o.StreamId) {
 		var ret int32
 		return ret
@@ -155,7 +155,7 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) GetStreamId() int32 {
 
 // GetStreamIdOk returns a tuple with the StreamId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) GetStreamIdOk() (*int32, bool) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) GetStreamIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.StreamId) {
 		return nil, false
 	}
@@ -163,7 +163,7 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) GetStreamIdOk() (*int32, bool
 }
 
 // HasStreamId returns a boolean if a field has been set.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) HasStreamId() bool {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) HasStreamId() bool {
 	if o != nil && !IsNil(o.StreamId) {
 		return true
 	}
@@ -172,12 +172,12 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) HasStreamId() bool {
 }
 
 // SetStreamId gets a reference to the given int32 and assigns it to the StreamId field.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) SetStreamId(v int32) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) SetStreamId(v int32) {
 	o.StreamId = &v
 }
 
 // GetTopic returns the Topic field value if set, zero value otherwise.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) GetTopic() string {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) GetTopic() string {
 	if o == nil || IsNil(o.Topic) {
 		var ret string
 		return ret
@@ -187,7 +187,7 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) GetTopic() string {
 
 // GetTopicOk returns a tuple with the Topic field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) GetTopicOk() (*string, bool) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) GetTopicOk() (*string, bool) {
 	if o == nil || IsNil(o.Topic) {
 		return nil, false
 	}
@@ -195,7 +195,7 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) GetTopicOk() (*string, bool) 
 }
 
 // HasTopic returns a boolean if a field has been set.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) HasTopic() bool {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) HasTopic() bool {
 	if o != nil && !IsNil(o.Topic) {
 		return true
 	}
@@ -204,13 +204,13 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) HasTopic() bool {
 }
 
 // SetTopic gets a reference to the given string and assigns it to the Topic field.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) SetTopic(v string) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) SetTopic(v string) {
 	o.Topic = &v
 }
 
 // GetUnmutedStreamMsg returns the UnmutedStreamMsg field value if set, zero value otherwise.
 // Deprecated
-func (o *RealmUserUpdateEvent2MessageDetailsValue) GetUnmutedStreamMsg() bool {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) GetUnmutedStreamMsg() bool {
 	if o == nil || IsNil(o.UnmutedStreamMsg) {
 		var ret bool
 		return ret
@@ -221,7 +221,7 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) GetUnmutedStreamMsg() bool {
 // GetUnmutedStreamMsgOk returns a tuple with the UnmutedStreamMsg field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // Deprecated
-func (o *RealmUserUpdateEvent2MessageDetailsValue) GetUnmutedStreamMsgOk() (*bool, bool) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) GetUnmutedStreamMsgOk() (*bool, bool) {
 	if o == nil || IsNil(o.UnmutedStreamMsg) {
 		return nil, false
 	}
@@ -229,7 +229,7 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) GetUnmutedStreamMsgOk() (*boo
 }
 
 // HasUnmutedStreamMsg returns a boolean if a field has been set.
-func (o *RealmUserUpdateEvent2MessageDetailsValue) HasUnmutedStreamMsg() bool {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) HasUnmutedStreamMsg() bool {
 	if o != nil && !IsNil(o.UnmutedStreamMsg) {
 		return true
 	}
@@ -239,11 +239,11 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) HasUnmutedStreamMsg() bool {
 
 // SetUnmutedStreamMsg gets a reference to the given bool and assigns it to the UnmutedStreamMsg field.
 // Deprecated
-func (o *RealmUserUpdateEvent2MessageDetailsValue) SetUnmutedStreamMsg(v bool) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) SetUnmutedStreamMsg(v bool) {
 	o.UnmutedStreamMsg = &v
 }
 
-func (o RealmUserUpdateEvent2MessageDetailsValue) MarshalJSON() ([]byte, error) {
+func (o UpdateMessageFlagsRemoveEventMessageDetailsValue) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -251,7 +251,7 @@ func (o RealmUserUpdateEvent2MessageDetailsValue) MarshalJSON() ([]byte, error) 
 	return json.Marshal(toSerialize)
 }
 
-func (o RealmUserUpdateEvent2MessageDetailsValue) ToMap() (map[string]interface{}, error) {
+func (o UpdateMessageFlagsRemoveEventMessageDetailsValue) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["type"] = o.Type
 	if !IsNil(o.Mentioned) {
@@ -272,7 +272,7 @@ func (o RealmUserUpdateEvent2MessageDetailsValue) ToMap() (map[string]interface{
 	return toSerialize, nil
 }
 
-func (o *RealmUserUpdateEvent2MessageDetailsValue) UnmarshalJSON(data []byte) (err error) {
+func (o *UpdateMessageFlagsRemoveEventMessageDetailsValue) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -294,53 +294,53 @@ func (o *RealmUserUpdateEvent2MessageDetailsValue) UnmarshalJSON(data []byte) (e
 		}
 	}
 
-	varRealmUserUpdateEvent2MessageDetailsValue := _RealmUserUpdateEvent2MessageDetailsValue{}
+	varUpdateMessageFlagsRemoveEventMessageDetailsValue := _UpdateMessageFlagsRemoveEventMessageDetailsValue{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))
 	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varRealmUserUpdateEvent2MessageDetailsValue)
+	err = decoder.Decode(&varUpdateMessageFlagsRemoveEventMessageDetailsValue)
 
 	if err != nil {
 		return err
 	}
 
-	*o = RealmUserUpdateEvent2MessageDetailsValue(varRealmUserUpdateEvent2MessageDetailsValue)
+	*o = UpdateMessageFlagsRemoveEventMessageDetailsValue(varUpdateMessageFlagsRemoveEventMessageDetailsValue)
 
 	return err
 }
 
-type NullableRealmUserUpdateEvent2MessageDetailsValue struct {
-	value *RealmUserUpdateEvent2MessageDetailsValue
+type NullableUpdateMessageFlagsRemoveEventMessageDetailsValue struct {
+	value *UpdateMessageFlagsRemoveEventMessageDetailsValue
 	isSet bool
 }
 
-func (v NullableRealmUserUpdateEvent2MessageDetailsValue) Get() *RealmUserUpdateEvent2MessageDetailsValue {
+func (v NullableUpdateMessageFlagsRemoveEventMessageDetailsValue) Get() *UpdateMessageFlagsRemoveEventMessageDetailsValue {
 	return v.value
 }
 
-func (v *NullableRealmUserUpdateEvent2MessageDetailsValue) Set(val *RealmUserUpdateEvent2MessageDetailsValue) {
+func (v *NullableUpdateMessageFlagsRemoveEventMessageDetailsValue) Set(val *UpdateMessageFlagsRemoveEventMessageDetailsValue) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRealmUserUpdateEvent2MessageDetailsValue) IsSet() bool {
+func (v NullableUpdateMessageFlagsRemoveEventMessageDetailsValue) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRealmUserUpdateEvent2MessageDetailsValue) Unset() {
+func (v *NullableUpdateMessageFlagsRemoveEventMessageDetailsValue) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRealmUserUpdateEvent2MessageDetailsValue(val *RealmUserUpdateEvent2MessageDetailsValue) *NullableRealmUserUpdateEvent2MessageDetailsValue {
-	return &NullableRealmUserUpdateEvent2MessageDetailsValue{value: val, isSet: true}
+func NewNullableUpdateMessageFlagsRemoveEventMessageDetailsValue(val *UpdateMessageFlagsRemoveEventMessageDetailsValue) *NullableUpdateMessageFlagsRemoveEventMessageDetailsValue {
+	return &NullableUpdateMessageFlagsRemoveEventMessageDetailsValue{value: val, isSet: true}
 }
 
-func (v NullableRealmUserUpdateEvent2MessageDetailsValue) MarshalJSON() ([]byte, error) {
+func (v NullableUpdateMessageFlagsRemoveEventMessageDetailsValue) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRealmUserUpdateEvent2MessageDetailsValue) UnmarshalJSON(src []byte) error {
+func (v *NullableUpdateMessageFlagsRemoveEventMessageDetailsValue) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

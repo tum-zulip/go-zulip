@@ -26,7 +26,7 @@ type GetMessageHistory200Response struct {
 	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// A chronologically sorted, oldest to newest, array of `snapshot` objects, each one with the values of the message after the edit.
-	MessageHistory []GetMessageHistory200ResponseAllOfMessageHistoryInner `json:"message_history,omitempty"`
+	MessageHistory []Snapshot `json:"message_history,omitempty"`
 }
 
 type _GetMessageHistory200Response GetMessageHistory200Response
@@ -131,9 +131,9 @@ func (o *GetMessageHistory200Response) SetIgnoredParametersUnsupported(v []strin
 }
 
 // GetMessageHistory returns the MessageHistory field value if set, zero value otherwise.
-func (o *GetMessageHistory200Response) GetMessageHistory() []GetMessageHistory200ResponseAllOfMessageHistoryInner {
+func (o *GetMessageHistory200Response) GetMessageHistory() []Snapshot {
 	if o == nil || IsNil(o.MessageHistory) {
-		var ret []GetMessageHistory200ResponseAllOfMessageHistoryInner
+		var ret []Snapshot
 		return ret
 	}
 	return o.MessageHistory
@@ -141,7 +141,7 @@ func (o *GetMessageHistory200Response) GetMessageHistory() []GetMessageHistory20
 
 // GetMessageHistoryOk returns a tuple with the MessageHistory field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMessageHistory200Response) GetMessageHistoryOk() ([]GetMessageHistory200ResponseAllOfMessageHistoryInner, bool) {
+func (o *GetMessageHistory200Response) GetMessageHistoryOk() ([]Snapshot, bool) {
 	if o == nil || IsNil(o.MessageHistory) {
 		return nil, false
 	}
@@ -157,8 +157,8 @@ func (o *GetMessageHistory200Response) HasMessageHistory() bool {
 	return false
 }
 
-// SetMessageHistory gets a reference to the given []GetMessageHistory200ResponseAllOfMessageHistoryInner and assigns it to the MessageHistory field.
-func (o *GetMessageHistory200Response) SetMessageHistory(v []GetMessageHistory200ResponseAllOfMessageHistoryInner) {
+// SetMessageHistory gets a reference to the given []Snapshot and assigns it to the MessageHistory field.
+func (o *GetMessageHistory200Response) SetMessageHistory(v []Snapshot) {
 	o.MessageHistory = v
 }
 

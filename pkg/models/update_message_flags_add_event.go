@@ -34,19 +34,19 @@ type UpdateMessageFlagsAddEvent struct {
 	All *bool `json:"all,omitempty"`
 }
 
-// NewRealmUserUpdateEvent1 instantiates a new UpdateMessageFlagsAddEvent object
+// NewUpdateMessageFlagsAddEvent instantiates a new UpdateMessageFlagsAddEvent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRealmUserUpdateEvent1() *UpdateMessageFlagsAddEvent {
+func NewUpdateMessageFlagsAddEvent() *UpdateMessageFlagsAddEvent {
 	this := UpdateMessageFlagsAddEvent{}
 	return &this
 }
 
-// NewRealmUserUpdateEvent1WithDefaults instantiates a new UpdateMessageFlagsAddEvent object
+// NewUpdateMessageFlagsAddEventWithDefaults instantiates a new UpdateMessageFlagsAddEvent object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRealmUserUpdateEvent1WithDefaults() *UpdateMessageFlagsAddEvent {
+func NewUpdateMessageFlagsAddEventWithDefaults() *UpdateMessageFlagsAddEvent {
 	this := UpdateMessageFlagsAddEvent{}
 	return &this
 }
@@ -312,38 +312,38 @@ func (o UpdateMessageFlagsAddEvent) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-type NullableRealmUserUpdateEvent1 struct {
+type NullableUpdateMessageFlagsAddEvent struct {
 	value *UpdateMessageFlagsAddEvent
 	isSet bool
 }
 
-func (v NullableRealmUserUpdateEvent1) Get() *UpdateMessageFlagsAddEvent {
+func (v NullableUpdateMessageFlagsAddEvent) Get() *UpdateMessageFlagsAddEvent {
 	return v.value
 }
 
-func (v *NullableRealmUserUpdateEvent1) Set(val *UpdateMessageFlagsAddEvent) {
+func (v *NullableUpdateMessageFlagsAddEvent) Set(val *UpdateMessageFlagsAddEvent) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRealmUserUpdateEvent1) IsSet() bool {
+func (v NullableUpdateMessageFlagsAddEvent) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRealmUserUpdateEvent1) Unset() {
+func (v *NullableUpdateMessageFlagsAddEvent) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRealmUserUpdateEvent1(val *UpdateMessageFlagsAddEvent) *NullableRealmUserUpdateEvent1 {
-	return &NullableRealmUserUpdateEvent1{value: val, isSet: true}
+func NewNullableUpdateMessageFlagsAddEvent(val *UpdateMessageFlagsAddEvent) *NullableUpdateMessageFlagsAddEvent {
+	return &NullableUpdateMessageFlagsAddEvent{value: val, isSet: true}
 }
 
-func (v NullableRealmUserUpdateEvent1) MarshalJSON() ([]byte, error) {
+func (v NullableUpdateMessageFlagsAddEvent) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRealmUserUpdateEvent1) UnmarshalJSON(src []byte) error {
+func (v *NullableUpdateMessageFlagsAddEvent) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

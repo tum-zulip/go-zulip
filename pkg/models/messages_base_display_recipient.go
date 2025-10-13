@@ -23,7 +23,7 @@ type MessagesBaseDisplayRecipient struct {
 	String                                        *string
 }
 
-// []MessagesBaseDisplayRecipientOneOfInnerAsMessagesBaseDisplayRecipient is a convenience function that returns []MessagesBaseDisplayRecipientOneOfInner wrapped in MessagesBaseDisplayRecipient
+// []MessagesBaseRecipientFromInnerArray is a convenience function that returns []MessagesBaseDisplayRecipientOneOfInner wrapped in MessagesBaseDisplayRecipient
 func MessagesBaseRecipientFromInnerArray(v *[]MessagesBaseDisplayRecipientOneOfInner) MessagesBaseDisplayRecipient {
 	return MessagesBaseDisplayRecipient{
 		ArrayOfMessagesBaseDisplayRecipientOneOfInner: v,

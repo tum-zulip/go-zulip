@@ -24,21 +24,21 @@ type UpdateFlagsNarrowOperand struct {
 	String       *string
 }
 
-// []int32AsUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand is a convenience function that returns []int32 wrapped in UpdateFlagsNarrowOperand
+// []UpdateFlagsNarrowOperandFromInt32Slice is a convenience function that returns []int32 wrapped in UpdateFlagsNarrowOperand
 func UpdateFlagsNarrowOperandFromInt32Slice(v *[]int32) UpdateFlagsNarrowOperand {
 	return UpdateFlagsNarrowOperand{
 		ArrayOfInt32: v,
 	}
 }
 
-// int32AsUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand is a convenience function that returns int32 wrapped in UpdateFlagsNarrowOperand
+// UpdateFlagsNarrowOperandFromInt32 is a convenience function that returns int32 wrapped in UpdateFlagsNarrowOperand
 func UpdateFlagsNarrowOperandFromInt32(v *int32) UpdateFlagsNarrowOperand {
 	return UpdateFlagsNarrowOperand{
 		Int32: v,
 	}
 }
 
-// stringAsUpdateMessageFlagsForNarrowRequestNarrowInnerOneOfOperand is a convenience function that returns string wrapped in UpdateFlagsNarrowOperand
+// UpdateFlagsNarrowOperandFromString is a convenience function that returns string wrapped in UpdateFlagsNarrowOperand
 func UpdateFlagsNarrowOperandFromString(v *string) UpdateFlagsNarrowOperand {
 	return UpdateFlagsNarrowOperand{
 		String: v,
