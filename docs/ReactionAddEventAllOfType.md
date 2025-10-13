@@ -10,26 +10,26 @@ Name | Type | Description | Notes
 **UserId** | Pointer to **interface{}** |  | [optional] 
 **User** | Pointer to **interface{}** |  | [optional] 
 **Id** | Pointer to **int32** | The ID of the event. Events appear in increasing order but may not be consecutive.  | [optional] 
-**Type** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf19AllOfType**](GetEvents200ResponseAllOfEventsInnerOneOf19AllOfType.md) |  | [optional] 
+**Type** | Pointer to [**EventEnvelopeOneOf19AllOfType**](EventEnvelopeOneOf19AllOfType.md) |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
 **MessageId** | Pointer to **int32** | The ID of the message to which a reaction was added.  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf19
+### NewEventEnvelopeOneOf19
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf19() *ReactionAddEvent`
+`func NewEventEnvelopeOneOf19() *ReactionAddEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf19 instantiates a new ReactionAddEvent object
+NewEventEnvelopeOneOf19 instantiates a new ReactionAddEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf19WithDefaults
+### NewEventEnvelopeOneOf19WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf19WithDefaults() *ReactionAddEvent`
+`func NewEventEnvelopeOneOf19WithDefaults() *ReactionAddEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf19WithDefaults instantiates a new ReactionAddEvent object
+NewEventEnvelopeOneOf19WithDefaults instantiates a new ReactionAddEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -235,20 +235,20 @@ HasId returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *ReactionAddEvent) GetType() GetEvents200ResponseAllOfEventsInnerOneOf19AllOfType`
+`func (o *ReactionAddEvent) GetType() EventEnvelopeOneOf19AllOfType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *ReactionAddEvent) GetTypeOk() (*GetEvents200ResponseAllOfEventsInnerOneOf19AllOfType, bool)`
+`func (o *ReactionAddEvent) GetTypeOk() (*EventEnvelopeOneOf19AllOfType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *ReactionAddEvent) SetType(v GetEvents200ResponseAllOfEventsInnerOneOf19AllOfType)`
+`func (o *ReactionAddEvent) SetType(v EventEnvelopeOneOf19AllOfType)`
 
 SetType sets Type field to given value.
 

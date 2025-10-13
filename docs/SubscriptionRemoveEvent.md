@@ -7,24 +7,24 @@ Name | Type | Description | Notes
 **Id** | Pointer to **int32** | The ID of the event. Events appear in increasing order but may not be consecutive.  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
-**Subscriptions** | Pointer to [**[]GetEvents200ResponseAllOfEventsInnerOneOf6SubscriptionsInner**](GetEvents200ResponseAllOfEventsInnerOneOf6SubscriptionsInner.md) | A list of dictionaries, where each dictionary contains information about one of the newly unsubscribed channels.  | [optional] 
+**Subscriptions** | Pointer to [**[]EventEnvelopeOneOf6SubscriptionsInner**](EventEnvelopeOneOf6SubscriptionsInner.md) | A list of dictionaries, where each dictionary contains information about one of the newly unsubscribed channels.  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf6
+### NewEventEnvelopeOneOf6
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf6() *SubscriptionRemoveEvent`
+`func NewEventEnvelopeOneOf6() *SubscriptionRemoveEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf6 instantiates a new SubscriptionRemoveEvent object
+NewEventEnvelopeOneOf6 instantiates a new SubscriptionRemoveEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf6WithDefaults
+### NewEventEnvelopeOneOf6WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf6WithDefaults() *SubscriptionRemoveEvent`
+`func NewEventEnvelopeOneOf6WithDefaults() *SubscriptionRemoveEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf6WithDefaults instantiates a new SubscriptionRemoveEvent object
+NewEventEnvelopeOneOf6WithDefaults instantiates a new SubscriptionRemoveEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -105,20 +105,20 @@ HasOp returns a boolean if a field has been set.
 
 ### GetSubscriptions
 
-`func (o *SubscriptionRemoveEvent) GetSubscriptions() []GetEvents200ResponseAllOfEventsInnerOneOf6SubscriptionsInner`
+`func (o *SubscriptionRemoveEvent) GetSubscriptions() []EventEnvelopeOneOf6SubscriptionsInner`
 
 GetSubscriptions returns the Subscriptions field if non-nil, zero value otherwise.
 
 ### GetSubscriptionsOk
 
-`func (o *SubscriptionRemoveEvent) GetSubscriptionsOk() (*[]GetEvents200ResponseAllOfEventsInnerOneOf6SubscriptionsInner, bool)`
+`func (o *SubscriptionRemoveEvent) GetSubscriptionsOk() (*[]EventEnvelopeOneOf6SubscriptionsInner, bool)`
 
 GetSubscriptionsOk returns a tuple with the Subscriptions field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSubscriptions
 
-`func (o *SubscriptionRemoveEvent) SetSubscriptions(v []GetEvents200ResponseAllOfEventsInnerOneOf6SubscriptionsInner)`
+`func (o *SubscriptionRemoveEvent) SetSubscriptions(v []EventEnvelopeOneOf6SubscriptionsInner)`
 
 SetSubscriptions sets Subscriptions field to given value.
 

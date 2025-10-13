@@ -10,20 +10,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf11
+### NewEventEnvelopeOneOf11
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf11() *HasZoomTokenEvent`
+`func NewEventEnvelopeOneOf11() *HasZoomTokenEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf11 instantiates a new HasZoomTokenEvent object
+NewEventEnvelopeOneOf11 instantiates a new HasZoomTokenEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf11WithDefaults
+### NewEventEnvelopeOneOf11WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf11WithDefaults() *HasZoomTokenEvent`
+`func NewEventEnvelopeOneOf11WithDefaults() *HasZoomTokenEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf11WithDefaults instantiates a new HasZoomTokenEvent object
+NewEventEnvelopeOneOf11WithDefaults instantiates a new HasZoomTokenEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

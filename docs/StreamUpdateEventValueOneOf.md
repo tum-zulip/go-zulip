@@ -1,4 +1,4 @@
-# GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf
+# EventEnvelopeOneOf18ValueOneOf
 
 ## Properties
 
@@ -9,70 +9,70 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf
+### NewEventEnvelopeOneOf18ValueOneOf
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf() *GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf`
+`func NewEventEnvelopeOneOf18ValueOneOf() *EventEnvelopeOneOf18ValueOneOf`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf object
+NewEventEnvelopeOneOf18ValueOneOf instantiates a new EventEnvelopeOneOf18ValueOneOf object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOfWithDefaults
+### NewEventEnvelopeOneOf18ValueOneOfWithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOfWithDefaults() *GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf`
+`func NewEventEnvelopeOneOf18ValueOneOfWithDefaults() *EventEnvelopeOneOf18ValueOneOf`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOfWithDefaults instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf object
+NewEventEnvelopeOneOf18ValueOneOfWithDefaults instantiates a new EventEnvelopeOneOf18ValueOneOf object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetDirectMembers
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf) GetDirectMembers() []int32`
+`func (o *EventEnvelopeOneOf18ValueOneOf) GetDirectMembers() []int32`
 
 GetDirectMembers returns the DirectMembers field if non-nil, zero value otherwise.
 
 ### GetDirectMembersOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf) GetDirectMembersOk() (*[]int32, bool)`
+`func (o *EventEnvelopeOneOf18ValueOneOf) GetDirectMembersOk() (*[]int32, bool)`
 
 GetDirectMembersOk returns a tuple with the DirectMembers field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDirectMembers
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf) SetDirectMembers(v []int32)`
+`func (o *EventEnvelopeOneOf18ValueOneOf) SetDirectMembers(v []int32)`
 
 SetDirectMembers sets DirectMembers field to given value.
 
 ### HasDirectMembers
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf) HasDirectMembers() bool`
+`func (o *EventEnvelopeOneOf18ValueOneOf) HasDirectMembers() bool`
 
 HasDirectMembers returns a boolean if a field has been set.
 
 ### GetDirectSubgroups
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf) GetDirectSubgroups() []int32`
+`func (o *EventEnvelopeOneOf18ValueOneOf) GetDirectSubgroups() []int32`
 
 GetDirectSubgroups returns the DirectSubgroups field if non-nil, zero value otherwise.
 
 ### GetDirectSubgroupsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf) GetDirectSubgroupsOk() (*[]int32, bool)`
+`func (o *EventEnvelopeOneOf18ValueOneOf) GetDirectSubgroupsOk() (*[]int32, bool)`
 
 GetDirectSubgroupsOk returns a tuple with the DirectSubgroups field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDirectSubgroups
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf) SetDirectSubgroups(v []int32)`
+`func (o *EventEnvelopeOneOf18ValueOneOf) SetDirectSubgroups(v []int32)`
 
 SetDirectSubgroups sets DirectSubgroups field to given value.
 
 ### HasDirectSubgroups
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf18ValueOneOf) HasDirectSubgroups() bool`
+`func (o *EventEnvelopeOneOf18ValueOneOf) HasDirectSubgroups() bool`
 
 HasDirectSubgroups returns a boolean if a field has been set.
 

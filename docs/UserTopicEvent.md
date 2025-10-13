@@ -13,20 +13,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf32
+### NewEventEnvelopeOneOf32
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf32() *UserTopicEvent`
+`func NewEventEnvelopeOneOf32() *UserTopicEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf32 instantiates a new UserTopicEvent object
+NewEventEnvelopeOneOf32 instantiates a new UserTopicEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf32WithDefaults
+### NewEventEnvelopeOneOf32WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf32WithDefaults() *UserTopicEvent`
+`func NewEventEnvelopeOneOf32WithDefaults() *UserTopicEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf32WithDefaults instantiates a new UserTopicEvent object
+NewEventEnvelopeOneOf32WithDefaults instantiates a new UserTopicEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

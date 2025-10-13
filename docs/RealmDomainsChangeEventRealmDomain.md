@@ -7,24 +7,24 @@ Name | Type | Description | Notes
 **Id** | Pointer to **int32** | The ID of the event. Events appear in increasing order but may not be consecutive.  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
-**RealmDomain** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain**](GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain.md) |  | [optional] 
+**RealmDomain** | Pointer to [**EventEnvelopeOneOf55RealmDomain**](EventEnvelopeOneOf55RealmDomain.md) |  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf55
+### NewEventEnvelopeOneOf55
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf55() *RealmDomainsChangeEvent`
+`func NewEventEnvelopeOneOf55() *RealmDomainsChangeEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf55 instantiates a new RealmDomainsChangeEvent object
+NewEventEnvelopeOneOf55 instantiates a new RealmDomainsChangeEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf55WithDefaults
+### NewEventEnvelopeOneOf55WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf55WithDefaults() *RealmDomainsChangeEvent`
+`func NewEventEnvelopeOneOf55WithDefaults() *RealmDomainsChangeEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf55WithDefaults instantiates a new RealmDomainsChangeEvent object
+NewEventEnvelopeOneOf55WithDefaults instantiates a new RealmDomainsChangeEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -105,20 +105,20 @@ HasOp returns a boolean if a field has been set.
 
 ### GetRealmDomain
 
-`func (o *RealmDomainsChangeEvent) GetRealmDomain() GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain`
+`func (o *RealmDomainsChangeEvent) GetRealmDomain() EventEnvelopeOneOf55RealmDomain`
 
 GetRealmDomain returns the RealmDomain field if non-nil, zero value otherwise.
 
 ### GetRealmDomainOk
 
-`func (o *RealmDomainsChangeEvent) GetRealmDomainOk() (*GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain, bool)`
+`func (o *RealmDomainsChangeEvent) GetRealmDomainOk() (*EventEnvelopeOneOf55RealmDomain, bool)`
 
 GetRealmDomainOk returns a tuple with the RealmDomain field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRealmDomain
 
-`func (o *RealmDomainsChangeEvent) SetRealmDomain(v GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain)`
+`func (o *RealmDomainsChangeEvent) SetRealmDomain(v EventEnvelopeOneOf55RealmDomain)`
 
 SetRealmDomain sets RealmDomain field to given value.
 

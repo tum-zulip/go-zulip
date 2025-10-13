@@ -11,20 +11,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf60
+### NewEventEnvelopeOneOf60
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf60() *RealmBotUpdateEvent`
+`func NewEventEnvelopeOneOf60() *RealmBotUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf60 instantiates a new RealmBotUpdateEvent object
+NewEventEnvelopeOneOf60 instantiates a new RealmBotUpdateEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf60WithDefaults
+### NewEventEnvelopeOneOf60WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf60WithDefaults() *RealmBotUpdateEvent`
+`func NewEventEnvelopeOneOf60WithDefaults() *RealmBotUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf60WithDefaults instantiates a new RealmBotUpdateEvent object
+NewEventEnvelopeOneOf60WithDefaults instantiates a new RealmBotUpdateEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

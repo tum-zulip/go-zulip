@@ -11,24 +11,24 @@ Name | Type | Description | Notes
 **Flag** | Pointer to **string** | The [flag][message-flags] to be removed.  | [optional] 
 **Messages** | Pointer to **[]int32** | Array containing the IDs of the messages from which the flag was removed.  | [optional] 
 **All** | Pointer to **bool** | Will be &#x60;false&#x60; for all specified flags.  **Deprecated** and will be removed in a future release.  | [optional] 
-**MessageDetails** | Pointer to [**map[string]GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue**](GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue.md) | Only present if the specified &#x60;flag&#x60; is &#x60;\&quot;read\&quot;&#x60;.  A set of data structures describing the messages that are being marked as unread with additional details to allow clients to update the &#x60;unread_msgs&#x60; data structure for these messages (which may not be otherwise known to the client).  **Changes**: New in Zulip 5.0 (feature level 121). Previously, marking already read messages as unread was not supported by the Zulip API.  | [optional] 
+**MessageDetails** | Pointer to [**map[string]EventEnvelopeOneOf42MessageDetailsValue**](EventEnvelopeOneOf42MessageDetailsValue.md) | Only present if the specified &#x60;flag&#x60; is &#x60;\&quot;read\&quot;&#x60;.  A set of data structures describing the messages that are being marked as unread with additional details to allow clients to update the &#x60;unread_msgs&#x60; data structure for these messages (which may not be otherwise known to the client).  **Changes**: New in Zulip 5.0 (feature level 121). Previously, marking already read messages as unread was not supported by the Zulip API.  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf42
+### NewEventEnvelopeOneOf42
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf42() *UpdateMessageFlagsRemoveEvent`
+`func NewEventEnvelopeOneOf42() *UpdateMessageFlagsRemoveEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf42 instantiates a new UpdateMessageFlagsRemoveEvent object
+NewEventEnvelopeOneOf42 instantiates a new UpdateMessageFlagsRemoveEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf42WithDefaults
+### NewEventEnvelopeOneOf42WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf42WithDefaults() *UpdateMessageFlagsRemoveEvent`
+`func NewEventEnvelopeOneOf42WithDefaults() *UpdateMessageFlagsRemoveEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf42WithDefaults instantiates a new UpdateMessageFlagsRemoveEvent object
+NewEventEnvelopeOneOf42WithDefaults instantiates a new UpdateMessageFlagsRemoveEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -209,20 +209,20 @@ HasAll returns a boolean if a field has been set.
 
 ### GetMessageDetails
 
-`func (o *UpdateMessageFlagsRemoveEvent) GetMessageDetails() map[string]GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue`
+`func (o *UpdateMessageFlagsRemoveEvent) GetMessageDetails() map[string]EventEnvelopeOneOf42MessageDetailsValue`
 
 GetMessageDetails returns the MessageDetails field if non-nil, zero value otherwise.
 
 ### GetMessageDetailsOk
 
-`func (o *UpdateMessageFlagsRemoveEvent) GetMessageDetailsOk() (*map[string]GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue, bool)`
+`func (o *UpdateMessageFlagsRemoveEvent) GetMessageDetailsOk() (*map[string]EventEnvelopeOneOf42MessageDetailsValue, bool)`
 
 GetMessageDetailsOk returns a tuple with the MessageDetails field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessageDetails
 
-`func (o *UpdateMessageFlagsRemoveEvent) SetMessageDetails(v map[string]GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue)`
+`func (o *UpdateMessageFlagsRemoveEvent) SetMessageDetails(v map[string]EventEnvelopeOneOf42MessageDetailsValue)`
 
 SetMessageDetails sets MessageDetails field to given value.
 

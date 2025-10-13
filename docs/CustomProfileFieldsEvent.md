@@ -10,20 +10,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf27
+### NewEventEnvelopeOneOf27
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf27() *CustomProfileFieldsEvent`
+`func NewEventEnvelopeOneOf27() *CustomProfileFieldsEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf27 instantiates a new CustomProfileFieldsEvent object
+NewEventEnvelopeOneOf27 instantiates a new CustomProfileFieldsEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf27WithDefaults
+### NewEventEnvelopeOneOf27WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf27WithDefaults() *CustomProfileFieldsEvent`
+`func NewEventEnvelopeOneOf27WithDefaults() *CustomProfileFieldsEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf27WithDefaults instantiates a new CustomProfileFieldsEvent object
+NewEventEnvelopeOneOf27WithDefaults instantiates a new CustomProfileFieldsEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

@@ -1,4 +1,4 @@
-# GetEvents200ResponseAllOfEventsInnerOneOf44Data
+# EventEnvelopeOneOf44Data
 
 ## Properties
 
@@ -16,245 +16,245 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf44Data
+### NewEventEnvelopeOneOf44Data
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf44Data() *GetEvents200ResponseAllOfEventsInnerOneOf44Data`
+`func NewEventEnvelopeOneOf44Data() *EventEnvelopeOneOf44Data`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf44Data instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf44Data object
+NewEventEnvelopeOneOf44Data instantiates a new EventEnvelopeOneOf44Data object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf44DataWithDefaults
+### NewEventEnvelopeOneOf44DataWithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf44DataWithDefaults() *GetEvents200ResponseAllOfEventsInnerOneOf44Data`
+`func NewEventEnvelopeOneOf44DataWithDefaults() *EventEnvelopeOneOf44Data`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf44DataWithDefaults instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf44Data object
+NewEventEnvelopeOneOf44DataWithDefaults instantiates a new EventEnvelopeOneOf44Data object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetName
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetName() string`
+`func (o *EventEnvelopeOneOf44Data) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetNameOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf44Data) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) SetName(v string)`
+`func (o *EventEnvelopeOneOf44Data) SetName(v string)`
 
 SetName sets Name field to given value.
 
 ### HasName
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) HasName() bool`
+`func (o *EventEnvelopeOneOf44Data) HasName() bool`
 
 HasName returns a boolean if a field has been set.
 
 ### GetDescription
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetDescription() string`
+`func (o *EventEnvelopeOneOf44Data) GetDescription() string`
 
 GetDescription returns the Description field if non-nil, zero value otherwise.
 
 ### GetDescriptionOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetDescriptionOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf44Data) GetDescriptionOk() (*string, bool)`
 
 GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDescription
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) SetDescription(v string)`
+`func (o *EventEnvelopeOneOf44Data) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
 
 ### HasDescription
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) HasDescription() bool`
+`func (o *EventEnvelopeOneOf44Data) HasDescription() bool`
 
 HasDescription returns a boolean if a field has been set.
 
 ### GetCanAddMembersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetCanAddMembersGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf44Data) GetCanAddMembersGroup() GroupSettingValue`
 
 GetCanAddMembersGroup returns the CanAddMembersGroup field if non-nil, zero value otherwise.
 
 ### GetCanAddMembersGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetCanAddMembersGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf44Data) GetCanAddMembersGroupOk() (*GroupSettingValue, bool)`
 
 GetCanAddMembersGroupOk returns a tuple with the CanAddMembersGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanAddMembersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) SetCanAddMembersGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf44Data) SetCanAddMembersGroup(v GroupSettingValue)`
 
 SetCanAddMembersGroup sets CanAddMembersGroup field to given value.
 
 ### HasCanAddMembersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) HasCanAddMembersGroup() bool`
+`func (o *EventEnvelopeOneOf44Data) HasCanAddMembersGroup() bool`
 
 HasCanAddMembersGroup returns a boolean if a field has been set.
 
 ### GetCanJoinGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetCanJoinGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf44Data) GetCanJoinGroup() GroupSettingValue`
 
 GetCanJoinGroup returns the CanJoinGroup field if non-nil, zero value otherwise.
 
 ### GetCanJoinGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetCanJoinGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf44Data) GetCanJoinGroupOk() (*GroupSettingValue, bool)`
 
 GetCanJoinGroupOk returns a tuple with the CanJoinGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanJoinGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) SetCanJoinGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf44Data) SetCanJoinGroup(v GroupSettingValue)`
 
 SetCanJoinGroup sets CanJoinGroup field to given value.
 
 ### HasCanJoinGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) HasCanJoinGroup() bool`
+`func (o *EventEnvelopeOneOf44Data) HasCanJoinGroup() bool`
 
 HasCanJoinGroup returns a boolean if a field has been set.
 
 ### GetCanLeaveGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetCanLeaveGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf44Data) GetCanLeaveGroup() GroupSettingValue`
 
 GetCanLeaveGroup returns the CanLeaveGroup field if non-nil, zero value otherwise.
 
 ### GetCanLeaveGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetCanLeaveGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf44Data) GetCanLeaveGroupOk() (*GroupSettingValue, bool)`
 
 GetCanLeaveGroupOk returns a tuple with the CanLeaveGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanLeaveGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) SetCanLeaveGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf44Data) SetCanLeaveGroup(v GroupSettingValue)`
 
 SetCanLeaveGroup sets CanLeaveGroup field to given value.
 
 ### HasCanLeaveGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) HasCanLeaveGroup() bool`
+`func (o *EventEnvelopeOneOf44Data) HasCanLeaveGroup() bool`
 
 HasCanLeaveGroup returns a boolean if a field has been set.
 
 ### GetCanManageGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetCanManageGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf44Data) GetCanManageGroup() GroupSettingValue`
 
 GetCanManageGroup returns the CanManageGroup field if non-nil, zero value otherwise.
 
 ### GetCanManageGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetCanManageGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf44Data) GetCanManageGroupOk() (*GroupSettingValue, bool)`
 
 GetCanManageGroupOk returns a tuple with the CanManageGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanManageGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) SetCanManageGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf44Data) SetCanManageGroup(v GroupSettingValue)`
 
 SetCanManageGroup sets CanManageGroup field to given value.
 
 ### HasCanManageGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) HasCanManageGroup() bool`
+`func (o *EventEnvelopeOneOf44Data) HasCanManageGroup() bool`
 
 HasCanManageGroup returns a boolean if a field has been set.
 
 ### GetCanMentionGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetCanMentionGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf44Data) GetCanMentionGroup() GroupSettingValue`
 
 GetCanMentionGroup returns the CanMentionGroup field if non-nil, zero value otherwise.
 
 ### GetCanMentionGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetCanMentionGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf44Data) GetCanMentionGroupOk() (*GroupSettingValue, bool)`
 
 GetCanMentionGroupOk returns a tuple with the CanMentionGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanMentionGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) SetCanMentionGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf44Data) SetCanMentionGroup(v GroupSettingValue)`
 
 SetCanMentionGroup sets CanMentionGroup field to given value.
 
 ### HasCanMentionGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) HasCanMentionGroup() bool`
+`func (o *EventEnvelopeOneOf44Data) HasCanMentionGroup() bool`
 
 HasCanMentionGroup returns a boolean if a field has been set.
 
 ### GetCanRemoveMembersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetCanRemoveMembersGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf44Data) GetCanRemoveMembersGroup() GroupSettingValue`
 
 GetCanRemoveMembersGroup returns the CanRemoveMembersGroup field if non-nil, zero value otherwise.
 
 ### GetCanRemoveMembersGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetCanRemoveMembersGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf44Data) GetCanRemoveMembersGroupOk() (*GroupSettingValue, bool)`
 
 GetCanRemoveMembersGroupOk returns a tuple with the CanRemoveMembersGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanRemoveMembersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) SetCanRemoveMembersGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf44Data) SetCanRemoveMembersGroup(v GroupSettingValue)`
 
 SetCanRemoveMembersGroup sets CanRemoveMembersGroup field to given value.
 
 ### HasCanRemoveMembersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) HasCanRemoveMembersGroup() bool`
+`func (o *EventEnvelopeOneOf44Data) HasCanRemoveMembersGroup() bool`
 
 HasCanRemoveMembersGroup returns a boolean if a field has been set.
 
 ### GetDeactivated
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetDeactivated() bool`
+`func (o *EventEnvelopeOneOf44Data) GetDeactivated() bool`
 
 GetDeactivated returns the Deactivated field if non-nil, zero value otherwise.
 
 ### GetDeactivatedOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) GetDeactivatedOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf44Data) GetDeactivatedOk() (*bool, bool)`
 
 GetDeactivatedOk returns a tuple with the Deactivated field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDeactivated
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) SetDeactivated(v bool)`
+`func (o *EventEnvelopeOneOf44Data) SetDeactivated(v bool)`
 
 SetDeactivated sets Deactivated field to given value.
 
 ### HasDeactivated
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf44Data) HasDeactivated() bool`
+`func (o *EventEnvelopeOneOf44Data) HasDeactivated() bool`
 
 HasDeactivated returns a boolean if a field has been set.
 

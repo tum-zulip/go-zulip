@@ -1,4 +1,4 @@
-# GetEvents200ResponseAllOfEventsInnerOneOf19AllOfType
+# EventEnvelopeOneOf19AllOfType
 
 ## Properties
 
@@ -7,20 +7,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf19AllOfType
+### NewEventEnvelopeOneOf19AllOfType
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf19AllOfType() *GetEvents200ResponseAllOfEventsInnerOneOf19AllOfType`
+`func NewEventEnvelopeOneOf19AllOfType() *EventEnvelopeOneOf19AllOfType`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf19AllOfType instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf19AllOfType object
+NewEventEnvelopeOneOf19AllOfType instantiates a new EventEnvelopeOneOf19AllOfType object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf19AllOfTypeWithDefaults
+### NewEventEnvelopeOneOf19AllOfTypeWithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf19AllOfTypeWithDefaults() *GetEvents200ResponseAllOfEventsInnerOneOf19AllOfType`
+`func NewEventEnvelopeOneOf19AllOfTypeWithDefaults() *EventEnvelopeOneOf19AllOfType`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf19AllOfTypeWithDefaults instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf19AllOfType object
+NewEventEnvelopeOneOf19AllOfTypeWithDefaults instantiates a new EventEnvelopeOneOf19AllOfType object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

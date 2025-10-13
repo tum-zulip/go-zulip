@@ -10,24 +10,24 @@ Name | Type | Description | Notes
 **UserId** | Pointer to **int32** | Not present for clients that support the &#x60;simplified_presence_events&#x60; [client capability](/api/register-queue#parameter-client_capabilities).  The ID of the modified user.  | [optional] 
 **Email** | Pointer to **string** | Not present for clients that support the &#x60;simplified_presence_events&#x60; [client capability](/api/register-queue#parameter-client_capabilities).  The Zulip API email of the user.  **Deprecated**: This field will be removed in a future release as it is redundant with the &#x60;user_id&#x60;.  | [optional] 
 **ServerTimestamp** | Pointer to **float32** | Not present for clients that support the &#x60;simplified_presence_events&#x60; [client capability](/api/register-queue#parameter-client_capabilities).  The timestamp of when the Zulip server received the user&#39;s presence as a UNIX timestamp.  | [optional] 
-**Presence** | Pointer to [**map[string]GetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue**](GetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue.md) | Not present for clients that support the &#x60;simplified_presence_events&#x60; [client capability](/api/register-queue#parameter-client_capabilities).  Object containing the presence data (legacy format) of of the modified user.  | [optional] 
+**Presence** | Pointer to [**map[string]EventEnvelopeOneOf15PresenceValue**](EventEnvelopeOneOf15PresenceValue.md) | Not present for clients that support the &#x60;simplified_presence_events&#x60; [client capability](/api/register-queue#parameter-client_capabilities).  Object containing the presence data (legacy format) of of the modified user.  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf15
+### NewEventEnvelopeOneOf15
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf15() *PresenceEvent`
+`func NewEventEnvelopeOneOf15() *PresenceEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf15 instantiates a new PresenceEvent object
+NewEventEnvelopeOneOf15 instantiates a new PresenceEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf15WithDefaults
+### NewEventEnvelopeOneOf15WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf15WithDefaults() *PresenceEvent`
+`func NewEventEnvelopeOneOf15WithDefaults() *PresenceEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf15WithDefaults instantiates a new PresenceEvent object
+NewEventEnvelopeOneOf15WithDefaults instantiates a new PresenceEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -183,20 +183,20 @@ HasServerTimestamp returns a boolean if a field has been set.
 
 ### GetPresence
 
-`func (o *PresenceEvent) GetPresence() map[string]GetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue`
+`func (o *PresenceEvent) GetPresence() map[string]EventEnvelopeOneOf15PresenceValue`
 
 GetPresence returns the Presence field if non-nil, zero value otherwise.
 
 ### GetPresenceOk
 
-`func (o *PresenceEvent) GetPresenceOk() (*map[string]GetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue, bool)`
+`func (o *PresenceEvent) GetPresenceOk() (*map[string]EventEnvelopeOneOf15PresenceValue, bool)`
 
 GetPresenceOk returns a tuple with the Presence field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPresence
 
-`func (o *PresenceEvent) SetPresence(v map[string]GetEvents200ResponseAllOfEventsInnerOneOf15PresenceValue)`
+`func (o *PresenceEvent) SetPresence(v map[string]EventEnvelopeOneOf15PresenceValue)`
 
 SetPresence sets Presence field to given value.
 

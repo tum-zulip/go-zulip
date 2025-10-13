@@ -1,4 +1,4 @@
-# GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue
+# EventEnvelopeOneOf42MessageDetailsValue
 
 ## Properties
 
@@ -13,165 +13,165 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue
+### NewEventEnvelopeOneOf42MessageDetailsValue
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue(type_ string, ) *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue`
+`func NewEventEnvelopeOneOf42MessageDetailsValue(type_ string, ) *EventEnvelopeOneOf42MessageDetailsValue`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue object
+NewEventEnvelopeOneOf42MessageDetailsValue instantiates a new EventEnvelopeOneOf42MessageDetailsValue object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValueWithDefaults
+### NewEventEnvelopeOneOf42MessageDetailsValueWithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValueWithDefaults() *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue`
+`func NewEventEnvelopeOneOf42MessageDetailsValueWithDefaults() *EventEnvelopeOneOf42MessageDetailsValue`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValueWithDefaults instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue object
+NewEventEnvelopeOneOf42MessageDetailsValueWithDefaults instantiates a new EventEnvelopeOneOf42MessageDetailsValue object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetType
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) GetType() string`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) GetType() string`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) GetTypeOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) GetTypeOk() (*string, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) SetType(v string)`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) SetType(v string)`
 
 SetType sets Type field to given value.
 
 
 ### GetMentioned
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) GetMentioned() bool`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) GetMentioned() bool`
 
 GetMentioned returns the Mentioned field if non-nil, zero value otherwise.
 
 ### GetMentionedOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) GetMentionedOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) GetMentionedOk() (*bool, bool)`
 
 GetMentionedOk returns a tuple with the Mentioned field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMentioned
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) SetMentioned(v bool)`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) SetMentioned(v bool)`
 
 SetMentioned sets Mentioned field to given value.
 
 ### HasMentioned
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) HasMentioned() bool`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) HasMentioned() bool`
 
 HasMentioned returns a boolean if a field has been set.
 
 ### GetUserIds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) GetUserIds() []int32`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) GetUserIds() []int32`
 
 GetUserIds returns the UserIds field if non-nil, zero value otherwise.
 
 ### GetUserIdsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) GetUserIdsOk() (*[]int32, bool)`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) GetUserIdsOk() (*[]int32, bool)`
 
 GetUserIdsOk returns a tuple with the UserIds field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserIds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) SetUserIds(v []int32)`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) SetUserIds(v []int32)`
 
 SetUserIds sets UserIds field to given value.
 
 ### HasUserIds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) HasUserIds() bool`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) HasUserIds() bool`
 
 HasUserIds returns a boolean if a field has been set.
 
 ### GetStreamId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) GetStreamId() int32`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) GetStreamId() int32`
 
 GetStreamId returns the StreamId field if non-nil, zero value otherwise.
 
 ### GetStreamIdOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) GetStreamIdOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) GetStreamIdOk() (*int32, bool)`
 
 GetStreamIdOk returns a tuple with the StreamId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStreamId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) SetStreamId(v int32)`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) SetStreamId(v int32)`
 
 SetStreamId sets StreamId field to given value.
 
 ### HasStreamId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) HasStreamId() bool`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) HasStreamId() bool`
 
 HasStreamId returns a boolean if a field has been set.
 
 ### GetTopic
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) GetTopic() string`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) GetTopic() string`
 
 GetTopic returns the Topic field if non-nil, zero value otherwise.
 
 ### GetTopicOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) GetTopicOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) GetTopicOk() (*string, bool)`
 
 GetTopicOk returns a tuple with the Topic field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTopic
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) SetTopic(v string)`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) SetTopic(v string)`
 
 SetTopic sets Topic field to given value.
 
 ### HasTopic
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) HasTopic() bool`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) HasTopic() bool`
 
 HasTopic returns a boolean if a field has been set.
 
 ### GetUnmutedStreamMsg
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) GetUnmutedStreamMsg() bool`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) GetUnmutedStreamMsg() bool`
 
 GetUnmutedStreamMsg returns the UnmutedStreamMsg field if non-nil, zero value otherwise.
 
 ### GetUnmutedStreamMsgOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) GetUnmutedStreamMsgOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) GetUnmutedStreamMsgOk() (*bool, bool)`
 
 GetUnmutedStreamMsgOk returns a tuple with the UnmutedStreamMsg field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUnmutedStreamMsg
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) SetUnmutedStreamMsg(v bool)`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) SetUnmutedStreamMsg(v bool)`
 
 SetUnmutedStreamMsg sets UnmutedStreamMsg field to given value.
 
 ### HasUnmutedStreamMsg
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf42MessageDetailsValue) HasUnmutedStreamMsg() bool`
+`func (o *EventEnvelopeOneOf42MessageDetailsValue) HasUnmutedStreamMsg() bool`
 
 HasUnmutedStreamMsg returns a boolean if a field has been set.
 

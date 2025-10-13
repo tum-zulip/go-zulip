@@ -11,20 +11,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf58
+### NewEventEnvelopeOneOf58
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf58() *RealmExportConsentEvent`
+`func NewEventEnvelopeOneOf58() *RealmExportConsentEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf58 instantiates a new RealmExportConsentEvent object
+NewEventEnvelopeOneOf58 instantiates a new RealmExportConsentEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf58WithDefaults
+### NewEventEnvelopeOneOf58WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf58WithDefaults() *RealmExportConsentEvent`
+`func NewEventEnvelopeOneOf58WithDefaults() *RealmExportConsentEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf58WithDefaults instantiates a new RealmExportConsentEvent object
+NewEventEnvelopeOneOf58WithDefaults instantiates a new RealmExportConsentEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

@@ -10,20 +10,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf29
+### NewEventEnvelopeOneOf29
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf29() *DefaultStreamsEvent`
+`func NewEventEnvelopeOneOf29() *DefaultStreamsEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf29 instantiates a new DefaultStreamsEvent object
+NewEventEnvelopeOneOf29 instantiates a new DefaultStreamsEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf29WithDefaults
+### NewEventEnvelopeOneOf29WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf29WithDefaults() *DefaultStreamsEvent`
+`func NewEventEnvelopeOneOf29WithDefaults() *DefaultStreamsEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf29WithDefaults instantiates a new DefaultStreamsEvent object
+NewEventEnvelopeOneOf29WithDefaults instantiates a new DefaultStreamsEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

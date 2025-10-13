@@ -8,24 +8,24 @@ Name | Type | Description | Notes
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
 **ChannelFolderId** | Pointer to **float32** | ID of the updated channel folder.  | [optional] 
-**Data** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf84Data**](GetEvents200ResponseAllOfEventsInnerOneOf84Data.md) |  | [optional] 
+**Data** | Pointer to [**EventEnvelopeOneOf84Data**](EventEnvelopeOneOf84Data.md) |  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf84
+### NewEventEnvelopeOneOf84
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf84() *ChannelFolderUpdateEvent`
+`func NewEventEnvelopeOneOf84() *ChannelFolderUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf84 instantiates a new ChannelFolderUpdateEvent object
+NewEventEnvelopeOneOf84 instantiates a new ChannelFolderUpdateEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf84WithDefaults
+### NewEventEnvelopeOneOf84WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf84WithDefaults() *ChannelFolderUpdateEvent`
+`func NewEventEnvelopeOneOf84WithDefaults() *ChannelFolderUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf84WithDefaults instantiates a new ChannelFolderUpdateEvent object
+NewEventEnvelopeOneOf84WithDefaults instantiates a new ChannelFolderUpdateEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -131,20 +131,20 @@ HasChannelFolderId returns a boolean if a field has been set.
 
 ### GetData
 
-`func (o *ChannelFolderUpdateEvent) GetData() GetEvents200ResponseAllOfEventsInnerOneOf84Data`
+`func (o *ChannelFolderUpdateEvent) GetData() EventEnvelopeOneOf84Data`
 
 GetData returns the Data field if non-nil, zero value otherwise.
 
 ### GetDataOk
 
-`func (o *ChannelFolderUpdateEvent) GetDataOk() (*GetEvents200ResponseAllOfEventsInnerOneOf84Data, bool)`
+`func (o *ChannelFolderUpdateEvent) GetDataOk() (*EventEnvelopeOneOf84Data, bool)`
 
 GetDataOk returns a tuple with the Data field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetData
 
-`func (o *ChannelFolderUpdateEvent) SetData(v GetEvents200ResponseAllOfEventsInnerOneOf84Data)`
+`func (o *ChannelFolderUpdateEvent) SetData(v EventEnvelopeOneOf84Data)`
 
 SetData sets Data field to given value.
 

@@ -7,24 +7,24 @@ Name | Type | Description | Notes
 **Id** | Pointer to **int32** | The ID of the event. Events appear in increasing order but may not be consecutive.  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
-**Bot** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf61Bot**](GetEvents200ResponseAllOfEventsInnerOneOf61Bot.md) |  | [optional] 
+**Bot** | Pointer to [**EventEnvelopeOneOf61Bot**](EventEnvelopeOneOf61Bot.md) |  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf61
+### NewEventEnvelopeOneOf61
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf61() *RealmBotRemoveEvent`
+`func NewEventEnvelopeOneOf61() *RealmBotRemoveEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf61 instantiates a new RealmBotRemoveEvent object
+NewEventEnvelopeOneOf61 instantiates a new RealmBotRemoveEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf61WithDefaults
+### NewEventEnvelopeOneOf61WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf61WithDefaults() *RealmBotRemoveEvent`
+`func NewEventEnvelopeOneOf61WithDefaults() *RealmBotRemoveEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf61WithDefaults instantiates a new RealmBotRemoveEvent object
+NewEventEnvelopeOneOf61WithDefaults instantiates a new RealmBotRemoveEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -105,20 +105,20 @@ HasOp returns a boolean if a field has been set.
 
 ### GetBot
 
-`func (o *RealmBotRemoveEvent) GetBot() GetEvents200ResponseAllOfEventsInnerOneOf61Bot`
+`func (o *RealmBotRemoveEvent) GetBot() EventEnvelopeOneOf61Bot`
 
 GetBot returns the Bot field if non-nil, zero value otherwise.
 
 ### GetBotOk
 
-`func (o *RealmBotRemoveEvent) GetBotOk() (*GetEvents200ResponseAllOfEventsInnerOneOf61Bot, bool)`
+`func (o *RealmBotRemoveEvent) GetBotOk() (*EventEnvelopeOneOf61Bot, bool)`
 
 GetBotOk returns a tuple with the Bot field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBot
 
-`func (o *RealmBotRemoveEvent) SetBot(v GetEvents200ResponseAllOfEventsInnerOneOf61Bot)`
+`func (o *RealmBotRemoveEvent) SetBot(v EventEnvelopeOneOf61Bot)`
 
 SetBot sets Bot field to given value.
 

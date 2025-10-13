@@ -10,27 +10,27 @@ Name | Type | Description | Notes
 **StreamId** | Pointer to **int32** | The ID of the channel whose details have changed.  | [optional] 
 **Name** | Pointer to **string** | The name of the channel whose details have changed.  | [optional] 
 **Property** | Pointer to **string** | The property of the channel which has changed. See [GET /streams](/api/get-streams#response) response for details on the various properties of a channel.  Clients should handle an \&quot;unknown\&quot; property received here without crashing, since that can happen when connecting to a server running a newer version of Zulip with new features.  | [optional] 
-**Value** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf18Value**](GetEvents200ResponseAllOfEventsInnerOneOf18Value.md) |  | [optional] 
+**Value** | Pointer to [**EventEnvelopeOneOf18Value**](EventEnvelopeOneOf18Value.md) |  | [optional] 
 **RenderedDescription** | Pointer to **string** | Note: Only present if the changed property was &#x60;description&#x60;.  The short description of the channel rendered as HTML, intended to be used when displaying the channel description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.  See [Markdown message formatting](/api/message-formatting) for details on Zulip&#39;s HTML format.  | [optional] 
 **HistoryPublicToSubscribers** | Pointer to **bool** | Note: Only present if the changed property was &#x60;invite_only&#x60;.  Whether the history of the channel is public to its subscribers.  Currently always true for public channels (i.e. &#x60;\&quot;invite_only\&quot;: false&#x60; implies &#x60;\&quot;history_public_to_subscribers\&quot;: true&#x60;), but clients should not make that assumption, as we may change that behavior in the future.  | [optional] 
 **IsWebPublic** | Pointer to **bool** | Note: Only present if the changed property was &#x60;invite_only&#x60;.  Whether the channel&#39;s history is now readable by web-public spectators.  **Changes**: New in Zulip 5.0 (feature level 71).  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf18
+### NewEventEnvelopeOneOf18
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf18() *StreamUpdateEvent`
+`func NewEventEnvelopeOneOf18() *StreamUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf18 instantiates a new StreamUpdateEvent object
+NewEventEnvelopeOneOf18 instantiates a new StreamUpdateEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf18WithDefaults
+### NewEventEnvelopeOneOf18WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf18WithDefaults() *StreamUpdateEvent`
+`func NewEventEnvelopeOneOf18WithDefaults() *StreamUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf18WithDefaults instantiates a new StreamUpdateEvent object
+NewEventEnvelopeOneOf18WithDefaults instantiates a new StreamUpdateEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -186,20 +186,20 @@ HasProperty returns a boolean if a field has been set.
 
 ### GetValue
 
-`func (o *StreamUpdateEvent) GetValue() GetEvents200ResponseAllOfEventsInnerOneOf18Value`
+`func (o *StreamUpdateEvent) GetValue() EventEnvelopeOneOf18Value`
 
 GetValue returns the Value field if non-nil, zero value otherwise.
 
 ### GetValueOk
 
-`func (o *StreamUpdateEvent) GetValueOk() (*GetEvents200ResponseAllOfEventsInnerOneOf18Value, bool)`
+`func (o *StreamUpdateEvent) GetValueOk() (*EventEnvelopeOneOf18Value, bool)`
 
 GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetValue
 
-`func (o *StreamUpdateEvent) SetValue(v GetEvents200ResponseAllOfEventsInnerOneOf18Value)`
+`func (o *StreamUpdateEvent) SetValue(v EventEnvelopeOneOf18Value)`
 
 SetValue sets Value field to given value.
 

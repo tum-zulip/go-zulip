@@ -10,20 +10,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf35
+### NewEventEnvelopeOneOf35
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf35() *OnboardingStepsEvent`
+`func NewEventEnvelopeOneOf35() *OnboardingStepsEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf35 instantiates a new OnboardingStepsEvent object
+NewEventEnvelopeOneOf35 instantiates a new OnboardingStepsEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf35WithDefaults
+### NewEventEnvelopeOneOf35WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf35WithDefaults() *OnboardingStepsEvent`
+`func NewEventEnvelopeOneOf35WithDefaults() *OnboardingStepsEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf35WithDefaults instantiates a new OnboardingStepsEvent object
+NewEventEnvelopeOneOf35WithDefaults instantiates a new OnboardingStepsEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

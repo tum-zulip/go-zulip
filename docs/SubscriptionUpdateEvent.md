@@ -9,24 +9,24 @@ Name | Type | Description | Notes
 **Op** | Pointer to **string** |  | [optional] 
 **StreamId** | Pointer to **int32** | The ID of the channel whose subscription details have changed.  | [optional] 
 **Property** | Pointer to **string** | The property of the subscription which has changed. For details on the various subscription properties that a user can change, see [POST /users/me/subscriptions/properties](/api/update-subscription-settings).  Clients should generally handle an unknown property received here without crashing, since that will naturally happen when connecting to a Zulip server running a new version that adds a new subscription property.  **Changes**: As of Zulip 6.0 (feature level 139), updates to the &#x60;is_muted&#x60; property or the deprecated &#x60;in_home_view&#x60; property will send two &#x60;subscription&#x60; update events, one for each property, to support clients fully migrating to use the &#x60;is_muted&#x60; property. Prior to this feature level, updates to either property only sent one event with the deprecated &#x60;in_home_view&#x60; property.  | [optional] 
-**Value** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf7Value**](GetEvents200ResponseAllOfEventsInnerOneOf7Value.md) |  | [optional] 
+**Value** | Pointer to [**EventEnvelopeOneOf7Value**](EventEnvelopeOneOf7Value.md) |  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf7
+### NewEventEnvelopeOneOf7
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf7() *SubscriptionUpdateEvent`
+`func NewEventEnvelopeOneOf7() *SubscriptionUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf7 instantiates a new SubscriptionUpdateEvent object
+NewEventEnvelopeOneOf7 instantiates a new SubscriptionUpdateEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf7WithDefaults
+### NewEventEnvelopeOneOf7WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf7WithDefaults() *SubscriptionUpdateEvent`
+`func NewEventEnvelopeOneOf7WithDefaults() *SubscriptionUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf7WithDefaults instantiates a new SubscriptionUpdateEvent object
+NewEventEnvelopeOneOf7WithDefaults instantiates a new SubscriptionUpdateEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -157,20 +157,20 @@ HasProperty returns a boolean if a field has been set.
 
 ### GetValue
 
-`func (o *SubscriptionUpdateEvent) GetValue() GetEvents200ResponseAllOfEventsInnerOneOf7Value`
+`func (o *SubscriptionUpdateEvent) GetValue() EventEnvelopeOneOf7Value`
 
 GetValue returns the Value field if non-nil, zero value otherwise.
 
 ### GetValueOk
 
-`func (o *SubscriptionUpdateEvent) GetValueOk() (*GetEvents200ResponseAllOfEventsInnerOneOf7Value, bool)`
+`func (o *SubscriptionUpdateEvent) GetValueOk() (*EventEnvelopeOneOf7Value, bool)`
 
 GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetValue
 
-`func (o *SubscriptionUpdateEvent) SetValue(v GetEvents200ResponseAllOfEventsInnerOneOf7Value)`
+`func (o *SubscriptionUpdateEvent) SetValue(v EventEnvelopeOneOf7Value)`
 
 SetValue sets Value field to given value.
 

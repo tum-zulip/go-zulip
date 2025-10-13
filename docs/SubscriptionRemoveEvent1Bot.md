@@ -1,4 +1,4 @@
-# GetEvents200ResponseAllOfEventsInnerOneOf61Bot
+# EventEnvelopeOneOf61Bot
 
 ## Properties
 
@@ -9,70 +9,70 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf61Bot
+### NewEventEnvelopeOneOf61Bot
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf61Bot() *GetEvents200ResponseAllOfEventsInnerOneOf61Bot`
+`func NewEventEnvelopeOneOf61Bot() *EventEnvelopeOneOf61Bot`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf61Bot instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf61Bot object
+NewEventEnvelopeOneOf61Bot instantiates a new EventEnvelopeOneOf61Bot object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf61BotWithDefaults
+### NewEventEnvelopeOneOf61BotWithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf61BotWithDefaults() *GetEvents200ResponseAllOfEventsInnerOneOf61Bot`
+`func NewEventEnvelopeOneOf61BotWithDefaults() *EventEnvelopeOneOf61Bot`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf61BotWithDefaults instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf61Bot object
+NewEventEnvelopeOneOf61BotWithDefaults instantiates a new EventEnvelopeOneOf61Bot object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetUserId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf61Bot) GetUserId() int32`
+`func (o *EventEnvelopeOneOf61Bot) GetUserId() int32`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf61Bot) GetUserIdOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf61Bot) GetUserIdOk() (*int32, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf61Bot) SetUserId(v int32)`
+`func (o *EventEnvelopeOneOf61Bot) SetUserId(v int32)`
 
 SetUserId sets UserId field to given value.
 
 ### HasUserId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf61Bot) HasUserId() bool`
+`func (o *EventEnvelopeOneOf61Bot) HasUserId() bool`
 
 HasUserId returns a boolean if a field has been set.
 
 ### GetFullName
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf61Bot) GetFullName() string`
+`func (o *EventEnvelopeOneOf61Bot) GetFullName() string`
 
 GetFullName returns the FullName field if non-nil, zero value otherwise.
 
 ### GetFullNameOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf61Bot) GetFullNameOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf61Bot) GetFullNameOk() (*string, bool)`
 
 GetFullNameOk returns a tuple with the FullName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFullName
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf61Bot) SetFullName(v string)`
+`func (o *EventEnvelopeOneOf61Bot) SetFullName(v string)`
 
 SetFullName sets FullName field to given value.
 
 ### HasFullName
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf61Bot) HasFullName() bool`
+`func (o *EventEnvelopeOneOf61Bot) HasFullName() bool`
 
 HasFullName returns a boolean if a field has been set.
 

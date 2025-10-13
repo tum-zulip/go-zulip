@@ -1,4 +1,4 @@
-# GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner
+# EventEnvelopeOneOf33MutedUsersInner
 
 ## Properties
 
@@ -9,70 +9,70 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner
+### NewEventEnvelopeOneOf33MutedUsersInner
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner() *GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner`
+`func NewEventEnvelopeOneOf33MutedUsersInner() *EventEnvelopeOneOf33MutedUsersInner`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner object
+NewEventEnvelopeOneOf33MutedUsersInner instantiates a new EventEnvelopeOneOf33MutedUsersInner object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInnerWithDefaults
+### NewEventEnvelopeOneOf33MutedUsersInnerWithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInnerWithDefaults() *GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner`
+`func NewEventEnvelopeOneOf33MutedUsersInnerWithDefaults() *EventEnvelopeOneOf33MutedUsersInner`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInnerWithDefaults instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner object
+NewEventEnvelopeOneOf33MutedUsersInnerWithDefaults instantiates a new EventEnvelopeOneOf33MutedUsersInner object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner) GetId() int32`
+`func (o *EventEnvelopeOneOf33MutedUsersInner) GetId() int32`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner) GetIdOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf33MutedUsersInner) GetIdOk() (*int32, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner) SetId(v int32)`
+`func (o *EventEnvelopeOneOf33MutedUsersInner) SetId(v int32)`
 
 SetId sets Id field to given value.
 
 ### HasId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner) HasId() bool`
+`func (o *EventEnvelopeOneOf33MutedUsersInner) HasId() bool`
 
 HasId returns a boolean if a field has been set.
 
 ### GetTimestamp
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner) GetTimestamp() int32`
+`func (o *EventEnvelopeOneOf33MutedUsersInner) GetTimestamp() int32`
 
 GetTimestamp returns the Timestamp field if non-nil, zero value otherwise.
 
 ### GetTimestampOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner) GetTimestampOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf33MutedUsersInner) GetTimestampOk() (*int32, bool)`
 
 GetTimestampOk returns a tuple with the Timestamp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTimestamp
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner) SetTimestamp(v int32)`
+`func (o *EventEnvelopeOneOf33MutedUsersInner) SetTimestamp(v int32)`
 
 SetTimestamp sets Timestamp field to given value.
 
 ### HasTimestamp
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner) HasTimestamp() bool`
+`func (o *EventEnvelopeOneOf33MutedUsersInner) HasTimestamp() bool`
 
 HasTimestamp returns a boolean if a field has been set.
 

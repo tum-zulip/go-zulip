@@ -11,20 +11,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf72
+### NewEventEnvelopeOneOf72
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf72() *NavigationViewAddEvent`
+`func NewEventEnvelopeOneOf72() *NavigationViewAddEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf72 instantiates a new NavigationViewAddEvent object
+NewEventEnvelopeOneOf72 instantiates a new NavigationViewAddEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf72WithDefaults
+### NewEventEnvelopeOneOf72WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf72WithDefaults() *NavigationViewAddEvent`
+`func NewEventEnvelopeOneOf72WithDefaults() *NavigationViewAddEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf72WithDefaults instantiates a new NavigationViewAddEvent object
+NewEventEnvelopeOneOf72WithDefaults instantiates a new NavigationViewAddEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

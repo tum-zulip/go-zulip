@@ -12,20 +12,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf8
+### NewEventEnvelopeOneOf8
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf8() *SubscriptionPeerAddEvent`
+`func NewEventEnvelopeOneOf8() *SubscriptionPeerAddEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf8 instantiates a new SubscriptionPeerAddEvent object
+NewEventEnvelopeOneOf8 instantiates a new SubscriptionPeerAddEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf8WithDefaults
+### NewEventEnvelopeOneOf8WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf8WithDefaults() *SubscriptionPeerAddEvent`
+`func NewEventEnvelopeOneOf8WithDefaults() *SubscriptionPeerAddEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf8WithDefaults instantiates a new SubscriptionPeerAddEvent object
+NewEventEnvelopeOneOf8WithDefaults instantiates a new SubscriptionPeerAddEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

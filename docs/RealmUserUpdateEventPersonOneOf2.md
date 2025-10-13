@@ -1,4 +1,4 @@
-# GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2
+# EventEnvelopeOneOf4PersonOneOf2
 
 ## Properties
 
@@ -10,95 +10,95 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2
+### NewEventEnvelopeOneOf4PersonOneOf2
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2() *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2`
+`func NewEventEnvelopeOneOf4PersonOneOf2() *EventEnvelopeOneOf4PersonOneOf2`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2 instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2 object
+NewEventEnvelopeOneOf4PersonOneOf2 instantiates a new EventEnvelopeOneOf4PersonOneOf2 object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2WithDefaults
+### NewEventEnvelopeOneOf4PersonOneOf2WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2WithDefaults() *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2`
+`func NewEventEnvelopeOneOf4PersonOneOf2WithDefaults() *EventEnvelopeOneOf4PersonOneOf2`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2WithDefaults instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2 object
+NewEventEnvelopeOneOf4PersonOneOf2WithDefaults instantiates a new EventEnvelopeOneOf4PersonOneOf2 object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetUserId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) GetUserId() int32`
+`func (o *EventEnvelopeOneOf4PersonOneOf2) GetUserId() int32`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) GetUserIdOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf4PersonOneOf2) GetUserIdOk() (*int32, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) SetUserId(v int32)`
+`func (o *EventEnvelopeOneOf4PersonOneOf2) SetUserId(v int32)`
 
 SetUserId sets UserId field to given value.
 
 ### HasUserId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) HasUserId() bool`
+`func (o *EventEnvelopeOneOf4PersonOneOf2) HasUserId() bool`
 
 HasUserId returns a boolean if a field has been set.
 
 ### GetEmail
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) GetEmail() string`
+`func (o *EventEnvelopeOneOf4PersonOneOf2) GetEmail() string`
 
 GetEmail returns the Email field if non-nil, zero value otherwise.
 
 ### GetEmailOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) GetEmailOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf4PersonOneOf2) GetEmailOk() (*string, bool)`
 
 GetEmailOk returns a tuple with the Email field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEmail
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) SetEmail(v string)`
+`func (o *EventEnvelopeOneOf4PersonOneOf2) SetEmail(v string)`
 
 SetEmail sets Email field to given value.
 
 ### HasEmail
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) HasEmail() bool`
+`func (o *EventEnvelopeOneOf4PersonOneOf2) HasEmail() bool`
 
 HasEmail returns a boolean if a field has been set.
 
 ### GetTimezone
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) GetTimezone() string`
+`func (o *EventEnvelopeOneOf4PersonOneOf2) GetTimezone() string`
 
 GetTimezone returns the Timezone field if non-nil, zero value otherwise.
 
 ### GetTimezoneOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) GetTimezoneOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf4PersonOneOf2) GetTimezoneOk() (*string, bool)`
 
 GetTimezoneOk returns a tuple with the Timezone field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTimezone
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) SetTimezone(v string)`
+`func (o *EventEnvelopeOneOf4PersonOneOf2) SetTimezone(v string)`
 
 SetTimezone sets Timezone field to given value.
 
 ### HasTimezone
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf2) HasTimezone() bool`
+`func (o *EventEnvelopeOneOf4PersonOneOf2) HasTimezone() bool`
 
 HasTimezone returns a boolean if a field has been set.
 

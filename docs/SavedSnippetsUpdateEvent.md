@@ -11,20 +11,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf76
+### NewEventEnvelopeOneOf76
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf76() *SavedSnippetsUpdateEvent`
+`func NewEventEnvelopeOneOf76() *SavedSnippetsUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf76 instantiates a new SavedSnippetsUpdateEvent object
+NewEventEnvelopeOneOf76 instantiates a new SavedSnippetsUpdateEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf76WithDefaults
+### NewEventEnvelopeOneOf76WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf76WithDefaults() *SavedSnippetsUpdateEvent`
+`func NewEventEnvelopeOneOf76WithDefaults() *SavedSnippetsUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf76WithDefaults instantiates a new SavedSnippetsUpdateEvent object
+NewEventEnvelopeOneOf76WithDefaults instantiates a new SavedSnippetsUpdateEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

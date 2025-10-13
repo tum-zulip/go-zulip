@@ -7,25 +7,25 @@ Name | Type | Description | Notes
 **Id** | Pointer to **int32** | The ID of the event. Events appear in increasing order but may not be consecutive.  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
-**Streams** | Pointer to [**[]GetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner**](GetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner.md) | Array of objects, each containing ID of the channel that was deleted.  **Changes**: **Deprecated** in Zulip 10.0 (feature level 343) and will be removed in a future release. Previously, these objects additionally contained all the standard fields for a channel object.  | [optional] 
+**Streams** | Pointer to [**[]EventEnvelopeOneOf17StreamsInner**](EventEnvelopeOneOf17StreamsInner.md) | Array of objects, each containing ID of the channel that was deleted.  **Changes**: **Deprecated** in Zulip 10.0 (feature level 343) and will be removed in a future release. Previously, these objects additionally contained all the standard fields for a channel object.  | [optional] 
 **StreamIds** | Pointer to **[]int32** | Array containing the IDs of the channels that were deleted.  **Changes**: New in Zulip 10.0 (feature level 343). Previously, these IDs were available only via the legacy &#x60;streams&#x60; array.  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf17
+### NewEventEnvelopeOneOf17
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf17() *StreamDeleteEvent`
+`func NewEventEnvelopeOneOf17() *StreamDeleteEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf17 instantiates a new StreamDeleteEvent object
+NewEventEnvelopeOneOf17 instantiates a new StreamDeleteEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf17WithDefaults
+### NewEventEnvelopeOneOf17WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf17WithDefaults() *StreamDeleteEvent`
+`func NewEventEnvelopeOneOf17WithDefaults() *StreamDeleteEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf17WithDefaults instantiates a new StreamDeleteEvent object
+NewEventEnvelopeOneOf17WithDefaults instantiates a new StreamDeleteEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -106,20 +106,20 @@ HasOp returns a boolean if a field has been set.
 
 ### GetStreams
 
-`func (o *StreamDeleteEvent) GetStreams() []GetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner`
+`func (o *StreamDeleteEvent) GetStreams() []EventEnvelopeOneOf17StreamsInner`
 
 GetStreams returns the Streams field if non-nil, zero value otherwise.
 
 ### GetStreamsOk
 
-`func (o *StreamDeleteEvent) GetStreamsOk() (*[]GetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner, bool)`
+`func (o *StreamDeleteEvent) GetStreamsOk() (*[]EventEnvelopeOneOf17StreamsInner, bool)`
 
 GetStreamsOk returns a tuple with the Streams field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStreams
 
-`func (o *StreamDeleteEvent) SetStreams(v []GetEvents200ResponseAllOfEventsInnerOneOf17StreamsInner)`
+`func (o *StreamDeleteEvent) SetStreams(v []EventEnvelopeOneOf17StreamsInner)`
 
 SetStreams sets Streams field to given value.
 

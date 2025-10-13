@@ -8,25 +8,25 @@ Name | Type | Description | Notes
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
 **Property** | Pointer to **string** | Name of the changed setting.  | [optional] 
-**Value** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf1Setting**](GetEvents200ResponseAllOfEventsInnerOneOf1Setting.md) |  | [optional] 
+**Value** | Pointer to [**EventEnvelopeOneOf1Setting**](EventEnvelopeOneOf1Setting.md) |  | [optional] 
 **LanguageName** | Pointer to **string** | Present only if the setting to be changed is &#x60;default_language&#x60;. Contains the name of the new default language in English.  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf3
+### NewEventEnvelopeOneOf3
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf3() *UserSettingsUpdateEvent`
+`func NewEventEnvelopeOneOf3() *UserSettingsUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf3 instantiates a new UserSettingsUpdateEvent object
+NewEventEnvelopeOneOf3 instantiates a new UserSettingsUpdateEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf3WithDefaults
+### NewEventEnvelopeOneOf3WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf3WithDefaults() *UserSettingsUpdateEvent`
+`func NewEventEnvelopeOneOf3WithDefaults() *UserSettingsUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf3WithDefaults instantiates a new UserSettingsUpdateEvent object
+NewEventEnvelopeOneOf3WithDefaults instantiates a new UserSettingsUpdateEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -132,20 +132,20 @@ HasProperty returns a boolean if a field has been set.
 
 ### GetValue
 
-`func (o *UserSettingsUpdateEvent) GetValue() GetEvents200ResponseAllOfEventsInnerOneOf1Setting`
+`func (o *UserSettingsUpdateEvent) GetValue() EventEnvelopeOneOf1Setting`
 
 GetValue returns the Value field if non-nil, zero value otherwise.
 
 ### GetValueOk
 
-`func (o *UserSettingsUpdateEvent) GetValueOk() (*GetEvents200ResponseAllOfEventsInnerOneOf1Setting, bool)`
+`func (o *UserSettingsUpdateEvent) GetValueOk() (*EventEnvelopeOneOf1Setting, bool)`
 
 GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetValue
 
-`func (o *UserSettingsUpdateEvent) SetValue(v GetEvents200ResponseAllOfEventsInnerOneOf1Setting)`
+`func (o *UserSettingsUpdateEvent) SetValue(v EventEnvelopeOneOf1Setting)`
 
 SetValue sets Value field to given value.
 

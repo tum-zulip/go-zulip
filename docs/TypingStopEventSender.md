@@ -8,27 +8,27 @@ Name | Type | Description | Notes
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
 **MessageType** | Pointer to **string** | Type of message being composed. Must be &#x60;\&quot;stream\&quot;&#x60; or &#x60;\&quot;direct\&quot;&#x60;.  **Changes**: In Zulip 8.0 (feature level 215), replaced the value &#x60;\&quot;private\&quot;&#x60; with &#x60;\&quot;direct\&quot;&#x60;.  New in Zulip 4.0 (feature level 58). Previously all typing notifications were implicitly direct messages.  | [optional] 
-**Sender** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf38Sender**](GetEvents200ResponseAllOfEventsInnerOneOf38Sender.md) |  | [optional] 
-**Recipients** | Pointer to [**[]GetEvents200ResponseAllOfEventsInnerOneOf38RecipientsInner**](GetEvents200ResponseAllOfEventsInnerOneOf38RecipientsInner.md) | Only present if &#x60;message_type&#x60; is &#x60;\&quot;direct\&quot;&#x60;.  Array of dictionaries describing the set of users who would be recipients of the message that was previously being typed. Each dictionary contains details about one of the recipients. The sending user is guaranteed to appear among the recipients.  | [optional] 
+**Sender** | Pointer to [**EventEnvelopeOneOf38Sender**](EventEnvelopeOneOf38Sender.md) |  | [optional] 
+**Recipients** | Pointer to [**[]EventEnvelopeOneOf38RecipientsInner**](EventEnvelopeOneOf38RecipientsInner.md) | Only present if &#x60;message_type&#x60; is &#x60;\&quot;direct\&quot;&#x60;.  Array of dictionaries describing the set of users who would be recipients of the message that was previously being typed. Each dictionary contains details about one of the recipients. The sending user is guaranteed to appear among the recipients.  | [optional] 
 **StreamId** | Pointer to **int32** | Only present if &#x60;message_type&#x60; is &#x60;\&quot;stream\&quot;&#x60;.  The unique ID of the channel to which message is being typed.  **Changes**: New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  | [optional] 
 **Topic** | Pointer to **string** | Only present if &#x60;message_type&#x60; is &#x60;\&quot;stream\&quot;&#x60;.  Topic within the channel where the message is being typed.  **Changes**: New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf38
+### NewEventEnvelopeOneOf38
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf38() *TypingStopEvent`
+`func NewEventEnvelopeOneOf38() *TypingStopEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf38 instantiates a new TypingStopEvent object
+NewEventEnvelopeOneOf38 instantiates a new TypingStopEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf38WithDefaults
+### NewEventEnvelopeOneOf38WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf38WithDefaults() *TypingStopEvent`
+`func NewEventEnvelopeOneOf38WithDefaults() *TypingStopEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf38WithDefaults instantiates a new TypingStopEvent object
+NewEventEnvelopeOneOf38WithDefaults instantiates a new TypingStopEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -134,20 +134,20 @@ HasMessageType returns a boolean if a field has been set.
 
 ### GetSender
 
-`func (o *TypingStopEvent) GetSender() GetEvents200ResponseAllOfEventsInnerOneOf38Sender`
+`func (o *TypingStopEvent) GetSender() EventEnvelopeOneOf38Sender`
 
 GetSender returns the Sender field if non-nil, zero value otherwise.
 
 ### GetSenderOk
 
-`func (o *TypingStopEvent) GetSenderOk() (*GetEvents200ResponseAllOfEventsInnerOneOf38Sender, bool)`
+`func (o *TypingStopEvent) GetSenderOk() (*EventEnvelopeOneOf38Sender, bool)`
 
 GetSenderOk returns a tuple with the Sender field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSender
 
-`func (o *TypingStopEvent) SetSender(v GetEvents200ResponseAllOfEventsInnerOneOf38Sender)`
+`func (o *TypingStopEvent) SetSender(v EventEnvelopeOneOf38Sender)`
 
 SetSender sets Sender field to given value.
 
@@ -159,20 +159,20 @@ HasSender returns a boolean if a field has been set.
 
 ### GetRecipients
 
-`func (o *TypingStopEvent) GetRecipients() []GetEvents200ResponseAllOfEventsInnerOneOf38RecipientsInner`
+`func (o *TypingStopEvent) GetRecipients() []EventEnvelopeOneOf38RecipientsInner`
 
 GetRecipients returns the Recipients field if non-nil, zero value otherwise.
 
 ### GetRecipientsOk
 
-`func (o *TypingStopEvent) GetRecipientsOk() (*[]GetEvents200ResponseAllOfEventsInnerOneOf38RecipientsInner, bool)`
+`func (o *TypingStopEvent) GetRecipientsOk() (*[]EventEnvelopeOneOf38RecipientsInner, bool)`
 
 GetRecipientsOk returns a tuple with the Recipients field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRecipients
 
-`func (o *TypingStopEvent) SetRecipients(v []GetEvents200ResponseAllOfEventsInnerOneOf38RecipientsInner)`
+`func (o *TypingStopEvent) SetRecipients(v []EventEnvelopeOneOf38RecipientsInner)`
 
 SetRecipients sets Recipients field to given value.
 

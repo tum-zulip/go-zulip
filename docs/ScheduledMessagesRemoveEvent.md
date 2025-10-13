@@ -11,20 +11,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf82
+### NewEventEnvelopeOneOf82
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf82() *ScheduledMessagesRemoveEvent`
+`func NewEventEnvelopeOneOf82() *ScheduledMessagesRemoveEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf82 instantiates a new ScheduledMessagesRemoveEvent object
+NewEventEnvelopeOneOf82 instantiates a new ScheduledMessagesRemoveEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf82WithDefaults
+### NewEventEnvelopeOneOf82WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf82WithDefaults() *ScheduledMessagesRemoveEvent`
+`func NewEventEnvelopeOneOf82WithDefaults() *ScheduledMessagesRemoveEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf82WithDefaults instantiates a new ScheduledMessagesRemoveEvent object
+NewEventEnvelopeOneOf82WithDefaults instantiates a new ScheduledMessagesRemoveEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

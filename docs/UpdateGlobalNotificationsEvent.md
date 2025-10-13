@@ -8,24 +8,24 @@ Name | Type | Description | Notes
 **Type** | Pointer to **string** |  | [optional] 
 **User** | Pointer to **string** | The Zulip API email of the user.  | [optional] 
 **NotificationName** | Pointer to **string** | Name of the changed notification setting.  | [optional] 
-**Setting** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf1Setting**](GetEvents200ResponseAllOfEventsInnerOneOf1Setting.md) |  | [optional] 
+**Setting** | Pointer to [**EventEnvelopeOneOf1Setting**](EventEnvelopeOneOf1Setting.md) |  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf2
+### NewEventEnvelopeOneOf2
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf2() *UpdateGlobalNotificationsEvent`
+`func NewEventEnvelopeOneOf2() *UpdateGlobalNotificationsEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf2 instantiates a new UpdateGlobalNotificationsEvent object
+NewEventEnvelopeOneOf2 instantiates a new UpdateGlobalNotificationsEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf2WithDefaults
+### NewEventEnvelopeOneOf2WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf2WithDefaults() *UpdateGlobalNotificationsEvent`
+`func NewEventEnvelopeOneOf2WithDefaults() *UpdateGlobalNotificationsEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf2WithDefaults instantiates a new UpdateGlobalNotificationsEvent object
+NewEventEnvelopeOneOf2WithDefaults instantiates a new UpdateGlobalNotificationsEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -131,20 +131,20 @@ HasNotificationName returns a boolean if a field has been set.
 
 ### GetSetting
 
-`func (o *UpdateGlobalNotificationsEvent) GetSetting() GetEvents200ResponseAllOfEventsInnerOneOf1Setting`
+`func (o *UpdateGlobalNotificationsEvent) GetSetting() EventEnvelopeOneOf1Setting`
 
 GetSetting returns the Setting field if non-nil, zero value otherwise.
 
 ### GetSettingOk
 
-`func (o *UpdateGlobalNotificationsEvent) GetSettingOk() (*GetEvents200ResponseAllOfEventsInnerOneOf1Setting, bool)`
+`func (o *UpdateGlobalNotificationsEvent) GetSettingOk() (*EventEnvelopeOneOf1Setting, bool)`
 
 GetSettingOk returns a tuple with the Setting field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSetting
 
-`func (o *UpdateGlobalNotificationsEvent) SetSetting(v GetEvents200ResponseAllOfEventsInnerOneOf1Setting)`
+`func (o *UpdateGlobalNotificationsEvent) SetSetting(v EventEnvelopeOneOf1Setting)`
 
 SetSetting sets Setting field to given value.
 

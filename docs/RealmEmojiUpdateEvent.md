@@ -11,20 +11,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf53
+### NewEventEnvelopeOneOf53
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf53() *RealmEmojiUpdateEvent`
+`func NewEventEnvelopeOneOf53() *RealmEmojiUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf53 instantiates a new RealmEmojiUpdateEvent object
+NewEventEnvelopeOneOf53 instantiates a new RealmEmojiUpdateEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf53WithDefaults
+### NewEventEnvelopeOneOf53WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf53WithDefaults() *RealmEmojiUpdateEvent`
+`func NewEventEnvelopeOneOf53WithDefaults() *RealmEmojiUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf53WithDefaults instantiates a new RealmEmojiUpdateEvent object
+NewEventEnvelopeOneOf53WithDefaults instantiates a new RealmEmojiUpdateEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

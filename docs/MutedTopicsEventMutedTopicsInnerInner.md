@@ -37,15 +37,15 @@ Name | Type | Description | Notes
 **ServerTypingStartedWaitPeriodMilliseconds** | Pointer to **int32** | Present if &#x60;realm&#x60; is present in &#x60;fetch_event_types&#x60;.  For clients implementing [typing notifications](/api/set-typing-status) protocol, the time interval in milliseconds that the client should use to send regular start notifications to the server to indicate that the user is still actively interacting with the compose UI.  **Changes**: New in Zulip 8.0 (feature level 204). Clients should use 10000 for older Zulip servers, since that&#39;s the value that was hardcoded in the Zulip apps prior to this parameter being introduced.  | [optional] 
 **ScheduledMessages** | Pointer to [**[]ScheduledMessage**](ScheduledMessage.md) | Present if &#x60;scheduled_messages&#x60; is present in &#x60;fetch_event_types&#x60;.  An array of all undelivered scheduled messages by the user.  **Changes**: New in Zulip 7.0 (feature level 179).  | [optional] 
 **Reminders** | Pointer to [**[]ScheduledMessage**](ScheduledMessage.md) | Present if &#x60;reminders&#x60; is present in &#x60;fetch_event_types&#x60;.  An array of all undelivered reminders scheduled by the user.  **Changes**: New in Zulip 11.0 (feature level 399).  | [optional] 
-**MutedTopics** | Pointer to [**[][]GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner**]([]GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner.md) | Present if &#x60;muted_topics&#x60; is present in &#x60;fetch_event_types&#x60;.  Array of tuples, where each tuple describes a muted topic. The first element of the tuple is the channel name in which the topic has to be muted, the second element is the topic name to be muted and the third element is an integer UNIX timestamp representing when the topic was muted.  **Changes**: Deprecated in Zulip 6.0 (feature level 134). Starting with this version, &#x60;muted_topics&#x60; will only be present in the response if the &#x60;user_topic&#x60; object, which generalizes and replaces this field, is not explicitly requested via &#x60;fetch_event_types&#x60;.  Before Zulip 3.0 (feature level 1), the &#x60;muted_topics&#x60; array objects were 2-item tuples and did not include the timestamp information for when the topic was muted.  | [optional] 
-**MutedUsers** | Pointer to [**[]GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner**](GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner.md) | Present if &#x60;muted_users&#x60; is present in &#x60;fetch_event_types&#x60;.  A list of dictionaries where each dictionary describes a [muted user](/api/mute-user).  **Changes**: New in Zulip 4.0 (feature level 48).  | [optional] 
+**MutedTopics** | Pointer to [**[][]EventEnvelopeOneOf31MutedTopicsInnerInner**]([]EventEnvelopeOneOf31MutedTopicsInnerInner.md) | Present if &#x60;muted_topics&#x60; is present in &#x60;fetch_event_types&#x60;.  Array of tuples, where each tuple describes a muted topic. The first element of the tuple is the channel name in which the topic has to be muted, the second element is the topic name to be muted and the third element is an integer UNIX timestamp representing when the topic was muted.  **Changes**: Deprecated in Zulip 6.0 (feature level 134). Starting with this version, &#x60;muted_topics&#x60; will only be present in the response if the &#x60;user_topic&#x60; object, which generalizes and replaces this field, is not explicitly requested via &#x60;fetch_event_types&#x60;.  Before Zulip 3.0 (feature level 1), the &#x60;muted_topics&#x60; array objects were 2-item tuples and did not include the timestamp information for when the topic was muted.  | [optional] 
+**MutedUsers** | Pointer to [**[]EventEnvelopeOneOf33MutedUsersInner**](EventEnvelopeOneOf33MutedUsersInner.md) | Present if &#x60;muted_users&#x60; is present in &#x60;fetch_event_types&#x60;.  A list of dictionaries where each dictionary describes a [muted user](/api/mute-user).  **Changes**: New in Zulip 4.0 (feature level 48).  | [optional] 
 **Presences** | Pointer to [**map[string]RegisterQueueResponsePresencesEntry**](RegisterQueueResponsePresencesEntry.md) | Present if &#x60;presence&#x60; is present in &#x60;fetch_event_types&#x60;.  A dictionary where each entry describes the presence details of a user in the Zulip organization.  The format of the entry (modern or legacy) depends on the value of [&#x60;slim_presence&#x60;](#parameter-slim_presence).  Users who have been offline for multiple weeks may not appear in this object.  | [optional] 
 **PresenceLastUpdateId** | Pointer to **int32** | Present if &#x60;presence&#x60; is present in &#x60;fetch_event_types&#x60;.  Provides the &#x60;last_update_id&#x60; value of the latest presence data fetched by the server and included in the response in &#x60;presences&#x60;. This can be used as the value of the &#x60;presence_last_update_id&#x60; parameter when polling for presence data at the [/users/me/presence](/api/update-presence) endpoint to tell the server to only fetch the relevant newer data in order to skip redundant already-known presence information.  **Changes**: New in Zulip 9.0 (feature level 263).  | [optional] 
 **ServerTimestamp** | Pointer to **float32** | Present if &#x60;presence&#x60; is present in &#x60;fetch_event_types&#x60;.  The time when the server fetched the &#x60;presences&#x60; data included in the response. Matches the similar field in presence responses.  **Changes**: New in Zulip 5.0 (feature level 70).  | [optional] 
 **RealmDomains** | Pointer to [**[]RealmDomain**](RealmDomain.md) | Present if &#x60;realm_domains&#x60; is present in &#x60;fetch_event_types&#x60;.  An array of dictionaries where each dictionary describes a domain within which users can join the organization without and invitation.  | [optional] 
 **RealmEmoji** | Pointer to [**map[string]RealmEmoji**](RealmEmoji.md) | Present if &#x60;realm_emoji&#x60; is present in &#x60;fetch_event_types&#x60;.  A dictionary of objects where each object describes a custom emoji that has been uploaded in this Zulip organization.  | [optional] 
 **RealmLinkifiers** | Pointer to [**[]RegisterQueueResponseRealmLinkifiersItem**](RegisterQueueResponseRealmLinkifiersItem.md) | Present if &#x60;realm_linkifiers&#x60; is present in &#x60;fetch_event_types&#x60;.  An ordered array of objects where each object describes a single [linkifier](/help/add-a-custom-linkifier).  The order of the array reflects the order that each linkifier should be processed when linkifying messages and topics. By default, new linkifiers are ordered last. This order can be modified with [&#x60;PATCH /realm/linkifiers&#x60;](/api/reorder-linkifiers).  Clients will receive an empty array unless the event queue is registered with the client capability &#x60;{\&quot;linkifier_url_template\&quot;: true}&#x60;. See [&#x60;client_capabilities&#x60;](/api/register-queue#parameter-client_capabilities) parameter for how this can be specified.  **Changes**: Before Zulip 7.0 (feature level 176), the &#x60;linkifier_url_template&#x60; client capability was not required. The requirement was added because linkifiers were updated to contain a URL template instead of a URL format string, which was a not backwards-compatible change.  New in Zulip 4.0 (feature level 54). Clients can access this data for servers on earlier feature levels via the legacy &#x60;realm_filters&#x60; property.  | [optional] 
-**RealmFilters** | Pointer to [**[][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner**]([]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner.md) | Legacy property for [linkifiers](/help/add-a-custom-linkifier). Present if &#x60;realm_filters&#x60; is present in &#x60;fetch_event_types&#x60;.  When present, this is always an empty array.  **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example &#x60;\&quot;#(?P&lt;id&gt;[123])\&quot;&#x60;. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be &#x60;\&quot;https://realm.com/my_realm_filter/%(id)s\&quot;&#x60;. And the third element was the ID of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the &#x60;realm_linkifiers&#x60; key.  | [optional] 
+**RealmFilters** | Pointer to [**[][]EventEnvelopeOneOf51RealmFiltersInnerInner**]([]EventEnvelopeOneOf51RealmFiltersInnerInner.md) | Legacy property for [linkifiers](/help/add-a-custom-linkifier). Present if &#x60;realm_filters&#x60; is present in &#x60;fetch_event_types&#x60;.  When present, this is always an empty array.  **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example &#x60;\&quot;#(?P&lt;id&gt;[123])\&quot;&#x60;. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be &#x60;\&quot;https://realm.com/my_realm_filter/%(id)s\&quot;&#x60;. And the third element was the ID of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the &#x60;realm_linkifiers&#x60; key.  | [optional] 
 **RealmPlaygrounds** | Pointer to [**[]RealmPlayground**](RealmPlayground.md) | Present if &#x60;realm_playgrounds&#x60; is present in &#x60;fetch_event_types&#x60;.  An array of dictionaries where each dictionary describes a [code playground](/help/code-blocks#code-playgrounds) configured for this Zulip organization.  **Changes**: New in Zulip 4.0 (feature level 49).  | [optional] 
 **RealmUserGroups** | Pointer to [**[]UserGroup**](UserGroup.md) | Present if &#x60;realm_user_groups&#x60; is present in &#x60;fetch_event_types&#x60;.  An array of dictionaries where each dictionary describes a [user group](/help/user-groups) in the Zulip organization.  Deactivated groups will only be included if &#x60;include_deactivated_groups&#x60; client capability is set to &#x60;true&#x60;.  **Changes**: Prior to Zulip 10.0 (feature level 294), deactivated groups were included for all the clients.  | [optional] 
 **RealmBots** | Pointer to [**[]Bot**](Bot.md) | Present if &#x60;realm_bot&#x60; is present in &#x60;fetch_event_types&#x60;.  An array of dictionaries where each dictionary describes a bot that the current user can administer. If the current user is an organization administrator, this will include all bots in the organization. Otherwise, it will only include bots owned by the user (either because the user created the bot or an administrator transferred the bot&#39;s ownership to the user).  | [optional] 
@@ -1155,20 +1155,20 @@ HasReminders returns a boolean if a field has been set.
 
 ### GetMutedTopics
 
-`func (o *RegisterQueue200Response) GetMutedTopics() [][]GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner`
+`func (o *RegisterQueue200Response) GetMutedTopics() [][]EventEnvelopeOneOf31MutedTopicsInnerInner`
 
 GetMutedTopics returns the MutedTopics field if non-nil, zero value otherwise.
 
 ### GetMutedTopicsOk
 
-`func (o *RegisterQueue200Response) GetMutedTopicsOk() (*[][]GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner, bool)`
+`func (o *RegisterQueue200Response) GetMutedTopicsOk() (*[][]EventEnvelopeOneOf31MutedTopicsInnerInner, bool)`
 
 GetMutedTopicsOk returns a tuple with the MutedTopics field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMutedTopics
 
-`func (o *RegisterQueue200Response) SetMutedTopics(v [][]GetEvents200ResponseAllOfEventsInnerOneOf31MutedTopicsInnerInner)`
+`func (o *RegisterQueue200Response) SetMutedTopics(v [][]EventEnvelopeOneOf31MutedTopicsInnerInner)`
 
 SetMutedTopics sets MutedTopics field to given value.
 
@@ -1180,20 +1180,20 @@ HasMutedTopics returns a boolean if a field has been set.
 
 ### GetMutedUsers
 
-`func (o *RegisterQueue200Response) GetMutedUsers() []GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner`
+`func (o *RegisterQueue200Response) GetMutedUsers() []EventEnvelopeOneOf33MutedUsersInner`
 
 GetMutedUsers returns the MutedUsers field if non-nil, zero value otherwise.
 
 ### GetMutedUsersOk
 
-`func (o *RegisterQueue200Response) GetMutedUsersOk() (*[]GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner, bool)`
+`func (o *RegisterQueue200Response) GetMutedUsersOk() (*[]EventEnvelopeOneOf33MutedUsersInner, bool)`
 
 GetMutedUsersOk returns a tuple with the MutedUsers field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMutedUsers
 
-`func (o *RegisterQueue200Response) SetMutedUsers(v []GetEvents200ResponseAllOfEventsInnerOneOf33MutedUsersInner)`
+`func (o *RegisterQueue200Response) SetMutedUsers(v []EventEnvelopeOneOf33MutedUsersInner)`
 
 SetMutedUsers sets MutedUsers field to given value.
 
@@ -1355,20 +1355,20 @@ HasRealmLinkifiers returns a boolean if a field has been set.
 
 ### GetRealmFilters
 
-`func (o *RegisterQueue200Response) GetRealmFilters() [][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner`
+`func (o *RegisterQueue200Response) GetRealmFilters() [][]EventEnvelopeOneOf51RealmFiltersInnerInner`
 
 GetRealmFilters returns the RealmFilters field if non-nil, zero value otherwise.
 
 ### GetRealmFiltersOk
 
-`func (o *RegisterQueue200Response) GetRealmFiltersOk() (*[][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner, bool)`
+`func (o *RegisterQueue200Response) GetRealmFiltersOk() (*[][]EventEnvelopeOneOf51RealmFiltersInnerInner, bool)`
 
 GetRealmFiltersOk returns a tuple with the RealmFilters field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRealmFilters
 
-`func (o *RegisterQueue200Response) SetRealmFilters(v [][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner)`
+`func (o *RegisterQueue200Response) SetRealmFilters(v [][]EventEnvelopeOneOf51RealmFiltersInnerInner)`
 
 SetRealmFilters sets RealmFilters field to given value.
 

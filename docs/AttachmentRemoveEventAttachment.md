@@ -7,25 +7,25 @@ Name | Type | Description | Notes
 **Id** | Pointer to **int32** | The ID of the event. Events appear in increasing order but may not be consecutive.  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
-**Attachment** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf23Attachment**](GetEvents200ResponseAllOfEventsInnerOneOf23Attachment.md) |  | [optional] 
+**Attachment** | Pointer to [**EventEnvelopeOneOf23Attachment**](EventEnvelopeOneOf23Attachment.md) |  | [optional] 
 **UploadSpaceUsed** | Pointer to **int32** | The total size of all files uploaded by in the organization, in bytes.  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf23
+### NewEventEnvelopeOneOf23
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf23() *AttachmentRemoveEvent`
+`func NewEventEnvelopeOneOf23() *AttachmentRemoveEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf23 instantiates a new AttachmentRemoveEvent object
+NewEventEnvelopeOneOf23 instantiates a new AttachmentRemoveEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf23WithDefaults
+### NewEventEnvelopeOneOf23WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf23WithDefaults() *AttachmentRemoveEvent`
+`func NewEventEnvelopeOneOf23WithDefaults() *AttachmentRemoveEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf23WithDefaults instantiates a new AttachmentRemoveEvent object
+NewEventEnvelopeOneOf23WithDefaults instantiates a new AttachmentRemoveEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -106,20 +106,20 @@ HasOp returns a boolean if a field has been set.
 
 ### GetAttachment
 
-`func (o *AttachmentRemoveEvent) GetAttachment() GetEvents200ResponseAllOfEventsInnerOneOf23Attachment`
+`func (o *AttachmentRemoveEvent) GetAttachment() EventEnvelopeOneOf23Attachment`
 
 GetAttachment returns the Attachment field if non-nil, zero value otherwise.
 
 ### GetAttachmentOk
 
-`func (o *AttachmentRemoveEvent) GetAttachmentOk() (*GetEvents200ResponseAllOfEventsInnerOneOf23Attachment, bool)`
+`func (o *AttachmentRemoveEvent) GetAttachmentOk() (*EventEnvelopeOneOf23Attachment, bool)`
 
 GetAttachmentOk returns a tuple with the Attachment field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAttachment
 
-`func (o *AttachmentRemoveEvent) SetAttachment(v GetEvents200ResponseAllOfEventsInnerOneOf23Attachment)`
+`func (o *AttachmentRemoveEvent) SetAttachment(v EventEnvelopeOneOf23Attachment)`
 
 SetAttachment sets Attachment field to given value.
 

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Result** | **interface{}** |  | 
 **Msg** | **interface{}** |  | 
 **IgnoredParametersUnsupported** | Pointer to **interface{}** |  | [optional] 
-**Events** | Pointer to [**[]GetEvents200ResponseAllOfEventsInner**](GetEvents200ResponseAllOfEventsInner.md) | An array of &#x60;event&#x60; objects (possibly zero-length if &#x60;dont_block&#x60; is set) with IDs newer than &#x60;last_event_id&#x60;. Event IDs are guaranteed to be increasing, but they are not guaranteed to be consecutive.  | [optional] 
+**Events** | Pointer to [**[]EventEnvelope**](EventEnvelope.md) | An array of &#x60;event&#x60; objects (possibly zero-length if &#x60;dont_block&#x60; is set) with IDs newer than &#x60;last_event_id&#x60;. Event IDs are guaranteed to be increasing, but they are not guaranteed to be consecutive.  | [optional] 
 **QueueId** | Pointer to **string** | The ID of the registered queue.  | [optional] 
 
 ## Methods
@@ -126,20 +126,20 @@ HasIgnoredParametersUnsupported returns a boolean if a field has been set.
 UnsetIgnoredParametersUnsupported ensures that no value is present for IgnoredParametersUnsupported, not even an explicit nil
 ### GetEvents
 
-`func (o *GetEvents200Response) GetEvents() []GetEvents200ResponseAllOfEventsInner`
+`func (o *GetEvents200Response) GetEvents() []EventEnvelope`
 
 GetEvents returns the Events field if non-nil, zero value otherwise.
 
 ### GetEventsOk
 
-`func (o *GetEvents200Response) GetEventsOk() (*[]GetEvents200ResponseAllOfEventsInner, bool)`
+`func (o *GetEvents200Response) GetEventsOk() (*[]EventEnvelope, bool)`
 
 GetEventsOk returns a tuple with the Events field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEvents
 
-`func (o *GetEvents200Response) SetEvents(v []GetEvents200ResponseAllOfEventsInner)`
+`func (o *GetEvents200Response) SetEvents(v []EventEnvelope)`
 
 SetEvents sets Events field to given value.
 

@@ -8,24 +8,24 @@ Name | Type | Description | Notes
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
 **Property** | Pointer to **string** | The name of the property that was changed.  | [optional] 
-**Value** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf63Value**](GetEvents200ResponseAllOfEventsInnerOneOf63Value.md) |  | [optional] 
+**Value** | Pointer to [**EventEnvelopeOneOf63Value**](EventEnvelopeOneOf63Value.md) |  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf63
+### NewEventEnvelopeOneOf63
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf63() *RealmUpdateEvent`
+`func NewEventEnvelopeOneOf63() *RealmUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf63 instantiates a new RealmUpdateEvent object
+NewEventEnvelopeOneOf63 instantiates a new RealmUpdateEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf63WithDefaults
+### NewEventEnvelopeOneOf63WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf63WithDefaults() *RealmUpdateEvent`
+`func NewEventEnvelopeOneOf63WithDefaults() *RealmUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf63WithDefaults instantiates a new RealmUpdateEvent object
+NewEventEnvelopeOneOf63WithDefaults instantiates a new RealmUpdateEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -131,20 +131,20 @@ HasProperty returns a boolean if a field has been set.
 
 ### GetValue
 
-`func (o *RealmUpdateEvent) GetValue() GetEvents200ResponseAllOfEventsInnerOneOf63Value`
+`func (o *RealmUpdateEvent) GetValue() EventEnvelopeOneOf63Value`
 
 GetValue returns the Value field if non-nil, zero value otherwise.
 
 ### GetValueOk
 
-`func (o *RealmUpdateEvent) GetValueOk() (*GetEvents200ResponseAllOfEventsInnerOneOf63Value, bool)`
+`func (o *RealmUpdateEvent) GetValueOk() (*EventEnvelopeOneOf63Value, bool)`
 
 GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetValue
 
-`func (o *RealmUpdateEvent) SetValue(v GetEvents200ResponseAllOfEventsInnerOneOf63Value)`
+`func (o *RealmUpdateEvent) SetValue(v EventEnvelopeOneOf63Value)`
 
 SetValue sets Value field to given value.
 

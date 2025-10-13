@@ -8,24 +8,24 @@ Name | Type | Description | Notes
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
 **Property** | Pointer to **string** | Always &#x60;\&quot;default\&quot;&#x60;. Present for backwards-compatibility with older clients that predate the &#x60;update_dict&#x60; event style.  **Deprecated** and will be removed in a future release.  | [optional] 
-**Data** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf67Data**](GetEvents200ResponseAllOfEventsInnerOneOf67Data.md) |  | [optional] 
+**Data** | Pointer to [**EventEnvelopeOneOf67Data**](EventEnvelopeOneOf67Data.md) |  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf67
+### NewEventEnvelopeOneOf67
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf67() *RealmUpdateDictEvent`
+`func NewEventEnvelopeOneOf67() *RealmUpdateDictEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf67 instantiates a new RealmUpdateDictEvent object
+NewEventEnvelopeOneOf67 instantiates a new RealmUpdateDictEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf67WithDefaults
+### NewEventEnvelopeOneOf67WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf67WithDefaults() *RealmUpdateDictEvent`
+`func NewEventEnvelopeOneOf67WithDefaults() *RealmUpdateDictEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf67WithDefaults instantiates a new RealmUpdateDictEvent object
+NewEventEnvelopeOneOf67WithDefaults instantiates a new RealmUpdateDictEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -131,20 +131,20 @@ HasProperty returns a boolean if a field has been set.
 
 ### GetData
 
-`func (o *RealmUpdateDictEvent) GetData() GetEvents200ResponseAllOfEventsInnerOneOf67Data`
+`func (o *RealmUpdateDictEvent) GetData() EventEnvelopeOneOf67Data`
 
 GetData returns the Data field if non-nil, zero value otherwise.
 
 ### GetDataOk
 
-`func (o *RealmUpdateDictEvent) GetDataOk() (*GetEvents200ResponseAllOfEventsInnerOneOf67Data, bool)`
+`func (o *RealmUpdateDictEvent) GetDataOk() (*EventEnvelopeOneOf67Data, bool)`
 
 GetDataOk returns a tuple with the Data field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetData
 
-`func (o *RealmUpdateDictEvent) SetData(v GetEvents200ResponseAllOfEventsInnerOneOf67Data)`
+`func (o *RealmUpdateDictEvent) SetData(v EventEnvelopeOneOf67Data)`
 
 SetData sets Data field to given value.
 

@@ -12,20 +12,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf48
+### NewEventEnvelopeOneOf48
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf48() *UserGroupRemoveSubgroupsEvent`
+`func NewEventEnvelopeOneOf48() *UserGroupRemoveSubgroupsEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf48 instantiates a new UserGroupRemoveSubgroupsEvent object
+NewEventEnvelopeOneOf48 instantiates a new UserGroupRemoveSubgroupsEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf48WithDefaults
+### NewEventEnvelopeOneOf48WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf48WithDefaults() *UserGroupRemoveSubgroupsEvent`
+`func NewEventEnvelopeOneOf48WithDefaults() *UserGroupRemoveSubgroupsEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf48WithDefaults instantiates a new UserGroupRemoveSubgroupsEvent object
+NewEventEnvelopeOneOf48WithDefaults instantiates a new UserGroupRemoveSubgroupsEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

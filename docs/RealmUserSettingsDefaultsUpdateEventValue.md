@@ -8,24 +8,24 @@ Name | Type | Description | Notes
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
 **Property** | Pointer to **string** | The name of the property that was changed.  | [optional] 
-**Value** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf68Value**](GetEvents200ResponseAllOfEventsInnerOneOf68Value.md) |  | [optional] 
+**Value** | Pointer to [**EventEnvelopeOneOf68Value**](EventEnvelopeOneOf68Value.md) |  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf68
+### NewEventEnvelopeOneOf68
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf68() *RealmUserSettingsDefaultsUpdateEvent`
+`func NewEventEnvelopeOneOf68() *RealmUserSettingsDefaultsUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf68 instantiates a new RealmUserSettingsDefaultsUpdateEvent object
+NewEventEnvelopeOneOf68 instantiates a new RealmUserSettingsDefaultsUpdateEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf68WithDefaults
+### NewEventEnvelopeOneOf68WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf68WithDefaults() *RealmUserSettingsDefaultsUpdateEvent`
+`func NewEventEnvelopeOneOf68WithDefaults() *RealmUserSettingsDefaultsUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf68WithDefaults instantiates a new RealmUserSettingsDefaultsUpdateEvent object
+NewEventEnvelopeOneOf68WithDefaults instantiates a new RealmUserSettingsDefaultsUpdateEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -131,20 +131,20 @@ HasProperty returns a boolean if a field has been set.
 
 ### GetValue
 
-`func (o *RealmUserSettingsDefaultsUpdateEvent) GetValue() GetEvents200ResponseAllOfEventsInnerOneOf68Value`
+`func (o *RealmUserSettingsDefaultsUpdateEvent) GetValue() EventEnvelopeOneOf68Value`
 
 GetValue returns the Value field if non-nil, zero value otherwise.
 
 ### GetValueOk
 
-`func (o *RealmUserSettingsDefaultsUpdateEvent) GetValueOk() (*GetEvents200ResponseAllOfEventsInnerOneOf68Value, bool)`
+`func (o *RealmUserSettingsDefaultsUpdateEvent) GetValueOk() (*EventEnvelopeOneOf68Value, bool)`
 
 GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetValue
 
-`func (o *RealmUserSettingsDefaultsUpdateEvent) SetValue(v GetEvents200ResponseAllOfEventsInnerOneOf68Value)`
+`func (o *RealmUserSettingsDefaultsUpdateEvent) SetValue(v EventEnvelopeOneOf68Value)`
 
 SetValue sets Value field to given value.
 

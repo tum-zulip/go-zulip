@@ -8,24 +8,24 @@ Name | Type | Description | Notes
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
 **Fragment** | Pointer to **string** | The unique URL hash of the navigation view being updated.  | [optional] 
-**Data** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf73Data**](GetEvents200ResponseAllOfEventsInnerOneOf73Data.md) |  | [optional] 
+**Data** | Pointer to [**EventEnvelopeOneOf73Data**](EventEnvelopeOneOf73Data.md) |  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf73
+### NewEventEnvelopeOneOf73
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf73() *NavigationViewUpdateEvent`
+`func NewEventEnvelopeOneOf73() *NavigationViewUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf73 instantiates a new NavigationViewUpdateEvent object
+NewEventEnvelopeOneOf73 instantiates a new NavigationViewUpdateEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf73WithDefaults
+### NewEventEnvelopeOneOf73WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf73WithDefaults() *NavigationViewUpdateEvent`
+`func NewEventEnvelopeOneOf73WithDefaults() *NavigationViewUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf73WithDefaults instantiates a new NavigationViewUpdateEvent object
+NewEventEnvelopeOneOf73WithDefaults instantiates a new NavigationViewUpdateEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -131,20 +131,20 @@ HasFragment returns a boolean if a field has been set.
 
 ### GetData
 
-`func (o *NavigationViewUpdateEvent) GetData() GetEvents200ResponseAllOfEventsInnerOneOf73Data`
+`func (o *NavigationViewUpdateEvent) GetData() EventEnvelopeOneOf73Data`
 
 GetData returns the Data field if non-nil, zero value otherwise.
 
 ### GetDataOk
 
-`func (o *NavigationViewUpdateEvent) GetDataOk() (*GetEvents200ResponseAllOfEventsInnerOneOf73Data, bool)`
+`func (o *NavigationViewUpdateEvent) GetDataOk() (*EventEnvelopeOneOf73Data, bool)`
 
 GetDataOk returns a tuple with the Data field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetData
 
-`func (o *NavigationViewUpdateEvent) SetData(v GetEvents200ResponseAllOfEventsInnerOneOf73Data)`
+`func (o *NavigationViewUpdateEvent) SetData(v EventEnvelopeOneOf73Data)`
 
 SetData sets Data field to given value.
 

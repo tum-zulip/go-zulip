@@ -10,26 +10,26 @@ Name | Type | Description | Notes
 **UserId** | Pointer to **interface{}** |  | [optional] 
 **User** | Pointer to **interface{}** |  | [optional] 
 **Id** | Pointer to **int32** | The ID of the event. Events appear in increasing order but may not be consecutive.  | [optional] 
-**Type** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf20AllOfType**](GetEvents200ResponseAllOfEventsInnerOneOf20AllOfType.md) |  | [optional] 
+**Type** | Pointer to [**EventEnvelopeOneOf20AllOfType**](EventEnvelopeOneOf20AllOfType.md) |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
 **MessageId** | Pointer to **int32** | The ID of the message from which the reaction was removed.  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf20
+### NewEventEnvelopeOneOf20
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf20() *ReactionRemoveEvent`
+`func NewEventEnvelopeOneOf20() *ReactionRemoveEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf20 instantiates a new ReactionRemoveEvent object
+NewEventEnvelopeOneOf20 instantiates a new ReactionRemoveEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf20WithDefaults
+### NewEventEnvelopeOneOf20WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf20WithDefaults() *ReactionRemoveEvent`
+`func NewEventEnvelopeOneOf20WithDefaults() *ReactionRemoveEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf20WithDefaults instantiates a new ReactionRemoveEvent object
+NewEventEnvelopeOneOf20WithDefaults instantiates a new ReactionRemoveEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -235,20 +235,20 @@ HasId returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *ReactionRemoveEvent) GetType() GetEvents200ResponseAllOfEventsInnerOneOf20AllOfType`
+`func (o *ReactionRemoveEvent) GetType() EventEnvelopeOneOf20AllOfType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *ReactionRemoveEvent) GetTypeOk() (*GetEvents200ResponseAllOfEventsInnerOneOf20AllOfType, bool)`
+`func (o *ReactionRemoveEvent) GetTypeOk() (*EventEnvelopeOneOf20AllOfType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *ReactionRemoveEvent) SetType(v GetEvents200ResponseAllOfEventsInnerOneOf20AllOfType)`
+`func (o *ReactionRemoveEvent) SetType(v EventEnvelopeOneOf20AllOfType)`
 
 SetType sets Type field to given value.
 

@@ -6,24 +6,24 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **int32** | The ID of the event. Events appear in increasing order but may not be consecutive.  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
-**RealmFilters** | Pointer to [**[][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner**]([]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner.md) | An array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example &#x60;\&quot;#(?P&lt;id&gt;[123])\&quot;&#x60;. The second element was the URL format string that the pattern should be linkified with. A URL format string for the above example would be &#x60;\&quot;https://realm.com/my_realm_filter/%(id)s\&quot;&#x60;. And the third element was the ID of the realm filter.  | [optional] 
+**RealmFilters** | Pointer to [**[][]EventEnvelopeOneOf51RealmFiltersInnerInner**]([]EventEnvelopeOneOf51RealmFiltersInnerInner.md) | An array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example &#x60;\&quot;#(?P&lt;id&gt;[123])\&quot;&#x60;. The second element was the URL format string that the pattern should be linkified with. A URL format string for the above example would be &#x60;\&quot;https://realm.com/my_realm_filter/%(id)s\&quot;&#x60;. And the third element was the ID of the realm filter.  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf51
+### NewEventEnvelopeOneOf51
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf51() *RealmFiltersEvent`
+`func NewEventEnvelopeOneOf51() *RealmFiltersEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf51 instantiates a new RealmFiltersEvent object
+NewEventEnvelopeOneOf51 instantiates a new RealmFiltersEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf51WithDefaults
+### NewEventEnvelopeOneOf51WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf51WithDefaults() *RealmFiltersEvent`
+`func NewEventEnvelopeOneOf51WithDefaults() *RealmFiltersEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf51WithDefaults instantiates a new RealmFiltersEvent object
+NewEventEnvelopeOneOf51WithDefaults instantiates a new RealmFiltersEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -79,20 +79,20 @@ HasType returns a boolean if a field has been set.
 
 ### GetRealmFilters
 
-`func (o *RealmFiltersEvent) GetRealmFilters() [][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner`
+`func (o *RealmFiltersEvent) GetRealmFilters() [][]EventEnvelopeOneOf51RealmFiltersInnerInner`
 
 GetRealmFilters returns the RealmFilters field if non-nil, zero value otherwise.
 
 ### GetRealmFiltersOk
 
-`func (o *RealmFiltersEvent) GetRealmFiltersOk() (*[][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner, bool)`
+`func (o *RealmFiltersEvent) GetRealmFiltersOk() (*[][]EventEnvelopeOneOf51RealmFiltersInnerInner, bool)`
 
 GetRealmFiltersOk returns a tuple with the RealmFilters field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRealmFilters
 
-`func (o *RealmFiltersEvent) SetRealmFilters(v [][]GetEvents200ResponseAllOfEventsInnerOneOf51RealmFiltersInnerInner)`
+`func (o *RealmFiltersEvent) SetRealmFilters(v [][]EventEnvelopeOneOf51RealmFiltersInnerInner)`
 
 SetRealmFilters sets RealmFilters field to given value.
 

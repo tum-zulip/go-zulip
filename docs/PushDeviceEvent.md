@@ -12,20 +12,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf24
+### NewEventEnvelopeOneOf24
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf24() *PushDeviceEvent`
+`func NewEventEnvelopeOneOf24() *PushDeviceEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf24 instantiates a new PushDeviceEvent object
+NewEventEnvelopeOneOf24 instantiates a new PushDeviceEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf24WithDefaults
+### NewEventEnvelopeOneOf24WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf24WithDefaults() *PushDeviceEvent`
+`func NewEventEnvelopeOneOf24WithDefaults() *PushDeviceEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf24WithDefaults instantiates a new PushDeviceEvent object
+NewEventEnvelopeOneOf24WithDefaults instantiates a new PushDeviceEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

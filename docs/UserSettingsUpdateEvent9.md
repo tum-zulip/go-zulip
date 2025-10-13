@@ -9,24 +9,24 @@ Name | Type | Description | Notes
 **Op** | Pointer to **string** |  | [optional] 
 **SenderId** | Pointer to **int32** | The ID of the user who is typing the edit of the message.  Clients should be careful to display this user as the person who is typing, not that of the sender of the message, in case a collaborative editing feature be might be added in the future.  | [optional] 
 **MessageId** | Pointer to **int32** | Indicates the message id of the message that is being edited.  | [optional] 
-**Recipient** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf39Recipient**](GetEvents200ResponseAllOfEventsInnerOneOf39Recipient.md) |  | [optional] 
+**Recipient** | Pointer to [**EventEnvelopeOneOf39Recipient**](EventEnvelopeOneOf39Recipient.md) |  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf39
+### NewEventEnvelopeOneOf39
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf39() *TypingEditMessageStartEvent`
+`func NewEventEnvelopeOneOf39() *TypingEditMessageStartEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf39 instantiates a new TypingEditMessageStartEvent object
+NewEventEnvelopeOneOf39 instantiates a new TypingEditMessageStartEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf39WithDefaults
+### NewEventEnvelopeOneOf39WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf39WithDefaults() *TypingEditMessageStartEvent`
+`func NewEventEnvelopeOneOf39WithDefaults() *TypingEditMessageStartEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf39WithDefaults instantiates a new TypingEditMessageStartEvent object
+NewEventEnvelopeOneOf39WithDefaults instantiates a new TypingEditMessageStartEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -157,20 +157,20 @@ HasMessageId returns a boolean if a field has been set.
 
 ### GetRecipient
 
-`func (o *TypingEditMessageStartEvent) GetRecipient() GetEvents200ResponseAllOfEventsInnerOneOf39Recipient`
+`func (o *TypingEditMessageStartEvent) GetRecipient() EventEnvelopeOneOf39Recipient`
 
 GetRecipient returns the Recipient field if non-nil, zero value otherwise.
 
 ### GetRecipientOk
 
-`func (o *TypingEditMessageStartEvent) GetRecipientOk() (*GetEvents200ResponseAllOfEventsInnerOneOf39Recipient, bool)`
+`func (o *TypingEditMessageStartEvent) GetRecipientOk() (*EventEnvelopeOneOf39Recipient, bool)`
 
 GetRecipientOk returns a tuple with the Recipient field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRecipient
 
-`func (o *TypingEditMessageStartEvent) SetRecipient(v GetEvents200ResponseAllOfEventsInnerOneOf39Recipient)`
+`func (o *TypingEditMessageStartEvent) SetRecipient(v EventEnvelopeOneOf39Recipient)`
 
 SetRecipient sets Recipient field to given value.
 

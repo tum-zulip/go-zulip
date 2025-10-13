@@ -9,24 +9,24 @@ Name | Type | Description | Notes
 **Op** | Pointer to **string** |  | [optional] 
 **SenderId** | Pointer to **int32** | The ID of the user who sent the message.  | [optional] 
 **MessageId** | Pointer to **int32** | Indicates the message id of the message that is being edited.  | [optional] 
-**Recipient** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf39Recipient**](GetEvents200ResponseAllOfEventsInnerOneOf39Recipient.md) |  | [optional] 
+**Recipient** | Pointer to [**EventEnvelopeOneOf39Recipient**](EventEnvelopeOneOf39Recipient.md) |  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf40
+### NewEventEnvelopeOneOf40
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf40() *TypingEditMessageStopEvent`
+`func NewEventEnvelopeOneOf40() *TypingEditMessageStopEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf40 instantiates a new TypingEditMessageStopEvent object
+NewEventEnvelopeOneOf40 instantiates a new TypingEditMessageStopEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf40WithDefaults
+### NewEventEnvelopeOneOf40WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf40WithDefaults() *TypingEditMessageStopEvent`
+`func NewEventEnvelopeOneOf40WithDefaults() *TypingEditMessageStopEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf40WithDefaults instantiates a new TypingEditMessageStopEvent object
+NewEventEnvelopeOneOf40WithDefaults instantiates a new TypingEditMessageStopEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -157,20 +157,20 @@ HasMessageId returns a boolean if a field has been set.
 
 ### GetRecipient
 
-`func (o *TypingEditMessageStopEvent) GetRecipient() GetEvents200ResponseAllOfEventsInnerOneOf39Recipient`
+`func (o *TypingEditMessageStopEvent) GetRecipient() EventEnvelopeOneOf39Recipient`
 
 GetRecipient returns the Recipient field if non-nil, zero value otherwise.
 
 ### GetRecipientOk
 
-`func (o *TypingEditMessageStopEvent) GetRecipientOk() (*GetEvents200ResponseAllOfEventsInnerOneOf39Recipient, bool)`
+`func (o *TypingEditMessageStopEvent) GetRecipientOk() (*EventEnvelopeOneOf39Recipient, bool)`
 
 GetRecipientOk returns a tuple with the Recipient field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRecipient
 
-`func (o *TypingEditMessageStopEvent) SetRecipient(v GetEvents200ResponseAllOfEventsInnerOneOf39Recipient)`
+`func (o *TypingEditMessageStopEvent) SetRecipient(v EventEnvelopeOneOf39Recipient)`
 
 SetRecipient sets Recipient field to given value.
 

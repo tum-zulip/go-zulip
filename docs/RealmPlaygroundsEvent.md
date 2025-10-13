@@ -10,20 +10,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf52
+### NewEventEnvelopeOneOf52
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf52() *RealmPlaygroundsEvent`
+`func NewEventEnvelopeOneOf52() *RealmPlaygroundsEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf52 instantiates a new RealmPlaygroundsEvent object
+NewEventEnvelopeOneOf52 instantiates a new RealmPlaygroundsEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf52WithDefaults
+### NewEventEnvelopeOneOf52WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf52WithDefaults() *RealmPlaygroundsEvent`
+`func NewEventEnvelopeOneOf52WithDefaults() *RealmPlaygroundsEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf52WithDefaults instantiates a new RealmPlaygroundsEvent object
+NewEventEnvelopeOneOf52WithDefaults instantiates a new RealmPlaygroundsEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

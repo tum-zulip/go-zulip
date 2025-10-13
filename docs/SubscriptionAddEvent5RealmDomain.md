@@ -1,4 +1,4 @@
-# GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain
+# EventEnvelopeOneOf55RealmDomain
 
 ## Properties
 
@@ -9,70 +9,70 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain
+### NewEventEnvelopeOneOf55RealmDomain
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain() *GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain`
+`func NewEventEnvelopeOneOf55RealmDomain() *EventEnvelopeOneOf55RealmDomain`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain object
+NewEventEnvelopeOneOf55RealmDomain instantiates a new EventEnvelopeOneOf55RealmDomain object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf55RealmDomainWithDefaults
+### NewEventEnvelopeOneOf55RealmDomainWithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf55RealmDomainWithDefaults() *GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain`
+`func NewEventEnvelopeOneOf55RealmDomainWithDefaults() *EventEnvelopeOneOf55RealmDomain`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf55RealmDomainWithDefaults instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain object
+NewEventEnvelopeOneOf55RealmDomainWithDefaults instantiates a new EventEnvelopeOneOf55RealmDomain object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetDomain
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain) GetDomain() string`
+`func (o *EventEnvelopeOneOf55RealmDomain) GetDomain() string`
 
 GetDomain returns the Domain field if non-nil, zero value otherwise.
 
 ### GetDomainOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain) GetDomainOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf55RealmDomain) GetDomainOk() (*string, bool)`
 
 GetDomainOk returns a tuple with the Domain field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDomain
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain) SetDomain(v string)`
+`func (o *EventEnvelopeOneOf55RealmDomain) SetDomain(v string)`
 
 SetDomain sets Domain field to given value.
 
 ### HasDomain
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain) HasDomain() bool`
+`func (o *EventEnvelopeOneOf55RealmDomain) HasDomain() bool`
 
 HasDomain returns a boolean if a field has been set.
 
 ### GetAllowSubdomains
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain) GetAllowSubdomains() bool`
+`func (o *EventEnvelopeOneOf55RealmDomain) GetAllowSubdomains() bool`
 
 GetAllowSubdomains returns the AllowSubdomains field if non-nil, zero value otherwise.
 
 ### GetAllowSubdomainsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain) GetAllowSubdomainsOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf55RealmDomain) GetAllowSubdomainsOk() (*bool, bool)`
 
 GetAllowSubdomainsOk returns a tuple with the AllowSubdomains field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAllowSubdomains
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain) SetAllowSubdomains(v bool)`
+`func (o *EventEnvelopeOneOf55RealmDomain) SetAllowSubdomains(v bool)`
 
 SetAllowSubdomains sets AllowSubdomains field to given value.
 
 ### HasAllowSubdomains
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf55RealmDomain) HasAllowSubdomains() bool`
+`func (o *EventEnvelopeOneOf55RealmDomain) HasAllowSubdomains() bool`
 
 HasAllowSubdomains returns a boolean if a field has been set.
 

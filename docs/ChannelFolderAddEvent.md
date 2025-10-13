@@ -11,20 +11,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf83
+### NewEventEnvelopeOneOf83
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf83() *ChannelFolderAddEvent`
+`func NewEventEnvelopeOneOf83() *ChannelFolderAddEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf83 instantiates a new ChannelFolderAddEvent object
+NewEventEnvelopeOneOf83 instantiates a new ChannelFolderAddEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf83WithDefaults
+### NewEventEnvelopeOneOf83WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf83WithDefaults() *ChannelFolderAddEvent`
+`func NewEventEnvelopeOneOf83WithDefaults() *ChannelFolderAddEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf83WithDefaults instantiates a new ChannelFolderAddEvent object
+NewEventEnvelopeOneOf83WithDefaults instantiates a new ChannelFolderAddEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

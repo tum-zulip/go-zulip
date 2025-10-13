@@ -10,20 +10,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf66
+### NewEventEnvelopeOneOf66
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf66() *WebReloadClientEvent`
+`func NewEventEnvelopeOneOf66() *WebReloadClientEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf66 instantiates a new WebReloadClientEvent object
+NewEventEnvelopeOneOf66 instantiates a new WebReloadClientEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf66WithDefaults
+### NewEventEnvelopeOneOf66WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf66WithDefaults() *WebReloadClientEvent`
+`func NewEventEnvelopeOneOf66WithDefaults() *WebReloadClientEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf66WithDefaults instantiates a new WebReloadClientEvent object
+NewEventEnvelopeOneOf66WithDefaults instantiates a new WebReloadClientEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

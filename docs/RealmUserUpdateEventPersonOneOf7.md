@@ -1,4 +1,4 @@
-# GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7
+# EventEnvelopeOneOf4PersonOneOf7
 
 ## Properties
 
@@ -9,70 +9,70 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7
+### NewEventEnvelopeOneOf4PersonOneOf7
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7() *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7`
+`func NewEventEnvelopeOneOf4PersonOneOf7() *EventEnvelopeOneOf4PersonOneOf7`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7 instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7 object
+NewEventEnvelopeOneOf4PersonOneOf7 instantiates a new EventEnvelopeOneOf4PersonOneOf7 object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7WithDefaults
+### NewEventEnvelopeOneOf4PersonOneOf7WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7WithDefaults() *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7`
+`func NewEventEnvelopeOneOf4PersonOneOf7WithDefaults() *EventEnvelopeOneOf4PersonOneOf7`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7WithDefaults instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7 object
+NewEventEnvelopeOneOf4PersonOneOf7WithDefaults instantiates a new EventEnvelopeOneOf4PersonOneOf7 object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetUserId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7) GetUserId() int32`
+`func (o *EventEnvelopeOneOf4PersonOneOf7) GetUserId() int32`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7) GetUserIdOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf4PersonOneOf7) GetUserIdOk() (*int32, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7) SetUserId(v int32)`
+`func (o *EventEnvelopeOneOf4PersonOneOf7) SetUserId(v int32)`
 
 SetUserId sets UserId field to given value.
 
 ### HasUserId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7) HasUserId() bool`
+`func (o *EventEnvelopeOneOf4PersonOneOf7) HasUserId() bool`
 
 HasUserId returns a boolean if a field has been set.
 
 ### GetNewEmail
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7) GetNewEmail() string`
+`func (o *EventEnvelopeOneOf4PersonOneOf7) GetNewEmail() string`
 
 GetNewEmail returns the NewEmail field if non-nil, zero value otherwise.
 
 ### GetNewEmailOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7) GetNewEmailOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf4PersonOneOf7) GetNewEmailOk() (*string, bool)`
 
 GetNewEmailOk returns a tuple with the NewEmail field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNewEmail
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7) SetNewEmail(v string)`
+`func (o *EventEnvelopeOneOf4PersonOneOf7) SetNewEmail(v string)`
 
 SetNewEmail sets NewEmail field to given value.
 
 ### HasNewEmail
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf4PersonOneOf7) HasNewEmail() bool`
+`func (o *EventEnvelopeOneOf4PersonOneOf7) HasNewEmail() bool`
 
 HasNewEmail returns a boolean if a field has been set.
 

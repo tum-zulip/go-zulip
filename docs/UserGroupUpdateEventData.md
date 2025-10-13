@@ -8,24 +8,24 @@ Name | Type | Description | Notes
 **Type** | Pointer to **string** |  | [optional] 
 **Op** | Pointer to **string** |  | [optional] 
 **GroupId** | Pointer to **int32** | The ID of the user group whose details have changed.  | [optional] 
-**Data** | Pointer to [**GetEvents200ResponseAllOfEventsInnerOneOf44Data**](GetEvents200ResponseAllOfEventsInnerOneOf44Data.md) |  | [optional] 
+**Data** | Pointer to [**EventEnvelopeOneOf44Data**](EventEnvelopeOneOf44Data.md) |  | [optional] 
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf44
+### NewEventEnvelopeOneOf44
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf44() *UserGroupUpdateEvent`
+`func NewEventEnvelopeOneOf44() *UserGroupUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf44 instantiates a new UserGroupUpdateEvent object
+NewEventEnvelopeOneOf44 instantiates a new UserGroupUpdateEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf44WithDefaults
+### NewEventEnvelopeOneOf44WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf44WithDefaults() *UserGroupUpdateEvent`
+`func NewEventEnvelopeOneOf44WithDefaults() *UserGroupUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf44WithDefaults instantiates a new UserGroupUpdateEvent object
+NewEventEnvelopeOneOf44WithDefaults instantiates a new UserGroupUpdateEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
@@ -131,20 +131,20 @@ HasGroupId returns a boolean if a field has been set.
 
 ### GetData
 
-`func (o *UserGroupUpdateEvent) GetData() GetEvents200ResponseAllOfEventsInnerOneOf44Data`
+`func (o *UserGroupUpdateEvent) GetData() EventEnvelopeOneOf44Data`
 
 GetData returns the Data field if non-nil, zero value otherwise.
 
 ### GetDataOk
 
-`func (o *UserGroupUpdateEvent) GetDataOk() (*GetEvents200ResponseAllOfEventsInnerOneOf44Data, bool)`
+`func (o *UserGroupUpdateEvent) GetDataOk() (*EventEnvelopeOneOf44Data, bool)`
 
 GetDataOk returns a tuple with the Data field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetData
 
-`func (o *UserGroupUpdateEvent) SetData(v GetEvents200ResponseAllOfEventsInnerOneOf44Data)`
+`func (o *UserGroupUpdateEvent) SetData(v EventEnvelopeOneOf44Data)`
 
 SetData sets Data field to given value.
 

@@ -1,4 +1,4 @@
-# GetEvents200ResponseAllOfEventsInnerOneOf67Data
+# EventEnvelopeOneOf67Data
 
 ## Properties
 
@@ -84,2015 +84,2015 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf67Data
+### NewEventEnvelopeOneOf67Data
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf67Data() *GetEvents200ResponseAllOfEventsInnerOneOf67Data`
+`func NewEventEnvelopeOneOf67Data() *EventEnvelopeOneOf67Data`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf67Data instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf67Data object
+NewEventEnvelopeOneOf67Data instantiates a new EventEnvelopeOneOf67Data object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf67DataWithDefaults
+### NewEventEnvelopeOneOf67DataWithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf67DataWithDefaults() *GetEvents200ResponseAllOfEventsInnerOneOf67Data`
+`func NewEventEnvelopeOneOf67DataWithDefaults() *EventEnvelopeOneOf67Data`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf67DataWithDefaults instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf67Data object
+NewEventEnvelopeOneOf67DataWithDefaults instantiates a new EventEnvelopeOneOf67Data object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetAllowMessageEditing
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetAllowMessageEditing() bool`
+`func (o *EventEnvelopeOneOf67Data) GetAllowMessageEditing() bool`
 
 GetAllowMessageEditing returns the AllowMessageEditing field if non-nil, zero value otherwise.
 
 ### GetAllowMessageEditingOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetAllowMessageEditingOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetAllowMessageEditingOk() (*bool, bool)`
 
 GetAllowMessageEditingOk returns a tuple with the AllowMessageEditing field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAllowMessageEditing
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetAllowMessageEditing(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetAllowMessageEditing(v bool)`
 
 SetAllowMessageEditing sets AllowMessageEditing field to given value.
 
 ### HasAllowMessageEditing
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasAllowMessageEditing() bool`
+`func (o *EventEnvelopeOneOf67Data) HasAllowMessageEditing() bool`
 
 HasAllowMessageEditing returns a boolean if a field has been set.
 
 ### GetAuthenticationMethods
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetAuthenticationMethods() map[string]RealmAuthenticationMethod`
+`func (o *EventEnvelopeOneOf67Data) GetAuthenticationMethods() map[string]RealmAuthenticationMethod`
 
 GetAuthenticationMethods returns the AuthenticationMethods field if non-nil, zero value otherwise.
 
 ### GetAuthenticationMethodsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetAuthenticationMethodsOk() (*map[string]RealmAuthenticationMethod, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetAuthenticationMethodsOk() (*map[string]RealmAuthenticationMethod, bool)`
 
 GetAuthenticationMethodsOk returns a tuple with the AuthenticationMethods field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAuthenticationMethods
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetAuthenticationMethods(v map[string]RealmAuthenticationMethod)`
+`func (o *EventEnvelopeOneOf67Data) SetAuthenticationMethods(v map[string]RealmAuthenticationMethod)`
 
 SetAuthenticationMethods sets AuthenticationMethods field to given value.
 
 ### HasAuthenticationMethods
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasAuthenticationMethods() bool`
+`func (o *EventEnvelopeOneOf67Data) HasAuthenticationMethods() bool`
 
 HasAuthenticationMethods returns a boolean if a field has been set.
 
 ### GetCanAccessAllUsersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanAccessAllUsersGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanAccessAllUsersGroup() GroupSettingValue`
 
 GetCanAccessAllUsersGroup returns the CanAccessAllUsersGroup field if non-nil, zero value otherwise.
 
 ### GetCanAccessAllUsersGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanAccessAllUsersGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanAccessAllUsersGroupOk() (*GroupSettingValue, bool)`
 
 GetCanAccessAllUsersGroupOk returns a tuple with the CanAccessAllUsersGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanAccessAllUsersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanAccessAllUsersGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanAccessAllUsersGroup(v GroupSettingValue)`
 
 SetCanAccessAllUsersGroup sets CanAccessAllUsersGroup field to given value.
 
 ### HasCanAccessAllUsersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanAccessAllUsersGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanAccessAllUsersGroup() bool`
 
 HasCanAccessAllUsersGroup returns a boolean if a field has been set.
 
 ### GetCanCreateGroups
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanCreateGroups() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanCreateGroups() GroupSettingValue`
 
 GetCanCreateGroups returns the CanCreateGroups field if non-nil, zero value otherwise.
 
 ### GetCanCreateGroupsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanCreateGroupsOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanCreateGroupsOk() (*GroupSettingValue, bool)`
 
 GetCanCreateGroupsOk returns a tuple with the CanCreateGroups field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanCreateGroups
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanCreateGroups(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanCreateGroups(v GroupSettingValue)`
 
 SetCanCreateGroups sets CanCreateGroups field to given value.
 
 ### HasCanCreateGroups
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanCreateGroups() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanCreateGroups() bool`
 
 HasCanCreateGroups returns a boolean if a field has been set.
 
 ### GetCanCreateBotsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanCreateBotsGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanCreateBotsGroup() GroupSettingValue`
 
 GetCanCreateBotsGroup returns the CanCreateBotsGroup field if non-nil, zero value otherwise.
 
 ### GetCanCreateBotsGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanCreateBotsGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanCreateBotsGroupOk() (*GroupSettingValue, bool)`
 
 GetCanCreateBotsGroupOk returns a tuple with the CanCreateBotsGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanCreateBotsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanCreateBotsGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanCreateBotsGroup(v GroupSettingValue)`
 
 SetCanCreateBotsGroup sets CanCreateBotsGroup field to given value.
 
 ### HasCanCreateBotsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanCreateBotsGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanCreateBotsGroup() bool`
 
 HasCanCreateBotsGroup returns a boolean if a field has been set.
 
 ### GetCanCreateWriteOnlyBotsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanCreateWriteOnlyBotsGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanCreateWriteOnlyBotsGroup() GroupSettingValue`
 
 GetCanCreateWriteOnlyBotsGroup returns the CanCreateWriteOnlyBotsGroup field if non-nil, zero value otherwise.
 
 ### GetCanCreateWriteOnlyBotsGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanCreateWriteOnlyBotsGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanCreateWriteOnlyBotsGroupOk() (*GroupSettingValue, bool)`
 
 GetCanCreateWriteOnlyBotsGroupOk returns a tuple with the CanCreateWriteOnlyBotsGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanCreateWriteOnlyBotsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanCreateWriteOnlyBotsGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanCreateWriteOnlyBotsGroup(v GroupSettingValue)`
 
 SetCanCreateWriteOnlyBotsGroup sets CanCreateWriteOnlyBotsGroup field to given value.
 
 ### HasCanCreateWriteOnlyBotsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanCreateWriteOnlyBotsGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanCreateWriteOnlyBotsGroup() bool`
 
 HasCanCreateWriteOnlyBotsGroup returns a boolean if a field has been set.
 
 ### GetCanCreatePublicChannelGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanCreatePublicChannelGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanCreatePublicChannelGroup() GroupSettingValue`
 
 GetCanCreatePublicChannelGroup returns the CanCreatePublicChannelGroup field if non-nil, zero value otherwise.
 
 ### GetCanCreatePublicChannelGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanCreatePublicChannelGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanCreatePublicChannelGroupOk() (*GroupSettingValue, bool)`
 
 GetCanCreatePublicChannelGroupOk returns a tuple with the CanCreatePublicChannelGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanCreatePublicChannelGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanCreatePublicChannelGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanCreatePublicChannelGroup(v GroupSettingValue)`
 
 SetCanCreatePublicChannelGroup sets CanCreatePublicChannelGroup field to given value.
 
 ### HasCanCreatePublicChannelGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanCreatePublicChannelGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanCreatePublicChannelGroup() bool`
 
 HasCanCreatePublicChannelGroup returns a boolean if a field has been set.
 
 ### GetCanCreatePrivateChannelGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanCreatePrivateChannelGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanCreatePrivateChannelGroup() GroupSettingValue`
 
 GetCanCreatePrivateChannelGroup returns the CanCreatePrivateChannelGroup field if non-nil, zero value otherwise.
 
 ### GetCanCreatePrivateChannelGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanCreatePrivateChannelGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanCreatePrivateChannelGroupOk() (*GroupSettingValue, bool)`
 
 GetCanCreatePrivateChannelGroupOk returns a tuple with the CanCreatePrivateChannelGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanCreatePrivateChannelGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanCreatePrivateChannelGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanCreatePrivateChannelGroup(v GroupSettingValue)`
 
 SetCanCreatePrivateChannelGroup sets CanCreatePrivateChannelGroup field to given value.
 
 ### HasCanCreatePrivateChannelGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanCreatePrivateChannelGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanCreatePrivateChannelGroup() bool`
 
 HasCanCreatePrivateChannelGroup returns a boolean if a field has been set.
 
 ### GetCanCreateWebPublicChannelGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanCreateWebPublicChannelGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanCreateWebPublicChannelGroup() GroupSettingValue`
 
 GetCanCreateWebPublicChannelGroup returns the CanCreateWebPublicChannelGroup field if non-nil, zero value otherwise.
 
 ### GetCanCreateWebPublicChannelGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanCreateWebPublicChannelGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanCreateWebPublicChannelGroupOk() (*GroupSettingValue, bool)`
 
 GetCanCreateWebPublicChannelGroupOk returns a tuple with the CanCreateWebPublicChannelGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanCreateWebPublicChannelGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanCreateWebPublicChannelGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanCreateWebPublicChannelGroup(v GroupSettingValue)`
 
 SetCanCreateWebPublicChannelGroup sets CanCreateWebPublicChannelGroup field to given value.
 
 ### HasCanCreateWebPublicChannelGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanCreateWebPublicChannelGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanCreateWebPublicChannelGroup() bool`
 
 HasCanCreateWebPublicChannelGroup returns a boolean if a field has been set.
 
 ### GetCanAddCustomEmojiGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanAddCustomEmojiGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanAddCustomEmojiGroup() GroupSettingValue`
 
 GetCanAddCustomEmojiGroup returns the CanAddCustomEmojiGroup field if non-nil, zero value otherwise.
 
 ### GetCanAddCustomEmojiGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanAddCustomEmojiGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanAddCustomEmojiGroupOk() (*GroupSettingValue, bool)`
 
 GetCanAddCustomEmojiGroupOk returns a tuple with the CanAddCustomEmojiGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanAddCustomEmojiGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanAddCustomEmojiGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanAddCustomEmojiGroup(v GroupSettingValue)`
 
 SetCanAddCustomEmojiGroup sets CanAddCustomEmojiGroup field to given value.
 
 ### HasCanAddCustomEmojiGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanAddCustomEmojiGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanAddCustomEmojiGroup() bool`
 
 HasCanAddCustomEmojiGroup returns a boolean if a field has been set.
 
 ### GetCanAddSubscribersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanAddSubscribersGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanAddSubscribersGroup() GroupSettingValue`
 
 GetCanAddSubscribersGroup returns the CanAddSubscribersGroup field if non-nil, zero value otherwise.
 
 ### GetCanAddSubscribersGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanAddSubscribersGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanAddSubscribersGroupOk() (*GroupSettingValue, bool)`
 
 GetCanAddSubscribersGroupOk returns a tuple with the CanAddSubscribersGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanAddSubscribersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanAddSubscribersGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanAddSubscribersGroup(v GroupSettingValue)`
 
 SetCanAddSubscribersGroup sets CanAddSubscribersGroup field to given value.
 
 ### HasCanAddSubscribersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanAddSubscribersGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanAddSubscribersGroup() bool`
 
 HasCanAddSubscribersGroup returns a boolean if a field has been set.
 
 ### GetCanDeleteAnyMessageGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanDeleteAnyMessageGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanDeleteAnyMessageGroup() GroupSettingValue`
 
 GetCanDeleteAnyMessageGroup returns the CanDeleteAnyMessageGroup field if non-nil, zero value otherwise.
 
 ### GetCanDeleteAnyMessageGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanDeleteAnyMessageGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanDeleteAnyMessageGroupOk() (*GroupSettingValue, bool)`
 
 GetCanDeleteAnyMessageGroupOk returns a tuple with the CanDeleteAnyMessageGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanDeleteAnyMessageGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanDeleteAnyMessageGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanDeleteAnyMessageGroup(v GroupSettingValue)`
 
 SetCanDeleteAnyMessageGroup sets CanDeleteAnyMessageGroup field to given value.
 
 ### HasCanDeleteAnyMessageGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanDeleteAnyMessageGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanDeleteAnyMessageGroup() bool`
 
 HasCanDeleteAnyMessageGroup returns a boolean if a field has been set.
 
 ### GetCanDeleteOwnMessageGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanDeleteOwnMessageGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanDeleteOwnMessageGroup() GroupSettingValue`
 
 GetCanDeleteOwnMessageGroup returns the CanDeleteOwnMessageGroup field if non-nil, zero value otherwise.
 
 ### GetCanDeleteOwnMessageGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanDeleteOwnMessageGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanDeleteOwnMessageGroupOk() (*GroupSettingValue, bool)`
 
 GetCanDeleteOwnMessageGroupOk returns a tuple with the CanDeleteOwnMessageGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanDeleteOwnMessageGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanDeleteOwnMessageGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanDeleteOwnMessageGroup(v GroupSettingValue)`
 
 SetCanDeleteOwnMessageGroup sets CanDeleteOwnMessageGroup field to given value.
 
 ### HasCanDeleteOwnMessageGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanDeleteOwnMessageGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanDeleteOwnMessageGroup() bool`
 
 HasCanDeleteOwnMessageGroup returns a boolean if a field has been set.
 
 ### GetCanSetDeleteMessagePolicyGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanSetDeleteMessagePolicyGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanSetDeleteMessagePolicyGroup() GroupSettingValue`
 
 GetCanSetDeleteMessagePolicyGroup returns the CanSetDeleteMessagePolicyGroup field if non-nil, zero value otherwise.
 
 ### GetCanSetDeleteMessagePolicyGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanSetDeleteMessagePolicyGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanSetDeleteMessagePolicyGroupOk() (*GroupSettingValue, bool)`
 
 GetCanSetDeleteMessagePolicyGroupOk returns a tuple with the CanSetDeleteMessagePolicyGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanSetDeleteMessagePolicyGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanSetDeleteMessagePolicyGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanSetDeleteMessagePolicyGroup(v GroupSettingValue)`
 
 SetCanSetDeleteMessagePolicyGroup sets CanSetDeleteMessagePolicyGroup field to given value.
 
 ### HasCanSetDeleteMessagePolicyGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanSetDeleteMessagePolicyGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanSetDeleteMessagePolicyGroup() bool`
 
 HasCanSetDeleteMessagePolicyGroup returns a boolean if a field has been set.
 
 ### GetCanSetTopicsPolicyGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanSetTopicsPolicyGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanSetTopicsPolicyGroup() GroupSettingValue`
 
 GetCanSetTopicsPolicyGroup returns the CanSetTopicsPolicyGroup field if non-nil, zero value otherwise.
 
 ### GetCanSetTopicsPolicyGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanSetTopicsPolicyGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanSetTopicsPolicyGroupOk() (*GroupSettingValue, bool)`
 
 GetCanSetTopicsPolicyGroupOk returns a tuple with the CanSetTopicsPolicyGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanSetTopicsPolicyGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanSetTopicsPolicyGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanSetTopicsPolicyGroup(v GroupSettingValue)`
 
 SetCanSetTopicsPolicyGroup sets CanSetTopicsPolicyGroup field to given value.
 
 ### HasCanSetTopicsPolicyGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanSetTopicsPolicyGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanSetTopicsPolicyGroup() bool`
 
 HasCanSetTopicsPolicyGroup returns a boolean if a field has been set.
 
 ### GetCanInviteUsersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanInviteUsersGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanInviteUsersGroup() GroupSettingValue`
 
 GetCanInviteUsersGroup returns the CanInviteUsersGroup field if non-nil, zero value otherwise.
 
 ### GetCanInviteUsersGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanInviteUsersGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanInviteUsersGroupOk() (*GroupSettingValue, bool)`
 
 GetCanInviteUsersGroupOk returns a tuple with the CanInviteUsersGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanInviteUsersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanInviteUsersGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanInviteUsersGroup(v GroupSettingValue)`
 
 SetCanInviteUsersGroup sets CanInviteUsersGroup field to given value.
 
 ### HasCanInviteUsersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanInviteUsersGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanInviteUsersGroup() bool`
 
 HasCanInviteUsersGroup returns a boolean if a field has been set.
 
 ### GetCanMentionManyUsersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanMentionManyUsersGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanMentionManyUsersGroup() GroupSettingValue`
 
 GetCanMentionManyUsersGroup returns the CanMentionManyUsersGroup field if non-nil, zero value otherwise.
 
 ### GetCanMentionManyUsersGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanMentionManyUsersGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanMentionManyUsersGroupOk() (*GroupSettingValue, bool)`
 
 GetCanMentionManyUsersGroupOk returns a tuple with the CanMentionManyUsersGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanMentionManyUsersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanMentionManyUsersGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanMentionManyUsersGroup(v GroupSettingValue)`
 
 SetCanMentionManyUsersGroup sets CanMentionManyUsersGroup field to given value.
 
 ### HasCanMentionManyUsersGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanMentionManyUsersGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanMentionManyUsersGroup() bool`
 
 HasCanMentionManyUsersGroup returns a boolean if a field has been set.
 
 ### GetCanMoveMessagesBetweenChannelsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanMoveMessagesBetweenChannelsGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanMoveMessagesBetweenChannelsGroup() GroupSettingValue`
 
 GetCanMoveMessagesBetweenChannelsGroup returns the CanMoveMessagesBetweenChannelsGroup field if non-nil, zero value otherwise.
 
 ### GetCanMoveMessagesBetweenChannelsGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanMoveMessagesBetweenChannelsGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanMoveMessagesBetweenChannelsGroupOk() (*GroupSettingValue, bool)`
 
 GetCanMoveMessagesBetweenChannelsGroupOk returns a tuple with the CanMoveMessagesBetweenChannelsGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanMoveMessagesBetweenChannelsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanMoveMessagesBetweenChannelsGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanMoveMessagesBetweenChannelsGroup(v GroupSettingValue)`
 
 SetCanMoveMessagesBetweenChannelsGroup sets CanMoveMessagesBetweenChannelsGroup field to given value.
 
 ### HasCanMoveMessagesBetweenChannelsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanMoveMessagesBetweenChannelsGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanMoveMessagesBetweenChannelsGroup() bool`
 
 HasCanMoveMessagesBetweenChannelsGroup returns a boolean if a field has been set.
 
 ### GetCanMoveMessagesBetweenTopicsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanMoveMessagesBetweenTopicsGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanMoveMessagesBetweenTopicsGroup() GroupSettingValue`
 
 GetCanMoveMessagesBetweenTopicsGroup returns the CanMoveMessagesBetweenTopicsGroup field if non-nil, zero value otherwise.
 
 ### GetCanMoveMessagesBetweenTopicsGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanMoveMessagesBetweenTopicsGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanMoveMessagesBetweenTopicsGroupOk() (*GroupSettingValue, bool)`
 
 GetCanMoveMessagesBetweenTopicsGroupOk returns a tuple with the CanMoveMessagesBetweenTopicsGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanMoveMessagesBetweenTopicsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanMoveMessagesBetweenTopicsGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanMoveMessagesBetweenTopicsGroup(v GroupSettingValue)`
 
 SetCanMoveMessagesBetweenTopicsGroup sets CanMoveMessagesBetweenTopicsGroup field to given value.
 
 ### HasCanMoveMessagesBetweenTopicsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanMoveMessagesBetweenTopicsGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanMoveMessagesBetweenTopicsGroup() bool`
 
 HasCanMoveMessagesBetweenTopicsGroup returns a boolean if a field has been set.
 
 ### GetCanResolveTopicsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanResolveTopicsGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanResolveTopicsGroup() GroupSettingValue`
 
 GetCanResolveTopicsGroup returns the CanResolveTopicsGroup field if non-nil, zero value otherwise.
 
 ### GetCanResolveTopicsGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanResolveTopicsGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanResolveTopicsGroupOk() (*GroupSettingValue, bool)`
 
 GetCanResolveTopicsGroupOk returns a tuple with the CanResolveTopicsGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanResolveTopicsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanResolveTopicsGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanResolveTopicsGroup(v GroupSettingValue)`
 
 SetCanResolveTopicsGroup sets CanResolveTopicsGroup field to given value.
 
 ### HasCanResolveTopicsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanResolveTopicsGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanResolveTopicsGroup() bool`
 
 HasCanResolveTopicsGroup returns a boolean if a field has been set.
 
 ### GetCanManageAllGroups
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanManageAllGroups() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanManageAllGroups() GroupSettingValue`
 
 GetCanManageAllGroups returns the CanManageAllGroups field if non-nil, zero value otherwise.
 
 ### GetCanManageAllGroupsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanManageAllGroupsOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanManageAllGroupsOk() (*GroupSettingValue, bool)`
 
 GetCanManageAllGroupsOk returns a tuple with the CanManageAllGroups field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanManageAllGroups
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanManageAllGroups(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanManageAllGroups(v GroupSettingValue)`
 
 SetCanManageAllGroups sets CanManageAllGroups field to given value.
 
 ### HasCanManageAllGroups
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanManageAllGroups() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanManageAllGroups() bool`
 
 HasCanManageAllGroups returns a boolean if a field has been set.
 
 ### GetCanManageBillingGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanManageBillingGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanManageBillingGroup() GroupSettingValue`
 
 GetCanManageBillingGroup returns the CanManageBillingGroup field if non-nil, zero value otherwise.
 
 ### GetCanManageBillingGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanManageBillingGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanManageBillingGroupOk() (*GroupSettingValue, bool)`
 
 GetCanManageBillingGroupOk returns a tuple with the CanManageBillingGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanManageBillingGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanManageBillingGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanManageBillingGroup(v GroupSettingValue)`
 
 SetCanManageBillingGroup sets CanManageBillingGroup field to given value.
 
 ### HasCanManageBillingGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanManageBillingGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanManageBillingGroup() bool`
 
 HasCanManageBillingGroup returns a boolean if a field has been set.
 
 ### GetCanSummarizeTopicsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanSummarizeTopicsGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCanSummarizeTopicsGroup() GroupSettingValue`
 
 GetCanSummarizeTopicsGroup returns the CanSummarizeTopicsGroup field if non-nil, zero value otherwise.
 
 ### GetCanSummarizeTopicsGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCanSummarizeTopicsGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCanSummarizeTopicsGroupOk() (*GroupSettingValue, bool)`
 
 GetCanSummarizeTopicsGroupOk returns a tuple with the CanSummarizeTopicsGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCanSummarizeTopicsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCanSummarizeTopicsGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCanSummarizeTopicsGroup(v GroupSettingValue)`
 
 SetCanSummarizeTopicsGroup sets CanSummarizeTopicsGroup field to given value.
 
 ### HasCanSummarizeTopicsGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCanSummarizeTopicsGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCanSummarizeTopicsGroup() bool`
 
 HasCanSummarizeTopicsGroup returns a boolean if a field has been set.
 
 ### GetCreateMultiuseInviteGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCreateMultiuseInviteGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetCreateMultiuseInviteGroup() GroupSettingValue`
 
 GetCreateMultiuseInviteGroup returns the CreateMultiuseInviteGroup field if non-nil, zero value otherwise.
 
 ### GetCreateMultiuseInviteGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetCreateMultiuseInviteGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetCreateMultiuseInviteGroupOk() (*GroupSettingValue, bool)`
 
 GetCreateMultiuseInviteGroupOk returns a tuple with the CreateMultiuseInviteGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCreateMultiuseInviteGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetCreateMultiuseInviteGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetCreateMultiuseInviteGroup(v GroupSettingValue)`
 
 SetCreateMultiuseInviteGroup sets CreateMultiuseInviteGroup field to given value.
 
 ### HasCreateMultiuseInviteGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasCreateMultiuseInviteGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasCreateMultiuseInviteGroup() bool`
 
 HasCreateMultiuseInviteGroup returns a boolean if a field has been set.
 
 ### GetDefaultCodeBlockLanguage
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDefaultCodeBlockLanguage() string`
+`func (o *EventEnvelopeOneOf67Data) GetDefaultCodeBlockLanguage() string`
 
 GetDefaultCodeBlockLanguage returns the DefaultCodeBlockLanguage field if non-nil, zero value otherwise.
 
 ### GetDefaultCodeBlockLanguageOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDefaultCodeBlockLanguageOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetDefaultCodeBlockLanguageOk() (*string, bool)`
 
 GetDefaultCodeBlockLanguageOk returns a tuple with the DefaultCodeBlockLanguage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDefaultCodeBlockLanguage
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetDefaultCodeBlockLanguage(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetDefaultCodeBlockLanguage(v string)`
 
 SetDefaultCodeBlockLanguage sets DefaultCodeBlockLanguage field to given value.
 
 ### HasDefaultCodeBlockLanguage
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasDefaultCodeBlockLanguage() bool`
+`func (o *EventEnvelopeOneOf67Data) HasDefaultCodeBlockLanguage() bool`
 
 HasDefaultCodeBlockLanguage returns a boolean if a field has been set.
 
 ### GetDefaultLanguage
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDefaultLanguage() string`
+`func (o *EventEnvelopeOneOf67Data) GetDefaultLanguage() string`
 
 GetDefaultLanguage returns the DefaultLanguage field if non-nil, zero value otherwise.
 
 ### GetDefaultLanguageOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDefaultLanguageOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetDefaultLanguageOk() (*string, bool)`
 
 GetDefaultLanguageOk returns a tuple with the DefaultLanguage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDefaultLanguage
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetDefaultLanguage(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetDefaultLanguage(v string)`
 
 SetDefaultLanguage sets DefaultLanguage field to given value.
 
 ### HasDefaultLanguage
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasDefaultLanguage() bool`
+`func (o *EventEnvelopeOneOf67Data) HasDefaultLanguage() bool`
 
 HasDefaultLanguage returns a boolean if a field has been set.
 
 ### GetDescription
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDescription() string`
+`func (o *EventEnvelopeOneOf67Data) GetDescription() string`
 
 GetDescription returns the Description field if non-nil, zero value otherwise.
 
 ### GetDescriptionOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDescriptionOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetDescriptionOk() (*string, bool)`
 
 GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDescription
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetDescription(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
 
 ### HasDescription
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasDescription() bool`
+`func (o *EventEnvelopeOneOf67Data) HasDescription() bool`
 
 HasDescription returns a boolean if a field has been set.
 
 ### GetDigestEmailsEnabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDigestEmailsEnabled() bool`
+`func (o *EventEnvelopeOneOf67Data) GetDigestEmailsEnabled() bool`
 
 GetDigestEmailsEnabled returns the DigestEmailsEnabled field if non-nil, zero value otherwise.
 
 ### GetDigestEmailsEnabledOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDigestEmailsEnabledOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetDigestEmailsEnabledOk() (*bool, bool)`
 
 GetDigestEmailsEnabledOk returns a tuple with the DigestEmailsEnabled field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDigestEmailsEnabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetDigestEmailsEnabled(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetDigestEmailsEnabled(v bool)`
 
 SetDigestEmailsEnabled sets DigestEmailsEnabled field to given value.
 
 ### HasDigestEmailsEnabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasDigestEmailsEnabled() bool`
+`func (o *EventEnvelopeOneOf67Data) HasDigestEmailsEnabled() bool`
 
 HasDigestEmailsEnabled returns a boolean if a field has been set.
 
 ### GetDigestWeekday
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDigestWeekday() int32`
+`func (o *EventEnvelopeOneOf67Data) GetDigestWeekday() int32`
 
 GetDigestWeekday returns the DigestWeekday field if non-nil, zero value otherwise.
 
 ### GetDigestWeekdayOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDigestWeekdayOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetDigestWeekdayOk() (*int32, bool)`
 
 GetDigestWeekdayOk returns a tuple with the DigestWeekday field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDigestWeekday
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetDigestWeekday(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetDigestWeekday(v int32)`
 
 SetDigestWeekday sets DigestWeekday field to given value.
 
 ### HasDigestWeekday
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasDigestWeekday() bool`
+`func (o *EventEnvelopeOneOf67Data) HasDigestWeekday() bool`
 
 HasDigestWeekday returns a boolean if a field has been set.
 
 ### GetDirectMessageInitiatorGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDirectMessageInitiatorGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetDirectMessageInitiatorGroup() GroupSettingValue`
 
 GetDirectMessageInitiatorGroup returns the DirectMessageInitiatorGroup field if non-nil, zero value otherwise.
 
 ### GetDirectMessageInitiatorGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDirectMessageInitiatorGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetDirectMessageInitiatorGroupOk() (*GroupSettingValue, bool)`
 
 GetDirectMessageInitiatorGroupOk returns a tuple with the DirectMessageInitiatorGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDirectMessageInitiatorGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetDirectMessageInitiatorGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetDirectMessageInitiatorGroup(v GroupSettingValue)`
 
 SetDirectMessageInitiatorGroup sets DirectMessageInitiatorGroup field to given value.
 
 ### HasDirectMessageInitiatorGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasDirectMessageInitiatorGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasDirectMessageInitiatorGroup() bool`
 
 HasDirectMessageInitiatorGroup returns a boolean if a field has been set.
 
 ### GetDirectMessagePermissionGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDirectMessagePermissionGroup() GroupSettingValue`
+`func (o *EventEnvelopeOneOf67Data) GetDirectMessagePermissionGroup() GroupSettingValue`
 
 GetDirectMessagePermissionGroup returns the DirectMessagePermissionGroup field if non-nil, zero value otherwise.
 
 ### GetDirectMessagePermissionGroupOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDirectMessagePermissionGroupOk() (*GroupSettingValue, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetDirectMessagePermissionGroupOk() (*GroupSettingValue, bool)`
 
 GetDirectMessagePermissionGroupOk returns a tuple with the DirectMessagePermissionGroup field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDirectMessagePermissionGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetDirectMessagePermissionGroup(v GroupSettingValue)`
+`func (o *EventEnvelopeOneOf67Data) SetDirectMessagePermissionGroup(v GroupSettingValue)`
 
 SetDirectMessagePermissionGroup sets DirectMessagePermissionGroup field to given value.
 
 ### HasDirectMessagePermissionGroup
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasDirectMessagePermissionGroup() bool`
+`func (o *EventEnvelopeOneOf67Data) HasDirectMessagePermissionGroup() bool`
 
 HasDirectMessagePermissionGroup returns a boolean if a field has been set.
 
 ### GetDisallowDisposableEmailAddresses
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDisallowDisposableEmailAddresses() bool`
+`func (o *EventEnvelopeOneOf67Data) GetDisallowDisposableEmailAddresses() bool`
 
 GetDisallowDisposableEmailAddresses returns the DisallowDisposableEmailAddresses field if non-nil, zero value otherwise.
 
 ### GetDisallowDisposableEmailAddressesOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetDisallowDisposableEmailAddressesOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetDisallowDisposableEmailAddressesOk() (*bool, bool)`
 
 GetDisallowDisposableEmailAddressesOk returns a tuple with the DisallowDisposableEmailAddresses field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDisallowDisposableEmailAddresses
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetDisallowDisposableEmailAddresses(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetDisallowDisposableEmailAddresses(v bool)`
 
 SetDisallowDisposableEmailAddresses sets DisallowDisposableEmailAddresses field to given value.
 
 ### HasDisallowDisposableEmailAddresses
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasDisallowDisposableEmailAddresses() bool`
+`func (o *EventEnvelopeOneOf67Data) HasDisallowDisposableEmailAddresses() bool`
 
 HasDisallowDisposableEmailAddresses returns a boolean if a field has been set.
 
 ### GetEmailChangesDisabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetEmailChangesDisabled() bool`
+`func (o *EventEnvelopeOneOf67Data) GetEmailChangesDisabled() bool`
 
 GetEmailChangesDisabled returns the EmailChangesDisabled field if non-nil, zero value otherwise.
 
 ### GetEmailChangesDisabledOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetEmailChangesDisabledOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetEmailChangesDisabledOk() (*bool, bool)`
 
 GetEmailChangesDisabledOk returns a tuple with the EmailChangesDisabled field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEmailChangesDisabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetEmailChangesDisabled(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetEmailChangesDisabled(v bool)`
 
 SetEmailChangesDisabled sets EmailChangesDisabled field to given value.
 
 ### HasEmailChangesDisabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasEmailChangesDisabled() bool`
+`func (o *EventEnvelopeOneOf67Data) HasEmailChangesDisabled() bool`
 
 HasEmailChangesDisabled returns a boolean if a field has been set.
 
 ### GetEnableReadReceipts
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetEnableReadReceipts() bool`
+`func (o *EventEnvelopeOneOf67Data) GetEnableReadReceipts() bool`
 
 GetEnableReadReceipts returns the EnableReadReceipts field if non-nil, zero value otherwise.
 
 ### GetEnableReadReceiptsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetEnableReadReceiptsOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetEnableReadReceiptsOk() (*bool, bool)`
 
 GetEnableReadReceiptsOk returns a tuple with the EnableReadReceipts field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEnableReadReceipts
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetEnableReadReceipts(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetEnableReadReceipts(v bool)`
 
 SetEnableReadReceipts sets EnableReadReceipts field to given value.
 
 ### HasEnableReadReceipts
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasEnableReadReceipts() bool`
+`func (o *EventEnvelopeOneOf67Data) HasEnableReadReceipts() bool`
 
 HasEnableReadReceipts returns a boolean if a field has been set.
 
 ### GetEmailsRestrictedToDomains
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetEmailsRestrictedToDomains() bool`
+`func (o *EventEnvelopeOneOf67Data) GetEmailsRestrictedToDomains() bool`
 
 GetEmailsRestrictedToDomains returns the EmailsRestrictedToDomains field if non-nil, zero value otherwise.
 
 ### GetEmailsRestrictedToDomainsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetEmailsRestrictedToDomainsOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetEmailsRestrictedToDomainsOk() (*bool, bool)`
 
 GetEmailsRestrictedToDomainsOk returns a tuple with the EmailsRestrictedToDomains field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEmailsRestrictedToDomains
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetEmailsRestrictedToDomains(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetEmailsRestrictedToDomains(v bool)`
 
 SetEmailsRestrictedToDomains sets EmailsRestrictedToDomains field to given value.
 
 ### HasEmailsRestrictedToDomains
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasEmailsRestrictedToDomains() bool`
+`func (o *EventEnvelopeOneOf67Data) HasEmailsRestrictedToDomains() bool`
 
 HasEmailsRestrictedToDomains returns a boolean if a field has been set.
 
 ### GetEnableGuestUserDmWarning
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetEnableGuestUserDmWarning() bool`
+`func (o *EventEnvelopeOneOf67Data) GetEnableGuestUserDmWarning() bool`
 
 GetEnableGuestUserDmWarning returns the EnableGuestUserDmWarning field if non-nil, zero value otherwise.
 
 ### GetEnableGuestUserDmWarningOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetEnableGuestUserDmWarningOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetEnableGuestUserDmWarningOk() (*bool, bool)`
 
 GetEnableGuestUserDmWarningOk returns a tuple with the EnableGuestUserDmWarning field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEnableGuestUserDmWarning
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetEnableGuestUserDmWarning(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetEnableGuestUserDmWarning(v bool)`
 
 SetEnableGuestUserDmWarning sets EnableGuestUserDmWarning field to given value.
 
 ### HasEnableGuestUserDmWarning
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasEnableGuestUserDmWarning() bool`
+`func (o *EventEnvelopeOneOf67Data) HasEnableGuestUserDmWarning() bool`
 
 HasEnableGuestUserDmWarning returns a boolean if a field has been set.
 
 ### GetEnableGuestUserIndicator
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetEnableGuestUserIndicator() bool`
+`func (o *EventEnvelopeOneOf67Data) GetEnableGuestUserIndicator() bool`
 
 GetEnableGuestUserIndicator returns the EnableGuestUserIndicator field if non-nil, zero value otherwise.
 
 ### GetEnableGuestUserIndicatorOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetEnableGuestUserIndicatorOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetEnableGuestUserIndicatorOk() (*bool, bool)`
 
 GetEnableGuestUserIndicatorOk returns a tuple with the EnableGuestUserIndicator field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEnableGuestUserIndicator
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetEnableGuestUserIndicator(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetEnableGuestUserIndicator(v bool)`
 
 SetEnableGuestUserIndicator sets EnableGuestUserIndicator field to given value.
 
 ### HasEnableGuestUserIndicator
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasEnableGuestUserIndicator() bool`
+`func (o *EventEnvelopeOneOf67Data) HasEnableGuestUserIndicator() bool`
 
 HasEnableGuestUserIndicator returns a boolean if a field has been set.
 
 ### GetEnableSpectatorAccess
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetEnableSpectatorAccess() bool`
+`func (o *EventEnvelopeOneOf67Data) GetEnableSpectatorAccess() bool`
 
 GetEnableSpectatorAccess returns the EnableSpectatorAccess field if non-nil, zero value otherwise.
 
 ### GetEnableSpectatorAccessOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetEnableSpectatorAccessOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetEnableSpectatorAccessOk() (*bool, bool)`
 
 GetEnableSpectatorAccessOk returns a tuple with the EnableSpectatorAccess field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEnableSpectatorAccess
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetEnableSpectatorAccess(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetEnableSpectatorAccess(v bool)`
 
 SetEnableSpectatorAccess sets EnableSpectatorAccess field to given value.
 
 ### HasEnableSpectatorAccess
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasEnableSpectatorAccess() bool`
+`func (o *EventEnvelopeOneOf67Data) HasEnableSpectatorAccess() bool`
 
 HasEnableSpectatorAccess returns a boolean if a field has been set.
 
 ### GetGiphyRating
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetGiphyRating() int32`
+`func (o *EventEnvelopeOneOf67Data) GetGiphyRating() int32`
 
 GetGiphyRating returns the GiphyRating field if non-nil, zero value otherwise.
 
 ### GetGiphyRatingOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetGiphyRatingOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetGiphyRatingOk() (*int32, bool)`
 
 GetGiphyRatingOk returns a tuple with the GiphyRating field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGiphyRating
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetGiphyRating(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetGiphyRating(v int32)`
 
 SetGiphyRating sets GiphyRating field to given value.
 
 ### HasGiphyRating
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasGiphyRating() bool`
+`func (o *EventEnvelopeOneOf67Data) HasGiphyRating() bool`
 
 HasGiphyRating returns a boolean if a field has been set.
 
 ### GetIconSource
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetIconSource() string`
+`func (o *EventEnvelopeOneOf67Data) GetIconSource() string`
 
 GetIconSource returns the IconSource field if non-nil, zero value otherwise.
 
 ### GetIconSourceOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetIconSourceOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetIconSourceOk() (*string, bool)`
 
 GetIconSourceOk returns a tuple with the IconSource field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIconSource
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetIconSource(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetIconSource(v string)`
 
 SetIconSource sets IconSource field to given value.
 
 ### HasIconSource
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasIconSource() bool`
+`func (o *EventEnvelopeOneOf67Data) HasIconSource() bool`
 
 HasIconSource returns a boolean if a field has been set.
 
 ### GetIconUrl
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetIconUrl() string`
+`func (o *EventEnvelopeOneOf67Data) GetIconUrl() string`
 
 GetIconUrl returns the IconUrl field if non-nil, zero value otherwise.
 
 ### GetIconUrlOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetIconUrlOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetIconUrlOk() (*string, bool)`
 
 GetIconUrlOk returns a tuple with the IconUrl field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIconUrl
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetIconUrl(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetIconUrl(v string)`
 
 SetIconUrl sets IconUrl field to given value.
 
 ### HasIconUrl
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasIconUrl() bool`
+`func (o *EventEnvelopeOneOf67Data) HasIconUrl() bool`
 
 HasIconUrl returns a boolean if a field has been set.
 
 ### GetInlineImagePreview
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetInlineImagePreview() bool`
+`func (o *EventEnvelopeOneOf67Data) GetInlineImagePreview() bool`
 
 GetInlineImagePreview returns the InlineImagePreview field if non-nil, zero value otherwise.
 
 ### GetInlineImagePreviewOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetInlineImagePreviewOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetInlineImagePreviewOk() (*bool, bool)`
 
 GetInlineImagePreviewOk returns a tuple with the InlineImagePreview field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetInlineImagePreview
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetInlineImagePreview(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetInlineImagePreview(v bool)`
 
 SetInlineImagePreview sets InlineImagePreview field to given value.
 
 ### HasInlineImagePreview
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasInlineImagePreview() bool`
+`func (o *EventEnvelopeOneOf67Data) HasInlineImagePreview() bool`
 
 HasInlineImagePreview returns a boolean if a field has been set.
 
 ### GetInlineUrlEmbedPreview
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetInlineUrlEmbedPreview() bool`
+`func (o *EventEnvelopeOneOf67Data) GetInlineUrlEmbedPreview() bool`
 
 GetInlineUrlEmbedPreview returns the InlineUrlEmbedPreview field if non-nil, zero value otherwise.
 
 ### GetInlineUrlEmbedPreviewOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetInlineUrlEmbedPreviewOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetInlineUrlEmbedPreviewOk() (*bool, bool)`
 
 GetInlineUrlEmbedPreviewOk returns a tuple with the InlineUrlEmbedPreview field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetInlineUrlEmbedPreview
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetInlineUrlEmbedPreview(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetInlineUrlEmbedPreview(v bool)`
 
 SetInlineUrlEmbedPreview sets InlineUrlEmbedPreview field to given value.
 
 ### HasInlineUrlEmbedPreview
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasInlineUrlEmbedPreview() bool`
+`func (o *EventEnvelopeOneOf67Data) HasInlineUrlEmbedPreview() bool`
 
 HasInlineUrlEmbedPreview returns a boolean if a field has been set.
 
 ### GetInviteRequired
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetInviteRequired() bool`
+`func (o *EventEnvelopeOneOf67Data) GetInviteRequired() bool`
 
 GetInviteRequired returns the InviteRequired field if non-nil, zero value otherwise.
 
 ### GetInviteRequiredOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetInviteRequiredOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetInviteRequiredOk() (*bool, bool)`
 
 GetInviteRequiredOk returns a tuple with the InviteRequired field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetInviteRequired
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetInviteRequired(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetInviteRequired(v bool)`
 
 SetInviteRequired sets InviteRequired field to given value.
 
 ### HasInviteRequired
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasInviteRequired() bool`
+`func (o *EventEnvelopeOneOf67Data) HasInviteRequired() bool`
 
 HasInviteRequired returns a boolean if a field has been set.
 
 ### GetJitsiServerUrl
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetJitsiServerUrl() string`
+`func (o *EventEnvelopeOneOf67Data) GetJitsiServerUrl() string`
 
 GetJitsiServerUrl returns the JitsiServerUrl field if non-nil, zero value otherwise.
 
 ### GetJitsiServerUrlOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetJitsiServerUrlOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetJitsiServerUrlOk() (*string, bool)`
 
 GetJitsiServerUrlOk returns a tuple with the JitsiServerUrl field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetJitsiServerUrl
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetJitsiServerUrl(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetJitsiServerUrl(v string)`
 
 SetJitsiServerUrl sets JitsiServerUrl field to given value.
 
 ### HasJitsiServerUrl
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasJitsiServerUrl() bool`
+`func (o *EventEnvelopeOneOf67Data) HasJitsiServerUrl() bool`
 
 HasJitsiServerUrl returns a boolean if a field has been set.
 
 ### SetJitsiServerUrlNil
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetJitsiServerUrlNil(b bool)`
+`func (o *EventEnvelopeOneOf67Data) SetJitsiServerUrlNil(b bool)`
 
  SetJitsiServerUrlNil sets the value for JitsiServerUrl to be an explicit nil
 
 ### UnsetJitsiServerUrl
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) UnsetJitsiServerUrl()`
+`func (o *EventEnvelopeOneOf67Data) UnsetJitsiServerUrl()`
 
 UnsetJitsiServerUrl ensures that no value is present for JitsiServerUrl, not even an explicit nil
 ### GetLogoSource
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetLogoSource() string`
+`func (o *EventEnvelopeOneOf67Data) GetLogoSource() string`
 
 GetLogoSource returns the LogoSource field if non-nil, zero value otherwise.
 
 ### GetLogoSourceOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetLogoSourceOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetLogoSourceOk() (*string, bool)`
 
 GetLogoSourceOk returns a tuple with the LogoSource field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLogoSource
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetLogoSource(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetLogoSource(v string)`
 
 SetLogoSource sets LogoSource field to given value.
 
 ### HasLogoSource
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasLogoSource() bool`
+`func (o *EventEnvelopeOneOf67Data) HasLogoSource() bool`
 
 HasLogoSource returns a boolean if a field has been set.
 
 ### GetLogoUrl
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetLogoUrl() string`
+`func (o *EventEnvelopeOneOf67Data) GetLogoUrl() string`
 
 GetLogoUrl returns the LogoUrl field if non-nil, zero value otherwise.
 
 ### GetLogoUrlOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetLogoUrlOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetLogoUrlOk() (*string, bool)`
 
 GetLogoUrlOk returns a tuple with the LogoUrl field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLogoUrl
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetLogoUrl(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetLogoUrl(v string)`
 
 SetLogoUrl sets LogoUrl field to given value.
 
 ### HasLogoUrl
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasLogoUrl() bool`
+`func (o *EventEnvelopeOneOf67Data) HasLogoUrl() bool`
 
 HasLogoUrl returns a boolean if a field has been set.
 
 ### GetTopicsPolicy
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetTopicsPolicy() string`
+`func (o *EventEnvelopeOneOf67Data) GetTopicsPolicy() string`
 
 GetTopicsPolicy returns the TopicsPolicy field if non-nil, zero value otherwise.
 
 ### GetTopicsPolicyOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetTopicsPolicyOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetTopicsPolicyOk() (*string, bool)`
 
 GetTopicsPolicyOk returns a tuple with the TopicsPolicy field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTopicsPolicy
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetTopicsPolicy(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetTopicsPolicy(v string)`
 
 SetTopicsPolicy sets TopicsPolicy field to given value.
 
 ### HasTopicsPolicy
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasTopicsPolicy() bool`
+`func (o *EventEnvelopeOneOf67Data) HasTopicsPolicy() bool`
 
 HasTopicsPolicy returns a boolean if a field has been set.
 
 ### GetMandatoryTopics
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMandatoryTopics() bool`
+`func (o *EventEnvelopeOneOf67Data) GetMandatoryTopics() bool`
 
 GetMandatoryTopics returns the MandatoryTopics field if non-nil, zero value otherwise.
 
 ### GetMandatoryTopicsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMandatoryTopicsOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetMandatoryTopicsOk() (*bool, bool)`
 
 GetMandatoryTopicsOk returns a tuple with the MandatoryTopics field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMandatoryTopics
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetMandatoryTopics(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetMandatoryTopics(v bool)`
 
 SetMandatoryTopics sets MandatoryTopics field to given value.
 
 ### HasMandatoryTopics
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasMandatoryTopics() bool`
+`func (o *EventEnvelopeOneOf67Data) HasMandatoryTopics() bool`
 
 HasMandatoryTopics returns a boolean if a field has been set.
 
 ### GetMaxFileUploadSizeMib
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMaxFileUploadSizeMib() int32`
+`func (o *EventEnvelopeOneOf67Data) GetMaxFileUploadSizeMib() int32`
 
 GetMaxFileUploadSizeMib returns the MaxFileUploadSizeMib field if non-nil, zero value otherwise.
 
 ### GetMaxFileUploadSizeMibOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMaxFileUploadSizeMibOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetMaxFileUploadSizeMibOk() (*int32, bool)`
 
 GetMaxFileUploadSizeMibOk returns a tuple with the MaxFileUploadSizeMib field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMaxFileUploadSizeMib
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetMaxFileUploadSizeMib(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetMaxFileUploadSizeMib(v int32)`
 
 SetMaxFileUploadSizeMib sets MaxFileUploadSizeMib field to given value.
 
 ### HasMaxFileUploadSizeMib
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasMaxFileUploadSizeMib() bool`
+`func (o *EventEnvelopeOneOf67Data) HasMaxFileUploadSizeMib() bool`
 
 HasMaxFileUploadSizeMib returns a boolean if a field has been set.
 
 ### GetMessageContentAllowedInEmailNotifications
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMessageContentAllowedInEmailNotifications() bool`
+`func (o *EventEnvelopeOneOf67Data) GetMessageContentAllowedInEmailNotifications() bool`
 
 GetMessageContentAllowedInEmailNotifications returns the MessageContentAllowedInEmailNotifications field if non-nil, zero value otherwise.
 
 ### GetMessageContentAllowedInEmailNotificationsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMessageContentAllowedInEmailNotificationsOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetMessageContentAllowedInEmailNotificationsOk() (*bool, bool)`
 
 GetMessageContentAllowedInEmailNotificationsOk returns a tuple with the MessageContentAllowedInEmailNotifications field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessageContentAllowedInEmailNotifications
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetMessageContentAllowedInEmailNotifications(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetMessageContentAllowedInEmailNotifications(v bool)`
 
 SetMessageContentAllowedInEmailNotifications sets MessageContentAllowedInEmailNotifications field to given value.
 
 ### HasMessageContentAllowedInEmailNotifications
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasMessageContentAllowedInEmailNotifications() bool`
+`func (o *EventEnvelopeOneOf67Data) HasMessageContentAllowedInEmailNotifications() bool`
 
 HasMessageContentAllowedInEmailNotifications returns a boolean if a field has been set.
 
 ### GetMessageContentDeleteLimitSeconds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMessageContentDeleteLimitSeconds() int32`
+`func (o *EventEnvelopeOneOf67Data) GetMessageContentDeleteLimitSeconds() int32`
 
 GetMessageContentDeleteLimitSeconds returns the MessageContentDeleteLimitSeconds field if non-nil, zero value otherwise.
 
 ### GetMessageContentDeleteLimitSecondsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMessageContentDeleteLimitSecondsOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetMessageContentDeleteLimitSecondsOk() (*int32, bool)`
 
 GetMessageContentDeleteLimitSecondsOk returns a tuple with the MessageContentDeleteLimitSeconds field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessageContentDeleteLimitSeconds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetMessageContentDeleteLimitSeconds(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetMessageContentDeleteLimitSeconds(v int32)`
 
 SetMessageContentDeleteLimitSeconds sets MessageContentDeleteLimitSeconds field to given value.
 
 ### HasMessageContentDeleteLimitSeconds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasMessageContentDeleteLimitSeconds() bool`
+`func (o *EventEnvelopeOneOf67Data) HasMessageContentDeleteLimitSeconds() bool`
 
 HasMessageContentDeleteLimitSeconds returns a boolean if a field has been set.
 
 ### SetMessageContentDeleteLimitSecondsNil
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetMessageContentDeleteLimitSecondsNil(b bool)`
+`func (o *EventEnvelopeOneOf67Data) SetMessageContentDeleteLimitSecondsNil(b bool)`
 
  SetMessageContentDeleteLimitSecondsNil sets the value for MessageContentDeleteLimitSeconds to be an explicit nil
 
 ### UnsetMessageContentDeleteLimitSeconds
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) UnsetMessageContentDeleteLimitSeconds()`
+`func (o *EventEnvelopeOneOf67Data) UnsetMessageContentDeleteLimitSeconds()`
 
 UnsetMessageContentDeleteLimitSeconds ensures that no value is present for MessageContentDeleteLimitSeconds, not even an explicit nil
 ### GetMessageContentEditLimitSeconds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMessageContentEditLimitSeconds() int32`
+`func (o *EventEnvelopeOneOf67Data) GetMessageContentEditLimitSeconds() int32`
 
 GetMessageContentEditLimitSeconds returns the MessageContentEditLimitSeconds field if non-nil, zero value otherwise.
 
 ### GetMessageContentEditLimitSecondsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMessageContentEditLimitSecondsOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetMessageContentEditLimitSecondsOk() (*int32, bool)`
 
 GetMessageContentEditLimitSecondsOk returns a tuple with the MessageContentEditLimitSeconds field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessageContentEditLimitSeconds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetMessageContentEditLimitSeconds(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetMessageContentEditLimitSeconds(v int32)`
 
 SetMessageContentEditLimitSeconds sets MessageContentEditLimitSeconds field to given value.
 
 ### HasMessageContentEditLimitSeconds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasMessageContentEditLimitSeconds() bool`
+`func (o *EventEnvelopeOneOf67Data) HasMessageContentEditLimitSeconds() bool`
 
 HasMessageContentEditLimitSeconds returns a boolean if a field has been set.
 
 ### SetMessageContentEditLimitSecondsNil
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetMessageContentEditLimitSecondsNil(b bool)`
+`func (o *EventEnvelopeOneOf67Data) SetMessageContentEditLimitSecondsNil(b bool)`
 
  SetMessageContentEditLimitSecondsNil sets the value for MessageContentEditLimitSeconds to be an explicit nil
 
 ### UnsetMessageContentEditLimitSeconds
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) UnsetMessageContentEditLimitSeconds()`
+`func (o *EventEnvelopeOneOf67Data) UnsetMessageContentEditLimitSeconds()`
 
 UnsetMessageContentEditLimitSeconds ensures that no value is present for MessageContentEditLimitSeconds, not even an explicit nil
 ### GetMessageEditHistoryVisibilityPolicy
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMessageEditHistoryVisibilityPolicy() string`
+`func (o *EventEnvelopeOneOf67Data) GetMessageEditHistoryVisibilityPolicy() string`
 
 GetMessageEditHistoryVisibilityPolicy returns the MessageEditHistoryVisibilityPolicy field if non-nil, zero value otherwise.
 
 ### GetMessageEditHistoryVisibilityPolicyOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMessageEditHistoryVisibilityPolicyOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetMessageEditHistoryVisibilityPolicyOk() (*string, bool)`
 
 GetMessageEditHistoryVisibilityPolicyOk returns a tuple with the MessageEditHistoryVisibilityPolicy field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessageEditHistoryVisibilityPolicy
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetMessageEditHistoryVisibilityPolicy(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetMessageEditHistoryVisibilityPolicy(v string)`
 
 SetMessageEditHistoryVisibilityPolicy sets MessageEditHistoryVisibilityPolicy field to given value.
 
 ### HasMessageEditHistoryVisibilityPolicy
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasMessageEditHistoryVisibilityPolicy() bool`
+`func (o *EventEnvelopeOneOf67Data) HasMessageEditHistoryVisibilityPolicy() bool`
 
 HasMessageEditHistoryVisibilityPolicy returns a boolean if a field has been set.
 
 ### GetModerationRequestChannelId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetModerationRequestChannelId() int32`
+`func (o *EventEnvelopeOneOf67Data) GetModerationRequestChannelId() int32`
 
 GetModerationRequestChannelId returns the ModerationRequestChannelId field if non-nil, zero value otherwise.
 
 ### GetModerationRequestChannelIdOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetModerationRequestChannelIdOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetModerationRequestChannelIdOk() (*int32, bool)`
 
 GetModerationRequestChannelIdOk returns a tuple with the ModerationRequestChannelId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetModerationRequestChannelId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetModerationRequestChannelId(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetModerationRequestChannelId(v int32)`
 
 SetModerationRequestChannelId sets ModerationRequestChannelId field to given value.
 
 ### HasModerationRequestChannelId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasModerationRequestChannelId() bool`
+`func (o *EventEnvelopeOneOf67Data) HasModerationRequestChannelId() bool`
 
 HasModerationRequestChannelId returns a boolean if a field has been set.
 
 ### GetMoveMessagesWithinStreamLimitSeconds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMoveMessagesWithinStreamLimitSeconds() int32`
+`func (o *EventEnvelopeOneOf67Data) GetMoveMessagesWithinStreamLimitSeconds() int32`
 
 GetMoveMessagesWithinStreamLimitSeconds returns the MoveMessagesWithinStreamLimitSeconds field if non-nil, zero value otherwise.
 
 ### GetMoveMessagesWithinStreamLimitSecondsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMoveMessagesWithinStreamLimitSecondsOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetMoveMessagesWithinStreamLimitSecondsOk() (*int32, bool)`
 
 GetMoveMessagesWithinStreamLimitSecondsOk returns a tuple with the MoveMessagesWithinStreamLimitSeconds field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMoveMessagesWithinStreamLimitSeconds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetMoveMessagesWithinStreamLimitSeconds(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetMoveMessagesWithinStreamLimitSeconds(v int32)`
 
 SetMoveMessagesWithinStreamLimitSeconds sets MoveMessagesWithinStreamLimitSeconds field to given value.
 
 ### HasMoveMessagesWithinStreamLimitSeconds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasMoveMessagesWithinStreamLimitSeconds() bool`
+`func (o *EventEnvelopeOneOf67Data) HasMoveMessagesWithinStreamLimitSeconds() bool`
 
 HasMoveMessagesWithinStreamLimitSeconds returns a boolean if a field has been set.
 
 ### SetMoveMessagesWithinStreamLimitSecondsNil
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetMoveMessagesWithinStreamLimitSecondsNil(b bool)`
+`func (o *EventEnvelopeOneOf67Data) SetMoveMessagesWithinStreamLimitSecondsNil(b bool)`
 
  SetMoveMessagesWithinStreamLimitSecondsNil sets the value for MoveMessagesWithinStreamLimitSeconds to be an explicit nil
 
 ### UnsetMoveMessagesWithinStreamLimitSeconds
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) UnsetMoveMessagesWithinStreamLimitSeconds()`
+`func (o *EventEnvelopeOneOf67Data) UnsetMoveMessagesWithinStreamLimitSeconds()`
 
 UnsetMoveMessagesWithinStreamLimitSeconds ensures that no value is present for MoveMessagesWithinStreamLimitSeconds, not even an explicit nil
 ### GetMoveMessagesBetweenStreamsLimitSeconds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMoveMessagesBetweenStreamsLimitSeconds() int32`
+`func (o *EventEnvelopeOneOf67Data) GetMoveMessagesBetweenStreamsLimitSeconds() int32`
 
 GetMoveMessagesBetweenStreamsLimitSeconds returns the MoveMessagesBetweenStreamsLimitSeconds field if non-nil, zero value otherwise.
 
 ### GetMoveMessagesBetweenStreamsLimitSecondsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetMoveMessagesBetweenStreamsLimitSecondsOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetMoveMessagesBetweenStreamsLimitSecondsOk() (*int32, bool)`
 
 GetMoveMessagesBetweenStreamsLimitSecondsOk returns a tuple with the MoveMessagesBetweenStreamsLimitSeconds field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMoveMessagesBetweenStreamsLimitSeconds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetMoveMessagesBetweenStreamsLimitSeconds(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetMoveMessagesBetweenStreamsLimitSeconds(v int32)`
 
 SetMoveMessagesBetweenStreamsLimitSeconds sets MoveMessagesBetweenStreamsLimitSeconds field to given value.
 
 ### HasMoveMessagesBetweenStreamsLimitSeconds
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasMoveMessagesBetweenStreamsLimitSeconds() bool`
+`func (o *EventEnvelopeOneOf67Data) HasMoveMessagesBetweenStreamsLimitSeconds() bool`
 
 HasMoveMessagesBetweenStreamsLimitSeconds returns a boolean if a field has been set.
 
 ### SetMoveMessagesBetweenStreamsLimitSecondsNil
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetMoveMessagesBetweenStreamsLimitSecondsNil(b bool)`
+`func (o *EventEnvelopeOneOf67Data) SetMoveMessagesBetweenStreamsLimitSecondsNil(b bool)`
 
  SetMoveMessagesBetweenStreamsLimitSecondsNil sets the value for MoveMessagesBetweenStreamsLimitSeconds to be an explicit nil
 
 ### UnsetMoveMessagesBetweenStreamsLimitSeconds
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) UnsetMoveMessagesBetweenStreamsLimitSeconds()`
+`func (o *EventEnvelopeOneOf67Data) UnsetMoveMessagesBetweenStreamsLimitSeconds()`
 
 UnsetMoveMessagesBetweenStreamsLimitSeconds ensures that no value is present for MoveMessagesBetweenStreamsLimitSeconds, not even an explicit nil
 ### GetName
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetName() string`
+`func (o *EventEnvelopeOneOf67Data) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetNameOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetName(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetName(v string)`
 
 SetName sets Name field to given value.
 
 ### HasName
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasName() bool`
+`func (o *EventEnvelopeOneOf67Data) HasName() bool`
 
 HasName returns a boolean if a field has been set.
 
 ### GetNameChangesDisabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetNameChangesDisabled() bool`
+`func (o *EventEnvelopeOneOf67Data) GetNameChangesDisabled() bool`
 
 GetNameChangesDisabled returns the NameChangesDisabled field if non-nil, zero value otherwise.
 
 ### GetNameChangesDisabledOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetNameChangesDisabledOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetNameChangesDisabledOk() (*bool, bool)`
 
 GetNameChangesDisabledOk returns a tuple with the NameChangesDisabled field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNameChangesDisabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetNameChangesDisabled(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetNameChangesDisabled(v bool)`
 
 SetNameChangesDisabled sets NameChangesDisabled field to given value.
 
 ### HasNameChangesDisabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasNameChangesDisabled() bool`
+`func (o *EventEnvelopeOneOf67Data) HasNameChangesDisabled() bool`
 
 HasNameChangesDisabled returns a boolean if a field has been set.
 
 ### GetNightLogoSource
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetNightLogoSource() string`
+`func (o *EventEnvelopeOneOf67Data) GetNightLogoSource() string`
 
 GetNightLogoSource returns the NightLogoSource field if non-nil, zero value otherwise.
 
 ### GetNightLogoSourceOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetNightLogoSourceOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetNightLogoSourceOk() (*string, bool)`
 
 GetNightLogoSourceOk returns a tuple with the NightLogoSource field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNightLogoSource
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetNightLogoSource(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetNightLogoSource(v string)`
 
 SetNightLogoSource sets NightLogoSource field to given value.
 
 ### HasNightLogoSource
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasNightLogoSource() bool`
+`func (o *EventEnvelopeOneOf67Data) HasNightLogoSource() bool`
 
 HasNightLogoSource returns a boolean if a field has been set.
 
 ### GetNightLogoUrl
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetNightLogoUrl() string`
+`func (o *EventEnvelopeOneOf67Data) GetNightLogoUrl() string`
 
 GetNightLogoUrl returns the NightLogoUrl field if non-nil, zero value otherwise.
 
 ### GetNightLogoUrlOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetNightLogoUrlOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetNightLogoUrlOk() (*string, bool)`
 
 GetNightLogoUrlOk returns a tuple with the NightLogoUrl field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNightLogoUrl
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetNightLogoUrl(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetNightLogoUrl(v string)`
 
 SetNightLogoUrl sets NightLogoUrl field to given value.
 
 ### HasNightLogoUrl
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasNightLogoUrl() bool`
+`func (o *EventEnvelopeOneOf67Data) HasNightLogoUrl() bool`
 
 HasNightLogoUrl returns a boolean if a field has been set.
 
 ### GetNewStreamAnnouncementsStreamId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetNewStreamAnnouncementsStreamId() int32`
+`func (o *EventEnvelopeOneOf67Data) GetNewStreamAnnouncementsStreamId() int32`
 
 GetNewStreamAnnouncementsStreamId returns the NewStreamAnnouncementsStreamId field if non-nil, zero value otherwise.
 
 ### GetNewStreamAnnouncementsStreamIdOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetNewStreamAnnouncementsStreamIdOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetNewStreamAnnouncementsStreamIdOk() (*int32, bool)`
 
 GetNewStreamAnnouncementsStreamIdOk returns a tuple with the NewStreamAnnouncementsStreamId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNewStreamAnnouncementsStreamId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetNewStreamAnnouncementsStreamId(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetNewStreamAnnouncementsStreamId(v int32)`
 
 SetNewStreamAnnouncementsStreamId sets NewStreamAnnouncementsStreamId field to given value.
 
 ### HasNewStreamAnnouncementsStreamId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasNewStreamAnnouncementsStreamId() bool`
+`func (o *EventEnvelopeOneOf67Data) HasNewStreamAnnouncementsStreamId() bool`
 
 HasNewStreamAnnouncementsStreamId returns a boolean if a field has been set.
 
 ### GetOrgType
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetOrgType() int32`
+`func (o *EventEnvelopeOneOf67Data) GetOrgType() int32`
 
 GetOrgType returns the OrgType field if non-nil, zero value otherwise.
 
 ### GetOrgTypeOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetOrgTypeOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetOrgTypeOk() (*int32, bool)`
 
 GetOrgTypeOk returns a tuple with the OrgType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOrgType
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetOrgType(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetOrgType(v int32)`
 
 SetOrgType sets OrgType field to given value.
 
 ### HasOrgType
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasOrgType() bool`
+`func (o *EventEnvelopeOneOf67Data) HasOrgType() bool`
 
 HasOrgType returns a boolean if a field has been set.
 
 ### GetPlanType
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetPlanType() int32`
+`func (o *EventEnvelopeOneOf67Data) GetPlanType() int32`
 
 GetPlanType returns the PlanType field if non-nil, zero value otherwise.
 
 ### GetPlanTypeOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetPlanTypeOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetPlanTypeOk() (*int32, bool)`
 
 GetPlanTypeOk returns a tuple with the PlanType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPlanType
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetPlanType(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetPlanType(v int32)`
 
 SetPlanType sets PlanType field to given value.
 
 ### HasPlanType
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasPlanType() bool`
+`func (o *EventEnvelopeOneOf67Data) HasPlanType() bool`
 
 HasPlanType returns a boolean if a field has been set.
 
 ### GetPresenceDisabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetPresenceDisabled() bool`
+`func (o *EventEnvelopeOneOf67Data) GetPresenceDisabled() bool`
 
 GetPresenceDisabled returns the PresenceDisabled field if non-nil, zero value otherwise.
 
 ### GetPresenceDisabledOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetPresenceDisabledOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetPresenceDisabledOk() (*bool, bool)`
 
 GetPresenceDisabledOk returns a tuple with the PresenceDisabled field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPresenceDisabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetPresenceDisabled(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetPresenceDisabled(v bool)`
 
 SetPresenceDisabled sets PresenceDisabled field to given value.
 
 ### HasPresenceDisabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasPresenceDisabled() bool`
+`func (o *EventEnvelopeOneOf67Data) HasPresenceDisabled() bool`
 
 HasPresenceDisabled returns a boolean if a field has been set.
 
 ### GetPushNotificationsEnabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetPushNotificationsEnabled() bool`
+`func (o *EventEnvelopeOneOf67Data) GetPushNotificationsEnabled() bool`
 
 GetPushNotificationsEnabled returns the PushNotificationsEnabled field if non-nil, zero value otherwise.
 
 ### GetPushNotificationsEnabledOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetPushNotificationsEnabledOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetPushNotificationsEnabledOk() (*bool, bool)`
 
 GetPushNotificationsEnabledOk returns a tuple with the PushNotificationsEnabled field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPushNotificationsEnabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetPushNotificationsEnabled(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetPushNotificationsEnabled(v bool)`
 
 SetPushNotificationsEnabled sets PushNotificationsEnabled field to given value.
 
 ### HasPushNotificationsEnabled
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasPushNotificationsEnabled() bool`
+`func (o *EventEnvelopeOneOf67Data) HasPushNotificationsEnabled() bool`
 
 HasPushNotificationsEnabled returns a boolean if a field has been set.
 
 ### GetPushNotificationsEnabledEndTimestamp
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetPushNotificationsEnabledEndTimestamp() int32`
+`func (o *EventEnvelopeOneOf67Data) GetPushNotificationsEnabledEndTimestamp() int32`
 
 GetPushNotificationsEnabledEndTimestamp returns the PushNotificationsEnabledEndTimestamp field if non-nil, zero value otherwise.
 
 ### GetPushNotificationsEnabledEndTimestampOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetPushNotificationsEnabledEndTimestampOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetPushNotificationsEnabledEndTimestampOk() (*int32, bool)`
 
 GetPushNotificationsEnabledEndTimestampOk returns a tuple with the PushNotificationsEnabledEndTimestamp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPushNotificationsEnabledEndTimestamp
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetPushNotificationsEnabledEndTimestamp(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetPushNotificationsEnabledEndTimestamp(v int32)`
 
 SetPushNotificationsEnabledEndTimestamp sets PushNotificationsEnabledEndTimestamp field to given value.
 
 ### HasPushNotificationsEnabledEndTimestamp
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasPushNotificationsEnabledEndTimestamp() bool`
+`func (o *EventEnvelopeOneOf67Data) HasPushNotificationsEnabledEndTimestamp() bool`
 
 HasPushNotificationsEnabledEndTimestamp returns a boolean if a field has been set.
 
 ### SetPushNotificationsEnabledEndTimestampNil
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetPushNotificationsEnabledEndTimestampNil(b bool)`
+`func (o *EventEnvelopeOneOf67Data) SetPushNotificationsEnabledEndTimestampNil(b bool)`
 
  SetPushNotificationsEnabledEndTimestampNil sets the value for PushNotificationsEnabledEndTimestamp to be an explicit nil
 
 ### UnsetPushNotificationsEnabledEndTimestamp
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) UnsetPushNotificationsEnabledEndTimestamp()`
+`func (o *EventEnvelopeOneOf67Data) UnsetPushNotificationsEnabledEndTimestamp()`
 
 UnsetPushNotificationsEnabledEndTimestamp ensures that no value is present for PushNotificationsEnabledEndTimestamp, not even an explicit nil
 ### GetRequireE2eePushNotifications
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetRequireE2eePushNotifications() bool`
+`func (o *EventEnvelopeOneOf67Data) GetRequireE2eePushNotifications() bool`
 
 GetRequireE2eePushNotifications returns the RequireE2eePushNotifications field if non-nil, zero value otherwise.
 
 ### GetRequireE2eePushNotificationsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetRequireE2eePushNotificationsOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetRequireE2eePushNotificationsOk() (*bool, bool)`
 
 GetRequireE2eePushNotificationsOk returns a tuple with the RequireE2eePushNotifications field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRequireE2eePushNotifications
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetRequireE2eePushNotifications(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetRequireE2eePushNotifications(v bool)`
 
 SetRequireE2eePushNotifications sets RequireE2eePushNotifications field to given value.
 
 ### HasRequireE2eePushNotifications
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasRequireE2eePushNotifications() bool`
+`func (o *EventEnvelopeOneOf67Data) HasRequireE2eePushNotifications() bool`
 
 HasRequireE2eePushNotifications returns a boolean if a field has been set.
 
 ### GetRequireUniqueNames
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetRequireUniqueNames() bool`
+`func (o *EventEnvelopeOneOf67Data) GetRequireUniqueNames() bool`
 
 GetRequireUniqueNames returns the RequireUniqueNames field if non-nil, zero value otherwise.
 
 ### GetRequireUniqueNamesOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetRequireUniqueNamesOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetRequireUniqueNamesOk() (*bool, bool)`
 
 GetRequireUniqueNamesOk returns a tuple with the RequireUniqueNames field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRequireUniqueNames
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetRequireUniqueNames(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetRequireUniqueNames(v bool)`
 
 SetRequireUniqueNames sets RequireUniqueNames field to given value.
 
 ### HasRequireUniqueNames
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasRequireUniqueNames() bool`
+`func (o *EventEnvelopeOneOf67Data) HasRequireUniqueNames() bool`
 
 HasRequireUniqueNames returns a boolean if a field has been set.
 
 ### GetSendWelcomeEmails
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetSendWelcomeEmails() bool`
+`func (o *EventEnvelopeOneOf67Data) GetSendWelcomeEmails() bool`
 
 GetSendWelcomeEmails returns the SendWelcomeEmails field if non-nil, zero value otherwise.
 
 ### GetSendWelcomeEmailsOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetSendWelcomeEmailsOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetSendWelcomeEmailsOk() (*bool, bool)`
 
 GetSendWelcomeEmailsOk returns a tuple with the SendWelcomeEmails field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSendWelcomeEmails
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetSendWelcomeEmails(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetSendWelcomeEmails(v bool)`
 
 SetSendWelcomeEmails sets SendWelcomeEmails field to given value.
 
 ### HasSendWelcomeEmails
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasSendWelcomeEmails() bool`
+`func (o *EventEnvelopeOneOf67Data) HasSendWelcomeEmails() bool`
 
 HasSendWelcomeEmails returns a boolean if a field has been set.
 
 ### GetSignupAnnouncementsStreamId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetSignupAnnouncementsStreamId() int32`
+`func (o *EventEnvelopeOneOf67Data) GetSignupAnnouncementsStreamId() int32`
 
 GetSignupAnnouncementsStreamId returns the SignupAnnouncementsStreamId field if non-nil, zero value otherwise.
 
 ### GetSignupAnnouncementsStreamIdOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetSignupAnnouncementsStreamIdOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetSignupAnnouncementsStreamIdOk() (*int32, bool)`
 
 GetSignupAnnouncementsStreamIdOk returns a tuple with the SignupAnnouncementsStreamId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSignupAnnouncementsStreamId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetSignupAnnouncementsStreamId(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetSignupAnnouncementsStreamId(v int32)`
 
 SetSignupAnnouncementsStreamId sets SignupAnnouncementsStreamId field to given value.
 
 ### HasSignupAnnouncementsStreamId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasSignupAnnouncementsStreamId() bool`
+`func (o *EventEnvelopeOneOf67Data) HasSignupAnnouncementsStreamId() bool`
 
 HasSignupAnnouncementsStreamId returns a boolean if a field has been set.
 
 ### GetUploadQuotaMib
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetUploadQuotaMib() int32`
+`func (o *EventEnvelopeOneOf67Data) GetUploadQuotaMib() int32`
 
 GetUploadQuotaMib returns the UploadQuotaMib field if non-nil, zero value otherwise.
 
 ### GetUploadQuotaMibOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetUploadQuotaMibOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetUploadQuotaMibOk() (*int32, bool)`
 
 GetUploadQuotaMibOk returns a tuple with the UploadQuotaMib field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUploadQuotaMib
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetUploadQuotaMib(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetUploadQuotaMib(v int32)`
 
 SetUploadQuotaMib sets UploadQuotaMib field to given value.
 
 ### HasUploadQuotaMib
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasUploadQuotaMib() bool`
+`func (o *EventEnvelopeOneOf67Data) HasUploadQuotaMib() bool`
 
 HasUploadQuotaMib returns a boolean if a field has been set.
 
 ### SetUploadQuotaMibNil
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetUploadQuotaMibNil(b bool)`
+`func (o *EventEnvelopeOneOf67Data) SetUploadQuotaMibNil(b bool)`
 
  SetUploadQuotaMibNil sets the value for UploadQuotaMib to be an explicit nil
 
 ### UnsetUploadQuotaMib
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) UnsetUploadQuotaMib()`
+`func (o *EventEnvelopeOneOf67Data) UnsetUploadQuotaMib()`
 
 UnsetUploadQuotaMib ensures that no value is present for UploadQuotaMib, not even an explicit nil
 ### GetVideoChatProvider
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetVideoChatProvider() int32`
+`func (o *EventEnvelopeOneOf67Data) GetVideoChatProvider() int32`
 
 GetVideoChatProvider returns the VideoChatProvider field if non-nil, zero value otherwise.
 
 ### GetVideoChatProviderOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetVideoChatProviderOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetVideoChatProviderOk() (*int32, bool)`
 
 GetVideoChatProviderOk returns a tuple with the VideoChatProvider field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVideoChatProvider
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetVideoChatProvider(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetVideoChatProvider(v int32)`
 
 SetVideoChatProvider sets VideoChatProvider field to given value.
 
 ### HasVideoChatProvider
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasVideoChatProvider() bool`
+`func (o *EventEnvelopeOneOf67Data) HasVideoChatProvider() bool`
 
 HasVideoChatProvider returns a boolean if a field has been set.
 
 ### GetWaitingPeriodThreshold
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetWaitingPeriodThreshold() int32`
+`func (o *EventEnvelopeOneOf67Data) GetWaitingPeriodThreshold() int32`
 
 GetWaitingPeriodThreshold returns the WaitingPeriodThreshold field if non-nil, zero value otherwise.
 
 ### GetWaitingPeriodThresholdOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetWaitingPeriodThresholdOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetWaitingPeriodThresholdOk() (*int32, bool)`
 
 GetWaitingPeriodThresholdOk returns a tuple with the WaitingPeriodThreshold field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWaitingPeriodThreshold
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetWaitingPeriodThreshold(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetWaitingPeriodThreshold(v int32)`
 
 SetWaitingPeriodThreshold sets WaitingPeriodThreshold field to given value.
 
 ### HasWaitingPeriodThreshold
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasWaitingPeriodThreshold() bool`
+`func (o *EventEnvelopeOneOf67Data) HasWaitingPeriodThreshold() bool`
 
 HasWaitingPeriodThreshold returns a boolean if a field has been set.
 
 ### GetWantAdvertiseInCommunitiesDirectory
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetWantAdvertiseInCommunitiesDirectory() bool`
+`func (o *EventEnvelopeOneOf67Data) GetWantAdvertiseInCommunitiesDirectory() bool`
 
 GetWantAdvertiseInCommunitiesDirectory returns the WantAdvertiseInCommunitiesDirectory field if non-nil, zero value otherwise.
 
 ### GetWantAdvertiseInCommunitiesDirectoryOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetWantAdvertiseInCommunitiesDirectoryOk() (*bool, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetWantAdvertiseInCommunitiesDirectoryOk() (*bool, bool)`
 
 GetWantAdvertiseInCommunitiesDirectoryOk returns a tuple with the WantAdvertiseInCommunitiesDirectory field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWantAdvertiseInCommunitiesDirectory
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetWantAdvertiseInCommunitiesDirectory(v bool)`
+`func (o *EventEnvelopeOneOf67Data) SetWantAdvertiseInCommunitiesDirectory(v bool)`
 
 SetWantAdvertiseInCommunitiesDirectory sets WantAdvertiseInCommunitiesDirectory field to given value.
 
 ### HasWantAdvertiseInCommunitiesDirectory
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasWantAdvertiseInCommunitiesDirectory() bool`
+`func (o *EventEnvelopeOneOf67Data) HasWantAdvertiseInCommunitiesDirectory() bool`
 
 HasWantAdvertiseInCommunitiesDirectory returns a boolean if a field has been set.
 
 ### GetWelcomeMessageCustomText
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetWelcomeMessageCustomText() string`
+`func (o *EventEnvelopeOneOf67Data) GetWelcomeMessageCustomText() string`
 
 GetWelcomeMessageCustomText returns the WelcomeMessageCustomText field if non-nil, zero value otherwise.
 
 ### GetWelcomeMessageCustomTextOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetWelcomeMessageCustomTextOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetWelcomeMessageCustomTextOk() (*string, bool)`
 
 GetWelcomeMessageCustomTextOk returns a tuple with the WelcomeMessageCustomText field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWelcomeMessageCustomText
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetWelcomeMessageCustomText(v string)`
+`func (o *EventEnvelopeOneOf67Data) SetWelcomeMessageCustomText(v string)`
 
 SetWelcomeMessageCustomText sets WelcomeMessageCustomText field to given value.
 
 ### HasWelcomeMessageCustomText
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasWelcomeMessageCustomText() bool`
+`func (o *EventEnvelopeOneOf67Data) HasWelcomeMessageCustomText() bool`
 
 HasWelcomeMessageCustomText returns a boolean if a field has been set.
 
 ### GetZulipUpdateAnnouncementsStreamId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetZulipUpdateAnnouncementsStreamId() int32`
+`func (o *EventEnvelopeOneOf67Data) GetZulipUpdateAnnouncementsStreamId() int32`
 
 GetZulipUpdateAnnouncementsStreamId returns the ZulipUpdateAnnouncementsStreamId field if non-nil, zero value otherwise.
 
 ### GetZulipUpdateAnnouncementsStreamIdOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) GetZulipUpdateAnnouncementsStreamIdOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf67Data) GetZulipUpdateAnnouncementsStreamIdOk() (*int32, bool)`
 
 GetZulipUpdateAnnouncementsStreamIdOk returns a tuple with the ZulipUpdateAnnouncementsStreamId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetZulipUpdateAnnouncementsStreamId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) SetZulipUpdateAnnouncementsStreamId(v int32)`
+`func (o *EventEnvelopeOneOf67Data) SetZulipUpdateAnnouncementsStreamId(v int32)`
 
 SetZulipUpdateAnnouncementsStreamId sets ZulipUpdateAnnouncementsStreamId field to given value.
 
 ### HasZulipUpdateAnnouncementsStreamId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf67Data) HasZulipUpdateAnnouncementsStreamId() bool`
+`func (o *EventEnvelopeOneOf67Data) HasZulipUpdateAnnouncementsStreamId() bool`
 
 HasZulipUpdateAnnouncementsStreamId returns a boolean if a field has been set.
 

@@ -9,20 +9,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf34
+### NewEventEnvelopeOneOf34
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf34() *HeartbeatEvent`
+`func NewEventEnvelopeOneOf34() *HeartbeatEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf34 instantiates a new HeartbeatEvent object
+NewEventEnvelopeOneOf34 instantiates a new HeartbeatEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf34WithDefaults
+### NewEventEnvelopeOneOf34WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf34WithDefaults() *HeartbeatEvent`
+`func NewEventEnvelopeOneOf34WithDefaults() *HeartbeatEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf34WithDefaults instantiates a new HeartbeatEvent object
+NewEventEnvelopeOneOf34WithDefaults instantiates a new HeartbeatEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

@@ -11,20 +11,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf78
+### NewEventEnvelopeOneOf78
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf78() *RemindersAddEvent`
+`func NewEventEnvelopeOneOf78() *RemindersAddEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf78 instantiates a new RemindersAddEvent object
+NewEventEnvelopeOneOf78 instantiates a new RemindersAddEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf78WithDefaults
+### NewEventEnvelopeOneOf78WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf78WithDefaults() *RemindersAddEvent`
+`func NewEventEnvelopeOneOf78WithDefaults() *RemindersAddEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf78WithDefaults instantiates a new RemindersAddEvent object
+NewEventEnvelopeOneOf78WithDefaults instantiates a new RemindersAddEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

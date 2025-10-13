@@ -12,20 +12,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf22
+### NewEventEnvelopeOneOf22
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf22() *AttachmentUpdateEvent`
+`func NewEventEnvelopeOneOf22() *AttachmentUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf22 instantiates a new AttachmentUpdateEvent object
+NewEventEnvelopeOneOf22 instantiates a new AttachmentUpdateEvent object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf22WithDefaults
+### NewEventEnvelopeOneOf22WithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf22WithDefaults() *AttachmentUpdateEvent`
+`func NewEventEnvelopeOneOf22WithDefaults() *AttachmentUpdateEvent`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf22WithDefaults instantiates a new AttachmentUpdateEvent object
+NewEventEnvelopeOneOf22WithDefaults instantiates a new AttachmentUpdateEvent object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

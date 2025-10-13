@@ -1,4 +1,4 @@
-# GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner
+# EventEnvelopeOneOf50RealmLinkifiersInner
 
 ## Properties
 
@@ -10,95 +10,95 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner
+### NewEventEnvelopeOneOf50RealmLinkifiersInner
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner() *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner`
+`func NewEventEnvelopeOneOf50RealmLinkifiersInner() *EventEnvelopeOneOf50RealmLinkifiersInner`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner object
+NewEventEnvelopeOneOf50RealmLinkifiersInner instantiates a new EventEnvelopeOneOf50RealmLinkifiersInner object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewGetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInnerWithDefaults
+### NewEventEnvelopeOneOf50RealmLinkifiersInnerWithDefaults
 
-`func NewGetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInnerWithDefaults() *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner`
+`func NewEventEnvelopeOneOf50RealmLinkifiersInnerWithDefaults() *EventEnvelopeOneOf50RealmLinkifiersInner`
 
-NewGetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInnerWithDefaults instantiates a new GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner object
+NewEventEnvelopeOneOf50RealmLinkifiersInnerWithDefaults instantiates a new EventEnvelopeOneOf50RealmLinkifiersInner object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetPattern
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) GetPattern() string`
+`func (o *EventEnvelopeOneOf50RealmLinkifiersInner) GetPattern() string`
 
 GetPattern returns the Pattern field if non-nil, zero value otherwise.
 
 ### GetPatternOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) GetPatternOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf50RealmLinkifiersInner) GetPatternOk() (*string, bool)`
 
 GetPatternOk returns a tuple with the Pattern field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPattern
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) SetPattern(v string)`
+`func (o *EventEnvelopeOneOf50RealmLinkifiersInner) SetPattern(v string)`
 
 SetPattern sets Pattern field to given value.
 
 ### HasPattern
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) HasPattern() bool`
+`func (o *EventEnvelopeOneOf50RealmLinkifiersInner) HasPattern() bool`
 
 HasPattern returns a boolean if a field has been set.
 
 ### GetUrlTemplate
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) GetUrlTemplate() string`
+`func (o *EventEnvelopeOneOf50RealmLinkifiersInner) GetUrlTemplate() string`
 
 GetUrlTemplate returns the UrlTemplate field if non-nil, zero value otherwise.
 
 ### GetUrlTemplateOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) GetUrlTemplateOk() (*string, bool)`
+`func (o *EventEnvelopeOneOf50RealmLinkifiersInner) GetUrlTemplateOk() (*string, bool)`
 
 GetUrlTemplateOk returns a tuple with the UrlTemplate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUrlTemplate
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) SetUrlTemplate(v string)`
+`func (o *EventEnvelopeOneOf50RealmLinkifiersInner) SetUrlTemplate(v string)`
 
 SetUrlTemplate sets UrlTemplate field to given value.
 
 ### HasUrlTemplate
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) HasUrlTemplate() bool`
+`func (o *EventEnvelopeOneOf50RealmLinkifiersInner) HasUrlTemplate() bool`
 
 HasUrlTemplate returns a boolean if a field has been set.
 
 ### GetId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) GetId() int32`
+`func (o *EventEnvelopeOneOf50RealmLinkifiersInner) GetId() int32`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) GetIdOk() (*int32, bool)`
+`func (o *EventEnvelopeOneOf50RealmLinkifiersInner) GetIdOk() (*int32, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) SetId(v int32)`
+`func (o *EventEnvelopeOneOf50RealmLinkifiersInner) SetId(v int32)`
 
 SetId sets Id field to given value.
 
 ### HasId
 
-`func (o *GetEvents200ResponseAllOfEventsInnerOneOf50RealmLinkifiersInner) HasId() bool`
+`func (o *EventEnvelopeOneOf50RealmLinkifiersInner) HasId() bool`
 
 HasId returns a boolean if a field has been set.
 
