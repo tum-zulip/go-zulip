@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Result** | **interface{}** |  | 
 **Msg** | **interface{}** |  | 
-**IgnoredParametersUnsupported** | Pointer to **[]string** | An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.  | [optional] 
+**IgnoredParametersUnsupported** | Pointer to **[]string** | An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.  | [optional] 
 
 ## Methods
 

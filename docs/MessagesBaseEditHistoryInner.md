@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **PrevContent** | Pointer to **string** | Only present if message&#39;s content was edited.  The content of the message immediately prior to this edit event.  | [optional] 
-**PrevRenderedContent** | Pointer to **string** | Only present if message&#39;s content was edited.  The rendered HTML representation of &#x60;prev_content&#x60;.  See [Markdown message formatting](/api/message-formatting) for details on Zulip&#39;s HTML format.  | [optional] 
+**PrevRenderedContent** | Pointer to **string** | Only present if message&#39;s content was edited.  The rendered HTML representation of &#x60;prev_content&#x60;.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip&#39;s HTML format.  | [optional] 
 **PrevStream** | Pointer to **int32** | Only present if message&#39;s channel was edited.  The channel ID of the message immediately prior to this edit event.  **Changes**: New in Zulip 3.0 (feature level 1).  | [optional] 
 **PrevTopic** | Pointer to **string** | Only present if message&#39;s topic was edited.  The topic of the message immediately prior to this edit event.  **Changes**: New in Zulip 5.0 (feature level 118). Previously, this field was called &#x60;prev_subject&#x60;; clients are recommended to rename &#x60;prev_subject&#x60; to &#x60;prev_topic&#x60; if present for compatibility with older Zulip servers.  | [optional] 
 **Stream** | Pointer to **int32** | Only present if message&#39;s channel was edited.  The ID of the channel containing the message immediately after this edit event.  **Changes**: New in Zulip 5.0 (feature level 118).  | [optional] 

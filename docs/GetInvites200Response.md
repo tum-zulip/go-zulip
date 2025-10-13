@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Result** | **interface{}** |  | 
 **Msg** | **interface{}** |  | 
 **IgnoredParametersUnsupported** | Pointer to **interface{}** |  | [optional] 
-**Invites** | Pointer to [**[]Invite**](Invite.md) | An array of objects, each representing a single unexpired [invitation](/help/invite-new-users).  | [optional] 
+**Invites** | Pointer to [**[]Invite**](Invite.md) | An array of objects, each representing a single unexpired [invitation](zulip.com/help/invite-new-users.  | [optional] 
 
 ## Methods
 

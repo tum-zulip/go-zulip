@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Topic** | Pointer to **string** | The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](/api/register-queue) response depending on the value of the &#x60;empty_topic_name&#x60; [client capability][client-capabilities].  **Changes**: The &#x60;empty_topic_name&#x60; client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities  | [optional] 
+**Topic** | Pointer to **string** | The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](zulip.com/api/register-queue response depending on the value of the &#x60;empty_topic_name&#x60; [client capability][client-capabilities].  **Changes**: The &#x60;empty_topic_name&#x60; client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities  | [optional] 
 **StreamId** | Pointer to **int32** | The ID of the channel to which the messages were sent.  | [optional] 
 **UnreadMessageIds** | Pointer to **[]int32** | The message IDs of the recent unread messages sent in this channel, sorted in ascending order.  | [optional] 
 

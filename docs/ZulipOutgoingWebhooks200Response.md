@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **BotEmail** | Pointer to **string** | Email of the bot user.  | [optional] 
 **BotFullName** | Pointer to **string** | The full name of the bot user.  | [optional] 
-**Data** | Pointer to **string** | The message content, in raw [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format (not rendered to HTML).  | [optional] 
+**Data** | Pointer to **string** | The message content, in raw [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format (not rendered to HTML).  | [optional] 
 **Trigger** | Pointer to **string** | What aspect of the message triggered the outgoing webhook notification. Possible values include &#x60;direct_message&#x60; and &#x60;mention&#x60;.  **Changes**: In Zulip 8.0 (feature level 201), renamed the trigger &#x60;private_message&#x60; to &#x60;direct_message&#x60;.  | [optional] 
 **Token** | Pointer to **string** | A string of alphanumeric characters that can be used to authenticate the webhook request (each bot user uses a fixed token). You can get the token used by a given outgoing webhook bot in the &#x60;zuliprc&#x60; file downloaded when creating the bot.  | [optional] 
 **Message** | Pointer to [**ZulipOutgoingWebhooks200ResponseMessage**](ZulipOutgoingWebhooks200ResponseMessage.md) |  | [optional] 

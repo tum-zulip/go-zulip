@@ -96,7 +96,7 @@ import (
 )
 
 func main() {
-	username := "username_example" // string | The username to be used for authentication (typically, the email address, but depending on configuration, it could be an LDAP username).  See the `require_email_format_usernames` parameter documented in [GET /server_settings](/api/get-server-settings) for details. 
+	username := "username_example" // string | The username to be used for authentication (typically, the email address, but depending on configuration, it could be an LDAP username).  See the `require_email_format_usernames` parameter documented in [GET /server_settings](zulip.com/api/get-server-settings for details. 
 	password := "password_example" // string | The user's Zulip password (or LDAP password, if LDAP authentication is in use). 
 
 	configuration := openapiclient.NewConfiguration()
@@ -122,7 +122,7 @@ Other parameters are passed through a pointer to a apiFetchApiKeyRequest struct 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string** | The username to be used for authentication (typically, the email address, but depending on configuration, it could be an LDAP username).  See the &#x60;require_email_format_usernames&#x60; parameter documented in [GET /server_settings](/api/get-server-settings) for details.  | 
+ **username** | **string** | The username to be used for authentication (typically, the email address, but depending on configuration, it could be an LDAP username).  See the &#x60;require_email_format_usernames&#x60; parameter documented in [GET /server_settings](zulip.com/api/get-server-settings for details.  | 
  **password** | **string** | The user&#39;s Zulip password (or LDAP password, if LDAP authentication is in use).  | 
 
 ### Return type

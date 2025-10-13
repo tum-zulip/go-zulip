@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | Pointer to **string** | The new name of the channel folder. Only present if the channel folder&#39;s name changed.  | [optional] 
-**Description** | Pointer to **string** | The new description of the channel folder. Only present if the description changed.  See [Markdown message formatting](/api/message-formatting) for details on Zulip&#39;s HTML format.  | [optional] 
+**Description** | Pointer to **string** | The new description of the channel folder. Only present if the description changed.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip&#39;s HTML format.  | [optional] 
 **RenderedDescription** | Pointer to **string** | The new rendered description of the channel folder. Only present if the description changed.  | [optional] 
 **IsArchived** | Pointer to **bool** | Whether the channel folder is archived or not. Only present if the channel folder is archived or unarchived.  | [optional] 
 

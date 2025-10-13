@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | The name of the channel.  Clients should use the &#x60;max_stream_name_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel name length.  | 
-**Description** | Pointer to **string** | The [description](/help/change-the-channel-description) to use for a new channel being created, in text/markdown format.  See the help center article on [message formatting](/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.  Clients should use the &#x60;max_stream_description_length&#x60; returned by the [&#x60;POST /register&#x60;](/api/register-queue) endpoint to determine the maximum channel description length.  | [optional] 
+**Name** | **string** | The name of the channel.  Clients should use the &#x60;max_stream_name_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue endpoint to determine the maximum channel name length.  | 
+**Description** | Pointer to **string** | The [description](zulip.com/help/change-the-channel-description to use for a new channel being created, in text/markdown format.  See the help center article on [message formatting](zulip.com/help/format-your-message-using-markdown for details on Zulip-flavored Markdown.  Clients should use the &#x60;max_stream_description_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue endpoint to determine the maximum channel description length.  | [optional] 
 
 ## Methods
 

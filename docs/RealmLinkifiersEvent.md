@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **int32** | The ID of the event. Events appear in increasing order but may not be consecutive.  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
-**RealmLinkifiers** | Pointer to [**[]EventEnvelopeOneOf50RealmLinkifiersInner**](EventEnvelopeOneOf50RealmLinkifiersInner.md) | An ordered array of dictionaries where each dictionary contains details about a single linkifier.  Clients should always process linkifiers in the order given; this is important if the realm has linkifiers with overlapping patterns. The order can be modified using [&#x60;PATCH /realm/linkifiers&#x60;](/api/reorder-linkifiers).  | [optional] 
+**RealmLinkifiers** | Pointer to [**[]EventEnvelopeOneOf50RealmLinkifiersInner**](EventEnvelopeOneOf50RealmLinkifiersInner.md) | An ordered array of dictionaries where each dictionary contains details about a single linkifier.  Clients should always process linkifiers in the order given; this is important if the realm has linkifiers with overlapping patterns. The order can be modified using [&#x60;PATCH /realm/linkifiers&#x60;](zulip.com/api/reorder-linkifiers.  | [optional] 
 
 ## Methods
 

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **RequireSystemGroup** | Pointer to **bool** | Whether the setting can only be set to a system user group.  | [optional] 
 **AllowInternetGroup** | Pointer to **bool** | Whether the setting can be set to &#x60;role:internet&#x60; system group.  | [optional] 
 **AllowNobodyGroup** | Pointer to **bool** | Whether the setting can be set to &#x60;role:nobody&#x60; system group.  | [optional] 
-**AllowEveryoneGroup** | Pointer to **bool** | Whether the setting can be set to &#x60;role:everyone&#x60; system group.  If false, guest users cannot exercise this permission even if they are part of the [group-setting value](/api/group-setting-values) for this setting.  | [optional] 
+**AllowEveryoneGroup** | Pointer to **bool** | Whether the setting can be set to &#x60;role:everyone&#x60; system group.  If false, guest users cannot exercise this permission even if they are part of the [group-setting value](zulip.com/api/group-setting-values for this setting.  | [optional] 
 **DefaultGroupName** | Pointer to **string** | Name of the default group for the setting.  | [optional] 
 **DefaultForSystemGroups** | Pointer to **NullableString** | Name of the default group for the setting for system groups.  This is non-null only for group-level settings.  | [optional] 
 **AllowedSystemGroups** | Pointer to **[]string** | An array of names of system groups to which the setting can be set to.  If the list is empty, the setting can be set to system groups based on the other boolean fields.  **Changes**: New in Zulip 8.0 (feature level 225).  | [optional] 

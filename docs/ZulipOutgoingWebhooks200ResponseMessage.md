@@ -26,7 +26,7 @@ Name | Type | Description | Notes
 **Timestamp** | Pointer to **interface{}** |  | [optional] 
 **TopicLinks** | Pointer to **interface{}** |  | [optional] 
 **Type** | Pointer to **interface{}** |  | [optional] 
-**RenderedContent** | Pointer to **string** | The content/body of the message rendered in HTML.  See [Markdown message formatting](/api/message-formatting) for details on Zulip&#39;s HTML format.  | [optional] 
+**RenderedContent** | Pointer to **string** | The content/body of the message rendered in HTML.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip&#39;s HTML format.  | [optional] 
 
 ## Methods
 

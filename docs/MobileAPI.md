@@ -31,7 +31,7 @@ import (
 )
 
 func main() {
-	pushAccountId := int32(56) // int32 | The push account ID for the device to which to send the test notification.  If this parameter is not submitted, the E2EE test notification will be sent to all of the user's devices registered on the server.  A mobile client should pass this parameter, to avoid triggering a test notification for other clients.  See [`POST /mobile_push/register`](/api/register-push-device) for details on push account IDs.  (optional)
+	pushAccountId := int32(56) // int32 | The push account ID for the device to which to send the test notification.  If this parameter is not submitted, the E2EE test notification will be sent to all of the user's devices registered on the server.  A mobile client should pass this parameter, to avoid triggering a test notification for other clients.  See [`POST /mobile_push/register`](zulip.com/api/register-push-device for details on push account IDs.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -56,7 +56,7 @@ Other parameters are passed through a pointer to a apiE2eeTestNotifyRequest stru
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pushAccountId** | **int32** | The push account ID for the device to which to send the test notification.  If this parameter is not submitted, the E2EE test notification will be sent to all of the user&#39;s devices registered on the server.  A mobile client should pass this parameter, to avoid triggering a test notification for other clients.  See [&#x60;POST /mobile_push/register&#x60;](/api/register-push-device) for details on push account IDs.  | 
+ **pushAccountId** | **int32** | The push account ID for the device to which to send the test notification.  If this parameter is not submitted, the E2EE test notification will be sent to all of the user&#39;s devices registered on the server.  A mobile client should pass this parameter, to avoid triggering a test notification for other clients.  See [&#x60;POST /mobile_push/register&#x60;](zulip.com/api/register-push-device for details on push account IDs.  | 
 
 ### Return type
 

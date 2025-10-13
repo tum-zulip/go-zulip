@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Status** | Pointer to **string** | The push account&#39;s registration status. Either &#x60;\&quot;active\&quot;&#x60;, &#x60;\&quot;pending\&quot;&#x60;, or &#x60;\&quot;failed\&quot;&#x60;.  | [optional] 
-**ErrorCode** | Pointer to **NullableString** | If the status is &#x60;\&quot;failed\&quot;&#x60;, a [Zulip API error code](/api/rest-error-handling) indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - &#x60;\&quot;INVALID_BOUNCER_PUBLIC_KEY\&quot;&#x60; - Inform the user to update app. - &#x60;\&quot;REQUEST_EXPIRED&#x60; - Retry with a fresh payload.  | [optional] 
+**ErrorCode** | Pointer to **NullableString** | If the status is &#x60;\&quot;failed\&quot;&#x60;, a [Zulip API error code](zulip.com/api/rest-error-handling indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - &#x60;\&quot;INVALID_BOUNCER_PUBLIC_KEY\&quot;&#x60; - Inform the user to update app. - &#x60;\&quot;REQUEST_EXPIRED&#x60; - Retry with a fresh payload.  | [optional] 
 
 ## Methods
 

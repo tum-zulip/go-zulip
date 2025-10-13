@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **ReminderId** | **int32** | The unique ID of the reminder, which can be used to delete the reminder.  This is different from the unique ID that the message would have after being sent.  | 
 **Type** | **string** | The type of the reminder. Always set to &#x60;\&quot;private\&quot;&#x60;.  | 
 **To** | **[]int32** | Contains the ID of the user who scheduled the reminder, and to which the reminder will be sent.  | 
-**Content** | **string** | The content/body of the reminder, in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  See [Markdown message formatting](/api/message-formatting) for details on Zulip&#39;s HTML format.  | 
+**Content** | **string** | The content/body of the reminder, in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip&#39;s HTML format.  | 
 **RenderedContent** | **string** | The content/body of the reminder rendered in HTML.  | 
 **ScheduledDeliveryTimestamp** | **int32** | The UNIX timestamp for when the message will be sent by the server, in UTC seconds.  | 
 **Failed** | **bool** | Whether the server has tried to send the reminder and it failed to successfully send.  Clients that support unscheduling reminders should display scheduled messages with &#x60;\&quot;failed\&quot;: true&#x60; with an indicator that the server failed to send the message at the scheduled time, so that the user is aware of the failure and can get the content of the scheduled message.  | 

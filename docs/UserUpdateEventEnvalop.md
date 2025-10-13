@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **Email** | Pointer to **string** | The Zulip API email of the user.  **Deprecated**: This field will be removed in a future release as it is redundant with the &#x60;user_id&#x60;.  | [optional] 
 **Timezone** | Pointer to **string** | The IANA identifier of the new profile time zone for the user.  | [optional] 
 **BotOwnerId** | Pointer to **int32** | The user ID of the new bot owner.  | [optional] 
-**Role** | Pointer to **int32** | The new [role](/api/roles-and-permissions) of the user.  | [optional] 
+**Role** | Pointer to **int32** | The new [role](zulip.com/api/roles-and-permissions of the user.  | [optional] 
 **DeliveryEmail** | Pointer to **NullableString** | The new delivery email of the user.  This value can be &#x60;null&#x60; if the affected user changed their &#x60;email_address_visibility&#x60; setting such that you cannot access their real email.  **Changes**: Before Zulip 7.0 (feature level 163), &#x60;null&#x60; was not a possible value for this event as it was only sent to the affected user when their email address was changed.  | [optional] 
 **CustomProfileField** | Pointer to [**UserUpdateEventCustomFieldDetails**](UserUpdateEventCustomFieldDetails.md) |  | [optional] 
 **NewEmail** | Pointer to **string** | The new value of &#x60;email&#x60; for the user. The client should update any data structures associated with this user to use this new value as the user&#39;s Zulip API email address.  | [optional] 

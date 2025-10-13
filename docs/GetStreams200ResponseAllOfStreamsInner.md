@@ -33,7 +33,7 @@ Name | Type | Description | Notes
 **CanResolveTopicsGroup** | Pointer to **interface{}** |  | [optional] 
 **SubscriberCount** | **interface{}** |  | 
 **StreamWeeklyTraffic** | **NullableInt32** | The average number of messages sent to the channel per week, as estimated based on recent weeks, rounded to the nearest integer.  If &#x60;null&#x60;, no information is provided on the average traffic. This can be because the channel was recently created and there is insufficient data to make an estimate, or because the server wishes to omit this information for this client, this realm, or this endpoint or type of event.  **Changes**: New in Zulip 8.0 (feature level 199). Previously, this statistic was available only in subscription objects.  | 
-**IsDefault** | Pointer to **bool** | Only present when [&#x60;include_default&#x60;][include_default] parameter is &#x60;true&#x60;.  Whether the given channel is a [default channel](/help/set-default-channels-for-new-users).  [include_default]: /api/get-streams#parameter-include_default  | [optional] 
+**IsDefault** | Pointer to **bool** | Only present when [&#x60;include_default&#x60;][include_default] parameter is &#x60;true&#x60;.  Whether the given channel is a [default channel](zulip.com/help/set-default-channels-for-new-users.  [include_default]: /api/get-streams#parameter-include_default  | [optional] 
 
 ## Methods
 

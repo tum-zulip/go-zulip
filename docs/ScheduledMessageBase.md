@@ -6,9 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ScheduledMessageId** | **int32** | The unique ID of the scheduled message, which can be used to modify or delete the scheduled message.  This is different from the unique ID that the message will have after it is sent.  | 
 **Type** | **string** | The type of the scheduled message. Either &#x60;\&quot;stream\&quot;&#x60; or &#x60;\&quot;private\&quot;&#x60;.  | 
-**To** | [**ScheduledMessageBaseTo**](ScheduledMessageBaseTo.md) |  | 
+**To** | [**Recipients**](Recipients.md) |  | 
 **Topic** | Pointer to **string** | Only present if &#x60;type&#x60; is &#x60;\&quot;stream\&quot;&#x60;.  The topic for the channel message.  | [optional] 
-**Content** | **string** | The content/body of the scheduled message, in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  See [Markdown message formatting](/api/message-formatting) for details on Zulip&#39;s HTML format.  | 
+**Content** | **string** | The content/body of the scheduled message, in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip&#39;s HTML format.  | 
 **RenderedContent** | **string** | The content/body of the scheduled message rendered in HTML.  | 
 **ScheduledDeliveryTimestamp** | **int32** | The UNIX timestamp for when the message will be sent by the server, in UTC seconds.  | 
 **Failed** | **bool** | Whether the server has tried to send the scheduled message and it failed to successfully send.  Clients that support unscheduling and editing scheduled messages should display scheduled messages with &#x60;\&quot;failed\&quot;: true&#x60; with an indicator that the server failed to send the message at the scheduled time, so that the user is aware of the failure and can get the content of the scheduled message.  **Changes**: New in Zulip 7.0 (feature level 181).  | 
@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 
 ### NewScheduledMessageBase
 
-`func NewScheduledMessageBase(scheduledMessageId int32, type_ string, to ScheduledMessageBaseTo, content string, renderedContent string, scheduledDeliveryTimestamp int32, failed bool, ) *ScheduledMessageBase`
+`func NewScheduledMessageBase(scheduledMessageId int32, type_ string, to Recipients, content string, renderedContent string, scheduledDeliveryTimestamp int32, failed bool, ) *ScheduledMessageBase`
 
 NewScheduledMessageBase instantiates a new ScheduledMessageBase object
 This constructor will assign default values to properties that have it defined,
@@ -74,20 +74,20 @@ SetType sets Type field to given value.
 
 ### GetTo
 
-`func (o *ScheduledMessageBase) GetTo() ScheduledMessageBaseTo`
+`func (o *ScheduledMessageBase) GetTo() Recipients`
 
 GetTo returns the To field if non-nil, zero value otherwise.
 
 ### GetToOk
 
-`func (o *ScheduledMessageBase) GetToOk() (*ScheduledMessageBaseTo, bool)`
+`func (o *ScheduledMessageBase) GetToOk() (*Recipients, bool)`
 
 GetToOk returns a tuple with the To field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTo
 
-`func (o *ScheduledMessageBase) SetTo(v ScheduledMessageBaseTo)`
+`func (o *ScheduledMessageBase) SetTo(v Recipients)`
 
 SetTo sets To field to given value.
 

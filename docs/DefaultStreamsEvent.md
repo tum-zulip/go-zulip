@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **int32** | The ID of the event. Events appear in increasing order but may not be consecutive.  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
-**DefaultStreams** | Pointer to **[]int32** | An array of IDs of all the [default channels](/help/set-default-streams-for-new-users) in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.  | [optional] 
+**DefaultStreams** | Pointer to **[]int32** | An array of IDs of all the [default channels](zulip.com/help/set-default-streams-for-new-users in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.  | [optional] 
 
 ## Methods
 

@@ -5,14 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **int32** | The ID of the invitation.  Note that email invitations and reusable invitation links are stored in different database tables on the server, so each ID is guaranteed to be unique in combination with the boolean value of &#x60;is_multiuse&#x60;, e.g. there can only be one invitation with &#x60;id: 1&#x60; and &#x60;is_multiuse: true&#x60;.  | [optional] 
-**InvitedByUserId** | Pointer to **int32** | The [user ID](/api/get-user) of the user who created the invitation.  **Changes**: New in Zulip 3.0 (feature level 22), replacing the &#x60;ref&#x60; field which contained the Zulip display email address of the user who created the invitation.  | [optional] 
+**InvitedByUserId** | Pointer to **int32** | The [user ID](zulip.com/api/get-user of the user who created the invitation.  **Changes**: New in Zulip 3.0 (feature level 22), replacing the &#x60;ref&#x60; field which contained the Zulip display email address of the user who created the invitation.  | [optional] 
 **Invited** | Pointer to **int32** | The UNIX timestamp for when the invitation was created, in UTC seconds.  | [optional] 
 **ExpiryDate** | Pointer to **NullableInt32** | The UNIX timestamp for when the invitation will expire, in UTC seconds. If &#x60;null&#x60;, the invitation never expires.  | [optional] 
-**InvitedAs** | Pointer to **int32** | The [organization-level role](/api/roles-and-permissions) of the user that is created when the invitation is accepted. Possible values are:  - 100 &#x3D; Organization owner - 200 &#x3D; Organization administrator - 300 &#x3D; Organization moderator - 400 &#x3D; Member - 600 &#x3D; Guest  | [optional] 
+**InvitedAs** | Pointer to **int32** | The [organization-level role](zulip.com/api/roles-and-permissions of the user that is created when the invitation is accepted. Possible values are:  - 100 &#x3D; Organization owner - 200 &#x3D; Organization administrator - 300 &#x3D; Organization moderator - 400 &#x3D; Member - 600 &#x3D; Guest  | [optional] 
 **Email** | Pointer to **string** | The email address the invitation was sent to. This will not be present when &#x60;is_multiuse&#x60; is &#x60;true&#x60; (i.e. the invitation is a reusable invitation link).  | [optional] 
-**NotifyReferrerOnJoin** | Pointer to **bool** | A boolean indicating whether the referrer has opted to receive a direct message from [notification bot](/help/configure-automated-notices) when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.  | [optional] 
+**NotifyReferrerOnJoin** | Pointer to **bool** | A boolean indicating whether the referrer has opted to receive a direct message from [notification bot](zulip.com/help/configure-automated-notices when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.  | [optional] 
 **LinkUrl** | Pointer to **string** | The URL of the reusable invitation link. This will not be present when &#x60;is_multiuse&#x60; is &#x60;false&#x60; (i.e. the invitation is an email invitation).  | [optional] 
-**IsMultiuse** | Pointer to **bool** | A boolean specifying whether the [invitation](/help/invite-new-users) is a reusable invitation link or an email invitation.  | [optional] 
+**IsMultiuse** | Pointer to **bool** | A boolean specifying whether the [invitation](zulip.com/help/invite-new-users is a reusable invitation link or an email invitation.  | [optional] 
 
 ## Methods
 

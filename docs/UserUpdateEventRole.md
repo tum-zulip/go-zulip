@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **UserId** | Pointer to **int32** | The ID of the user affected by this change.  | [optional] 
-**Role** | Pointer to **int32** | The new [role](/api/roles-and-permissions) of the user.  | [optional] 
+**Role** | Pointer to **int32** | The new [role](zulip.com/api/roles-and-permissions of the user.  | [optional] 
 
 ## Methods
 

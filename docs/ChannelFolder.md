@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Name** | Pointer to **string** | The name of the channel folder.  | [optional] 
 **DateCreated** | Pointer to **NullableInt32** | The UNIX timestamp for when the channel folder was created, in UTC seconds.  | [optional] 
 **CreatorId** | Pointer to **NullableInt32** | The ID of the user who created this channel folder.  | [optional] 
-**Description** | Pointer to **string** | The description of the channel folder.  See [Markdown message formatting](/api/message-formatting) for details on Zulip&#39;s HTML format.  | [optional] 
+**Description** | Pointer to **string** | The description of the channel folder.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip&#39;s HTML format.  | [optional] 
 **RenderedDescription** | Pointer to **string** | The description of the channel folder rendered as HTML, intended to be used when displaying the channel folder description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.  | [optional] 
 **Order** | Pointer to **int32** | This value determines in which order the channel folders will be displayed in the UI. The value is 0 indexed, and the value with the lower order will be displayed first.  **Changes**: New in Zulip 11.0 (feature level 414).  | [optional] 
 **Id** | Pointer to **int32** | The ID of the channel folder.  | [optional] 

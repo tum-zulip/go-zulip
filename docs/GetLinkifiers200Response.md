@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Result** | **interface{}** |  | 
 **Msg** | **interface{}** |  | 
 **IgnoredParametersUnsupported** | Pointer to **interface{}** |  | [optional] 
-**Linkifiers** | Pointer to [**[]GetLinkifiers200ResponseAllOfLinkifiersInner**](GetLinkifiers200ResponseAllOfLinkifiersInner.md) | An ordered array of objects, where each object describes a linkifier.  Clients should always process linkifiers in the order given; this is important if the realm has linkifiers with overlapping patterns. The order can be modified using [&#x60;PATCH /realm/linkifiers&#x60;](/api/reorder-linkifiers).  | [optional] 
+**Linkifiers** | Pointer to [**[]GetLinkifiers200ResponseAllOfLinkifiersInner**](GetLinkifiers200ResponseAllOfLinkifiersInner.md) | An ordered array of objects, where each object describes a linkifier.  Clients should always process linkifiers in the order given; this is important if the realm has linkifiers with overlapping patterns. The order can be modified using [&#x60;PATCH /realm/linkifiers&#x60;](zulip.com/api/reorder-linkifiers.  | [optional] 
 
 ## Methods
 

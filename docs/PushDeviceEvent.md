@@ -6,9 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **int32** | The ID of the event. Events appear in increasing order but may not be consecutive.  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
-**PushAccountId** | Pointer to **string** | The push account ID for this client registration.  See [&#x60;POST /mobile_push/register&#x60;](/api/register-push-device) for details on push account IDs.  | [optional] 
+**PushAccountId** | Pointer to **string** | The push account ID for this client registration.  See [&#x60;POST /mobile_push/register&#x60;](zulip.com/api/register-push-device for details on push account IDs.  | [optional] 
 **Status** | Pointer to **string** | The updated registration status. Will be &#x60;\&quot;active\&quot;&#x60;, &#x60;\&quot;failed\&quot;&#x60;, or &#x60;\&quot;pending\&quot;&#x60;.  | [optional] 
-**ErrorCode** | Pointer to **NullableString** | If the status is &#x60;\&quot;failed\&quot;&#x60;, a [Zulip API error code](/api/rest-error-handling) indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - &#x60;\&quot;INVALID_BOUNCER_PUBLIC_KEY\&quot;&#x60; - Inform the user to update app. - &#x60;\&quot;REQUEST_EXPIRED&#x60; - Retry with a fresh payload.   If the status is \&quot;failed\&quot;, an error code explaining the failure.  | [optional] 
+**ErrorCode** | Pointer to **NullableString** | If the status is &#x60;\&quot;failed\&quot;&#x60;, a [Zulip API error code](zulip.com/api/rest-error-handling indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - &#x60;\&quot;INVALID_BOUNCER_PUBLIC_KEY\&quot;&#x60; - Inform the user to update app. - &#x60;\&quot;REQUEST_EXPIRED&#x60; - Retry with a fresh payload.   If the status is \&quot;failed\&quot;, an error code explaining the failure.  | [optional] 
 
 ## Methods
 

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Result** | **interface{}** |  | 
 **Msg** | **interface{}** |  | 
 **IgnoredParametersUnsupported** | Pointer to **interface{}** |  | [optional] 
-**RawContent** | Pointer to **string** | The raw Markdown content of the message.  See the help center article on [message formatting](/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.  **Deprecated** and to be removed once no longer required for legacy clients. Modern clients should prefer passing &#x60;\&quot;apply_markdown\&quot;: false&#x60; to request raw message content.  | [optional] 
+**RawContent** | Pointer to **string** | The raw Markdown content of the message.  See the help center article on [message formatting](zulip.com/help/format-your-message-using-markdown for details on Zulip-flavored Markdown.  **Deprecated** and to be removed once no longer required for legacy clients. Modern clients should prefer passing &#x60;\&quot;apply_markdown\&quot;: false&#x60; to request raw message content.  | [optional] 
 **Message** | Pointer to [**GetMessage200ResponseAllOfMessage**](GetMessage200ResponseAllOfMessage.md) |  | [optional] 
 
 ## Methods

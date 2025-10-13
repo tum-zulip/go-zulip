@@ -1,4 +1,4 @@
-# UpdateScheduledMessageRequestTo
+# Recipients
 
 ## Properties
 
@@ -7,20 +7,20 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewUpdateScheduledMessageRequestTo
+### NewRecipients
 
-`func NewUpdateScheduledMessageRequestTo() *UpdateScheduledMessageRequestTo`
+`func NewRecipients() *Recipients`
 
-NewUpdateScheduledMessageRequestTo instantiates a new UpdateScheduledMessageRequestTo object
+NewRecipients instantiates a new Recipients object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewUpdateScheduledMessageRequestToWithDefaults
+### NewRecipientsWithDefaults
 
-`func NewUpdateScheduledMessageRequestToWithDefaults() *UpdateScheduledMessageRequestTo`
+`func NewRecipientsWithDefaults() *Recipients`
 
-NewUpdateScheduledMessageRequestToWithDefaults instantiates a new UpdateScheduledMessageRequestTo object
+NewRecipientsWithDefaults instantiates a new Recipients object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 

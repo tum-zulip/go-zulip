@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **PathId** | Pointer to **string** | A representation of the path of the file within the repository of user-uploaded files. If the &#x60;path_id&#x60; of a file is &#x60;{realm_id}/ab/cdef/temp_file.py&#x60;, its URL will be: &#x60;{server_url}/user_uploads/{realm_id}/ab/cdef/temp_file.py&#x60;.  | [optional] 
 **Size** | Pointer to **int32** | Size of the file in bytes.  | [optional] 
 **CreateTime** | Pointer to **int32** | Time when the attachment was uploaded as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 3.0 (feature level 22). This field was previously a floating point number.  | [optional] 
-**Messages** | Pointer to [**[]AttachmentMessagesInner**](AttachmentMessagesInner.md) | Contains basic details on any Zulip messages that have been sent referencing this [uploaded file](/api/upload-file). This includes messages sent by any user in the Zulip organization who sent a message containing a link to the uploaded file.  | [optional] 
+**Messages** | Pointer to [**[]AttachmentMessagesInner**](AttachmentMessagesInner.md) | Contains basic details on any Zulip messages that have been sent referencing this [uploaded file](zulip.com/api/upload-file. This includes messages sent by any user in the Zulip organization who sent a message containing a link to the uploaded file.  | [optional] 
 
 ## Methods
 

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Result** | **interface{}** |  | 
 **Msg** | **interface{}** |  | 
 **IgnoredParametersUnsupported** | Pointer to **interface{}** |  | [optional] 
-**InviteLink** | Pointer to **string** | The URL of the [reusable invitation link](/help/invite-new-users#create-a-reusable-invitation-link) that was created by this request.  | [optional] 
+**InviteLink** | Pointer to **string** | The URL of the [reusable invitation link](zulip.com/help/invite-new-users#create-a-reusable-invitation-link that was created by this request.  | [optional] 
 
 ## Methods
 

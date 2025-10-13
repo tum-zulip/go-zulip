@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **int32** | The unique ID of the saved snippet.  | [optional] 
 **Title** | Pointer to **string** | The title of the saved snippet.  | [optional] 
-**Content** | Pointer to **string** | The content of the saved snippet in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.  | [optional] 
+**Content** | Pointer to **string** | The content of the saved snippet in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  Clients should insert this content into a message when using a saved snippet.  | [optional] 
 **DateCreated** | Pointer to **int32** | The UNIX timestamp for when the saved snippet was created, in UTC seconds.  | [optional] 
 
 ## Methods

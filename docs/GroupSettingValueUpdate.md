@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**New** | [**GroupSettingValue**](GroupSettingValue.md) | The new [group-setting value](/api/group-setting-values) for who would have this permission.  | 
-**Old** | Pointer to [**GroupSettingValue**](GroupSettingValue.md) | The expected current [group-setting value](/api/group-setting-values) for who has this permission.  | [optional] 
+**New** | [**GroupSettingValue**](GroupSettingValue.md) | The new [group-setting value](zulip.com/api/group-setting-values for who would have this permission.  | 
+**Old** | Pointer to [**GroupSettingValue**](GroupSettingValue.md) | The expected current [group-setting value](zulip.com/api/group-setting-values for who has this permission.  | [optional] 
 
 ## Methods
 

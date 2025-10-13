@@ -103,7 +103,7 @@ import (
 
 func main() {
 	title := "title_example" // string | The title of the saved snippet. 
-	content := "content_example" // string | The content of the saved snippet in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet. 
+	content := "content_example" // string | The content of the saved snippet in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  Clients should insert this content into a message when using a saved snippet. 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -129,7 +129,7 @@ Other parameters are passed through a pointer to a apiCreateSavedSnippetRequest 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **title** | **string** | The title of the saved snippet.  | 
- **content** | **string** | The content of the saved snippet in [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.  | 
+ **content** | **string** | The content of the saved snippet in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  Clients should insert this content into a message when using a saved snippet.  | 
 
 ### Return type
 
@@ -384,7 +384,7 @@ import (
 func main() {
 	savedSnippetId := int32(3) // int32 | The ID of the saved snippet to edit. 
 	title := "title_example" // string | The title of the saved snippet.  (optional)
-	content := "content_example" // string | The content of the saved snippet in the original [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.  (optional)
+	content := "content_example" // string | The content of the saved snippet in the original [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  Clients should insert this content into a message when using a saved snippet.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -415,7 +415,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **title** | **string** | The title of the saved snippet.  | 
- **content** | **string** | The content of the saved snippet in the original [Zulip-flavored Markdown](/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.  | 
+ **content** | **string** | The content of the saved snippet in the original [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  Clients should insert this content into a message when using a saved snippet.  | 
 
 ### Return type
 

@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **int32** | The ID of the custom profile field which user updated.  | [optional] 
 **Value** | Pointer to **NullableString** | User&#39;s personal value for this custom profile field, or &#x60;null&#x60; if unset.  | [optional] 
-**RenderedValue** | Pointer to **string** | The &#x60;value&#x60; rendered in HTML. Will only be present for custom profile field types that support Markdown rendering.  This user-generated HTML content should be rendered using the same CSS and client-side security protections as are used for message content.  See [Markdown message formatting](/api/message-formatting) for details on Zulip&#39;s HTML format.  | [optional] 
+**RenderedValue** | Pointer to **string** | The &#x60;value&#x60; rendered in HTML. Will only be present for custom profile field types that support Markdown rendering.  This user-generated HTML content should be rendered using the same CSS and client-side security protections as are used for message content.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip&#39;s HTML format.  | [optional] 
 
 ## Methods
 

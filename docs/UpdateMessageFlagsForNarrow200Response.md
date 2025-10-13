@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Result** | **interface{}** |  | 
 **Msg** | **interface{}** |  | 
-**IgnoredParametersUnsupported** | Pointer to **[]string** | An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.  | [optional] 
+**IgnoredParametersUnsupported** | Pointer to **[]string** | An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.  | [optional] 
 **ProcessedCount** | **int32** | The number of messages that were within the update range (at most &#x60;num_before + 1 + num_after&#x60;).  | 
 **UpdatedCount** | **int32** | The number of messages where the flag&#39;s value was changed (at most &#x60;processed_count&#x60;).  | 
 **FirstProcessedId** | **NullableInt32** | The ID of the oldest message within the update range, or &#x60;null&#x60; if the range was empty.  | 
