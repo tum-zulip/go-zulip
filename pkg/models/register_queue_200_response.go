@@ -102,7 +102,7 @@ type RegisterQueue200Response struct {
 	// Present if `realm_emoji` is present in `fetch_event_types`.  A dictionary of objects where each object describes a custom emoji that has been uploaded in this Zulip organization.
 	RealmEmoji *map[string]RealmEmoji `json:"realm_emoji,omitempty"`
 	// Present if `realm_linkifiers` is present in `fetch_event_types`.  An ordered array of objects where each object describes a single [linkifier](/help/add-a-custom-linkifier).  The order of the array reflects the order that each linkifier should be processed when linkifying messages and topics. By default, new linkifiers are ordered last. This order can be modified with [`PATCH /realm/linkifiers`](/api/reorder-linkifiers).  Clients will receive an empty array unless the event queue is registered with the client capability `{\"linkifier_url_template\": true}`. See [`client_capabilities`](/api/register-queue#parameter-client_capabilities) parameter for how this can be specified.  **Changes**: Before Zulip 7.0 (feature level 176), the `linkifier_url_template` client capability was not required. The requirement was added because linkifiers were updated to contain a URL template instead of a URL format string, which was a not backwards-compatible change.  New in Zulip 4.0 (feature level 54). Clients can access this data for servers on earlier feature levels via the legacy `realm_filters` property.
-	RealmLinkifiers []RegisterQueue200ResponseAllOfRealmLinkifiersInner `json:"realm_linkifiers,omitempty"`
+	RealmLinkifiers []RealmLinkifiers `json:"realm_linkifiers,omitempty"`
 	// Legacy property for [linkifiers](/help/add-a-custom-linkifier). Present if `realm_filters` is present in `fetch_event_types`.  When present, this is always an empty array.  **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `\"#(?P<id>[123])\"`. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be `\"https://realm.com/my_realm_filter/%(id)s\"`. And the third element was the ID of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the `realm_linkifiers` key.
 	// Deprecated
 	RealmFilters [][]RealmFilterTuple `json:"realm_filters,omitempty"`
@@ -113,7 +113,7 @@ type RegisterQueue200Response struct {
 	// Present if `realm_bot` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a bot that the current user can administer. If the current user is an organization administrator, this will include all bots in the organization. Otherwise, it will only include bots owned by the user (either because the user created the bot or an administrator transferred the bot's ownership to the user).
 	RealmBots []Bot `json:"realm_bots,omitempty"`
 	// Present if `realm_embedded_bots` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes an type of embedded bot that is available to be configured on this Zulip server.  Clients only need these data if they contain UI for creating or administering bots.
-	RealmEmbeddedBots []RegisterQueue200ResponseAllOfRealmEmbeddedBotsInner `json:"realm_embedded_bots,omitempty"`
+	RealmEmbeddedBots []RealmEmbeddedBots `json:"realm_embedded_bots,omitempty"`
 	// Present if `realm_incoming_webhook_bots` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a type of incoming webhook integration that is available to be configured on this Zulip server.  Clients only need these data if they contain UI for creating or administering bots.
 	RealmIncomingWebhookBots []RealmIncomingWebhookBot `json:"realm_incoming_webhook_bots,omitempty"`
 	// Present if `recent_private_conversations` is present in `fetch_event_types`.  An array of dictionaries containing data on all direct message and group direct message conversations that the user has received (or sent) messages in, organized by conversation. This data set is designed to support UI elements such as the \"Direct messages\" widget in the web application showing recent direct message conversations that the user has participated in.  \"Recent\" is defined as the server's discretion; the original implementation interpreted that as \"the 1000 most recent direct messages the user received\".
@@ -127,10 +127,10 @@ type RegisterQueue200Response struct {
 	// Present if `subscription` is present in `fetch_event_types`.  A array of dictionaries where each dictionary describes one of the channels the user has unsubscribed from but was previously subscribed to along with the subscription details.  Unlike `never_subscribed`, the user might have messages in their personal message history that were sent to these channels.  **Changes**: Prior to Zulip 10.0 (feature level 349), if a user was in `can_administer_channel_group` of a channel that they had unsubscribed from, but not an organization administrator, the channel in question would not be part of this array.  Removed `email_address` field from the dictionary in Zulip 8.0 (feature level 226).  Removed `role` field from the dictionary in Zulip 6.0 (feature level 133).
 	Unsubscribed []Subscription `json:"unsubscribed,omitempty"`
 	// Present if `subscription` is present in `fetch_event_types`.  A array of dictionaries where each dictionary describes one of the channels that is visible to the user and the user has never been subscribed to.  Important for clients containing UI where one can browse channels to subscribe to.  **Changes**: Before Zulip 10.0 (feature level 362), archived channels did not appear in this list, even if the `archived_channels` [client capability][client-capabilities] was declared by the client.  Prior to Zulip 10.0 (feature level 349), if a user was in `can_administer_channel_group` of a channel that they never subscribed to, but not an organization administrator, the channel in question would not be part of this array.
-	NeverSubscribed []RegisterQueue200ResponseAllOfNeverSubscribedInner `json:"never_subscribed,omitempty"`
+	NeverSubscribed []NeverSubscribed `json:"never_subscribed,omitempty"`
 	// Present if `channel_folders` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes one of the channel folders in the organization.  Only channel folders with one or more public web channels are visible to spectators.  **Changes**: New in Zulip 11.0 (feature level 389).
-	ChannelFolders []ChannelFolder                          `json:"channel_folders,omitempty"`
-	UnreadMsgs     *RegisterQueue200ResponseAllOfUnreadMsgs `json:"unread_msgs,omitempty"`
+	ChannelFolders []ChannelFolder `json:"channel_folders,omitempty"`
+	UnreadMsgs     *UnreadMsgs     `json:"unread_msgs,omitempty"`
 	// Present if `starred_messages` is present in `fetch_event_types`.  Array containing the IDs of all messages which have been [starred](/help/star-a-message) by the user.
 	StarredMessages []int32 `json:"starred_messages,omitempty"`
 	// Present if `stream` is present in `fetch_event_types`.  Array of dictionaries where each dictionary contains details about a single channel in the organization that is visible to the user.  For organization administrators, this will include all private channels in the organization.  **Changes**: Before Zulip 11.0 (feature level 378), archived channels did not appear in this list, even if the `archived_channels` [client capability][client-capabilities] was declared by the client.  As of Zulip 8.0 (feature level 205), this will include all web-public channels in the organization as well.
@@ -142,16 +142,16 @@ type RegisterQueue200Response struct {
 	// Present if `stop_words` is present in `fetch_event_types`.  An array containing the stop words used by the Zulip server's full-text search implementation. Useful for showing helpful error messages when a search returns limited results because a stop word in the query was ignored.
 	StopWords []string `json:"stop_words,omitempty"`
 	// Present if `user_status` is present in `fetch_event_types`.  A dictionary which contains the [status](/help/status-and-availability) of all users in the Zulip organization who have set a status.  **Changes**: The emoji parameters are new in Zulip 5.0 (feature level 86). Previously, Zulip did not support emoji associated with statuses.
-	UserStatus   map[string]RegisterQueue200ResponseAllOfUserStatus `json:"user_status,omitempty"`
-	UserSettings *RegisterQueue200ResponseAllOfUserSettings         `json:"user_settings,omitempty"`
+	UserStatus   map[string]UserStatus `json:"user_status,omitempty"`
+	UserSettings *UserSettings         `json:"user_settings,omitempty"`
 	// Present if `user_topic` is present in `fetch_event_types`.  **Changes**: New in Zulip 6.0 (feature level 134), deprecating and replacing the previous `muted_topics` structure.
-	UserTopics []RegisterQueue200ResponseAllOfUserTopicsInner `json:"user_topics,omitempty"`
+	UserTopics []UserTopics `json:"user_topics,omitempty"`
 	// Present if `video_calls` is present in `fetch_event_types`.  A boolean which signifies whether the user has a Zoom token and has thus completed OAuth flow for the [Zoom integration](/help/configure-call-provider). Clients need to know whether initiating Zoom OAuth is required before creating a Zoom call.
 	HasZoomToken *bool `json:"has_zoom_token,omitempty"`
 	// Present if `giphy` is present in `fetch_event_types`.  GIPHY's client-side SDKs needs this API key to use the GIPHY API. GIPHY API keys are not secret (their main purpose appears to be allowing GIPHY to block a problematic app). Please don't use our API key for an app unrelated to Zulip.  Developers of clients should also read the [GIPHY API TOS](https://support.giphy.com/hc/en-us/articles/360028134111-GIPHY-API-Terms-of-Service-) before using this API key.  **Changes**: Added in Zulip 4.0 (feature level 47).
 	GiphyApiKey *string `json:"giphy_api_key,omitempty"`
 	// Present if `push_device` is present in `fetch_event_types`.  Dictionary where each entry describes the user's push device's registration status and error code (if registration failed).  **Changes**: New in Zulip 11.0 (feature level 406).
-	PushDevices *map[string]RegisterQueue200ResponseAllOfPushDevicesValue `json:"push_devices,omitempty"`
+	PushDevices *map[string]PushDevicesValue `json:"push_devices,omitempty"`
 	// Present if `update_global_notifications` is present in `fetch_event_types` and only for clients that did not include `user_settings_object` in their [`client_capabilities`][capabilities] when registering the event queue.  The current value of this global notification setting for the user. See [PATCH /settings](/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: /api/register-queue#parameter-client_capabilities
 	// Deprecated
 	EnableDesktopNotifications *bool `json:"enable_desktop_notifications,omitempty"`
@@ -467,7 +467,7 @@ type RegisterQueue200Response struct {
 	// Present if `realm` is present in `fetch_event_types`.  This Zulip server's configured minimum `zxcvbn` minimum guesses. Necessary for password change UI to show whether the password will be accepted.
 	PasswordMinGuesses *int32 `json:"password_min_guesses,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  Dictionary where each entry describes a valid rating that is configured on this server and could be selected by an organization administrator.  Useful for administrative settings UI that allows changing the allowed rating of GIFs.
-	GiphyRatingOptions *map[string]RegisterQueue200ResponseAllOfGiphyRatingOptionsValue `json:"giphy_rating_options,omitempty"`
+	GiphyRatingOptions *map[string]GiphyRatingOptionsValue `json:"giphy_rating_options,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  The maximum file size that can be uploaded to this Zulip organization.
 	MaxFileUploadSizeMib *int32 `json:"max_file_upload_size_mib,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  The maximum avatar size that can be uploaded to this Zulip server.
@@ -493,8 +493,8 @@ type RegisterQueue200Response struct {
 	// Present if `realm` is present in `fetch_event_types`  Whether topic summarization is enabled in the server or not depending upon whether `TOPIC_SUMMARIZATION_MODEL` is set or not.  **Changes**: New in Zulip 10.0 (feature level 350).
 	ServerCanSummarizeTopics *bool `json:"server_can_summarize_topics,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  Recommended client-side HTTP request timeout for [`GET /events`](/api/get-events) calls. This is guaranteed to be somewhat greater than the heartbeat frequency. It is important that clients respect this parameter, so that increases in the heartbeat frequency do not break clients.  **Changes**: New in Zulip 5.0 (feature level 74). Previously, this was hardcoded to 90 seconds, and clients should use that as a fallback value when interacting with servers where this field is not present.
-	EventQueueLongpollTimeoutSeconds *int32                                     `json:"event_queue_longpoll_timeout_seconds,omitempty"`
-	RealmBilling                     *RegisterQueue200ResponseAllOfRealmBilling `json:"realm_billing,omitempty"`
+	EventQueueLongpollTimeoutSeconds *int32        `json:"event_queue_longpoll_timeout_seconds,omitempty"`
+	RealmBilling                     *RealmBilling `json:"realm_billing,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  The ID of the private channel to which messages flagged by users for moderation are sent. Moderators can use this channel to review and act on reported content.  Will be `-1` if moderation requests are disabled.  Clients should check whether moderation requests are disabled to determine whether to present a \"report message\" feature in their UI within a given organization.  **Changes**: New in Zulip 10.0 (feature level 331). Previously, no \"report message\" feature existed in Zulip.
 	RealmModerationRequestChannelId *int32 `json:"realm_moderation_request_channel_id,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  The ID of the channel to which automated messages announcing the [creation of new channels][new-channel-announce] are sent.  Will be `-1` if such automated messages are disabled.  Since these automated messages are sent by the server, this field is primarily relevant to clients containing UI for changing it.  [new-channel-announce]: /help/configure-automated-notices#new-channel-announcements  **Changes**: In Zulip 9.0 (feature level 241), renamed 'realm_notifications_stream_id' to `realm_new_stream_announcements_stream_id`.
@@ -504,8 +504,8 @@ type RegisterQueue200Response struct {
 	// Present if `realm` is present in `fetch_event_types`.  The ID of the channel to which automated messages announcing new features or other end-user updates about the Zulip software are sent.  Will be `-1` if such automated messages are disabled.  Since these automated messages are sent by the server, this field is primarily relevant to clients containing UI for changing it.  **Changes**: New in Zulip 9.0 (feature level 242).
 	RealmZulipUpdateAnnouncementsStreamId *int32 `json:"realm_zulip_update_announcements_stream_id,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`.  Clients declaring the `empty_topic_name` client capability should use the value of `realm_empty_topic_display_name` to determine how to display the empty string topic.  Clients not declaring the `empty_topic_name` client capability receive `realm_empty_topic_display_name` value as the topic name replacing empty string.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic name.
-	RealmEmptyTopicDisplayName *string                                                 `json:"realm_empty_topic_display_name,omitempty"`
-	RealmUserSettingsDefaults  *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults `json:"realm_user_settings_defaults,omitempty"`
+	RealmEmptyTopicDisplayName *string                    `json:"realm_empty_topic_display_name,omitempty"`
+	RealmUserSettingsDefaults  *RealmUserSettingsDefaults `json:"realm_user_settings_defaults,omitempty"`
 	// Present if `realm_user` is present in `fetch_event_types`.  A array of dictionaries where each entry describes a user whose account has not been deactivated. Note that unlike the usual User dictionary, this does not contain the `is_active` key, as all the users present in this array have active accounts.  If the current user is a guest whose access to users is limited by a `can_access_all_users_group` policy, and the event queue was registered with the `user_list_incomplete` client capability, then users that the current user cannot access will not be included in this array. If the current user's access to a user is restricted but the client lacks this capability, then that inaccessible user will appear in the users array as an \"Unknown user\" object with the usual format but placeholder data whose only variable content is the user ID.  See also `cross_realm_bots` and `realm_non_active_users`.  **Changes**: Before Zulip 8.0 (feature level 232), the `user_list_incomplete` client capability did not exist, and so all clients whose access to a new user was prevented by `can_access_all_users_group` policy would receive a fake \"Unknown user\" event for such users.
 	RealmUsers []User `json:"realm_users,omitempty"`
 	// Present if `realm_user` is present in `fetch_event_types`.  A array of dictionaries where each entry describes a user whose account has been deactivated. Note that unlike the usual User dictionary this does not contain the `is_active` key as all the users present in this array have deactivated accounts.
@@ -546,8 +546,8 @@ type RegisterQueue200Response struct {
 	// Present if `realm_user` is present in `fetch_event_types`.  The full name of the current user.
 	FullName *string `json:"full_name,omitempty"`
 	// Present if `realm_user` is present in `fetch_event_types`.  Array of dictionaries where each dictionary contains details of a single cross realm bot. Cross-realm bots are special system bot accounts like Notification Bot.  Most clients will want to combine this with `realm_users` in many contexts.
-	CrossRealmBots                    []RegisterQueue200ResponseAllOfCrossRealmBotsInner `json:"cross_realm_bots,omitempty"`
-	ServerSupportedPermissionSettings *ServerSupportedPermissionSettings                 `json:"server_supported_permission_settings,omitempty"`
+	CrossRealmBots                    []CrossRealmBots                   `json:"cross_realm_bots,omitempty"`
+	ServerSupportedPermissionSettings *ServerSupportedPermissionSettings `json:"server_supported_permission_settings,omitempty"`
 	// Maximum number of new subscribers for which the server will respect the `send_new_subscription_messages` parameter when [adding subscribers to a channel](/api/subscribe#parameter-send_new_subscription_messages).  **Changes**: New in Zulip 11.0 (feature level 397).
 	MaxBulkNewSubscriptionMessages *float32 `json:"max_bulk_new_subscription_messages,omitempty"`
 }
@@ -1888,9 +1888,9 @@ func (o *RegisterQueue200Response) SetRealmEmoji(v map[string]RealmEmoji) {
 }
 
 // GetRealmLinkifiers returns the RealmLinkifiers field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetRealmLinkifiers() []RegisterQueue200ResponseAllOfRealmLinkifiersInner {
+func (o *RegisterQueue200Response) GetRealmLinkifiers() []RealmLinkifiers {
 	if o == nil || IsNil(o.RealmLinkifiers) {
-		var ret []RegisterQueue200ResponseAllOfRealmLinkifiersInner
+		var ret []RealmLinkifiers
 		return ret
 	}
 	return o.RealmLinkifiers
@@ -1898,7 +1898,7 @@ func (o *RegisterQueue200Response) GetRealmLinkifiers() []RegisterQueue200Respon
 
 // GetRealmLinkifiersOk returns a tuple with the RealmLinkifiers field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetRealmLinkifiersOk() ([]RegisterQueue200ResponseAllOfRealmLinkifiersInner, bool) {
+func (o *RegisterQueue200Response) GetRealmLinkifiersOk() ([]RealmLinkifiers, bool) {
 	if o == nil || IsNil(o.RealmLinkifiers) {
 		return nil, false
 	}
@@ -1914,8 +1914,8 @@ func (o *RegisterQueue200Response) HasRealmLinkifiers() bool {
 	return false
 }
 
-// SetRealmLinkifiers gets a reference to the given []RegisterQueue200ResponseAllOfRealmLinkifiersInner and assigns it to the RealmLinkifiers field.
-func (o *RegisterQueue200Response) SetRealmLinkifiers(v []RegisterQueue200ResponseAllOfRealmLinkifiersInner) {
+// SetRealmLinkifiers gets a reference to the given []RealmLinkifiers and assigns it to the RealmLinkifiers field.
+func (o *RegisterQueue200Response) SetRealmLinkifiers(v []RealmLinkifiers) {
 	o.RealmLinkifiers = v
 }
 
@@ -2051,9 +2051,9 @@ func (o *RegisterQueue200Response) SetRealmBots(v []Bot) {
 }
 
 // GetRealmEmbeddedBots returns the RealmEmbeddedBots field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetRealmEmbeddedBots() []RegisterQueue200ResponseAllOfRealmEmbeddedBotsInner {
+func (o *RegisterQueue200Response) GetRealmEmbeddedBots() []RealmEmbeddedBots {
 	if o == nil || IsNil(o.RealmEmbeddedBots) {
-		var ret []RegisterQueue200ResponseAllOfRealmEmbeddedBotsInner
+		var ret []RealmEmbeddedBots
 		return ret
 	}
 	return o.RealmEmbeddedBots
@@ -2061,7 +2061,7 @@ func (o *RegisterQueue200Response) GetRealmEmbeddedBots() []RegisterQueue200Resp
 
 // GetRealmEmbeddedBotsOk returns a tuple with the RealmEmbeddedBots field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetRealmEmbeddedBotsOk() ([]RegisterQueue200ResponseAllOfRealmEmbeddedBotsInner, bool) {
+func (o *RegisterQueue200Response) GetRealmEmbeddedBotsOk() ([]RealmEmbeddedBots, bool) {
 	if o == nil || IsNil(o.RealmEmbeddedBots) {
 		return nil, false
 	}
@@ -2077,8 +2077,8 @@ func (o *RegisterQueue200Response) HasRealmEmbeddedBots() bool {
 	return false
 }
 
-// SetRealmEmbeddedBots gets a reference to the given []RegisterQueue200ResponseAllOfRealmEmbeddedBotsInner and assigns it to the RealmEmbeddedBots field.
-func (o *RegisterQueue200Response) SetRealmEmbeddedBots(v []RegisterQueue200ResponseAllOfRealmEmbeddedBotsInner) {
+// SetRealmEmbeddedBots gets a reference to the given []RealmEmbeddedBots and assigns it to the RealmEmbeddedBots field.
+func (o *RegisterQueue200Response) SetRealmEmbeddedBots(v []RealmEmbeddedBots) {
 	o.RealmEmbeddedBots = v
 }
 
@@ -2275,9 +2275,9 @@ func (o *RegisterQueue200Response) SetUnsubscribed(v []Subscription) {
 }
 
 // GetNeverSubscribed returns the NeverSubscribed field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetNeverSubscribed() []RegisterQueue200ResponseAllOfNeverSubscribedInner {
+func (o *RegisterQueue200Response) GetNeverSubscribed() []NeverSubscribed {
 	if o == nil || IsNil(o.NeverSubscribed) {
-		var ret []RegisterQueue200ResponseAllOfNeverSubscribedInner
+		var ret []NeverSubscribed
 		return ret
 	}
 	return o.NeverSubscribed
@@ -2285,7 +2285,7 @@ func (o *RegisterQueue200Response) GetNeverSubscribed() []RegisterQueue200Respon
 
 // GetNeverSubscribedOk returns a tuple with the NeverSubscribed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetNeverSubscribedOk() ([]RegisterQueue200ResponseAllOfNeverSubscribedInner, bool) {
+func (o *RegisterQueue200Response) GetNeverSubscribedOk() ([]NeverSubscribed, bool) {
 	if o == nil || IsNil(o.NeverSubscribed) {
 		return nil, false
 	}
@@ -2301,8 +2301,8 @@ func (o *RegisterQueue200Response) HasNeverSubscribed() bool {
 	return false
 }
 
-// SetNeverSubscribed gets a reference to the given []RegisterQueue200ResponseAllOfNeverSubscribedInner and assigns it to the NeverSubscribed field.
-func (o *RegisterQueue200Response) SetNeverSubscribed(v []RegisterQueue200ResponseAllOfNeverSubscribedInner) {
+// SetNeverSubscribed gets a reference to the given []NeverSubscribed and assigns it to the NeverSubscribed field.
+func (o *RegisterQueue200Response) SetNeverSubscribed(v []NeverSubscribed) {
 	o.NeverSubscribed = v
 }
 
@@ -2339,9 +2339,9 @@ func (o *RegisterQueue200Response) SetChannelFolders(v []ChannelFolder) {
 }
 
 // GetUnreadMsgs returns the UnreadMsgs field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetUnreadMsgs() RegisterQueue200ResponseAllOfUnreadMsgs {
+func (o *RegisterQueue200Response) GetUnreadMsgs() UnreadMsgs {
 	if o == nil || IsNil(o.UnreadMsgs) {
-		var ret RegisterQueue200ResponseAllOfUnreadMsgs
+		var ret UnreadMsgs
 		return ret
 	}
 	return *o.UnreadMsgs
@@ -2349,7 +2349,7 @@ func (o *RegisterQueue200Response) GetUnreadMsgs() RegisterQueue200ResponseAllOf
 
 // GetUnreadMsgsOk returns a tuple with the UnreadMsgs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetUnreadMsgsOk() (*RegisterQueue200ResponseAllOfUnreadMsgs, bool) {
+func (o *RegisterQueue200Response) GetUnreadMsgsOk() (*UnreadMsgs, bool) {
 	if o == nil || IsNil(o.UnreadMsgs) {
 		return nil, false
 	}
@@ -2365,8 +2365,8 @@ func (o *RegisterQueue200Response) HasUnreadMsgs() bool {
 	return false
 }
 
-// SetUnreadMsgs gets a reference to the given RegisterQueue200ResponseAllOfUnreadMsgs and assigns it to the UnreadMsgs field.
-func (o *RegisterQueue200Response) SetUnreadMsgs(v RegisterQueue200ResponseAllOfUnreadMsgs) {
+// SetUnreadMsgs gets a reference to the given UnreadMsgs and assigns it to the UnreadMsgs field.
+func (o *RegisterQueue200Response) SetUnreadMsgs(v UnreadMsgs) {
 	o.UnreadMsgs = &v
 }
 
@@ -2531,9 +2531,9 @@ func (o *RegisterQueue200Response) SetStopWords(v []string) {
 }
 
 // GetUserStatus returns the UserStatus field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetUserStatus() map[string]RegisterQueue200ResponseAllOfUserStatus {
+func (o *RegisterQueue200Response) GetUserStatus() map[string]UserStatus {
 	if o == nil || IsNil(o.UserStatus) {
-		var ret map[string]RegisterQueue200ResponseAllOfUserStatus
+		var ret map[string]UserStatus
 		return ret
 	}
 	return o.UserStatus
@@ -2541,9 +2541,9 @@ func (o *RegisterQueue200Response) GetUserStatus() map[string]RegisterQueue200Re
 
 // GetUserStatusOk returns a tuple with the UserStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetUserStatusOk() (map[string]RegisterQueue200ResponseAllOfUserStatus, bool) {
+func (o *RegisterQueue200Response) GetUserStatusOk() (map[string]UserStatus, bool) {
 	if o == nil || IsNil(o.UserStatus) {
-		return map[string]RegisterQueue200ResponseAllOfUserStatus{}, false
+		return map[string]UserStatus{}, false
 	}
 	return o.UserStatus, true
 }
@@ -2557,15 +2557,15 @@ func (o *RegisterQueue200Response) HasUserStatus() bool {
 	return false
 }
 
-// SetUserStatus gets a reference to the given map[string]RegisterQueue200ResponseAllOfUserStatus and assigns it to the UserStatus field.
-func (o *RegisterQueue200Response) SetUserStatus(v map[string]RegisterQueue200ResponseAllOfUserStatus) {
+// SetUserStatus gets a reference to the given map[string]UserStatus and assigns it to the UserStatus field.
+func (o *RegisterQueue200Response) SetUserStatus(v map[string]UserStatus) {
 	o.UserStatus = v
 }
 
 // GetUserSettings returns the UserSettings field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetUserSettings() RegisterQueue200ResponseAllOfUserSettings {
+func (o *RegisterQueue200Response) GetUserSettings() UserSettings {
 	if o == nil || IsNil(o.UserSettings) {
-		var ret RegisterQueue200ResponseAllOfUserSettings
+		var ret UserSettings
 		return ret
 	}
 	return *o.UserSettings
@@ -2573,7 +2573,7 @@ func (o *RegisterQueue200Response) GetUserSettings() RegisterQueue200ResponseAll
 
 // GetUserSettingsOk returns a tuple with the UserSettings field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetUserSettingsOk() (*RegisterQueue200ResponseAllOfUserSettings, bool) {
+func (o *RegisterQueue200Response) GetUserSettingsOk() (*UserSettings, bool) {
 	if o == nil || IsNil(o.UserSettings) {
 		return nil, false
 	}
@@ -2589,15 +2589,15 @@ func (o *RegisterQueue200Response) HasUserSettings() bool {
 	return false
 }
 
-// SetUserSettings gets a reference to the given RegisterQueue200ResponseAllOfUserSettings and assigns it to the UserSettings field.
-func (o *RegisterQueue200Response) SetUserSettings(v RegisterQueue200ResponseAllOfUserSettings) {
+// SetUserSettings gets a reference to the given UserSettings and assigns it to the UserSettings field.
+func (o *RegisterQueue200Response) SetUserSettings(v UserSettings) {
 	o.UserSettings = &v
 }
 
 // GetUserTopics returns the UserTopics field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetUserTopics() []RegisterQueue200ResponseAllOfUserTopicsInner {
+func (o *RegisterQueue200Response) GetUserTopics() []UserTopics {
 	if o == nil || IsNil(o.UserTopics) {
-		var ret []RegisterQueue200ResponseAllOfUserTopicsInner
+		var ret []UserTopics
 		return ret
 	}
 	return o.UserTopics
@@ -2605,7 +2605,7 @@ func (o *RegisterQueue200Response) GetUserTopics() []RegisterQueue200ResponseAll
 
 // GetUserTopicsOk returns a tuple with the UserTopics field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetUserTopicsOk() ([]RegisterQueue200ResponseAllOfUserTopicsInner, bool) {
+func (o *RegisterQueue200Response) GetUserTopicsOk() ([]UserTopics, bool) {
 	if o == nil || IsNil(o.UserTopics) {
 		return nil, false
 	}
@@ -2621,8 +2621,8 @@ func (o *RegisterQueue200Response) HasUserTopics() bool {
 	return false
 }
 
-// SetUserTopics gets a reference to the given []RegisterQueue200ResponseAllOfUserTopicsInner and assigns it to the UserTopics field.
-func (o *RegisterQueue200Response) SetUserTopics(v []RegisterQueue200ResponseAllOfUserTopicsInner) {
+// SetUserTopics gets a reference to the given []UserTopics and assigns it to the UserTopics field.
+func (o *RegisterQueue200Response) SetUserTopics(v []UserTopics) {
 	o.UserTopics = v
 }
 
@@ -2691,9 +2691,9 @@ func (o *RegisterQueue200Response) SetGiphyApiKey(v string) {
 }
 
 // GetPushDevices returns the PushDevices field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetPushDevices() map[string]RegisterQueue200ResponseAllOfPushDevicesValue {
+func (o *RegisterQueue200Response) GetPushDevices() map[string]PushDevicesValue {
 	if o == nil || IsNil(o.PushDevices) {
-		var ret map[string]RegisterQueue200ResponseAllOfPushDevicesValue
+		var ret map[string]PushDevicesValue
 		return ret
 	}
 	return *o.PushDevices
@@ -2701,7 +2701,7 @@ func (o *RegisterQueue200Response) GetPushDevices() map[string]RegisterQueue200R
 
 // GetPushDevicesOk returns a tuple with the PushDevices field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetPushDevicesOk() (*map[string]RegisterQueue200ResponseAllOfPushDevicesValue, bool) {
+func (o *RegisterQueue200Response) GetPushDevicesOk() (*map[string]PushDevicesValue, bool) {
 	if o == nil || IsNil(o.PushDevices) {
 		return nil, false
 	}
@@ -2717,8 +2717,8 @@ func (o *RegisterQueue200Response) HasPushDevices() bool {
 	return false
 }
 
-// SetPushDevices gets a reference to the given map[string]RegisterQueue200ResponseAllOfPushDevicesValue and assigns it to the PushDevices field.
-func (o *RegisterQueue200Response) SetPushDevices(v map[string]RegisterQueue200ResponseAllOfPushDevicesValue) {
+// SetPushDevices gets a reference to the given map[string]PushDevicesValue and assigns it to the PushDevices field.
+func (o *RegisterQueue200Response) SetPushDevices(v map[string]PushDevicesValue) {
 	o.PushDevices = &v
 }
 
@@ -7252,9 +7252,9 @@ func (o *RegisterQueue200Response) SetPasswordMinGuesses(v int32) {
 }
 
 // GetGiphyRatingOptions returns the GiphyRatingOptions field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetGiphyRatingOptions() map[string]RegisterQueue200ResponseAllOfGiphyRatingOptionsValue {
+func (o *RegisterQueue200Response) GetGiphyRatingOptions() map[string]GiphyRatingOptionsValue {
 	if o == nil || IsNil(o.GiphyRatingOptions) {
-		var ret map[string]RegisterQueue200ResponseAllOfGiphyRatingOptionsValue
+		var ret map[string]GiphyRatingOptionsValue
 		return ret
 	}
 	return *o.GiphyRatingOptions
@@ -7262,7 +7262,7 @@ func (o *RegisterQueue200Response) GetGiphyRatingOptions() map[string]RegisterQu
 
 // GetGiphyRatingOptionsOk returns a tuple with the GiphyRatingOptions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetGiphyRatingOptionsOk() (*map[string]RegisterQueue200ResponseAllOfGiphyRatingOptionsValue, bool) {
+func (o *RegisterQueue200Response) GetGiphyRatingOptionsOk() (*map[string]GiphyRatingOptionsValue, bool) {
 	if o == nil || IsNil(o.GiphyRatingOptions) {
 		return nil, false
 	}
@@ -7278,8 +7278,8 @@ func (o *RegisterQueue200Response) HasGiphyRatingOptions() bool {
 	return false
 }
 
-// SetGiphyRatingOptions gets a reference to the given map[string]RegisterQueue200ResponseAllOfGiphyRatingOptionsValue and assigns it to the GiphyRatingOptions field.
-func (o *RegisterQueue200Response) SetGiphyRatingOptions(v map[string]RegisterQueue200ResponseAllOfGiphyRatingOptionsValue) {
+// SetGiphyRatingOptions gets a reference to the given map[string]GiphyRatingOptionsValue and assigns it to the GiphyRatingOptions field.
+func (o *RegisterQueue200Response) SetGiphyRatingOptions(v map[string]GiphyRatingOptionsValue) {
 	o.GiphyRatingOptions = &v
 }
 
@@ -7711,9 +7711,9 @@ func (o *RegisterQueue200Response) SetEventQueueLongpollTimeoutSeconds(v int32) 
 }
 
 // GetRealmBilling returns the RealmBilling field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetRealmBilling() RegisterQueue200ResponseAllOfRealmBilling {
+func (o *RegisterQueue200Response) GetRealmBilling() RealmBilling {
 	if o == nil || IsNil(o.RealmBilling) {
-		var ret RegisterQueue200ResponseAllOfRealmBilling
+		var ret RealmBilling
 		return ret
 	}
 	return *o.RealmBilling
@@ -7721,7 +7721,7 @@ func (o *RegisterQueue200Response) GetRealmBilling() RegisterQueue200ResponseAll
 
 // GetRealmBillingOk returns a tuple with the RealmBilling field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetRealmBillingOk() (*RegisterQueue200ResponseAllOfRealmBilling, bool) {
+func (o *RegisterQueue200Response) GetRealmBillingOk() (*RealmBilling, bool) {
 	if o == nil || IsNil(o.RealmBilling) {
 		return nil, false
 	}
@@ -7737,8 +7737,8 @@ func (o *RegisterQueue200Response) HasRealmBilling() bool {
 	return false
 }
 
-// SetRealmBilling gets a reference to the given RegisterQueue200ResponseAllOfRealmBilling and assigns it to the RealmBilling field.
-func (o *RegisterQueue200Response) SetRealmBilling(v RegisterQueue200ResponseAllOfRealmBilling) {
+// SetRealmBilling gets a reference to the given RealmBilling and assigns it to the RealmBilling field.
+func (o *RegisterQueue200Response) SetRealmBilling(v RealmBilling) {
 	o.RealmBilling = &v
 }
 
@@ -7903,9 +7903,9 @@ func (o *RegisterQueue200Response) SetRealmEmptyTopicDisplayName(v string) {
 }
 
 // GetRealmUserSettingsDefaults returns the RealmUserSettingsDefaults field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetRealmUserSettingsDefaults() RegisterQueue200ResponseAllOfRealmUserSettingsDefaults {
+func (o *RegisterQueue200Response) GetRealmUserSettingsDefaults() RealmUserSettingsDefaults {
 	if o == nil || IsNil(o.RealmUserSettingsDefaults) {
-		var ret RegisterQueue200ResponseAllOfRealmUserSettingsDefaults
+		var ret RealmUserSettingsDefaults
 		return ret
 	}
 	return *o.RealmUserSettingsDefaults
@@ -7913,7 +7913,7 @@ func (o *RegisterQueue200Response) GetRealmUserSettingsDefaults() RegisterQueue2
 
 // GetRealmUserSettingsDefaultsOk returns a tuple with the RealmUserSettingsDefaults field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetRealmUserSettingsDefaultsOk() (*RegisterQueue200ResponseAllOfRealmUserSettingsDefaults, bool) {
+func (o *RegisterQueue200Response) GetRealmUserSettingsDefaultsOk() (*RealmUserSettingsDefaults, bool) {
 	if o == nil || IsNil(o.RealmUserSettingsDefaults) {
 		return nil, false
 	}
@@ -7929,8 +7929,8 @@ func (o *RegisterQueue200Response) HasRealmUserSettingsDefaults() bool {
 	return false
 }
 
-// SetRealmUserSettingsDefaults gets a reference to the given RegisterQueue200ResponseAllOfRealmUserSettingsDefaults and assigns it to the RealmUserSettingsDefaults field.
-func (o *RegisterQueue200Response) SetRealmUserSettingsDefaults(v RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) {
+// SetRealmUserSettingsDefaults gets a reference to the given RealmUserSettingsDefaults and assigns it to the RealmUserSettingsDefaults field.
+func (o *RegisterQueue200Response) SetRealmUserSettingsDefaults(v RealmUserSettingsDefaults) {
 	o.RealmUserSettingsDefaults = &v
 }
 
@@ -8546,9 +8546,9 @@ func (o *RegisterQueue200Response) SetFullName(v string) {
 }
 
 // GetCrossRealmBots returns the CrossRealmBots field value if set, zero value otherwise.
-func (o *RegisterQueue200Response) GetCrossRealmBots() []RegisterQueue200ResponseAllOfCrossRealmBotsInner {
+func (o *RegisterQueue200Response) GetCrossRealmBots() []CrossRealmBots {
 	if o == nil || IsNil(o.CrossRealmBots) {
-		var ret []RegisterQueue200ResponseAllOfCrossRealmBotsInner
+		var ret []CrossRealmBots
 		return ret
 	}
 	return o.CrossRealmBots
@@ -8556,7 +8556,7 @@ func (o *RegisterQueue200Response) GetCrossRealmBots() []RegisterQueue200Respons
 
 // GetCrossRealmBotsOk returns a tuple with the CrossRealmBots field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200Response) GetCrossRealmBotsOk() ([]RegisterQueue200ResponseAllOfCrossRealmBotsInner, bool) {
+func (o *RegisterQueue200Response) GetCrossRealmBotsOk() ([]CrossRealmBots, bool) {
 	if o == nil || IsNil(o.CrossRealmBots) {
 		return nil, false
 	}
@@ -8572,8 +8572,8 @@ func (o *RegisterQueue200Response) HasCrossRealmBots() bool {
 	return false
 }
 
-// SetCrossRealmBots gets a reference to the given []RegisterQueue200ResponseAllOfCrossRealmBotsInner and assigns it to the CrossRealmBots field.
-func (o *RegisterQueue200Response) SetCrossRealmBots(v []RegisterQueue200ResponseAllOfCrossRealmBotsInner) {
+// SetCrossRealmBots gets a reference to the given []CrossRealmBots and assigns it to the CrossRealmBots field.
+func (o *RegisterQueue200Response) SetCrossRealmBots(v []CrossRealmBots) {
 	o.CrossRealmBots = v
 }
 

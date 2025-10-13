@@ -26,7 +26,7 @@ type CheckMessagesMatchNarrow200Response struct {
 	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// A dictionary with a key for each queried message that matches the narrow, with message IDs as keys and search rendering data as values.
-	Messages *map[string]CheckMessagesMatchNarrow200ResponseAllOfMessagesValue `json:"messages,omitempty"`
+	Messages *map[string]NarrowMatch `json:"messages,omitempty"`
 }
 
 type _CheckMessagesMatchNarrow200Response CheckMessagesMatchNarrow200Response
@@ -131,9 +131,9 @@ func (o *CheckMessagesMatchNarrow200Response) SetIgnoredParametersUnsupported(v 
 }
 
 // GetMessages returns the Messages field value if set, zero value otherwise.
-func (o *CheckMessagesMatchNarrow200Response) GetMessages() map[string]CheckMessagesMatchNarrow200ResponseAllOfMessagesValue {
+func (o *CheckMessagesMatchNarrow200Response) GetMessages() map[string]NarrowMatch {
 	if o == nil || IsNil(o.Messages) {
-		var ret map[string]CheckMessagesMatchNarrow200ResponseAllOfMessagesValue
+		var ret map[string]NarrowMatch
 		return ret
 	}
 	return *o.Messages
@@ -141,7 +141,7 @@ func (o *CheckMessagesMatchNarrow200Response) GetMessages() map[string]CheckMess
 
 // GetMessagesOk returns a tuple with the Messages field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CheckMessagesMatchNarrow200Response) GetMessagesOk() (*map[string]CheckMessagesMatchNarrow200ResponseAllOfMessagesValue, bool) {
+func (o *CheckMessagesMatchNarrow200Response) GetMessagesOk() (*map[string]NarrowMatch, bool) {
 	if o == nil || IsNil(o.Messages) {
 		return nil, false
 	}
@@ -157,8 +157,8 @@ func (o *CheckMessagesMatchNarrow200Response) HasMessages() bool {
 	return false
 }
 
-// SetMessages gets a reference to the given map[string]CheckMessagesMatchNarrow200ResponseAllOfMessagesValue and assigns it to the Messages field.
-func (o *CheckMessagesMatchNarrow200Response) SetMessages(v map[string]CheckMessagesMatchNarrow200ResponseAllOfMessagesValue) {
+// SetMessages gets a reference to the given map[string]NarrowMatch and assigns it to the Messages field.
+func (o *CheckMessagesMatchNarrow200Response) SetMessages(v map[string]NarrowMatch) {
 	o.Messages = &v
 }
 

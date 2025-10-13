@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the RegisterQueue200ResponseAllOfUserTopicsInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RegisterQueue200ResponseAllOfUserTopicsInner{}
+// checks if the UserTopics type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UserTopics{}
 
-// RegisterQueue200ResponseAllOfUserTopicsInner Object describing the user's configuration for a given topic.
-type RegisterQueue200ResponseAllOfUserTopicsInner struct {
+// UserTopics Object describing the user's configuration for a given topic.
+type UserTopics struct {
 	// The ID of the channel to which the topic belongs.
 	StreamId *int32 `json:"stream_id,omitempty"`
 	// The name of the topic.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response depending on the value of the `empty_topic_name` [client capability][client-capabilities].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
@@ -29,25 +29,25 @@ type RegisterQueue200ResponseAllOfUserTopicsInner struct {
 	VisibilityPolicy *int32 `json:"visibility_policy,omitempty"`
 }
 
-// NewRegisterQueue200ResponseAllOfUserTopicsInner instantiates a new RegisterQueue200ResponseAllOfUserTopicsInner object
+// NewUserTopics instantiates a new UserTopics object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterQueue200ResponseAllOfUserTopicsInner() *RegisterQueue200ResponseAllOfUserTopicsInner {
-	this := RegisterQueue200ResponseAllOfUserTopicsInner{}
+func NewUserTopics() *UserTopics {
+	this := UserTopics{}
 	return &this
 }
 
-// NewRegisterQueue200ResponseAllOfUserTopicsInnerWithDefaults instantiates a new RegisterQueue200ResponseAllOfUserTopicsInner object
+// NewUserTopicsWithDefaults instantiates a new UserTopics object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRegisterQueue200ResponseAllOfUserTopicsInnerWithDefaults() *RegisterQueue200ResponseAllOfUserTopicsInner {
-	this := RegisterQueue200ResponseAllOfUserTopicsInner{}
+func NewUserTopicsWithDefaults() *UserTopics {
+	this := UserTopics{}
 	return &this
 }
 
 // GetStreamId returns the StreamId field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetStreamId() int32 {
+func (o *UserTopics) GetStreamId() int32 {
 	if o == nil || IsNil(o.StreamId) {
 		var ret int32
 		return ret
@@ -57,7 +57,7 @@ func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetStreamId() int32 {
 
 // GetStreamIdOk returns a tuple with the StreamId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetStreamIdOk() (*int32, bool) {
+func (o *UserTopics) GetStreamIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.StreamId) {
 		return nil, false
 	}
@@ -65,7 +65,7 @@ func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetStreamIdOk() (*int32, 
 }
 
 // HasStreamId returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) HasStreamId() bool {
+func (o *UserTopics) HasStreamId() bool {
 	if o != nil && !IsNil(o.StreamId) {
 		return true
 	}
@@ -74,12 +74,12 @@ func (o *RegisterQueue200ResponseAllOfUserTopicsInner) HasStreamId() bool {
 }
 
 // SetStreamId gets a reference to the given int32 and assigns it to the StreamId field.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) SetStreamId(v int32) {
+func (o *UserTopics) SetStreamId(v int32) {
 	o.StreamId = &v
 }
 
 // GetTopicName returns the TopicName field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetTopicName() string {
+func (o *UserTopics) GetTopicName() string {
 	if o == nil || IsNil(o.TopicName) {
 		var ret string
 		return ret
@@ -89,7 +89,7 @@ func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetTopicName() string {
 
 // GetTopicNameOk returns a tuple with the TopicName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetTopicNameOk() (*string, bool) {
+func (o *UserTopics) GetTopicNameOk() (*string, bool) {
 	if o == nil || IsNil(o.TopicName) {
 		return nil, false
 	}
@@ -97,7 +97,7 @@ func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetTopicNameOk() (*string
 }
 
 // HasTopicName returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) HasTopicName() bool {
+func (o *UserTopics) HasTopicName() bool {
 	if o != nil && !IsNil(o.TopicName) {
 		return true
 	}
@@ -106,12 +106,12 @@ func (o *RegisterQueue200ResponseAllOfUserTopicsInner) HasTopicName() bool {
 }
 
 // SetTopicName gets a reference to the given string and assigns it to the TopicName field.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) SetTopicName(v string) {
+func (o *UserTopics) SetTopicName(v string) {
 	o.TopicName = &v
 }
 
 // GetLastUpdated returns the LastUpdated field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetLastUpdated() int32 {
+func (o *UserTopics) GetLastUpdated() int32 {
 	if o == nil || IsNil(o.LastUpdated) {
 		var ret int32
 		return ret
@@ -121,7 +121,7 @@ func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetLastUpdated() int32 {
 
 // GetLastUpdatedOk returns a tuple with the LastUpdated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetLastUpdatedOk() (*int32, bool) {
+func (o *UserTopics) GetLastUpdatedOk() (*int32, bool) {
 	if o == nil || IsNil(o.LastUpdated) {
 		return nil, false
 	}
@@ -129,7 +129,7 @@ func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetLastUpdatedOk() (*int3
 }
 
 // HasLastUpdated returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) HasLastUpdated() bool {
+func (o *UserTopics) HasLastUpdated() bool {
 	if o != nil && !IsNil(o.LastUpdated) {
 		return true
 	}
@@ -138,12 +138,12 @@ func (o *RegisterQueue200ResponseAllOfUserTopicsInner) HasLastUpdated() bool {
 }
 
 // SetLastUpdated gets a reference to the given int32 and assigns it to the LastUpdated field.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) SetLastUpdated(v int32) {
+func (o *UserTopics) SetLastUpdated(v int32) {
 	o.LastUpdated = &v
 }
 
 // GetVisibilityPolicy returns the VisibilityPolicy field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetVisibilityPolicy() int32 {
+func (o *UserTopics) GetVisibilityPolicy() int32 {
 	if o == nil || IsNil(o.VisibilityPolicy) {
 		var ret int32
 		return ret
@@ -153,7 +153,7 @@ func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetVisibilityPolicy() int
 
 // GetVisibilityPolicyOk returns a tuple with the VisibilityPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetVisibilityPolicyOk() (*int32, bool) {
+func (o *UserTopics) GetVisibilityPolicyOk() (*int32, bool) {
 	if o == nil || IsNil(o.VisibilityPolicy) {
 		return nil, false
 	}
@@ -161,7 +161,7 @@ func (o *RegisterQueue200ResponseAllOfUserTopicsInner) GetVisibilityPolicyOk() (
 }
 
 // HasVisibilityPolicy returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) HasVisibilityPolicy() bool {
+func (o *UserTopics) HasVisibilityPolicy() bool {
 	if o != nil && !IsNil(o.VisibilityPolicy) {
 		return true
 	}
@@ -170,11 +170,11 @@ func (o *RegisterQueue200ResponseAllOfUserTopicsInner) HasVisibilityPolicy() boo
 }
 
 // SetVisibilityPolicy gets a reference to the given int32 and assigns it to the VisibilityPolicy field.
-func (o *RegisterQueue200ResponseAllOfUserTopicsInner) SetVisibilityPolicy(v int32) {
+func (o *UserTopics) SetVisibilityPolicy(v int32) {
 	o.VisibilityPolicy = &v
 }
 
-func (o RegisterQueue200ResponseAllOfUserTopicsInner) MarshalJSON() ([]byte, error) {
+func (o UserTopics) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -182,7 +182,7 @@ func (o RegisterQueue200ResponseAllOfUserTopicsInner) MarshalJSON() ([]byte, err
 	return json.Marshal(toSerialize)
 }
 
-func (o RegisterQueue200ResponseAllOfUserTopicsInner) ToMap() (map[string]interface{}, error) {
+func (o UserTopics) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.StreamId) {
 		toSerialize["stream_id"] = o.StreamId
@@ -199,38 +199,38 @@ func (o RegisterQueue200ResponseAllOfUserTopicsInner) ToMap() (map[string]interf
 	return toSerialize, nil
 }
 
-type NullableRegisterQueue200ResponseAllOfUserTopicsInner struct {
-	value *RegisterQueue200ResponseAllOfUserTopicsInner
+type NullableUserTopics struct {
+	value *UserTopics
 	isSet bool
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUserTopicsInner) Get() *RegisterQueue200ResponseAllOfUserTopicsInner {
+func (v NullableUserTopics) Get() *UserTopics {
 	return v.value
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUserTopicsInner) Set(val *RegisterQueue200ResponseAllOfUserTopicsInner) {
+func (v *NullableUserTopics) Set(val *UserTopics) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUserTopicsInner) IsSet() bool {
+func (v NullableUserTopics) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUserTopicsInner) Unset() {
+func (v *NullableUserTopics) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRegisterQueue200ResponseAllOfUserTopicsInner(val *RegisterQueue200ResponseAllOfUserTopicsInner) *NullableRegisterQueue200ResponseAllOfUserTopicsInner {
-	return &NullableRegisterQueue200ResponseAllOfUserTopicsInner{value: val, isSet: true}
+func NewNullableUserTopics(val *UserTopics) *NullableUserTopics {
+	return &NullableUserTopics{value: val, isSet: true}
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUserTopicsInner) MarshalJSON() ([]byte, error) {
+func (v NullableUserTopics) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUserTopicsInner) UnmarshalJSON(src []byte) error {
+func (v *NullableUserTopics) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

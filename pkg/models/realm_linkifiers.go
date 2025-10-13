@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the RegisterQueue200ResponseAllOfRealmLinkifiersInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RegisterQueue200ResponseAllOfRealmLinkifiersInner{}
+// checks if the RealmLinkifiers type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &RealmLinkifiers{}
 
-// RegisterQueue200ResponseAllOfRealmLinkifiersInner struct for RegisterQueue200ResponseAllOfRealmLinkifiersInner
-type RegisterQueue200ResponseAllOfRealmLinkifiersInner struct {
+// RealmLinkifiers struct for RealmLinkifiers
+type RealmLinkifiers struct {
 	// The [Python regular expression](https://docs.python.org/3/howto/regex.html) pattern which represents the pattern that should be linkified on matching.
 	Pattern *string `json:"pattern,omitempty"`
 	// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template with which the pattern matching string should be linkified.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced `url_format`, which contained a URL format string.
@@ -27,25 +27,25 @@ type RegisterQueue200ResponseAllOfRealmLinkifiersInner struct {
 	Id *int32 `json:"id,omitempty"`
 }
 
-// NewRegisterQueue200ResponseAllOfRealmLinkifiersInner instantiates a new RegisterQueue200ResponseAllOfRealmLinkifiersInner object
+// NewRealmLinkifiers instantiates a new RealmLinkifiers object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterQueue200ResponseAllOfRealmLinkifiersInner() *RegisterQueue200ResponseAllOfRealmLinkifiersInner {
-	this := RegisterQueue200ResponseAllOfRealmLinkifiersInner{}
+func NewRealmLinkifiers() *RealmLinkifiers {
+	this := RealmLinkifiers{}
 	return &this
 }
 
-// NewRegisterQueue200ResponseAllOfRealmLinkifiersInnerWithDefaults instantiates a new RegisterQueue200ResponseAllOfRealmLinkifiersInner object
+// NewRealmLinkifiersWithDefaults instantiates a new RealmLinkifiers object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRegisterQueue200ResponseAllOfRealmLinkifiersInnerWithDefaults() *RegisterQueue200ResponseAllOfRealmLinkifiersInner {
-	this := RegisterQueue200ResponseAllOfRealmLinkifiersInner{}
+func NewRealmLinkifiersWithDefaults() *RealmLinkifiers {
+	this := RealmLinkifiers{}
 	return &this
 }
 
 // GetPattern returns the Pattern field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) GetPattern() string {
+func (o *RealmLinkifiers) GetPattern() string {
 	if o == nil || IsNil(o.Pattern) {
 		var ret string
 		return ret
@@ -55,7 +55,7 @@ func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) GetPattern() string 
 
 // GetPatternOk returns a tuple with the Pattern field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) GetPatternOk() (*string, bool) {
+func (o *RealmLinkifiers) GetPatternOk() (*string, bool) {
 	if o == nil || IsNil(o.Pattern) {
 		return nil, false
 	}
@@ -63,7 +63,7 @@ func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) GetPatternOk() (*str
 }
 
 // HasPattern returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) HasPattern() bool {
+func (o *RealmLinkifiers) HasPattern() bool {
 	if o != nil && !IsNil(o.Pattern) {
 		return true
 	}
@@ -72,12 +72,12 @@ func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) HasPattern() bool {
 }
 
 // SetPattern gets a reference to the given string and assigns it to the Pattern field.
-func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) SetPattern(v string) {
+func (o *RealmLinkifiers) SetPattern(v string) {
 	o.Pattern = &v
 }
 
 // GetUrlTemplate returns the UrlTemplate field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) GetUrlTemplate() string {
+func (o *RealmLinkifiers) GetUrlTemplate() string {
 	if o == nil || IsNil(o.UrlTemplate) {
 		var ret string
 		return ret
@@ -87,7 +87,7 @@ func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) GetUrlTemplate() str
 
 // GetUrlTemplateOk returns a tuple with the UrlTemplate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) GetUrlTemplateOk() (*string, bool) {
+func (o *RealmLinkifiers) GetUrlTemplateOk() (*string, bool) {
 	if o == nil || IsNil(o.UrlTemplate) {
 		return nil, false
 	}
@@ -95,7 +95,7 @@ func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) GetUrlTemplateOk() (
 }
 
 // HasUrlTemplate returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) HasUrlTemplate() bool {
+func (o *RealmLinkifiers) HasUrlTemplate() bool {
 	if o != nil && !IsNil(o.UrlTemplate) {
 		return true
 	}
@@ -104,12 +104,12 @@ func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) HasUrlTemplate() boo
 }
 
 // SetUrlTemplate gets a reference to the given string and assigns it to the UrlTemplate field.
-func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) SetUrlTemplate(v string) {
+func (o *RealmLinkifiers) SetUrlTemplate(v string) {
 	o.UrlTemplate = &v
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) GetId() int32 {
+func (o *RealmLinkifiers) GetId() int32 {
 	if o == nil || IsNil(o.Id) {
 		var ret int32
 		return ret
@@ -119,7 +119,7 @@ func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) GetIdOk() (*int32, bool) {
+func (o *RealmLinkifiers) GetIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
@@ -127,7 +127,7 @@ func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) GetIdOk() (*int32, b
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) HasId() bool {
+func (o *RealmLinkifiers) HasId() bool {
 	if o != nil && !IsNil(o.Id) {
 		return true
 	}
@@ -136,11 +136,11 @@ func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) HasId() bool {
 }
 
 // SetId gets a reference to the given int32 and assigns it to the Id field.
-func (o *RegisterQueue200ResponseAllOfRealmLinkifiersInner) SetId(v int32) {
+func (o *RealmLinkifiers) SetId(v int32) {
 	o.Id = &v
 }
 
-func (o RegisterQueue200ResponseAllOfRealmLinkifiersInner) MarshalJSON() ([]byte, error) {
+func (o RealmLinkifiers) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -148,7 +148,7 @@ func (o RegisterQueue200ResponseAllOfRealmLinkifiersInner) MarshalJSON() ([]byte
 	return json.Marshal(toSerialize)
 }
 
-func (o RegisterQueue200ResponseAllOfRealmLinkifiersInner) ToMap() (map[string]interface{}, error) {
+func (o RealmLinkifiers) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Pattern) {
 		toSerialize["pattern"] = o.Pattern
@@ -162,38 +162,38 @@ func (o RegisterQueue200ResponseAllOfRealmLinkifiersInner) ToMap() (map[string]i
 	return toSerialize, nil
 }
 
-type NullableRegisterQueue200ResponseAllOfRealmLinkifiersInner struct {
-	value *RegisterQueue200ResponseAllOfRealmLinkifiersInner
+type NullableRealmLinkifiers struct {
+	value *RealmLinkifiers
 	isSet bool
 }
 
-func (v NullableRegisterQueue200ResponseAllOfRealmLinkifiersInner) Get() *RegisterQueue200ResponseAllOfRealmLinkifiersInner {
+func (v NullableRealmLinkifiers) Get() *RealmLinkifiers {
 	return v.value
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfRealmLinkifiersInner) Set(val *RegisterQueue200ResponseAllOfRealmLinkifiersInner) {
+func (v *NullableRealmLinkifiers) Set(val *RealmLinkifiers) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRegisterQueue200ResponseAllOfRealmLinkifiersInner) IsSet() bool {
+func (v NullableRealmLinkifiers) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfRealmLinkifiersInner) Unset() {
+func (v *NullableRealmLinkifiers) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRegisterQueue200ResponseAllOfRealmLinkifiersInner(val *RegisterQueue200ResponseAllOfRealmLinkifiersInner) *NullableRegisterQueue200ResponseAllOfRealmLinkifiersInner {
-	return &NullableRegisterQueue200ResponseAllOfRealmLinkifiersInner{value: val, isSet: true}
+func NewNullableRealmLinkifiers(val *RealmLinkifiers) *NullableRealmLinkifiers {
+	return &NullableRealmLinkifiers{value: val, isSet: true}
 }
 
-func (v NullableRegisterQueue200ResponseAllOfRealmLinkifiersInner) MarshalJSON() ([]byte, error) {
+func (v NullableRealmLinkifiers) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfRealmLinkifiersInner) UnmarshalJSON(src []byte) error {
+func (v *NullableRealmLinkifiers) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

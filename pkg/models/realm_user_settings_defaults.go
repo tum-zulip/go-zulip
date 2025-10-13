@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the RegisterQueue200ResponseAllOfRealmUserSettingsDefaults type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RegisterQueue200ResponseAllOfRealmUserSettingsDefaults{}
+// checks if the RealmUserSettingsDefaults type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &RealmUserSettingsDefaults{}
 
-// RegisterQueue200ResponseAllOfRealmUserSettingsDefaults Present if `realm_user_settings_defaults` is present in `fetch_event_types`.  A dictionary containing the default values of settings for new users.  **Changes**: New in Zulip 5.0 (feature level 95).
-type RegisterQueue200ResponseAllOfRealmUserSettingsDefaults struct {
+// RealmUserSettingsDefaults Present if `realm_user_settings_defaults` is present in `fetch_event_types`.  A dictionary containing the default values of settings for new users.  **Changes**: New in Zulip 5.0 (feature level 95).
+type RealmUserSettingsDefaults struct {
 	// Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  A `null` value indicates that the client should use the default time format for the user's locale.  **Changes**: Prior to Zulip 11.0 (feature level 408), `null` was not a valid value for this setting. Note that it was not possible to actually set the time format to `null` at this feature level.  New in Zulip 5.0 (feature level 99). This value was previously available as `realm_default_twenty_four_hour_time` in the top-level response object (only when `realm` was present in `fetch_event_types`).
 	TwentyFourHourTime NullableBool `json:"twenty_four_hour_time,omitempty"`
 	// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the \"Always\" setting when marking messages as read.
@@ -149,25 +149,25 @@ type RegisterQueue200ResponseAllOfRealmUserSettingsDefaults struct {
 	WebNavigateToSentMessage *bool `json:"web_navigate_to_sent_message,omitempty"`
 }
 
-// NewRegisterQueue200ResponseAllOfRealmUserSettingsDefaults instantiates a new RegisterQueue200ResponseAllOfRealmUserSettingsDefaults object
+// NewRealmUserSettingsDefaults instantiates a new RealmUserSettingsDefaults object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterQueue200ResponseAllOfRealmUserSettingsDefaults() *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults {
-	this := RegisterQueue200ResponseAllOfRealmUserSettingsDefaults{}
+func NewRealmUserSettingsDefaults() *RealmUserSettingsDefaults {
+	this := RealmUserSettingsDefaults{}
 	return &this
 }
 
-// NewRegisterQueue200ResponseAllOfRealmUserSettingsDefaultsWithDefaults instantiates a new RegisterQueue200ResponseAllOfRealmUserSettingsDefaults object
+// NewRealmUserSettingsDefaultsWithDefaults instantiates a new RealmUserSettingsDefaults object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRegisterQueue200ResponseAllOfRealmUserSettingsDefaultsWithDefaults() *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults {
-	this := RegisterQueue200ResponseAllOfRealmUserSettingsDefaults{}
+func NewRealmUserSettingsDefaultsWithDefaults() *RealmUserSettingsDefaults {
+	this := RealmUserSettingsDefaults{}
 	return &this
 }
 
 // GetTwentyFourHourTime returns the TwentyFourHourTime field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetTwentyFourHourTime() bool {
+func (o *RealmUserSettingsDefaults) GetTwentyFourHourTime() bool {
 	if o == nil || IsNil(o.TwentyFourHourTime.Get()) {
 		var ret bool
 		return ret
@@ -178,7 +178,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetTwentyFourHo
 // GetTwentyFourHourTimeOk returns a tuple with the TwentyFourHourTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetTwentyFourHourTimeOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetTwentyFourHourTimeOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -186,7 +186,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetTwentyFourHo
 }
 
 // HasTwentyFourHourTime returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasTwentyFourHourTime() bool {
+func (o *RealmUserSettingsDefaults) HasTwentyFourHourTime() bool {
 	if o != nil && o.TwentyFourHourTime.IsSet() {
 		return true
 	}
@@ -195,22 +195,22 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasTwentyFourHo
 }
 
 // SetTwentyFourHourTime gets a reference to the given NullableBool and assigns it to the TwentyFourHourTime field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetTwentyFourHourTime(v bool) {
+func (o *RealmUserSettingsDefaults) SetTwentyFourHourTime(v bool) {
 	o.TwentyFourHourTime.Set(&v)
 }
 
 // SetTwentyFourHourTimeNil sets the value for TwentyFourHourTime to be an explicit nil
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetTwentyFourHourTimeNil() {
+func (o *RealmUserSettingsDefaults) SetTwentyFourHourTimeNil() {
 	o.TwentyFourHourTime.Set(nil)
 }
 
 // UnsetTwentyFourHourTime ensures that no value is present for TwentyFourHourTime, not even an explicit nil
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) UnsetTwentyFourHourTime() {
+func (o *RealmUserSettingsDefaults) UnsetTwentyFourHourTime() {
 	o.TwentyFourHourTime.Unset()
 }
 
 // GetWebMarkReadOnScrollPolicy returns the WebMarkReadOnScrollPolicy field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebMarkReadOnScrollPolicy() int32 {
+func (o *RealmUserSettingsDefaults) GetWebMarkReadOnScrollPolicy() int32 {
 	if o == nil || IsNil(o.WebMarkReadOnScrollPolicy) {
 		var ret int32
 		return ret
@@ -220,7 +220,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebMarkReadO
 
 // GetWebMarkReadOnScrollPolicyOk returns a tuple with the WebMarkReadOnScrollPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebMarkReadOnScrollPolicyOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetWebMarkReadOnScrollPolicyOk() (*int32, bool) {
 	if o == nil || IsNil(o.WebMarkReadOnScrollPolicy) {
 		return nil, false
 	}
@@ -228,7 +228,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebMarkReadO
 }
 
 // HasWebMarkReadOnScrollPolicy returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebMarkReadOnScrollPolicy() bool {
+func (o *RealmUserSettingsDefaults) HasWebMarkReadOnScrollPolicy() bool {
 	if o != nil && !IsNil(o.WebMarkReadOnScrollPolicy) {
 		return true
 	}
@@ -237,12 +237,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebMarkReadO
 }
 
 // SetWebMarkReadOnScrollPolicy gets a reference to the given int32 and assigns it to the WebMarkReadOnScrollPolicy field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWebMarkReadOnScrollPolicy(v int32) {
+func (o *RealmUserSettingsDefaults) SetWebMarkReadOnScrollPolicy(v int32) {
 	o.WebMarkReadOnScrollPolicy = &v
 }
 
 // GetWebChannelDefaultView returns the WebChannelDefaultView field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebChannelDefaultView() int32 {
+func (o *RealmUserSettingsDefaults) GetWebChannelDefaultView() int32 {
 	if o == nil || IsNil(o.WebChannelDefaultView) {
 		var ret int32
 		return ret
@@ -252,7 +252,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebChannelDe
 
 // GetWebChannelDefaultViewOk returns a tuple with the WebChannelDefaultView field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebChannelDefaultViewOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetWebChannelDefaultViewOk() (*int32, bool) {
 	if o == nil || IsNil(o.WebChannelDefaultView) {
 		return nil, false
 	}
@@ -260,7 +260,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebChannelDe
 }
 
 // HasWebChannelDefaultView returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebChannelDefaultView() bool {
+func (o *RealmUserSettingsDefaults) HasWebChannelDefaultView() bool {
 	if o != nil && !IsNil(o.WebChannelDefaultView) {
 		return true
 	}
@@ -269,12 +269,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebChannelDe
 }
 
 // SetWebChannelDefaultView gets a reference to the given int32 and assigns it to the WebChannelDefaultView field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWebChannelDefaultView(v int32) {
+func (o *RealmUserSettingsDefaults) SetWebChannelDefaultView(v int32) {
 	o.WebChannelDefaultView = &v
 }
 
 // GetStarredMessageCounts returns the StarredMessageCounts field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetStarredMessageCounts() bool {
+func (o *RealmUserSettingsDefaults) GetStarredMessageCounts() bool {
 	if o == nil || IsNil(o.StarredMessageCounts) {
 		var ret bool
 		return ret
@@ -284,7 +284,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetStarredMessa
 
 // GetStarredMessageCountsOk returns a tuple with the StarredMessageCounts field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetStarredMessageCountsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetStarredMessageCountsOk() (*bool, bool) {
 	if o == nil || IsNil(o.StarredMessageCounts) {
 		return nil, false
 	}
@@ -292,7 +292,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetStarredMessa
 }
 
 // HasStarredMessageCounts returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasStarredMessageCounts() bool {
+func (o *RealmUserSettingsDefaults) HasStarredMessageCounts() bool {
 	if o != nil && !IsNil(o.StarredMessageCounts) {
 		return true
 	}
@@ -301,12 +301,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasStarredMessa
 }
 
 // SetStarredMessageCounts gets a reference to the given bool and assigns it to the StarredMessageCounts field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetStarredMessageCounts(v bool) {
+func (o *RealmUserSettingsDefaults) SetStarredMessageCounts(v bool) {
 	o.StarredMessageCounts = &v
 }
 
 // GetReceivesTypingNotifications returns the ReceivesTypingNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetReceivesTypingNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetReceivesTypingNotifications() bool {
 	if o == nil || IsNil(o.ReceivesTypingNotifications) {
 		var ret bool
 		return ret
@@ -316,7 +316,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetReceivesTypi
 
 // GetReceivesTypingNotificationsOk returns a tuple with the ReceivesTypingNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetReceivesTypingNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetReceivesTypingNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.ReceivesTypingNotifications) {
 		return nil, false
 	}
@@ -324,7 +324,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetReceivesTypi
 }
 
 // HasReceivesTypingNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasReceivesTypingNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasReceivesTypingNotifications() bool {
 	if o != nil && !IsNil(o.ReceivesTypingNotifications) {
 		return true
 	}
@@ -333,12 +333,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasReceivesTypi
 }
 
 // SetReceivesTypingNotifications gets a reference to the given bool and assigns it to the ReceivesTypingNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetReceivesTypingNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetReceivesTypingNotifications(v bool) {
 	o.ReceivesTypingNotifications = &v
 }
 
 // GetWebSuggestUpdateTimezone returns the WebSuggestUpdateTimezone field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebSuggestUpdateTimezone() bool {
+func (o *RealmUserSettingsDefaults) GetWebSuggestUpdateTimezone() bool {
 	if o == nil || IsNil(o.WebSuggestUpdateTimezone) {
 		var ret bool
 		return ret
@@ -348,7 +348,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebSuggestUp
 
 // GetWebSuggestUpdateTimezoneOk returns a tuple with the WebSuggestUpdateTimezone field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebSuggestUpdateTimezoneOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetWebSuggestUpdateTimezoneOk() (*bool, bool) {
 	if o == nil || IsNil(o.WebSuggestUpdateTimezone) {
 		return nil, false
 	}
@@ -356,7 +356,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebSuggestUp
 }
 
 // HasWebSuggestUpdateTimezone returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebSuggestUpdateTimezone() bool {
+func (o *RealmUserSettingsDefaults) HasWebSuggestUpdateTimezone() bool {
 	if o != nil && !IsNil(o.WebSuggestUpdateTimezone) {
 		return true
 	}
@@ -365,12 +365,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebSuggestUp
 }
 
 // SetWebSuggestUpdateTimezone gets a reference to the given bool and assigns it to the WebSuggestUpdateTimezone field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWebSuggestUpdateTimezone(v bool) {
+func (o *RealmUserSettingsDefaults) SetWebSuggestUpdateTimezone(v bool) {
 	o.WebSuggestUpdateTimezone = &v
 }
 
 // GetFluidLayoutWidth returns the FluidLayoutWidth field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetFluidLayoutWidth() bool {
+func (o *RealmUserSettingsDefaults) GetFluidLayoutWidth() bool {
 	if o == nil || IsNil(o.FluidLayoutWidth) {
 		var ret bool
 		return ret
@@ -380,7 +380,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetFluidLayoutW
 
 // GetFluidLayoutWidthOk returns a tuple with the FluidLayoutWidth field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetFluidLayoutWidthOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetFluidLayoutWidthOk() (*bool, bool) {
 	if o == nil || IsNil(o.FluidLayoutWidth) {
 		return nil, false
 	}
@@ -388,7 +388,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetFluidLayoutW
 }
 
 // HasFluidLayoutWidth returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasFluidLayoutWidth() bool {
+func (o *RealmUserSettingsDefaults) HasFluidLayoutWidth() bool {
 	if o != nil && !IsNil(o.FluidLayoutWidth) {
 		return true
 	}
@@ -397,12 +397,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasFluidLayoutW
 }
 
 // SetFluidLayoutWidth gets a reference to the given bool and assigns it to the FluidLayoutWidth field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetFluidLayoutWidth(v bool) {
+func (o *RealmUserSettingsDefaults) SetFluidLayoutWidth(v bool) {
 	o.FluidLayoutWidth = &v
 }
 
 // GetHighContrastMode returns the HighContrastMode field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetHighContrastMode() bool {
+func (o *RealmUserSettingsDefaults) GetHighContrastMode() bool {
 	if o == nil || IsNil(o.HighContrastMode) {
 		var ret bool
 		return ret
@@ -412,7 +412,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetHighContrast
 
 // GetHighContrastModeOk returns a tuple with the HighContrastMode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetHighContrastModeOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetHighContrastModeOk() (*bool, bool) {
 	if o == nil || IsNil(o.HighContrastMode) {
 		return nil, false
 	}
@@ -420,7 +420,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetHighContrast
 }
 
 // HasHighContrastMode returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasHighContrastMode() bool {
+func (o *RealmUserSettingsDefaults) HasHighContrastMode() bool {
 	if o != nil && !IsNil(o.HighContrastMode) {
 		return true
 	}
@@ -429,12 +429,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasHighContrast
 }
 
 // SetHighContrastMode gets a reference to the given bool and assigns it to the HighContrastMode field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetHighContrastMode(v bool) {
+func (o *RealmUserSettingsDefaults) SetHighContrastMode(v bool) {
 	o.HighContrastMode = &v
 }
 
 // GetWebFontSizePx returns the WebFontSizePx field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebFontSizePx() int32 {
+func (o *RealmUserSettingsDefaults) GetWebFontSizePx() int32 {
 	if o == nil || IsNil(o.WebFontSizePx) {
 		var ret int32
 		return ret
@@ -444,7 +444,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebFontSizeP
 
 // GetWebFontSizePxOk returns a tuple with the WebFontSizePx field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebFontSizePxOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetWebFontSizePxOk() (*int32, bool) {
 	if o == nil || IsNil(o.WebFontSizePx) {
 		return nil, false
 	}
@@ -452,7 +452,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebFontSizeP
 }
 
 // HasWebFontSizePx returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebFontSizePx() bool {
+func (o *RealmUserSettingsDefaults) HasWebFontSizePx() bool {
 	if o != nil && !IsNil(o.WebFontSizePx) {
 		return true
 	}
@@ -461,12 +461,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebFontSizeP
 }
 
 // SetWebFontSizePx gets a reference to the given int32 and assigns it to the WebFontSizePx field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWebFontSizePx(v int32) {
+func (o *RealmUserSettingsDefaults) SetWebFontSizePx(v int32) {
 	o.WebFontSizePx = &v
 }
 
 // GetWebLineHeightPercent returns the WebLineHeightPercent field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebLineHeightPercent() int32 {
+func (o *RealmUserSettingsDefaults) GetWebLineHeightPercent() int32 {
 	if o == nil || IsNil(o.WebLineHeightPercent) {
 		var ret int32
 		return ret
@@ -476,7 +476,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebLineHeigh
 
 // GetWebLineHeightPercentOk returns a tuple with the WebLineHeightPercent field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebLineHeightPercentOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetWebLineHeightPercentOk() (*int32, bool) {
 	if o == nil || IsNil(o.WebLineHeightPercent) {
 		return nil, false
 	}
@@ -484,7 +484,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebLineHeigh
 }
 
 // HasWebLineHeightPercent returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebLineHeightPercent() bool {
+func (o *RealmUserSettingsDefaults) HasWebLineHeightPercent() bool {
 	if o != nil && !IsNil(o.WebLineHeightPercent) {
 		return true
 	}
@@ -493,12 +493,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebLineHeigh
 }
 
 // SetWebLineHeightPercent gets a reference to the given int32 and assigns it to the WebLineHeightPercent field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWebLineHeightPercent(v int32) {
+func (o *RealmUserSettingsDefaults) SetWebLineHeightPercent(v int32) {
 	o.WebLineHeightPercent = &v
 }
 
 // GetColorScheme returns the ColorScheme field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetColorScheme() int32 {
+func (o *RealmUserSettingsDefaults) GetColorScheme() int32 {
 	if o == nil || IsNil(o.ColorScheme) {
 		var ret int32
 		return ret
@@ -508,7 +508,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetColorScheme(
 
 // GetColorSchemeOk returns a tuple with the ColorScheme field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetColorSchemeOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetColorSchemeOk() (*int32, bool) {
 	if o == nil || IsNil(o.ColorScheme) {
 		return nil, false
 	}
@@ -516,7 +516,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetColorSchemeO
 }
 
 // HasColorScheme returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasColorScheme() bool {
+func (o *RealmUserSettingsDefaults) HasColorScheme() bool {
 	if o != nil && !IsNil(o.ColorScheme) {
 		return true
 	}
@@ -525,12 +525,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasColorScheme(
 }
 
 // SetColorScheme gets a reference to the given int32 and assigns it to the ColorScheme field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetColorScheme(v int32) {
+func (o *RealmUserSettingsDefaults) SetColorScheme(v int32) {
 	o.ColorScheme = &v
 }
 
 // GetTranslateEmoticons returns the TranslateEmoticons field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetTranslateEmoticons() bool {
+func (o *RealmUserSettingsDefaults) GetTranslateEmoticons() bool {
 	if o == nil || IsNil(o.TranslateEmoticons) {
 		var ret bool
 		return ret
@@ -540,7 +540,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetTranslateEmo
 
 // GetTranslateEmoticonsOk returns a tuple with the TranslateEmoticons field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetTranslateEmoticonsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetTranslateEmoticonsOk() (*bool, bool) {
 	if o == nil || IsNil(o.TranslateEmoticons) {
 		return nil, false
 	}
@@ -548,7 +548,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetTranslateEmo
 }
 
 // HasTranslateEmoticons returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasTranslateEmoticons() bool {
+func (o *RealmUserSettingsDefaults) HasTranslateEmoticons() bool {
 	if o != nil && !IsNil(o.TranslateEmoticons) {
 		return true
 	}
@@ -557,12 +557,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasTranslateEmo
 }
 
 // SetTranslateEmoticons gets a reference to the given bool and assigns it to the TranslateEmoticons field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetTranslateEmoticons(v bool) {
+func (o *RealmUserSettingsDefaults) SetTranslateEmoticons(v bool) {
 	o.TranslateEmoticons = &v
 }
 
 // GetDisplayEmojiReactionUsers returns the DisplayEmojiReactionUsers field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDisplayEmojiReactionUsers() bool {
+func (o *RealmUserSettingsDefaults) GetDisplayEmojiReactionUsers() bool {
 	if o == nil || IsNil(o.DisplayEmojiReactionUsers) {
 		var ret bool
 		return ret
@@ -572,7 +572,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDisplayEmoji
 
 // GetDisplayEmojiReactionUsersOk returns a tuple with the DisplayEmojiReactionUsers field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDisplayEmojiReactionUsersOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetDisplayEmojiReactionUsersOk() (*bool, bool) {
 	if o == nil || IsNil(o.DisplayEmojiReactionUsers) {
 		return nil, false
 	}
@@ -580,7 +580,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDisplayEmoji
 }
 
 // HasDisplayEmojiReactionUsers returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasDisplayEmojiReactionUsers() bool {
+func (o *RealmUserSettingsDefaults) HasDisplayEmojiReactionUsers() bool {
 	if o != nil && !IsNil(o.DisplayEmojiReactionUsers) {
 		return true
 	}
@@ -589,12 +589,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasDisplayEmoji
 }
 
 // SetDisplayEmojiReactionUsers gets a reference to the given bool and assigns it to the DisplayEmojiReactionUsers field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetDisplayEmojiReactionUsers(v bool) {
+func (o *RealmUserSettingsDefaults) SetDisplayEmojiReactionUsers(v bool) {
 	o.DisplayEmojiReactionUsers = &v
 }
 
 // GetDefaultLanguage returns the DefaultLanguage field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDefaultLanguage() string {
+func (o *RealmUserSettingsDefaults) GetDefaultLanguage() string {
 	if o == nil || IsNil(o.DefaultLanguage) {
 		var ret string
 		return ret
@@ -604,7 +604,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDefaultLangu
 
 // GetDefaultLanguageOk returns a tuple with the DefaultLanguage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDefaultLanguageOk() (*string, bool) {
+func (o *RealmUserSettingsDefaults) GetDefaultLanguageOk() (*string, bool) {
 	if o == nil || IsNil(o.DefaultLanguage) {
 		return nil, false
 	}
@@ -612,7 +612,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDefaultLangu
 }
 
 // HasDefaultLanguage returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasDefaultLanguage() bool {
+func (o *RealmUserSettingsDefaults) HasDefaultLanguage() bool {
 	if o != nil && !IsNil(o.DefaultLanguage) {
 		return true
 	}
@@ -621,12 +621,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasDefaultLangu
 }
 
 // SetDefaultLanguage gets a reference to the given string and assigns it to the DefaultLanguage field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetDefaultLanguage(v string) {
+func (o *RealmUserSettingsDefaults) SetDefaultLanguage(v string) {
 	o.DefaultLanguage = &v
 }
 
 // GetWebHomeView returns the WebHomeView field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebHomeView() string {
+func (o *RealmUserSettingsDefaults) GetWebHomeView() string {
 	if o == nil || IsNil(o.WebHomeView) {
 		var ret string
 		return ret
@@ -636,7 +636,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebHomeView(
 
 // GetWebHomeViewOk returns a tuple with the WebHomeView field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebHomeViewOk() (*string, bool) {
+func (o *RealmUserSettingsDefaults) GetWebHomeViewOk() (*string, bool) {
 	if o == nil || IsNil(o.WebHomeView) {
 		return nil, false
 	}
@@ -644,7 +644,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebHomeViewO
 }
 
 // HasWebHomeView returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebHomeView() bool {
+func (o *RealmUserSettingsDefaults) HasWebHomeView() bool {
 	if o != nil && !IsNil(o.WebHomeView) {
 		return true
 	}
@@ -653,12 +653,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebHomeView(
 }
 
 // SetWebHomeView gets a reference to the given string and assigns it to the WebHomeView field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWebHomeView(v string) {
+func (o *RealmUserSettingsDefaults) SetWebHomeView(v string) {
 	o.WebHomeView = &v
 }
 
 // GetWebEscapeNavigatesToHomeView returns the WebEscapeNavigatesToHomeView field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebEscapeNavigatesToHomeView() bool {
+func (o *RealmUserSettingsDefaults) GetWebEscapeNavigatesToHomeView() bool {
 	if o == nil || IsNil(o.WebEscapeNavigatesToHomeView) {
 		var ret bool
 		return ret
@@ -668,7 +668,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebEscapeNav
 
 // GetWebEscapeNavigatesToHomeViewOk returns a tuple with the WebEscapeNavigatesToHomeView field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebEscapeNavigatesToHomeViewOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetWebEscapeNavigatesToHomeViewOk() (*bool, bool) {
 	if o == nil || IsNil(o.WebEscapeNavigatesToHomeView) {
 		return nil, false
 	}
@@ -676,7 +676,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebEscapeNav
 }
 
 // HasWebEscapeNavigatesToHomeView returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebEscapeNavigatesToHomeView() bool {
+func (o *RealmUserSettingsDefaults) HasWebEscapeNavigatesToHomeView() bool {
 	if o != nil && !IsNil(o.WebEscapeNavigatesToHomeView) {
 		return true
 	}
@@ -685,12 +685,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebEscapeNav
 }
 
 // SetWebEscapeNavigatesToHomeView gets a reference to the given bool and assigns it to the WebEscapeNavigatesToHomeView field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWebEscapeNavigatesToHomeView(v bool) {
+func (o *RealmUserSettingsDefaults) SetWebEscapeNavigatesToHomeView(v bool) {
 	o.WebEscapeNavigatesToHomeView = &v
 }
 
 // GetLeftSideUserlist returns the LeftSideUserlist field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetLeftSideUserlist() bool {
+func (o *RealmUserSettingsDefaults) GetLeftSideUserlist() bool {
 	if o == nil || IsNil(o.LeftSideUserlist) {
 		var ret bool
 		return ret
@@ -700,7 +700,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetLeftSideUser
 
 // GetLeftSideUserlistOk returns a tuple with the LeftSideUserlist field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetLeftSideUserlistOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetLeftSideUserlistOk() (*bool, bool) {
 	if o == nil || IsNil(o.LeftSideUserlist) {
 		return nil, false
 	}
@@ -708,7 +708,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetLeftSideUser
 }
 
 // HasLeftSideUserlist returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasLeftSideUserlist() bool {
+func (o *RealmUserSettingsDefaults) HasLeftSideUserlist() bool {
 	if o != nil && !IsNil(o.LeftSideUserlist) {
 		return true
 	}
@@ -717,12 +717,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasLeftSideUser
 }
 
 // SetLeftSideUserlist gets a reference to the given bool and assigns it to the LeftSideUserlist field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetLeftSideUserlist(v bool) {
+func (o *RealmUserSettingsDefaults) SetLeftSideUserlist(v bool) {
 	o.LeftSideUserlist = &v
 }
 
 // GetEmojiset returns the Emojiset field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojiset() string {
+func (o *RealmUserSettingsDefaults) GetEmojiset() string {
 	if o == nil || IsNil(o.Emojiset) {
 		var ret string
 		return ret
@@ -732,7 +732,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojiset() s
 
 // GetEmojisetOk returns a tuple with the Emojiset field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojisetOk() (*string, bool) {
+func (o *RealmUserSettingsDefaults) GetEmojisetOk() (*string, bool) {
 	if o == nil || IsNil(o.Emojiset) {
 		return nil, false
 	}
@@ -740,7 +740,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojisetOk()
 }
 
 // HasEmojiset returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEmojiset() bool {
+func (o *RealmUserSettingsDefaults) HasEmojiset() bool {
 	if o != nil && !IsNil(o.Emojiset) {
 		return true
 	}
@@ -749,12 +749,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEmojiset() b
 }
 
 // SetEmojiset gets a reference to the given string and assigns it to the Emojiset field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEmojiset(v string) {
+func (o *RealmUserSettingsDefaults) SetEmojiset(v string) {
 	o.Emojiset = &v
 }
 
 // GetDemoteInactiveStreams returns the DemoteInactiveStreams field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDemoteInactiveStreams() int32 {
+func (o *RealmUserSettingsDefaults) GetDemoteInactiveStreams() int32 {
 	if o == nil || IsNil(o.DemoteInactiveStreams) {
 		var ret int32
 		return ret
@@ -764,7 +764,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDemoteInacti
 
 // GetDemoteInactiveStreamsOk returns a tuple with the DemoteInactiveStreams field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDemoteInactiveStreamsOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetDemoteInactiveStreamsOk() (*int32, bool) {
 	if o == nil || IsNil(o.DemoteInactiveStreams) {
 		return nil, false
 	}
@@ -772,7 +772,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDemoteInacti
 }
 
 // HasDemoteInactiveStreams returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasDemoteInactiveStreams() bool {
+func (o *RealmUserSettingsDefaults) HasDemoteInactiveStreams() bool {
 	if o != nil && !IsNil(o.DemoteInactiveStreams) {
 		return true
 	}
@@ -781,12 +781,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasDemoteInacti
 }
 
 // SetDemoteInactiveStreams gets a reference to the given int32 and assigns it to the DemoteInactiveStreams field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetDemoteInactiveStreams(v int32) {
+func (o *RealmUserSettingsDefaults) SetDemoteInactiveStreams(v int32) {
 	o.DemoteInactiveStreams = &v
 }
 
 // GetUserListStyle returns the UserListStyle field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetUserListStyle() int32 {
+func (o *RealmUserSettingsDefaults) GetUserListStyle() int32 {
 	if o == nil || IsNil(o.UserListStyle) {
 		var ret int32
 		return ret
@@ -796,7 +796,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetUserListStyl
 
 // GetUserListStyleOk returns a tuple with the UserListStyle field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetUserListStyleOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetUserListStyleOk() (*int32, bool) {
 	if o == nil || IsNil(o.UserListStyle) {
 		return nil, false
 	}
@@ -804,7 +804,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetUserListStyl
 }
 
 // HasUserListStyle returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasUserListStyle() bool {
+func (o *RealmUserSettingsDefaults) HasUserListStyle() bool {
 	if o != nil && !IsNil(o.UserListStyle) {
 		return true
 	}
@@ -813,12 +813,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasUserListStyl
 }
 
 // SetUserListStyle gets a reference to the given int32 and assigns it to the UserListStyle field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetUserListStyle(v int32) {
+func (o *RealmUserSettingsDefaults) SetUserListStyle(v int32) {
 	o.UserListStyle = &v
 }
 
 // GetWebAnimateImagePreviews returns the WebAnimateImagePreviews field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebAnimateImagePreviews() string {
+func (o *RealmUserSettingsDefaults) GetWebAnimateImagePreviews() string {
 	if o == nil || IsNil(o.WebAnimateImagePreviews) {
 		var ret string
 		return ret
@@ -828,7 +828,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebAnimateIm
 
 // GetWebAnimateImagePreviewsOk returns a tuple with the WebAnimateImagePreviews field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebAnimateImagePreviewsOk() (*string, bool) {
+func (o *RealmUserSettingsDefaults) GetWebAnimateImagePreviewsOk() (*string, bool) {
 	if o == nil || IsNil(o.WebAnimateImagePreviews) {
 		return nil, false
 	}
@@ -836,7 +836,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebAnimateIm
 }
 
 // HasWebAnimateImagePreviews returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebAnimateImagePreviews() bool {
+func (o *RealmUserSettingsDefaults) HasWebAnimateImagePreviews() bool {
 	if o != nil && !IsNil(o.WebAnimateImagePreviews) {
 		return true
 	}
@@ -845,12 +845,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebAnimateIm
 }
 
 // SetWebAnimateImagePreviews gets a reference to the given string and assigns it to the WebAnimateImagePreviews field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWebAnimateImagePreviews(v string) {
+func (o *RealmUserSettingsDefaults) SetWebAnimateImagePreviews(v string) {
 	o.WebAnimateImagePreviews = &v
 }
 
 // GetWebStreamUnreadsCountDisplayPolicy returns the WebStreamUnreadsCountDisplayPolicy field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebStreamUnreadsCountDisplayPolicy() int32 {
+func (o *RealmUserSettingsDefaults) GetWebStreamUnreadsCountDisplayPolicy() int32 {
 	if o == nil || IsNil(o.WebStreamUnreadsCountDisplayPolicy) {
 		var ret int32
 		return ret
@@ -860,7 +860,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebStreamUnr
 
 // GetWebStreamUnreadsCountDisplayPolicyOk returns a tuple with the WebStreamUnreadsCountDisplayPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebStreamUnreadsCountDisplayPolicyOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetWebStreamUnreadsCountDisplayPolicyOk() (*int32, bool) {
 	if o == nil || IsNil(o.WebStreamUnreadsCountDisplayPolicy) {
 		return nil, false
 	}
@@ -868,7 +868,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebStreamUnr
 }
 
 // HasWebStreamUnreadsCountDisplayPolicy returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebStreamUnreadsCountDisplayPolicy() bool {
+func (o *RealmUserSettingsDefaults) HasWebStreamUnreadsCountDisplayPolicy() bool {
 	if o != nil && !IsNil(o.WebStreamUnreadsCountDisplayPolicy) {
 		return true
 	}
@@ -877,12 +877,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebStreamUnr
 }
 
 // SetWebStreamUnreadsCountDisplayPolicy gets a reference to the given int32 and assigns it to the WebStreamUnreadsCountDisplayPolicy field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWebStreamUnreadsCountDisplayPolicy(v int32) {
+func (o *RealmUserSettingsDefaults) SetWebStreamUnreadsCountDisplayPolicy(v int32) {
 	o.WebStreamUnreadsCountDisplayPolicy = &v
 }
 
 // GetHideAiFeatures returns the HideAiFeatures field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetHideAiFeatures() bool {
+func (o *RealmUserSettingsDefaults) GetHideAiFeatures() bool {
 	if o == nil || IsNil(o.HideAiFeatures) {
 		var ret bool
 		return ret
@@ -892,7 +892,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetHideAiFeatur
 
 // GetHideAiFeaturesOk returns a tuple with the HideAiFeatures field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetHideAiFeaturesOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetHideAiFeaturesOk() (*bool, bool) {
 	if o == nil || IsNil(o.HideAiFeatures) {
 		return nil, false
 	}
@@ -900,7 +900,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetHideAiFeatur
 }
 
 // HasHideAiFeatures returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasHideAiFeatures() bool {
+func (o *RealmUserSettingsDefaults) HasHideAiFeatures() bool {
 	if o != nil && !IsNil(o.HideAiFeatures) {
 		return true
 	}
@@ -909,12 +909,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasHideAiFeatur
 }
 
 // SetHideAiFeatures gets a reference to the given bool and assigns it to the HideAiFeatures field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetHideAiFeatures(v bool) {
+func (o *RealmUserSettingsDefaults) SetHideAiFeatures(v bool) {
 	o.HideAiFeatures = &v
 }
 
 // GetWebLeftSidebarShowChannelFolders returns the WebLeftSidebarShowChannelFolders field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebLeftSidebarShowChannelFolders() bool {
+func (o *RealmUserSettingsDefaults) GetWebLeftSidebarShowChannelFolders() bool {
 	if o == nil || IsNil(o.WebLeftSidebarShowChannelFolders) {
 		var ret bool
 		return ret
@@ -924,7 +924,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebLeftSideb
 
 // GetWebLeftSidebarShowChannelFoldersOk returns a tuple with the WebLeftSidebarShowChannelFolders field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebLeftSidebarShowChannelFoldersOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetWebLeftSidebarShowChannelFoldersOk() (*bool, bool) {
 	if o == nil || IsNil(o.WebLeftSidebarShowChannelFolders) {
 		return nil, false
 	}
@@ -932,7 +932,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebLeftSideb
 }
 
 // HasWebLeftSidebarShowChannelFolders returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebLeftSidebarShowChannelFolders() bool {
+func (o *RealmUserSettingsDefaults) HasWebLeftSidebarShowChannelFolders() bool {
 	if o != nil && !IsNil(o.WebLeftSidebarShowChannelFolders) {
 		return true
 	}
@@ -941,12 +941,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebLeftSideb
 }
 
 // SetWebLeftSidebarShowChannelFolders gets a reference to the given bool and assigns it to the WebLeftSidebarShowChannelFolders field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWebLeftSidebarShowChannelFolders(v bool) {
+func (o *RealmUserSettingsDefaults) SetWebLeftSidebarShowChannelFolders(v bool) {
 	o.WebLeftSidebarShowChannelFolders = &v
 }
 
 // GetWebLeftSidebarUnreadsCountSummary returns the WebLeftSidebarUnreadsCountSummary field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebLeftSidebarUnreadsCountSummary() bool {
+func (o *RealmUserSettingsDefaults) GetWebLeftSidebarUnreadsCountSummary() bool {
 	if o == nil || IsNil(o.WebLeftSidebarUnreadsCountSummary) {
 		var ret bool
 		return ret
@@ -956,7 +956,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebLeftSideb
 
 // GetWebLeftSidebarUnreadsCountSummaryOk returns a tuple with the WebLeftSidebarUnreadsCountSummary field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebLeftSidebarUnreadsCountSummaryOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetWebLeftSidebarUnreadsCountSummaryOk() (*bool, bool) {
 	if o == nil || IsNil(o.WebLeftSidebarUnreadsCountSummary) {
 		return nil, false
 	}
@@ -964,7 +964,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebLeftSideb
 }
 
 // HasWebLeftSidebarUnreadsCountSummary returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebLeftSidebarUnreadsCountSummary() bool {
+func (o *RealmUserSettingsDefaults) HasWebLeftSidebarUnreadsCountSummary() bool {
 	if o != nil && !IsNil(o.WebLeftSidebarUnreadsCountSummary) {
 		return true
 	}
@@ -973,12 +973,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebLeftSideb
 }
 
 // SetWebLeftSidebarUnreadsCountSummary gets a reference to the given bool and assigns it to the WebLeftSidebarUnreadsCountSummary field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWebLeftSidebarUnreadsCountSummary(v bool) {
+func (o *RealmUserSettingsDefaults) SetWebLeftSidebarUnreadsCountSummary(v bool) {
 	o.WebLeftSidebarUnreadsCountSummary = &v
 }
 
 // GetEnableStreamDesktopNotifications returns the EnableStreamDesktopNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStreamDesktopNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetEnableStreamDesktopNotifications() bool {
 	if o == nil || IsNil(o.EnableStreamDesktopNotifications) {
 		var ret bool
 		return ret
@@ -988,7 +988,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStream
 
 // GetEnableStreamDesktopNotificationsOk returns a tuple with the EnableStreamDesktopNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStreamDesktopNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableStreamDesktopNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableStreamDesktopNotifications) {
 		return nil, false
 	}
@@ -996,7 +996,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStream
 }
 
 // HasEnableStreamDesktopNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableStreamDesktopNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasEnableStreamDesktopNotifications() bool {
 	if o != nil && !IsNil(o.EnableStreamDesktopNotifications) {
 		return true
 	}
@@ -1005,12 +1005,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableStream
 }
 
 // SetEnableStreamDesktopNotifications gets a reference to the given bool and assigns it to the EnableStreamDesktopNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableStreamDesktopNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableStreamDesktopNotifications(v bool) {
 	o.EnableStreamDesktopNotifications = &v
 }
 
 // GetEnableStreamEmailNotifications returns the EnableStreamEmailNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStreamEmailNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetEnableStreamEmailNotifications() bool {
 	if o == nil || IsNil(o.EnableStreamEmailNotifications) {
 		var ret bool
 		return ret
@@ -1020,7 +1020,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStream
 
 // GetEnableStreamEmailNotificationsOk returns a tuple with the EnableStreamEmailNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStreamEmailNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableStreamEmailNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableStreamEmailNotifications) {
 		return nil, false
 	}
@@ -1028,7 +1028,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStream
 }
 
 // HasEnableStreamEmailNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableStreamEmailNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasEnableStreamEmailNotifications() bool {
 	if o != nil && !IsNil(o.EnableStreamEmailNotifications) {
 		return true
 	}
@@ -1037,12 +1037,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableStream
 }
 
 // SetEnableStreamEmailNotifications gets a reference to the given bool and assigns it to the EnableStreamEmailNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableStreamEmailNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableStreamEmailNotifications(v bool) {
 	o.EnableStreamEmailNotifications = &v
 }
 
 // GetEnableStreamPushNotifications returns the EnableStreamPushNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStreamPushNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetEnableStreamPushNotifications() bool {
 	if o == nil || IsNil(o.EnableStreamPushNotifications) {
 		var ret bool
 		return ret
@@ -1052,7 +1052,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStream
 
 // GetEnableStreamPushNotificationsOk returns a tuple with the EnableStreamPushNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStreamPushNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableStreamPushNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableStreamPushNotifications) {
 		return nil, false
 	}
@@ -1060,7 +1060,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStream
 }
 
 // HasEnableStreamPushNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableStreamPushNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasEnableStreamPushNotifications() bool {
 	if o != nil && !IsNil(o.EnableStreamPushNotifications) {
 		return true
 	}
@@ -1069,12 +1069,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableStream
 }
 
 // SetEnableStreamPushNotifications gets a reference to the given bool and assigns it to the EnableStreamPushNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableStreamPushNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableStreamPushNotifications(v bool) {
 	o.EnableStreamPushNotifications = &v
 }
 
 // GetEnableStreamAudibleNotifications returns the EnableStreamAudibleNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStreamAudibleNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetEnableStreamAudibleNotifications() bool {
 	if o == nil || IsNil(o.EnableStreamAudibleNotifications) {
 		var ret bool
 		return ret
@@ -1084,7 +1084,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStream
 
 // GetEnableStreamAudibleNotificationsOk returns a tuple with the EnableStreamAudibleNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStreamAudibleNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableStreamAudibleNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableStreamAudibleNotifications) {
 		return nil, false
 	}
@@ -1092,7 +1092,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableStream
 }
 
 // HasEnableStreamAudibleNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableStreamAudibleNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasEnableStreamAudibleNotifications() bool {
 	if o != nil && !IsNil(o.EnableStreamAudibleNotifications) {
 		return true
 	}
@@ -1101,12 +1101,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableStream
 }
 
 // SetEnableStreamAudibleNotifications gets a reference to the given bool and assigns it to the EnableStreamAudibleNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableStreamAudibleNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableStreamAudibleNotifications(v bool) {
 	o.EnableStreamAudibleNotifications = &v
 }
 
 // GetNotificationSound returns the NotificationSound field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetNotificationSound() string {
+func (o *RealmUserSettingsDefaults) GetNotificationSound() string {
 	if o == nil || IsNil(o.NotificationSound) {
 		var ret string
 		return ret
@@ -1116,7 +1116,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetNotification
 
 // GetNotificationSoundOk returns a tuple with the NotificationSound field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetNotificationSoundOk() (*string, bool) {
+func (o *RealmUserSettingsDefaults) GetNotificationSoundOk() (*string, bool) {
 	if o == nil || IsNil(o.NotificationSound) {
 		return nil, false
 	}
@@ -1124,7 +1124,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetNotification
 }
 
 // HasNotificationSound returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasNotificationSound() bool {
+func (o *RealmUserSettingsDefaults) HasNotificationSound() bool {
 	if o != nil && !IsNil(o.NotificationSound) {
 		return true
 	}
@@ -1133,12 +1133,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasNotification
 }
 
 // SetNotificationSound gets a reference to the given string and assigns it to the NotificationSound field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetNotificationSound(v string) {
+func (o *RealmUserSettingsDefaults) SetNotificationSound(v string) {
 	o.NotificationSound = &v
 }
 
 // GetEnableDesktopNotifications returns the EnableDesktopNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableDesktopNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetEnableDesktopNotifications() bool {
 	if o == nil || IsNil(o.EnableDesktopNotifications) {
 		var ret bool
 		return ret
@@ -1148,7 +1148,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableDeskto
 
 // GetEnableDesktopNotificationsOk returns a tuple with the EnableDesktopNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableDesktopNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableDesktopNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableDesktopNotifications) {
 		return nil, false
 	}
@@ -1156,7 +1156,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableDeskto
 }
 
 // HasEnableDesktopNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableDesktopNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasEnableDesktopNotifications() bool {
 	if o != nil && !IsNil(o.EnableDesktopNotifications) {
 		return true
 	}
@@ -1165,12 +1165,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableDeskto
 }
 
 // SetEnableDesktopNotifications gets a reference to the given bool and assigns it to the EnableDesktopNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableDesktopNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableDesktopNotifications(v bool) {
 	o.EnableDesktopNotifications = &v
 }
 
 // GetEnableSounds returns the EnableSounds field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableSounds() bool {
+func (o *RealmUserSettingsDefaults) GetEnableSounds() bool {
 	if o == nil || IsNil(o.EnableSounds) {
 		var ret bool
 		return ret
@@ -1180,7 +1180,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableSounds
 
 // GetEnableSoundsOk returns a tuple with the EnableSounds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableSoundsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableSoundsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableSounds) {
 		return nil, false
 	}
@@ -1188,7 +1188,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableSounds
 }
 
 // HasEnableSounds returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableSounds() bool {
+func (o *RealmUserSettingsDefaults) HasEnableSounds() bool {
 	if o != nil && !IsNil(o.EnableSounds) {
 		return true
 	}
@@ -1197,12 +1197,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableSounds
 }
 
 // SetEnableSounds gets a reference to the given bool and assigns it to the EnableSounds field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableSounds(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableSounds(v bool) {
 	o.EnableSounds = &v
 }
 
 // GetEnableOfflineEmailNotifications returns the EnableOfflineEmailNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableOfflineEmailNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetEnableOfflineEmailNotifications() bool {
 	if o == nil || IsNil(o.EnableOfflineEmailNotifications) {
 		var ret bool
 		return ret
@@ -1212,7 +1212,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableOfflin
 
 // GetEnableOfflineEmailNotificationsOk returns a tuple with the EnableOfflineEmailNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableOfflineEmailNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableOfflineEmailNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableOfflineEmailNotifications) {
 		return nil, false
 	}
@@ -1220,7 +1220,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableOfflin
 }
 
 // HasEnableOfflineEmailNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableOfflineEmailNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasEnableOfflineEmailNotifications() bool {
 	if o != nil && !IsNil(o.EnableOfflineEmailNotifications) {
 		return true
 	}
@@ -1229,12 +1229,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableOfflin
 }
 
 // SetEnableOfflineEmailNotifications gets a reference to the given bool and assigns it to the EnableOfflineEmailNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableOfflineEmailNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableOfflineEmailNotifications(v bool) {
 	o.EnableOfflineEmailNotifications = &v
 }
 
 // GetEnableOfflinePushNotifications returns the EnableOfflinePushNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableOfflinePushNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetEnableOfflinePushNotifications() bool {
 	if o == nil || IsNil(o.EnableOfflinePushNotifications) {
 		var ret bool
 		return ret
@@ -1244,7 +1244,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableOfflin
 
 // GetEnableOfflinePushNotificationsOk returns a tuple with the EnableOfflinePushNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableOfflinePushNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableOfflinePushNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableOfflinePushNotifications) {
 		return nil, false
 	}
@@ -1252,7 +1252,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableOfflin
 }
 
 // HasEnableOfflinePushNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableOfflinePushNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasEnableOfflinePushNotifications() bool {
 	if o != nil && !IsNil(o.EnableOfflinePushNotifications) {
 		return true
 	}
@@ -1261,12 +1261,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableOfflin
 }
 
 // SetEnableOfflinePushNotifications gets a reference to the given bool and assigns it to the EnableOfflinePushNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableOfflinePushNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableOfflinePushNotifications(v bool) {
 	o.EnableOfflinePushNotifications = &v
 }
 
 // GetEnableOnlinePushNotifications returns the EnableOnlinePushNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableOnlinePushNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetEnableOnlinePushNotifications() bool {
 	if o == nil || IsNil(o.EnableOnlinePushNotifications) {
 		var ret bool
 		return ret
@@ -1276,7 +1276,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableOnline
 
 // GetEnableOnlinePushNotificationsOk returns a tuple with the EnableOnlinePushNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableOnlinePushNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableOnlinePushNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableOnlinePushNotifications) {
 		return nil, false
 	}
@@ -1284,7 +1284,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableOnline
 }
 
 // HasEnableOnlinePushNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableOnlinePushNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasEnableOnlinePushNotifications() bool {
 	if o != nil && !IsNil(o.EnableOnlinePushNotifications) {
 		return true
 	}
@@ -1293,12 +1293,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableOnline
 }
 
 // SetEnableOnlinePushNotifications gets a reference to the given bool and assigns it to the EnableOnlinePushNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableOnlinePushNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableOnlinePushNotifications(v bool) {
 	o.EnableOnlinePushNotifications = &v
 }
 
 // GetEnableFollowedTopicDesktopNotifications returns the EnableFollowedTopicDesktopNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollowedTopicDesktopNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetEnableFollowedTopicDesktopNotifications() bool {
 	if o == nil || IsNil(o.EnableFollowedTopicDesktopNotifications) {
 		var ret bool
 		return ret
@@ -1308,7 +1308,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollow
 
 // GetEnableFollowedTopicDesktopNotificationsOk returns a tuple with the EnableFollowedTopicDesktopNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollowedTopicDesktopNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableFollowedTopicDesktopNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableFollowedTopicDesktopNotifications) {
 		return nil, false
 	}
@@ -1316,7 +1316,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollow
 }
 
 // HasEnableFollowedTopicDesktopNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableFollowedTopicDesktopNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasEnableFollowedTopicDesktopNotifications() bool {
 	if o != nil && !IsNil(o.EnableFollowedTopicDesktopNotifications) {
 		return true
 	}
@@ -1325,12 +1325,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableFollow
 }
 
 // SetEnableFollowedTopicDesktopNotifications gets a reference to the given bool and assigns it to the EnableFollowedTopicDesktopNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableFollowedTopicDesktopNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableFollowedTopicDesktopNotifications(v bool) {
 	o.EnableFollowedTopicDesktopNotifications = &v
 }
 
 // GetEnableFollowedTopicEmailNotifications returns the EnableFollowedTopicEmailNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollowedTopicEmailNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetEnableFollowedTopicEmailNotifications() bool {
 	if o == nil || IsNil(o.EnableFollowedTopicEmailNotifications) {
 		var ret bool
 		return ret
@@ -1340,7 +1340,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollow
 
 // GetEnableFollowedTopicEmailNotificationsOk returns a tuple with the EnableFollowedTopicEmailNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollowedTopicEmailNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableFollowedTopicEmailNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableFollowedTopicEmailNotifications) {
 		return nil, false
 	}
@@ -1348,7 +1348,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollow
 }
 
 // HasEnableFollowedTopicEmailNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableFollowedTopicEmailNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasEnableFollowedTopicEmailNotifications() bool {
 	if o != nil && !IsNil(o.EnableFollowedTopicEmailNotifications) {
 		return true
 	}
@@ -1357,12 +1357,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableFollow
 }
 
 // SetEnableFollowedTopicEmailNotifications gets a reference to the given bool and assigns it to the EnableFollowedTopicEmailNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableFollowedTopicEmailNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableFollowedTopicEmailNotifications(v bool) {
 	o.EnableFollowedTopicEmailNotifications = &v
 }
 
 // GetEnableFollowedTopicPushNotifications returns the EnableFollowedTopicPushNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollowedTopicPushNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetEnableFollowedTopicPushNotifications() bool {
 	if o == nil || IsNil(o.EnableFollowedTopicPushNotifications) {
 		var ret bool
 		return ret
@@ -1372,7 +1372,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollow
 
 // GetEnableFollowedTopicPushNotificationsOk returns a tuple with the EnableFollowedTopicPushNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollowedTopicPushNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableFollowedTopicPushNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableFollowedTopicPushNotifications) {
 		return nil, false
 	}
@@ -1380,7 +1380,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollow
 }
 
 // HasEnableFollowedTopicPushNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableFollowedTopicPushNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasEnableFollowedTopicPushNotifications() bool {
 	if o != nil && !IsNil(o.EnableFollowedTopicPushNotifications) {
 		return true
 	}
@@ -1389,12 +1389,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableFollow
 }
 
 // SetEnableFollowedTopicPushNotifications gets a reference to the given bool and assigns it to the EnableFollowedTopicPushNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableFollowedTopicPushNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableFollowedTopicPushNotifications(v bool) {
 	o.EnableFollowedTopicPushNotifications = &v
 }
 
 // GetEnableFollowedTopicAudibleNotifications returns the EnableFollowedTopicAudibleNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollowedTopicAudibleNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetEnableFollowedTopicAudibleNotifications() bool {
 	if o == nil || IsNil(o.EnableFollowedTopicAudibleNotifications) {
 		var ret bool
 		return ret
@@ -1404,7 +1404,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollow
 
 // GetEnableFollowedTopicAudibleNotificationsOk returns a tuple with the EnableFollowedTopicAudibleNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollowedTopicAudibleNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableFollowedTopicAudibleNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableFollowedTopicAudibleNotifications) {
 		return nil, false
 	}
@@ -1412,7 +1412,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollow
 }
 
 // HasEnableFollowedTopicAudibleNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableFollowedTopicAudibleNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasEnableFollowedTopicAudibleNotifications() bool {
 	if o != nil && !IsNil(o.EnableFollowedTopicAudibleNotifications) {
 		return true
 	}
@@ -1421,12 +1421,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableFollow
 }
 
 // SetEnableFollowedTopicAudibleNotifications gets a reference to the given bool and assigns it to the EnableFollowedTopicAudibleNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableFollowedTopicAudibleNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableFollowedTopicAudibleNotifications(v bool) {
 	o.EnableFollowedTopicAudibleNotifications = &v
 }
 
 // GetEnableDigestEmails returns the EnableDigestEmails field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableDigestEmails() bool {
+func (o *RealmUserSettingsDefaults) GetEnableDigestEmails() bool {
 	if o == nil || IsNil(o.EnableDigestEmails) {
 		var ret bool
 		return ret
@@ -1436,7 +1436,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableDigest
 
 // GetEnableDigestEmailsOk returns a tuple with the EnableDigestEmails field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableDigestEmailsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableDigestEmailsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableDigestEmails) {
 		return nil, false
 	}
@@ -1444,7 +1444,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableDigest
 }
 
 // HasEnableDigestEmails returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableDigestEmails() bool {
+func (o *RealmUserSettingsDefaults) HasEnableDigestEmails() bool {
 	if o != nil && !IsNil(o.EnableDigestEmails) {
 		return true
 	}
@@ -1453,12 +1453,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableDigest
 }
 
 // SetEnableDigestEmails gets a reference to the given bool and assigns it to the EnableDigestEmails field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableDigestEmails(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableDigestEmails(v bool) {
 	o.EnableDigestEmails = &v
 }
 
 // GetEnableMarketingEmails returns the EnableMarketingEmails field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableMarketingEmails() bool {
+func (o *RealmUserSettingsDefaults) GetEnableMarketingEmails() bool {
 	if o == nil || IsNil(o.EnableMarketingEmails) {
 		var ret bool
 		return ret
@@ -1468,7 +1468,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableMarket
 
 // GetEnableMarketingEmailsOk returns a tuple with the EnableMarketingEmails field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableMarketingEmailsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableMarketingEmailsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableMarketingEmails) {
 		return nil, false
 	}
@@ -1476,7 +1476,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableMarket
 }
 
 // HasEnableMarketingEmails returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableMarketingEmails() bool {
+func (o *RealmUserSettingsDefaults) HasEnableMarketingEmails() bool {
 	if o != nil && !IsNil(o.EnableMarketingEmails) {
 		return true
 	}
@@ -1485,12 +1485,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableMarket
 }
 
 // SetEnableMarketingEmails gets a reference to the given bool and assigns it to the EnableMarketingEmails field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableMarketingEmails(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableMarketingEmails(v bool) {
 	o.EnableMarketingEmails = &v
 }
 
 // GetEnableLoginEmails returns the EnableLoginEmails field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableLoginEmails() bool {
+func (o *RealmUserSettingsDefaults) GetEnableLoginEmails() bool {
 	if o == nil || IsNil(o.EnableLoginEmails) {
 		var ret bool
 		return ret
@@ -1500,7 +1500,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableLoginE
 
 // GetEnableLoginEmailsOk returns a tuple with the EnableLoginEmails field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableLoginEmailsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableLoginEmailsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableLoginEmails) {
 		return nil, false
 	}
@@ -1508,7 +1508,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableLoginE
 }
 
 // HasEnableLoginEmails returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableLoginEmails() bool {
+func (o *RealmUserSettingsDefaults) HasEnableLoginEmails() bool {
 	if o != nil && !IsNil(o.EnableLoginEmails) {
 		return true
 	}
@@ -1517,12 +1517,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableLoginE
 }
 
 // SetEnableLoginEmails gets a reference to the given bool and assigns it to the EnableLoginEmails field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableLoginEmails(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableLoginEmails(v bool) {
 	o.EnableLoginEmails = &v
 }
 
 // GetMessageContentInEmailNotifications returns the MessageContentInEmailNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetMessageContentInEmailNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetMessageContentInEmailNotifications() bool {
 	if o == nil || IsNil(o.MessageContentInEmailNotifications) {
 		var ret bool
 		return ret
@@ -1532,7 +1532,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetMessageConte
 
 // GetMessageContentInEmailNotificationsOk returns a tuple with the MessageContentInEmailNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetMessageContentInEmailNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetMessageContentInEmailNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.MessageContentInEmailNotifications) {
 		return nil, false
 	}
@@ -1540,7 +1540,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetMessageConte
 }
 
 // HasMessageContentInEmailNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasMessageContentInEmailNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasMessageContentInEmailNotifications() bool {
 	if o != nil && !IsNil(o.MessageContentInEmailNotifications) {
 		return true
 	}
@@ -1549,12 +1549,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasMessageConte
 }
 
 // SetMessageContentInEmailNotifications gets a reference to the given bool and assigns it to the MessageContentInEmailNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetMessageContentInEmailNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetMessageContentInEmailNotifications(v bool) {
 	o.MessageContentInEmailNotifications = &v
 }
 
 // GetPmContentInDesktopNotifications returns the PmContentInDesktopNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetPmContentInDesktopNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetPmContentInDesktopNotifications() bool {
 	if o == nil || IsNil(o.PmContentInDesktopNotifications) {
 		var ret bool
 		return ret
@@ -1564,7 +1564,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetPmContentInD
 
 // GetPmContentInDesktopNotificationsOk returns a tuple with the PmContentInDesktopNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetPmContentInDesktopNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetPmContentInDesktopNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.PmContentInDesktopNotifications) {
 		return nil, false
 	}
@@ -1572,7 +1572,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetPmContentInD
 }
 
 // HasPmContentInDesktopNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasPmContentInDesktopNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasPmContentInDesktopNotifications() bool {
 	if o != nil && !IsNil(o.PmContentInDesktopNotifications) {
 		return true
 	}
@@ -1581,12 +1581,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasPmContentInD
 }
 
 // SetPmContentInDesktopNotifications gets a reference to the given bool and assigns it to the PmContentInDesktopNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetPmContentInDesktopNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetPmContentInDesktopNotifications(v bool) {
 	o.PmContentInDesktopNotifications = &v
 }
 
 // GetWildcardMentionsNotify returns the WildcardMentionsNotify field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWildcardMentionsNotify() bool {
+func (o *RealmUserSettingsDefaults) GetWildcardMentionsNotify() bool {
 	if o == nil || IsNil(o.WildcardMentionsNotify) {
 		var ret bool
 		return ret
@@ -1596,7 +1596,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWildcardMent
 
 // GetWildcardMentionsNotifyOk returns a tuple with the WildcardMentionsNotify field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWildcardMentionsNotifyOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetWildcardMentionsNotifyOk() (*bool, bool) {
 	if o == nil || IsNil(o.WildcardMentionsNotify) {
 		return nil, false
 	}
@@ -1604,7 +1604,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWildcardMent
 }
 
 // HasWildcardMentionsNotify returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWildcardMentionsNotify() bool {
+func (o *RealmUserSettingsDefaults) HasWildcardMentionsNotify() bool {
 	if o != nil && !IsNil(o.WildcardMentionsNotify) {
 		return true
 	}
@@ -1613,12 +1613,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWildcardMent
 }
 
 // SetWildcardMentionsNotify gets a reference to the given bool and assigns it to the WildcardMentionsNotify field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWildcardMentionsNotify(v bool) {
+func (o *RealmUserSettingsDefaults) SetWildcardMentionsNotify(v bool) {
 	o.WildcardMentionsNotify = &v
 }
 
 // GetEnableFollowedTopicWildcardMentionsNotify returns the EnableFollowedTopicWildcardMentionsNotify field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollowedTopicWildcardMentionsNotify() bool {
+func (o *RealmUserSettingsDefaults) GetEnableFollowedTopicWildcardMentionsNotify() bool {
 	if o == nil || IsNil(o.EnableFollowedTopicWildcardMentionsNotify) {
 		var ret bool
 		return ret
@@ -1628,7 +1628,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollow
 
 // GetEnableFollowedTopicWildcardMentionsNotifyOk returns a tuple with the EnableFollowedTopicWildcardMentionsNotify field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollowedTopicWildcardMentionsNotifyOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableFollowedTopicWildcardMentionsNotifyOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableFollowedTopicWildcardMentionsNotify) {
 		return nil, false
 	}
@@ -1636,7 +1636,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableFollow
 }
 
 // HasEnableFollowedTopicWildcardMentionsNotify returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableFollowedTopicWildcardMentionsNotify() bool {
+func (o *RealmUserSettingsDefaults) HasEnableFollowedTopicWildcardMentionsNotify() bool {
 	if o != nil && !IsNil(o.EnableFollowedTopicWildcardMentionsNotify) {
 		return true
 	}
@@ -1645,12 +1645,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableFollow
 }
 
 // SetEnableFollowedTopicWildcardMentionsNotify gets a reference to the given bool and assigns it to the EnableFollowedTopicWildcardMentionsNotify field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableFollowedTopicWildcardMentionsNotify(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableFollowedTopicWildcardMentionsNotify(v bool) {
 	o.EnableFollowedTopicWildcardMentionsNotify = &v
 }
 
 // GetDesktopIconCountDisplay returns the DesktopIconCountDisplay field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDesktopIconCountDisplay() int32 {
+func (o *RealmUserSettingsDefaults) GetDesktopIconCountDisplay() int32 {
 	if o == nil || IsNil(o.DesktopIconCountDisplay) {
 		var ret int32
 		return ret
@@ -1660,7 +1660,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDesktopIconC
 
 // GetDesktopIconCountDisplayOk returns a tuple with the DesktopIconCountDisplay field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDesktopIconCountDisplayOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetDesktopIconCountDisplayOk() (*int32, bool) {
 	if o == nil || IsNil(o.DesktopIconCountDisplay) {
 		return nil, false
 	}
@@ -1668,7 +1668,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetDesktopIconC
 }
 
 // HasDesktopIconCountDisplay returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasDesktopIconCountDisplay() bool {
+func (o *RealmUserSettingsDefaults) HasDesktopIconCountDisplay() bool {
 	if o != nil && !IsNil(o.DesktopIconCountDisplay) {
 		return true
 	}
@@ -1677,12 +1677,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasDesktopIconC
 }
 
 // SetDesktopIconCountDisplay gets a reference to the given int32 and assigns it to the DesktopIconCountDisplay field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetDesktopIconCountDisplay(v int32) {
+func (o *RealmUserSettingsDefaults) SetDesktopIconCountDisplay(v int32) {
 	o.DesktopIconCountDisplay = &v
 }
 
 // GetRealmNameInEmailNotificationsPolicy returns the RealmNameInEmailNotificationsPolicy field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetRealmNameInEmailNotificationsPolicy() int32 {
+func (o *RealmUserSettingsDefaults) GetRealmNameInEmailNotificationsPolicy() int32 {
 	if o == nil || IsNil(o.RealmNameInEmailNotificationsPolicy) {
 		var ret int32
 		return ret
@@ -1692,7 +1692,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetRealmNameInE
 
 // GetRealmNameInEmailNotificationsPolicyOk returns a tuple with the RealmNameInEmailNotificationsPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetRealmNameInEmailNotificationsPolicyOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetRealmNameInEmailNotificationsPolicyOk() (*int32, bool) {
 	if o == nil || IsNil(o.RealmNameInEmailNotificationsPolicy) {
 		return nil, false
 	}
@@ -1700,7 +1700,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetRealmNameInE
 }
 
 // HasRealmNameInEmailNotificationsPolicy returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasRealmNameInEmailNotificationsPolicy() bool {
+func (o *RealmUserSettingsDefaults) HasRealmNameInEmailNotificationsPolicy() bool {
 	if o != nil && !IsNil(o.RealmNameInEmailNotificationsPolicy) {
 		return true
 	}
@@ -1709,12 +1709,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasRealmNameInE
 }
 
 // SetRealmNameInEmailNotificationsPolicy gets a reference to the given int32 and assigns it to the RealmNameInEmailNotificationsPolicy field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetRealmNameInEmailNotificationsPolicy(v int32) {
+func (o *RealmUserSettingsDefaults) SetRealmNameInEmailNotificationsPolicy(v int32) {
 	o.RealmNameInEmailNotificationsPolicy = &v
 }
 
 // GetAutomaticallyFollowTopicsPolicy returns the AutomaticallyFollowTopicsPolicy field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAutomaticallyFollowTopicsPolicy() int32 {
+func (o *RealmUserSettingsDefaults) GetAutomaticallyFollowTopicsPolicy() int32 {
 	if o == nil || IsNil(o.AutomaticallyFollowTopicsPolicy) {
 		var ret int32
 		return ret
@@ -1724,7 +1724,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAutomaticall
 
 // GetAutomaticallyFollowTopicsPolicyOk returns a tuple with the AutomaticallyFollowTopicsPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAutomaticallyFollowTopicsPolicyOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetAutomaticallyFollowTopicsPolicyOk() (*int32, bool) {
 	if o == nil || IsNil(o.AutomaticallyFollowTopicsPolicy) {
 		return nil, false
 	}
@@ -1732,7 +1732,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAutomaticall
 }
 
 // HasAutomaticallyFollowTopicsPolicy returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasAutomaticallyFollowTopicsPolicy() bool {
+func (o *RealmUserSettingsDefaults) HasAutomaticallyFollowTopicsPolicy() bool {
 	if o != nil && !IsNil(o.AutomaticallyFollowTopicsPolicy) {
 		return true
 	}
@@ -1741,12 +1741,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasAutomaticall
 }
 
 // SetAutomaticallyFollowTopicsPolicy gets a reference to the given int32 and assigns it to the AutomaticallyFollowTopicsPolicy field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetAutomaticallyFollowTopicsPolicy(v int32) {
+func (o *RealmUserSettingsDefaults) SetAutomaticallyFollowTopicsPolicy(v int32) {
 	o.AutomaticallyFollowTopicsPolicy = &v
 }
 
 // GetAutomaticallyUnmuteTopicsInMutedStreamsPolicy returns the AutomaticallyUnmuteTopicsInMutedStreamsPolicy field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAutomaticallyUnmuteTopicsInMutedStreamsPolicy() int32 {
+func (o *RealmUserSettingsDefaults) GetAutomaticallyUnmuteTopicsInMutedStreamsPolicy() int32 {
 	if o == nil || IsNil(o.AutomaticallyUnmuteTopicsInMutedStreamsPolicy) {
 		var ret int32
 		return ret
@@ -1756,7 +1756,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAutomaticall
 
 // GetAutomaticallyUnmuteTopicsInMutedStreamsPolicyOk returns a tuple with the AutomaticallyUnmuteTopicsInMutedStreamsPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAutomaticallyUnmuteTopicsInMutedStreamsPolicyOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetAutomaticallyUnmuteTopicsInMutedStreamsPolicyOk() (*int32, bool) {
 	if o == nil || IsNil(o.AutomaticallyUnmuteTopicsInMutedStreamsPolicy) {
 		return nil, false
 	}
@@ -1764,7 +1764,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAutomaticall
 }
 
 // HasAutomaticallyUnmuteTopicsInMutedStreamsPolicy returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasAutomaticallyUnmuteTopicsInMutedStreamsPolicy() bool {
+func (o *RealmUserSettingsDefaults) HasAutomaticallyUnmuteTopicsInMutedStreamsPolicy() bool {
 	if o != nil && !IsNil(o.AutomaticallyUnmuteTopicsInMutedStreamsPolicy) {
 		return true
 	}
@@ -1773,12 +1773,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasAutomaticall
 }
 
 // SetAutomaticallyUnmuteTopicsInMutedStreamsPolicy gets a reference to the given int32 and assigns it to the AutomaticallyUnmuteTopicsInMutedStreamsPolicy field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetAutomaticallyUnmuteTopicsInMutedStreamsPolicy(v int32) {
+func (o *RealmUserSettingsDefaults) SetAutomaticallyUnmuteTopicsInMutedStreamsPolicy(v int32) {
 	o.AutomaticallyUnmuteTopicsInMutedStreamsPolicy = &v
 }
 
 // GetAutomaticallyFollowTopicsWhereMentioned returns the AutomaticallyFollowTopicsWhereMentioned field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAutomaticallyFollowTopicsWhereMentioned() bool {
+func (o *RealmUserSettingsDefaults) GetAutomaticallyFollowTopicsWhereMentioned() bool {
 	if o == nil || IsNil(o.AutomaticallyFollowTopicsWhereMentioned) {
 		var ret bool
 		return ret
@@ -1788,7 +1788,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAutomaticall
 
 // GetAutomaticallyFollowTopicsWhereMentionedOk returns a tuple with the AutomaticallyFollowTopicsWhereMentioned field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAutomaticallyFollowTopicsWhereMentionedOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetAutomaticallyFollowTopicsWhereMentionedOk() (*bool, bool) {
 	if o == nil || IsNil(o.AutomaticallyFollowTopicsWhereMentioned) {
 		return nil, false
 	}
@@ -1796,7 +1796,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAutomaticall
 }
 
 // HasAutomaticallyFollowTopicsWhereMentioned returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasAutomaticallyFollowTopicsWhereMentioned() bool {
+func (o *RealmUserSettingsDefaults) HasAutomaticallyFollowTopicsWhereMentioned() bool {
 	if o != nil && !IsNil(o.AutomaticallyFollowTopicsWhereMentioned) {
 		return true
 	}
@@ -1805,12 +1805,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasAutomaticall
 }
 
 // SetAutomaticallyFollowTopicsWhereMentioned gets a reference to the given bool and assigns it to the AutomaticallyFollowTopicsWhereMentioned field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetAutomaticallyFollowTopicsWhereMentioned(v bool) {
+func (o *RealmUserSettingsDefaults) SetAutomaticallyFollowTopicsWhereMentioned(v bool) {
 	o.AutomaticallyFollowTopicsWhereMentioned = &v
 }
 
 // GetResolvedTopicNoticeAutoReadPolicy returns the ResolvedTopicNoticeAutoReadPolicy field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetResolvedTopicNoticeAutoReadPolicy() string {
+func (o *RealmUserSettingsDefaults) GetResolvedTopicNoticeAutoReadPolicy() string {
 	if o == nil || IsNil(o.ResolvedTopicNoticeAutoReadPolicy) {
 		var ret string
 		return ret
@@ -1820,7 +1820,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetResolvedTopi
 
 // GetResolvedTopicNoticeAutoReadPolicyOk returns a tuple with the ResolvedTopicNoticeAutoReadPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetResolvedTopicNoticeAutoReadPolicyOk() (*string, bool) {
+func (o *RealmUserSettingsDefaults) GetResolvedTopicNoticeAutoReadPolicyOk() (*string, bool) {
 	if o == nil || IsNil(o.ResolvedTopicNoticeAutoReadPolicy) {
 		return nil, false
 	}
@@ -1828,7 +1828,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetResolvedTopi
 }
 
 // HasResolvedTopicNoticeAutoReadPolicy returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasResolvedTopicNoticeAutoReadPolicy() bool {
+func (o *RealmUserSettingsDefaults) HasResolvedTopicNoticeAutoReadPolicy() bool {
 	if o != nil && !IsNil(o.ResolvedTopicNoticeAutoReadPolicy) {
 		return true
 	}
@@ -1837,12 +1837,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasResolvedTopi
 }
 
 // SetResolvedTopicNoticeAutoReadPolicy gets a reference to the given string and assigns it to the ResolvedTopicNoticeAutoReadPolicy field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetResolvedTopicNoticeAutoReadPolicy(v string) {
+func (o *RealmUserSettingsDefaults) SetResolvedTopicNoticeAutoReadPolicy(v string) {
 	o.ResolvedTopicNoticeAutoReadPolicy = &v
 }
 
 // GetPresenceEnabled returns the PresenceEnabled field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetPresenceEnabled() bool {
+func (o *RealmUserSettingsDefaults) GetPresenceEnabled() bool {
 	if o == nil || IsNil(o.PresenceEnabled) {
 		var ret bool
 		return ret
@@ -1852,7 +1852,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetPresenceEnab
 
 // GetPresenceEnabledOk returns a tuple with the PresenceEnabled field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetPresenceEnabledOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetPresenceEnabledOk() (*bool, bool) {
 	if o == nil || IsNil(o.PresenceEnabled) {
 		return nil, false
 	}
@@ -1860,7 +1860,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetPresenceEnab
 }
 
 // HasPresenceEnabled returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasPresenceEnabled() bool {
+func (o *RealmUserSettingsDefaults) HasPresenceEnabled() bool {
 	if o != nil && !IsNil(o.PresenceEnabled) {
 		return true
 	}
@@ -1869,12 +1869,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasPresenceEnab
 }
 
 // SetPresenceEnabled gets a reference to the given bool and assigns it to the PresenceEnabled field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetPresenceEnabled(v bool) {
+func (o *RealmUserSettingsDefaults) SetPresenceEnabled(v bool) {
 	o.PresenceEnabled = &v
 }
 
 // GetEnterSends returns the EnterSends field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnterSends() bool {
+func (o *RealmUserSettingsDefaults) GetEnterSends() bool {
 	if o == nil || IsNil(o.EnterSends) {
 		var ret bool
 		return ret
@@ -1884,7 +1884,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnterSends()
 
 // GetEnterSendsOk returns a tuple with the EnterSends field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnterSendsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnterSendsOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnterSends) {
 		return nil, false
 	}
@@ -1892,7 +1892,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnterSendsOk
 }
 
 // HasEnterSends returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnterSends() bool {
+func (o *RealmUserSettingsDefaults) HasEnterSends() bool {
 	if o != nil && !IsNil(o.EnterSends) {
 		return true
 	}
@@ -1901,12 +1901,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnterSends()
 }
 
 // SetEnterSends gets a reference to the given bool and assigns it to the EnterSends field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnterSends(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnterSends(v bool) {
 	o.EnterSends = &v
 }
 
 // GetEnableDraftsSynchronization returns the EnableDraftsSynchronization field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableDraftsSynchronization() bool {
+func (o *RealmUserSettingsDefaults) GetEnableDraftsSynchronization() bool {
 	if o == nil || IsNil(o.EnableDraftsSynchronization) {
 		var ret bool
 		return ret
@@ -1916,7 +1916,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableDrafts
 
 // GetEnableDraftsSynchronizationOk returns a tuple with the EnableDraftsSynchronization field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableDraftsSynchronizationOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetEnableDraftsSynchronizationOk() (*bool, bool) {
 	if o == nil || IsNil(o.EnableDraftsSynchronization) {
 		return nil, false
 	}
@@ -1924,7 +1924,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEnableDrafts
 }
 
 // HasEnableDraftsSynchronization returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableDraftsSynchronization() bool {
+func (o *RealmUserSettingsDefaults) HasEnableDraftsSynchronization() bool {
 	if o != nil && !IsNil(o.EnableDraftsSynchronization) {
 		return true
 	}
@@ -1933,12 +1933,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEnableDrafts
 }
 
 // SetEnableDraftsSynchronization gets a reference to the given bool and assigns it to the EnableDraftsSynchronization field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEnableDraftsSynchronization(v bool) {
+func (o *RealmUserSettingsDefaults) SetEnableDraftsSynchronization(v bool) {
 	o.EnableDraftsSynchronization = &v
 }
 
 // GetEmailNotificationsBatchingPeriodSeconds returns the EmailNotificationsBatchingPeriodSeconds field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmailNotificationsBatchingPeriodSeconds() int32 {
+func (o *RealmUserSettingsDefaults) GetEmailNotificationsBatchingPeriodSeconds() int32 {
 	if o == nil || IsNil(o.EmailNotificationsBatchingPeriodSeconds) {
 		var ret int32
 		return ret
@@ -1948,7 +1948,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmailNotific
 
 // GetEmailNotificationsBatchingPeriodSecondsOk returns a tuple with the EmailNotificationsBatchingPeriodSeconds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmailNotificationsBatchingPeriodSecondsOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetEmailNotificationsBatchingPeriodSecondsOk() (*int32, bool) {
 	if o == nil || IsNil(o.EmailNotificationsBatchingPeriodSeconds) {
 		return nil, false
 	}
@@ -1956,7 +1956,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmailNotific
 }
 
 // HasEmailNotificationsBatchingPeriodSeconds returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEmailNotificationsBatchingPeriodSeconds() bool {
+func (o *RealmUserSettingsDefaults) HasEmailNotificationsBatchingPeriodSeconds() bool {
 	if o != nil && !IsNil(o.EmailNotificationsBatchingPeriodSeconds) {
 		return true
 	}
@@ -1965,12 +1965,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEmailNotific
 }
 
 // SetEmailNotificationsBatchingPeriodSeconds gets a reference to the given int32 and assigns it to the EmailNotificationsBatchingPeriodSeconds field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEmailNotificationsBatchingPeriodSeconds(v int32) {
+func (o *RealmUserSettingsDefaults) SetEmailNotificationsBatchingPeriodSeconds(v int32) {
 	o.EmailNotificationsBatchingPeriodSeconds = &v
 }
 
 // GetAvailableNotificationSounds returns the AvailableNotificationSounds field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAvailableNotificationSounds() []string {
+func (o *RealmUserSettingsDefaults) GetAvailableNotificationSounds() []string {
 	if o == nil || IsNil(o.AvailableNotificationSounds) {
 		var ret []string
 		return ret
@@ -1980,7 +1980,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAvailableNot
 
 // GetAvailableNotificationSoundsOk returns a tuple with the AvailableNotificationSounds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAvailableNotificationSoundsOk() ([]string, bool) {
+func (o *RealmUserSettingsDefaults) GetAvailableNotificationSoundsOk() ([]string, bool) {
 	if o == nil || IsNil(o.AvailableNotificationSounds) {
 		return nil, false
 	}
@@ -1988,7 +1988,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAvailableNot
 }
 
 // HasAvailableNotificationSounds returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasAvailableNotificationSounds() bool {
+func (o *RealmUserSettingsDefaults) HasAvailableNotificationSounds() bool {
 	if o != nil && !IsNil(o.AvailableNotificationSounds) {
 		return true
 	}
@@ -1997,12 +1997,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasAvailableNot
 }
 
 // SetAvailableNotificationSounds gets a reference to the given []string and assigns it to the AvailableNotificationSounds field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetAvailableNotificationSounds(v []string) {
+func (o *RealmUserSettingsDefaults) SetAvailableNotificationSounds(v []string) {
 	o.AvailableNotificationSounds = v
 }
 
 // GetEmojisetChoices returns the EmojisetChoices field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojisetChoices() []UserSettingsEmojisetChoice {
+func (o *RealmUserSettingsDefaults) GetEmojisetChoices() []UserSettingsEmojisetChoice {
 	if o == nil || IsNil(o.EmojisetChoices) {
 		var ret []UserSettingsEmojisetChoice
 		return ret
@@ -2012,7 +2012,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojisetChoi
 
 // GetEmojisetChoicesOk returns a tuple with the EmojisetChoices field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojisetChoicesOk() ([]UserSettingsEmojisetChoice, bool) {
+func (o *RealmUserSettingsDefaults) GetEmojisetChoicesOk() ([]UserSettingsEmojisetChoice, bool) {
 	if o == nil || IsNil(o.EmojisetChoices) {
 		return nil, false
 	}
@@ -2020,7 +2020,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmojisetChoi
 }
 
 // HasEmojisetChoices returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEmojisetChoices() bool {
+func (o *RealmUserSettingsDefaults) HasEmojisetChoices() bool {
 	if o != nil && !IsNil(o.EmojisetChoices) {
 		return true
 	}
@@ -2029,12 +2029,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEmojisetChoi
 }
 
 // SetEmojisetChoices gets a reference to the given []UserSettingsEmojisetChoice and assigns it to the EmojisetChoices field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEmojisetChoices(v []UserSettingsEmojisetChoice) {
+func (o *RealmUserSettingsDefaults) SetEmojisetChoices(v []UserSettingsEmojisetChoice) {
 	o.EmojisetChoices = v
 }
 
 // GetSendPrivateTypingNotifications returns the SendPrivateTypingNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetSendPrivateTypingNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetSendPrivateTypingNotifications() bool {
 	if o == nil || IsNil(o.SendPrivateTypingNotifications) {
 		var ret bool
 		return ret
@@ -2044,7 +2044,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetSendPrivateT
 
 // GetSendPrivateTypingNotificationsOk returns a tuple with the SendPrivateTypingNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetSendPrivateTypingNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetSendPrivateTypingNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.SendPrivateTypingNotifications) {
 		return nil, false
 	}
@@ -2052,7 +2052,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetSendPrivateT
 }
 
 // HasSendPrivateTypingNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasSendPrivateTypingNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasSendPrivateTypingNotifications() bool {
 	if o != nil && !IsNil(o.SendPrivateTypingNotifications) {
 		return true
 	}
@@ -2061,12 +2061,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasSendPrivateT
 }
 
 // SetSendPrivateTypingNotifications gets a reference to the given bool and assigns it to the SendPrivateTypingNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetSendPrivateTypingNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetSendPrivateTypingNotifications(v bool) {
 	o.SendPrivateTypingNotifications = &v
 }
 
 // GetSendStreamTypingNotifications returns the SendStreamTypingNotifications field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetSendStreamTypingNotifications() bool {
+func (o *RealmUserSettingsDefaults) GetSendStreamTypingNotifications() bool {
 	if o == nil || IsNil(o.SendStreamTypingNotifications) {
 		var ret bool
 		return ret
@@ -2076,7 +2076,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetSendStreamTy
 
 // GetSendStreamTypingNotificationsOk returns a tuple with the SendStreamTypingNotifications field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetSendStreamTypingNotificationsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetSendStreamTypingNotificationsOk() (*bool, bool) {
 	if o == nil || IsNil(o.SendStreamTypingNotifications) {
 		return nil, false
 	}
@@ -2084,7 +2084,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetSendStreamTy
 }
 
 // HasSendStreamTypingNotifications returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasSendStreamTypingNotifications() bool {
+func (o *RealmUserSettingsDefaults) HasSendStreamTypingNotifications() bool {
 	if o != nil && !IsNil(o.SendStreamTypingNotifications) {
 		return true
 	}
@@ -2093,12 +2093,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasSendStreamTy
 }
 
 // SetSendStreamTypingNotifications gets a reference to the given bool and assigns it to the SendStreamTypingNotifications field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetSendStreamTypingNotifications(v bool) {
+func (o *RealmUserSettingsDefaults) SetSendStreamTypingNotifications(v bool) {
 	o.SendStreamTypingNotifications = &v
 }
 
 // GetSendReadReceipts returns the SendReadReceipts field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetSendReadReceipts() bool {
+func (o *RealmUserSettingsDefaults) GetSendReadReceipts() bool {
 	if o == nil || IsNil(o.SendReadReceipts) {
 		var ret bool
 		return ret
@@ -2108,7 +2108,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetSendReadRece
 
 // GetSendReadReceiptsOk returns a tuple with the SendReadReceipts field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetSendReadReceiptsOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetSendReadReceiptsOk() (*bool, bool) {
 	if o == nil || IsNil(o.SendReadReceipts) {
 		return nil, false
 	}
@@ -2116,7 +2116,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetSendReadRece
 }
 
 // HasSendReadReceipts returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasSendReadReceipts() bool {
+func (o *RealmUserSettingsDefaults) HasSendReadReceipts() bool {
 	if o != nil && !IsNil(o.SendReadReceipts) {
 		return true
 	}
@@ -2125,12 +2125,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasSendReadRece
 }
 
 // SetSendReadReceipts gets a reference to the given bool and assigns it to the SendReadReceipts field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetSendReadReceipts(v bool) {
+func (o *RealmUserSettingsDefaults) SetSendReadReceipts(v bool) {
 	o.SendReadReceipts = &v
 }
 
 // GetAllowPrivateDataExport returns the AllowPrivateDataExport field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAllowPrivateDataExport() bool {
+func (o *RealmUserSettingsDefaults) GetAllowPrivateDataExport() bool {
 	if o == nil || IsNil(o.AllowPrivateDataExport) {
 		var ret bool
 		return ret
@@ -2140,7 +2140,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAllowPrivate
 
 // GetAllowPrivateDataExportOk returns a tuple with the AllowPrivateDataExport field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAllowPrivateDataExportOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetAllowPrivateDataExportOk() (*bool, bool) {
 	if o == nil || IsNil(o.AllowPrivateDataExport) {
 		return nil, false
 	}
@@ -2148,7 +2148,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetAllowPrivate
 }
 
 // HasAllowPrivateDataExport returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasAllowPrivateDataExport() bool {
+func (o *RealmUserSettingsDefaults) HasAllowPrivateDataExport() bool {
 	if o != nil && !IsNil(o.AllowPrivateDataExport) {
 		return true
 	}
@@ -2157,12 +2157,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasAllowPrivate
 }
 
 // SetAllowPrivateDataExport gets a reference to the given bool and assigns it to the AllowPrivateDataExport field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetAllowPrivateDataExport(v bool) {
+func (o *RealmUserSettingsDefaults) SetAllowPrivateDataExport(v bool) {
 	o.AllowPrivateDataExport = &v
 }
 
 // GetEmailAddressVisibility returns the EmailAddressVisibility field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmailAddressVisibility() int32 {
+func (o *RealmUserSettingsDefaults) GetEmailAddressVisibility() int32 {
 	if o == nil || IsNil(o.EmailAddressVisibility) {
 		var ret int32
 		return ret
@@ -2172,7 +2172,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmailAddress
 
 // GetEmailAddressVisibilityOk returns a tuple with the EmailAddressVisibility field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmailAddressVisibilityOk() (*int32, bool) {
+func (o *RealmUserSettingsDefaults) GetEmailAddressVisibilityOk() (*int32, bool) {
 	if o == nil || IsNil(o.EmailAddressVisibility) {
 		return nil, false
 	}
@@ -2180,7 +2180,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetEmailAddress
 }
 
 // HasEmailAddressVisibility returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEmailAddressVisibility() bool {
+func (o *RealmUserSettingsDefaults) HasEmailAddressVisibility() bool {
 	if o != nil && !IsNil(o.EmailAddressVisibility) {
 		return true
 	}
@@ -2189,12 +2189,12 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasEmailAddress
 }
 
 // SetEmailAddressVisibility gets a reference to the given int32 and assigns it to the EmailAddressVisibility field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetEmailAddressVisibility(v int32) {
+func (o *RealmUserSettingsDefaults) SetEmailAddressVisibility(v int32) {
 	o.EmailAddressVisibility = &v
 }
 
 // GetWebNavigateToSentMessage returns the WebNavigateToSentMessage field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebNavigateToSentMessage() bool {
+func (o *RealmUserSettingsDefaults) GetWebNavigateToSentMessage() bool {
 	if o == nil || IsNil(o.WebNavigateToSentMessage) {
 		var ret bool
 		return ret
@@ -2204,7 +2204,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebNavigateT
 
 // GetWebNavigateToSentMessageOk returns a tuple with the WebNavigateToSentMessage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebNavigateToSentMessageOk() (*bool, bool) {
+func (o *RealmUserSettingsDefaults) GetWebNavigateToSentMessageOk() (*bool, bool) {
 	if o == nil || IsNil(o.WebNavigateToSentMessage) {
 		return nil, false
 	}
@@ -2212,7 +2212,7 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) GetWebNavigateT
 }
 
 // HasWebNavigateToSentMessage returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebNavigateToSentMessage() bool {
+func (o *RealmUserSettingsDefaults) HasWebNavigateToSentMessage() bool {
 	if o != nil && !IsNil(o.WebNavigateToSentMessage) {
 		return true
 	}
@@ -2221,11 +2221,11 @@ func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) HasWebNavigateT
 }
 
 // SetWebNavigateToSentMessage gets a reference to the given bool and assigns it to the WebNavigateToSentMessage field.
-func (o *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) SetWebNavigateToSentMessage(v bool) {
+func (o *RealmUserSettingsDefaults) SetWebNavigateToSentMessage(v bool) {
 	o.WebNavigateToSentMessage = &v
 }
 
-func (o RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) MarshalJSON() ([]byte, error) {
+func (o RealmUserSettingsDefaults) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -2233,7 +2233,7 @@ func (o RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) MarshalJSON() ([
 	return json.Marshal(toSerialize)
 }
 
-func (o RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) ToMap() (map[string]interface{}, error) {
+func (o RealmUserSettingsDefaults) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.TwentyFourHourTime.IsSet() {
 		toSerialize["twenty_four_hour_time"] = o.TwentyFourHourTime.Get()
@@ -2430,38 +2430,38 @@ func (o RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) ToMap() (map[str
 	return toSerialize, nil
 }
 
-type NullableRegisterQueue200ResponseAllOfRealmUserSettingsDefaults struct {
-	value *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults
+type NullableRealmUserSettingsDefaults struct {
+	value *RealmUserSettingsDefaults
 	isSet bool
 }
 
-func (v NullableRegisterQueue200ResponseAllOfRealmUserSettingsDefaults) Get() *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults {
+func (v NullableRealmUserSettingsDefaults) Get() *RealmUserSettingsDefaults {
 	return v.value
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfRealmUserSettingsDefaults) Set(val *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) {
+func (v *NullableRealmUserSettingsDefaults) Set(val *RealmUserSettingsDefaults) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRegisterQueue200ResponseAllOfRealmUserSettingsDefaults) IsSet() bool {
+func (v NullableRealmUserSettingsDefaults) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfRealmUserSettingsDefaults) Unset() {
+func (v *NullableRealmUserSettingsDefaults) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRegisterQueue200ResponseAllOfRealmUserSettingsDefaults(val *RegisterQueue200ResponseAllOfRealmUserSettingsDefaults) *NullableRegisterQueue200ResponseAllOfRealmUserSettingsDefaults {
-	return &NullableRegisterQueue200ResponseAllOfRealmUserSettingsDefaults{value: val, isSet: true}
+func NewNullableRealmUserSettingsDefaults(val *RealmUserSettingsDefaults) *NullableRealmUserSettingsDefaults {
+	return &NullableRealmUserSettingsDefaults{value: val, isSet: true}
 }
 
-func (v NullableRegisterQueue200ResponseAllOfRealmUserSettingsDefaults) MarshalJSON() ([]byte, error) {
+func (v NullableRealmUserSettingsDefaults) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfRealmUserSettingsDefaults) UnmarshalJSON(src []byte) error {
+func (v *NullableRealmUserSettingsDefaults) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

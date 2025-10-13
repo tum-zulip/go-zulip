@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner{}
+// checks if the UnreadMsgsStreams type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UnreadMsgsStreams{}
 
-// RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner struct for RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner
-type RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner struct {
+// UnreadMsgsStreams struct for UnreadMsgsStreams
+type UnreadMsgsStreams struct {
 	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](/api/register-queue) response depending on the value of the `empty_topic_name` [client capability][client-capabilities].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
 	// The ID of the channel to which the messages were sent.
@@ -27,25 +27,25 @@ type RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner struct {
 	UnreadMessageIds []int32 `json:"unread_message_ids,omitempty"`
 }
 
-// NewRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner instantiates a new RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner object
+// NewUnreadMsgsStreams instantiates a new UnreadMsgsStreams object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner() *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner {
-	this := RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner{}
+func NewUnreadMsgsStreams() *UnreadMsgsStreams {
+	this := UnreadMsgsStreams{}
 	return &this
 }
 
-// NewRegisterQueue200ResponseAllOfUnreadMsgsStreamsInnerWithDefaults instantiates a new RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner object
+// NewUnreadMsgsStreamsWithDefaults instantiates a new UnreadMsgsStreams object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRegisterQueue200ResponseAllOfUnreadMsgsStreamsInnerWithDefaults() *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner {
-	this := RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner{}
+func NewUnreadMsgsStreamsWithDefaults() *UnreadMsgsStreams {
+	this := UnreadMsgsStreams{}
 	return &this
 }
 
 // GetTopic returns the Topic field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) GetTopic() string {
+func (o *UnreadMsgsStreams) GetTopic() string {
 	if o == nil || IsNil(o.Topic) {
 		var ret string
 		return ret
@@ -55,7 +55,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) GetTopic() string 
 
 // GetTopicOk returns a tuple with the Topic field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) GetTopicOk() (*string, bool) {
+func (o *UnreadMsgsStreams) GetTopicOk() (*string, bool) {
 	if o == nil || IsNil(o.Topic) {
 		return nil, false
 	}
@@ -63,7 +63,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) GetTopicOk() (*str
 }
 
 // HasTopic returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) HasTopic() bool {
+func (o *UnreadMsgsStreams) HasTopic() bool {
 	if o != nil && !IsNil(o.Topic) {
 		return true
 	}
@@ -72,12 +72,12 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) HasTopic() bool {
 }
 
 // SetTopic gets a reference to the given string and assigns it to the Topic field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) SetTopic(v string) {
+func (o *UnreadMsgsStreams) SetTopic(v string) {
 	o.Topic = &v
 }
 
 // GetStreamId returns the StreamId field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) GetStreamId() int32 {
+func (o *UnreadMsgsStreams) GetStreamId() int32 {
 	if o == nil || IsNil(o.StreamId) {
 		var ret int32
 		return ret
@@ -87,7 +87,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) GetStreamId() int3
 
 // GetStreamIdOk returns a tuple with the StreamId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) GetStreamIdOk() (*int32, bool) {
+func (o *UnreadMsgsStreams) GetStreamIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.StreamId) {
 		return nil, false
 	}
@@ -95,7 +95,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) GetStreamIdOk() (*
 }
 
 // HasStreamId returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) HasStreamId() bool {
+func (o *UnreadMsgsStreams) HasStreamId() bool {
 	if o != nil && !IsNil(o.StreamId) {
 		return true
 	}
@@ -104,12 +104,12 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) HasStreamId() bool
 }
 
 // SetStreamId gets a reference to the given int32 and assigns it to the StreamId field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) SetStreamId(v int32) {
+func (o *UnreadMsgsStreams) SetStreamId(v int32) {
 	o.StreamId = &v
 }
 
 // GetUnreadMessageIds returns the UnreadMessageIds field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) GetUnreadMessageIds() []int32 {
+func (o *UnreadMsgsStreams) GetUnreadMessageIds() []int32 {
 	if o == nil || IsNil(o.UnreadMessageIds) {
 		var ret []int32
 		return ret
@@ -119,7 +119,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) GetUnreadMessageId
 
 // GetUnreadMessageIdsOk returns a tuple with the UnreadMessageIds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) GetUnreadMessageIdsOk() ([]int32, bool) {
+func (o *UnreadMsgsStreams) GetUnreadMessageIdsOk() ([]int32, bool) {
 	if o == nil || IsNil(o.UnreadMessageIds) {
 		return nil, false
 	}
@@ -127,7 +127,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) GetUnreadMessageId
 }
 
 // HasUnreadMessageIds returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) HasUnreadMessageIds() bool {
+func (o *UnreadMsgsStreams) HasUnreadMessageIds() bool {
 	if o != nil && !IsNil(o.UnreadMessageIds) {
 		return true
 	}
@@ -136,11 +136,11 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) HasUnreadMessageId
 }
 
 // SetUnreadMessageIds gets a reference to the given []int32 and assigns it to the UnreadMessageIds field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) SetUnreadMessageIds(v []int32) {
+func (o *UnreadMsgsStreams) SetUnreadMessageIds(v []int32) {
 	o.UnreadMessageIds = v
 }
 
-func (o RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) MarshalJSON() ([]byte, error) {
+func (o UnreadMsgsStreams) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -148,7 +148,7 @@ func (o RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) MarshalJSON() ([]by
 	return json.Marshal(toSerialize)
 }
 
-func (o RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) ToMap() (map[string]interface{}, error) {
+func (o UnreadMsgsStreams) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Topic) {
 		toSerialize["topic"] = o.Topic
@@ -162,38 +162,38 @@ func (o RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) ToMap() (map[string
 	return toSerialize, nil
 }
 
-type NullableRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner struct {
-	value *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner
+type NullableUnreadMsgsStreams struct {
+	value *UnreadMsgsStreams
 	isSet bool
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) Get() *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner {
+func (v NullableUnreadMsgsStreams) Get() *UnreadMsgsStreams {
 	return v.value
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) Set(val *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) {
+func (v *NullableUnreadMsgsStreams) Set(val *UnreadMsgsStreams) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) IsSet() bool {
+func (v NullableUnreadMsgsStreams) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) Unset() {
+func (v *NullableUnreadMsgsStreams) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner(val *RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) *NullableRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner {
-	return &NullableRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner{value: val, isSet: true}
+func NewNullableUnreadMsgsStreams(val *UnreadMsgsStreams) *NullableUnreadMsgsStreams {
+	return &NullableUnreadMsgsStreams{value: val, isSet: true}
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) MarshalJSON() ([]byte, error) {
+func (v NullableUnreadMsgsStreams) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) UnmarshalJSON(src []byte) error {
+func (v *NullableUnreadMsgsStreams) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

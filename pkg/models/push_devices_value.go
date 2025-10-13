@@ -14,36 +14,36 @@ import (
 	"encoding/json"
 )
 
-// checks if the RegisterQueue200ResponseAllOfPushDevicesValue type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RegisterQueue200ResponseAllOfPushDevicesValue{}
+// checks if the PushDevicesValue type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &PushDevicesValue{}
 
-// RegisterQueue200ResponseAllOfPushDevicesValue `{push_account_id}`: Dictionary containing the details of a push device with the push account ID as the key.
-type RegisterQueue200ResponseAllOfPushDevicesValue struct {
+// PushDevicesValue `{push_account_id}`: Dictionary containing the details of a push device with the push account ID as the key.
+type PushDevicesValue struct {
 	// The push account's registration status. Either `\"active\"`, `\"pending\"`, or `\"failed\"`.
 	Status *string `json:"status,omitempty"`
 	// If the status is `\"failed\"`, a [Zulip API error code](/api/rest-error-handling) indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `\"INVALID_BOUNCER_PUBLIC_KEY\"` - Inform the user to update app. - `\"REQUEST_EXPIRED` - Retry with a fresh payload.
 	ErrorCode NullableString `json:"error_code,omitempty"`
 }
 
-// NewRegisterQueue200ResponseAllOfPushDevicesValue instantiates a new RegisterQueue200ResponseAllOfPushDevicesValue object
+// NewPushDevicesValue instantiates a new PushDevicesValue object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterQueue200ResponseAllOfPushDevicesValue() *RegisterQueue200ResponseAllOfPushDevicesValue {
-	this := RegisterQueue200ResponseAllOfPushDevicesValue{}
+func NewPushDevicesValue() *PushDevicesValue {
+	this := PushDevicesValue{}
 	return &this
 }
 
-// NewRegisterQueue200ResponseAllOfPushDevicesValueWithDefaults instantiates a new RegisterQueue200ResponseAllOfPushDevicesValue object
+// NewPushDevicesValueWithDefaults instantiates a new PushDevicesValue object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRegisterQueue200ResponseAllOfPushDevicesValueWithDefaults() *RegisterQueue200ResponseAllOfPushDevicesValue {
-	this := RegisterQueue200ResponseAllOfPushDevicesValue{}
+func NewPushDevicesValueWithDefaults() *PushDevicesValue {
+	this := PushDevicesValue{}
 	return &this
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfPushDevicesValue) GetStatus() string {
+func (o *PushDevicesValue) GetStatus() string {
 	if o == nil || IsNil(o.Status) {
 		var ret string
 		return ret
@@ -53,7 +53,7 @@ func (o *RegisterQueue200ResponseAllOfPushDevicesValue) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfPushDevicesValue) GetStatusOk() (*string, bool) {
+func (o *PushDevicesValue) GetStatusOk() (*string, bool) {
 	if o == nil || IsNil(o.Status) {
 		return nil, false
 	}
@@ -61,7 +61,7 @@ func (o *RegisterQueue200ResponseAllOfPushDevicesValue) GetStatusOk() (*string, 
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfPushDevicesValue) HasStatus() bool {
+func (o *PushDevicesValue) HasStatus() bool {
 	if o != nil && !IsNil(o.Status) {
 		return true
 	}
@@ -70,12 +70,12 @@ func (o *RegisterQueue200ResponseAllOfPushDevicesValue) HasStatus() bool {
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *RegisterQueue200ResponseAllOfPushDevicesValue) SetStatus(v string) {
+func (o *PushDevicesValue) SetStatus(v string) {
 	o.Status = &v
 }
 
 // GetErrorCode returns the ErrorCode field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RegisterQueue200ResponseAllOfPushDevicesValue) GetErrorCode() string {
+func (o *PushDevicesValue) GetErrorCode() string {
 	if o == nil || IsNil(o.ErrorCode.Get()) {
 		var ret string
 		return ret
@@ -86,7 +86,7 @@ func (o *RegisterQueue200ResponseAllOfPushDevicesValue) GetErrorCode() string {
 // GetErrorCodeOk returns a tuple with the ErrorCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RegisterQueue200ResponseAllOfPushDevicesValue) GetErrorCodeOk() (*string, bool) {
+func (o *PushDevicesValue) GetErrorCodeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -94,7 +94,7 @@ func (o *RegisterQueue200ResponseAllOfPushDevicesValue) GetErrorCodeOk() (*strin
 }
 
 // HasErrorCode returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfPushDevicesValue) HasErrorCode() bool {
+func (o *PushDevicesValue) HasErrorCode() bool {
 	if o != nil && o.ErrorCode.IsSet() {
 		return true
 	}
@@ -103,21 +103,21 @@ func (o *RegisterQueue200ResponseAllOfPushDevicesValue) HasErrorCode() bool {
 }
 
 // SetErrorCode gets a reference to the given NullableString and assigns it to the ErrorCode field.
-func (o *RegisterQueue200ResponseAllOfPushDevicesValue) SetErrorCode(v string) {
+func (o *PushDevicesValue) SetErrorCode(v string) {
 	o.ErrorCode.Set(&v)
 }
 
 // SetErrorCodeNil sets the value for ErrorCode to be an explicit nil
-func (o *RegisterQueue200ResponseAllOfPushDevicesValue) SetErrorCodeNil() {
+func (o *PushDevicesValue) SetErrorCodeNil() {
 	o.ErrorCode.Set(nil)
 }
 
 // UnsetErrorCode ensures that no value is present for ErrorCode, not even an explicit nil
-func (o *RegisterQueue200ResponseAllOfPushDevicesValue) UnsetErrorCode() {
+func (o *PushDevicesValue) UnsetErrorCode() {
 	o.ErrorCode.Unset()
 }
 
-func (o RegisterQueue200ResponseAllOfPushDevicesValue) MarshalJSON() ([]byte, error) {
+func (o PushDevicesValue) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -125,7 +125,7 @@ func (o RegisterQueue200ResponseAllOfPushDevicesValue) MarshalJSON() ([]byte, er
 	return json.Marshal(toSerialize)
 }
 
-func (o RegisterQueue200ResponseAllOfPushDevicesValue) ToMap() (map[string]interface{}, error) {
+func (o PushDevicesValue) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Status) {
 		toSerialize["status"] = o.Status
@@ -136,38 +136,38 @@ func (o RegisterQueue200ResponseAllOfPushDevicesValue) ToMap() (map[string]inter
 	return toSerialize, nil
 }
 
-type NullableRegisterQueue200ResponseAllOfPushDevicesValue struct {
-	value *RegisterQueue200ResponseAllOfPushDevicesValue
+type NullablePushDevicesValue struct {
+	value *PushDevicesValue
 	isSet bool
 }
 
-func (v NullableRegisterQueue200ResponseAllOfPushDevicesValue) Get() *RegisterQueue200ResponseAllOfPushDevicesValue {
+func (v NullablePushDevicesValue) Get() *PushDevicesValue {
 	return v.value
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfPushDevicesValue) Set(val *RegisterQueue200ResponseAllOfPushDevicesValue) {
+func (v *NullablePushDevicesValue) Set(val *PushDevicesValue) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRegisterQueue200ResponseAllOfPushDevicesValue) IsSet() bool {
+func (v NullablePushDevicesValue) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfPushDevicesValue) Unset() {
+func (v *NullablePushDevicesValue) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRegisterQueue200ResponseAllOfPushDevicesValue(val *RegisterQueue200ResponseAllOfPushDevicesValue) *NullableRegisterQueue200ResponseAllOfPushDevicesValue {
-	return &NullableRegisterQueue200ResponseAllOfPushDevicesValue{value: val, isSet: true}
+func NewNullablePushDevicesValue(val *PushDevicesValue) *NullablePushDevicesValue {
+	return &NullablePushDevicesValue{value: val, isSet: true}
 }
 
-func (v NullableRegisterQueue200ResponseAllOfPushDevicesValue) MarshalJSON() ([]byte, error) {
+func (v NullablePushDevicesValue) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfPushDevicesValue) UnmarshalJSON(src []byte) error {
+func (v *NullablePushDevicesValue) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

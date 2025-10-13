@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the RegisterQueue200ResponseAllOfUnreadMsgsPmsInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RegisterQueue200ResponseAllOfUnreadMsgsPmsInner{}
+// checks if the UnreadMsgsPms type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UnreadMsgsPms{}
 
-// RegisterQueue200ResponseAllOfUnreadMsgsPmsInner struct for RegisterQueue200ResponseAllOfUnreadMsgsPmsInner
-type RegisterQueue200ResponseAllOfUnreadMsgsPmsInner struct {
+// UnreadMsgsPms struct for UnreadMsgsPms
+type UnreadMsgsPms struct {
 	// The user ID of the other participant in this one-on-one direct message conversation. Will be the current user's ID for messages that they sent in a one-on-one direct message conversation with themself.  **Changes**: New in Zulip 5.0 (feature level 119), replacing the less clearly named `sender_id` field.
 	OtherUserId *int32 `json:"other_user_id,omitempty"`
 	// Old name for the `other_user_id` field. Clients should access this field in Zulip server versions that do not yet support `other_user_id`.  **Changes**: Deprecated in Zulip 5.0 (feature level 119). We expect to provide a next version of the full `unread_msgs` API before removing this legacy name.
@@ -28,25 +28,25 @@ type RegisterQueue200ResponseAllOfUnreadMsgsPmsInner struct {
 	UnreadMessageIds []int32 `json:"unread_message_ids,omitempty"`
 }
 
-// NewRegisterQueue200ResponseAllOfUnreadMsgsPmsInner instantiates a new RegisterQueue200ResponseAllOfUnreadMsgsPmsInner object
+// NewUnreadMsgsPms instantiates a new UnreadMsgsPms object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterQueue200ResponseAllOfUnreadMsgsPmsInner() *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner {
-	this := RegisterQueue200ResponseAllOfUnreadMsgsPmsInner{}
+func NewUnreadMsgsPms() *UnreadMsgsPms {
+	this := UnreadMsgsPms{}
 	return &this
 }
 
-// NewRegisterQueue200ResponseAllOfUnreadMsgsPmsInnerWithDefaults instantiates a new RegisterQueue200ResponseAllOfUnreadMsgsPmsInner object
+// NewUnreadMsgsPmsWithDefaults instantiates a new UnreadMsgsPms object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRegisterQueue200ResponseAllOfUnreadMsgsPmsInnerWithDefaults() *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner {
-	this := RegisterQueue200ResponseAllOfUnreadMsgsPmsInner{}
+func NewUnreadMsgsPmsWithDefaults() *UnreadMsgsPms {
+	this := UnreadMsgsPms{}
 	return &this
 }
 
 // GetOtherUserId returns the OtherUserId field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) GetOtherUserId() int32 {
+func (o *UnreadMsgsPms) GetOtherUserId() int32 {
 	if o == nil || IsNil(o.OtherUserId) {
 		var ret int32
 		return ret
@@ -56,7 +56,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) GetOtherUserId() int32
 
 // GetOtherUserIdOk returns a tuple with the OtherUserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) GetOtherUserIdOk() (*int32, bool) {
+func (o *UnreadMsgsPms) GetOtherUserIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.OtherUserId) {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) GetOtherUserIdOk() (*i
 }
 
 // HasOtherUserId returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) HasOtherUserId() bool {
+func (o *UnreadMsgsPms) HasOtherUserId() bool {
 	if o != nil && !IsNil(o.OtherUserId) {
 		return true
 	}
@@ -73,13 +73,13 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) HasOtherUserId() bool 
 }
 
 // SetOtherUserId gets a reference to the given int32 and assigns it to the OtherUserId field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) SetOtherUserId(v int32) {
+func (o *UnreadMsgsPms) SetOtherUserId(v int32) {
 	o.OtherUserId = &v
 }
 
 // GetSenderId returns the SenderId field value if set, zero value otherwise.
 // Deprecated
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) GetSenderId() int32 {
+func (o *UnreadMsgsPms) GetSenderId() int32 {
 	if o == nil || IsNil(o.SenderId) {
 		var ret int32
 		return ret
@@ -90,7 +90,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) GetSenderId() int32 {
 // GetSenderIdOk returns a tuple with the SenderId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // Deprecated
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) GetSenderIdOk() (*int32, bool) {
+func (o *UnreadMsgsPms) GetSenderIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.SenderId) {
 		return nil, false
 	}
@@ -98,7 +98,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) GetSenderIdOk() (*int3
 }
 
 // HasSenderId returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) HasSenderId() bool {
+func (o *UnreadMsgsPms) HasSenderId() bool {
 	if o != nil && !IsNil(o.SenderId) {
 		return true
 	}
@@ -108,12 +108,12 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) HasSenderId() bool {
 
 // SetSenderId gets a reference to the given int32 and assigns it to the SenderId field.
 // Deprecated
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) SetSenderId(v int32) {
+func (o *UnreadMsgsPms) SetSenderId(v int32) {
 	o.SenderId = &v
 }
 
 // GetUnreadMessageIds returns the UnreadMessageIds field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) GetUnreadMessageIds() []int32 {
+func (o *UnreadMsgsPms) GetUnreadMessageIds() []int32 {
 	if o == nil || IsNil(o.UnreadMessageIds) {
 		var ret []int32
 		return ret
@@ -123,7 +123,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) GetUnreadMessageIds() 
 
 // GetUnreadMessageIdsOk returns a tuple with the UnreadMessageIds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) GetUnreadMessageIdsOk() ([]int32, bool) {
+func (o *UnreadMsgsPms) GetUnreadMessageIdsOk() ([]int32, bool) {
 	if o == nil || IsNil(o.UnreadMessageIds) {
 		return nil, false
 	}
@@ -131,7 +131,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) GetUnreadMessageIdsOk(
 }
 
 // HasUnreadMessageIds returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) HasUnreadMessageIds() bool {
+func (o *UnreadMsgsPms) HasUnreadMessageIds() bool {
 	if o != nil && !IsNil(o.UnreadMessageIds) {
 		return true
 	}
@@ -140,11 +140,11 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) HasUnreadMessageIds() 
 }
 
 // SetUnreadMessageIds gets a reference to the given []int32 and assigns it to the UnreadMessageIds field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) SetUnreadMessageIds(v []int32) {
+func (o *UnreadMsgsPms) SetUnreadMessageIds(v []int32) {
 	o.UnreadMessageIds = v
 }
 
-func (o RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) MarshalJSON() ([]byte, error) {
+func (o UnreadMsgsPms) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -152,7 +152,7 @@ func (o RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) MarshalJSON() ([]byte, 
 	return json.Marshal(toSerialize)
 }
 
-func (o RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) ToMap() (map[string]interface{}, error) {
+func (o UnreadMsgsPms) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.OtherUserId) {
 		toSerialize["other_user_id"] = o.OtherUserId
@@ -166,38 +166,38 @@ func (o RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) ToMap() (map[string]int
 	return toSerialize, nil
 }
 
-type NullableRegisterQueue200ResponseAllOfUnreadMsgsPmsInner struct {
-	value *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner
+type NullableUnreadMsgsPms struct {
+	value *UnreadMsgsPms
 	isSet bool
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUnreadMsgsPmsInner) Get() *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner {
+func (v NullableUnreadMsgsPms) Get() *UnreadMsgsPms {
 	return v.value
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgsPmsInner) Set(val *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) {
+func (v *NullableUnreadMsgsPms) Set(val *UnreadMsgsPms) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUnreadMsgsPmsInner) IsSet() bool {
+func (v NullableUnreadMsgsPms) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgsPmsInner) Unset() {
+func (v *NullableUnreadMsgsPms) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRegisterQueue200ResponseAllOfUnreadMsgsPmsInner(val *RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) *NullableRegisterQueue200ResponseAllOfUnreadMsgsPmsInner {
-	return &NullableRegisterQueue200ResponseAllOfUnreadMsgsPmsInner{value: val, isSet: true}
+func NewNullableUnreadMsgsPms(val *UnreadMsgsPms) *NullableUnreadMsgsPms {
+	return &NullableUnreadMsgsPms{value: val, isSet: true}
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUnreadMsgsPmsInner) MarshalJSON() ([]byte, error) {
+func (v NullableUnreadMsgsPms) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgsPmsInner) UnmarshalJSON(src []byte) error {
+func (v *NullableUnreadMsgsPms) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

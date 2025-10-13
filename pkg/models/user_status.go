@@ -17,7 +17,7 @@ import (
 // checks if the UserStatus type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &UserStatus{}
 
-// UserStatus struct for UserStatus
+// UserStatus `{user_id}`: Object containing the status details of a user with the key of the object being the ID of the user.
 type UserStatus struct {
 	// If present, the user has marked themself \"away\".  **Changes**: Deprecated in Zulip 6.0 (feature level 148); starting with that feature level, `away` is a legacy way to access the user's `presence_enabled` setting, with `away = !presence_enabled`. To be removed in a future release.
 	// Deprecated

@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the RegisterQueue200ResponseAllOfNeverSubscribedInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RegisterQueue200ResponseAllOfNeverSubscribedInner{}
+// checks if the NeverSubscribed type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &NeverSubscribed{}
 
-// RegisterQueue200ResponseAllOfNeverSubscribedInner struct for RegisterQueue200ResponseAllOfNeverSubscribedInner
-type RegisterQueue200ResponseAllOfNeverSubscribedInner struct {
+// NeverSubscribed struct for NeverSubscribed
+type NeverSubscribed struct {
 	// The unique ID of the channel.
 	StreamId *int32 `json:"stream_id,omitempty"`
 	// The name of the channel.
@@ -70,25 +70,25 @@ type RegisterQueue200ResponseAllOfNeverSubscribedInner struct {
 	PartialSubscribers []int32 `json:"partial_subscribers,omitempty"`
 }
 
-// NewRegisterQueue200ResponseAllOfNeverSubscribedInner instantiates a new RegisterQueue200ResponseAllOfNeverSubscribedInner object
+// NewNeverSubscribed instantiates a new NeverSubscribed object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterQueue200ResponseAllOfNeverSubscribedInner() *RegisterQueue200ResponseAllOfNeverSubscribedInner {
-	this := RegisterQueue200ResponseAllOfNeverSubscribedInner{}
+func NewNeverSubscribed() *NeverSubscribed {
+	this := NeverSubscribed{}
 	return &this
 }
 
-// NewRegisterQueue200ResponseAllOfNeverSubscribedInnerWithDefaults instantiates a new RegisterQueue200ResponseAllOfNeverSubscribedInner object
+// NewNeverSubscribedWithDefaults instantiates a new NeverSubscribed object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRegisterQueue200ResponseAllOfNeverSubscribedInnerWithDefaults() *RegisterQueue200ResponseAllOfNeverSubscribedInner {
-	this := RegisterQueue200ResponseAllOfNeverSubscribedInner{}
+func NewNeverSubscribedWithDefaults() *NeverSubscribed {
+	this := NeverSubscribed{}
 	return &this
 }
 
 // GetStreamId returns the StreamId field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetStreamId() int32 {
+func (o *NeverSubscribed) GetStreamId() int32 {
 	if o == nil || IsNil(o.StreamId) {
 		var ret int32
 		return ret
@@ -98,7 +98,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetStreamId() int32 
 
 // GetStreamIdOk returns a tuple with the StreamId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetStreamIdOk() (*int32, bool) {
+func (o *NeverSubscribed) GetStreamIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.StreamId) {
 		return nil, false
 	}
@@ -106,7 +106,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetStreamIdOk() (*in
 }
 
 // HasStreamId returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasStreamId() bool {
+func (o *NeverSubscribed) HasStreamId() bool {
 	if o != nil && !IsNil(o.StreamId) {
 		return true
 	}
@@ -115,12 +115,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasStreamId() bool {
 }
 
 // SetStreamId gets a reference to the given int32 and assigns it to the StreamId field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetStreamId(v int32) {
+func (o *NeverSubscribed) SetStreamId(v int32) {
 	o.StreamId = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetName() string {
+func (o *NeverSubscribed) GetName() string {
 	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
@@ -130,7 +130,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetNameOk() (*string, bool) {
+func (o *NeverSubscribed) GetNameOk() (*string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
@@ -138,7 +138,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetNameOk() (*string
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasName() bool {
+func (o *NeverSubscribed) HasName() bool {
 	if o != nil && !IsNil(o.Name) {
 		return true
 	}
@@ -147,12 +147,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetName(v string) {
+func (o *NeverSubscribed) SetName(v string) {
 	o.Name = &v
 }
 
 // GetIsArchived returns the IsArchived field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsArchived() bool {
+func (o *NeverSubscribed) GetIsArchived() bool {
 	if o == nil || IsNil(o.IsArchived) {
 		var ret bool
 		return ret
@@ -162,7 +162,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsArchived() bool
 
 // GetIsArchivedOk returns a tuple with the IsArchived field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsArchivedOk() (*bool, bool) {
+func (o *NeverSubscribed) GetIsArchivedOk() (*bool, bool) {
 	if o == nil || IsNil(o.IsArchived) {
 		return nil, false
 	}
@@ -170,7 +170,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsArchivedOk() (*
 }
 
 // HasIsArchived returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasIsArchived() bool {
+func (o *NeverSubscribed) HasIsArchived() bool {
 	if o != nil && !IsNil(o.IsArchived) {
 		return true
 	}
@@ -179,12 +179,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasIsArchived() bool
 }
 
 // SetIsArchived gets a reference to the given bool and assigns it to the IsArchived field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetIsArchived(v bool) {
+func (o *NeverSubscribed) SetIsArchived(v bool) {
 	o.IsArchived = &v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetDescription() string {
+func (o *NeverSubscribed) GetDescription() string {
 	if o == nil || IsNil(o.Description) {
 		var ret string
 		return ret
@@ -194,7 +194,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetDescription() str
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetDescriptionOk() (*string, bool) {
+func (o *NeverSubscribed) GetDescriptionOk() (*string, bool) {
 	if o == nil || IsNil(o.Description) {
 		return nil, false
 	}
@@ -202,7 +202,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetDescriptionOk() (
 }
 
 // HasDescription returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasDescription() bool {
+func (o *NeverSubscribed) HasDescription() bool {
 	if o != nil && !IsNil(o.Description) {
 		return true
 	}
@@ -211,12 +211,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasDescription() boo
 }
 
 // SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetDescription(v string) {
+func (o *NeverSubscribed) SetDescription(v string) {
 	o.Description = &v
 }
 
 // GetDateCreated returns the DateCreated field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetDateCreated() int32 {
+func (o *NeverSubscribed) GetDateCreated() int32 {
 	if o == nil || IsNil(o.DateCreated) {
 		var ret int32
 		return ret
@@ -226,7 +226,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetDateCreated() int
 
 // GetDateCreatedOk returns a tuple with the DateCreated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetDateCreatedOk() (*int32, bool) {
+func (o *NeverSubscribed) GetDateCreatedOk() (*int32, bool) {
 	if o == nil || IsNil(o.DateCreated) {
 		return nil, false
 	}
@@ -234,7 +234,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetDateCreatedOk() (
 }
 
 // HasDateCreated returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasDateCreated() bool {
+func (o *NeverSubscribed) HasDateCreated() bool {
 	if o != nil && !IsNil(o.DateCreated) {
 		return true
 	}
@@ -243,12 +243,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasDateCreated() boo
 }
 
 // SetDateCreated gets a reference to the given int32 and assigns it to the DateCreated field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetDateCreated(v int32) {
+func (o *NeverSubscribed) SetDateCreated(v int32) {
 	o.DateCreated = &v
 }
 
 // GetCreatorId returns the CreatorId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCreatorId() interface{} {
+func (o *NeverSubscribed) GetCreatorId() interface{} {
 	if o == nil {
 		var ret interface{}
 		return ret
@@ -259,7 +259,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCreatorId() inter
 // GetCreatorIdOk returns a tuple with the CreatorId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCreatorIdOk() (*interface{}, bool) {
+func (o *NeverSubscribed) GetCreatorIdOk() (*interface{}, bool) {
 	if o == nil || IsNil(o.CreatorId) {
 		return nil, false
 	}
@@ -267,7 +267,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCreatorIdOk() (*i
 }
 
 // HasCreatorId returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCreatorId() bool {
+func (o *NeverSubscribed) HasCreatorId() bool {
 	if o != nil && !IsNil(o.CreatorId) {
 		return true
 	}
@@ -276,12 +276,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCreatorId() bool 
 }
 
 // SetCreatorId gets a reference to the given interface{} and assigns it to the CreatorId field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetCreatorId(v interface{}) {
+func (o *NeverSubscribed) SetCreatorId(v interface{}) {
 	o.CreatorId = v
 }
 
 // GetInviteOnly returns the InviteOnly field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetInviteOnly() bool {
+func (o *NeverSubscribed) GetInviteOnly() bool {
 	if o == nil || IsNil(o.InviteOnly) {
 		var ret bool
 		return ret
@@ -291,7 +291,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetInviteOnly() bool
 
 // GetInviteOnlyOk returns a tuple with the InviteOnly field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetInviteOnlyOk() (*bool, bool) {
+func (o *NeverSubscribed) GetInviteOnlyOk() (*bool, bool) {
 	if o == nil || IsNil(o.InviteOnly) {
 		return nil, false
 	}
@@ -299,7 +299,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetInviteOnlyOk() (*
 }
 
 // HasInviteOnly returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasInviteOnly() bool {
+func (o *NeverSubscribed) HasInviteOnly() bool {
 	if o != nil && !IsNil(o.InviteOnly) {
 		return true
 	}
@@ -308,12 +308,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasInviteOnly() bool
 }
 
 // SetInviteOnly gets a reference to the given bool and assigns it to the InviteOnly field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetInviteOnly(v bool) {
+func (o *NeverSubscribed) SetInviteOnly(v bool) {
 	o.InviteOnly = &v
 }
 
 // GetRenderedDescription returns the RenderedDescription field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetRenderedDescription() string {
+func (o *NeverSubscribed) GetRenderedDescription() string {
 	if o == nil || IsNil(o.RenderedDescription) {
 		var ret string
 		return ret
@@ -323,7 +323,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetRenderedDescripti
 
 // GetRenderedDescriptionOk returns a tuple with the RenderedDescription field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetRenderedDescriptionOk() (*string, bool) {
+func (o *NeverSubscribed) GetRenderedDescriptionOk() (*string, bool) {
 	if o == nil || IsNil(o.RenderedDescription) {
 		return nil, false
 	}
@@ -331,7 +331,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetRenderedDescripti
 }
 
 // HasRenderedDescription returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasRenderedDescription() bool {
+func (o *NeverSubscribed) HasRenderedDescription() bool {
 	if o != nil && !IsNil(o.RenderedDescription) {
 		return true
 	}
@@ -340,12 +340,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasRenderedDescripti
 }
 
 // SetRenderedDescription gets a reference to the given string and assigns it to the RenderedDescription field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetRenderedDescription(v string) {
+func (o *NeverSubscribed) SetRenderedDescription(v string) {
 	o.RenderedDescription = &v
 }
 
 // GetIsWebPublic returns the IsWebPublic field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsWebPublic() bool {
+func (o *NeverSubscribed) GetIsWebPublic() bool {
 	if o == nil || IsNil(o.IsWebPublic) {
 		var ret bool
 		return ret
@@ -355,7 +355,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsWebPublic() boo
 
 // GetIsWebPublicOk returns a tuple with the IsWebPublic field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsWebPublicOk() (*bool, bool) {
+func (o *NeverSubscribed) GetIsWebPublicOk() (*bool, bool) {
 	if o == nil || IsNil(o.IsWebPublic) {
 		return nil, false
 	}
@@ -363,7 +363,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsWebPublicOk() (
 }
 
 // HasIsWebPublic returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasIsWebPublic() bool {
+func (o *NeverSubscribed) HasIsWebPublic() bool {
 	if o != nil && !IsNil(o.IsWebPublic) {
 		return true
 	}
@@ -372,13 +372,13 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasIsWebPublic() boo
 }
 
 // SetIsWebPublic gets a reference to the given bool and assigns it to the IsWebPublic field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetIsWebPublic(v bool) {
+func (o *NeverSubscribed) SetIsWebPublic(v bool) {
 	o.IsWebPublic = &v
 }
 
 // GetStreamPostPolicy returns the StreamPostPolicy field value if set, zero value otherwise.
 // Deprecated
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetStreamPostPolicy() int32 {
+func (o *NeverSubscribed) GetStreamPostPolicy() int32 {
 	if o == nil || IsNil(o.StreamPostPolicy) {
 		var ret int32
 		return ret
@@ -389,7 +389,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetStreamPostPolicy(
 // GetStreamPostPolicyOk returns a tuple with the StreamPostPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // Deprecated
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetStreamPostPolicyOk() (*int32, bool) {
+func (o *NeverSubscribed) GetStreamPostPolicyOk() (*int32, bool) {
 	if o == nil || IsNil(o.StreamPostPolicy) {
 		return nil, false
 	}
@@ -397,7 +397,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetStreamPostPolicyO
 }
 
 // HasStreamPostPolicy returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasStreamPostPolicy() bool {
+func (o *NeverSubscribed) HasStreamPostPolicy() bool {
 	if o != nil && !IsNil(o.StreamPostPolicy) {
 		return true
 	}
@@ -407,12 +407,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasStreamPostPolicy(
 
 // SetStreamPostPolicy gets a reference to the given int32 and assigns it to the StreamPostPolicy field.
 // Deprecated
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetStreamPostPolicy(v int32) {
+func (o *NeverSubscribed) SetStreamPostPolicy(v int32) {
 	o.StreamPostPolicy = &v
 }
 
 // GetMessageRetentionDays returns the MessageRetentionDays field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetMessageRetentionDays() interface{} {
+func (o *NeverSubscribed) GetMessageRetentionDays() interface{} {
 	if o == nil {
 		var ret interface{}
 		return ret
@@ -423,7 +423,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetMessageRetentionD
 // GetMessageRetentionDaysOk returns a tuple with the MessageRetentionDays field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetMessageRetentionDaysOk() (*interface{}, bool) {
+func (o *NeverSubscribed) GetMessageRetentionDaysOk() (*interface{}, bool) {
 	if o == nil || IsNil(o.MessageRetentionDays) {
 		return nil, false
 	}
@@ -431,7 +431,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetMessageRetentionD
 }
 
 // HasMessageRetentionDays returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasMessageRetentionDays() bool {
+func (o *NeverSubscribed) HasMessageRetentionDays() bool {
 	if o != nil && !IsNil(o.MessageRetentionDays) {
 		return true
 	}
@@ -440,12 +440,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasMessageRetentionD
 }
 
 // SetMessageRetentionDays gets a reference to the given interface{} and assigns it to the MessageRetentionDays field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetMessageRetentionDays(v interface{}) {
+func (o *NeverSubscribed) SetMessageRetentionDays(v interface{}) {
 	o.MessageRetentionDays = v
 }
 
 // GetHistoryPublicToSubscribers returns the HistoryPublicToSubscribers field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetHistoryPublicToSubscribers() bool {
+func (o *NeverSubscribed) GetHistoryPublicToSubscribers() bool {
 	if o == nil || IsNil(o.HistoryPublicToSubscribers) {
 		var ret bool
 		return ret
@@ -455,7 +455,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetHistoryPublicToSu
 
 // GetHistoryPublicToSubscribersOk returns a tuple with the HistoryPublicToSubscribers field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetHistoryPublicToSubscribersOk() (*bool, bool) {
+func (o *NeverSubscribed) GetHistoryPublicToSubscribersOk() (*bool, bool) {
 	if o == nil || IsNil(o.HistoryPublicToSubscribers) {
 		return nil, false
 	}
@@ -463,7 +463,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetHistoryPublicToSu
 }
 
 // HasHistoryPublicToSubscribers returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasHistoryPublicToSubscribers() bool {
+func (o *NeverSubscribed) HasHistoryPublicToSubscribers() bool {
 	if o != nil && !IsNil(o.HistoryPublicToSubscribers) {
 		return true
 	}
@@ -472,12 +472,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasHistoryPublicToSu
 }
 
 // SetHistoryPublicToSubscribers gets a reference to the given bool and assigns it to the HistoryPublicToSubscribers field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetHistoryPublicToSubscribers(v bool) {
+func (o *NeverSubscribed) SetHistoryPublicToSubscribers(v bool) {
 	o.HistoryPublicToSubscribers = &v
 }
 
 // GetTopicsPolicy returns the TopicsPolicy field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetTopicsPolicy() TopicsPolicy {
+func (o *NeverSubscribed) GetTopicsPolicy() TopicsPolicy {
 	if o == nil || IsNil(o.TopicsPolicy) {
 		var ret TopicsPolicy
 		return ret
@@ -487,7 +487,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetTopicsPolicy() To
 
 // GetTopicsPolicyOk returns a tuple with the TopicsPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetTopicsPolicyOk() (*TopicsPolicy, bool) {
+func (o *NeverSubscribed) GetTopicsPolicyOk() (*TopicsPolicy, bool) {
 	if o == nil || IsNil(o.TopicsPolicy) {
 		return nil, false
 	}
@@ -495,7 +495,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetTopicsPolicyOk() 
 }
 
 // HasTopicsPolicy returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasTopicsPolicy() bool {
+func (o *NeverSubscribed) HasTopicsPolicy() bool {
 	if o != nil && !IsNil(o.TopicsPolicy) {
 		return true
 	}
@@ -504,12 +504,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasTopicsPolicy() bo
 }
 
 // SetTopicsPolicy gets a reference to the given TopicsPolicy and assigns it to the TopicsPolicy field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetTopicsPolicy(v TopicsPolicy) {
+func (o *NeverSubscribed) SetTopicsPolicy(v TopicsPolicy) {
 	o.TopicsPolicy = &v
 }
 
 // GetFirstMessageId returns the FirstMessageId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetFirstMessageId() interface{} {
+func (o *NeverSubscribed) GetFirstMessageId() interface{} {
 	if o == nil {
 		var ret interface{}
 		return ret
@@ -520,7 +520,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetFirstMessageId() 
 // GetFirstMessageIdOk returns a tuple with the FirstMessageId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetFirstMessageIdOk() (*interface{}, bool) {
+func (o *NeverSubscribed) GetFirstMessageIdOk() (*interface{}, bool) {
 	if o == nil || IsNil(o.FirstMessageId) {
 		return nil, false
 	}
@@ -528,7 +528,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetFirstMessageIdOk(
 }
 
 // HasFirstMessageId returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasFirstMessageId() bool {
+func (o *NeverSubscribed) HasFirstMessageId() bool {
 	if o != nil && !IsNil(o.FirstMessageId) {
 		return true
 	}
@@ -537,12 +537,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasFirstMessageId() 
 }
 
 // SetFirstMessageId gets a reference to the given interface{} and assigns it to the FirstMessageId field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetFirstMessageId(v interface{}) {
+func (o *NeverSubscribed) SetFirstMessageId(v interface{}) {
 	o.FirstMessageId = v
 }
 
 // GetFolderId returns the FolderId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetFolderId() interface{} {
+func (o *NeverSubscribed) GetFolderId() interface{} {
 	if o == nil {
 		var ret interface{}
 		return ret
@@ -553,7 +553,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetFolderId() interf
 // GetFolderIdOk returns a tuple with the FolderId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetFolderIdOk() (*interface{}, bool) {
+func (o *NeverSubscribed) GetFolderIdOk() (*interface{}, bool) {
 	if o == nil || IsNil(o.FolderId) {
 		return nil, false
 	}
@@ -561,7 +561,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetFolderIdOk() (*in
 }
 
 // HasFolderId returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasFolderId() bool {
+func (o *NeverSubscribed) HasFolderId() bool {
 	if o != nil && !IsNil(o.FolderId) {
 		return true
 	}
@@ -570,12 +570,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasFolderId() bool {
 }
 
 // SetFolderId gets a reference to the given interface{} and assigns it to the FolderId field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetFolderId(v interface{}) {
+func (o *NeverSubscribed) SetFolderId(v interface{}) {
 	o.FolderId = v
 }
 
 // GetIsRecentlyActive returns the IsRecentlyActive field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsRecentlyActive() bool {
+func (o *NeverSubscribed) GetIsRecentlyActive() bool {
 	if o == nil || IsNil(o.IsRecentlyActive) {
 		var ret bool
 		return ret
@@ -585,7 +585,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsRecentlyActive(
 
 // GetIsRecentlyActiveOk returns a tuple with the IsRecentlyActive field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsRecentlyActiveOk() (*bool, bool) {
+func (o *NeverSubscribed) GetIsRecentlyActiveOk() (*bool, bool) {
 	if o == nil || IsNil(o.IsRecentlyActive) {
 		return nil, false
 	}
@@ -593,7 +593,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsRecentlyActiveO
 }
 
 // HasIsRecentlyActive returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasIsRecentlyActive() bool {
+func (o *NeverSubscribed) HasIsRecentlyActive() bool {
 	if o != nil && !IsNil(o.IsRecentlyActive) {
 		return true
 	}
@@ -602,13 +602,13 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasIsRecentlyActive(
 }
 
 // SetIsRecentlyActive gets a reference to the given bool and assigns it to the IsRecentlyActive field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetIsRecentlyActive(v bool) {
+func (o *NeverSubscribed) SetIsRecentlyActive(v bool) {
 	o.IsRecentlyActive = &v
 }
 
 // GetIsAnnouncementOnly returns the IsAnnouncementOnly field value if set, zero value otherwise.
 // Deprecated
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsAnnouncementOnly() bool {
+func (o *NeverSubscribed) GetIsAnnouncementOnly() bool {
 	if o == nil || IsNil(o.IsAnnouncementOnly) {
 		var ret bool
 		return ret
@@ -619,7 +619,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsAnnouncementOnl
 // GetIsAnnouncementOnlyOk returns a tuple with the IsAnnouncementOnly field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // Deprecated
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsAnnouncementOnlyOk() (*bool, bool) {
+func (o *NeverSubscribed) GetIsAnnouncementOnlyOk() (*bool, bool) {
 	if o == nil || IsNil(o.IsAnnouncementOnly) {
 		return nil, false
 	}
@@ -627,7 +627,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetIsAnnouncementOnl
 }
 
 // HasIsAnnouncementOnly returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasIsAnnouncementOnly() bool {
+func (o *NeverSubscribed) HasIsAnnouncementOnly() bool {
 	if o != nil && !IsNil(o.IsAnnouncementOnly) {
 		return true
 	}
@@ -637,12 +637,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasIsAnnouncementOnl
 
 // SetIsAnnouncementOnly gets a reference to the given bool and assigns it to the IsAnnouncementOnly field.
 // Deprecated
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetIsAnnouncementOnly(v bool) {
+func (o *NeverSubscribed) SetIsAnnouncementOnly(v bool) {
 	o.IsAnnouncementOnly = &v
 }
 
 // GetCanAddSubscribersGroup returns the CanAddSubscribersGroup field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanAddSubscribersGroup() GroupSettingValue {
+func (o *NeverSubscribed) GetCanAddSubscribersGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanAddSubscribersGroup) {
 		var ret GroupSettingValue
 		return ret
@@ -652,7 +652,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanAddSubscribers
 
 // GetCanAddSubscribersGroupOk returns a tuple with the CanAddSubscribersGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanAddSubscribersGroupOk() (*GroupSettingValue, bool) {
+func (o *NeverSubscribed) GetCanAddSubscribersGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanAddSubscribersGroup) {
 		return nil, false
 	}
@@ -660,7 +660,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanAddSubscribers
 }
 
 // HasCanAddSubscribersGroup returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanAddSubscribersGroup() bool {
+func (o *NeverSubscribed) HasCanAddSubscribersGroup() bool {
 	if o != nil && !IsNil(o.CanAddSubscribersGroup) {
 		return true
 	}
@@ -669,12 +669,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanAddSubscribers
 }
 
 // SetCanAddSubscribersGroup gets a reference to the given GroupSettingValue and assigns it to the CanAddSubscribersGroup field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetCanAddSubscribersGroup(v GroupSettingValue) {
+func (o *NeverSubscribed) SetCanAddSubscribersGroup(v GroupSettingValue) {
 	o.CanAddSubscribersGroup = &v
 }
 
 // GetCanRemoveSubscribersGroup returns the CanRemoveSubscribersGroup field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanRemoveSubscribersGroup() GroupSettingValue {
+func (o *NeverSubscribed) GetCanRemoveSubscribersGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanRemoveSubscribersGroup) {
 		var ret GroupSettingValue
 		return ret
@@ -684,7 +684,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanRemoveSubscrib
 
 // GetCanRemoveSubscribersGroupOk returns a tuple with the CanRemoveSubscribersGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanRemoveSubscribersGroupOk() (*GroupSettingValue, bool) {
+func (o *NeverSubscribed) GetCanRemoveSubscribersGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanRemoveSubscribersGroup) {
 		return nil, false
 	}
@@ -692,7 +692,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanRemoveSubscrib
 }
 
 // HasCanRemoveSubscribersGroup returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanRemoveSubscribersGroup() bool {
+func (o *NeverSubscribed) HasCanRemoveSubscribersGroup() bool {
 	if o != nil && !IsNil(o.CanRemoveSubscribersGroup) {
 		return true
 	}
@@ -701,12 +701,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanRemoveSubscrib
 }
 
 // SetCanRemoveSubscribersGroup gets a reference to the given GroupSettingValue and assigns it to the CanRemoveSubscribersGroup field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetCanRemoveSubscribersGroup(v GroupSettingValue) {
+func (o *NeverSubscribed) SetCanRemoveSubscribersGroup(v GroupSettingValue) {
 	o.CanRemoveSubscribersGroup = &v
 }
 
 // GetCanAdministerChannelGroup returns the CanAdministerChannelGroup field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanAdministerChannelGroup() GroupSettingValue {
+func (o *NeverSubscribed) GetCanAdministerChannelGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanAdministerChannelGroup) {
 		var ret GroupSettingValue
 		return ret
@@ -716,7 +716,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanAdministerChan
 
 // GetCanAdministerChannelGroupOk returns a tuple with the CanAdministerChannelGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanAdministerChannelGroupOk() (*GroupSettingValue, bool) {
+func (o *NeverSubscribed) GetCanAdministerChannelGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanAdministerChannelGroup) {
 		return nil, false
 	}
@@ -724,7 +724,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanAdministerChan
 }
 
 // HasCanAdministerChannelGroup returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanAdministerChannelGroup() bool {
+func (o *NeverSubscribed) HasCanAdministerChannelGroup() bool {
 	if o != nil && !IsNil(o.CanAdministerChannelGroup) {
 		return true
 	}
@@ -733,12 +733,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanAdministerChan
 }
 
 // SetCanAdministerChannelGroup gets a reference to the given GroupSettingValue and assigns it to the CanAdministerChannelGroup field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetCanAdministerChannelGroup(v GroupSettingValue) {
+func (o *NeverSubscribed) SetCanAdministerChannelGroup(v GroupSettingValue) {
 	o.CanAdministerChannelGroup = &v
 }
 
 // GetCanDeleteAnyMessageGroup returns the CanDeleteAnyMessageGroup field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanDeleteAnyMessageGroup() GroupSettingValue {
+func (o *NeverSubscribed) GetCanDeleteAnyMessageGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanDeleteAnyMessageGroup) {
 		var ret GroupSettingValue
 		return ret
@@ -748,7 +748,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanDeleteAnyMessa
 
 // GetCanDeleteAnyMessageGroupOk returns a tuple with the CanDeleteAnyMessageGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanDeleteAnyMessageGroupOk() (*GroupSettingValue, bool) {
+func (o *NeverSubscribed) GetCanDeleteAnyMessageGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanDeleteAnyMessageGroup) {
 		return nil, false
 	}
@@ -756,7 +756,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanDeleteAnyMessa
 }
 
 // HasCanDeleteAnyMessageGroup returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanDeleteAnyMessageGroup() bool {
+func (o *NeverSubscribed) HasCanDeleteAnyMessageGroup() bool {
 	if o != nil && !IsNil(o.CanDeleteAnyMessageGroup) {
 		return true
 	}
@@ -765,12 +765,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanDeleteAnyMessa
 }
 
 // SetCanDeleteAnyMessageGroup gets a reference to the given GroupSettingValue and assigns it to the CanDeleteAnyMessageGroup field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetCanDeleteAnyMessageGroup(v GroupSettingValue) {
+func (o *NeverSubscribed) SetCanDeleteAnyMessageGroup(v GroupSettingValue) {
 	o.CanDeleteAnyMessageGroup = &v
 }
 
 // GetCanDeleteOwnMessageGroup returns the CanDeleteOwnMessageGroup field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanDeleteOwnMessageGroup() GroupSettingValue {
+func (o *NeverSubscribed) GetCanDeleteOwnMessageGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanDeleteOwnMessageGroup) {
 		var ret GroupSettingValue
 		return ret
@@ -780,7 +780,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanDeleteOwnMessa
 
 // GetCanDeleteOwnMessageGroupOk returns a tuple with the CanDeleteOwnMessageGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanDeleteOwnMessageGroupOk() (*GroupSettingValue, bool) {
+func (o *NeverSubscribed) GetCanDeleteOwnMessageGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanDeleteOwnMessageGroup) {
 		return nil, false
 	}
@@ -788,7 +788,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanDeleteOwnMessa
 }
 
 // HasCanDeleteOwnMessageGroup returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanDeleteOwnMessageGroup() bool {
+func (o *NeverSubscribed) HasCanDeleteOwnMessageGroup() bool {
 	if o != nil && !IsNil(o.CanDeleteOwnMessageGroup) {
 		return true
 	}
@@ -797,12 +797,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanDeleteOwnMessa
 }
 
 // SetCanDeleteOwnMessageGroup gets a reference to the given GroupSettingValue and assigns it to the CanDeleteOwnMessageGroup field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetCanDeleteOwnMessageGroup(v GroupSettingValue) {
+func (o *NeverSubscribed) SetCanDeleteOwnMessageGroup(v GroupSettingValue) {
 	o.CanDeleteOwnMessageGroup = &v
 }
 
 // GetCanMoveMessagesOutOfChannelGroup returns the CanMoveMessagesOutOfChannelGroup field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanMoveMessagesOutOfChannelGroup() GroupSettingValue {
+func (o *NeverSubscribed) GetCanMoveMessagesOutOfChannelGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanMoveMessagesOutOfChannelGroup) {
 		var ret GroupSettingValue
 		return ret
@@ -812,7 +812,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanMoveMessagesOu
 
 // GetCanMoveMessagesOutOfChannelGroupOk returns a tuple with the CanMoveMessagesOutOfChannelGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanMoveMessagesOutOfChannelGroupOk() (*GroupSettingValue, bool) {
+func (o *NeverSubscribed) GetCanMoveMessagesOutOfChannelGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanMoveMessagesOutOfChannelGroup) {
 		return nil, false
 	}
@@ -820,7 +820,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanMoveMessagesOu
 }
 
 // HasCanMoveMessagesOutOfChannelGroup returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanMoveMessagesOutOfChannelGroup() bool {
+func (o *NeverSubscribed) HasCanMoveMessagesOutOfChannelGroup() bool {
 	if o != nil && !IsNil(o.CanMoveMessagesOutOfChannelGroup) {
 		return true
 	}
@@ -829,12 +829,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanMoveMessagesOu
 }
 
 // SetCanMoveMessagesOutOfChannelGroup gets a reference to the given GroupSettingValue and assigns it to the CanMoveMessagesOutOfChannelGroup field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetCanMoveMessagesOutOfChannelGroup(v GroupSettingValue) {
+func (o *NeverSubscribed) SetCanMoveMessagesOutOfChannelGroup(v GroupSettingValue) {
 	o.CanMoveMessagesOutOfChannelGroup = &v
 }
 
 // GetCanMoveMessagesWithinChannelGroup returns the CanMoveMessagesWithinChannelGroup field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanMoveMessagesWithinChannelGroup() GroupSettingValue {
+func (o *NeverSubscribed) GetCanMoveMessagesWithinChannelGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanMoveMessagesWithinChannelGroup) {
 		var ret GroupSettingValue
 		return ret
@@ -844,7 +844,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanMoveMessagesWi
 
 // GetCanMoveMessagesWithinChannelGroupOk returns a tuple with the CanMoveMessagesWithinChannelGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanMoveMessagesWithinChannelGroupOk() (*GroupSettingValue, bool) {
+func (o *NeverSubscribed) GetCanMoveMessagesWithinChannelGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanMoveMessagesWithinChannelGroup) {
 		return nil, false
 	}
@@ -852,7 +852,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanMoveMessagesWi
 }
 
 // HasCanMoveMessagesWithinChannelGroup returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanMoveMessagesWithinChannelGroup() bool {
+func (o *NeverSubscribed) HasCanMoveMessagesWithinChannelGroup() bool {
 	if o != nil && !IsNil(o.CanMoveMessagesWithinChannelGroup) {
 		return true
 	}
@@ -861,12 +861,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanMoveMessagesWi
 }
 
 // SetCanMoveMessagesWithinChannelGroup gets a reference to the given GroupSettingValue and assigns it to the CanMoveMessagesWithinChannelGroup field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetCanMoveMessagesWithinChannelGroup(v GroupSettingValue) {
+func (o *NeverSubscribed) SetCanMoveMessagesWithinChannelGroup(v GroupSettingValue) {
 	o.CanMoveMessagesWithinChannelGroup = &v
 }
 
 // GetCanSendMessageGroup returns the CanSendMessageGroup field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanSendMessageGroup() GroupSettingValue {
+func (o *NeverSubscribed) GetCanSendMessageGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanSendMessageGroup) {
 		var ret GroupSettingValue
 		return ret
@@ -876,7 +876,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanSendMessageGro
 
 // GetCanSendMessageGroupOk returns a tuple with the CanSendMessageGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanSendMessageGroupOk() (*GroupSettingValue, bool) {
+func (o *NeverSubscribed) GetCanSendMessageGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanSendMessageGroup) {
 		return nil, false
 	}
@@ -884,7 +884,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanSendMessageGro
 }
 
 // HasCanSendMessageGroup returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanSendMessageGroup() bool {
+func (o *NeverSubscribed) HasCanSendMessageGroup() bool {
 	if o != nil && !IsNil(o.CanSendMessageGroup) {
 		return true
 	}
@@ -893,12 +893,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanSendMessageGro
 }
 
 // SetCanSendMessageGroup gets a reference to the given GroupSettingValue and assigns it to the CanSendMessageGroup field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetCanSendMessageGroup(v GroupSettingValue) {
+func (o *NeverSubscribed) SetCanSendMessageGroup(v GroupSettingValue) {
 	o.CanSendMessageGroup = &v
 }
 
 // GetCanSubscribeGroup returns the CanSubscribeGroup field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanSubscribeGroup() GroupSettingValue {
+func (o *NeverSubscribed) GetCanSubscribeGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanSubscribeGroup) {
 		var ret GroupSettingValue
 		return ret
@@ -908,7 +908,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanSubscribeGroup
 
 // GetCanSubscribeGroupOk returns a tuple with the CanSubscribeGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanSubscribeGroupOk() (*GroupSettingValue, bool) {
+func (o *NeverSubscribed) GetCanSubscribeGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanSubscribeGroup) {
 		return nil, false
 	}
@@ -916,7 +916,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanSubscribeGroup
 }
 
 // HasCanSubscribeGroup returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanSubscribeGroup() bool {
+func (o *NeverSubscribed) HasCanSubscribeGroup() bool {
 	if o != nil && !IsNil(o.CanSubscribeGroup) {
 		return true
 	}
@@ -925,12 +925,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanSubscribeGroup
 }
 
 // SetCanSubscribeGroup gets a reference to the given GroupSettingValue and assigns it to the CanSubscribeGroup field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetCanSubscribeGroup(v GroupSettingValue) {
+func (o *NeverSubscribed) SetCanSubscribeGroup(v GroupSettingValue) {
 	o.CanSubscribeGroup = &v
 }
 
 // GetCanResolveTopicsGroup returns the CanResolveTopicsGroup field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanResolveTopicsGroup() GroupSettingValue {
+func (o *NeverSubscribed) GetCanResolveTopicsGroup() GroupSettingValue {
 	if o == nil || IsNil(o.CanResolveTopicsGroup) {
 		var ret GroupSettingValue
 		return ret
@@ -940,7 +940,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanResolveTopicsG
 
 // GetCanResolveTopicsGroupOk returns a tuple with the CanResolveTopicsGroup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanResolveTopicsGroupOk() (*GroupSettingValue, bool) {
+func (o *NeverSubscribed) GetCanResolveTopicsGroupOk() (*GroupSettingValue, bool) {
 	if o == nil || IsNil(o.CanResolveTopicsGroup) {
 		return nil, false
 	}
@@ -948,7 +948,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetCanResolveTopicsG
 }
 
 // HasCanResolveTopicsGroup returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanResolveTopicsGroup() bool {
+func (o *NeverSubscribed) HasCanResolveTopicsGroup() bool {
 	if o != nil && !IsNil(o.CanResolveTopicsGroup) {
 		return true
 	}
@@ -957,12 +957,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasCanResolveTopicsG
 }
 
 // SetCanResolveTopicsGroup gets a reference to the given GroupSettingValue and assigns it to the CanResolveTopicsGroup field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetCanResolveTopicsGroup(v GroupSettingValue) {
+func (o *NeverSubscribed) SetCanResolveTopicsGroup(v GroupSettingValue) {
 	o.CanResolveTopicsGroup = &v
 }
 
 // GetSubscriberCount returns the SubscriberCount field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetSubscriberCount() float32 {
+func (o *NeverSubscribed) GetSubscriberCount() float32 {
 	if o == nil || IsNil(o.SubscriberCount) {
 		var ret float32
 		return ret
@@ -972,7 +972,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetSubscriberCount()
 
 // GetSubscriberCountOk returns a tuple with the SubscriberCount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetSubscriberCountOk() (*float32, bool) {
+func (o *NeverSubscribed) GetSubscriberCountOk() (*float32, bool) {
 	if o == nil || IsNil(o.SubscriberCount) {
 		return nil, false
 	}
@@ -980,7 +980,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetSubscriberCountOk
 }
 
 // HasSubscriberCount returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasSubscriberCount() bool {
+func (o *NeverSubscribed) HasSubscriberCount() bool {
 	if o != nil && !IsNil(o.SubscriberCount) {
 		return true
 	}
@@ -989,12 +989,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasSubscriberCount()
 }
 
 // SetSubscriberCount gets a reference to the given float32 and assigns it to the SubscriberCount field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetSubscriberCount(v float32) {
+func (o *NeverSubscribed) SetSubscriberCount(v float32) {
 	o.SubscriberCount = &v
 }
 
 // GetStreamWeeklyTraffic returns the StreamWeeklyTraffic field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetStreamWeeklyTraffic() int32 {
+func (o *NeverSubscribed) GetStreamWeeklyTraffic() int32 {
 	if o == nil || IsNil(o.StreamWeeklyTraffic.Get()) {
 		var ret int32
 		return ret
@@ -1005,7 +1005,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetStreamWeeklyTraff
 // GetStreamWeeklyTrafficOk returns a tuple with the StreamWeeklyTraffic field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetStreamWeeklyTrafficOk() (*int32, bool) {
+func (o *NeverSubscribed) GetStreamWeeklyTrafficOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -1013,7 +1013,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetStreamWeeklyTraff
 }
 
 // HasStreamWeeklyTraffic returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasStreamWeeklyTraffic() bool {
+func (o *NeverSubscribed) HasStreamWeeklyTraffic() bool {
 	if o != nil && o.StreamWeeklyTraffic.IsSet() {
 		return true
 	}
@@ -1022,22 +1022,22 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasStreamWeeklyTraff
 }
 
 // SetStreamWeeklyTraffic gets a reference to the given NullableInt32 and assigns it to the StreamWeeklyTraffic field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetStreamWeeklyTraffic(v int32) {
+func (o *NeverSubscribed) SetStreamWeeklyTraffic(v int32) {
 	o.StreamWeeklyTraffic.Set(&v)
 }
 
 // SetStreamWeeklyTrafficNil sets the value for StreamWeeklyTraffic to be an explicit nil
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetStreamWeeklyTrafficNil() {
+func (o *NeverSubscribed) SetStreamWeeklyTrafficNil() {
 	o.StreamWeeklyTraffic.Set(nil)
 }
 
 // UnsetStreamWeeklyTraffic ensures that no value is present for StreamWeeklyTraffic, not even an explicit nil
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) UnsetStreamWeeklyTraffic() {
+func (o *NeverSubscribed) UnsetStreamWeeklyTraffic() {
 	o.StreamWeeklyTraffic.Unset()
 }
 
 // GetSubscribers returns the Subscribers field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetSubscribers() []int32 {
+func (o *NeverSubscribed) GetSubscribers() []int32 {
 	if o == nil || IsNil(o.Subscribers) {
 		var ret []int32
 		return ret
@@ -1047,7 +1047,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetSubscribers() []i
 
 // GetSubscribersOk returns a tuple with the Subscribers field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetSubscribersOk() ([]int32, bool) {
+func (o *NeverSubscribed) GetSubscribersOk() ([]int32, bool) {
 	if o == nil || IsNil(o.Subscribers) {
 		return nil, false
 	}
@@ -1055,7 +1055,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetSubscribersOk() (
 }
 
 // HasSubscribers returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasSubscribers() bool {
+func (o *NeverSubscribed) HasSubscribers() bool {
 	if o != nil && !IsNil(o.Subscribers) {
 		return true
 	}
@@ -1064,12 +1064,12 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasSubscribers() boo
 }
 
 // SetSubscribers gets a reference to the given []int32 and assigns it to the Subscribers field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetSubscribers(v []int32) {
+func (o *NeverSubscribed) SetSubscribers(v []int32) {
 	o.Subscribers = v
 }
 
 // GetPartialSubscribers returns the PartialSubscribers field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetPartialSubscribers() []int32 {
+func (o *NeverSubscribed) GetPartialSubscribers() []int32 {
 	if o == nil || IsNil(o.PartialSubscribers) {
 		var ret []int32
 		return ret
@@ -1079,7 +1079,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetPartialSubscriber
 
 // GetPartialSubscribersOk returns a tuple with the PartialSubscribers field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetPartialSubscribersOk() ([]int32, bool) {
+func (o *NeverSubscribed) GetPartialSubscribersOk() ([]int32, bool) {
 	if o == nil || IsNil(o.PartialSubscribers) {
 		return nil, false
 	}
@@ -1087,7 +1087,7 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) GetPartialSubscriber
 }
 
 // HasPartialSubscribers returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasPartialSubscribers() bool {
+func (o *NeverSubscribed) HasPartialSubscribers() bool {
 	if o != nil && !IsNil(o.PartialSubscribers) {
 		return true
 	}
@@ -1096,11 +1096,11 @@ func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) HasPartialSubscriber
 }
 
 // SetPartialSubscribers gets a reference to the given []int32 and assigns it to the PartialSubscribers field.
-func (o *RegisterQueue200ResponseAllOfNeverSubscribedInner) SetPartialSubscribers(v []int32) {
+func (o *NeverSubscribed) SetPartialSubscribers(v []int32) {
 	o.PartialSubscribers = v
 }
 
-func (o RegisterQueue200ResponseAllOfNeverSubscribedInner) MarshalJSON() ([]byte, error) {
+func (o NeverSubscribed) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -1108,7 +1108,7 @@ func (o RegisterQueue200ResponseAllOfNeverSubscribedInner) MarshalJSON() ([]byte
 	return json.Marshal(toSerialize)
 }
 
-func (o RegisterQueue200ResponseAllOfNeverSubscribedInner) ToMap() (map[string]interface{}, error) {
+func (o NeverSubscribed) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.StreamId) {
 		toSerialize["stream_id"] = o.StreamId
@@ -1206,38 +1206,38 @@ func (o RegisterQueue200ResponseAllOfNeverSubscribedInner) ToMap() (map[string]i
 	return toSerialize, nil
 }
 
-type NullableRegisterQueue200ResponseAllOfNeverSubscribedInner struct {
-	value *RegisterQueue200ResponseAllOfNeverSubscribedInner
+type NullableNeverSubscribed struct {
+	value *NeverSubscribed
 	isSet bool
 }
 
-func (v NullableRegisterQueue200ResponseAllOfNeverSubscribedInner) Get() *RegisterQueue200ResponseAllOfNeverSubscribedInner {
+func (v NullableNeverSubscribed) Get() *NeverSubscribed {
 	return v.value
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfNeverSubscribedInner) Set(val *RegisterQueue200ResponseAllOfNeverSubscribedInner) {
+func (v *NullableNeverSubscribed) Set(val *NeverSubscribed) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRegisterQueue200ResponseAllOfNeverSubscribedInner) IsSet() bool {
+func (v NullableNeverSubscribed) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfNeverSubscribedInner) Unset() {
+func (v *NullableNeverSubscribed) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRegisterQueue200ResponseAllOfNeverSubscribedInner(val *RegisterQueue200ResponseAllOfNeverSubscribedInner) *NullableRegisterQueue200ResponseAllOfNeverSubscribedInner {
-	return &NullableRegisterQueue200ResponseAllOfNeverSubscribedInner{value: val, isSet: true}
+func NewNullableNeverSubscribed(val *NeverSubscribed) *NullableNeverSubscribed {
+	return &NullableNeverSubscribed{value: val, isSet: true}
 }
 
-func (v NullableRegisterQueue200ResponseAllOfNeverSubscribedInner) MarshalJSON() ([]byte, error) {
+func (v NullableNeverSubscribed) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfNeverSubscribedInner) UnmarshalJSON(src []byte) error {
+func (v *NullableNeverSubscribed) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

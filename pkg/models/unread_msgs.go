@@ -14,44 +14,44 @@ import (
 	"encoding/json"
 )
 
-// checks if the RegisterQueue200ResponseAllOfUnreadMsgs type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RegisterQueue200ResponseAllOfUnreadMsgs{}
+// checks if the UnreadMsgs type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UnreadMsgs{}
 
-// RegisterQueue200ResponseAllOfUnreadMsgs Present if `message` and `update_message_flags` are both present in `event_types`.  A set of data structures describing the conversations containing the 50000 most recent unread messages the user has received. This will usually contain every unread message the user has received, but clients should support users with even more unread messages (and not hardcode the number 50000).
-type RegisterQueue200ResponseAllOfUnreadMsgs struct {
+// UnreadMsgs Present if `message` and `update_message_flags` are both present in `event_types`.  A set of data structures describing the conversations containing the 50000 most recent unread messages the user has received. This will usually contain every unread message the user has received, but clients should support users with even more unread messages (and not hardcode the number 50000).
+type UnreadMsgs struct {
 	// The total number of unread messages to display. This includes one-on-one and group direct messages, as well as channel messages that are not [muted](/help/mute-a-topic).  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field.
 	Count *int32 `json:"count,omitempty"`
 	// An array of objects where each object contains details of unread one-on-one direct messages with a specific user.  Note that it is possible for a message that the current user sent to the specified user to be marked as unread and thus appear here.
-	Pms []RegisterQueue200ResponseAllOfUnreadMsgsPmsInner `json:"pms,omitempty"`
+	Pms []UnreadMsgsPms `json:"pms,omitempty"`
 	// An array of dictionaries where each dictionary contains details of all unread messages of a single subscribed channel. This includes muted channels and muted topics, even though those messages are excluded from `count`.  **Changes**: Prior to Zulip 5.0 (feature level 90), these objects included a `sender_ids` property, which listed the set of IDs of users who had sent the unread messages.
-	Streams []RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner `json:"streams,omitempty"`
+	Streams []UnreadMsgsStreams `json:"streams,omitempty"`
 	// An array of objects where each object contains details of unread group direct messages with a specific group of users.
-	Huddles []RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner `json:"huddles,omitempty"`
+	Huddles []UnreadMsgsHuddles `json:"huddles,omitempty"`
 	// Array containing the IDs of all unread messages in which the user was mentioned directly, and unread [non-muted](/help/mute-a-topic) messages in which the user was mentioned through a wildcard.  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field.
 	Mentions []int32 `json:"mentions,omitempty"`
 	// Whether this data set was truncated because the user has too many unread messages. When truncation occurs, only the most recent `MAX_UNREAD_MESSAGES` (currently 50000) messages will be considered when forming this response. When `true`, we recommend that clients display a warning, as they are likely to produce erroneous results until reloaded with the user having fewer than `MAX_UNREAD_MESSAGES` unread messages.  **Changes**: New in Zulip 4.0 (feature level 44).
 	OldUnreadsMissing *bool `json:"old_unreads_missing,omitempty"`
 }
 
-// NewRegisterQueue200ResponseAllOfUnreadMsgs instantiates a new RegisterQueue200ResponseAllOfUnreadMsgs object
+// NewUnreadMsgs instantiates a new UnreadMsgs object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterQueue200ResponseAllOfUnreadMsgs() *RegisterQueue200ResponseAllOfUnreadMsgs {
-	this := RegisterQueue200ResponseAllOfUnreadMsgs{}
+func NewUnreadMsgs() *UnreadMsgs {
+	this := UnreadMsgs{}
 	return &this
 }
 
-// NewRegisterQueue200ResponseAllOfUnreadMsgsWithDefaults instantiates a new RegisterQueue200ResponseAllOfUnreadMsgs object
+// NewUnreadMsgsWithDefaults instantiates a new UnreadMsgs object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRegisterQueue200ResponseAllOfUnreadMsgsWithDefaults() *RegisterQueue200ResponseAllOfUnreadMsgs {
-	this := RegisterQueue200ResponseAllOfUnreadMsgs{}
+func NewUnreadMsgsWithDefaults() *UnreadMsgs {
+	this := UnreadMsgs{}
 	return &this
 }
 
 // GetCount returns the Count field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetCount() int32 {
+func (o *UnreadMsgs) GetCount() int32 {
 	if o == nil || IsNil(o.Count) {
 		var ret int32
 		return ret
@@ -61,7 +61,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetCount() int32 {
 
 // GetCountOk returns a tuple with the Count field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetCountOk() (*int32, bool) {
+func (o *UnreadMsgs) GetCountOk() (*int32, bool) {
 	if o == nil || IsNil(o.Count) {
 		return nil, false
 	}
@@ -69,7 +69,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetCountOk() (*int32, bool) {
 }
 
 // HasCount returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) HasCount() bool {
+func (o *UnreadMsgs) HasCount() bool {
 	if o != nil && !IsNil(o.Count) {
 		return true
 	}
@@ -78,14 +78,14 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) HasCount() bool {
 }
 
 // SetCount gets a reference to the given int32 and assigns it to the Count field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) SetCount(v int32) {
+func (o *UnreadMsgs) SetCount(v int32) {
 	o.Count = &v
 }
 
 // GetPms returns the Pms field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetPms() []RegisterQueue200ResponseAllOfUnreadMsgsPmsInner {
+func (o *UnreadMsgs) GetPms() []UnreadMsgsPms {
 	if o == nil || IsNil(o.Pms) {
-		var ret []RegisterQueue200ResponseAllOfUnreadMsgsPmsInner
+		var ret []UnreadMsgsPms
 		return ret
 	}
 	return o.Pms
@@ -93,7 +93,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetPms() []RegisterQueue200Res
 
 // GetPmsOk returns a tuple with the Pms field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetPmsOk() ([]RegisterQueue200ResponseAllOfUnreadMsgsPmsInner, bool) {
+func (o *UnreadMsgs) GetPmsOk() ([]UnreadMsgsPms, bool) {
 	if o == nil || IsNil(o.Pms) {
 		return nil, false
 	}
@@ -101,7 +101,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetPmsOk() ([]RegisterQueue200
 }
 
 // HasPms returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) HasPms() bool {
+func (o *UnreadMsgs) HasPms() bool {
 	if o != nil && !IsNil(o.Pms) {
 		return true
 	}
@@ -109,15 +109,15 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) HasPms() bool {
 	return false
 }
 
-// SetPms gets a reference to the given []RegisterQueue200ResponseAllOfUnreadMsgsPmsInner and assigns it to the Pms field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) SetPms(v []RegisterQueue200ResponseAllOfUnreadMsgsPmsInner) {
+// SetPms gets a reference to the given []UnreadMsgsPms and assigns it to the Pms field.
+func (o *UnreadMsgs) SetPms(v []UnreadMsgsPms) {
 	o.Pms = v
 }
 
 // GetStreams returns the Streams field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetStreams() []RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner {
+func (o *UnreadMsgs) GetStreams() []UnreadMsgsStreams {
 	if o == nil || IsNil(o.Streams) {
-		var ret []RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner
+		var ret []UnreadMsgsStreams
 		return ret
 	}
 	return o.Streams
@@ -125,7 +125,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetStreams() []RegisterQueue20
 
 // GetStreamsOk returns a tuple with the Streams field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetStreamsOk() ([]RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner, bool) {
+func (o *UnreadMsgs) GetStreamsOk() ([]UnreadMsgsStreams, bool) {
 	if o == nil || IsNil(o.Streams) {
 		return nil, false
 	}
@@ -133,7 +133,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetStreamsOk() ([]RegisterQueu
 }
 
 // HasStreams returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) HasStreams() bool {
+func (o *UnreadMsgs) HasStreams() bool {
 	if o != nil && !IsNil(o.Streams) {
 		return true
 	}
@@ -141,15 +141,15 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) HasStreams() bool {
 	return false
 }
 
-// SetStreams gets a reference to the given []RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner and assigns it to the Streams field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) SetStreams(v []RegisterQueue200ResponseAllOfUnreadMsgsStreamsInner) {
+// SetStreams gets a reference to the given []UnreadMsgsStreams and assigns it to the Streams field.
+func (o *UnreadMsgs) SetStreams(v []UnreadMsgsStreams) {
 	o.Streams = v
 }
 
 // GetHuddles returns the Huddles field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetHuddles() []RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner {
+func (o *UnreadMsgs) GetHuddles() []UnreadMsgsHuddles {
 	if o == nil || IsNil(o.Huddles) {
-		var ret []RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner
+		var ret []UnreadMsgsHuddles
 		return ret
 	}
 	return o.Huddles
@@ -157,7 +157,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetHuddles() []RegisterQueue20
 
 // GetHuddlesOk returns a tuple with the Huddles field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetHuddlesOk() ([]RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner, bool) {
+func (o *UnreadMsgs) GetHuddlesOk() ([]UnreadMsgsHuddles, bool) {
 	if o == nil || IsNil(o.Huddles) {
 		return nil, false
 	}
@@ -165,7 +165,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetHuddlesOk() ([]RegisterQueu
 }
 
 // HasHuddles returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) HasHuddles() bool {
+func (o *UnreadMsgs) HasHuddles() bool {
 	if o != nil && !IsNil(o.Huddles) {
 		return true
 	}
@@ -173,13 +173,13 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) HasHuddles() bool {
 	return false
 }
 
-// SetHuddles gets a reference to the given []RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner and assigns it to the Huddles field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) SetHuddles(v []RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) {
+// SetHuddles gets a reference to the given []UnreadMsgsHuddles and assigns it to the Huddles field.
+func (o *UnreadMsgs) SetHuddles(v []UnreadMsgsHuddles) {
 	o.Huddles = v
 }
 
 // GetMentions returns the Mentions field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetMentions() []int32 {
+func (o *UnreadMsgs) GetMentions() []int32 {
 	if o == nil || IsNil(o.Mentions) {
 		var ret []int32
 		return ret
@@ -189,7 +189,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetMentions() []int32 {
 
 // GetMentionsOk returns a tuple with the Mentions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetMentionsOk() ([]int32, bool) {
+func (o *UnreadMsgs) GetMentionsOk() ([]int32, bool) {
 	if o == nil || IsNil(o.Mentions) {
 		return nil, false
 	}
@@ -197,7 +197,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetMentionsOk() ([]int32, bool
 }
 
 // HasMentions returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) HasMentions() bool {
+func (o *UnreadMsgs) HasMentions() bool {
 	if o != nil && !IsNil(o.Mentions) {
 		return true
 	}
@@ -206,12 +206,12 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) HasMentions() bool {
 }
 
 // SetMentions gets a reference to the given []int32 and assigns it to the Mentions field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) SetMentions(v []int32) {
+func (o *UnreadMsgs) SetMentions(v []int32) {
 	o.Mentions = v
 }
 
 // GetOldUnreadsMissing returns the OldUnreadsMissing field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetOldUnreadsMissing() bool {
+func (o *UnreadMsgs) GetOldUnreadsMissing() bool {
 	if o == nil || IsNil(o.OldUnreadsMissing) {
 		var ret bool
 		return ret
@@ -221,7 +221,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetOldUnreadsMissing() bool {
 
 // GetOldUnreadsMissingOk returns a tuple with the OldUnreadsMissing field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetOldUnreadsMissingOk() (*bool, bool) {
+func (o *UnreadMsgs) GetOldUnreadsMissingOk() (*bool, bool) {
 	if o == nil || IsNil(o.OldUnreadsMissing) {
 		return nil, false
 	}
@@ -229,7 +229,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) GetOldUnreadsMissingOk() (*boo
 }
 
 // HasOldUnreadsMissing returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) HasOldUnreadsMissing() bool {
+func (o *UnreadMsgs) HasOldUnreadsMissing() bool {
 	if o != nil && !IsNil(o.OldUnreadsMissing) {
 		return true
 	}
@@ -238,11 +238,11 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgs) HasOldUnreadsMissing() bool {
 }
 
 // SetOldUnreadsMissing gets a reference to the given bool and assigns it to the OldUnreadsMissing field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgs) SetOldUnreadsMissing(v bool) {
+func (o *UnreadMsgs) SetOldUnreadsMissing(v bool) {
 	o.OldUnreadsMissing = &v
 }
 
-func (o RegisterQueue200ResponseAllOfUnreadMsgs) MarshalJSON() ([]byte, error) {
+func (o UnreadMsgs) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -250,7 +250,7 @@ func (o RegisterQueue200ResponseAllOfUnreadMsgs) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o RegisterQueue200ResponseAllOfUnreadMsgs) ToMap() (map[string]interface{}, error) {
+func (o UnreadMsgs) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Count) {
 		toSerialize["count"] = o.Count
@@ -273,38 +273,38 @@ func (o RegisterQueue200ResponseAllOfUnreadMsgs) ToMap() (map[string]interface{}
 	return toSerialize, nil
 }
 
-type NullableRegisterQueue200ResponseAllOfUnreadMsgs struct {
-	value *RegisterQueue200ResponseAllOfUnreadMsgs
+type NullableUnreadMsgs struct {
+	value *UnreadMsgs
 	isSet bool
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUnreadMsgs) Get() *RegisterQueue200ResponseAllOfUnreadMsgs {
+func (v NullableUnreadMsgs) Get() *UnreadMsgs {
 	return v.value
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgs) Set(val *RegisterQueue200ResponseAllOfUnreadMsgs) {
+func (v *NullableUnreadMsgs) Set(val *UnreadMsgs) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUnreadMsgs) IsSet() bool {
+func (v NullableUnreadMsgs) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgs) Unset() {
+func (v *NullableUnreadMsgs) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRegisterQueue200ResponseAllOfUnreadMsgs(val *RegisterQueue200ResponseAllOfUnreadMsgs) *NullableRegisterQueue200ResponseAllOfUnreadMsgs {
-	return &NullableRegisterQueue200ResponseAllOfUnreadMsgs{value: val, isSet: true}
+func NewNullableUnreadMsgs(val *UnreadMsgs) *NullableUnreadMsgs {
+	return &NullableUnreadMsgs{value: val, isSet: true}
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUnreadMsgs) MarshalJSON() ([]byte, error) {
+func (v NullableUnreadMsgs) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgs) UnmarshalJSON(src []byte) error {
+func (v *NullableUnreadMsgs) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

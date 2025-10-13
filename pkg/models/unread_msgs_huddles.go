@@ -14,36 +14,36 @@ import (
 	"encoding/json"
 )
 
-// checks if the RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner{}
+// checks if the UnreadMsgsHuddles type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UnreadMsgsHuddles{}
 
-// RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner struct for RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner
-type RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner struct {
+// UnreadMsgsHuddles struct for UnreadMsgsHuddles
+type UnreadMsgsHuddles struct {
 	// A string containing the IDs of all users in the group direct message conversation, including the current user, separated by commas and sorted numerically; for example: `\"1,2,3\"`.
 	UserIdsString *string `json:"user_ids_string,omitempty"`
 	// The message IDs of the recent unread messages which have been sent in this group direct message conversation, sorted in ascending order.
 	UnreadMessageIds []int32 `json:"unread_message_ids,omitempty"`
 }
 
-// NewRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner instantiates a new RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner object
+// NewUnreadMsgsHuddles instantiates a new UnreadMsgsHuddles object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner() *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner {
-	this := RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner{}
+func NewUnreadMsgsHuddles() *UnreadMsgsHuddles {
+	this := UnreadMsgsHuddles{}
 	return &this
 }
 
-// NewRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInnerWithDefaults instantiates a new RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner object
+// NewUnreadMsgsHuddlesWithDefaults instantiates a new UnreadMsgsHuddles object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInnerWithDefaults() *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner {
-	this := RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner{}
+func NewUnreadMsgsHuddlesWithDefaults() *UnreadMsgsHuddles {
+	this := UnreadMsgsHuddles{}
 	return &this
 }
 
 // GetUserIdsString returns the UserIdsString field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) GetUserIdsString() string {
+func (o *UnreadMsgsHuddles) GetUserIdsString() string {
 	if o == nil || IsNil(o.UserIdsString) {
 		var ret string
 		return ret
@@ -53,7 +53,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) GetUserIdsString()
 
 // GetUserIdsStringOk returns a tuple with the UserIdsString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) GetUserIdsStringOk() (*string, bool) {
+func (o *UnreadMsgsHuddles) GetUserIdsStringOk() (*string, bool) {
 	if o == nil || IsNil(o.UserIdsString) {
 		return nil, false
 	}
@@ -61,7 +61,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) GetUserIdsStringOk
 }
 
 // HasUserIdsString returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) HasUserIdsString() bool {
+func (o *UnreadMsgsHuddles) HasUserIdsString() bool {
 	if o != nil && !IsNil(o.UserIdsString) {
 		return true
 	}
@@ -70,12 +70,12 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) HasUserIdsString()
 }
 
 // SetUserIdsString gets a reference to the given string and assigns it to the UserIdsString field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) SetUserIdsString(v string) {
+func (o *UnreadMsgsHuddles) SetUserIdsString(v string) {
 	o.UserIdsString = &v
 }
 
 // GetUnreadMessageIds returns the UnreadMessageIds field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) GetUnreadMessageIds() []int32 {
+func (o *UnreadMsgsHuddles) GetUnreadMessageIds() []int32 {
 	if o == nil || IsNil(o.UnreadMessageIds) {
 		var ret []int32
 		return ret
@@ -85,7 +85,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) GetUnreadMessageId
 
 // GetUnreadMessageIdsOk returns a tuple with the UnreadMessageIds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) GetUnreadMessageIdsOk() ([]int32, bool) {
+func (o *UnreadMsgsHuddles) GetUnreadMessageIdsOk() ([]int32, bool) {
 	if o == nil || IsNil(o.UnreadMessageIds) {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) GetUnreadMessageId
 }
 
 // HasUnreadMessageIds returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) HasUnreadMessageIds() bool {
+func (o *UnreadMsgsHuddles) HasUnreadMessageIds() bool {
 	if o != nil && !IsNil(o.UnreadMessageIds) {
 		return true
 	}
@@ -102,11 +102,11 @@ func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) HasUnreadMessageId
 }
 
 // SetUnreadMessageIds gets a reference to the given []int32 and assigns it to the UnreadMessageIds field.
-func (o *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) SetUnreadMessageIds(v []int32) {
+func (o *UnreadMsgsHuddles) SetUnreadMessageIds(v []int32) {
 	o.UnreadMessageIds = v
 }
 
-func (o RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) MarshalJSON() ([]byte, error) {
+func (o UnreadMsgsHuddles) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -114,7 +114,7 @@ func (o RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) MarshalJSON() ([]by
 	return json.Marshal(toSerialize)
 }
 
-func (o RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) ToMap() (map[string]interface{}, error) {
+func (o UnreadMsgsHuddles) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.UserIdsString) {
 		toSerialize["user_ids_string"] = o.UserIdsString
@@ -125,38 +125,38 @@ func (o RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) ToMap() (map[string
 	return toSerialize, nil
 }
 
-type NullableRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner struct {
-	value *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner
+type NullableUnreadMsgsHuddles struct {
+	value *UnreadMsgsHuddles
 	isSet bool
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) Get() *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner {
+func (v NullableUnreadMsgsHuddles) Get() *UnreadMsgsHuddles {
 	return v.value
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) Set(val *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) {
+func (v *NullableUnreadMsgsHuddles) Set(val *UnreadMsgsHuddles) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) IsSet() bool {
+func (v NullableUnreadMsgsHuddles) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) Unset() {
+func (v *NullableUnreadMsgsHuddles) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner(val *RegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) *NullableRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner {
-	return &NullableRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner{value: val, isSet: true}
+func NewNullableUnreadMsgsHuddles(val *UnreadMsgsHuddles) *NullableUnreadMsgsHuddles {
+	return &NullableUnreadMsgsHuddles{value: val, isSet: true}
 }
 
-func (v NullableRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) MarshalJSON() ([]byte, error) {
+func (v NullableUnreadMsgsHuddles) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfUnreadMsgsHuddlesInner) UnmarshalJSON(src []byte) error {
+func (v *NullableUnreadMsgsHuddles) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

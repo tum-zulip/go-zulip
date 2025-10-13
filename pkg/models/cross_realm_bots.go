@@ -14,11 +14,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the RegisterQueue200ResponseAllOfCrossRealmBotsInner type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RegisterQueue200ResponseAllOfCrossRealmBotsInner{}
+// checks if the CrossRealmBots type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CrossRealmBots{}
 
-// RegisterQueue200ResponseAllOfCrossRealmBotsInner struct for RegisterQueue200ResponseAllOfCrossRealmBotsInner
-type RegisterQueue200ResponseAllOfCrossRealmBotsInner struct {
+// CrossRealmBots struct for CrossRealmBots
+type CrossRealmBots struct {
 	// The unique ID of the user.
 	UserId *int32 `json:"user_id,omitempty"`
 	// The user's real email address. This value will be `null` if you cannot access user's real email address. For bot users, this field is always set to the real email of the bot, because bot users always have `email_address_visibility` set to everyone.  **Changes**: Prior to Zulip 7.0 (feature level 163), this field was present only when `email_address_visibility` was restricted and you had access to the user's real email. As of this feature level, this field is always present, including the case when `email_address_visibility` is set to everyone (and therefore not restricted).
@@ -54,25 +54,25 @@ type RegisterQueue200ResponseAllOfCrossRealmBotsInner struct {
 	IsSystemBot *bool `json:"is_system_bot,omitempty"`
 }
 
-// NewRegisterQueue200ResponseAllOfCrossRealmBotsInner instantiates a new RegisterQueue200ResponseAllOfCrossRealmBotsInner object
+// NewCrossRealmBots instantiates a new CrossRealmBots object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterQueue200ResponseAllOfCrossRealmBotsInner() *RegisterQueue200ResponseAllOfCrossRealmBotsInner {
-	this := RegisterQueue200ResponseAllOfCrossRealmBotsInner{}
+func NewCrossRealmBots() *CrossRealmBots {
+	this := CrossRealmBots{}
 	return &this
 }
 
-// NewRegisterQueue200ResponseAllOfCrossRealmBotsInnerWithDefaults instantiates a new RegisterQueue200ResponseAllOfCrossRealmBotsInner object
+// NewCrossRealmBotsWithDefaults instantiates a new CrossRealmBots object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRegisterQueue200ResponseAllOfCrossRealmBotsInnerWithDefaults() *RegisterQueue200ResponseAllOfCrossRealmBotsInner {
-	this := RegisterQueue200ResponseAllOfCrossRealmBotsInner{}
+func NewCrossRealmBotsWithDefaults() *CrossRealmBots {
+	this := CrossRealmBots{}
 	return &this
 }
 
 // GetUserId returns the UserId field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetUserId() int32 {
+func (o *CrossRealmBots) GetUserId() int32 {
 	if o == nil || IsNil(o.UserId) {
 		var ret int32
 		return ret
@@ -82,7 +82,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetUserId() int32 {
 
 // GetUserIdOk returns a tuple with the UserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetUserIdOk() (*int32, bool) {
+func (o *CrossRealmBots) GetUserIdOk() (*int32, bool) {
 	if o == nil || IsNil(o.UserId) {
 		return nil, false
 	}
@@ -90,7 +90,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetUserIdOk() (*int32
 }
 
 // HasUserId returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasUserId() bool {
+func (o *CrossRealmBots) HasUserId() bool {
 	if o != nil && !IsNil(o.UserId) {
 		return true
 	}
@@ -99,12 +99,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasUserId() bool {
 }
 
 // SetUserId gets a reference to the given int32 and assigns it to the UserId field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetUserId(v int32) {
+func (o *CrossRealmBots) SetUserId(v int32) {
 	o.UserId = &v
 }
 
 // GetDeliveryEmail returns the DeliveryEmail field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetDeliveryEmail() string {
+func (o *CrossRealmBots) GetDeliveryEmail() string {
 	if o == nil || IsNil(o.DeliveryEmail.Get()) {
 		var ret string
 		return ret
@@ -115,7 +115,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetDeliveryEmail() st
 // GetDeliveryEmailOk returns a tuple with the DeliveryEmail field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetDeliveryEmailOk() (*string, bool) {
+func (o *CrossRealmBots) GetDeliveryEmailOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -123,7 +123,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetDeliveryEmailOk() 
 }
 
 // HasDeliveryEmail returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasDeliveryEmail() bool {
+func (o *CrossRealmBots) HasDeliveryEmail() bool {
 	if o != nil && o.DeliveryEmail.IsSet() {
 		return true
 	}
@@ -132,22 +132,22 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasDeliveryEmail() bo
 }
 
 // SetDeliveryEmail gets a reference to the given NullableString and assigns it to the DeliveryEmail field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetDeliveryEmail(v string) {
+func (o *CrossRealmBots) SetDeliveryEmail(v string) {
 	o.DeliveryEmail.Set(&v)
 }
 
 // SetDeliveryEmailNil sets the value for DeliveryEmail to be an explicit nil
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetDeliveryEmailNil() {
+func (o *CrossRealmBots) SetDeliveryEmailNil() {
 	o.DeliveryEmail.Set(nil)
 }
 
 // UnsetDeliveryEmail ensures that no value is present for DeliveryEmail, not even an explicit nil
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) UnsetDeliveryEmail() {
+func (o *CrossRealmBots) UnsetDeliveryEmail() {
 	o.DeliveryEmail.Unset()
 }
 
 // GetEmail returns the Email field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetEmail() string {
+func (o *CrossRealmBots) GetEmail() string {
 	if o == nil || IsNil(o.Email) {
 		var ret string
 		return ret
@@ -157,7 +157,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetEmail() string {
 
 // GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetEmailOk() (*string, bool) {
+func (o *CrossRealmBots) GetEmailOk() (*string, bool) {
 	if o == nil || IsNil(o.Email) {
 		return nil, false
 	}
@@ -165,7 +165,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetEmailOk() (*string
 }
 
 // HasEmail returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasEmail() bool {
+func (o *CrossRealmBots) HasEmail() bool {
 	if o != nil && !IsNil(o.Email) {
 		return true
 	}
@@ -174,12 +174,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasEmail() bool {
 }
 
 // SetEmail gets a reference to the given string and assigns it to the Email field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetEmail(v string) {
+func (o *CrossRealmBots) SetEmail(v string) {
 	o.Email = &v
 }
 
 // GetFullName returns the FullName field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetFullName() string {
+func (o *CrossRealmBots) GetFullName() string {
 	if o == nil || IsNil(o.FullName) {
 		var ret string
 		return ret
@@ -189,7 +189,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetFullName() string 
 
 // GetFullNameOk returns a tuple with the FullName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetFullNameOk() (*string, bool) {
+func (o *CrossRealmBots) GetFullNameOk() (*string, bool) {
 	if o == nil || IsNil(o.FullName) {
 		return nil, false
 	}
@@ -197,7 +197,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetFullNameOk() (*str
 }
 
 // HasFullName returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasFullName() bool {
+func (o *CrossRealmBots) HasFullName() bool {
 	if o != nil && !IsNil(o.FullName) {
 		return true
 	}
@@ -206,12 +206,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasFullName() bool {
 }
 
 // SetFullName gets a reference to the given string and assigns it to the FullName field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetFullName(v string) {
+func (o *CrossRealmBots) SetFullName(v string) {
 	o.FullName = &v
 }
 
 // GetDateJoined returns the DateJoined field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetDateJoined() string {
+func (o *CrossRealmBots) GetDateJoined() string {
 	if o == nil || IsNil(o.DateJoined) {
 		var ret string
 		return ret
@@ -221,7 +221,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetDateJoined() strin
 
 // GetDateJoinedOk returns a tuple with the DateJoined field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetDateJoinedOk() (*string, bool) {
+func (o *CrossRealmBots) GetDateJoinedOk() (*string, bool) {
 	if o == nil || IsNil(o.DateJoined) {
 		return nil, false
 	}
@@ -229,7 +229,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetDateJoinedOk() (*s
 }
 
 // HasDateJoined returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasDateJoined() bool {
+func (o *CrossRealmBots) HasDateJoined() bool {
 	if o != nil && !IsNil(o.DateJoined) {
 		return true
 	}
@@ -238,12 +238,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasDateJoined() bool 
 }
 
 // SetDateJoined gets a reference to the given string and assigns it to the DateJoined field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetDateJoined(v string) {
+func (o *CrossRealmBots) SetDateJoined(v string) {
 	o.DateJoined = &v
 }
 
 // GetIsActive returns the IsActive field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsActive() bool {
+func (o *CrossRealmBots) GetIsActive() bool {
 	if o == nil || IsNil(o.IsActive) {
 		var ret bool
 		return ret
@@ -253,7 +253,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsActive() bool {
 
 // GetIsActiveOk returns a tuple with the IsActive field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsActiveOk() (*bool, bool) {
+func (o *CrossRealmBots) GetIsActiveOk() (*bool, bool) {
 	if o == nil || IsNil(o.IsActive) {
 		return nil, false
 	}
@@ -261,7 +261,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsActiveOk() (*boo
 }
 
 // HasIsActive returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasIsActive() bool {
+func (o *CrossRealmBots) HasIsActive() bool {
 	if o != nil && !IsNil(o.IsActive) {
 		return true
 	}
@@ -270,12 +270,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasIsActive() bool {
 }
 
 // SetIsActive gets a reference to the given bool and assigns it to the IsActive field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetIsActive(v bool) {
+func (o *CrossRealmBots) SetIsActive(v bool) {
 	o.IsActive = &v
 }
 
 // GetIsOwner returns the IsOwner field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsOwner() bool {
+func (o *CrossRealmBots) GetIsOwner() bool {
 	if o == nil || IsNil(o.IsOwner) {
 		var ret bool
 		return ret
@@ -285,7 +285,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsOwner() bool {
 
 // GetIsOwnerOk returns a tuple with the IsOwner field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsOwnerOk() (*bool, bool) {
+func (o *CrossRealmBots) GetIsOwnerOk() (*bool, bool) {
 	if o == nil || IsNil(o.IsOwner) {
 		return nil, false
 	}
@@ -293,7 +293,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsOwnerOk() (*bool
 }
 
 // HasIsOwner returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasIsOwner() bool {
+func (o *CrossRealmBots) HasIsOwner() bool {
 	if o != nil && !IsNil(o.IsOwner) {
 		return true
 	}
@@ -302,12 +302,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasIsOwner() bool {
 }
 
 // SetIsOwner gets a reference to the given bool and assigns it to the IsOwner field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetIsOwner(v bool) {
+func (o *CrossRealmBots) SetIsOwner(v bool) {
 	o.IsOwner = &v
 }
 
 // GetIsAdmin returns the IsAdmin field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsAdmin() bool {
+func (o *CrossRealmBots) GetIsAdmin() bool {
 	if o == nil || IsNil(o.IsAdmin) {
 		var ret bool
 		return ret
@@ -317,7 +317,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsAdmin() bool {
 
 // GetIsAdminOk returns a tuple with the IsAdmin field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsAdminOk() (*bool, bool) {
+func (o *CrossRealmBots) GetIsAdminOk() (*bool, bool) {
 	if o == nil || IsNil(o.IsAdmin) {
 		return nil, false
 	}
@@ -325,7 +325,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsAdminOk() (*bool
 }
 
 // HasIsAdmin returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasIsAdmin() bool {
+func (o *CrossRealmBots) HasIsAdmin() bool {
 	if o != nil && !IsNil(o.IsAdmin) {
 		return true
 	}
@@ -334,12 +334,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasIsAdmin() bool {
 }
 
 // SetIsAdmin gets a reference to the given bool and assigns it to the IsAdmin field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetIsAdmin(v bool) {
+func (o *CrossRealmBots) SetIsAdmin(v bool) {
 	o.IsAdmin = &v
 }
 
 // GetIsGuest returns the IsGuest field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsGuest() bool {
+func (o *CrossRealmBots) GetIsGuest() bool {
 	if o == nil || IsNil(o.IsGuest) {
 		var ret bool
 		return ret
@@ -349,7 +349,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsGuest() bool {
 
 // GetIsGuestOk returns a tuple with the IsGuest field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsGuestOk() (*bool, bool) {
+func (o *CrossRealmBots) GetIsGuestOk() (*bool, bool) {
 	if o == nil || IsNil(o.IsGuest) {
 		return nil, false
 	}
@@ -357,7 +357,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsGuestOk() (*bool
 }
 
 // HasIsGuest returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasIsGuest() bool {
+func (o *CrossRealmBots) HasIsGuest() bool {
 	if o != nil && !IsNil(o.IsGuest) {
 		return true
 	}
@@ -366,12 +366,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasIsGuest() bool {
 }
 
 // SetIsGuest gets a reference to the given bool and assigns it to the IsGuest field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetIsGuest(v bool) {
+func (o *CrossRealmBots) SetIsGuest(v bool) {
 	o.IsGuest = &v
 }
 
 // GetIsBot returns the IsBot field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsBot() bool {
+func (o *CrossRealmBots) GetIsBot() bool {
 	if o == nil || IsNil(o.IsBot) {
 		var ret bool
 		return ret
@@ -381,7 +381,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsBot() bool {
 
 // GetIsBotOk returns a tuple with the IsBot field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsBotOk() (*bool, bool) {
+func (o *CrossRealmBots) GetIsBotOk() (*bool, bool) {
 	if o == nil || IsNil(o.IsBot) {
 		return nil, false
 	}
@@ -389,7 +389,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsBotOk() (*bool, 
 }
 
 // HasIsBot returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasIsBot() bool {
+func (o *CrossRealmBots) HasIsBot() bool {
 	if o != nil && !IsNil(o.IsBot) {
 		return true
 	}
@@ -398,12 +398,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasIsBot() bool {
 }
 
 // SetIsBot gets a reference to the given bool and assigns it to the IsBot field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetIsBot(v bool) {
+func (o *CrossRealmBots) SetIsBot(v bool) {
 	o.IsBot = &v
 }
 
 // GetBotType returns the BotType field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetBotType() interface{} {
+func (o *CrossRealmBots) GetBotType() interface{} {
 	if o == nil {
 		var ret interface{}
 		return ret
@@ -414,7 +414,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetBotType() interfac
 // GetBotTypeOk returns a tuple with the BotType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetBotTypeOk() (*interface{}, bool) {
+func (o *CrossRealmBots) GetBotTypeOk() (*interface{}, bool) {
 	if o == nil || IsNil(o.BotType) {
 		return nil, false
 	}
@@ -422,7 +422,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetBotTypeOk() (*inte
 }
 
 // HasBotType returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasBotType() bool {
+func (o *CrossRealmBots) HasBotType() bool {
 	if o != nil && !IsNil(o.BotType) {
 		return true
 	}
@@ -431,12 +431,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasBotType() bool {
 }
 
 // SetBotType gets a reference to the given interface{} and assigns it to the BotType field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetBotType(v interface{}) {
+func (o *CrossRealmBots) SetBotType(v interface{}) {
 	o.BotType = v
 }
 
 // GetBotOwnerId returns the BotOwnerId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetBotOwnerId() interface{} {
+func (o *CrossRealmBots) GetBotOwnerId() interface{} {
 	if o == nil {
 		var ret interface{}
 		return ret
@@ -447,7 +447,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetBotOwnerId() inter
 // GetBotOwnerIdOk returns a tuple with the BotOwnerId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetBotOwnerIdOk() (*interface{}, bool) {
+func (o *CrossRealmBots) GetBotOwnerIdOk() (*interface{}, bool) {
 	if o == nil || IsNil(o.BotOwnerId) {
 		return nil, false
 	}
@@ -455,7 +455,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetBotOwnerIdOk() (*i
 }
 
 // HasBotOwnerId returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasBotOwnerId() bool {
+func (o *CrossRealmBots) HasBotOwnerId() bool {
 	if o != nil && !IsNil(o.BotOwnerId) {
 		return true
 	}
@@ -464,12 +464,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasBotOwnerId() bool 
 }
 
 // SetBotOwnerId gets a reference to the given interface{} and assigns it to the BotOwnerId field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetBotOwnerId(v interface{}) {
+func (o *CrossRealmBots) SetBotOwnerId(v interface{}) {
 	o.BotOwnerId = v
 }
 
 // GetRole returns the Role field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetRole() int32 {
+func (o *CrossRealmBots) GetRole() int32 {
 	if o == nil || IsNil(o.Role) {
 		var ret int32
 		return ret
@@ -479,7 +479,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetRole() int32 {
 
 // GetRoleOk returns a tuple with the Role field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetRoleOk() (*int32, bool) {
+func (o *CrossRealmBots) GetRoleOk() (*int32, bool) {
 	if o == nil || IsNil(o.Role) {
 		return nil, false
 	}
@@ -487,7 +487,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetRoleOk() (*int32, 
 }
 
 // HasRole returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasRole() bool {
+func (o *CrossRealmBots) HasRole() bool {
 	if o != nil && !IsNil(o.Role) {
 		return true
 	}
@@ -496,12 +496,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasRole() bool {
 }
 
 // SetRole gets a reference to the given int32 and assigns it to the Role field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetRole(v int32) {
+func (o *CrossRealmBots) SetRole(v int32) {
 	o.Role = &v
 }
 
 // GetTimezone returns the Timezone field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetTimezone() string {
+func (o *CrossRealmBots) GetTimezone() string {
 	if o == nil || IsNil(o.Timezone) {
 		var ret string
 		return ret
@@ -511,7 +511,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetTimezone() string 
 
 // GetTimezoneOk returns a tuple with the Timezone field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetTimezoneOk() (*string, bool) {
+func (o *CrossRealmBots) GetTimezoneOk() (*string, bool) {
 	if o == nil || IsNil(o.Timezone) {
 		return nil, false
 	}
@@ -519,7 +519,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetTimezoneOk() (*str
 }
 
 // HasTimezone returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasTimezone() bool {
+func (o *CrossRealmBots) HasTimezone() bool {
 	if o != nil && !IsNil(o.Timezone) {
 		return true
 	}
@@ -528,12 +528,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasTimezone() bool {
 }
 
 // SetTimezone gets a reference to the given string and assigns it to the Timezone field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetTimezone(v string) {
+func (o *CrossRealmBots) SetTimezone(v string) {
 	o.Timezone = &v
 }
 
 // GetAvatarUrl returns the AvatarUrl field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetAvatarUrl() interface{} {
+func (o *CrossRealmBots) GetAvatarUrl() interface{} {
 	if o == nil {
 		var ret interface{}
 		return ret
@@ -544,7 +544,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetAvatarUrl() interf
 // GetAvatarUrlOk returns a tuple with the AvatarUrl field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetAvatarUrlOk() (*interface{}, bool) {
+func (o *CrossRealmBots) GetAvatarUrlOk() (*interface{}, bool) {
 	if o == nil || IsNil(o.AvatarUrl) {
 		return nil, false
 	}
@@ -552,7 +552,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetAvatarUrlOk() (*in
 }
 
 // HasAvatarUrl returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasAvatarUrl() bool {
+func (o *CrossRealmBots) HasAvatarUrl() bool {
 	if o != nil && !IsNil(o.AvatarUrl) {
 		return true
 	}
@@ -561,12 +561,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasAvatarUrl() bool {
 }
 
 // SetAvatarUrl gets a reference to the given interface{} and assigns it to the AvatarUrl field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetAvatarUrl(v interface{}) {
+func (o *CrossRealmBots) SetAvatarUrl(v interface{}) {
 	o.AvatarUrl = v
 }
 
 // GetAvatarVersion returns the AvatarVersion field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetAvatarVersion() int32 {
+func (o *CrossRealmBots) GetAvatarVersion() int32 {
 	if o == nil || IsNil(o.AvatarVersion) {
 		var ret int32
 		return ret
@@ -576,7 +576,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetAvatarVersion() in
 
 // GetAvatarVersionOk returns a tuple with the AvatarVersion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetAvatarVersionOk() (*int32, bool) {
+func (o *CrossRealmBots) GetAvatarVersionOk() (*int32, bool) {
 	if o == nil || IsNil(o.AvatarVersion) {
 		return nil, false
 	}
@@ -584,7 +584,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetAvatarVersionOk() 
 }
 
 // HasAvatarVersion returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasAvatarVersion() bool {
+func (o *CrossRealmBots) HasAvatarVersion() bool {
 	if o != nil && !IsNil(o.AvatarVersion) {
 		return true
 	}
@@ -593,12 +593,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasAvatarVersion() bo
 }
 
 // SetAvatarVersion gets a reference to the given int32 and assigns it to the AvatarVersion field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetAvatarVersion(v int32) {
+func (o *CrossRealmBots) SetAvatarVersion(v int32) {
 	o.AvatarVersion = &v
 }
 
 // GetProfileData returns the ProfileData field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetProfileData() map[string]ProfileDataValue {
+func (o *CrossRealmBots) GetProfileData() map[string]ProfileDataValue {
 	if o == nil || IsNil(o.ProfileData) {
 		var ret map[string]ProfileDataValue
 		return ret
@@ -608,7 +608,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetProfileData() map[
 
 // GetProfileDataOk returns a tuple with the ProfileData field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetProfileDataOk() (*map[string]ProfileDataValue, bool) {
+func (o *CrossRealmBots) GetProfileDataOk() (*map[string]ProfileDataValue, bool) {
 	if o == nil || IsNil(o.ProfileData) {
 		return nil, false
 	}
@@ -616,7 +616,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetProfileDataOk() (*
 }
 
 // HasProfileData returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasProfileData() bool {
+func (o *CrossRealmBots) HasProfileData() bool {
 	if o != nil && !IsNil(o.ProfileData) {
 		return true
 	}
@@ -625,12 +625,12 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasProfileData() bool
 }
 
 // SetProfileData gets a reference to the given map[string]ProfileDataValue and assigns it to the ProfileData field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetProfileData(v map[string]ProfileDataValue) {
+func (o *CrossRealmBots) SetProfileData(v map[string]ProfileDataValue) {
 	o.ProfileData = &v
 }
 
 // GetIsSystemBot returns the IsSystemBot field value if set, zero value otherwise.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsSystemBot() bool {
+func (o *CrossRealmBots) GetIsSystemBot() bool {
 	if o == nil || IsNil(o.IsSystemBot) {
 		var ret bool
 		return ret
@@ -640,7 +640,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsSystemBot() bool
 
 // GetIsSystemBotOk returns a tuple with the IsSystemBot field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsSystemBotOk() (*bool, bool) {
+func (o *CrossRealmBots) GetIsSystemBotOk() (*bool, bool) {
 	if o == nil || IsNil(o.IsSystemBot) {
 		return nil, false
 	}
@@ -648,7 +648,7 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) GetIsSystemBotOk() (*
 }
 
 // HasIsSystemBot returns a boolean if a field has been set.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasIsSystemBot() bool {
+func (o *CrossRealmBots) HasIsSystemBot() bool {
 	if o != nil && !IsNil(o.IsSystemBot) {
 		return true
 	}
@@ -657,11 +657,11 @@ func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) HasIsSystemBot() bool
 }
 
 // SetIsSystemBot gets a reference to the given bool and assigns it to the IsSystemBot field.
-func (o *RegisterQueue200ResponseAllOfCrossRealmBotsInner) SetIsSystemBot(v bool) {
+func (o *CrossRealmBots) SetIsSystemBot(v bool) {
 	o.IsSystemBot = &v
 }
 
-func (o RegisterQueue200ResponseAllOfCrossRealmBotsInner) MarshalJSON() ([]byte, error) {
+func (o CrossRealmBots) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -669,7 +669,7 @@ func (o RegisterQueue200ResponseAllOfCrossRealmBotsInner) MarshalJSON() ([]byte,
 	return json.Marshal(toSerialize)
 }
 
-func (o RegisterQueue200ResponseAllOfCrossRealmBotsInner) ToMap() (map[string]interface{}, error) {
+func (o CrossRealmBots) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.UserId) {
 		toSerialize["user_id"] = o.UserId
@@ -728,38 +728,38 @@ func (o RegisterQueue200ResponseAllOfCrossRealmBotsInner) ToMap() (map[string]in
 	return toSerialize, nil
 }
 
-type NullableRegisterQueue200ResponseAllOfCrossRealmBotsInner struct {
-	value *RegisterQueue200ResponseAllOfCrossRealmBotsInner
+type NullableCrossRealmBots struct {
+	value *CrossRealmBots
 	isSet bool
 }
 
-func (v NullableRegisterQueue200ResponseAllOfCrossRealmBotsInner) Get() *RegisterQueue200ResponseAllOfCrossRealmBotsInner {
+func (v NullableCrossRealmBots) Get() *CrossRealmBots {
 	return v.value
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfCrossRealmBotsInner) Set(val *RegisterQueue200ResponseAllOfCrossRealmBotsInner) {
+func (v *NullableCrossRealmBots) Set(val *CrossRealmBots) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRegisterQueue200ResponseAllOfCrossRealmBotsInner) IsSet() bool {
+func (v NullableCrossRealmBots) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfCrossRealmBotsInner) Unset() {
+func (v *NullableCrossRealmBots) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRegisterQueue200ResponseAllOfCrossRealmBotsInner(val *RegisterQueue200ResponseAllOfCrossRealmBotsInner) *NullableRegisterQueue200ResponseAllOfCrossRealmBotsInner {
-	return &NullableRegisterQueue200ResponseAllOfCrossRealmBotsInner{value: val, isSet: true}
+func NewNullableCrossRealmBots(val *CrossRealmBots) *NullableCrossRealmBots {
+	return &NullableCrossRealmBots{value: val, isSet: true}
 }
 
-func (v NullableRegisterQueue200ResponseAllOfCrossRealmBotsInner) MarshalJSON() ([]byte, error) {
+func (v NullableCrossRealmBots) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRegisterQueue200ResponseAllOfCrossRealmBotsInner) UnmarshalJSON(src []byte) error {
+func (v *NullableCrossRealmBots) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
