@@ -1,0 +1,3440 @@
+package zulip
+
+import (
+	"bytes"
+	"context"
+	"io"
+	"net/http"
+	"net/url"
+	"os"
+	"strings"
+)
+
+type MessagesAPI interface {
+
+	/*
+		AddReaction Add an emoji reaction
+
+		Add an [emoji reaction](zulip.com/help/emoji-reactions) to a message.
+
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param messageId The target message's Id.
+		@return AddReactionRequest
+	*/
+	AddReaction(ctx context.Context, messageId int64) AddReactionRequest
+
+	// AddReactionExecute executes the request
+	//  @return Response
+	AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error)
+
+	/*
+			CheckMessagesMatchNarrow Check if messages match a narrow
+
+			Check whether a set of messages match a [narrow](zulip.com/api/construct-narrow.
+
+		For many common narrows (e.g. a topic), clients can write an efficient
+		client-side check to determine whether a newly arrived message belongs
+		in the view.
+
+		This endpoint is designed to allow clients to handle more complex narrows
+		for which the client does not (or in the case of full-text search, cannot)
+		implement this check.
+
+		The format of the `match_subject` and `match_content` objects is designed
+		to match those returned by the [`GET /messages`](zulip.com/api/get-messages#response
+		endpoint, so that a client can splice these fields into a `message` object
+		received from [`GET /events`](zulip.com/api/get-events#message and end up with an
+		extended message object identical to how a [`GET /messages`](zulip.com/api/get-messages
+		request for the current narrow would have returned the message.
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return CheckMessagesMatchNarrowRequest
+	*/
+	CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest
+
+	// CheckMessagesMatchNarrowExecute executes the request
+	//  @return CheckMessagesMatchNarrowResponse
+	CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error)
+
+	/*
+			DeleteMessage Delete a message
+
+			Permanently delete a message.
+
+		This API corresponds to the
+		[delete a message completely][delete-completely] feature documented in
+		the Zulip Help Center.
+
+		[delete-completely]: /help/delete-a-message#delete-a-message-completely
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param messageId The target message's Id.
+			@return DeleteMessageRequest
+	*/
+	DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest
+
+	// DeleteMessageExecute executes the request
+	//  @return Response
+	DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error)
+
+	/*
+			GetFileTemporaryUrl Get public temporary URL
+
+			Get a temporary URL for access to the file that doesn't require authentication.
+
+		**Changes**: New in Zulip 3.0 (feature level 1).
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param realmIdStr The realm Id.
+			@param filename Path to the URL.
+			@return GetFileTemporaryUrlRequest
+	*/
+	GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, filename string) GetFileTemporaryUrlRequest
+
+	// GetFileTemporaryUrlExecute executes the request
+	//  @return GetFileTemporaryUrlResponse
+	GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error)
+
+	/*
+			GetMessage Fetch a single message
+
+			Given a message Id, return the message object.
+
+		Additionally, a `raw_content` field is included. This field is
+		useful for clients that primarily work with HTML-rendered
+		messages but might need to occasionally fetch the message's
+		raw [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown) (e.g. for [view
+		source](zulip.com/help/view-the-markdown-source-of-a-message) or
+		prefilling a message edit textarea).
+
+		**Changes**: Before Zulip 5.0 (feature level 120), this
+		endpoint only returned the `raw_content` field.
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param messageId The target message's Id.
+			@return GetMessageRequest
+	*/
+	GetMessage(ctx context.Context, messageId int64) GetMessageRequest
+
+	// GetMessageExecute executes the request
+	//  @return GetMessageResponse
+	GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error)
+
+	/*
+			GetMessageHistory Get a message's edit history
+
+			Fetch the message edit history of a previously edited message.
+
+		Note that edit history may be disabled in some organizations; see the
+		[Zulip Help Center documentation on editing messages][edit-settings].
+
+		[edit-settings]: /help/view-a-messages-edit-history
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param messageId The target message's Id.
+			@return GetMessageHistoryRequest
+	*/
+	GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest
+
+	// GetMessageHistoryExecute executes the request
+	//  @return GetMessageHistoryResponse
+	GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error)
+
+	/*
+			GetMessages Get messages
+
+			This endpoint is the primary way to fetch a messages. It is used by all official
+		Zulip clients (e.g. the web, desktop, mobile, and terminal clients) as well as
+		many bots, API clients, backup scripts, etc.
+
+		Most queries will specify a [narrow filter](zulip.com/api/get-messages#parameter-narrow,
+		to fetch the messages matching any supported [search
+		query](zulip.com/help/search-for-messages. If not specified, it will return messages
+		corresponding to the user's [combined feed](zulip.com/help/combined-feed. There are two
+		ways to specify which messages matching the narrow filter to fetch:
+
+		- A range of messages, described by an `anchor` message Id (or a string-format
+		  specification of how the server should computer an anchor to use) and a maximum
+		  number of messages in each direction from that anchor.
+
+		- A rarely used variant (`message_ids`) where the client specifies the message Ids
+		  to fetch.
+
+		The server returns the matching messages, sorted by message Id, as well as some
+		metadata that makes it easy for a client to determine whether there are more
+		messages matching the query that were not returned due to the `num_before` and
+		`num_after` limits.
+
+		Note that a user's message history does not contain messages sent to
+		channels before they [subscribe](zulip.com/api/subscribe, and newly created
+		bot users are not usually subscribed to any channels.
+
+		We recommend requesting at most 1000 messages in a batch, to avoid generating very
+		large HTTP responses. A maximum of 5000 messages can be obtained per request;
+		attempting to exceed this will result in an error.
+
+		**Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return GetMessagesRequest
+	*/
+	GetMessages(ctx context.Context) GetMessagesRequest
+
+	// GetMessagesExecute executes the request
+	//  @return GetMessagesResponse
+	GetMessagesExecute(r GetMessagesRequest) (*GetMessagesResponse, *http.Response, error)
+
+	/*
+			GetReadReceipts Get a message's read receipts
+
+			Returns a list containing the Ids for all users who have
+		marked the message as read (and whose privacy settings allow
+		sharing that information).
+
+		The list of users Ids will include any bots who have marked
+		the message as read via the API (providing a way for bots to
+		indicate whether they have processed a message successfully in
+		a way that can be easily inspected in a Zulip client). Bots
+		for which this behavior is not desired may disable the
+		`send_read_receipts` setting via the API.
+
+		It will never contain the message's sender.
+
+		**Changes**: New in Zulip 6.0 (feature level 137).
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param messageId The target message's Id.
+			@return GetReadReceiptsRequest
+	*/
+	GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest
+
+	// GetReadReceiptsExecute executes the request
+	//  @return GetReadReceiptsResponse
+	GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error)
+
+	/*
+			MarkAllAsRead Mark all messages as read
+
+			Marks all of the current user's unread messages as read.
+
+		Because this endpoint marks messages as read in batches, it is possible
+		for the request to time out after only marking some messages as read.
+		When this happens, the `complete` boolean field in the success response
+		will be `false`. Clients should repeat the request when handling such a
+		response. If all messages were marked as read, then the success response
+		will return `"complete": true`.
+
+		**Changes**: Deprecated; clients should use the [update personal message
+		flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
+		as this endpoint will be removed in a future release.
+
+		Before Zulip 8.0 (feature level 211), if the server's
+		processing was interrupted by a timeout, but some messages were marked
+		as read, then it would return `"result": "partially_completed"`, along
+		with a `code` field for an error string, in the success response to
+		indicate that there was a timeout and that the client should repeat the
+		request.
+
+		Before Zulip 6.0 (feature level 153), this request did a single atomic
+		operation, which could time out with 10,000s of unread messages to mark
+		as read. As of this feature level, messages are marked as read in
+		batches, starting with the newest messages, so that progress is made
+		even if the request times out. And, instead of returning an error when
+		the request times out and some messages have been marked as read, a
+		success response with `"result": "partially_completed"` is returned.
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return MarkAllAsReadRequest
+
+			Deprecated
+	*/
+	MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest
+
+	// MarkAllAsReadExecute executes the request
+	//  @return MarkAllAsReadResponse
+	// Deprecated
+	MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error)
+
+	/*
+			MarkStreamAsRead Mark messages in a channel as read
+
+			Mark all the unread messages in a channel as read.
+
+		**Changes**: Deprecated; clients should use the [update personal message
+		flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
+		as this endpoint will be removed in a future release.
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return MarkStreamAsReadRequest
+
+			Deprecated
+	*/
+	MarkStreamAsRead(ctx context.Context) MarkStreamAsReadRequest
+
+	// MarkStreamAsReadExecute executes the request
+	//  @return Response
+	// Deprecated
+	MarkStreamAsReadExecute(r MarkStreamAsReadRequest) (*Response, *http.Response, error)
+
+	/*
+			MarkTopicAsRead Mark messages in a topic as read
+
+			Mark all the unread messages in a topic as read.
+
+		**Changes**: Deprecated; clients should use the [update personal message
+		flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
+		as this endpoint will be removed in a future release.
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return MarkTopicAsReadRequest
+
+			Deprecated
+	*/
+	MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest
+
+	// MarkTopicAsReadExecute executes the request
+	//  @return Response
+	// Deprecated
+	MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error)
+
+	/*
+		RemoveReaction Remove an emoji reaction
+
+		Remove an [emoji reaction](zulip.com/help/emoji-reactions) from a message.
+
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param messageId The target message's Id.
+		@return RemoveReactionRequest
+	*/
+	RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest
+
+	// RemoveReactionExecute executes the request
+	//  @return Response
+	RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error)
+
+	/*
+		RenderMessage Render a message
+
+		Render a message to HTML.
+
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return RenderMessageRequest
+	*/
+	RenderMessage(ctx context.Context) RenderMessageRequest
+
+	// RenderMessageExecute executes the request
+	//  @return RenderMessageResponse
+	RenderMessageExecute(r RenderMessageRequest) (*RenderMessageResponse, *http.Response, error)
+
+	/*
+			ReportMessage Report a message
+
+			Sends a notification to the organization's moderation request channel,
+		if it is configured, that reports the targeted message for review and
+		moderation.
+
+		Clients should check the `moderation_request_channel` realm setting to
+		decide whether to show the option to report messages in the UI.
+
+		If the `report_type` parameter value is `"other"`, the `description`
+		parameter is required. Clients should also enforce and communicate this
+		behavior in the UI.
+
+		**Changes**: New in Zulip 11.0 (feature level 382). This API builds on
+		the `moderation_request_channel` realm setting, which was added in
+		feature level 331.
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param messageId The target message's Id.
+			@return ReportMessageRequest
+	*/
+	ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest
+
+	// ReportMessageExecute executes the request
+	//  @return Response
+	ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error)
+
+	/*
+			SendMessage Send a message
+
+			Send a [channel message](zulip.com/help/introduction-to-topics) or a
+		[direct message](zulip.com/help/direct-messages.
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return SendMessageRequest
+	*/
+	SendMessage(ctx context.Context) SendMessageRequest
+
+	// SendMessageExecute executes the request
+	//  @return SendMessageResponse
+	SendMessageExecute(r SendMessageRequest) (*SendMessageResponse, *http.Response, error)
+
+	/*
+			UpdateMessage Edit a message
+
+			Update the content, topic, or channel of the message with the specified
+		Id.
+
+		You can [resolve topics](zulip.com/help/resolve-a-topic) by editing the topic to
+		`✔ {original_topic}` with the `propagate_mode` parameter set to
+		`"change_all"`.
+
+		See [configuring message editing][config-message-editing] for detailed
+		documentation on when users are allowed to edit message content, and
+		[restricting moving messages][restrict-move-messages] for detailed
+		documentation on when users are allowed to change a message's topic
+		and/or channel.
+
+		The relevant realm settings in the API that are related to the above
+		linked documentation on when users are allowed to update messages are:
+
+		- `allow_message_editing`
+		- `can_resolve_topics_group`
+		- `can_move_messages_between_channels_group`
+		- `can_move_messages_between_topics_group`
+		- `message_content_edit_limit_seconds`
+		- `move_messages_within_stream_limit_seconds`
+		- `move_messages_between_streams_limit_seconds`
+
+		More details about these realm settings can be found in the
+		[`POST /register`](zulip.com/api/register-queue) response or in the documentation
+		of the [`realm op: update_dict`](zulip.com/api/get-events#realm-update_dict
+		event in [`GET /events`](zulip.com/api/get-events.
+
+		**Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
+		resolving a topic was managed by `can_move_messages_between_topics_group`.
+		As of this feature level, users belonging to the `can_resolve_topics_group`
+		will have the permission to [resolve topics](zulip.com/help/resolve-a-topic) in the organization.
+
+		In Zulip 10.0 (feature level 316), `edit_topic_policy`
+		was removed and replaced by `can_move_messages_between_topics_group`
+		realm setting.
+
+		**Changes**: In Zulip 10.0 (feature level 310), `move_messages_between_streams_policy`
+		was removed and replaced by `can_move_messages_between_channels_group`
+		realm setting.
+
+		Prior to Zulip 7.0 (feature level 172), anyone could add a
+		topic to channel messages without a topic, regardless of the organization's
+		[topic editing permissions](zulip.com/help/restrict-moving-messages. As of this
+		feature level, messages without topics have the same restrictions for
+		topic edits as messages with topics.
+
+		Before Zulip 7.0 (feature level 172), by using the `change_all` value for
+		the `propagate_mode` parameter, users could move messages after the
+		organization's configured time limits for changing a message's topic or
+		channel had passed. As of this feature level, the server will [return an
+		error](zulip.com/api/update-message#response with `"code":
+		"MOVE_MESSAGES_TIME_LIMIT_EXCEEDED"` if users, other than organization
+		administrators or moderators, try to move messages after these time
+		limits have passed.
+
+		Before Zulip 7.0 (feature level 162), users who were not administrators or
+		moderators could only edit topics if the target message was sent within the
+		last 3 days. As of this feature level, that time limit is now controlled by
+		the realm setting `move_messages_within_stream_limit_seconds`. Also at this
+		feature level, a similar time limit for moving messages between channels was
+		added, controlled by the realm setting
+		`move_messages_between_streams_limit_seconds`. Previously, all users who
+		had permission to move messages between channels did not have any time limit
+		restrictions when doing so.
+
+		Before Zulip 7.0 (feature level 159), editing channels and topics of messages
+		was forbidden if the realm setting for `allow_message_editing` was `false`,
+		regardless of an organization's configuration for the realm settings
+		`edit_topic_policy` or `move_messages_between_streams_policy`.
+
+		Before Zulip 7.0 (feature level 159), message senders were allowed to edit
+		the topic of their messages indefinitely.
+
+		In Zulip 5.0 (feature level 75), the `edit_topic_policy` realm setting
+		was added, replacing the `allow_community_topic_editing` boolean.
+
+		In Zulip 4.0 (feature level 56), the `move_messages_between_streams_policy`
+		realm setting was added.
+
+		[config-message-editing]: /help/restrict-message-editing-and-deletion
+		[restrict-move-messages]: /help/restrict-moving-messages
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param messageId The target message's Id.
+			@return UpdateMessageRequest
+	*/
+	UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest
+
+	// UpdateMessageExecute executes the request
+	//  @return UpdateMessageResponse
+	UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error)
+
+	/*
+			UpdateMessageFlags Update personal message flags
+
+			Add or remove personal message flags like `read` and `starred`
+		on a collection of message Ids.
+
+		See also the endpoint for [updating flags on a range of
+		messages within a narrow](zulip.com/api/update-message-flags-for-narrow.
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return UpdateMessageFlagsRequest
+	*/
+	UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest
+
+	// UpdateMessageFlagsExecute executes the request
+	//  @return UpdateMessageFlagsResponse
+	UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*UpdateMessageFlagsResponse, *http.Response, error)
+
+	/*
+			UpdateMessageFlagsForNarrow Update personal message flags for narrow
+
+			Add or remove personal message flags like `read` and `starred`
+		on a range of messages within a narrow.
+
+		See also [the endpoint for updating flags on specific message
+		Ids](zulip.com/api/update-message-flags.
+
+		**Changes**: New in Zulip 6.0 (feature level 155).
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return UpdateMessageFlagsForNarrowRequest
+	*/
+	UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest
+
+	// UpdateMessageFlagsForNarrowExecute executes the request
+	//  @return UpdateMessageFlagsForNarrowResponse
+	UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error)
+
+	/*
+			UploadFile Upload a file
+
+			[Upload](zulip.com/help/share-and-upload-files) a single file and get the corresponding URL.
+
+		Initially, only you will be able to access the link. To share the
+		uploaded file, you'll need to [send a message][send-message]
+		containing the resulting link. Users who can already access the link
+		can reshare it with other users by sending additional Zulip messages
+		containing the link.
+
+		The maximum allowed file size is available in the `max_file_upload_size_mib`
+		field in the [`POST /register`](zulip.com/api/register-queue) response. Note that
+		large files (25MB+) may fail to upload using this API endpoint due to
+		network-layer timeouts, depending on the quality of your connection to the
+		Zulip server.
+
+		For uploading larger files, `/api/v1/tus` is an endpoint implementing the
+		[`tus` resumable upload protocol](https://tus.io/protocols/resumable-upload),
+		which supports uploading arbitrarily large files limited only by the server's
+		`max_file_upload_size_mib` (Configured via `MAX_FILE_UPLOAD_SIZE` in
+		`/etc/zulip/settings.py`). Clients which send authenticated credentials
+		(either via browser-based cookies, or API key via `Authorization` header) may
+		use this endpoint to upload files.
+
+		**Changes**: The `api/v1/tus` endpoint supporting resumable uploads was
+		introduced in Zulip 10.0 (feature level 296). Previously,
+		`max_file_upload_size_mib` was typically 25MB.
+
+		[uploaded-files]: /help/manage-your-uploaded-files
+		[send-message]: /api/send-message
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return UploadFileRequest
+	*/
+	UploadFile(ctx context.Context) UploadFileRequest
+
+	// UploadFileExecute executes the request
+	//  @return UploadFileResponse
+	UploadFileExecute(r UploadFileRequest) (*UploadFileResponse, *http.Response, error)
+}
+
+type AddReactionRequest struct {
+	ctx          context.Context
+	ApiService   MessagesAPI
+	messageId    int64
+	emojiName    *string
+	emojiCode    *string
+	reactionType *string
+}
+
+// The target emoji&#39;s human-readable name.  To find an emoji&#39;s name, hover over a message to reveal three icons on the right, then click the smiley face icon. Images of available reaction emojis appear. Hover over the emoji you want, and note that emoji&#39;s text name.
+func (r AddReactionRequest) EmojiName(emojiName string) AddReactionRequest {
+	r.emojiName = &emojiName
+	return r
+}
+
+// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For most API clients, you won&#39;t need this, but it&#39;s important for Zulip apps to handle rare corner cases when adding/removing votes on an emoji reaction added previously by another user.  If the existing reaction was added when the Zulip server was using a previous version of the emoji data mapping between Unicode codepoints and human-readable names, sending the &#x60;emoji_code&#x60; in the data for the original reaction allows the Zulip server to correctly interpret your upvote as an upvote rather than a reaction with a \\\&quot;different\\\&quot; emoji.
+func (r AddReactionRequest) EmojiCode(emojiCode string) AddReactionRequest {
+	r.emojiCode = &emojiCode
+	return r
+}
+
+// A string indicating the type of emoji. Each emoji &#x60;reaction_type&#x60; has an independent namespace for values of &#x60;emoji_code&#x60;.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - &#x60;unicode_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - &#x60;realm_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be the Id of   the uploaded [custom emoji](zulip.com/help/custom-emoji.  - &#x60;zulip_extra_emoji&#x60; : These are special emoji included with Zulip.   In this namespace, &#x60;emoji_code&#x60; will be the name of the emoji (e.g.   \\\&quot;zulip\\\&quot;).  **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji](zulip.com/help/custom-emoji; previously, this endpoint assumed &#x60;unicode_emoji&#x60; if this parameter was not specified.
+func (r AddReactionRequest) ReactionType(reactionType string) AddReactionRequest {
+	r.reactionType = &reactionType
+	return r
+}
+
+func (r AddReactionRequest) Execute() (*Response, *http.Response, error) {
+	return r.ApiService.AddReactionExecute(r)
+}
+
+/*
+AddReaction Add an emoji reaction
+
+Add an [emoji reaction](zulip.com/help/emoji-reactions) to a message.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param messageId The target message's Id.
+	@return AddReactionRequest
+*/
+func (c *Client) AddReaction(ctx context.Context, messageId int64) AddReactionRequest {
+	return AddReactionRequest{
+		ApiService: c,
+		ctx:        ctx,
+		messageId:  messageId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return Response
+func (c *Client) AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Response
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/{message_id}/reactions"
+	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.emojiName == nil {
+		return localVarReturnValue, nil, reportError("emojiName is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "emoji_name", r.emojiName, "", "")
+	if r.emojiCode != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "emoji_code", r.emojiCode, "", "")
+	}
+	if r.reactionType != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "reaction_type", r.reactionType, "", "")
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v CodedError
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type CheckMessagesMatchNarrowRequest struct {
+	ctx        context.Context
+	ApiService MessagesAPI
+	msgIds     *[]int64
+	narrow     *[]map[string]interface{}
+}
+
+// List of Ids for the messages to check.
+func (r CheckMessagesMatchNarrowRequest) MsgIds(msgIds []int64) CheckMessagesMatchNarrowRequest {
+	r.msgIds = &msgIds
+	return r
+}
+
+// A structure defining the narrow to check against. See how to [construct a narrow](zulip.com/api/construct-narrow.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
+func (r CheckMessagesMatchNarrowRequest) Narrow(narrow []map[string]interface{}) CheckMessagesMatchNarrowRequest {
+	r.narrow = &narrow
+	return r
+}
+
+func (r CheckMessagesMatchNarrowRequest) Execute() (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
+	return r.ApiService.CheckMessagesMatchNarrowExecute(r)
+}
+
+/*
+CheckMessagesMatchNarrow Check if messages match a narrow
+
+Check whether a set of messages match a [narrow](zulip.com/api/construct-narrow.
+
+For many common narrows (e.g. a topic), clients can write an efficient
+client-side check to determine whether a newly arrived message belongs
+in the view.
+
+This endpoint is designed to allow clients to handle more complex narrows
+for which the client does not (or in the case of full-text search, cannot)
+implement this check.
+
+The format of the `match_subject` and `match_content` objects is designed
+to match those returned by the [`GET /messages`](zulip.com/api/get-messages#response
+endpoint, so that a client can splice these fields into a `message` object
+received from [`GET /events`](zulip.com/api/get-events#message and end up with an
+extended message object identical to how a [`GET /messages`](zulip.com/api/get-messages
+request for the current narrow would have returned the message.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return CheckMessagesMatchNarrowRequest
+*/
+func (c *Client) CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest {
+	return CheckMessagesMatchNarrowRequest{
+		ApiService: c,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return CheckMessagesMatchNarrowResponse
+func (c *Client) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *CheckMessagesMatchNarrowResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/matches_narrow"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.msgIds == nil {
+		return localVarReturnValue, nil, reportError("msgIds is required and must be specified")
+	}
+	if r.narrow == nil {
+		return localVarReturnValue, nil, reportError("narrow is required and must be specified")
+	}
+
+	parameterAddToHeaderOrQuery(localVarQueryParams, "msg_ids", r.msgIds, "", "csv")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "narrow", r.narrow, "", "csv")
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type DeleteMessageRequest struct {
+	ctx        context.Context
+	ApiService MessagesAPI
+	messageId  int64
+}
+
+func (r DeleteMessageRequest) Execute() (*Response, *http.Response, error) {
+	return r.ApiService.DeleteMessageExecute(r)
+}
+
+/*
+DeleteMessage Delete a message
+
+Permanently delete a message.
+
+This API corresponds to the
+[delete a message completely][delete-completely] feature documented in
+the Zulip Help Center.
+
+[delete-completely]: /help/delete-a-message#delete-a-message-completely
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param messageId The target message's Id.
+	@return DeleteMessageRequest
+*/
+func (c *Client) DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest {
+	return DeleteMessageRequest{
+		ApiService: c,
+		ctx:        ctx,
+		messageId:  messageId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return Response
+func (c *Client) DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Response
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/{message_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v CodedError
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type GetFileTemporaryUrlRequest struct {
+	ctx        context.Context
+	ApiService MessagesAPI
+	realmIdStr int64
+	filename   string
+}
+
+func (r GetFileTemporaryUrlRequest) Execute() (*GetFileTemporaryUrlResponse, *http.Response, error) {
+	return r.ApiService.GetFileTemporaryUrlExecute(r)
+}
+
+/*
+GetFileTemporaryUrl Get public temporary URL
+
+Get a temporary URL for access to the file that doesn't require authentication.
+
+**Changes**: New in Zulip 3.0 (feature level 1).
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param realmIdStr The realm Id.
+	@param filename Path to the URL.
+	@return GetFileTemporaryUrlRequest
+*/
+func (c *Client) GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, filename string) GetFileTemporaryUrlRequest {
+	return GetFileTemporaryUrlRequest{
+		ApiService: c,
+		ctx:        ctx,
+		realmIdStr: realmIdStr,
+		filename:   filename,
+	}
+}
+
+// Execute executes the request
+//
+//	@return GetFileTemporaryUrlResponse
+func (c *Client) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *GetFileTemporaryUrlResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/user_uploads/{realm_id_str}/{filename}"
+	localVarPath = strings.Replace(localVarPath, "{"+"realm_id_str"+"}", url.PathEscape(parameterValueToString(r.realmIdStr, "realmIdStr")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"filename"+"}", url.PathEscape(parameterValueToString(r.filename, "filename")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type GetMessageRequest struct {
+	ctx                 context.Context
+	ApiService          MessagesAPI
+	messageId           int64
+	applyMarkdown       *bool
+	allowEmptyTopicName *bool
+}
+
+// If &#x60;true&#x60;, message content is returned in the rendered HTML format. If &#x60;false&#x60;, message content is returned in the raw [Zulip-flavored Markdown format](zulip.com/help/format-your-message-using-markdown) text that user entered.  **Changes**: New in Zulip 5.0 (feature level 120).
+func (r GetMessageRequest) ApplyMarkdown(applyMarkdown bool) GetMessageRequest {
+	r.applyMarkdown = &applyMarkdown
+	return r
+}
+
+// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If &#x60;false&#x60;, the server will use the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) response instead of empty string to represent the empty string topic in its response.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+func (r GetMessageRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMessageRequest {
+	r.allowEmptyTopicName = &allowEmptyTopicName
+	return r
+}
+
+func (r GetMessageRequest) Execute() (*GetMessageResponse, *http.Response, error) {
+	return r.ApiService.GetMessageExecute(r)
+}
+
+/*
+GetMessage Fetch a single message
+
+Given a message Id, return the message object.
+
+Additionally, a `raw_content` field is included. This field is
+useful for clients that primarily work with HTML-rendered
+messages but might need to occasionally fetch the message's
+raw [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown) (e.g. for [view
+source](zulip.com/help/view-the-markdown-source-of-a-message) or
+prefilling a message edit textarea).
+
+**Changes**: Before Zulip 5.0 (feature level 120), this
+endpoint only returned the `raw_content` field.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param messageId The target message's Id.
+	@return GetMessageRequest
+*/
+func (c *Client) GetMessage(ctx context.Context, messageId int64) GetMessageRequest {
+	return GetMessageRequest{
+		ApiService: c,
+		ctx:        ctx,
+		messageId:  messageId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return GetMessageResponse
+func (c *Client) GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *GetMessageResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/{message_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.applyMarkdown != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "apply_markdown", r.applyMarkdown, "form", "")
+	} else {
+		var defaultValue bool = true
+		r.applyMarkdown = &defaultValue
+	}
+	if r.allowEmptyTopicName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
+	} else {
+		var defaultValue bool = false
+		r.allowEmptyTopicName = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v CodedError
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type GetMessageHistoryRequest struct {
+	ctx                 context.Context
+	ApiService          MessagesAPI
+	messageId           int64
+	allowEmptyTopicName *bool
+}
+
+// Whether the topic names i.e. &#x60;topic&#x60; and &#x60;prev_topic&#x60; fields in the &#x60;message_history&#x60; objects returned can be empty string.  If &#x60;false&#x60;, the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) response is returned replacing the empty string as the topic name.  **Changes**: New in Zulip 10.0 (feature level 334).
+func (r GetMessageHistoryRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMessageHistoryRequest {
+	r.allowEmptyTopicName = &allowEmptyTopicName
+	return r
+}
+
+func (r GetMessageHistoryRequest) Execute() (*GetMessageHistoryResponse, *http.Response, error) {
+	return r.ApiService.GetMessageHistoryExecute(r)
+}
+
+/*
+GetMessageHistory Get a message's edit history
+
+Fetch the message edit history of a previously edited message.
+
+Note that edit history may be disabled in some organizations; see the
+[Zulip Help Center documentation on editing messages][edit-settings].
+
+[edit-settings]: /help/view-a-messages-edit-history
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param messageId The target message's Id.
+	@return GetMessageHistoryRequest
+*/
+func (c *Client) GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest {
+	return GetMessageHistoryRequest{
+		ApiService: c,
+		ctx:        ctx,
+		messageId:  messageId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return GetMessageHistoryResponse
+func (c *Client) GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *GetMessageHistoryResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/{message_id}/history"
+	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.allowEmptyTopicName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
+	} else {
+		var defaultValue bool = false
+		r.allowEmptyTopicName = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v CodedError
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type GetMessagesRequest struct {
+	ctx                  context.Context
+	ApiService           MessagesAPI
+	anchor               *string
+	includeAnchor        *bool
+	numBefore            *int32
+	numAfter             *int32
+	narrow               *[]map[string]interface{}
+	clientGravatar       *bool
+	applyMarkdown        *bool
+	useFirstUnreadAnchor *bool
+	messageIds           *[]int64
+	allowEmptyTopicName  *bool
+}
+
+// Integer message Id to anchor fetching of new messages. Supports special string values for when the client wants the server to compute the anchor to use:  - &#x60;newest&#x60;: The most recent message. - &#x60;oldest&#x60;: The oldest message. - &#x60;first_unread&#x60;: The oldest unread message matching the   query, if any; otherwise, the most recent message.  **Changes**: String values are new in Zulip 3.0 (feature level 1). The &#x60;first_unread&#x60; functionality was supported in Zulip 2.1.x and older by not sending &#x60;anchor&#x60; and using &#x60;use_first_unread_anchor&#x60;.  In Zulip 2.1.x and older, &#x60;oldest&#x60; can be emulated with &#x60;\&quot;anchor\&quot;: 0&#x60;, and &#x60;newest&#x60; with &#x60;\&quot;anchor\&quot;: 10000000000000000&#x60; (that specific large value works around a bug in Zulip 2.1.x and older in the &#x60;found_newest&#x60; return value).
+func (r GetMessagesRequest) Anchor(anchor string) GetMessagesRequest {
+	r.anchor = &anchor
+	return r
+}
+
+// Whether a message with the specified Id matching the narrow should be included.  **Changes**: New in Zulip 6.0 (feature level 155).
+func (r GetMessagesRequest) IncludeAnchor(includeAnchor bool) GetMessagesRequest {
+	r.includeAnchor = &includeAnchor
+	return r
+}
+
+// The number of messages with Ids less than the anchor to retrieve. Required if &#x60;message_ids&#x60; is not provided.
+func (r GetMessagesRequest) NumBefore(numBefore int32) GetMessagesRequest {
+	r.numBefore = &numBefore
+	return r
+}
+
+// The number of messages with Ids greater than the anchor to retrieve. Required if &#x60;message_ids&#x60; is not provided.
+func (r GetMessagesRequest) NumAfter(numAfter int32) GetMessagesRequest {
+	r.numAfter = &numAfter
+	return r
+}
+
+// The narrow where you want to fetch the messages from. See how to [construct a narrow](zulip.com/api/construct-narrow.  Note that many narrows, including all that lack a &#x60;channel&#x60;, &#x60;channels&#x60;, &#x60;stream&#x60;, or &#x60;streams&#x60; operator, search the user&#39;s personal message history. See [searching shared history](zulip.com/help/search-for-messages#search-shared-history for details.  For example, if you would like to fetch messages from all public channels instead of only the user&#39;s message history, then a specific narrow for messages sent to all public channels can be used: &#x60;{\&quot;operator\&quot;: \&quot;channels\&quot;, \&quot;operand\&quot;: \&quot;public\&quot;}&#x60;.  Newly created bot users are not usually subscribed to any channels, so bots using this API should either be subscribed to appropriate channels or use a shared history search narrow with this endpoint.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
+func (r GetMessagesRequest) Narrow(narrow []map[string]interface{}) GetMessagesRequest {
+	r.narrow = &narrow
+	return r
+}
+
+// Whether the client supports computing gravatars URLs. If enabled, &#x60;avatar_url&#x60; will be included in the response only if there is a Zulip avatar, and will be &#x60;null&#x60; for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The &#x60;client_gravatar&#x60; field is set to &#x60;true&#x60; if clients can compute their own gravatars.  **Changes**: The default value of this parameter was &#x60;false&#x60; prior to Zulip 5.0 (feature level 92).
+func (r GetMessagesRequest) ClientGravatar(clientGravatar bool) GetMessagesRequest {
+	r.clientGravatar = &clientGravatar
+	return r
+}
+
+// If &#x60;true&#x60;, message content is returned in the rendered HTML format. If &#x60;false&#x60;, message content is returned in the raw Markdown-format text that user entered.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip&#39;s HTML format.
+func (r GetMessagesRequest) ApplyMarkdown(applyMarkdown bool) GetMessagesRequest {
+	r.applyMarkdown = &applyMarkdown
+	return r
+}
+
+// Legacy way to specify &#x60;\&quot;anchor\&quot;: \&quot;first_unread\&quot;&#x60; in Zulip 2.1.x and older.  Whether to use the (computed by the server) first unread message matching the narrow as the &#x60;anchor&#x60;. Mutually exclusive with &#x60;anchor&#x60;.  **Changes**: Deprecated in Zulip 3.0 (feature level 1) and replaced by &#x60;\&quot;anchor\&quot;: \&quot;first_unread\&quot;&#x60;.
+// Deprecated
+func (r GetMessagesRequest) UseFirstUnreadAnchor(useFirstUnreadAnchor bool) GetMessagesRequest {
+	r.useFirstUnreadAnchor = &useFirstUnreadAnchor
+	return r
+}
+
+// A list of message Ids to fetch. The server will return messages corresponding to the subset of the requested message Ids that exist and the current user has access to, potentially filtered by the narrow (if that parameter is provided).  It is an error to pass this parameter as well as any of the parameters involved in specifying a range of messages: &#x60;anchor&#x60;, &#x60;include_anchor&#x60;, &#x60;use_first_unread_anchor&#x60;, &#x60;num_before&#x60;, and &#x60;num_after&#x60;.  **Changes**: New in Zulip 10.0 (feature level 300). Previously, there was no way to request a specific set of messages Ids.
+func (r GetMessagesRequest) MessageIds(messageIds []int64) GetMessagesRequest {
+	r.messageIds = &messageIds
+	return r
+}
+
+// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If &#x60;false&#x60;, the server will use the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) response instead of empty string to represent the empty string topic in its response.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+func (r GetMessagesRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMessagesRequest {
+	r.allowEmptyTopicName = &allowEmptyTopicName
+	return r
+}
+
+func (r GetMessagesRequest) Execute() (*GetMessagesResponse, *http.Response, error) {
+	return r.ApiService.GetMessagesExecute(r)
+}
+
+/*
+GetMessages Get messages
+
+This endpoint is the primary way to fetch a messages. It is used by all official
+Zulip clients (e.g. the web, desktop, mobile, and terminal clients) as well as
+many bots, API clients, backup scripts, etc.
+
+Most queries will specify a [narrow filter](zulip.com/api/get-messages#parameter-narrow,
+to fetch the messages matching any supported [search
+query](zulip.com/help/search-for-messages. If not specified, it will return messages
+corresponding to the user's [combined feed](zulip.com/help/combined-feed. There are two
+ways to specify which messages matching the narrow filter to fetch:
+
+  - A range of messages, described by an `anchor` message Id (or a string-format
+    specification of how the server should computer an anchor to use) and a maximum
+    number of messages in each direction from that anchor.
+
+  - A rarely used variant (`message_ids`) where the client specifies the message Ids
+    to fetch.
+
+The server returns the matching messages, sorted by message Id, as well as some
+metadata that makes it easy for a client to determine whether there are more
+messages matching the query that were not returned due to the `num_before` and
+`num_after` limits.
+
+Note that a user's message history does not contain messages sent to
+channels before they [subscribe](zulip.com/api/subscribe, and newly created
+bot users are not usually subscribed to any channels.
+
+We recommend requesting at most 1000 messages in a batch, to avoid generating very
+large HTTP responses. A maximum of 5000 messages can be obtained per request;
+attempting to exceed this will result in an error.
+
+**Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return GetMessagesRequest
+*/
+func (c *Client) GetMessages(ctx context.Context) GetMessagesRequest {
+	return GetMessagesRequest{
+		ApiService: c,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return GetMessagesResponse
+func (c *Client) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *GetMessagesResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.anchor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "anchor", r.anchor, "form", "")
+	}
+	if r.includeAnchor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "include_anchor", r.includeAnchor, "form", "")
+	} else {
+		var defaultValue bool = true
+		r.includeAnchor = &defaultValue
+	}
+	if r.numBefore != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "num_before", r.numBefore, "form", "")
+	}
+	if r.numAfter != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "num_after", r.numAfter, "form", "")
+	}
+	if r.narrow != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "narrow", r.narrow, "", "csv")
+	} else {
+		var defaultValue []map[string]interface{} = []map[string]interface{}{}
+		r.narrow = &defaultValue
+	}
+	if r.clientGravatar != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "client_gravatar", r.clientGravatar, "form", "")
+	} else {
+		var defaultValue bool = true
+		r.clientGravatar = &defaultValue
+	}
+	if r.applyMarkdown != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "apply_markdown", r.applyMarkdown, "form", "")
+	} else {
+		var defaultValue bool = true
+		r.applyMarkdown = &defaultValue
+	}
+	if r.useFirstUnreadAnchor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "use_first_unread_anchor", r.useFirstUnreadAnchor, "form", "")
+	} else {
+		var defaultValue bool = false
+		r.useFirstUnreadAnchor = &defaultValue
+	}
+	if r.messageIds != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "message_ids", r.messageIds, "", "csv")
+	}
+	if r.allowEmptyTopicName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
+	} else {
+		var defaultValue bool = false
+		r.allowEmptyTopicName = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type GetReadReceiptsRequest struct {
+	ctx        context.Context
+	ApiService MessagesAPI
+	messageId  int64
+}
+
+func (r GetReadReceiptsRequest) Execute() (*GetReadReceiptsResponse, *http.Response, error) {
+	return r.ApiService.GetReadReceiptsExecute(r)
+}
+
+/*
+GetReadReceipts Get a message's read receipts
+
+Returns a list containing the Ids for all users who have
+marked the message as read (and whose privacy settings allow
+sharing that information).
+
+The list of users Ids will include any bots who have marked
+the message as read via the API (providing a way for bots to
+indicate whether they have processed a message successfully in
+a way that can be easily inspected in a Zulip client). Bots
+for which this behavior is not desired may disable the
+`send_read_receipts` setting via the API.
+
+It will never contain the message's sender.
+
+**Changes**: New in Zulip 6.0 (feature level 137).
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param messageId The target message's Id.
+	@return GetReadReceiptsRequest
+*/
+func (c *Client) GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest {
+	return GetReadReceiptsRequest{
+		ApiService: c,
+		ctx:        ctx,
+		messageId:  messageId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return GetReadReceiptsResponse
+func (c *Client) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *GetReadReceiptsResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/{message_id}/read_receipts"
+	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v CodedError
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type MarkAllAsReadRequest struct {
+	ctx        context.Context
+	ApiService MessagesAPI
+}
+
+func (r MarkAllAsReadRequest) Execute() (*MarkAllAsReadResponse, *http.Response, error) {
+	return r.ApiService.MarkAllAsReadExecute(r)
+}
+
+/*
+MarkAllAsRead Mark all messages as read
+
+Marks all of the current user's unread messages as read.
+
+Because this endpoint marks messages as read in batches, it is possible
+for the request to time out after only marking some messages as read.
+When this happens, the `complete` boolean field in the success response
+will be `false`. Clients should repeat the request when handling such a
+response. If all messages were marked as read, then the success response
+will return `"complete": true`.
+
+**Changes**: Deprecated; clients should use the [update personal message
+flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
+as this endpoint will be removed in a future release.
+
+Before Zulip 8.0 (feature level 211), if the server's
+processing was interrupted by a timeout, but some messages were marked
+as read, then it would return `"result": "partially_completed"`, along
+with a `code` field for an error string, in the success response to
+indicate that there was a timeout and that the client should repeat the
+request.
+
+Before Zulip 6.0 (feature level 153), this request did a single atomic
+operation, which could time out with 10,000s of unread messages to mark
+as read. As of this feature level, messages are marked as read in
+batches, starting with the newest messages, so that progress is made
+even if the request times out. And, instead of returning an error when
+the request times out and some messages have been marked as read, a
+success response with `"result": "partially_completed"` is returned.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return MarkAllAsReadRequest
+
+Deprecated
+*/
+func (c *Client) MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest {
+	return MarkAllAsReadRequest{
+		ApiService: c,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return MarkAllAsReadResponse
+//
+// Deprecated
+func (c *Client) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MarkAllAsReadResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/mark_all_as_read"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type MarkStreamAsReadRequest struct {
+	ctx        context.Context
+	ApiService MessagesAPI
+	streamId   *int64
+}
+
+// The Id of the channel to access.
+func (r MarkStreamAsReadRequest) StreamId(streamId int64) MarkStreamAsReadRequest {
+	r.streamId = &streamId
+	return r
+}
+
+func (r MarkStreamAsReadRequest) Execute() (*Response, *http.Response, error) {
+	return r.ApiService.MarkStreamAsReadExecute(r)
+}
+
+/*
+MarkStreamAsRead Mark messages in a channel as read
+
+Mark all the unread messages in a channel as read.
+
+**Changes**: Deprecated; clients should use the [update personal message
+flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
+as this endpoint will be removed in a future release.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return MarkStreamAsReadRequest
+
+Deprecated
+*/
+func (c *Client) MarkStreamAsRead(ctx context.Context) MarkStreamAsReadRequest {
+	return MarkStreamAsReadRequest{
+		ApiService: c,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return Response
+//
+// Deprecated
+func (c *Client) MarkStreamAsReadExecute(r MarkStreamAsReadRequest) (*Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Response
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/mark_stream_as_read"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.streamId == nil {
+		return localVarReturnValue, nil, reportError("streamId is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type MarkTopicAsReadRequest struct {
+	ctx        context.Context
+	ApiService MessagesAPI
+	streamId   *int64
+	topicName  *string
+}
+
+// The Id of the channel to access.
+func (r MarkTopicAsReadRequest) StreamId(streamId int64) MarkTopicAsReadRequest {
+	r.streamId = &streamId
+	return r
+}
+
+// The name of the topic whose messages should be marked as read.  Note: When the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+func (r MarkTopicAsReadRequest) TopicName(topicName string) MarkTopicAsReadRequest {
+	r.topicName = &topicName
+	return r
+}
+
+func (r MarkTopicAsReadRequest) Execute() (*Response, *http.Response, error) {
+	return r.ApiService.MarkTopicAsReadExecute(r)
+}
+
+/*
+MarkTopicAsRead Mark messages in a topic as read
+
+Mark all the unread messages in a topic as read.
+
+**Changes**: Deprecated; clients should use the [update personal message
+flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
+as this endpoint will be removed in a future release.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return MarkTopicAsReadRequest
+
+Deprecated
+*/
+func (c *Client) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest {
+	return MarkTopicAsReadRequest{
+		ApiService: c,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return Response
+//
+// Deprecated
+func (c *Client) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Response
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/mark_topic_as_read"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.streamId == nil {
+		return localVarReturnValue, nil, reportError("streamId is required and must be specified")
+	}
+	if r.topicName == nil {
+		return localVarReturnValue, nil, reportError("topicName is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "topic_name", r.topicName, "", "")
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type RemoveReactionRequest struct {
+	ctx          context.Context
+	ApiService   MessagesAPI
+	messageId    int64
+	emojiName    *string
+	emojiCode    *string
+	reactionType *string
+}
+
+// The target emoji&#39;s human-readable name.  To find an emoji&#39;s name, hover over a message to reveal three icons on the right, then click the smiley face icon. Images of available reaction emojis appear. Hover over the emoji you want, and note that emoji&#39;s text name.
+func (r RemoveReactionRequest) EmojiName(emojiName string) RemoveReactionRequest {
+	r.emojiName = &emojiName
+	return r
+}
+
+// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For most API clients, you won&#39;t need this, but it&#39;s important for Zulip apps to handle rare corner cases when adding/removing votes on an emoji reaction added previously by another user.  If the existing reaction was added when the Zulip server was using a previous version of the emoji data mapping between Unicode codepoints and human-readable names, sending the &#x60;emoji_code&#x60; in the data for the original reaction allows the Zulip server to correctly interpret your upvote as an upvote rather than a reaction with a \\\&quot;different\\\&quot; emoji.
+func (r RemoveReactionRequest) EmojiCode(emojiCode string) RemoveReactionRequest {
+	r.emojiCode = &emojiCode
+	return r
+}
+
+// A string indicating the type of emoji. Each emoji &#x60;reaction_type&#x60; has an independent namespace for values of &#x60;emoji_code&#x60;.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - &#x60;unicode_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - &#x60;realm_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be the Id of   the uploaded [custom emoji](zulip.com/help/custom-emoji.  - &#x60;zulip_extra_emoji&#x60; : These are special emoji included with Zulip.   In this namespace, &#x60;emoji_code&#x60; will be the name of the emoji (e.g.   \\\&quot;zulip\\\&quot;).  **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji](zulip.com/help/custom-emoji; previously, this endpoint assumed &#x60;unicode_emoji&#x60; if this parameter was not specified.
+func (r RemoveReactionRequest) ReactionType(reactionType string) RemoveReactionRequest {
+	r.reactionType = &reactionType
+	return r
+}
+
+func (r RemoveReactionRequest) Execute() (*Response, *http.Response, error) {
+	return r.ApiService.RemoveReactionExecute(r)
+}
+
+/*
+RemoveReaction Remove an emoji reaction
+
+Remove an [emoji reaction](zulip.com/help/emoji-reactions) from a message.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param messageId The target message's Id.
+	@return RemoveReactionRequest
+*/
+func (c *Client) RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest {
+	return RemoveReactionRequest{
+		ApiService: c,
+		ctx:        ctx,
+		messageId:  messageId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return Response
+func (c *Client) RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Response
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/{message_id}/reactions"
+	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.emojiName != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "emoji_name", r.emojiName, "", "")
+	}
+	if r.emojiCode != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "emoji_code", r.emojiCode, "", "")
+	}
+	if r.reactionType != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "reaction_type", r.reactionType, "", "")
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v CodedError
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type RenderMessageRequest struct {
+	ctx        context.Context
+	ApiService MessagesAPI
+	content    *string
+}
+
+// The content of the message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum message size.
+func (r RenderMessageRequest) Content(content string) RenderMessageRequest {
+	r.content = &content
+	return r
+}
+
+func (r RenderMessageRequest) Execute() (*RenderMessageResponse, *http.Response, error) {
+	return r.ApiService.RenderMessageExecute(r)
+}
+
+/*
+RenderMessage Render a message
+
+Render a message to HTML.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return RenderMessageRequest
+*/
+func (c *Client) RenderMessage(ctx context.Context) RenderMessageRequest {
+	return RenderMessageRequest{
+		ApiService: c,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return RenderMessageResponse
+func (c *Client) RenderMessageExecute(r RenderMessageRequest) (*RenderMessageResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *RenderMessageResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/render"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.content == nil {
+		return localVarReturnValue, nil, reportError("content is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "content", r.content, "", "")
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ReportMessageRequest struct {
+	ctx         context.Context
+	ApiService  MessagesAPI
+	messageId   int64
+	reportType  *string
+	description *string
+}
+
+// The reason that best describes why the current user is reporting the target message for moderation.
+func (r ReportMessageRequest) ReportType(reportType string) ReportMessageRequest {
+	r.reportType = &reportType
+	return r
+}
+
+// A short description with additional context about why the current user is reporting the target message for moderation.  Clients should limit this string to a maximum length of 1000 characters.  If the &#x60;report_type&#x60; parameter is &#x60;\\\&quot;other\\\&quot;&#x60;, this parameter is required, and its value cannot be an empty string.
+func (r ReportMessageRequest) Description(description string) ReportMessageRequest {
+	r.description = &description
+	return r
+}
+
+func (r ReportMessageRequest) Execute() (*Response, *http.Response, error) {
+	return r.ApiService.ReportMessageExecute(r)
+}
+
+/*
+ReportMessage Report a message
+
+Sends a notification to the organization's moderation request channel,
+if it is configured, that reports the targeted message for review and
+moderation.
+
+Clients should check the `moderation_request_channel` realm setting to
+decide whether to show the option to report messages in the UI.
+
+If the `report_type` parameter value is `"other"`, the `description`
+parameter is required. Clients should also enforce and communicate this
+behavior in the UI.
+
+**Changes**: New in Zulip 11.0 (feature level 382). This API builds on
+the `moderation_request_channel` realm setting, which was added in
+feature level 331.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param messageId The target message's Id.
+	@return ReportMessageRequest
+*/
+func (c *Client) ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest {
+	return ReportMessageRequest{
+		ApiService: c,
+		ctx:        ctx,
+		messageId:  messageId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return Response
+func (c *Client) ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Response
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/{message_id}/report"
+	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.reportType == nil {
+		return localVarReturnValue, nil, reportError("reportType is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "report_type", r.reportType, "", "")
+	if r.description != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "description", r.description, "", "")
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v CodedError
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type SendMessageRequest struct {
+	ctx           context.Context
+	ApiService    MessagesAPI
+	recipientType *RecipientType
+	to            *Recipient
+	content       *string
+	topic         *string
+	queueId       *string
+	localId       *string
+	readBySender  *bool
+}
+
+// The type of message to be sent.  &#x60;\\\&quot;direct\\\&quot;&#x60; for a direct message and &#x60;\\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;channel\\\&quot;&#x60; for a channel message.  **Changes**: In Zulip 9.0 (feature level 248), &#x60;\\\&quot;channel\\\&quot;&#x60; was added as an additional value for this parameter to request a channel message.  In Zulip 7.0 (feature level 174), &#x60;\\\&quot;direct\\\&quot;&#x60; was added as the preferred way to request a direct message, deprecating the original &#x60;\\\&quot;private\\\&quot;&#x60;. While &#x60;\\\&quot;private\\\&quot;&#x60; is still supported for requesting direct messages, clients are encouraged to use to the modern convention with servers that support it, because support for &#x60;\\\&quot;private\\\&quot;&#x60; will eventually be removed.
+func (r SendMessageRequest) RecipientType(recipientType RecipientType) SendMessageRequest {
+	r.recipientType = &recipientType
+	return r
+}
+
+func (r SendMessageRequest) To(to Recipient) SendMessageRequest {
+	r.to = &to
+	return r
+}
+
+// The content of the message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum message size.
+func (r SendMessageRequest) Content(content string) SendMessageRequest {
+	r.content = &content
+	return r
+}
+
+// The topic of the message. Only required for channel messages (&#x60;\\\&quot;type\\\&quot;: \\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;type\\\&quot;: \\\&quot;channel\\\&quot;&#x60;), ignored otherwise.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum topic length.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  **Changes**: Before Zulip 10.0 (feature level 370), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as &#x60;subject&#x60;, which is currently a deprecated alias.
+func (r SendMessageRequest) Topic(topic string) SendMessageRequest {
+	r.topic = &topic
+	return r
+}
+
+// For clients supporting [local echo](https://zulip.readthedocs.io/en/latest/subsystems/sending-messages.html#local-echo), the [event queue](zulip.com/api/register-queue) Id for the client. If passed, &#x60;local_id&#x60; is required. If the message is successfully sent, the server will include &#x60;local_id&#x60; in the &#x60;message&#x60; event that the client with this &#x60;queue_id&#x60; will receive notifying it of the new message via [&#x60;GET /events&#x60;](zulip.com/api/get-events. This lets the client know unambiguously that it should replace the locally echoed message, rather than adding this new message (which would be correct if the user had sent the new message from another device).
+func (r SendMessageRequest) QueueId(queueId string) SendMessageRequest {
+	r.queueId = &queueId
+	return r
+}
+
+// For clients supporting local echo, a unique string-format identifier chosen freely by the client; the server will pass it back to the client without inspecting it, as described in the &#x60;queue_id&#x60; description.
+func (r SendMessageRequest) LocalId(localId string) SendMessageRequest {
+	r.localId = &localId
+	return r
+}
+
+// Whether the message should be initially marked read by its sender. If unspecified, the server uses a heuristic based on the client name.  **Changes**: New in Zulip 8.0 (feature level 236).
+func (r SendMessageRequest) ReadBySender(readBySender bool) SendMessageRequest {
+	r.readBySender = &readBySender
+	return r
+}
+
+func (r SendMessageRequest) Execute() (*SendMessageResponse, *http.Response, error) {
+	return r.ApiService.SendMessageExecute(r)
+}
+
+/*
+SendMessage Send a message
+
+Send a [channel message](zulip.com/help/introduction-to-topics) or a
+[direct message](zulip.com/help/direct-messages.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return SendMessageRequest
+*/
+func (c *Client) SendMessage(ctx context.Context) SendMessageRequest {
+	return SendMessageRequest{
+		ApiService: c,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return SendMessageResponse
+func (c *Client) SendMessageExecute(r SendMessageRequest) (*SendMessageResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *SendMessageResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.recipientType == nil {
+		return localVarReturnValue, nil, reportError("recipientType is required and must be specified")
+	}
+	if r.to == nil {
+		return localVarReturnValue, nil, reportError("to is required and must be specified")
+	}
+	if r.content == nil {
+		return localVarReturnValue, nil, reportError("content is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "type", r.recipientType, "", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "to", r.to, "form", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "content", r.content, "", "")
+	if r.topic != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
+	}
+	if r.queueId != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "queue_id", r.queueId, "", "")
+	}
+	if r.localId != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "local_id", r.localId, "", "")
+	}
+	if r.readBySender != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "read_by_sender", r.readBySender, "form", "")
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v SendMessage400Response
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type UpdateMessageRequest struct {
+	ctx                         context.Context
+	ApiService                  MessagesAPI
+	messageId                   int64
+	topic                       *string
+	propagateMode               *string
+	sendNotificationToOldThread *bool
+	sendNotificationToNewThread *bool
+	content                     *string
+	prevContentSha256           *string
+	streamId                    *int64
+}
+
+// The topic to move the message(s) to, to request changing the topic.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum topic length  Should only be sent when changing the topic, and will throw an error if the target message is not a channel message.  Note: When the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  You can [resolve topics](zulip.com/help/resolve-a-topic) by editing the topic to &#x60;✔ {original_topic}&#x60; with the &#x60;propagate_mode&#x60; parameter set to &#x60;\\\&quot;change_all\\\&quot;&#x60;. The empty string topic cannot be marked as resolved.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as &#x60;subject&#x60;, which is currently a deprecated alias.
+func (r UpdateMessageRequest) Topic(topic string) UpdateMessageRequest {
+	r.topic = &topic
+	return r
+}
+
+// Which message(s) should be edited:  - &#x60;\\\&quot;change_later\\\&quot;&#x60;: The target message and all following messages. - &#x60;\\\&quot;change_one\\\&quot;&#x60;: Only the target message. - &#x60;\\\&quot;change_all\\\&quot;&#x60;: All messages in this topic.  Only the default value of &#x60;\\\&quot;change_one\\\&quot;&#x60; is valid when editing only the content of a message.  This parameter determines both which messages get moved and also whether clients that are currently narrowed to the topic containing the message should navigate or adjust their compose box recipient to point to the post-edit channel/topic.
+func (r UpdateMessageRequest) PropagateMode(propagateMode string) UpdateMessageRequest {
+	r.propagateMode = &propagateMode
+	return r
+}
+
+// Whether to send an automated message to the old topic to notify users where the messages were moved to.  **Changes**: Before Zulip 6.0 (feature level 152), this parameter had a default of &#x60;true&#x60; and was ignored unless the channel was changed.  New in Zulip 3.0 (feature level 9).
+func (r UpdateMessageRequest) SendNotificationToOldThread(sendNotificationToOldThread bool) UpdateMessageRequest {
+	r.sendNotificationToOldThread = &sendNotificationToOldThread
+	return r
+}
+
+// Whether to send an automated message to the new topic to notify users where the messages came from.  If the move is just [resolving/unresolving a topic](zulip.com/help/resolve-a-topic, this parameter will not trigger an additional notification.  **Changes**: Before Zulip 6.0 (feature level 152), this parameter was ignored unless the channel was changed.  New in Zulip 3.0 (feature level 9).
+func (r UpdateMessageRequest) SendNotificationToNewThread(sendNotificationToNewThread bool) UpdateMessageRequest {
+	r.sendNotificationToNewThread = &sendNotificationToNewThread
+	return r
+}
+
+// The updated content of the target message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum message size.  Note that a message&#39;s content and channel cannot be changed at the same time, so sending both &#x60;content&#x60; and &#x60;stream_id&#x60; parameters will throw an error.
+func (r UpdateMessageRequest) Content(content string) UpdateMessageRequest {
+	r.content = &content
+	return r
+}
+
+// An optional SHA-256 hash of the previous raw content of the message that the client has at the time of the request.  If provided, the server will return an error if it does not match the SHA-256 hash of the message&#39;s content stored in the database.  Clients can use this feature to prevent races where multiple clients save conflicting edits to a message.  **Changes**: New in Zulip 11.0 (feature level 379).
+func (r UpdateMessageRequest) PrevContentSha256(prevContentSha256 string) UpdateMessageRequest {
+	r.prevContentSha256 = &prevContentSha256
+	return r
+}
+
+// The channel Id to move the message(s) to, to request moving messages to another channel.  Should only be sent when changing the channel, and will throw an error if the target message is not a channel message.  Note that a message&#39;s content and channel cannot be changed at the same time, so sending both &#x60;content&#x60; and &#x60;stream_id&#x60; parameters will throw an error.  **Changes**: New in Zulip 3.0 (feature level 1).
+func (r UpdateMessageRequest) StreamId(streamId int64) UpdateMessageRequest {
+	r.streamId = &streamId
+	return r
+}
+
+func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response, error) {
+	return r.ApiService.UpdateMessageExecute(r)
+}
+
+/*
+UpdateMessage Edit a message
+
+Update the content, topic, or channel of the message with the specified
+Id.
+
+You can [resolve topics](zulip.com/help/resolve-a-topic) by editing the topic to
+`✔ {original_topic}` with the `propagate_mode` parameter set to
+`"change_all"`.
+
+See [configuring message editing][config-message-editing] for detailed
+documentation on when users are allowed to edit message content, and
+[restricting moving messages][restrict-move-messages] for detailed
+documentation on when users are allowed to change a message's topic
+and/or channel.
+
+The relevant realm settings in the API that are related to the above
+linked documentation on when users are allowed to update messages are:
+
+- `allow_message_editing`
+- `can_resolve_topics_group`
+- `can_move_messages_between_channels_group`
+- `can_move_messages_between_topics_group`
+- `message_content_edit_limit_seconds`
+- `move_messages_within_stream_limit_seconds`
+- `move_messages_between_streams_limit_seconds`
+
+More details about these realm settings can be found in the
+[`POST /register`](zulip.com/api/register-queue) response or in the documentation
+of the [`realm op: update_dict`](zulip.com/api/get-events#realm-update_dict
+event in [`GET /events`](zulip.com/api/get-events.
+
+**Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
+resolving a topic was managed by `can_move_messages_between_topics_group`.
+As of this feature level, users belonging to the `can_resolve_topics_group`
+will have the permission to [resolve topics](zulip.com/help/resolve-a-topic) in the organization.
+
+In Zulip 10.0 (feature level 316), `edit_topic_policy`
+was removed and replaced by `can_move_messages_between_topics_group`
+realm setting.
+
+**Changes**: In Zulip 10.0 (feature level 310), `move_messages_between_streams_policy`
+was removed and replaced by `can_move_messages_between_channels_group`
+realm setting.
+
+Prior to Zulip 7.0 (feature level 172), anyone could add a
+topic to channel messages without a topic, regardless of the organization's
+[topic editing permissions](zulip.com/help/restrict-moving-messages. As of this
+feature level, messages without topics have the same restrictions for
+topic edits as messages with topics.
+
+Before Zulip 7.0 (feature level 172), by using the `change_all` value for
+the `propagate_mode` parameter, users could move messages after the
+organization's configured time limits for changing a message's topic or
+channel had passed. As of this feature level, the server will [return an
+error](zulip.com/api/update-message#response with `"code":
+"MOVE_MESSAGES_TIME_LIMIT_EXCEEDED"` if users, other than organization
+administrators or moderators, try to move messages after these time
+limits have passed.
+
+Before Zulip 7.0 (feature level 162), users who were not administrators or
+moderators could only edit topics if the target message was sent within the
+last 3 days. As of this feature level, that time limit is now controlled by
+the realm setting `move_messages_within_stream_limit_seconds`. Also at this
+feature level, a similar time limit for moving messages between channels was
+added, controlled by the realm setting
+`move_messages_between_streams_limit_seconds`. Previously, all users who
+had permission to move messages between channels did not have any time limit
+restrictions when doing so.
+
+Before Zulip 7.0 (feature level 159), editing channels and topics of messages
+was forbidden if the realm setting for `allow_message_editing` was `false`,
+regardless of an organization's configuration for the realm settings
+`edit_topic_policy` or `move_messages_between_streams_policy`.
+
+Before Zulip 7.0 (feature level 159), message senders were allowed to edit
+the topic of their messages indefinitely.
+
+In Zulip 5.0 (feature level 75), the `edit_topic_policy` realm setting
+was added, replacing the `allow_community_topic_editing` boolean.
+
+In Zulip 4.0 (feature level 56), the `move_messages_between_streams_policy`
+realm setting was added.
+
+[config-message-editing]: /help/restrict-message-editing-and-deletion
+[restrict-move-messages]: /help/restrict-moving-messages
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param messageId The target message's Id.
+	@return UpdateMessageRequest
+*/
+func (c *Client) UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest {
+	return UpdateMessageRequest{
+		ApiService: c,
+		ctx:        ctx,
+		messageId:  messageId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return UpdateMessageResponse
+func (c *Client) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *UpdateMessageResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/{message_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.topic != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
+	}
+	if r.propagateMode != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "propagate_mode", r.propagateMode, "", "")
+	}
+	if r.sendNotificationToOldThread != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "send_notification_to_old_thread", r.sendNotificationToOldThread, "form", "")
+	}
+	if r.sendNotificationToNewThread != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "send_notification_to_new_thread", r.sendNotificationToNewThread, "form", "")
+	}
+	if r.content != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "content", r.content, "", "")
+	}
+	if r.prevContentSha256 != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "prev_content_sha256", r.prevContentSha256, "", "")
+	}
+	if r.streamId != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v CodedError
+			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type UpdateMessageFlagsRequest struct {
+	ctx        context.Context
+	ApiService MessagesAPI
+	messages   *[]int64
+	op         *string
+	flag       *string
+}
+
+// An array containing the Ids of the target messages.
+func (r UpdateMessageFlagsRequest) Messages(messages []int64) UpdateMessageFlagsRequest {
+	r.messages = &messages
+	return r
+}
+
+// Whether to &#x60;add&#x60; the flag or &#x60;remove&#x60; it.
+func (r UpdateMessageFlagsRequest) Op(op string) UpdateMessageFlagsRequest {
+	r.op = &op
+	return r
+}
+
+// The flag that should be added/removed.
+func (r UpdateMessageFlagsRequest) Flag(flag string) UpdateMessageFlagsRequest {
+	r.flag = &flag
+	return r
+}
+
+func (r UpdateMessageFlagsRequest) Execute() (*UpdateMessageFlagsResponse, *http.Response, error) {
+	return r.ApiService.UpdateMessageFlagsExecute(r)
+}
+
+/*
+UpdateMessageFlags Update personal message flags
+
+Add or remove personal message flags like `read` and `starred`
+on a collection of message Ids.
+
+See also the endpoint for [updating flags on a range of
+messages within a narrow](zulip.com/api/update-message-flags-for-narrow.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return UpdateMessageFlagsRequest
+*/
+func (c *Client) UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest {
+	return UpdateMessageFlagsRequest{
+		ApiService: c,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return UpdateMessageFlagsResponse
+func (c *Client) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*UpdateMessageFlagsResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *UpdateMessageFlagsResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/flags"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.messages == nil {
+		return localVarReturnValue, nil, reportError("messages is required and must be specified")
+	}
+	if r.op == nil {
+		return localVarReturnValue, nil, reportError("op is required and must be specified")
+	}
+	if r.flag == nil {
+		return localVarReturnValue, nil, reportError("flag is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "messages", r.messages, "form", "multi")
+	parameterAddToHeaderOrQuery(localVarFormParams, "op", r.op, "", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "flag", r.flag, "", "")
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type UpdateMessageFlagsForNarrowRequest struct {
+	ctx           context.Context
+	ApiService    MessagesAPI
+	anchor        *string
+	numBefore     *int32
+	numAfter      *int32
+	narrow        *[]UpdateFlagsNarrowClause
+	op            *string
+	flag          *string
+	includeAnchor *bool
+}
+
+// Integer message Id to anchor updating of flags. Supports special string values for when the client wants the server to compute the anchor to use:  - &#x60;newest&#x60;: The most recent message. - &#x60;oldest&#x60;: The oldest message. - &#x60;first_unread&#x60;: The oldest unread message matching the   query, if any; otherwise, the most recent message.
+func (r UpdateMessageFlagsForNarrowRequest) Anchor(anchor string) UpdateMessageFlagsForNarrowRequest {
+	r.anchor = &anchor
+	return r
+}
+
+// Limit the number of messages preceding the anchor in the update range. The server may decrease this to bound transaction sizes.
+func (r UpdateMessageFlagsForNarrowRequest) NumBefore(numBefore int32) UpdateMessageFlagsForNarrowRequest {
+	r.numBefore = &numBefore
+	return r
+}
+
+// Limit the number of messages following the anchor in the update range. The server may decrease this to bound transaction sizes.
+func (r UpdateMessageFlagsForNarrowRequest) NumAfter(numAfter int32) UpdateMessageFlagsForNarrowRequest {
+	r.numAfter = &numAfter
+	return r
+}
+
+// The narrow you want update flags within. See how to [construct a narrow](zulip.com/api/construct-narrow.  Note that, when adding the &#x60;read&#x60; flag to messages, clients should consider including a narrow with the &#x60;is:unread&#x60; filter as an optimization. Including that filter takes advantage of the fact that the server has a database index for unread messages.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
+func (r UpdateMessageFlagsForNarrowRequest) Narrow(narrow []UpdateFlagsNarrowClause) UpdateMessageFlagsForNarrowRequest {
+	r.narrow = &narrow
+	return r
+}
+
+// Whether to &#x60;add&#x60; the flag or &#x60;remove&#x60; it.
+func (r UpdateMessageFlagsForNarrowRequest) Op(op string) UpdateMessageFlagsForNarrowRequest {
+	r.op = &op
+	return r
+}
+
+// The flag that should be added/removed. See [available flags](zulip.com/api/update-message-flags#available-flags.
+func (r UpdateMessageFlagsForNarrowRequest) Flag(flag string) UpdateMessageFlagsForNarrowRequest {
+	r.flag = &flag
+	return r
+}
+
+// Whether a message with the specified Id matching the narrow should be included in the update range.
+func (r UpdateMessageFlagsForNarrowRequest) IncludeAnchor(includeAnchor bool) UpdateMessageFlagsForNarrowRequest {
+	r.includeAnchor = &includeAnchor
+	return r
+}
+
+func (r UpdateMessageFlagsForNarrowRequest) Execute() (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
+	return r.ApiService.UpdateMessageFlagsForNarrowExecute(r)
+}
+
+/*
+UpdateMessageFlagsForNarrow Update personal message flags for narrow
+
+Add or remove personal message flags like `read` and `starred`
+on a range of messages within a narrow.
+
+See also [the endpoint for updating flags on specific message
+Ids](zulip.com/api/update-message-flags.
+
+**Changes**: New in Zulip 6.0 (feature level 155).
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return UpdateMessageFlagsForNarrowRequest
+*/
+func (c *Client) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest {
+	return UpdateMessageFlagsForNarrowRequest{
+		ApiService: c,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return UpdateMessageFlagsForNarrowResponse
+func (c *Client) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *UpdateMessageFlagsForNarrowResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/flags/narrow"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.anchor == nil {
+		return localVarReturnValue, nil, reportError("anchor is required and must be specified")
+	}
+	if r.numBefore == nil {
+		return localVarReturnValue, nil, reportError("numBefore is required and must be specified")
+	}
+	if *r.numBefore < 0 {
+		return localVarReturnValue, nil, reportError("numBefore must be greater than 0")
+	}
+	if r.numAfter == nil {
+		return localVarReturnValue, nil, reportError("numAfter is required and must be specified")
+	}
+	if *r.numAfter < 0 {
+		return localVarReturnValue, nil, reportError("numAfter must be greater than 0")
+	}
+	if r.narrow == nil {
+		return localVarReturnValue, nil, reportError("narrow is required and must be specified")
+	}
+	if r.op == nil {
+		return localVarReturnValue, nil, reportError("op is required and must be specified")
+	}
+	if r.flag == nil {
+		return localVarReturnValue, nil, reportError("flag is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "anchor", r.anchor, "", "")
+	if r.includeAnchor != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "include_anchor", r.includeAnchor, "form", "")
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "num_before", r.numBefore, "form", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "num_after", r.numAfter, "form", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "narrow", r.narrow, "form", "multi")
+	parameterAddToHeaderOrQuery(localVarFormParams, "op", r.op, "", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "flag", r.flag, "", "")
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type UploadFileRequest struct {
+	ctx        context.Context
+	ApiService MessagesAPI
+	filename   *os.File
+}
+
+func (r UploadFileRequest) Filename(filename *os.File) UploadFileRequest {
+	r.filename = filename
+	return r
+}
+
+func (r UploadFileRequest) Execute() (*UploadFileResponse, *http.Response, error) {
+	return r.ApiService.UploadFileExecute(r)
+}
+
+/*
+UploadFile Upload a file
+
+[Upload](zulip.com/help/share-and-upload-files) a single file and get the corresponding URL.
+
+Initially, only you will be able to access the link. To share the
+uploaded file, you'll need to [send a message][send-message]
+containing the resulting link. Users who can already access the link
+can reshare it with other users by sending additional Zulip messages
+containing the link.
+
+The maximum allowed file size is available in the `max_file_upload_size_mib`
+field in the [`POST /register`](zulip.com/api/register-queue) response. Note that
+large files (25MB+) may fail to upload using this API endpoint due to
+network-layer timeouts, depending on the quality of your connection to the
+Zulip server.
+
+For uploading larger files, `/api/v1/tus` is an endpoint implementing the
+[`tus` resumable upload protocol](https://tus.io/protocols/resumable-upload),
+which supports uploading arbitrarily large files limited only by the server's
+`max_file_upload_size_mib` (Configured via `MAX_FILE_UPLOAD_SIZE` in
+`/etc/zulip/settings.py`). Clients which send authenticated credentials
+(either via browser-based cookies, or API key via `Authorization` header) may
+use this endpoint to upload files.
+
+**Changes**: The `api/v1/tus` endpoint supporting resumable uploads was
+introduced in Zulip 10.0 (feature level 296). Previously,
+`max_file_upload_size_mib` was typically 25MB.
+
+[uploaded-files]: /help/manage-your-uploaded-files
+[send-message]: /api/send-message
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return UploadFileRequest
+*/
+func (c *Client) UploadFile(ctx context.Context) UploadFileRequest {
+	return UploadFileRequest{
+		ApiService: c,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return UploadFileResponse
+func (c *Client) UploadFileExecute(r UploadFileRequest) (*UploadFileResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *UploadFileResponse
+	)
+
+	localBasePath, err := c.ServerURL()
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/user_uploads"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"multipart/form-data"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	var filenameLocalVarFormFileName string
+	var filenameLocalVarFileName string
+	var filenameLocalVarFileBytes []byte
+
+	filenameLocalVarFormFileName = "filename"
+	filenameLocalVarFile := r.filename
+
+	if filenameLocalVarFile != nil {
+		fbs, _ := io.ReadAll(filenameLocalVarFile)
+
+		filenameLocalVarFileBytes = fbs
+		filenameLocalVarFileName = filenameLocalVarFile.Name()
+		filenameLocalVarFile.Close()
+		formFiles = append(formFiles, formFile{fileBytes: filenameLocalVarFileBytes, fileName: filenameLocalVarFileName, formFileName: filenameLocalVarFormFileName})
+	}
+	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
