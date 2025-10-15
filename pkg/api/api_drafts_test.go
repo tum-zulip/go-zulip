@@ -11,6 +11,7 @@ package api_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -21,93 +22,225 @@ import (
 
 func Test_DraftsAPIService(t *testing.T) {
 	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
 		t.Run("CreateDrafts", func(t *testing.T) {
-
-			resp, httpRes, err := apiClient.CreateDrafts(context.Background()).Execute()
-
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
-
+			draft := createDraft(t, ctx, apiClient)
+			assert.NotZero(t, draft.Id)
 		})
 
 		t.Run("CreateSavedSnippet", func(t *testing.T) {
-
-			resp, httpRes, err := apiClient.CreateSavedSnippet(context.Background()).Execute()
-
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
-
+			snippet := createSavedSnippet(t, ctx, apiClient)
+			assert.NotZero(t, snippet.SavedSnippetId)
 		})
 
 		t.Run("DeleteDraft", func(t *testing.T) {
+			draft := createDraft(t, ctx, apiClient)
 
-			var draftId int32
+			require.NotNil(t, draft.Id)
 
-			resp, httpRes, err := apiClient.DeleteDraft(context.Background(), draftId).Execute()
+			resp := deleteDraft(t, ctx, apiClient, *draft.Id)
+			assert.Equal(t, "success", resp.Result)
 
+			draftsResp, _, err := apiClient.GetDrafts(ctx).Execute()
 			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+			require.NotNil(t, draftsResp)
 
+			for _, inner := range draftsResp.Drafts {
+				require.NotNil(t, inner.Id)
+				require.NotEqual(t, inner.Id, draft.Id, "Deleted draft still present")
+			}
 		})
 
 		t.Run("DeleteSavedSnippet", func(t *testing.T) {
+			snippet := createSavedSnippet(t, ctx, apiClient)
 
-			var savedSnippetId int32
+			resp := deleteSavedSnippet(t, ctx, apiClient, snippet.SavedSnippetId)
+			assert.Equal(t, "success", resp.Result)
 
-			resp, httpRes, err := apiClient.DeleteSavedSnippet(context.Background(), savedSnippetId).Execute()
-
+			snippetsResp, _, err := apiClient.GetSavedSnippets(ctx).Execute()
 			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+			require.NotNil(t, snippetsResp)
 
+			for _, s := range snippetsResp.SavedSnippets {
+				require.NotEqual(t, snippet.SavedSnippetId, s.Id, "Deleted snippet still present")
+			}
 		})
 
 		t.Run("EditDraft", func(t *testing.T) {
+			draft := createDraft(t, ctx, apiClient)
 
-			var draftId int32
+			updatedDraft := *draft
+			updatedDraft.Id = nil
+			updatedDraft.Topic = uniqueName("draft-topic")
+			updatedDraft.Content = fmt.Sprintf("updated draft content %s", uniqueName("draft"))
 
-			resp, httpRes, err := apiClient.EditDraft(context.Background(), draftId).Execute()
+			resp, httpRes, err := apiClient.EditDraft(ctx, *draft.Id).
+				Draft(updatedDraft).
+				Execute()
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+			requireStatusOK(t, httpRes)
+			assert.Equal(t, "success", resp.Result)
 
+			draftsResp, _, err := apiClient.GetDrafts(ctx).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, draftsResp)
+
+			found := false
+			for _, d := range draftsResp.Drafts {
+				require.NotNil(t, d.Id)
+				if d.Id == draft.Id {
+					found = true
+					assert.Equal(t, d.Topic, updatedDraft.Topic)
+					assert.Equal(t, d.Content, updatedDraft.Content)
+				}
+			}
+			assert.True(t, found, "Updated draft not found in draft list")
 		})
 
 		t.Run("EditSavedSnippet", func(t *testing.T) {
+			snippet := createSavedSnippet(t, ctx, apiClient)
 
-			var savedSnippetId int32
+			newTitle := uniqueName("snippet-title-updated")
+			newContent := fmt.Sprintf("updated content %s", uniqueName("snippet"))
 
-			resp, httpRes, err := apiClient.EditSavedSnippet(context.Background(), savedSnippetId).Execute()
+			resp, httpRes, err := apiClient.EditSavedSnippet(ctx, snippet.SavedSnippetId).
+				Title(newTitle).
+				Content(newContent).
+				Execute()
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+			requireStatusOK(t, httpRes)
+			assert.Equal(t, "success", resp.Result)
 
+			snippetsResp, _, err := apiClient.GetSavedSnippets(ctx).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, snippetsResp)
+
+			found := false
+			for _, s := range snippetsResp.SavedSnippets {
+				if s.Id == snippet.SavedSnippetId {
+					found = true
+					assert.Equal(t, newTitle, s.Title)
+					assert.Equal(t, newContent, s.Content)
+				}
+			}
+			assert.True(t, found, "Updated saved snippet not found in list")
 		})
 
 		t.Run("GetDrafts", func(t *testing.T) {
+			draft := createDraft(t, ctx, apiClient)
 
-			resp, httpRes, err := apiClient.GetDrafts(context.Background()).Execute()
+			resp, httpRes, err := apiClient.GetDrafts(ctx).Execute()
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+			requireStatusOK(t, httpRes)
+			assert.GreaterOrEqual(t, len(resp.Drafts), 1)
 
+			found := false
+			for _, d := range resp.Drafts {
+				require.NotNil(t, d.Id)
+				if d.Id == draft.Id {
+					found = true
+					assert.Equal(t, d.Topic, draft.Topic)
+					assert.Equal(t, d.Content, draft.Content)
+				}
+			}
+			assert.True(t, found, "Created draft not found in list of drafts")
 		})
 
 		t.Run("GetSavedSnippets", func(t *testing.T) {
+			snippet := createSavedSnippet(t, ctx, apiClient)
 
-			resp, httpRes, err := apiClient.GetSavedSnippets(context.Background()).Execute()
+			resp, httpRes, err := apiClient.GetSavedSnippets(ctx).Execute()
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+			requireStatusOK(t, httpRes)
+			assert.GreaterOrEqual(t, len(resp.SavedSnippets), 1)
 
+			found := false
+			for _, s := range resp.SavedSnippets {
+				if s.Id == snippet.SavedSnippetId {
+					found = true
+				}
+			}
+			assert.True(t, found, "Created saved snippet not found in list")
 		})
 	})
+}
+
+func createDraft(t *testing.T, ctx context.Context, apiClient *api.ZulipClient) *api.Draft {
+	t.Helper()
+
+	userId := getOwnUserId(t, apiClient)
+	_, streamId := createRandomChannel(t, apiClient, userId)
+
+	draft := &api.Draft{
+		Type:    "stream",
+		To:      []int64{streamId},
+		Topic:   uniqueName("draft-topic"),
+		Content: fmt.Sprintf("draft content %s", uniqueName("draft")),
+	}
+
+	resp, httpRes, err := apiClient.CreateDrafts(ctx).
+		Drafts([]api.Draft{*draft}).
+		Execute()
+
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	requireStatusOK(t, httpRes)
+	require.NotEmpty(t, resp.Ids)
+
+	draftId := resp.Ids[0]
+	require.Greater(t, draftId, int64(0))
+	draft.Id = &draftId
+
+	return draft
+}
+
+func deleteDraft(t *testing.T, ctx context.Context, apiClient *api.ZulipClient, draftId int64) *api.Response {
+	t.Helper()
+
+	resp, httpRes, err := apiClient.DeleteDraft(ctx, draftId).Execute()
+
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	requireStatusOK(t, httpRes)
+
+	return resp
+}
+
+func createSavedSnippet(t *testing.T, ctx context.Context, apiClient *api.ZulipClient) *api.CreateSavedSnippetResponse {
+	t.Helper()
+
+	title := uniqueName("snippet-title")
+	content := fmt.Sprintf("snippet content %s", uniqueName("snippet"))
+
+	resp, httpRes, err := apiClient.CreateSavedSnippet(ctx).
+		Title(title).
+		Content(content).
+		Execute()
+
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	requireStatusOK(t, httpRes)
+
+	return resp
+}
+
+func deleteSavedSnippet(t *testing.T, ctx context.Context, apiClient *api.ZulipClient, savedSnippetId int64) *api.Response {
+	t.Helper()
+
+	resp, httpRes, err := apiClient.DeleteSavedSnippet(ctx, savedSnippetId).Execute()
+
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	requireStatusOK(t, httpRes)
+
+	return resp
 }

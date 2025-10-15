@@ -19,14 +19,14 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/tum-zulip/go-zulip/pkg/api"
-	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
 func Test_UsersAPIService(t *testing.T) {
+	otherUserId := getOwnUserId(t, GetOtherNormalClient(t))
+
 	t.Run("Admin Operations", func(t *testing.T) {
 		ctx := context.Background()
 		apiClient := GetAdminClient(t)
-		otherUserId := getOwnUserId(t, GetOtherNormalClient(t))
 
 		t.Run("DeactivateUser", func(t *testing.T) {
 			// ensure the user is active before deactivating
@@ -79,7 +79,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 		t.Run("CreateUserGroup", func(t *testing.T) {
 
-			resp, httpRes, err := apiClient.CreateUserGroup(ctx).Name(uniqueName("test-usergroup")).Description("Test User Group").Members([]int32{getOwnUserId(t, apiClient)}).Execute()
+			resp, httpRes, err := apiClient.CreateUserGroup(ctx).Name(uniqueName("test-usergroup")).Description("Test User Group").Members([]int64{getOwnUserId(t, apiClient)}).Execute()
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
@@ -138,8 +138,7 @@ func Test_UsersAPIService(t *testing.T) {
 			require.NoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
-			assert.True(t, resp.HasIsUserGroupMember())
-			assert.True(t, resp.GetIsUserGroupMember())
+			assert.True(t, resp.IsUserGroupMember)
 		})
 
 		t.Run("GetOwnUser", func(t *testing.T) {
@@ -189,7 +188,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 			userGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
 			subGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
-			sgResp, sgHttpResp, err := apiClient.UpdateUserGroupSubgroups(ctx, userGroupId).Add([]int32{subGroupId}).Execute()
+			sgResp, sgHttpResp, err := apiClient.UpdateUserGroupSubgroups(ctx, userGroupId).Add([]int64{subGroupId}).Execute()
 			require.NoError(t, err)
 			require.NotNil(t, sgResp)
 			assert.Equal(t, 200, sgHttpResp.StatusCode)
@@ -226,7 +225,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 		t.Run("GetUserStatus", func(t *testing.T) {
 
-			var userId int32 = getOwnUserId(t, apiClient)
+			var userId int64 = getOwnUserId(t, apiClient)
 
 			resp, httpRes, err := apiClient.GetUserStatus(ctx, userId).Execute()
 
@@ -274,7 +273,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 		t.Run("SetTypingStatus", func(t *testing.T) {
 
-			resp, httpRes, err := apiClient.SetTypingStatus(ctx).Op(api.TypingStatusOpStart).To([]int32{getOwnUserId(t, apiClient)}).Execute()
+			resp, httpRes, err := apiClient.SetTypingStatus(ctx).Op(api.TypingStatusOpStart).To([]int64{getOwnUserId(t, apiClient)}).Execute()
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
@@ -284,9 +283,11 @@ func Test_UsersAPIService(t *testing.T) {
 
 		t.Run("SetTypingStatusForMessageEdit", func(t *testing.T) {
 
-			var messageId int32
+			messageId := createDirectMessage(t, apiClient, otherUserId)
 
-			resp, httpRes, err := apiClient.SetTypingStatusForMessageEdit(ctx, messageId).Op(api.TypingStatusOpStart).Execute()
+			resp, httpRes, err := apiClient.SetTypingStatusForMessageEdit(ctx, messageId).
+				Op(api.TypingStatusOpStart).
+				Execute()
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
@@ -380,7 +381,7 @@ func Test_UsersAPIService(t *testing.T) {
 		t.Run("UpdateUserGroupMembers", func(t *testing.T) {
 
 			userGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
-			resp, httpRes, err := apiClient.UpdateUserGroupMembers(ctx, userGroupId).Add([]int32{otherUserId}).Execute()
+			resp, httpRes, err := apiClient.UpdateUserGroupMembers(ctx, userGroupId).Add([]int64{otherUserId}).Execute()
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
@@ -393,7 +394,7 @@ func Test_UsersAPIService(t *testing.T) {
 			userGroupId := createRandomUserGroup(t, apiClient, userId)
 			subGroupId := createRandomUserGroup(t, apiClient, userId)
 
-			resp, httpRes, err := apiClient.UpdateUserGroupSubgroups(ctx, userGroupId).Add([]int32{subGroupId}).Execute()
+			resp, httpRes, err := apiClient.UpdateUserGroupSubgroups(ctx, userGroupId).Add([]int64{subGroupId}).Execute()
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
@@ -433,7 +434,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 		t.Run("RemoveAttachment", func(t *testing.T) {
 
-			var attachmentId int32
+			var attachmentId int64
 
 			resp, httpRes, err := apiClient.RemoveAttachment(ctx, attachmentId).Execute()
 
@@ -455,7 +456,7 @@ func Test_UsersAPIService(t *testing.T) {
 	})
 }
 
-func getOwnUser(t *testing.T, apiClient *api.ZulipClient) *models.GetOwnUser200Response {
+func getOwnUser(t *testing.T, apiClient *api.ZulipClient) *api.GetOwnUserResponse {
 	resp, httpRes, err := apiClient.GetOwnUser(context.Background()).Execute()
 
 	require.NoError(t, err)
@@ -464,25 +465,23 @@ func getOwnUser(t *testing.T, apiClient *api.ZulipClient) *models.GetOwnUser200R
 	return resp
 }
 
-func getOwnUserId(t *testing.T, apiClient *api.ZulipClient) int32 {
+func getOwnUserId(t *testing.T, apiClient *api.ZulipClient) int64 {
 	t.Helper()
 
 	resp := getOwnUser(t, apiClient)
-	assert.True(t, resp.HasUserId())
 
-	return resp.GetUserId()
+	return resp.UserId
 }
 
 func getOwnUserEmail(t *testing.T, apiClient *api.ZulipClient) string {
 	t.Helper()
 
 	resp := getOwnUser(t, apiClient)
-	assert.True(t, resp.HasEmail())
 
-	return resp.GetEmail()
+	return resp.Email
 }
 
-func createRandomUserGroup(t *testing.T, apiClient *api.ZulipClient, members ...int32) int32 {
+func createRandomUserGroup(t *testing.T, apiClient *api.ZulipClient, members ...int64) int64 {
 	t.Helper()
 
 	groupId := rand.Intn(1000000)

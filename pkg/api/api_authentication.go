@@ -16,8 +16,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-
-	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
 type AuthenticationAPI interface {
@@ -39,13 +37,13 @@ type AuthenticationAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiDevFetchApiKeyRequest
+			@return DevFetchApiKeyRequest
 	*/
-	DevFetchApiKey(ctx context.Context) ApiDevFetchApiKeyRequest
+	DevFetchApiKey(ctx context.Context) DevFetchApiKeyRequest
 
 	// DevFetchApiKeyExecute executes the request
-	//  @return models.ApiKeyResponse
-	DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error)
+	//  @return ApiKeyResponse
+	DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error)
 
 	/*
 			FetchApiKey Fetch an API key (production)
@@ -69,7 +67,7 @@ type AuthenticationAPI interface {
 		    **Note:** If you signed up using passwordless authentication and
 		    never had a password, you can [reset your password](zulip.com/help/change-your-password.
 
-		See the [API keys](zulip.com/api/api-keys documentation for more details
+		See the [API keys](zulip.com/api/api-keys) documentation for more details
 		on how to download an API key manually.
 
 		In a [Zulip development environment](https://zulip.readthedocs.io/en/latest/development/overview.html),
@@ -77,28 +75,28 @@ type AuthenticationAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiFetchApiKeyRequest
+			@return FetchApiKeyRequest
 	*/
-	FetchApiKey(ctx context.Context) ApiFetchApiKeyRequest
+	FetchApiKey(ctx context.Context) FetchApiKeyRequest
 
 	// FetchApiKeyExecute executes the request
-	//  @return models.ApiKeyResponse
-	FetchApiKeyExecute(r ApiFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error)
+	//  @return ApiKeyResponse
+	FetchApiKeyExecute(r FetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error)
 }
 
-type ApiDevFetchApiKeyRequest struct {
+type DevFetchApiKeyRequest struct {
 	ctx        context.Context
 	ApiService AuthenticationAPI
 	username   *string
 }
 
 // The email address for the user that owns the API key.
-func (r ApiDevFetchApiKeyRequest) Username(username string) ApiDevFetchApiKeyRequest {
+func (r DevFetchApiKeyRequest) Username(username string) DevFetchApiKeyRequest {
 	r.username = &username
 	return r
 }
 
-func (r ApiDevFetchApiKeyRequest) Execute() (*models.ApiKeyResponse, *http.Response, error) {
+func (r DevFetchApiKeyRequest) Execute() (*ApiKeyResponse, *http.Response, error) {
 	return r.ApiService.DevFetchApiKeyExecute(r)
 }
 
@@ -119,10 +117,10 @@ development servers on the web).
 
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiDevFetchApiKeyRequest
+	@return DevFetchApiKeyRequest
 */
-func (c *ZulipClient) DevFetchApiKey(ctx context.Context) ApiDevFetchApiKeyRequest {
-	return ApiDevFetchApiKeyRequest{
+func (c *ZulipClient) DevFetchApiKey(ctx context.Context) DevFetchApiKeyRequest {
+	return DevFetchApiKeyRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -130,13 +128,13 @@ func (c *ZulipClient) DevFetchApiKey(ctx context.Context) ApiDevFetchApiKeyReque
 
 // Execute executes the request
 //
-//	@return models.ApiKeyResponse
-func (c *ZulipClient) DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error) {
+//	@return ApiKeyResponse
+func (c *ZulipClient) DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.ApiKeyResponse
+		localVarReturnValue *ApiKeyResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -208,26 +206,26 @@ func (c *ZulipClient) DevFetchApiKeyExecute(r ApiDevFetchApiKeyRequest) (*models
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiFetchApiKeyRequest struct {
+type FetchApiKeyRequest struct {
 	ctx        context.Context
 	ApiService AuthenticationAPI
 	username   *string
 	password   *string
 }
 
-// The username to be used for authentication (typically, the email address, but depending on configuration, it could be an LDAP username).  See the &#x60;require_email_format_usernames&#x60; parameter documented in [GET /server_settings](zulip.com/api/get-server-settings for details.
-func (r ApiFetchApiKeyRequest) Username(username string) ApiFetchApiKeyRequest {
+// The username to be used for authentication (typically, the email address, but depending on configuration, it could be an LDAP username).  See the &#x60;require_email_format_usernames&#x60; parameter documented in [GET /server_settings](zulip.com/api/get-server-settings) for details.
+func (r FetchApiKeyRequest) Username(username string) FetchApiKeyRequest {
 	r.username = &username
 	return r
 }
 
 // The user&#39;s Zulip password (or LDAP password, if LDAP authentication is in use).
-func (r ApiFetchApiKeyRequest) Password(password string) ApiFetchApiKeyRequest {
+func (r FetchApiKeyRequest) Password(password string) FetchApiKeyRequest {
 	r.password = &password
 	return r
 }
 
-func (r ApiFetchApiKeyRequest) Execute() (*models.ApiKeyResponse, *http.Response, error) {
+func (r FetchApiKeyRequest) Execute() (*ApiKeyResponse, *http.Response, error) {
 	return r.ApiService.FetchApiKeyExecute(r)
 }
 
@@ -253,17 +251,17 @@ to a `zulip://` URL.
 	**Note:** If you signed up using passwordless authentication and
 	never had a password, you can [reset your password](zulip.com/help/change-your-password.
 
-See the [API keys](zulip.com/api/api-keys documentation for more details
+See the [API keys](zulip.com/api/api-keys) documentation for more details
 on how to download an API key manually.
 
 In a [Zulip development environment](https://zulip.readthedocs.io/en/latest/development/overview.html),
 see also [the unauthenticated variant](zulip.com/api/dev-fetch-api-key.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiFetchApiKeyRequest
+	@return FetchApiKeyRequest
 */
-func (c *ZulipClient) FetchApiKey(ctx context.Context) ApiFetchApiKeyRequest {
-	return ApiFetchApiKeyRequest{
+func (c *ZulipClient) FetchApiKey(ctx context.Context) FetchApiKeyRequest {
+	return FetchApiKeyRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -271,13 +269,13 @@ func (c *ZulipClient) FetchApiKey(ctx context.Context) ApiFetchApiKeyRequest {
 
 // Execute executes the request
 //
-//	@return models.ApiKeyResponse
-func (c *ZulipClient) FetchApiKeyExecute(r ApiFetchApiKeyRequest) (*models.ApiKeyResponse, *http.Response, error) {
+//	@return ApiKeyResponse
+func (c *ZulipClient) FetchApiKeyExecute(r FetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.ApiKeyResponse
+		localVarReturnValue *ApiKeyResponse
 	)
 
 	localBasePath, err := c.ServerURL()

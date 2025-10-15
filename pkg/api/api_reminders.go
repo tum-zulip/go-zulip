@@ -17,8 +17,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-
-	"github.com/tum-zulip/go-zulip/pkg/models"
+	"time"
 )
 
 type RemindersAPI interface {
@@ -32,13 +31,13 @@ type RemindersAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiCreateMessageReminderRequest
+			@return CreateMessageReminderRequest
 	*/
-	CreateMessageReminder(ctx context.Context) ApiCreateMessageReminderRequest
+	CreateMessageReminder(ctx context.Context) CreateMessageReminderRequest
 
 	// CreateMessageReminderExecute executes the request
-	//  @return models.CreateMessageReminder200Response
-	CreateMessageReminderExecute(r ApiCreateMessageReminderRequest) (*models.CreateMessageReminder200Response, *http.Response, error)
+	//  @return CreateMessageReminderResponse
+	CreateMessageReminderExecute(r CreateMessageReminderRequest) (*CreateMessageReminderResponse, *http.Response, error)
 
 	/*
 			DeleteReminder Delete a reminder
@@ -50,19 +49,19 @@ type RemindersAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param reminderId The ID of the reminder to delete.  This is different from the unique ID that the message would have after being sent.
-			@return ApiDeleteReminderRequest
+			@param reminderId The Id of the reminder to delete.  This is different from the unique Id that the message would have after being sent.
+			@return DeleteReminderRequest
 	*/
-	DeleteReminder(ctx context.Context, reminderId int32) ApiDeleteReminderRequest
+	DeleteReminder(ctx context.Context, reminderId int64) DeleteReminderRequest
 
 	// DeleteReminderExecute executes the request
-	//  @return models.JsonSuccess
-	DeleteReminderExecute(r ApiDeleteReminderRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	DeleteReminderExecute(r DeleteReminderRequest) (*Response, *http.Response, error)
 
 	/*
 			GetReminders Get reminders
 
-			Fetch all [reminders](zulip.com/help/schedule-a-reminder for the
+			Fetch all [reminders](zulip.com/help/schedule-a-reminder) for the
 		current user.
 
 		Reminders are messages the user has scheduled to be sent in the
@@ -72,42 +71,42 @@ type RemindersAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiGetRemindersRequest
+			@return GetRemindersRequest
 	*/
-	GetReminders(ctx context.Context) ApiGetRemindersRequest
+	GetReminders(ctx context.Context) GetRemindersRequest
 
 	// GetRemindersExecute executes the request
-	//  @return models.GetReminders200Response
-	GetRemindersExecute(r ApiGetRemindersRequest) (*models.GetReminders200Response, *http.Response, error)
+	//  @return GetRemindersResponse
+	GetRemindersExecute(r GetRemindersRequest) (*GetRemindersResponse, *http.Response, error)
 }
 
-type ApiCreateMessageReminderRequest struct {
+type CreateMessageReminderRequest struct {
 	ctx                        context.Context
 	ApiService                 RemindersAPI
-	messageId                  *int32
-	scheduledDeliveryTimestamp *int32
+	messageId                  *int64
+	scheduledDeliveryTimestamp *time.Time
 	note                       *string
 }
 
-// The ID of the previously sent message to reference in the reminder message.
-func (r ApiCreateMessageReminderRequest) MessageId(messageId int32) ApiCreateMessageReminderRequest {
+// The Id of the previously sent message to reference in the reminder message.
+func (r CreateMessageReminderRequest) MessageId(messageId int64) CreateMessageReminderRequest {
 	r.messageId = &messageId
 	return r
 }
 
 // The UNIX timestamp for when the reminder will be sent, in UTC seconds.
-func (r ApiCreateMessageReminderRequest) ScheduledDeliveryTimestamp(scheduledDeliveryTimestamp int32) ApiCreateMessageReminderRequest {
+func (r CreateMessageReminderRequest) ScheduledDeliveryTimestamp(scheduledDeliveryTimestamp time.Time) CreateMessageReminderRequest {
 	r.scheduledDeliveryTimestamp = &scheduledDeliveryTimestamp
 	return r
 }
 
 // A note associated with the reminder shown in the Notification Bot message.  **Changes**: New in Zulip 11.0 (feature level 415).
-func (r ApiCreateMessageReminderRequest) Note(note string) ApiCreateMessageReminderRequest {
+func (r CreateMessageReminderRequest) Note(note string) CreateMessageReminderRequest {
 	r.note = &note
 	return r
 }
 
-func (r ApiCreateMessageReminderRequest) Execute() (*models.CreateMessageReminder200Response, *http.Response, error) {
+func (r CreateMessageReminderRequest) Execute() (*CreateMessageReminderResponse, *http.Response, error) {
 	return r.ApiService.CreateMessageReminderExecute(r)
 }
 
@@ -119,10 +118,10 @@ Schedule a reminder to be sent to the current user at the specified time. The re
 **Changes**: New in Zulip 11.0 (feature level 381).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateMessageReminderRequest
+	@return CreateMessageReminderRequest
 */
-func (c *ZulipClient) CreateMessageReminder(ctx context.Context) ApiCreateMessageReminderRequest {
-	return ApiCreateMessageReminderRequest{
+func (c *ZulipClient) CreateMessageReminder(ctx context.Context) CreateMessageReminderRequest {
+	return CreateMessageReminderRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -130,13 +129,13 @@ func (c *ZulipClient) CreateMessageReminder(ctx context.Context) ApiCreateMessag
 
 // Execute executes the request
 //
-//	@return models.CreateMessageReminder200Response
-func (c *ZulipClient) CreateMessageReminderExecute(r ApiCreateMessageReminderRequest) (*models.CreateMessageReminder200Response, *http.Response, error) {
+//	@return CreateMessageReminderResponse
+func (c *ZulipClient) CreateMessageReminderExecute(r CreateMessageReminderRequest) (*CreateMessageReminderResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.CreateMessageReminder200Response
+		localVarReturnValue *CreateMessageReminderResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -213,13 +212,13 @@ func (c *ZulipClient) CreateMessageReminderExecute(r ApiCreateMessageReminderReq
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiDeleteReminderRequest struct {
+type DeleteReminderRequest struct {
 	ctx        context.Context
 	ApiService RemindersAPI
-	reminderId int32
+	reminderId int64
 }
 
-func (r ApiDeleteReminderRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r DeleteReminderRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.DeleteReminderExecute(r)
 }
 
@@ -232,11 +231,11 @@ reminder](zulip.com/help/schedule-a-reminder.
 **Changes**: New in Zulip 11.0 (feature level 399).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param reminderId The ID of the reminder to delete.  This is different from the unique ID that the message would have after being sent.
-	@return ApiDeleteReminderRequest
+	@param reminderId The Id of the reminder to delete.  This is different from the unique Id that the message would have after being sent.
+	@return DeleteReminderRequest
 */
-func (c *ZulipClient) DeleteReminder(ctx context.Context, reminderId int32) ApiDeleteReminderRequest {
-	return ApiDeleteReminderRequest{
+func (c *ZulipClient) DeleteReminder(ctx context.Context, reminderId int64) DeleteReminderRequest {
+	return DeleteReminderRequest{
 		ApiService: c,
 		ctx:        ctx,
 		reminderId: reminderId,
@@ -245,13 +244,13 @@ func (c *ZulipClient) DeleteReminder(ctx context.Context, reminderId int32) ApiD
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) DeleteReminderExecute(r ApiDeleteReminderRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) DeleteReminderExecute(r DeleteReminderRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -306,7 +305,7 @@ func (c *ZulipClient) DeleteReminderExecute(r ApiDeleteReminderRequest) (*models
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -330,19 +329,19 @@ func (c *ZulipClient) DeleteReminderExecute(r ApiDeleteReminderRequest) (*models
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetRemindersRequest struct {
+type GetRemindersRequest struct {
 	ctx        context.Context
 	ApiService RemindersAPI
 }
 
-func (r ApiGetRemindersRequest) Execute() (*models.GetReminders200Response, *http.Response, error) {
+func (r GetRemindersRequest) Execute() (*GetRemindersResponse, *http.Response, error) {
 	return r.ApiService.GetRemindersExecute(r)
 }
 
 /*
 GetReminders Get reminders
 
-Fetch all [reminders](zulip.com/help/schedule-a-reminder for the
+Fetch all [reminders](zulip.com/help/schedule-a-reminder) for the
 current user.
 
 Reminders are messages the user has scheduled to be sent in the
@@ -351,10 +350,10 @@ future to themself.
 **Changes**: New in Zulip 11.0 (feature level 399).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetRemindersRequest
+	@return GetRemindersRequest
 */
-func (c *ZulipClient) GetReminders(ctx context.Context) ApiGetRemindersRequest {
-	return ApiGetRemindersRequest{
+func (c *ZulipClient) GetReminders(ctx context.Context) GetRemindersRequest {
+	return GetRemindersRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -362,13 +361,13 @@ func (c *ZulipClient) GetReminders(ctx context.Context) ApiGetRemindersRequest {
 
 // Execute executes the request
 //
-//	@return models.GetReminders200Response
-func (c *ZulipClient) GetRemindersExecute(r ApiGetRemindersRequest) (*models.GetReminders200Response, *http.Response, error) {
+//	@return GetRemindersResponse
+func (c *ZulipClient) GetRemindersExecute(r GetRemindersRequest) (*GetRemindersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.GetReminders200Response
+		localVarReturnValue *GetRemindersResponse
 	)
 
 	localBasePath, err := c.ServerURL()

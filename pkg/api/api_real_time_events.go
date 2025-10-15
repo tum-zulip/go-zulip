@@ -16,8 +16,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-
-	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
 type RealTimeEventsAPI interface {
@@ -29,13 +27,13 @@ type RealTimeEventsAPI interface {
 
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiDeleteQueueRequest
+		@return DeleteQueueRequest
 	*/
-	DeleteQueue(ctx context.Context) ApiDeleteQueueRequest
+	DeleteQueue(ctx context.Context) DeleteQueueRequest
 
 	// DeleteQueueExecute executes the request
-	//  @return models.JsonSuccess
-	DeleteQueueExecute(r ApiDeleteQueueRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	DeleteQueueExecute(r DeleteQueueRequest) (*Response, *http.Response, error)
 
 	/*
 			GetEvents Get events from an event queue
@@ -52,13 +50,13 @@ type RealTimeEventsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiGetEventsRequest
+			@return GetEventsRequest
 	*/
-	GetEvents(ctx context.Context) ApiGetEventsRequest
+	GetEvents(ctx context.Context) GetEventsRequest
 
 	// GetEventsExecute executes the request
-	//  @return models.GetEvents200Response
-	GetEventsExecute(r ApiGetEventsRequest) (*models.GetEvents200Response, *http.Response, error)
+	//  @return GetEventsResponse
+	GetEventsExecute(r GetEventsRequest) (*GetEventsResponse, *http.Response, error)
 
 	/*
 		RealTimePost Method for RealTimePost
@@ -67,12 +65,12 @@ type RealTimeEventsAPI interface {
 
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiRealTimePostRequest
+		@return RealTimePostRequest
 	*/
-	RealTimePost(ctx context.Context) ApiRealTimePostRequest
+	RealTimePost(ctx context.Context) RealTimePostRequest
 
 	// RealTimePostExecute executes the request
-	RealTimePostExecute(r ApiRealTimePostRequest) (*http.Response, error)
+	RealTimePostExecute(r RealTimePostRequest) (*http.Response, error)
 
 	/*
 			RegisterQueue Register an event queue
@@ -88,7 +86,7 @@ type RealTimeEventsAPI interface {
 
 		This endpoint returns a `queue_id` and a `last_event_id`; these can be
 		used in subsequent calls to the
-		["events" endpoint](zulip.com/api/get-events to request events from
+		["events" endpoint](zulip.com/api/get-events) to request events from
 		the Zulip server using long-polling.
 
 		The server will queue events for up to 10 minutes of inactivity.
@@ -100,7 +98,7 @@ type RealTimeEventsAPI interface {
 
 		Once the server garbage-collects your event queue, the server will
 		[return an error](zulip.com/api/get-events#bad_event_queue_id-errors
-		with a code of `BAD_EVENT_QUEUE_ID` if you try to fetch events from
+		with a code of `BAD_EVENT_QUEUE_Id` if you try to fetch events from
 		the event queue. Your software will need to handle that error
 		condition by re-initializing itself (e.g. this is what triggers your
 		browser reloading the Zulip web app when your laptop comes back online
@@ -143,13 +141,13 @@ type RealTimeEventsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiRegisterQueueRequest
+			@return RegisterQueueRequest
 	*/
-	RegisterQueue(ctx context.Context) ApiRegisterQueueRequest
+	RegisterQueue(ctx context.Context) RegisterQueueRequest
 
 	// RegisterQueueExecute executes the request
-	//  @return models.RegisterQueue200Response
-	RegisterQueueExecute(r ApiRegisterQueueRequest) (*models.RegisterQueue200Response, *http.Response, error)
+	//  @return RegisterQueueResponse
+	RegisterQueueExecute(r RegisterQueueRequest) (*RegisterQueueResponse, *http.Response, error)
 
 	/*
 		RestErrorHandling Error handling
@@ -158,27 +156,27 @@ type RealTimeEventsAPI interface {
 
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiRestErrorHandlingRequest
+		@return RestErrorHandlingRequest
 	*/
-	RestErrorHandling(ctx context.Context) ApiRestErrorHandlingRequest
+	RestErrorHandling(ctx context.Context) RestErrorHandlingRequest
 
 	// RestErrorHandlingExecute executes the request
-	RestErrorHandlingExecute(r ApiRestErrorHandlingRequest) (*http.Response, error)
+	RestErrorHandlingExecute(r RestErrorHandlingRequest) (*http.Response, error)
 }
 
-type ApiDeleteQueueRequest struct {
+type DeleteQueueRequest struct {
 	ctx        context.Context
 	ApiService RealTimeEventsAPI
 	queueId    *string
 }
 
-// The ID of an event queue that was previously registered via &#x60;POST /api/v1/register&#x60; (see [Register a queue](zulip.com/api/register-queue).
-func (r ApiDeleteQueueRequest) QueueId(queueId string) ApiDeleteQueueRequest {
+// The Id of an event queue that was previously registered via &#x60;POST /api/v1/register&#x60; (see [Register a queue](zulip.com/api/register-queue).
+func (r DeleteQueueRequest) QueueId(queueId string) DeleteQueueRequest {
 	r.queueId = &queueId
 	return r
 }
 
-func (r ApiDeleteQueueRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r DeleteQueueRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.DeleteQueueExecute(r)
 }
 
@@ -188,10 +186,10 @@ DeleteQueue Delete an event queue
 Delete a previously registered queue.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiDeleteQueueRequest
+	@return DeleteQueueRequest
 */
-func (c *ZulipClient) DeleteQueue(ctx context.Context) ApiDeleteQueueRequest {
-	return ApiDeleteQueueRequest{
+func (c *ZulipClient) DeleteQueue(ctx context.Context) DeleteQueueRequest {
+	return DeleteQueueRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -199,13 +197,13 @@ func (c *ZulipClient) DeleteQueue(ctx context.Context) ApiDeleteQueueRequest {
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) DeleteQueueExecute(r ApiDeleteQueueRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) DeleteQueueExecute(r DeleteQueueRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -263,7 +261,7 @@ func (c *ZulipClient) DeleteQueueExecute(r ApiDeleteQueueRequest) (*models.JsonS
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.BadEventQueueIdError
+			var v BadEventQueueIdError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -287,33 +285,33 @@ func (c *ZulipClient) DeleteQueueExecute(r ApiDeleteQueueRequest) (*models.JsonS
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetEventsRequest struct {
+type GetEventsRequest struct {
 	ctx         context.Context
 	ApiService  RealTimeEventsAPI
 	queueId     *string
-	lastEventId *int32
+	lastEventId *int64
 	dontBlock   *bool
 }
 
-// The ID of an event queue that was previously registered via &#x60;POST /api/v1/register&#x60; (see [Register a queue](zulip.com/api/register-queue).
-func (r ApiGetEventsRequest) QueueId(queueId string) ApiGetEventsRequest {
+// The Id of an event queue that was previously registered via &#x60;POST /api/v1/register&#x60; (see [Register a queue](zulip.com/api/register-queue).
+func (r GetEventsRequest) QueueId(queueId string) GetEventsRequest {
 	r.queueId = &queueId
 	return r
 }
 
-// The highest event ID in this queue that you&#39;ve received and wish to acknowledge. See the [code for &#x60;call_on_each_event&#x60;](https://github.com/zulip/python-zulip-api/blob/main/zulip/zulip/__init__.py) in the [zulip Python module](https://github.com/zulip/python-zulip-api) for an example implementation of correctly processing each event exactly once.
-func (r ApiGetEventsRequest) LastEventId(lastEventId int32) ApiGetEventsRequest {
+// The highest event Id in this queue that you&#39;ve received and wish to acknowledge. See the [code for &#x60;call_on_each_event&#x60;](https://github.com/zulip/python-zulip-api/blob/main/zulip/zulip/__init__.py) in the [zulip Python module](https://github.com/zulip/python-zulip-api) for an example implementation of correctly processing each event exactly once.
+func (r GetEventsRequest) LastEventId(lastEventId int64) GetEventsRequest {
 	r.lastEventId = &lastEventId
 	return r
 }
 
 // Set to &#x60;true&#x60; if the client is requesting a nonblocking reply. If not specified, the request will block until either a new event is available or a few minutes have passed, in which case the server will send the client a heartbeat event.
-func (r ApiGetEventsRequest) DontBlock(dontBlock bool) ApiGetEventsRequest {
+func (r GetEventsRequest) DontBlock(dontBlock bool) GetEventsRequest {
 	r.dontBlock = &dontBlock
 	return r
 }
 
-func (r ApiGetEventsRequest) Execute() (*models.GetEvents200Response, *http.Response, error) {
+func (r GetEventsRequest) Execute() (*GetEventsResponse, *http.Response, error) {
 	return r.ApiService.GetEventsExecute(r)
 }
 
@@ -331,10 +329,10 @@ heartbeat frequency and should be respected by clients to
 avoid breaking when heartbeat frequency increases.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetEventsRequest
+	@return GetEventsRequest
 */
-func (c *ZulipClient) GetEvents(ctx context.Context) ApiGetEventsRequest {
-	return ApiGetEventsRequest{
+func (c *ZulipClient) GetEvents(ctx context.Context) GetEventsRequest {
+	return GetEventsRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -342,13 +340,13 @@ func (c *ZulipClient) GetEvents(ctx context.Context) ApiGetEventsRequest {
 
 // Execute executes the request
 //
-//	@return models.GetEvents200Response
-func (c *ZulipClient) GetEventsExecute(r ApiGetEventsRequest) (*models.GetEvents200Response, *http.Response, error) {
+//	@return GetEventsResponse
+func (c *ZulipClient) GetEventsExecute(r GetEventsRequest) (*GetEventsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.GetEvents200Response
+		localVarReturnValue *GetEventsResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -415,7 +413,7 @@ func (c *ZulipClient) GetEventsExecute(r ApiGetEventsRequest) (*models.GetEvents
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.BadEventQueueIdError
+			var v BadEventQueueIdError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -439,7 +437,7 @@ func (c *ZulipClient) GetEventsExecute(r ApiGetEventsRequest) (*models.GetEvents
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiRealTimePostRequest struct {
+type RealTimePostRequest struct {
 	ctx              context.Context
 	ApiService       RealTimeEventsAPI
 	eventTypes       *[]string
@@ -448,24 +446,24 @@ type ApiRealTimePostRequest struct {
 }
 
 // A JSON-encoded array indicating which types of events you&#39;re interested in. Values that you might find useful include:  - **message** (messages) - **subscription** (changes in your subscriptions) - **realm_user** (changes to users in the organization and   their properties, such as their name).  If you do not specify this parameter, you will receive all events, and have to filter out the events not relevant to your client in your client code. For most applications, one is only interested in messages, so one specifies: &#x60;\\\&quot;event_types\\\&quot;: [\\\&quot;message\\\&quot;]&#x60;  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions.
-func (r ApiRealTimePostRequest) EventTypes(eventTypes []string) ApiRealTimePostRequest {
+func (r RealTimePostRequest) EventTypes(eventTypes []string) RealTimePostRequest {
 	r.eventTypes = &eventTypes
 	return r
 }
 
-// A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)](zulip.com/api/construct-narrow for which you&#39;d like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use &#x60;\\\&quot;narrow\\\&quot;: [[\\\&quot;is\\\&quot;, \\\&quot;dm\\\&quot;]]&#x60;.  Unlike the API for [fetching messages](zulip.com/api/get-messages, this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a &#x60;narrow&#x60; filter of &#x60;[[\\\&quot;channel\\\&quot;, \\\&quot;Denmark\\\&quot;]]&#x60; will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to &#x60;\\\&quot;Denmark\\\&quot;&#x60;.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed](zulip.com/api/subscribe to any channels whose messages you&#39;d like them to process using this endpoint.  See the &#x60;all_public_streams&#x60; parameter for how to process all public channel messages in an organization.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
-func (r ApiRealTimePostRequest) Narrow(narrow [][]string) ApiRealTimePostRequest {
+// A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)](zulip.com/api/construct-narrow) for which you&#39;d like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use &#x60;\\\&quot;narrow\\\&quot;: [[\\\&quot;is\\\&quot;, \\\&quot;dm\\\&quot;]]&#x60;.  Unlike the API for [fetching messages](zulip.com/api/get-messages, this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a &#x60;narrow&#x60; filter of &#x60;[[\\\&quot;channel\\\&quot;, \\\&quot;Denmark\\\&quot;]]&#x60; will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to &#x60;\\\&quot;Denmark\\\&quot;&#x60;.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed](zulip.com/api/subscribe) to any channels whose messages you&#39;d like them to process using this endpoint.  See the &#x60;all_public_streams&#x60; parameter for how to process all public channel messages in an organization.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
+func (r RealTimePostRequest) Narrow(narrow [][]string) RealTimePostRequest {
 	r.narrow = &narrow
 	return r
 }
 
 // Whether you would like to request message events from all public channels. Useful for workflow bots that you&#39;d like to see all new messages sent to public channels. (You can also subscribe the user to private channels).
-func (r ApiRealTimePostRequest) AllPublicStreams(allPublicStreams bool) ApiRealTimePostRequest {
+func (r RealTimePostRequest) AllPublicStreams(allPublicStreams bool) RealTimePostRequest {
 	r.allPublicStreams = &allPublicStreams
 	return r
 }
 
-func (r ApiRealTimePostRequest) Execute() (*http.Response, error) {
+func (r RealTimePostRequest) Execute() (*http.Response, error) {
 	return r.ApiService.RealTimePostExecute(r)
 }
 
@@ -475,17 +473,17 @@ RealTimePost Method for RealTimePost
 (Ignored)
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiRealTimePostRequest
+	@return RealTimePostRequest
 */
-func (c *ZulipClient) RealTimePost(ctx context.Context) ApiRealTimePostRequest {
-	return ApiRealTimePostRequest{
+func (c *ZulipClient) RealTimePost(ctx context.Context) RealTimePostRequest {
+	return RealTimePostRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-func (c *ZulipClient) RealTimePostExecute(r ApiRealTimePostRequest) (*http.Response, error) {
+func (c *ZulipClient) RealTimePostExecute(r RealTimePostRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPost
 		localVarPostBody   interface{}
@@ -557,7 +555,7 @@ func (c *ZulipClient) RealTimePostExecute(r ApiRealTimePostRequest) (*http.Respo
 	return localVarHTTPResponse, nil
 }
 
-type ApiRegisterQueueRequest struct {
+type RegisterQueueRequest struct {
 	ctx                      context.Context
 	ApiService               RealTimeEventsAPI
 	applyMarkdown            *bool
@@ -573,66 +571,66 @@ type ApiRegisterQueueRequest struct {
 }
 
 // Set to &#x60;true&#x60; if you would like the content to be rendered in HTML format (otherwise the API will return the raw text that the user entered)
-func (r ApiRegisterQueueRequest) ApplyMarkdown(applyMarkdown bool) ApiRegisterQueueRequest {
+func (r RegisterQueueRequest) ApplyMarkdown(applyMarkdown bool) RegisterQueueRequest {
 	r.applyMarkdown = &applyMarkdown
 	return r
 }
 
 // Whether the client supports computing gravatars URLs. If enabled, &#x60;avatar_url&#x60; will be included in the response only if there is a Zulip avatar, and will be &#x60;null&#x60; for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The &#x60;client_gravatar&#x60; field is set to &#x60;true&#x60; if clients can compute their own gravatars.  The default value is &#x60;true&#x60; for authenticated requests and &#x60;false&#x60; for [unauthenticated requests](zulip.com/help/public-access-option. Passing &#x60;true&#x60; in an unauthenticated request is an error.  **Changes**: Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were &#x60;false&#x60; in unauthenticated requests.
-func (r ApiRegisterQueueRequest) ClientGravatar(clientGravatar bool) ApiRegisterQueueRequest {
+func (r RegisterQueueRequest) ClientGravatar(clientGravatar bool) RegisterQueueRequest {
 	r.clientGravatar = &clientGravatar
 	return r
 }
 
-// Whether each returned channel object should include a &#x60;subscribers&#x60; field containing a list of the user IDs of its subscribers.  Client apps supporting organizations with many thousands of users should not pass &#x60;true&#x60;, because the full subscriber matrix may be several megabytes of data. The &#x60;partial&#x60; value, combined with the &#x60;subscriber_count&#x60; and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes &#x60;partial&#x60; for this parameter, the server may, for some channels, return a subset of the channel&#39;s subscribers in the &#x60;partial_subscribers&#x60; field instead of the &#x60;subscribers&#x60; field, which always contains the complete set of subscribers.  The server guarantees that it will always return a &#x60;subscribers&#x60; field for channels with fewer than 250 total subscribers. When returning a &#x60;partial_subscribers&#x60; field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  Passing &#x60;true&#x60; in an [unauthenticated request](zulip.com/help/public-access-option is an error.  **Changes**: The &#x60;partial&#x60; value is new in Zulip 11.0 (feature level 412).  Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were &#x60;false&#x60; in unauthenticated requests.  New in Zulip 2.1.0.
-func (r ApiRegisterQueueRequest) IncludeSubscribers(includeSubscribers string) ApiRegisterQueueRequest {
+// Whether each returned channel object should include a &#x60;subscribers&#x60; field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass &#x60;true&#x60;, because the full subscriber matrix may be several megabytes of data. The &#x60;partial&#x60; value, combined with the &#x60;subscriber_count&#x60; and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes &#x60;partial&#x60; for this parameter, the server may, for some channels, return a subset of the channel&#39;s subscribers in the &#x60;partial_subscribers&#x60; field instead of the &#x60;subscribers&#x60; field, which always contains the complete set of subscribers.  The server guarantees that it will always return a &#x60;subscribers&#x60; field for channels with fewer than 250 total subscribers. When returning a &#x60;partial_subscribers&#x60; field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  Passing &#x60;true&#x60; in an [unauthenticated request](zulip.com/help/public-access-option) is an error.  **Changes**: The &#x60;partial&#x60; value is new in Zulip 11.0 (feature level 412).  Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were &#x60;false&#x60; in unauthenticated requests.  New in Zulip 2.1.0.
+func (r RegisterQueueRequest) IncludeSubscribers(includeSubscribers string) RegisterQueueRequest {
 	r.includeSubscribers = &includeSubscribers
 	return r
 }
 
-// If &#x60;true&#x60;, the &#x60;presences&#x60; object returned in the response will be keyed by user ID and the entry for each user&#39;s presence data will be in the modern format.  **Changes**: New in Zulip 3.0 (no feature level; API unstable).
-func (r ApiRegisterQueueRequest) SlimPresence(slimPresence bool) ApiRegisterQueueRequest {
+// If &#x60;true&#x60;, the &#x60;presences&#x60; object returned in the response will be keyed by user Id and the entry for each user&#39;s presence data will be in the modern format.  **Changes**: New in Zulip 3.0 (no feature level; API unstable).
+func (r RegisterQueueRequest) SlimPresence(slimPresence bool) RegisterQueueRequest {
 	r.slimPresence = &slimPresence
 	return r
 }
 
 // Limits how far back in time to fetch user presence data. If not specified, defaults to 14 days. A value of N means that the oldest presence data fetched will be from at most N days ago.  **Changes**: New in Zulip 10.0 (feature level 288).
-func (r ApiRegisterQueueRequest) PresenceHistoryLimitDays(presenceHistoryLimitDays int32) ApiRegisterQueueRequest {
+func (r RegisterQueueRequest) PresenceHistoryLimitDays(presenceHistoryLimitDays int32) RegisterQueueRequest {
 	r.presenceHistoryLimitDays = &presenceHistoryLimitDays
 	return r
 }
 
 // A JSON-encoded array indicating which types of events you&#39;re interested in. Values that you might find useful include:  - **message** (messages) - **subscription** (changes in your subscriptions) - **realm_user** (changes to users in the organization and   their properties, such as their name).  If you do not specify this parameter, you will receive all events, and have to filter out the events not relevant to your client in your client code. For most applications, one is only interested in messages, so one specifies: &#x60;\\\&quot;event_types\\\&quot;: [\\\&quot;message\\\&quot;]&#x60;  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions.
-func (r ApiRegisterQueueRequest) EventTypes(eventTypes []string) ApiRegisterQueueRequest {
+func (r RegisterQueueRequest) EventTypes(eventTypes []string) RegisterQueueRequest {
 	r.eventTypes = &eventTypes
 	return r
 }
 
 // Whether you would like to request message events from all public channels. Useful for workflow bots that you&#39;d like to see all new messages sent to public channels. (You can also subscribe the user to private channels).
-func (r ApiRegisterQueueRequest) AllPublicStreams(allPublicStreams bool) ApiRegisterQueueRequest {
+func (r RegisterQueueRequest) AllPublicStreams(allPublicStreams bool) RegisterQueueRequest {
 	r.allPublicStreams = &allPublicStreams
 	return r
 }
 
-// Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  - &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with &#x60;null&#x60; values for   channel-level notification settings (which means the channel   is not customized and should inherit the user&#39;s global   notification settings for channel messages).   &lt;br /&gt;   **Changes**: New in Zulip 2.1.0. In earlier Zulip releases,   channel-level notification settings were simple booleans.  - &#x60;bulk_message_deletion&#x60;: Boolean for whether the client&#39;s   handler for the &#x60;delete_message&#x60; event type has been   updated to process the new bulk format (with a   &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).   Otherwise, the server will send &#x60;delete_message&#x60; events   in a loop.   &lt;br /&gt;   **Changes**: New in Zulip 3.0 (feature level 13). This   capability is for backwards-compatibility; it will be   required in a future server release.  - &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the   client required avatar URLs for all users, or supports   using &#x60;GET /avatar/{user_id}&#x60; to access user avatars. If the   client has this capability, the server may skip sending a   &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion   to optimize network performance. This is an important optimization   in organizations with 10,000s of users.   &lt;br /&gt;   **Changes**: New in Zulip 3.0 (feature level 18).  - &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports channel typing notifications.   &lt;br /&gt;   **Changes**: New in Zulip 4.0 (feature level 58). This capability is   for backwards-compatibility; it will be required in a   future server release.  - &#x60;user_settings_object&#x60;: Boolean for whether the client supports the modern   &#x60;user_settings&#x60; event type. If false, the server will additionally send the   legacy &#x60;update_global_notifications&#x60; and &#x60;update_display_settings&#x60; event   types.   &lt;br /&gt;   **Changes**: New in Zulip 5.0 (feature level 89). This capability is for   backwards-compatibility; it will be removed in a future server release.   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and also request all three   event types (&#x60;user_settings&#x60;, &#x60;update_display_settings&#x60;,   &#x60;update_global_notifications&#x60;), and get exactly one copy of settings data on   any server version. Clients can then use the &#x60;zulip_feature_level&#x60; in the   &#x60;/register&#x60; response or the presence/absence of a &#x60;user_settings&#x60; key to   determine where to look for the data.  - &#x60;linkifier_url_template&#x60;: Boolean for whether the client accepts   [linkifiers][help-linkifiers] that use [RFC 6570][rfc6570] compliant   URL templates for linkifying matches. If false or unset, then the   &#x60;realm_linkifiers&#x60; array in the &#x60;/register&#x60; response will be empty   if present, and no &#x60;realm_linkifiers&#x60; [events][events-linkifiers]   will be sent to the client.   &lt;br /&gt;   **Changes**: New in Zulip 7.0 (feature level 176). This capability   is for backwards-compatibility.  - &#x60;user_list_incomplete&#x60;: Boolean for whether the client supports not having an   incomplete user database. If true, then the &#x60;realm_users&#x60; array in the &#x60;register&#x60;   response will not include data for inaccessible users and clients of guest users will   not receive &#x60;realm_user op:add&#x60; events for newly created users that are not accessible   to the current user.   &lt;br /&gt;   **Changes**: New in Zulip 8.0 (feature level 232). This   capability is for backwards-compatibility.  - &#x60;include_deactivated_groups&#x60;: Boolean for whether the client can handle   deactivated user groups by themselves. If false, then the &#x60;realm_user_groups&#x60;   array in the &#x60;/register&#x60; response will only include active groups, clients   will receive a &#x60;remove&#x60; event instead of &#x60;update&#x60; event when a group is   deactivated and no &#x60;update&#x60; event will be sent to the client if a deactivated   user group is renamed.   &lt;br /&gt;   **Changes**: New in Zulip 10.0 (feature level 294). This   capability is for backwards-compatibility.  - &#x60;archived_channels&#x60;: Boolean for whether the client supports processing   [archived channels](zulip.com/help/archive-a-channel in the &#x60;stream&#x60; and   &#x60;subscription&#x60; event types. If &#x60;false&#x60;, the server will not include data   related to archived channels in the &#x60;register&#x60; response or in events.   &lt;br /&gt;   **Changes**: New in Zulip 10.0 (feature level 315). This allows clients to   access archived channels, without breaking backwards-compatibility for   existing clients.  - &#x60;empty_topic_name&#x60;: Boolean for whether the client supports processing   the empty string as a topic name. Clients not declaring this capability   will be sent the value of &#x60;realm_empty_topic_display_name&#x60; found in the   [POST /register](zulip.com/api/register-queue response instead of the empty string   wherever topic names appear in the register response or events involving   topic names.   &lt;br/&gt;   **Changes**: New in Zulip 10.0 (feature level 334). Previously,   the empty string was not a valid topic name.  - &#x60;simplified_presence_events&#x60;: Boolean for whether the client supports   receiving the [&#x60;presence&#x60; event type](zulip.com/api/get-events#presence with   user presence data in the modern format. If true, the server will   send these events with the &#x60;presences&#x60; field that has the user presence   data in the modern format. Otherwise, these event will contain fields   with legacy format user presence data.   &lt;br /&gt;   **Changes**: New in Zulip 11.0 (feature level 419).  [help-linkifiers]: /help/add-a-custom-linkifier [rfc6570]: https://www.rfc-editor.org/rfc/rfc6570.html [events-linkifiers]: /api/get-events#realm_linkifiers
-func (r ApiRegisterQueueRequest) ClientCapabilities(clientCapabilities map[string]interface{}) ApiRegisterQueueRequest {
+// Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  - &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with &#x60;null&#x60; values for   channel-level notification settings (which means the channel   is not customized and should inherit the user&#39;s global   notification settings for channel messages).   &lt;br /&gt;   **Changes**: New in Zulip 2.1.0. In earlier Zulip releases,   channel-level notification settings were simple booleans.  - &#x60;bulk_message_deletion&#x60;: Boolean for whether the client&#39;s   handler for the &#x60;delete_message&#x60; event type has been   updated to process the new bulk format (with a   &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).   Otherwise, the server will send &#x60;delete_message&#x60; events   in a loop.   &lt;br /&gt;   **Changes**: New in Zulip 3.0 (feature level 13). This   capability is for backwards-compatibility; it will be   required in a future server release.  - &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the   client required avatar URLs for all users, or supports   using &#x60;GET /avatar/{user_id}&#x60; to access user avatars. If the   client has this capability, the server may skip sending a   &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion   to optimize network performance. This is an important optimization   in organizations with 10,000s of users.   &lt;br /&gt;   **Changes**: New in Zulip 3.0 (feature level 18).  - &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports channel typing notifications.   &lt;br /&gt;   **Changes**: New in Zulip 4.0 (feature level 58). This capability is   for backwards-compatibility; it will be required in a   future server release.  - &#x60;user_settings_object&#x60;: Boolean for whether the client supports the modern   &#x60;user_settings&#x60; event type. If false, the server will additionally send the   legacy &#x60;update_global_notifications&#x60; and &#x60;update_display_settings&#x60; event   types.   &lt;br /&gt;   **Changes**: New in Zulip 5.0 (feature level 89). This capability is for   backwards-compatibility; it will be removed in a future server release.   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and also request all three   event types (&#x60;user_settings&#x60;, &#x60;update_display_settings&#x60;,   &#x60;update_global_notifications&#x60;), and get exactly one copy of settings data on   any server version. Clients can then use the &#x60;zulip_feature_level&#x60; in the   &#x60;/register&#x60; response or the presence/absence of a &#x60;user_settings&#x60; key to   determine where to look for the data.  - &#x60;linkifier_url_template&#x60;: Boolean for whether the client accepts   [linkifiers][help-linkifiers] that use [RFC 6570][rfc6570] compliant   URL templates for linkifying matches. If false or unset, then the   &#x60;realm_linkifiers&#x60; array in the &#x60;/register&#x60; response will be empty   if present, and no &#x60;realm_linkifiers&#x60; [events][events-linkifiers]   will be sent to the client.   &lt;br /&gt;   **Changes**: New in Zulip 7.0 (feature level 176). This capability   is for backwards-compatibility.  - &#x60;user_list_incomplete&#x60;: Boolean for whether the client supports not having an   incomplete user database. If true, then the &#x60;realm_users&#x60; array in the &#x60;register&#x60;   response will not include data for inaccessible users and clients of guest users will   not receive &#x60;realm_user op:add&#x60; events for newly created users that are not accessible   to the current user.   &lt;br /&gt;   **Changes**: New in Zulip 8.0 (feature level 232). This   capability is for backwards-compatibility.  - &#x60;include_deactivated_groups&#x60;: Boolean for whether the client can handle   deactivated user groups by themselves. If false, then the &#x60;realm_user_groups&#x60;   array in the &#x60;/register&#x60; response will only include active groups, clients   will receive a &#x60;remove&#x60; event instead of &#x60;update&#x60; event when a group is   deactivated and no &#x60;update&#x60; event will be sent to the client if a deactivated   user group is renamed.   &lt;br /&gt;   **Changes**: New in Zulip 10.0 (feature level 294). This   capability is for backwards-compatibility.  - &#x60;archived_channels&#x60;: Boolean for whether the client supports processing   [archived channels](zulip.com/help/archive-a-channel) in the &#x60;stream&#x60; and   &#x60;subscription&#x60; event types. If &#x60;false&#x60;, the server will not include data   related to archived channels in the &#x60;register&#x60; response or in events.   &lt;br /&gt;   **Changes**: New in Zulip 10.0 (feature level 315). This allows clients to   access archived channels, without breaking backwards-compatibility for   existing clients.  - &#x60;empty_topic_name&#x60;: Boolean for whether the client supports processing   the empty string as a topic name. Clients not declaring this capability   will be sent the value of &#x60;realm_empty_topic_display_name&#x60; found in the   [POST /register](zulip.com/api/register-queue) response instead of the empty string   wherever topic names appear in the register response or events involving   topic names.   &lt;br/&gt;   **Changes**: New in Zulip 10.0 (feature level 334). Previously,   the empty string was not a valid topic name.  - &#x60;simplified_presence_events&#x60;: Boolean for whether the client supports   receiving the [&#x60;presence&#x60; event type](zulip.com/api/get-events#presence with   user presence data in the modern format. If true, the server will   send these events with the &#x60;presences&#x60; field that has the user presence   data in the modern format. Otherwise, these event will contain fields   with legacy format user presence data.   &lt;br /&gt;   **Changes**: New in Zulip 11.0 (feature level 419).  [help-linkifiers]: /help/add-a-custom-linkifier [rfc6570]: https://www.rfc-editor.org/rfc/rfc6570.html [events-linkifiers]: /api/get-events#realm_linkifiers
+func (r RegisterQueueRequest) ClientCapabilities(clientCapabilities map[string]interface{}) RegisterQueueRequest {
 	r.clientCapabilities = &clientCapabilities
 	return r
 }
 
 // Same as the &#x60;event_types&#x60; parameter except that the values in &#x60;fetch_event_types&#x60; are used to fetch initial data. If &#x60;fetch_event_types&#x60; is not provided, &#x60;event_types&#x60; is used and if &#x60;event_types&#x60; is not provided, this parameter defaults to &#x60;null&#x60;.  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions.
-func (r ApiRegisterQueueRequest) FetchEventTypes(fetchEventTypes []string) ApiRegisterQueueRequest {
+func (r RegisterQueueRequest) FetchEventTypes(fetchEventTypes []string) RegisterQueueRequest {
 	r.fetchEventTypes = &fetchEventTypes
 	return r
 }
 
-// A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)](zulip.com/api/construct-narrow for which you&#39;d like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use &#x60;\\\&quot;narrow\\\&quot;: [[\\\&quot;is\\\&quot;, \\\&quot;dm\\\&quot;]]&#x60;.  Unlike the API for [fetching messages](zulip.com/api/get-messages, this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a &#x60;narrow&#x60; filter of &#x60;[[\\\&quot;channel\\\&quot;, \\\&quot;Denmark\\\&quot;]]&#x60; will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to &#x60;\\\&quot;Denmark\\\&quot;&#x60;.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed](zulip.com/api/subscribe to any channels whose messages you&#39;d like them to process using this endpoint.  See the &#x60;all_public_streams&#x60; parameter for how to process all public channel messages in an organization.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
-func (r ApiRegisterQueueRequest) Narrow(narrow [][]string) ApiRegisterQueueRequest {
+// A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)](zulip.com/api/construct-narrow) for which you&#39;d like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use &#x60;\\\&quot;narrow\\\&quot;: [[\\\&quot;is\\\&quot;, \\\&quot;dm\\\&quot;]]&#x60;.  Unlike the API for [fetching messages](zulip.com/api/get-messages, this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a &#x60;narrow&#x60; filter of &#x60;[[\\\&quot;channel\\\&quot;, \\\&quot;Denmark\\\&quot;]]&#x60; will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to &#x60;\\\&quot;Denmark\\\&quot;&#x60;.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed](zulip.com/api/subscribe) to any channels whose messages you&#39;d like them to process using this endpoint.  See the &#x60;all_public_streams&#x60; parameter for how to process all public channel messages in an organization.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
+func (r RegisterQueueRequest) Narrow(narrow [][]string) RegisterQueueRequest {
 	r.narrow = &narrow
 	return r
 }
 
-func (r ApiRegisterQueueRequest) Execute() (*models.RegisterQueue200Response, *http.Response, error) {
+func (r RegisterQueueRequest) Execute() (*RegisterQueueResponse, *http.Response, error) {
 	return r.ApiService.RegisterQueueExecute(r)
 }
 
@@ -650,7 +648,7 @@ intended primarily for complex applications for which the more convenient
 
 This endpoint returns a `queue_id` and a `last_event_id`; these can be
 used in subsequent calls to the
-["events" endpoint](zulip.com/api/get-events to request events from
+["events" endpoint](zulip.com/api/get-events) to request events from
 the Zulip server using long-polling.
 
 The server will queue events for up to 10 minutes of inactivity.
@@ -662,7 +660,7 @@ or longer.
 
 Once the server garbage-collects your event queue, the server will
 [return an error](zulip.com/api/get-events#bad_event_queue_id-errors
-with a code of `BAD_EVENT_QUEUE_ID` if you try to fetch events from
+with a code of `BAD_EVENT_QUEUE_Id` if you try to fetch events from
 the event queue. Your software will need to handle that error
 condition by re-initializing itself (e.g. this is what triggers your
 browser reloading the Zulip web app when your laptop comes back online
@@ -704,10 +702,10 @@ current API and treating every user as having the realm's
 [events-system-docs]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiRegisterQueueRequest
+	@return RegisterQueueRequest
 */
-func (c *ZulipClient) RegisterQueue(ctx context.Context) ApiRegisterQueueRequest {
-	return ApiRegisterQueueRequest{
+func (c *ZulipClient) RegisterQueue(ctx context.Context) RegisterQueueRequest {
+	return RegisterQueueRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -715,13 +713,13 @@ func (c *ZulipClient) RegisterQueue(ctx context.Context) ApiRegisterQueueRequest
 
 // Execute executes the request
 //
-//	@return models.RegisterQueue200Response
-func (c *ZulipClient) RegisterQueueExecute(r ApiRegisterQueueRequest) (*models.RegisterQueue200Response, *http.Response, error) {
+//	@return RegisterQueueResponse
+func (c *ZulipClient) RegisterQueueExecute(r RegisterQueueRequest) (*RegisterQueueResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.RegisterQueue200Response
+		localVarReturnValue *RegisterQueueResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -819,12 +817,12 @@ func (c *ZulipClient) RegisterQueueExecute(r ApiRegisterQueueRequest) (*models.R
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiRestErrorHandlingRequest struct {
+type RestErrorHandlingRequest struct {
 	ctx        context.Context
 	ApiService RealTimeEventsAPI
 }
 
-func (r ApiRestErrorHandlingRequest) Execute() (*http.Response, error) {
+func (r RestErrorHandlingRequest) Execute() (*http.Response, error) {
 	return r.ApiService.RestErrorHandlingExecute(r)
 }
 
@@ -834,17 +832,17 @@ RestErrorHandling Error handling
 # Common error to many endpoints
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiRestErrorHandlingRequest
+	@return RestErrorHandlingRequest
 */
-func (c *ZulipClient) RestErrorHandling(ctx context.Context) ApiRestErrorHandlingRequest {
-	return ApiRestErrorHandlingRequest{
+func (c *ZulipClient) RestErrorHandling(ctx context.Context) RestErrorHandlingRequest {
+	return RestErrorHandlingRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-func (c *ZulipClient) RestErrorHandlingExecute(r ApiRestErrorHandlingRequest) (*http.Response, error) {
+func (c *ZulipClient) RestErrorHandlingExecute(r RestErrorHandlingRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPost
 		localVarPostBody   interface{}
@@ -902,7 +900,7 @@ func (c *ZulipClient) RestErrorHandlingExecute(r ApiRestErrorHandlingRequest) (*
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.RestErrorHandling400Response
+			var v RestErrorHandling400Response
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -913,7 +911,7 @@ func (c *ZulipClient) RestErrorHandlingExecute(r ApiRestErrorHandlingRequest) (*
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
-			var v models.RestErrorHandling401Response
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -924,7 +922,7 @@ func (c *ZulipClient) RestErrorHandlingExecute(r ApiRestErrorHandlingRequest) (*
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 429 {
-			var v models.RateLimitedError
+			var v RateLimitedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

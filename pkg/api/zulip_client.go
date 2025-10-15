@@ -33,8 +33,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
 const (
@@ -331,7 +329,7 @@ func parameterValueToString(obj interface{}, key string) string {
 
 		return fmt.Sprintf("%v", obj)
 	}
-	var param, ok = obj.(models.MappedNullable)
+	var param, ok = obj.(MappedNullable)
 	if !ok {
 		return ""
 	}
@@ -355,7 +353,7 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 			value = "invalid"
 
 		case reflect.Struct:
-			if t, ok := obj.(models.MappedNullable); ok {
+			if t, ok := obj.(MappedNullable); ok {
 				dataMap, err := t.ToMap()
 				if err != nil {
 					return

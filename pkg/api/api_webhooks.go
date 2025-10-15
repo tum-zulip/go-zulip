@@ -16,8 +16,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-
-	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
 type WebhooksAPI interface {
@@ -30,21 +28,21 @@ type WebhooksAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiZulipOutgoingWebhooksRequest
+			@return ZulipOutgoingWebhooksRequest
 	*/
-	ZulipOutgoingWebhooks(ctx context.Context) ApiZulipOutgoingWebhooksRequest
+	ZulipOutgoingWebhooks(ctx context.Context) ZulipOutgoingWebhooksRequest
 
 	// ZulipOutgoingWebhooksExecute executes the request
-	//  @return models.ZulipOutgoingWebhooks200Response
-	ZulipOutgoingWebhooksExecute(r ApiZulipOutgoingWebhooksRequest) (*models.ZulipOutgoingWebhooks200Response, *http.Response, error)
+	//  @return ZulipOutgoingWebhooksResponse
+	ZulipOutgoingWebhooksExecute(r ZulipOutgoingWebhooksRequest) (*ZulipOutgoingWebhooksResponse, *http.Response, error)
 }
 
-type ApiZulipOutgoingWebhooksRequest struct {
+type ZulipOutgoingWebhooksRequest struct {
 	ctx        context.Context
 	ApiService WebhooksAPI
 }
 
-func (r ApiZulipOutgoingWebhooksRequest) Execute() (*models.ZulipOutgoingWebhooks200Response, *http.Response, error) {
+func (r ZulipOutgoingWebhooksRequest) Execute() (*ZulipOutgoingWebhooksResponse, *http.Response, error) {
 	return r.ApiService.ZulipOutgoingWebhooksExecute(r)
 }
 
@@ -55,10 +53,10 @@ Outgoing webhooks allow you to build or set up Zulip integrations which are
 notified when certain types of messages are sent in Zulip.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiZulipOutgoingWebhooksRequest
+	@return ZulipOutgoingWebhooksRequest
 */
-func (c *ZulipClient) ZulipOutgoingWebhooks(ctx context.Context) ApiZulipOutgoingWebhooksRequest {
-	return ApiZulipOutgoingWebhooksRequest{
+func (c *ZulipClient) ZulipOutgoingWebhooks(ctx context.Context) ZulipOutgoingWebhooksRequest {
+	return ZulipOutgoingWebhooksRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -66,13 +64,13 @@ func (c *ZulipClient) ZulipOutgoingWebhooks(ctx context.Context) ApiZulipOutgoin
 
 // Execute executes the request
 //
-//	@return models.ZulipOutgoingWebhooks200Response
-func (c *ZulipClient) ZulipOutgoingWebhooksExecute(r ApiZulipOutgoingWebhooksRequest) (*models.ZulipOutgoingWebhooks200Response, *http.Response, error) {
+//	@return ZulipOutgoingWebhooksResponse
+func (c *ZulipClient) ZulipOutgoingWebhooksExecute(r ZulipOutgoingWebhooksRequest) (*ZulipOutgoingWebhooksResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.ZulipOutgoingWebhooks200Response
+		localVarReturnValue *ZulipOutgoingWebhooksResponse
 	)
 
 	localBasePath, err := c.ServerURL()

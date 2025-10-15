@@ -1,0 +1,56 @@
+package api_test
+
+import (
+	"encoding/json"
+	"testing"
+	"time"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/tum-zulip/go-zulip/pkg/api"
+)
+
+func TestChannelMarshalJSON_EncodesUnixSeconds(t *testing.T) {
+	t.Parallel()
+
+	creatorId := int64(7)
+	date := time.Unix(1700000000, 500*int64(time.Millisecond)).UTC()
+	channel := api.Channel{
+		StreamId:            123,
+		Name:                "general",
+		DateCreated:         date,
+		CreatorId:           &creatorId,
+		StreamPostPolicy:    2,
+		StreamWeeklyTraffic: ptrTo[int](10),
+	}
+
+	data, err := json.Marshal(channel)
+	require.NoError(t, err)
+
+	var payload map[string]any
+	require.NoError(t, json.Unmarshal(data, &payload))
+
+	value, ok := payload["date_created"]
+	require.True(t, ok)
+	require.IsType(t, float64(0), value)
+	assert.Equal(t, float64(date.Unix()), value)
+}
+
+func TestChannelUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
+	t.Parallel()
+
+	raw := []byte(`{"stream_id":123,"name":"general","date_created":1700000000}`)
+
+	var channel api.Channel
+	require.NoError(t, json.Unmarshal(raw, &channel))
+
+	assert.Equal(t, int64(123), channel.StreamId)
+	assert.Equal(t, "general", channel.Name)
+	assert.Equal(t, int64(1700000000), channel.DateCreated.Unix())
+	assert.Equal(t, time.UTC, channel.DateCreated.Location())
+}
+
+func ptrTo[T any](v T) *T {
+	return &v
+}

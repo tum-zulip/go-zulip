@@ -17,8 +17,6 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-
-	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
 type DraftsAPI interface {
@@ -31,13 +29,13 @@ type DraftsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiCreateDraftsRequest
+			@return CreateDraftsRequest
 	*/
-	CreateDrafts(ctx context.Context) ApiCreateDraftsRequest
+	CreateDrafts(ctx context.Context) CreateDraftsRequest
 
 	// CreateDraftsExecute executes the request
-	//  @return models.CreateDrafts200Response
-	CreateDraftsExecute(r ApiCreateDraftsRequest) (*models.CreateDrafts200Response, *http.Response, error)
+	//  @return CreateDraftsResponse
+	CreateDraftsExecute(r CreateDraftsRequest) (*CreateDraftsResponse, *http.Response, error)
 
 	/*
 			CreateSavedSnippet Create a saved snippet
@@ -48,13 +46,13 @@ type DraftsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiCreateSavedSnippetRequest
+			@return CreateSavedSnippetRequest
 	*/
-	CreateSavedSnippet(ctx context.Context) ApiCreateSavedSnippetRequest
+	CreateSavedSnippet(ctx context.Context) CreateSavedSnippetRequest
 
 	// CreateSavedSnippetExecute executes the request
-	//  @return models.CreateSavedSnippet200Response
-	CreateSavedSnippetExecute(r ApiCreateSavedSnippetRequest) (*models.CreateSavedSnippet200Response, *http.Response, error)
+	//  @return CreateSavedSnippetResponse
+	CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (*CreateSavedSnippetResponse, *http.Response, error)
 
 	/*
 			DeleteDraft Delete a draft
@@ -64,14 +62,14 @@ type DraftsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param draftId The ID of the draft you want to delete.
-			@return ApiDeleteDraftRequest
+			@param draftId The Id of the draft you want to delete.
+			@return DeleteDraftRequest
 	*/
-	DeleteDraft(ctx context.Context, draftId int32) ApiDeleteDraftRequest
+	DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequest
 
 	// DeleteDraftExecute executes the request
-	//  @return models.JsonSuccess
-	DeleteDraftExecute(r ApiDeleteDraftRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	DeleteDraftExecute(r DeleteDraftRequest) (*Response, *http.Response, error)
 
 	/*
 			DeleteSavedSnippet Delete a saved snippet
@@ -82,14 +80,14 @@ type DraftsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param savedSnippetId The ID of the saved snippet to delete.
-			@return ApiDeleteSavedSnippetRequest
+			@param savedSnippetId The Id of the saved snippet to delete.
+			@return DeleteSavedSnippetRequest
 	*/
-	DeleteSavedSnippet(ctx context.Context, savedSnippetId int32) ApiDeleteSavedSnippetRequest
+	DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) DeleteSavedSnippetRequest
 
 	// DeleteSavedSnippetExecute executes the request
-	//  @return models.JsonSuccess
-	DeleteSavedSnippetExecute(r ApiDeleteSavedSnippetRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*Response, *http.Response, error)
 
 	/*
 			EditDraft Edit a draft
@@ -99,14 +97,14 @@ type DraftsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param draftId The ID of the draft to be edited.
-			@return ApiEditDraftRequest
+			@param draftId The Id of the draft to be edited.
+			@return EditDraftRequest
 	*/
-	EditDraft(ctx context.Context, draftId int32) ApiEditDraftRequest
+	EditDraft(ctx context.Context, draftId int64) EditDraftRequest
 
 	// EditDraftExecute executes the request
-	//  @return models.JsonSuccess
-	EditDraftExecute(r ApiEditDraftRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	EditDraftExecute(r EditDraftRequest) (*Response, *http.Response, error)
 
 	/*
 			EditSavedSnippet Edit a saved snippet
@@ -117,14 +115,14 @@ type DraftsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param savedSnippetId The ID of the saved snippet to edit.
-			@return ApiEditSavedSnippetRequest
+			@param savedSnippetId The Id of the saved snippet to edit.
+			@return EditSavedSnippetRequest
 	*/
-	EditSavedSnippet(ctx context.Context, savedSnippetId int32) ApiEditSavedSnippetRequest
+	EditSavedSnippet(ctx context.Context, savedSnippetId int64) EditSavedSnippetRequest
 
 	// EditSavedSnippetExecute executes the request
-	//  @return models.JsonSuccess
-	EditSavedSnippetExecute(r ApiEditSavedSnippetRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	EditSavedSnippetExecute(r EditSavedSnippetRequest) (*Response, *http.Response, error)
 
 	/*
 		GetDrafts Get drafts
@@ -133,13 +131,13 @@ type DraftsAPI interface {
 
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiGetDraftsRequest
+		@return GetDraftsRequest
 	*/
-	GetDrafts(ctx context.Context) ApiGetDraftsRequest
+	GetDrafts(ctx context.Context) GetDraftsRequest
 
 	// GetDraftsExecute executes the request
-	//  @return models.GetDrafts200Response
-	GetDraftsExecute(r ApiGetDraftsRequest) (*models.GetDrafts200Response, *http.Response, error)
+	//  @return GetDraftsResponse
+	GetDraftsExecute(r GetDraftsRequest) (*GetDraftsResponse, *http.Response, error)
 
 	/*
 			GetSavedSnippets Get all saved snippets
@@ -150,28 +148,28 @@ type DraftsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiGetSavedSnippetsRequest
+			@return GetSavedSnippetsRequest
 	*/
-	GetSavedSnippets(ctx context.Context) ApiGetSavedSnippetsRequest
+	GetSavedSnippets(ctx context.Context) GetSavedSnippetsRequest
 
 	// GetSavedSnippetsExecute executes the request
-	//  @return models.GetSavedSnippets200Response
-	GetSavedSnippetsExecute(r ApiGetSavedSnippetsRequest) (*models.GetSavedSnippets200Response, *http.Response, error)
+	//  @return GetSavedSnippetsResponse
+	GetSavedSnippetsExecute(r GetSavedSnippetsRequest) (*GetSavedSnippetsResponse, *http.Response, error)
 }
 
-type ApiCreateDraftsRequest struct {
+type CreateDraftsRequest struct {
 	ctx        context.Context
 	ApiService DraftsAPI
-	drafts     *[]models.Draft
+	drafts     *[]Draft
 }
 
 // A JSON-encoded list of containing new draft objects.
-func (r ApiCreateDraftsRequest) Drafts(drafts []models.Draft) ApiCreateDraftsRequest {
+func (r CreateDraftsRequest) Drafts(drafts []Draft) CreateDraftsRequest {
 	r.drafts = &drafts
 	return r
 }
 
-func (r ApiCreateDraftsRequest) Execute() (*models.CreateDrafts200Response, *http.Response, error) {
+func (r CreateDraftsRequest) Execute() (*CreateDraftsResponse, *http.Response, error) {
 	return r.ApiService.CreateDraftsExecute(r)
 }
 
@@ -182,10 +180,10 @@ Create one or more drafts on the server. These drafts will be automatically
 synchronized to other clients via `drafts` events.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateDraftsRequest
+	@return CreateDraftsRequest
 */
-func (c *ZulipClient) CreateDrafts(ctx context.Context) ApiCreateDraftsRequest {
-	return ApiCreateDraftsRequest{
+func (c *ZulipClient) CreateDrafts(ctx context.Context) CreateDraftsRequest {
+	return CreateDraftsRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -193,13 +191,13 @@ func (c *ZulipClient) CreateDrafts(ctx context.Context) ApiCreateDraftsRequest {
 
 // Execute executes the request
 //
-//	@return models.CreateDrafts200Response
-func (c *ZulipClient) CreateDraftsExecute(r ApiCreateDraftsRequest) (*models.CreateDrafts200Response, *http.Response, error) {
+//	@return CreateDraftsResponse
+func (c *ZulipClient) CreateDraftsExecute(r CreateDraftsRequest) (*CreateDraftsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.CreateDrafts200Response
+		localVarReturnValue *CreateDraftsResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -256,7 +254,7 @@ func (c *ZulipClient) CreateDraftsExecute(r ApiCreateDraftsRequest) (*models.Cre
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -280,7 +278,7 @@ func (c *ZulipClient) CreateDraftsExecute(r ApiCreateDraftsRequest) (*models.Cre
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiCreateSavedSnippetRequest struct {
+type CreateSavedSnippetRequest struct {
 	ctx        context.Context
 	ApiService DraftsAPI
 	title      *string
@@ -288,18 +286,18 @@ type ApiCreateSavedSnippetRequest struct {
 }
 
 // The title of the saved snippet.
-func (r ApiCreateSavedSnippetRequest) Title(title string) ApiCreateSavedSnippetRequest {
+func (r CreateSavedSnippetRequest) Title(title string) CreateSavedSnippetRequest {
 	r.title = &title
 	return r
 }
 
-// The content of the saved snippet in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  Clients should insert this content into a message when using a saved snippet.
-func (r ApiCreateSavedSnippetRequest) Content(content string) ApiCreateSavedSnippetRequest {
+// The content of the saved snippet in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.
+func (r CreateSavedSnippetRequest) Content(content string) CreateSavedSnippetRequest {
 	r.content = &content
 	return r
 }
 
-func (r ApiCreateSavedSnippetRequest) Execute() (*models.CreateSavedSnippet200Response, *http.Response, error) {
+func (r CreateSavedSnippetRequest) Execute() (*CreateSavedSnippetResponse, *http.Response, error) {
 	return r.ApiService.CreateSavedSnippetExecute(r)
 }
 
@@ -311,10 +309,10 @@ Create a new saved snippet for the current user.
 **Changes**: New in Zulip 10.0 (feature level 297).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateSavedSnippetRequest
+	@return CreateSavedSnippetRequest
 */
-func (c *ZulipClient) CreateSavedSnippet(ctx context.Context) ApiCreateSavedSnippetRequest {
-	return ApiCreateSavedSnippetRequest{
+func (c *ZulipClient) CreateSavedSnippet(ctx context.Context) CreateSavedSnippetRequest {
+	return CreateSavedSnippetRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -322,13 +320,13 @@ func (c *ZulipClient) CreateSavedSnippet(ctx context.Context) ApiCreateSavedSnip
 
 // Execute executes the request
 //
-//	@return models.CreateSavedSnippet200Response
-func (c *ZulipClient) CreateSavedSnippetExecute(r ApiCreateSavedSnippetRequest) (*models.CreateSavedSnippet200Response, *http.Response, error) {
+//	@return CreateSavedSnippetResponse
+func (c *ZulipClient) CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (*CreateSavedSnippetResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.CreateSavedSnippet200Response
+		localVarReturnValue *CreateSavedSnippetResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -390,7 +388,7 @@ func (c *ZulipClient) CreateSavedSnippetExecute(r ApiCreateSavedSnippetRequest) 
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -414,13 +412,13 @@ func (c *ZulipClient) CreateSavedSnippetExecute(r ApiCreateSavedSnippetRequest) 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiDeleteDraftRequest struct {
+type DeleteDraftRequest struct {
 	ctx        context.Context
 	ApiService DraftsAPI
-	draftId    int32
+	draftId    int64
 }
 
-func (r ApiDeleteDraftRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r DeleteDraftRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.DeleteDraftExecute(r)
 }
 
@@ -431,11 +429,11 @@ Delete a single draft from the server. The deletion will be automatically
 synchronized to other clients via a `drafts` event.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param draftId The ID of the draft you want to delete.
-	@return ApiDeleteDraftRequest
+	@param draftId The Id of the draft you want to delete.
+	@return DeleteDraftRequest
 */
-func (c *ZulipClient) DeleteDraft(ctx context.Context, draftId int32) ApiDeleteDraftRequest {
-	return ApiDeleteDraftRequest{
+func (c *ZulipClient) DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequest {
+	return DeleteDraftRequest{
 		ApiService: c,
 		ctx:        ctx,
 		draftId:    draftId,
@@ -444,13 +442,13 @@ func (c *ZulipClient) DeleteDraft(ctx context.Context, draftId int32) ApiDeleteD
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) DeleteDraftExecute(r ApiDeleteDraftRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) DeleteDraftExecute(r DeleteDraftRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -505,7 +503,7 @@ func (c *ZulipClient) DeleteDraftExecute(r ApiDeleteDraftRequest) (*models.JsonS
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -529,13 +527,13 @@ func (c *ZulipClient) DeleteDraftExecute(r ApiDeleteDraftRequest) (*models.JsonS
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiDeleteSavedSnippetRequest struct {
+type DeleteSavedSnippetRequest struct {
 	ctx            context.Context
 	ApiService     DraftsAPI
-	savedSnippetId int32
+	savedSnippetId int64
 }
 
-func (r ApiDeleteSavedSnippetRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r DeleteSavedSnippetRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.DeleteSavedSnippetExecute(r)
 }
 
@@ -547,11 +545,11 @@ Delete a saved snippet.
 **Changes**: New in Zulip 10.0 (feature level 297).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param savedSnippetId The ID of the saved snippet to delete.
-	@return ApiDeleteSavedSnippetRequest
+	@param savedSnippetId The Id of the saved snippet to delete.
+	@return DeleteSavedSnippetRequest
 */
-func (c *ZulipClient) DeleteSavedSnippet(ctx context.Context, savedSnippetId int32) ApiDeleteSavedSnippetRequest {
-	return ApiDeleteSavedSnippetRequest{
+func (c *ZulipClient) DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) DeleteSavedSnippetRequest {
+	return DeleteSavedSnippetRequest{
 		ApiService:     c,
 		ctx:            ctx,
 		savedSnippetId: savedSnippetId,
@@ -560,13 +558,13 @@ func (c *ZulipClient) DeleteSavedSnippet(ctx context.Context, savedSnippetId int
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) DeleteSavedSnippetExecute(r ApiDeleteSavedSnippetRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -621,7 +619,7 @@ func (c *ZulipClient) DeleteSavedSnippetExecute(r ApiDeleteSavedSnippetRequest) 
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -645,20 +643,20 @@ func (c *ZulipClient) DeleteSavedSnippetExecute(r ApiDeleteSavedSnippetRequest) 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiEditDraftRequest struct {
+type EditDraftRequest struct {
 	ctx        context.Context
 	ApiService DraftsAPI
-	draftId    int32
-	draft      *models.Draft
+	draftId    int64
+	draft      *Draft
 }
 
-// A JSON-encoded object containing a replacement draft object for this ID.
-func (r ApiEditDraftRequest) Draft(draft models.Draft) ApiEditDraftRequest {
+// A JSON-encoded object containing a replacement draft object for this Id.
+func (r EditDraftRequest) Draft(draft Draft) EditDraftRequest {
 	r.draft = &draft
 	return r
 }
 
-func (r ApiEditDraftRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r EditDraftRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.EditDraftExecute(r)
 }
 
@@ -669,11 +667,11 @@ Edit a draft on the server. The edit will be automatically
 synchronized to other clients via `drafts` events.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param draftId The ID of the draft to be edited.
-	@return ApiEditDraftRequest
+	@param draftId The Id of the draft to be edited.
+	@return EditDraftRequest
 */
-func (c *ZulipClient) EditDraft(ctx context.Context, draftId int32) ApiEditDraftRequest {
-	return ApiEditDraftRequest{
+func (c *ZulipClient) EditDraft(ctx context.Context, draftId int64) EditDraftRequest {
+	return EditDraftRequest{
 		ApiService: c,
 		ctx:        ctx,
 		draftId:    draftId,
@@ -682,13 +680,13 @@ func (c *ZulipClient) EditDraft(ctx context.Context, draftId int32) ApiEditDraft
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) EditDraftExecute(r ApiEditDraftRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) EditDraftExecute(r EditDraftRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -747,7 +745,7 @@ func (c *ZulipClient) EditDraftExecute(r ApiEditDraftRequest) (*models.JsonSucce
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -771,27 +769,27 @@ func (c *ZulipClient) EditDraftExecute(r ApiEditDraftRequest) (*models.JsonSucce
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiEditSavedSnippetRequest struct {
+type EditSavedSnippetRequest struct {
 	ctx            context.Context
 	ApiService     DraftsAPI
-	savedSnippetId int32
+	savedSnippetId int64
 	title          *string
 	content        *string
 }
 
 // The title of the saved snippet.
-func (r ApiEditSavedSnippetRequest) Title(title string) ApiEditSavedSnippetRequest {
+func (r EditSavedSnippetRequest) Title(title string) EditSavedSnippetRequest {
 	r.title = &title
 	return r
 }
 
-// The content of the saved snippet in the original [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown format.  Clients should insert this content into a message when using a saved snippet.
-func (r ApiEditSavedSnippetRequest) Content(content string) ApiEditSavedSnippetRequest {
+// The content of the saved snippet in the original [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.
+func (r EditSavedSnippetRequest) Content(content string) EditSavedSnippetRequest {
 	r.content = &content
 	return r
 }
 
-func (r ApiEditSavedSnippetRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r EditSavedSnippetRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.EditSavedSnippetExecute(r)
 }
 
@@ -803,11 +801,11 @@ Edit a saved snippet for the current user.
 **Changes**: New in Zulip 10.0 (feature level 368).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param savedSnippetId The ID of the saved snippet to edit.
-	@return ApiEditSavedSnippetRequest
+	@param savedSnippetId The Id of the saved snippet to edit.
+	@return EditSavedSnippetRequest
 */
-func (c *ZulipClient) EditSavedSnippet(ctx context.Context, savedSnippetId int32) ApiEditSavedSnippetRequest {
-	return ApiEditSavedSnippetRequest{
+func (c *ZulipClient) EditSavedSnippet(ctx context.Context, savedSnippetId int64) EditSavedSnippetRequest {
+	return EditSavedSnippetRequest{
 		ApiService:     c,
 		ctx:            ctx,
 		savedSnippetId: savedSnippetId,
@@ -816,13 +814,13 @@ func (c *ZulipClient) EditSavedSnippet(ctx context.Context, savedSnippetId int32
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) EditSavedSnippetExecute(r ApiEditSavedSnippetRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) EditSavedSnippetExecute(r EditSavedSnippetRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -883,7 +881,7 @@ func (c *ZulipClient) EditSavedSnippetExecute(r ApiEditSavedSnippetRequest) (*mo
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -907,12 +905,12 @@ func (c *ZulipClient) EditSavedSnippetExecute(r ApiEditSavedSnippetRequest) (*mo
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetDraftsRequest struct {
+type GetDraftsRequest struct {
 	ctx        context.Context
 	ApiService DraftsAPI
 }
 
-func (r ApiGetDraftsRequest) Execute() (*models.GetDrafts200Response, *http.Response, error) {
+func (r GetDraftsRequest) Execute() (*GetDraftsResponse, *http.Response, error) {
 	return r.ApiService.GetDraftsExecute(r)
 }
 
@@ -922,10 +920,10 @@ GetDrafts Get drafts
 Fetch all drafts for the current user.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetDraftsRequest
+	@return GetDraftsRequest
 */
-func (c *ZulipClient) GetDrafts(ctx context.Context) ApiGetDraftsRequest {
-	return ApiGetDraftsRequest{
+func (c *ZulipClient) GetDrafts(ctx context.Context) GetDraftsRequest {
+	return GetDraftsRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -933,13 +931,13 @@ func (c *ZulipClient) GetDrafts(ctx context.Context) ApiGetDraftsRequest {
 
 // Execute executes the request
 //
-//	@return models.GetDrafts200Response
-func (c *ZulipClient) GetDraftsExecute(r ApiGetDraftsRequest) (*models.GetDrafts200Response, *http.Response, error) {
+//	@return GetDraftsResponse
+func (c *ZulipClient) GetDraftsExecute(r GetDraftsRequest) (*GetDraftsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.GetDrafts200Response
+		localVarReturnValue *GetDraftsResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -1007,12 +1005,12 @@ func (c *ZulipClient) GetDraftsExecute(r ApiGetDraftsRequest) (*models.GetDrafts
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetSavedSnippetsRequest struct {
+type GetSavedSnippetsRequest struct {
 	ctx        context.Context
 	ApiService DraftsAPI
 }
 
-func (r ApiGetSavedSnippetsRequest) Execute() (*models.GetSavedSnippets200Response, *http.Response, error) {
+func (r GetSavedSnippetsRequest) Execute() (*GetSavedSnippetsResponse, *http.Response, error) {
 	return r.ApiService.GetSavedSnippetsExecute(r)
 }
 
@@ -1024,10 +1022,10 @@ Fetch all the saved snippets for the current user.
 **Changes**: New in Zulip 10.0 (feature level 297).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetSavedSnippetsRequest
+	@return GetSavedSnippetsRequest
 */
-func (c *ZulipClient) GetSavedSnippets(ctx context.Context) ApiGetSavedSnippetsRequest {
-	return ApiGetSavedSnippetsRequest{
+func (c *ZulipClient) GetSavedSnippets(ctx context.Context) GetSavedSnippetsRequest {
+	return GetSavedSnippetsRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -1035,13 +1033,13 @@ func (c *ZulipClient) GetSavedSnippets(ctx context.Context) ApiGetSavedSnippetsR
 
 // Execute executes the request
 //
-//	@return models.GetSavedSnippets200Response
-func (c *ZulipClient) GetSavedSnippetsExecute(r ApiGetSavedSnippetsRequest) (*models.GetSavedSnippets200Response, *http.Response, error) {
+//	@return GetSavedSnippetsResponse
+func (c *ZulipClient) GetSavedSnippetsExecute(r GetSavedSnippetsRequest) (*GetSavedSnippetsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.GetSavedSnippets200Response
+		localVarReturnValue *GetSavedSnippetsResponse
 	)
 
 	localBasePath, err := c.ServerURL()

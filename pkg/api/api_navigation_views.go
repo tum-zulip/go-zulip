@@ -17,8 +17,6 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-
-	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
 type NavigationViewsAPI interface {
@@ -36,13 +34,13 @@ type NavigationViewsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiAddNavigationViewRequest
+			@return AddNavigationViewRequest
 	*/
-	AddNavigationView(ctx context.Context) ApiAddNavigationViewRequest
+	AddNavigationView(ctx context.Context) AddNavigationViewRequest
 
 	// AddNavigationViewExecute executes the request
-	//  @return models.AddNavigationView200Response
-	AddNavigationViewExecute(r ApiAddNavigationViewRequest) (*models.AddNavigationView200Response, *http.Response, error)
+	//  @return Response
+	AddNavigationViewExecute(r AddNavigationViewRequest) (*Response, *http.Response, error)
 
 	/*
 			EditNavigationView Update the navigation view
@@ -55,13 +53,13 @@ type NavigationViewsAPI interface {
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 			@param fragment The unique URL hash of the navigation view to be updated.  This also serves as the identifier for the navigation view.
-			@return ApiEditNavigationViewRequest
+			@return EditNavigationViewRequest
 	*/
-	EditNavigationView(ctx context.Context, fragment string) ApiEditNavigationViewRequest
+	EditNavigationView(ctx context.Context, fragment string) EditNavigationViewRequest
 
 	// EditNavigationViewExecute executes the request
-	//  @return models.AddNavigationView200Response
-	EditNavigationViewExecute(r ApiEditNavigationViewRequest) (*models.AddNavigationView200Response, *http.Response, error)
+	//  @return Response
+	EditNavigationViewExecute(r EditNavigationViewRequest) (*Response, *http.Response, error)
 
 	/*
 			GetNavigationViews Get all navigation views
@@ -72,13 +70,13 @@ type NavigationViewsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiGetNavigationViewsRequest
+			@return GetNavigationViewsRequest
 	*/
-	GetNavigationViews(ctx context.Context) ApiGetNavigationViewsRequest
+	GetNavigationViews(ctx context.Context) GetNavigationViewsRequest
 
 	// GetNavigationViewsExecute executes the request
-	//  @return models.GetNavigationViews200Response
-	GetNavigationViewsExecute(r ApiGetNavigationViewsRequest) (*models.GetNavigationViews200Response, *http.Response, error)
+	//  @return GetNavigationViewsResponse
+	GetNavigationViewsExecute(r GetNavigationViewsRequest) (*GetNavigationViewsResponse, *http.Response, error)
 
 	/*
 			RemoveNavigationView Remove a navigation view
@@ -90,16 +88,16 @@ type NavigationViewsAPI interface {
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 			@param fragment The unique URL hash of the navigation view to be removed.  This also serves as the identifier for the navigation view.
-			@return ApiRemoveNavigationViewRequest
+			@return RemoveNavigationViewRequest
 	*/
-	RemoveNavigationView(ctx context.Context, fragment string) ApiRemoveNavigationViewRequest
+	RemoveNavigationView(ctx context.Context, fragment string) RemoveNavigationViewRequest
 
 	// RemoveNavigationViewExecute executes the request
-	//  @return models.JsonSuccess
-	RemoveNavigationViewExecute(r ApiRemoveNavigationViewRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*Response, *http.Response, error)
 }
 
-type ApiAddNavigationViewRequest struct {
+type AddNavigationViewRequest struct {
 	ctx        context.Context
 	ApiService NavigationViewsAPI
 	fragment   *string
@@ -108,24 +106,24 @@ type ApiAddNavigationViewRequest struct {
 }
 
 // A unique identifier for the view, used to determine navigation behavior when clicked.  Clients should use this value to navigate to the corresponding URL hash.
-func (r ApiAddNavigationViewRequest) Fragment(fragment string) ApiAddNavigationViewRequest {
+func (r AddNavigationViewRequest) Fragment(fragment string) AddNavigationViewRequest {
 	r.fragment = &fragment
 	return r
 }
 
 // Determines whether the view appears directly in the sidebar or is hidden in the \\\&quot;More Views\\\&quot; menu.  - &#x60;true&#x60; - Pinned and visible in the sidebar. - &#x60;false&#x60; - Hidden and accessible via the \\\&quot;More Views\\\&quot; menu.
-func (r ApiAddNavigationViewRequest) IsPinned(isPinned bool) ApiAddNavigationViewRequest {
+func (r AddNavigationViewRequest) IsPinned(isPinned bool) AddNavigationViewRequest {
 	r.isPinned = &isPinned
 	return r
 }
 
 // The user-facing name for custom navigation views. Omit this field for built-in views.
-func (r ApiAddNavigationViewRequest) Name(name string) ApiAddNavigationViewRequest {
+func (r AddNavigationViewRequest) Name(name string) AddNavigationViewRequest {
 	r.name = &name
 	return r
 }
 
-func (r ApiAddNavigationViewRequest) Execute() (*models.AddNavigationView200Response, *http.Response, error) {
+func (r AddNavigationViewRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.AddNavigationViewExecute(r)
 }
 
@@ -141,10 +139,10 @@ or to add new navigation views.
 **Changes**: New in Zulip 11.0 (feature level 390).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiAddNavigationViewRequest
+	@return AddNavigationViewRequest
 */
-func (c *ZulipClient) AddNavigationView(ctx context.Context) ApiAddNavigationViewRequest {
-	return ApiAddNavigationViewRequest{
+func (c *ZulipClient) AddNavigationView(ctx context.Context) AddNavigationViewRequest {
+	return AddNavigationViewRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -152,13 +150,13 @@ func (c *ZulipClient) AddNavigationView(ctx context.Context) ApiAddNavigationVie
 
 // Execute executes the request
 //
-//	@return models.AddNavigationView200Response
-func (c *ZulipClient) AddNavigationViewExecute(r ApiAddNavigationViewRequest) (*models.AddNavigationView200Response, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) AddNavigationViewExecute(r AddNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.AddNavigationView200Response
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -223,7 +221,7 @@ func (c *ZulipClient) AddNavigationViewExecute(r ApiAddNavigationViewRequest) (*
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -247,7 +245,7 @@ func (c *ZulipClient) AddNavigationViewExecute(r ApiAddNavigationViewRequest) (*
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiEditNavigationViewRequest struct {
+type EditNavigationViewRequest struct {
 	ctx        context.Context
 	ApiService NavigationViewsAPI
 	fragment   string
@@ -256,18 +254,18 @@ type ApiEditNavigationViewRequest struct {
 }
 
 // Determines whether the view is pinned (true) or hidden in the menu (false).
-func (r ApiEditNavigationViewRequest) IsPinned(isPinned bool) ApiEditNavigationViewRequest {
+func (r EditNavigationViewRequest) IsPinned(isPinned bool) EditNavigationViewRequest {
 	r.isPinned = &isPinned
 	return r
 }
 
 // The user-facing name for custom navigation views. Omit this field for built-in views.
-func (r ApiEditNavigationViewRequest) Name(name string) ApiEditNavigationViewRequest {
+func (r EditNavigationViewRequest) Name(name string) EditNavigationViewRequest {
 	r.name = &name
 	return r
 }
 
-func (r ApiEditNavigationViewRequest) Execute() (*models.AddNavigationView200Response, *http.Response, error) {
+func (r EditNavigationViewRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.EditNavigationViewExecute(r)
 }
 
@@ -281,10 +279,10 @@ such as its name or whether it's pinned.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param fragment The unique URL hash of the navigation view to be updated.  This also serves as the identifier for the navigation view.
-	@return ApiEditNavigationViewRequest
+	@return EditNavigationViewRequest
 */
-func (c *ZulipClient) EditNavigationView(ctx context.Context, fragment string) ApiEditNavigationViewRequest {
-	return ApiEditNavigationViewRequest{
+func (c *ZulipClient) EditNavigationView(ctx context.Context, fragment string) EditNavigationViewRequest {
+	return EditNavigationViewRequest{
 		ApiService: c,
 		ctx:        ctx,
 		fragment:   fragment,
@@ -293,13 +291,13 @@ func (c *ZulipClient) EditNavigationView(ctx context.Context, fragment string) A
 
 // Execute executes the request
 //
-//	@return models.AddNavigationView200Response
-func (c *ZulipClient) EditNavigationViewExecute(r ApiEditNavigationViewRequest) (*models.AddNavigationView200Response, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) EditNavigationViewExecute(r EditNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.AddNavigationView200Response
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -360,7 +358,7 @@ func (c *ZulipClient) EditNavigationViewExecute(r ApiEditNavigationViewRequest) 
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -371,7 +369,7 @@ func (c *ZulipClient) EditNavigationViewExecute(r ApiEditNavigationViewRequest) 
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -395,12 +393,12 @@ func (c *ZulipClient) EditNavigationViewExecute(r ApiEditNavigationViewRequest) 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetNavigationViewsRequest struct {
+type GetNavigationViewsRequest struct {
 	ctx        context.Context
 	ApiService NavigationViewsAPI
 }
 
-func (r ApiGetNavigationViewsRequest) Execute() (*models.GetNavigationViews200Response, *http.Response, error) {
+func (r GetNavigationViewsRequest) Execute() (*GetNavigationViewsResponse, *http.Response, error) {
 	return r.ApiService.GetNavigationViewsExecute(r)
 }
 
@@ -412,10 +410,10 @@ Fetch all configured custom navigation views for the current user.
 **Changes**: New in Zulip 11.0 (feature level 390).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetNavigationViewsRequest
+	@return GetNavigationViewsRequest
 */
-func (c *ZulipClient) GetNavigationViews(ctx context.Context) ApiGetNavigationViewsRequest {
-	return ApiGetNavigationViewsRequest{
+func (c *ZulipClient) GetNavigationViews(ctx context.Context) GetNavigationViewsRequest {
+	return GetNavigationViewsRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -423,13 +421,13 @@ func (c *ZulipClient) GetNavigationViews(ctx context.Context) ApiGetNavigationVi
 
 // Execute executes the request
 //
-//	@return models.GetNavigationViews200Response
-func (c *ZulipClient) GetNavigationViewsExecute(r ApiGetNavigationViewsRequest) (*models.GetNavigationViews200Response, *http.Response, error) {
+//	@return GetNavigationViewsResponse
+func (c *ZulipClient) GetNavigationViewsExecute(r GetNavigationViewsRequest) (*GetNavigationViewsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.GetNavigationViews200Response
+		localVarReturnValue *GetNavigationViewsResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -497,13 +495,13 @@ func (c *ZulipClient) GetNavigationViewsExecute(r ApiGetNavigationViewsRequest) 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiRemoveNavigationViewRequest struct {
+type RemoveNavigationViewRequest struct {
 	ctx        context.Context
 	ApiService NavigationViewsAPI
 	fragment   string
 }
 
-func (r ApiRemoveNavigationViewRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r RemoveNavigationViewRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.RemoveNavigationViewExecute(r)
 }
 
@@ -516,10 +514,10 @@ Remove a navigation view.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param fragment The unique URL hash of the navigation view to be removed.  This also serves as the identifier for the navigation view.
-	@return ApiRemoveNavigationViewRequest
+	@return RemoveNavigationViewRequest
 */
-func (c *ZulipClient) RemoveNavigationView(ctx context.Context, fragment string) ApiRemoveNavigationViewRequest {
-	return ApiRemoveNavigationViewRequest{
+func (c *ZulipClient) RemoveNavigationView(ctx context.Context, fragment string) RemoveNavigationViewRequest {
+	return RemoveNavigationViewRequest{
 		ApiService: c,
 		ctx:        ctx,
 		fragment:   fragment,
@@ -528,13 +526,13 @@ func (c *ZulipClient) RemoveNavigationView(ctx context.Context, fragment string)
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) RemoveNavigationViewExecute(r ApiRemoveNavigationViewRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -589,7 +587,7 @@ func (c *ZulipClient) RemoveNavigationViewExecute(r ApiRemoveNavigationViewReque
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

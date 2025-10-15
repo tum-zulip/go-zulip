@@ -12,6 +12,7 @@ package api_test
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -21,22 +22,16 @@ import (
 
 func Test_RemindersAPIService(t *testing.T) {
 	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
 		t.Run("CreateMessageReminder", func(t *testing.T) {
-
-			resp, httpRes, err := apiClient.CreateMessageReminder(context.Background()).Execute()
-
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
-
+			createMessageReminder(t, apiClient)
 		})
 
 		t.Run("DeleteReminder", func(t *testing.T) {
+			reminderId := createMessageReminder(t, apiClient)
 
-			var reminderId int32
-
-			resp, httpRes, err := apiClient.DeleteReminder(context.Background(), reminderId).Execute()
+			resp, httpRes, err := apiClient.DeleteReminder(ctx, reminderId).Execute()
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
@@ -45,13 +40,39 @@ func Test_RemindersAPIService(t *testing.T) {
 		})
 
 		t.Run("GetReminders", func(t *testing.T) {
+			reminderId := createMessageReminder(t, apiClient)
 
-			resp, httpRes, err := apiClient.GetReminders(context.Background()).Execute()
+			resp, httpRes, err := apiClient.GetReminders(ctx).Execute()
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
 			assert.Equal(t, 200, httpRes.StatusCode)
-
+			assert.GreaterOrEqual(t, len(resp.Reminders), 1)
+			found := false
+			for _, r := range resp.Reminders {
+				if r.ReminderId == reminderId {
+					found = true
+				}
+			}
+			assert.True(t, found, "Created reminder not found in list of reminders")
 		})
 	})
+}
+
+func createMessageReminder(t *testing.T, apiClient *api.ZulipClient) int64 {
+	msg := createStreamMessage(t, apiClient)
+
+	note := "This is a reminder note"
+
+	resp, httpRes, err := apiClient.CreateMessageReminder(context.Background()).
+		MessageId(msg.messageId).
+		Note(uniqueName(note)).
+		ScheduledDeliveryTimestamp(time.Now().Add(1 * time.Hour)).
+		Execute()
+
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	assert.Equal(t, 200, httpRes.StatusCode)
+
+	return resp.ReminderId
 }

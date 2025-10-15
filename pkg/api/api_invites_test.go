@@ -11,6 +11,9 @@ package api_test
 
 import (
 	"context"
+	"errors"
+	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -20,72 +23,160 @@ import (
 )
 
 func Test_InvitesAPIService(t *testing.T) {
-	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
+	privilegedClients := []namedClient{ownerClient, adminClient}
 
-		t.Run("CreateInviteLink", func(t *testing.T) {
+	runForClients(t, privilegedClients, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			resp, httpRes, err := apiClient.CreateInviteLink(context.Background()).Execute()
+		t.Run("InviteLinkLifecycle", func(t *testing.T) {
+			streamName, streamId := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
+
+			baseline := inviteSnapshot(t, ctx, apiClient)
+
+			resp, httpRes, err := apiClient.CreateInviteLink(ctx).
+				StreamIds([]int64{streamId}).
+				IncludeRealmDefaultSubscriptions(true).
+				InviteExpiresInMinutes(60).
+				WelcomeMessageCustomText(fmt.Sprintf("Welcome via %s", streamName)).
+				Execute()
+
+			if skipIfInvitePermissionDenied(t, err) {
+				return
+			}
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+			requireStatusOK(t, httpRes)
+			link := resp.InviteLink
+			assert.NotEmpty(t, link)
 
+			invites := loadInvites(t, ctx, apiClient)
+			newInvite := findNewInvite(baseline, invites, func(inv api.Invite) bool {
+				return inv.IsMultiuse && strings.EqualFold(inv.LinkUrl, link)
+			})
+			require.NotNil(t, newInvite, "created invite link not present in GetInvites response")
+			require.NotZero(t, newInvite.Id)
+
+			revokeResp, revokeHTTP, err := apiClient.RevokeInviteLink(ctx, newInvite.Id).Execute()
+			require.NoError(t, err)
+			require.NotNil(t, revokeResp)
+			requireStatusOK(t, revokeHTTP)
+			assert.Equal(t, "success", revokeResp.Result)
+
+			remaining := loadInvites(t, ctx, apiClient)
+			assert.Nil(t, findNewInvite(baseline, remaining, func(inv api.Invite) bool {
+				return inv.IsMultiuse && inv.Id == newInvite.Id
+			}), "multiuse invite should be removed after revocation")
 		})
 
-		t.Run("GetInvites", func(t *testing.T) {
+		t.Run("EmailInviteLifecycle", func(t *testing.T) {
+			_, streamId := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
+			invitee := fmt.Sprintf("%s@example.com", strings.ToLower(uniqueName("invitee")))
 
-			resp, httpRes, err := apiClient.GetInvites(context.Background()).Execute()
+			baseline := inviteSnapshot(t, ctx, apiClient)
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+			resp, httpRes, err := apiClient.SendInvites(ctx).
+				InviteeEmails(invitee).
+				StreamIds([]int64{streamId}).
+				InviteExpiresInMinutes(60).
+				NotifyReferrerOnJoin(true).
+				Execute()
 
-		})
-
-		t.Run("ResendEmailInvite", func(t *testing.T) {
-
-			var inviteId int32
-
-			resp, httpRes, err := apiClient.ResendEmailInvite(context.Background(), inviteId).Execute()
-
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
-
-		})
-
-		t.Run("RevokeEmailInvite", func(t *testing.T) {
-
-			var inviteId int32
-
-			resp, httpRes, err := apiClient.RevokeEmailInvite(context.Background(), inviteId).Execute()
+			if skipIfInvitePermissionDenied(t, err) {
+				return
+			}
 
 			require.NoError(t, err)
 			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+			requireStatusOK(t, httpRes)
+			assert.Equal(t, "success", resp.Result)
 
-		})
+			invites := loadInvites(t, ctx, apiClient)
+			emailInvite := findNewInvite(baseline, invites, func(inv api.Invite) bool {
+				return !inv.IsMultiuse && strings.EqualFold(inv.Email, invitee)
+			})
+			require.NotNil(t, emailInvite, "email invitation not found in GetInvites response")
+			require.NotZero(t, emailInvite.Id)
 
-		t.Run("RevokeInviteLink", func(t *testing.T) {
-
-			var inviteId int32
-
-			resp, httpRes, err := apiClient.RevokeInviteLink(context.Background(), inviteId).Execute()
-
+			resendResp, resendHTTP, err := apiClient.ResendEmailInvite(ctx, emailInvite.Id).Execute()
 			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+			require.NotNil(t, resendResp)
+			requireStatusOK(t, resendHTTP)
+			assert.Equal(t, "success", resendResp.Result)
 
-		})
-
-		t.Run("SendInvites", func(t *testing.T) {
-
-			resp, httpRes, err := apiClient.SendInvites(context.Background()).Execute()
-
+			revokeResp, revokeHTTP, err := apiClient.RevokeEmailInvite(ctx, emailInvite.Id).Execute()
 			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+			require.NotNil(t, revokeResp)
+			requireStatusOK(t, revokeHTTP)
+			assert.Equal(t, "success", revokeResp.Result)
 
+			remaining := loadInvites(t, ctx, apiClient)
+			assert.Nil(t, findNewInvite(baseline, remaining, func(inv api.Invite) bool {
+				return !inv.IsMultiuse && inv.Id == emailInvite.Id
+			}), "email invitation should be removed after revocation")
 		})
 	})
+}
+
+func loadInvites(t *testing.T, ctx context.Context, apiClient *api.ZulipClient) []api.Invite {
+	t.Helper()
+
+	resp, httpRes, err := apiClient.GetInvites(ctx).Execute()
+	if skipIfInvitePermissionDenied(t, err) {
+		return nil
+	}
+
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	requireStatusOK(t, httpRes)
+
+	return resp.Invites
+}
+
+func inviteSnapshot(t *testing.T, ctx context.Context, apiClient *api.ZulipClient) map[string]struct{} {
+	invites := loadInvites(t, ctx, apiClient)
+	snapshot := make(map[string]struct{}, len(invites))
+	for _, inv := range invites {
+		snapshot[inviteKey(inv)] = struct{}{}
+	}
+	return snapshot
+}
+
+func findNewInvite(snapshot map[string]struct{}, invites []api.Invite, match func(api.Invite) bool) *api.Invite {
+	for _, inv := range invites {
+		key := inviteKey(inv)
+		if _, seen := snapshot[key]; seen {
+			continue
+		}
+		if match(inv) {
+			copy := inv
+			return &copy
+		}
+	}
+	return nil
+}
+
+func inviteKey(inv api.Invite) string {
+	email := strings.ToLower(inv.Email)
+	link := strings.ToLower(inv.LinkUrl)
+	return fmt.Sprintf("%d:%t:%s:%s", inv.Id, inv.IsMultiuse, email, link)
+}
+
+func skipIfInvitePermissionDenied(t *testing.T, err error) bool {
+	if err == nil {
+		return false
+	}
+
+	var apiErr *api.GenericOpenAPIError
+	if !errors.As(err, &apiErr) {
+		return false
+	}
+
+	message := strings.ToLower(fmt.Sprintf("%s %s", apiErr.Error(), string(apiErr.Body())))
+	if strings.Contains(message, "not authorized") || strings.Contains(message, "must be an organization") || strings.Contains(message, "insufficient permission") || strings.Contains(message, "forbidden") {
+		t.Skipf("invite management not permitted for this client: %s", strings.TrimSpace(string(apiErr.Body())))
+		return true
+	}
+
+	return false
 }

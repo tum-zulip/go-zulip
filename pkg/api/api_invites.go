@@ -17,8 +17,6 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-
-	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
 type InvitesAPI interface {
@@ -45,18 +43,18 @@ type InvitesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiCreateInviteLinkRequest
+			@return CreateInviteLinkRequest
 	*/
-	CreateInviteLink(ctx context.Context) ApiCreateInviteLinkRequest
+	CreateInviteLink(ctx context.Context) CreateInviteLinkRequest
 
 	// CreateInviteLinkExecute executes the request
-	//  @return models.CreateInviteLink200Response
-	CreateInviteLinkExecute(r ApiCreateInviteLinkRequest) (*models.CreateInviteLink200Response, *http.Response, error)
+	//  @return CreateInviteLinkResponse
+	CreateInviteLinkExecute(r CreateInviteLinkRequest) (*CreateInviteLinkResponse, *http.Response, error)
 
 	/*
 			GetInvites Get all invitations
 
-			Fetch all unexpired [invitations](zulip.com/help/invite-new-users (i.e. email
+			Fetch all unexpired [invitations](zulip.com/help/invite-new-users) (i.e. email
 		invitations and reusable invitation links) that can be managed by the user.
 
 		Note that administrators can manage invitations that were created by other users.
@@ -67,13 +65,13 @@ type InvitesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiGetInvitesRequest
+			@return GetInvitesRequest
 	*/
-	GetInvites(ctx context.Context) ApiGetInvitesRequest
+	GetInvites(ctx context.Context) GetInvitesRequest
 
 	// GetInvitesExecute executes the request
-	//  @return models.GetInvites200Response
-	GetInvitesExecute(r ApiGetInvitesRequest) (*models.GetInvites200Response, *http.Response, error)
+	//  @return GetInvitesResponse
+	GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResponse, *http.Response, error)
 
 	/*
 			ResendEmailInvite Resend an email invitation
@@ -85,14 +83,14 @@ type InvitesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param inviteId The ID of the email invitation to be resent.
-			@return ApiResendEmailInviteRequest
+			@param inviteId The Id of the email invitation to be resent.
+			@return ResendEmailInviteRequest
 	*/
-	ResendEmailInvite(ctx context.Context, inviteId int32) ApiResendEmailInviteRequest
+	ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest
 
 	// ResendEmailInviteExecute executes the request
-	//  @return models.JsonSuccess
-	ResendEmailInviteExecute(r ApiResendEmailInviteRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Response, *http.Response, error)
 
 	/*
 			RevokeEmailInvite Revoke an email invitation
@@ -104,14 +102,14 @@ type InvitesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param inviteId The ID of the email invitation to be revoked.
-			@return ApiRevokeEmailInviteRequest
+			@param inviteId The Id of the email invitation to be revoked.
+			@return RevokeEmailInviteRequest
 	*/
-	RevokeEmailInvite(ctx context.Context, inviteId int32) ApiRevokeEmailInviteRequest
+	RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest
 
 	// RevokeEmailInviteExecute executes the request
-	//  @return models.JsonSuccess
-	RevokeEmailInviteExecute(r ApiRevokeEmailInviteRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Response, *http.Response, error)
 
 	/*
 			RevokeInviteLink Revoke a reusable invitation link
@@ -126,19 +124,19 @@ type InvitesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param inviteId The ID of the reusable invitation link to be revoked.
-			@return ApiRevokeInviteLinkRequest
+			@param inviteId The Id of the reusable invitation link to be revoked.
+			@return RevokeInviteLinkRequest
 	*/
-	RevokeInviteLink(ctx context.Context, inviteId int32) ApiRevokeInviteLinkRequest
+	RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInviteLinkRequest
 
 	// RevokeInviteLinkExecute executes the request
-	//  @return models.JsonSuccess
-	RevokeInviteLinkExecute(r ApiRevokeInviteLinkRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Response, *http.Response, error)
 
 	/*
 			SendInvites Send invitations
 
-			Send [invitations](zulip.com/help/invite-new-users to specified email addresses.
+			Send [invitations](zulip.com/help/invite-new-users) to specified email addresses.
 
 		**Changes**: In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
 		parameter was removed and replaced by `invite_expires_in_minutes`.
@@ -152,62 +150,63 @@ type InvitesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiSendInvitesRequest
+			@return SendInvitesRequest
 	*/
-	SendInvites(ctx context.Context) ApiSendInvitesRequest
+	SendInvites(ctx context.Context) SendInvitesRequest
 
 	// SendInvitesExecute executes the request
-	//  @return models.SendInvites200Response
-	SendInvitesExecute(r ApiSendInvitesRequest) (*models.SendInvites200Response, *http.Response, error)
+	//  @return Response
+	SendInvitesExecute(r SendInvitesRequest) (*Response, *http.Response, error)
 }
 
-type ApiCreateInviteLinkRequest struct {
+type CreateInviteLinkRequest struct {
 	ctx                              context.Context
 	ApiService                       InvitesAPI
 	inviteExpiresInMinutes           *int32
-	inviteAs                         *models.InviteRoleParameter
-	streamIds                        *[]int32
-	groupIds                         *[]int32
+	inviteAs                         *Role
+	streamIds                        *[]int64
+	groupIds                         *[]int64
 	includeRealmDefaultSubscriptions *bool
 	welcomeMessageCustomText         *string
 }
 
-// The number of minutes before the invitation will expire. If &#x60;null&#x60;, the invitation will never expire. If unspecified, the server will use a default value (based on the &#x60;INVITATION_LINK_VALIDITY_MINUTES&#x60; server setting, which defaults to 14400, i.e. 10 days) for when the invitation will expire.  **Changes**: New in Zulip 6.0 (feature level 126). Previously, there was an &#x60;invite_expires_in_days&#x60; parameter, which specified the duration in days instead of minutes.
-func (r ApiCreateInviteLinkRequest) InviteExpiresInMinutes(inviteExpiresInMinutes int32) ApiCreateInviteLinkRequest {
+// The number of minutes before the invitation will expire. If &#x60;null&#x60;, the invitation will never expire. If unspecified, the server will use a default value (based on the &#x60;INVITATION_LINK_VALIdITY_MINUTES&#x60; server setting, which defaults to 14400, i.e. 10 days) for when the invitation will expire.  **Changes**: New in Zulip 6.0 (feature level 126). Previously, there was an &#x60;invite_expires_in_days&#x60; parameter, which specified the duration in days instead of minutes.
+func (r CreateInviteLinkRequest) InviteExpiresInMinutes(inviteExpiresInMinutes int32) CreateInviteLinkRequest {
 	r.inviteExpiresInMinutes = &inviteExpiresInMinutes
 	return r
 }
 
-func (r ApiCreateInviteLinkRequest) InviteAs(inviteAs models.InviteRoleParameter) ApiCreateInviteLinkRequest {
+// The [organization-level role](zulip.com/api/roles-and-permissions) of the user that is created when the invitation is accepted. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  Users can only create invitation links for [roles with equal or stricter restrictions](zulip.com/api/roles-and-permissions#permission-levels as their own. For example, a moderator cannot invite someone to be an owner or administrator, but they can invite them to be a moderator or member.  **Changes**: In Zulip 4.0 (feature level 61), added support for inviting users as moderators.
+func (r CreateInviteLinkRequest) InviteAs(inviteAs Role) CreateInviteLinkRequest {
 	r.inviteAs = &inviteAs
 	return r
 }
 
-// A list containing the [IDs of the channels](zulip.com/api/get-stream-id that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  [can-subscribe-others]: /help/configure-who-can-invite-to-channels
-func (r ApiCreateInviteLinkRequest) StreamIds(streamIds []int32) ApiCreateInviteLinkRequest {
+// A list containing the [Ids of the channels](zulip.com/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  [can-subscribe-others]: /help/configure-who-can-invite-to-channels
+func (r CreateInviteLinkRequest) StreamIds(streamIds []int64) CreateInviteLinkRequest {
 	r.streamIds = &streamIds
 	return r
 }
 
-// A list containing the [IDs of the user groups](zulip.com/api/get-user-groups that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.  **Changes**: New in Zulip 10.0 (feature level 322).
-func (r ApiCreateInviteLinkRequest) GroupIds(groupIds []int32) ApiCreateInviteLinkRequest {
+// A list containing the [Ids of the user groups](zulip.com/api/get-user-groups) that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.  **Changes**: New in Zulip 10.0 (feature level 322).
+func (r CreateInviteLinkRequest) GroupIds(groupIds []int64) CreateInviteLinkRequest {
 	r.groupIds = &groupIds
 	return r
 }
 
 // Boolean indicating whether the newly created user should be subscribed to the [default channels][default-channels] for the organization.  Note that this parameter can be &#x60;true&#x60; even if the current user does not generally have permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always &#x60;false&#x60;; clients needed to include the organization&#39;s default channels in the &#x60;stream_ids&#x60; parameter for a newly created user to be automatically subscribed to them.  [default-channels]: /help/set-default-channels-for-new-users [can-subscribe-others]: /help/configure-who-can-invite-to-channels
-func (r ApiCreateInviteLinkRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) ApiCreateInviteLinkRequest {
+func (r CreateInviteLinkRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) CreateInviteLinkRequest {
 	r.includeRealmDefaultSubscriptions = &includeRealmDefaultSubscriptions
 	return r
 }
 
 // Custom message text, in Zulip Markdown format, to be sent by the Welcome Bot to new users that join the organization via this invitation.  Maximum length is 8000 characters.  Only organization administrators can use this feature; for other users, the value is always &#x60;null&#x60;.  - &#x60;null&#x60;: the organization&#39;s default &#x60;welcome_message_custom_text&#x60; is used. - Empty string: no Welcome Bot custom message is sent. - Otherwise, the provided string is the custom message.  **Changes**: New in Zulip 11.0 (feature level 416).
-func (r ApiCreateInviteLinkRequest) WelcomeMessageCustomText(welcomeMessageCustomText string) ApiCreateInviteLinkRequest {
+func (r CreateInviteLinkRequest) WelcomeMessageCustomText(welcomeMessageCustomText string) CreateInviteLinkRequest {
 	r.welcomeMessageCustomText = &welcomeMessageCustomText
 	return r
 }
 
-func (r ApiCreateInviteLinkRequest) Execute() (*models.CreateInviteLink200Response, *http.Response, error) {
+func (r CreateInviteLinkRequest) Execute() (*CreateInviteLinkResponse, *http.Response, error) {
 	return r.ApiService.CreateInviteLinkExecute(r)
 }
 
@@ -232,10 +231,10 @@ In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
 added which specified the number of days before the invitation would expire.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateInviteLinkRequest
+	@return CreateInviteLinkRequest
 */
-func (c *ZulipClient) CreateInviteLink(ctx context.Context) ApiCreateInviteLinkRequest {
-	return ApiCreateInviteLinkRequest{
+func (c *ZulipClient) CreateInviteLink(ctx context.Context) CreateInviteLinkRequest {
+	return CreateInviteLinkRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -243,13 +242,13 @@ func (c *ZulipClient) CreateInviteLink(ctx context.Context) ApiCreateInviteLinkR
 
 // Execute executes the request
 //
-//	@return models.CreateInviteLink200Response
-func (c *ZulipClient) CreateInviteLinkExecute(r ApiCreateInviteLinkRequest) (*models.CreateInviteLink200Response, *http.Response, error) {
+//	@return CreateInviteLinkResponse
+func (c *ZulipClient) CreateInviteLinkExecute(r CreateInviteLinkRequest) (*CreateInviteLinkResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.CreateInviteLink200Response
+		localVarReturnValue *CreateInviteLinkResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -321,7 +320,7 @@ func (c *ZulipClient) CreateInviteLinkExecute(r ApiCreateInviteLinkRequest) (*mo
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -345,19 +344,19 @@ func (c *ZulipClient) CreateInviteLinkExecute(r ApiCreateInviteLinkRequest) (*mo
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetInvitesRequest struct {
+type GetInvitesRequest struct {
 	ctx        context.Context
 	ApiService InvitesAPI
 }
 
-func (r ApiGetInvitesRequest) Execute() (*models.GetInvites200Response, *http.Response, error) {
+func (r GetInvitesRequest) Execute() (*GetInvitesResponse, *http.Response, error) {
 	return r.ApiService.GetInvitesExecute(r)
 }
 
 /*
 GetInvites Get all invitations
 
-Fetch all unexpired [invitations](zulip.com/help/invite-new-users (i.e. email
+Fetch all unexpired [invitations](zulip.com/help/invite-new-users) (i.e. email
 invitations and reusable invitation links) that can be managed by the user.
 
 Note that administrators can manage invitations that were created by other users.
@@ -367,10 +366,10 @@ only create email invitations, and therefore the response would never include
 reusable invitation links for these users.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetInvitesRequest
+	@return GetInvitesRequest
 */
-func (c *ZulipClient) GetInvites(ctx context.Context) ApiGetInvitesRequest {
-	return ApiGetInvitesRequest{
+func (c *ZulipClient) GetInvites(ctx context.Context) GetInvitesRequest {
+	return GetInvitesRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -378,13 +377,13 @@ func (c *ZulipClient) GetInvites(ctx context.Context) ApiGetInvitesRequest {
 
 // Execute executes the request
 //
-//	@return models.GetInvites200Response
-func (c *ZulipClient) GetInvitesExecute(r ApiGetInvitesRequest) (*models.GetInvites200Response, *http.Response, error) {
+//	@return GetInvitesResponse
+func (c *ZulipClient) GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.GetInvites200Response
+		localVarReturnValue *GetInvitesResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -452,13 +451,13 @@ func (c *ZulipClient) GetInvitesExecute(r ApiGetInvitesRequest) (*models.GetInvi
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiResendEmailInviteRequest struct {
+type ResendEmailInviteRequest struct {
 	ctx        context.Context
 	ApiService InvitesAPI
-	inviteId   int32
+	inviteId   int64
 }
 
-func (r ApiResendEmailInviteRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r ResendEmailInviteRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.ResendEmailInviteExecute(r)
 }
 
@@ -471,11 +470,11 @@ A user can only resend [invitations that they can
 manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param inviteId The ID of the email invitation to be resent.
-	@return ApiResendEmailInviteRequest
+	@param inviteId The Id of the email invitation to be resent.
+	@return ResendEmailInviteRequest
 */
-func (c *ZulipClient) ResendEmailInvite(ctx context.Context, inviteId int32) ApiResendEmailInviteRequest {
-	return ApiResendEmailInviteRequest{
+func (c *ZulipClient) ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest {
+	return ResendEmailInviteRequest{
 		ApiService: c,
 		ctx:        ctx,
 		inviteId:   inviteId,
@@ -484,13 +483,13 @@ func (c *ZulipClient) ResendEmailInvite(ctx context.Context, inviteId int32) Api
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) ResendEmailInviteExecute(r ApiResendEmailInviteRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -545,7 +544,7 @@ func (c *ZulipClient) ResendEmailInviteExecute(r ApiResendEmailInviteRequest) (*
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -569,13 +568,13 @@ func (c *ZulipClient) ResendEmailInviteExecute(r ApiResendEmailInviteRequest) (*
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiRevokeEmailInviteRequest struct {
+type RevokeEmailInviteRequest struct {
 	ctx        context.Context
 	ApiService InvitesAPI
-	inviteId   int32
+	inviteId   int64
 }
 
-func (r ApiRevokeEmailInviteRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r RevokeEmailInviteRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.RevokeEmailInviteExecute(r)
 }
 
@@ -588,11 +587,11 @@ A user can only revoke [invitations that they can
 manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param inviteId The ID of the email invitation to be revoked.
-	@return ApiRevokeEmailInviteRequest
+	@param inviteId The Id of the email invitation to be revoked.
+	@return RevokeEmailInviteRequest
 */
-func (c *ZulipClient) RevokeEmailInvite(ctx context.Context, inviteId int32) ApiRevokeEmailInviteRequest {
-	return ApiRevokeEmailInviteRequest{
+func (c *ZulipClient) RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest {
+	return RevokeEmailInviteRequest{
 		ApiService: c,
 		ctx:        ctx,
 		inviteId:   inviteId,
@@ -601,13 +600,13 @@ func (c *ZulipClient) RevokeEmailInvite(ctx context.Context, inviteId int32) Api
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) RevokeEmailInviteExecute(r ApiRevokeEmailInviteRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -662,7 +661,7 @@ func (c *ZulipClient) RevokeEmailInviteExecute(r ApiRevokeEmailInviteRequest) (*
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -686,13 +685,13 @@ func (c *ZulipClient) RevokeEmailInviteExecute(r ApiRevokeEmailInviteRequest) (*
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiRevokeInviteLinkRequest struct {
+type RevokeInviteLinkRequest struct {
 	ctx        context.Context
 	ApiService InvitesAPI
-	inviteId   int32
+	inviteId   int64
 }
 
-func (r ApiRevokeInviteLinkRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r RevokeInviteLinkRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.RevokeInviteLinkExecute(r)
 }
 
@@ -708,11 +707,11 @@ manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 administrators were able to create and revoke reusable invitation links.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param inviteId The ID of the reusable invitation link to be revoked.
-	@return ApiRevokeInviteLinkRequest
+	@param inviteId The Id of the reusable invitation link to be revoked.
+	@return RevokeInviteLinkRequest
 */
-func (c *ZulipClient) RevokeInviteLink(ctx context.Context, inviteId int32) ApiRevokeInviteLinkRequest {
-	return ApiRevokeInviteLinkRequest{
+func (c *ZulipClient) RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInviteLinkRequest {
+	return RevokeInviteLinkRequest{
 		ApiService: c,
 		ctx:        ctx,
 		inviteId:   inviteId,
@@ -721,13 +720,13 @@ func (c *ZulipClient) RevokeInviteLink(ctx context.Context, inviteId int32) ApiR
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) RevokeInviteLinkExecute(r ApiRevokeInviteLinkRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -782,7 +781,7 @@ func (c *ZulipClient) RevokeInviteLinkExecute(r ApiRevokeInviteLinkRequest) (*mo
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -806,74 +805,75 @@ func (c *ZulipClient) RevokeInviteLinkExecute(r ApiRevokeInviteLinkRequest) (*mo
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiSendInvitesRequest struct {
+type SendInvitesRequest struct {
 	ctx                              context.Context
 	ApiService                       InvitesAPI
 	inviteeEmails                    *string
-	streamIds                        *[]int32
+	streamIds                        *[]int64
 	inviteExpiresInMinutes           *int32
-	inviteAs                         *models.InviteRoleParameter
-	groupIds                         *[]int32
+	inviteAs                         *Role
+	groupIds                         *[]int64
 	includeRealmDefaultSubscriptions *bool
 	notifyReferrerOnJoin             *bool
 	welcomeMessageCustomText         *string
 }
 
 // The string containing the email addresses, separated by commas or newlines, that will be sent an invitation.
-func (r ApiSendInvitesRequest) InviteeEmails(inviteeEmails string) ApiSendInvitesRequest {
+func (r SendInvitesRequest) InviteeEmails(inviteeEmails string) SendInvitesRequest {
 	r.inviteeEmails = &inviteeEmails
 	return r
 }
 
-// A list containing the [IDs of the channels](zulip.com/api/get-stream-id that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying &#x60;stream_ids&#x60; as an empty list resulted in an error.  [can-subscribe-others]: /help/configure-who-can-invite-to-channels
-func (r ApiSendInvitesRequest) StreamIds(streamIds []int32) ApiSendInvitesRequest {
+// A list containing the [Ids of the channels](zulip.com/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying &#x60;stream_ids&#x60; as an empty list resulted in an error.  [can-subscribe-others]: /help/configure-who-can-invite-to-channels
+func (r SendInvitesRequest) StreamIds(streamIds []int64) SendInvitesRequest {
 	r.streamIds = &streamIds
 	return r
 }
 
-// The number of minutes before the invitation will expire. If &#x60;null&#x60;, the invitation will never expire. If unspecified, the server will use a default value (based on the &#x60;INVITATION_LINK_VALIDITY_MINUTES&#x60; server setting, which defaults to 14400, i.e. 10 days) for when the invitation will expire.  **Changes**: New in Zulip 6.0 (feature level 126). Previously, there was an &#x60;invite_expires_in_days&#x60; parameter, which specified the duration in days instead of minutes.
-func (r ApiSendInvitesRequest) InviteExpiresInMinutes(inviteExpiresInMinutes int32) ApiSendInvitesRequest {
+// The number of minutes before the invitation will expire. If &#x60;null&#x60;, the invitation will never expire. If unspecified, the server will use a default value (based on the &#x60;INVITATION_LINK_VALIdITY_MINUTES&#x60; server setting, which defaults to 14400, i.e. 10 days) for when the invitation will expire.  **Changes**: New in Zulip 6.0 (feature level 126). Previously, there was an &#x60;invite_expires_in_days&#x60; parameter, which specified the duration in days instead of minutes.
+func (r SendInvitesRequest) InviteExpiresInMinutes(inviteExpiresInMinutes int32) SendInvitesRequest {
 	r.inviteExpiresInMinutes = &inviteExpiresInMinutes
 	return r
 }
 
-func (r ApiSendInvitesRequest) InviteAs(inviteAs models.InviteRoleParameter) ApiSendInvitesRequest {
+// The [organization-level role](zulip.com/api/roles-and-permissions) of the user that is created when the invitation is accepted. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  Users can only create invitation links for [roles with equal or stricter restrictions](zulip.com/api/roles-and-permissions#permission-levels as their own. For example, a moderator cannot invite someone to be an owner or administrator, but they can invite them to be a moderator or member.  **Changes**: In Zulip 4.0 (feature level 61), added support for inviting users as moderators.
+func (r SendInvitesRequest) InviteAs(inviteAs Role) SendInvitesRequest {
 	r.inviteAs = &inviteAs
 	return r
 }
 
-// A list containing the [IDs of the user groups](zulip.com/api/get-user-groups that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.  **Changes**: New in Zulip 10.0 (feature level 322).
-func (r ApiSendInvitesRequest) GroupIds(groupIds []int32) ApiSendInvitesRequest {
+// A list containing the [Ids of the user groups](zulip.com/api/get-user-groups) that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.  **Changes**: New in Zulip 10.0 (feature level 322).
+func (r SendInvitesRequest) GroupIds(groupIds []int64) SendInvitesRequest {
 	r.groupIds = &groupIds
 	return r
 }
 
 // Boolean indicating whether the newly created user should be subscribed to the [default channels][default-channels] for the organization.  Note that this parameter can be &#x60;true&#x60; even if the user creating the invitation does not generally have permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always &#x60;false&#x60;; clients needed to include the organization&#39;s default channels in the &#x60;stream_ids&#x60; parameter for a newly created user to be automatically subscribed to them.  [default-channels]: /help/set-default-channels-for-new-users [can-subscribe-others]: /help/configure-who-can-invite-to-channels
-func (r ApiSendInvitesRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) ApiSendInvitesRequest {
+func (r SendInvitesRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) SendInvitesRequest {
 	r.includeRealmDefaultSubscriptions = &includeRealmDefaultSubscriptions
 	return r
 }
 
-// A boolean indicating whether the referrer would like to receive a direct message from [notification bot](zulip.com/help/configure-automated-notices when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
-func (r ApiSendInvitesRequest) NotifyReferrerOnJoin(notifyReferrerOnJoin bool) ApiSendInvitesRequest {
+// A boolean indicating whether the referrer would like to receive a direct message from [notification bot](zulip.com/help/configure-automated-notices) when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
+func (r SendInvitesRequest) NotifyReferrerOnJoin(notifyReferrerOnJoin bool) SendInvitesRequest {
 	r.notifyReferrerOnJoin = &notifyReferrerOnJoin
 	return r
 }
 
 // Custom message text, in Zulip Markdown format, to be sent by the Welcome Bot to new users that join the organization via this invitation.  Maximum length is 8000 characters.  Only organization administrators can use this feature; for other users, the value is always &#x60;null&#x60;.  - &#x60;null&#x60;: the organization&#39;s default &#x60;welcome_message_custom_text&#x60; is used. - Empty string: no Welcome Bot custom message is sent. - Otherwise, the provided string is the custom message.  **Changes**: New in Zulip 11.0 (feature level 416).
-func (r ApiSendInvitesRequest) WelcomeMessageCustomText(welcomeMessageCustomText string) ApiSendInvitesRequest {
+func (r SendInvitesRequest) WelcomeMessageCustomText(welcomeMessageCustomText string) SendInvitesRequest {
 	r.welcomeMessageCustomText = &welcomeMessageCustomText
 	return r
 }
 
-func (r ApiSendInvitesRequest) Execute() (*models.SendInvites200Response, *http.Response, error) {
+func (r SendInvitesRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.SendInvitesExecute(r)
 }
 
 /*
 SendInvites Send invitations
 
-Send [invitations](zulip.com/help/invite-new-users to specified email addresses.
+Send [invitations](zulip.com/help/invite-new-users) to specified email addresses.
 
 **Changes**: In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
 parameter was removed and replaced by `invite_expires_in_minutes`.
@@ -886,10 +886,10 @@ In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
 added which specified the number of days before the invitation would expire.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiSendInvitesRequest
+	@return SendInvitesRequest
 */
-func (c *ZulipClient) SendInvites(ctx context.Context) ApiSendInvitesRequest {
-	return ApiSendInvitesRequest{
+func (c *ZulipClient) SendInvites(ctx context.Context) SendInvitesRequest {
+	return SendInvitesRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -897,13 +897,13 @@ func (c *ZulipClient) SendInvites(ctx context.Context) ApiSendInvitesRequest {
 
 // Execute executes the request
 //
-//	@return models.SendInvites200Response
-func (c *ZulipClient) SendInvitesExecute(r ApiSendInvitesRequest) (*models.SendInvites200Response, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) SendInvitesExecute(r SendInvitesRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.SendInvites200Response
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -983,7 +983,7 @@ func (c *ZulipClient) SendInvitesExecute(r ApiSendInvitesRequest) (*models.SendI
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.SendInvites400Response
+			var v SendInvites400Response
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

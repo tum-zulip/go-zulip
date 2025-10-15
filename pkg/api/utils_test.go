@@ -198,21 +198,11 @@ func ensureUserActive(t *testing.T, username string) error {
 		return fmt.Errorf("fetching user metadata: %w", err)
 	}
 
-	user, ok := resp.GetUserOk()
-	if !ok || user == nil {
-		return fmt.Errorf("user %s not found", username)
-	}
-
-	if active, ok := user.GetIsActiveOk(); ok && active != nil && *active {
+	if resp.User.IsActive {
 		return nil
 	}
 
-	userID, ok := user.GetUserIdOk()
-	if !ok || userID == nil {
-		return fmt.Errorf("user %s has no user_id", username)
-	}
-
-	_, _, err = owner.ReactivateUser(context.Background(), *userID).Execute()
+	_, _, err = owner.ReactivateUser(context.Background(), resp.User.UserId).Execute()
 	if err != nil {
 		return fmt.Errorf("reactivating user: %w", err)
 	}

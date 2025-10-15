@@ -188,7 +188,7 @@ func readOSRelease() (string, string, error) {
 		if strings.HasPrefix(line, "NAME=") && name == "" {
 			name = trimOSReleaseValue(line[5:])
 		}
-		if strings.HasPrefix(line, "VERSION_ID=") && version == "" {
+		if strings.HasPrefix(line, "VERSION_Id=") && version == "" {
 			version = trimOSReleaseValue(line[11:])
 		}
 	}
@@ -208,4 +208,15 @@ func trimOSReleaseValue(value string) string {
 	value = strings.TrimPrefix(value, "\"")
 	value = strings.TrimSuffix(value, "\"")
 	return value
+}
+
+// A wrapper for strict JSON decoding
+func newStrictDecoder(data []byte) *json.Decoder {
+	dec := json.NewDecoder(bytes.NewBuffer(data))
+	dec.DisallowUnknownFields()
+	return dec
+}
+
+type MappedNullable interface {
+	ToMap() (map[string]interface{}, error)
 }

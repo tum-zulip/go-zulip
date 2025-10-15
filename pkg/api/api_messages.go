@@ -18,8 +18,6 @@ import (
 	"net/url"
 	"os"
 	"strings"
-
-	"github.com/tum-zulip/go-zulip/pkg/models"
 )
 
 type MessagesAPI interface {
@@ -27,18 +25,18 @@ type MessagesAPI interface {
 	/*
 		AddReaction Add an emoji reaction
 
-		Add an [emoji reaction](zulip.com/help/emoji-reactions to a message.
+		Add an [emoji reaction](zulip.com/help/emoji-reactions) to a message.
 
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param messageId The target message's ID.
-		@return ApiAddReactionRequest
+		@param messageId The target message's Id.
+		@return AddReactionRequest
 	*/
-	AddReaction(ctx context.Context, messageId int32) ApiAddReactionRequest
+	AddReaction(ctx context.Context, messageId int64) AddReactionRequest
 
 	// AddReactionExecute executes the request
-	//  @return models.JsonSuccess
-	AddReactionExecute(r ApiAddReactionRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error)
 
 	/*
 			CheckMessagesMatchNarrow Check if messages match a narrow
@@ -62,13 +60,13 @@ type MessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiCheckMessagesMatchNarrowRequest
+			@return CheckMessagesMatchNarrowRequest
 	*/
-	CheckMessagesMatchNarrow(ctx context.Context) ApiCheckMessagesMatchNarrowRequest
+	CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest
 
 	// CheckMessagesMatchNarrowExecute executes the request
-	//  @return models.CheckMessagesMatchNarrow200Response
-	CheckMessagesMatchNarrowExecute(r ApiCheckMessagesMatchNarrowRequest) (*models.CheckMessagesMatchNarrow200Response, *http.Response, error)
+	//  @return CheckMessagesMatchNarrowResponse
+	CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error)
 
 	/*
 			DeleteMessage Delete a message
@@ -83,14 +81,14 @@ type MessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's ID.
-			@return ApiDeleteMessageRequest
+			@param messageId The target message's Id.
+			@return DeleteMessageRequest
 	*/
-	DeleteMessage(ctx context.Context, messageId int32) ApiDeleteMessageRequest
+	DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest
 
 	// DeleteMessageExecute executes the request
-	//  @return models.JsonSuccess
-	DeleteMessageExecute(r ApiDeleteMessageRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error)
 
 	/*
 			GetFileTemporaryUrl Get public temporary URL
@@ -101,26 +99,26 @@ type MessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param realmIdStr The realm ID.
+			@param realmIdStr The realm Id.
 			@param filename Path to the URL.
-			@return ApiGetFileTemporaryUrlRequest
+			@return GetFileTemporaryUrlRequest
 	*/
-	GetFileTemporaryUrl(ctx context.Context, realmIdStr int32, filename string) ApiGetFileTemporaryUrlRequest
+	GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, filename string) GetFileTemporaryUrlRequest
 
 	// GetFileTemporaryUrlExecute executes the request
-	//  @return models.GetFileTemporaryUrl200Response
-	GetFileTemporaryUrlExecute(r ApiGetFileTemporaryUrlRequest) (*models.GetFileTemporaryUrl200Response, *http.Response, error)
+	//  @return GetFileTemporaryUrlResponse
+	GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error)
 
 	/*
 			GetMessage Fetch a single message
 
-			Given a message ID, return the message object.
+			Given a message Id, return the message object.
 
 		Additionally, a `raw_content` field is included. This field is
 		useful for clients that primarily work with HTML-rendered
 		messages but might need to occasionally fetch the message's
-		raw [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown (e.g. for [view
-		source](zulip.com/help/view-the-markdown-source-of-a-message or
+		raw [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown) (e.g. for [view
+		source](zulip.com/help/view-the-markdown-source-of-a-message) or
 		prefilling a message edit textarea).
 
 		**Changes**: Before Zulip 5.0 (feature level 120), this
@@ -128,14 +126,14 @@ type MessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's ID.
-			@return ApiGetMessageRequest
+			@param messageId The target message's Id.
+			@return GetMessageRequest
 	*/
-	GetMessage(ctx context.Context, messageId int32) ApiGetMessageRequest
+	GetMessage(ctx context.Context, messageId int64) GetMessageRequest
 
 	// GetMessageExecute executes the request
-	//  @return models.GetMessage200Response
-	GetMessageExecute(r ApiGetMessageRequest) (*models.GetMessage200Response, *http.Response, error)
+	//  @return GetMessageResponse
+	GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error)
 
 	/*
 			GetMessageHistory Get a message's edit history
@@ -149,14 +147,14 @@ type MessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's ID.
-			@return ApiGetMessageHistoryRequest
+			@param messageId The target message's Id.
+			@return GetMessageHistoryRequest
 	*/
-	GetMessageHistory(ctx context.Context, messageId int32) ApiGetMessageHistoryRequest
+	GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest
 
 	// GetMessageHistoryExecute executes the request
-	//  @return models.GetMessageHistory200Response
-	GetMessageHistoryExecute(r ApiGetMessageHistoryRequest) (*models.GetMessageHistory200Response, *http.Response, error)
+	//  @return GetMessageHistoryResponse
+	GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error)
 
 	/*
 			GetMessages Get messages
@@ -171,14 +169,14 @@ type MessagesAPI interface {
 		corresponding to the user's [combined feed](zulip.com/help/combined-feed. There are two
 		ways to specify which messages matching the narrow filter to fetch:
 
-		- A range of messages, described by an `anchor` message ID (or a string-format
+		- A range of messages, described by an `anchor` message Id (or a string-format
 		  specification of how the server should computer an anchor to use) and a maximum
 		  number of messages in each direction from that anchor.
 
-		- A rarely used variant (`message_ids`) where the client specifies the message IDs
+		- A rarely used variant (`message_ids`) where the client specifies the message Ids
 		  to fetch.
 
-		The server returns the matching messages, sorted by message ID, as well as some
+		The server returns the matching messages, sorted by message Id, as well as some
 		metadata that makes it easy for a client to determine whether there are more
 		messages matching the query that were not returned due to the `num_before` and
 		`num_after` limits.
@@ -195,22 +193,22 @@ type MessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiGetMessagesRequest
+			@return GetMessagesRequest
 	*/
-	GetMessages(ctx context.Context) ApiGetMessagesRequest
+	GetMessages(ctx context.Context) GetMessagesRequest
 
 	// GetMessagesExecute executes the request
-	//  @return models.GetMessages200Response
-	GetMessagesExecute(r ApiGetMessagesRequest) (*models.GetMessages200Response, *http.Response, error)
+	//  @return GetMessagesResponse
+	GetMessagesExecute(r GetMessagesRequest) (*GetMessagesResponse, *http.Response, error)
 
 	/*
 			GetReadReceipts Get a message's read receipts
 
-			Returns a list containing the IDs for all users who have
+			Returns a list containing the Ids for all users who have
 		marked the message as read (and whose privacy settings allow
 		sharing that information).
 
-		The list of users IDs will include any bots who have marked
+		The list of users Ids will include any bots who have marked
 		the message as read via the API (providing a way for bots to
 		indicate whether they have processed a message successfully in
 		a way that can be easily inspected in a Zulip client). Bots
@@ -223,14 +221,14 @@ type MessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's ID.
-			@return ApiGetReadReceiptsRequest
+			@param messageId The target message's Id.
+			@return GetReadReceiptsRequest
 	*/
-	GetReadReceipts(ctx context.Context, messageId int32) ApiGetReadReceiptsRequest
+	GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest
 
 	// GetReadReceiptsExecute executes the request
-	//  @return models.GetReadReceipts200Response
-	GetReadReceiptsExecute(r ApiGetReadReceiptsRequest) (*models.GetReadReceipts200Response, *http.Response, error)
+	//  @return GetReadReceiptsResponse
+	GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error)
 
 	/*
 			MarkAllAsRead Mark all messages as read
@@ -245,7 +243,7 @@ type MessagesAPI interface {
 		will return `"complete": true`.
 
 		**Changes**: Deprecated; clients should use the [update personal message
-		flags for narrow](zulip.com/api/update-message-flags-for-narrow endpoint instead
+		flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
 		as this endpoint will be removed in a future release.
 
 		Before Zulip 8.0 (feature level 211), if the server's
@@ -265,16 +263,16 @@ type MessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiMarkAllAsReadRequest
+			@return MarkAllAsReadRequest
 
 			Deprecated
 	*/
-	MarkAllAsRead(ctx context.Context) ApiMarkAllAsReadRequest
+	MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest
 
 	// MarkAllAsReadExecute executes the request
-	//  @return models.MarkAllAsRead200Response
+	//  @return MarkAllAsReadResponse
 	// Deprecated
-	MarkAllAsReadExecute(r ApiMarkAllAsReadRequest) (*models.MarkAllAsRead200Response, *http.Response, error)
+	MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error)
 
 	/*
 			MarkStreamAsRead Mark messages in a channel as read
@@ -282,21 +280,21 @@ type MessagesAPI interface {
 			Mark all the unread messages in a channel as read.
 
 		**Changes**: Deprecated; clients should use the [update personal message
-		flags for narrow](zulip.com/api/update-message-flags-for-narrow endpoint instead
+		flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
 		as this endpoint will be removed in a future release.
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiMarkStreamAsReadRequest
+			@return MarkStreamAsReadRequest
 
 			Deprecated
 	*/
-	MarkStreamAsRead(ctx context.Context) ApiMarkStreamAsReadRequest
+	MarkStreamAsRead(ctx context.Context) MarkStreamAsReadRequest
 
 	// MarkStreamAsReadExecute executes the request
-	//  @return models.JsonSuccess
+	//  @return Response
 	// Deprecated
-	MarkStreamAsReadExecute(r ApiMarkStreamAsReadRequest) (*models.JsonSuccess, *http.Response, error)
+	MarkStreamAsReadExecute(r MarkStreamAsReadRequest) (*Response, *http.Response, error)
 
 	/*
 			MarkTopicAsRead Mark messages in a topic as read
@@ -304,37 +302,37 @@ type MessagesAPI interface {
 			Mark all the unread messages in a topic as read.
 
 		**Changes**: Deprecated; clients should use the [update personal message
-		flags for narrow](zulip.com/api/update-message-flags-for-narrow endpoint instead
+		flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
 		as this endpoint will be removed in a future release.
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiMarkTopicAsReadRequest
+			@return MarkTopicAsReadRequest
 
 			Deprecated
 	*/
-	MarkTopicAsRead(ctx context.Context) ApiMarkTopicAsReadRequest
+	MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest
 
 	// MarkTopicAsReadExecute executes the request
-	//  @return models.JsonSuccess
+	//  @return Response
 	// Deprecated
-	MarkTopicAsReadExecute(r ApiMarkTopicAsReadRequest) (*models.JsonSuccess, *http.Response, error)
+	MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error)
 
 	/*
 		RemoveReaction Remove an emoji reaction
 
-		Remove an [emoji reaction](zulip.com/help/emoji-reactions from a message.
+		Remove an [emoji reaction](zulip.com/help/emoji-reactions) from a message.
 
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param messageId The target message's ID.
-		@return ApiRemoveReactionRequest
+		@param messageId The target message's Id.
+		@return RemoveReactionRequest
 	*/
-	RemoveReaction(ctx context.Context, messageId int32) ApiRemoveReactionRequest
+	RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest
 
 	// RemoveReactionExecute executes the request
-	//  @return models.JsonSuccess
-	RemoveReactionExecute(r ApiRemoveReactionRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error)
 
 	/*
 		RenderMessage Render a message
@@ -343,13 +341,13 @@ type MessagesAPI interface {
 
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiRenderMessageRequest
+		@return RenderMessageRequest
 	*/
-	RenderMessage(ctx context.Context) ApiRenderMessageRequest
+	RenderMessage(ctx context.Context) RenderMessageRequest
 
 	// RenderMessageExecute executes the request
-	//  @return models.RenderMessage200Response
-	RenderMessageExecute(r ApiRenderMessageRequest) (*models.RenderMessage200Response, *http.Response, error)
+	//  @return RenderMessageResponse
+	RenderMessageExecute(r RenderMessageRequest) (*RenderMessageResponse, *http.Response, error)
 
 	/*
 			ReportMessage Report a message
@@ -371,38 +369,38 @@ type MessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's ID.
-			@return ApiReportMessageRequest
+			@param messageId The target message's Id.
+			@return ReportMessageRequest
 	*/
-	ReportMessage(ctx context.Context, messageId int32) ApiReportMessageRequest
+	ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest
 
 	// ReportMessageExecute executes the request
-	//  @return models.JsonSuccess
-	ReportMessageExecute(r ApiReportMessageRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error)
 
 	/*
 			SendMessage Send a message
 
-			Send a [channel message](zulip.com/help/introduction-to-topics or a
+			Send a [channel message](zulip.com/help/introduction-to-topics) or a
 		[direct message](zulip.com/help/direct-messages.
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiSendMessageRequest
+			@return SendMessageRequest
 	*/
-	SendMessage(ctx context.Context) ApiSendMessageRequest
+	SendMessage(ctx context.Context) SendMessageRequest
 
 	// SendMessageExecute executes the request
-	//  @return models.SendMessage200Response
-	SendMessageExecute(r ApiSendMessageRequest) (*models.SendMessage200Response, *http.Response, error)
+	//  @return SendMessageResponse
+	SendMessageExecute(r SendMessageRequest) (*SendMessageResponse, *http.Response, error)
 
 	/*
 			UpdateMessage Edit a message
 
 			Update the content, topic, or channel of the message with the specified
-		ID.
+		Id.
 
-		You can [resolve topics](zulip.com/help/resolve-a-topic by editing the topic to
+		You can [resolve topics](zulip.com/help/resolve-a-topic) by editing the topic to
 		`✔ {original_topic}` with the `propagate_mode` parameter set to
 		`"change_all"`.
 
@@ -424,14 +422,14 @@ type MessagesAPI interface {
 		- `move_messages_between_streams_limit_seconds`
 
 		More details about these realm settings can be found in the
-		[`POST /register`](zulip.com/api/register-queue response or in the documentation
+		[`POST /register`](zulip.com/api/register-queue) response or in the documentation
 		of the [`realm op: update_dict`](zulip.com/api/get-events#realm-update_dict
 		event in [`GET /events`](zulip.com/api/get-events.
 
 		**Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
 		resolving a topic was managed by `can_move_messages_between_topics_group`.
 		As of this feature level, users belonging to the `can_resolve_topics_group`
-		will have the permission to [resolve topics](zulip.com/help/resolve-a-topic in the organization.
+		will have the permission to [resolve topics](zulip.com/help/resolve-a-topic) in the organization.
 
 		In Zulip 10.0 (feature level 316), `edit_topic_policy`
 		was removed and replaced by `can_move_messages_between_topics_group`
@@ -485,33 +483,33 @@ type MessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's ID.
-			@return ApiUpdateMessageRequest
+			@param messageId The target message's Id.
+			@return UpdateMessageRequest
 	*/
-	UpdateMessage(ctx context.Context, messageId int32) ApiUpdateMessageRequest
+	UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest
 
 	// UpdateMessageExecute executes the request
-	//  @return models.UpdateMessage200Response
-	UpdateMessageExecute(r ApiUpdateMessageRequest) (*models.UpdateMessage200Response, *http.Response, error)
+	//  @return UpdateMessageResponse
+	UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error)
 
 	/*
 			UpdateMessageFlags Update personal message flags
 
 			Add or remove personal message flags like `read` and `starred`
-		on a collection of message IDs.
+		on a collection of message Ids.
 
 		See also the endpoint for [updating flags on a range of
 		messages within a narrow](zulip.com/api/update-message-flags-for-narrow.
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiUpdateMessageFlagsRequest
+			@return UpdateMessageFlagsRequest
 	*/
-	UpdateMessageFlags(ctx context.Context) ApiUpdateMessageFlagsRequest
+	UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest
 
 	// UpdateMessageFlagsExecute executes the request
-	//  @return models.UpdateMessageFlags200Response
-	UpdateMessageFlagsExecute(r ApiUpdateMessageFlagsRequest) (*models.UpdateMessageFlags200Response, *http.Response, error)
+	//  @return UpdateMessageFlagsResponse
+	UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*UpdateMessageFlagsResponse, *http.Response, error)
 
 	/*
 			UpdateMessageFlagsForNarrow Update personal message flags for narrow
@@ -520,24 +518,24 @@ type MessagesAPI interface {
 		on a range of messages within a narrow.
 
 		See also [the endpoint for updating flags on specific message
-		IDs](zulip.com/api/update-message-flags.
+		Ids](zulip.com/api/update-message-flags.
 
 		**Changes**: New in Zulip 6.0 (feature level 155).
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiUpdateMessageFlagsForNarrowRequest
+			@return UpdateMessageFlagsForNarrowRequest
 	*/
-	UpdateMessageFlagsForNarrow(ctx context.Context) ApiUpdateMessageFlagsForNarrowRequest
+	UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest
 
 	// UpdateMessageFlagsForNarrowExecute executes the request
-	//  @return models.UpdateMessageFlagsForNarrow200Response
-	UpdateMessageFlagsForNarrowExecute(r ApiUpdateMessageFlagsForNarrowRequest) (*models.UpdateMessageFlagsForNarrow200Response, *http.Response, error)
+	//  @return UpdateMessageFlagsForNarrowResponse
+	UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error)
 
 	/*
 			UploadFile Upload a file
 
-			[Upload](zulip.com/help/share-and-upload-files a single file and get the corresponding URL.
+			[Upload](zulip.com/help/share-and-upload-files) a single file and get the corresponding URL.
 
 		Initially, only you will be able to access the link. To share the
 		uploaded file, you'll need to [send a message][send-message]
@@ -546,7 +544,7 @@ type MessagesAPI interface {
 		containing the link.
 
 		The maximum allowed file size is available in the `max_file_upload_size_mib`
-		field in the [`POST /register`](zulip.com/api/register-queue response. Note that
+		field in the [`POST /register`](zulip.com/api/register-queue) response. Note that
 		large files (25MB+) may fail to upload using this API endpoint due to
 		network-layer timeouts, depending on the quality of your connection to the
 		Zulip server.
@@ -568,57 +566,57 @@ type MessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiUploadFileRequest
+			@return UploadFileRequest
 	*/
-	UploadFile(ctx context.Context) ApiUploadFileRequest
+	UploadFile(ctx context.Context) UploadFileRequest
 
 	// UploadFileExecute executes the request
-	//  @return models.UploadFile200Response
-	UploadFileExecute(r ApiUploadFileRequest) (*models.UploadFile200Response, *http.Response, error)
+	//  @return UploadFileResponse
+	UploadFileExecute(r UploadFileRequest) (*UploadFileResponse, *http.Response, error)
 }
 
-type ApiAddReactionRequest struct {
+type AddReactionRequest struct {
 	ctx          context.Context
 	ApiService   MessagesAPI
-	messageId    int32
+	messageId    int64
 	emojiName    *string
 	emojiCode    *string
 	reactionType *string
 }
 
 // The target emoji&#39;s human-readable name.  To find an emoji&#39;s name, hover over a message to reveal three icons on the right, then click the smiley face icon. Images of available reaction emojis appear. Hover over the emoji you want, and note that emoji&#39;s text name.
-func (r ApiAddReactionRequest) EmojiName(emojiName string) ApiAddReactionRequest {
+func (r AddReactionRequest) EmojiName(emojiName string) AddReactionRequest {
 	r.emojiName = &emojiName
 	return r
 }
 
 // A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For most API clients, you won&#39;t need this, but it&#39;s important for Zulip apps to handle rare corner cases when adding/removing votes on an emoji reaction added previously by another user.  If the existing reaction was added when the Zulip server was using a previous version of the emoji data mapping between Unicode codepoints and human-readable names, sending the &#x60;emoji_code&#x60; in the data for the original reaction allows the Zulip server to correctly interpret your upvote as an upvote rather than a reaction with a \\\&quot;different\\\&quot; emoji.
-func (r ApiAddReactionRequest) EmojiCode(emojiCode string) ApiAddReactionRequest {
+func (r AddReactionRequest) EmojiCode(emojiCode string) AddReactionRequest {
 	r.emojiCode = &emojiCode
 	return r
 }
 
-// A string indicating the type of emoji. Each emoji &#x60;reaction_type&#x60; has an independent namespace for values of &#x60;emoji_code&#x60;.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - &#x60;unicode_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - &#x60;realm_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be the ID of   the uploaded [custom emoji](zulip.com/help/custom-emoji.  - &#x60;zulip_extra_emoji&#x60; : These are special emoji included with Zulip.   In this namespace, &#x60;emoji_code&#x60; will be the name of the emoji (e.g.   \\\&quot;zulip\\\&quot;).  **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji](zulip.com/help/custom-emoji; previously, this endpoint assumed &#x60;unicode_emoji&#x60; if this parameter was not specified.
-func (r ApiAddReactionRequest) ReactionType(reactionType string) ApiAddReactionRequest {
+// A string indicating the type of emoji. Each emoji &#x60;reaction_type&#x60; has an independent namespace for values of &#x60;emoji_code&#x60;.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - &#x60;unicode_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - &#x60;realm_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be the Id of   the uploaded [custom emoji](zulip.com/help/custom-emoji.  - &#x60;zulip_extra_emoji&#x60; : These are special emoji included with Zulip.   In this namespace, &#x60;emoji_code&#x60; will be the name of the emoji (e.g.   \\\&quot;zulip\\\&quot;).  **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji](zulip.com/help/custom-emoji; previously, this endpoint assumed &#x60;unicode_emoji&#x60; if this parameter was not specified.
+func (r AddReactionRequest) ReactionType(reactionType string) AddReactionRequest {
 	r.reactionType = &reactionType
 	return r
 }
 
-func (r ApiAddReactionRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r AddReactionRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.AddReactionExecute(r)
 }
 
 /*
 AddReaction Add an emoji reaction
 
-Add an [emoji reaction](zulip.com/help/emoji-reactions to a message.
+Add an [emoji reaction](zulip.com/help/emoji-reactions) to a message.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's ID.
-	@return ApiAddReactionRequest
+	@param messageId The target message's Id.
+	@return AddReactionRequest
 */
-func (c *ZulipClient) AddReaction(ctx context.Context, messageId int32) ApiAddReactionRequest {
-	return ApiAddReactionRequest{
+func (c *ZulipClient) AddReaction(ctx context.Context, messageId int64) AddReactionRequest {
+	return AddReactionRequest{
 		ApiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
@@ -627,13 +625,13 @@ func (c *ZulipClient) AddReaction(ctx context.Context, messageId int32) ApiAddRe
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) AddReactionExecute(r ApiAddReactionRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -698,7 +696,7 @@ func (c *ZulipClient) AddReactionExecute(r ApiAddReactionRequest) (*models.JsonS
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -722,26 +720,26 @@ func (c *ZulipClient) AddReactionExecute(r ApiAddReactionRequest) (*models.JsonS
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiCheckMessagesMatchNarrowRequest struct {
+type CheckMessagesMatchNarrowRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
-	msgIds     *[]int32
+	msgIds     *[]int64
 	narrow     *[]map[string]interface{}
 }
 
-// List of IDs for the messages to check.
-func (r ApiCheckMessagesMatchNarrowRequest) MsgIds(msgIds []int32) ApiCheckMessagesMatchNarrowRequest {
+// List of Ids for the messages to check.
+func (r CheckMessagesMatchNarrowRequest) MsgIds(msgIds []int64) CheckMessagesMatchNarrowRequest {
 	r.msgIds = &msgIds
 	return r
 }
 
 // A structure defining the narrow to check against. See how to [construct a narrow](zulip.com/api/construct-narrow.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
-func (r ApiCheckMessagesMatchNarrowRequest) Narrow(narrow []map[string]interface{}) ApiCheckMessagesMatchNarrowRequest {
+func (r CheckMessagesMatchNarrowRequest) Narrow(narrow []map[string]interface{}) CheckMessagesMatchNarrowRequest {
 	r.narrow = &narrow
 	return r
 }
 
-func (r ApiCheckMessagesMatchNarrowRequest) Execute() (*models.CheckMessagesMatchNarrow200Response, *http.Response, error) {
+func (r CheckMessagesMatchNarrowRequest) Execute() (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
 	return r.ApiService.CheckMessagesMatchNarrowExecute(r)
 }
 
@@ -766,10 +764,10 @@ extended message object identical to how a [`GET /messages`](zulip.com/api/get-m
 request for the current narrow would have returned the message.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCheckMessagesMatchNarrowRequest
+	@return CheckMessagesMatchNarrowRequest
 */
-func (c *ZulipClient) CheckMessagesMatchNarrow(ctx context.Context) ApiCheckMessagesMatchNarrowRequest {
-	return ApiCheckMessagesMatchNarrowRequest{
+func (c *ZulipClient) CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest {
+	return CheckMessagesMatchNarrowRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -777,13 +775,13 @@ func (c *ZulipClient) CheckMessagesMatchNarrow(ctx context.Context) ApiCheckMess
 
 // Execute executes the request
 //
-//	@return models.CheckMessagesMatchNarrow200Response
-func (c *ZulipClient) CheckMessagesMatchNarrowExecute(r ApiCheckMessagesMatchNarrowRequest) (*models.CheckMessagesMatchNarrow200Response, *http.Response, error) {
+//	@return CheckMessagesMatchNarrowResponse
+func (c *ZulipClient) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.CheckMessagesMatchNarrow200Response
+		localVarReturnValue *CheckMessagesMatchNarrowResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -859,13 +857,13 @@ func (c *ZulipClient) CheckMessagesMatchNarrowExecute(r ApiCheckMessagesMatchNar
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiDeleteMessageRequest struct {
+type DeleteMessageRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
-	messageId  int32
+	messageId  int64
 }
 
-func (r ApiDeleteMessageRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r DeleteMessageRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.DeleteMessageExecute(r)
 }
 
@@ -881,11 +879,11 @@ the Zulip Help Center.
 [delete-completely]: /help/delete-a-message#delete-a-message-completely
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's ID.
-	@return ApiDeleteMessageRequest
+	@param messageId The target message's Id.
+	@return DeleteMessageRequest
 */
-func (c *ZulipClient) DeleteMessage(ctx context.Context, messageId int32) ApiDeleteMessageRequest {
-	return ApiDeleteMessageRequest{
+func (c *ZulipClient) DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest {
+	return DeleteMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
@@ -894,13 +892,13 @@ func (c *ZulipClient) DeleteMessage(ctx context.Context, messageId int32) ApiDel
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) DeleteMessageExecute(r ApiDeleteMessageRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -955,7 +953,7 @@ func (c *ZulipClient) DeleteMessageExecute(r ApiDeleteMessageRequest) (*models.J
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.DeleteMessage400Response
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -979,14 +977,14 @@ func (c *ZulipClient) DeleteMessageExecute(r ApiDeleteMessageRequest) (*models.J
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetFileTemporaryUrlRequest struct {
+type GetFileTemporaryUrlRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
-	realmIdStr int32
+	realmIdStr int64
 	filename   string
 }
 
-func (r ApiGetFileTemporaryUrlRequest) Execute() (*models.GetFileTemporaryUrl200Response, *http.Response, error) {
+func (r GetFileTemporaryUrlRequest) Execute() (*GetFileTemporaryUrlResponse, *http.Response, error) {
 	return r.ApiService.GetFileTemporaryUrlExecute(r)
 }
 
@@ -998,12 +996,12 @@ Get a temporary URL for access to the file that doesn't require authentication.
 **Changes**: New in Zulip 3.0 (feature level 1).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param realmIdStr The realm ID.
+	@param realmIdStr The realm Id.
 	@param filename Path to the URL.
-	@return ApiGetFileTemporaryUrlRequest
+	@return GetFileTemporaryUrlRequest
 */
-func (c *ZulipClient) GetFileTemporaryUrl(ctx context.Context, realmIdStr int32, filename string) ApiGetFileTemporaryUrlRequest {
-	return ApiGetFileTemporaryUrlRequest{
+func (c *ZulipClient) GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, filename string) GetFileTemporaryUrlRequest {
+	return GetFileTemporaryUrlRequest{
 		ApiService: c,
 		ctx:        ctx,
 		realmIdStr: realmIdStr,
@@ -1013,13 +1011,13 @@ func (c *ZulipClient) GetFileTemporaryUrl(ctx context.Context, realmIdStr int32,
 
 // Execute executes the request
 //
-//	@return models.GetFileTemporaryUrl200Response
-func (c *ZulipClient) GetFileTemporaryUrlExecute(r ApiGetFileTemporaryUrlRequest) (*models.GetFileTemporaryUrl200Response, *http.Response, error) {
+//	@return GetFileTemporaryUrlResponse
+func (c *ZulipClient) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.GetFileTemporaryUrl200Response
+		localVarReturnValue *GetFileTemporaryUrlResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -1089,51 +1087,51 @@ func (c *ZulipClient) GetFileTemporaryUrlExecute(r ApiGetFileTemporaryUrlRequest
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetMessageRequest struct {
+type GetMessageRequest struct {
 	ctx                 context.Context
 	ApiService          MessagesAPI
-	messageId           int32
+	messageId           int64
 	applyMarkdown       *bool
 	allowEmptyTopicName *bool
 }
 
-// If &#x60;true&#x60;, message content is returned in the rendered HTML format. If &#x60;false&#x60;, message content is returned in the raw [Zulip-flavored Markdown format](zulip.com/help/format-your-message-using-markdown text that user entered.  **Changes**: New in Zulip 5.0 (feature level 120).
-func (r ApiGetMessageRequest) ApplyMarkdown(applyMarkdown bool) ApiGetMessageRequest {
+// If &#x60;true&#x60;, message content is returned in the rendered HTML format. If &#x60;false&#x60;, message content is returned in the raw [Zulip-flavored Markdown format](zulip.com/help/format-your-message-using-markdown) text that user entered.  **Changes**: New in Zulip 5.0 (feature level 120).
+func (r GetMessageRequest) ApplyMarkdown(applyMarkdown bool) GetMessageRequest {
 	r.applyMarkdown = &applyMarkdown
 	return r
 }
 
-// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If &#x60;false&#x60;, the server will use the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](zulip.com/api/register-queue response instead of empty string to represent the empty string topic in its response.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
-func (r ApiGetMessageRequest) AllowEmptyTopicName(allowEmptyTopicName bool) ApiGetMessageRequest {
+// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If &#x60;false&#x60;, the server will use the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) response instead of empty string to represent the empty string topic in its response.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+func (r GetMessageRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMessageRequest {
 	r.allowEmptyTopicName = &allowEmptyTopicName
 	return r
 }
 
-func (r ApiGetMessageRequest) Execute() (*models.GetMessage200Response, *http.Response, error) {
+func (r GetMessageRequest) Execute() (*GetMessageResponse, *http.Response, error) {
 	return r.ApiService.GetMessageExecute(r)
 }
 
 /*
 GetMessage Fetch a single message
 
-Given a message ID, return the message object.
+Given a message Id, return the message object.
 
 Additionally, a `raw_content` field is included. This field is
 useful for clients that primarily work with HTML-rendered
 messages but might need to occasionally fetch the message's
-raw [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown (e.g. for [view
-source](zulip.com/help/view-the-markdown-source-of-a-message or
+raw [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown) (e.g. for [view
+source](zulip.com/help/view-the-markdown-source-of-a-message) or
 prefilling a message edit textarea).
 
 **Changes**: Before Zulip 5.0 (feature level 120), this
 endpoint only returned the `raw_content` field.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's ID.
-	@return ApiGetMessageRequest
+	@param messageId The target message's Id.
+	@return GetMessageRequest
 */
-func (c *ZulipClient) GetMessage(ctx context.Context, messageId int32) ApiGetMessageRequest {
-	return ApiGetMessageRequest{
+func (c *ZulipClient) GetMessage(ctx context.Context, messageId int64) GetMessageRequest {
+	return GetMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
@@ -1142,13 +1140,13 @@ func (c *ZulipClient) GetMessage(ctx context.Context, messageId int32) ApiGetMes
 
 // Execute executes the request
 //
-//	@return models.GetMessage200Response
-func (c *ZulipClient) GetMessageExecute(r ApiGetMessageRequest) (*models.GetMessage200Response, *http.Response, error) {
+//	@return GetMessageResponse
+func (c *ZulipClient) GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.GetMessage200Response
+		localVarReturnValue *GetMessageResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -1215,7 +1213,7 @@ func (c *ZulipClient) GetMessageExecute(r ApiGetMessageRequest) (*models.GetMess
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.InvalidMessageError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -1239,20 +1237,20 @@ func (c *ZulipClient) GetMessageExecute(r ApiGetMessageRequest) (*models.GetMess
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetMessageHistoryRequest struct {
+type GetMessageHistoryRequest struct {
 	ctx                 context.Context
 	ApiService          MessagesAPI
-	messageId           int32
+	messageId           int64
 	allowEmptyTopicName *bool
 }
 
-// Whether the topic names i.e. &#x60;topic&#x60; and &#x60;prev_topic&#x60; fields in the &#x60;message_history&#x60; objects returned can be empty string.  If &#x60;false&#x60;, the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](zulip.com/api/register-queue response is returned replacing the empty string as the topic name.  **Changes**: New in Zulip 10.0 (feature level 334).
-func (r ApiGetMessageHistoryRequest) AllowEmptyTopicName(allowEmptyTopicName bool) ApiGetMessageHistoryRequest {
+// Whether the topic names i.e. &#x60;topic&#x60; and &#x60;prev_topic&#x60; fields in the &#x60;message_history&#x60; objects returned can be empty string.  If &#x60;false&#x60;, the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) response is returned replacing the empty string as the topic name.  **Changes**: New in Zulip 10.0 (feature level 334).
+func (r GetMessageHistoryRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMessageHistoryRequest {
 	r.allowEmptyTopicName = &allowEmptyTopicName
 	return r
 }
 
-func (r ApiGetMessageHistoryRequest) Execute() (*models.GetMessageHistory200Response, *http.Response, error) {
+func (r GetMessageHistoryRequest) Execute() (*GetMessageHistoryResponse, *http.Response, error) {
 	return r.ApiService.GetMessageHistoryExecute(r)
 }
 
@@ -1267,11 +1265,11 @@ Note that edit history may be disabled in some organizations; see the
 [edit-settings]: /help/view-a-messages-edit-history
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's ID.
-	@return ApiGetMessageHistoryRequest
+	@param messageId The target message's Id.
+	@return GetMessageHistoryRequest
 */
-func (c *ZulipClient) GetMessageHistory(ctx context.Context, messageId int32) ApiGetMessageHistoryRequest {
-	return ApiGetMessageHistoryRequest{
+func (c *ZulipClient) GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest {
+	return GetMessageHistoryRequest{
 		ApiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
@@ -1280,13 +1278,13 @@ func (c *ZulipClient) GetMessageHistory(ctx context.Context, messageId int32) Ap
 
 // Execute executes the request
 //
-//	@return models.GetMessageHistory200Response
-func (c *ZulipClient) GetMessageHistoryExecute(r ApiGetMessageHistoryRequest) (*models.GetMessageHistory200Response, *http.Response, error) {
+//	@return GetMessageHistoryResponse
+func (c *ZulipClient) GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.GetMessageHistory200Response
+		localVarReturnValue *GetMessageHistoryResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -1347,7 +1345,7 @@ func (c *ZulipClient) GetMessageHistoryExecute(r ApiGetMessageHistoryRequest) (*
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.InvalidMessageError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -1371,7 +1369,7 @@ func (c *ZulipClient) GetMessageHistoryExecute(r ApiGetMessageHistoryRequest) (*
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetMessagesRequest struct {
+type GetMessagesRequest struct {
 	ctx                  context.Context
 	ApiService           MessagesAPI
 	anchor               *string
@@ -1382,72 +1380,72 @@ type ApiGetMessagesRequest struct {
 	clientGravatar       *bool
 	applyMarkdown        *bool
 	useFirstUnreadAnchor *bool
-	messageIds           *[]int32
+	messageIds           *[]int64
 	allowEmptyTopicName  *bool
 }
 
-// Integer message ID to anchor fetching of new messages. Supports special string values for when the client wants the server to compute the anchor to use:  - &#x60;newest&#x60;: The most recent message. - &#x60;oldest&#x60;: The oldest message. - &#x60;first_unread&#x60;: The oldest unread message matching the   query, if any; otherwise, the most recent message.  **Changes**: String values are new in Zulip 3.0 (feature level 1). The &#x60;first_unread&#x60; functionality was supported in Zulip 2.1.x and older by not sending &#x60;anchor&#x60; and using &#x60;use_first_unread_anchor&#x60;.  In Zulip 2.1.x and older, &#x60;oldest&#x60; can be emulated with &#x60;\&quot;anchor\&quot;: 0&#x60;, and &#x60;newest&#x60; with &#x60;\&quot;anchor\&quot;: 10000000000000000&#x60; (that specific large value works around a bug in Zulip 2.1.x and older in the &#x60;found_newest&#x60; return value).
-func (r ApiGetMessagesRequest) Anchor(anchor string) ApiGetMessagesRequest {
+// Integer message Id to anchor fetching of new messages. Supports special string values for when the client wants the server to compute the anchor to use:  - &#x60;newest&#x60;: The most recent message. - &#x60;oldest&#x60;: The oldest message. - &#x60;first_unread&#x60;: The oldest unread message matching the   query, if any; otherwise, the most recent message.  **Changes**: String values are new in Zulip 3.0 (feature level 1). The &#x60;first_unread&#x60; functionality was supported in Zulip 2.1.x and older by not sending &#x60;anchor&#x60; and using &#x60;use_first_unread_anchor&#x60;.  In Zulip 2.1.x and older, &#x60;oldest&#x60; can be emulated with &#x60;\&quot;anchor\&quot;: 0&#x60;, and &#x60;newest&#x60; with &#x60;\&quot;anchor\&quot;: 10000000000000000&#x60; (that specific large value works around a bug in Zulip 2.1.x and older in the &#x60;found_newest&#x60; return value).
+func (r GetMessagesRequest) Anchor(anchor string) GetMessagesRequest {
 	r.anchor = &anchor
 	return r
 }
 
-// Whether a message with the specified ID matching the narrow should be included.  **Changes**: New in Zulip 6.0 (feature level 155).
-func (r ApiGetMessagesRequest) IncludeAnchor(includeAnchor bool) ApiGetMessagesRequest {
+// Whether a message with the specified Id matching the narrow should be included.  **Changes**: New in Zulip 6.0 (feature level 155).
+func (r GetMessagesRequest) IncludeAnchor(includeAnchor bool) GetMessagesRequest {
 	r.includeAnchor = &includeAnchor
 	return r
 }
 
-// The number of messages with IDs less than the anchor to retrieve. Required if &#x60;message_ids&#x60; is not provided.
-func (r ApiGetMessagesRequest) NumBefore(numBefore int32) ApiGetMessagesRequest {
+// The number of messages with Ids less than the anchor to retrieve. Required if &#x60;message_ids&#x60; is not provided.
+func (r GetMessagesRequest) NumBefore(numBefore int32) GetMessagesRequest {
 	r.numBefore = &numBefore
 	return r
 }
 
-// The number of messages with IDs greater than the anchor to retrieve. Required if &#x60;message_ids&#x60; is not provided.
-func (r ApiGetMessagesRequest) NumAfter(numAfter int32) ApiGetMessagesRequest {
+// The number of messages with Ids greater than the anchor to retrieve. Required if &#x60;message_ids&#x60; is not provided.
+func (r GetMessagesRequest) NumAfter(numAfter int32) GetMessagesRequest {
 	r.numAfter = &numAfter
 	return r
 }
 
 // The narrow where you want to fetch the messages from. See how to [construct a narrow](zulip.com/api/construct-narrow.  Note that many narrows, including all that lack a &#x60;channel&#x60;, &#x60;channels&#x60;, &#x60;stream&#x60;, or &#x60;streams&#x60; operator, search the user&#39;s personal message history. See [searching shared history](zulip.com/help/search-for-messages#search-shared-history for details.  For example, if you would like to fetch messages from all public channels instead of only the user&#39;s message history, then a specific narrow for messages sent to all public channels can be used: &#x60;{\&quot;operator\&quot;: \&quot;channels\&quot;, \&quot;operand\&quot;: \&quot;public\&quot;}&#x60;.  Newly created bot users are not usually subscribed to any channels, so bots using this API should either be subscribed to appropriate channels or use a shared history search narrow with this endpoint.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
-func (r ApiGetMessagesRequest) Narrow(narrow []map[string]interface{}) ApiGetMessagesRequest {
+func (r GetMessagesRequest) Narrow(narrow []map[string]interface{}) GetMessagesRequest {
 	r.narrow = &narrow
 	return r
 }
 
 // Whether the client supports computing gravatars URLs. If enabled, &#x60;avatar_url&#x60; will be included in the response only if there is a Zulip avatar, and will be &#x60;null&#x60; for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The &#x60;client_gravatar&#x60; field is set to &#x60;true&#x60; if clients can compute their own gravatars.  **Changes**: The default value of this parameter was &#x60;false&#x60; prior to Zulip 5.0 (feature level 92).
-func (r ApiGetMessagesRequest) ClientGravatar(clientGravatar bool) ApiGetMessagesRequest {
+func (r GetMessagesRequest) ClientGravatar(clientGravatar bool) GetMessagesRequest {
 	r.clientGravatar = &clientGravatar
 	return r
 }
 
-// If &#x60;true&#x60;, message content is returned in the rendered HTML format. If &#x60;false&#x60;, message content is returned in the raw Markdown-format text that user entered.  See [Markdown message formatting](zulip.com/api/message-formatting for details on Zulip&#39;s HTML format.
-func (r ApiGetMessagesRequest) ApplyMarkdown(applyMarkdown bool) ApiGetMessagesRequest {
+// If &#x60;true&#x60;, message content is returned in the rendered HTML format. If &#x60;false&#x60;, message content is returned in the raw Markdown-format text that user entered.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip&#39;s HTML format.
+func (r GetMessagesRequest) ApplyMarkdown(applyMarkdown bool) GetMessagesRequest {
 	r.applyMarkdown = &applyMarkdown
 	return r
 }
 
 // Legacy way to specify &#x60;\&quot;anchor\&quot;: \&quot;first_unread\&quot;&#x60; in Zulip 2.1.x and older.  Whether to use the (computed by the server) first unread message matching the narrow as the &#x60;anchor&#x60;. Mutually exclusive with &#x60;anchor&#x60;.  **Changes**: Deprecated in Zulip 3.0 (feature level 1) and replaced by &#x60;\&quot;anchor\&quot;: \&quot;first_unread\&quot;&#x60;.
 // Deprecated
-func (r ApiGetMessagesRequest) UseFirstUnreadAnchor(useFirstUnreadAnchor bool) ApiGetMessagesRequest {
+func (r GetMessagesRequest) UseFirstUnreadAnchor(useFirstUnreadAnchor bool) GetMessagesRequest {
 	r.useFirstUnreadAnchor = &useFirstUnreadAnchor
 	return r
 }
 
-// A list of message IDs to fetch. The server will return messages corresponding to the subset of the requested message IDs that exist and the current user has access to, potentially filtered by the narrow (if that parameter is provided).  It is an error to pass this parameter as well as any of the parameters involved in specifying a range of messages: &#x60;anchor&#x60;, &#x60;include_anchor&#x60;, &#x60;use_first_unread_anchor&#x60;, &#x60;num_before&#x60;, and &#x60;num_after&#x60;.  **Changes**: New in Zulip 10.0 (feature level 300). Previously, there was no way to request a specific set of messages IDs.
-func (r ApiGetMessagesRequest) MessageIds(messageIds []int32) ApiGetMessagesRequest {
+// A list of message Ids to fetch. The server will return messages corresponding to the subset of the requested message Ids that exist and the current user has access to, potentially filtered by the narrow (if that parameter is provided).  It is an error to pass this parameter as well as any of the parameters involved in specifying a range of messages: &#x60;anchor&#x60;, &#x60;include_anchor&#x60;, &#x60;use_first_unread_anchor&#x60;, &#x60;num_before&#x60;, and &#x60;num_after&#x60;.  **Changes**: New in Zulip 10.0 (feature level 300). Previously, there was no way to request a specific set of messages Ids.
+func (r GetMessagesRequest) MessageIds(messageIds []int64) GetMessagesRequest {
 	r.messageIds = &messageIds
 	return r
 }
 
-// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If &#x60;false&#x60;, the server will use the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](zulip.com/api/register-queue response instead of empty string to represent the empty string topic in its response.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
-func (r ApiGetMessagesRequest) AllowEmptyTopicName(allowEmptyTopicName bool) ApiGetMessagesRequest {
+// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If &#x60;false&#x60;, the server will use the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) response instead of empty string to represent the empty string topic in its response.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+func (r GetMessagesRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMessagesRequest {
 	r.allowEmptyTopicName = &allowEmptyTopicName
 	return r
 }
 
-func (r ApiGetMessagesRequest) Execute() (*models.GetMessages200Response, *http.Response, error) {
+func (r GetMessagesRequest) Execute() (*GetMessagesResponse, *http.Response, error) {
 	return r.ApiService.GetMessagesExecute(r)
 }
 
@@ -1464,14 +1462,14 @@ query](zulip.com/help/search-for-messages. If not specified, it will return mess
 corresponding to the user's [combined feed](zulip.com/help/combined-feed. There are two
 ways to specify which messages matching the narrow filter to fetch:
 
-  - A range of messages, described by an `anchor` message ID (or a string-format
+  - A range of messages, described by an `anchor` message Id (or a string-format
     specification of how the server should computer an anchor to use) and a maximum
     number of messages in each direction from that anchor.
 
-  - A rarely used variant (`message_ids`) where the client specifies the message IDs
+  - A rarely used variant (`message_ids`) where the client specifies the message Ids
     to fetch.
 
-The server returns the matching messages, sorted by message ID, as well as some
+The server returns the matching messages, sorted by message Id, as well as some
 metadata that makes it easy for a client to determine whether there are more
 messages matching the query that were not returned due to the `num_before` and
 `num_after` limits.
@@ -1487,10 +1485,10 @@ attempting to exceed this will result in an error.
 **Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetMessagesRequest
+	@return GetMessagesRequest
 */
-func (c *ZulipClient) GetMessages(ctx context.Context) ApiGetMessagesRequest {
-	return ApiGetMessagesRequest{
+func (c *ZulipClient) GetMessages(ctx context.Context) GetMessagesRequest {
+	return GetMessagesRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -1498,13 +1496,13 @@ func (c *ZulipClient) GetMessages(ctx context.Context) ApiGetMessagesRequest {
 
 // Execute executes the request
 //
-//	@return models.GetMessages200Response
-func (c *ZulipClient) GetMessagesExecute(r ApiGetMessagesRequest) (*models.GetMessages200Response, *http.Response, error) {
+//	@return GetMessagesResponse
+func (c *ZulipClient) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.GetMessages200Response
+		localVarReturnValue *GetMessagesResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -1620,24 +1618,24 @@ func (c *ZulipClient) GetMessagesExecute(r ApiGetMessagesRequest) (*models.GetMe
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetReadReceiptsRequest struct {
+type GetReadReceiptsRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
-	messageId  int32
+	messageId  int64
 }
 
-func (r ApiGetReadReceiptsRequest) Execute() (*models.GetReadReceipts200Response, *http.Response, error) {
+func (r GetReadReceiptsRequest) Execute() (*GetReadReceiptsResponse, *http.Response, error) {
 	return r.ApiService.GetReadReceiptsExecute(r)
 }
 
 /*
 GetReadReceipts Get a message's read receipts
 
-Returns a list containing the IDs for all users who have
+Returns a list containing the Ids for all users who have
 marked the message as read (and whose privacy settings allow
 sharing that information).
 
-The list of users IDs will include any bots who have marked
+The list of users Ids will include any bots who have marked
 the message as read via the API (providing a way for bots to
 indicate whether they have processed a message successfully in
 a way that can be easily inspected in a Zulip client). Bots
@@ -1649,11 +1647,11 @@ It will never contain the message's sender.
 **Changes**: New in Zulip 6.0 (feature level 137).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's ID.
-	@return ApiGetReadReceiptsRequest
+	@param messageId The target message's Id.
+	@return GetReadReceiptsRequest
 */
-func (c *ZulipClient) GetReadReceipts(ctx context.Context, messageId int32) ApiGetReadReceiptsRequest {
-	return ApiGetReadReceiptsRequest{
+func (c *ZulipClient) GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest {
+	return GetReadReceiptsRequest{
 		ApiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
@@ -1662,13 +1660,13 @@ func (c *ZulipClient) GetReadReceipts(ctx context.Context, messageId int32) ApiG
 
 // Execute executes the request
 //
-//	@return models.GetReadReceipts200Response
-func (c *ZulipClient) GetReadReceiptsExecute(r ApiGetReadReceiptsRequest) (*models.GetReadReceipts200Response, *http.Response, error) {
+//	@return GetReadReceiptsResponse
+func (c *ZulipClient) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.GetReadReceipts200Response
+		localVarReturnValue *GetReadReceiptsResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -1723,7 +1721,7 @@ func (c *ZulipClient) GetReadReceiptsExecute(r ApiGetReadReceiptsRequest) (*mode
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.InvalidMessageError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -1747,12 +1745,12 @@ func (c *ZulipClient) GetReadReceiptsExecute(r ApiGetReadReceiptsRequest) (*mode
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiMarkAllAsReadRequest struct {
+type MarkAllAsReadRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
 }
 
-func (r ApiMarkAllAsReadRequest) Execute() (*models.MarkAllAsRead200Response, *http.Response, error) {
+func (r MarkAllAsReadRequest) Execute() (*MarkAllAsReadResponse, *http.Response, error) {
 	return r.ApiService.MarkAllAsReadExecute(r)
 }
 
@@ -1769,7 +1767,7 @@ response. If all messages were marked as read, then the success response
 will return `"complete": true`.
 
 **Changes**: Deprecated; clients should use the [update personal message
-flags for narrow](zulip.com/api/update-message-flags-for-narrow endpoint instead
+flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
 as this endpoint will be removed in a future release.
 
 Before Zulip 8.0 (feature level 211), if the server's
@@ -1788,12 +1786,12 @@ the request times out and some messages have been marked as read, a
 success response with `"result": "partially_completed"` is returned.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiMarkAllAsReadRequest
+	@return MarkAllAsReadRequest
 
 Deprecated
 */
-func (c *ZulipClient) MarkAllAsRead(ctx context.Context) ApiMarkAllAsReadRequest {
-	return ApiMarkAllAsReadRequest{
+func (c *ZulipClient) MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest {
+	return MarkAllAsReadRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -1801,15 +1799,15 @@ func (c *ZulipClient) MarkAllAsRead(ctx context.Context) ApiMarkAllAsReadRequest
 
 // Execute executes the request
 //
-//	@return models.MarkAllAsRead200Response
+//	@return MarkAllAsReadResponse
 //
 // Deprecated
-func (c *ZulipClient) MarkAllAsReadExecute(r ApiMarkAllAsReadRequest) (*models.MarkAllAsRead200Response, *http.Response, error) {
+func (c *ZulipClient) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.MarkAllAsRead200Response
+		localVarReturnValue *MarkAllAsReadResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -1877,19 +1875,19 @@ func (c *ZulipClient) MarkAllAsReadExecute(r ApiMarkAllAsReadRequest) (*models.M
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiMarkStreamAsReadRequest struct {
+type MarkStreamAsReadRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
-	streamId   *int32
+	streamId   *int64
 }
 
-// The ID of the channel to access.
-func (r ApiMarkStreamAsReadRequest) StreamId(streamId int32) ApiMarkStreamAsReadRequest {
+// The Id of the channel to access.
+func (r MarkStreamAsReadRequest) StreamId(streamId int64) MarkStreamAsReadRequest {
 	r.streamId = &streamId
 	return r
 }
 
-func (r ApiMarkStreamAsReadRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r MarkStreamAsReadRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.MarkStreamAsReadExecute(r)
 }
 
@@ -1899,16 +1897,16 @@ MarkStreamAsRead Mark messages in a channel as read
 Mark all the unread messages in a channel as read.
 
 **Changes**: Deprecated; clients should use the [update personal message
-flags for narrow](zulip.com/api/update-message-flags-for-narrow endpoint instead
+flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
 as this endpoint will be removed in a future release.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiMarkStreamAsReadRequest
+	@return MarkStreamAsReadRequest
 
 Deprecated
 */
-func (c *ZulipClient) MarkStreamAsRead(ctx context.Context) ApiMarkStreamAsReadRequest {
-	return ApiMarkStreamAsReadRequest{
+func (c *ZulipClient) MarkStreamAsRead(ctx context.Context) MarkStreamAsReadRequest {
+	return MarkStreamAsReadRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -1916,15 +1914,15 @@ func (c *ZulipClient) MarkStreamAsRead(ctx context.Context) ApiMarkStreamAsReadR
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
+//	@return Response
 //
 // Deprecated
-func (c *ZulipClient) MarkStreamAsReadExecute(r ApiMarkStreamAsReadRequest) (*models.JsonSuccess, *http.Response, error) {
+func (c *ZulipClient) MarkStreamAsReadExecute(r MarkStreamAsReadRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -1996,26 +1994,26 @@ func (c *ZulipClient) MarkStreamAsReadExecute(r ApiMarkStreamAsReadRequest) (*mo
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiMarkTopicAsReadRequest struct {
+type MarkTopicAsReadRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
-	streamId   *int32
+	streamId   *int64
 	topicName  *string
 }
 
-// The ID of the channel to access.
-func (r ApiMarkTopicAsReadRequest) StreamId(streamId int32) ApiMarkTopicAsReadRequest {
+// The Id of the channel to access.
+func (r MarkTopicAsReadRequest) StreamId(streamId int64) MarkTopicAsReadRequest {
 	r.streamId = &streamId
 	return r
 }
 
-// The name of the topic whose messages should be marked as read.  Note: When the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
-func (r ApiMarkTopicAsReadRequest) TopicName(topicName string) ApiMarkTopicAsReadRequest {
+// The name of the topic whose messages should be marked as read.  Note: When the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+func (r MarkTopicAsReadRequest) TopicName(topicName string) MarkTopicAsReadRequest {
 	r.topicName = &topicName
 	return r
 }
 
-func (r ApiMarkTopicAsReadRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r MarkTopicAsReadRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.MarkTopicAsReadExecute(r)
 }
 
@@ -2025,16 +2023,16 @@ MarkTopicAsRead Mark messages in a topic as read
 Mark all the unread messages in a topic as read.
 
 **Changes**: Deprecated; clients should use the [update personal message
-flags for narrow](zulip.com/api/update-message-flags-for-narrow endpoint instead
+flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
 as this endpoint will be removed in a future release.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiMarkTopicAsReadRequest
+	@return MarkTopicAsReadRequest
 
 Deprecated
 */
-func (c *ZulipClient) MarkTopicAsRead(ctx context.Context) ApiMarkTopicAsReadRequest {
-	return ApiMarkTopicAsReadRequest{
+func (c *ZulipClient) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest {
+	return MarkTopicAsReadRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -2042,15 +2040,15 @@ func (c *ZulipClient) MarkTopicAsRead(ctx context.Context) ApiMarkTopicAsReadReq
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
+//	@return Response
 //
 // Deprecated
-func (c *ZulipClient) MarkTopicAsReadExecute(r ApiMarkTopicAsReadRequest) (*models.JsonSuccess, *http.Response, error) {
+func (c *ZulipClient) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -2126,48 +2124,48 @@ func (c *ZulipClient) MarkTopicAsReadExecute(r ApiMarkTopicAsReadRequest) (*mode
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiRemoveReactionRequest struct {
+type RemoveReactionRequest struct {
 	ctx          context.Context
 	ApiService   MessagesAPI
-	messageId    int32
+	messageId    int64
 	emojiName    *string
 	emojiCode    *string
 	reactionType *string
 }
 
 // The target emoji&#39;s human-readable name.  To find an emoji&#39;s name, hover over a message to reveal three icons on the right, then click the smiley face icon. Images of available reaction emojis appear. Hover over the emoji you want, and note that emoji&#39;s text name.
-func (r ApiRemoveReactionRequest) EmojiName(emojiName string) ApiRemoveReactionRequest {
+func (r RemoveReactionRequest) EmojiName(emojiName string) RemoveReactionRequest {
 	r.emojiName = &emojiName
 	return r
 }
 
 // A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For most API clients, you won&#39;t need this, but it&#39;s important for Zulip apps to handle rare corner cases when adding/removing votes on an emoji reaction added previously by another user.  If the existing reaction was added when the Zulip server was using a previous version of the emoji data mapping between Unicode codepoints and human-readable names, sending the &#x60;emoji_code&#x60; in the data for the original reaction allows the Zulip server to correctly interpret your upvote as an upvote rather than a reaction with a \\\&quot;different\\\&quot; emoji.
-func (r ApiRemoveReactionRequest) EmojiCode(emojiCode string) ApiRemoveReactionRequest {
+func (r RemoveReactionRequest) EmojiCode(emojiCode string) RemoveReactionRequest {
 	r.emojiCode = &emojiCode
 	return r
 }
 
-// A string indicating the type of emoji. Each emoji &#x60;reaction_type&#x60; has an independent namespace for values of &#x60;emoji_code&#x60;.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - &#x60;unicode_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - &#x60;realm_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be the ID of   the uploaded [custom emoji](zulip.com/help/custom-emoji.  - &#x60;zulip_extra_emoji&#x60; : These are special emoji included with Zulip.   In this namespace, &#x60;emoji_code&#x60; will be the name of the emoji (e.g.   \\\&quot;zulip\\\&quot;).  **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji](zulip.com/help/custom-emoji; previously, this endpoint assumed &#x60;unicode_emoji&#x60; if this parameter was not specified.
-func (r ApiRemoveReactionRequest) ReactionType(reactionType string) ApiRemoveReactionRequest {
+// A string indicating the type of emoji. Each emoji &#x60;reaction_type&#x60; has an independent namespace for values of &#x60;emoji_code&#x60;.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - &#x60;unicode_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - &#x60;realm_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be the Id of   the uploaded [custom emoji](zulip.com/help/custom-emoji.  - &#x60;zulip_extra_emoji&#x60; : These are special emoji included with Zulip.   In this namespace, &#x60;emoji_code&#x60; will be the name of the emoji (e.g.   \\\&quot;zulip\\\&quot;).  **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji](zulip.com/help/custom-emoji; previously, this endpoint assumed &#x60;unicode_emoji&#x60; if this parameter was not specified.
+func (r RemoveReactionRequest) ReactionType(reactionType string) RemoveReactionRequest {
 	r.reactionType = &reactionType
 	return r
 }
 
-func (r ApiRemoveReactionRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r RemoveReactionRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.RemoveReactionExecute(r)
 }
 
 /*
 RemoveReaction Remove an emoji reaction
 
-Remove an [emoji reaction](zulip.com/help/emoji-reactions from a message.
+Remove an [emoji reaction](zulip.com/help/emoji-reactions) from a message.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's ID.
-	@return ApiRemoveReactionRequest
+	@param messageId The target message's Id.
+	@return RemoveReactionRequest
 */
-func (c *ZulipClient) RemoveReaction(ctx context.Context, messageId int32) ApiRemoveReactionRequest {
-	return ApiRemoveReactionRequest{
+func (c *ZulipClient) RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest {
+	return RemoveReactionRequest{
 		ApiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
@@ -2176,13 +2174,13 @@ func (c *ZulipClient) RemoveReaction(ctx context.Context, messageId int32) ApiRe
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) RemoveReactionExecute(r ApiRemoveReactionRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -2246,7 +2244,7 @@ func (c *ZulipClient) RemoveReactionExecute(r ApiRemoveReactionRequest) (*models
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -2270,19 +2268,19 @@ func (c *ZulipClient) RemoveReactionExecute(r ApiRemoveReactionRequest) (*models
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiRenderMessageRequest struct {
+type RenderMessageRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
 	content    *string
 }
 
-// The content of the message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue endpoint to determine the maximum message size.
-func (r ApiRenderMessageRequest) Content(content string) ApiRenderMessageRequest {
+// The content of the message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum message size.
+func (r RenderMessageRequest) Content(content string) RenderMessageRequest {
 	r.content = &content
 	return r
 }
 
-func (r ApiRenderMessageRequest) Execute() (*models.RenderMessage200Response, *http.Response, error) {
+func (r RenderMessageRequest) Execute() (*RenderMessageResponse, *http.Response, error) {
 	return r.ApiService.RenderMessageExecute(r)
 }
 
@@ -2292,10 +2290,10 @@ RenderMessage Render a message
 Render a message to HTML.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiRenderMessageRequest
+	@return RenderMessageRequest
 */
-func (c *ZulipClient) RenderMessage(ctx context.Context) ApiRenderMessageRequest {
-	return ApiRenderMessageRequest{
+func (c *ZulipClient) RenderMessage(ctx context.Context) RenderMessageRequest {
+	return RenderMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -2303,13 +2301,13 @@ func (c *ZulipClient) RenderMessage(ctx context.Context) ApiRenderMessageRequest
 
 // Execute executes the request
 //
-//	@return models.RenderMessage200Response
-func (c *ZulipClient) RenderMessageExecute(r ApiRenderMessageRequest) (*models.RenderMessage200Response, *http.Response, error) {
+//	@return RenderMessageResponse
+func (c *ZulipClient) RenderMessageExecute(r RenderMessageRequest) (*RenderMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.RenderMessage200Response
+		localVarReturnValue *RenderMessageResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -2381,27 +2379,27 @@ func (c *ZulipClient) RenderMessageExecute(r ApiRenderMessageRequest) (*models.R
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiReportMessageRequest struct {
+type ReportMessageRequest struct {
 	ctx         context.Context
 	ApiService  MessagesAPI
-	messageId   int32
+	messageId   int64
 	reportType  *string
 	description *string
 }
 
 // The reason that best describes why the current user is reporting the target message for moderation.
-func (r ApiReportMessageRequest) ReportType(reportType string) ApiReportMessageRequest {
+func (r ReportMessageRequest) ReportType(reportType string) ReportMessageRequest {
 	r.reportType = &reportType
 	return r
 }
 
 // A short description with additional context about why the current user is reporting the target message for moderation.  Clients should limit this string to a maximum length of 1000 characters.  If the &#x60;report_type&#x60; parameter is &#x60;\\\&quot;other\\\&quot;&#x60;, this parameter is required, and its value cannot be an empty string.
-func (r ApiReportMessageRequest) Description(description string) ApiReportMessageRequest {
+func (r ReportMessageRequest) Description(description string) ReportMessageRequest {
 	r.description = &description
 	return r
 }
 
-func (r ApiReportMessageRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r ReportMessageRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.ReportMessageExecute(r)
 }
 
@@ -2424,11 +2422,11 @@ the `moderation_request_channel` realm setting, which was added in
 feature level 331.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's ID.
-	@return ApiReportMessageRequest
+	@param messageId The target message's Id.
+	@return ReportMessageRequest
 */
-func (c *ZulipClient) ReportMessage(ctx context.Context, messageId int32) ApiReportMessageRequest {
-	return ApiReportMessageRequest{
+func (c *ZulipClient) ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest {
+	return ReportMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
@@ -2437,13 +2435,13 @@ func (c *ZulipClient) ReportMessage(ctx context.Context, messageId int32) ApiRep
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) ReportMessageExecute(r ApiReportMessageRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -2505,7 +2503,7 @@ func (c *ZulipClient) ReportMessageExecute(r ApiReportMessageRequest) (*models.J
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -2529,11 +2527,11 @@ func (c *ZulipClient) ReportMessageExecute(r ApiReportMessageRequest) (*models.J
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiSendMessageRequest struct {
+type SendMessageRequest struct {
 	ctx           context.Context
 	ApiService    MessagesAPI
-	recipientType *models.RecipientType
-	to            *models.SendMessageRequestTo
+	recipientType *RecipientType
+	to            *Recipient
 	content       *string
 	topic         *string
 	queueId       *string
@@ -2542,61 +2540,61 @@ type ApiSendMessageRequest struct {
 }
 
 // The type of message to be sent.  &#x60;\\\&quot;direct\\\&quot;&#x60; for a direct message and &#x60;\\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;channel\\\&quot;&#x60; for a channel message.  **Changes**: In Zulip 9.0 (feature level 248), &#x60;\\\&quot;channel\\\&quot;&#x60; was added as an additional value for this parameter to request a channel message.  In Zulip 7.0 (feature level 174), &#x60;\\\&quot;direct\\\&quot;&#x60; was added as the preferred way to request a direct message, deprecating the original &#x60;\\\&quot;private\\\&quot;&#x60;. While &#x60;\\\&quot;private\\\&quot;&#x60; is still supported for requesting direct messages, clients are encouraged to use to the modern convention with servers that support it, because support for &#x60;\\\&quot;private\\\&quot;&#x60; will eventually be removed.
-func (r ApiSendMessageRequest) RecipientType(recipientType models.RecipientType) ApiSendMessageRequest {
+func (r SendMessageRequest) RecipientType(recipientType RecipientType) SendMessageRequest {
 	r.recipientType = &recipientType
 	return r
 }
 
-func (r ApiSendMessageRequest) To(to models.SendMessageRequestTo) ApiSendMessageRequest {
+func (r SendMessageRequest) To(to Recipient) SendMessageRequest {
 	r.to = &to
 	return r
 }
 
-// The content of the message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue endpoint to determine the maximum message size.
-func (r ApiSendMessageRequest) Content(content string) ApiSendMessageRequest {
+// The content of the message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum message size.
+func (r SendMessageRequest) Content(content string) SendMessageRequest {
 	r.content = &content
 	return r
 }
 
-// The topic of the message. Only required for channel messages (&#x60;\\\&quot;type\\\&quot;: \\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;type\\\&quot;: \\\&quot;channel\\\&quot;&#x60;), ignored otherwise.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue endpoint to determine the maximum topic length.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  **Changes**: Before Zulip 10.0 (feature level 370), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as &#x60;subject&#x60;, which is currently a deprecated alias.
-func (r ApiSendMessageRequest) Topic(topic string) ApiSendMessageRequest {
+// The topic of the message. Only required for channel messages (&#x60;\\\&quot;type\\\&quot;: \\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;type\\\&quot;: \\\&quot;channel\\\&quot;&#x60;), ignored otherwise.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum topic length.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  **Changes**: Before Zulip 10.0 (feature level 370), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as &#x60;subject&#x60;, which is currently a deprecated alias.
+func (r SendMessageRequest) Topic(topic string) SendMessageRequest {
 	r.topic = &topic
 	return r
 }
 
-// For clients supporting [local echo](https://zulip.readthedocs.io/en/latest/subsystems/sending-messages.html#local-echo), the [event queue](zulip.com/api/register-queue ID for the client. If passed, &#x60;local_id&#x60; is required. If the message is successfully sent, the server will include &#x60;local_id&#x60; in the &#x60;message&#x60; event that the client with this &#x60;queue_id&#x60; will receive notifying it of the new message via [&#x60;GET /events&#x60;](zulip.com/api/get-events. This lets the client know unambiguously that it should replace the locally echoed message, rather than adding this new message (which would be correct if the user had sent the new message from another device).
-func (r ApiSendMessageRequest) QueueId(queueId string) ApiSendMessageRequest {
+// For clients supporting [local echo](https://zulip.readthedocs.io/en/latest/subsystems/sending-messages.html#local-echo), the [event queue](zulip.com/api/register-queue) Id for the client. If passed, &#x60;local_id&#x60; is required. If the message is successfully sent, the server will include &#x60;local_id&#x60; in the &#x60;message&#x60; event that the client with this &#x60;queue_id&#x60; will receive notifying it of the new message via [&#x60;GET /events&#x60;](zulip.com/api/get-events. This lets the client know unambiguously that it should replace the locally echoed message, rather than adding this new message (which would be correct if the user had sent the new message from another device).
+func (r SendMessageRequest) QueueId(queueId string) SendMessageRequest {
 	r.queueId = &queueId
 	return r
 }
 
 // For clients supporting local echo, a unique string-format identifier chosen freely by the client; the server will pass it back to the client without inspecting it, as described in the &#x60;queue_id&#x60; description.
-func (r ApiSendMessageRequest) LocalId(localId string) ApiSendMessageRequest {
+func (r SendMessageRequest) LocalId(localId string) SendMessageRequest {
 	r.localId = &localId
 	return r
 }
 
 // Whether the message should be initially marked read by its sender. If unspecified, the server uses a heuristic based on the client name.  **Changes**: New in Zulip 8.0 (feature level 236).
-func (r ApiSendMessageRequest) ReadBySender(readBySender bool) ApiSendMessageRequest {
+func (r SendMessageRequest) ReadBySender(readBySender bool) SendMessageRequest {
 	r.readBySender = &readBySender
 	return r
 }
 
-func (r ApiSendMessageRequest) Execute() (*models.SendMessage200Response, *http.Response, error) {
+func (r SendMessageRequest) Execute() (*SendMessageResponse, *http.Response, error) {
 	return r.ApiService.SendMessageExecute(r)
 }
 
 /*
 SendMessage Send a message
 
-Send a [channel message](zulip.com/help/introduction-to-topics or a
+Send a [channel message](zulip.com/help/introduction-to-topics) or a
 [direct message](zulip.com/help/direct-messages.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiSendMessageRequest
+	@return SendMessageRequest
 */
-func (c *ZulipClient) SendMessage(ctx context.Context) ApiSendMessageRequest {
-	return ApiSendMessageRequest{
+func (c *ZulipClient) SendMessage(ctx context.Context) SendMessageRequest {
+	return SendMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -2604,13 +2602,13 @@ func (c *ZulipClient) SendMessage(ctx context.Context) ApiSendMessageRequest {
 
 // Execute executes the request
 //
-//	@return models.SendMessage200Response
-func (c *ZulipClient) SendMessageExecute(r ApiSendMessageRequest) (*models.SendMessage200Response, *http.Response, error) {
+//	@return SendMessageResponse
+func (c *ZulipClient) SendMessageExecute(r SendMessageRequest) (*SendMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.SendMessage200Response
+		localVarReturnValue *SendMessageResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -2688,7 +2686,7 @@ func (c *ZulipClient) SendMessageExecute(r ApiSendMessageRequest) (*models.SendM
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.SendMessage400Response
+			var v SendMessage400Response
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -2712,62 +2710,62 @@ func (c *ZulipClient) SendMessageExecute(r ApiSendMessageRequest) (*models.SendM
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiUpdateMessageRequest struct {
+type UpdateMessageRequest struct {
 	ctx                         context.Context
 	ApiService                  MessagesAPI
-	messageId                   int32
+	messageId                   int64
 	topic                       *string
 	propagateMode               *string
 	sendNotificationToOldThread *bool
 	sendNotificationToNewThread *bool
 	content                     *string
 	prevContentSha256           *string
-	streamId                    *int32
+	streamId                    *int64
 }
 
-// The topic to move the message(s) to, to request changing the topic.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue endpoint to determine the maximum topic length  Should only be sent when changing the topic, and will throw an error if the target message is not a channel message.  Note: When the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  You can [resolve topics](zulip.com/help/resolve-a-topic by editing the topic to &#x60;✔ {original_topic}&#x60; with the &#x60;propagate_mode&#x60; parameter set to &#x60;\\\&quot;change_all\\\&quot;&#x60;. The empty string topic cannot be marked as resolved.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as &#x60;subject&#x60;, which is currently a deprecated alias.
-func (r ApiUpdateMessageRequest) Topic(topic string) ApiUpdateMessageRequest {
+// The topic to move the message(s) to, to request changing the topic.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum topic length  Should only be sent when changing the topic, and will throw an error if the target message is not a channel message.  Note: When the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  You can [resolve topics](zulip.com/help/resolve-a-topic) by editing the topic to &#x60;✔ {original_topic}&#x60; with the &#x60;propagate_mode&#x60; parameter set to &#x60;\\\&quot;change_all\\\&quot;&#x60;. The empty string topic cannot be marked as resolved.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as &#x60;subject&#x60;, which is currently a deprecated alias.
+func (r UpdateMessageRequest) Topic(topic string) UpdateMessageRequest {
 	r.topic = &topic
 	return r
 }
 
 // Which message(s) should be edited:  - &#x60;\\\&quot;change_later\\\&quot;&#x60;: The target message and all following messages. - &#x60;\\\&quot;change_one\\\&quot;&#x60;: Only the target message. - &#x60;\\\&quot;change_all\\\&quot;&#x60;: All messages in this topic.  Only the default value of &#x60;\\\&quot;change_one\\\&quot;&#x60; is valid when editing only the content of a message.  This parameter determines both which messages get moved and also whether clients that are currently narrowed to the topic containing the message should navigate or adjust their compose box recipient to point to the post-edit channel/topic.
-func (r ApiUpdateMessageRequest) PropagateMode(propagateMode string) ApiUpdateMessageRequest {
+func (r UpdateMessageRequest) PropagateMode(propagateMode string) UpdateMessageRequest {
 	r.propagateMode = &propagateMode
 	return r
 }
 
 // Whether to send an automated message to the old topic to notify users where the messages were moved to.  **Changes**: Before Zulip 6.0 (feature level 152), this parameter had a default of &#x60;true&#x60; and was ignored unless the channel was changed.  New in Zulip 3.0 (feature level 9).
-func (r ApiUpdateMessageRequest) SendNotificationToOldThread(sendNotificationToOldThread bool) ApiUpdateMessageRequest {
+func (r UpdateMessageRequest) SendNotificationToOldThread(sendNotificationToOldThread bool) UpdateMessageRequest {
 	r.sendNotificationToOldThread = &sendNotificationToOldThread
 	return r
 }
 
 // Whether to send an automated message to the new topic to notify users where the messages came from.  If the move is just [resolving/unresolving a topic](zulip.com/help/resolve-a-topic, this parameter will not trigger an additional notification.  **Changes**: Before Zulip 6.0 (feature level 152), this parameter was ignored unless the channel was changed.  New in Zulip 3.0 (feature level 9).
-func (r ApiUpdateMessageRequest) SendNotificationToNewThread(sendNotificationToNewThread bool) ApiUpdateMessageRequest {
+func (r UpdateMessageRequest) SendNotificationToNewThread(sendNotificationToNewThread bool) UpdateMessageRequest {
 	r.sendNotificationToNewThread = &sendNotificationToNewThread
 	return r
 }
 
-// The updated content of the target message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue endpoint to determine the maximum message size.  Note that a message&#39;s content and channel cannot be changed at the same time, so sending both &#x60;content&#x60; and &#x60;stream_id&#x60; parameters will throw an error.
-func (r ApiUpdateMessageRequest) Content(content string) ApiUpdateMessageRequest {
+// The updated content of the target message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum message size.  Note that a message&#39;s content and channel cannot be changed at the same time, so sending both &#x60;content&#x60; and &#x60;stream_id&#x60; parameters will throw an error.
+func (r UpdateMessageRequest) Content(content string) UpdateMessageRequest {
 	r.content = &content
 	return r
 }
 
 // An optional SHA-256 hash of the previous raw content of the message that the client has at the time of the request.  If provided, the server will return an error if it does not match the SHA-256 hash of the message&#39;s content stored in the database.  Clients can use this feature to prevent races where multiple clients save conflicting edits to a message.  **Changes**: New in Zulip 11.0 (feature level 379).
-func (r ApiUpdateMessageRequest) PrevContentSha256(prevContentSha256 string) ApiUpdateMessageRequest {
+func (r UpdateMessageRequest) PrevContentSha256(prevContentSha256 string) UpdateMessageRequest {
 	r.prevContentSha256 = &prevContentSha256
 	return r
 }
 
-// The channel ID to move the message(s) to, to request moving messages to another channel.  Should only be sent when changing the channel, and will throw an error if the target message is not a channel message.  Note that a message&#39;s content and channel cannot be changed at the same time, so sending both &#x60;content&#x60; and &#x60;stream_id&#x60; parameters will throw an error.  **Changes**: New in Zulip 3.0 (feature level 1).
-func (r ApiUpdateMessageRequest) StreamId(streamId int32) ApiUpdateMessageRequest {
+// The channel Id to move the message(s) to, to request moving messages to another channel.  Should only be sent when changing the channel, and will throw an error if the target message is not a channel message.  Note that a message&#39;s content and channel cannot be changed at the same time, so sending both &#x60;content&#x60; and &#x60;stream_id&#x60; parameters will throw an error.  **Changes**: New in Zulip 3.0 (feature level 1).
+func (r UpdateMessageRequest) StreamId(streamId int64) UpdateMessageRequest {
 	r.streamId = &streamId
 	return r
 }
 
-func (r ApiUpdateMessageRequest) Execute() (*models.UpdateMessage200Response, *http.Response, error) {
+func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response, error) {
 	return r.ApiService.UpdateMessageExecute(r)
 }
 
@@ -2775,9 +2773,9 @@ func (r ApiUpdateMessageRequest) Execute() (*models.UpdateMessage200Response, *h
 UpdateMessage Edit a message
 
 Update the content, topic, or channel of the message with the specified
-ID.
+Id.
 
-You can [resolve topics](zulip.com/help/resolve-a-topic by editing the topic to
+You can [resolve topics](zulip.com/help/resolve-a-topic) by editing the topic to
 `✔ {original_topic}` with the `propagate_mode` parameter set to
 `"change_all"`.
 
@@ -2799,14 +2797,14 @@ linked documentation on when users are allowed to update messages are:
 - `move_messages_between_streams_limit_seconds`
 
 More details about these realm settings can be found in the
-[`POST /register`](zulip.com/api/register-queue response or in the documentation
+[`POST /register`](zulip.com/api/register-queue) response or in the documentation
 of the [`realm op: update_dict`](zulip.com/api/get-events#realm-update_dict
 event in [`GET /events`](zulip.com/api/get-events.
 
 **Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
 resolving a topic was managed by `can_move_messages_between_topics_group`.
 As of this feature level, users belonging to the `can_resolve_topics_group`
-will have the permission to [resolve topics](zulip.com/help/resolve-a-topic in the organization.
+will have the permission to [resolve topics](zulip.com/help/resolve-a-topic) in the organization.
 
 In Zulip 10.0 (feature level 316), `edit_topic_policy`
 was removed and replaced by `can_move_messages_between_topics_group`
@@ -2859,11 +2857,11 @@ realm setting was added.
 [restrict-move-messages]: /help/restrict-moving-messages
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's ID.
-	@return ApiUpdateMessageRequest
+	@param messageId The target message's Id.
+	@return UpdateMessageRequest
 */
-func (c *ZulipClient) UpdateMessage(ctx context.Context, messageId int32) ApiUpdateMessageRequest {
-	return ApiUpdateMessageRequest{
+func (c *ZulipClient) UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest {
+	return UpdateMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
@@ -2872,13 +2870,13 @@ func (c *ZulipClient) UpdateMessage(ctx context.Context, messageId int32) ApiUpd
 
 // Execute executes the request
 //
-//	@return models.UpdateMessage200Response
-func (c *ZulipClient) UpdateMessageExecute(r ApiUpdateMessageRequest) (*models.UpdateMessage200Response, *http.Response, error) {
+//	@return UpdateMessageResponse
+func (c *ZulipClient) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.UpdateMessage200Response
+		localVarReturnValue *UpdateMessageResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -2954,7 +2952,7 @@ func (c *ZulipClient) UpdateMessageExecute(r ApiUpdateMessageRequest) (*models.U
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.UpdateMessage400Response
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -2978,33 +2976,33 @@ func (c *ZulipClient) UpdateMessageExecute(r ApiUpdateMessageRequest) (*models.U
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiUpdateMessageFlagsRequest struct {
+type UpdateMessageFlagsRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
-	messages   *[]int32
+	messages   *[]int64
 	op         *string
 	flag       *string
 }
 
-// An array containing the IDs of the target messages.
-func (r ApiUpdateMessageFlagsRequest) Messages(messages []int32) ApiUpdateMessageFlagsRequest {
+// An array containing the Ids of the target messages.
+func (r UpdateMessageFlagsRequest) Messages(messages []int64) UpdateMessageFlagsRequest {
 	r.messages = &messages
 	return r
 }
 
 // Whether to &#x60;add&#x60; the flag or &#x60;remove&#x60; it.
-func (r ApiUpdateMessageFlagsRequest) Op(op string) ApiUpdateMessageFlagsRequest {
+func (r UpdateMessageFlagsRequest) Op(op string) UpdateMessageFlagsRequest {
 	r.op = &op
 	return r
 }
 
 // The flag that should be added/removed.
-func (r ApiUpdateMessageFlagsRequest) Flag(flag string) ApiUpdateMessageFlagsRequest {
+func (r UpdateMessageFlagsRequest) Flag(flag string) UpdateMessageFlagsRequest {
 	r.flag = &flag
 	return r
 }
 
-func (r ApiUpdateMessageFlagsRequest) Execute() (*models.UpdateMessageFlags200Response, *http.Response, error) {
+func (r UpdateMessageFlagsRequest) Execute() (*UpdateMessageFlagsResponse, *http.Response, error) {
 	return r.ApiService.UpdateMessageFlagsExecute(r)
 }
 
@@ -3012,16 +3010,16 @@ func (r ApiUpdateMessageFlagsRequest) Execute() (*models.UpdateMessageFlags200Re
 UpdateMessageFlags Update personal message flags
 
 Add or remove personal message flags like `read` and `starred`
-on a collection of message IDs.
+on a collection of message Ids.
 
 See also the endpoint for [updating flags on a range of
 messages within a narrow](zulip.com/api/update-message-flags-for-narrow.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiUpdateMessageFlagsRequest
+	@return UpdateMessageFlagsRequest
 */
-func (c *ZulipClient) UpdateMessageFlags(ctx context.Context) ApiUpdateMessageFlagsRequest {
-	return ApiUpdateMessageFlagsRequest{
+func (c *ZulipClient) UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest {
+	return UpdateMessageFlagsRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -3029,13 +3027,13 @@ func (c *ZulipClient) UpdateMessageFlags(ctx context.Context) ApiUpdateMessageFl
 
 // Execute executes the request
 //
-//	@return models.UpdateMessageFlags200Response
-func (c *ZulipClient) UpdateMessageFlagsExecute(r ApiUpdateMessageFlagsRequest) (*models.UpdateMessageFlags200Response, *http.Response, error) {
+//	@return UpdateMessageFlagsResponse
+func (c *ZulipClient) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*UpdateMessageFlagsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.UpdateMessageFlags200Response
+		localVarReturnValue *UpdateMessageFlagsResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -3115,61 +3113,61 @@ func (c *ZulipClient) UpdateMessageFlagsExecute(r ApiUpdateMessageFlagsRequest) 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiUpdateMessageFlagsForNarrowRequest struct {
+type UpdateMessageFlagsForNarrowRequest struct {
 	ctx           context.Context
 	ApiService    MessagesAPI
 	anchor        *string
 	numBefore     *int32
 	numAfter      *int32
-	narrow        *[]models.UpdateFlagsNarrowClause
+	narrow        *[]UpdateFlagsNarrowClause
 	op            *string
 	flag          *string
 	includeAnchor *bool
 }
 
-// Integer message ID to anchor updating of flags. Supports special string values for when the client wants the server to compute the anchor to use:  - &#x60;newest&#x60;: The most recent message. - &#x60;oldest&#x60;: The oldest message. - &#x60;first_unread&#x60;: The oldest unread message matching the   query, if any; otherwise, the most recent message.
-func (r ApiUpdateMessageFlagsForNarrowRequest) Anchor(anchor string) ApiUpdateMessageFlagsForNarrowRequest {
+// Integer message Id to anchor updating of flags. Supports special string values for when the client wants the server to compute the anchor to use:  - &#x60;newest&#x60;: The most recent message. - &#x60;oldest&#x60;: The oldest message. - &#x60;first_unread&#x60;: The oldest unread message matching the   query, if any; otherwise, the most recent message.
+func (r UpdateMessageFlagsForNarrowRequest) Anchor(anchor string) UpdateMessageFlagsForNarrowRequest {
 	r.anchor = &anchor
 	return r
 }
 
 // Limit the number of messages preceding the anchor in the update range. The server may decrease this to bound transaction sizes.
-func (r ApiUpdateMessageFlagsForNarrowRequest) NumBefore(numBefore int32) ApiUpdateMessageFlagsForNarrowRequest {
+func (r UpdateMessageFlagsForNarrowRequest) NumBefore(numBefore int32) UpdateMessageFlagsForNarrowRequest {
 	r.numBefore = &numBefore
 	return r
 }
 
 // Limit the number of messages following the anchor in the update range. The server may decrease this to bound transaction sizes.
-func (r ApiUpdateMessageFlagsForNarrowRequest) NumAfter(numAfter int32) ApiUpdateMessageFlagsForNarrowRequest {
+func (r UpdateMessageFlagsForNarrowRequest) NumAfter(numAfter int32) UpdateMessageFlagsForNarrowRequest {
 	r.numAfter = &numAfter
 	return r
 }
 
 // The narrow you want update flags within. See how to [construct a narrow](zulip.com/api/construct-narrow.  Note that, when adding the &#x60;read&#x60; flag to messages, clients should consider including a narrow with the &#x60;is:unread&#x60; filter as an optimization. Including that filter takes advantage of the fact that the server has a database index for unread messages.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
-func (r ApiUpdateMessageFlagsForNarrowRequest) Narrow(narrow []models.UpdateFlagsNarrowClause) ApiUpdateMessageFlagsForNarrowRequest {
+func (r UpdateMessageFlagsForNarrowRequest) Narrow(narrow []UpdateFlagsNarrowClause) UpdateMessageFlagsForNarrowRequest {
 	r.narrow = &narrow
 	return r
 }
 
 // Whether to &#x60;add&#x60; the flag or &#x60;remove&#x60; it.
-func (r ApiUpdateMessageFlagsForNarrowRequest) Op(op string) ApiUpdateMessageFlagsForNarrowRequest {
+func (r UpdateMessageFlagsForNarrowRequest) Op(op string) UpdateMessageFlagsForNarrowRequest {
 	r.op = &op
 	return r
 }
 
 // The flag that should be added/removed. See [available flags](zulip.com/api/update-message-flags#available-flags.
-func (r ApiUpdateMessageFlagsForNarrowRequest) Flag(flag string) ApiUpdateMessageFlagsForNarrowRequest {
+func (r UpdateMessageFlagsForNarrowRequest) Flag(flag string) UpdateMessageFlagsForNarrowRequest {
 	r.flag = &flag
 	return r
 }
 
-// Whether a message with the specified ID matching the narrow should be included in the update range.
-func (r ApiUpdateMessageFlagsForNarrowRequest) IncludeAnchor(includeAnchor bool) ApiUpdateMessageFlagsForNarrowRequest {
+// Whether a message with the specified Id matching the narrow should be included in the update range.
+func (r UpdateMessageFlagsForNarrowRequest) IncludeAnchor(includeAnchor bool) UpdateMessageFlagsForNarrowRequest {
 	r.includeAnchor = &includeAnchor
 	return r
 }
 
-func (r ApiUpdateMessageFlagsForNarrowRequest) Execute() (*models.UpdateMessageFlagsForNarrow200Response, *http.Response, error) {
+func (r UpdateMessageFlagsForNarrowRequest) Execute() (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
 	return r.ApiService.UpdateMessageFlagsForNarrowExecute(r)
 }
 
@@ -3180,15 +3178,15 @@ Add or remove personal message flags like `read` and `starred`
 on a range of messages within a narrow.
 
 See also [the endpoint for updating flags on specific message
-IDs](zulip.com/api/update-message-flags.
+Ids](zulip.com/api/update-message-flags.
 
 **Changes**: New in Zulip 6.0 (feature level 155).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiUpdateMessageFlagsForNarrowRequest
+	@return UpdateMessageFlagsForNarrowRequest
 */
-func (c *ZulipClient) UpdateMessageFlagsForNarrow(ctx context.Context) ApiUpdateMessageFlagsForNarrowRequest {
-	return ApiUpdateMessageFlagsForNarrowRequest{
+func (c *ZulipClient) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest {
+	return UpdateMessageFlagsForNarrowRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -3196,13 +3194,13 @@ func (c *ZulipClient) UpdateMessageFlagsForNarrow(ctx context.Context) ApiUpdate
 
 // Execute executes the request
 //
-//	@return models.UpdateMessageFlagsForNarrow200Response
-func (c *ZulipClient) UpdateMessageFlagsForNarrowExecute(r ApiUpdateMessageFlagsForNarrowRequest) (*models.UpdateMessageFlagsForNarrow200Response, *http.Response, error) {
+//	@return UpdateMessageFlagsForNarrowResponse
+func (c *ZulipClient) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.UpdateMessageFlagsForNarrow200Response
+		localVarReturnValue *UpdateMessageFlagsForNarrowResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -3303,25 +3301,25 @@ func (c *ZulipClient) UpdateMessageFlagsForNarrowExecute(r ApiUpdateMessageFlags
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiUploadFileRequest struct {
+type UploadFileRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
 	filename   *os.File
 }
 
-func (r ApiUploadFileRequest) Filename(filename *os.File) ApiUploadFileRequest {
+func (r UploadFileRequest) Filename(filename *os.File) UploadFileRequest {
 	r.filename = filename
 	return r
 }
 
-func (r ApiUploadFileRequest) Execute() (*models.UploadFile200Response, *http.Response, error) {
+func (r UploadFileRequest) Execute() (*UploadFileResponse, *http.Response, error) {
 	return r.ApiService.UploadFileExecute(r)
 }
 
 /*
 UploadFile Upload a file
 
-[Upload](zulip.com/help/share-and-upload-files a single file and get the corresponding URL.
+[Upload](zulip.com/help/share-and-upload-files) a single file and get the corresponding URL.
 
 Initially, only you will be able to access the link. To share the
 uploaded file, you'll need to [send a message][send-message]
@@ -3330,7 +3328,7 @@ can reshare it with other users by sending additional Zulip messages
 containing the link.
 
 The maximum allowed file size is available in the `max_file_upload_size_mib`
-field in the [`POST /register`](zulip.com/api/register-queue response. Note that
+field in the [`POST /register`](zulip.com/api/register-queue) response. Note that
 large files (25MB+) may fail to upload using this API endpoint due to
 network-layer timeouts, depending on the quality of your connection to the
 Zulip server.
@@ -3351,10 +3349,10 @@ introduced in Zulip 10.0 (feature level 296). Previously,
 [send-message]: /api/send-message
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiUploadFileRequest
+	@return UploadFileRequest
 */
-func (c *ZulipClient) UploadFile(ctx context.Context) ApiUploadFileRequest {
-	return ApiUploadFileRequest{
+func (c *ZulipClient) UploadFile(ctx context.Context) UploadFileRequest {
+	return UploadFileRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -3362,13 +3360,13 @@ func (c *ZulipClient) UploadFile(ctx context.Context) ApiUploadFileRequest {
 
 // Execute executes the request
 //
-//	@return models.UploadFile200Response
-func (c *ZulipClient) UploadFileExecute(r ApiUploadFileRequest) (*models.UploadFile200Response, *http.Response, error) {
+//	@return UploadFileResponse
+func (c *ZulipClient) UploadFileExecute(r UploadFileRequest) (*UploadFileResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.UploadFile200Response
+		localVarReturnValue *UploadFileResponse
 	)
 
 	localBasePath, err := c.ServerURL()

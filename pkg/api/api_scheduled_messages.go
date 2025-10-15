@@ -17,8 +17,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-
-	"github.com/tum-zulip/go-zulip/pkg/models"
+	"time"
 )
 
 type ScheduledMessagesAPI interface {
@@ -29,7 +28,7 @@ type ScheduledMessagesAPI interface {
 			Create a new [scheduled message](zulip.com/help/schedule-a-message.
 
 		**Changes**: In Zulip 7.0 (feature level 184), moved support for
-		[editing a scheduled message](zulip.com/api/update-scheduled-message to a
+		[editing a scheduled message](zulip.com/api/update-scheduled-message) to a
 		separate API endpoint, which removed the `scheduled_message_id`
 		parameter from this endpoint.
 
@@ -37,13 +36,13 @@ type ScheduledMessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiCreateScheduledMessageRequest
+			@return CreateScheduledMessageRequest
 	*/
-	CreateScheduledMessage(ctx context.Context) ApiCreateScheduledMessageRequest
+	CreateScheduledMessage(ctx context.Context) CreateScheduledMessageRequest
 
 	// CreateScheduledMessageExecute executes the request
-	//  @return models.CreateScheduledMessage200Response
-	CreateScheduledMessageExecute(r ApiCreateScheduledMessageRequest) (*models.CreateScheduledMessage200Response, *http.Response, error)
+	//  @return CreateScheduledMessageResponse
+	CreateScheduledMessageExecute(r CreateScheduledMessageRequest) (*CreateScheduledMessageResponse, *http.Response, error)
 
 	/*
 			DeleteScheduledMessage Delete a scheduled message
@@ -55,19 +54,19 @@ type ScheduledMessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param scheduledMessageId The ID of the scheduled message to delete.  This is different from the unique ID that the message would have after being sent.
-			@return ApiDeleteScheduledMessageRequest
+			@param scheduledMessageId The Id of the scheduled message to delete.  This is different from the unique Id that the message would have after being sent.
+			@return DeleteScheduledMessageRequest
 	*/
-	DeleteScheduledMessage(ctx context.Context, scheduledMessageId int32) ApiDeleteScheduledMessageRequest
+	DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest
 
 	// DeleteScheduledMessageExecute executes the request
-	//  @return models.JsonSuccess
-	DeleteScheduledMessageExecute(r ApiDeleteScheduledMessageRequest) (*models.JsonSuccess, *http.Response, error)
+	//  @return Response
+	DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*Response, *http.Response, error)
 
 	/*
 			GetScheduledMessages Get scheduled messages
 
-			Fetch all [scheduled messages](zulip.com/help/schedule-a-message for
+			Fetch all [scheduled messages](zulip.com/help/schedule-a-message) for
 		the current user.
 
 		Scheduled messages are messages the user has scheduled to be
@@ -77,13 +76,13 @@ type ScheduledMessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ApiGetScheduledMessagesRequest
+			@return GetScheduledMessagesRequest
 	*/
-	GetScheduledMessages(ctx context.Context) ApiGetScheduledMessagesRequest
+	GetScheduledMessages(ctx context.Context) GetScheduledMessagesRequest
 
 	// GetScheduledMessagesExecute executes the request
-	//  @return models.GetScheduledMessages200Response
-	GetScheduledMessagesExecute(r ApiGetScheduledMessagesRequest) (*models.GetScheduledMessages200Response, *http.Response, error)
+	//  @return GetScheduledMessagesResponse
+	GetScheduledMessagesExecute(r GetScheduledMessagesRequest) (*GetScheduledMessagesResponse, *http.Response, error)
 
 	/*
 			UpdateScheduledMessage Edit a scheduled message
@@ -94,63 +93,64 @@ type ScheduledMessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param scheduledMessageId The ID of the scheduled message to update.  This is different from the unique ID that the message would have after being sent.
-			@return ApiUpdateScheduledMessageRequest
+			@param scheduledMessageId The Id of the scheduled message to update.  This is different from the unique Id that the message would have after being sent.
+			@return UpdateScheduledMessageRequest
 	*/
-	UpdateScheduledMessage(ctx context.Context, scheduledMessageId int32) ApiUpdateScheduledMessageRequest
+	UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest
 
 	// UpdateScheduledMessageExecute executes the request
-	//  @return models.UpdateScheduledMessage200Response
-	UpdateScheduledMessageExecute(r ApiUpdateScheduledMessageRequest) (*models.UpdateScheduledMessage200Response, *http.Response, error)
+	//  @return Response
+	UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*Response, *http.Response, error)
 }
 
-type ApiCreateScheduledMessageRequest struct {
+type CreateScheduledMessageRequest struct {
 	ctx                        context.Context
 	ApiService                 ScheduledMessagesAPI
-	recipientType              *models.RecipientType
-	to                         *models.Recipients
+	recipientType              *RecipientType
+	to                         *Recipient
 	content                    *string
-	scheduledDeliveryTimestamp *int32
+	scheduledDeliveryTimestamp *int64
 	topic                      *string
 	readBySender               *bool
 }
 
 // The type of scheduled message to be sent. &#x60;\\\&quot;direct\\\&quot;&#x60; for a direct message and &#x60;\\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;channel\\\&quot;&#x60; for a channel message.  Note that, while &#x60;\\\&quot;private\\\&quot;&#x60; is supported for scheduling direct messages, clients are encouraged to use to the modern convention of &#x60;\\\&quot;direct\\\&quot;&#x60; to indicate this message type, because support for &#x60;\\\&quot;private\\\&quot;&#x60; may eventually be removed.  **Changes**: In Zulip 9.0 (feature level 248), &#x60;\\\&quot;channel\\\&quot;&#x60; was added as an additional value for this parameter to indicate the type of a channel message.
-func (r ApiCreateScheduledMessageRequest) RecipientType(recipientType models.RecipientType) ApiCreateScheduledMessageRequest {
+func (r CreateScheduledMessageRequest) RecipientType(recipientType RecipientType) CreateScheduledMessageRequest {
 	r.recipientType = &recipientType
 	return r
 }
 
-func (r ApiCreateScheduledMessageRequest) To(to models.Recipients) ApiCreateScheduledMessageRequest {
+func (r CreateScheduledMessageRequest) To(to Recipient) CreateScheduledMessageRequest {
 	r.to = &to
 	return r
 }
 
-// The content of the message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue endpoint to determine the maximum message size.
-func (r ApiCreateScheduledMessageRequest) Content(content string) ApiCreateScheduledMessageRequest {
+// The content of the message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum message size.
+func (r CreateScheduledMessageRequest) Content(content string) CreateScheduledMessageRequest {
 	r.content = &content
 	return r
 }
 
 // The UNIX timestamp for when the message will be sent, in UTC seconds.
-func (r ApiCreateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliveryTimestamp int32) ApiCreateScheduledMessageRequest {
-	r.scheduledDeliveryTimestamp = &scheduledDeliveryTimestamp
+func (r CreateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliveryTimestamp time.Time) CreateScheduledMessageRequest {
+	timestamp := scheduledDeliveryTimestamp.Unix()
+	r.scheduledDeliveryTimestamp = &timestamp
 	return r
 }
 
-// The topic of the message. Only required for channel messages (&#x60;\\\&quot;type\\\&quot;: \\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;type\\\&quot;: \\\&quot;channel\\\&quot;&#x60;), ignored otherwise.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue endpoint to determine the maximum topic length.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  **Changes**: Before Zulip 10.0 (feature level 370), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
-func (r ApiCreateScheduledMessageRequest) Topic(topic string) ApiCreateScheduledMessageRequest {
+// The topic of the message. Only required for channel messages (&#x60;\\\&quot;type\\\&quot;: \\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;type\\\&quot;: \\\&quot;channel\\\&quot;&#x60;), ignored otherwise.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum topic length.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  **Changes**: Before Zulip 10.0 (feature level 370), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+func (r CreateScheduledMessageRequest) Topic(topic string) CreateScheduledMessageRequest {
 	r.topic = &topic
 	return r
 }
 
 // Whether the message should be initially marked read by its sender. If unspecified, the server uses a heuristic based on the client name and the recipient.  **Changes**: New in Zulip 8.0 (feature level 236).
-func (r ApiCreateScheduledMessageRequest) ReadBySender(readBySender bool) ApiCreateScheduledMessageRequest {
+func (r CreateScheduledMessageRequest) ReadBySender(readBySender bool) CreateScheduledMessageRequest {
 	r.readBySender = &readBySender
 	return r
 }
 
-func (r ApiCreateScheduledMessageRequest) Execute() (*models.CreateScheduledMessage200Response, *http.Response, error) {
+func (r CreateScheduledMessageRequest) Execute() (*CreateScheduledMessageResponse, *http.Response, error) {
 	return r.ApiService.CreateScheduledMessageExecute(r)
 }
 
@@ -160,17 +160,17 @@ CreateScheduledMessage Create a scheduled message
 Create a new [scheduled message](zulip.com/help/schedule-a-message.
 
 **Changes**: In Zulip 7.0 (feature level 184), moved support for
-[editing a scheduled message](zulip.com/api/update-scheduled-message to a
+[editing a scheduled message](zulip.com/api/update-scheduled-message) to a
 separate API endpoint, which removed the `scheduled_message_id`
 parameter from this endpoint.
 
 New in Zulip 7.0 (feature level 179).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateScheduledMessageRequest
+	@return CreateScheduledMessageRequest
 */
-func (c *ZulipClient) CreateScheduledMessage(ctx context.Context) ApiCreateScheduledMessageRequest {
-	return ApiCreateScheduledMessageRequest{
+func (c *ZulipClient) CreateScheduledMessage(ctx context.Context) CreateScheduledMessageRequest {
+	return CreateScheduledMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -178,13 +178,13 @@ func (c *ZulipClient) CreateScheduledMessage(ctx context.Context) ApiCreateSched
 
 // Execute executes the request
 //
-//	@return models.CreateScheduledMessage200Response
-func (c *ZulipClient) CreateScheduledMessageExecute(r ApiCreateScheduledMessageRequest) (*models.CreateScheduledMessage200Response, *http.Response, error) {
+//	@return CreateScheduledMessageResponse
+func (c *ZulipClient) CreateScheduledMessageExecute(r CreateScheduledMessageRequest) (*CreateScheduledMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.CreateScheduledMessage200Response
+		localVarReturnValue *CreateScheduledMessageResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -261,7 +261,7 @@ func (c *ZulipClient) CreateScheduledMessageExecute(r ApiCreateScheduledMessageR
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CreateScheduledMessage400Response
+			var v CreateScheduledMessage400Response
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -285,13 +285,13 @@ func (c *ZulipClient) CreateScheduledMessageExecute(r ApiCreateScheduledMessageR
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiDeleteScheduledMessageRequest struct {
+type DeleteScheduledMessageRequest struct {
 	ctx                context.Context
 	ApiService         ScheduledMessagesAPI
-	scheduledMessageId int32
+	scheduledMessageId int64
 }
 
-func (r ApiDeleteScheduledMessageRequest) Execute() (*models.JsonSuccess, *http.Response, error) {
+func (r DeleteScheduledMessageRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.DeleteScheduledMessageExecute(r)
 }
 
@@ -304,11 +304,11 @@ message](zulip.com/help/schedule-a-message.
 **Changes**: New in Zulip 7.0 (feature level 173).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param scheduledMessageId The ID of the scheduled message to delete.  This is different from the unique ID that the message would have after being sent.
-	@return ApiDeleteScheduledMessageRequest
+	@param scheduledMessageId The Id of the scheduled message to delete.  This is different from the unique Id that the message would have after being sent.
+	@return DeleteScheduledMessageRequest
 */
-func (c *ZulipClient) DeleteScheduledMessage(ctx context.Context, scheduledMessageId int32) ApiDeleteScheduledMessageRequest {
-	return ApiDeleteScheduledMessageRequest{
+func (c *ZulipClient) DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest {
+	return DeleteScheduledMessageRequest{
 		ApiService:         c,
 		ctx:                ctx,
 		scheduledMessageId: scheduledMessageId,
@@ -317,13 +317,13 @@ func (c *ZulipClient) DeleteScheduledMessage(ctx context.Context, scheduledMessa
 
 // Execute executes the request
 //
-//	@return models.JsonSuccess
-func (c *ZulipClient) DeleteScheduledMessageExecute(r ApiDeleteScheduledMessageRequest) (*models.JsonSuccess, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.JsonSuccess
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -378,7 +378,7 @@ func (c *ZulipClient) DeleteScheduledMessageExecute(r ApiDeleteScheduledMessageR
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -402,19 +402,19 @@ func (c *ZulipClient) DeleteScheduledMessageExecute(r ApiDeleteScheduledMessageR
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetScheduledMessagesRequest struct {
+type GetScheduledMessagesRequest struct {
 	ctx        context.Context
 	ApiService ScheduledMessagesAPI
 }
 
-func (r ApiGetScheduledMessagesRequest) Execute() (*models.GetScheduledMessages200Response, *http.Response, error) {
+func (r GetScheduledMessagesRequest) Execute() (*GetScheduledMessagesResponse, *http.Response, error) {
 	return r.ApiService.GetScheduledMessagesExecute(r)
 }
 
 /*
 GetScheduledMessages Get scheduled messages
 
-Fetch all [scheduled messages](zulip.com/help/schedule-a-message for
+Fetch all [scheduled messages](zulip.com/help/schedule-a-message) for
 the current user.
 
 Scheduled messages are messages the user has scheduled to be
@@ -423,10 +423,10 @@ sent in the future via the send later feature.
 **Changes**: New in Zulip 7.0 (feature level 173).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetScheduledMessagesRequest
+	@return GetScheduledMessagesRequest
 */
-func (c *ZulipClient) GetScheduledMessages(ctx context.Context) ApiGetScheduledMessagesRequest {
-	return ApiGetScheduledMessagesRequest{
+func (c *ZulipClient) GetScheduledMessages(ctx context.Context) GetScheduledMessagesRequest {
+	return GetScheduledMessagesRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -434,13 +434,13 @@ func (c *ZulipClient) GetScheduledMessages(ctx context.Context) ApiGetScheduledM
 
 // Execute executes the request
 //
-//	@return models.GetScheduledMessages200Response
-func (c *ZulipClient) GetScheduledMessagesExecute(r ApiGetScheduledMessagesRequest) (*models.GetScheduledMessages200Response, *http.Response, error) {
+//	@return GetScheduledMessagesResponse
+func (c *ZulipClient) GetScheduledMessagesExecute(r GetScheduledMessagesRequest) (*GetScheduledMessagesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.GetScheduledMessages200Response
+		localVarReturnValue *GetScheduledMessagesResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -508,47 +508,48 @@ func (c *ZulipClient) GetScheduledMessagesExecute(r ApiGetScheduledMessagesReque
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiUpdateScheduledMessageRequest struct {
+type UpdateScheduledMessageRequest struct {
 	ctx                        context.Context
 	ApiService                 ScheduledMessagesAPI
-	scheduledMessageId         int32
+	scheduledMessageId         int64
 	recipientType              *string
-	to                         *models.Recipients
+	to                         *Recipient
 	content                    *string
 	topic                      *string
-	scheduledDeliveryTimestamp *int32
+	scheduledDeliveryTimestamp *int64
 }
 
 // The type of scheduled message to be sent. &#x60;\\\&quot;direct\\\&quot;&#x60; for a direct message and &#x60;\\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;channel\\\&quot;&#x60; for a channel message.  When updating the type of the scheduled message, the &#x60;to&#x60; parameter is required. And, if updating the type of the scheduled message to &#x60;\\\&quot;stream\\\&quot;&#x60;/&#x60;\\\&quot;channel\\\&quot;&#x60;, then the &#x60;topic&#x60; parameter is also required.  Note that, while &#x60;\\\&quot;private\\\&quot;&#x60; is supported for scheduling direct messages, clients are encouraged to use to the modern convention of &#x60;\\\&quot;direct\\\&quot;&#x60; to indicate this message type, because support for &#x60;\\\&quot;private\\\&quot;&#x60; may eventually be removed.  **Changes**: In Zulip 9.0 (feature level 248), &#x60;\\\&quot;channel\\\&quot;&#x60; was added as an additional value for this parameter to indicate the type of a channel message.
-func (r ApiUpdateScheduledMessageRequest) RecipientType(recipientType string) ApiUpdateScheduledMessageRequest {
+func (r UpdateScheduledMessageRequest) RecipientType(recipientType string) UpdateScheduledMessageRequest {
 	r.recipientType = &recipientType
 	return r
 }
 
-func (r ApiUpdateScheduledMessageRequest) To(to models.Recipients) ApiUpdateScheduledMessageRequest {
+func (r UpdateScheduledMessageRequest) To(to Recipient) UpdateScheduledMessageRequest {
 	r.to = &to
 	return r
 }
 
-// The updated content of the scheduled message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue endpoint to determine the maximum message size.
-func (r ApiUpdateScheduledMessageRequest) Content(content string) ApiUpdateScheduledMessageRequest {
+// The updated content of the scheduled message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum message size.
+func (r UpdateScheduledMessageRequest) Content(content string) UpdateScheduledMessageRequest {
 	r.content = &content
 	return r
 }
 
-// The updated topic of the scheduled message.  Required when updating the &#x60;type&#x60; of the scheduled message to &#x60;\\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;channel\\\&quot;&#x60;. Ignored when the existing or updated &#x60;type&#x60; of the scheduled message is &#x60;\\\&quot;direct\\\&quot;&#x60; (or &#x60;\\\&quot;private\\\&quot;&#x60;).  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue endpoint to determine the maximum topic length.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  **Changes**: Before Zulip 10.0 (feature level 370), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
-func (r ApiUpdateScheduledMessageRequest) Topic(topic string) ApiUpdateScheduledMessageRequest {
+// The updated topic of the scheduled message.  Required when updating the &#x60;type&#x60; of the scheduled message to &#x60;\\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;channel\\\&quot;&#x60;. Ignored when the existing or updated &#x60;type&#x60; of the scheduled message is &#x60;\\\&quot;direct\\\&quot;&#x60; (or &#x60;\\\&quot;private\\\&quot;&#x60;).  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum topic length.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  **Changes**: Before Zulip 10.0 (feature level 370), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+func (r UpdateScheduledMessageRequest) Topic(topic string) UpdateScheduledMessageRequest {
 	r.topic = &topic
 	return r
 }
 
 // The UNIX timestamp for when the message will be sent, in UTC seconds.  Required when updating a scheduled message that the server has already tried and failed to send. This state is indicated with &#x60;\\\&quot;failed\\\&quot;: true&#x60; in &#x60;scheduled_messages&#x60; objects; see response description at [&#x60;GET /scheduled_messages&#x60;](zulip.com/api/get-scheduled-messages#response.
-func (r ApiUpdateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliveryTimestamp int32) ApiUpdateScheduledMessageRequest {
-	r.scheduledDeliveryTimestamp = &scheduledDeliveryTimestamp
+func (r UpdateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliveryTimestamp time.Time) UpdateScheduledMessageRequest {
+	timestamp := scheduledDeliveryTimestamp.Unix()
+	r.scheduledDeliveryTimestamp = &timestamp
 	return r
 }
 
-func (r ApiUpdateScheduledMessageRequest) Execute() (*models.UpdateScheduledMessage200Response, *http.Response, error) {
+func (r UpdateScheduledMessageRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.UpdateScheduledMessageExecute(r)
 }
 
@@ -560,11 +561,11 @@ Edit an existing [scheduled message](zulip.com/help/schedule-a-message.
 **Changes**: New in Zulip 7.0 (feature level 184).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param scheduledMessageId The ID of the scheduled message to update.  This is different from the unique ID that the message would have after being sent.
-	@return ApiUpdateScheduledMessageRequest
+	@param scheduledMessageId The Id of the scheduled message to update.  This is different from the unique Id that the message would have after being sent.
+	@return UpdateScheduledMessageRequest
 */
-func (c *ZulipClient) UpdateScheduledMessage(ctx context.Context, scheduledMessageId int32) ApiUpdateScheduledMessageRequest {
-	return ApiUpdateScheduledMessageRequest{
+func (c *ZulipClient) UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest {
+	return UpdateScheduledMessageRequest{
 		ApiService:         c,
 		ctx:                ctx,
 		scheduledMessageId: scheduledMessageId,
@@ -573,13 +574,13 @@ func (c *ZulipClient) UpdateScheduledMessage(ctx context.Context, scheduledMessa
 
 // Execute executes the request
 //
-//	@return models.UpdateScheduledMessage200Response
-func (c *ZulipClient) UpdateScheduledMessageExecute(r ApiUpdateScheduledMessageRequest) (*models.UpdateScheduledMessage200Response, *http.Response, error) {
+//	@return Response
+func (c *ZulipClient) UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *models.UpdateScheduledMessage200Response
+		localVarReturnValue *Response
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -653,7 +654,7 @@ func (c *ZulipClient) UpdateScheduledMessageExecute(r ApiUpdateScheduledMessageR
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v models.CreateScheduledMessage400Response
+			var v CreateScheduledMessage400Response
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -664,7 +665,7 @@ func (c *ZulipClient) UpdateScheduledMessageExecute(r ApiUpdateScheduledMessageR
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v models.CodedError
+			var v CodedError
 			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
