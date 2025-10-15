@@ -24,60 +24,59 @@ func Test_ScheduledMessagesAPIService(t *testing.T) {
 
 	otherUserId := getOwnUserId(t, GetOtherNormalClient(t))
 
-	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
+	t.Run("CreateScheduledMessage", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		createScheduledMessage(t, apiClient, []int64{otherUserId})
+	}))
+
+	t.Run("DeleteScheduledMessage", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
 		ctx := context.Background()
 
-		t.Run("CreateScheduledMessage", func(t *testing.T) {
-			createScheduledMessage(t, apiClient, []int64{otherUserId})
-		})
+		msg := createScheduledMessage(t, apiClient, []int64{otherUserId})
 
-		t.Run("DeleteScheduledMessage", func(t *testing.T) {
+		resp, httpRes, err := apiClient.DeleteScheduledMessage(ctx, msg.ScheduledMessageId).Execute()
 
-			msg := createScheduledMessage(t, apiClient, []int64{otherUserId})
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-			resp, httpRes, err := apiClient.DeleteScheduledMessage(ctx, msg.ScheduledMessageId).Execute()
+	}))
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+	t.Run("GetScheduledMessages", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-		})
+		msg := createScheduledMessage(t, apiClient, []int64{otherUserId})
 
-		t.Run("GetScheduledMessages", func(t *testing.T) {
+		resp, httpRes, err := apiClient.GetScheduledMessages(ctx).Execute()
 
-			msg := createScheduledMessage(t, apiClient, []int64{otherUserId})
-
-			resp, httpRes, err := apiClient.GetScheduledMessages(ctx).Execute()
-
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
-			assert.GreaterOrEqual(t, len(resp.ScheduledMessages), 1)
-			found := false
-			for _, m := range resp.ScheduledMessages {
-				if m.ScheduledMessageId == msg.ScheduledMessageId {
-					found = true
-					break
-				}
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+		assert.GreaterOrEqual(t, len(resp.ScheduledMessages), 1)
+		found := false
+		for _, m := range resp.ScheduledMessages {
+			if m.ScheduledMessageId == msg.ScheduledMessageId {
+				found = true
+				break
 			}
-			assert.True(t, found, "created scheduled message not found in list")
-		})
+		}
+		assert.True(t, found, "created scheduled message not found in list")
+	}))
 
-		t.Run("UpdateScheduledMessage", func(t *testing.T) {
+	t.Run("UpdateScheduledMessage", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			msg := createScheduledMessage(t, apiClient, []int64{otherUserId})
+		msg := createScheduledMessage(t, apiClient, []int64{otherUserId})
 
-			resp, httpRes, err := apiClient.
-				UpdateScheduledMessage(ctx, msg.ScheduledMessageId).
-				Content(uniqueName("Updated scheduled message")).
-				Execute()
+		resp, httpRes, err := apiClient.
+			UpdateScheduledMessage(ctx, msg.ScheduledMessageId).
+			Content(uniqueName("Updated scheduled message")).
+			Execute()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-		})
-	})
+	}))
 }
 
 func createScheduledMessage(t *testing.T, apiClient *api.ZulipClient, to []int64) *api.CreateScheduledMessageResponse {

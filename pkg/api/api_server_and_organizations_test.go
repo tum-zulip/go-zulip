@@ -27,69 +27,84 @@ import (
 )
 
 func Test_ServerAndOrganizationsAPIService(t *testing.T) {
-	runForClients(t, []namedClient{ownerClient, adminClient}, func(t *testing.T, apiClient *api.ZulipClient) {
+
+	t.Run("GetServerSettings", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
 		ctx := context.Background()
 
-		t.Run("GetServerSettings", func(t *testing.T) {
-			resp, httpRes, err := apiClient.GetServerSettings(ctx).Execute()
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-			assert.NotEmpty(t, resp.RealmName)
-			assert.NotEmpty(t, resp.RealmUrl)
-		})
+		resp, httpRes, err := apiClient.GetServerSettings(ctx).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.NotEmpty(t, resp.RealmName)
+		assert.NotEmpty(t, resp.RealmUrl)
+	}))
 
-		t.Run("CodePlaygrounds", func(t *testing.T) {
-			testCodePlaygroundLifecycle(t, ctx, apiClient)
-		})
+	t.Run("CodePlaygrounds", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-		t.Run("Linkifiers", func(t *testing.T) {
-			testLinkifierLifecycle(t, ctx, apiClient)
-		})
+		testCodePlaygroundLifecycle(t, ctx, apiClient)
+	}))
 
-		t.Run("CustomProfileFields", func(t *testing.T) {
-			testCustomProfileFieldManagement(t, ctx, apiClient)
-		})
+	t.Run("Linkifiers", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-		t.Run("Presence", func(t *testing.T) {
-			resp, httpRes, err := apiClient.GetPresence(ctx).Execute()
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
+		testLinkifierLifecycle(t, ctx, apiClient)
+	}))
 
-			presences := resp.Presences
-			assert.NotEmpty(t, presences)
-			for email, details := range presences {
-				assert.NotEmpty(t, details, "presence data missing for %s", email)
-			}
-		})
+	t.Run("CustomProfileFields", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-		t.Run("RealmExports", func(t *testing.T) {
-			testRealmExports(t, ctx, apiClient)
-		})
+		testCustomProfileFieldManagement(t, ctx, apiClient)
+	}))
 
-		t.Run("WelcomeBotPreview", func(t *testing.T) {
-			resp, httpRes, err := apiClient.TestWelcomeBotCustomMessage(ctx).
-				WelcomeMessageCustomText(fmt.Sprintf("Welcome preview from automated test %s", uniqueName("welcome"))).
-				Execute()
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-			assert.Greater(t, resp.MessageId, int64(0))
-		})
+	t.Run("Presence", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-		t.Run("RealmUserSettingsDefaults", func(t *testing.T) {
-			resp, httpRes, err := apiClient.UpdateRealmUserSettingsDefaults(ctx).Execute()
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-			assert.Equal(t, "success", resp.Result)
-		})
+		resp, httpRes, err := apiClient.GetPresence(ctx).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
 
-		t.Run("CustomEmojiLifecycle", func(t *testing.T) {
-			testCustomEmojiLifecycle(t, ctx, apiClient)
-		})
-	})
+		presences := resp.Presences
+		assert.NotEmpty(t, presences)
+		for email, details := range presences {
+			assert.NotEmpty(t, details, "presence data missing for %s", email)
+		}
+	}))
+
+	t.Run("RealmExports", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+
+		testRealmExports(t, ctx, apiClient)
+	}))
+
+	t.Run("WelcomeBotPreview", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+
+		resp, httpRes, err := apiClient.TestWelcomeBotCustomMessage(ctx).
+			WelcomeMessageCustomText(fmt.Sprintf("Welcome preview from automated test %s", uniqueName("welcome"))).
+			Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.Greater(t, resp.MessageId, int64(0))
+	}))
+
+	t.Run("RealmUserSettingsDefaults", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+
+		resp, httpRes, err := apiClient.UpdateRealmUserSettingsDefaults(ctx).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.Equal(t, "success", resp.Result)
+	}))
+
+	t.Run("CustomEmojiLifecycle", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+
+		testCustomEmojiLifecycle(t, ctx, apiClient)
+	}))
 }
 
 func testCodePlaygroundLifecycle(t *testing.T, ctx context.Context, apiClient *api.ZulipClient) {

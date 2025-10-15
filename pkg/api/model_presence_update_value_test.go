@@ -11,43 +11,53 @@ import (
 	"github.com/tum-zulip/go-zulip/pkg/api"
 )
 
-func TestModernPresenceFormatMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-	t.Parallel()
-
-	active := time.Unix(1700000000, 500*int64(time.Millisecond))
-	idle := time.Unix(1700000100, 250*int64(time.Millisecond))
-	presence := api.ModernPresenceFormat{
-		ActiveTimestamp: active,
-		IdleTimestamp:   idle,
+func TestPresenceUpdateValue_MarshalUnmarshal_Modern(t *testing.T) {
+	// create PresenceUpdateValue with modern presence format
+	p := api.PresenceUpdateValue{
+		ModernPresenceFormat: &api.ModernPresenceFormat{
+			ActiveTimestamp: time.Unix(1760534744, 0).UTC(),
+			IdleTimestamp:   time.Unix(1760534744, 0).UTC(),
+		},
 	}
 
-	data, err := json.Marshal(presence)
+	b, err := json.Marshal(p)
 	require.NoError(t, err)
 
-	var payload map[string]any
-	require.NoError(t, json.Unmarshal(data, &payload))
+	// exact JSON string expected from the envelope marshal
+	assert.Equal(t, `{"active_timestamp":1760534744,"idle_timestamp":1760534744}`, string(b))
 
-	activeVal, ok := payload["active_timestamp"]
-	require.True(t, ok)
-	require.IsType(t, float64(0), activeVal)
-	assert.Equal(t, float64(active.Unix()), activeVal)
-
-	idleVal, ok := payload["idle_timestamp"]
-	require.True(t, ok)
-	require.IsType(t, float64(0), idleVal)
-	assert.Equal(t, float64(idle.Unix()), idleVal)
+	// round-trip through the envelope
+	var got api.PresenceUpdateValue
+	require.NoError(t, json.Unmarshal(b, &got))
+	assert.Equal(t, p, got)
 }
 
-func TestModernPresenceFormatUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-	t.Parallel()
+func TestPresenceUpdateValue_MarshalUnmarshal_Legacy(t *testing.T) {
+	// expected legacy map
+	expected := api.PresenceUpdateValue{
+		LegacyPresenceMap: map[string]api.LegacyPresenceFormat{
+			"aggregated": {
+				Client:    "website",
+				Status:    "active",
+				Timestamp: 1760534744,
+			},
+			"website": {
+				Client:    "website",
+				Status:    "active",
+				Timestamp: 1760534744,
+				Pushable:  false,
+			},
+		},
+	}
 
-	raw := []byte(`{"active_timestamp":1700000000,"idle_timestamp":1700000100}`)
+	// build envelope from map and marshal
+	b, err := json.Marshal(expected)
+	require.NoError(t, err)
 
-	var presence api.ModernPresenceFormat
-	require.NoError(t, json.Unmarshal(raw, &presence))
+	assert.Equal(t, `{"aggregated":{"client":"website","status":"active","timestamp":1760534744},"website":{"client":"website","status":"active","timestamp":1760534744}}`, string(b))
 
-	assert.Equal(t, int64(1700000000), presence.ActiveTimestamp.Unix())
-	assert.Equal(t, time.UTC, presence.ActiveTimestamp.Location())
-	assert.Equal(t, int64(1700000100), presence.IdleTimestamp.Unix())
-	assert.Equal(t, time.UTC, presence.IdleTimestamp.Location())
+	// unmarshal produced bytes back into a map and compare
+	var got api.PresenceUpdateValue
+	require.NoError(t, json.Unmarshal(b, &got))
+	assert.Equal(t, expected, got)
 }

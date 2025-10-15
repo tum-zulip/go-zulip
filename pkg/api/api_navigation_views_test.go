@@ -11,6 +11,7 @@ package api_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -20,50 +21,120 @@ import (
 )
 
 func Test_NavigationViewsAPIService(t *testing.T) {
-	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
 
-		t.Run("AddNavigationView", func(t *testing.T) {
+	t.Run("AddNavigationView", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		view := createTestNavigationView(t, apiClient, true)
 
-			resp, httpRes, err := apiClient.AddNavigationView(context.Background()).Execute()
+		ctx := context.Background()
+		listResp, httpRes, err := apiClient.GetNavigationViews(ctx).Execute()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+		require.NoError(t, err)
+		require.NotNil(t, listResp)
+		requireStatusOK(t, httpRes)
 
-		})
+		found := navigationViewByFragment(listResp.NavigationViews, view.fragment)
+		require.NotNil(t, found, "expected navigation view with fragment %s", view.fragment)
+		require.NotNil(t, found.Name, "expected navigation view name to be set")
+		assert.Equal(t, view.name, *found.Name)
+		assert.Equal(t, view.isPinned, found.IsPinned)
 
-		t.Run("EditNavigationView", func(t *testing.T) {
+	}))
 
-			var fragment string
+	t.Run("EditNavigationView", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			resp, httpRes, err := apiClient.EditNavigationView(context.Background(), fragment).Execute()
+		view := createTestNavigationView(t, apiClient, true)
+		updatedName := fmt.Sprintf("Updated Navigation View %s", uniqueName("nav"))
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+		resp, httpRes, err := apiClient.EditNavigationView(ctx, view.fragment).
+			IsPinned(false).
+			Name(updatedName).
+			Execute()
 
-		})
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
 
-		t.Run("GetNavigationViews", func(t *testing.T) {
+		listResp, listHTTPRes, err := apiClient.GetNavigationViews(ctx).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, listResp)
+		requireStatusOK(t, listHTTPRes)
 
-			resp, httpRes, err := apiClient.GetNavigationViews(context.Background()).Execute()
+		updated := navigationViewByFragment(listResp.NavigationViews, view.fragment)
+		require.NotNil(t, updated, "expected navigation view with fragment %s", view.fragment)
+		require.NotNil(t, updated.Name, "expected navigation view name to be set")
+		assert.Equal(t, updatedName, *updated.Name)
+		assert.False(t, updated.IsPinned)
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+	}))
 
-		})
+	t.Run("GetNavigationViews", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-		t.Run("RemoveNavigationView", func(t *testing.T) {
+		view := createTestNavigationView(t, apiClient, false)
 
-			var fragment string
+		resp, httpRes, err := apiClient.GetNavigationViews(ctx).Execute()
 
-			resp, httpRes, err := apiClient.RemoveNavigationView(context.Background(), fragment).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+		assert.NotNil(t, navigationViewByFragment(resp.NavigationViews, view.fragment))
 
-		})
-	})
+	}))
+
+	t.Run("RemoveNavigationView", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+
+		view := createTestNavigationView(t, apiClient, true)
+
+		resp, httpRes, err := apiClient.RemoveNavigationView(ctx, view.fragment).Execute()
+
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+
+		listResp, listHTTPRes, err := apiClient.GetNavigationViews(ctx).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, listResp)
+		requireStatusOK(t, listHTTPRes)
+
+		assert.Nil(t, navigationViewByFragment(listResp.NavigationViews, view.fragment))
+
+	}))
+}
+
+type navigationViewState struct {
+	fragment string
+	name     string
+	isPinned bool
+}
+
+func createTestNavigationView(t *testing.T, apiClient *api.ZulipClient, isPinned bool) navigationViewState {
+	t.Helper()
+
+	ctx := context.Background()
+	fragment := fmt.Sprintf("narrow/test/%s", uniqueName("nav"))
+	name := fmt.Sprintf("Navigation View %s", uniqueName("nav"))
+
+	resp, httpRes, err := apiClient.AddNavigationView(ctx).
+		Fragment(fragment).
+		IsPinned(isPinned).
+		Name(name).
+		Execute()
+
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	requireStatusOK(t, httpRes)
+
+	return navigationViewState{fragment: fragment, name: name, isPinned: isPinned}
+}
+
+func navigationViewByFragment(views []api.NavigationView, fragment string) *api.NavigationView {
+	for i := range views {
+		if views[i].Fragment == fragment {
+			return &views[i]
+		}
+	}
+	return nil
 }

@@ -21,17 +21,16 @@ import (
 )
 
 func Test_WebhooksAPIService(t *testing.T) {
-	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
 
-		t.Run("ZulipOutgoingWebhooks", func(t *testing.T) {
+	t.Run("ZulipOutgoingWebhooks", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			resp, httpRes, err := apiClient.ZulipOutgoingWebhooks(context.Background()).Execute()
+		resp, httpRes, err := apiClient.ZulipOutgoingWebhooks(ctx).Execute()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			require.NotNil(t, httpRes)
-			assert.Equal(t, http.StatusOK, httpRes.StatusCode)
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		require.NotNil(t, httpRes)
+		assert.Equal(t, http.StatusOK, httpRes.StatusCode)
 
-		})
-	})
+	}))
 }

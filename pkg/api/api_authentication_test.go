@@ -20,22 +20,22 @@ import (
 )
 
 func Test_AuthenticationAPIService(t *testing.T) {
-	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
 
-		t.Run("DevFetchApiKey", func(t *testing.T) {
+	t.Run("DevFetchApiKey", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			resp, httpRes, err := apiClient.DevFetchApiKey(context.Background()).Username(testAdminUsername).Execute()
+		resp, httpRes, err := apiClient.DevFetchApiKey(ctx).Username(testAdminUsername).Execute()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-		})
+	}))
 
-		t.Run("FetchApiKey", func(t *testing.T) {
-			// More complex authentication flow not trivial to test here
-			t.Skip("Not implemented yet")
-			apiClient.FetchApiKey(context.Background()).Execute()
-		})
-	})
+	t.Run("FetchApiKey", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+		// More complex authentication flow not trivial to test here
+		t.Skip("Not implemented yet")
+		apiClient.FetchApiKey(ctx).Execute()
+	}))
 }

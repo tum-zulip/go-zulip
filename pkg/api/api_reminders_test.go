@@ -21,42 +21,41 @@ import (
 )
 
 func Test_RemindersAPIService(t *testing.T) {
-	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
+
+	t.Run("CreateMessageReminder", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		createMessageReminder(t, apiClient)
+	}))
+
+	t.Run("DeleteReminder", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
 		ctx := context.Background()
+		reminderId := createMessageReminder(t, apiClient)
 
-		t.Run("CreateMessageReminder", func(t *testing.T) {
-			createMessageReminder(t, apiClient)
-		})
+		resp, httpRes, err := apiClient.DeleteReminder(ctx, reminderId).Execute()
 
-		t.Run("DeleteReminder", func(t *testing.T) {
-			reminderId := createMessageReminder(t, apiClient)
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
 
-			resp, httpRes, err := apiClient.DeleteReminder(ctx, reminderId).Execute()
+	}))
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
+	t.Run("GetReminders", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+		reminderId := createMessageReminder(t, apiClient)
 
-		})
+		resp, httpRes, err := apiClient.GetReminders(ctx).Execute()
 
-		t.Run("GetReminders", func(t *testing.T) {
-			reminderId := createMessageReminder(t, apiClient)
-
-			resp, httpRes, err := apiClient.GetReminders(ctx).Execute()
-
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			assert.Equal(t, 200, httpRes.StatusCode)
-			assert.GreaterOrEqual(t, len(resp.Reminders), 1)
-			found := false
-			for _, r := range resp.Reminders {
-				if r.ReminderId == reminderId {
-					found = true
-				}
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+		assert.GreaterOrEqual(t, len(resp.Reminders), 1)
+		found := false
+		for _, r := range resp.Reminders {
+			if r.ReminderId == reminderId {
+				found = true
 			}
-			assert.True(t, found, "Created reminder not found in list of reminders")
-		})
-	})
+		}
+		assert.True(t, found, "Created reminder not found in list of reminders")
+	}))
 }
 
 func createMessageReminder(t *testing.T, apiClient *api.ZulipClient) int64 {

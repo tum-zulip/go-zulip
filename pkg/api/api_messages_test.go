@@ -25,293 +25,328 @@ import (
 )
 
 func Test_MessagesAPIService(t *testing.T) {
-	runForClients(t, allClients, func(t *testing.T, apiClient *api.ZulipClient) {
+
+	t.Run("AddReaction", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
 		ctx := context.Background()
 
-		t.Run("AddReaction", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+		msg := createStreamMessage(t, apiClient)
 
-			resp, httpRes, err := apiClient.AddReaction(ctx, msg.messageId).
-				EmojiName("smile").
-				Execute()
+		resp, httpRes, err := apiClient.AddReaction(ctx, msg.messageId).
+			EmojiName("smile").
+			Execute()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-		})
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+	}))
 
-		t.Run("CheckMessagesMatchNarrow", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+	t.Run("CheckMessagesMatchNarrow", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			narrow := []map[string]interface{}{
-				{"operator": "stream", "operand": msg.streamName},
-				{"operator": "topic", "operand": msg.topic},
-			}
+		msg := createStreamMessage(t, apiClient)
 
-			resp, httpRes, err := apiClient.CheckMessagesMatchNarrow(ctx).
-				MsgIds([]int64{msg.messageId}).
-				Narrow(narrow).
-				Execute()
+		narrow := []map[string]interface{}{
+			{"operator": "stream", "operand": msg.streamName},
+			{"operator": "topic", "operand": msg.topic},
+		}
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
+		resp, httpRes, err := apiClient.CheckMessagesMatchNarrow(ctx).
+			MsgIds([]int64{msg.messageId}).
+			Narrow(narrow).
+			Execute()
 
-			key := strconv.Itoa(int(msg.messageId))
-			if resp.Messages != nil {
-				assert.Contains(t, resp.Messages, key)
-			}
-		})
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
 
-		t.Run("DeleteMessage", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+		key := strconv.Itoa(int(msg.messageId))
+		if resp.Messages != nil {
+			assert.Contains(t, resp.Messages, key)
+		}
+	}))
 
-			resp, httpRes, err := apiClient.DeleteMessage(ctx, msg.messageId).Execute()
+	t.Run("DeleteMessage", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-		})
+		msg := createStreamMessage(t, apiClient)
 
-		t.Run("GetFileTemporaryUrl", func(t *testing.T) {
-			upload := uploadFileForTest(t, ctx, apiClient)
+		resp, httpRes, err := apiClient.DeleteMessage(ctx, msg.messageId).Execute()
 
-			realmId, filename := parseUploadedFilePath(t, upload.Url)
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+	}))
 
-			resp, httpRes, err := apiClient.GetFileTemporaryUrl(ctx, realmId, filename).Execute()
+	t.Run("GetFileTemporaryUrl", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-			assert.NotEmpty(t, resp.Url)
-		})
+		upload := uploadFileForTest(t, ctx, apiClient)
 
-		t.Run("GetMessage", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+		realmId, filename := parseUploadedFilePath(t, upload.Url)
 
-			resp, httpRes, err := apiClient.GetMessage(ctx, msg.messageId).Execute()
+		resp, httpRes, err := apiClient.GetFileTemporaryUrl(ctx, realmId, filename).Execute()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-			assert.Equal(t, msg.messageId, resp.Message.Id)
-		})
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.NotEmpty(t, resp.Url)
+	}))
 
-		t.Run("GetMessageHistory", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+	t.Run("GetMessage", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			updateContent := fmt.Sprintf("updated %s", uniqueName("message"))
-			_, _, err := apiClient.UpdateMessage(ctx, msg.messageId).
-				Content(updateContent).
-				Execute()
-			require.NoError(t, err)
+		msg := createStreamMessage(t, apiClient)
 
-			resp, httpRes, err := apiClient.GetMessageHistory(ctx, msg.messageId).Execute()
+		resp, httpRes, err := apiClient.GetMessage(ctx, msg.messageId).Execute()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-			assert.NotEmpty(t, resp.MessageHistory)
-		})
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.Equal(t, msg.messageId, resp.Message.Id)
+	}))
 
-		t.Run("GetMessages", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+	t.Run("GetMessageHistory", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			narrow := []map[string]interface{}{
-				{"operator": "stream", "operand": msg.streamName},
-				{"operator": "topic", "operand": msg.topic},
-			}
+		msg := createStreamMessage(t, apiClient)
 
-			resp, httpRes, err := apiClient.GetMessages(ctx).
-				Anchor(strconv.Itoa(int(msg.messageId))).
-				IncludeAnchor(true).
-				NumBefore(0).
-				NumAfter(0).
-				Narrow(narrow).
-				Execute()
+		updateContent := fmt.Sprintf("updated %s", uniqueName("message"))
+		_, _, err := apiClient.UpdateMessage(ctx, msg.messageId).
+			Content(updateContent).
+			Execute()
+		require.NoError(t, err)
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-			assert.NotEmpty(t, resp.Messages)
-		})
+		resp, httpRes, err := apiClient.GetMessageHistory(ctx, msg.messageId).Execute()
 
-		t.Run("GetReadReceipts", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.NotEmpty(t, resp.MessageHistory)
+	}))
 
-			resp, httpRes, err := apiClient.GetReadReceipts(ctx, msg.messageId).Execute()
+	t.Run("GetMessages", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-		})
+		msg := createStreamMessage(t, apiClient)
 
-		t.Run("MarkAllAsRead", func(t *testing.T) {
-			resp, httpRes, err := apiClient.MarkAllAsRead(ctx).Execute()
+		narrow := []map[string]interface{}{
+			{"operator": "stream", "operand": msg.streamName},
+			{"operator": "topic", "operand": msg.topic},
+		}
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-		})
+		resp, httpRes, err := apiClient.GetMessages(ctx).
+			Anchor(strconv.Itoa(int(msg.messageId))).
+			IncludeAnchor(true).
+			NumBefore(0).
+			NumAfter(0).
+			Narrow(narrow).
+			Execute()
 
-		t.Run("MarkStreamAsRead", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.NotEmpty(t, resp.Messages)
+	}))
 
-			resp, httpRes, err := apiClient.MarkStreamAsRead(ctx).
-				StreamId(msg.streamId).
-				Execute()
+	t.Run("GetReadReceipts", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-		})
+		msg := createStreamMessage(t, apiClient)
 
-		t.Run("MarkTopicAsRead", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+		resp, httpRes, err := apiClient.GetReadReceipts(ctx, msg.messageId).Execute()
 
-			resp, httpRes, err := apiClient.MarkTopicAsRead(ctx).
-				StreamId(msg.streamId).
-				TopicName(msg.topic).
-				Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+	}))
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-		})
+	t.Run("MarkAllAsRead", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-		t.Run("RemoveReaction", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+		resp, httpRes, err := apiClient.MarkAllAsRead(ctx).Execute()
 
-			_, _, err := apiClient.AddReaction(ctx, msg.messageId).
-				EmojiName("smile").
-				Execute()
-			require.NoError(t, err)
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+	}))
 
-			resp, httpRes, err := apiClient.RemoveReaction(ctx, msg.messageId).
-				EmojiName("smile").
-				Execute()
+	t.Run("MarkStreamAsRead", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-		})
+		msg := createStreamMessage(t, apiClient)
 
-		t.Run("RenderMessage", func(t *testing.T) {
-			content := "**bold** _italic_"
-			resp, httpRes, err := apiClient.RenderMessage(ctx).
-				Content(content).
-				Execute()
+		resp, httpRes, err := apiClient.MarkStreamAsRead(ctx).
+			StreamId(msg.streamId).
+			Execute()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-			assert.Contains(t, resp.Rendered, "<strong>bold</strong>")
-		})
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+	}))
 
-		t.Run("ReportMessage", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+	t.Run("MarkTopicAsRead", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			resp, httpRes, err := apiClient.ReportMessage(ctx, msg.messageId).
-				ReportType("spam").
-				Description("reported by automated tests").
-				Execute()
+		msg := createStreamMessage(t, apiClient)
 
-			if err != nil {
-				var apiErr *api.GenericOpenAPIError
-				if errors.As(err, &apiErr) {
-					body := strings.TrimSpace(string(apiErr.Body()))
-					lower := strings.ToLower(fmt.Sprintf("%s %s", apiErr.Error(), body))
-					if strings.Contains(lower, "moderation") ||
-						strings.Contains(lower, "not configured") ||
-						strings.Contains(lower, "message reporting is not enabled") {
-						t.Skipf("message reporting unavailable: %s", body)
-					}
+		resp, httpRes, err := apiClient.MarkTopicAsRead(ctx).
+			StreamId(msg.streamId).
+			TopicName(msg.topic).
+			Execute()
+
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+	}))
+
+	t.Run("RemoveReaction", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+
+		msg := createStreamMessage(t, apiClient)
+
+		_, _, err := apiClient.AddReaction(ctx, msg.messageId).
+			EmojiName("smile").
+			Execute()
+		require.NoError(t, err)
+
+		resp, httpRes, err := apiClient.RemoveReaction(ctx, msg.messageId).
+			EmojiName("smile").
+			Execute()
+
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+	}))
+
+	t.Run("RenderMessage", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+
+		content := "**bold** _italic_"
+		resp, httpRes, err := apiClient.RenderMessage(ctx).
+			Content(content).
+			Execute()
+
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.Contains(t, resp.Rendered, "<strong>bold</strong>")
+	}))
+
+	t.Run("ReportMessage", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+
+		msg := createStreamMessage(t, apiClient)
+
+		resp, httpRes, err := apiClient.ReportMessage(ctx, msg.messageId).
+			ReportType("spam").
+			Description("reported by automated tests").
+			Execute()
+
+		if err != nil {
+			var apiErr *api.GenericOpenAPIError
+			if errors.As(err, &apiErr) {
+				body := strings.TrimSpace(string(apiErr.Body()))
+				lower := strings.ToLower(fmt.Sprintf("%s %s", apiErr.Error(), body))
+				if strings.Contains(lower, "moderation") ||
+					strings.Contains(lower, "not configured") ||
+					strings.Contains(lower, "message reporting is not enabled") {
+					t.Skipf("message reporting unavailable: %s", body)
 				}
 			}
+		}
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-		})
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+	}))
 
-		t.Run("SendMessage", func(t *testing.T) {
-			_, streamId := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
-			topic := uniqueName("topic")
-			content := fmt.Sprintf("message sent via client %s", uniqueName("content"))
+	t.Run("SendMessage", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			resp, httpRes, err := apiClient.SendMessage(ctx).
-				RecipientType(api.RecipientTypeChannel).
-				To(api.ChannelAsReipient(streamId)).
-				Topic(topic).
-				Content(content).
-				Execute()
+		_, streamId := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
+		topic := uniqueName("topic")
+		content := fmt.Sprintf("message sent via client %s", uniqueName("content"))
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-			assert.Greater(t, resp.Id, int64(0))
-		})
+		resp, httpRes, err := apiClient.SendMessage(ctx).
+			RecipientType(api.RecipientTypeChannel).
+			To(api.ChannelAsReipient(streamId)).
+			Topic(topic).
+			Content(content).
+			Execute()
 
-		t.Run("UpdateMessage", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
-			newContent := fmt.Sprintf("edited %s", uniqueName("content"))
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.Greater(t, resp.Id, int64(0))
+	}))
 
-			resp, httpRes, err := apiClient.UpdateMessage(ctx, msg.messageId).
-				Content(newContent).
-				Execute()
+	t.Run("UpdateMessage", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-		})
+		msg := createStreamMessage(t, apiClient)
+		newContent := fmt.Sprintf("edited %s", uniqueName("content"))
 
-		t.Run("UpdateMessageFlags", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+		resp, httpRes, err := apiClient.UpdateMessage(ctx, msg.messageId).
+			Content(newContent).
+			Execute()
 
-			resp, httpRes, err := apiClient.UpdateMessageFlags(ctx).
-				Messages([]int64{msg.messageId}).
-				Op("add").
-				Flag("starred").
-				Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+	}))
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-			assert.Contains(t, resp.Messages, msg.messageId)
-		})
+	t.Run("UpdateMessageFlags", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-		t.Run("UpdateMessageFlagsForNarrow", func(t *testing.T) {
-			msg := createStreamMessage(t, apiClient)
+		msg := createStreamMessage(t, apiClient)
 
-			// streamOperand := UpdateFlagsNarrowOperandFromString(&msg.streamName)
-			// topicOperand := UpdateFlagsNarrowOperandFromString(&msg.topic)
-			// streamFilter := NewUpdateFlagsNarrowFilter("stream", streamOperand)
-			// topicFilter := NewUpdateFlagsNarrowFilter("topic", topicOperand)
-			// TODO
-			narrow := []api.UpdateFlagsNarrowClause{}
+		resp, httpRes, err := apiClient.UpdateMessageFlags(ctx).
+			Messages([]int64{msg.messageId}).
+			Op("add").
+			Flag("starred").
+			Execute()
 
-			resp, httpRes, err := apiClient.UpdateMessageFlagsForNarrow(ctx).
-				Anchor(strconv.Itoa(int(msg.messageId))).
-				NumBefore(0).
-				NumAfter(0).
-				IncludeAnchor(true).
-				Narrow(narrow).
-				Op("add").
-				Flag("starred").
-				Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.Contains(t, resp.Messages, msg.messageId)
+	}))
 
-			require.NoError(t, err)
-			require.NotNil(t, resp)
-			requireStatusOK(t, httpRes)
-			assert.GreaterOrEqual(t, resp.ProcessedCount, int64(1))
-		})
+	t.Run("UpdateMessageFlagsForNarrow", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
 
-		t.Run("UploadFile", func(t *testing.T) {
-			resp := uploadFileForTest(t, ctx, apiClient)
-			assert.NotEmpty(t, resp.Url)
-			assert.NotEmpty(t, resp.Filename)
-		})
-	})
+		msg := createStreamMessage(t, apiClient)
+
+		// streamOperand := UpdateFlagsNarrowOperandFromString(&msg.streamName)
+		// topicOperand := UpdateFlagsNarrowOperandFromString(&msg.topic)
+		// streamFilter := NewUpdateFlagsNarrowFilter("stream", streamOperand)
+		// topicFilter := NewUpdateFlagsNarrowFilter("topic", topicOperand)
+		// TODO
+		narrow := []api.UpdateFlagsNarrowClause{}
+
+		resp, httpRes, err := apiClient.UpdateMessageFlagsForNarrow(ctx).
+			Anchor(strconv.Itoa(int(msg.messageId))).
+			NumBefore(0).
+			NumAfter(0).
+			IncludeAnchor(true).
+			Narrow(narrow).
+			Op("add").
+			Flag("starred").
+			Execute()
+
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.GreaterOrEqual(t, resp.ProcessedCount, int64(1))
+	}))
+
+	t.Run("UploadFile", runForAllClients(t, func(t *testing.T, apiClient *api.ZulipClient) {
+		ctx := context.Background()
+
+		resp := uploadFileForTest(t, ctx, apiClient)
+		assert.NotEmpty(t, resp.Url)
+		assert.NotEmpty(t, resp.Filename)
+	}))
 }
 
 type streamMessage struct {

@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
-
-	"gopkg.in/validator.v2"
 )
 
 // PresenceUpdateValue - Will be one of these two formats (modern or legacy) for user presence data:
@@ -37,7 +35,8 @@ func (o ModernPresenceFormat) MarshalJSON() ([]byte, error) {
 
 func (o *ModernPresenceFormat) UnmarshalJSON(data []byte) error {
 	var aux modernPresenceFormatJSON
-	if err := json.Unmarshal(data, &aux); err != nil {
+	dec := newStrictDecoder(data)
+	if err := dec.Decode(&aux); err != nil {
 		return err
 	}
 
@@ -79,16 +78,7 @@ func (dst *PresenceUpdateValue) UnmarshalJSON(data []byte) error {
 	// try to unmarshal data into ModernPresenceFormat
 	err = newStrictDecoder(data).Decode(&dst.ModernPresenceFormat)
 	if err == nil {
-		jsonModernPresenceFormat, _ := json.Marshal(dst.ModernPresenceFormat)
-		if string(jsonModernPresenceFormat) == "{}" { // empty struct
-			dst.ModernPresenceFormat = nil
-		} else {
-			if err = validator.Validate(dst.ModernPresenceFormat); err != nil {
-				dst.ModernPresenceFormat = nil
-			} else {
-				match++
-			}
-		}
+		match++
 	} else {
 		dst.ModernPresenceFormat = nil
 	}
@@ -96,16 +86,7 @@ func (dst *PresenceUpdateValue) UnmarshalJSON(data []byte) error {
 	// try to unmarshal data into LegacyPresenceMap
 	err = newStrictDecoder(data).Decode(&dst.LegacyPresenceMap)
 	if err == nil {
-		jsonLegacyPresenceMap, _ := json.Marshal(dst.LegacyPresenceMap)
-		if string(jsonLegacyPresenceMap) == "{}" { // empty struct
-			dst.LegacyPresenceMap = nil
-		} else {
-			if err = validator.Validate(dst.LegacyPresenceMap); err != nil {
-				dst.LegacyPresenceMap = nil
-			} else {
-				match++
-			}
-		}
+		match++
 	} else {
 		dst.LegacyPresenceMap = nil
 	}

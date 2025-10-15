@@ -84,7 +84,7 @@ type CreateMessageReminderRequest struct {
 	ctx                        context.Context
 	ApiService                 RemindersAPI
 	messageId                  *int64
-	scheduledDeliveryTimestamp *time.Time
+	scheduledDeliveryTimestamp *int64
 	note                       *string
 }
 
@@ -96,7 +96,8 @@ func (r CreateMessageReminderRequest) MessageId(messageId int64) CreateMessageRe
 
 // The UNIX timestamp for when the reminder will be sent, in UTC seconds.
 func (r CreateMessageReminderRequest) ScheduledDeliveryTimestamp(scheduledDeliveryTimestamp time.Time) CreateMessageReminderRequest {
-	r.scheduledDeliveryTimestamp = &scheduledDeliveryTimestamp
+	timeStamp := scheduledDeliveryTimestamp.Unix()
+	r.scheduledDeliveryTimestamp = &timeStamp
 	return r
 }
 

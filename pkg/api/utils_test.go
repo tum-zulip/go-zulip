@@ -86,13 +86,23 @@ func GetOtherNormalClient(t *testing.T) *api.ZulipClient {
 	return getTestClient(t, otherNormalUsername)
 }
 
-func runForClients(t *testing.T, clients []namedClient, fn func(*testing.T, *api.ZulipClient)) {
-	for _, client := range clients {
-		t.Run(client.name, func(t *testing.T) {
-			cl := client.factory(t)
-			fn(t, cl)
-		})
+func runForClients(t *testing.T, clients []namedClient, fn func(*testing.T, *api.ZulipClient)) func(*testing.T) {
+	return func(t *testing.T) {
+		for _, client := range clients {
+			t.Run(client.name, func(t *testing.T) {
+				cl := client.factory(t)
+				fn(t, cl)
+			})
+		}
 	}
+}
+
+func runForAllClients(t *testing.T, fn func(*testing.T, *api.ZulipClient)) func(*testing.T) {
+	return runForClients(t, allClients, fn)
+}
+
+func runForAdminAndOwnerClients(t *testing.T, fn func(*testing.T, *api.ZulipClient)) func(*testing.T) {
+	return runForClients(t, []namedClient{ownerClient, adminClient}, fn)
 }
 
 func getTestClient(t *testing.T, username string) *api.ZulipClient {
@@ -153,7 +163,7 @@ func buildClientFromResponse(t *testing.T, username string, body []byte) *api.Zu
 		Insecure: &insecure,
 	}
 
-	handler := slog.NewTextHandler(log.Default().Writer(), &slog.HandlerOptions{Level: slog.LevelDebug})
+	handler := slog.NewTextHandler(log.Default().Writer(), &slog.HandlerOptions{Level: slog.LevelInfo})
 
 	client, err := api.NewZulipClient(rc, api.WithLogger(slog.New(handler)))
 	if err != nil {
