@@ -20,15 +20,17 @@ import (
 )
 
 func Test_RemindersAPIService(t *testing.T) {
+	_, channelId := createChannelWithAllClients(t)
+
 	t.Parallel()
 
-	t.Run("CreateMessageReminder", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
-		createMessageReminder(t, apiClient)
+	t.Run("CreateMessageReminder", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+		createMessageReminder(t, apiClient, channelId)
 	}))
 
-	t.Run("DeleteReminder", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("DeleteReminder", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
-		reminderId := createMessageReminder(t, apiClient)
+		reminderId := createMessageReminder(t, apiClient, channelId)
 
 		resp, httpRes, err := apiClient.DeleteReminder(ctx, reminderId).Execute()
 
@@ -38,9 +40,9 @@ func Test_RemindersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetReminders", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("GetReminders", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
-		reminderId := createMessageReminder(t, apiClient)
+		reminderId := createMessageReminder(t, apiClient, channelId)
 
 		resp, httpRes, err := apiClient.GetReminders(ctx).Execute()
 
@@ -58,8 +60,8 @@ func Test_RemindersAPIService(t *testing.T) {
 	}))
 }
 
-func createMessageReminder(t *testing.T, apiClient *zulip.Client) int64 {
-	msg := createStreamMessage(t, apiClient)
+func createMessageReminder(t *testing.T, apiClient zulip.Client, streamId int64) int64 {
+	msg := createChannelMessage(t, apiClient, streamId)
 
 	note := "This is a reminder note"
 

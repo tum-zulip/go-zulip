@@ -172,7 +172,7 @@ synchronized to other clients via `drafts` events.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return CreateDraftsRequest
 */
-func (c *Client) CreateDrafts(ctx context.Context) CreateDraftsRequest {
+func (c *simpleClient) CreateDrafts(ctx context.Context) CreateDraftsRequest {
 	return CreateDraftsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -182,7 +182,7 @@ func (c *Client) CreateDrafts(ctx context.Context) CreateDraftsRequest {
 // Execute executes the request
 //
 //	@return CreateDraftsResponse
-func (c *Client) CreateDraftsExecute(r CreateDraftsRequest) (*CreateDraftsResponse, *http.Response, error) {
+func (c *simpleClient) CreateDraftsExecute(r CreateDraftsRequest) (*CreateDraftsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -301,7 +301,7 @@ Create a new saved snippet for the current user.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return CreateSavedSnippetRequest
 */
-func (c *Client) CreateSavedSnippet(ctx context.Context) CreateSavedSnippetRequest {
+func (c *simpleClient) CreateSavedSnippet(ctx context.Context) CreateSavedSnippetRequest {
 	return CreateSavedSnippetRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -311,7 +311,7 @@ func (c *Client) CreateSavedSnippet(ctx context.Context) CreateSavedSnippetReque
 // Execute executes the request
 //
 //	@return CreateSavedSnippetResponse
-func (c *Client) CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (*CreateSavedSnippetResponse, *http.Response, error) {
+func (c *simpleClient) CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (*CreateSavedSnippetResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -422,7 +422,7 @@ synchronized to other clients via a `drafts` event.
 	@param draftId The Id of the draft you want to delete.
 	@return DeleteDraftRequest
 */
-func (c *Client) DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequest {
+func (c *simpleClient) DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequest {
 	return DeleteDraftRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -433,7 +433,7 @@ func (c *Client) DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequ
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) DeleteDraftExecute(r DeleteDraftRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) DeleteDraftExecute(r DeleteDraftRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -538,7 +538,7 @@ Delete a saved snippet.
 	@param savedSnippetId The Id of the saved snippet to delete.
 	@return DeleteSavedSnippetRequest
 */
-func (c *Client) DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) DeleteSavedSnippetRequest {
+func (c *simpleClient) DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) DeleteSavedSnippetRequest {
 	return DeleteSavedSnippetRequest{
 		ApiService:     c,
 		ctx:            ctx,
@@ -549,7 +549,7 @@ func (c *Client) DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) D
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -660,7 +660,7 @@ synchronized to other clients via `drafts` events.
 	@param draftId The Id of the draft to be edited.
 	@return EditDraftRequest
 */
-func (c *Client) EditDraft(ctx context.Context, draftId int64) EditDraftRequest {
+func (c *simpleClient) EditDraft(ctx context.Context, draftId int64) EditDraftRequest {
 	return EditDraftRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -671,7 +671,7 @@ func (c *Client) EditDraft(ctx context.Context, draftId int64) EditDraftRequest 
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) EditDraftExecute(r EditDraftRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) EditDraftExecute(r EditDraftRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -794,7 +794,7 @@ Edit a saved snippet for the current user.
 	@param savedSnippetId The Id of the saved snippet to edit.
 	@return EditSavedSnippetRequest
 */
-func (c *Client) EditSavedSnippet(ctx context.Context, savedSnippetId int64) EditSavedSnippetRequest {
+func (c *simpleClient) EditSavedSnippet(ctx context.Context, savedSnippetId int64) EditSavedSnippetRequest {
 	return EditSavedSnippetRequest{
 		ApiService:     c,
 		ctx:            ctx,
@@ -805,7 +805,7 @@ func (c *Client) EditSavedSnippet(ctx context.Context, savedSnippetId int64) Edi
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) EditSavedSnippetExecute(r EditSavedSnippetRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) EditSavedSnippetExecute(r EditSavedSnippetRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -912,7 +912,7 @@ Fetch all drafts for the current user.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetDraftsRequest
 */
-func (c *Client) GetDrafts(ctx context.Context) GetDraftsRequest {
+func (c *simpleClient) GetDrafts(ctx context.Context) GetDraftsRequest {
 	return GetDraftsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -922,7 +922,7 @@ func (c *Client) GetDrafts(ctx context.Context) GetDraftsRequest {
 // Execute executes the request
 //
 //	@return GetDraftsResponse
-func (c *Client) GetDraftsExecute(r GetDraftsRequest) (*GetDraftsResponse, *http.Response, error) {
+func (c *simpleClient) GetDraftsExecute(r GetDraftsRequest) (*GetDraftsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1014,7 +1014,7 @@ Fetch all the saved snippets for the current user.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetSavedSnippetsRequest
 */
-func (c *Client) GetSavedSnippets(ctx context.Context) GetSavedSnippetsRequest {
+func (c *simpleClient) GetSavedSnippets(ctx context.Context) GetSavedSnippetsRequest {
 	return GetSavedSnippetsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1024,7 +1024,7 @@ func (c *Client) GetSavedSnippets(ctx context.Context) GetSavedSnippetsRequest {
 // Execute executes the request
 //
 //	@return GetSavedSnippetsResponse
-func (c *Client) GetSavedSnippetsExecute(r GetSavedSnippetsRequest) (*GetSavedSnippetsResponse, *http.Response, error) {
+func (c *simpleClient) GetSavedSnippetsExecute(r GetSavedSnippetsRequest) (*GetSavedSnippetsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}

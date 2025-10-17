@@ -967,7 +967,7 @@ Add words (or phrases) to the user's set of configured [alert words][alert-words
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return AddAlertWordsRequest
 */
-func (c *Client) AddAlertWords(ctx context.Context) AddAlertWordsRequest {
+func (c *simpleClient) AddAlertWords(ctx context.Context) AddAlertWordsRequest {
 	return AddAlertWordsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -977,7 +977,7 @@ func (c *Client) AddAlertWords(ctx context.Context) AddAlertWordsRequest {
 // Execute executes the request
 //
 //	@return AddAlertWordsResponse
-func (c *Client) AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
+func (c *simpleClient) AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1099,7 +1099,7 @@ This endpoint adds an APNs device token to register for iOS push notifications.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return AddApnsTokenRequest
 */
-func (c *Client) AddApnsToken(ctx context.Context) AddApnsTokenRequest {
+func (c *simpleClient) AddApnsToken(ctx context.Context) AddApnsTokenRequest {
 	return AddApnsTokenRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1109,7 +1109,7 @@ func (c *Client) AddApnsToken(ctx context.Context) AddApnsTokenRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) AddApnsTokenExecute(r AddApnsTokenRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) AddApnsTokenExecute(r AddApnsTokenRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1224,7 +1224,7 @@ This endpoint adds an FCM registration token for push notifications.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return AddFcmTokenRequest
 */
-func (c *Client) AddFcmToken(ctx context.Context) AddFcmTokenRequest {
+func (c *simpleClient) AddFcmToken(ctx context.Context) AddFcmTokenRequest {
 	return AddFcmTokenRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1234,7 +1234,7 @@ func (c *Client) AddFcmToken(ctx context.Context) AddFcmTokenRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) AddFcmTokenExecute(r AddFcmTokenRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) AddFcmTokenExecute(r AddFcmTokenRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1376,7 +1376,7 @@ available to all organization administrators.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return CreateUserRequest
 */
-func (c *Client) CreateUser(ctx context.Context) CreateUserRequest {
+func (c *simpleClient) CreateUser(ctx context.Context) CreateUserRequest {
 	return CreateUserRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1386,7 +1386,7 @@ func (c *Client) CreateUser(ctx context.Context) CreateUserRequest {
 // Execute executes the request
 //
 //	@return CreateUserResponse
-func (c *Client) CreateUserExecute(r CreateUserRequest) (*CreateUserResponse, *http.Response, error) {
+func (c *simpleClient) CreateUserExecute(r CreateUserRequest) (*CreateUserResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1568,7 +1568,7 @@ Create a new [user group](zulip.com/help/user-groups.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return CreateUserGroupRequest
 */
-func (c *Client) CreateUserGroup(ctx context.Context) CreateUserGroupRequest {
+func (c *simpleClient) CreateUserGroup(ctx context.Context) CreateUserGroupRequest {
 	return CreateUserGroupRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1578,7 +1578,7 @@ func (c *Client) CreateUserGroup(ctx context.Context) CreateUserGroupRequest {
 // Execute executes the request
 //
 //	@return CreateUserGroupResponse
-func (c *Client) CreateUserGroupExecute(r CreateUserGroupRequest) (*CreateUserGroupResponse, *http.Response, error) {
+func (c *simpleClient) CreateUserGroupExecute(r CreateUserGroupRequest) (*CreateUserGroupResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1738,7 +1738,7 @@ This endpoint is primarily useful to Zulip clients providing a user settings UI.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return DeactivateOwnUserRequest
 */
-func (c *Client) DeactivateOwnUser(ctx context.Context) DeactivateOwnUserRequest {
+func (c *simpleClient) DeactivateOwnUser(ctx context.Context) DeactivateOwnUserRequest {
 	return DeactivateOwnUserRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1748,7 +1748,7 @@ func (c *Client) DeactivateOwnUser(ctx context.Context) DeactivateOwnUserRequest
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -1859,7 +1859,7 @@ given their user Id.
 	@param userId The target user's Id.
 	@return DeactivateUserRequest
 */
-func (c *Client) DeactivateUser(ctx context.Context, userId int64) DeactivateUserRequest {
+func (c *simpleClient) DeactivateUser(ctx context.Context, userId int64) DeactivateUserRequest {
 	return DeactivateUserRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1870,7 +1870,7 @@ func (c *Client) DeactivateUser(ctx context.Context, userId int64) DeactivateUse
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) DeactivateUserExecute(r DeactivateUserRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) DeactivateUserExecute(r DeactivateUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -1985,7 +1985,7 @@ maintained.
 	@param userGroupId The Id of the target user group.
 	@return DeactivateUserGroupRequest
 */
-func (c *Client) DeactivateUserGroup(ctx context.Context, userGroupId int64) DeactivateUserGroupRequest {
+func (c *simpleClient) DeactivateUserGroup(ctx context.Context, userGroupId int64) DeactivateUserGroupRequest {
 	return DeactivateUserGroupRequest{
 		ApiService:  c,
 		ctx:         ctx,
@@ -1996,7 +1996,7 @@ func (c *Client) DeactivateUserGroup(ctx context.Context, userGroupId int64) Dea
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) DeactivateUserGroupExecute(r DeactivateUserGroupRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) DeactivateUserGroupExecute(r DeactivateUserGroupRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -2099,7 +2099,7 @@ Get all of the user's configured [alert words][alert-words].
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetAlertWordsRequest
 */
-func (c *Client) GetAlertWords(ctx context.Context) GetAlertWordsRequest {
+func (c *simpleClient) GetAlertWords(ctx context.Context) GetAlertWordsRequest {
 	return GetAlertWordsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2109,7 +2109,7 @@ func (c *Client) GetAlertWords(ctx context.Context) GetAlertWordsRequest {
 // Execute executes the request
 //
 //	@return GetAlertWordsResponse
-func (c *Client) GetAlertWordsExecute(r GetAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
+func (c *simpleClient) GetAlertWordsExecute(r GetAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2199,7 +2199,7 @@ Fetch metadata on files uploaded by the requesting user.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetAttachmentsRequest
 */
-func (c *Client) GetAttachments(ctx context.Context) GetAttachmentsRequest {
+func (c *simpleClient) GetAttachments(ctx context.Context) GetAttachmentsRequest {
 	return GetAttachmentsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2209,7 +2209,7 @@ func (c *Client) GetAttachments(ctx context.Context) GetAttachmentsRequest {
 // Execute executes the request
 //
 //	@return GetAttachmentsResponse
-func (c *Client) GetAttachmentsExecute(r GetAttachmentsRequest) (*GetAttachmentsResponse, *http.Response, error) {
+func (c *simpleClient) GetAttachmentsExecute(r GetAttachmentsRequest) (*GetAttachmentsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2316,7 +2316,7 @@ New in Zulip 6.0 (feature level 127).
 	@param userId The target user's Id.
 	@return GetIsUserGroupMemberRequest
 */
-func (c *Client) GetIsUserGroupMember(ctx context.Context, userGroupId int64, userId int64) GetIsUserGroupMemberRequest {
+func (c *simpleClient) GetIsUserGroupMember(ctx context.Context, userGroupId int64, userId int64) GetIsUserGroupMemberRequest {
 	return GetIsUserGroupMemberRequest{
 		ApiService:  c,
 		ctx:         ctx,
@@ -2328,7 +2328,7 @@ func (c *Client) GetIsUserGroupMember(ctx context.Context, userGroupId int64, us
 // Execute executes the request
 //
 //	@return GetIsUserGroupMemberResponse
-func (c *Client) GetIsUserGroupMemberExecute(r GetIsUserGroupMemberRequest) (*GetIsUserGroupMemberResponse, *http.Response, error) {
+func (c *simpleClient) GetIsUserGroupMemberExecute(r GetIsUserGroupMemberRequest) (*GetIsUserGroupMemberResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2426,7 +2426,7 @@ replaced by the `can_manage_billing_group` realm setting.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetOwnUserRequest
 */
-func (c *Client) GetOwnUser(ctx context.Context) GetOwnUserRequest {
+func (c *simpleClient) GetOwnUser(ctx context.Context) GetOwnUserRequest {
 	return GetOwnUserRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2436,7 +2436,7 @@ func (c *Client) GetOwnUser(ctx context.Context) GetOwnUserRequest {
 // Execute executes the request
 //
 //	@return GetOwnUserResponse
-func (c *Client) GetOwnUserExecute(r GetOwnUserRequest) (*GetOwnUserResponse, *http.Response, error) {
+func (c *simpleClient) GetOwnUserExecute(r GetOwnUserRequest) (*GetOwnUserResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2547,7 +2547,7 @@ or [by a user's Zulip API email](zulip.com/api/get-user-by-email.
 	@param userId The target user's Id.
 	@return GetUserRequest
 */
-func (c *Client) GetUser(ctx context.Context, userId int64) GetUserRequest {
+func (c *simpleClient) GetUser(ctx context.Context, userId int64) GetUserRequest {
 	return GetUserRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2558,7 +2558,7 @@ func (c *Client) GetUser(ctx context.Context, userId int64) GetUserRequest {
 // Execute executes the request
 //
 //	@return GetUserResponse
-func (c *Client) GetUserExecute(r GetUserRequest) (*GetUserResponse, *http.Response, error) {
+func (c *simpleClient) GetUserExecute(r GetUserRequest) (*GetUserResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2696,7 +2696,7 @@ New in Zulip Server 4.0 (feature level 39).
 	@param email The email address of the user to fetch. Two forms are supported:  - The real email address of the user (`delivery_email`). The lookup will   succeed if and only if the user exists and their email address visibility   setting permits the client to see the email address.  - The dummy Zulip API email address of the form `user{user_id}@{realm_host}`. This   is identical to simply [getting user by Id](zulip.com/api/get-user. If the server or   realm change domains, the dummy email address used has to be adjustment to   match the new realm domain. This is legacy behavior for   backwards-compatibility, and will be removed in a future release.  **Changes**: Starting with Zulip 10.0 (feature level 302), lookups by real email address match the semantics of the target's email visibility setting and dummy email addresses work for all users, independently of their email visibility setting.  Previously, lookups were done only using the Zulip API email addresses.
 	@return GetUserByEmailRequest
 */
-func (c *Client) GetUserByEmail(ctx context.Context, email string) GetUserByEmailRequest {
+func (c *simpleClient) GetUserByEmail(ctx context.Context, email string) GetUserByEmailRequest {
 	return GetUserByEmailRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2707,7 +2707,7 @@ func (c *Client) GetUserByEmail(ctx context.Context, email string) GetUserByEmai
 // Execute executes the request
 //
 //	@return GetUserResponse
-func (c *Client) GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserResponse, *http.Response, error) {
+func (c *simpleClient) GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2821,7 +2821,7 @@ Get the members of a [user group](zulip.com/help/user-groups.
 	@param userGroupId The Id of the target user group.
 	@return GetUserGroupMembersRequest
 */
-func (c *Client) GetUserGroupMembers(ctx context.Context, userGroupId int64) GetUserGroupMembersRequest {
+func (c *simpleClient) GetUserGroupMembers(ctx context.Context, userGroupId int64) GetUserGroupMembersRequest {
 	return GetUserGroupMembersRequest{
 		ApiService:  c,
 		ctx:         ctx,
@@ -2832,7 +2832,7 @@ func (c *Client) GetUserGroupMembers(ctx context.Context, userGroupId int64) Get
 // Execute executes the request
 //
 //	@return GetUserGroupMembersResponse
-func (c *Client) GetUserGroupMembersExecute(r GetUserGroupMembersRequest) (*GetUserGroupMembersResponse, *http.Response, error) {
+func (c *simpleClient) GetUserGroupMembersExecute(r GetUserGroupMembersRequest) (*GetUserGroupMembersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2937,7 +2937,7 @@ Get the subgroups of a [user group](zulip.com/help/user-groups.
 	@param userGroupId The Id of the target user group.
 	@return GetUserGroupSubgroupsRequest
 */
-func (c *Client) GetUserGroupSubgroups(ctx context.Context, userGroupId int64) GetUserGroupSubgroupsRequest {
+func (c *simpleClient) GetUserGroupSubgroups(ctx context.Context, userGroupId int64) GetUserGroupSubgroupsRequest {
 	return GetUserGroupSubgroupsRequest{
 		ApiService:  c,
 		ctx:         ctx,
@@ -2948,7 +2948,7 @@ func (c *Client) GetUserGroupSubgroups(ctx context.Context, userGroupId int64) G
 // Execute executes the request
 //
 //	@return GetUserGroupSubgroupsResponse
-func (c *Client) GetUserGroupSubgroupsExecute(r GetUserGroupSubgroupsRequest) (*GetUserGroupSubgroupsResponse, *http.Response, error) {
+func (c *simpleClient) GetUserGroupSubgroupsExecute(r GetUserGroupSubgroupsRequest) (*GetUserGroupSubgroupsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -3059,7 +3059,7 @@ Fetches all of the user groups in the organization.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetUserGroupsRequest
 */
-func (c *Client) GetUserGroups(ctx context.Context) GetUserGroupsRequest {
+func (c *simpleClient) GetUserGroups(ctx context.Context) GetUserGroupsRequest {
 	return GetUserGroupsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3069,7 +3069,7 @@ func (c *Client) GetUserGroups(ctx context.Context) GetUserGroupsRequest {
 // Execute executes the request
 //
 //	@return GetUserGroupsResponse
-func (c *Client) GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGroupsResponse, *http.Response, error) {
+func (c *simpleClient) GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGroupsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -3170,7 +3170,7 @@ active users in the organization, instead.
 	@param userIdOrEmail The Id or Zulip API email address of the user whose presence you want to fetch.  **Changes**: New in Zulip 4.0 (feature level 43). Previous versions only supported identifying the user by Zulip API email.
 	@return GetUserPresenceRequest
 */
-func (c *Client) GetUserPresence(ctx context.Context, userIdOrEmail string) GetUserPresenceRequest {
+func (c *simpleClient) GetUserPresence(ctx context.Context, userIdOrEmail string) GetUserPresenceRequest {
 	return GetUserPresenceRequest{
 		ApiService:    c,
 		ctx:           ctx,
@@ -3181,7 +3181,7 @@ func (c *Client) GetUserPresence(ctx context.Context, userIdOrEmail string) GetU
 // Execute executes the request
 //
 //	@return GetUserPresenceResponse
-func (c *Client) GetUserPresenceExecute(r GetUserPresenceRequest) (*GetUserPresenceResponse, *http.Response, error) {
+func (c *simpleClient) GetUserPresenceExecute(r GetUserPresenceRequest) (*GetUserPresenceResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -3279,7 +3279,7 @@ user statuses could only be fetched via the [`POST
 	@param userId The target user's Id.
 	@return GetUserStatusRequest
 */
-func (c *Client) GetUserStatus(ctx context.Context, userId int64) GetUserStatusRequest {
+func (c *simpleClient) GetUserStatus(ctx context.Context, userId int64) GetUserStatusRequest {
 	return GetUserStatusRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3290,7 +3290,7 @@ func (c *Client) GetUserStatus(ctx context.Context, userId int64) GetUserStatusR
 // Execute executes the request
 //
 //	@return GetUserStatusResponse
-func (c *Client) GetUserStatusExecute(r GetUserStatusRequest) (*GetUserStatusResponse, *http.Response, error) {
+func (c *simpleClient) GetUserStatusExecute(r GetUserStatusRequest) (*GetUserStatusResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -3425,7 +3425,7 @@ option](zulip.com/help/public-access-option) prior to Zulip 11.0
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetUsersRequest
 */
-func (c *Client) GetUsers(ctx context.Context) GetUsersRequest {
+func (c *simpleClient) GetUsers(ctx context.Context) GetUsersRequest {
 	return GetUsersRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3435,7 +3435,7 @@ func (c *Client) GetUsers(ctx context.Context) GetUsersRequest {
 // Execute executes the request
 //
 //	@return GetUsersResponse
-func (c *Client) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *http.Response, error) {
+func (c *simpleClient) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -3571,7 +3571,7 @@ Muted users should be implemented by clients as follows:
 	@param mutedUserId The Id of the user to mute/unmute.  **Changes**: Before Zulip 8.0 (feature level 188), bot users could not be muted/unmuted, and specifying a bot user's Id returned an error response.
 	@return MuteUserRequest
 */
-func (c *Client) MuteUser(ctx context.Context, mutedUserId int64) MuteUserRequest {
+func (c *simpleClient) MuteUser(ctx context.Context, mutedUserId int64) MuteUserRequest {
 	return MuteUserRequest{
 		ApiService:  c,
 		ctx:         ctx,
@@ -3582,7 +3582,7 @@ func (c *Client) MuteUser(ctx context.Context, mutedUserId int64) MuteUserReques
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) MuteUserExecute(r MuteUserRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) MuteUserExecute(r MuteUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -3687,7 +3687,7 @@ given their user Id.
 	@param userId The target user's Id.
 	@return ReactivateUserRequest
 */
-func (c *Client) ReactivateUser(ctx context.Context, userId int64) ReactivateUserRequest {
+func (c *simpleClient) ReactivateUser(ctx context.Context, userId int64) ReactivateUserRequest {
 	return ReactivateUserRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3698,7 +3698,7 @@ func (c *Client) ReactivateUser(ctx context.Context, userId int64) ReactivateUse
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) ReactivateUserExecute(r ReactivateUserRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) ReactivateUserExecute(r ReactivateUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -3800,7 +3800,7 @@ Alert words are case insensitive.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return RemoveAlertWordsRequest
 */
-func (c *Client) RemoveAlertWords(ctx context.Context) RemoveAlertWordsRequest {
+func (c *simpleClient) RemoveAlertWords(ctx context.Context) RemoveAlertWordsRequest {
 	return RemoveAlertWordsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3810,7 +3810,7 @@ func (c *Client) RemoveAlertWords(ctx context.Context) RemoveAlertWordsRequest {
 // Execute executes the request
 //
 //	@return AlertWordsResponse
-func (c *Client) RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
+func (c *simpleClient) RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -3911,7 +3911,7 @@ This endpoint removes an APNs device token for iOS push notifications.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return RemoveApnsTokenRequest
 */
-func (c *Client) RemoveApnsToken(ctx context.Context) RemoveApnsTokenRequest {
+func (c *simpleClient) RemoveApnsToken(ctx context.Context) RemoveApnsTokenRequest {
 	return RemoveApnsTokenRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3921,7 +3921,7 @@ func (c *Client) RemoveApnsToken(ctx context.Context) RemoveApnsTokenRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -4037,7 +4037,7 @@ Attachment Ids can be contained from [GET /attachments](zulip.com/api/get-attach
 	@param attachmentId The Id of the attachment to be deleted.
 	@return RemoveAttachmentRequest
 */
-func (c *Client) RemoveAttachment(ctx context.Context, attachmentId int64) RemoveAttachmentRequest {
+func (c *simpleClient) RemoveAttachment(ctx context.Context, attachmentId int64) RemoveAttachmentRequest {
 	return RemoveAttachmentRequest{
 		ApiService:   c,
 		ctx:          ctx,
@@ -4048,7 +4048,7 @@ func (c *Client) RemoveAttachment(ctx context.Context, attachmentId int64) Remov
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -4167,7 +4167,7 @@ This endpoint removes an FCM registration token for push notifications.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return RemoveFcmTokenRequest
 */
-func (c *Client) RemoveFcmToken(ctx context.Context) RemoveFcmTokenRequest {
+func (c *simpleClient) RemoveFcmToken(ctx context.Context) RemoveFcmTokenRequest {
 	return RemoveFcmTokenRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -4177,7 +4177,7 @@ func (c *Client) RemoveFcmToken(ctx context.Context) RemoveFcmTokenRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -4369,7 +4369,7 @@ value in the `client_capabilities` parameter of the
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return SetTypingStatusRequest
 */
-func (c *Client) SetTypingStatus(ctx context.Context) SetTypingStatusRequest {
+func (c *simpleClient) SetTypingStatus(ctx context.Context) SetTypingStatusRequest {
 	return SetTypingStatusRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -4379,7 +4379,7 @@ func (c *Client) SetTypingStatus(ctx context.Context) SetTypingStatusRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) SetTypingStatusExecute(r SetTypingStatusRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) SetTypingStatusExecute(r SetTypingStatusRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -4520,7 +4520,7 @@ not available when editing messages.
 	@param messageId The target message's Id.
 	@return SetTypingStatusForMessageEditRequest
 */
-func (c *Client) SetTypingStatusForMessageEdit(ctx context.Context, messageId int64) SetTypingStatusForMessageEditRequest {
+func (c *simpleClient) SetTypingStatusForMessageEdit(ctx context.Context, messageId int64) SetTypingStatusForMessageEditRequest {
 	return SetTypingStatusForMessageEditRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -4531,7 +4531,7 @@ func (c *Client) SetTypingStatusForMessageEdit(ctx context.Context, messageId in
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) SetTypingStatusForMessageEditExecute(r SetTypingStatusForMessageEditRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) SetTypingStatusForMessageEditExecute(r SetTypingStatusForMessageEditRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -4631,7 +4631,7 @@ from the perspective of the requesting user.
 	@param mutedUserId The Id of the user to mute/unmute.  **Changes**: Before Zulip 8.0 (feature level 188), bot users could not be muted/unmuted, and specifying a bot user's Id returned an error response.
 	@return UnmuteUserRequest
 */
-func (c *Client) UnmuteUser(ctx context.Context, mutedUserId int64) UnmuteUserRequest {
+func (c *simpleClient) UnmuteUser(ctx context.Context, mutedUserId int64) UnmuteUserRequest {
 	return UnmuteUserRequest{
 		ApiService:  c,
 		ctx:         ctx,
@@ -4642,7 +4642,7 @@ func (c *Client) UnmuteUser(ctx context.Context, mutedUserId int64) UnmuteUserRe
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UnmuteUserExecute(r UnmuteUserRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UnmuteUserExecute(r UnmuteUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -4819,7 +4819,7 @@ the current user can see/access][limit-visibility].
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return UpdatePresenceRequest
 */
-func (c *Client) UpdatePresence(ctx context.Context) UpdatePresenceRequest {
+func (c *simpleClient) UpdatePresence(ctx context.Context) UpdatePresenceRequest {
 	return UpdatePresenceRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -4829,7 +4829,7 @@ func (c *Client) UpdatePresence(ctx context.Context) UpdatePresenceRequest {
 // Execute executes the request
 //
 //	@return UpdatePresenceResponse
-func (c *Client) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePresenceResponse, *http.Response, error) {
+func (c *simpleClient) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePresenceResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -5443,7 +5443,7 @@ Before feature level 78, request parameters that were not supported
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return UpdateSettingsRequest
 */
-func (c *Client) UpdateSettings(ctx context.Context) UpdateSettingsRequest {
+func (c *simpleClient) UpdateSettings(ctx context.Context) UpdateSettingsRequest {
 	return UpdateSettingsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -5453,7 +5453,7 @@ func (c *Client) UpdateSettings(ctx context.Context) UpdateSettingsRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -5789,7 +5789,7 @@ pass all supported parameters.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return UpdateStatusRequest
 */
-func (c *Client) UpdateStatus(ctx context.Context) UpdateStatusRequest {
+func (c *simpleClient) UpdateStatus(ctx context.Context) UpdateStatusRequest {
 	return UpdateStatusRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -5799,7 +5799,7 @@ func (c *Client) UpdateStatus(ctx context.Context) UpdateStatusRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateStatusExecute(r UpdateStatusRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateStatusExecute(r UpdateStatusRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -5947,7 +5947,7 @@ another user.
 	@param userId The target user's Id.
 	@return UpdateStatusForUserRequest
 */
-func (c *Client) UpdateStatusForUser(ctx context.Context, userId int64) UpdateStatusForUserRequest {
+func (c *simpleClient) UpdateStatusForUser(ctx context.Context, userId int64) UpdateStatusForUserRequest {
 	return UpdateStatusForUserRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -5958,7 +5958,7 @@ func (c *Client) UpdateStatusForUser(ctx context.Context, userId int64) UpdateSt
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateStatusForUserExecute(r UpdateStatusForUserRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateStatusForUserExecute(r UpdateStatusForUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -6106,7 +6106,7 @@ fields](zulip.com/help/custom-profile-fields.
 	@param userId The target user's Id.
 	@return UpdateUserRequest
 */
-func (c *Client) UpdateUser(ctx context.Context, userId int64) UpdateUserRequest {
+func (c *simpleClient) UpdateUser(ctx context.Context, userId int64) UpdateUserRequest {
 	return UpdateUserRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -6117,7 +6117,7 @@ func (c *Client) UpdateUser(ctx context.Context, userId int64) UpdateUserRequest
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateUserExecute(r UpdateUserRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateUserExecute(r UpdateUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -6268,7 +6268,7 @@ user's email address visibility setting. Otherwise, the dummy address of the for
 	@param email The email address of the user, specified following the same rules as [`GET /users/{email}`](zulip.com/api/get-user-by-email.
 	@return UpdateUserByEmailRequest
 */
-func (c *Client) UpdateUserByEmail(ctx context.Context, email string) UpdateUserByEmailRequest {
+func (c *simpleClient) UpdateUserByEmail(ctx context.Context, email string) UpdateUserByEmailRequest {
 	return UpdateUserByEmailRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -6279,7 +6279,7 @@ func (c *Client) UpdateUserByEmail(ctx context.Context, email string) UpdateUser
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -6472,7 +6472,7 @@ of deactivated groups could be modified.
 	@param userGroupId The Id of the target user group.
 	@return UpdateUserGroupRequest
 */
-func (c *Client) UpdateUserGroup(ctx context.Context, userGroupId int64) UpdateUserGroupRequest {
+func (c *simpleClient) UpdateUserGroup(ctx context.Context, userGroupId int64) UpdateUserGroupRequest {
 	return UpdateUserGroupRequest{
 		ApiService:  c,
 		ctx:         ctx,
@@ -6483,7 +6483,7 @@ func (c *Client) UpdateUserGroup(ctx context.Context, userGroupId int64) UpdateU
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -6672,7 +6672,7 @@ deactivated users were visible to the API and could be edited via this endpoint.
 	@param userGroupId The Id of the target user group.
 	@return UpdateUserGroupMembersRequest
 */
-func (c *Client) UpdateUserGroupMembers(ctx context.Context, userGroupId int64) UpdateUserGroupMembersRequest {
+func (c *simpleClient) UpdateUserGroupMembers(ctx context.Context, userGroupId int64) UpdateUserGroupMembersRequest {
 	return UpdateUserGroupMembersRequest{
 		ApiService:  c,
 		ctx:         ctx,
@@ -6683,7 +6683,7 @@ func (c *Client) UpdateUserGroupMembers(ctx context.Context, userGroupId int64) 
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateUserGroupMembersExecute(r UpdateUserGroupMembersRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateUserGroupMembersExecute(r UpdateUserGroupMembersRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -6807,7 +6807,7 @@ could not be added or removed from a deactivated group.
 	@param userGroupId The Id of the target user group.
 	@return UpdateUserGroupSubgroupsRequest
 */
-func (c *Client) UpdateUserGroupSubgroups(ctx context.Context, userGroupId int64) UpdateUserGroupSubgroupsRequest {
+func (c *simpleClient) UpdateUserGroupSubgroups(ctx context.Context, userGroupId int64) UpdateUserGroupSubgroupsRequest {
 	return UpdateUserGroupSubgroupsRequest{
 		ApiService:  c,
 		ctx:         ctx,
@@ -6818,7 +6818,7 @@ func (c *Client) UpdateUserGroupSubgroups(ctx context.Context, userGroupId int64
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroupsRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroupsRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}

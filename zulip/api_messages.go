@@ -605,7 +605,7 @@ Add an [emoji reaction](zulip.com/help/emoji-reactions) to a message.
 	@param messageId The target message's Id.
 	@return AddReactionRequest
 */
-func (c *Client) AddReaction(ctx context.Context, messageId int64) AddReactionRequest {
+func (c *simpleClient) AddReaction(ctx context.Context, messageId int64) AddReactionRequest {
 	return AddReactionRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -616,7 +616,7 @@ func (c *Client) AddReaction(ctx context.Context, messageId int64) AddReactionRe
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -756,7 +756,7 @@ request for the current narrow would have returned the message.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return CheckMessagesMatchNarrowRequest
 */
-func (c *Client) CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest {
+func (c *simpleClient) CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest {
 	return CheckMessagesMatchNarrowRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -766,7 +766,7 @@ func (c *Client) CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatc
 // Execute executes the request
 //
 //	@return CheckMessagesMatchNarrowResponse
-func (c *Client) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
+func (c *simpleClient) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -872,7 +872,7 @@ the Zulip Help Center.
 	@param messageId The target message's Id.
 	@return DeleteMessageRequest
 */
-func (c *Client) DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest {
+func (c *simpleClient) DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest {
 	return DeleteMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -883,7 +883,7 @@ func (c *Client) DeleteMessage(ctx context.Context, messageId int64) DeleteMessa
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -990,7 +990,7 @@ Get a temporary URL for access to the file that doesn't require authentication.
 	@param filename Path to the URL.
 	@return GetFileTemporaryUrlRequest
 */
-func (c *Client) GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, filename string) GetFileTemporaryUrlRequest {
+func (c *simpleClient) GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, filename string) GetFileTemporaryUrlRequest {
 	return GetFileTemporaryUrlRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1002,7 +1002,7 @@ func (c *Client) GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, file
 // Execute executes the request
 //
 //	@return GetFileTemporaryUrlResponse
-func (c *Client) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error) {
+func (c *simpleClient) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1120,7 +1120,7 @@ endpoint only returned the `raw_content` field.
 	@param messageId The target message's Id.
 	@return GetMessageRequest
 */
-func (c *Client) GetMessage(ctx context.Context, messageId int64) GetMessageRequest {
+func (c *simpleClient) GetMessage(ctx context.Context, messageId int64) GetMessageRequest {
 	return GetMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1131,7 +1131,7 @@ func (c *Client) GetMessage(ctx context.Context, messageId int64) GetMessageRequ
 // Execute executes the request
 //
 //	@return GetMessageResponse
-func (c *Client) GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error) {
+func (c *simpleClient) GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1258,7 +1258,7 @@ Note that edit history may be disabled in some organizations; see the
 	@param messageId The target message's Id.
 	@return GetMessageHistoryRequest
 */
-func (c *Client) GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest {
+func (c *simpleClient) GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest {
 	return GetMessageHistoryRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1269,7 +1269,7 @@ func (c *Client) GetMessageHistory(ctx context.Context, messageId int64) GetMess
 // Execute executes the request
 //
 //	@return GetMessageHistoryResponse
-func (c *Client) GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error) {
+func (c *simpleClient) GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1477,7 +1477,7 @@ attempting to exceed this will result in an error.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetMessagesRequest
 */
-func (c *Client) GetMessages(ctx context.Context) GetMessagesRequest {
+func (c *simpleClient) GetMessages(ctx context.Context) GetMessagesRequest {
 	return GetMessagesRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1487,7 +1487,7 @@ func (c *Client) GetMessages(ctx context.Context) GetMessagesRequest {
 // Execute executes the request
 //
 //	@return GetMessagesResponse
-func (c *Client) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesResponse, *http.Response, error) {
+func (c *simpleClient) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1640,7 +1640,7 @@ It will never contain the message's sender.
 	@param messageId The target message's Id.
 	@return GetReadReceiptsRequest
 */
-func (c *Client) GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest {
+func (c *simpleClient) GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest {
 	return GetReadReceiptsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1651,7 +1651,7 @@ func (c *Client) GetReadReceipts(ctx context.Context, messageId int64) GetReadRe
 // Execute executes the request
 //
 //	@return GetReadReceiptsResponse
-func (c *Client) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error) {
+func (c *simpleClient) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1780,7 +1780,7 @@ success response with `"result": "partially_completed"` is returned.
 
 Deprecated
 */
-func (c *Client) MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest {
+func (c *simpleClient) MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest {
 	return MarkAllAsReadRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1792,7 +1792,7 @@ func (c *Client) MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest {
 //	@return MarkAllAsReadResponse
 //
 // Deprecated
-func (c *Client) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error) {
+func (c *simpleClient) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1895,7 +1895,7 @@ as this endpoint will be removed in a future release.
 
 Deprecated
 */
-func (c *Client) MarkStreamAsRead(ctx context.Context) MarkStreamAsReadRequest {
+func (c *simpleClient) MarkStreamAsRead(ctx context.Context) MarkStreamAsReadRequest {
 	return MarkStreamAsReadRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1907,7 +1907,7 @@ func (c *Client) MarkStreamAsRead(ctx context.Context) MarkStreamAsReadRequest {
 //	@return Response
 //
 // Deprecated
-func (c *Client) MarkStreamAsReadExecute(r MarkStreamAsReadRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) MarkStreamAsReadExecute(r MarkStreamAsReadRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -2021,7 +2021,7 @@ as this endpoint will be removed in a future release.
 
 Deprecated
 */
-func (c *Client) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest {
+func (c *simpleClient) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest {
 	return MarkTopicAsReadRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2033,7 +2033,7 @@ func (c *Client) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest {
 //	@return Response
 //
 // Deprecated
-func (c *Client) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -2154,7 +2154,7 @@ Remove an [emoji reaction](zulip.com/help/emoji-reactions) from a message.
 	@param messageId The target message's Id.
 	@return RemoveReactionRequest
 */
-func (c *Client) RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest {
+func (c *simpleClient) RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest {
 	return RemoveReactionRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2165,7 +2165,7 @@ func (c *Client) RemoveReaction(ctx context.Context, messageId int64) RemoveReac
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -2282,7 +2282,7 @@ Render a message to HTML.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return RenderMessageRequest
 */
-func (c *Client) RenderMessage(ctx context.Context) RenderMessageRequest {
+func (c *simpleClient) RenderMessage(ctx context.Context) RenderMessageRequest {
 	return RenderMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2292,7 +2292,7 @@ func (c *Client) RenderMessage(ctx context.Context) RenderMessageRequest {
 // Execute executes the request
 //
 //	@return RenderMessageResponse
-func (c *Client) RenderMessageExecute(r RenderMessageRequest) (*RenderMessageResponse, *http.Response, error) {
+func (c *simpleClient) RenderMessageExecute(r RenderMessageRequest) (*RenderMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -2415,7 +2415,7 @@ feature level 331.
 	@param messageId The target message's Id.
 	@return ReportMessageRequest
 */
-func (c *Client) ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest {
+func (c *simpleClient) ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest {
 	return ReportMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2426,7 +2426,7 @@ func (c *Client) ReportMessage(ctx context.Context, messageId int64) ReportMessa
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -2583,7 +2583,7 @@ Send a [channel message](zulip.com/help/introduction-to-topics) or a
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return SendMessageRequest
 */
-func (c *Client) SendMessage(ctx context.Context) SendMessageRequest {
+func (c *simpleClient) SendMessage(ctx context.Context) SendMessageRequest {
 	return SendMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2593,7 +2593,7 @@ func (c *Client) SendMessage(ctx context.Context) SendMessageRequest {
 // Execute executes the request
 //
 //	@return SendMessageResponse
-func (c *Client) SendMessageExecute(r SendMessageRequest) (*SendMessageResponse, *http.Response, error) {
+func (c *simpleClient) SendMessageExecute(r SendMessageRequest) (*SendMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -2850,7 +2850,7 @@ realm setting was added.
 	@param messageId The target message's Id.
 	@return UpdateMessageRequest
 */
-func (c *Client) UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest {
+func (c *simpleClient) UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest {
 	return UpdateMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2861,7 +2861,7 @@ func (c *Client) UpdateMessage(ctx context.Context, messageId int64) UpdateMessa
 // Execute executes the request
 //
 //	@return UpdateMessageResponse
-func (c *Client) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error) {
+func (c *simpleClient) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -3008,7 +3008,7 @@ messages within a narrow](zulip.com/api/update-message-flags-for-narrow.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return UpdateMessageFlagsRequest
 */
-func (c *Client) UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest {
+func (c *simpleClient) UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest {
 	return UpdateMessageFlagsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3018,7 +3018,7 @@ func (c *Client) UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsReque
 // Execute executes the request
 //
 //	@return UpdateMessageFlagsResponse
-func (c *Client) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*UpdateMessageFlagsResponse, *http.Response, error) {
+func (c *simpleClient) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*UpdateMessageFlagsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -3175,7 +3175,7 @@ Ids](zulip.com/api/update-message-flags.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return UpdateMessageFlagsForNarrowRequest
 */
-func (c *Client) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest {
+func (c *simpleClient) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest {
 	return UpdateMessageFlagsForNarrowRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3185,7 +3185,7 @@ func (c *Client) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageF
 // Execute executes the request
 //
 //	@return UpdateMessageFlagsForNarrowResponse
-func (c *Client) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
+func (c *simpleClient) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -3341,7 +3341,7 @@ introduced in Zulip 10.0 (feature level 296). Previously,
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return UploadFileRequest
 */
-func (c *Client) UploadFile(ctx context.Context) UploadFileRequest {
+func (c *simpleClient) UploadFile(ctx context.Context) UploadFileRequest {
 	return UploadFileRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3351,7 +3351,7 @@ func (c *Client) UploadFile(ctx context.Context) UploadFileRequest {
 // Execute executes the request
 //
 //	@return UploadFileResponse
-func (c *Client) UploadFileExecute(r UploadFileRequest) (*UploadFileResponse, *http.Response, error) {
+func (c *simpleClient) UploadFileExecute(r UploadFileRequest) (*UploadFileResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}

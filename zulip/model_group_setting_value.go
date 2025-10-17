@@ -9,9 +9,9 @@ type GroupSettingValue struct {
 // GroupSettingValueOneOf An object with these fields:
 type ComplexGroupSettingValue struct {
 	// The list of Ids of individual users in the collection of users with this permission.  **Changes**: Prior to Zulip 10.0 (feature level 303), this list would include deactivated users who had the permission before being deactivated.
-	DirectMembers []int64 `json:"direct_members,omitempty"`
+	DirectMembers []int64 `json:"direct_members"`
 	// The list of Ids of the groups in the collection of users with this permission.
-	DirectSubgroups []int64 `json:"direct_subgroups,omitempty"`
+	DirectSubgroups []int64 `json:"direct_subgroups"`
 }
 
 // special json marshaller and unmarshaller for union GroupSettingValue

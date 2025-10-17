@@ -22,7 +22,7 @@ import (
 func Test_WebhooksAPIService(t *testing.T) {
 	t.Parallel()
 
-	t.Run("ZulipOutgoingWebhooks", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("ZulipOutgoingWebhooks", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.ZulipOutgoingWebhooks(ctx).Execute()

@@ -178,7 +178,7 @@ Delete a previously registered queue.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return DeleteQueueRequest
 */
-func (c *Client) DeleteQueue(ctx context.Context) DeleteQueueRequest {
+func (c *simpleClient) DeleteQueue(ctx context.Context) DeleteQueueRequest {
 	return DeleteQueueRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -188,7 +188,7 @@ func (c *Client) DeleteQueue(ctx context.Context) DeleteQueueRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) DeleteQueueExecute(r DeleteQueueRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) DeleteQueueExecute(r DeleteQueueRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -321,7 +321,7 @@ avoid breaking when heartbeat frequency increases.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetEventsRequest
 */
-func (c *Client) GetEvents(ctx context.Context) GetEventsRequest {
+func (c *simpleClient) GetEvents(ctx context.Context) GetEventsRequest {
 	return GetEventsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -331,7 +331,7 @@ func (c *Client) GetEvents(ctx context.Context) GetEventsRequest {
 // Execute executes the request
 //
 //	@return GetEventsResponse
-func (c *Client) GetEventsExecute(r GetEventsRequest) (*GetEventsResponse, *http.Response, error) {
+func (c *simpleClient) GetEventsExecute(r GetEventsRequest) (*GetEventsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -465,7 +465,7 @@ RealTimePost Method for RealTimePost
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return RealTimePostRequest
 */
-func (c *Client) RealTimePost(ctx context.Context) RealTimePostRequest {
+func (c *simpleClient) RealTimePost(ctx context.Context) RealTimePostRequest {
 	return RealTimePostRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -473,7 +473,7 @@ func (c *Client) RealTimePost(ctx context.Context) RealTimePostRequest {
 }
 
 // Execute executes the request
-func (c *Client) RealTimePostExecute(r RealTimePostRequest) (*http.Response, error) {
+func (c *simpleClient) RealTimePostExecute(r RealTimePostRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPost
 		localVarPostBody   interface{}
@@ -694,7 +694,7 @@ current API and treating every user as having the realm's
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return RegisterQueueRequest
 */
-func (c *Client) RegisterQueue(ctx context.Context) RegisterQueueRequest {
+func (c *simpleClient) RegisterQueue(ctx context.Context) RegisterQueueRequest {
 	return RegisterQueueRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -704,7 +704,7 @@ func (c *Client) RegisterQueue(ctx context.Context) RegisterQueueRequest {
 // Execute executes the request
 //
 //	@return RegisterQueueResponse
-func (c *Client) RegisterQueueExecute(r RegisterQueueRequest) (*RegisterQueueResponse, *http.Response, error) {
+func (c *simpleClient) RegisterQueueExecute(r RegisterQueueRequest) (*RegisterQueueResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -824,7 +824,7 @@ RestErrorHandling Error handling
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return RestErrorHandlingRequest
 */
-func (c *Client) RestErrorHandling(ctx context.Context) RestErrorHandlingRequest {
+func (c *simpleClient) RestErrorHandling(ctx context.Context) RestErrorHandlingRequest {
 	return RestErrorHandlingRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -832,7 +832,7 @@ func (c *Client) RestErrorHandling(ctx context.Context) RestErrorHandlingRequest
 }
 
 // Execute executes the request
-func (c *Client) RestErrorHandlingExecute(r RestErrorHandlingRequest) (*http.Response, error) {
+func (c *simpleClient) RestErrorHandlingExecute(r RestErrorHandlingRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPost
 		localVarPostBody   interface{}

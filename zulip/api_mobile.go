@@ -97,7 +97,7 @@ to the user's selected mobile device or all of their mobile devices.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return E2eeTestNotifyRequest
 */
-func (c *Client) E2eeTestNotify(ctx context.Context) E2eeTestNotifyRequest {
+func (c *simpleClient) E2eeTestNotify(ctx context.Context) E2eeTestNotifyRequest {
 	return E2eeTestNotifyRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -107,7 +107,7 @@ func (c *Client) E2eeTestNotify(ctx context.Context) E2eeTestNotifyRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -269,7 +269,7 @@ Register a device to receive end-to-end encrypted mobile push notifications.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return RegisterPushDeviceRequest
 */
-func (c *Client) RegisterPushDevice(ctx context.Context) RegisterPushDeviceRequest {
+func (c *simpleClient) RegisterPushDevice(ctx context.Context) RegisterPushDeviceRequest {
 	return RegisterPushDeviceRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -279,7 +279,7 @@ func (c *Client) RegisterPushDevice(ctx context.Context) RegisterPushDeviceReque
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -415,7 +415,7 @@ New in Zulip 8.0 (feature level 217).
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return TestNotifyRequest
 */
-func (c *Client) TestNotify(ctx context.Context) TestNotifyRequest {
+func (c *simpleClient) TestNotify(ctx context.Context) TestNotifyRequest {
 	return TestNotifyRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -425,7 +425,7 @@ func (c *Client) TestNotify(ctx context.Context) TestNotifyRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) TestNotifyExecute(r TestNotifyRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) TestNotifyExecute(r TestNotifyRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}

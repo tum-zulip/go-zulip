@@ -45,7 +45,7 @@ notified when certain types of messages are sent in Zulip.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ZulipOutgoingWebhooksRequest
 */
-func (c *Client) ZulipOutgoingWebhooks(ctx context.Context) ZulipOutgoingWebhooksRequest {
+func (c *simpleClient) ZulipOutgoingWebhooks(ctx context.Context) ZulipOutgoingWebhooksRequest {
 	return ZulipOutgoingWebhooksRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -55,7 +55,7 @@ func (c *Client) ZulipOutgoingWebhooks(ctx context.Context) ZulipOutgoingWebhook
 // Execute executes the request
 //
 //	@return ZulipOutgoingWebhooksResponse
-func (c *Client) ZulipOutgoingWebhooksExecute(r ZulipOutgoingWebhooksRequest) (*ZulipOutgoingWebhooksResponse, *http.Response, error) {
+func (c *simpleClient) ZulipOutgoingWebhooksExecute(r ZulipOutgoingWebhooksRequest) (*ZulipOutgoingWebhooksResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}

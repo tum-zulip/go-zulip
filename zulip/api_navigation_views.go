@@ -131,7 +131,7 @@ or to add new navigation views.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return AddNavigationViewRequest
 */
-func (c *Client) AddNavigationView(ctx context.Context) AddNavigationViewRequest {
+func (c *simpleClient) AddNavigationView(ctx context.Context) AddNavigationViewRequest {
 	return AddNavigationViewRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -141,7 +141,7 @@ func (c *Client) AddNavigationView(ctx context.Context) AddNavigationViewRequest
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) AddNavigationViewExecute(r AddNavigationViewRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) AddNavigationViewExecute(r AddNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -271,7 +271,7 @@ such as its name or whether it's pinned.
 	@param fragment The unique URL hash of the navigation view to be updated.  This also serves as the identifier for the navigation view.
 	@return EditNavigationViewRequest
 */
-func (c *Client) EditNavigationView(ctx context.Context, fragment string) EditNavigationViewRequest {
+func (c *simpleClient) EditNavigationView(ctx context.Context, fragment string) EditNavigationViewRequest {
 	return EditNavigationViewRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -282,7 +282,7 @@ func (c *Client) EditNavigationView(ctx context.Context, fragment string) EditNa
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) EditNavigationViewExecute(r EditNavigationViewRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) EditNavigationViewExecute(r EditNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -402,7 +402,7 @@ Fetch all configured custom navigation views for the current user.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetNavigationViewsRequest
 */
-func (c *Client) GetNavigationViews(ctx context.Context) GetNavigationViewsRequest {
+func (c *simpleClient) GetNavigationViews(ctx context.Context) GetNavigationViewsRequest {
 	return GetNavigationViewsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -412,7 +412,7 @@ func (c *Client) GetNavigationViews(ctx context.Context) GetNavigationViewsReque
 // Execute executes the request
 //
 //	@return GetNavigationViewsResponse
-func (c *Client) GetNavigationViewsExecute(r GetNavigationViewsRequest) (*GetNavigationViewsResponse, *http.Response, error) {
+func (c *simpleClient) GetNavigationViewsExecute(r GetNavigationViewsRequest) (*GetNavigationViewsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -506,7 +506,7 @@ Remove a navigation view.
 	@param fragment The unique URL hash of the navigation view to be removed.  This also serves as the identifier for the navigation view.
 	@return RemoveNavigationViewRequest
 */
-func (c *Client) RemoveNavigationView(ctx context.Context, fragment string) RemoveNavigationViewRequest {
+func (c *simpleClient) RemoveNavigationView(ctx context.Context, fragment string) RemoveNavigationViewRequest {
 	return RemoveNavigationViewRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -517,7 +517,7 @@ func (c *Client) RemoveNavigationView(ctx context.Context, fragment string) Remo
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}

@@ -159,7 +159,7 @@ New in Zulip 7.0 (feature level 179).
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return CreateScheduledMessageRequest
 */
-func (c *Client) CreateScheduledMessage(ctx context.Context) CreateScheduledMessageRequest {
+func (c *simpleClient) CreateScheduledMessage(ctx context.Context) CreateScheduledMessageRequest {
 	return CreateScheduledMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -169,7 +169,7 @@ func (c *Client) CreateScheduledMessage(ctx context.Context) CreateScheduledMess
 // Execute executes the request
 //
 //	@return CreateScheduledMessageResponse
-func (c *Client) CreateScheduledMessageExecute(r CreateScheduledMessageRequest) (*CreateScheduledMessageResponse, *http.Response, error) {
+func (c *simpleClient) CreateScheduledMessageExecute(r CreateScheduledMessageRequest) (*CreateScheduledMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -297,7 +297,7 @@ message](zulip.com/help/schedule-a-message.
 	@param scheduledMessageId The Id of the scheduled message to delete.  This is different from the unique Id that the message would have after being sent.
 	@return DeleteScheduledMessageRequest
 */
-func (c *Client) DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest {
+func (c *simpleClient) DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest {
 	return DeleteScheduledMessageRequest{
 		ApiService:         c,
 		ctx:                ctx,
@@ -308,7 +308,7 @@ func (c *Client) DeleteScheduledMessage(ctx context.Context, scheduledMessageId 
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -415,7 +415,7 @@ sent in the future via the send later feature.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetScheduledMessagesRequest
 */
-func (c *Client) GetScheduledMessages(ctx context.Context) GetScheduledMessagesRequest {
+func (c *simpleClient) GetScheduledMessages(ctx context.Context) GetScheduledMessagesRequest {
 	return GetScheduledMessagesRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -425,7 +425,7 @@ func (c *Client) GetScheduledMessages(ctx context.Context) GetScheduledMessagesR
 // Execute executes the request
 //
 //	@return GetScheduledMessagesResponse
-func (c *Client) GetScheduledMessagesExecute(r GetScheduledMessagesRequest) (*GetScheduledMessagesResponse, *http.Response, error) {
+func (c *simpleClient) GetScheduledMessagesExecute(r GetScheduledMessagesRequest) (*GetScheduledMessagesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -554,7 +554,7 @@ Edit an existing [scheduled message](zulip.com/help/schedule-a-message.
 	@param scheduledMessageId The Id of the scheduled message to update.  This is different from the unique Id that the message would have after being sent.
 	@return UpdateScheduledMessageRequest
 */
-func (c *Client) UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest {
+func (c *simpleClient) UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest {
 	return UpdateScheduledMessageRequest{
 		ApiService:         c,
 		ctx:                ctx,
@@ -565,7 +565,7 @@ func (c *Client) UpdateScheduledMessage(ctx context.Context, scheduledMessageId 
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}

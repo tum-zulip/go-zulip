@@ -223,7 +223,7 @@ added which specified the number of days before the invitation would expire.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return CreateInviteLinkRequest
 */
-func (c *Client) CreateInviteLink(ctx context.Context) CreateInviteLinkRequest {
+func (c *simpleClient) CreateInviteLink(ctx context.Context) CreateInviteLinkRequest {
 	return CreateInviteLinkRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -233,7 +233,7 @@ func (c *Client) CreateInviteLink(ctx context.Context) CreateInviteLinkRequest {
 // Execute executes the request
 //
 //	@return CreateInviteLinkResponse
-func (c *Client) CreateInviteLinkExecute(r CreateInviteLinkRequest) (*CreateInviteLinkResponse, *http.Response, error) {
+func (c *simpleClient) CreateInviteLinkExecute(r CreateInviteLinkRequest) (*CreateInviteLinkResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -358,7 +358,7 @@ reusable invitation links for these users.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetInvitesRequest
 */
-func (c *Client) GetInvites(ctx context.Context) GetInvitesRequest {
+func (c *simpleClient) GetInvites(ctx context.Context) GetInvitesRequest {
 	return GetInvitesRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -368,7 +368,7 @@ func (c *Client) GetInvites(ctx context.Context) GetInvitesRequest {
 // Execute executes the request
 //
 //	@return GetInvitesResponse
-func (c *Client) GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResponse, *http.Response, error) {
+func (c *simpleClient) GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -463,7 +463,7 @@ manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 	@param inviteId The Id of the email invitation to be resent.
 	@return ResendEmailInviteRequest
 */
-func (c *Client) ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest {
+func (c *simpleClient) ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest {
 	return ResendEmailInviteRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -474,7 +474,7 @@ func (c *Client) ResendEmailInvite(ctx context.Context, inviteId int64) ResendEm
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -580,7 +580,7 @@ manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 	@param inviteId The Id of the email invitation to be revoked.
 	@return RevokeEmailInviteRequest
 */
-func (c *Client) RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest {
+func (c *simpleClient) RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest {
 	return RevokeEmailInviteRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -591,7 +591,7 @@ func (c *Client) RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEm
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -700,7 +700,7 @@ administrators were able to create and revoke reusable invitation links.
 	@param inviteId The Id of the reusable invitation link to be revoked.
 	@return RevokeInviteLinkRequest
 */
-func (c *Client) RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInviteLinkRequest {
+func (c *simpleClient) RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInviteLinkRequest {
 	return RevokeInviteLinkRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -711,7 +711,7 @@ func (c *Client) RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInv
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -878,7 +878,7 @@ added which specified the number of days before the invitation would expire.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return SendInvitesRequest
 */
-func (c *Client) SendInvites(ctx context.Context) SendInvitesRequest {
+func (c *simpleClient) SendInvites(ctx context.Context) SendInvitesRequest {
 	return SendInvitesRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -888,7 +888,7 @@ func (c *Client) SendInvites(ctx context.Context) SendInvitesRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) SendInvitesExecute(r SendInvitesRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) SendInvitesExecute(r SendInvitesRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}

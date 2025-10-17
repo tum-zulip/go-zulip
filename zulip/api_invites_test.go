@@ -23,7 +23,7 @@ import (
 func Test_InvitesAPIService(t *testing.T) {
 	t.Parallel()
 
-	t.Run("InviteLinkLifecycle", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("InviteLinkLifecycle", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		streamName, streamId := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
 
@@ -61,7 +61,7 @@ func Test_InvitesAPIService(t *testing.T) {
 		}), "multiuse invite should be removed after revocation")
 	}))
 
-	t.Run("EmailInviteLifecycle", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("EmailInviteLifecycle", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		_, streamId := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
 		invitee := fmt.Sprintf("%s@example.com", strings.ToLower(uniqueName("invitee")))
@@ -106,7 +106,7 @@ func Test_InvitesAPIService(t *testing.T) {
 	}))
 }
 
-func loadInvites(t *testing.T, ctx context.Context, apiClient *zulip.Client) []zulip.Invite {
+func loadInvites(t *testing.T, ctx context.Context, apiClient zulip.Client) []zulip.Invite {
 	t.Helper()
 
 	resp, httpRes, err := apiClient.GetInvites(ctx).Execute()
@@ -118,7 +118,7 @@ func loadInvites(t *testing.T, ctx context.Context, apiClient *zulip.Client) []z
 	return resp.Invites
 }
 
-func inviteSnapshot(t *testing.T, ctx context.Context, apiClient *zulip.Client) map[string]struct{} {
+func inviteSnapshot(t *testing.T, ctx context.Context, apiClient zulip.Client) map[string]struct{} {
 	invites := loadInvites(t, ctx, apiClient)
 	snapshot := make(map[string]struct{}, len(invites))
 	for _, inv := range invites {

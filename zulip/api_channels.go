@@ -639,7 +639,7 @@ for new users joining the organization.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return AddDefaultStreamRequest
 */
-func (c *Client) AddDefaultStream(ctx context.Context) AddDefaultStreamRequest {
+func (c *simpleClient) AddDefaultStream(ctx context.Context) AddDefaultStreamRequest {
 	return AddDefaultStreamRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -649,7 +649,7 @@ func (c *Client) AddDefaultStream(ctx context.Context) AddDefaultStreamRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) AddDefaultStreamExecute(r AddDefaultStreamRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) AddDefaultStreamExecute(r AddDefaultStreamRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -755,7 +755,7 @@ ArchiveStream Archive a channel
 	@param streamId The Id of the channel to access.
 	@return ArchiveStreamRequest
 */
-func (c *Client) ArchiveStream(ctx context.Context, streamId int64) ArchiveStreamRequest {
+func (c *simpleClient) ArchiveStream(ctx context.Context, streamId int64) ArchiveStreamRequest {
 	return ArchiveStreamRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -766,7 +766,7 @@ func (c *Client) ArchiveStream(ctx context.Context, streamId int64) ArchiveStrea
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) ArchiveStreamExecute(r ArchiveStreamRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) ArchiveStreamExecute(r ArchiveStreamRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -889,7 +889,7 @@ encoding a moderator password in the generated URLs.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return CreateBigBlueButtonVideoCallRequest
 */
-func (c *Client) CreateBigBlueButtonVideoCall(ctx context.Context) CreateBigBlueButtonVideoCallRequest {
+func (c *simpleClient) CreateBigBlueButtonVideoCall(ctx context.Context) CreateBigBlueButtonVideoCallRequest {
 	return CreateBigBlueButtonVideoCallRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -899,7 +899,7 @@ func (c *Client) CreateBigBlueButtonVideoCall(ctx context.Context) CreateBigBlue
 // Execute executes the request
 //
 //	@return CreateBigBlueButtonVideoCallResponse
-func (c *Client) CreateBigBlueButtonVideoCallExecute(r CreateBigBlueButtonVideoCallRequest) (*CreateBigBlueButtonVideoCallResponse, *http.Response, error) {
+func (c *simpleClient) CreateBigBlueButtonVideoCallExecute(r CreateBigBlueButtonVideoCallRequest) (*CreateBigBlueButtonVideoCallResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1143,7 +1143,7 @@ the [`POST /api/subscribe`](zulip.com/api/subscribe) endpoint, which handled bot
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return CreateChannelRequest
 */
-func (c *Client) CreateChannel(ctx context.Context) CreateChannelRequest {
+func (c *simpleClient) CreateChannel(ctx context.Context) CreateChannelRequest {
 	return CreateChannelRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1153,7 +1153,7 @@ func (c *Client) CreateChannel(ctx context.Context) CreateChannelRequest {
 // Execute executes the request
 //
 //	@return CreateChannelResponse
-func (c *Client) CreateChannelExecute(r CreateChannelRequest) (*CreateChannelResponse, *http.Response, error) {
+func (c *simpleClient) CreateChannelExecute(r CreateChannelRequest) (*CreateChannelResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1391,7 +1391,7 @@ folder.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return CreateChannelFolderRequest
 */
-func (c *Client) CreateChannelFolder(ctx context.Context) CreateChannelFolderRequest {
+func (c *simpleClient) CreateChannelFolder(ctx context.Context) CreateChannelFolderRequest {
 	return CreateChannelFolderRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1401,7 +1401,7 @@ func (c *Client) CreateChannelFolder(ctx context.Context) CreateChannelFolderReq
 // Execute executes the request
 //
 //	@return CreateChannelFolderResponse
-func (c *Client) CreateChannelFolderExecute(r CreateChannelFolderRequest) (*CreateChannelFolderResponse, *http.Response, error) {
+func (c *simpleClient) CreateChannelFolderExecute(r CreateChannelFolderRequest) (*CreateChannelFolderResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1550,7 +1550,7 @@ returns an error.
 	@param streamId The Id of the channel to access.
 	@return DeleteTopicRequest
 */
-func (c *Client) DeleteTopic(ctx context.Context, streamId int64) DeleteTopicRequest {
+func (c *simpleClient) DeleteTopic(ctx context.Context, streamId int64) DeleteTopicRequest {
 	return DeleteTopicRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1561,7 +1561,7 @@ func (c *Client) DeleteTopic(ctx context.Context, streamId int64) DeleteTopicReq
 // Execute executes the request
 //
 //	@return MarkAllAsReadResponse
-func (c *Client) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsReadResponse, *http.Response, error) {
+func (c *simpleClient) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsReadResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1679,7 +1679,7 @@ New in Zulip 11.0 (feature level 389).
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetChannelFoldersRequest
 */
-func (c *Client) GetChannelFolders(ctx context.Context) GetChannelFoldersRequest {
+func (c *simpleClient) GetChannelFolders(ctx context.Context) GetChannelFoldersRequest {
 	return GetChannelFoldersRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1689,7 +1689,7 @@ func (c *Client) GetChannelFolders(ctx context.Context) GetChannelFoldersRequest
 // Execute executes the request
 //
 //	@return GetChannelFoldersResponse
-func (c *Client) GetChannelFoldersExecute(r GetChannelFoldersRequest) (*GetChannelFoldersResponse, *http.Response, error) {
+func (c *simpleClient) GetChannelFoldersExecute(r GetChannelFoldersRequest) (*GetChannelFoldersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1786,7 +1786,7 @@ Fetch details for the channel with the Id `stream_id`.
 	@param streamId The Id of the channel to access.
 	@return GetStreamByIdRequest
 */
-func (c *Client) GetStreamById(ctx context.Context, streamId int64) GetStreamByIdRequest {
+func (c *simpleClient) GetStreamById(ctx context.Context, streamId int64) GetStreamByIdRequest {
 	return GetStreamByIdRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1797,7 +1797,7 @@ func (c *Client) GetStreamById(ctx context.Context, streamId int64) GetStreamByI
 // Execute executes the request
 //
 //	@return GetStreamResponse
-func (c *Client) GetStreamByIdExecute(r GetStreamByIdRequest) (*GetStreamResponse, *http.Response, error) {
+func (c *simpleClient) GetStreamByIdExecute(r GetStreamByIdRequest) (*GetStreamResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1909,7 +1909,7 @@ Get email address of a channel.
 	@param streamId The Id of the channel to access.
 	@return GetStreamEmailAddressRequest
 */
-func (c *Client) GetStreamEmailAddress(ctx context.Context, streamId int64) GetStreamEmailAddressRequest {
+func (c *simpleClient) GetStreamEmailAddress(ctx context.Context, streamId int64) GetStreamEmailAddressRequest {
 	return GetStreamEmailAddressRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1920,7 +1920,7 @@ func (c *Client) GetStreamEmailAddress(ctx context.Context, streamId int64) GetS
 // Execute executes the request
 //
 //	@return GetStreamEmailAddressResponse
-func (c *Client) GetStreamEmailAddressExecute(r GetStreamEmailAddressRequest) (*GetStreamEmailAddressResponse, *http.Response, error) {
+func (c *simpleClient) GetStreamEmailAddressExecute(r GetStreamEmailAddressRequest) (*GetStreamEmailAddressResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2031,7 +2031,7 @@ Get the unique Id of a given channel.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetStreamIdRequest
 */
-func (c *Client) GetStreamId(ctx context.Context) GetStreamIdRequest {
+func (c *simpleClient) GetStreamId(ctx context.Context) GetStreamIdRequest {
 	return GetStreamIdRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2041,7 +2041,7 @@ func (c *Client) GetStreamId(ctx context.Context) GetStreamIdRequest {
 // Execute executes the request
 //
 //	@return GetStreamIdResponse
-func (c *Client) GetStreamIdExecute(r GetStreamIdRequest) (*GetStreamIdResponse, *http.Response, error) {
+func (c *simpleClient) GetStreamIdExecute(r GetStreamIdRequest) (*GetStreamIdResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2162,7 +2162,7 @@ user subscribed.
 	@param streamId The Id of the channel to access.
 	@return GetStreamTopicsRequest
 */
-func (c *Client) GetStreamTopics(ctx context.Context, streamId int64) GetStreamTopicsRequest {
+func (c *simpleClient) GetStreamTopics(ctx context.Context, streamId int64) GetStreamTopicsRequest {
 	return GetStreamTopicsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2173,7 +2173,7 @@ func (c *Client) GetStreamTopics(ctx context.Context, streamId int64) GetStreamT
 // Execute executes the request
 //
 //	@return GetStreamTopicsResponse
-func (c *Client) GetStreamTopicsExecute(r GetStreamTopicsRequest) (*GetStreamTopicsResponse, *http.Response, error) {
+func (c *simpleClient) GetStreamTopicsExecute(r GetStreamTopicsRequest) (*GetStreamTopicsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2344,7 +2344,7 @@ Get all channels that the user [has access to](zulip.com/help/channel-permission
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetStreamsRequest
 */
-func (c *Client) GetStreams(ctx context.Context) GetStreamsRequest {
+func (c *simpleClient) GetStreams(ctx context.Context) GetStreamsRequest {
 	return GetStreamsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2354,7 +2354,7 @@ func (c *Client) GetStreams(ctx context.Context) GetStreamsRequest {
 // Execute executes the request
 //
 //	@return GetStreamsResponse
-func (c *Client) GetStreamsExecute(r GetStreamsRequest) (*GetStreamsResponse, *http.Response, error) {
+func (c *simpleClient) GetStreamsExecute(r GetStreamsRequest) (*GetStreamsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2500,7 +2500,7 @@ Get all users subscribed to a channel.
 	@param streamId The Id of the channel to access.
 	@return GetSubscribersRequest
 */
-func (c *Client) GetSubscribers(ctx context.Context, streamId int64) GetSubscribersRequest {
+func (c *simpleClient) GetSubscribers(ctx context.Context, streamId int64) GetSubscribersRequest {
 	return GetSubscribersRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2511,7 +2511,7 @@ func (c *Client) GetSubscribers(ctx context.Context, streamId int64) GetSubscrib
 // Execute executes the request
 //
 //	@return GetSubscribersResponse
-func (c *Client) GetSubscribersExecute(r GetSubscribersRequest) (*GetSubscribersResponse, *http.Response, error) {
+func (c *simpleClient) GetSubscribersExecute(r GetSubscribersRequest) (*GetSubscribersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2618,7 +2618,7 @@ Check whether a user is subscribed to a channel.
 	@param streamId The Id of the channel to access.
 	@return GetSubscriptionStatusRequest
 */
-func (c *Client) GetSubscriptionStatus(ctx context.Context, userId int64, streamId int64) GetSubscriptionStatusRequest {
+func (c *simpleClient) GetSubscriptionStatus(ctx context.Context, userId int64, streamId int64) GetSubscriptionStatusRequest {
 	return GetSubscriptionStatusRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2630,7 +2630,7 @@ func (c *Client) GetSubscriptionStatus(ctx context.Context, userId int64, stream
 // Execute executes the request
 //
 //	@return GetSubscriptionStatusResponse
-func (c *Client) GetSubscriptionStatusExecute(r GetSubscriptionStatusRequest) (*GetSubscriptionStatusResponse, *http.Response, error) {
+func (c *simpleClient) GetSubscriptionStatusExecute(r GetSubscriptionStatusRequest) (*GetSubscriptionStatusResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2729,7 +2729,7 @@ Get all channels that the user is subscribed to.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetSubscriptionsRequest
 */
-func (c *Client) GetSubscriptions(ctx context.Context) GetSubscriptionsRequest {
+func (c *simpleClient) GetSubscriptions(ctx context.Context) GetSubscriptionsRequest {
 	return GetSubscriptionsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2739,7 +2739,7 @@ func (c *Client) GetSubscriptions(ctx context.Context) GetSubscriptionsRequest {
 // Execute executes the request
 //
 //	@return GetSubscriptionsResponse
-func (c *Client) GetSubscriptionsExecute(r GetSubscriptionsRequest) (*GetSubscriptionsResponse, *http.Response, error) {
+func (c *simpleClient) GetSubscriptionsExecute(r GetSubscriptionsRequest) (*GetSubscriptionsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2874,7 +2874,7 @@ or asked to unmute a topic that had not previously been muted.
 
 Deprecated
 */
-func (c *Client) MuteTopic(ctx context.Context) MuteTopicRequest {
+func (c *simpleClient) MuteTopic(ctx context.Context) MuteTopicRequest {
 	return MuteTopicRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2886,7 +2886,7 @@ func (c *Client) MuteTopic(ctx context.Context) MuteTopicRequest {
 //	@return Response
 //
 // Deprecated
-func (c *Client) MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -3001,7 +3001,7 @@ the order of the channel folder Ids specified in the request.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return PatchChannelFoldersRequest
 */
-func (c *Client) PatchChannelFolders(ctx context.Context) PatchChannelFoldersRequest {
+func (c *simpleClient) PatchChannelFolders(ctx context.Context) PatchChannelFoldersRequest {
 	return PatchChannelFoldersRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3011,7 +3011,7 @@ func (c *Client) PatchChannelFolders(ctx context.Context) PatchChannelFoldersReq
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) PatchChannelFoldersExecute(r PatchChannelFoldersRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) PatchChannelFoldersExecute(r PatchChannelFoldersRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -3124,7 +3124,7 @@ for new users joining the organization.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return RemoveDefaultStreamRequest
 */
-func (c *Client) RemoveDefaultStream(ctx context.Context) RemoveDefaultStreamRequest {
+func (c *simpleClient) RemoveDefaultStream(ctx context.Context) RemoveDefaultStreamRequest {
 	return RemoveDefaultStreamRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3134,7 +3134,7 @@ func (c *Client) RemoveDefaultStream(ctx context.Context) RemoveDefaultStreamReq
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) RemoveDefaultStreamExecute(r RemoveDefaultStreamRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) RemoveDefaultStreamExecute(r RemoveDefaultStreamRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -3421,7 +3421,7 @@ feature level, an HTTP status code of 400 is returned with
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return SubscribeRequest
 */
-func (c *Client) Subscribe(ctx context.Context) SubscribeRequest {
+func (c *simpleClient) Subscribe(ctx context.Context) SubscribeRequest {
 	return SubscribeRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3431,7 +3431,7 @@ func (c *Client) Subscribe(ctx context.Context) SubscribeRequest {
 // Execute executes the request
 //
 //	@return SubscribeResponse
-func (c *Client) SubscribeExecute(r SubscribeRequest) (*SubscribeResponse, *http.Response, error) {
+func (c *simpleClient) SubscribeExecute(r SubscribeRequest) (*SubscribeResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -3698,7 +3698,7 @@ privileges for managing bots that they own.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return UnsubscribeRequest
 */
-func (c *Client) Unsubscribe(ctx context.Context) UnsubscribeRequest {
+func (c *simpleClient) Unsubscribe(ctx context.Context) UnsubscribeRequest {
 	return UnsubscribeRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3708,7 +3708,7 @@ func (c *Client) Unsubscribe(ctx context.Context) UnsubscribeRequest {
 // Execute executes the request
 //
 //	@return UnsubscribeResponse
-func (c *Client) UnsubscribeExecute(r UnsubscribeRequest) (*UnsubscribeResponse, *http.Response, error) {
+func (c *simpleClient) UnsubscribeExecute(r UnsubscribeRequest) (*UnsubscribeResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -3850,7 +3850,7 @@ channel folder.
 	@param channelFolderId The Id of the target channel folder.
 	@return UpdateChannelFolderRequest
 */
-func (c *Client) UpdateChannelFolder(ctx context.Context, channelFolderId int64) UpdateChannelFolderRequest {
+func (c *simpleClient) UpdateChannelFolder(ctx context.Context, channelFolderId int64) UpdateChannelFolderRequest {
 	return UpdateChannelFolderRequest{
 		ApiService:      c,
 		ctx:             ctx,
@@ -3861,7 +3861,7 @@ func (c *Client) UpdateChannelFolder(ctx context.Context, channelFolderId int64)
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -4135,7 +4135,7 @@ in the channel is now controlled by `can_send_message_group`.
 	@param streamId The Id of the channel to access.
 	@return UpdateStreamRequest
 */
-func (c *Client) UpdateStream(ctx context.Context, streamId int64) UpdateStreamRequest {
+func (c *simpleClient) UpdateStream(ctx context.Context, streamId int64) UpdateStreamRequest {
 	return UpdateStreamRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -4146,7 +4146,7 @@ func (c *Client) UpdateStream(ctx context.Context, streamId int64) UpdateStreamR
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateStreamExecute(r UpdateStreamRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateStreamExecute(r UpdateStreamRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -4367,7 +4367,7 @@ request. The endpoint now returns the more ergonomic
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return UpdateSubscriptionSettingsRequest
 */
-func (c *Client) UpdateSubscriptionSettings(ctx context.Context) UpdateSubscriptionSettingsRequest {
+func (c *simpleClient) UpdateSubscriptionSettings(ctx context.Context) UpdateSubscriptionSettingsRequest {
 	return UpdateSubscriptionSettingsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -4377,7 +4377,7 @@ func (c *Client) UpdateSubscriptionSettings(ctx context.Context) UpdateSubscript
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSettingsRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSettingsRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -4495,7 +4495,7 @@ subscriptions in archived channels could not be modified.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return UpdateSubscriptionsRequest
 */
-func (c *Client) UpdateSubscriptions(ctx context.Context) UpdateSubscriptionsRequest {
+func (c *simpleClient) UpdateSubscriptions(ctx context.Context) UpdateSubscriptionsRequest {
 	return UpdateSubscriptionsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -4505,7 +4505,7 @@ func (c *Client) UpdateSubscriptions(ctx context.Context) UpdateSubscriptionsReq
 // Execute executes the request
 //
 //	@return UpdateSubscriptionsResponse
-func (c *Client) UpdateSubscriptionsExecute(r UpdateSubscriptionsRequest) (*UpdateSubscriptionsResponse, *http.Response, error) {
+func (c *simpleClient) UpdateSubscriptionsExecute(r UpdateSubscriptionsRequest) (*UpdateSubscriptionsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -4631,7 +4631,7 @@ toggling whether a topic was muted or unmuted was managed by the
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return UpdateUserTopicRequest
 */
-func (c *Client) UpdateUserTopic(ctx context.Context) UpdateUserTopicRequest {
+func (c *simpleClient) UpdateUserTopic(ctx context.Context) UpdateUserTopicRequest {
 	return UpdateUserTopicRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -4641,7 +4641,7 @@ func (c *Client) UpdateUserTopic(ctx context.Context) UpdateUserTopicRequest {
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}

@@ -30,8 +30,8 @@ func UserAsRecipient(v int64) Recipient {
 	}
 }
 
-// ChannelAsReipient is a convenience function that returns ChannelId wrapped in Recipient
-func ChannelAsReipient(v int64) Recipient {
+// ChannelAsRecipient is a convenience function that returns ChannelId wrapped in Recipient
+func ChannelAsRecipient(v int64) Recipient {
 	return Recipient{
 		Channel: &v,
 	}

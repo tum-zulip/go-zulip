@@ -475,7 +475,7 @@ fixed in Zulip 4.0 (feature level 57).
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return AddCodePlaygroundRequest
 */
-func (c *Client) AddCodePlayground(ctx context.Context) AddCodePlaygroundRequest {
+func (c *simpleClient) AddCodePlayground(ctx context.Context) AddCodePlaygroundRequest {
 	return AddCodePlaygroundRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -485,7 +485,7 @@ func (c *Client) AddCodePlayground(ctx context.Context) AddCodePlaygroundRequest
 // Execute executes the request
 //
 //	@return AddCodePlaygroundResponse
-func (c *Client) AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*AddCodePlaygroundResponse, *http.Response, error) {
+func (c *simpleClient) AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*AddCodePlaygroundResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -603,7 +603,7 @@ appear in messages and topics.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return AddLinkifierRequest
 */
-func (c *Client) AddLinkifier(ctx context.Context) AddLinkifierRequest {
+func (c *simpleClient) AddLinkifier(ctx context.Context) AddLinkifierRequest {
 	return AddLinkifierRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -613,7 +613,7 @@ func (c *Client) AddLinkifier(ctx context.Context) AddLinkifierRequest {
 // Execute executes the request
 //
 //	@return AddLinkifierResponse
-func (c *Client) AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifierResponse, *http.Response, error) {
+func (c *simpleClient) AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifierResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -760,7 +760,7 @@ CreateCustomProfileField Create a custom profile field
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return CreateCustomProfileFieldRequest
 */
-func (c *Client) CreateCustomProfileField(ctx context.Context) CreateCustomProfileFieldRequest {
+func (c *simpleClient) CreateCustomProfileField(ctx context.Context) CreateCustomProfileFieldRequest {
 	return CreateCustomProfileFieldRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -770,7 +770,7 @@ func (c *Client) CreateCustomProfileField(ctx context.Context) CreateCustomProfi
 // Execute executes the request
 //
 //	@return CreateCustomProfileFieldResponse
-func (c *Client) CreateCustomProfileFieldExecute(r CreateCustomProfileFieldRequest) (*CreateCustomProfileFieldResponse, *http.Response, error) {
+func (c *simpleClient) CreateCustomProfileFieldExecute(r CreateCustomProfileFieldRequest) (*CreateCustomProfileFieldResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -894,7 +894,7 @@ HTTP status code of 400 when the emoji did not exist, instead of 404.
 	@param emojiName The name of the custom emoji to deactivate.
 	@return DeactivateCustomEmojiRequest
 */
-func (c *Client) DeactivateCustomEmoji(ctx context.Context, emojiName string) DeactivateCustomEmojiRequest {
+func (c *simpleClient) DeactivateCustomEmoji(ctx context.Context, emojiName string) DeactivateCustomEmojiRequest {
 	return DeactivateCustomEmojiRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -905,7 +905,7 @@ func (c *Client) DeactivateCustomEmoji(ctx context.Context, emojiName string) De
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -1028,7 +1028,7 @@ New in Zulip 2.1.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ExportRealmRequest
 */
-func (c *Client) ExportRealm(ctx context.Context) ExportRealmRequest {
+func (c *simpleClient) ExportRealm(ctx context.Context) ExportRealmRequest {
 	return ExportRealmRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1038,7 +1038,7 @@ func (c *Client) ExportRealm(ctx context.Context) ExportRealmRequest {
 // Execute executes the request
 //
 //	@return ExportRealmResponse
-func (c *Client) ExportRealmExecute(r ExportRealmRequest) (*ExportRealmResponse, *http.Response, error) {
+func (c *simpleClient) ExportRealmExecute(r ExportRealmRequest) (*ExportRealmResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1141,7 +1141,7 @@ Get all the custom emoji in the user's organization.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetCustomEmojiRequest
 */
-func (c *Client) GetCustomEmoji(ctx context.Context) GetCustomEmojiRequest {
+func (c *simpleClient) GetCustomEmoji(ctx context.Context) GetCustomEmojiRequest {
 	return GetCustomEmojiRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1151,7 +1151,7 @@ func (c *Client) GetCustomEmoji(ctx context.Context) GetCustomEmojiRequest {
 // Execute executes the request
 //
 //	@return GetCustomEmojiResponse
-func (c *Client) GetCustomEmojiExecute(r GetCustomEmojiRequest) (*GetCustomEmojiResponse, *http.Response, error) {
+func (c *simpleClient) GetCustomEmojiExecute(r GetCustomEmojiRequest) (*GetCustomEmojiResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1242,7 +1242,7 @@ configured for the user's organization.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetCustomProfileFieldsRequest
 */
-func (c *Client) GetCustomProfileFields(ctx context.Context) GetCustomProfileFieldsRequest {
+func (c *simpleClient) GetCustomProfileFields(ctx context.Context) GetCustomProfileFieldsRequest {
 	return GetCustomProfileFieldsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1252,7 +1252,7 @@ func (c *Client) GetCustomProfileFields(ctx context.Context) GetCustomProfileFie
 // Execute executes the request
 //
 //	@return GetCustomProfileFieldsResponse
-func (c *Client) GetCustomProfileFieldsExecute(r GetCustomProfileFieldsRequest) (*GetCustomProfileFieldsResponse, *http.Response, error) {
+func (c *simpleClient) GetCustomProfileFieldsExecute(r GetCustomProfileFieldsRequest) (*GetCustomProfileFieldsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1349,7 +1349,7 @@ a `[pattern, url_format, id]` tuple format.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetLinkifiersRequest
 */
-func (c *Client) GetLinkifiers(ctx context.Context) GetLinkifiersRequest {
+func (c *simpleClient) GetLinkifiers(ctx context.Context) GetLinkifiersRequest {
 	return GetLinkifiersRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1359,7 +1359,7 @@ func (c *Client) GetLinkifiers(ctx context.Context) GetLinkifiersRequest {
 // Execute executes the request
 //
 //	@return GetLinkifiersResponse
-func (c *Client) GetLinkifiersExecute(r GetLinkifiersRequest) (*GetLinkifiersResponse, *http.Response, error) {
+func (c *simpleClient) GetLinkifiersExecute(r GetLinkifiersRequest) (*GetLinkifiersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1457,7 +1457,7 @@ information when they post their own state using the [`POST
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetPresenceRequest
 */
-func (c *Client) GetPresence(ctx context.Context) GetPresenceRequest {
+func (c *simpleClient) GetPresence(ctx context.Context) GetPresenceRequest {
 	return GetPresenceRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1467,7 +1467,7 @@ func (c *Client) GetPresence(ctx context.Context) GetPresenceRequest {
 // Execute executes the request
 //
 //	@return GetPresenceResponse
-func (c *Client) GetPresenceExecute(r GetPresenceRequest) (*GetPresenceResponse, *http.Response, error) {
+func (c *simpleClient) GetPresenceExecute(r GetPresenceRequest) (*GetPresenceResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1560,7 +1560,7 @@ for their private data to be exported by organization administrators.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetRealmExportConsentsRequest
 */
-func (c *Client) GetRealmExportConsents(ctx context.Context) GetRealmExportConsentsRequest {
+func (c *simpleClient) GetRealmExportConsents(ctx context.Context) GetRealmExportConsentsRequest {
 	return GetRealmExportConsentsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1570,7 +1570,7 @@ func (c *Client) GetRealmExportConsents(ctx context.Context) GetRealmExportConse
 // Execute executes the request
 //
 //	@return GetRealmExportConsentsResponse
-func (c *Client) GetRealmExportConsentsExecute(r GetRealmExportConsentsRequest) (*GetRealmExportConsentsResponse, *http.Response, error) {
+func (c *simpleClient) GetRealmExportConsentsExecute(r GetRealmExportConsentsRequest) (*GetRealmExportConsentsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1668,7 +1668,7 @@ New in Zulip 2.1.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetRealmExportsRequest
 */
-func (c *Client) GetRealmExports(ctx context.Context) GetRealmExportsRequest {
+func (c *simpleClient) GetRealmExports(ctx context.Context) GetRealmExportsRequest {
 	return GetRealmExportsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1678,7 +1678,7 @@ func (c *Client) GetRealmExports(ctx context.Context) GetRealmExportsRequest {
 // Execute executes the request
 //
 //	@return GetRealmExportsResponse
-func (c *Client) GetRealmExportsExecute(r GetRealmExportsRequest) (*GetRealmExportsResponse, *http.Response, error) {
+func (c *simpleClient) GetRealmExportsExecute(r GetRealmExportsRequest) (*GetRealmExportsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1777,7 +1777,7 @@ Fetch global settings for a Zulip server.
     @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
     @return GetServerSettingsRequest
 */
-func (c *Client) GetServerSettings(ctx context.Context) GetServerSettingsRequest {
+func (c *simpleClient) GetServerSettings(ctx context.Context) GetServerSettingsRequest {
 	return GetServerSettingsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1787,7 +1787,7 @@ func (c *Client) GetServerSettings(ctx context.Context) GetServerSettingsRequest
 // Execute executes the request
 //
 //	@return GetServerSettingsResponse
-func (c *Client) GetServerSettingsExecute(r GetServerSettingsRequest) (*GetServerSettingsResponse, *http.Response, error) {
+func (c *simpleClient) GetServerSettingsExecute(r GetServerSettingsRequest) (*GetServerSettingsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1882,7 +1882,7 @@ configured for an organization.
 	@param playgroundId The Id of the playground that you want to remove.
 	@return RemoveCodePlaygroundRequest
 */
-func (c *Client) RemoveCodePlayground(ctx context.Context, playgroundId int64) RemoveCodePlaygroundRequest {
+func (c *simpleClient) RemoveCodePlayground(ctx context.Context, playgroundId int64) RemoveCodePlaygroundRequest {
 	return RemoveCodePlaygroundRequest{
 		ApiService:   c,
 		ctx:          ctx,
@@ -1893,7 +1893,7 @@ func (c *Client) RemoveCodePlayground(ctx context.Context, playgroundId int64) R
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -1988,7 +1988,7 @@ in messages and topics.
 	@param filterId The Id of the linkifier that you want to remove.
 	@return RemoveLinkifierRequest
 */
-func (c *Client) RemoveLinkifier(ctx context.Context, filterId int64) RemoveLinkifierRequest {
+func (c *simpleClient) RemoveLinkifier(ctx context.Context, filterId int64) RemoveLinkifierRequest {
 	return RemoveLinkifierRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -1999,7 +1999,7 @@ func (c *Client) RemoveLinkifier(ctx context.Context, filterId int64) RemoveLink
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -2103,7 +2103,7 @@ This endpoint is used to implement the dragging feature described in the
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ReorderCustomProfileFieldsRequest
 */
-func (c *Client) ReorderCustomProfileFields(ctx context.Context) ReorderCustomProfileFieldsRequest {
+func (c *simpleClient) ReorderCustomProfileFields(ctx context.Context) ReorderCustomProfileFieldsRequest {
 	return ReorderCustomProfileFieldsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2113,7 +2113,7 @@ func (c *Client) ReorderCustomProfileFields(ctx context.Context) ReorderCustomPr
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileFieldsRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileFieldsRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -2220,7 +2220,7 @@ need to delete and recreate them to reorder the list of linkifiers.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ReorderLinkifiersRequest
 */
-func (c *Client) ReorderLinkifiers(ctx context.Context) ReorderLinkifiersRequest {
+func (c *simpleClient) ReorderLinkifiers(ctx context.Context) ReorderLinkifiersRequest {
 	return ReorderLinkifiersRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2230,7 +2230,7 @@ func (c *Client) ReorderLinkifiers(ctx context.Context) ReorderLinkifiersRequest
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -2335,7 +2335,7 @@ appear when received by new users upon joining the organization.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return TestWelcomeBotCustomMessageRequest
 */
-func (c *Client) TestWelcomeBotCustomMessage(ctx context.Context) TestWelcomeBotCustomMessageRequest {
+func (c *simpleClient) TestWelcomeBotCustomMessage(ctx context.Context) TestWelcomeBotCustomMessageRequest {
 	return TestWelcomeBotCustomMessageRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2345,7 +2345,7 @@ func (c *Client) TestWelcomeBotCustomMessage(ctx context.Context) TestWelcomeBot
 // Execute executes the request
 //
 //	@return TestWelcomeBotCustomMessageResponse
-func (c *Client) TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustomMessageRequest) (*TestWelcomeBotCustomMessageResponse, *http.Response, error) {
+func (c *simpleClient) TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustomMessageRequest) (*TestWelcomeBotCustomMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -2462,7 +2462,7 @@ in messages and topics.
 	@param filterId The Id of the linkifier that you want to update.
 	@return UpdateLinkifierRequest
 */
-func (c *Client) UpdateLinkifier(ctx context.Context, filterId int64) UpdateLinkifierRequest {
+func (c *simpleClient) UpdateLinkifier(ctx context.Context, filterId int64) UpdateLinkifierRequest {
 	return UpdateLinkifierRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -2473,7 +2473,7 @@ func (c *Client) UpdateLinkifier(ctx context.Context, filterId int64) UpdateLink
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -3002,7 +3002,7 @@ be returned in the JSON success response.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return UpdateRealmUserSettingsDefaultsRequest
 */
-func (c *Client) UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest {
+func (c *simpleClient) UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest {
 	return UpdateRealmUserSettingsDefaultsRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3012,7 +3012,7 @@ func (c *Client) UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateReal
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -3286,7 +3286,7 @@ organization. Access to this endpoint depends on the
 	@param emojiName The name that should be associated with the uploaded emoji image/gif. The emoji name can only contain letters, numbers, dashes, and spaces. Upper and lower case letters are treated the same, and underscores (\\_) are treated the same as spaces (consistent with how the Zulip UI handles emoji).
 	@return UploadCustomEmojiRequest
 */
-func (c *Client) UploadCustomEmoji(ctx context.Context, emojiName string) UploadCustomEmojiRequest {
+func (c *simpleClient) UploadCustomEmoji(ctx context.Context, emojiName string) UploadCustomEmojiRequest {
 	return UploadCustomEmojiRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -3297,7 +3297,7 @@ func (c *Client) UploadCustomEmoji(ctx context.Context, emojiName string) Upload
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}

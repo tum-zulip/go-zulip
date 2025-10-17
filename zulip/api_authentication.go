@@ -109,7 +109,7 @@ development servers on the web).
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return DevFetchApiKeyRequest
 */
-func (c *Client) DevFetchApiKey(ctx context.Context) DevFetchApiKeyRequest {
+func (c *simpleClient) DevFetchApiKey(ctx context.Context) DevFetchApiKeyRequest {
 	return DevFetchApiKeyRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -119,7 +119,7 @@ func (c *Client) DevFetchApiKey(ctx context.Context) DevFetchApiKeyRequest {
 // Execute executes the request
 //
 //	@return ApiKeyResponse
-func (c *Client) DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error) {
+func (c *simpleClient) DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -250,7 +250,7 @@ see also [the unauthenticated variant](zulip.com/api/dev-fetch-api-key.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return FetchApiKeyRequest
 */
-func (c *Client) FetchApiKey(ctx context.Context) FetchApiKeyRequest {
+func (c *simpleClient) FetchApiKey(ctx context.Context) FetchApiKeyRequest {
 	return FetchApiKeyRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -260,7 +260,7 @@ func (c *Client) FetchApiKey(ctx context.Context) FetchApiKeyRequest {
 // Execute executes the request
 //
 //	@return ApiKeyResponse
-func (c *Client) FetchApiKeyExecute(r FetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error) {
+func (c *simpleClient) FetchApiKeyExecute(r FetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}

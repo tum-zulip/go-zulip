@@ -31,6 +31,10 @@ type CodedError struct {
 	Code string `json:"code"`
 }
 
+func (e CodedError) Error() string {
+	return fmt.Sprintf("%s: %s (%s)", e.Result, e.Msg, e.Code)
+}
+
 // RateLimitedError struct for RateLimitedError
 type RateLimitedError struct {
 	CodedError
@@ -105,7 +109,7 @@ type DeactivateOwnUserError struct {
 
 // Error returns non-empty string if there was an error.
 func (e GenericOpenAPIError) Error() string {
-	return e.error
+	return fmt.Sprintf("%s: %s (%s)", e.error, e.model, string(e.body))
 }
 
 // Body returns the raw bytes of the response

@@ -23,19 +23,19 @@ import (
 func Test_DraftsAPIService(t *testing.T) {
 	t.Parallel()
 
-	t.Run("CreateDrafts", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("CreateDrafts", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		draft := createDraft(t, ctx, apiClient)
 		assert.NotZero(t, draft.Id)
 	}))
 
-	t.Run("CreateSavedSnippet", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("CreateSavedSnippet", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(t, ctx, apiClient)
 		assert.NotZero(t, snippet.SavedSnippetId)
 	}))
 
-	t.Run("DeleteDraft", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("DeleteDraft", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		draft := createDraft(t, ctx, apiClient)
 
@@ -54,7 +54,7 @@ func Test_DraftsAPIService(t *testing.T) {
 		}
 	}))
 
-	t.Run("DeleteSavedSnippet", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("DeleteSavedSnippet", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(t, ctx, apiClient)
 
@@ -70,7 +70,7 @@ func Test_DraftsAPIService(t *testing.T) {
 		}
 	}))
 
-	t.Run("EditDraft", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("EditDraft", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		draft := createDraft(t, ctx, apiClient)
 
@@ -104,7 +104,7 @@ func Test_DraftsAPIService(t *testing.T) {
 		assert.True(t, found, "Updated draft not found in draft list")
 	}))
 
-	t.Run("EditSavedSnippet", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("EditSavedSnippet", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(t, ctx, apiClient)
 
@@ -136,7 +136,7 @@ func Test_DraftsAPIService(t *testing.T) {
 		assert.True(t, found, "Updated saved snippet not found in list")
 	}))
 
-	t.Run("GetDrafts", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("GetDrafts", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		draft := createDraft(t, ctx, apiClient)
 
@@ -159,7 +159,7 @@ func Test_DraftsAPIService(t *testing.T) {
 		assert.True(t, found, "Created draft not found in list of drafts")
 	}))
 
-	t.Run("GetSavedSnippets", runForAllClients(t, func(t *testing.T, apiClient *zulip.Client) {
+	t.Run("GetSavedSnippets", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(t, ctx, apiClient)
 
@@ -180,7 +180,7 @@ func Test_DraftsAPIService(t *testing.T) {
 	}))
 }
 
-func createDraft(t *testing.T, ctx context.Context, apiClient *zulip.Client) *zulip.Draft {
+func createDraft(t *testing.T, ctx context.Context, apiClient zulip.Client) *zulip.Draft {
 	t.Helper()
 
 	userId := getOwnUserId(t, apiClient)
@@ -211,7 +211,7 @@ func createDraft(t *testing.T, ctx context.Context, apiClient *zulip.Client) *zu
 	return draft
 }
 
-func deleteDraft(t *testing.T, ctx context.Context, apiClient *zulip.Client, draftId int64) *zulip.Response {
+func deleteDraft(t *testing.T, ctx context.Context, apiClient zulip.Client, draftId int64) *zulip.Response {
 	t.Helper()
 
 	resp, httpRes, err := apiClient.DeleteDraft(ctx, draftId).Execute()
@@ -223,7 +223,7 @@ func deleteDraft(t *testing.T, ctx context.Context, apiClient *zulip.Client, dra
 	return resp
 }
 
-func createSavedSnippet(t *testing.T, ctx context.Context, apiClient *zulip.Client) *zulip.CreateSavedSnippetResponse {
+func createSavedSnippet(t *testing.T, ctx context.Context, apiClient zulip.Client) *zulip.CreateSavedSnippetResponse {
 	t.Helper()
 
 	title := uniqueName("snippet-title")
@@ -241,7 +241,7 @@ func createSavedSnippet(t *testing.T, ctx context.Context, apiClient *zulip.Clie
 	return resp
 }
 
-func deleteSavedSnippet(t *testing.T, ctx context.Context, apiClient *zulip.Client, savedSnippetId int64) *zulip.Response {
+func deleteSavedSnippet(t *testing.T, ctx context.Context, apiClient zulip.Client, savedSnippetId int64) *zulip.Response {
 	t.Helper()
 
 	resp, httpRes, err := apiClient.DeleteSavedSnippet(ctx, savedSnippetId).Execute()

@@ -111,7 +111,7 @@ Schedule a reminder to be sent to the current user at the specified time. The re
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return CreateMessageReminderRequest
 */
-func (c *Client) CreateMessageReminder(ctx context.Context) CreateMessageReminderRequest {
+func (c *simpleClient) CreateMessageReminder(ctx context.Context) CreateMessageReminderRequest {
 	return CreateMessageReminderRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -121,7 +121,7 @@ func (c *Client) CreateMessageReminder(ctx context.Context) CreateMessageReminde
 // Execute executes the request
 //
 //	@return CreateMessageReminderResponse
-func (c *Client) CreateMessageReminderExecute(r CreateMessageReminderRequest) (*CreateMessageReminderResponse, *http.Response, error) {
+func (c *simpleClient) CreateMessageReminderExecute(r CreateMessageReminderRequest) (*CreateMessageReminderResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -225,7 +225,7 @@ reminder](zulip.com/help/schedule-a-reminder.
 	@param reminderId The Id of the reminder to delete.  This is different from the unique Id that the message would have after being sent.
 	@return DeleteReminderRequest
 */
-func (c *Client) DeleteReminder(ctx context.Context, reminderId int64) DeleteReminderRequest {
+func (c *simpleClient) DeleteReminder(ctx context.Context, reminderId int64) DeleteReminderRequest {
 	return DeleteReminderRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -236,7 +236,7 @@ func (c *Client) DeleteReminder(ctx context.Context, reminderId int64) DeleteRem
 // Execute executes the request
 //
 //	@return Response
-func (c *Client) DeleteReminderExecute(r DeleteReminderRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) DeleteReminderExecute(r DeleteReminderRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -343,7 +343,7 @@ future to themself.
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return GetRemindersRequest
 */
-func (c *Client) GetReminders(ctx context.Context) GetRemindersRequest {
+func (c *simpleClient) GetReminders(ctx context.Context) GetRemindersRequest {
 	return GetRemindersRequest{
 		ApiService: c,
 		ctx:        ctx,
@@ -353,7 +353,7 @@ func (c *Client) GetReminders(ctx context.Context) GetRemindersRequest {
 // Execute executes the request
 //
 //	@return GetRemindersResponse
-func (c *Client) GetRemindersExecute(r GetRemindersRequest) (*GetRemindersResponse, *http.Response, error) {
+func (c *simpleClient) GetRemindersExecute(r GetRemindersRequest) (*GetRemindersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
