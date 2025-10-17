@@ -15,6 +15,8 @@ type Message struct {
 	Client string `json:"client,omitempty"`
 	// The content/body of the message. When `apply_markdown` is set, it will be in HTML format.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip's HTML format.
 	Content string `json:"content,omitempty"`
+	// The content/body of the message rendered in HTML.
+	RenderedContent *string `json:"rendered_content,omitempty"`
 	// The HTTP `content_type` for the message content. This will be `text/html` or `text/x-markdown`, depending on whether `apply_markdown` was set.  See the help center article on [message formatting](zulip.com/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.
 	ContentType      string           `json:"content_type,omitempty"`
 	DisplayRecipient DisplayRecipient `json:"display_recipient,omitempty"`
@@ -59,6 +61,7 @@ type messageJSON struct {
 	AvatarUrl          *string          `json:"avatar_url,omitempty"`
 	Client             string           `json:"client,omitempty"`
 	Content            string           `json:"content,omitempty"`
+	RenderedContent    *string          `json:"rendered_content,omitempty"`
 	ContentType        string           `json:"content_type,omitempty"`
 	DisplayRecipient   DisplayRecipient `json:"display_recipient,omitempty"`
 	EditHistory        []EditHistory    `json:"edit_history,omitempty"`
@@ -86,6 +89,7 @@ func (o Message) MarshalJSON() ([]byte, error) {
 		AvatarUrl:        o.AvatarUrl,
 		Client:           o.Client,
 		Content:          o.Content,
+		RenderedContent:  o.RenderedContent,
 		ContentType:      o.ContentType,
 		DisplayRecipient: o.DisplayRecipient,
 		EditHistory:      o.EditHistory,
@@ -129,6 +133,7 @@ func (o *Message) UnmarshalJSON(data []byte) error {
 	o.AvatarUrl = aux.AvatarUrl
 	o.Client = aux.Client
 	o.Content = aux.Content
+	o.RenderedContent = aux.RenderedContent
 	o.ContentType = aux.ContentType
 	o.DisplayRecipient = aux.DisplayRecipient
 	o.EditHistory = aux.EditHistory

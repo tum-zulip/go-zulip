@@ -272,6 +272,8 @@ func (c *simpleClient) CreateScheduledMessageExecute(r CreateScheduledMessageReq
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -389,6 +391,8 @@ func (c *simpleClient) DeleteScheduledMessageExecute(r DeleteScheduledMessageReq
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -494,6 +498,8 @@ func (c *simpleClient) GetScheduledMessagesExecute(r GetScheduledMessagesRequest
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -675,6 +681,8 @@ func (c *simpleClient) UpdateScheduledMessageExecute(r UpdateScheduledMessageReq
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }

@@ -193,6 +193,8 @@ func (c *simpleClient) DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (*ApiKeyRe
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -337,6 +339,8 @@ func (c *simpleClient) FetchApiKeyExecute(r FetchApiKeyRequest) (*ApiKeyResponse
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }

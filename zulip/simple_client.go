@@ -687,3 +687,9 @@ func (c *simpleClient) decode(v interface{}, b []byte, contentType string) (err 
 	}
 	return errors.New("undefined response type")
 }
+
+func (c *simpleClient) handleUnsupportedParameters(ctx context.Context, parameters []string) {
+	if len(parameters) > 0 {
+		c.logger.WarnContext(ctx, "Unsupported parameters were ignored", "parameters", parameters)
+	}
+}

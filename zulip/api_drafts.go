@@ -268,6 +268,8 @@ func (c *simpleClient) CreateDraftsExecute(r CreateDraftsRequest) (*CreateDrafts
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -402,6 +404,8 @@ func (c *simpleClient) CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (*
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -516,6 +520,8 @@ func (c *simpleClient) DeleteDraftExecute(r DeleteDraftRequest) (*Response, *htt
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -632,6 +638,8 @@ func (c *simpleClient) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -759,6 +767,8 @@ func (c *simpleClient) EditDraftExecute(r EditDraftRequest) (*Response, *http.Re
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -896,6 +906,8 @@ func (c *simpleClient) EditSavedSnippetExecute(r EditSavedSnippetRequest) (*Resp
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -995,6 +1007,8 @@ func (c *simpleClient) GetDraftsExecute(r GetDraftsRequest) (*GetDraftsResponse,
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1097,6 +1111,8 @@ func (c *simpleClient) GetSavedSnippetsExecute(r GetSavedSnippetsRequest) (*GetS
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }

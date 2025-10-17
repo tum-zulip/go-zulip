@@ -212,6 +212,8 @@ func (c *simpleClient) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*Response
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -379,6 +381,8 @@ func (c *simpleClient) RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -507,6 +511,8 @@ func (c *simpleClient) TestNotifyExecute(r TestNotifyRequest) (*Response, *http.
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }

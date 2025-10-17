@@ -232,6 +232,8 @@ func (c *simpleClient) AddNavigationViewExecute(r AddNavigationViewRequest) (*Re
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -380,6 +382,8 @@ func (c *simpleClient) EditNavigationViewExecute(r EditNavigationViewRequest) (*
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -481,6 +485,8 @@ func (c *simpleClient) GetNavigationViewsExecute(r GetNavigationViewsRequest) (*
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -597,6 +603,8 @@ func (c *simpleClient) RemoveNavigationViewExecute(r RemoveNavigationViewRequest
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }

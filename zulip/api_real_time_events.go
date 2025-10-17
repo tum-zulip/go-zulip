@@ -49,20 +49,6 @@ type RealTimeEventsAPI interface {
 	GetEventsExecute(r GetEventsRequest) (*GetEventsResponse, *http.Response, error)
 
 	/*
-		RealTimePost Method for RealTimePost
-
-		(Ignored)
-
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return RealTimePostRequest
-	*/
-	RealTimePost(ctx context.Context) RealTimePostRequest
-
-	// RealTimePostExecute executes the request
-	RealTimePostExecute(r RealTimePostRequest) (*http.Response, error)
-
-	/*
 			RegisterQueue Register an event queue
 
 			This powerful endpoint can be used to register a Zulip "event queue"
@@ -138,20 +124,6 @@ type RealTimeEventsAPI interface {
 	// RegisterQueueExecute executes the request
 	//  @return RegisterQueueResponse
 	RegisterQueueExecute(r RegisterQueueRequest) (*RegisterQueueResponse, *http.Response, error)
-
-	/*
-		RestErrorHandling Error handling
-
-		Common error to many endpoints
-
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return RestErrorHandlingRequest
-	*/
-	RestErrorHandling(ctx context.Context) RestErrorHandlingRequest
-
-	// RestErrorHandlingExecute executes the request
-	RestErrorHandlingExecute(r RestErrorHandlingRequest) (*http.Response, error)
 }
 
 type DeleteQueueRequest struct {
@@ -271,6 +243,8 @@ func (c *simpleClient) DeleteQueueExecute(r DeleteQueueRequest) (*Response, *htt
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -424,125 +398,9 @@ func (c *simpleClient) GetEventsExecute(r GetEventsRequest) (*GetEventsResponse,
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type RealTimePostRequest struct {
-	ctx               context.Context
-	ApiService        RealTimeEventsAPI
-	eventTypes        *[]string
-	narrow            *Narrow
-	allPublicChannels *bool
-}
-
-// A JSON-encoded array indicating which types of events you&#39;re interested in. Values that you might find useful include:  - **message** (messages) - **subscription** (changes in your subscriptions) - **realm_user** (changes to users in the organization and   their properties, such as their name).  If you do not specify this parameter, you will receive all events, and have to filter out the events not relevant to your client in your client code. For most applications, one is only interested in messages, so one specifies: &#x60;\\\&quot;event_types\\\&quot;: [\\\&quot;message\\\&quot;]&#x60;  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions.
-func (r RealTimePostRequest) EventTypes(eventTypes []string) RealTimePostRequest {
-	r.eventTypes = &eventTypes
-	return r
-}
-
-// A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)](zulip.com/api/construct-narrow) for which you&#39;d like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use &#x60;\\\&quot;narrow\\\&quot;: [[\\\&quot;is\\\&quot;, \\\&quot;dm\\\&quot;]]&#x60;.  Unlike the API for [fetching messages](zulip.com/api/get-messages, this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a &#x60;narrow&#x60; filter of &#x60;[[\\\&quot;channel\\\&quot;, \\\&quot;Denmark\\\&quot;]]&#x60; will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to &#x60;\\\&quot;Denmark\\\&quot;&#x60;.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed](zulip.com/api/subscribe) to any channels whose messages you&#39;d like them to process using this endpoint.  See the &#x60;all_public_streams&#x60; parameter for how to process all public channel messages in an organization.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
-func (r RealTimePostRequest) Narrow(narrow *Narrow) RealTimePostRequest {
-	r.narrow = narrow
-	return r
-}
-
-// Whether you would like to request message events from all public channels. Useful for workflow bots that you&#39;d like to see all new messages sent to public channels. (You can also subscribe the user to private channels).
-func (r RealTimePostRequest) AllPublicChannels(allPublicChannels bool) RealTimePostRequest {
-	r.allPublicChannels = &allPublicChannels
-	return r
-}
-
-func (r RealTimePostRequest) Execute() (*http.Response, error) {
-	return r.ApiService.RealTimePostExecute(r)
-}
-
-/*
-RealTimePost Method for RealTimePost
-
-(Ignored)
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return RealTimePostRequest
-*/
-func (c *simpleClient) RealTimePost(ctx context.Context) RealTimePostRequest {
-	return RealTimePostRequest{
-		ApiService: c,
-		ctx:        ctx,
-	}
-}
-
-// Execute executes the request
-func (c *simpleClient) RealTimePostExecute(r RealTimePostRequest) (*http.Response, error) {
-	var (
-		localVarHTTPMethod = http.MethodPost
-		localVarPostBody   interface{}
-		formFiles          []formFile
-	)
-
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/real-time"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.eventTypes != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "event_types", r.eventTypes, "form", "multi")
-	}
-	if r.narrow != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "narrow", r.narrow, "form", "multi")
-	}
-	if r.allPublicChannels != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "all_public_streams", r.allPublicChannels, "form", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
 }
 
 type RegisterQueueRequest struct {
@@ -804,125 +662,7 @@ func (c *simpleClient) RegisterQueueExecute(r RegisterQueueRequest) (*RegisterQu
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type RestErrorHandlingRequest struct {
-	ctx        context.Context
-	ApiService RealTimeEventsAPI
-}
-
-func (r RestErrorHandlingRequest) Execute() (*http.Response, error) {
-	return r.ApiService.RestErrorHandlingExecute(r)
-}
-
-/*
-RestErrorHandling Error handling
-
-# Common error to many endpoints
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return RestErrorHandlingRequest
-*/
-func (c *simpleClient) RestErrorHandling(ctx context.Context) RestErrorHandlingRequest {
-	return RestErrorHandlingRequest{
-		ApiService: c,
-		ctx:        ctx,
-	}
-}
-
-// Execute executes the request
-func (c *simpleClient) RestErrorHandlingExecute(r RestErrorHandlingRequest) (*http.Response, error) {
-	var (
-		localVarHTTPMethod = http.MethodPost
-		localVarPostBody   interface{}
-		formFiles          []formFile
-	)
-
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/rest-error-handling"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v RestErrorHandling400Response
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v CodedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 429 {
-			var v RateLimitedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
 }

@@ -200,6 +200,8 @@ func (c *simpleClient) CreateMessageReminderExecute(r CreateMessageReminderReque
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -317,6 +319,8 @@ func (c *simpleClient) DeleteReminderExecute(r DeleteReminderRequest) (*Response
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -422,6 +426,8 @@ func (c *simpleClient) GetRemindersExecute(r GetRemindersRequest) (*GetReminders
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }

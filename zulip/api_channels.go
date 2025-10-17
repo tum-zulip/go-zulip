@@ -733,6 +733,8 @@ func (c *simpleClient) AddDefaultChannelExecute(r AddDefaultChannelRequest) (*Re
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -846,6 +848,8 @@ func (c *simpleClient) ArchiveChannelExecute(r ArchiveChannelRequest) (*Response
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -975,6 +979,8 @@ func (c *simpleClient) CreateBigBlueButtonVideoCallExecute(r CreateBigBlueButton
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1351,6 +1357,8 @@ func (c *simpleClient) CreateChannelExecute(r CreateChannelRequest) (*CreateChan
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1486,6 +1494,8 @@ func (c *simpleClient) CreateChannelFolderExecute(r CreateChannelFolderRequest) 
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1646,6 +1656,8 @@ func (c *simpleClient) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsReadR
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1762,6 +1774,8 @@ func (c *simpleClient) GetChannelFoldersExecute(r GetChannelFoldersRequest) (*Ge
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1877,6 +1891,8 @@ func (c *simpleClient) GetChannelByIdExecute(r GetChannelByIdRequest) (*GetChann
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2004,6 +2020,8 @@ func (c *simpleClient) GetChannelEmailAddressExecute(r GetChannelEmailAddressReq
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -2124,6 +2142,8 @@ func (c *simpleClient) GetChannelIdExecute(r GetChannelIdRequest) (*GetChannelId
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2259,6 +2279,8 @@ func (c *simpleClient) GetChannelTopicsExecute(r GetChannelTopicsRequest) (*GetC
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2478,6 +2500,8 @@ func (c *simpleClient) GetChannelsExecute(r GetChannelsRequest) (*GetChannelsRes
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -2592,6 +2616,8 @@ func (c *simpleClient) GetSubscribersExecute(r GetSubscribersRequest) (*GetSubsc
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -2701,6 +2727,8 @@ func (c *simpleClient) GetSubscriptionStatusExecute(r GetSubscriptionStatusReque
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2814,6 +2842,8 @@ func (c *simpleClient) GetSubscriptionsExecute(r GetSubscriptionsRequest) (*GetS
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2970,6 +3000,8 @@ func (c *simpleClient) MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Re
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -3094,6 +3126,8 @@ func (c *simpleClient) PatchChannelFoldersExecute(r PatchChannelFoldersRequest) 
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -3217,6 +3251,8 @@ func (c *simpleClient) RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -3626,6 +3662,8 @@ func (c *simpleClient) SubscribeExecute(r SubscribeRequest) (*SubscribeResponse,
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -3799,6 +3837,8 @@ func (c *simpleClient) UnsubscribeExecute(r UnsubscribeRequest) (*UnsubscribeRes
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -3950,6 +3990,8 @@ func (c *simpleClient) UpdateChannelFolderExecute(r UpdateChannelFolderRequest) 
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -4331,6 +4373,8 @@ func (c *simpleClient) UpdateChannelExecute(r UpdateChannelRequest) (*Response, 
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -4450,6 +4494,8 @@ func (c *simpleClient) UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSet
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -4580,6 +4626,8 @@ func (c *simpleClient) UpdateSubscriptionsExecute(r UpdateSubscriptionsRequest) 
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -4722,6 +4770,8 @@ func (c *simpleClient) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Respon
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }

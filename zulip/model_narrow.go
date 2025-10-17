@@ -141,6 +141,30 @@ func IsMuted() NarrowTerm {
 	}
 }
 
+// IsPrivateMessage returns a NarrowTerm that filters private messages.
+func IsPrivateMessage() NarrowTerm {
+	return NarrowTerm{
+		Operator: NarrowOperatorIs,
+		Operand:  NewNarrowStringOperand("private"),
+	}
+}
+
+// IsStarred returns a NarrowTerm that filters starred messages.
+func IsStarred() NarrowTerm {
+	return NarrowTerm{
+		Operator: NarrowOperatorIs,
+		Operand:  NewNarrowStringOperand("starred"),
+	}
+}
+
+// IsAlerted returns a NarrowTerm that filters alerted messages.
+func IsAlerted() NarrowTerm {
+	return NarrowTerm{
+		Operator: NarrowOperatorIs,
+		Operand:  NewNarrowStringOperand("alerted"),
+	}
+}
+
 // MessageContains returns a NarrowTerm that filters messages using full-text search.
 func MessageContains(search string) NarrowTerm {
 	return NarrowTerm{
@@ -194,22 +218,6 @@ func WithUserEmail(email string) NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorWith,
 		Operand:  NewNarrowStringOperand(email),
-	}
-}
-
-// IsStarred returns a NarrowTerm that filters starred messages.
-func IsStarred() NarrowTerm {
-	return NarrowTerm{
-		Operator: NarrowOperatorIs,
-		Operand:  NewNarrowStringOperand("starred"),
-	}
-}
-
-// IsAlerted returns a NarrowTerm that filters alerted messages.
-func IsAlerted() NarrowTerm {
-	return NarrowTerm{
-		Operator: NarrowOperatorIs,
-		Operand:  NewNarrowStringOperand("alerted"),
 	}
 }
 

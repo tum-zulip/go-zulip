@@ -331,6 +331,8 @@ func (c *simpleClient) CreateInviteLinkExecute(r CreateInviteLinkRequest) (*Crea
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -437,6 +439,8 @@ func (c *simpleClient) GetInvitesExecute(r GetInvitesRequest) (*GetInvitesRespon
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -555,6 +559,8 @@ func (c *simpleClient) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Re
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -671,6 +677,8 @@ func (c *simpleClient) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Re
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -791,6 +799,8 @@ func (c *simpleClient) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Resp
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -993,6 +1003,8 @@ func (c *simpleClient) SendInvitesExecute(r SendInvitesRequest) (*Response, *htt
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }

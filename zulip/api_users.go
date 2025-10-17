@@ -1065,6 +1065,8 @@ func (c *simpleClient) AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWords
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1197,6 +1199,8 @@ func (c *simpleClient) AddApnsTokenExecute(r AddApnsTokenRequest) (*Response, *h
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1317,6 +1321,8 @@ func (c *simpleClient) AddFcmTokenExecute(r AddFcmTokenRequest) (*Response, *htt
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1477,6 +1483,8 @@ func (c *simpleClient) CreateUserExecute(r CreateUserRequest) (*CreateUserRespon
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1715,6 +1723,8 @@ func (c *simpleClient) CreateUserGroupExecute(r CreateUserGroupRequest) (*Create
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1827,6 +1837,8 @@ func (c *simpleClient) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*Re
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1954,6 +1966,8 @@ func (c *simpleClient) DeactivateUserExecute(r DeactivateUserRequest) (*Response
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -2077,6 +2091,8 @@ func (c *simpleClient) DeactivateUserGroupExecute(r DeactivateUserGroupRequest) 
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -2179,6 +2195,8 @@ func (c *simpleClient) GetAlertWordsExecute(r GetAlertWordsRequest) (*AlertWords
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -2278,6 +2296,8 @@ func (c *simpleClient) GetAttachmentsExecute(r GetAttachmentsRequest) (*GetAttac
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2403,6 +2423,8 @@ func (c *simpleClient) GetIsUserGroupMemberExecute(r GetIsUserGroupMemberRequest
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -2505,6 +2527,8 @@ func (c *simpleClient) GetOwnUserExecute(r GetOwnUserRequest) (*GetOwnUserRespon
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2640,6 +2664,8 @@ func (c *simpleClient) GetUserExecute(r GetUserRequest) (*GetUserResponse, *http
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2790,6 +2816,8 @@ func (c *simpleClient) GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserR
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -2905,6 +2933,8 @@ func (c *simpleClient) GetUserGroupMembersExecute(r GetUserGroupMembersRequest) 
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -3025,6 +3055,8 @@ func (c *simpleClient) GetUserGroupSubgroupsExecute(r GetUserGroupSubgroupsReque
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -3142,6 +3174,8 @@ func (c *simpleClient) GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGro
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -3251,6 +3285,8 @@ func (c *simpleClient) GetUserPresenceExecute(r GetUserPresenceRequest) (*GetUse
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -3370,6 +3406,8 @@ func (c *simpleClient) GetUserStatusExecute(r GetUserStatusRequest) (*GetUserSta
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -3520,6 +3558,8 @@ func (c *simpleClient) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *h
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -3663,6 +3703,8 @@ func (c *simpleClient) MuteUserExecute(r MuteUserRequest) (*Response, *http.Resp
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -3768,6 +3810,8 @@ func (c *simpleClient) ReactivateUserExecute(r ReactivateUserRequest) (*Response
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -3883,6 +3927,8 @@ func (c *simpleClient) RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*Aler
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -4004,6 +4050,8 @@ func (c *simpleClient) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*Respon
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -4140,6 +4188,8 @@ func (c *simpleClient) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*Resp
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -4260,6 +4310,8 @@ func (c *simpleClient) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -4479,6 +4531,8 @@ func (c *simpleClient) SetTypingStatusExecute(r SetTypingStatusRequest) (*Respon
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -4606,6 +4660,8 @@ func (c *simpleClient) SetTypingStatusForMessageEditExecute(r SetTypingStatusFor
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -4722,6 +4778,8 @@ func (c *simpleClient) UnmuteUserExecute(r UnmuteUserRequest) (*Response, *http.
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -4917,6 +4975,8 @@ func (c *simpleClient) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -5724,6 +5784,8 @@ func (c *simpleClient) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -5894,6 +5956,8 @@ func (c *simpleClient) UpdateStatusExecute(r UpdateStatusRequest) (*Response, *h
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -6050,6 +6114,8 @@ func (c *simpleClient) UpdateStatusForUserExecute(r UpdateStatusForUserRequest) 
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -6209,6 +6275,8 @@ func (c *simpleClient) UpdateUserExecute(r UpdateUserRequest) (*Response, *http.
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -6371,6 +6439,8 @@ func (c *simpleClient) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*Re
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -6615,6 +6685,8 @@ func (c *simpleClient) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*Respon
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -6766,6 +6838,8 @@ func (c *simpleClient) UpdateUserGroupMembersExecute(r UpdateUserGroupMembersReq
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -6894,6 +6968,8 @@ func (c *simpleClient) UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroup
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }

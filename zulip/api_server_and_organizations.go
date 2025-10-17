@@ -567,6 +567,8 @@ func (c *simpleClient) AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*Ad
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -690,6 +692,8 @@ func (c *simpleClient) AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifier
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -862,6 +866,8 @@ func (c *simpleClient) CreateCustomProfileFieldExecute(r CreateCustomProfileFiel
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -985,6 +991,8 @@ func (c *simpleClient) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiReque
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1121,6 +1129,8 @@ func (c *simpleClient) ExportRealmExecute(r ExportRealmRequest) (*ExportRealmRes
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1220,6 +1230,8 @@ func (c *simpleClient) GetCustomEmojiExecute(r GetCustomEmojiRequest) (*GetCusto
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1321,6 +1333,8 @@ func (c *simpleClient) GetCustomProfileFieldsExecute(r GetCustomProfileFieldsReq
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1428,6 +1442,8 @@ func (c *simpleClient) GetLinkifiersExecute(r GetLinkifiersRequest) (*GetLinkifi
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1537,6 +1553,8 @@ func (c *simpleClient) GetPresenceExecute(r GetPresenceRequest) (*GetPresenceRes
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1639,6 +1657,8 @@ func (c *simpleClient) GetRealmExportConsentsExecute(r GetRealmExportConsentsReq
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1747,6 +1767,8 @@ func (c *simpleClient) GetRealmExportsExecute(r GetRealmExportsRequest) (*GetRea
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1857,6 +1879,8 @@ func (c *simpleClient) GetServerSettingsExecute(r GetServerSettingsRequest) (*Ge
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1964,6 +1988,8 @@ func (c *simpleClient) RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -2069,6 +2095,8 @@ func (c *simpleClient) RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Respon
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2187,6 +2215,8 @@ func (c *simpleClient) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileF
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -2303,6 +2333,8 @@ func (c *simpleClient) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Re
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2421,6 +2453,8 @@ func (c *simpleClient) TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustom
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2551,6 +2585,8 @@ func (c *simpleClient) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Respon
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -3256,6 +3292,8 @@ func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserS
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -3382,6 +3420,8 @@ func (c *simpleClient) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Re
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }

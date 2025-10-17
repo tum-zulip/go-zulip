@@ -707,6 +707,8 @@ func (c *simpleClient) AddReactionExecute(r AddReactionRequest) (*Response, *htt
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -844,6 +846,8 @@ func (c *simpleClient) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarro
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -964,6 +968,8 @@ func (c *simpleClient) DeleteMessageExecute(r DeleteMessageRequest) (*Response, 
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1073,6 +1079,8 @@ func (c *simpleClient) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) 
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1224,6 +1232,8 @@ func (c *simpleClient) GetMessageExecute(r GetMessageRequest) (*GetMessageRespon
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1355,6 +1365,8 @@ func (c *simpleClient) GetMessageHistoryExecute(r GetMessageHistoryRequest) (*Ge
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1605,6 +1617,8 @@ func (c *simpleClient) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesRes
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1731,6 +1745,8 @@ func (c *simpleClient) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetRea
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -1862,6 +1878,8 @@ func (c *simpleClient) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsR
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -1980,6 +1998,8 @@ func (c *simpleClient) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Re
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2110,6 +2130,8 @@ func (c *simpleClient) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Respon
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2255,6 +2277,8 @@ func (c *simpleClient) RemoveReactionExecute(r RemoveReactionRequest) (*Response
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -2365,6 +2389,8 @@ func (c *simpleClient) RenderMessageExecute(r RenderMessageRequest) (*RenderMess
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2513,6 +2539,8 @@ func (c *simpleClient) ReportMessageExecute(r ReportMessageRequest) (*Response, 
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2696,6 +2724,8 @@ func (c *simpleClient) SendMessageExecute(r SendMessageRequest) (*SendMessageRes
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -2963,6 +2993,8 @@ func (c *simpleClient) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMess
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -3099,6 +3131,8 @@ func (c *simpleClient) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -3288,6 +3322,8 @@ func (c *simpleClient) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsFo
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
+
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
@@ -3435,6 +3471,8 @@ func (c *simpleClient) UploadFileExecute(r UploadFileRequest) (*UploadFileRespon
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
+
+	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
