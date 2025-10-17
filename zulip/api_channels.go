@@ -12,7 +12,7 @@ import (
 type ChannelsAPI interface {
 
 	/*
-			AddDefaultStream Add a default channel
+			AddDefaultChannel Add a default channel
 
 			Add a channel to the set of [default channels][default-channels]
 		for new users joining the organization.
@@ -21,29 +21,29 @@ type ChannelsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return AddDefaultStreamRequest
+			@return AddDefaultChannelRequest
 	*/
-	AddDefaultStream(ctx context.Context) AddDefaultStreamRequest
+	AddDefaultChannel(ctx context.Context) AddDefaultChannelRequest
 
-	// AddDefaultStreamExecute executes the request
+	// AddDefaultChannelExecute executes the request
 	//  @return Response
-	AddDefaultStreamExecute(r AddDefaultStreamRequest) (*Response, *http.Response, error)
+	AddDefaultChannelExecute(r AddDefaultChannelRequest) (*Response, *http.Response, error)
 
 	/*
-		ArchiveStream Archive a channel
+		ArchiveChannel Archive a channel
 
-		[Archive the channel](zulip.com/help/archive-a-channel) with the Id `stream_id`.
+		[Archive the channel](zulip.com/help/archive-a-channel) with the Id `channelId`.
 
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param streamId The Id of the channel to access.
-		@return ArchiveStreamRequest
+		@param channelId The Id of the channel to access.
+		@return ArchiveChannelRequest
 	*/
-	ArchiveStream(ctx context.Context, streamId int64) ArchiveStreamRequest
+	ArchiveChannel(ctx context.Context, channelId int64) ArchiveChannelRequest
 
-	// ArchiveStreamExecute executes the request
+	// ArchiveChannelExecute executes the request
 	//  @return Response
-	ArchiveStreamExecute(r ArchiveStreamRequest) (*Response, *http.Response, error)
+	ArchiveChannelExecute(r ArchiveChannelRequest) (*Response, *http.Response, error)
 
 	/*
 			CreateBigBlueButtonVideoCall Create BigBlueButton video call
@@ -150,10 +150,10 @@ type ChannelsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param streamId The Id of the channel to access.
+			@param channelId The Id of the channel to access.
 			@return DeleteTopicRequest
 	*/
-	DeleteTopic(ctx context.Context, streamId int64) DeleteTopicRequest
+	DeleteTopic(ctx context.Context, channelId int64) DeleteTopicRequest
 
 	// DeleteTopicExecute executes the request
 	//  @return MarkAllAsReadResponse
@@ -181,25 +181,25 @@ type ChannelsAPI interface {
 	GetChannelFoldersExecute(r GetChannelFoldersRequest) (*GetChannelFoldersResponse, *http.Response, error)
 
 	/*
-			GetStreamById Get a channel by Id
+			GetChannelById Get a channel by Id
 
-			Fetch details for the channel with the Id `stream_id`.
+			Fetch details for the channel with the Id `channelId`.
 
 		**Changes**: New in Zulip 6.0 (feature level 132).
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param streamId The Id of the channel to access.
-			@return GetStreamByIdRequest
+			@param channelId The Id of the channel to access.
+			@return GetChannelByIdRequest
 	*/
-	GetStreamById(ctx context.Context, streamId int64) GetStreamByIdRequest
+	GetChannelById(ctx context.Context, channelId int64) GetChannelByIdRequest
 
-	// GetStreamByIdExecute executes the request
-	//  @return GetStreamResponse
-	GetStreamByIdExecute(r GetStreamByIdRequest) (*GetStreamResponse, *http.Response, error)
+	// GetChannelByIdExecute executes the request
+	//  @return GetChannelResponse
+	GetChannelByIdExecute(r GetChannelByIdRequest) (*GetChannelResponse, *http.Response, error)
 
 	/*
-			GetStreamEmailAddress Get channel's email address
+			GetChannelEmailAddress Get channel's email address
 
 			Get email address of a channel.
 
@@ -207,32 +207,32 @@ type ChannelsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param streamId The Id of the channel to access.
-			@return GetStreamEmailAddressRequest
+			@param channelId The Id of the channel to access.
+			@return GetChannelEmailAddressRequest
 	*/
-	GetStreamEmailAddress(ctx context.Context, streamId int64) GetStreamEmailAddressRequest
+	GetChannelEmailAddress(ctx context.Context, channelId int64) GetChannelEmailAddressRequest
 
-	// GetStreamEmailAddressExecute executes the request
-	//  @return GetStreamEmailAddressResponse
-	GetStreamEmailAddressExecute(r GetStreamEmailAddressRequest) (*GetStreamEmailAddressResponse, *http.Response, error)
+	// GetChannelEmailAddressExecute executes the request
+	//  @return GetChannelEmailAddressResponse
+	GetChannelEmailAddressExecute(r GetChannelEmailAddressRequest) (*GetChannelEmailAddressResponse, *http.Response, error)
 
 	/*
-		GetStreamId Get channel Id
+		GetChannelId Get channel Id
 
 		Get the unique Id of a given channel.
 
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return GetStreamIdRequest
+		@return GetChannelIdRequest
 	*/
-	GetStreamId(ctx context.Context) GetStreamIdRequest
+	GetChannelId(ctx context.Context) GetChannelIdRequest
 
-	// GetStreamIdExecute executes the request
-	//  @return GetStreamIdResponse
-	GetStreamIdExecute(r GetStreamIdRequest) (*GetStreamIdResponse, *http.Response, error)
+	// GetChannelIdExecute executes the request
+	//  @return GetChannelIdResponse
+	GetChannelIdExecute(r GetChannelIdRequest) (*GetChannelIdResponse, *http.Response, error)
 
 	/*
-			GetStreamTopics Get topics in a channel
+			GetChannelTopics Get topics in a channel
 
 			Get all topics the user has access to in a specific channel.
 
@@ -246,29 +246,29 @@ type ChannelsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param streamId The Id of the channel to access.
-			@return GetStreamTopicsRequest
+			@param channelId The Id of the channel to access.
+			@return GetChannelTopicsRequest
 	*/
-	GetStreamTopics(ctx context.Context, streamId int64) GetStreamTopicsRequest
+	GetChannelTopics(ctx context.Context, channelId int64) GetChannelTopicsRequest
 
-	// GetStreamTopicsExecute executes the request
-	//  @return GetStreamTopicsResponse
-	GetStreamTopicsExecute(r GetStreamTopicsRequest) (*GetStreamTopicsResponse, *http.Response, error)
+	// GetChannelTopicsExecute executes the request
+	//  @return GetChannelTopicsResponse
+	GetChannelTopicsExecute(r GetChannelTopicsRequest) (*GetChannelTopicsResponse, *http.Response, error)
 
 	/*
-		GetStreams Get all channels
+		GetChannels Get all channels
 
 		Get all channels that the user [has access to](zulip.com/help/channel-permissions.
 
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return GetStreamsRequest
+		@return GetChannelsRequest
 	*/
-	GetStreams(ctx context.Context) GetStreamsRequest
+	GetChannels(ctx context.Context) GetChannelsRequest
 
-	// GetStreamsExecute executes the request
-	//  @return GetStreamsResponse
-	GetStreamsExecute(r GetStreamsRequest) (*GetStreamsResponse, *http.Response, error)
+	// GetChannelsExecute executes the request
+	//  @return GetChannelsResponse
+	GetChannelsExecute(r GetChannelsRequest) (*GetChannelsResponse, *http.Response, error)
 
 	/*
 		GetSubscribers Get channel subscribers
@@ -277,10 +277,10 @@ type ChannelsAPI interface {
 
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param streamId The Id of the channel to access.
+		@param channelId The Id of the channel to access.
 		@return GetSubscribersRequest
 	*/
-	GetSubscribers(ctx context.Context, streamId int64) GetSubscribersRequest
+	GetSubscribers(ctx context.Context, channelId int64) GetSubscribersRequest
 
 	// GetSubscribersExecute executes the request
 	//  @return GetSubscribersResponse
@@ -296,10 +296,10 @@ type ChannelsAPI interface {
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 			@param userId The target user's Id.
-			@param streamId The Id of the channel to access.
+			@param channelId The Id of the channel to access.
 			@return GetSubscriptionStatusRequest
 	*/
-	GetSubscriptionStatus(ctx context.Context, userId int64, streamId int64) GetSubscriptionStatusRequest
+	GetSubscriptionStatus(ctx context.Context, userId int64, channelId int64) GetSubscriptionStatusRequest
 
 	// GetSubscriptionStatusExecute executes the request
 	//  @return GetSubscriptionStatusResponse
@@ -367,7 +367,7 @@ type ChannelsAPI interface {
 	PatchChannelFoldersExecute(r PatchChannelFoldersRequest) (*Response, *http.Response, error)
 
 	/*
-			RemoveDefaultStream Remove a default channel
+			RemoveDefaultChannel Remove a default channel
 
 			Remove a channel from the set of [default channels][default-channels]
 		for new users joining the organization.
@@ -376,13 +376,13 @@ type ChannelsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return RemoveDefaultStreamRequest
+			@return RemoveDefaultChannelRequest
 	*/
-	RemoveDefaultStream(ctx context.Context) RemoveDefaultStreamRequest
+	RemoveDefaultChannel(ctx context.Context) RemoveDefaultChannelRequest
 
-	// RemoveDefaultStreamExecute executes the request
+	// RemoveDefaultChannelExecute executes the request
 	//  @return Response
-	RemoveDefaultStreamExecute(r RemoveDefaultStreamRequest) (*Response, *http.Response, error)
+	RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest) (*Response, *http.Response, error)
 
 	/*
 			Subscribe Subscribe to a channel
@@ -512,9 +512,9 @@ type ChannelsAPI interface {
 	UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*Response, *http.Response, error)
 
 	/*
-			UpdateStream Update a channel
+			UpdateChannel Update a channel
 
-			Configure the channel with the Id `stream_id`. This endpoint supports
+			Configure the channel with the Id `channelId`. This endpoint supports
 		an organization administrator editing any property of a channel,
 		including:
 
@@ -536,14 +536,14 @@ type ChannelsAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param streamId The Id of the channel to access.
-			@return UpdateStreamRequest
+			@param channelId The Id of the channel to access.
+			@return UpdateChannelRequest
 	*/
-	UpdateStream(ctx context.Context, streamId int64) UpdateStreamRequest
+	UpdateChannel(ctx context.Context, channelId int64) UpdateChannelRequest
 
-	// UpdateStreamExecute executes the request
+	// UpdateChannelExecute executes the request
 	//  @return Response
-	UpdateStreamExecute(r UpdateStreamRequest) (*Response, *http.Response, error)
+	UpdateChannelExecute(r UpdateChannelRequest) (*Response, *http.Response, error)
 
 	/*
 			UpdateSubscriptionSettings Update subscription settings
@@ -612,24 +612,24 @@ type ChannelsAPI interface {
 	UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Response, *http.Response, error)
 }
 
-type AddDefaultStreamRequest struct {
+type AddDefaultChannelRequest struct {
 	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId   *int64
+	channelId  *int64
 }
 
 // The Id of the target channel.
-func (r AddDefaultStreamRequest) StreamId(streamId int64) AddDefaultStreamRequest {
-	r.streamId = &streamId
+func (r AddDefaultChannelRequest) ChannelId(channelId int64) AddDefaultChannelRequest {
+	r.channelId = &channelId
 	return r
 }
 
-func (r AddDefaultStreamRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.AddDefaultStreamExecute(r)
+func (r AddDefaultChannelRequest) Execute() (*Response, *http.Response, error) {
+	return r.ApiService.AddDefaultChannelExecute(r)
 }
 
 /*
-AddDefaultStream Add a default channel
+AddDefaultChannel Add a default channel
 
 Add a channel to the set of [default channels][default-channels]
 for new users joining the organization.
@@ -637,10 +637,10 @@ for new users joining the organization.
 [default-channels]: /help/set-default-channels-for-new-users
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return AddDefaultStreamRequest
+	@return AddDefaultChannelRequest
 */
-func (c *simpleClient) AddDefaultStream(ctx context.Context) AddDefaultStreamRequest {
-	return AddDefaultStreamRequest{
+func (c *simpleClient) AddDefaultChannel(ctx context.Context) AddDefaultChannelRequest {
+	return AddDefaultChannelRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -649,7 +649,7 @@ func (c *simpleClient) AddDefaultStream(ctx context.Context) AddDefaultStreamReq
 // Execute executes the request
 //
 //	@return Response
-func (c *simpleClient) AddDefaultStreamExecute(r AddDefaultStreamRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) AddDefaultChannelExecute(r AddDefaultChannelRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -667,8 +667,8 @@ func (c *simpleClient) AddDefaultStreamExecute(r AddDefaultStreamRequest) (*Resp
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.streamId == nil {
-		return localVarReturnValue, nil, reportError("streamId is required and must be specified")
+	if r.channelId == nil {
+		return localVarReturnValue, nil, reportError("channelId is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -688,7 +688,7 @@ func (c *simpleClient) AddDefaultStreamExecute(r AddDefaultStreamRequest) (*Resp
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
 	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -736,37 +736,37 @@ func (c *simpleClient) AddDefaultStreamExecute(r AddDefaultStreamRequest) (*Resp
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ArchiveStreamRequest struct {
+type ArchiveChannelRequest struct {
 	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId   int64
+	channelId  int64
 }
 
-func (r ArchiveStreamRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.ArchiveStreamExecute(r)
+func (r ArchiveChannelRequest) Execute() (*Response, *http.Response, error) {
+	return r.ApiService.ArchiveChannelExecute(r)
 }
 
 /*
-ArchiveStream Archive a channel
+ArchiveChannel Archive a channel
 
-[Archive the channel](zulip.com/help/archive-a-channel) with the Id `stream_id`.
+[Archive the channel](zulip.com/help/archive-a-channel) with the Id `channelId`.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The Id of the channel to access.
-	@return ArchiveStreamRequest
+	@param channelId The Id of the channel to access.
+	@return ArchiveChannelRequest
 */
-func (c *simpleClient) ArchiveStream(ctx context.Context, streamId int64) ArchiveStreamRequest {
-	return ArchiveStreamRequest{
+func (c *simpleClient) ArchiveChannel(ctx context.Context, channelId int64) ArchiveChannelRequest {
+	return ArchiveChannelRequest{
 		ApiService: c,
 		ctx:        ctx,
-		streamId:   streamId,
+		channelId:  channelId,
 	}
 }
 
 // Execute executes the request
 //
 //	@return Response
-func (c *simpleClient) ArchiveStreamExecute(r ArchiveStreamRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) ArchiveChannelExecute(r ArchiveChannelRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -780,7 +780,7 @@ func (c *simpleClient) ArchiveStreamExecute(r ArchiveStreamRequest) (*Response, 
 	}
 
 	localVarPath := localBasePath + "/streams/{stream_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.streamId, "streamId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -988,7 +988,7 @@ type CreateChannelRequest struct {
 	announce                          *bool
 	inviteOnly                        *bool
 	isWebPublic                       *bool
-	isDefaultStream                   *bool
+	isDefaultChannel                  *bool
 	folderId                          *int64
 	sendNewSubscriptionMessages       *bool
 	topicsPolicy                      *TopicsPolicy
@@ -1043,8 +1043,8 @@ func (r CreateChannelRequest) IsWebPublic(isWebPublic bool) CreateChannelRequest
 }
 
 // This parameter determines whether the newly created channel will be added as a [default channel][default-channels] for new users joining the organization.  [default-channels]: /help/set-default-channels-for-new-users
-func (r CreateChannelRequest) IsDefaultStream(isDefaultStream bool) CreateChannelRequest {
-	r.isDefaultStream = &isDefaultStream
+func (r CreateChannelRequest) IsDefaultChannel(isDefaultChannel bool) CreateChannelRequest {
+	r.isDefaultChannel = &isDefaultChannel
 	return r
 }
 
@@ -1215,8 +1215,8 @@ func (c *simpleClient) CreateChannelExecute(r CreateChannelRequest) (*CreateChan
 	if r.isWebPublic != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "is_web_public", r.isWebPublic, "form", "")
 	}
-	if r.isDefaultStream != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_default_stream", r.isDefaultStream, "form", "")
+	if r.isDefaultChannel != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "is_default_stream", r.isDefaultChannel, "form", "")
 	}
 	if r.folderId != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "folder_id", r.folderId, "form", "")
@@ -1493,7 +1493,7 @@ func (c *simpleClient) CreateChannelFolderExecute(r CreateChannelFolderRequest) 
 type DeleteTopicRequest struct {
 	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId   int64
+	channelId  int64
 	topicName  *string
 }
 
@@ -1547,14 +1547,14 @@ messages, so that progress is made even if the request times out and
 returns an error.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The Id of the channel to access.
+	@param channelId The Id of the channel to access.
 	@return DeleteTopicRequest
 */
-func (c *simpleClient) DeleteTopic(ctx context.Context, streamId int64) DeleteTopicRequest {
+func (c *simpleClient) DeleteTopic(ctx context.Context, channelId int64) DeleteTopicRequest {
 	return DeleteTopicRequest{
 		ApiService: c,
 		ctx:        ctx,
-		streamId:   streamId,
+		channelId:  channelId,
 	}
 }
 
@@ -1575,7 +1575,7 @@ func (c *simpleClient) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsReadR
 	}
 
 	localVarPath := localBasePath + "/streams/{stream_id}/delete_topic"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.streamId, "streamId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -1765,44 +1765,44 @@ func (c *simpleClient) GetChannelFoldersExecute(r GetChannelFoldersRequest) (*Ge
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type GetStreamByIdRequest struct {
+type GetChannelByIdRequest struct {
 	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId   int64
+	channelId  int64
 }
 
-func (r GetStreamByIdRequest) Execute() (*GetStreamResponse, *http.Response, error) {
-	return r.ApiService.GetStreamByIdExecute(r)
+func (r GetChannelByIdRequest) Execute() (*GetChannelResponse, *http.Response, error) {
+	return r.ApiService.GetChannelByIdExecute(r)
 }
 
 /*
-GetStreamById Get a channel by Id
+GetChannelById Get a channel by Id
 
-Fetch details for the channel with the Id `stream_id`.
+Fetch details for the channel with the Id `channelId`.
 
 **Changes**: New in Zulip 6.0 (feature level 132).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The Id of the channel to access.
-	@return GetStreamByIdRequest
+	@param channelId The Id of the channel to access.
+	@return GetChannelByIdRequest
 */
-func (c *simpleClient) GetStreamById(ctx context.Context, streamId int64) GetStreamByIdRequest {
-	return GetStreamByIdRequest{
+func (c *simpleClient) GetChannelById(ctx context.Context, channelId int64) GetChannelByIdRequest {
+	return GetChannelByIdRequest{
 		ApiService: c,
 		ctx:        ctx,
-		streamId:   streamId,
+		channelId:  channelId,
 	}
 }
 
 // Execute executes the request
 //
-//	@return GetStreamResponse
-func (c *simpleClient) GetStreamByIdExecute(r GetStreamByIdRequest) (*GetStreamResponse, *http.Response, error) {
+//	@return GetChannelResponse
+func (c *simpleClient) GetChannelByIdExecute(r GetChannelByIdRequest) (*GetChannelResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *GetStreamResponse
+		localVarReturnValue *GetChannelResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -1811,7 +1811,7 @@ func (c *simpleClient) GetStreamByIdExecute(r GetStreamByIdRequest) (*GetStreamR
 	}
 
 	localVarPath := localBasePath + "/streams/{stream_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.streamId, "streamId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -1881,51 +1881,51 @@ func (c *simpleClient) GetStreamByIdExecute(r GetStreamByIdRequest) (*GetStreamR
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type GetStreamEmailAddressRequest struct {
+type GetChannelEmailAddressRequest struct {
 	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId   int64
+	channelId  int64
 	senderId   *int64
 }
 
 // The Id of a user or bot which should appear as the sender when messages are sent to the channel using the returned channel email address.  &#x60;sender_id&#x60; can be:  - Id of the current user. - Id of the Email gateway bot. (Default value) - Id of a bot owned by the current user.  **Changes**: New in Zulip 10.0 (feature level 335).  Previously, the sender was always Email gateway bot.
-func (r GetStreamEmailAddressRequest) SenderId(senderId int64) GetStreamEmailAddressRequest {
+func (r GetChannelEmailAddressRequest) SenderId(senderId int64) GetChannelEmailAddressRequest {
 	r.senderId = &senderId
 	return r
 }
 
-func (r GetStreamEmailAddressRequest) Execute() (*GetStreamEmailAddressResponse, *http.Response, error) {
-	return r.ApiService.GetStreamEmailAddressExecute(r)
+func (r GetChannelEmailAddressRequest) Execute() (*GetChannelEmailAddressResponse, *http.Response, error) {
+	return r.ApiService.GetChannelEmailAddressExecute(r)
 }
 
 /*
-GetStreamEmailAddress Get channel's email address
+GetChannelEmailAddress Get channel's email address
 
 Get email address of a channel.
 
 **Changes**: New in Zulip 8.0 (feature level 226).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The Id of the channel to access.
-	@return GetStreamEmailAddressRequest
+	@param channelId The Id of the channel to access.
+	@return GetChannelEmailAddressRequest
 */
-func (c *simpleClient) GetStreamEmailAddress(ctx context.Context, streamId int64) GetStreamEmailAddressRequest {
-	return GetStreamEmailAddressRequest{
+func (c *simpleClient) GetChannelEmailAddress(ctx context.Context, channelId int64) GetChannelEmailAddressRequest {
+	return GetChannelEmailAddressRequest{
 		ApiService: c,
 		ctx:        ctx,
-		streamId:   streamId,
+		channelId:  channelId,
 	}
 }
 
 // Execute executes the request
 //
-//	@return GetStreamEmailAddressResponse
-func (c *simpleClient) GetStreamEmailAddressExecute(r GetStreamEmailAddressRequest) (*GetStreamEmailAddressResponse, *http.Response, error) {
+//	@return GetChannelEmailAddressResponse
+func (c *simpleClient) GetChannelEmailAddressExecute(r GetChannelEmailAddressRequest) (*GetChannelEmailAddressResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *GetStreamEmailAddressResponse
+		localVarReturnValue *GetChannelEmailAddressResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -1934,7 +1934,7 @@ func (c *simpleClient) GetStreamEmailAddressExecute(r GetStreamEmailAddressReque
 	}
 
 	localVarPath := localBasePath + "/streams/{stream_id}/email_address"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.streamId, "streamId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -2007,32 +2007,32 @@ func (c *simpleClient) GetStreamEmailAddressExecute(r GetStreamEmailAddressReque
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type GetStreamIdRequest struct {
+type GetChannelIdRequest struct {
 	ctx        context.Context
 	ApiService ChannelsAPI
-	stream     *string
+	channel    *string
 }
 
 // The name of the channel to access.
-func (r GetStreamIdRequest) Stream(stream string) GetStreamIdRequest {
-	r.stream = &stream
+func (r GetChannelIdRequest) Channel(channel string) GetChannelIdRequest {
+	r.channel = &channel
 	return r
 }
 
-func (r GetStreamIdRequest) Execute() (*GetStreamIdResponse, *http.Response, error) {
-	return r.ApiService.GetStreamIdExecute(r)
+func (r GetChannelIdRequest) Execute() (*GetChannelIdResponse, *http.Response, error) {
+	return r.ApiService.GetChannelIdExecute(r)
 }
 
 /*
-GetStreamId Get channel Id
+GetChannelId Get channel Id
 
 Get the unique Id of a given channel.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetStreamIdRequest
+	@return GetChannelIdRequest
 */
-func (c *simpleClient) GetStreamId(ctx context.Context) GetStreamIdRequest {
-	return GetStreamIdRequest{
+func (c *simpleClient) GetChannelId(ctx context.Context) GetChannelIdRequest {
+	return GetChannelIdRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -2040,13 +2040,13 @@ func (c *simpleClient) GetStreamId(ctx context.Context) GetStreamIdRequest {
 
 // Execute executes the request
 //
-//	@return GetStreamIdResponse
-func (c *simpleClient) GetStreamIdExecute(r GetStreamIdRequest) (*GetStreamIdResponse, *http.Response, error) {
+//	@return GetChannelIdResponse
+func (c *simpleClient) GetChannelIdExecute(r GetChannelIdRequest) (*GetChannelIdResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *GetStreamIdResponse
+		localVarReturnValue *GetChannelIdResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -2059,11 +2059,11 @@ func (c *simpleClient) GetStreamIdExecute(r GetStreamIdRequest) (*GetStreamIdRes
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.stream == nil {
-		return localVarReturnValue, nil, reportError("stream is required and must be specified")
+	if r.channel == nil {
+		return localVarReturnValue, nil, reportError("channel is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "stream", r.stream, "form", "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "stream", r.channel, "form", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -2128,25 +2128,25 @@ func (c *simpleClient) GetStreamIdExecute(r GetStreamIdRequest) (*GetStreamIdRes
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type GetStreamTopicsRequest struct {
+type GetChannelTopicsRequest struct {
 	ctx                 context.Context
 	ApiService          ChannelsAPI
-	streamId            int64
+	channelId           int64
 	allowEmptyTopicName *bool
 }
 
 // Whether the client supports processing the empty string as a topic name in the returned data.  If &#x60;false&#x60;, the value of &#x60;realm_empty_topic_display_name&#x60; found in the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) response is returned replacing the empty string as the topic name.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
-func (r GetStreamTopicsRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetStreamTopicsRequest {
+func (r GetChannelTopicsRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetChannelTopicsRequest {
 	r.allowEmptyTopicName = &allowEmptyTopicName
 	return r
 }
 
-func (r GetStreamTopicsRequest) Execute() (*GetStreamTopicsResponse, *http.Response, error) {
-	return r.ApiService.GetStreamTopicsExecute(r)
+func (r GetChannelTopicsRequest) Execute() (*GetChannelTopicsResponse, *http.Response, error) {
+	return r.ApiService.GetChannelTopicsExecute(r)
 }
 
 /*
-GetStreamTopics Get topics in a channel
+GetChannelTopics Get topics in a channel
 
 Get all topics the user has access to in a specific channel.
 
@@ -2159,26 +2159,26 @@ sent after the bot was subscribed to the channel, instead of when the
 user subscribed.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The Id of the channel to access.
-	@return GetStreamTopicsRequest
+	@param channelId The Id of the channel to access.
+	@return GetChannelTopicsRequest
 */
-func (c *simpleClient) GetStreamTopics(ctx context.Context, streamId int64) GetStreamTopicsRequest {
-	return GetStreamTopicsRequest{
+func (c *simpleClient) GetChannelTopics(ctx context.Context, channelId int64) GetChannelTopicsRequest {
+	return GetChannelTopicsRequest{
 		ApiService: c,
 		ctx:        ctx,
-		streamId:   streamId,
+		channelId:  channelId,
 	}
 }
 
 // Execute executes the request
 //
-//	@return GetStreamTopicsResponse
-func (c *simpleClient) GetStreamTopicsExecute(r GetStreamTopicsRequest) (*GetStreamTopicsResponse, *http.Response, error) {
+//	@return GetChannelTopicsResponse
+func (c *simpleClient) GetChannelTopicsExecute(r GetChannelTopicsRequest) (*GetChannelTopicsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *GetStreamTopicsResponse
+		localVarReturnValue *GetChannelTopicsResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -2187,7 +2187,7 @@ func (c *simpleClient) GetStreamTopicsExecute(r GetStreamTopicsRequest) (*GetStr
 	}
 
 	localVarPath := localBasePath + "/users/me/{stream_id}/topics"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.streamId, "streamId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -2263,7 +2263,7 @@ func (c *simpleClient) GetStreamTopicsExecute(r GetStreamTopicsRequest) (*GetStr
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type GetStreamsRequest struct {
+type GetChannelsRequest struct {
 	ctx                     context.Context
 	ApiService              ChannelsAPI
 	includePublic           *bool
@@ -2278,74 +2278,74 @@ type GetStreamsRequest struct {
 }
 
 // Include all public channels.
-func (r GetStreamsRequest) IncludePublic(includePublic bool) GetStreamsRequest {
+func (r GetChannelsRequest) IncludePublic(includePublic bool) GetChannelsRequest {
 	r.includePublic = &includePublic
 	return r
 }
 
 // Include all web-public channels.
-func (r GetStreamsRequest) IncludeWebPublic(includeWebPublic bool) GetStreamsRequest {
+func (r GetChannelsRequest) IncludeWebPublic(includeWebPublic bool) GetChannelsRequest {
 	r.includeWebPublic = &includeWebPublic
 	return r
 }
 
 // Include all channels that the user is subscribed to.
-func (r GetStreamsRequest) IncludeSubscribed(includeSubscribed bool) GetStreamsRequest {
+func (r GetChannelsRequest) IncludeSubscribed(includeSubscribed bool) GetChannelsRequest {
 	r.includeSubscribed = &includeSubscribed
 	return r
 }
 
 // Whether to exclude archived streams from the results.  **Changes**: New in Zulip 10.0 (feature level 315).
-func (r GetStreamsRequest) ExcludeArchived(excludeArchived bool) GetStreamsRequest {
+func (r GetChannelsRequest) ExcludeArchived(excludeArchived bool) GetChannelsRequest {
 	r.excludeArchived = &excludeArchived
 	return r
 }
 
 // Deprecated parameter to include all channels. The user must have administrative privileges to use this parameter.  **Changes**: Deprecated in Zulip 10.0 (feature level 356). Clients interacting with newer servers should use the equivalent &#x60;include_all&#x60; parameter, which does not incorrectly hint that this parameter, and not &#x60;exclude_archived&#x60;, controls whether archived channels appear in the response.
 // Deprecated
-func (r GetStreamsRequest) IncludeAllActive(includeAllActive bool) GetStreamsRequest {
+func (r GetChannelsRequest) IncludeAllActive(includeAllActive bool) GetChannelsRequest {
 	r.includeAllActive = &includeAllActive
 	return r
 }
 
 // Include all channels that the user has metadata access to.  For organization administrators, this will be all channels in the organization, since organization administrators implicitly have metadata access to all channels.  **Changes**: New in Zulip 10.0 (feature level 356). On older versions, use &#x60;include_all_active&#x60;, which this replaces.
-func (r GetStreamsRequest) IncludeAll(includeAll bool) GetStreamsRequest {
+func (r GetChannelsRequest) IncludeAll(includeAll bool) GetChannelsRequest {
 	r.includeAll = &includeAll
 	return r
 }
 
 // Include all default channels for the user&#39;s realm.
-func (r GetStreamsRequest) IncludeDefault(includeDefault bool) GetStreamsRequest {
+func (r GetChannelsRequest) IncludeDefault(includeDefault bool) GetChannelsRequest {
 	r.includeDefault = &includeDefault
 	return r
 }
 
 // If the user is a bot, include all channels that the bot&#39;s owner is subscribed to.
-func (r GetStreamsRequest) IncludeOwnerSubscribed(includeOwnerSubscribed bool) GetStreamsRequest {
+func (r GetChannelsRequest) IncludeOwnerSubscribed(includeOwnerSubscribed bool) GetChannelsRequest {
 	r.includeOwnerSubscribed = &includeOwnerSubscribed
 	return r
 }
 
 // Include all the channels that the user has content access to.  **Changes**: New in Zulip 10.0 (feature level 356).
-func (r GetStreamsRequest) IncludeCanAccessContent(includeCanAccessContent bool) GetStreamsRequest {
+func (r GetChannelsRequest) IncludeCanAccessContent(includeCanAccessContent bool) GetChannelsRequest {
 	r.includeCanAccessContent = &includeCanAccessContent
 	return r
 }
 
-func (r GetStreamsRequest) Execute() (*GetStreamsResponse, *http.Response, error) {
-	return r.ApiService.GetStreamsExecute(r)
+func (r GetChannelsRequest) Execute() (*GetChannelsResponse, *http.Response, error) {
+	return r.ApiService.GetChannelsExecute(r)
 }
 
 /*
-GetStreams Get all channels
+GetChannels Get all channels
 
 Get all channels that the user [has access to](zulip.com/help/channel-permissions.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetStreamsRequest
+	@return GetChannelsRequest
 */
-func (c *simpleClient) GetStreams(ctx context.Context) GetStreamsRequest {
-	return GetStreamsRequest{
+func (c *simpleClient) GetChannels(ctx context.Context) GetChannelsRequest {
+	return GetChannelsRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -2353,13 +2353,13 @@ func (c *simpleClient) GetStreams(ctx context.Context) GetStreamsRequest {
 
 // Execute executes the request
 //
-//	@return GetStreamsResponse
-func (c *simpleClient) GetStreamsExecute(r GetStreamsRequest) (*GetStreamsResponse, *http.Response, error) {
+//	@return GetChannelsResponse
+func (c *simpleClient) GetChannelsExecute(r GetChannelsRequest) (*GetChannelsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *GetStreamsResponse
+		localVarReturnValue *GetChannelsResponse
 	)
 
 	localBasePath, err := c.ServerURL()
@@ -2484,7 +2484,7 @@ func (c *simpleClient) GetStreamsExecute(r GetStreamsRequest) (*GetStreamsRespon
 type GetSubscribersRequest struct {
 	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId   int64
+	channelId  int64
 }
 
 func (r GetSubscribersRequest) Execute() (*GetSubscribersResponse, *http.Response, error) {
@@ -2497,14 +2497,14 @@ GetSubscribers Get channel subscribers
 Get all users subscribed to a channel.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The Id of the channel to access.
+	@param channelId The Id of the channel to access.
 	@return GetSubscribersRequest
 */
-func (c *simpleClient) GetSubscribers(ctx context.Context, streamId int64) GetSubscribersRequest {
+func (c *simpleClient) GetSubscribers(ctx context.Context, channelId int64) GetSubscribersRequest {
 	return GetSubscribersRequest{
 		ApiService: c,
 		ctx:        ctx,
-		streamId:   streamId,
+		channelId:  channelId,
 	}
 }
 
@@ -2525,7 +2525,7 @@ func (c *simpleClient) GetSubscribersExecute(r GetSubscribersRequest) (*GetSubsc
 	}
 
 	localVarPath := localBasePath + "/streams/{stream_id}/members"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.streamId, "streamId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -2599,7 +2599,7 @@ type GetSubscriptionStatusRequest struct {
 	ctx        context.Context
 	ApiService ChannelsAPI
 	userId     int64
-	streamId   int64
+	channelId  int64
 }
 
 func (r GetSubscriptionStatusRequest) Execute() (*GetSubscriptionStatusResponse, *http.Response, error) {
@@ -2615,15 +2615,15 @@ Check whether a user is subscribed to a channel.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param userId The target user's Id.
-	@param streamId The Id of the channel to access.
+	@param channelId The Id of the channel to access.
 	@return GetSubscriptionStatusRequest
 */
-func (c *simpleClient) GetSubscriptionStatus(ctx context.Context, userId int64, streamId int64) GetSubscriptionStatusRequest {
+func (c *simpleClient) GetSubscriptionStatus(ctx context.Context, userId int64, channelId int64) GetSubscriptionStatusRequest {
 	return GetSubscriptionStatusRequest{
 		ApiService: c,
 		ctx:        ctx,
 		userId:     userId,
-		streamId:   streamId,
+		channelId:  channelId,
 	}
 }
 
@@ -2645,7 +2645,7 @@ func (c *simpleClient) GetSubscriptionStatusExecute(r GetSubscriptionStatusReque
 
 	localVarPath := localBasePath + "/users/{user_id}/subscriptions/{stream_id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.streamId, "streamId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -2823,8 +2823,8 @@ type MuteTopicRequest struct {
 	ApiService ChannelsAPI
 	topic      *string
 	op         *string
-	streamId   *int64
-	stream     *string
+	channelId  *int64
+	channel    *string
 }
 
 // The topic to (un)mute. Note that the request will succeed regardless of whether any messages have been sent to the specified topic.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum topic length.
@@ -2840,14 +2840,14 @@ func (r MuteTopicRequest) Op(op string) MuteTopicRequest {
 }
 
 // The Id of the channel to access.  Clients must provide either &#x60;stream&#x60; or &#x60;stream_id&#x60; as a parameter to this endpoint, but not both.  **Changes**: New in Zulip 2.0.0.
-func (r MuteTopicRequest) StreamId(streamId int64) MuteTopicRequest {
-	r.streamId = &streamId
+func (r MuteTopicRequest) ChannelId(channelId int64) MuteTopicRequest {
+	r.channelId = &channelId
 	return r
 }
 
 // The name of the channel to access.  Clients must provide either &#x60;stream&#x60; or &#x60;stream_id&#x60; as a parameter to this endpoint, but not both. Clients should use &#x60;stream_id&#x60; instead of the &#x60;stream&#x60; parameter when possible.
-func (r MuteTopicRequest) Stream(stream string) MuteTopicRequest {
-	r.stream = &stream
+func (r MuteTopicRequest) Channel(channel string) MuteTopicRequest {
+	r.channel = &channel
 	return r
 }
 
@@ -2928,11 +2928,11 @@ func (c *simpleClient) MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Re
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	if r.streamId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
+	if r.channelId != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
 	}
-	if r.stream != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "stream", r.stream, "", "")
+	if r.channel != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "stream", r.channel, "", "")
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "op", r.op, "", "")
@@ -3097,24 +3097,24 @@ func (c *simpleClient) PatchChannelFoldersExecute(r PatchChannelFoldersRequest) 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type RemoveDefaultStreamRequest struct {
+type RemoveDefaultChannelRequest struct {
 	ctx        context.Context
 	ApiService ChannelsAPI
-	streamId   *int64
+	channelId  *int64
 }
 
 // The Id of the target channel.
-func (r RemoveDefaultStreamRequest) StreamId(streamId int64) RemoveDefaultStreamRequest {
-	r.streamId = &streamId
+func (r RemoveDefaultChannelRequest) ChannelId(channelId int64) RemoveDefaultChannelRequest {
+	r.channelId = &channelId
 	return r
 }
 
-func (r RemoveDefaultStreamRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.RemoveDefaultStreamExecute(r)
+func (r RemoveDefaultChannelRequest) Execute() (*Response, *http.Response, error) {
+	return r.ApiService.RemoveDefaultChannelExecute(r)
 }
 
 /*
-RemoveDefaultStream Remove a default channel
+RemoveDefaultChannel Remove a default channel
 
 Remove a channel from the set of [default channels][default-channels]
 for new users joining the organization.
@@ -3122,10 +3122,10 @@ for new users joining the organization.
 [default-channels]: /help/set-default-channels-for-new-users
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return RemoveDefaultStreamRequest
+	@return RemoveDefaultChannelRequest
 */
-func (c *simpleClient) RemoveDefaultStream(ctx context.Context) RemoveDefaultStreamRequest {
-	return RemoveDefaultStreamRequest{
+func (c *simpleClient) RemoveDefaultChannel(ctx context.Context) RemoveDefaultChannelRequest {
+	return RemoveDefaultChannelRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -3134,7 +3134,7 @@ func (c *simpleClient) RemoveDefaultStream(ctx context.Context) RemoveDefaultStr
 // Execute executes the request
 //
 //	@return Response
-func (c *simpleClient) RemoveDefaultStreamExecute(r RemoveDefaultStreamRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
 		localVarPostBody    interface{}
@@ -3152,8 +3152,8 @@ func (c *simpleClient) RemoveDefaultStreamExecute(r RemoveDefaultStreamRequest) 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.streamId == nil {
-		return localVarReturnValue, nil, reportError("streamId is required and must be specified")
+	if r.channelId == nil {
+		return localVarReturnValue, nil, reportError("channelId is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -3173,7 +3173,7 @@ func (c *simpleClient) RemoveDefaultStreamExecute(r RemoveDefaultStreamRequest) 
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
 	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -3230,7 +3230,7 @@ type SubscribeRequest struct {
 	announce                          *bool
 	inviteOnly                        *bool
 	isWebPublic                       *bool
-	isDefaultStream                   *bool
+	isDefaultChannel                  *bool
 	historyPublicToSubscribers        *bool
 	messageRetentionDays              *MessageRetentionDays
 	topicsPolicy                      *TopicsPolicy
@@ -3292,8 +3292,8 @@ func (r SubscribeRequest) IsWebPublic(isWebPublic bool) SubscribeRequest {
 }
 
 // This parameter determines whether any newly created channels will be added as [default channels][default-channels] for new users joining the organization.  [default-channels]: /help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint](zulip.com/api/add-default-stream.
-func (r SubscribeRequest) IsDefaultStream(isDefaultStream bool) SubscribeRequest {
-	r.isDefaultStream = &isDefaultStream
+func (r SubscribeRequest) IsDefaultChannel(isDefaultChannel bool) SubscribeRequest {
+	r.isDefaultChannel = &isDefaultChannel
 	return r
 }
 
@@ -3490,8 +3490,8 @@ func (c *simpleClient) SubscribeExecute(r SubscribeRequest) (*SubscribeResponse,
 	if r.isWebPublic != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "is_web_public", r.isWebPublic, "form", "")
 	}
-	if r.isDefaultStream != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_default_stream", r.isDefaultStream, "form", "")
+	if r.isDefaultChannel != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "is_default_stream", r.isDefaultChannel, "form", "")
 	}
 	if r.historyPublicToSubscribers != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "history_public_to_subscribers", r.historyPublicToSubscribers, "form", "")
@@ -3954,16 +3954,16 @@ func (c *simpleClient) UpdateChannelFolderExecute(r UpdateChannelFolderRequest) 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type UpdateStreamRequest struct {
+type UpdateChannelRequest struct {
 	ctx                               context.Context
 	ApiService                        ChannelsAPI
-	streamId                          int64
+	channelId                         int64
 	description                       *string
 	newName                           *string
 	isPrivate                         *bool
 	isWebPublic                       *bool
 	historyPublicToSubscribers        *bool
-	isDefaultStream                   *bool
+	isDefaultChannel                  *bool
 	messageRetentionDays              *MessageRetentionDays
 	isArchived                        *bool
 	folderId                          *int64
@@ -3987,131 +3987,131 @@ type GroupSettingValueUpdate struct {
 }
 
 // The new [description](zulip.com/help/change-the-channel-description) for the channel, in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown) format.  Clients should use the &#x60;max_stream_description_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum channel description length.  **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64).
-func (r UpdateStreamRequest) Description(description string) UpdateStreamRequest {
+func (r UpdateChannelRequest) Description(description string) UpdateChannelRequest {
 	r.description = &description
 	return r
 }
 
 // The new name for the channel.  Clients should use the &#x60;max_stream_name_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum channel name length.  **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64).
-func (r UpdateStreamRequest) NewName(newName string) UpdateStreamRequest {
+func (r UpdateChannelRequest) NewName(newName string) UpdateChannelRequest {
 	r.newName = &newName
 	return r
 }
 
 // Change whether the channel is a private channel.
-func (r UpdateStreamRequest) IsPrivate(isPrivate bool) UpdateStreamRequest {
+func (r UpdateChannelRequest) IsPrivate(isPrivate bool) UpdateChannelRequest {
 	r.isPrivate = &isPrivate
 	return r
 }
 
 // Change whether the channel is a web-public channel.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting][server-settings] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current use to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.  [server-settings]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
-func (r UpdateStreamRequest) IsWebPublic(isWebPublic bool) UpdateStreamRequest {
+func (r UpdateChannelRequest) IsWebPublic(isWebPublic bool) UpdateChannelRequest {
 	r.isWebPublic = &isWebPublic
 	return r
 }
 
 // Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels](zulip.com/help/channel-permissions#private-channels.  It&#39;s an error for this parameter to be false for a public or web-public channel and when is_private is false.  **Changes**: Before Zulip 6.0 (feature level 136), &#x60;history_public_to_subscribers&#x60; was silently ignored unless the request also contained either &#x60;is_private&#x60; or &#x60;is_web_public&#x60;.
-func (r UpdateStreamRequest) HistoryPublicToSubscribers(historyPublicToSubscribers bool) UpdateStreamRequest {
+func (r UpdateChannelRequest) HistoryPublicToSubscribers(historyPublicToSubscribers bool) UpdateChannelRequest {
 	r.historyPublicToSubscribers = &historyPublicToSubscribers
 	return r
 }
 
 // Add or remove the channel as a [default channel][default-channel] for new users joining the organization.  [default-channel]: /help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint](zulip.com/api/add-default-stream.
-func (r UpdateStreamRequest) IsDefaultStream(isDefaultStream bool) UpdateStreamRequest {
-	r.isDefaultStream = &isDefaultStream
+func (r UpdateChannelRequest) IsDefaultChannel(isDefaultChannel bool) UpdateChannelRequest {
+	r.isDefaultChannel = &isDefaultChannel
 	return r
 }
 
-func (r UpdateStreamRequest) MessageRetentionDays(messageRetentionDays MessageRetentionDays) UpdateStreamRequest {
+func (r UpdateChannelRequest) MessageRetentionDays(messageRetentionDays MessageRetentionDays) UpdateChannelRequest {
 	r.messageRetentionDays = &messageRetentionDays
 	return r
 }
 
 // A boolean indicating whether the channel is [archived](zulip.com/help/archive-a-channel) or unarchived. Currently only allows unarchiving previously archived channels.  **Changes**: New in Zulip 11.0 (feature level 388).
-func (r UpdateStreamRequest) IsArchived(isArchived bool) UpdateStreamRequest {
+func (r UpdateChannelRequest) IsArchived(isArchived bool) UpdateChannelRequest {
 	r.isArchived = &isArchived
 	return r
 }
 
 // Id of the new folder to which the channel should belong.  It can be &#x60;None&#x60; if the user wants to just remove the channel from its existing folder.  **Changes**: New in Zulip 11.0 (feature level 389).
-func (r UpdateStreamRequest) FolderId(folderId int64) UpdateStreamRequest {
+func (r UpdateChannelRequest) FolderId(folderId int64) UpdateChannelRequest {
 	r.folderId = &folderId
 	return r
 }
 
-func (r UpdateStreamRequest) TopicsPolicy(topicsPolicy TopicsPolicy) UpdateStreamRequest {
+func (r UpdateChannelRequest) TopicsPolicy(topicsPolicy TopicsPolicy) UpdateChannelRequest {
 	r.topicsPolicy = &topicsPolicy
 	return r
 }
 
 // The set of users who have permission to add subscribers to this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Users who can administer the channel or have similar realm-level permissions can add subscribers to a public channel regardless of the value of this setting.  Users in this group need not be subscribed to a private channel to add subscribers to it.  Note that a user must [have content access](zulip.com/help/channel-permissions) to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 342). Previously, there was no channel-level setting for this permission.
-func (r UpdateStreamRequest) CanAddSubscribersGroup(canAddSubscribersGroup GroupSettingValueUpdate) UpdateStreamRequest {
+func (r UpdateChannelRequest) CanAddSubscribersGroup(canAddSubscribersGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canAddSubscribersGroup = &canAddSubscribersGroup
 	return r
 }
 
 // The set of users who have permission to unsubscribe others from this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Organization administrators can unsubscribe others from a channel as though they were in this group without being explicitly listed here.  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.  **Changes**: Prior to Zulip 10.0 (feature level 349), channel administrators could not unsubscribe other users if they were not an organization administrator or part of &#x60;can_remove_subscribers_group&#x60;. Realm administrators were not allowed to unsubscribe other users from a private channel if they were not subscribed to that channel.  Prior to Zulip 10.0 (feature level 320), this value was always the integer Id of a system group.  Before Zulip 8.0 (feature level 197), the &#x60;can_remove_subscribers_group&#x60; setting was named &#x60;can_remove_subscribers_group_id&#x60;.  New in Zulip 7.0 (feature level 161).
-func (r UpdateStreamRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup GroupSettingValueUpdate) UpdateStreamRequest {
+func (r UpdateChannelRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canRemoveSubscribersGroup = &canRemoveSubscribersGroup
 	return r
 }
 
 // The set of users who have permission to administer this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Organization administrators can administer every channel as though they were in this group without being explicitly listed here.  Note that a user must [have content access](zulip.com/help/channel-permissions) to a channel in order to add other subscribers to the channel.  **Changes**: Prior to Zulip 10.0 (feature level 349) a user needed to [have content access](zulip.com/help/channel-permissions) to a channel in order to modify it. The exception to this rule was that organization administrators can edit channel names and descriptions without having full access to the channel.  New in Zulip 10.0 (feature level 325). Prior to this change, the permission to administer channels was limited to realm administrators.
-func (r UpdateStreamRequest) CanAdministerChannelGroup(canAdministerChannelGroup GroupSettingValueUpdate) UpdateStreamRequest {
+func (r UpdateChannelRequest) CanAdministerChannelGroup(canAdministerChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canAdministerChannelGroup = &canAdministerChannelGroup
 	return r
 }
 
 // The set of users who have permission to delete any message in the channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](zulip.com/help/channel-permissions) to a channel in order to delete any message in the channel.  Users present in the organization-level &#x60;can_delete_any_message_group&#x60; setting can always delete any message in the channel if they [have content access](zulip.com/help/channel-permissions) to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in &#x60;can_delete_any_message_group&#x60; were able delete any message in the organization.
-func (r UpdateStreamRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup GroupSettingValueUpdate) UpdateStreamRequest {
+func (r UpdateChannelRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canDeleteAnyMessageGroup = &canDeleteAnyMessageGroup
 	return r
 }
 
 // The set of users who have permission to delete the messages that they have sent in the channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](zulip.com/help/channel-permissions) to a channel in order to delete their own message in the channel.  Users with permission to delete any message in the channel and users present in the organization-level &#x60;can_delete_own_message_group&#x60; setting can always delete their own messages in the channel if they [have content access](zulip.com/help/channel-permissions) to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in the organization-level &#x60;can_delete_any_message_group&#x60; and &#x60;can_delete_own_message_group&#x60; settings were able delete their own messages in the organization.
-func (r UpdateStreamRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup GroupSettingValueUpdate) UpdateStreamRequest {
+func (r UpdateChannelRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canDeleteOwnMessageGroup = &canDeleteOwnMessageGroup
 	return r
 }
 
 // The set of users who have permission to move messages out of this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](zulip.com/help/channel-permissions) to a channel in order to move messages out of the channel.  Channel administrators and users present in the organization-level &#x60;can_move_messages_between_channels_group&#x60; setting can always move messages out of the channel if they [have content access](zulip.com/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in &#x60;can_move_messages_between_channels_group&#x60; were able move messages between channels.
-func (r UpdateStreamRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup GroupSettingValueUpdate) UpdateStreamRequest {
+func (r UpdateChannelRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canMoveMessagesOutOfChannelGroup = &canMoveMessagesOutOfChannelGroup
 	return r
 }
 
 // The set of users who have permission to move messages within this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](zulip.com/help/channel-permissions) to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level &#x60;can_move_messages_between_topics_group&#x60; setting can always move messages within the channel if they [have content access](zulip.com/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in &#x60;can_move_messages_between_topics_group&#x60; were able move messages between topics of a channel.
-func (r UpdateStreamRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup GroupSettingValueUpdate) UpdateStreamRequest {
+func (r UpdateChannelRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canMoveMessagesWithinChannelGroup = &canMoveMessagesWithinChannelGroup
 	return r
 }
 
 // The set of users who have permission to post in this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 333). Previously &#x60;stream_post_policy&#x60; field used to control the permission to post in the channel.
-func (r UpdateStreamRequest) CanSendMessageGroup(canSendMessageGroup GroupSettingValueUpdate) UpdateStreamRequest {
+func (r UpdateChannelRequest) CanSendMessageGroup(canSendMessageGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canSendMessageGroup = &canSendMessageGroup
 	return r
 }
 
 // The set of users who have permission to subscribe themselves to this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Everyone, excluding guests, can subscribe to any public channel irrespective of this setting.  Users in this group can subscribe to a private channel as well.  Note that a user must [have content access](zulip.com/help/channel-permissions) to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 357).
-func (r UpdateStreamRequest) CanSubscribeGroup(canSubscribeGroup GroupSettingValueUpdate) UpdateStreamRequest {
+func (r UpdateChannelRequest) CanSubscribeGroup(canSubscribeGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canSubscribeGroup = &canSubscribeGroup
 	return r
 }
 
 // The set of users who have permission to to resolve topics in this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: /api/group-setting-values#updating-group-setting-values  Users who have similar realm-level permissions can resolve topics in a channel regardless of the value of this setting.  **Changes**: New in Zulip 11.0 (feature level 402).
-func (r UpdateStreamRequest) CanResolveTopicsGroup(canResolveTopicsGroup GroupSettingValueUpdate) UpdateStreamRequest {
+func (r UpdateChannelRequest) CanResolveTopicsGroup(canResolveTopicsGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canResolveTopicsGroup = &canResolveTopicsGroup
 	return r
 }
 
-func (r UpdateStreamRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateStreamExecute(r)
+func (r UpdateChannelRequest) Execute() (*Response, *http.Response, error) {
+	return r.ApiService.UpdateChannelExecute(r)
 }
 
 /*
-UpdateStream Update a channel
+UpdateChannel Update a channel
 
-Configure the channel with the Id `stream_id`. This endpoint supports
+Configure the channel with the Id `channelId`. This endpoint supports
 an organization administrator editing any property of a channel,
 including:
 
@@ -4132,21 +4132,21 @@ parameters in Zulip 10.0 (feature level 333), as permission to post
 in the channel is now controlled by `can_send_message_group`.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param streamId The Id of the channel to access.
-	@return UpdateStreamRequest
+	@param channelId The Id of the channel to access.
+	@return UpdateChannelRequest
 */
-func (c *simpleClient) UpdateStream(ctx context.Context, streamId int64) UpdateStreamRequest {
-	return UpdateStreamRequest{
+func (c *simpleClient) UpdateChannel(ctx context.Context, channelId int64) UpdateChannelRequest {
+	return UpdateChannelRequest{
 		ApiService: c,
 		ctx:        ctx,
-		streamId:   streamId,
+		channelId:  channelId,
 	}
 }
 
 // Execute executes the request
 //
 //	@return Response
-func (c *simpleClient) UpdateStreamExecute(r UpdateStreamRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) UpdateChannelExecute(r UpdateChannelRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -4160,7 +4160,7 @@ func (c *simpleClient) UpdateStreamExecute(r UpdateStreamRequest) (*Response, *h
 	}
 
 	localVarPath := localBasePath + "/streams/{stream_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.streamId, "streamId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -4198,8 +4198,8 @@ func (c *simpleClient) UpdateStreamExecute(r UpdateStreamRequest) (*Response, *h
 	if r.historyPublicToSubscribers != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "history_public_to_subscribers", r.historyPublicToSubscribers, "form", "")
 	}
-	if r.isDefaultStream != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_default_stream", r.isDefaultStream, "form", "")
+	if r.isDefaultChannel != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "is_default_stream", r.isDefaultChannel, "form", "")
 	}
 	if r.messageRetentionDays != nil {
 		paramJson, err := parameterToJson(*r.messageRetentionDays)
@@ -4587,14 +4587,14 @@ func (c *simpleClient) UpdateSubscriptionsExecute(r UpdateSubscriptionsRequest) 
 type UpdateUserTopicRequest struct {
 	ctx              context.Context
 	ApiService       ChannelsAPI
-	streamId         *int64
+	channelId        *int64
 	topic            *string
 	visibilityPolicy *int32
 }
 
 // The Id of the channel to access.
-func (r UpdateUserTopicRequest) StreamId(streamId int64) UpdateUserTopicRequest {
-	r.streamId = &streamId
+func (r UpdateUserTopicRequest) ChannelId(channelId int64) UpdateUserTopicRequest {
+	r.channelId = &channelId
 	return r
 }
 
@@ -4659,8 +4659,8 @@ func (c *simpleClient) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Respon
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.streamId == nil {
-		return localVarReturnValue, nil, reportError("streamId is required and must be specified")
+	if r.channelId == nil {
+		return localVarReturnValue, nil, reportError("channelId is required and must be specified")
 	}
 	if r.topic == nil {
 		return localVarReturnValue, nil, reportError("topic is required and must be specified")
@@ -4686,7 +4686,7 @@ func (c *simpleClient) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Respon
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "visibility_policy", r.visibilityPolicy, "form", "")
 	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)

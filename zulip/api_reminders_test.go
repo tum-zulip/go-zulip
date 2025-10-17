@@ -60,8 +60,8 @@ func Test_RemindersAPIService(t *testing.T) {
 	}))
 }
 
-func createMessageReminder(t *testing.T, apiClient zulip.Client, streamId int64) int64 {
-	msg := createChannelMessage(t, apiClient, streamId)
+func createMessageReminder(t *testing.T, apiClient zulip.Client, channelId int64) int64 {
+	msg := createChannelMessage(t, apiClient, channelId)
 
 	note := "This is a reminder note"
 

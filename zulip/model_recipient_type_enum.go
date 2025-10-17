@@ -3,22 +3,35 @@ package zulip
 type RecipientType string
 
 const (
+	RecipientTypeEmpty   RecipientType = ""
 	RecipientTypeDirect  RecipientType = "direct"
-	RecipientTypeStream  RecipientType = "stream"
 	RecipientTypePrivate RecipientType = "private"
 	RecipientTypeChannel RecipientType = "channel"
+	RecipientTypeStream  RecipientType = "stream" // Legacy value, maps to RecipientTypeChannel
 )
 
 var AllowedRecipientTypeEnumValues = []RecipientType{
+	RecipientTypeEmpty,
 	RecipientTypeDirect,
-	RecipientTypeStream,
 	RecipientTypePrivate,
 	RecipientTypeChannel,
+	RecipientTypeStream,
+}
+
+func (v RecipientType) ToLegacy() RecipientType {
+	if v == RecipientTypeChannel {
+		return RecipientTypeStream
+	}
+	return v
 }
 
 func NewRecipientTypeFromValue(v string) (*RecipientType, error) {
 	ev := RecipientType(v)
+
 	if ev.IsValid() {
+		if ev == RecipientTypeStream {
+			ev = RecipientTypeChannel
+		}
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{

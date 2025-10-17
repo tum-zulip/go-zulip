@@ -9,11 +9,11 @@ type Bot struct {
 	// The API key of the bot which it uses to make API requests.
 	ApiKey string `json:"api_key,omitempty"`
 	// The default sending channel of the bot. If `null`, the bot doesn't have a default sending channel.
-	DefaultSendingStream *string `json:"default_sending_stream,omitempty"`
+	DefaultSendingChannel *string `json:"default_sending_stream,omitempty"`
 	// The default channel for which the bot receives events/register data. If `null`, the bot doesn't have such a default channel.
-	DefaultEventsRegisterStream *string `json:"default_events_register_stream,omitempty"`
+	DefaultEventsRegisterChannel *string `json:"default_events_register_stream,omitempty"`
 	// Whether the bot can send messages to all channels by default.
-	DefaultAllPublicStreams bool `json:"default_all_public_streams,omitempty"`
+	DefaultAllPublicChannels bool `json:"default_all_public_streams,omitempty"`
 	// The URL of the bot's avatar.
 	AvatarUrl string `json:"avatar_url,omitempty"`
 	// The user Id of the bot's owner.  If `null`, the bot has no owner.
@@ -46,12 +46,12 @@ func EmbeddedBotDataAsBotData(v *EmbeddedBotData) BotData {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *BotData) UnmarshalJSON(data []byte) error {
-	return UnionUnmarshalJSON(data, dst)
+	return unmarshalUnionType(data, dst)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src BotData) MarshalJSON() ([]byte, error) {
-	return UnionMarshalJSON(src)
+	return marshalUnionType(src)
 }
 
 // OutgoingWebhookBotData When the bot is an outgoing webhook.

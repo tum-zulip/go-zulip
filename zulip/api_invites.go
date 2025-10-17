@@ -154,7 +154,7 @@ type CreateInviteLinkRequest struct {
 	ApiService                       InvitesAPI
 	inviteExpiresInMinutes           *int32
 	inviteAs                         *Role
-	streamIds                        *[]int64
+	channelIds                       *[]int64
 	groupIds                         *[]int64
 	includeRealmDefaultSubscriptions *bool
 	welcomeMessageCustomText         *string
@@ -173,8 +173,8 @@ func (r CreateInviteLinkRequest) InviteAs(inviteAs Role) CreateInviteLinkRequest
 }
 
 // A list containing the [Ids of the channels](zulip.com/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  [can-subscribe-others]: /help/configure-who-can-invite-to-channels
-func (r CreateInviteLinkRequest) StreamIds(streamIds []int64) CreateInviteLinkRequest {
-	r.streamIds = &streamIds
+func (r CreateInviteLinkRequest) ChannelIds(channelIds []int64) CreateInviteLinkRequest {
+	r.channelIds = &channelIds
 	return r
 }
 
@@ -275,8 +275,8 @@ func (c *simpleClient) CreateInviteLinkExecute(r CreateInviteLinkRequest) (*Crea
 	if r.inviteAs != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "invite_as", r.inviteAs, "", "")
 	}
-	if r.streamIds != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "stream_ids", r.streamIds, "form", "multi")
+	if r.channelIds != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "stream_ids", r.channelIds, "form", "multi")
 	}
 	if r.groupIds != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "group_ids", r.groupIds, "form", "multi")
@@ -799,7 +799,7 @@ type SendInvitesRequest struct {
 	ctx                              context.Context
 	ApiService                       InvitesAPI
 	inviteeEmails                    *string
-	streamIds                        *[]int64
+	channelIds                       *[]int64
 	inviteExpiresInMinutes           *int32
 	inviteAs                         *Role
 	groupIds                         *[]int64
@@ -815,8 +815,8 @@ func (r SendInvitesRequest) InviteeEmails(inviteeEmails string) SendInvitesReque
 }
 
 // A list containing the [Ids of the channels](zulip.com/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying &#x60;stream_ids&#x60; as an empty list resulted in an error.  [can-subscribe-others]: /help/configure-who-can-invite-to-channels
-func (r SendInvitesRequest) StreamIds(streamIds []int64) SendInvitesRequest {
-	r.streamIds = &streamIds
+func (r SendInvitesRequest) ChannelIds(channelIds []int64) SendInvitesRequest {
+	r.channelIds = &channelIds
 	return r
 }
 
@@ -909,8 +909,8 @@ func (c *simpleClient) SendInvitesExecute(r SendInvitesRequest) (*Response, *htt
 	if r.inviteeEmails == nil {
 		return localVarReturnValue, nil, reportError("inviteeEmails is required and must be specified")
 	}
-	if r.streamIds == nil {
-		return localVarReturnValue, nil, reportError("streamIds is required and must be specified")
+	if r.channelIds == nil {
+		return localVarReturnValue, nil, reportError("channelIds is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -937,7 +937,7 @@ func (c *simpleClient) SendInvitesExecute(r SendInvitesRequest) (*Response, *htt
 	if r.inviteAs != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "invite_as", r.inviteAs, "", "")
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "stream_ids", r.streamIds, "form", "multi")
+	parameterAddToHeaderOrQuery(localVarFormParams, "stream_ids", r.channelIds, "form", "multi")
 	if r.groupIds != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "group_ids", r.groupIds, "form", "multi")
 	}

@@ -2,6 +2,7 @@ package zulip
 
 import (
 	"encoding/json"
+	"reflect"
 	"time"
 )
 
@@ -12,7 +13,7 @@ type Draft struct {
 	// The type of the draft. Either unaddressed (empty string), `\"stream\"`, or `\"private\"` (for one-on-one and group direct messages).
 	Type RecipientType `json:"type"`
 	// An array of the tentative target audience Ids. For channel messages, this should contain exactly 1 Id, the Id of the target channel. For direct messages, this should be an array of target user Ids. For unaddressed drafts, this is ignored, and clients should send an empty array.
-	To []int64 `json:"to"`
+	To Recipient `json:"to"`
 	// For channel message drafts, the tentative topic name. For direct or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes.
 	Topic string `json:"topic"`
 	// The body of the draft. Should not contain null bytes.
@@ -34,7 +35,7 @@ func (o Draft) MarshalJSON() ([]byte, error) {
 	aux := draftJSON{
 		Id:        o.Id,
 		Type:      o.Type,
-		To:        o.To,
+		To:        o.To.asArray(),
 		Topic:     o.Topic,
 		Content:   o.Content,
 		Timestamp: o.Timestamp.Unix(),
@@ -51,7 +52,24 @@ func (o *Draft) UnmarshalJSON(data []byte) error {
 
 	o.Id = aux.Id
 	o.Type = aux.Type
-	o.To = aux.To
+
+	if aux.To == nil {
+		aux.To = []int64{}
+	}
+	switch o.Type {
+	case RecipientTypeEmpty:
+		o.To = Recipient{}
+	case RecipientTypeChannel, RecipientTypeStream:
+		if len(aux.To) != 1 {
+			return &json.UnsupportedValueError{Value: reflect.ValueOf(aux.To), Str: "expected exactly one channel Id for channel recipient"}
+		}
+		o.To = ChannelAsRecipient(aux.To[0])
+	case RecipientTypeDirect, RecipientTypePrivate:
+		o.To = UsersAsRecipient(aux.To)
+	default:
+		return &json.UnsupportedValueError{Value: reflect.ValueOf(o.Type), Str: "unknown recipient type"}
+	}
+
 	o.Topic = aux.Topic
 	o.Content = aux.Content
 	o.Timestamp = time.Unix(aux.Timestamp, 0).UTC()

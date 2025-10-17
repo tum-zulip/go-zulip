@@ -17,8 +17,8 @@ func TestDraftMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	id := int64(42)
 	draft := zulip.Draft{
 		Id:        &id,
-		Type:      "stream",
-		To:        []int64{1, 2},
+		Type:      zulip.RecipientTypeDirect,
+		To:        zulip.UsersAsRecipient([]int64{1, 2}),
 		Topic:     "topic",
 		Content:   "hello",
 		Timestamp: ts,
@@ -39,14 +39,17 @@ func TestDraftMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 func TestDraftUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 	t.Parallel()
 
-	raw := []byte(`{"id":42,"type":"channel","to":[1,2],"topic":"topic","content":"hello","timestamp":1700000000}`)
+	raw := []byte(`{"id":42,"type":"direct","to":[1,2],"topic":"topic","content":"hello","timestamp":1700000000}`)
 
 	var draft zulip.Draft
 	require.NoError(t, json.Unmarshal(raw, &draft))
 
 	assert.Equal(t, int64(42), *draft.Id)
-	assert.Equal(t, zulip.RecipientTypeChannel, draft.Type)
-	assert.Equal(t, []int64{1, 2}, draft.To)
+	assert.Equal(t, zulip.RecipientTypeDirect, draft.Type)
+	expectedTo := zulip.UsersAsRecipient([]int64{1, 2})
+	if !expectedTo.Equals(draft.To) {
+		t.Errorf("Expected %#v, got %#v", expectedTo, draft.To)
+	}
 	assert.Equal(t, "topic", draft.Topic)
 	assert.Equal(t, "hello", draft.Content)
 	assert.Equal(t, int64(1700000000), draft.Timestamp.Unix())

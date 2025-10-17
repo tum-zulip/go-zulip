@@ -3,31 +3,31 @@ package zulip
 type EventType string
 
 const (
-	EventTypeAlertWords          EventType = "alert_words"
-	EventTypeAttachment          EventType = "attachment"
-	EventTypeChannelFolder       EventType = "channel_folder"
-	EventTypeCustomProfileFields EventType = "custom_profile_fields"
-	EventTypeDefaultStreamGroups EventType = "default_stream_groups"
-	EventTypeDefaultStreams      EventType = "default_streams"
-	EventTypeDeleteMessage       EventType = "delete_message"
-	EventTypeDrafts              EventType = "drafts"
-	EventTypeHasZoomToken        EventType = "has_zoom_token"
-	EventTypeHeartbeat           EventType = "heartbeat"
-	EventTypeInvitesChanged      EventType = "invites_changed"
-	EventTypeMessage             EventType = "message"
-	EventTypeMutedTopics         EventType = "muted_topics"
-	EventTypeMutedUsers          EventType = "muted_users"
-	EventTypeNavigationView      EventType = "navigation_view"
-	EventTypeOnboardingSteps     EventType = "onboarding_steps"
-	EventTypePresence            EventType = "presence"
-	EventTypePushDevice          EventType = "push_device"
-	EventTypeReaction            EventType = "reaction"
-	EventTypeRealm               EventType = "realm"
-	EventTypeRealmBot            EventType = "realm_bot"
-	EventTypeRealmDomains        EventType = "realm_domains"
-	EventTypeRealmEmoji          EventType = "realm_emoji"
-	EventTypeRealmExport         EventType = "realm_export"
-	EventTypeRealmExportConsent  EventType = "realm_export_consent"
+	EventTypeAlertWords           EventType = "alert_words"
+	EventTypeAttachment           EventType = "attachment"
+	EventTypeChannelFolder        EventType = "channel_folder"
+	EventTypeCustomProfileFields  EventType = "custom_profile_fields"
+	EventTypeDefaultChannelGroups EventType = "default_stream_groups"
+	EventTypeDefaultChannels      EventType = "default_streams"
+	EventTypeDeleteMessage        EventType = "delete_message"
+	EventTypeDrafts               EventType = "drafts"
+	EventTypeHasZoomToken         EventType = "has_zoom_token"
+	EventTypeHeartbeat            EventType = "heartbeat"
+	EventTypeInvitesChanged       EventType = "invites_changed"
+	EventTypeMessage              EventType = "message"
+	EventTypeMutedTopics          EventType = "muted_topics"
+	EventTypeMutedUsers           EventType = "muted_users"
+	EventTypeNavigationView       EventType = "navigation_view"
+	EventTypeOnboardingSteps      EventType = "onboarding_steps"
+	EventTypePresence             EventType = "presence"
+	EventTypePushDevice           EventType = "push_device"
+	EventTypeReaction             EventType = "reaction"
+	EventTypeRealm                EventType = "realm"
+	EventTypeRealmBot             EventType = "realm_bot"
+	EventTypeRealmDomains         EventType = "realm_domains"
+	EventTypeRealmEmoji           EventType = "realm_emoji"
+	EventTypeRealmExport          EventType = "realm_export"
+	EventTypeRealmExportConsent   EventType = "realm_export_consent"
 	// Deprecated
 	EventTypeRealmFilters              EventType = "realm_filters"
 	EventTypeRealmLinkifiers           EventType = "realm_linkifiers"
@@ -38,7 +38,7 @@ const (
 	EventTypeRestart                   EventType = "restart"
 	EventTypeSavedSnippets             EventType = "saved_snippets"
 	EventTypeScheduledMessages         EventType = "scheduled_messages"
-	EventTypeStream                    EventType = "stream"
+	EventTypeChannel                   EventType = "stream"
 	EventTypeSubmessage                EventType = "submessage"
 	EventTypeSubscription              EventType = "subscription"
 	EventTypeTyping                    EventType = "typing"
@@ -59,8 +59,8 @@ var AllowedEventTypeEnumValues = []EventType{
 	EventTypeAttachment,
 	EventTypeChannelFolder,
 	EventTypeCustomProfileFields,
-	EventTypeDefaultStreamGroups,
-	EventTypeDefaultStreams,
+	EventTypeDefaultChannelGroups,
+	EventTypeDefaultChannels,
 	EventTypeDeleteMessage,
 	EventTypeDrafts,
 	EventTypeHasZoomToken,
@@ -89,7 +89,7 @@ var AllowedEventTypeEnumValues = []EventType{
 	EventTypeRestart,
 	EventTypeSavedSnippets,
 	EventTypeScheduledMessages,
-	EventTypeStream,
+	EventTypeChannel,
 	EventTypeSubmessage,
 	EventTypeSubscription,
 	EventTypeTyping,

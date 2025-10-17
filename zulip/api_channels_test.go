@@ -28,23 +28,23 @@ func Test_ChannelsAPIService(t *testing.T) {
 	ownerClient := GetOwnerClient(t)
 	ownerId := getOwnUserId(t, ownerClient)
 
-	t.Run("AddDefaultStream", func(t *testing.T) {
+	t.Run("AddDefaultChannel", func(t *testing.T) {
 		ctx := context.Background()
 
-		_, streamId := createRandomChannel(t, ownerClient, ownerId)
+		_, channelId := createRandomChannel(t, ownerClient, ownerId)
 
-		resp, httpRes, err := ownerClient.AddDefaultStream(ctx).StreamId(streamId).Execute()
+		resp, httpRes, err := ownerClient.AddDefaultChannel(ctx).ChannelId(channelId).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		requireStatusOK(t, httpRes)
 	})
 
-	t.Run("ArchiveStream", func(t *testing.T) {
+	t.Run("ArchiveChannel", func(t *testing.T) {
 		ctx := context.Background()
 
-		_, streamId := createRandomChannel(t, ownerClient, ownerId)
+		_, channelId := createRandomChannel(t, ownerClient, ownerId)
 
-		resp, httpRes, err := ownerClient.ArchiveStream(ctx, streamId).Execute()
+		resp, httpRes, err := ownerClient.ArchiveChannel(ctx, channelId).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		requireStatusOK(t, httpRes)
@@ -66,10 +66,10 @@ func Test_ChannelsAPIService(t *testing.T) {
 	t.Run("DeleteTopic", func(t *testing.T) {
 		ctx := context.Background()
 
-		_, streamId := createRandomChannel(t, ownerClient, ownerId)
-		topic := createTopicWithMessage(t, ownerClient, streamId)
+		_, channelId := createRandomChannel(t, ownerClient, ownerId)
+		topic := createTopicWithMessage(t, ownerClient, channelId)
 
-		resp, httpRes, err := ownerClient.DeleteTopic(ctx, streamId).
+		resp, httpRes, err := ownerClient.DeleteTopic(ctx, channelId).
 			TopicName(topic).
 			Execute()
 		require.NoError(t, err)
@@ -100,15 +100,15 @@ func Test_ChannelsAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	})
 
-	t.Run("RemoveDefaultStream", func(t *testing.T) {
+	t.Run("RemoveDefaultChannel", func(t *testing.T) {
 		ctx := context.Background()
 
-		_, streamId := createRandomChannel(t, ownerClient, ownerId)
-		reqResp, _, err := ownerClient.AddDefaultStream(ctx).StreamId(streamId).Execute()
+		_, channelId := createRandomChannel(t, ownerClient, ownerId)
+		reqResp, _, err := ownerClient.AddDefaultChannel(ctx).ChannelId(channelId).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, reqResp)
 
-		resp, httpRes, err := ownerClient.RemoveDefaultStream(ctx).StreamId(streamId).Execute()
+		resp, httpRes, err := ownerClient.RemoveDefaultChannel(ctx).ChannelId(channelId).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		requireStatusOK(t, httpRes)
@@ -127,12 +127,12 @@ func Test_ChannelsAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	})
 
-	t.Run("UpdateStream", func(t *testing.T) {
+	t.Run("UpdateChannel", func(t *testing.T) {
 		ctx := context.Background()
 
-		_, streamId := createRandomChannel(t, ownerClient, ownerId)
+		_, channelId := createRandomChannel(t, ownerClient, ownerId)
 
-		resp, httpRes, err := ownerClient.UpdateStream(ctx, streamId).
+		resp, httpRes, err := ownerClient.UpdateChannel(ctx, channelId).
 			Description("updated by test").
 			Execute()
 		require.NoError(t, err)
@@ -170,55 +170,55 @@ func Test_ChannelsAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	}))
 
-	t.Run("GetStreamById", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetChannelById", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		userId := getOwnUserId(t, apiClient)
 
-		_, streamId := createRandomChannel(t, apiClient, userId)
+		_, channelId := createRandomChannel(t, apiClient, userId)
 
-		resp, httpRes, err := apiClient.GetStreamById(ctx, streamId).Execute()
+		resp, httpRes, err := apiClient.GetChannelById(ctx, channelId).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		requireStatusOK(t, httpRes)
-		assert.Equal(t, streamId, resp.Stream.StreamId)
+		assert.Equal(t, channelId, resp.Channel.ChannelId)
 	}))
 
-	t.Run("GetStreamEmailAddress", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetChannelEmailAddress", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		userId := getOwnUserId(t, apiClient)
 
-		_, streamId := createRandomChannel(t, apiClient, userId)
+		_, channelId := createRandomChannel(t, apiClient, userId)
 
-		resp, httpRes, err := apiClient.GetStreamEmailAddress(ctx, streamId).Execute()
+		resp, httpRes, err := apiClient.GetChannelEmailAddress(ctx, channelId).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		requireStatusOK(t, httpRes)
 		assert.NotEmpty(t, resp.Email)
 	}))
 
-	t.Run("GetStreamId", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetChannelId", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		userId := getOwnUserId(t, apiClient)
 
-		streamName, streamId := createRandomChannel(t, apiClient, userId)
+		channelName, channelId := createRandomChannel(t, apiClient, userId)
 
-		resp, httpRes, err := apiClient.GetStreamId(ctx).
-			Stream(streamName).
+		resp, httpRes, err := apiClient.GetChannelId(ctx).
+			Channel(channelName).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		requireStatusOK(t, httpRes)
-		assert.Equal(t, streamId, resp.StreamId)
+		assert.Equal(t, channelId, resp.ChannelId)
 	}))
 
-	t.Run("GetStreamTopics", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetChannelTopics", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		userId := getOwnUserId(t, apiClient)
 
-		_, streamId := createRandomChannel(t, apiClient, userId)
-		topic := createTopicWithMessage(t, apiClient, streamId)
+		_, channelId := createRandomChannel(t, apiClient, userId)
+		topic := createTopicWithMessage(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.GetStreamTopics(ctx, streamId).Execute()
+		resp, httpRes, err := apiClient.GetChannelTopics(ctx, channelId).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		requireStatusOK(t, httpRes)
@@ -233,23 +233,23 @@ func Test_ChannelsAPIService(t *testing.T) {
 		assert.True(t, found, "expected topic %q in list", topic)
 	}))
 
-	t.Run("GetStreams", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetChannels", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 
-		resp, httpRes, err := apiClient.GetStreams(ctx).Execute()
+		resp, httpRes, err := apiClient.GetChannels(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		requireStatusOK(t, httpRes)
-		assert.NotEmpty(t, resp.Streams)
+		assert.NotEmpty(t, resp.Channels)
 	}))
 
 	t.Run("GetSubscribers", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		userId := getOwnUserId(t, apiClient)
 
-		_, streamId := createRandomChannel(t, apiClient, userId)
+		_, channelId := createRandomChannel(t, apiClient, userId)
 
-		resp, httpRes, err := apiClient.GetSubscribers(ctx, streamId).Execute()
+		resp, httpRes, err := apiClient.GetSubscribers(ctx, channelId).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		requireStatusOK(t, httpRes)
@@ -262,9 +262,9 @@ func Test_ChannelsAPIService(t *testing.T) {
 		ctx := context.Background()
 		userId := getOwnUserId(t, apiClient)
 
-		_, streamId := createRandomChannel(t, apiClient, userId)
+		_, channelId := createRandomChannel(t, apiClient, userId)
 
-		resp, httpRes, err := apiClient.GetSubscriptionStatus(ctx, userId, streamId).Execute()
+		resp, httpRes, err := apiClient.GetSubscriptionStatus(ctx, userId, channelId).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		requireStatusOK(t, httpRes)
@@ -285,11 +285,11 @@ func Test_ChannelsAPIService(t *testing.T) {
 		ctx := context.Background()
 		userId := getOwnUserId(t, apiClient)
 
-		_, streamId := createRandomChannel(t, apiClient, userId)
-		topic := createTopicWithMessage(t, apiClient, streamId)
+		_, channelId := createRandomChannel(t, apiClient, userId)
+		topic := createTopicWithMessage(t, apiClient, channelId)
 
 		resp, httpRes, err := apiClient.MuteTopic(ctx).
-			StreamId(streamId).
+			ChannelId(channelId).
 			Topic(topic).
 			Op("add").
 			Execute()
@@ -304,7 +304,7 @@ func Test_ChannelsAPIService(t *testing.T) {
 		desc := "Subscribed by test"
 		resp, httpRes, err := apiClient.Subscribe(ctx).
 			Subscriptions([]zulip.SubscriptionRequest{{
-				Name:        uniqueName("subscribe-stream"),
+				Name:        uniqueName("subscribe-channel"),
 				Description: &desc,
 			},
 			}).
@@ -319,17 +319,17 @@ func Test_ChannelsAPIService(t *testing.T) {
 		ctx := context.Background()
 		userId := getOwnUserId(t, apiClient)
 
-		streamName, _ := createRandomChannel(t, apiClient, userId)
+		channelName, _ := createRandomChannel(t, apiClient, userId)
 
 		resp, httpRes, err := apiClient.Unsubscribe(ctx).
-			Subscriptions([]string{streamName}).
+			Subscriptions([]string{channelName}).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		requireStatusOK(t, httpRes)
 
 		if len(resp.Removed) > 0 {
-			assert.Contains(t, resp.Removed, streamName)
+			assert.Contains(t, resp.Removed, channelName)
 		}
 	}))
 
@@ -337,14 +337,14 @@ func Test_ChannelsAPIService(t *testing.T) {
 		ctx := context.Background()
 		userId := getOwnUserId(t, apiClient)
 
-		_, streamId := createRandomChannel(t, apiClient, userId)
+		_, channelId := createRandomChannel(t, apiClient, userId)
 		mute := true
 
 		resp, httpRes, err := apiClient.UpdateSubscriptionSettings(ctx).
 			SubscriptionData([]zulip.SubscriptionData{{
-				StreamId: streamId,
-				Property: zulip.SubscriptionPropertyIsMuted,
-				Value:    zulip.SubscriptionDataValue{Bool: &mute},
+				ChannelId: channelId,
+				Property:  zulip.SubscriptionPropertyIsMuted,
+				Value:     zulip.SubscriptionDataValue{Bool: &mute},
 			}}).
 			Execute()
 		require.NoError(t, err)
@@ -355,10 +355,10 @@ func Test_ChannelsAPIService(t *testing.T) {
 	t.Run("UpdateSubscriptions", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 
-		streamName := uniqueName("update-subscriptions")
+		channelName := uniqueName("update-subscriptions")
 		desc := "Created in UpdateSubscriptions test"
 		add := zulip.SubscriptionRequestWithColor{
-			Name:        &streamName,
+			Name:        &channelName,
 			Description: &desc,
 		}
 
@@ -375,11 +375,11 @@ func Test_ChannelsAPIService(t *testing.T) {
 		ctx := context.Background()
 		userId := getOwnUserId(t, apiClient)
 
-		_, streamId := createRandomChannel(t, apiClient, userId)
-		topic := createTopicWithMessage(t, apiClient, streamId)
+		_, channelId := createRandomChannel(t, apiClient, userId)
+		topic := createTopicWithMessage(t, apiClient, channelId)
 
 		resp, httpRes, err := apiClient.UpdateUserTopic(ctx).
-			StreamId(streamId).
+			ChannelId(channelId).
 			Topic(topic).
 			VisibilityPolicy(1).
 			Execute()
@@ -414,15 +414,16 @@ func createRandomChannel(t *testing.T, apiClient zulip.Client, subscribers ...in
 	return name, resp.Id
 }
 
-func sendChannelMessage(t *testing.T, apiClient zulip.Client, streamId int64, topic, content string) int64 {
+func sendChannelMessage(t *testing.T, apiClient zulip.Client, channelId int64, topic, content string) int64 {
 	t.Helper()
 
 	resp, httpResp, err := apiClient.SendMessage(context.Background()).
 		RecipientType(zulip.RecipientTypeChannel).
-		To(zulip.ChannelAsRecipient(streamId)).
+		To(zulip.ChannelAsRecipient(channelId)).
 		Topic(topic).
 		Content(content).
 		Execute()
+
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	requireStatusOK(t, httpResp)
@@ -430,11 +431,11 @@ func sendChannelMessage(t *testing.T, apiClient zulip.Client, streamId int64, to
 	return resp.Id
 }
 
-func createTopicWithMessage(t *testing.T, apiClient zulip.Client, streamId int64) string {
+func createTopicWithMessage(t *testing.T, apiClient zulip.Client, channelId int64) string {
 	t.Helper()
 
 	topic := uniqueName("topic")
-	messageId := sendChannelMessage(t, apiClient, streamId, topic, fmt.Sprintf("message for %s", topic))
+	messageId := sendChannelMessage(t, apiClient, channelId, topic, fmt.Sprintf("message for %s", topic))
 	assert.Greater(t, messageId, int64(0))
 	return topic
 }

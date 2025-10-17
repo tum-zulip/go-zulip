@@ -99,11 +99,11 @@ type RegisterQueueResponse struct {
 	// Present if `starred_messages` is present in `fetch_event_types`.  Array containing the Ids of all messages which have been [starred](zulip.com/help/star-a-message) by the user.
 	StarredMessages []int64 `json:"starred_messages,omitempty"`
 	// Present if `stream` is present in `fetch_event_types`.  Array of dictionaries where each dictionary contains details about a single channel in the organization that is visible to the user.  For organization administrators, this will include all private channels in the organization.  **Changes**: Before Zulip 11.0 (feature level 378), archived channels did not appear in this list, even if the `archived_channels` [client capability][client-capabilities] was declared by the client.  As of Zulip 8.0 (feature level 205), this will include all web-public channels in the organization as well.
-	Streams []Channel `json:"streams,omitempty"`
+	Channels []Channel `json:"streams,omitempty"`
 	// Present if `default_streams` is present in `fetch_event_types`.  An array of Ids of all the [default channels](zulip.com/help/set-default-streams-for-new-users) in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
-	RealmDefaultStreams []int64 `json:"realm_default_streams,omitempty"`
+	RealmDefaultChannels []int64 `json:"realm_default_streams,omitempty"`
 	// Present if `default_stream_groups` is present in `fetch_event_types`.  An array of dictionaries where each dictionary contains details about a single default channel group configured for this Zulip organization.  Default channel groups are an experimental feature.
-	RealmDefaultStreamGroups []DefaultChannelGroup `json:"realm_default_stream_groups,omitempty"`
+	RealmDefaultChannelGroups []DefaultChannelGroup `json:"realm_default_stream_groups,omitempty"`
 	// Present if `stop_words` is present in `fetch_event_types`.  An array containing the stop words used by the Zulip server's full-text search implementation. Useful for showing helpful error messages when a search returns limited results because a stop word in the query was ignored.
 	StopWords []string `json:"stop_words,omitempty"`
 	// Present if `user_status` is present in `fetch_event_types`.  A dictionary which contains the [status](zulip.com/help/status-and-availability) of all users in the Zulip organization who have set a status.  **Changes**: The emoji parameters are new in Zulip 5.0 (feature level 86). Previously, Zulip did not support emoji associated with statuses.
@@ -150,7 +150,7 @@ type ServerSupportedPermissionSettings struct {
 	// Configuration for realm level group permission settings.
 	Realm map[string]GroupPermissionSetting `json:"realm,omitempty"`
 	// Configuration for channel level group permission settings.
-	Stream map[string]GroupPermissionSetting `json:"stream,omitempty"`
+	Channel map[string]GroupPermissionSetting `json:"stream,omitempty"`
 	// Configuration for group level group permission settings.
 	Group map[string]GroupPermissionSetting `json:"group,omitempty"`
 }
@@ -198,7 +198,7 @@ type UpdateDisplaySettings struct {
 	DefaultLanguage string `json:"default_language,omitempty"`
 	// Whether the user has chosen to hide inactive channels.  See [PATCH /settings](zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: /api/register-queue#parameter-client_capabilities
 	// Deprecated
-	DemoteInactiveStreams int64 `json:"demote_inactive_streams,omitempty"`
+	DemoteInactiveChannels int64 `json:"demote_inactive_streams,omitempty"`
 	// The name of the emoji set that the user has chosen.  See [PATCH /settings](zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: /api/register-queue#parameter-client_capabilities
 	// Deprecated
 	Emojiset string `json:"emojiset,omitempty"`
@@ -319,16 +319,16 @@ type GlobalNotifications struct {
 	EnableSounds bool `json:"enable_sounds,omitempty"`
 	// The current value of this global notification setting for the user. See [PATCH /settings](zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: /api/register-queue#parameter-client_capabilities
 	// Deprecated
-	EnableStreamDesktopNotifications bool `json:"enable_stream_desktop_notifications,omitempty"`
+	EnableChannelDesktopNotifications bool `json:"enable_stream_desktop_notifications,omitempty"`
 	// The current value of this global notification setting for the user. See [PATCH /settings](zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: /api/register-queue#parameter-client_capabilities
 	// Deprecated
-	EnableStreamEmailNotifications bool `json:"enable_stream_email_notifications,omitempty"`
+	EnableChannelEmailNotifications bool `json:"enable_stream_email_notifications,omitempty"`
 	// The current value of this global notification setting for the user. See [PATCH /settings](zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: /api/register-queue#parameter-client_capabilities
 	// Deprecated
-	EnableStreamPushNotifications bool `json:"enable_stream_push_notifications,omitempty"`
+	EnableChannelPushNotifications bool `json:"enable_stream_push_notifications,omitempty"`
 	// The current value of this global notification setting for the user. See [PATCH /settings](zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: /api/register-queue#parameter-client_capabilities
 	// Deprecated
-	EnableStreamAudibleNotifications bool `json:"enable_stream_audible_notifications,omitempty"`
+	EnableChannelAudibleNotifications bool `json:"enable_stream_audible_notifications,omitempty"`
 	// The current value of this global notification setting for the user. See [PATCH /settings](zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: /api/register-queue#parameter-client_capabilities
 	// Deprecated
 	WildcardMentionsNotify bool `json:"wildcard_mentions_notify,omitempty"`
@@ -359,7 +359,7 @@ type Realm struct {
 	// The UNIX timestamp (UTC) for when the organization was created.  **Changes**: New in Zulip 8.0 (feature level 203).
 	DateCreated time.Time `json:"realm_date_created,omitempty"`
 	// The maximum allowed length for a channel name, in Unicode code points. Clients should use this property rather than hardcoding field sizes.  **Changes**: New in Zulip 4.0 (feature level 53). Previously, this required `stream` in `fetch_event_types`, was called `stream_name_max_length`, and always had a value of 60.
-	MaxStreamNameLength int64 `json:"max_stream_name_length,omitempty"`
+	MaxChannelNameLength int64 `json:"max_stream_name_length,omitempty"`
 	// The maximum allowed length for a channel description, in Unicode code points. Clients should use this property rather than hardcoding field sizes.  **Changes**: New in Zulip 4.0 (feature level 53). Previously, this required `stream` in `fetch_event_types`, was called `stream_description_max_length`, and always had a value of 1024.
 	MaxStreamDescriptionLength int64 `json:"max_stream_description_length,omitempty"`
 	// The maximum allowed length for a channel folder name, in Unicode code points. Clients should use this property rather than hardcoding field sizes.  **Changes**: New in Zulip 11.0 (feature level 410). Clients should use 60 as a fallback value on previous feature levels.
@@ -710,13 +710,13 @@ type RealmUserSettingsDefaults struct {
 	// The user's configured [emoji set](zulip.com/help/emoji-and-emoticons#use-emoticons, used to display emoji to the user everywhere they appear in the UI.  - \"google\" - Google modern - \"google-blob\" - Google classic - \"twitter\" - Twitter - \"text\" - Plain text
 	Emojiset *string `json:"emojiset,omitempty"`
 	// Whether to [hide inactive channels](zulip.com/help/manage-inactive-channels) in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never
-	DemoteInactiveStreams *int32 `json:"demote_inactive_streams,omitempty"`
+	DemoteInactiveChannels *int32 `json:"demote_inactive_streams,omitempty"`
 	// The style selected by the user for the right sidebar user list.  - 1 - Compact - 2 - With status - 3 - With avatar and status  **Changes**: New in Zulip 6.0 (feature level 141).
 	UserListStyle *int32 `json:"user_list_style,omitempty"`
 	// Controls how animated images should be played in the message feed in the web/desktop application.  - \"always\" - Always play the animated images in the message feed. - \"on_hover\" - Play the animated images on hover over them in the message feed. - \"never\" - Never play animated images in the message feed.  **Changes**: New in Zulip 9.0 (feature level 275).
 	WebAnimateImagePreviews *string `json:"web_animate_image_previews,omitempty"`
 	// Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.  - 1 - All channels - 2 - Unmuted channels and topics - 3 - No channels  **Changes**: New in Zulip 8.0 (feature level 210).
-	WebStreamUnreadsCountDisplayPolicy *int32 `json:"web_stream_unreads_count_display_policy,omitempty"`
+	WebChannelUnreadsCountDisplayPolicy *int32 `json:"web_stream_unreads_count_display_policy,omitempty"`
 	// Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.  **Changes**: New in Zulip 10.0 (feature level 350).
 	HideAiFeatures *bool `json:"hide_ai_features,omitempty"`
 	// Determines whether the web/desktop application's left sidebar displays any channel folders configured by the organization.  **Changes**: New in Zulip 11.0 (feature level 411).
@@ -724,13 +724,13 @@ type RealmUserSettingsDefaults struct {
 	// Determines whether the web/desktop application's left sidebar displays the unread message count summary.  **Changes**: New in Zulip 11.0 (feature level 398).
 	WebLeftSidebarUnreadsCountSummary *bool `json:"web_left_sidebar_unreads_count_summary,omitempty"`
 	// Enable visual desktop notifications for channel messages.
-	EnableStreamDesktopNotifications *bool `json:"enable_stream_desktop_notifications,omitempty"`
+	EnableChannelDesktopNotifications *bool `json:"enable_stream_desktop_notifications,omitempty"`
 	// Enable email notifications for channel messages.
-	EnableStreamEmailNotifications *bool `json:"enable_stream_email_notifications,omitempty"`
+	EnableChannelEmailNotifications *bool `json:"enable_stream_email_notifications,omitempty"`
 	// Enable mobile notifications for channel messages.
-	EnableStreamPushNotifications *bool `json:"enable_stream_push_notifications,omitempty"`
+	EnableChannelPushNotifications *bool `json:"enable_stream_push_notifications,omitempty"`
 	// Enable audible desktop notifications for channel messages.
-	EnableStreamAudibleNotifications *bool `json:"enable_stream_audible_notifications,omitempty"`
+	EnableChannelAudibleNotifications *bool `json:"enable_stream_audible_notifications,omitempty"`
 	// Notification sound name.
 	NotificationSound *string `json:"notification_sound,omitempty"`
 	// Enable visual desktop notifications for direct messages and @-mentions.
@@ -772,7 +772,7 @@ type RealmUserSettingsDefaults struct {
 	// Which [topics to follow automatically](zulip.com/help/mute-a-topic.  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
 	AutomaticallyFollowTopicsPolicy *int32 `json:"automatically_follow_topics_policy,omitempty"`
 	// Which [topics to unmute automatically in muted channels](zulip.com/help/mute-a-topic.  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
-	AutomaticallyUnmuteTopicsInMutedStreamsPolicy *int32 `json:"automatically_unmute_topics_in_muted_streams_policy,omitempty"`
+	AutomaticallyUnmuteTopicsInMutedChannelsPolicy *int32 `json:"automatically_unmute_topics_in_muted_streams_policy,omitempty"`
 	// Whether the server will automatically mark the user as following topics where the user is mentioned.  **Changes**: New in Zulip 8.0 (feature level 235).
 	AutomaticallyFollowTopicsWhereMentioned *bool `json:"automatically_follow_topics_where_mentioned,omitempty"`
 	// Controls whether the resolved-topic notices are marked as read.  - \"always\" - Always mark resolved-topic notices as read. - \"except_followed\" - Mark resolved-topic notices as read in topics not followed by the user. - \"never\" - Never mark resolved-topic notices as read.  **Changes**: New in Zulip 11.0 (feature level 385).
@@ -792,7 +792,7 @@ type RealmUserSettingsDefaults struct {
 	// Whether [typing notifications](zulip.com/help/typing-notifications) be sent when composing direct messages.  **Changes**: New in Zulip 5.0 (feature level 105).
 	SendPrivateTypingNotifications *bool `json:"send_private_typing_notifications,omitempty"`
 	// Whether [typing notifications](zulip.com/help/typing-notifications) be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105).
-	SendStreamTypingNotifications *bool `json:"send_stream_typing_notifications,omitempty"`
+	SendChannelTypingNotifications *bool `json:"send_stream_typing_notifications,omitempty"`
 	// Whether other users are allowed to see whether you've read messages.  **Changes**: New in Zulip 5.0 (feature level 105).
 	SendReadReceipts *bool `json:"send_read_receipts,omitempty"`
 	// Whether organization administrators are allowed to export your private data.  **Changes**: New in Zulip 10.0 (feature level 293).

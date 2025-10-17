@@ -3,7 +3,7 @@ package zulip
 // SubscriptionData struct for SubscriptionData
 type SubscriptionData struct {
 	// The unique Id of a channel.
-	StreamId int64 `json:"stream_id"`
+	ChannelId int64 `json:"stream_id"`
 	// One of the channel properties described below.
 	// - `"color"`: The hex value of the user's display color for the channel.
 	// - `"is_muted"`: Whether the channel is [muted](zulip.com/help/mute-a-channel).
@@ -40,10 +40,10 @@ type SubscriptionDataValue struct {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *SubscriptionDataValue) UnmarshalJSON(data []byte) error {
-	return UnionUnmarshalJSON(data, dst)
+	return unmarshalUnionType(data, dst)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src SubscriptionDataValue) MarshalJSON() ([]byte, error) {
-	return UnionMarshalJSON(src)
+	return marshalUnionType(src)
 }

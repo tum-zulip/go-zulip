@@ -184,11 +184,11 @@ func createDraft(t *testing.T, ctx context.Context, apiClient zulip.Client) *zul
 	t.Helper()
 
 	userId := getOwnUserId(t, apiClient)
-	_, streamId := createRandomChannel(t, apiClient, userId)
+	_, channelId := createRandomChannel(t, apiClient, userId)
 
 	draft := &zulip.Draft{
-		Type:    "stream",
-		To:      []int64{streamId},
+		Type:    zulip.RecipientTypeChannel,
+		To:      zulip.ChannelAsRecipient(channelId),
 		Topic:   uniqueName("draft-topic"),
 		Content: fmt.Sprintf("draft content %s", uniqueName("draft")),
 		// in the past to avoid any clock skew issues

@@ -16,10 +16,10 @@ type ComplexGroupSettingValue struct {
 
 // special json marshaller and unmarshaller for union GroupSettingValue
 func (o GroupSettingValue) MarshalJSON() ([]byte, error) {
-	return UnionMarshalJSON(o)
+	return marshalUnionType(o)
 }
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (o *GroupSettingValue) UnmarshalJSON(data []byte) error {
-	return UnionUnmarshalJSON(data, o)
+	return unmarshalUnionType(data, o)
 }

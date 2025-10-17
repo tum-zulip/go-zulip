@@ -137,26 +137,6 @@ type SubscriptionRemoveEvent7Data struct {
 	ZulipUpdateAnnouncementsStreamId int64 `json:"zulip_update_announcements_stream_id,omitempty"`
 }
 
-// UpdateFlagsNarrowClause - struct for UpdateFlagsNarrowClause
-type UpdateFlagsNarrowClause struct {
-	UpdateFlagsNarrowFilter *UpdateFlagsNarrowFilter
-	ArrayOfString           *[]string
-}
-
-// UpdateFlagsNarrowFilter struct for UpdateFlagsNarrowFilter
-type UpdateFlagsNarrowFilter struct {
-	Operator string                   `json:"operator"`
-	Operand  UpdateFlagsNarrowOperand `json:"operand"`
-	Negated  *bool                    `json:"negated,omitempty"`
-}
-
-// UpdateFlagsNarrowOperand - struct for UpdateFlagsNarrowOperand
-type UpdateFlagsNarrowOperand struct {
-	ArrayOfInt32 *[]int32
-	Int32        *int32
-	String       *string
-}
-
 // UserSettingsUpdateEvent1MutedTopicsInnerInner - struct for UserSettingsUpdateEvent1MutedTopicsInnerInner
 type UserSettingsUpdateEvent1MutedTopicsInnerInner struct {
 	Int32  *int32
@@ -178,7 +158,7 @@ type DefaultChannelGroup struct {
 	// The Id of the default channel group.
 	Id *int32 `json:"id,omitempty"`
 	// An array of Ids of all the channels in the default stream group.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single stream in the default stream group.
-	Streams []int32 `json:"streams,omitempty"`
+	Channels []int32 `json:"streams,omitempty"`
 }
 
 // UnreadMsgs Present if `message` and `update_message_flags` are both present in `event_types`.  A set of data structures describing the conversations containing the 50000 most recent unread messages the user has received. This will usually contain every unread message the user has received, but clients should support users with even more unread messages (and not hardcode the number 50000).
@@ -188,7 +168,7 @@ type UnreadMsgs struct {
 	// An array of objects where each object contains details of unread one-on-one direct messages with a specific user.  Note that it is possible for a message that the current user sent to the specified user to be marked as unread and thus appear here.
 	Pms []UnreadMsgsPms `json:"pms,omitempty"`
 	// An array of dictionaries where each dictionary contains details of all unread messages of a single subscribed channel. This includes muted channels and muted topics, even though those messages are excluded from `count`.  **Changes**: Prior to Zulip 5.0 (feature level 90), these objects included a `sender_ids` property, which listed the set of Ids of users who had sent the unread messages.
-	Streams []UnreadMsgsStreams `json:"streams,omitempty"`
+	Channels []UnreadMsgsChannels `json:"streams,omitempty"`
 	// An array of objects where each object contains details of unread group direct messages with a specific group of users.
 	Huddles []UnreadMsgsHuddles `json:"huddles,omitempty"`
 	// Array containing the Ids of all unread messages in which the user was mentioned directly, and unread [non-muted](zulip.com/help/mute-a-topic) messages in which the user was mentioned through a wildcard.  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field.
@@ -208,12 +188,12 @@ type UnreadMsgsPms struct {
 	UnreadMessageIds []int32 `json:"unread_message_ids,omitempty"`
 }
 
-// UnreadMsgsStreams struct for UnreadMsgsStreams
-type UnreadMsgsStreams struct {
+// UnreadMsgsChannels struct for UnreadMsgsChannels
+type UnreadMsgsChannels struct {
 	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response depending on the value of the `empty_topic_name` [client capability][client-capabilities].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
 	// The Id of the channel to which the messages were sent.
-	StreamId *int64 `json:"stream_id,omitempty"`
+	ChannelId *int64 `json:"stream_id,omitempty"`
 	// The message Ids of the recent unread messages sent in this channel, sorted in ascending order.
 	UnreadMessageIds []int32 `json:"unread_message_ids,omitempty"`
 }
@@ -229,7 +209,7 @@ type UnreadMsgsHuddles struct {
 // UserTopics Object describing the user's configuration for a given topic.
 type UserTopics struct {
 	// The Id of the channel to which the topic belongs.
-	StreamId *int64 `json:"stream_id,omitempty"`
+	ChannelId *int64 `json:"stream_id,omitempty"`
 	// The name of the topic.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response depending on the value of the `empty_topic_name` [client capability][client-capabilities].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	TopicName *string `json:"topic_name,omitempty"`
 	// An integer UNIX timestamp representing when the user-topic relationship was changed.

@@ -110,7 +110,7 @@ type MessagesEventData struct {
 	// A string identifier for the realm the sender is in. Unique only within the context of a given Zulip server.  E.g. on `example.zulip.com`, this will be `example`.
 	SenderRealmStr string `json:"sender_realm_str,omitempty"`
 	// Only present for channel messages; the Id of the channel.
-	StreamId *int64 `json:"stream_id,omitempty"`
+	ChannelId *int64 `json:"stream_id,omitempty"`
 	// The `topic` of the message. Currently always `\"\"` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called \"subjects\" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register](zulip.com/api/register-queue) response, for channel messages.  **Changes**: Before Zulip 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Subject string `json:"subject,omitempty"`
 	// Data used for certain experimental Zulip integrations.
@@ -190,36 +190,36 @@ type PresenceEventDeprecated struct {
 	Presence map[string]interface{} `json:"presence,omitempty"`
 }
 
-// StreamCreateEvent Event sent when a new channel is created to users who can see the new channel exists (for private channels, only subscribers and organization administrators will receive this event).  This event is also sent when a user gains access to a channel they previously [could not access](zulip.com/help/channel-permissions, such as when their [role](zulip.com/help/user-roles) changes, a private channel is made public, or a guest user is subscribed to a public (or private) channel.  This event is also sent when a channel is unarchived but only to clients that did not declare the `archived_channels` [client capability][client-capabilities].  Note that organization administrators who are not subscribed will not be able to see content on the channel; just that it exists.  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was unarchived.  Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users a web-public channel was created.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user gained access to a channel due to their role changing.  Prior to Zulip 8.0 (feature level 192), this event was not sent when guest users gained access to a public channel by being subscribed.  Prior to Zulip 6.0 (feature level 134), this event was not sent when a private channel was made public.
-type StreamCreateEvent struct {
+// ChannelCreateEvent Event sent when a new channel is created to users who can see the new channel exists (for private channels, only subscribers and organization administrators will receive this event).  This event is also sent when a user gains access to a channel they previously [could not access](zulip.com/help/channel-permissions, such as when their [role](zulip.com/help/user-roles) changes, a private channel is made public, or a guest user is subscribed to a public (or private) channel.  This event is also sent when a channel is unarchived but only to clients that did not declare the `archived_channels` [client capability][client-capabilities].  Note that organization administrators who are not subscribed will not be able to see content on the channel; just that it exists.  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was unarchived.  Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users a web-public channel was created.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user gained access to a channel due to their role changing.  Prior to Zulip 8.0 (feature level 192), this event was not sent when guest users gained access to a public channel by being subscribed.  Prior to Zulip 6.0 (feature level 134), this event was not sent when a private channel was made public.
+type ChannelCreateEvent struct {
 	EventCommonWithOp
 	// Array of objects, each containing details about the newly added channel(s).
-	Streams []Channel `json:"streams,omitempty"`
+	Channels []Channel `json:"streams,omitempty"`
 }
 
-// StreamDeleteEvent Event sent when a user loses access to a channel they previously [could access](zulip.com/help/channel-permissions) because they are unsubscribed from a private channel or their [role](zulip.com/help/user-roles) has changed.  This event is also sent when a channel is archived but only to clients that did not declare the `archived_channels` [client capability][client-capabilities].  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was archived.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user lost access to a channel due to their role changing.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
-type StreamDeleteEvent struct {
+// ChannelDeleteEvent Event sent when a user loses access to a channel they previously [could access](zulip.com/help/channel-permissions) because they are unsubscribed from a private channel or their [role](zulip.com/help/user-roles) has changed.  This event is also sent when a channel is archived but only to clients that did not declare the `archived_channels` [client capability][client-capabilities].  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was archived.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user lost access to a channel due to their role changing.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+type ChannelDeleteEvent struct {
 	EventCommonWithOp
 
 	// Array of objects, each containing Id of the channel that was deleted.  **Changes**: **Deprecated** in Zulip 10.0 (feature level 343) and will be removed in a future release. Previously, these objects additionally contained all the standard fields for a channel object.
 	// Deprecated
-	Streams []interface{} `json:"streams,omitempty"`
+	Channels []interface{} `json:"streams,omitempty"`
 
 	// Array containing the Ids of the channels that were deleted.  **Changes**: New in Zulip 10.0 (feature level 343). Previously, these Ids were available only via the legacy `streams` array.
-	StreamIds []int64 `json:"stream_ids,omitempty"`
+	ChannelIds []int64 `json:"stream_ids,omitempty"`
 }
 
-// StreamUpdateEvent Event sent to all users who can see that a channel exists when a property of that channel changes. See [GET /streams](zulip.com/api/get-streams#response response for details on the various properties of a channel.  This event is also sent when archiving or unarchiving a channel to all the users who can see that channel exists but only to the clients that declared the `archived_channels` [client capability][client-capabilities].  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was never sent when archiving or unarchiving a channel.  Before Zulip 9.0 (feature level 256), this event was never sent when the `first_message_id` property of a channel was updated because the oldest message that had been sent to it changed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
-type StreamUpdateEvent struct {
+// ChannelUpdateEvent Event sent to all users who can see that a channel exists when a property of that channel changes. See [GET /streams](zulip.com/api/get-streams#response response for details on the various properties of a channel.  This event is also sent when archiving or unarchiving a channel to all the users who can see that channel exists but only to the clients that declared the `archived_channels` [client capability][client-capabilities].  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was never sent when archiving or unarchiving a channel.  Before Zulip 9.0 (feature level 256), this event was never sent when the `first_message_id` property of a channel was updated because the oldest message that had been sent to it changed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+type ChannelUpdateEvent struct {
 	EventCommonWithOp
 	// The Id of the channel whose details have changed.
-	StreamId int64 `json:"stream_id,omitempty"`
+	ChannelId int64 `json:"stream_id,omitempty"`
 	// The name of the channel whose details have changed.
 	Name string `json:"name,omitempty"`
 	// The property of the channel which has changed. See [GET /streams](zulip.com/api/get-streams#response response for details on the various properties of a channel.  Clients should handle an \"unknown\" property received here without crashing, since that can happen when connecting to a server running a newer version of Zulip with new features.
 	Property string `json:"property,omitempty"`
-	// StreamEventUpdateValue - The new value of the changed property.  **Changes**: Starting with Zulip 11.0 (feature level 389), this value can be `null` when a channel is removed from the folder.  Starting with Zulip 10.0 (feature level 320), this field can be an object for `can_remove_subscribers_group` property, which is a [group-setting value][setting-values], when the setting is set to a combination of users and groups.  [setting-values]: /api/group-setting-values
-	Value *StreamEventUpdateValue `json:"value,omitempty"`
+	// ChannelEventUpdateValue - The new value of the changed property.  **Changes**: Starting with Zulip 11.0 (feature level 389), this value can be `null` when a channel is removed from the folder.  Starting with Zulip 10.0 (feature level 320), this field can be an object for `can_remove_subscribers_group` property, which is a [group-setting value][setting-values], when the setting is set to a combination of users and groups.  [setting-values]: /api/group-setting-values
+	Value *ChannelEventUpdateValue `json:"value,omitempty"`
 	// Note: Only present if the changed property was `description`.  The short description of the channel rendered as HTML, intended to be used when displaying the channel description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip's HTML format.
 	RenderedDescription *string `json:"rendered_description,omitempty"`
 	// Note: Only present if the changed property was `invite_only`.  Whether the history of the channel is public to its subscribers.  Currently always true for public channels (i.e. `\"invite_only\": false` implies `\"history_public_to_subscribers\": true`), but clients should not make that assumption, as we may change that behavior in the future.
@@ -228,49 +228,49 @@ type StreamUpdateEvent struct {
 	IsWebPublic *bool `json:"is_web_public,omitempty"`
 }
 
-type StreamEventUpdateValue struct {
+type ChannelEventUpdateValue struct {
 	GroupSettingValue *GroupSettingValue
 	Bool              *bool
 	Int64             *int64
 	String            *string
 }
 
-// StreamEventUpdateValueFromOneOf is a convenience function that returns GroupSettingValue wrapped in StreamEventUpdateValue
-func StreamEventUpdateValueFromOneOf(v *GroupSettingValue) StreamEventUpdateValue {
-	return StreamEventUpdateValue{
+// ChannelEventUpdateValueFromOneOf is a convenience function that returns GroupSettingValue wrapped in ChannelEventUpdateValue
+func ChannelEventUpdateValueFromOneOf(v *GroupSettingValue) ChannelEventUpdateValue {
+	return ChannelEventUpdateValue{
 		GroupSettingValue: v,
 	}
 }
 
-// boolAsStreamEventUpdateValue is a convenience function that returns bool wrapped in StreamEventUpdateValue
-func BoolAsStreamEventUpdateValue(v *bool) StreamEventUpdateValue {
-	return StreamEventUpdateValue{
+// boolAsChannelEventUpdateValue is a convenience function that returns bool wrapped in ChannelEventUpdateValue
+func BoolAsChannelEventUpdateValue(v *bool) ChannelEventUpdateValue {
+	return ChannelEventUpdateValue{
 		Bool: v,
 	}
 }
 
-// int32AsStreamEventUpdateValue is a convenience function that returns int32 wrapped in StreamEventUpdateValue
-func Int64AsStreamEventUpdateValue(v *int64) StreamEventUpdateValue {
-	return StreamEventUpdateValue{
+// int32AsChannelEventUpdateValue is a convenience function that returns int32 wrapped in ChannelEventUpdateValue
+func Int64AsChannelEventUpdateValue(v *int64) ChannelEventUpdateValue {
+	return ChannelEventUpdateValue{
 		Int64: v,
 	}
 }
 
-// stringAsStreamEventUpdateValue is a convenience function that returns string wrapped in StreamEventUpdateValue
-func StringAsStreamEventUpdateValue(v *string) StreamEventUpdateValue {
-	return StreamEventUpdateValue{
+// stringAsChannelEventUpdateValue is a convenience function that returns string wrapped in ChannelEventUpdateValue
+func StringAsChannelEventUpdateValue(v *string) ChannelEventUpdateValue {
+	return ChannelEventUpdateValue{
 		String: v,
 	}
 }
 
 // Unmarshal JSON data into one of the pointers in the struct
-func (dst *StreamEventUpdateValue) UnmarshalJSON(data []byte) error {
-	return UnionUnmarshalJSON(data, dst)
+func (dst *ChannelEventUpdateValue) UnmarshalJSON(data []byte) error {
+	return unmarshalUnionType(data, dst)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src StreamEventUpdateValue) MarshalJSON() ([]byte, error) {
-	return UnionMarshalJSON(src)
+func (src ChannelEventUpdateValue) MarshalJSON() ([]byte, error) {
+	return marshalUnionType(src)
 }
 
 // ReactionEvent Event sent when a reaction is added to or removed from a message. Sent to all users who were recipients of the message.
@@ -332,12 +332,12 @@ func StringAsUpdateValue(v string) UpdateValue {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *UpdateValue) UnmarshalJSON(data []byte) error {
-	return UnionUnmarshalJSON(data, dst)
+	return unmarshalUnionType(data, dst)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src UpdateValue) MarshalJSON() ([]byte, error) {
-	return UnionMarshalJSON(src)
+	return marshalUnionType(src)
 }
 
 // AttachmentAddEvent Event sent to a user's clients when the user uploads a new file in a Zulip message. Useful to implement live update in UI showing all files the current user has uploaded.
@@ -419,18 +419,18 @@ type CustomProfileField struct {
 	EditableByUser bool `json:"editable_by_user"`
 }
 
-// DefaultStreamGroupsEvent Event sent to all users in a Zulip organization when an organization administrator changes the organization's configured default channel groups.  Default channel groups are an **experimental** feature that is not yet stabilized.
-type DefaultStreamGroupsEvent struct {
+// DefaultChannelGroupsEvent Event sent to all users in a Zulip organization when an organization administrator changes the organization's configured default channel groups.  Default channel groups are an **experimental** feature that is not yet stabilized.
+type DefaultChannelGroupsEvent struct {
 	EventCommon
 	// An array of dictionaries where each dictionary contains details about a single default channel group.
-	DefaultStreamGroups []DefaultChannelGroup `json:"default_stream_groups,omitempty"`
+	DefaultChannelGroups []DefaultChannelGroup `json:"default_stream_groups,omitempty"`
 }
 
-// DefaultStreamsEvent Event sent to all users in a Zulip organization when the default channels in the organization are changed by an organization administrator.
-type DefaultStreamsEvent struct {
+// DefaultChannelsEvent Event sent to all users in a Zulip organization when the default channels in the organization are changed by an organization administrator.
+type DefaultChannelsEvent struct {
 	EventCommon
 	// An array of Ids of all the [default channels](zulip.com/help/set-default-streams-for-new-users) in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
-	DefaultStreams []int64 `json:"default_streams,omitempty"`
+	DefaultChannels []int64 `json:"default_streams,omitempty"`
 }
 
 // UserSettingsUpdateEvent Event sent to a user's clients when that user's settings have changed.  **Changes**: New in Zulip 5.0 (feature level 89), replacing the previous `update_display_settings` and `update_global_notifications` event types, which are still present for backwards compatibility reasons.
@@ -473,7 +473,7 @@ type DeleteMessageEvent struct {
 	// The type of message. Either `\"stream\"` or `\"private\"`.
 	MessageType RecipientType `json:"message_type,omitempty"`
 	// Only present if `message_type` is `\"stream\"`.  The Id of the channel to which the message was sent.
-	StreamId *int64 `json:"stream_id,omitempty"`
+	ChannelId *int64 `json:"stream_id,omitempty"`
 	// Only present if `message_type` is `\"stream\"`.  The topic to which the message was sent.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name was empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
 }
@@ -482,7 +482,7 @@ type DeleteMessageEvent struct {
 type UserTopicEvent struct {
 	EventCommon
 	// The Id of the channel to which the topic belongs.
-	StreamId int64 `json:"stream_id,omitempty"`
+	ChannelId int64 `json:"stream_id,omitempty"`
 	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	TopicName string `json:"topic_name,omitempty"`
 	// An integer UNIX timestamp representing when the user-topic relationship was last changed.
@@ -537,11 +537,11 @@ type UpdateMessageEvent struct {
 	// The time when this message edit operation was processed by the server.  **Changes**: As of Zulip 5.0 (feature level 114), this field is present for all `update_message` events. Previously, this field was omitted for [inline URL preview][inline-url-previews] updates.
 	EditTimestamp time.Time `json:"edit_timestamp"`
 	// Only present if the message was edited and originally sent to a channel.  The name of the channel that the message was sent to. Clients are recommended to use the `stream_id` field instead.
-	StreamName *string `json:"stream_name,omitempty"`
+	ChannelName *string `json:"stream_name,omitempty"`
 	// Only present if the message was edited and originally sent to a channel.  The pre-edit channel for all of the messages with Ids in `message_ids`.  **Changes**: As of Zulip 5.0 (feature level 112), this field is present for all edits to a channel message. Previously, it was not present when only the content of the channel message was edited.
-	StreamId *int64 `json:"stream_id,omitempty"`
+	ChannelId *int64 `json:"stream_id,omitempty"`
 	// Only present if message(s) were moved to a different channel.  The post-edit channel for all of the messages with Ids in `message_ids`.
-	NewStreamId *int64 `json:"new_stream_id,omitempty"`
+	NewChannelId *int64 `json:"new_stream_id,omitempty"`
 	// Only present if this event moved messages to a different topic and/or channel.  The choice the editing user made about which messages should be affected by a channel/topic edit:  - `\"change_one\"`: Just change the one indicated in `message_id`. - `\"change_later\"`: Change messages in the same topic that had   been sent after this one. - `\"change_all\"`: Change all messages in that topic.  This parameter should be used to decide whether to change navigation and compose box state in response to the edit. For example, if the user was previously in topic narrow, and the topic was edited with `\"change_later\"` or `\"change_all\"`, the Zulip web app will automatically navigate to the new topic narrow. Similarly, a message being composed to the old topic should have its recipient changed to the new topic.  This navigation makes it much more convenient to move content between topics without disruption or messages continuing to be sent to the pre-edit topic by accident.
 	PropagateMode *string `json:"propagate_mode,omitempty"`
 	// Only present if this event moved messages to a different topic and/or channel.  The pre-edit topic for all of the messages with Ids in `message_ids`.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual pre-edit topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
@@ -571,7 +571,7 @@ type TypingEvent struct {
 	// Only present if `message_type` is `\"direct\"`.  Array of dictionaries describing the set of users who would be recipients of the message being typed. Each dictionary contains details about one of the recipients. The sending user is guaranteed to appear among the recipients.
 	Recipients []UserIdentifier `json:"recipients,omitempty"`
 	// Only present if `message_type` is `\"stream\"`.  The unique Id of the channel to which message is being typed.  **Changes**: New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
-	StreamId *int64 `json:"stream_id,omitempty"`
+	ChannelId *int64 `json:"stream_id,omitempty"`
 	// Only present if `message_type` is `\"stream\"`.  Topic within the channel where the message is being typed.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
 }
@@ -657,7 +657,7 @@ type MessageDetail struct {
 	// Present only if `type` is `private`.  The user Ids of every recipient of this direct message, excluding yourself. Will be the empty list for a message you had sent to only yourself.
 	UserIds []int64 `json:"user_ids,omitempty"`
 	// Present only if `type` is `\"stream\"`.  The Id of the channel where the message was sent.
-	StreamId *int64 `json:"stream_id,omitempty"`
+	ChannelId *int64 `json:"stream_id,omitempty"`
 	// Present only if `type` is `\"stream\"`.  Name of the topic where the message was sent.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
 	// **Deprecated** internal implementation detail. Clients should ignore this field as it will be removed in the future.
@@ -744,7 +744,7 @@ type SubscriptionRemoveEvent struct {
 // SubscriptionRemoveData Dictionary containing details about the unsubscribed channel.
 type SubscriptionRemoveData struct {
 	// The Id of the channel.
-	StreamId int64 `json:"stream_id,omitempty"`
+	ChannelId int64 `json:"stream_id,omitempty"`
 	// The name of the channel.
 	Name string `json:"name,omitempty"`
 }
@@ -904,7 +904,7 @@ type DraftsUpdateEvent struct {
 type SubscriptionUpdateEvent struct {
 	EventCommonWithOp
 
-	StreamId int64 `json:"stream_id,omitempty"`
+	ChannelId int64 `json:"stream_id,omitempty"`
 	// The property of the subscription which has changed. For details on the various subscription properties that a user can change, see [POST /users/me/subscriptions/properties](zulip.com/api/update-subscription-settings.  Clients should generally handle an unknown property received here without crashing, since that will naturally happen when connecting to a Zulip server running a new version that adds a new subscription property.  **Changes**: As of Zulip 6.0 (feature level 139), updates to the `is_muted` property or the deprecated `in_home_view` property will send two `subscription` update events, one for each property, to support clients fully migrating to use the `is_muted` property. Prior to this feature level, updates to either property only sent one event with the deprecated `in_home_view` property.
 	Property string      `json:"property,omitempty"`
 	Value    UpdateValue `json:"value,omitempty"`
@@ -995,7 +995,7 @@ type SubscriptionPeerAddEvent struct {
 	EventCommonWithOp
 
 	// The Ids of channels that have new or updated subscriber data.  **Changes**: New in Zulip 4.0 (feature level 35), replacing the `stream_id` integer.
-	StreamIds []int64 `json:"stream_ids,omitempty"`
+	ChannelIds []int64 `json:"stream_ids,omitempty"`
 	// The Ids of the users who are newly visible as subscribed to the specified channels.  **Changes**: New in Zulip 4.0 (feature level 35), replacing the `user_id` integer.
 	UserIds []int64 `json:"user_ids,omitempty"`
 }
@@ -1064,7 +1064,7 @@ type SubscriptionPeerRemoveEvent struct {
 	EventCommonWithOp
 
 	// The Ids of the channels from which the users have been unsubscribed from.  When a user is deactivated, the server will send this event removing the user's subscriptions before the `realm_user` event for the user's deactivation.  **Changes**: Before Zulip 10.0 (feature level 377), this event was not sent on user deactivation. Clients supporting older server versions and maintaining peer subscriber data need to remove all channel subscriptions for a user when processing the `realm_user` event with `op=\"remove\"`.  **Changes**: New in Zulip 4.0 (feature level 35), replacing the `stream_id` integer.
-	StreamIds []int64 `json:"stream_ids,omitempty"`
+	ChannelIds []int64 `json:"stream_ids,omitempty"`
 	// The Ids of the users who have been unsubscribed.  **Changes**: New in Zulip 4.0 (feature level 35), replacing the `user_id` integer.
 	UserIds []int64 `json:"user_ids,omitempty"`
 }

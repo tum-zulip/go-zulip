@@ -25,15 +25,15 @@ func Test_InvitesAPIService(t *testing.T) {
 
 	t.Run("InviteLinkLifecycle", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
-		streamName, streamId := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
+		channelName, channelId := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
 
 		baseline := inviteSnapshot(t, ctx, apiClient)
 
 		resp, httpRes, err := apiClient.CreateInviteLink(ctx).
-			StreamIds([]int64{streamId}).
+			ChannelIds([]int64{channelId}).
 			IncludeRealmDefaultSubscriptions(true).
 			InviteExpiresInMinutes(60).
-			WelcomeMessageCustomText(fmt.Sprintf("Welcome via %s", streamName)).
+			WelcomeMessageCustomText(fmt.Sprintf("Welcome via %s", channelName)).
 			Execute()
 
 		require.NoError(t, err)
@@ -63,14 +63,14 @@ func Test_InvitesAPIService(t *testing.T) {
 
 	t.Run("EmailInviteLifecycle", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
-		_, streamId := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
+		_, channelId := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
 		invitee := fmt.Sprintf("%s@example.com", strings.ToLower(uniqueName("invitee")))
 
 		baseline := inviteSnapshot(t, ctx, apiClient)
 
 		resp, httpRes, err := apiClient.SendInvites(ctx).
 			InviteeEmails(invitee).
-			StreamIds([]int64{streamId}).
+			ChannelIds([]int64{channelId}).
 			InviteExpiresInMinutes(60).
 			NotifyReferrerOnJoin(true).
 			Execute()

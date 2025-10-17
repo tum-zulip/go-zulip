@@ -38,13 +38,13 @@ type UserSettings struct {
 	// The user's configured [emoji set](zulip.com/help/emoji-and-emoticons#use-emoticons, used to display emoji to the user everywhere they appear in the UI.  - \"google\" - Google modern - \"google-blob\" - Google classic - \"twitter\" - Twitter - \"text\" - Plain text
 	Emojiset Emojiset `json:"emojiset,omitempty"`
 	// Whether to [hide inactive channels](zulip.com/help/manage-inactive-channels) in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never
-	DemoteInactiveStreams DemoteInactiveStreams `json:"demote_inactive_streams,omitempty"`
+	DemoteInactiveChannels DemoteInactiveChannels `json:"demote_inactive_streams,omitempty"`
 	// The style selected by the user for the right sidebar user list.  - 1 - Compact - 2 - With status - 3 - With avatar and status  **Changes**: New in Zulip 6.0 (feature level 141).
 	UserListStyle UserListStyle `json:"user_list_style,omitempty"`
 	// Controls how animated images should be played in the message feed in the web/desktop application.  - \"always\" - Always play the animated images in the message feed. - \"on_hover\" - Play the animated images on hover over them in the message feed. - \"never\" - Never play animated images in the message feed.  **Changes**: New in Zulip 9.0 (feature level 275).
 	WebAnimateImagePreviews WebAnimateImagePreviews `json:"web_animate_image_previews,omitempty"`
 	// Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.  - 1 - All channels - 2 - Unmuted channels and topics - 3 - No channels  **Changes**: New in Zulip 8.0 (feature level 210).
-	WebStreamUnreadsCountDisplayPolicy WebStreamUnreadsCountDisplayPolicy `json:"web_stream_unreads_count_display_policy,omitempty"`
+	WebChannelUnreadsCountDisplayPolicy WebChannelUnreadsCountDisplayPolicy `json:"web_stream_unreads_count_display_policy,omitempty"`
 	// Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.  **Changes**: New in Zulip 10.0 (feature level 350).
 	HideAiFeatures bool `json:"hide_ai_features,omitempty"`
 	// Determines whether the web/desktop application's left sidebar displays any channel folders configured by the organization.  **Changes**: New in Zulip 11.0 (feature level 411).
@@ -58,13 +58,13 @@ type UserSettings struct {
 	// A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.
 	EnableDraftsSynchronization bool `json:"enable_drafts_synchronization,omitempty"`
 	// Enable visual desktop notifications for channel messages.
-	EnableStreamDesktopNotifications bool `json:"enable_stream_desktop_notifications,omitempty"`
+	EnableChannelDesktopNotifications bool `json:"enable_stream_desktop_notifications,omitempty"`
 	// Enable email notifications for channel messages.
-	EnableStreamEmailNotifications bool `json:"enable_stream_email_notifications,omitempty"`
+	EnableChannelEmailNotifications bool `json:"enable_stream_email_notifications,omitempty"`
 	// Enable mobile notifications for channel messages.
-	EnableStreamPushNotifications bool `json:"enable_stream_push_notifications,omitempty"`
+	EnableChannelPushNotifications bool `json:"enable_stream_push_notifications,omitempty"`
 	// Enable audible desktop notifications for channel messages.
-	EnableStreamAudibleNotifications bool `json:"enable_stream_audible_notifications,omitempty"`
+	EnableChannelAudibleNotifications bool `json:"enable_stream_audible_notifications,omitempty"`
 	// Notification sound name.
 	NotificationSound string `json:"notification_sound,omitempty"`
 	// Enable visual desktop notifications for direct messages and @-mentions.
@@ -108,7 +108,7 @@ type UserSettings struct {
 	// Which [topics to follow automatically](zulip.com/help/mute-a-topic.  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
 	AutomaticallyFollowTopicsPolicy AutomaticallyFollowTopicsPolicy `json:"automatically_follow_topics_policy,omitempty"`
 	// Which [topics to unmute automatically in muted channels](zulip.com/help/mute-a-topic.  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
-	AutomaticallyUnmuteTopicsInMutedStreamsPolicy AutomaticallyUnmuteTopicsInMutedStreamsPolicy `json:"automatically_unmute_topics_in_muted_streams_policy,omitempty"`
+	AutomaticallyUnmuteTopicsInMutedChannelsPolicy AutomaticallyUnmuteTopicsInMutedChannelsPolicy `json:"automatically_unmute_topics_in_muted_streams_policy,omitempty"`
 	// Whether the server will automatically mark the user as following topics where the user is mentioned.  **Changes**: New in Zulip 8.0 (feature level 235).
 	AutomaticallyFollowTopicsWhereMentioned bool `json:"automatically_follow_topics_where_mentioned,omitempty"`
 	// Controls whether the resolved-topic notices are marked as read.  - \"always\" - Always mark resolved-topic notices as read. - \"except_followed\" - Mark resolved-topic notices as read in topics not followed by the user. - \"never\" - Never mark resolved-topic notices as read.  **Changes**: New in Zulip 11.0 (feature level 385).
@@ -122,7 +122,7 @@ type UserSettings struct {
 	// Whether the user has chosen to send [typing notifications](zulip.com/help/typing-notifications) when composing direct messages. The client should send typing notifications for direct messages if and only if this setting is enabled.  **Changes**: New in Zulip 5.0 (feature level 105).
 	SendPrivateTypingNotifications bool `json:"send_private_typing_notifications,omitempty"`
 	// Whether the user has chosen to send [typing notifications](zulip.com/help/typing-notifications) when composing channel messages. The client should send typing notifications for channel messages if and only if this setting is enabled.  **Changes**: New in Zulip 5.0 (feature level 105).
-	SendStreamTypingNotifications bool `json:"send_stream_typing_notifications,omitempty"`
+	SendChannelTypingNotifications bool `json:"send_stream_typing_notifications,omitempty"`
 	// Whether other users are allowed to see whether you've read messages.  **Changes**: New in Zulip 5.0 (feature level 105).
 	SendReadReceipts bool `json:"send_read_receipts,omitempty"`
 	// Whether organization administrators are allowed to export your private data.  **Changes**: New in Zulip 10.0 (feature level 293).

@@ -25,6 +25,8 @@ import (
 
 func Test_MessagesAPIService(t *testing.T) {
 
+	otherClient := GetOtherNormalClient(t)
+
 	channelName, channelId := createChannelWithAllClients(t)
 
 	t.Parallel()
@@ -48,15 +50,11 @@ func Test_MessagesAPIService(t *testing.T) {
 
 		msg := createChannelMessage(t, apiClient, channelId)
 
-		// TODO: better Narrow construction/interface
-		narrow := []map[string]interface{}{
-			{"operator": "stream", "operand": channelName},
-			{"operator": "topic", "operand": msg.topic},
-		}
-
 		resp, httpRes, err := apiClient.CheckMessagesMatchNarrow(ctx).
 			MsgIds([]int64{msg.messageId}).
-			Narrow(narrow).
+			Narrow(zulip.NewNarrow().
+				Where(zulip.ChannelNameIs(channelName)).
+				Where(zulip.TopicIs(msg.topic))).
 			Execute()
 
 		require.NoError(t, err)
@@ -64,9 +62,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 
 		key := strconv.Itoa(int(msg.messageId))
-		if resp.Messages != nil {
-			assert.Contains(t, resp.Messages, key)
-		}
+		assert.Contains(t, resp.Messages, key)
 	}))
 
 	t.Run("DeleteMessage", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
@@ -133,17 +129,14 @@ func Test_MessagesAPIService(t *testing.T) {
 
 		msg := createChannelMessage(t, apiClient, channelId)
 
-		narrow := []map[string]interface{}{
-			{"operator": "stream", "operand": channelName},
-			{"operator": "topic", "operand": msg.topic},
-		}
-
 		resp, httpRes, err := apiClient.GetMessages(ctx).
 			Anchor(strconv.Itoa(int(msg.messageId))).
 			IncludeAnchor(true).
 			NumBefore(0).
 			NumAfter(0).
-			Narrow(narrow).
+			Narrow(zulip.NewNarrow().
+				Where(zulip.ChannelNameIs(channelName)).
+				Where(zulip.TopicIs(msg.topic))).
 			Execute()
 
 		require.NoError(t, err)
@@ -174,13 +167,13 @@ func Test_MessagesAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	}))
 
-	t.Run("MarkStreamAsRead", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("MarkChannelAsRead", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.MarkStreamAsRead(ctx).
-			StreamId(msg.channelId).
+		resp, httpRes, err := apiClient.MarkChannelAsRead(ctx).
+			ChannelId(msg.channelId).
 			Execute()
 
 		require.NoError(t, err)
@@ -191,10 +184,12 @@ func Test_MessagesAPIService(t *testing.T) {
 	t.Run("MarkTopicAsRead", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 
-		msg := createChannelMessage(t, apiClient, channelId)
+		msg := createChannelMessage(t, otherClient, channelId)
 
-		resp, httpRes, err := apiClient.MarkTopicAsRead(ctx).
-			StreamId(msg.channelId).
+		// mark the topic as read using the same client that created the message,
+		// since the topic may not be visible to other clients immediately.
+		resp, httpRes, err := otherClient.MarkTopicAsRead(ctx).
+			ChannelId(msg.channelId).
 			TopicName(msg.topic).
 			Execute()
 
@@ -320,19 +315,14 @@ func Test_MessagesAPIService(t *testing.T) {
 
 		msg := createChannelMessage(t, apiClient, channelId)
 
-		// streamOperand := UpdateFlagsNarrowOperandFromString(&msg.streamName)
-		// topicOperand := UpdateFlagsNarrowOperandFromString(&msg.topic)
-		// streamFilter := NewUpdateFlagsNarrowFilter("stream", streamOperand)
-		// topicFilter := NewUpdateFlagsNarrowFilter("topic", topicOperand)
-		// TODO
-		narrow := []zulip.UpdateFlagsNarrowClause{}
-
 		resp, httpRes, err := apiClient.UpdateMessageFlagsForNarrow(ctx).
 			Anchor(strconv.Itoa(int(msg.messageId))).
 			NumBefore(0).
 			NumAfter(0).
 			IncludeAnchor(true).
-			Narrow(narrow).
+			Narrow(zulip.NewNarrow().
+				Where(zulip.ChannelNameIs(channelName)).
+				Where(zulip.TopicIs(msg.topic))).
 			Op("add").
 			Flag("starred").
 			Execute()
@@ -352,13 +342,13 @@ func Test_MessagesAPIService(t *testing.T) {
 	}))
 }
 
-type streamMessage struct {
+type channelMessage struct {
 	channelId int64
 	topic     string
 	messageId int64
 }
 
-func createChannelMessage(t *testing.T, apiClient zulip.Client, channelId int64) streamMessage {
+func createChannelMessage(t *testing.T, apiClient zulip.Client, channelId int64) channelMessage {
 	t.Helper()
 
 	topic := uniqueName("topic")
@@ -366,7 +356,7 @@ func createChannelMessage(t *testing.T, apiClient zulip.Client, channelId int64)
 	messageId := sendChannelMessage(t, apiClient, channelId, topic, content)
 	assert.Greater(t, messageId, int64(0))
 
-	return streamMessage{
+	return channelMessage{
 		channelId: channelId,
 		topic:     topic,
 		messageId: messageId,

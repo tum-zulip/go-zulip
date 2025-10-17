@@ -24,33 +24,33 @@ type GetChannelFoldersResponse struct {
 	ChannelFolders []ChannelFolder `json:"channel_folders,omitempty"`
 }
 
-type GetStreamResponse struct {
+type GetChannelResponse struct {
 	Response
-	Stream Channel `json:"stream,omitempty"`
+	Channel Channel `json:"stream,omitempty"`
 }
 
-// GetStreamsResponse struct for GetStreamsResponse
-type GetStreamsResponse struct {
+// GetChannelsResponse struct for GetChannelsResponse
+type GetChannelsResponse struct {
 	Response
 	// A list of channel objects with details on the requested channels.
-	Streams []ChannelWithIsDefault `json:"streams,omitempty"`
+	Channels []ChannelWithIsDefault `json:"streams,omitempty"`
 }
 
-type GetStreamEmailAddressResponse struct {
+type GetChannelEmailAddressResponse struct {
 	Response
 	// Email address of the channel.
 	Email string `json:"email,omitempty"`
 }
 
-// GetStreamIdResponse struct for GetStreamIdResponse
-type GetStreamIdResponse struct {
+// GetChannelIdResponse struct for GetChannelIdResponse
+type GetChannelIdResponse struct {
 	Response
 	// The Id of the given channel.
-	StreamId int64 `json:"stream_id,omitempty"`
+	ChannelId int64 `json:"stream_id,omitempty"`
 }
 
-// GetStreamTopicsResponse struct for GetStreamTopicsResponse
-type GetStreamTopicsResponse struct {
+// GetChannelTopicsResponse struct for GetChannelTopicsResponse
+type GetChannelTopicsResponse struct {
 	Response
 	// An array of objects with information about user-accessible topics in the specified channel, sorted by recency (i.e., the topic with the most recent message is ordered first).
 	Topics []Topic `json:"topics,omitempty"`

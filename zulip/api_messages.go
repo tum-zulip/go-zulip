@@ -265,7 +265,7 @@ type MessagesAPI interface {
 	MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error)
 
 	/*
-			MarkStreamAsRead Mark messages in a channel as read
+			MarkChannelAsRead Mark messages in a channel as read
 
 			Mark all the unread messages in a channel as read.
 
@@ -275,16 +275,16 @@ type MessagesAPI interface {
 
 
 			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return MarkStreamAsReadRequest
+			@return MarkChannelAsReadRequest
 
 			Deprecated
 	*/
-	MarkStreamAsRead(ctx context.Context) MarkStreamAsReadRequest
+	MarkChannelAsRead(ctx context.Context) MarkChannelAsReadRequest
 
-	// MarkStreamAsReadExecute executes the request
+	// MarkChannelAsReadExecute executes the request
 	//  @return Response
 	// Deprecated
-	MarkStreamAsReadExecute(r MarkStreamAsReadRequest) (*Response, *http.Response, error)
+	MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Response, *http.Response, error)
 
 	/*
 			MarkTopicAsRead Mark messages in a topic as read
@@ -714,7 +714,7 @@ type CheckMessagesMatchNarrowRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
 	msgIds     *[]int64
-	narrow     *[]map[string]interface{}
+	narrow     *Narrow
 }
 
 // List of Ids for the messages to check.
@@ -724,8 +724,8 @@ func (r CheckMessagesMatchNarrowRequest) MsgIds(msgIds []int64) CheckMessagesMat
 }
 
 // A structure defining the narrow to check against. See how to [construct a narrow](zulip.com/api/construct-narrow.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
-func (r CheckMessagesMatchNarrowRequest) Narrow(narrow []map[string]interface{}) CheckMessagesMatchNarrowRequest {
-	r.narrow = &narrow
+func (r CheckMessagesMatchNarrowRequest) Narrow(narrow *Narrow) CheckMessagesMatchNarrowRequest {
+	r.narrow = narrow
 	return r
 }
 
@@ -1366,7 +1366,7 @@ type GetMessagesRequest struct {
 	includeAnchor        *bool
 	numBefore            *int32
 	numAfter             *int32
-	narrow               *[]map[string]interface{}
+	narrow               *Narrow
 	clientGravatar       *bool
 	applyMarkdown        *bool
 	useFirstUnreadAnchor *bool
@@ -1399,8 +1399,8 @@ func (r GetMessagesRequest) NumAfter(numAfter int32) GetMessagesRequest {
 }
 
 // The narrow where you want to fetch the messages from. See how to [construct a narrow](zulip.com/api/construct-narrow.  Note that many narrows, including all that lack a &#x60;channel&#x60;, &#x60;channels&#x60;, &#x60;stream&#x60;, or &#x60;streams&#x60; operator, search the user&#39;s personal message history. See [searching shared history](zulip.com/help/search-for-messages#search-shared-history for details.  For example, if you would like to fetch messages from all public channels instead of only the user&#39;s message history, then a specific narrow for messages sent to all public channels can be used: &#x60;{\&quot;operator\&quot;: \&quot;channels\&quot;, \&quot;operand\&quot;: \&quot;public\&quot;}&#x60;.  Newly created bot users are not usually subscribed to any channels, so bots using this API should either be subscribed to appropriate channels or use a shared history search narrow with this endpoint.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
-func (r GetMessagesRequest) Narrow(narrow []map[string]interface{}) GetMessagesRequest {
-	r.narrow = &narrow
+func (r GetMessagesRequest) Narrow(narrow *Narrow) GetMessagesRequest {
+	r.narrow = narrow
 	return r
 }
 
@@ -1524,7 +1524,7 @@ func (c *simpleClient) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesRes
 	if r.narrow != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "narrow", r.narrow, "", "csv")
 	} else {
-		var defaultValue []map[string]interface{} = []map[string]interface{}{}
+		var defaultValue Narrow = Narrow{}
 		r.narrow = &defaultValue
 	}
 	if r.clientGravatar != nil {
@@ -1865,24 +1865,24 @@ func (c *simpleClient) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsR
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type MarkStreamAsReadRequest struct {
+type MarkChannelAsReadRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
-	streamId   *int64
+	channelId  *int64
 }
 
 // The Id of the channel to access.
-func (r MarkStreamAsReadRequest) StreamId(streamId int64) MarkStreamAsReadRequest {
-	r.streamId = &streamId
+func (r MarkChannelAsReadRequest) ChannelId(channelId int64) MarkChannelAsReadRequest {
+	r.channelId = &channelId
 	return r
 }
 
-func (r MarkStreamAsReadRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.MarkStreamAsReadExecute(r)
+func (r MarkChannelAsReadRequest) Execute() (*Response, *http.Response, error) {
+	return r.ApiService.MarkChannelAsReadExecute(r)
 }
 
 /*
-MarkStreamAsRead Mark messages in a channel as read
+MarkChannelAsRead Mark messages in a channel as read
 
 Mark all the unread messages in a channel as read.
 
@@ -1891,12 +1891,12 @@ flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instea
 as this endpoint will be removed in a future release.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return MarkStreamAsReadRequest
+	@return MarkChannelAsReadRequest
 
 Deprecated
 */
-func (c *simpleClient) MarkStreamAsRead(ctx context.Context) MarkStreamAsReadRequest {
-	return MarkStreamAsReadRequest{
+func (c *simpleClient) MarkChannelAsRead(ctx context.Context) MarkChannelAsReadRequest {
+	return MarkChannelAsReadRequest{
 		ApiService: c,
 		ctx:        ctx,
 	}
@@ -1907,7 +1907,7 @@ func (c *simpleClient) MarkStreamAsRead(ctx context.Context) MarkStreamAsReadReq
 //	@return Response
 //
 // Deprecated
-func (c *simpleClient) MarkStreamAsReadExecute(r MarkStreamAsReadRequest) (*Response, *http.Response, error) {
+func (c *simpleClient) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1925,8 +1925,8 @@ func (c *simpleClient) MarkStreamAsReadExecute(r MarkStreamAsReadRequest) (*Resp
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.streamId == nil {
-		return localVarReturnValue, nil, reportError("streamId is required and must be specified")
+	if r.channelId == nil {
+		return localVarReturnValue, nil, reportError("channelId is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -1946,7 +1946,7 @@ func (c *simpleClient) MarkStreamAsReadExecute(r MarkStreamAsReadRequest) (*Resp
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
 	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -1987,13 +1987,13 @@ func (c *simpleClient) MarkStreamAsReadExecute(r MarkStreamAsReadRequest) (*Resp
 type MarkTopicAsReadRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
-	streamId   *int64
+	channelId  *int64
 	topicName  *string
 }
 
 // The Id of the channel to access.
-func (r MarkTopicAsReadRequest) StreamId(streamId int64) MarkTopicAsReadRequest {
-	r.streamId = &streamId
+func (r MarkTopicAsReadRequest) ChannelId(channelId int64) MarkTopicAsReadRequest {
+	r.channelId = &channelId
 	return r
 }
 
@@ -2051,8 +2051,8 @@ func (c *simpleClient) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Respon
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.streamId == nil {
-		return localVarReturnValue, nil, reportError("streamId is required and must be specified")
+	if r.channelId == nil {
+		return localVarReturnValue, nil, reportError("channelId is required and must be specified")
 	}
 	if r.topicName == nil {
 		return localVarReturnValue, nil, reportError("topicName is required and must be specified")
@@ -2075,7 +2075,7 @@ func (c *simpleClient) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Respon
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "topic_name", r.topicName, "", "")
 	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -2710,7 +2710,7 @@ type UpdateMessageRequest struct {
 	sendNotificationToNewThread *bool
 	content                     *string
 	prevContentSha256           *string
-	streamId                    *int64
+	channelId                   *int64
 }
 
 // The topic to move the message(s) to, to request changing the topic.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum topic length  Should only be sent when changing the topic, and will throw an error if the target message is not a channel message.  Note: When the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  You can [resolve topics](zulip.com/help/resolve-a-topic) by editing the topic to &#x60;✔ {original_topic}&#x60; with the &#x60;propagate_mode&#x60; parameter set to &#x60;\\\&quot;change_all\\\&quot;&#x60;. The empty string topic cannot be marked as resolved.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as &#x60;subject&#x60;, which is currently a deprecated alias.
@@ -2750,8 +2750,8 @@ func (r UpdateMessageRequest) PrevContentSha256(prevContentSha256 string) Update
 }
 
 // The channel Id to move the message(s) to, to request moving messages to another channel.  Should only be sent when changing the channel, and will throw an error if the target message is not a channel message.  Note that a message&#39;s content and channel cannot be changed at the same time, so sending both &#x60;content&#x60; and &#x60;stream_id&#x60; parameters will throw an error.  **Changes**: New in Zulip 3.0 (feature level 1).
-func (r UpdateMessageRequest) StreamId(streamId int64) UpdateMessageRequest {
-	r.streamId = &streamId
+func (r UpdateMessageRequest) ChannelId(channelId int64) UpdateMessageRequest {
+	r.channelId = &channelId
 	return r
 }
 
@@ -2916,8 +2916,8 @@ func (c *simpleClient) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMess
 	if r.prevContentSha256 != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "prev_content_sha256", r.prevContentSha256, "", "")
 	}
-	if r.streamId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
+	if r.channelId != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
 	}
 	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -3109,7 +3109,7 @@ type UpdateMessageFlagsForNarrowRequest struct {
 	anchor        *string
 	numBefore     *int32
 	numAfter      *int32
-	narrow        *[]UpdateFlagsNarrowClause
+	narrow        *Narrow
 	op            *string
 	flag          *string
 	includeAnchor *bool
@@ -3134,8 +3134,8 @@ func (r UpdateMessageFlagsForNarrowRequest) NumAfter(numAfter int32) UpdateMessa
 }
 
 // The narrow you want update flags within. See how to [construct a narrow](zulip.com/api/construct-narrow.  Note that, when adding the &#x60;read&#x60; flag to messages, clients should consider including a narrow with the &#x60;is:unread&#x60; filter as an optimization. Including that filter takes advantage of the fact that the server has a database index for unread messages.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
-func (r UpdateMessageFlagsForNarrowRequest) Narrow(narrow []UpdateFlagsNarrowClause) UpdateMessageFlagsForNarrowRequest {
-	r.narrow = &narrow
+func (r UpdateMessageFlagsForNarrowRequest) Narrow(narrow *Narrow) UpdateMessageFlagsForNarrowRequest {
+	r.narrow = narrow
 	return r
 }
 

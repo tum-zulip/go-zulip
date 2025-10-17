@@ -2556,66 +2556,66 @@ func (c *simpleClient) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Respon
 }
 
 type UpdateRealmUserSettingsDefaultsRequest struct {
-	ctx                                           context.Context
-	ApiService                                    ServerAndOrganizationsAPI
-	starredMessageCounts                          *bool
-	receivesTypingNotifications                   *bool
-	webSuggestUpdateTimezone                      *bool
-	fluidLayoutWidth                              *bool
-	highContrastMode                              *bool
-	webMarkReadOnScrollPolicy                     *int32
-	webChannelDefaultView                         *int32
-	webFontSizePx                                 *int32
-	webLineHeightPercent                          *int32
-	colorScheme                                   *ColorScheme
-	enableDraftsSynchronization                   *bool
-	translateEmoticons                            *bool
-	displayEmojiReactionUsers                     *bool
-	webHomeView                                   *string
-	webEscapeNavigatesToHomeView                  *bool
-	leftSideUserlist                              *bool
-	emojiset                                      *string
-	demoteInactiveStreams                         *int32
-	userListStyle                                 *int32
-	webAnimateImagePreviews                       *string
-	webStreamUnreadsCountDisplayPolicy            *int32
-	hideAiFeatures                                *bool
-	webLeftSidebarShowChannelFolders              *bool
-	webLeftSidebarUnreadsCountSummary             *bool
-	enableStreamDesktopNotifications              *bool
-	enableStreamEmailNotifications                *bool
-	enableStreamPushNotifications                 *bool
-	enableStreamAudibleNotifications              *bool
-	notificationSound                             *string
-	enableDesktopNotifications                    *bool
-	enableSounds                                  *bool
-	enableFollowedTopicDesktopNotifications       *bool
-	enableFollowedTopicEmailNotifications         *bool
-	enableFollowedTopicPushNotifications          *bool
-	enableFollowedTopicAudibleNotifications       *bool
-	emailNotificationsBatchingPeriodSeconds       *int32
-	enableOfflineEmailNotifications               *bool
-	enableOfflinePushNotifications                *bool
-	enableOnlinePushNotifications                 *bool
-	enableDigestEmails                            *bool
-	messageContentInEmailNotifications            *bool
-	pmContentInDesktopNotifications               *bool
-	wildcardMentionsNotify                        *bool
-	enableFollowedTopicWildcardMentionsNotify     *bool
-	desktopIconCountDisplay                       *int32
-	realmNameInEmailNotificationsPolicy           *int32
-	automaticallyFollowTopicsPolicy               *int32
-	automaticallyUnmuteTopicsInMutedStreamsPolicy *int32
-	automaticallyFollowTopicsWhereMentioned       *bool
-	resolvedTopicNoticeAutoReadPolicy             *string
-	presenceEnabled                               *bool
-	enterSends                                    *bool
-	twentyFourHourTime                            *bool
-	sendPrivateTypingNotifications                *bool
-	sendStreamTypingNotifications                 *bool
-	sendReadReceipts                              *bool
-	emailAddressVisibility                        *int32
-	webNavigateToSentMessage                      *bool
+	ctx                                            context.Context
+	ApiService                                     ServerAndOrganizationsAPI
+	starredMessageCounts                           *bool
+	receivesTypingNotifications                    *bool
+	webSuggestUpdateTimezone                       *bool
+	fluidLayoutWidth                               *bool
+	highContrastMode                               *bool
+	webMarkReadOnScrollPolicy                      *int32
+	webChannelDefaultView                          *int32
+	webFontSizePx                                  *int32
+	webLineHeightPercent                           *int32
+	colorScheme                                    *ColorScheme
+	enableDraftsSynchronization                    *bool
+	translateEmoticons                             *bool
+	displayEmojiReactionUsers                      *bool
+	webHomeView                                    *string
+	webEscapeNavigatesToHomeView                   *bool
+	leftSideUserlist                               *bool
+	emojiset                                       *string
+	demoteInactiveChannels                         *DemoteInactiveChannels
+	userListStyle                                  *int32
+	webAnimateImagePreviews                        *string
+	webChannelUnreadsCountDisplayPolicy            *int32
+	hideAiFeatures                                 *bool
+	webLeftSidebarShowChannelFolders               *bool
+	webLeftSidebarUnreadsCountSummary              *bool
+	enableChannelDesktopNotifications              *bool
+	enableChannelEmailNotifications                *bool
+	enableChannelPushNotifications                 *bool
+	enableChannelAudibleNotifications              *bool
+	notificationSound                              *string
+	enableDesktopNotifications                     *bool
+	enableSounds                                   *bool
+	enableFollowedTopicDesktopNotifications        *bool
+	enableFollowedTopicEmailNotifications          *bool
+	enableFollowedTopicPushNotifications           *bool
+	enableFollowedTopicAudibleNotifications        *bool
+	emailNotificationsBatchingPeriodSeconds        *int32
+	enableOfflineEmailNotifications                *bool
+	enableOfflinePushNotifications                 *bool
+	enableOnlinePushNotifications                  *bool
+	enableDigestEmails                             *bool
+	messageContentInEmailNotifications             *bool
+	pmContentInDesktopNotifications                *bool
+	wildcardMentionsNotify                         *bool
+	enableFollowedTopicWildcardMentionsNotify      *bool
+	desktopIconCountDisplay                        *int32
+	realmNameInEmailNotificationsPolicy            *int32
+	automaticallyFollowTopicsPolicy                *int32
+	automaticallyUnmuteTopicsInMutedChannelsPolicy *int32
+	automaticallyFollowTopicsWhereMentioned        *bool
+	resolvedTopicNoticeAutoReadPolicy              *string
+	presenceEnabled                                *bool
+	enterSends                                     *bool
+	twentyFourHourTime                             *bool
+	sendPrivateTypingNotifications                 *bool
+	sendChannelTypingNotifications                 *bool
+	sendReadReceipts                               *bool
+	emailAddressVisibility                         *int32
+	webNavigateToSentMessage                       *bool
 }
 
 // Whether clients should display the [number of starred messages](zulip.com/help/star-a-message#display-the-number-of-starred-messages.
@@ -2721,8 +2721,8 @@ func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset string) Update
 }
 
 // Whether to [hide inactive channels](zulip.com/help/manage-inactive-channels) in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never
-func (r UpdateRealmUserSettingsDefaultsRequest) DemoteInactiveStreams(demoteInactiveStreams int32) UpdateRealmUserSettingsDefaultsRequest {
-	r.demoteInactiveStreams = &demoteInactiveStreams
+func (r UpdateRealmUserSettingsDefaultsRequest) DemoteInactiveChannels(demoteInactiveChannels DemoteInactiveChannels) UpdateRealmUserSettingsDefaultsRequest {
+	r.demoteInactiveChannels = &demoteInactiveChannels
 	return r
 }
 
@@ -2739,8 +2739,8 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(webAnima
 }
 
 // Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.  - 1 - All channels - 2 - Unmuted channels and topics - 3 - No channels  **Changes**: New in Zulip 8.0 (feature level 210).
-func (r UpdateRealmUserSettingsDefaultsRequest) WebStreamUnreadsCountDisplayPolicy(webStreamUnreadsCountDisplayPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
-	r.webStreamUnreadsCountDisplayPolicy = &webStreamUnreadsCountDisplayPolicy
+func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnreadsCountDisplayPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
+	r.webChannelUnreadsCountDisplayPolicy = &webChannelUnreadsCountDisplayPolicy
 	return r
 }
 
@@ -2763,26 +2763,26 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarUnreadsCountSummar
 }
 
 // Enable visual desktop notifications for channel messages.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableStreamDesktopNotifications(enableStreamDesktopNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
-	r.enableStreamDesktopNotifications = &enableStreamDesktopNotifications
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableChannelDesktopNotifications(enableChannelDesktopNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+	r.enableChannelDesktopNotifications = &enableChannelDesktopNotifications
 	return r
 }
 
 // Enable email notifications for channel messages.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableStreamEmailNotifications(enableStreamEmailNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
-	r.enableStreamEmailNotifications = &enableStreamEmailNotifications
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableChannelEmailNotifications(enableChannelEmailNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+	r.enableChannelEmailNotifications = &enableChannelEmailNotifications
 	return r
 }
 
 // Enable mobile notifications for channel messages.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableStreamPushNotifications(enableStreamPushNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
-	r.enableStreamPushNotifications = &enableStreamPushNotifications
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableChannelPushNotifications(enableChannelPushNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+	r.enableChannelPushNotifications = &enableChannelPushNotifications
 	return r
 }
 
 // Enable audible desktop notifications for channel messages.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableStreamAudibleNotifications(enableStreamAudibleNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
-	r.enableStreamAudibleNotifications = &enableStreamAudibleNotifications
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableChannelAudibleNotifications(enableChannelAudibleNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+	r.enableChannelAudibleNotifications = &enableChannelAudibleNotifications
 	return r
 }
 
@@ -2901,8 +2901,8 @@ func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(
 }
 
 // Which [topics to unmute automatically in muted channels](zulip.com/help/mute-a-topic.  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
-func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMutedStreamsPolicy(automaticallyUnmuteTopicsInMutedStreamsPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
-	r.automaticallyUnmuteTopicsInMutedStreamsPolicy = &automaticallyUnmuteTopicsInMutedStreamsPolicy
+func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
+	r.automaticallyUnmuteTopicsInMutedChannelsPolicy = &automaticallyUnmuteTopicsInMutedChannelsPolicy
 	return r
 }
 
@@ -2943,8 +2943,8 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendPrivateTypingNotifications(s
 }
 
 // Whether [typing notifications](zulip.com/help/typing-notifications) be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105).
-func (r UpdateRealmUserSettingsDefaultsRequest) SendStreamTypingNotifications(sendStreamTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
-	r.sendStreamTypingNotifications = &sendStreamTypingNotifications
+func (r UpdateRealmUserSettingsDefaultsRequest) SendChannelTypingNotifications(sendChannelTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+	r.sendChannelTypingNotifications = &sendChannelTypingNotifications
 	return r
 }
 
@@ -3099,8 +3099,8 @@ func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserS
 	if r.emojiset != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "emojiset", r.emojiset, "", "")
 	}
-	if r.demoteInactiveStreams != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "demote_inactive_streams", r.demoteInactiveStreams, "form", "")
+	if r.demoteInactiveChannels != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "demote_inactive_streams", r.demoteInactiveChannels, "form", "")
 	}
 	if r.userListStyle != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "user_list_style", r.userListStyle, "form", "")
@@ -3108,8 +3108,8 @@ func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserS
 	if r.webAnimateImagePreviews != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "web_animate_image_previews", r.webAnimateImagePreviews, "", "")
 	}
-	if r.webStreamUnreadsCountDisplayPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_stream_unreads_count_display_policy", r.webStreamUnreadsCountDisplayPolicy, "form", "")
+	if r.webChannelUnreadsCountDisplayPolicy != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy, "form", "")
 	}
 	if r.hideAiFeatures != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "hide_ai_features", r.hideAiFeatures, "form", "")
@@ -3120,17 +3120,17 @@ func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserS
 	if r.webLeftSidebarUnreadsCountSummary != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary, "form", "")
 	}
-	if r.enableStreamDesktopNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_desktop_notifications", r.enableStreamDesktopNotifications, "form", "")
+	if r.enableChannelDesktopNotifications != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications, "form", "")
 	}
-	if r.enableStreamEmailNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_email_notifications", r.enableStreamEmailNotifications, "form", "")
+	if r.enableChannelEmailNotifications != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_email_notifications", r.enableChannelEmailNotifications, "form", "")
 	}
-	if r.enableStreamPushNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_push_notifications", r.enableStreamPushNotifications, "form", "")
+	if r.enableChannelPushNotifications != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_push_notifications", r.enableChannelPushNotifications, "form", "")
 	}
-	if r.enableStreamAudibleNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_audible_notifications", r.enableStreamAudibleNotifications, "form", "")
+	if r.enableChannelAudibleNotifications != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications, "form", "")
 	}
 	if r.notificationSound != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "notification_sound", r.notificationSound, "", "")
@@ -3189,8 +3189,8 @@ func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserS
 	if r.automaticallyFollowTopicsPolicy != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy, "form", "")
 	}
-	if r.automaticallyUnmuteTopicsInMutedStreamsPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedStreamsPolicy, "form", "")
+	if r.automaticallyUnmuteTopicsInMutedChannelsPolicy != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy, "form", "")
 	}
 	if r.automaticallyFollowTopicsWhereMentioned != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned, "form", "")
@@ -3210,8 +3210,8 @@ func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserS
 	if r.sendPrivateTypingNotifications != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "send_private_typing_notifications", r.sendPrivateTypingNotifications, "form", "")
 	}
-	if r.sendStreamTypingNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "send_stream_typing_notifications", r.sendStreamTypingNotifications, "form", "")
+	if r.sendChannelTypingNotifications != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "send_stream_typing_notifications", r.sendChannelTypingNotifications, "form", "")
 	}
 	if r.sendReadReceipts != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "send_read_receipts", r.sendReadReceipts, "form", "")

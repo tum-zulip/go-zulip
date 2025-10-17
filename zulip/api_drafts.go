@@ -219,6 +219,9 @@ func (c *simpleClient) CreateDraftsExecute(r CreateDraftsRequest) (*CreateDrafts
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.drafts != nil {
+		for i, _ := range *r.drafts {
+			(*r.drafts)[i].Type = (*r.drafts)[i].Type.ToLegacy()
+		}
 		parameterAddToHeaderOrQuery(localVarFormParams, "drafts", r.drafts, "form", "multi")
 	}
 	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
@@ -711,6 +714,7 @@ func (c *simpleClient) EditDraftExecute(r EditDraftRequest) (*Response, *http.Re
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	r.draft.Type = r.draft.Type.ToLegacy()
 	parameterAddToHeaderOrQuery(localVarFormParams, "draft", r.draft, "form", "")
 	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {

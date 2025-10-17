@@ -7,7 +7,7 @@ import (
 
 type Channel struct {
 	// The unique Id of the channel.
-	StreamId int64 `json:"stream_id"`
+	ChannelId int64 `json:"stream_id"`
 	// The name of the channel.
 	Name string `json:"name"`
 	// A boolean indicating whether the channel is [archived](zulip.com/help/archive-a-channel.  **Changes**: New in Zulip 10.0 (feature level 315). Previously, this endpoint never returned archived channels.
@@ -25,7 +25,7 @@ type Channel struct {
 	IsWebPublic bool `json:"is_web_public"`
 	// A deprecated representation of a superset of the users who have permission to post messages to the channel available for backwards-compatibility. Clients should use `can_send_message_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:  - 1 = Any user can post. - 2 = Only administrators can post. - 3 = Only [full members][calc-full-member] can post. - 4 = Only moderators can post.  **Changes**: Deprecated in Zulip 10.0 (feature level 333) and replaced by `can_send_message_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  New in Zulip 3.0 (feature level 1), replacing the previous `is_announcement_only` boolean.  [calc-full-member]: /api/roles-and-permissions#determining-if-a-user-is-a-full-member
 	// Deprecated
-	StreamPostPolicy     int32 `json:"stream_post_policy"`
+	ChannelPostPolicy    int32 `json:"stream_post_policy"`
 	MessageRetentionDays *int  `json:"message_retention_days"`
 	// Whether the history of the channel is public to its subscribers.  Currently always true for public channels (i.e. `\"invite_only\": false` implies `\"history_public_to_subscribers\": true`), but clients should not make that assumption, as we may change that behavior in the future.
 	HistoryPublicToSubscribers bool         `json:"history_public_to_subscribers"`
@@ -52,7 +52,7 @@ type Channel struct {
 	// The total number of non-deactivated users (including bots) who are subscribed to the channel. Clients are responsible for updating this value using `peer_add` and `peer_remove` events.  The server's internals cannot guarantee this value is correctly synced with `peer_add` and `peer_remove` events for the channel. As a result, if a (rare) race occurs between a change in the channel's subscribers and fetching this value, it is possible for a client that is correctly following the events protocol to end up with a permanently off-by-one error in the channel's subscriber count.  Clients are recommended to fetch full subscriber data for a channel in contexts where it is important to avoid this risk. The official web application, for example, uses this field primarily while waiting to fetch a given channel's full subscriber list from the server.  **Changes**: New in Zulip 11.0 (feature level 394).
 	SubscriberCount float32 `json:"subscriber_count"`
 	// The average number of messages sent to the channel per week, as estimated based on recent weeks, rounded to the nearest integer.  If `null`, no information is provided on the average traffic. This can be because the channel was recently created and there is insufficient data to make an estimate, or because the server wishes to omit this information for this client, this realm, or this endpoint or type of event.  **Changes**: New in Zulip 8.0 (feature level 199). Previously, this statistic was available only in subscription objects.
-	StreamWeeklyTraffic *int `json:"stream_weekly_traffic"`
+	ChannelWeeklyTraffic *int `json:"stream_weekly_traffic"`
 }
 
 type ChannelWithIsDefault struct {
@@ -112,7 +112,7 @@ func (o *ChannelWithIsDefault) UnmarshalJSON(data []byte) error {
 }
 
 func (o *channelJSON) fromChannel(cb Channel) {
-	o.StreamId = cb.StreamId
+	o.ChannelId = cb.ChannelId
 	o.Name = cb.Name
 	o.IsArchived = cb.IsArchived
 	o.Description = cb.Description
@@ -121,7 +121,7 @@ func (o *channelJSON) fromChannel(cb Channel) {
 	o.InviteOnly = cb.InviteOnly
 	o.RenderedDescription = cb.RenderedDescription
 	o.IsWebPublic = cb.IsWebPublic
-	o.StreamPostPolicy = cb.StreamPostPolicy
+	o.ChannelPostPolicy = cb.ChannelPostPolicy
 	o.MessageRetentionDays = cb.MessageRetentionDays
 	o.HistoryPublicToSubscribers = cb.HistoryPublicToSubscribers
 	o.TopicsPolicy = cb.TopicsPolicy
@@ -140,11 +140,11 @@ func (o *channelJSON) fromChannel(cb Channel) {
 	o.CanSubscribeGroup = cb.CanSubscribeGroup
 	o.CanResolveTopicsGroup = cb.CanResolveTopicsGroup
 	o.SubscriberCount = cb.SubscriberCount
-	o.StreamWeeklyTraffic = cb.StreamWeeklyTraffic
+	o.ChannelWeeklyTraffic = cb.ChannelWeeklyTraffic
 }
 
 func (o *Channel) fromChannelJSON(cb channelJSON) {
-	o.StreamId = cb.StreamId
+	o.ChannelId = cb.ChannelId
 	o.Name = cb.Name
 	o.IsArchived = cb.IsArchived
 	o.Description = cb.Description
@@ -153,7 +153,7 @@ func (o *Channel) fromChannelJSON(cb channelJSON) {
 	o.InviteOnly = cb.InviteOnly
 	o.RenderedDescription = cb.RenderedDescription
 	o.IsWebPublic = cb.IsWebPublic
-	o.StreamPostPolicy = cb.StreamPostPolicy
+	o.ChannelPostPolicy = cb.ChannelPostPolicy
 	o.MessageRetentionDays = cb.MessageRetentionDays
 	o.HistoryPublicToSubscribers = cb.HistoryPublicToSubscribers
 	o.TopicsPolicy = cb.TopicsPolicy
@@ -172,11 +172,11 @@ func (o *Channel) fromChannelJSON(cb channelJSON) {
 	o.CanSubscribeGroup = cb.CanSubscribeGroup
 	o.CanResolveTopicsGroup = cb.CanResolveTopicsGroup
 	o.SubscriberCount = cb.SubscriberCount
-	o.StreamWeeklyTraffic = cb.StreamWeeklyTraffic
+	o.ChannelWeeklyTraffic = cb.ChannelWeeklyTraffic
 }
 
 type channelJSON struct {
-	StreamId                          int64             `json:"stream_id"`
+	ChannelId                         int64             `json:"stream_id"`
 	Name                              string            `json:"name"`
 	IsArchived                        bool              `json:"is_archived"`
 	Description                       string            `json:"description"`
@@ -185,7 +185,7 @@ type channelJSON struct {
 	InviteOnly                        bool              `json:"invite_only"`
 	RenderedDescription               string            `json:"rendered_description"`
 	IsWebPublic                       bool              `json:"is_web_public"`
-	StreamPostPolicy                  int32             `json:"stream_post_policy"`
+	ChannelPostPolicy                 int32             `json:"stream_post_policy"`
 	MessageRetentionDays              *int              `json:"message_retention_days"`
 	HistoryPublicToSubscribers        bool              `json:"history_public_to_subscribers"`
 	TopicsPolicy                      TopicsPolicy      `json:"topics_policy,omitempty"`
@@ -204,7 +204,7 @@ type channelJSON struct {
 	CanSubscribeGroup                 GroupSettingValue `json:"can_subscribe_group"`
 	CanResolveTopicsGroup             GroupSettingValue `json:"can_resolve_topics_group,omitempty"`
 	SubscriberCount                   float32           `json:"subscriber_count"`
-	StreamWeeklyTraffic               *int              `json:"stream_weekly_traffic"`
+	ChannelWeeklyTraffic              *int              `json:"stream_weekly_traffic"`
 	IsDefault                         *bool             `json:"is_default,omitempty"`
 
 	// members for subscription

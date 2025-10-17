@@ -39,7 +39,7 @@ type Message struct {
 	// A string identifier for the realm the sender is in. Unique only within the context of a given Zulip server.  E.g. on `example.zulip.com`, this will be `example`.
 	SenderRealmStr string `json:"sender_realm_str,omitempty"`
 	// Only present for channel messages; the Id of the channel.
-	StreamId *int64 `json:"stream_id,omitempty"`
+	ChannelId *int64 `json:"stream_id,omitempty"`
 	// The `topic` of the message. Currently always `\"\"` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called \"subjects\" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register](zulip.com/api/register-queue) response, for channel messages.  **Changes**: Before Zulip 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
 	Subject string `json:"subject,omitempty"`
 	// Data used for certain experimental Zulip integrations.
@@ -71,7 +71,7 @@ type messageJSON struct {
 	SenderFullName     string           `json:"sender_full_name,omitempty"`
 	SenderId           int64            `json:"sender_id,omitempty"`
 	SenderRealmStr     string           `json:"sender_realm_str,omitempty"`
-	StreamId           *int64           `json:"stream_id,omitempty"`
+	ChannelId          *int64           `json:"stream_id,omitempty"`
 	Subject            string           `json:"subject,omitempty"`
 	Submessages        []Submessage     `json:"submessages,omitempty"`
 	Timestamp          int64            `json:"timestamp,omitempty"`
@@ -96,7 +96,7 @@ func (o Message) MarshalJSON() ([]byte, error) {
 		SenderFullName:   o.SenderFullName,
 		SenderId:         o.SenderId,
 		SenderRealmStr:   o.SenderRealmStr,
-		StreamId:         o.StreamId,
+		ChannelId:        o.ChannelId,
 		Subject:          o.Subject,
 		Submessages:      o.Submessages,
 		TopicLinks:       o.TopicLinks,
@@ -149,7 +149,7 @@ func (o *Message) UnmarshalJSON(data []byte) error {
 	o.SenderFullName = aux.SenderFullName
 	o.SenderId = aux.SenderId
 	o.SenderRealmStr = aux.SenderRealmStr
-	o.StreamId = aux.StreamId
+	o.ChannelId = aux.ChannelId
 	o.Subject = aux.Subject
 	o.Submessages = aux.Submessages
 	if aux.Timestamp != 0 {
@@ -229,10 +229,10 @@ func ChannelNameAsDisplayRecipient(v *string) DisplayRecipient {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *DisplayRecipient) UnmarshalJSON(data []byte) error {
-	return UnionUnmarshalJSON(data, dst)
+	return unmarshalUnionType(data, dst)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src DisplayRecipient) MarshalJSON() ([]byte, error) {
-	return UnionMarshalJSON(src)
+	return marshalUnionType(src)
 }

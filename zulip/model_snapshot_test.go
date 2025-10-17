@@ -14,8 +14,8 @@ func TestSnapshotMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	t.Parallel()
 
 	ts := time.Unix(1700000000, 250*int64(time.Millisecond)).UTC()
-	stream := int64(5)
-	prevStream := int64(4)
+	channel := int64(5)
+	prevChannel := int64(4)
 	prevTopic := "old"
 	snapshot := zulip.Snapshot{
 		Topic:           "new",
@@ -25,8 +25,8 @@ func TestSnapshotMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	}
 	snapshot.Timestamp = ts
 	snapshot.PrevTopic = &prevTopic
-	snapshot.Stream = &stream
-	snapshot.PrevStream = &prevStream
+	snapshot.Channel = &channel
+	snapshot.PrevChannel = &prevChannel
 
 	data, err := json.Marshal(snapshot)
 	require.NoError(t, err)

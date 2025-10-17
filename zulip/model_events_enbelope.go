@@ -59,10 +59,10 @@ func (src *EventEnvelope) UnmarshalJSON(data []byte) error {
 		}
 	case EventTypeCustomProfileFields:
 		err = decodeAndWrap[CustomProfileFieldsEvent](src, data)
-	case EventTypeDefaultStreamGroups:
-		err = decodeAndWrap[DefaultStreamGroupsEvent](src, data)
-	case EventTypeDefaultStreams:
-		err = decodeAndWrap[DefaultStreamsEvent](src, data)
+	case EventTypeDefaultChannelGroups:
+		err = decodeAndWrap[DefaultChannelGroupsEvent](src, data)
+	case EventTypeDefaultChannels:
+		err = decodeAndWrap[DefaultChannelsEvent](src, data)
 	case EventTypeDeleteMessage:
 		err = decodeAndWrap[DeleteMessageEvent](src, data)
 	case EventTypeDrafts:
@@ -207,14 +207,14 @@ func (src *EventEnvelope) UnmarshalJSON(data []byte) error {
 		default:
 			goto unknownEventError
 		}
-	case EventTypeStream:
+	case EventTypeChannel:
 		switch op {
 		case EventOpCreate:
-			err = decodeAndWrap[StreamCreateEvent](src, data)
+			err = decodeAndWrap[ChannelCreateEvent](src, data)
 		case EventOpUpdate:
-			err = decodeAndWrap[StreamUpdateEvent](src, data)
+			err = decodeAndWrap[ChannelUpdateEvent](src, data)
 		case EventOpDelete:
-			err = decodeAndWrap[StreamDeleteEvent](src, data)
+			err = decodeAndWrap[ChannelDeleteEvent](src, data)
 		default:
 			goto unknownEventError
 		}

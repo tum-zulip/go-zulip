@@ -428,11 +428,11 @@ func (c *simpleClient) GetEventsExecute(r GetEventsRequest) (*GetEventsResponse,
 }
 
 type RealTimePostRequest struct {
-	ctx              context.Context
-	ApiService       RealTimeEventsAPI
-	eventTypes       *[]string
-	narrow           *[][]string
-	allPublicStreams *bool
+	ctx               context.Context
+	ApiService        RealTimeEventsAPI
+	eventTypes        *[]string
+	narrow            *Narrow
+	allPublicChannels *bool
 }
 
 // A JSON-encoded array indicating which types of events you&#39;re interested in. Values that you might find useful include:  - **message** (messages) - **subscription** (changes in your subscriptions) - **realm_user** (changes to users in the organization and   their properties, such as their name).  If you do not specify this parameter, you will receive all events, and have to filter out the events not relevant to your client in your client code. For most applications, one is only interested in messages, so one specifies: &#x60;\\\&quot;event_types\\\&quot;: [\\\&quot;message\\\&quot;]&#x60;  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions.
@@ -442,14 +442,14 @@ func (r RealTimePostRequest) EventTypes(eventTypes []string) RealTimePostRequest
 }
 
 // A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)](zulip.com/api/construct-narrow) for which you&#39;d like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use &#x60;\\\&quot;narrow\\\&quot;: [[\\\&quot;is\\\&quot;, \\\&quot;dm\\\&quot;]]&#x60;.  Unlike the API for [fetching messages](zulip.com/api/get-messages, this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a &#x60;narrow&#x60; filter of &#x60;[[\\\&quot;channel\\\&quot;, \\\&quot;Denmark\\\&quot;]]&#x60; will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to &#x60;\\\&quot;Denmark\\\&quot;&#x60;.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed](zulip.com/api/subscribe) to any channels whose messages you&#39;d like them to process using this endpoint.  See the &#x60;all_public_streams&#x60; parameter for how to process all public channel messages in an organization.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
-func (r RealTimePostRequest) Narrow(narrow [][]string) RealTimePostRequest {
-	r.narrow = &narrow
+func (r RealTimePostRequest) Narrow(narrow *Narrow) RealTimePostRequest {
+	r.narrow = narrow
 	return r
 }
 
 // Whether you would like to request message events from all public channels. Useful for workflow bots that you&#39;d like to see all new messages sent to public channels. (You can also subscribe the user to private channels).
-func (r RealTimePostRequest) AllPublicStreams(allPublicStreams bool) RealTimePostRequest {
-	r.allPublicStreams = &allPublicStreams
+func (r RealTimePostRequest) AllPublicChannels(allPublicChannels bool) RealTimePostRequest {
+	r.allPublicChannels = &allPublicChannels
 	return r
 }
 
@@ -514,8 +514,8 @@ func (c *simpleClient) RealTimePostExecute(r RealTimePostRequest) (*http.Respons
 	if r.narrow != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "narrow", r.narrow, "form", "multi")
 	}
-	if r.allPublicStreams != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "all_public_streams", r.allPublicStreams, "form", "")
+	if r.allPublicChannels != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "all_public_streams", r.allPublicChannels, "form", "")
 	}
 	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -554,10 +554,10 @@ type RegisterQueueRequest struct {
 	slimPresence             *bool
 	presenceHistoryLimitDays *int32
 	eventTypes               *[]string
-	allPublicStreams         *bool
+	allPublicChannels        *bool
 	clientCapabilities       *map[string]interface{}
 	fetchEventTypes          *[]string
-	narrow                   *[][]string
+	narrow                   *Narrow
 }
 
 // Set to &#x60;true&#x60; if you would like the content to be rendered in HTML format (otherwise the API will return the raw text that the user entered)
@@ -597,8 +597,8 @@ func (r RegisterQueueRequest) EventTypes(eventTypes []string) RegisterQueueReque
 }
 
 // Whether you would like to request message events from all public channels. Useful for workflow bots that you&#39;d like to see all new messages sent to public channels. (You can also subscribe the user to private channels).
-func (r RegisterQueueRequest) AllPublicStreams(allPublicStreams bool) RegisterQueueRequest {
-	r.allPublicStreams = &allPublicStreams
+func (r RegisterQueueRequest) AllPublicChannels(allPublicChannels bool) RegisterQueueRequest {
+	r.allPublicChannels = &allPublicChannels
 	return r
 }
 
@@ -615,8 +615,8 @@ func (r RegisterQueueRequest) FetchEventTypes(fetchEventTypes []string) Register
 }
 
 // A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)](zulip.com/api/construct-narrow) for which you&#39;d like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use &#x60;\\\&quot;narrow\\\&quot;: [[\\\&quot;is\\\&quot;, \\\&quot;dm\\\&quot;]]&#x60;.  Unlike the API for [fetching messages](zulip.com/api/get-messages, this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a &#x60;narrow&#x60; filter of &#x60;[[\\\&quot;channel\\\&quot;, \\\&quot;Denmark\\\&quot;]]&#x60; will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to &#x60;\\\&quot;Denmark\\\&quot;&#x60;.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed](zulip.com/api/subscribe) to any channels whose messages you&#39;d like them to process using this endpoint.  See the &#x60;all_public_streams&#x60; parameter for how to process all public channel messages in an organization.  **Changes**: See [changes section](zulip.com/api/construct-narrow#changes of search/narrow filter documentation.
-func (r RegisterQueueRequest) Narrow(narrow [][]string) RegisterQueueRequest {
-	r.narrow = &narrow
+func (r RegisterQueueRequest) Narrow(narrow *Narrow) RegisterQueueRequest {
+	r.narrow = narrow
 	return r
 }
 
@@ -758,8 +758,8 @@ func (c *simpleClient) RegisterQueueExecute(r RegisterQueueRequest) (*RegisterQu
 	if r.eventTypes != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "event_types", r.eventTypes, "form", "multi")
 	}
-	if r.allPublicStreams != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "all_public_streams", r.allPublicStreams, "form", "")
+	if r.allPublicChannels != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "all_public_streams", r.allPublicChannels, "form", "")
 	}
 	if r.clientCapabilities != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "client_capabilities", r.clientCapabilities, "form", "")

@@ -4270,7 +4270,7 @@ type SetTypingStatusRequest struct {
 	op         *TypingStatusOp
 	type_      *RecipientType
 	to         *[]int64
-	streamId   *int64
+	channelId  *int64
 	topic      *string
 }
 
@@ -4293,8 +4293,8 @@ func (r SetTypingStatusRequest) To(to []int64) SetTypingStatusRequest {
 }
 
 // Id of the channel in which the message is being typed. Required for the &#x60;\\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;channel\\\&quot;&#x60; type. Ignored in the case of &#x60;\\\&quot;direct\\\&quot;&#x60; type.  **Changes**: New in Zulip 8.0 (feature level 215). Previously, a single-element list containing the Id of the channel was passed in &#x60;to&#x60; parameter.
-func (r SetTypingStatusRequest) StreamId(streamId int64) SetTypingStatusRequest {
-	r.streamId = &streamId
+func (r SetTypingStatusRequest) ChannelId(channelId int64) SetTypingStatusRequest {
+	r.channelId = &channelId
 	return r
 }
 
@@ -4429,8 +4429,8 @@ func (c *simpleClient) SetTypingStatusExecute(r SetTypingStatusRequest) (*Respon
 		}
 		localVarFormParams.Add("to", paramJson)
 	}
-	if r.streamId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.streamId, "form", "")
+	if r.channelId != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
 	}
 	if r.topic != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
@@ -4922,75 +4922,75 @@ func (c *simpleClient) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePr
 }
 
 type UpdateSettingsRequest struct {
-	ctx                                           context.Context
-	ApiService                                    UsersAPI
-	fullName                                      *string
-	email                                         *string
-	oldPassword                                   *string
-	newPassword                                   *string
-	twentyFourHourTime                            *bool
-	webMarkReadOnScrollPolicy                     *int32
-	webChannelDefaultView                         *int32
-	starredMessageCounts                          *bool
-	receivesTypingNotifications                   *bool
-	webSuggestUpdateTimezone                      *bool
-	fluidLayoutWidth                              *bool
-	highContrastMode                              *bool
-	webFontSizePx                                 *int32
-	webLineHeightPercent                          *int32
-	colorScheme                                   *ColorScheme
-	enableDraftsSynchronization                   *bool
-	translateEmoticons                            *bool
-	displayEmojiReactionUsers                     *bool
-	defaultLanguage                               *string
-	webHomeView                                   *string
-	webEscapeNavigatesToHomeView                  *bool
-	leftSideUserlist                              *bool
-	emojiset                                      *string
-	demoteInactiveStreams                         *int32
-	userListStyle                                 *int32
-	webAnimateImagePreviews                       *string
-	webStreamUnreadsCountDisplayPolicy            *int32
-	hideAiFeatures                                *bool
-	webLeftSidebarShowChannelFolders              *bool
-	webLeftSidebarUnreadsCountSummary             *bool
-	timezone                                      *string
-	enableStreamDesktopNotifications              *bool
-	enableStreamEmailNotifications                *bool
-	enableStreamPushNotifications                 *bool
-	enableStreamAudibleNotifications              *bool
-	notificationSound                             *string
-	enableDesktopNotifications                    *bool
-	enableSounds                                  *bool
-	emailNotificationsBatchingPeriodSeconds       *int32
-	enableOfflineEmailNotifications               *bool
-	enableOfflinePushNotifications                *bool
-	enableOnlinePushNotifications                 *bool
-	enableFollowedTopicDesktopNotifications       *bool
-	enableFollowedTopicEmailNotifications         *bool
-	enableFollowedTopicPushNotifications          *bool
-	enableFollowedTopicAudibleNotifications       *bool
-	enableDigestEmails                            *bool
-	enableMarketingEmails                         *bool
-	enableLoginEmails                             *bool
-	messageContentInEmailNotifications            *bool
-	pmContentInDesktopNotifications               *bool
-	wildcardMentionsNotify                        *bool
-	enableFollowedTopicWildcardMentionsNotify     *bool
-	desktopIconCountDisplay                       *int32
-	realmNameInEmailNotificationsPolicy           *int32
-	automaticallyFollowTopicsPolicy               *int32
-	automaticallyUnmuteTopicsInMutedStreamsPolicy *int32
-	automaticallyFollowTopicsWhereMentioned       *bool
-	resolvedTopicNoticeAutoReadPolicy             *string
-	presenceEnabled                               *bool
-	enterSends                                    *bool
-	sendPrivateTypingNotifications                *bool
-	sendStreamTypingNotifications                 *bool
-	sendReadReceipts                              *bool
-	allowPrivateDataExport                        *bool
-	emailAddressVisibility                        *int32
-	webNavigateToSentMessage                      *bool
+	ctx                                            context.Context
+	ApiService                                     UsersAPI
+	fullName                                       *string
+	email                                          *string
+	oldPassword                                    *string
+	newPassword                                    *string
+	twentyFourHourTime                             *bool
+	webMarkReadOnScrollPolicy                      *int32
+	webChannelDefaultView                          *int32
+	starredMessageCounts                           *bool
+	receivesTypingNotifications                    *bool
+	webSuggestUpdateTimezone                       *bool
+	fluidLayoutWidth                               *bool
+	highContrastMode                               *bool
+	webFontSizePx                                  *int32
+	webLineHeightPercent                           *int32
+	colorScheme                                    *ColorScheme
+	enableDraftsSynchronization                    *bool
+	translateEmoticons                             *bool
+	displayEmojiReactionUsers                      *bool
+	defaultLanguage                                *string
+	webHomeView                                    *string
+	webEscapeNavigatesToHomeView                   *bool
+	leftSideUserlist                               *bool
+	emojiset                                       *string
+	demoteInactiveChannels                         *int32
+	userListStyle                                  *int32
+	webAnimateImagePreviews                        *string
+	webChannelUnreadsCountDisplayPolicy            *int32
+	hideAiFeatures                                 *bool
+	webLeftSidebarShowChannelFolders               *bool
+	webLeftSidebarUnreadsCountSummary              *bool
+	timezone                                       *string
+	enableChannelDesktopNotifications              *bool
+	enableChannelEmailNotifications                *bool
+	enableChannelPushNotifications                 *bool
+	enableChannelAudibleNotifications              *bool
+	notificationSound                              *string
+	enableDesktopNotifications                     *bool
+	enableSounds                                   *bool
+	emailNotificationsBatchingPeriodSeconds        *int32
+	enableOfflineEmailNotifications                *bool
+	enableOfflinePushNotifications                 *bool
+	enableOnlinePushNotifications                  *bool
+	enableFollowedTopicDesktopNotifications        *bool
+	enableFollowedTopicEmailNotifications          *bool
+	enableFollowedTopicPushNotifications           *bool
+	enableFollowedTopicAudibleNotifications        *bool
+	enableDigestEmails                             *bool
+	enableMarketingEmails                          *bool
+	enableLoginEmails                              *bool
+	messageContentInEmailNotifications             *bool
+	pmContentInDesktopNotifications                *bool
+	wildcardMentionsNotify                         *bool
+	enableFollowedTopicWildcardMentionsNotify      *bool
+	desktopIconCountDisplay                        *int32
+	realmNameInEmailNotificationsPolicy            *int32
+	automaticallyFollowTopicsPolicy                *int32
+	automaticallyUnmuteTopicsInMutedChannelsPolicy *int32
+	automaticallyFollowTopicsWhereMentioned        *bool
+	resolvedTopicNoticeAutoReadPolicy              *string
+	presenceEnabled                                *bool
+	enterSends                                     *bool
+	sendPrivateTypingNotifications                 *bool
+	sendChannelTypingNotifications                 *bool
+	sendReadReceipts                               *bool
+	allowPrivateDataExport                         *bool
+	emailAddressVisibility                         *int32
+	webNavigateToSentMessage                       *bool
 }
 
 // A new display name for the user.
@@ -5132,8 +5132,8 @@ func (r UpdateSettingsRequest) Emojiset(emojiset string) UpdateSettingsRequest {
 }
 
 // Whether to [hide inactive channels](zulip.com/help/manage-inactive-channels) in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
-func (r UpdateSettingsRequest) DemoteInactiveStreams(demoteInactiveStreams int32) UpdateSettingsRequest {
-	r.demoteInactiveStreams = &demoteInactiveStreams
+func (r UpdateSettingsRequest) DemoteInactiveChannels(demoteInactiveChannels int32) UpdateSettingsRequest {
+	r.demoteInactiveChannels = &demoteInactiveChannels
 	return r
 }
 
@@ -5150,8 +5150,8 @@ func (r UpdateSettingsRequest) WebAnimateImagePreviews(webAnimateImagePreviews s
 }
 
 // Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.  - 1 - All channels - 2 - Unmuted channels and topics - 3 - No channels  **Changes**: New in Zulip 8.0 (feature level 210).
-func (r UpdateSettingsRequest) WebStreamUnreadsCountDisplayPolicy(webStreamUnreadsCountDisplayPolicy int32) UpdateSettingsRequest {
-	r.webStreamUnreadsCountDisplayPolicy = &webStreamUnreadsCountDisplayPolicy
+func (r UpdateSettingsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnreadsCountDisplayPolicy int32) UpdateSettingsRequest {
+	r.webChannelUnreadsCountDisplayPolicy = &webChannelUnreadsCountDisplayPolicy
 	return r
 }
 
@@ -5180,26 +5180,26 @@ func (r UpdateSettingsRequest) Timezone(timezone string) UpdateSettingsRequest {
 }
 
 // Enable visual desktop notifications for channel messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.
-func (r UpdateSettingsRequest) EnableStreamDesktopNotifications(enableStreamDesktopNotifications bool) UpdateSettingsRequest {
-	r.enableStreamDesktopNotifications = &enableStreamDesktopNotifications
+func (r UpdateSettingsRequest) EnableChannelDesktopNotifications(enableChannelDesktopNotifications bool) UpdateSettingsRequest {
+	r.enableChannelDesktopNotifications = &enableChannelDesktopNotifications
 	return r
 }
 
 // Enable email notifications for channel messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.
-func (r UpdateSettingsRequest) EnableStreamEmailNotifications(enableStreamEmailNotifications bool) UpdateSettingsRequest {
-	r.enableStreamEmailNotifications = &enableStreamEmailNotifications
+func (r UpdateSettingsRequest) EnableChannelEmailNotifications(enableChannelEmailNotifications bool) UpdateSettingsRequest {
+	r.enableChannelEmailNotifications = &enableChannelEmailNotifications
 	return r
 }
 
 // Enable mobile notifications for channel messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.
-func (r UpdateSettingsRequest) EnableStreamPushNotifications(enableStreamPushNotifications bool) UpdateSettingsRequest {
-	r.enableStreamPushNotifications = &enableStreamPushNotifications
+func (r UpdateSettingsRequest) EnableChannelPushNotifications(enableChannelPushNotifications bool) UpdateSettingsRequest {
+	r.enableChannelPushNotifications = &enableChannelPushNotifications
 	return r
 }
 
 // Enable audible desktop notifications for channel messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.
-func (r UpdateSettingsRequest) EnableStreamAudibleNotifications(enableStreamAudibleNotifications bool) UpdateSettingsRequest {
-	r.enableStreamAudibleNotifications = &enableStreamAudibleNotifications
+func (r UpdateSettingsRequest) EnableChannelAudibleNotifications(enableChannelAudibleNotifications bool) UpdateSettingsRequest {
+	r.enableChannelAudibleNotifications = &enableChannelAudibleNotifications
 	return r
 }
 
@@ -5330,8 +5330,8 @@ func (r UpdateSettingsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFoll
 }
 
 // Which [topics to unmute automatically in muted channels](zulip.com/help/mute-a-topic.  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
-func (r UpdateSettingsRequest) AutomaticallyUnmuteTopicsInMutedStreamsPolicy(automaticallyUnmuteTopicsInMutedStreamsPolicy int32) UpdateSettingsRequest {
-	r.automaticallyUnmuteTopicsInMutedStreamsPolicy = &automaticallyUnmuteTopicsInMutedStreamsPolicy
+func (r UpdateSettingsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy int32) UpdateSettingsRequest {
+	r.automaticallyUnmuteTopicsInMutedChannelsPolicy = &automaticallyUnmuteTopicsInMutedChannelsPolicy
 	return r
 }
 
@@ -5366,8 +5366,8 @@ func (r UpdateSettingsRequest) SendPrivateTypingNotifications(sendPrivateTypingN
 }
 
 // Whether [typing notifications](zulip.com/help/typing-notifications) be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105).
-func (r UpdateSettingsRequest) SendStreamTypingNotifications(sendStreamTypingNotifications bool) UpdateSettingsRequest {
-	r.sendStreamTypingNotifications = &sendStreamTypingNotifications
+func (r UpdateSettingsRequest) SendChannelTypingNotifications(sendChannelTypingNotifications bool) UpdateSettingsRequest {
+	r.sendChannelTypingNotifications = &sendChannelTypingNotifications
 	return r
 }
 
@@ -5558,8 +5558,8 @@ func (c *simpleClient) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response
 	if r.emojiset != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "emojiset", r.emojiset, "", "")
 	}
-	if r.demoteInactiveStreams != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "demote_inactive_streams", r.demoteInactiveStreams, "form", "")
+	if r.demoteInactiveChannels != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "demote_inactive_streams", r.demoteInactiveChannels, "form", "")
 	}
 	if r.userListStyle != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "user_list_style", r.userListStyle, "form", "")
@@ -5567,8 +5567,8 @@ func (c *simpleClient) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response
 	if r.webAnimateImagePreviews != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "web_animate_image_previews", r.webAnimateImagePreviews, "", "")
 	}
-	if r.webStreamUnreadsCountDisplayPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_stream_unreads_count_display_policy", r.webStreamUnreadsCountDisplayPolicy, "form", "")
+	if r.webChannelUnreadsCountDisplayPolicy != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy, "form", "")
 	}
 	if r.hideAiFeatures != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "hide_ai_features", r.hideAiFeatures, "form", "")
@@ -5582,17 +5582,17 @@ func (c *simpleClient) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response
 	if r.timezone != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "timezone", r.timezone, "", "")
 	}
-	if r.enableStreamDesktopNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_desktop_notifications", r.enableStreamDesktopNotifications, "form", "")
+	if r.enableChannelDesktopNotifications != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications, "form", "")
 	}
-	if r.enableStreamEmailNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_email_notifications", r.enableStreamEmailNotifications, "form", "")
+	if r.enableChannelEmailNotifications != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_email_notifications", r.enableChannelEmailNotifications, "form", "")
 	}
-	if r.enableStreamPushNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_push_notifications", r.enableStreamPushNotifications, "form", "")
+	if r.enableChannelPushNotifications != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_push_notifications", r.enableChannelPushNotifications, "form", "")
 	}
-	if r.enableStreamAudibleNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_audible_notifications", r.enableStreamAudibleNotifications, "form", "")
+	if r.enableChannelAudibleNotifications != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications, "form", "")
 	}
 	if r.notificationSound != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "notification_sound", r.notificationSound, "", "")
@@ -5657,8 +5657,8 @@ func (c *simpleClient) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response
 	if r.automaticallyFollowTopicsPolicy != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy, "form", "")
 	}
-	if r.automaticallyUnmuteTopicsInMutedStreamsPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedStreamsPolicy, "form", "")
+	if r.automaticallyUnmuteTopicsInMutedChannelsPolicy != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy, "form", "")
 	}
 	if r.automaticallyFollowTopicsWhereMentioned != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned, "form", "")
@@ -5675,8 +5675,8 @@ func (c *simpleClient) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response
 	if r.sendPrivateTypingNotifications != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "send_private_typing_notifications", r.sendPrivateTypingNotifications, "form", "")
 	}
-	if r.sendStreamTypingNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "send_stream_typing_notifications", r.sendStreamTypingNotifications, "form", "")
+	if r.sendChannelTypingNotifications != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "send_stream_typing_notifications", r.sendChannelTypingNotifications, "form", "")
 	}
 	if r.sendReadReceipts != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "send_read_receipts", r.sendReadReceipts, "form", "")

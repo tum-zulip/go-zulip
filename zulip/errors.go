@@ -56,7 +56,7 @@ type NonExistingChannelIdError struct {
 	CodedError
 
 	// The channel Id that could not be found.
-	StreamId int64 `json:"stream_id,omitempty"`
+	ChannelId int64 `json:"stream_id,omitempty"`
 }
 
 // InvitationFailedError struct for InvitationFailedError
@@ -78,7 +78,7 @@ type NonExistingChannelNameError struct {
 	CodedError
 
 	// The name of the channel that could not be found.
-	Stream string `json:"stream,omitempty"`
+	Channel string `json:"stream,omitempty"`
 }
 
 // IncompatibleParametersError struct for IncompatibleParametersError

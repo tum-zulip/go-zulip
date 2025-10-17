@@ -12,9 +12,9 @@ type SnapshotCommon struct {
 	// Only present if message's topic was edited.  The topic of the message immediately prior to this edit event.
 	PrevTopic *string `json:"prev_topic,omitempty"`
 	// Only present if message's channel was edited.  The Id of the channel containing the message immediately after this edit event.  **Changes**: New in Zulip 5.0 (feature level 118).
-	Stream *int64 `json:"stream,omitempty"`
+	Channel *int64 `json:"stream,omitempty"`
 	// Only present if message's channel was edited.  The Id of the channel containing the message immediately prior to this edit event.  **Changes**: New in Zulip 3.0 (feature level 1).
-	PrevStream *int64 `json:"prev_stream,omitempty"`
+	PrevChannel *int64 `json:"prev_stream,omitempty"`
 	// The raw [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown) content of the message immediately after this edit event.
 	Content string `json:"content,omitempty"`
 	// The rendered HTML representation of `content`.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip's HTML format.
@@ -104,8 +104,8 @@ func (o *Snapshot) UnmarshalJSON(data []byte) error {
 type snapshotJSON struct {
 	Topic               *string `json:"topic,omitempty"`
 	PrevTopic           *string `json:"prev_topic,omitempty"`
-	Stream              *int64  `json:"stream,omitempty"`
-	PrevStream          *int64  `json:"prev_stream,omitempty"`
+	Channel             *int64  `json:"stream,omitempty"`
+	PrevChannel         *int64  `json:"prev_stream,omitempty"`
 	Content             string  `json:"content,omitempty"`
 	RenderedContent     string  `json:"rendered_content,omitempty"`
 	PrevContent         *string `json:"prev_content,omitempty"`
@@ -117,8 +117,8 @@ type snapshotJSON struct {
 
 func (o *snapshotJSON) fromSnapshotCommon(base SnapshotCommon) {
 	o.PrevTopic = base.PrevTopic
-	o.Stream = base.Stream
-	o.PrevStream = base.PrevStream
+	o.Channel = base.Channel
+	o.PrevChannel = base.PrevChannel
 	o.Content = base.Content
 	o.RenderedContent = base.RenderedContent
 	o.PrevContent = base.PrevContent
@@ -130,8 +130,8 @@ func (o *snapshotJSON) fromSnapshotCommon(base SnapshotCommon) {
 
 func (o *SnapshotCommon) fromSnapshotJSON(data snapshotJSON) {
 	o.PrevTopic = data.PrevTopic
-	o.Stream = data.Stream
-	o.PrevStream = data.PrevStream
+	o.Channel = data.Channel
+	o.PrevChannel = data.PrevChannel
 	o.Content = data.Content
 	o.RenderedContent = data.RenderedContent
 	o.PrevContent = data.PrevContent
