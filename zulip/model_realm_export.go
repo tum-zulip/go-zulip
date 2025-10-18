@@ -16,6 +16,10 @@ type RealmExport struct {
 	ExportUrl *string `json:"export_url,omitempty"`
 	// Whether the data export is pending, which indicates it is still being generated, or if it succeeded, failed or was deleted before being generated.  Depending on the size of the organization, it can take anywhere from seconds to an hour to generate the data export.
 	Pending bool `json:"pending,omitempty"`
-	// Whether the data export is a public or a standard data export.  - 1 = Public data export. - 2 = Standard data export.  **Changes**: New in Zulip 10.0 (feature level 304). Previously, the export type was not included in these objects because only public data exports could be created or listed via the API or UI.
+	// Whether the data export is a public or a standard data export.
+	//   - 1 = Public data export.
+	//   - 2 = Standard data export.
+	//
+	// **Changes**: New in Zulip 10.0 (feature level 304). Previously, the export type was not included in these objects because only public data exports could be created or listed via the API or UI.
 	ExportType ExportType `json:"export_type,omitempty"`
 }

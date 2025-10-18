@@ -559,7 +559,14 @@ type RealmUserSettingsDefaults struct {
 	SendReadReceipts *bool `json:"send_read_receipts,omitempty"`
 	// Whether organization administrators are allowed to export your private data.  **Changes**: New in Zulip 10.0 (feature level 293).
 	AllowPrivateDataExport *bool `json:"allow_private_data_export,omitempty"`
-	// The [policy] for [which other users] in this organization can see the user's real email address.  - 1 = Everyone - 2 = Members only - 3 = Administrators only - 4 = Nobody - 5 = Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
+	// The [policy] for [which other users] in this organization can see the user's real email address.
+	//   - 1 = Everyone
+	//   - 2 = Members only
+	//   - 3 = Administrators only
+	//   - 4 = Nobody
+	//   - 5 = Moderators only
+	//
+	// **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
 	//
 	// [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
 	// [which other users]: https://zulip.com/help/configure-email-visibility
@@ -576,7 +583,13 @@ type UserTopic struct {
 	TopicName string `json:"topic_name,omitempty"`
 	// An integer UNIX timestamp representing when the user-topic relationship was last changed.
 	LastUpdated time.Time `json:"last_updated,omitempty"`
-	// An integer indicating the user's visibility preferences for the topic, such as whether the topic is muted.  - 0 = None. Used to indicate that the user no   longer has a special visibility policy for this topic. - 1 = Muted. Used to record [muted topics](https://zulip.com/help/mute-a-topic). - 2 = Unmuted. Used to record unmuted topics. - 3 = Followed. Used to record [followed topics](https://zulip.com/help/follow-a-topic).  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.  In Zulip 7.0 (feature level 170), added unmuted as a visibility policy option.
+	// An integer indicating the user's visibility preferences for the topic, such as whether the topic is muted.
+	//   - 0 = None. Used to indicate that the user no   longer has a special visibility policy for this topic.
+	//   - 1 = Muted. Used to record [muted topics](https://zulip.com/help/mute-a-topic).
+	//   - 2 = Unmuted. Used to record unmuted topics.
+	//   - 3 = Followed. Used to record [followed topics](https://zulip.com/help/follow-a-topic).
+	//
+	// **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.  In Zulip 7.0 (feature level 170), added unmuted as a visibility policy option.
 	VisibilityPolicy VisibilityPolicy `json:"visibility_policy,omitempty"`
 }
 

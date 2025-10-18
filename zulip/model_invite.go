@@ -15,7 +15,12 @@ type Invite struct {
 	Invited time.Time `json:"invited,omitempty"`
 	// The UNIX timestamp for when the invitation will expire, in UTC seconds. If `null`, the invitation never expires.
 	ExpiryDate *time.Time `json:"expiry_date,omitempty"`
-	// The [organization-level role](https://zulip.com/api/roles-and-permissions) of the user that is created when the invitation is accepted. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest
+	// The [organization-level role](https://zulip.com/api/roles-and-permissions) of the user that is created when the invitation is accepted. Possible values are:
+	//   - 100 = Organization owner
+	//   - 200 = Organization administrator
+	//   - 300 = Organization moderator
+	//   - 400 = Member
+	//   - 600 = Guest
 	InvitedAs int32 `json:"invited_as,omitempty"`
 	// The email address the invitation was sent to. This will not be present when `is_multiuse` is `true` (i.e. the invitation is a reusable invitation link).
 	Email string `json:"email,omitempty"`

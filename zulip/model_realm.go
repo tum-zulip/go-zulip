@@ -32,22 +32,50 @@ type Realm struct {
 	// For clients implementing [typing notifications](https://zulip.com/api/set-typing-status) protocol, the time interval in milliseconds that the client should use to send regular start notifications to the server to indicate that the user is still actively interacting with the compose UI.  **Changes**: New in Zulip 8.0 (feature level 204). Clients should use 10000 for older Zulip servers, since that's the value that was hardcoded in the Zulip apps prior to this parameter being introduced.
 	ServerTypingStartedWaitPeriodMilliseconds int64 `json:"server_typing_started_wait_period_milliseconds,omitempty"`
 
-	// A deprecated representation of a superset of the users who have permission to create public channels in the organization, available for backwards-compatibility. Clients should use `can_create_public_channel_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:  - 1 = Members only - 2 = Admins only - 3 = [Full members] only - 4 = Admins and moderators only  **Changes**: Deprecated in Zulip 9.0 (feature level 264) and replaced by `realm_can_create_public_channel_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  Before Zulip 5.0 (feature level 102), permission to create channels was controlled by the `realm_create_stream_policy` setting.
+	// A deprecated representation of a superset of the users who have permission to create public channels in the organization, available for backwards-compatibility. Clients should use `can_create_public_channel_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:
+	//   - 1 = Members only
+	//   - 2 = Admins only
+	//   - 3 = [Full members] only
+	//   - 4 = Admins and moderators only
+	//
+	// **Changes**: Deprecated in Zulip 9.0 (feature level 264) and replaced by `realm_can_create_public_channel_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  Before Zulip 5.0 (feature level 102), permission to create channels was controlled by the `realm_create_stream_policy` setting.
 	//
 	// [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels
 	// [Full members]: https://zulip.com/api/roles-and-permissions#determining-if-a-user-is-a-full-member
 	// Deprecated
 	CreatePublicStreamPolicy int32 `json:"realm_create_public_stream_policy,omitempty"`
-	// A deprecated representation of a superset of the users who have permission to create private channels in the organization, available for backwards-compatibility. Clients should use `can_create_private_channel_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:  - 1 = Members only - 2 = Admins only - 3 = [Full members] only - 4 = Admins and moderators only  **Changes**: Deprecated in Zulip 9.0 (feature level 266) and replaced by `realm_can_create_private_channel_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  **Changes**: Before Zulip 5.0 (feature level 102), permission to create channels was controlled by the `realm_create_stream_policy` setting.
+	// A deprecated representation of a superset of the users who have permission to create private channels in the organization, available for backwards-compatibility. Clients should use `can_create_private_channel_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:
+	//   - 1 = Members only
+	//   - 2 = Admins only
+	//   - 3 = [Full members] only
+	//   - 4 = Admins and moderators only
+	//
+	// **Changes**: Deprecated in Zulip 9.0 (feature level 266) and replaced by `realm_can_create_private_channel_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  **Changes**: Before Zulip 5.0 (feature level 102), permission to create channels was controlled by the `realm_create_stream_policy` setting.
 	//
 	// [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels
 	// [Full members]: https://zulip.com/api/roles-and-permissions#determining-if-a-user-is-a-full-member
 	// Deprecated
 	CreatePrivateStreamPolicy int32 `json:"realm_create_private_stream_policy,omitempty"`
-	// A deprecated representation of a superset of the users who have permission to create web-public channels in the organization, available for backwards-compatibility. Clients should use `can_create_web_public_channel_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:  - 2 = Admins only - 4 = Admins and moderators only - 6 = Nobody - 7 = Owners only  **Changes**: Deprecated in Zulip 10.0 (feature level 280) and replaced by `realm_can_create_web_public_channel_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  **Changes**: Added in Zulip 5.0 (feature level 103).  [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels
+	// A deprecated representation of a superset of the users who have permission to create web-public channels in the organization, available for backwards-compatibility. Clients should use `can_create_web_public_channel_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:
+	//   - 2 = Admins only
+	//   - 4 = Admins and moderators only
+	//   - 6 = Nobody
+	//   - 7 = Owners only
+	//
+	// **Changes**: Deprecated in Zulip 10.0 (feature level 280) and replaced by `realm_can_create_web_public_channel_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  **Changes**: Added in Zulip 5.0 (feature level 103).  [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels
 	// Deprecated
 	CreateWebPublicStreamPolicy int32 `json:"realm_create_web_public_stream_policy,omitempty"`
-	// A deprecated representation of a superset of the users who have permission to use wildcard mentions in large channels, available for backwards-compatibility. Clients should use `can_mention_many_users_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:  - 1 = Any user can use wildcard mentions in large channels. - 2 = Only members can use wildcard mentions in large channels. - 3 = Only [full members] can use wildcard mentions in large channels. - 5 = Only organization administrators can use wildcard mentions in large channels. - 6 = Nobody can use wildcard mentions in large channels. - 7 = Only organization administrators and moderators can use wildcard mentions in large channels.  All users will receive a warning/reminder when using mentions in large channels, even when permitted to do so.  **Changes**: Deprecated in Zulip 10.0 (feature level 352) and replaced by `realm_can_mention_many_users_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  Channel administrators option removed in Zulip 6.0 (feature level 133).  Moderators option added in Zulip 4.0 (feature level 62).  New in Zulip 4.0 (feature level 33).
+	// A deprecated representation of a superset of the users who have permission to use wildcard mentions in large channels, available for backwards-compatibility. Clients should use `can_mention_many_users_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:
+	//   - 1 = Any user can use wildcard mentions in large channels.
+	//   - 2 = Only members can use wildcard mentions in large channels.
+	//   - 3 = Only [full members] can use wildcard mentions in large channels.
+	//   - 5 = Only organization administrators can use wildcard mentions in large channels.
+	//   - 6 = Nobody can use wildcard mentions in large channels.
+	//   - 7 = Only organization administrators and moderators can use wildcard mentions in large channels.
+	//
+	// All users will receive a warning/reminder when using mentions in large channels, even when permitted to do so.
+	//
+	// **Changes**: Deprecated in Zulip 10.0 (feature level 352) and replaced by `realm_can_mention_many_users_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  Channel administrators option removed in Zulip 6.0 (feature level 133).  Moderators option added in Zulip 4.0 (feature level 62).  New in Zulip 4.0 (feature level 33).
 	//
 	// [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels
 	// [full members]: https://zulip.com/api/roles-and-permissions#determining-if-a-user-is-a-full-member
@@ -233,7 +261,17 @@ type RealmConfiguration struct {
 	SendWelcomeEmails bool `json:"send_welcome_emails,omitempty"`
 	// The new upload quota for the Zulip organization.  If `null`, there is no limit.  **Changes**: New in Zulip 10.0 (feature level 306). Previously, this was present changed via an `upload_quota` field in `extra_data` property of [realm/update](#realm-update) event format for `plan_type` events.
 	UploadQuotaMib *int64 `json:"upload_quota_mib,omitempty"`
-	// The configured [video call provider](https://zulip.com/help/configure-call-provider) for the organization.  - 0 = None - 1 = Jitsi Meet - 3 = Zoom (User OAuth integration) - 4 = BigBlueButton - 5 = Zoom (Server to Server OAuth integration)  Note that only one of the [Zoom integrations] can be configured on a Zulip server.  **Changes**: In Zulip 10.0 (feature level 353), added the Zoom Server to Server OAuth option.  In Zulip 3.0 (feature level 1), added the None option to disable video call UI.
+	// The configured [video call provider](https://zulip.com/help/configure-call-provider) for the organization.
+	//   - 0 = None
+	//   - 1 = Jitsi Meet
+	//   - 3 = Zoom (User OAuth integration)
+	//   - 4 = BigBlueButton
+	//   - 5 = Zoom (Server to Server OAuth integration)
+	//
+	// Note that only one of the [Zoom integrations] can be configured on a Zulip server.
+	//
+	// **Changes**: In Zulip 10.0 (feature level 353), added the Zoom Server to Server OAuth option.
+	// In Zulip 3.0 (feature level 1), added the None option to disable video call UI.
 	// [Zoom integrations]: https://zulip.readthedocs.io/en/latest/production/video-calls.html#zoom
 	VideoChatProvider VideoChatProvider `json:"video_chat_provider,omitempty"`
 	// Members whose accounts have been created at least this many days ago will be treated as [full members] for the purpose of settings that restrict access to new members.
@@ -247,9 +285,28 @@ type RealmConfiguration struct {
 type RealmIdentity struct {
 	// The name of the organization, used in login pages etc.
 	Name string `json:"name,omitempty"`
-	// The [organization type](https://zulip.com/help/organization-type) for the realm.  - 0 = Unspecified - 10 = Business - 20 = Open-source project - 30 = Education (non-profit) - 35 = Education (for-profit) - 40 = Research - 50 = Event or conference - 60 = Non-profit (registered) - 70 = Government - 80 = Political group - 90 = Community - 100 = Personal - 1000 = Other  **Changes**: New in Zulip 6.0 (feature level 128).
+	// The [organization type](https://zulip.com/help/organization-type) for the realm.
+	//   - 0 = Unspecified
+	//   - 10 = Business
+	//   - 20 = Open-source project
+	//   - 30 = Education (non-profit)
+	//   - 35 = Education (for-profit)
+	//   - 40 = Research
+	//   - 50 = Event or conference
+	//   - 60 = Non-profit (registered)
+	//   - 70 = Government
+	//   - 80 = Political group
+	//   - 90 = Community
+	//   - 100 = Personal
+	//   - 1000 = Other
+	//
+	// **Changes**: New in Zulip 6.0 (feature level 128).
 	OrgType OrgType `json:"org_type,omitempty"`
-	// The plan type of the organization.  - 1 = Self-hosted organization (SELF_HOSTED) - 2 = Zulip Cloud free plan (LIMITED) - 3 = Zulip Cloud Standard plan (STANDARD) - 4 = Zulip Cloud Standard plan, sponsored for free (STANDARD_FREE)
+	// The plan type of the organization.
+	//   - 1 = Self-hosted organization (SELF_HOSTED)
+	//   - 2 = Zulip Cloud free plan (LIMITED)
+	//   - 3 = Zulip Cloud Standard plan (STANDARD)
+	//   - 4 = Zulip Cloud Standard plan, sponsored for free (STANDARD_FREE)
 	PlanType PlanType `json:"plan_type,omitempty"`
 }
 
@@ -340,7 +397,13 @@ type RealmPermissions struct {
 	CanCreateBotsGroup GroupSettingValue `json:"realm_can_create_bots_group,omitempty"`
 	// A [group-setting value](https://zulip.com/api/group-setting-values) defining the set of users who have permission to create bot users that can only send messages in the organization, i.e. incoming webhooks, in addition to the users who are present in `can_create_bots_group`.  **Changes**: New in Zulip 10.0 (feature level 344). Previously, this permission was controlled by the enum `bot_creation_policy`. Values were 1=Members, 2=Generic bots limited to administrators, 3=Administrators.
 	CanCreateWriteOnlyBotsGroup GroupSettingValue `json:"realm_can_create_write_only_bots_group,omitempty"`
-	// A [group-setting value](https://zulip.com/api/group-setting-values) defining the set of users who have permission to administer all existing groups in this organization.  **Changes**: Prior to Zulip 10.0 (feature level 305), only users who were a member of the group or had the moderator role or above could exercise the permission on a given group.  New in Zulip 10.0 (feature level 299). Previously the `user_group_edit_policy` field controlled the permission to manage user groups. Valid values were as follows:  - 1 = All members can create and edit user groups - 2 = Only organization administrators can create and edit   user groups - 3 = Only [full members] can create and   edit user groups. - 4 = Only organization administrators and moderators can   create and edit user groups.  [full members]: https://zulip.com/api/roles-and-permissions#determining-if-a-user-is-a-full-member
+	// A [group-setting value](https://zulip.com/api/group-setting-values) defining the set of users who have permission to administer all existing groups in this organization.  **Changes**: Prior to Zulip 10.0 (feature level 305), only users who were a member of the group or had the moderator role or above could exercise the permission on a given group.  New in Zulip 10.0 (feature level 299). Previously the `user_group_edit_policy` field controlled the permission to manage user groups. Valid values were as follows:
+	//   - 1 = All members can create and edit user groups
+	//   - 2 = Only organization administrators can create and edit   user groups
+	//   - 3 = Only [full members] can create and   edit user groups.
+	//   - 4 = Only organization administrators and moderators can   create and edit user groups.
+	//
+	// [full members]: https://zulip.com/api/roles-and-permissions#determining-if-a-user-is-a-full-member
 	CanManageAllGroups GroupSettingValue `json:"realm_can_manage_all_groups,omitempty"`
 	// A [group-setting value](https://zulip.com/api/group-setting-values) defining the set of users who have permission to manage plans and billing in the organization.  **Changes**: New in Zulip 10.0 (feature level 363). Previously, only owners and users with `is_billing_admin` property set to `true` were allowed to manage plans and billing.
 	CanManageBillingGroup GroupSettingValue `json:"realm_can_manage_billing_group,omitempty"`

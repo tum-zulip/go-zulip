@@ -1,10 +1,11 @@
 package zulip
 
 // Unread count badge (appears in desktop sidebar and browser tab)
-// - 1 - All unread messages
-// - 2 - DMs, mentions, and followed topics
-// - 3 - DMs and mentions
-// - 4 - None
+//   - 1 = All unread messages
+//   - 2 = DMs, mentions, and followed topics
+//   - 3 = DMs and mentions
+//   - 4 = None
+//
 // **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
 type DesktopIconCountDisplay int
 

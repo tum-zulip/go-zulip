@@ -60,7 +60,9 @@ type OutgoingWebhookBotData struct {
 	BaseUrl string `json:"base_url,omitempty"`
 	// A unique token that the third-party service can use to confirm that the request is indeed coming from Zulip.
 	Token string `json:"token,omitempty"`
-	// An integer indicating what format requests are posted in:  - 1 = Zulip's native outgoing webhook format. - 2 = Emulate the Slack outgoing webhook format.
+	// An integer indicating what format requests are posted in:
+	//   - 1 = Zulip's native outgoing webhook format.
+	//   - 2 = Emulate the Slack outgoing webhook format.
 	Interface int `json:"interface,omitempty"`
 }
 

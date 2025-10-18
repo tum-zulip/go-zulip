@@ -1,9 +1,10 @@
 package zulip
 
 // Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.
-// - 1 - All channels
-// - 2 - Unmuted channels and topics
-// - 3 - No channels
+//   - 1 = All channels
+//   - 2 = Unmuted channels and topics
+//   - 3 = No channels
+//
 // **Changes**: New in Zulip 8.0 (feature level 210).
 type WebChannelUnreadsCountDisplayPolicy int
 

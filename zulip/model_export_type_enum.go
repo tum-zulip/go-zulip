@@ -1,8 +1,8 @@
 package zulip
 
 // Whether the data export is a public or a standard data export.
-// - 1 = Public data export.
-// - 2 = Standard data export.
+//   - 1 = Public data export.
+//   - 2 = Standard data export.
 // **Changes**: New in Zulip 10.0 (feature level 304).
 // Previously, the export type was not included in these objects because only public data exports could be created or listed via the API or UI.
 

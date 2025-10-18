@@ -319,11 +319,11 @@ type ChannelsAPI interface {
 	// endpoint can be used to remove other users from channels. This
 	// is possible in 3 situations:
 	//
-	// - Organization administrators can remove any user from any
+	//   - Organization administrators can remove any user from any
 	// channel.
-	// - Users can remove a bot that they own from any channel that
+	//   - Users can remove a bot that they own from any channel that
 	// the user [can access](https://zulip.com/help/channel-permissions).
-	// - Users can unsubscribe any user from a channel if they [have
+	//   - Users can unsubscribe any user from a channel if they [have
 	// access](https://zulip.com/help/channel-permissions) to the channel and are a
 	// member of the [user group](https://zulip.com/api/get-user-groups) specified
 	// by the [`can_remove_subscribers_group`]
@@ -382,8 +382,8 @@ type ChannelsAPI interface {
 	// an organization administrator editing any property of a channel,
 	// including:
 	//
-	// - Channel [name](https://zulip.com/help/rename-a-channel) and [description](https://zulip.com/help/change-the-channel-description)
-	// - Channel [permissions](https://zulip.com/help/channel-permissions), including
+	//   - Channel [name](https://zulip.com/help/rename-a-channel) and [description](https://zulip.com/help/change-the-channel-description)
+	//   - Channel [permissions](https://zulip.com/help/channel-permissions), including
 	// [privacy](https://zulip.com/help/change-the-privacy-of-a-channel) and [who can
 	// send](https://zulip.com/help/channel-posting-policy).
 	//
@@ -3190,11 +3190,14 @@ func (r UnsubscribeRequest) Execute() (*UnsubscribeResponse, *http.Response, err
 // endpoint can be used to remove other users from channels. This
 // is possible in 3 situations:
 //
-// - Organization administrators can remove any user from any
+//   - Organization administrators can remove any user from any
+//
 // channel.
-// - Users can remove a bot that they own from any channel that
+//   - Users can remove a bot that they own from any channel that
+//
 // the user [can access](https://zulip.com/help/channel-permissions).
-// - Users can unsubscribe any user from a channel if they [have
+//   - Users can unsubscribe any user from a channel if they [have
+//
 // access](https://zulip.com/help/channel-permissions) to the channel and are a
 // member of the [user group](https://zulip.com/api/get-user-groups) specified
 // by the [`can_remove_subscribers_group`]
@@ -3606,8 +3609,9 @@ func (r UpdateChannelRequest) Execute() (*Response, *http.Response, error) {
 // an organization administrator editing any property of a channel,
 // including:
 //
-// - Channel [name](https://zulip.com/help/rename-a-channel) and [description](https://zulip.com/help/change-the-channel-description)
-// - Channel [permissions](https://zulip.com/help/channel-permissions), including
+//   - Channel [name](https://zulip.com/help/rename-a-channel) and [description](https://zulip.com/help/change-the-channel-description)
+//   - Channel [permissions](https://zulip.com/help/channel-permissions), including
+//
 // [privacy](https://zulip.com/help/change-the-privacy-of-a-channel) and [who can
 // send](https://zulip.com/help/channel-posting-policy).
 //

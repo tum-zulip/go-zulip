@@ -116,11 +116,11 @@ type MessagesAPI interface {
 	// corresponding to the user's [combined feed](https://zulip.com/help/combined-feed). There are two
 	// ways to specify which messages matching the narrow filter to fetch:
 	//
-	// - A range of messages, described by an `anchor` message Id (or a string-format
+	//   - A range of messages, described by an `anchor` message Id (or a string-format
 	// specification of how the server should computer an anchor to use) and a maximum
 	// number of messages in each direction from that anchor.
 	//
-	// - A rarely used variant (`message_ids`) where the client specifies the message Ids
+	//   - A rarely used variant (`message_ids`) where the client specifies the message Ids
 	// to fetch.
 	//
 	// The server returns the matching messages, sorted by message Id, as well as some
@@ -1227,11 +1227,13 @@ func (r GetMessagesRequest) Execute() (*GetMessagesResponse, *http.Response, err
 // corresponding to the user's [combined feed](https://zulip.com/help/combined-feed). There are two
 // ways to specify which messages matching the narrow filter to fetch:
 //
-// - A range of messages, described by an `anchor` message Id (or a string-format
+//   - A range of messages, described by an `anchor` message Id (or a string-format
+//
 // specification of how the server should computer an anchor to use) and a maximum
 // number of messages in each direction from that anchor.
 //
-// - A rarely used variant (`message_ids`) where the client specifies the message Ids
+//   - A rarely used variant (`message_ids`) where the client specifies the message Ids
+//
 // to fetch.
 //
 // The server returns the matching messages, sorted by message Id, as well as some

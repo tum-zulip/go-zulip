@@ -22,7 +22,14 @@ type User struct {
 	// A boolean specifying whether the user is a bot or full account.
 	IsBot bool `json:"is_bot,omitempty"`
 
-	// [Organization-level role](https://zulip.com/api/roles-and-permissions) of the user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59).
+	// [Organization-level role](https://zulip.com/api/roles-and-permissions) of the user. Possible values are:
+	//   - 100 = Organization owner
+	//   - 200 = Organization administrator
+	//   - 300 = Organization moderator
+	//   - 400 = Member
+	//   - 600 = Guest
+	//
+	// **Changes**: New in Zulip 4.0 (feature level 59).
 	Role Role `json:"role,omitempty"`
 	// The IANA identifier of the user's [profile time zone](https://zulip.com/help/change-your-timezone), which is used primarily to display the user's local time to other users.
 	Timezone  string  `json:"timezone,omitempty"`

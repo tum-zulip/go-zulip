@@ -173,8 +173,8 @@ type ServerAndOrganizationsAPI interface {
 	//
 	// *Note:** this endpoint does not require any authentication at all, and you can use it to check:
 	//
-	// - If this is a Zulip server, and if so, what version of Zulip it's running.
-	// - What a Zulip client (e.g. a mobile app or
+	//   - If this is a Zulip server, and if so, what version of Zulip it's running.
+	//   - What a Zulip client (e.g. a mobile app or
 	// [zulip-terminal](https://github.com/zulip/zulip-terminal/)) needs to
 	// know in order to display a login prompt for the server (e.g. what
 	// authentication methods are available).
@@ -1519,9 +1519,10 @@ func (r GetServerSettingsRequest) Execute() (*GetServerSettingsResponse, *http.R
 //
 // *Note:** this endpoint does not require any authentication at all, and you can use it to check:
 //
-// - If this is a Zulip server, and if so, what version of Zulip it's running.
+//   - If this is a Zulip server, and if so, what version of Zulip it's running.
 //
-// - What a Zulip client (e.g. a mobile app or
+//   - What a Zulip client (e.g. a mobile app or
+//
 // [zulip-terminal](https://github.com/zulip/zulip-terminal/)) needs to
 // know in order to display a login prompt for the server (e.g. what
 // authentication methods are available).

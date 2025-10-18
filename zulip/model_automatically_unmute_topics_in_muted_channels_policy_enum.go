@@ -1,10 +1,11 @@
 package zulip
 
 // Which [topics to unmute automatically in muted channels](https://zulip.com/help/mute-a-topic).
-// - 1 - Topics the user participates in
-// - 2 - Topics the user sends a message to
-// - 3 - Topics the user starts
-// - 4 - Never
+//   - 1 = Topics the user participates in
+//   - 2 = Topics the user sends a message to
+//   - 3 = Topics the user starts
+//   - 4 = Never
+//
 // **Changes**: New in Zulip 8.0 (feature level 214).
 type AutomaticallyUnmuteTopicsInMutedChannelsPolicy int
 

@@ -301,25 +301,25 @@ type UsersAPI interface {
 	//
 	// Muted users should be implemented by clients as follows:
 	//
-	// - The server will immediately mark all messages sent by the muted
+	//   - The server will immediately mark all messages sent by the muted
 	// user as read. This will automatically clear any existing mobile
 	// push notifications related to the muted user.
-	// - The server will mark any new messages sent by the muted user as read
+	//   - The server will mark any new messages sent by the muted user as read
 	// for the requesting user's account, which prevents all email and mobile
 	// push notifications.
-	// - Clients should exclude muted users from presence lists or other UI
+	//   - Clients should exclude muted users from presence lists or other UI
 	// for viewing or composing one-on-one direct messages. One-on-one direct
 	// messages sent by muted users should be hidden everywhere in the Zulip UI.
-	// - Channel messages and group direct messages sent by the muted
+	//   - Channel messages and group direct messages sent by the muted
 	// user should avoid displaying the content and name/avatar,
 	// but should display that N messages by a muted user were
 	// hidden (so that it is possible to interpret the messages by
 	// other users who are talking with the muted user).
-	// - Group direct message conversations including the muted user
+	//   - Group direct message conversations including the muted user
 	// should display muted users as "Muted user", rather than
 	// showing their name, in lists of such conversations, along with using
 	// a blank grey avatar where avatars are displayed.
-	// - Administrative/settings UI elements for showing "All users that exist
+	//   - Administrative/settings UI elements for showing "All users that exist
 	// on this channel or realm", e.g. for organization
 	// administration or showing channel subscribers, should display
 	// the user's name as normal.
@@ -400,24 +400,24 @@ type UsersAPI interface {
 	// Clients implementing Zulip's typing notifications
 	// protocol should work as follows:
 	//
-	// - Send a request to this endpoint with `"op": "start"` when a user
+	//   - Send a request to this endpoint with `"op": "start"` when a user
 	// starts composing a message.
-	// - While the user continues to actively type or otherwise interact with
+	//   - While the user continues to actively type or otherwise interact with
 	// the compose UI (e.g. interacting with the compose box emoji picker),
 	// send regular `"op": "start"` requests to this endpoint, using
 	// `server_typing_started_wait_period_milliseconds` in the
 	// [`POST /register`] response as the time interval
 	// between each request.
-	// - Send a request to this endpoint with `"op": "stop"` when a user
+	//   - Send a request to this endpoint with `"op": "stop"` when a user
 	// has stopped using the compose UI for the time period indicated by
 	// `server_typing_stopped_wait_period_milliseconds` in the
 	// [`POST /register`] response or when a user
 	// cancels the compose action (if it had previously sent a "start"
 	// notification for that compose action).
-	// - Start displaying a visual typing indicator for a given conversation
+	//   - Start displaying a visual typing indicator for a given conversation
 	// when a [`typing op:start`] event is received
 	// from the server.
-	// - Continue displaying a visual typing indicator for the conversation
+	//   - Continue displaying a visual typing indicator for the conversation
 	// until a [`typing op:stop`] event is received
 	// from the server or the time period indicated by
 	// `server_typing_started_expiry_period_milliseconds` in the
@@ -494,10 +494,10 @@ type UsersAPI interface {
 	//
 	// This endpoint is meant to be used by clients for both:
 	//
-	// - Reporting the current user's presence status (`"active"` or `"idle"`)
+	//   - Reporting the current user's presence status (`"active"` or `"idle"`)
 	// to the server.
 	//
-	// - Obtaining the presence data of all other users in the organization via
+	//   - Obtaining the presence data of all other users in the organization via
 	// regular polling.
 	//
 	// Accurate user presence is one of the most expensive parts of any
@@ -3018,25 +3018,31 @@ func (r MuteUserRequest) Execute() (*Response, *http.Response, error) {
 //
 // Muted users should be implemented by clients as follows:
 //
-// - The server will immediately mark all messages sent by the muted
+//   - The server will immediately mark all messages sent by the muted
+//
 // user as read. This will automatically clear any existing mobile
 // push notifications related to the muted user.
-// - The server will mark any new messages sent by the muted user as read
+//   - The server will mark any new messages sent by the muted user as read
+//
 // for the requesting user's account, which prevents all email and mobile
 // push notifications.
-// - Clients should exclude muted users from presence lists or other UI
+//   - Clients should exclude muted users from presence lists or other UI
+//
 // for viewing or composing one-on-one direct messages. One-on-one direct
 // messages sent by muted users should be hidden everywhere in the Zulip UI.
-// - Channel messages and group direct messages sent by the muted
+//   - Channel messages and group direct messages sent by the muted
+//
 // user should avoid displaying the content and name/avatar,
 // but should display that N messages by a muted user were
 // hidden (so that it is possible to interpret the messages by
 // other users who are talking with the muted user).
-// - Group direct message conversations including the muted user
+//   - Group direct message conversations including the muted user
+//
 // should display muted users as "Muted user", rather than
 // showing their name, in lists of such conversations, along with using
 // a blank grey avatar where avatars are displayed.
-// - Administrative/settings UI elements for showing "All users that exist
+//   - Administrative/settings UI elements for showing "All users that exist
+//
 // on this channel or realm", e.g. for organization
 // administration or showing channel subscribers, should display
 // the user's name as normal.
@@ -3685,24 +3691,29 @@ func (r SetTypingStatusRequest) Execute() (*Response, *http.Response, error) {
 // Clients implementing Zulip's typing notifications
 // protocol should work as follows:
 //
-// - Send a request to this endpoint with `"op": "start"` when a user
+//   - Send a request to this endpoint with `"op": "start"` when a user
+//
 // starts composing a message.
-// - While the user continues to actively type or otherwise interact with
+//   - While the user continues to actively type or otherwise interact with
+//
 // the compose UI (e.g. interacting with the compose box emoji picker),
 // send regular `"op": "start"` requests to this endpoint, using
 // `server_typing_started_wait_period_milliseconds` in the
 // [`POST /register`] response as the time interval
 // between each request.
-// - Send a request to this endpoint with `"op": "stop"` when a user
+//   - Send a request to this endpoint with `"op": "stop"` when a user
+//
 // has stopped using the compose UI for the time period indicated by
 // `server_typing_stopped_wait_period_milliseconds` in the
 // [`POST /register`] response or when a user
 // cancels the compose action (if it had previously sent a "start"
 // notification for that compose action).
-// - Start displaying a visual typing indicator for a given conversation
+//   - Start displaying a visual typing indicator for a given conversation
+//
 // when a [`typing op:start`] event is received
 // from the server.
-// - Continue displaying a visual typing indicator for the conversation
+//   - Continue displaying a visual typing indicator for the conversation
+//
 // until a [`typing op:stop`] event is received
 // from the server or the time period indicated by
 // `server_typing_started_expiry_period_milliseconds` in the
@@ -4104,10 +4115,12 @@ func (r UpdatePresenceRequest) Execute() (*UpdatePresenceResponse, *http.Respons
 //
 // This endpoint is meant to be used by clients for both:
 //
-// - Reporting the current user's presence status (`"active"` or `"idle"`)
+//   - Reporting the current user's presence status (`"active"` or `"idle"`)
+//
 // to the server.
 //
-// - Obtaining the presence data of all other users in the organization via
+//   - Obtaining the presence data of all other users in the organization via
+//
 // regular polling.
 //
 // Accurate user presence is one of the most expensive parts of any
