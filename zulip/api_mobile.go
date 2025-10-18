@@ -10,48 +10,42 @@ import (
 
 type MobileAPI interface {
 
-	/*
-			E2eeTestNotify Send an E2EE test notification to mobile device(s)
-
-			Trigger sending an end-to-end encrypted (E2EE) test push notification
-		to the user's selected mobile device or all of their mobile devices.
-
-		**Changes**: New in Zulip 11.0 (feature level 420).
-
-	*/
+	// E2eeTestNotify Send an E2EE test notification to mobile device(s)
+	//
+	// Trigger sending an end-to-end encrypted (E2EE) test push notification
+	// to the user's selected mobile device or all of their mobile devices.
+	//
+	// *Changes**: New in Zulip 11.0 (feature level 420).
+	//
 	E2eeTestNotify(ctx context.Context) E2eeTestNotifyRequest
 
 	// E2eeTestNotifyExecute executes the request
 	E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*Response, *http.Response, error)
 
-	/*
-			RegisterPushDevice Register E2EE push device
-
-			Register a device to receive end-to-end encrypted mobile push notifications.
-
-		**Changes**: New in Zulip 11.0 (feature level 406).
-
-	*/
+	// RegisterPushDevice Register E2EE push device
+	//
+	// Register a device to receive end-to-end encrypted mobile push notifications.
+	//
+	// *Changes**: New in Zulip 11.0 (feature level 406).
+	//
 	RegisterPushDevice(ctx context.Context) RegisterPushDeviceRequest
 
 	// RegisterPushDeviceExecute executes the request
 	RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*Response, *http.Response, error)
 
-	/*
-			TestNotify Send a test notification to mobile device(s)
-
-			Trigger sending a test push notification to the user's
-		selected mobile device or all of their mobile devices.
-
-		**Changes**: Starting with Zulip 8.0 (feature level 234), test
-		notifications sent via this endpoint use `test` rather than
-		`test-by-device-token` in the `event` field. Also, as of this
-		feature level, all mobile push notifications now include a
-		`realm_name` field.
-
-		New in Zulip 8.0 (feature level 217).
-
-	*/
+	// TestNotify Send a test notification to mobile device(s)
+	//
+	// Trigger sending a test push notification to the user's
+	// selected mobile device or all of their mobile devices.
+	//
+	// *Changes**: Starting with Zulip 8.0 (feature level 234), test
+	// notifications sent via this endpoint use `test` rather than
+	// `test-by-device-token` in the `event` field. Also, as of this
+	// feature level, all mobile push notifications now include a
+	// `realm_name` field.
+	//
+	// New in Zulip 8.0 (feature level 217).
+	//
 	TestNotify(ctx context.Context) TestNotifyRequest
 
 	// TestNotifyExecute executes the request
@@ -74,14 +68,12 @@ func (r E2eeTestNotifyRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.E2eeTestNotifyExecute(r)
 }
 
-/*
-E2eeTestNotify Send an E2EE test notification to mobile device(s)
-
-Trigger sending an end-to-end encrypted (E2EE) test push notification
-to the user's selected mobile device or all of their mobile devices.
-
-**Changes**: New in Zulip 11.0 (feature level 420).
-*/
+// E2eeTestNotify Send an E2EE test notification to mobile device(s)
+//
+// Trigger sending an end-to-end encrypted (E2EE) test push notification
+// to the user's selected mobile device or all of their mobile devices.
+//
+// *Changes**: New in Zulip 11.0 (feature level 420).
 func (c *simpleClient) E2eeTestNotify(ctx context.Context) E2eeTestNotifyRequest {
 	return E2eeTestNotifyRequest{
 		ApiService: c,
@@ -208,13 +200,11 @@ func (r RegisterPushDeviceRequest) Execute() (*Response, *http.Response, error) 
 	return r.ApiService.RegisterPushDeviceExecute(r)
 }
 
-/*
-RegisterPushDevice Register E2EE push device
-
-Register a device to receive end-to-end encrypted mobile push notifications.
-
-**Changes**: New in Zulip 11.0 (feature level 406).
-*/
+// RegisterPushDevice Register E2EE push device
+//
+// Register a device to receive end-to-end encrypted mobile push notifications.
+//
+// *Changes**: New in Zulip 11.0 (feature level 406).
 func (c *simpleClient) RegisterPushDevice(ctx context.Context) RegisterPushDeviceRequest {
 	return RegisterPushDeviceRequest{
 		ApiService: c,
@@ -330,20 +320,18 @@ func (r TestNotifyRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.TestNotifyExecute(r)
 }
 
-/*
-TestNotify Send a test notification to mobile device(s)
-
-Trigger sending a test push notification to the user's
-selected mobile device or all of their mobile devices.
-
-**Changes**: Starting with Zulip 8.0 (feature level 234), test
-notifications sent via this endpoint use `test` rather than
-`test-by-device-token` in the `event` field. Also, as of this
-feature level, all mobile push notifications now include a
-`realm_name` field.
-
-New in Zulip 8.0 (feature level 217).
-*/
+// TestNotify Send a test notification to mobile device(s)
+//
+// Trigger sending a test push notification to the user's
+// selected mobile device or all of their mobile devices.
+//
+// *Changes**: Starting with Zulip 8.0 (feature level 234), test
+// notifications sent via this endpoint use `test` rather than
+// `test-by-device-token` in the `event` field. Also, as of this
+// feature level, all mobile push notifications now include a
+// `realm_name` field.
+//
+// New in Zulip 8.0 (feature level 217).
 func (c *simpleClient) TestNotify(ctx context.Context) TestNotifyRequest {
 	return TestNotifyRequest{
 		ApiService: c,

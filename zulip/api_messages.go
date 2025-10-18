@@ -12,467 +12,429 @@ import (
 
 type MessagesAPI interface {
 
-	/*
-		AddReaction Add an emoji reaction
-
-		Add an [emoji reaction](https://zulip.com/help/emoji-reactions) to a message.
-
-	*/
+	// AddReaction Add an emoji reaction
+	//
+	// Add an [emoji reaction](https://zulip.com/help/emoji-reactions) to a message.
+	//
 	AddReaction(ctx context.Context, messageId int64) AddReactionRequest
 
 	// AddReactionExecute executes the request
 	AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error)
 
-	/*
-			CheckMessagesMatchNarrow Check if messages match a narrow
-
-			Check whether a set of messages match a [narrow](https://zulip.com/api/construct-narrow).
-
-		For many common narrows (e.g. a topic), clients can write an efficient
-		client-side check to determine whether a newly arrived message belongs
-		in the view.
-
-		This endpoint is designed to allow clients to handle more complex narrows
-		for which the client does not (or in the case of full-text search, cannot)
-		implement this check.
-
-		The format of the `match_subject` and `match_content` objects is designed
-		to match those returned by the [`GET /messages`](https://zulip.com/api/get-messages#response)
-		endpoint, so that a client can splice these fields into a `message` object
-		received from [`GET /events`](https://zulip.com/api/get-events#message) and end up with an
-		extended message object identical to how a [`GET /messages`](https://zulip.com/api/get-messages)
-		request for the current narrow would have returned the message.
-
-	*/
+	// CheckMessagesMatchNarrow Check if messages match a narrow
+	//
+	// Check whether a set of messages match a [narrow](https://zulip.com/api/construct-narrow).
+	//
+	// For many common narrows (e.g. a topic), clients can write an efficient
+	// client-side check to determine whether a newly arrived message belongs
+	// in the view.
+	//
+	// This endpoint is designed to allow clients to handle more complex narrows
+	// for which the client does not (or in the case of full-text search, cannot)
+	// implement this check.
+	//
+	// The format of the `match_subject` and `match_content` objects is designed
+	// to match those returned by the [`GET /messages`](https://zulip.com/api/get-messages#response)
+	// endpoint, so that a client can splice these fields into a `message` object
+	// received from [`GET /events`](https://zulip.com/api/get-events#message) and end up with an
+	// extended message object identical to how a [`GET /messages`](https://zulip.com/api/get-messages)
+	// request for the current narrow would have returned the message.
+	//
 	CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest
 
 	// CheckMessagesMatchNarrowExecute executes the request
 	CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error)
 
-	/*
-			DeleteMessage Delete a message
-
-			Permanently delete a message.
-
-		This API corresponds to the
-		[delete a message completely][delete-completely] feature documented in
-		the Zulip Help Center.
-
-		[delete-completely]: https://zulip.com/help/delete-a-message#delete-a-message-completely
-
-	*/
+	// DeleteMessage Delete a message
+	//
+	// Permanently delete a message.
+	//
+	// This API corresponds to the
+	// [delete a message completely][delete-completely] feature documented in
+	// the Zulip Help Center.
+	//
+	// [delete-completely]: https://zulip.com/help/delete-a-message#delete-a-message-completely
+	//
 	DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest
 
 	// DeleteMessageExecute executes the request
 	DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error)
 
-	/*
-			GetFileTemporaryUrl Get public temporary URL
-
-			Get a temporary URL for access to the file that doesn't require authentication.
-
-		**Changes**: New in Zulip 3.0 (feature level 1).
-
-	*/
+	// GetFileTemporaryUrl Get public temporary URL
+	//
+	// Get a temporary URL for access to the file that doesn't require authentication.
+	//
+	// *Changes**: New in Zulip 3.0 (feature level 1).
+	//
 	GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, filename string) GetFileTemporaryUrlRequest
 
 	// GetFileTemporaryUrlExecute executes the request
 	GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error)
 
-	/*
-			GetMessage Fetch a single message
-
-			Given a message Id, return the message object.
-
-		Additionally, a `raw_content` field is included. This field is
-		useful for clients that primarily work with HTML-rendered
-		messages but might need to occasionally fetch the message's
-		raw [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) (e.g. for [view
-		source](https://zulip.com/help/view-the-markdown-source-of-a-message) or
-		prefilling a message edit textarea).
-
-		**Changes**: Before Zulip 5.0 (feature level 120), this
-		endpoint only returned the `raw_content` field.
-
-	*/
+	// GetMessage Fetch a single message
+	//
+	// Given a message Id, return the message object.
+	//
+	// Additionally, a `raw_content` field is included. This field is
+	// useful for clients that primarily work with HTML-rendered
+	// messages but might need to occasionally fetch the message's
+	// raw [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) (e.g. for [view
+	// source](https://zulip.com/help/view-the-markdown-source-of-a-message) or
+	// prefilling a message edit textarea).
+	//
+	// *Changes**: Before Zulip 5.0 (feature level 120), this
+	// endpoint only returned the `raw_content` field.
+	//
 	GetMessage(ctx context.Context, messageId int64) GetMessageRequest
 
 	// GetMessageExecute executes the request
 	GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error)
 
-	/*
-			GetMessageHistory Get a message's edit history
-
-			Fetch the message edit history of a previously edited message.
-
-		Note that edit history may be disabled in some organizations; see the
-		[Zulip Help Center documentation on editing messages][edit-settings].
-
-		[edit-settings]: https://zulip.com/help/view-a-messages-edit-history
-
-	*/
+	// GetMessageHistory Get a message's edit history
+	//
+	// Fetch the message edit history of a previously edited message.
+	//
+	// Note that edit history may be disabled in some organizations; see the
+	// [Zulip Help Center documentation on editing messages][edit-settings].
+	//
+	// [edit-settings]: https://zulip.com/help/view-a-messages-edit-history
+	//
 	GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest
 
 	// GetMessageHistoryExecute executes the request
 	GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error)
 
-	/*
-			GetMessages Get messages
-
-			This endpoint is the primary way to fetch a messages. It is used by all official
-		Zulip clients (e.g. the web, desktop, mobile, and terminal clients) as well as
-		many bots, API clients, backup scripts, etc.
-
-		Most queries will specify a [narrow filter](https://zulip.com/api/get-messages#parameter-narrow),
-		to fetch the messages matching any supported [search
-		query](https://zulip.com/help/search-for-messages). If not specified, it will return messages
-		corresponding to the user's [combined feed](https://zulip.com/help/combined-feed). There are two
-		ways to specify which messages matching the narrow filter to fetch:
-
-		- A range of messages, described by an `anchor` message Id (or a string-format
-		  specification of how the server should computer an anchor to use) and a maximum
-		  number of messages in each direction from that anchor.
-
-		- A rarely used variant (`message_ids`) where the client specifies the message Ids
-		  to fetch.
-
-		The server returns the matching messages, sorted by message Id, as well as some
-		metadata that makes it easy for a client to determine whether there are more
-		messages matching the query that were not returned due to the `num_before` and
-		`num_after` limits.
-
-		Note that a user's message history does not contain messages sent to
-		channels before they [subscribe](https://zulip.com/api/subscribe), and newly created
-		bot users are not usually subscribed to any channels.
-
-		We recommend requesting at most 1000 messages in a batch, to avoid generating very
-		large HTTP responses. A maximum of 5000 messages can be obtained per request;
-		attempting to exceed this will result in an error.
-
-		**Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
-
-	*/
+	// GetMessages Get messages
+	//
+	// This endpoint is the primary way to fetch a messages. It is used by all official
+	// Zulip clients (e.g. the web, desktop, mobile, and terminal clients) as well as
+	// many bots, API clients, backup scripts, etc.
+	//
+	// Most queries will specify a [narrow filter](https://zulip.com/api/get-messages#parameter-narrow),
+	// to fetch the messages matching any supported [search
+	// query](https://zulip.com/help/search-for-messages). If not specified, it will return messages
+	// corresponding to the user's [combined feed](https://zulip.com/help/combined-feed). There are two
+	// ways to specify which messages matching the narrow filter to fetch:
+	//
+	// - A range of messages, described by an `anchor` message Id (or a string-format
+	// specification of how the server should computer an anchor to use) and a maximum
+	// number of messages in each direction from that anchor.
+	//
+	// - A rarely used variant (`message_ids`) where the client specifies the message Ids
+	// to fetch.
+	//
+	// The server returns the matching messages, sorted by message Id, as well as some
+	// metadata that makes it easy for a client to determine whether there are more
+	// messages matching the query that were not returned due to the `num_before` and
+	// `num_after` limits.
+	//
+	// Note that a user's message history does not contain messages sent to
+	// channels before they [subscribe](https://zulip.com/api/subscribe), and newly created
+	// bot users are not usually subscribed to any channels.
+	//
+	// We recommend requesting at most 1000 messages in a batch, to avoid generating very
+	// large HTTP responses. A maximum of 5000 messages can be obtained per request;
+	// attempting to exceed this will result in an error.
+	//
+	// *Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
+	//
 	GetMessages(ctx context.Context) GetMessagesRequest
 
 	// GetMessagesExecute executes the request
 	GetMessagesExecute(r GetMessagesRequest) (*GetMessagesResponse, *http.Response, error)
 
-	/*
-			GetReadReceipts Get a message's read receipts
-
-			Returns a list containing the Ids for all users who have
-		marked the message as read (and whose privacy settings allow
-		sharing that information).
-
-		The list of users Ids will include any bots who have marked
-		the message as read via the API (providing a way for bots to
-		indicate whether they have processed a message successfully in
-		a way that can be easily inspected in a Zulip client). Bots
-		for which this behavior is not desired may disable the
-		`send_read_receipts` setting via the API.
-
-		It will never contain the message's sender.
-
-		**Changes**: New in Zulip 6.0 (feature level 137).
-
-	*/
+	// GetReadReceipts Get a message's read receipts
+	//
+	// Returns a list containing the Ids for all users who have
+	// marked the message as read (and whose privacy settings allow
+	// sharing that information).
+	//
+	// The list of users Ids will include any bots who have marked
+	// the message as read via the API (providing a way for bots to
+	// indicate whether they have processed a message successfully in
+	// a way that can be easily inspected in a Zulip client). Bots
+	// for which this behavior is not desired may disable the
+	// `send_read_receipts` setting via the API.
+	//
+	// It will never contain the message's sender.
+	//
+	// *Changes**: New in Zulip 6.0 (feature level 137).
+	//
 	GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest
 
 	// GetReadReceiptsExecute executes the request
 	GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error)
 
-	/*
-			MarkAllAsRead Mark all messages as read
-
-			Marks all of the current user's unread messages as read.
-
-		Because this endpoint marks messages as read in batches, it is possible
-		for the request to time out after only marking some messages as read.
-		When this happens, the `complete` boolean field in the success response
-		will be `false`. Clients should repeat the request when handling such a
-		response. If all messages were marked as read, then the success response
-		will return `"complete": true`.
-
-		**Changes**: Deprecated; clients should use the [update personal message
-		flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
-		as this endpoint will be removed in a future release.
-
-		Before Zulip 8.0 (feature level 211), if the server's
-		processing was interrupted by a timeout, but some messages were marked
-		as read, then it would return `"result": "partially_completed"`, along
-		with a `code` field for an error string, in the success response to
-		indicate that there was a timeout and that the client should repeat the
-		request.
-
-		Before Zulip 6.0 (feature level 153), this request did a single atomic
-		operation, which could time out with 10,000s of unread messages to mark
-		as read. As of this feature level, messages are marked as read in
-		batches, starting with the newest messages, so that progress is made
-		even if the request times out. And, instead of returning an error when
-		the request times out and some messages have been marked as read, a
-		success response with `"result": "partially_completed"` is returned.
-
-
-			Deprecated
-	*/
+	// MarkAllAsRead Mark all messages as read
+	//
+	// Marks all of the current user's unread messages as read.
+	//
+	// Because this endpoint marks messages as read in batches, it is possible
+	// for the request to time out after only marking some messages as read.
+	// When this happens, the `complete` boolean field in the success response
+	// will be `false`. Clients should repeat the request when handling such a
+	// response. If all messages were marked as read, then the success response
+	// will return `"complete": true`.
+	//
+	// *Changes**: Deprecated; clients should use the [update personal message
+	// flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
+	// as this endpoint will be removed in a future release.
+	//
+	// Before Zulip 8.0 (feature level 211), if the server's
+	// processing was interrupted by a timeout, but some messages were marked
+	// as read, then it would return `"result": "partially_completed"`, along
+	// with a `code` field for an error string, in the success response to
+	// indicate that there was a timeout and that the client should repeat the
+	// request.
+	//
+	// Before Zulip 6.0 (feature level 153), this request did a single atomic
+	// operation, which could time out with 10,000s of unread messages to mark
+	// as read. As of this feature level, messages are marked as read in
+	// batches, starting with the newest messages, so that progress is made
+	// even if the request times out. And, instead of returning an error when
+	// the request times out and some messages have been marked as read, a
+	// success response with `"result": "partially_completed"` is returned.
+	//
+	//
+	// Deprecated
 	MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest
 
 	// MarkAllAsReadExecute executes the request
 	// Deprecated
 	MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error)
 
-	/*
-			MarkChannelAsRead Mark messages in a channel as read
-
-			Mark all the unread messages in a channel as read.
-
-		**Changes**: Deprecated; clients should use the [update personal message
-		flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
-		as this endpoint will be removed in a future release.
-
-
-			Deprecated
-	*/
+	// MarkChannelAsRead Mark messages in a channel as read
+	//
+	// Mark all the unread messages in a channel as read.
+	//
+	// *Changes**: Deprecated; clients should use the [update personal message
+	// flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
+	// as this endpoint will be removed in a future release.
+	//
+	//
+	// Deprecated
 	MarkChannelAsRead(ctx context.Context) MarkChannelAsReadRequest
 
 	// MarkChannelAsReadExecute executes the request
 	// Deprecated
 	MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Response, *http.Response, error)
 
-	/*
-			MarkTopicAsRead Mark messages in a topic as read
-
-			Mark all the unread messages in a topic as read.
-
-		**Changes**: Deprecated; clients should use the [update personal message
-		flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
-		as this endpoint will be removed in a future release.
-
-
-			Deprecated
-	*/
+	// MarkTopicAsRead Mark messages in a topic as read
+	//
+	// Mark all the unread messages in a topic as read.
+	//
+	// *Changes**: Deprecated; clients should use the [update personal message
+	// flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
+	// as this endpoint will be removed in a future release.
+	//
+	//
+	// Deprecated
 	MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest
 
 	// MarkTopicAsReadExecute executes the request
 	// Deprecated
 	MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error)
 
-	/*
-		RemoveReaction Remove an emoji reaction
-
-		Remove an [emoji reaction](https://zulip.com/help/emoji-reactions) from a message.
-
-	*/
+	// RemoveReaction Remove an emoji reaction
+	//
+	// Remove an [emoji reaction](https://zulip.com/help/emoji-reactions) from a message.
+	//
 	RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest
 
 	// RemoveReactionExecute executes the request
 	RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error)
 
-	/*
-		RenderMessage Render a message
-
-		Render a message to HTML.
-
-	*/
+	// RenderMessage Render a message
+	//
+	// Render a message to HTML.
+	//
 	RenderMessage(ctx context.Context) RenderMessageRequest
 
 	// RenderMessageExecute executes the request
 	RenderMessageExecute(r RenderMessageRequest) (*RenderMessageResponse, *http.Response, error)
 
-	/*
-			ReportMessage Report a message
-
-			Sends a notification to the organization's moderation request channel,
-		if it is configured, that reports the targeted message for review and
-		moderation.
-
-		Clients should check the `moderation_request_channel` realm setting to
-		decide whether to show the option to report messages in the UI.
-
-		If the `report_type` parameter value is `"other"`, the `description`
-		parameter is required. Clients should also enforce and communicate this
-		behavior in the UI.
-
-		**Changes**: New in Zulip 11.0 (feature level 382). This API builds on
-		the `moderation_request_channel` realm setting, which was added in
-		feature level 331.
-
-	*/
+	// ReportMessage Report a message
+	//
+	// Sends a notification to the organization's moderation request channel,
+	// if it is configured, that reports the targeted message for review and
+	// moderation.
+	//
+	// Clients should check the `moderation_request_channel` realm setting to
+	// decide whether to show the option to report messages in the UI.
+	//
+	// If the `report_type` parameter value is `"other"`, the `description`
+	// parameter is required. Clients should also enforce and communicate this
+	// behavior in the UI.
+	//
+	// *Changes**: New in Zulip 11.0 (feature level 382). This API builds on
+	// the `moderation_request_channel` realm setting, which was added in
+	// feature level 331.
+	//
 	ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest
 
 	// ReportMessageExecute executes the request
 	ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error)
 
-	/*
-			SendMessage Send a message
-
-			Send a [channel message](https://zulip.com/help/introduction-to-topics) or a
-		[direct message](https://zulip.com/help/direct-messages).
-
-	*/
+	// SendMessage Send a message
+	//
+	// Send a [channel message](https://zulip.com/help/introduction-to-topics) or a
+	// [direct message](https://zulip.com/help/direct-messages).
+	//
 	SendMessage(ctx context.Context) SendMessageRequest
 
 	// SendMessageExecute executes the request
 	SendMessageExecute(r SendMessageRequest) (*SendMessageResponse, *http.Response, error)
 
-	/*
-			UpdateMessage Edit a message
-
-			Update the content, topic, or channel of the message with the specified
-		Id.
-
-		You can [resolve topics](https://zulip.com/help/resolve-a-topic) by editing the topic to
-		`✔ {original_topic}` with the `propagate_mode` parameter set to
-		`"change_all"`.
-
-		See [configuring message editing][config-message-editing] for detailed
-		documentation on when users are allowed to edit message content, and
-		[restricting moving messages][restrict-move-messages] for detailed
-		documentation on when users are allowed to change a message's topic
-		and/or channel.
-
-		The relevant realm settings in the API that are related to the above
-		linked documentation on when users are allowed to update messages are:
-
-		- `allow_message_editing`
-		- `can_resolve_topics_group`
-		- `can_move_messages_between_channels_group`
-		- `can_move_messages_between_topics_group`
-		- `message_content_edit_limit_seconds`
-		- `move_messages_within_stream_limit_seconds`
-		- `move_messages_between_streams_limit_seconds`
-
-		More details about these realm settings can be found in the
-		[`POST /register`](https://zulip.com/api/register-queue) response or in the documentation
-		of the [`realm op: update_dict`](https://zulip.com/api/get-events#realm-update_dict
-		event in [`GET /events`](https://zulip.com/api/get-events).
-
-		**Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
-		resolving a topic was managed by `can_move_messages_between_topics_group`.
-		As of this feature level, users belonging to the `can_resolve_topics_group`
-		will have the permission to [resolve topics](https://zulip.com/help/resolve-a-topic) in the organization.
-
-		In Zulip 10.0 (feature level 316), `edit_topic_policy`
-		was removed and replaced by `can_move_messages_between_topics_group`
-		realm setting.
-
-		**Changes**: In Zulip 10.0 (feature level 310), `move_messages_between_streams_policy`
-		was removed and replaced by `can_move_messages_between_channels_group`
-		realm setting.
-
-		Prior to Zulip 7.0 (feature level 172), anyone could add a
-		topic to channel messages without a topic, regardless of the organization's
-		[topic editing permissions](https://zulip.com/help/restrict-moving-messages). As of this
-		feature level, messages without topics have the same restrictions for
-		topic edits as messages with topics.
-
-		Before Zulip 7.0 (feature level 172), by using the `change_all` value for
-		the `propagate_mode` parameter, users could move messages after the
-		organization's configured time limits for changing a message's topic or
-		channel had passed. As of this feature level, the server will [return an
-		error](https://zulip.com/api/update-message#response) with `"code":
-		"MOVE_MESSAGES_TIME_LIMIT_EXCEEDED"` if users, other than organization
-		administrators or moderators, try to move messages after these time
-		limits have passed.
-
-		Before Zulip 7.0 (feature level 162), users who were not administrators or
-		moderators could only edit topics if the target message was sent within the
-		last 3 days. As of this feature level, that time limit is now controlled by
-		the realm setting `move_messages_within_stream_limit_seconds`. Also at this
-		feature level, a similar time limit for moving messages between channels was
-		added, controlled by the realm setting
-		`move_messages_between_streams_limit_seconds`. Previously, all users who
-		had permission to move messages between channels did not have any time limit
-		restrictions when doing so.
-
-		Before Zulip 7.0 (feature level 159), editing channels and topics of messages
-		was forbidden if the realm setting for `allow_message_editing` was `false`,
-		regardless of an organization's configuration for the realm settings
-		`edit_topic_policy` or `move_messages_between_streams_policy`.
-
-		Before Zulip 7.0 (feature level 159), message senders were allowed to edit
-		the topic of their messages indefinitely.
-
-		In Zulip 5.0 (feature level 75), the `edit_topic_policy` realm setting
-		was added, replacing the `allow_community_topic_editing` boolean.
-
-		In Zulip 4.0 (feature level 56), the `move_messages_between_streams_policy`
-		realm setting was added.
-
-		[config-message-editing]: https://zulip.com/help/restrict-message-editing-and-deletion
-		[restrict-move-messages]: https://zulip.com/help/restrict-moving-messages
-
-	*/
+	// UpdateMessage Edit a message
+	//
+	// Update the content, topic, or channel of the message with the specified
+	// Id.
+	//
+	// You can [resolve topics](https://zulip.com/help/resolve-a-topic) by editing the topic to
+	// `✔ {original_topic}` with the `propagate_mode` parameter set to
+	// `"change_all"`.
+	//
+	// See [configuring message editing][config-message-editing] for detailed
+	// documentation on when users are allowed to edit message content, and
+	// [restricting moving messages][restrict-move-messages] for detailed
+	// documentation on when users are allowed to change a message's topic
+	// and/or channel.
+	//
+	// The relevant realm settings in the API that are related to the above
+	// linked documentation on when users are allowed to update messages are:
+	//
+	// - `allow_message_editing`
+	// - `can_resolve_topics_group`
+	// - `can_move_messages_between_channels_group`
+	// - `can_move_messages_between_topics_group`
+	// - `message_content_edit_limit_seconds`
+	// - `move_messages_within_stream_limit_seconds`
+	// - `move_messages_between_streams_limit_seconds`
+	//
+	// More details about these realm settings can be found in the
+	// [`POST /register`](https://zulip.com/api/register-queue) response or in the documentation
+	// of the [`realm op: update_dict`](https://zulip.com/api/get-events#realm-update_dict
+	// event in [`GET /events`](https://zulip.com/api/get-events).
+	//
+	// *Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
+	// resolving a topic was managed by `can_move_messages_between_topics_group`.
+	// As of this feature level, users belonging to the `can_resolve_topics_group`
+	// will have the permission to [resolve topics](https://zulip.com/help/resolve-a-topic) in the organization.
+	//
+	// In Zulip 10.0 (feature level 316), `edit_topic_policy`
+	// was removed and replaced by `can_move_messages_between_topics_group`
+	// realm setting.
+	//
+	// *Changes**: In Zulip 10.0 (feature level 310), `move_messages_between_streams_policy`
+	// was removed and replaced by `can_move_messages_between_channels_group`
+	// realm setting.
+	//
+	// Prior to Zulip 7.0 (feature level 172), anyone could add a
+	// topic to channel messages without a topic, regardless of the organization's
+	// [topic editing permissions](https://zulip.com/help/restrict-moving-messages). As of this
+	// feature level, messages without topics have the same restrictions for
+	// topic edits as messages with topics.
+	//
+	// Before Zulip 7.0 (feature level 172), by using the `change_all` value for
+	// the `propagate_mode` parameter, users could move messages after the
+	// organization's configured time limits for changing a message's topic or
+	// channel had passed. As of this feature level, the server will [return an
+	// error](https://zulip.com/api/update-message#response) with `"code":
+	// "MOVE_MESSAGES_TIME_LIMIT_EXCEEDED"` if users, other than organization
+	// administrators or moderators, try to move messages after these time
+	// limits have passed.
+	//
+	// Before Zulip 7.0 (feature level 162), users who were not administrators or
+	// moderators could only edit topics if the target message was sent within the
+	// last 3 days. As of this feature level, that time limit is now controlled by
+	// the realm setting `move_messages_within_stream_limit_seconds`. Also at this
+	// feature level, a similar time limit for moving messages between channels was
+	// added, controlled by the realm setting
+	// `move_messages_between_streams_limit_seconds`. Previously, all users who
+	// had permission to move messages between channels did not have any time limit
+	// restrictions when doing so.
+	//
+	// Before Zulip 7.0 (feature level 159), editing channels and topics of messages
+	// was forbidden if the realm setting for `allow_message_editing` was `false`,
+	// regardless of an organization's configuration for the realm settings
+	// `edit_topic_policy` or `move_messages_between_streams_policy`.
+	//
+	// Before Zulip 7.0 (feature level 159), message senders were allowed to edit
+	// the topic of their messages indefinitely.
+	//
+	// In Zulip 5.0 (feature level 75), the `edit_topic_policy` realm setting
+	// was added, replacing the `allow_community_topic_editing` boolean.
+	//
+	// In Zulip 4.0 (feature level 56), the `move_messages_between_streams_policy`
+	// realm setting was added.
+	//
+	// [config-message-editing]: https://zulip.com/help/restrict-message-editing-and-deletion
+	// [restrict-move-messages]: https://zulip.com/help/restrict-moving-messages
+	//
 	UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest
 
 	// UpdateMessageExecute executes the request
 	UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error)
 
-	/*
-			UpdateMessageFlags Update personal message flags
-
-			Add or remove personal message flags like `read` and `starred`
-		on a collection of message Ids.
-
-		See also the endpoint for [updating flags on a range of
-		messages within a narrow](https://zulip.com/api/update-message-flags-for-narrow).
-
-	*/
+	// UpdateMessageFlags Update personal message flags
+	//
+	// Add or remove personal message flags like `read` and `starred`
+	// on a collection of message Ids.
+	//
+	// See also the endpoint for [updating flags on a range of
+	// messages within a narrow](https://zulip.com/api/update-message-flags-for-narrow).
+	//
 	UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest
 
 	// UpdateMessageFlagsExecute executes the request
 	UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*UpdateMessageFlagsResponse, *http.Response, error)
 
-	/*
-			UpdateMessageFlagsForNarrow Update personal message flags for narrow
-
-			Add or remove personal message flags like `read` and `starred`
-		on a range of messages within a narrow.
-
-		See also [the endpoint for updating flags on specific message
-		Ids](https://zulip.com/api/update-message-flags).
-
-		**Changes**: New in Zulip 6.0 (feature level 155).
-
-	*/
+	// UpdateMessageFlagsForNarrow Update personal message flags for narrow
+	//
+	// Add or remove personal message flags like `read` and `starred`
+	// on a range of messages within a narrow.
+	//
+	// See also [the endpoint for updating flags on specific message
+	// Ids](https://zulip.com/api/update-message-flags).
+	//
+	// *Changes**: New in Zulip 6.0 (feature level 155).
+	//
 	UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest
 
 	// UpdateMessageFlagsForNarrowExecute executes the request
 	UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error)
 
-	/*
-			UploadFile Upload a file
-
-			[Upload](https://zulip.com/help/share-and-upload-files) a single file and get the corresponding URL.
-
-		Initially, only you will be able to access the link. To share the
-		uploaded file, you'll need to [send a message][send-message]
-		containing the resulting link. Users who can already access the link
-		can reshare it with other users by sending additional Zulip messages
-		containing the link.
-
-		The maximum allowed file size is available in the `max_file_upload_size_mib`
-		field in the [`POST /register`](https://zulip.com/api/register-queue) response. Note that
-		large files (25MB+) may fail to upload using this API endpoint due to
-		network-layer timeouts, depending on the quality of your connection to the
-		Zulip server.
-
-		For uploading larger files, `/api/v1/tus` is an endpoint implementing the
-		[`tus` resumable upload protocol](https://tus.io/protocols/resumable-upload),
-		which supports uploading arbitrarily large files limited only by the server's
-		`max_file_upload_size_mib` (Configured via `MAX_FILE_UPLOAD_SIZE` in
-		`/etc/zulip/settings.py`). Clients which send authenticated credentials
-		(either via browser-based cookies, or API key via `Authorization` header) may
-		use this endpoint to upload files.
-
-		**Changes**: The `api/v1/tus` endpoint supporting resumable uploads was
-		introduced in Zulip 10.0 (feature level 296). Previously,
-		`max_file_upload_size_mib` was typically 25MB.
-
-		[uploaded-files]: https://zulip.com/help/manage-your-uploaded-files
-		[send-message]: https://zulip.com/api/send-message
-
-	*/
+	// UploadFile Upload a file
+	//
+	// [Upload](https://zulip.com/help/share-and-upload-files) a single file and get the corresponding URL.
+	//
+	// Initially, only you will be able to access the link. To share the
+	// uploaded file, you'll need to [send a message][send-message]
+	// containing the resulting link. Users who can already access the link
+	// can reshare it with other users by sending additional Zulip messages
+	// containing the link.
+	//
+	// The maximum allowed file size is available in the `max_file_upload_size_mib`
+	// field in the [`POST /register`](https://zulip.com/api/register-queue) response. Note that
+	// large files (25MB+) may fail to upload using this API endpoint due to
+	// network-layer timeouts, depending on the quality of your connection to the
+	// Zulip server.
+	//
+	// For uploading larger files, `/api/v1/tus` is an endpoint implementing the
+	// [`tus` resumable upload protocol](https://tus.io/protocols/resumable-upload),
+	// which supports uploading arbitrarily large files limited only by the server's
+	// `max_file_upload_size_mib` (Configured via `MAX_FILE_UPLOAD_SIZE` in
+	// `/etc/zulip/settings.py`). Clients which send authenticated credentials
+	// (either via browser-based cookies, or API key via `Authorization` header) may
+	// use this endpoint to upload files.
+	//
+	// *Changes**: The `api/v1/tus` endpoint supporting resumable uploads was
+	// introduced in Zulip 10.0 (feature level 296). Previously,
+	// `max_file_upload_size_mib` was typically 25MB.
+	//
+	// [uploaded-files]: https://zulip.com/help/manage-your-uploaded-files
+	// [send-message]: https://zulip.com/api/send-message
+	//
 	UploadFile(ctx context.Context) UploadFileRequest
 
 	// UploadFileExecute executes the request
@@ -510,11 +472,9 @@ func (r AddReactionRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.AddReactionExecute(r)
 }
 
-/*
-AddReaction Add an emoji reaction
-
-Add an [emoji reaction](https://zulip.com/help/emoji-reactions) to a message.
-*/
+// AddReaction Add an emoji reaction
+//
+// Add an [emoji reaction](https://zulip.com/help/emoji-reactions) to a message.
 func (c *simpleClient) AddReaction(ctx context.Context, messageId int64) AddReactionRequest {
 	return AddReactionRequest{
 		ApiService: c,
@@ -629,26 +589,24 @@ func (r CheckMessagesMatchNarrowRequest) Execute() (*CheckMessagesMatchNarrowRes
 	return r.ApiService.CheckMessagesMatchNarrowExecute(r)
 }
 
-/*
-CheckMessagesMatchNarrow Check if messages match a narrow
-
-Check whether a set of messages match a [narrow](https://zulip.com/api/construct-narrow).
-
-For many common narrows (e.g. a topic), clients can write an efficient
-client-side check to determine whether a newly arrived message belongs
-in the view.
-
-This endpoint is designed to allow clients to handle more complex narrows
-for which the client does not (or in the case of full-text search, cannot)
-implement this check.
-
-The format of the `match_subject` and `match_content` objects is designed
-to match those returned by the [`GET /messages`](https://zulip.com/api/get-messages#response)
-endpoint, so that a client can splice these fields into a `message` object
-received from [`GET /events`](https://zulip.com/api/get-events#message) and end up with an
-extended message object identical to how a [`GET /messages`](https://zulip.com/api/get-messages)
-request for the current narrow would have returned the message.
-*/
+// CheckMessagesMatchNarrow Check if messages match a narrow
+//
+// Check whether a set of messages match a [narrow](https://zulip.com/api/construct-narrow).
+//
+// For many common narrows (e.g. a topic), clients can write an efficient
+// client-side check to determine whether a newly arrived message belongs
+// in the view.
+//
+// This endpoint is designed to allow clients to handle more complex narrows
+// for which the client does not (or in the case of full-text search, cannot)
+// implement this check.
+//
+// The format of the `match_subject` and `match_content` objects is designed
+// to match those returned by the [`GET /messages`](https://zulip.com/api/get-messages#response)
+// endpoint, so that a client can splice these fields into a `message` object
+// received from [`GET /events`](https://zulip.com/api/get-events#message) and end up with an
+// extended message object identical to how a [`GET /messages`](https://zulip.com/api/get-messages)
+// request for the current narrow would have returned the message.
 func (c *simpleClient) CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest {
 	return CheckMessagesMatchNarrowRequest{
 		ApiService: c,
@@ -746,17 +704,15 @@ func (r DeleteMessageRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.DeleteMessageExecute(r)
 }
 
-/*
-DeleteMessage Delete a message
-
-Permanently delete a message.
-
-This API corresponds to the
-[delete a message completely][delete-completely] feature documented in
-the Zulip Help Center.
-
-[delete-completely]: https://zulip.com/help/delete-a-message#delete-a-message-completely
-*/
+// DeleteMessage Delete a message
+//
+// Permanently delete a message.
+//
+// This API corresponds to the
+// [delete a message completely][delete-completely] feature documented in
+// the Zulip Help Center.
+//
+// [delete-completely]: https://zulip.com/help/delete-a-message#delete-a-message-completely
 func (c *simpleClient) DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest {
 	return DeleteMessageRequest{
 		ApiService: c,
@@ -849,13 +805,11 @@ func (r GetFileTemporaryUrlRequest) Execute() (*GetFileTemporaryUrlResponse, *ht
 	return r.ApiService.GetFileTemporaryUrlExecute(r)
 }
 
-/*
-GetFileTemporaryUrl Get public temporary URL
-
-Get a temporary URL for access to the file that doesn't require authentication.
-
-**Changes**: New in Zulip 3.0 (feature level 1).
-*/
+// GetFileTemporaryUrl Get public temporary URL
+//
+// Get a temporary URL for access to the file that doesn't require authentication.
+//
+// *Changes**: New in Zulip 3.0 (feature level 1).
 func (c *simpleClient) GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, filename string) GetFileTemporaryUrlRequest {
 	return GetFileTemporaryUrlRequest{
 		ApiService: c,
@@ -963,21 +917,19 @@ func (r GetMessageRequest) Execute() (*GetMessageResponse, *http.Response, error
 	return r.ApiService.GetMessageExecute(r)
 }
 
-/*
-GetMessage Fetch a single message
-
-Given a message Id, return the message object.
-
-Additionally, a `raw_content` field is included. This field is
-useful for clients that primarily work with HTML-rendered
-messages but might need to occasionally fetch the message's
-raw [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) (e.g. for [view
-source](https://zulip.com/help/view-the-markdown-source-of-a-message) or
-prefilling a message edit textarea).
-
-**Changes**: Before Zulip 5.0 (feature level 120), this
-endpoint only returned the `raw_content` field.
-*/
+// GetMessage Fetch a single message
+//
+// Given a message Id, return the message object.
+//
+// Additionally, a `raw_content` field is included. This field is
+// useful for clients that primarily work with HTML-rendered
+// messages but might need to occasionally fetch the message's
+// raw [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) (e.g. for [view
+// source](https://zulip.com/help/view-the-markdown-source-of-a-message) or
+// prefilling a message edit textarea).
+//
+// *Changes**: Before Zulip 5.0 (feature level 120), this
+// endpoint only returned the `raw_content` field.
 func (c *simpleClient) GetMessage(ctx context.Context, messageId int64) GetMessageRequest {
 	return GetMessageRequest{
 		ApiService: c,
@@ -1088,16 +1040,14 @@ func (r GetMessageHistoryRequest) Execute() (*GetMessageHistoryResponse, *http.R
 	return r.ApiService.GetMessageHistoryExecute(r)
 }
 
-/*
-GetMessageHistory Get a message's edit history
-
-Fetch the message edit history of a previously edited message.
-
-Note that edit history may be disabled in some organizations; see the
-[Zulip Help Center documentation on editing messages][edit-settings].
-
-[edit-settings]: https://zulip.com/help/view-a-messages-edit-history
-*/
+// GetMessageHistory Get a message's edit history
+//
+// Fetch the message edit history of a previously edited message.
+//
+// Note that edit history may be disabled in some organizations; see the
+// [Zulip Help Center documentation on editing messages][edit-settings].
+//
+// [edit-settings]: https://zulip.com/help/view-a-messages-edit-history
 func (c *simpleClient) GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest {
 	return GetMessageHistoryRequest{
 		ApiService: c,
@@ -1265,41 +1215,39 @@ func (r GetMessagesRequest) Execute() (*GetMessagesResponse, *http.Response, err
 	return r.ApiService.GetMessagesExecute(r)
 }
 
-/*
-GetMessages Get messages
-
-This endpoint is the primary way to fetch a messages. It is used by all official
-Zulip clients (e.g. the web, desktop, mobile, and terminal clients) as well as
-many bots, API clients, backup scripts, etc.
-
-Most queries will specify a [narrow filter](https://zulip.com/api/get-messages#parameter-narrow),
-to fetch the messages matching any supported [search
-query](https://zulip.com/help/search-for-messages). If not specified, it will return messages
-corresponding to the user's [combined feed](https://zulip.com/help/combined-feed). There are two
-ways to specify which messages matching the narrow filter to fetch:
-
-  - A range of messages, described by an `anchor` message Id (or a string-format
-    specification of how the server should computer an anchor to use) and a maximum
-    number of messages in each direction from that anchor.
-
-  - A rarely used variant (`message_ids`) where the client specifies the message Ids
-    to fetch.
-
-The server returns the matching messages, sorted by message Id, as well as some
-metadata that makes it easy for a client to determine whether there are more
-messages matching the query that were not returned due to the `num_before` and
-`num_after` limits.
-
-Note that a user's message history does not contain messages sent to
-channels before they [subscribe](https://zulip.com/api/subscribe), and newly created
-bot users are not usually subscribed to any channels.
-
-We recommend requesting at most 1000 messages in a batch, to avoid generating very
-large HTTP responses. A maximum of 5000 messages can be obtained per request;
-attempting to exceed this will result in an error.
-
-**Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
-*/
+// GetMessages Get messages
+//
+// This endpoint is the primary way to fetch a messages. It is used by all official
+// Zulip clients (e.g. the web, desktop, mobile, and terminal clients) as well as
+// many bots, API clients, backup scripts, etc.
+//
+// Most queries will specify a [narrow filter](https://zulip.com/api/get-messages#parameter-narrow),
+// to fetch the messages matching any supported [search
+// query](https://zulip.com/help/search-for-messages). If not specified, it will return messages
+// corresponding to the user's [combined feed](https://zulip.com/help/combined-feed). There are two
+// ways to specify which messages matching the narrow filter to fetch:
+//
+// - A range of messages, described by an `anchor` message Id (or a string-format
+// specification of how the server should computer an anchor to use) and a maximum
+// number of messages in each direction from that anchor.
+//
+// - A rarely used variant (`message_ids`) where the client specifies the message Ids
+// to fetch.
+//
+// The server returns the matching messages, sorted by message Id, as well as some
+// metadata that makes it easy for a client to determine whether there are more
+// messages matching the query that were not returned due to the `num_before` and
+// `num_after` limits.
+//
+// Note that a user's message history does not contain messages sent to
+// channels before they [subscribe](https://zulip.com/api/subscribe), and newly created
+// bot users are not usually subscribed to any channels.
+//
+// We recommend requesting at most 1000 messages in a batch, to avoid generating very
+// large HTTP responses. A maximum of 5000 messages can be obtained per request;
+// attempting to exceed this will result in an error.
+//
+// *Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
 func (c *simpleClient) GetMessages(ctx context.Context) GetMessagesRequest {
 	return GetMessagesRequest{
 		ApiService: c,
@@ -1437,24 +1385,22 @@ func (r GetReadReceiptsRequest) Execute() (*GetReadReceiptsResponse, *http.Respo
 	return r.ApiService.GetReadReceiptsExecute(r)
 }
 
-/*
-GetReadReceipts Get a message's read receipts
-
-Returns a list containing the Ids for all users who have
-marked the message as read (and whose privacy settings allow
-sharing that information).
-
-The list of users Ids will include any bots who have marked
-the message as read via the API (providing a way for bots to
-indicate whether they have processed a message successfully in
-a way that can be easily inspected in a Zulip client). Bots
-for which this behavior is not desired may disable the
-`send_read_receipts` setting via the API.
-
-It will never contain the message's sender.
-
-**Changes**: New in Zulip 6.0 (feature level 137).
-*/
+// GetReadReceipts Get a message's read receipts
+//
+// Returns a list containing the Ids for all users who have
+// marked the message as read (and whose privacy settings allow
+// sharing that information).
+//
+// The list of users Ids will include any bots who have marked
+// the message as read via the API (providing a way for bots to
+// indicate whether they have processed a message successfully in
+// a way that can be easily inspected in a Zulip client). Bots
+// for which this behavior is not desired may disable the
+// `send_read_receipts` setting via the API.
+//
+// It will never contain the message's sender.
+//
+// *Changes**: New in Zulip 6.0 (feature level 137).
 func (c *simpleClient) GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest {
 	return GetReadReceiptsRequest{
 		ApiService: c,
@@ -1545,39 +1491,37 @@ func (r MarkAllAsReadRequest) Execute() (*MarkAllAsReadResponse, *http.Response,
 	return r.ApiService.MarkAllAsReadExecute(r)
 }
 
-/*
-MarkAllAsRead Mark all messages as read
-
-Marks all of the current user's unread messages as read.
-
-Because this endpoint marks messages as read in batches, it is possible
-for the request to time out after only marking some messages as read.
-When this happens, the `complete` boolean field in the success response
-will be `false`. Clients should repeat the request when handling such a
-response. If all messages were marked as read, then the success response
-will return `"complete": true`.
-
-**Changes**: Deprecated; clients should use the [update personal message
-flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
-as this endpoint will be removed in a future release.
-
-Before Zulip 8.0 (feature level 211), if the server's
-processing was interrupted by a timeout, but some messages were marked
-as read, then it would return `"result": "partially_completed"`, along
-with a `code` field for an error string, in the success response to
-indicate that there was a timeout and that the client should repeat the
-request.
-
-Before Zulip 6.0 (feature level 153), this request did a single atomic
-operation, which could time out with 10,000s of unread messages to mark
-as read. As of this feature level, messages are marked as read in
-batches, starting with the newest messages, so that progress is made
-even if the request times out. And, instead of returning an error when
-the request times out and some messages have been marked as read, a
-success response with `"result": "partially_completed"` is returned.
-
-Deprecated
-*/
+// MarkAllAsRead Mark all messages as read
+//
+// Marks all of the current user's unread messages as read.
+//
+// Because this endpoint marks messages as read in batches, it is possible
+// for the request to time out after only marking some messages as read.
+// When this happens, the `complete` boolean field in the success response
+// will be `false`. Clients should repeat the request when handling such a
+// response. If all messages were marked as read, then the success response
+// will return `"complete": true`.
+//
+// *Changes**: Deprecated; clients should use the [update personal message
+// flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
+// as this endpoint will be removed in a future release.
+//
+// Before Zulip 8.0 (feature level 211), if the server's
+// processing was interrupted by a timeout, but some messages were marked
+// as read, then it would return `"result": "partially_completed"`, along
+// with a `code` field for an error string, in the success response to
+// indicate that there was a timeout and that the client should repeat the
+// request.
+//
+// Before Zulip 6.0 (feature level 153), this request did a single atomic
+// operation, which could time out with 10,000s of unread messages to mark
+// as read. As of this feature level, messages are marked as read in
+// batches, starting with the newest messages, so that progress is made
+// even if the request times out. And, instead of returning an error when
+// the request times out and some messages have been marked as read, a
+// success response with `"result": "partially_completed"` is returned.
+//
+// Deprecated
 func (c *simpleClient) MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest {
 	return MarkAllAsReadRequest{
 		ApiService: c,
@@ -1675,17 +1619,15 @@ func (r MarkChannelAsReadRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.MarkChannelAsReadExecute(r)
 }
 
-/*
-MarkChannelAsRead Mark messages in a channel as read
-
-Mark all the unread messages in a channel as read.
-
-**Changes**: Deprecated; clients should use the [update personal message
-flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
-as this endpoint will be removed in a future release.
-
-Deprecated
-*/
+// MarkChannelAsRead Mark messages in a channel as read
+//
+// Mark all the unread messages in a channel as read.
+//
+// *Changes**: Deprecated; clients should use the [update personal message
+// flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
+// as this endpoint will be removed in a future release.
+//
+// Deprecated
 func (c *simpleClient) MarkChannelAsRead(ctx context.Context) MarkChannelAsReadRequest {
 	return MarkChannelAsReadRequest{
 		ApiService: c,
@@ -1794,17 +1736,15 @@ func (r MarkTopicAsReadRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.MarkTopicAsReadExecute(r)
 }
 
-/*
-MarkTopicAsRead Mark messages in a topic as read
-
-Mark all the unread messages in a topic as read.
-
-**Changes**: Deprecated; clients should use the [update personal message
-flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
-as this endpoint will be removed in a future release.
-
-Deprecated
-*/
+// MarkTopicAsRead Mark messages in a topic as read
+//
+// Mark all the unread messages in a topic as read.
+//
+// *Changes**: Deprecated; clients should use the [update personal message
+// flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
+// as this endpoint will be removed in a future release.
+//
+// Deprecated
 func (c *simpleClient) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest {
 	return MarkTopicAsReadRequest{
 		ApiService: c,
@@ -1925,11 +1865,9 @@ func (r RemoveReactionRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.RemoveReactionExecute(r)
 }
 
-/*
-RemoveReaction Remove an emoji reaction
-
-Remove an [emoji reaction](https://zulip.com/help/emoji-reactions) from a message.
-*/
+// RemoveReaction Remove an emoji reaction
+//
+// Remove an [emoji reaction](https://zulip.com/help/emoji-reactions) from a message.
 func (c *simpleClient) RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest {
 	return RemoveReactionRequest{
 		ApiService: c,
@@ -2036,11 +1974,9 @@ func (r RenderMessageRequest) Execute() (*RenderMessageResponse, *http.Response,
 	return r.ApiService.RenderMessageExecute(r)
 }
 
-/*
-RenderMessage Render a message
-
-Render a message to HTML.
-*/
+// RenderMessage Render a message
+//
+// Render a message to HTML.
 func (c *simpleClient) RenderMessage(ctx context.Context) RenderMessageRequest {
 	return RenderMessageRequest{
 		ApiService: c,
@@ -2148,24 +2084,22 @@ func (r ReportMessageRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.ReportMessageExecute(r)
 }
 
-/*
-ReportMessage Report a message
-
-Sends a notification to the organization's moderation request channel,
-if it is configured, that reports the targeted message for review and
-moderation.
-
-Clients should check the `moderation_request_channel` realm setting to
-decide whether to show the option to report messages in the UI.
-
-If the `report_type` parameter value is `"other"`, the `description`
-parameter is required. Clients should also enforce and communicate this
-behavior in the UI.
-
-**Changes**: New in Zulip 11.0 (feature level 382). This API builds on
-the `moderation_request_channel` realm setting, which was added in
-feature level 331.
-*/
+// ReportMessage Report a message
+//
+// Sends a notification to the organization's moderation request channel,
+// if it is configured, that reports the targeted message for review and
+// moderation.
+//
+// Clients should check the `moderation_request_channel` realm setting to
+// decide whether to show the option to report messages in the UI.
+//
+// If the `report_type` parameter value is `"other"`, the `description`
+// parameter is required. Clients should also enforce and communicate this
+// behavior in the UI.
+//
+// *Changes**: New in Zulip 11.0 (feature level 382). This API builds on
+// the `moderation_request_channel` realm setting, which was added in
+// feature level 331.
 func (c *simpleClient) ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest {
 	return ReportMessageRequest{
 		ApiService: c,
@@ -2311,12 +2245,10 @@ func (r SendMessageRequest) Execute() (*SendMessageResponse, *http.Response, err
 	return r.ApiService.SendMessageExecute(r)
 }
 
-/*
-SendMessage Send a message
-
-Send a [channel message](https://zulip.com/help/introduction-to-topics) or a
-[direct message](https://zulip.com/help/direct-messages).
-*/
+// SendMessage Send a message
+//
+// Send a [channel message](https://zulip.com/help/introduction-to-topics) or a
+// [direct message](https://zulip.com/help/direct-messages).
 func (c *simpleClient) SendMessage(ctx context.Context) SendMessageRequest {
 	return SendMessageRequest{
 		ApiService: c,
@@ -2479,93 +2411,91 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 	return r.ApiService.UpdateMessageExecute(r)
 }
 
-/*
-UpdateMessage Edit a message
-
-Update the content, topic, or channel of the message with the specified
-Id.
-
-You can [resolve topics](https://zulip.com/help/resolve-a-topic) by editing the topic to
-`✔ {original_topic}` with the `propagate_mode` parameter set to
-`"change_all"`.
-
-See [configuring message editing][config-message-editing] for detailed
-documentation on when users are allowed to edit message content, and
-[restricting moving messages][restrict-move-messages] for detailed
-documentation on when users are allowed to change a message's topic
-and/or channel.
-
-The relevant realm settings in the API that are related to the above
-linked documentation on when users are allowed to update messages are:
-
-- `allow_message_editing`
-- `can_resolve_topics_group`
-- `can_move_messages_between_channels_group`
-- `can_move_messages_between_topics_group`
-- `message_content_edit_limit_seconds`
-- `move_messages_within_stream_limit_seconds`
-- `move_messages_between_streams_limit_seconds`
-
-More details about these realm settings can be found in the
-[`POST /register`](https://zulip.com/api/register-queue) response or in the documentation
-of the [`realm op: update_dict`](https://zulip.com/api/get-events#realm-update_dict
-event in [`GET /events`](https://zulip.com/api/get-events).
-
-**Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
-resolving a topic was managed by `can_move_messages_between_topics_group`.
-As of this feature level, users belonging to the `can_resolve_topics_group`
-will have the permission to [resolve topics](https://zulip.com/help/resolve-a-topic) in the organization.
-
-In Zulip 10.0 (feature level 316), `edit_topic_policy`
-was removed and replaced by `can_move_messages_between_topics_group`
-realm setting.
-
-**Changes**: In Zulip 10.0 (feature level 310), `move_messages_between_streams_policy`
-was removed and replaced by `can_move_messages_between_channels_group`
-realm setting.
-
-Prior to Zulip 7.0 (feature level 172), anyone could add a
-topic to channel messages without a topic, regardless of the organization's
-[topic editing permissions](https://zulip.com/help/restrict-moving-messages). As of this
-feature level, messages without topics have the same restrictions for
-topic edits as messages with topics.
-
-Before Zulip 7.0 (feature level 172), by using the `change_all` value for
-the `propagate_mode` parameter, users could move messages after the
-organization's configured time limits for changing a message's topic or
-channel had passed. As of this feature level, the server will [return an
-error](https://zulip.com/api/update-message#response) with `"code":
-"MOVE_MESSAGES_TIME_LIMIT_EXCEEDED"` if users, other than organization
-administrators or moderators, try to move messages after these time
-limits have passed.
-
-Before Zulip 7.0 (feature level 162), users who were not administrators or
-moderators could only edit topics if the target message was sent within the
-last 3 days. As of this feature level, that time limit is now controlled by
-the realm setting `move_messages_within_stream_limit_seconds`. Also at this
-feature level, a similar time limit for moving messages between channels was
-added, controlled by the realm setting
-`move_messages_between_streams_limit_seconds`. Previously, all users who
-had permission to move messages between channels did not have any time limit
-restrictions when doing so.
-
-Before Zulip 7.0 (feature level 159), editing channels and topics of messages
-was forbidden if the realm setting for `allow_message_editing` was `false`,
-regardless of an organization's configuration for the realm settings
-`edit_topic_policy` or `move_messages_between_streams_policy`.
-
-Before Zulip 7.0 (feature level 159), message senders were allowed to edit
-the topic of their messages indefinitely.
-
-In Zulip 5.0 (feature level 75), the `edit_topic_policy` realm setting
-was added, replacing the `allow_community_topic_editing` boolean.
-
-In Zulip 4.0 (feature level 56), the `move_messages_between_streams_policy`
-realm setting was added.
-
-[config-message-editing]: https://zulip.com/help/restrict-message-editing-and-deletion
-[restrict-move-messages]: https://zulip.com/help/restrict-moving-messages
-*/
+// UpdateMessage Edit a message
+//
+// Update the content, topic, or channel of the message with the specified
+// Id.
+//
+// You can [resolve topics](https://zulip.com/help/resolve-a-topic) by editing the topic to
+// `✔ {original_topic}` with the `propagate_mode` parameter set to
+// `"change_all"`.
+//
+// See [configuring message editing][config-message-editing] for detailed
+// documentation on when users are allowed to edit message content, and
+// [restricting moving messages][restrict-move-messages] for detailed
+// documentation on when users are allowed to change a message's topic
+// and/or channel.
+//
+// The relevant realm settings in the API that are related to the above
+// linked documentation on when users are allowed to update messages are:
+//
+// - `allow_message_editing`
+// - `can_resolve_topics_group`
+// - `can_move_messages_between_channels_group`
+// - `can_move_messages_between_topics_group`
+// - `message_content_edit_limit_seconds`
+// - `move_messages_within_stream_limit_seconds`
+// - `move_messages_between_streams_limit_seconds`
+//
+// More details about these realm settings can be found in the
+// [`POST /register`](https://zulip.com/api/register-queue) response or in the documentation
+// of the [`realm op: update_dict`](https://zulip.com/api/get-events#realm-update_dict
+// event in [`GET /events`](https://zulip.com/api/get-events).
+//
+// *Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
+// resolving a topic was managed by `can_move_messages_between_topics_group`.
+// As of this feature level, users belonging to the `can_resolve_topics_group`
+// will have the permission to [resolve topics](https://zulip.com/help/resolve-a-topic) in the organization.
+//
+// In Zulip 10.0 (feature level 316), `edit_topic_policy`
+// was removed and replaced by `can_move_messages_between_topics_group`
+// realm setting.
+//
+// *Changes**: In Zulip 10.0 (feature level 310), `move_messages_between_streams_policy`
+// was removed and replaced by `can_move_messages_between_channels_group`
+// realm setting.
+//
+// Prior to Zulip 7.0 (feature level 172), anyone could add a
+// topic to channel messages without a topic, regardless of the organization's
+// [topic editing permissions](https://zulip.com/help/restrict-moving-messages). As of this
+// feature level, messages without topics have the same restrictions for
+// topic edits as messages with topics.
+//
+// Before Zulip 7.0 (feature level 172), by using the `change_all` value for
+// the `propagate_mode` parameter, users could move messages after the
+// organization's configured time limits for changing a message's topic or
+// channel had passed. As of this feature level, the server will [return an
+// error](https://zulip.com/api/update-message#response) with `"code":
+// "MOVE_MESSAGES_TIME_LIMIT_EXCEEDED"` if users, other than organization
+// administrators or moderators, try to move messages after these time
+// limits have passed.
+//
+// Before Zulip 7.0 (feature level 162), users who were not administrators or
+// moderators could only edit topics if the target message was sent within the
+// last 3 days. As of this feature level, that time limit is now controlled by
+// the realm setting `move_messages_within_stream_limit_seconds`. Also at this
+// feature level, a similar time limit for moving messages between channels was
+// added, controlled by the realm setting
+// `move_messages_between_streams_limit_seconds`. Previously, all users who
+// had permission to move messages between channels did not have any time limit
+// restrictions when doing so.
+//
+// Before Zulip 7.0 (feature level 159), editing channels and topics of messages
+// was forbidden if the realm setting for `allow_message_editing` was `false`,
+// regardless of an organization's configuration for the realm settings
+// `edit_topic_policy` or `move_messages_between_streams_policy`.
+//
+// Before Zulip 7.0 (feature level 159), message senders were allowed to edit
+// the topic of their messages indefinitely.
+//
+// In Zulip 5.0 (feature level 75), the `edit_topic_policy` realm setting
+// was added, replacing the `allow_community_topic_editing` boolean.
+//
+// In Zulip 4.0 (feature level 56), the `move_messages_between_streams_policy`
+// realm setting was added.
+//
+// [config-message-editing]: https://zulip.com/help/restrict-message-editing-and-deletion
+// [restrict-move-messages]: https://zulip.com/help/restrict-moving-messages
 func (c *simpleClient) UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest {
 	return UpdateMessageRequest{
 		ApiService: c,
@@ -2698,15 +2628,13 @@ func (r UpdateMessageFlagsRequest) Execute() (*UpdateMessageFlagsResponse, *http
 	return r.ApiService.UpdateMessageFlagsExecute(r)
 }
 
-/*
-UpdateMessageFlags Update personal message flags
-
-Add or remove personal message flags like `read` and `starred`
-on a collection of message Ids.
-
-See also the endpoint for [updating flags on a range of
-messages within a narrow](https://zulip.com/api/update-message-flags-for-narrow).
-*/
+// UpdateMessageFlags Update personal message flags
+//
+// Add or remove personal message flags like `read` and `starred`
+// on a collection of message Ids.
+//
+// See also the endpoint for [updating flags on a range of
+// messages within a narrow](https://zulip.com/api/update-message-flags-for-narrow).
 func (c *simpleClient) UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest {
 	return UpdateMessageFlagsRequest{
 		ApiService: c,
@@ -2856,17 +2784,15 @@ func (r UpdateMessageFlagsForNarrowRequest) Execute() (*UpdateMessageFlagsForNar
 	return r.ApiService.UpdateMessageFlagsForNarrowExecute(r)
 }
 
-/*
-UpdateMessageFlagsForNarrow Update personal message flags for narrow
-
-Add or remove personal message flags like `read` and `starred`
-on a range of messages within a narrow.
-
-See also [the endpoint for updating flags on specific message
-Ids](https://zulip.com/api/update-message-flags).
-
-**Changes**: New in Zulip 6.0 (feature level 155).
-*/
+// UpdateMessageFlagsForNarrow Update personal message flags for narrow
+//
+// Add or remove personal message flags like `read` and `starred`
+// on a range of messages within a narrow.
+//
+// See also [the endpoint for updating flags on specific message
+// Ids](https://zulip.com/api/update-message-flags).
+//
+// *Changes**: New in Zulip 6.0 (feature level 155).
 func (c *simpleClient) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest {
 	return UpdateMessageFlagsForNarrowRequest{
 		ApiService: c,
@@ -2994,39 +2920,37 @@ func (r UploadFileRequest) Execute() (*UploadFileResponse, *http.Response, error
 	return r.ApiService.UploadFileExecute(r)
 }
 
-/*
-UploadFile Upload a file
-
-[Upload](https://zulip.com/help/share-and-upload-files) a single file and get the corresponding URL.
-
-Initially, only you will be able to access the link. To share the
-uploaded file, you'll need to [send a message][send-message]
-containing the resulting link. Users who can already access the link
-can reshare it with other users by sending additional Zulip messages
-containing the link.
-
-The maximum allowed file size is available in the `max_file_upload_size_mib`
-field in the [`POST /register`](https://zulip.com/api/register-queue) response. Note that
-large files (25MB+) may fail to upload using this API endpoint due to
-network-layer timeouts, depending on the quality of your connection to the
-Zulip server.
-
-For uploading larger files, `/api/v1/tus` is an endpoint implementing the
-[`tus` resumable upload protocol](https://tus.io/protocols/resumable-upload),
-which supports uploading arbitrarily large files limited only by the server's
-`max_file_upload_size_mib` (Configured via `MAX_FILE_UPLOAD_SIZE` in
-`/etc/zulip/settings.py`). Clients which send authenticated credentials
-(either via browser-based cookies, or API key via `Authorization` header) may
-use this endpoint to upload files.
-
-**Changes**: The `api/v1/tus` endpoint supporting resumable uploads was
-introduced in Zulip 10.0 (feature level 296). Previously,
-`max_file_upload_size_mib` was typically 25MB.
-
-[send-message]: https://zulip.com/api/send-message
-
-[uploaded-files]: https://zulip.com/help/manage-your-uploaded-files
-*/
+// UploadFile Upload a file
+//
+// [Upload](https://zulip.com/help/share-and-upload-files) a single file and get the corresponding URL.
+//
+// Initially, only you will be able to access the link. To share the
+// uploaded file, you'll need to [send a message][send-message]
+// containing the resulting link. Users who can already access the link
+// can reshare it with other users by sending additional Zulip messages
+// containing the link.
+//
+// The maximum allowed file size is available in the `max_file_upload_size_mib`
+// field in the [`POST /register`](https://zulip.com/api/register-queue) response. Note that
+// large files (25MB+) may fail to upload using this API endpoint due to
+// network-layer timeouts, depending on the quality of your connection to the
+// Zulip server.
+//
+// For uploading larger files, `/api/v1/tus` is an endpoint implementing the
+// [`tus` resumable upload protocol](https://tus.io/protocols/resumable-upload),
+// which supports uploading arbitrarily large files limited only by the server's
+// `max_file_upload_size_mib` (Configured via `MAX_FILE_UPLOAD_SIZE` in
+// `/etc/zulip/settings.py`). Clients which send authenticated credentials
+// (either via browser-based cookies, or API key via `Authorization` header) may
+// use this endpoint to upload files.
+//
+// *Changes**: The `api/v1/tus` endpoint supporting resumable uploads was
+// introduced in Zulip 10.0 (feature level 296). Previously,
+// `max_file_upload_size_mib` was typically 25MB.
+//
+// [send-message]: https://zulip.com/api/send-message
+//
+// [uploaded-files]: https://zulip.com/help/manage-your-uploaded-files
 func (c *simpleClient) UploadFile(ctx context.Context) UploadFileRequest {
 	return UploadFileRequest{
 		ApiService: c,

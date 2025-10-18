@@ -10,104 +10,98 @@ import (
 
 type RealTimeEventsAPI interface {
 
-	/*
-		DeleteQueue Delete an event queue
-
-		Delete a previously registered queue.
-
-	*/
+	// DeleteQueue Delete an event queue
+	//
+	// Delete a previously registered queue.
+	//
 	DeleteQueue(ctx context.Context) DeleteQueueRequest
 
 	// DeleteQueueExecute executes the request
 	DeleteQueueExecute(r DeleteQueueRequest) (*Response, *http.Response, error)
 
-	/*
-			GetEvents Get events from an event queue
-
-			This endpoint allows you to receive new events from
-		[a registered event queue](https://zulip.com/api/register-queue).
-
-		Long-lived clients should use the
-		`event_queue_longpoll_timeout_seconds` property returned by
-		`POST /register` as the client-side HTTP request timeout for
-		calls to this endpoint. It is guaranteed to be higher than
-		heartbeat frequency and should be respected by clients to
-		avoid breaking when heartbeat frequency increases.
-
-	*/
+	// GetEvents Get events from an event queue
+	//
+	// This endpoint allows you to receive new events from
+	// [a registered event queue](https://zulip.com/api/register-queue).
+	//
+	// Long-lived clients should use the
+	// `event_queue_longpoll_timeout_seconds` property returned by
+	// `POST /register` as the client-side HTTP request timeout for
+	// calls to this endpoint. It is guaranteed to be higher than
+	// heartbeat frequency and should be respected by clients to
+	// avoid breaking when heartbeat frequency increases.
+	//
 	GetEvents(ctx context.Context) GetEventsRequest
 
 	// GetEventsExecute executes the request
 	GetEventsExecute(r GetEventsRequest) (*GetEventsResponse, *http.Response, error)
 
-	/*
-			RegisterQueue Register an event queue
-
-			This powerful endpoint can be used to register a Zulip "event queue"
-		(subscribed to certain types of "events", or updates to the messages
-		and other Zulip data the current user has access to), as well as to
-		fetch the current state of that data.
-
-		(`register` also powers the `call_on_each_event` Python API, and is
-		intended primarily for complex applications for which the more convenient
-		`call_on_each_event` API is insufficient).
-
-		This endpoint returns a `queue_id` and a `last_event_id`; these can be
-		used in subsequent calls to the
-		["events" endpoint](https://zulip.com/api/get-events) to request events from
-		the Zulip server using long-polling.
-
-		The server will queue events for up to 10 minutes of inactivity.
-		After 10 minutes, your event queue will be garbage-collected. The
-		server will send `heartbeat` events every minute, which makes it easy
-		to implement a robust client that does not miss events unless the
-		client loses network connectivity with the Zulip server for 10 minutes
-		or longer.
-
-		Once the server garbage-collects your event queue, the server will
-		[return an error](https://zulip.com/api/get-events#bad_event_queue_id-errors
-		with a code of `BAD_EVENT_QUEUE_Id` if you try to fetch events from
-		the event queue. Your software will need to handle that error
-		condition by re-initializing itself (e.g. this is what triggers your
-		browser reloading the Zulip web app when your laptop comes back online
-		after being offline for more than 10 minutes).
-
-		When prototyping with this API, we recommend first calling `register`
-		with no `event_types` parameter to see all the available data from all
-		supported event types. Before using your client in production, you
-		should set appropriate `event_types` and `fetch_event_types` filters
-		so that your client only requests the data it needs. A few minutes
-		doing this often saves 90% of the total bandwidth and other resources
-		consumed by a client using this API.
-
-		See the [events system developer documentation][events-system-docs]
-		if you need deeper details about how the Zulip event queue system
-		works, avoids clients needing to worry about large classes of
-		potentially messy races, etc.
-
-		**Changes**: Removed `dense_mode` setting in Zulip 10.0 (feature level 364)
-		as we now have `web_font_size_px` and `web_line_height_percent`
-		settings for more control.
-
-		Before Zulip 7.0 (feature level 183), the
-		`realm_community_topic_editing_limit_seconds` property
-		was returned by the response. It was removed because it
-		had not been in use since the realm setting
-		`move_messages_within_stream_limit_seconds` was introduced
-		in feature level 162.
-
-		In Zulip 7.0 (feature level 163), the realm setting
-		`email_address_visibility` was removed. It was replaced by a [user
-		setting](https://zulip.com/api/update-settings#parameter-email_address_visibility with
-		a [realm user default][user-defaults], with the encoding of different
-		values preserved. Clients can support all versions by supporting the
-		current API and treating every user as having the realm's
-		`email_address_visibility` value.
-
-		[user-defaults]: https://zulip.com/api/update-realm-user-settings-defaults#parameter-email_address_visibility
-		[events-system-docs]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
-
-	*/
+	// RegisterQueue Register an event queue
+	//
+	// This powerful endpoint can be used to register a Zulip "event queue"
+	// (subscribed to certain types of "events", or updates to the messages
+	// and other Zulip data the current user has access to), as well as to
+	// fetch the current state of that data.
+	//
+	// (`register` also powers the `call_on_each_event` Python API, and is
+	// intended primarily for complex applications for which the more convenient
+	// `call_on_each_event` API is insufficient).
+	//
+	// This endpoint returns a `queue_id` and a `last_event_id`; these can be
+	// used in subsequent calls to the
+	// ["events" endpoint](https://zulip.com/api/get-events) to request events from
+	// the Zulip server using long-polling.
+	//
+	// The server will queue events for up to 10 minutes of inactivity.
+	// After 10 minutes, your event queue will be garbage-collected. The
+	// server will send `heartbeat` events every minute, which makes it easy
+	// to implement a robust client that does not miss events unless the
+	// client loses network connectivity with the Zulip server for 10 minutes
+	// or longer.
+	//
+	// Once the server garbage-collects your event queue, the server will
+	// [return an error](https://zulip.com/api/get-events#bad_event_queue_id-errors
+	// with a code of `BAD_EVENT_QUEUE_Id` if you try to fetch events from
+	// the event queue. Your software will need to handle that error
+	// condition by re-initializing itself (e.g. this is what triggers your
+	// browser reloading the Zulip web app when your laptop comes back online
+	// after being offline for more than 10 minutes).
+	//
+	// When prototyping with this API, we recommend first calling `register`
+	// with no `event_types` parameter to see all the available data from all
+	// supported event types. Before using your client in production, you
+	// should set appropriate `event_types` and `fetch_event_types` filters
+	// so that your client only requests the data it needs. A few minutes
+	// doing this often saves 90% of the total bandwidth and other resources
+	// consumed by a client using this API.
+	//
+	// See the [events system developer documentation][events-system-docs]
+	// if you need deeper details about how the Zulip event queue system
+	// works, avoids clients needing to worry about large classes of
+	// potentially messy races, etc.
+	//
+	// *Changes**: Removed `dense_mode` setting in Zulip 10.0 (feature level 364)
+	// as we now have `web_font_size_px` and `web_line_height_percent`
+	// settings for more control.
+	//
+	// Before Zulip 7.0 (feature level 183), the
+	// `realm_community_topic_editing_limit_seconds` property
+	// was returned by the response. It was removed because it
+	// had not been in use since the realm setting
+	// `move_messages_within_stream_limit_seconds` was introduced
+	// in feature level 162.
+	//
+	// In Zulip 7.0 (feature level 163), the realm setting
+	// `email_address_visibility` was removed. It was replaced by a [user
+	// setting](https://zulip.com/api/update-settings#parameter-email_address_visibility with
+	// a [realm user default][user-defaults], with the encoding of different
+	// values preserved. Clients can support all versions by supporting the
+	// current API and treating every user as having the realm's
+	// `email_address_visibility` value.
+	//
+	// [user-defaults]: https://zulip.com/api/update-realm-user-settings-defaults#parameter-email_address_visibility
+	// [events-system-docs]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
+	//
 	RegisterQueue(ctx context.Context) RegisterQueueRequest
 
 	// RegisterQueueExecute executes the request
@@ -130,11 +124,9 @@ func (r DeleteQueueRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.DeleteQueueExecute(r)
 }
 
-/*
-DeleteQueue Delete an event queue
-
-Delete a previously registered queue.
-*/
+// DeleteQueue Delete an event queue
+//
+// Delete a previously registered queue.
 func (c *simpleClient) DeleteQueue(ctx context.Context) DeleteQueueRequest {
 	return DeleteQueueRequest{
 		ApiService: c,
@@ -248,19 +240,17 @@ func (r GetEventsRequest) Execute() (*GetEventsResponse, *http.Response, error) 
 	return r.ApiService.GetEventsExecute(r)
 }
 
-/*
-GetEvents Get events from an event queue
-
-This endpoint allows you to receive new events from
-[a registered event queue](https://zulip.com/api/register-queue).
-
-Long-lived clients should use the
-`event_queue_longpoll_timeout_seconds` property returned by
-`POST /register` as the client-side HTTP request timeout for
-calls to this endpoint. It is guaranteed to be higher than
-heartbeat frequency and should be respected by clients to
-avoid breaking when heartbeat frequency increases.
-*/
+// GetEvents Get events from an event queue
+//
+// This endpoint allows you to receive new events from
+// [a registered event queue](https://zulip.com/api/register-queue).
+//
+// Long-lived clients should use the
+// `event_queue_longpoll_timeout_seconds` property returned by
+// `POST /register` as the client-side HTTP request timeout for
+// calls to this endpoint. It is guaranteed to be higher than
+// heartbeat frequency and should be respected by clients to
+// avoid breaking when heartbeat frequency increases.
 func (c *simpleClient) GetEvents(ctx context.Context) GetEventsRequest {
 	return GetEventsRequest{
 		ApiService: c,
@@ -432,73 +422,71 @@ func (r RegisterQueueRequest) Execute() (*RegisterQueueResponse, *http.Response,
 	return r.ApiService.RegisterQueueExecute(r)
 }
 
-/*
-RegisterQueue Register an event queue
-
-This powerful endpoint can be used to register a Zulip "event queue"
-(subscribed to certain types of "events", or updates to the messages
-and other Zulip data the current user has access to), as well as to
-fetch the current state of that data.
-
-(`register` also powers the `call_on_each_event` Python API, and is
-intended primarily for complex applications for which the more convenient
-`call_on_each_event` API is insufficient).
-
-This endpoint returns a `queue_id` and a `last_event_id`; these can be
-used in subsequent calls to the
-["events" endpoint](https://zulip.com/api/get-events) to request events from
-the Zulip server using long-polling.
-
-The server will queue events for up to 10 minutes of inactivity.
-After 10 minutes, your event queue will be garbage-collected. The
-server will send `heartbeat` events every minute, which makes it easy
-to implement a robust client that does not miss events unless the
-client loses network connectivity with the Zulip server for 10 minutes
-or longer.
-
-Once the server garbage-collects your event queue, the server will
-[return an error](https://zulip.com/api/get-events#bad_event_queue_id-errors
-with a code of `BAD_EVENT_QUEUE_Id` if you try to fetch events from
-the event queue. Your software will need to handle that error
-condition by re-initializing itself (e.g. this is what triggers your
-browser reloading the Zulip web app when your laptop comes back online
-after being offline for more than 10 minutes).
-
-When prototyping with this API, we recommend first calling `register`
-with no `event_types` parameter to see all the available data from all
-supported event types. Before using your client in production, you
-should set appropriate `event_types` and `fetch_event_types` filters
-so that your client only requests the data it needs. A few minutes
-doing this often saves 90% of the total bandwidth and other resources
-consumed by a client using this API.
-
-See the [events system developer documentation][events-system-docs]
-if you need deeper details about how the Zulip event queue system
-works, avoids clients needing to worry about large classes of
-potentially messy races, etc.
-
-**Changes**: Removed `dense_mode` setting in Zulip 10.0 (feature level 364)
-as we now have `web_font_size_px` and `web_line_height_percent`
-settings for more control.
-
-Before Zulip 7.0 (feature level 183), the
-`realm_community_topic_editing_limit_seconds` property
-was returned by the response. It was removed because it
-had not been in use since the realm setting
-`move_messages_within_stream_limit_seconds` was introduced
-in feature level 162.
-
-In Zulip 7.0 (feature level 163), the realm setting
-`email_address_visibility` was removed. It was replaced by a [user
-setting](https://zulip.com/api/update-settings#parameter-email_address_visibility with
-a [realm user default][user-defaults], with the encoding of different
-values preserved. Clients can support all versions by supporting the
-current API and treating every user as having the realm's
-`email_address_visibility` value.
-
-[user-defaults]: https://zulip.com/api/update-realm-user-settings-defaults#parameter-email_address_visibility
-[events-system-docs]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
-*/
+// RegisterQueue Register an event queue
+//
+// This powerful endpoint can be used to register a Zulip "event queue"
+// (subscribed to certain types of "events", or updates to the messages
+// and other Zulip data the current user has access to), as well as to
+// fetch the current state of that data.
+//
+// (`register` also powers the `call_on_each_event` Python API, and is
+// intended primarily for complex applications for which the more convenient
+// `call_on_each_event` API is insufficient).
+//
+// This endpoint returns a `queue_id` and a `last_event_id`; these can be
+// used in subsequent calls to the
+// ["events" endpoint](https://zulip.com/api/get-events) to request events from
+// the Zulip server using long-polling.
+//
+// The server will queue events for up to 10 minutes of inactivity.
+// After 10 minutes, your event queue will be garbage-collected. The
+// server will send `heartbeat` events every minute, which makes it easy
+// to implement a robust client that does not miss events unless the
+// client loses network connectivity with the Zulip server for 10 minutes
+// or longer.
+//
+// Once the server garbage-collects your event queue, the server will
+// [return an error](https://zulip.com/api/get-events#bad_event_queue_id-errors
+// with a code of `BAD_EVENT_QUEUE_Id` if you try to fetch events from
+// the event queue. Your software will need to handle that error
+// condition by re-initializing itself (e.g. this is what triggers your
+// browser reloading the Zulip web app when your laptop comes back online
+// after being offline for more than 10 minutes).
+//
+// When prototyping with this API, we recommend first calling `register`
+// with no `event_types` parameter to see all the available data from all
+// supported event types. Before using your client in production, you
+// should set appropriate `event_types` and `fetch_event_types` filters
+// so that your client only requests the data it needs. A few minutes
+// doing this often saves 90% of the total bandwidth and other resources
+// consumed by a client using this API.
+//
+// See the [events system developer documentation][events-system-docs]
+// if you need deeper details about how the Zulip event queue system
+// works, avoids clients needing to worry about large classes of
+// potentially messy races, etc.
+//
+// *Changes**: Removed `dense_mode` setting in Zulip 10.0 (feature level 364)
+// as we now have `web_font_size_px` and `web_line_height_percent`
+// settings for more control.
+//
+// Before Zulip 7.0 (feature level 183), the
+// `realm_community_topic_editing_limit_seconds` property
+// was returned by the response. It was removed because it
+// had not been in use since the realm setting
+// `move_messages_within_stream_limit_seconds` was introduced
+// in feature level 162.
+//
+// In Zulip 7.0 (feature level 163), the realm setting
+// `email_address_visibility` was removed. It was replaced by a [user
+// setting](https://zulip.com/api/update-settings#parameter-email_address_visibility with
+// a [realm user default][user-defaults], with the encoding of different
+// values preserved. Clients can support all versions by supporting the
+// current API and treating every user as having the realm's
+// `email_address_visibility` value.
+//
+// [user-defaults]: https://zulip.com/api/update-realm-user-settings-defaults#parameter-email_address_visibility
+// [events-system-docs]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
 func (c *simpleClient) RegisterQueue(ctx context.Context) RegisterQueueRequest {
 	return RegisterQueueRequest{
 		ApiService: c,

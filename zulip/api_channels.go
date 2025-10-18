@@ -11,491 +11,441 @@ import (
 
 type ChannelsAPI interface {
 
-	/*
-			AddDefaultChannel Add a default channel
-
-			Add a channel to the set of [default channels][default-channels]
-		for new users joining the organization.
-
-		[default-channels]: https://zulip.com/help/set-default-channels-for-new-users
-
-	*/
+	// AddDefaultChannel Add a default channel
+	//
+	// Add a channel to the set of [default channels][default-channels]
+	// for new users joining the organization.
+	//
+	// [default-channels]: https://zulip.com/help/set-default-channels-for-new-users
+	//
 	AddDefaultChannel(ctx context.Context) AddDefaultChannelRequest
 
 	// AddDefaultChannelExecute executes the request
 	AddDefaultChannelExecute(r AddDefaultChannelRequest) (*Response, *http.Response, error)
 
-	/*
-		ArchiveChannel Archive a channel
-
-		[Archive the channel](https://zulip.com/help/archive-a-channel) with the Id `channelId`.
-
-	*/
+	// ArchiveChannel Archive a channel
+	//
+	// [Archive the channel](https://zulip.com/help/archive-a-channel) with the Id `channelId`.
+	//
 	ArchiveChannel(ctx context.Context, channelId int64) ArchiveChannelRequest
 
 	// ArchiveChannelExecute executes the request
 	ArchiveChannelExecute(r ArchiveChannelRequest) (*Response, *http.Response, error)
 
-	/*
-			CreateBigBlueButtonVideoCall Create BigBlueButton video call
-
-			Create a video call URL for a BigBlueButton video call.
-		Requires [BigBlueButton 2.4+](/integrations/doc/big-blue-button)
-		to be configured on the Zulip server.
-
-		The acting user will be given the moderator role on the call.
-
-		**Changes**: Prior to Zulip 10.0 (feature level 337), every
-		user was given the moderator role on BigBlueButton calls, via
-		encoding a moderator password in the generated URLs.
-
-	*/
+	// CreateBigBlueButtonVideoCall Create BigBlueButton video call
+	//
+	// Create a video call URL for a BigBlueButton video call.
+	// Requires [BigBlueButton 2.4+](/integrations/doc/big-blue-button)
+	// to be configured on the Zulip server.
+	//
+	// The acting user will be given the moderator role on the call.
+	//
+	// *Changes**: Prior to Zulip 10.0 (feature level 337), every
+	// user was given the moderator role on BigBlueButton calls, via
+	// encoding a moderator password in the generated URLs.
+	//
 	CreateBigBlueButtonVideoCall(ctx context.Context) CreateBigBlueButtonVideoCallRequest
 
 	// CreateBigBlueButtonVideoCallExecute executes the request
 	CreateBigBlueButtonVideoCallExecute(r CreateBigBlueButtonVideoCallRequest) (*CreateBigBlueButtonVideoCallResponse, *http.Response, error)
 
-	/*
-			CreateChannel Create a channel
-
-			Create a new [channel](https://zulip.com/help/create-channels) and optionally
-		subscribe users to the newly created channel. The initial [channel settings](https://zulip.com/api/update-stream)
-		will be determined by the optional parameters, like `invite_only`, detailed below.
-
-		**Changes**: New in Zulip 11.0 (feature level 417). Previously, this was only possible via
-		the [`POST /api/subscribe`](https://zulip.com/api/subscribe) endpoint, which handled both creation and subscription.
-
-	*/
+	// CreateChannel Create a channel
+	//
+	// Create a new [channel](https://zulip.com/help/create-channels) and optionally
+	// subscribe users to the newly created channel. The initial [channel settings](https://zulip.com/api/update-stream)
+	// will be determined by the optional parameters, like `invite_only`, detailed below.
+	//
+	// *Changes**: New in Zulip 11.0 (feature level 417). Previously, this was only possible via
+	// the [`POST /api/subscribe`](https://zulip.com/api/subscribe) endpoint, which handled both creation and subscription.
+	//
 	CreateChannel(ctx context.Context) CreateChannelRequest
 
 	// CreateChannelExecute executes the request
 	CreateChannelExecute(r CreateChannelRequest) (*CreateChannelResponse, *http.Response, error)
 
-	/*
-			CreateChannelFolder Create a channel folder
-
-			Create a new channel folder, that will be used to organize
-		channels in left sidebar.
-
-		Only organization administrators can create a new channel
-		folder.
-
-		**Changes**: New in Zulip 11.0 (feature level 389).
-
-	*/
+	// CreateChannelFolder Create a channel folder
+	//
+	// Create a new channel folder, that will be used to organize
+	// channels in left sidebar.
+	//
+	// Only organization administrators can create a new channel
+	// folder.
+	//
+	// *Changes**: New in Zulip 11.0 (feature level 389).
+	//
 	CreateChannelFolder(ctx context.Context) CreateChannelFolderRequest
 
 	// CreateChannelFolderExecute executes the request
 	CreateChannelFolderExecute(r CreateChannelFolderRequest) (*CreateChannelFolderResponse, *http.Response, error)
 
-	/*
-			DeleteTopic Delete a topic
-
-			Delete all messages in a topic.
-
-		Topics are a field on messages (not an independent data structure), so
-		deleting all the messages in the topic deletes the topic from Zulip.
-
-		Because this endpoint deletes messages in batches, it is possible for
-		the request to time out after only deleting some messages in the topic.
-		When this happens, the `complete` boolean field in the success response
-		will be `false`. Clients should repeat the request when handling such a
-		response. If all messages in the topic were deleted, then the success
-		response will return `"complete": true`.
-
-		**Changes**: Before Zulip 9.0 (feature level 256), the server never sent
-		[`stream` op: `update`](https://zulip.com/api/get-events#stream-update) events with an
-		updated `first_message_id` for a channel when the oldest message that
-		had been sent to it changed.
-
-		Before Zulip 8.0 (feature level 211), if the server's
-		processing was interrupted by a timeout, but some messages in the topic
-		were deleted, then it would return `"result": "partially_completed"`,
-		along with a `code` field for an error string, in the success response
-		to indicate that there was a timeout and that the client should repeat
-		the request.
-
-		As of Zulip 6.0 (feature level 154), instead of returning an error
-		response when a request times out after successfully deleting some of
-		the messages in the topic, a success response is returned with
-		`"result": "partially_completed"` to indicate that some messages were
-		deleted.
-
-		Before Zulip 6.0 (feature level 147), this request did a single atomic
-		operation, which could time out for very large topics. As of this
-		feature level, messages are deleted in batches, starting with the newest
-		messages, so that progress is made even if the request times out and
-		returns an error.
-
-	*/
+	// DeleteTopic Delete a topic
+	//
+	// Delete all messages in a topic.
+	//
+	// Topics are a field on messages (not an independent data structure), so
+	// deleting all the messages in the topic deletes the topic from Zulip.
+	//
+	// Because this endpoint deletes messages in batches, it is possible for
+	// the request to time out after only deleting some messages in the topic.
+	// When this happens, the `complete` boolean field in the success response
+	// will be `false`. Clients should repeat the request when handling such a
+	// response. If all messages in the topic were deleted, then the success
+	// response will return `"complete": true`.
+	//
+	// *Changes**: Before Zulip 9.0 (feature level 256), the server never sent
+	// [`stream` op: `update`](https://zulip.com/api/get-events#stream-update) events with an
+	// updated `first_message_id` for a channel when the oldest message that
+	// had been sent to it changed.
+	//
+	// Before Zulip 8.0 (feature level 211), if the server's
+	// processing was interrupted by a timeout, but some messages in the topic
+	// were deleted, then it would return `"result": "partially_completed"`,
+	// along with a `code` field for an error string, in the success response
+	// to indicate that there was a timeout and that the client should repeat
+	// the request.
+	//
+	// As of Zulip 6.0 (feature level 154), instead of returning an error
+	// response when a request times out after successfully deleting some of
+	// the messages in the topic, a success response is returned with
+	// `"result": "partially_completed"` to indicate that some messages were
+	// deleted.
+	//
+	// Before Zulip 6.0 (feature level 147), this request did a single atomic
+	// operation, which could time out for very large topics. As of this
+	// feature level, messages are deleted in batches, starting with the newest
+	// messages, so that progress is made even if the request times out and
+	// returns an error.
+	//
 	DeleteTopic(ctx context.Context, channelId int64) DeleteTopicRequest
 
 	// DeleteTopicExecute executes the request
 	DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsReadResponse, *http.Response, error)
 
-	/*
-			GetChannelFolders Get channel folders
-
-			Fetches all of the channel folders in the organization.
-		The folders are sorted by the `order` field.
-
-		**Changes**: Before Zulip 11.0 (feature level 414),
-		these were sorted by Id. (The `order` field didn't exist).
-
-		New in Zulip 11.0 (feature level 389).
-
-	*/
+	// GetChannelFolders Get channel folders
+	//
+	// Fetches all of the channel folders in the organization.
+	// The folders are sorted by the `order` field.
+	//
+	// *Changes**: Before Zulip 11.0 (feature level 414),
+	// these were sorted by Id. (The `order` field didn't exist).
+	//
+	// New in Zulip 11.0 (feature level 389).
+	//
 	GetChannelFolders(ctx context.Context) GetChannelFoldersRequest
 
 	// GetChannelFoldersExecute executes the request
 	GetChannelFoldersExecute(r GetChannelFoldersRequest) (*GetChannelFoldersResponse, *http.Response, error)
 
-	/*
-			GetChannelById Get a channel by Id
-
-			Fetch details for the channel with the Id `channelId`.
-
-		**Changes**: New in Zulip 6.0 (feature level 132).
-
-	*/
+	// GetChannelById Get a channel by Id
+	//
+	// Fetch details for the channel with the Id `channelId`.
+	//
+	// *Changes**: New in Zulip 6.0 (feature level 132).
+	//
 	GetChannelById(ctx context.Context, channelId int64) GetChannelByIdRequest
 
 	// GetChannelByIdExecute executes the request
 	GetChannelByIdExecute(r GetChannelByIdRequest) (*GetChannelResponse, *http.Response, error)
 
-	/*
-			GetChannelEmailAddress Get channel's email address
-
-			Get email address of a channel.
-
-		**Changes**: New in Zulip 8.0 (feature level 226).
-
-	*/
+	// GetChannelEmailAddress Get channel's email address
+	//
+	// Get email address of a channel.
+	//
+	// *Changes**: New in Zulip 8.0 (feature level 226).
+	//
 	GetChannelEmailAddress(ctx context.Context, channelId int64) GetChannelEmailAddressRequest
 
 	// GetChannelEmailAddressExecute executes the request
 	GetChannelEmailAddressExecute(r GetChannelEmailAddressRequest) (*GetChannelEmailAddressResponse, *http.Response, error)
 
-	/*
-		GetChannelId Get channel Id
-
-		Get the unique Id of a given channel.
-
-	*/
+	// GetChannelId Get channel Id
+	//
+	// Get the unique Id of a given channel.
+	//
 	GetChannelId(ctx context.Context) GetChannelIdRequest
 
 	// GetChannelIdExecute executes the request
 	GetChannelIdExecute(r GetChannelIdRequest) (*GetChannelIdResponse, *http.Response, error)
 
-	/*
-			GetChannelTopics Get topics in a channel
-
-			Get all topics the user has access to in a specific channel.
-
-		Note that for [private channels with
-		protected history](https://zulip.com/help/channel-permissions#private-channels),
-		the user will only have access to topics of messages sent after they
-		[subscribed to](https://zulip.com/api/subscribe) the channel. Similarly, a user's
-		[bot](https://zulip.com/help/bots-overview#bot-type) will only have access to messages
-		sent after the bot was subscribed to the channel, instead of when the
-		user subscribed.
-
-	*/
+	// GetChannelTopics Get topics in a channel
+	//
+	// Get all topics the user has access to in a specific channel.
+	//
+	// Note that for [private channels with
+	// protected history](https://zulip.com/help/channel-permissions#private-channels),
+	// the user will only have access to topics of messages sent after they
+	// [subscribed to](https://zulip.com/api/subscribe) the channel. Similarly, a user's
+	// [bot](https://zulip.com/help/bots-overview#bot-type) will only have access to messages
+	// sent after the bot was subscribed to the channel, instead of when the
+	// user subscribed.
+	//
 	GetChannelTopics(ctx context.Context, channelId int64) GetChannelTopicsRequest
 
 	// GetChannelTopicsExecute executes the request
 	GetChannelTopicsExecute(r GetChannelTopicsRequest) (*GetChannelTopicsResponse, *http.Response, error)
 
-	/*
-		GetChannels Get all channels
-
-		Get all channels that the user [has access to](https://zulip.com/help/channel-permissions).
-
-	*/
+	// GetChannels Get all channels
+	//
+	// Get all channels that the user [has access to](https://zulip.com/help/channel-permissions).
+	//
 	GetChannels(ctx context.Context) GetChannelsRequest
 
 	// GetChannelsExecute executes the request
 	GetChannelsExecute(r GetChannelsRequest) (*GetChannelsResponse, *http.Response, error)
 
-	/*
-		GetSubscribers Get channel subscribers
-
-		Get all users subscribed to a channel.
-
-	*/
+	// GetSubscribers Get channel subscribers
+	//
+	// Get all users subscribed to a channel.
+	//
 	GetSubscribers(ctx context.Context, channelId int64) GetSubscribersRequest
 
 	// GetSubscribersExecute executes the request
 	GetSubscribersExecute(r GetSubscribersRequest) (*GetSubscribersResponse, *http.Response, error)
 
-	/*
-			GetSubscriptionStatus Get subscription status
-
-			Check whether a user is subscribed to a channel.
-
-		**Changes**: New in Zulip 3.0 (feature level 12).
-
-	*/
+	// GetSubscriptionStatus Get subscription status
+	//
+	// Check whether a user is subscribed to a channel.
+	//
+	// *Changes**: New in Zulip 3.0 (feature level 12).
+	//
 	GetSubscriptionStatus(ctx context.Context, userId int64, channelId int64) GetSubscriptionStatusRequest
 
 	// GetSubscriptionStatusExecute executes the request
 	GetSubscriptionStatusExecute(r GetSubscriptionStatusRequest) (*GetSubscriptionStatusResponse, *http.Response, error)
 
-	/*
-		GetSubscriptions Get subscribed channels
-
-		Get all channels that the user is subscribed to.
-
-	*/
+	// GetSubscriptions Get subscribed channels
+	//
+	// Get all channels that the user is subscribed to.
+	//
 	GetSubscriptions(ctx context.Context) GetSubscriptionsRequest
 
 	// GetSubscriptionsExecute executes the request
 	GetSubscriptionsExecute(r GetSubscriptionsRequest) (*GetSubscriptionsResponse, *http.Response, error)
 
-	/*
-			MuteTopic Topic muting
-
-			[Mute or unmute a topic](https://zulip.com/help/mute-a-topic) within a channel that
-		the current user is subscribed to.
-
-		**Changes**: Deprecated in Zulip 7.0 (feature level 170). Clients connecting
-		to newer servers should use the [POST /user_topics](https://zulip.com/api/update-user-topic)
-		endpoint, as this endpoint may be removed in a future release.
-
-		Before Zulip 7.0 (feature level 169), this endpoint
-		returned an error if asked to mute a topic that was already muted
-		or asked to unmute a topic that had not previously been muted.
-
-
-			Deprecated
-	*/
+	// MuteTopic Topic muting
+	//
+	// [Mute or unmute a topic](https://zulip.com/help/mute-a-topic) within a channel that
+	// the current user is subscribed to.
+	//
+	// *Changes**: Deprecated in Zulip 7.0 (feature level 170). Clients connecting
+	// to newer servers should use the [POST /user_topics](https://zulip.com/api/update-user-topic)
+	// endpoint, as this endpoint may be removed in a future release.
+	//
+	// Before Zulip 7.0 (feature level 169), this endpoint
+	// returned an error if asked to mute a topic that was already muted
+	// or asked to unmute a topic that had not previously been muted.
+	//
+	//
+	// Deprecated
 	MuteTopic(ctx context.Context) MuteTopicRequest
 
 	// MuteTopicExecute executes the request
 	// Deprecated
 	MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Response, error)
 
-	/*
-			PatchChannelFolders Reorder channel folders
-
-			Given an array of channel folder Ids, this method will set the `order`
-		property of all of the channel folders in the organization according to
-		the order of the channel folder Ids specified in the request.
-
-		**Changes**: New in Zulip 11.0 (feature level 414).
-
-	*/
+	// PatchChannelFolders Reorder channel folders
+	//
+	// Given an array of channel folder Ids, this method will set the `order`
+	// property of all of the channel folders in the organization according to
+	// the order of the channel folder Ids specified in the request.
+	//
+	// *Changes**: New in Zulip 11.0 (feature level 414).
+	//
 	PatchChannelFolders(ctx context.Context) PatchChannelFoldersRequest
 
 	// PatchChannelFoldersExecute executes the request
 	PatchChannelFoldersExecute(r PatchChannelFoldersRequest) (*Response, *http.Response, error)
 
-	/*
-			RemoveDefaultChannel Remove a default channel
-
-			Remove a channel from the set of [default channels][default-channels]
-		for new users joining the organization.
-
-		[default-channels]: https://zulip.com/help/set-default-channels-for-new-users
-
-	*/
+	// RemoveDefaultChannel Remove a default channel
+	//
+	// Remove a channel from the set of [default channels][default-channels]
+	// for new users joining the organization.
+	//
+	// [default-channels]: https://zulip.com/help/set-default-channels-for-new-users
+	//
 	RemoveDefaultChannel(ctx context.Context) RemoveDefaultChannelRequest
 
 	// RemoveDefaultChannelExecute executes the request
 	RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest) (*Response, *http.Response, error)
 
-	/*
-			Subscribe Subscribe to a channel
-
-			Subscribe one or more users to one or more channels.
-
-		If any of the specified channels do not exist, they are automatically
-		created. The initial [channel settings](https://zulip.com/api/update-stream) will be determined
-		by the optional parameters, like `invite_only`, detailed below.
-
-		Note that the ability to subscribe oneself and/or other users
-		to a specified channel depends on the [channel's permissions
-		settings](https://zulip.com/help/channel-permissions).
-
-		**Changes**: Before Zulip 10.0 (feature level 362),
-		subscriptions in archived channels could not be modified.
-
-		Before Zulip 10.0 (feature level 357), the
-		`can_subscribe_group` permission, which allows members of the
-		group to subscribe themselves to the channel, did not exist.
-
-		Before Zulip 10.0 (feature level 349), a user cannot subscribe
-		other users to a private channel without being subscribed
-		to that channel themselves. Now, If a user is part of
-		`can_add_subscribers_group`, they can subscribe themselves or other
-		users to a private channel without being subscribed to that channel.
-
-		Removed `stream_post_policy` and `is_announcement_only`
-		parameters in Zulip 10.0 (feature level 333), as permission to post
-		in the channel is now controlled by `can_send_message_group`.
-
-		Before Zulip 8.0 (feature level 208), if a user specified by the
-		[`principals`][principals-param] parameter was a deactivated user,
-		or did not exist, then an HTTP status code of 403 was returned with
-		`code: "UNAUTHORIZED_PRINCIPAL"` in the error response. As of this
-		feature level, an HTTP status code of 400 is returned with
-		`code: "BAD_REQUEST"` in the error response for these cases.
-
-		[principals-param]: https://zulip.com/api/subscribe#parameter-principals
-
-	*/
+	// Subscribe Subscribe to a channel
+	//
+	// Subscribe one or more users to one or more channels.
+	//
+	// If any of the specified channels do not exist, they are automatically
+	// created. The initial [channel settings](https://zulip.com/api/update-stream) will be determined
+	// by the optional parameters, like `invite_only`, detailed below.
+	//
+	// Note that the ability to subscribe oneself and/or other users
+	// to a specified channel depends on the [channel's permissions
+	// settings](https://zulip.com/help/channel-permissions).
+	//
+	// *Changes**: Before Zulip 10.0 (feature level 362),
+	// subscriptions in archived channels could not be modified.
+	//
+	// Before Zulip 10.0 (feature level 357), the
+	// `can_subscribe_group` permission, which allows members of the
+	// group to subscribe themselves to the channel, did not exist.
+	//
+	// Before Zulip 10.0 (feature level 349), a user cannot subscribe
+	// other users to a private channel without being subscribed
+	// to that channel themselves. Now, If a user is part of
+	// `can_add_subscribers_group`, they can subscribe themselves or other
+	// users to a private channel without being subscribed to that channel.
+	//
+	// Removed `stream_post_policy` and `is_announcement_only`
+	// parameters in Zulip 10.0 (feature level 333), as permission to post
+	// in the channel is now controlled by `can_send_message_group`.
+	//
+	// Before Zulip 8.0 (feature level 208), if a user specified by the
+	// [`principals`][principals-param] parameter was a deactivated user,
+	// or did not exist, then an HTTP status code of 403 was returned with
+	// `code: "UNAUTHORIZED_PRINCIPAL"` in the error response. As of this
+	// feature level, an HTTP status code of 400 is returned with
+	// `code: "BAD_REQUEST"` in the error response for these cases.
+	//
+	// [principals-param]: https://zulip.com/api/subscribe#parameter-principals
+	//
 	Subscribe(ctx context.Context) SubscribeRequest
 
 	// SubscribeExecute executes the request
 	SubscribeExecute(r SubscribeRequest) (*SubscribeResponse, *http.Response, error)
 
-	/*
-			Unsubscribe Unsubscribe from a channel
-
-			Unsubscribe yourself or other users from one or more channels.
-
-		In addition to managing the current user's subscriptions, this
-		endpoint can be used to remove other users from channels. This
-		is possible in 3 situations:
-
-		- Organization administrators can remove any user from any
-		  channel.
-		- Users can remove a bot that they own from any channel that
-		  the user [can access](https://zulip.com/help/channel-permissions).
-		- Users can unsubscribe any user from a channel if they [have
-		  access](https://zulip.com/help/channel-permissions) to the channel and are a
-		  member of the [user group](https://zulip.com/api/get-user-groups) specified
-		  by the [`can_remove_subscribers_group`][can-remove-parameter]
-		  for the channel.
-
-		**Changes**: Before Zulip 10.0 (feature level 362),
-		subscriptions in archived channels could not be modified.
-
-		Before Zulip 8.0 (feature level 208), if a user specified by
-		the [`principals`][principals-param] parameter was a
-		deactivated user, or did not exist, then an HTTP status code
-		of 403 was returned with `code: "UNAUTHORIZED_PRINCIPAL"` in
-		the error response. As of this feature level, an HTTP status
-		code of 400 is returned with `code: "BAD_REQUEST"` in the
-		error response for these cases.
-
-		Before Zulip 8.0 (feature level 197),
-		the `can_remove_subscribers_group` setting
-		was named `can_remove_subscribers_group_id`.
-
-		Before Zulip 7.0 (feature level 161), the
-		`can_remove_subscribers_group_id` for all channels was always
-		the system group for organization administrators.
-
-		Before Zulip 6.0 (feature level 145), users had no special
-		privileges for managing bots that they own.
-
-		[principals-param]: https://zulip.com/api/unsubscribe#parameter-principals
-		[can-remove-parameter]: https://zulip.com/api/subscribe#parameter-can_remove_subscribers_group
-
-	*/
+	// Unsubscribe Unsubscribe from a channel
+	//
+	// Unsubscribe yourself or other users from one or more channels.
+	//
+	// In addition to managing the current user's subscriptions, this
+	// endpoint can be used to remove other users from channels. This
+	// is possible in 3 situations:
+	//
+	// - Organization administrators can remove any user from any
+	// channel.
+	// - Users can remove a bot that they own from any channel that
+	// the user [can access](https://zulip.com/help/channel-permissions).
+	// - Users can unsubscribe any user from a channel if they [have
+	// access](https://zulip.com/help/channel-permissions) to the channel and are a
+	// member of the [user group](https://zulip.com/api/get-user-groups) specified
+	// by the [`can_remove_subscribers_group`][can-remove-parameter]
+	// for the channel.
+	//
+	// *Changes**: Before Zulip 10.0 (feature level 362),
+	// subscriptions in archived channels could not be modified.
+	//
+	// Before Zulip 8.0 (feature level 208), if a user specified by
+	// the [`principals`][principals-param] parameter was a
+	// deactivated user, or did not exist, then an HTTP status code
+	// of 403 was returned with `code: "UNAUTHORIZED_PRINCIPAL"` in
+	// the error response. As of this feature level, an HTTP status
+	// code of 400 is returned with `code: "BAD_REQUEST"` in the
+	// error response for these cases.
+	//
+	// Before Zulip 8.0 (feature level 197),
+	// the `can_remove_subscribers_group` setting
+	// was named `can_remove_subscribers_group_id`.
+	//
+	// Before Zulip 7.0 (feature level 161), the
+	// `can_remove_subscribers_group_id` for all channels was always
+	// the system group for organization administrators.
+	//
+	// Before Zulip 6.0 (feature level 145), users had no special
+	// privileges for managing bots that they own.
+	//
+	// [principals-param]: https://zulip.com/api/unsubscribe#parameter-principals
+	// [can-remove-parameter]: https://zulip.com/api/subscribe#parameter-can_remove_subscribers_group
+	//
 	Unsubscribe(ctx context.Context) UnsubscribeRequest
 
 	// UnsubscribeExecute executes the request
 	UnsubscribeExecute(r UnsubscribeRequest) (*UnsubscribeResponse, *http.Response, error)
 
-	/*
-			UpdateChannelFolder Update a channel folder
-
-			Update the name or description of a channel folder.
-
-		This endpoint is also used to archive and unarchive
-		a channel folder.
-
-		Only organization administrators can update a
-		channel folder.
-
-		**Changes**: New in Zulip 11.0 (feature level 389).
-
-	*/
+	// UpdateChannelFolder Update a channel folder
+	//
+	// Update the name or description of a channel folder.
+	//
+	// This endpoint is also used to archive and unarchive
+	// a channel folder.
+	//
+	// Only organization administrators can update a
+	// channel folder.
+	//
+	// *Changes**: New in Zulip 11.0 (feature level 389).
+	//
 	UpdateChannelFolder(ctx context.Context, channelFolderId int64) UpdateChannelFolderRequest
 
 	// UpdateChannelFolderExecute executes the request
 	UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*Response, *http.Response, error)
 
-	/*
-			UpdateChannel Update a channel
-
-			Configure the channel with the Id `channelId`. This endpoint supports
-		an organization administrator editing any property of a channel,
-		including:
-
-		- Channel [name](https://zulip.com/help/rename-a-channel) and [description](https://zulip.com/help/change-the-channel-description)
-		- Channel [permissions](https://zulip.com/help/channel-permissions), including
-		  [privacy](https://zulip.com/help/change-the-privacy-of-a-channel) and [who can
-		  send](https://zulip.com/help/channel-posting-policy).
-
-		Note that an organization administrator's ability to change a
-		[private channel's permissions](https://zulip.com/help/channel-permissions#private-channels)
-		depends on them being subscribed to the channel.
-
-		**Changes**: Before Zulip 10.0 (feature level 362), channel privacy could not be
-		edited for archived channels.
-
-		Removed `stream_post_policy` and `is_announcement_only`
-		parameters in Zulip 10.0 (feature level 333), as permission to post
-		in the channel is now controlled by `can_send_message_group`.
-
-	*/
+	// UpdateChannel Update a channel
+	//
+	// Configure the channel with the Id `channelId`. This endpoint supports
+	// an organization administrator editing any property of a channel,
+	// including:
+	//
+	// - Channel [name](https://zulip.com/help/rename-a-channel) and [description](https://zulip.com/help/change-the-channel-description)
+	// - Channel [permissions](https://zulip.com/help/channel-permissions), including
+	// [privacy](https://zulip.com/help/change-the-privacy-of-a-channel) and [who can
+	// send](https://zulip.com/help/channel-posting-policy).
+	//
+	// Note that an organization administrator's ability to change a
+	// [private channel's permissions](https://zulip.com/help/channel-permissions#private-channels)
+	// depends on them being subscribed to the channel.
+	//
+	// *Changes**: Before Zulip 10.0 (feature level 362), channel privacy could not be
+	// edited for archived channels.
+	//
+	// Removed `stream_post_policy` and `is_announcement_only`
+	// parameters in Zulip 10.0 (feature level 333), as permission to post
+	// in the channel is now controlled by `can_send_message_group`.
+	//
 	UpdateChannel(ctx context.Context, channelId int64) UpdateChannelRequest
 
 	// UpdateChannelExecute executes the request
 	UpdateChannelExecute(r UpdateChannelRequest) (*Response, *http.Response, error)
 
-	/*
-			UpdateSubscriptionSettings Update subscription settings
-
-			This endpoint is used to update the user's personal settings for the
-		channels they are subscribed to, including muting, color, pinning, and
-		per-channel notification settings.
-
-		**Changes**: Prior to Zulip 5.0 (feature level 111), response
-		object included the `subscription_data` in the
-		request. The endpoint now returns the more ergonomic
-		[`ignored_parameters_unsupported`][ignored-parameters] array instead.
-
-		[ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
-
-	*/
+	// UpdateSubscriptionSettings Update subscription settings
+	//
+	// This endpoint is used to update the user's personal settings for the
+	// channels they are subscribed to, including muting, color, pinning, and
+	// per-channel notification settings.
+	//
+	// *Changes**: Prior to Zulip 5.0 (feature level 111), response
+	// object included the `subscription_data` in the
+	// request. The endpoint now returns the more ergonomic
+	// [`ignored_parameters_unsupported`][ignored-parameters] array instead.
+	//
+	// [ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
+	//
 	UpdateSubscriptionSettings(ctx context.Context) UpdateSubscriptionSettingsRequest
 
 	// UpdateSubscriptionSettingsExecute executes the request
 	UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSettingsRequest) (*Response, *http.Response, error)
 
-	/*
-			UpdateSubscriptions Update subscriptions
-
-			Update which channels you are subscribed to.
-
-		**Changes**: Before Zulip 10.0 (feature level 362),
-		subscriptions in archived channels could not be modified.
-
-	*/
+	// UpdateSubscriptions Update subscriptions
+	//
+	// Update which channels you are subscribed to.
+	//
+	// *Changes**: Before Zulip 10.0 (feature level 362),
+	// subscriptions in archived channels could not be modified.
+	//
 	UpdateSubscriptions(ctx context.Context) UpdateSubscriptionsRequest
 
 	// UpdateSubscriptionsExecute executes the request
 	UpdateSubscriptionsExecute(r UpdateSubscriptionsRequest) (*UpdateSubscriptionsResponse, *http.Response, error)
 
-	/*
-			UpdateUserTopic Update personal preferences for a topic
-
-			This endpoint is used to update the personal preferences for a topic,
-		such as the topic's visibility policy, which is used to implement
-		[mute a topic](https://zulip.com/help/mute-a-topic) and related features.
-
-		This endpoint can be used to update the visibility policy for the single
-		channel and topic pair indicated by the parameters for a user.
-
-		**Changes**: New in Zulip 7.0 (feature level 170). Previously,
-		toggling whether a topic was muted or unmuted was managed by the
-		[PATCH /users/me/subscriptions/muted_topics](https://zulip.com/api/mute-topic) endpoint.
-
-	*/
+	// UpdateUserTopic Update personal preferences for a topic
+	//
+	// This endpoint is used to update the personal preferences for a topic,
+	// such as the topic's visibility policy, which is used to implement
+	// [mute a topic](https://zulip.com/help/mute-a-topic) and related features.
+	//
+	// This endpoint can be used to update the visibility policy for the single
+	// channel and topic pair indicated by the parameters for a user.
+	//
+	// *Changes**: New in Zulip 7.0 (feature level 170). Previously,
+	// toggling whether a topic was muted or unmuted was managed by the
+	// [PATCH /users/me/subscriptions/muted_topics](https://zulip.com/api/mute-topic) endpoint.
+	//
 	UpdateUserTopic(ctx context.Context) UpdateUserTopicRequest
 
 	// UpdateUserTopicExecute executes the request
@@ -518,14 +468,12 @@ func (r AddDefaultChannelRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.AddDefaultChannelExecute(r)
 }
 
-/*
-AddDefaultChannel Add a default channel
-
-Add a channel to the set of [default channels][default-channels]
-for new users joining the organization.
-
-[default-channels]: https://zulip.com/help/set-default-channels-for-new-users
-*/
+// AddDefaultChannel Add a default channel
+//
+// Add a channel to the set of [default channels][default-channels]
+// for new users joining the organization.
+//
+// [default-channels]: https://zulip.com/help/set-default-channels-for-new-users
 func (c *simpleClient) AddDefaultChannel(ctx context.Context) AddDefaultChannelRequest {
 	return AddDefaultChannelRequest{
 		ApiService: c,
@@ -619,11 +567,9 @@ func (r ArchiveChannelRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.ArchiveChannelExecute(r)
 }
 
-/*
-ArchiveChannel Archive a channel
-
-[Archive the channel](https://zulip.com/help/archive-a-channel) with the Id `channelId`.
-*/
+// ArchiveChannel Archive a channel
+//
+// [Archive the channel](https://zulip.com/help/archive-a-channel) with the Id `channelId`.
 func (c *simpleClient) ArchiveChannel(ctx context.Context, channelId int64) ArchiveChannelRequest {
 	return ArchiveChannelRequest{
 		ApiService: c,
@@ -728,19 +674,17 @@ func (r CreateBigBlueButtonVideoCallRequest) Execute() (*CreateBigBlueButtonVide
 	return r.ApiService.CreateBigBlueButtonVideoCallExecute(r)
 }
 
-/*
-CreateBigBlueButtonVideoCall Create BigBlueButton video call
-
-Create a video call URL for a BigBlueButton video call.
-Requires [BigBlueButton 2.4+](/integrations/doc/big-blue-button)
-to be configured on the Zulip server.
-
-The acting user will be given the moderator role on the call.
-
-**Changes**: Prior to Zulip 10.0 (feature level 337), every
-user was given the moderator role on BigBlueButton calls, via
-encoding a moderator password in the generated URLs.
-*/
+// CreateBigBlueButtonVideoCall Create BigBlueButton video call
+//
+// Create a video call URL for a BigBlueButton video call.
+// Requires [BigBlueButton 2.4+](/integrations/doc/big-blue-button)
+// to be configured on the Zulip server.
+//
+// The acting user will be given the moderator role on the call.
+//
+// *Changes**: Prior to Zulip 10.0 (feature level 337), every
+// user was given the moderator role on BigBlueButton calls, via
+// encoding a moderator password in the generated URLs.
 func (c *simpleClient) CreateBigBlueButtonVideoCall(ctx context.Context) CreateBigBlueButtonVideoCallRequest {
 	return CreateBigBlueButtonVideoCallRequest{
 		ApiService: c,
@@ -978,16 +922,14 @@ func (r CreateChannelRequest) Execute() (*CreateChannelResponse, *http.Response,
 	return r.ApiService.CreateChannelExecute(r)
 }
 
-/*
-CreateChannel Create a channel
-
-Create a new [channel](https://zulip.com/help/create-channels) and optionally
-subscribe users to the newly created channel. The initial [channel settings](https://zulip.com/api/update-stream)
-will be determined by the optional parameters, like `invite_only`, detailed below.
-
-**Changes**: New in Zulip 11.0 (feature level 417). Previously, this was only possible via
-the [`POST /api/subscribe`](https://zulip.com/api/subscribe) endpoint, which handled both creation and subscription.
-*/
+// CreateChannel Create a channel
+//
+// Create a new [channel](https://zulip.com/help/create-channels) and optionally
+// subscribe users to the newly created channel. The initial [channel settings](https://zulip.com/api/update-stream)
+// will be determined by the optional parameters, like `invite_only`, detailed below.
+//
+// *Changes**: New in Zulip 11.0 (feature level 417). Previously, this was only possible via
+// the [`POST /api/subscribe`](https://zulip.com/api/subscribe) endpoint, which handled both creation and subscription.
 func (c *simpleClient) CreateChannel(ctx context.Context) CreateChannelRequest {
 	return CreateChannelRequest{
 		ApiService: c,
@@ -1208,17 +1150,15 @@ func (r CreateChannelFolderRequest) Execute() (*CreateChannelFolderResponse, *ht
 	return r.ApiService.CreateChannelFolderExecute(r)
 }
 
-/*
-CreateChannelFolder Create a channel folder
-
-Create a new channel folder, that will be used to organize
-channels in left sidebar.
-
-Only organization administrators can create a new channel
-folder.
-
-**Changes**: New in Zulip 11.0 (feature level 389).
-*/
+// CreateChannelFolder Create a channel folder
+//
+// Create a new channel folder, that will be used to organize
+// channels in left sidebar.
+//
+// Only organization administrators can create a new channel
+// folder.
+//
+// *Changes**: New in Zulip 11.0 (feature level 389).
 func (c *simpleClient) CreateChannelFolder(ctx context.Context) CreateChannelFolderRequest {
 	return CreateChannelFolderRequest{
 		ApiService: c,
@@ -1321,45 +1261,43 @@ func (r DeleteTopicRequest) Execute() (*MarkAllAsReadResponse, *http.Response, e
 	return r.ApiService.DeleteTopicExecute(r)
 }
 
-/*
-DeleteTopic Delete a topic
-
-Delete all messages in a topic.
-
-Topics are a field on messages (not an independent data structure), so
-deleting all the messages in the topic deletes the topic from Zulip.
-
-Because this endpoint deletes messages in batches, it is possible for
-the request to time out after only deleting some messages in the topic.
-When this happens, the `complete` boolean field in the success response
-will be `false`. Clients should repeat the request when handling such a
-response. If all messages in the topic were deleted, then the success
-response will return `"complete": true`.
-
-**Changes**: Before Zulip 9.0 (feature level 256), the server never sent
-[`stream` op: `update`](https://zulip.com/api/get-events#stream-update) events with an
-updated `first_message_id` for a channel when the oldest message that
-had been sent to it changed.
-
-Before Zulip 8.0 (feature level 211), if the server's
-processing was interrupted by a timeout, but some messages in the topic
-were deleted, then it would return `"result": "partially_completed"`,
-along with a `code` field for an error string, in the success response
-to indicate that there was a timeout and that the client should repeat
-the request.
-
-As of Zulip 6.0 (feature level 154), instead of returning an error
-response when a request times out after successfully deleting some of
-the messages in the topic, a success response is returned with
-`"result": "partially_completed"` to indicate that some messages were
-deleted.
-
-Before Zulip 6.0 (feature level 147), this request did a single atomic
-operation, which could time out for very large topics. As of this
-feature level, messages are deleted in batches, starting with the newest
-messages, so that progress is made even if the request times out and
-returns an error.
-*/
+// DeleteTopic Delete a topic
+//
+// Delete all messages in a topic.
+//
+// Topics are a field on messages (not an independent data structure), so
+// deleting all the messages in the topic deletes the topic from Zulip.
+//
+// Because this endpoint deletes messages in batches, it is possible for
+// the request to time out after only deleting some messages in the topic.
+// When this happens, the `complete` boolean field in the success response
+// will be `false`. Clients should repeat the request when handling such a
+// response. If all messages in the topic were deleted, then the success
+// response will return `"complete": true`.
+//
+// *Changes**: Before Zulip 9.0 (feature level 256), the server never sent
+// [`stream` op: `update`](https://zulip.com/api/get-events#stream-update) events with an
+// updated `first_message_id` for a channel when the oldest message that
+// had been sent to it changed.
+//
+// Before Zulip 8.0 (feature level 211), if the server's
+// processing was interrupted by a timeout, but some messages in the topic
+// were deleted, then it would return `"result": "partially_completed"`,
+// along with a `code` field for an error string, in the success response
+// to indicate that there was a timeout and that the client should repeat
+// the request.
+//
+// As of Zulip 6.0 (feature level 154), instead of returning an error
+// response when a request times out after successfully deleting some of
+// the messages in the topic, a success response is returned with
+// `"result": "partially_completed"` to indicate that some messages were
+// deleted.
+//
+// Before Zulip 6.0 (feature level 147), this request did a single atomic
+// operation, which could time out for very large topics. As of this
+// feature level, messages are deleted in batches, starting with the newest
+// messages, so that progress is made even if the request times out and
+// returns an error.
 func (c *simpleClient) DeleteTopic(ctx context.Context, channelId int64) DeleteTopicRequest {
 	return DeleteTopicRequest{
 		ApiService: c,
@@ -1461,17 +1399,15 @@ func (r GetChannelFoldersRequest) Execute() (*GetChannelFoldersResponse, *http.R
 	return r.ApiService.GetChannelFoldersExecute(r)
 }
 
-/*
-GetChannelFolders Get channel folders
-
-Fetches all of the channel folders in the organization.
-The folders are sorted by the `order` field.
-
-**Changes**: Before Zulip 11.0 (feature level 414),
-these were sorted by Id. (The `order` field didn't exist).
-
-New in Zulip 11.0 (feature level 389).
-*/
+// GetChannelFolders Get channel folders
+//
+// Fetches all of the channel folders in the organization.
+// The folders are sorted by the `order` field.
+//
+// *Changes**: Before Zulip 11.0 (feature level 414),
+// these were sorted by Id. (The `order` field didn't exist).
+//
+// New in Zulip 11.0 (feature level 389).
 func (c *simpleClient) GetChannelFolders(ctx context.Context) GetChannelFoldersRequest {
 	return GetChannelFoldersRequest{
 		ApiService: c,
@@ -1564,13 +1500,11 @@ func (r GetChannelByIdRequest) Execute() (*GetChannelResponse, *http.Response, e
 	return r.ApiService.GetChannelByIdExecute(r)
 }
 
-/*
-GetChannelById Get a channel by Id
-
-Fetch details for the channel with the Id `channelId`.
-
-**Changes**: New in Zulip 6.0 (feature level 132).
-*/
+// GetChannelById Get a channel by Id
+//
+// Fetch details for the channel with the Id `channelId`.
+//
+// *Changes**: New in Zulip 6.0 (feature level 132).
 func (c *simpleClient) GetChannelById(ctx context.Context, channelId int64) GetChannelByIdRequest {
 	return GetChannelByIdRequest{
 		ApiService: c,
@@ -1669,13 +1603,11 @@ func (r GetChannelEmailAddressRequest) Execute() (*GetChannelEmailAddressRespons
 	return r.ApiService.GetChannelEmailAddressExecute(r)
 }
 
-/*
-GetChannelEmailAddress Get channel's email address
-
-Get email address of a channel.
-
-**Changes**: New in Zulip 8.0 (feature level 226).
-*/
+// GetChannelEmailAddress Get channel's email address
+//
+// Get email address of a channel.
+//
+// *Changes**: New in Zulip 8.0 (feature level 226).
 func (c *simpleClient) GetChannelEmailAddress(ctx context.Context, channelId int64) GetChannelEmailAddressRequest {
 	return GetChannelEmailAddressRequest{
 		ApiService: c,
@@ -1776,11 +1708,9 @@ func (r GetChannelIdRequest) Execute() (*GetChannelIdResponse, *http.Response, e
 	return r.ApiService.GetChannelIdExecute(r)
 }
 
-/*
-GetChannelId Get channel Id
-
-Get the unique Id of a given channel.
-*/
+// GetChannelId Get channel Id
+//
+// Get the unique Id of a given channel.
 func (c *simpleClient) GetChannelId(ctx context.Context) GetChannelIdRequest {
 	return GetChannelIdRequest{
 		ApiService: c,
@@ -1881,19 +1811,17 @@ func (r GetChannelTopicsRequest) Execute() (*GetChannelTopicsResponse, *http.Res
 	return r.ApiService.GetChannelTopicsExecute(r)
 }
 
-/*
-GetChannelTopics Get topics in a channel
-
-Get all topics the user has access to in a specific channel.
-
-Note that for [private channels with
-protected history](https://zulip.com/help/channel-permissions#private-channels),
-the user will only have access to topics of messages sent after they
-[subscribed to](https://zulip.com/api/subscribe) the channel. Similarly, a user's
-[bot](https://zulip.com/help/bots-overview#bot-type) will only have access to messages
-sent after the bot was subscribed to the channel, instead of when the
-user subscribed.
-*/
+// GetChannelTopics Get topics in a channel
+//
+// Get all topics the user has access to in a specific channel.
+//
+// Note that for [private channels with
+// protected history](https://zulip.com/help/channel-permissions#private-channels),
+// the user will only have access to topics of messages sent after they
+// [subscribed to](https://zulip.com/api/subscribe) the channel. Similarly, a user's
+// [bot](https://zulip.com/help/bots-overview#bot-type) will only have access to messages
+// sent after the bot was subscribed to the channel, instead of when the
+// user subscribed.
 func (c *simpleClient) GetChannelTopics(ctx context.Context, channelId int64) GetChannelTopicsRequest {
 	return GetChannelTopicsRequest{
 		ApiService: c,
@@ -2054,11 +1982,9 @@ func (r GetChannelsRequest) Execute() (*GetChannelsResponse, *http.Response, err
 	return r.ApiService.GetChannelsExecute(r)
 }
 
-/*
-GetChannels Get all channels
-
-Get all channels that the user [has access to](https://zulip.com/help/channel-permissions).
-*/
+// GetChannels Get all channels
+//
+// Get all channels that the user [has access to](https://zulip.com/help/channel-permissions).
 func (c *simpleClient) GetChannels(ctx context.Context) GetChannelsRequest {
 	return GetChannelsRequest{
 		ApiService: c,
@@ -2202,11 +2128,9 @@ func (r GetSubscribersRequest) Execute() (*GetSubscribersResponse, *http.Respons
 	return r.ApiService.GetSubscribersExecute(r)
 }
 
-/*
-GetSubscribers Get channel subscribers
-
-Get all users subscribed to a channel.
-*/
+// GetSubscribers Get channel subscribers
+//
+// Get all users subscribed to a channel.
 func (c *simpleClient) GetSubscribers(ctx context.Context, channelId int64) GetSubscribersRequest {
 	return GetSubscribersRequest{
 		ApiService: c,
@@ -2299,13 +2223,11 @@ func (r GetSubscriptionStatusRequest) Execute() (*GetSubscriptionStatusResponse,
 	return r.ApiService.GetSubscriptionStatusExecute(r)
 }
 
-/*
-GetSubscriptionStatus Get subscription status
-
-Check whether a user is subscribed to a channel.
-
-**Changes**: New in Zulip 3.0 (feature level 12).
-*/
+// GetSubscriptionStatus Get subscription status
+//
+// Check whether a user is subscribed to a channel.
+//
+// *Changes**: New in Zulip 3.0 (feature level 12).
 func (c *simpleClient) GetSubscriptionStatus(ctx context.Context, userId int64, channelId int64) GetSubscriptionStatusRequest {
 	return GetSubscriptionStatusRequest{
 		ApiService: c,
@@ -2405,11 +2327,9 @@ func (r GetSubscriptionsRequest) Execute() (*GetSubscriptionsResponse, *http.Res
 	return r.ApiService.GetSubscriptionsExecute(r)
 }
 
-/*
-GetSubscriptions Get subscribed channels
-
-Get all channels that the user is subscribed to.
-*/
+// GetSubscriptions Get subscribed channels
+//
+// Get all channels that the user is subscribed to.
 func (c *simpleClient) GetSubscriptions(ctx context.Context) GetSubscriptionsRequest {
 	return GetSubscriptionsRequest{
 		ApiService: c,
@@ -2532,22 +2452,20 @@ func (r MuteTopicRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.MuteTopicExecute(r)
 }
 
-/*
-MuteTopic Topic muting
-
-[Mute or unmute a topic](https://zulip.com/help/mute-a-topic) within a channel that
-the current user is subscribed to.
-
-**Changes**: Deprecated in Zulip 7.0 (feature level 170). Clients connecting
-to newer servers should use the [POST /user_topics](https://zulip.com/api/update-user-topic)
-endpoint, as this endpoint may be removed in a future release.
-
-Before Zulip 7.0 (feature level 169), this endpoint
-returned an error if asked to mute a topic that was already muted
-or asked to unmute a topic that had not previously been muted.
-
-Deprecated
-*/
+// MuteTopic Topic muting
+//
+// [Mute or unmute a topic](https://zulip.com/help/mute-a-topic) within a channel that
+// the current user is subscribed to.
+//
+// *Changes**: Deprecated in Zulip 7.0 (feature level 170). Clients connecting
+// to newer servers should use the [POST /user_topics](https://zulip.com/api/update-user-topic)
+// endpoint, as this endpoint may be removed in a future release.
+//
+// Before Zulip 7.0 (feature level 169), this endpoint
+// returned an error if asked to mute a topic that was already muted
+// or asked to unmute a topic that had not previously been muted.
+//
+// Deprecated
 func (c *simpleClient) MuteTopic(ctx context.Context) MuteTopicRequest {
 	return MuteTopicRequest{
 		ApiService: c,
@@ -2659,15 +2577,13 @@ func (r PatchChannelFoldersRequest) Execute() (*Response, *http.Response, error)
 	return r.ApiService.PatchChannelFoldersExecute(r)
 }
 
-/*
-PatchChannelFolders Reorder channel folders
-
-Given an array of channel folder Ids, this method will set the `order`
-property of all of the channel folders in the organization according to
-the order of the channel folder Ids specified in the request.
-
-**Changes**: New in Zulip 11.0 (feature level 414).
-*/
+// PatchChannelFolders Reorder channel folders
+//
+// Given an array of channel folder Ids, this method will set the `order`
+// property of all of the channel folders in the organization according to
+// the order of the channel folder Ids specified in the request.
+//
+// *Changes**: New in Zulip 11.0 (feature level 414).
 func (c *simpleClient) PatchChannelFolders(ctx context.Context) PatchChannelFoldersRequest {
 	return PatchChannelFoldersRequest{
 		ApiService: c,
@@ -2766,14 +2682,12 @@ func (r RemoveDefaultChannelRequest) Execute() (*Response, *http.Response, error
 	return r.ApiService.RemoveDefaultChannelExecute(r)
 }
 
-/*
-RemoveDefaultChannel Remove a default channel
-
-Remove a channel from the set of [default channels][default-channels]
-for new users joining the organization.
-
-[default-channels]: https://zulip.com/help/set-default-channels-for-new-users
-*/
+// RemoveDefaultChannel Remove a default channel
+//
+// Remove a channel from the set of [default channels][default-channels]
+// for new users joining the organization.
+//
+// [default-channels]: https://zulip.com/help/set-default-channels-for-new-users
 func (c *simpleClient) RemoveDefaultChannel(ctx context.Context) RemoveDefaultChannelRequest {
 	return RemoveDefaultChannelRequest{
 		ApiService: c,
@@ -3015,45 +2929,43 @@ func (r SubscribeRequest) Execute() (*SubscribeResponse, *http.Response, error) 
 	return r.ApiService.SubscribeExecute(r)
 }
 
-/*
-Subscribe Subscribe to a channel
-
-Subscribe one or more users to one or more channels.
-
-If any of the specified channels do not exist, they are automatically
-created. The initial [channel settings](https://zulip.com/api/update-stream) will be determined
-by the optional parameters, like `invite_only`, detailed below.
-
-Note that the ability to subscribe oneself and/or other users
-to a specified channel depends on the [channel's permissions
-settings](https://zulip.com/help/channel-permissions).
-
-**Changes**: Before Zulip 10.0 (feature level 362),
-subscriptions in archived channels could not be modified.
-
-Before Zulip 10.0 (feature level 357), the
-`can_subscribe_group` permission, which allows members of the
-group to subscribe themselves to the channel, did not exist.
-
-Before Zulip 10.0 (feature level 349), a user cannot subscribe
-other users to a private channel without being subscribed
-to that channel themselves. Now, If a user is part of
-`can_add_subscribers_group`, they can subscribe themselves or other
-users to a private channel without being subscribed to that channel.
-
-Removed `stream_post_policy` and `is_announcement_only`
-parameters in Zulip 10.0 (feature level 333), as permission to post
-in the channel is now controlled by `can_send_message_group`.
-
-Before Zulip 8.0 (feature level 208), if a user specified by the
-[`principals`][principals-param] parameter was a deactivated user,
-or did not exist, then an HTTP status code of 403 was returned with
-`code: "UNAUTHORIZED_PRINCIPAL"` in the error response. As of this
-feature level, an HTTP status code of 400 is returned with
-`code: "BAD_REQUEST"` in the error response for these cases.
-
-[principals-param]: https://zulip.com/api/subscribe#parameter-principals
-*/
+// Subscribe Subscribe to a channel
+//
+// Subscribe one or more users to one or more channels.
+//
+// If any of the specified channels do not exist, they are automatically
+// created. The initial [channel settings](https://zulip.com/api/update-stream) will be determined
+// by the optional parameters, like `invite_only`, detailed below.
+//
+// Note that the ability to subscribe oneself and/or other users
+// to a specified channel depends on the [channel's permissions
+// settings](https://zulip.com/help/channel-permissions).
+//
+// *Changes**: Before Zulip 10.0 (feature level 362),
+// subscriptions in archived channels could not be modified.
+//
+// Before Zulip 10.0 (feature level 357), the
+// `can_subscribe_group` permission, which allows members of the
+// group to subscribe themselves to the channel, did not exist.
+//
+// Before Zulip 10.0 (feature level 349), a user cannot subscribe
+// other users to a private channel without being subscribed
+// to that channel themselves. Now, If a user is part of
+// `can_add_subscribers_group`, they can subscribe themselves or other
+// users to a private channel without being subscribed to that channel.
+//
+// Removed `stream_post_policy` and `is_announcement_only`
+// parameters in Zulip 10.0 (feature level 333), as permission to post
+// in the channel is now controlled by `can_send_message_group`.
+//
+// Before Zulip 8.0 (feature level 208), if a user specified by the
+// [`principals`][principals-param] parameter was a deactivated user,
+// or did not exist, then an HTTP status code of 403 was returned with
+// `code: "UNAUTHORIZED_PRINCIPAL"` in the error response. As of this
+// feature level, an HTTP status code of 400 is returned with
+// `code: "BAD_REQUEST"` in the error response for these cases.
+//
+// [principals-param]: https://zulip.com/api/subscribe#parameter-principals
 func (c *simpleClient) Subscribe(ctx context.Context) SubscribeRequest {
 	return SubscribeRequest{
 		ApiService: c,
@@ -3270,50 +3182,48 @@ func (r UnsubscribeRequest) Execute() (*UnsubscribeResponse, *http.Response, err
 	return r.ApiService.UnsubscribeExecute(r)
 }
 
-/*
-Unsubscribe Unsubscribe from a channel
-
-Unsubscribe yourself or other users from one or more channels.
-
-In addition to managing the current user's subscriptions, this
-endpoint can be used to remove other users from channels. This
-is possible in 3 situations:
-
-  - Organization administrators can remove any user from any
-    channel.
-  - Users can remove a bot that they own from any channel that
-    the user [can access](https://zulip.com/help/channel-permissions).
-  - Users can unsubscribe any user from a channel if they [have
-    access](https://zulip.com/help/channel-permissions) to the channel and are a
-    member of the [user group](https://zulip.com/api/get-user-groups) specified
-    by the [`can_remove_subscribers_group`][can-remove-parameter]
-    for the channel.
-
-**Changes**: Before Zulip 10.0 (feature level 362),
-subscriptions in archived channels could not be modified.
-
-Before Zulip 8.0 (feature level 208), if a user specified by
-the [`principals`][principals-param] parameter was a
-deactivated user, or did not exist, then an HTTP status code
-of 403 was returned with `code: "UNAUTHORIZED_PRINCIPAL"` in
-the error response. As of this feature level, an HTTP status
-code of 400 is returned with `code: "BAD_REQUEST"` in the
-error response for these cases.
-
-Before Zulip 8.0 (feature level 197),
-the `can_remove_subscribers_group` setting
-was named `can_remove_subscribers_group_id`.
-
-Before Zulip 7.0 (feature level 161), the
-`can_remove_subscribers_group_id` for all channels was always
-the system group for organization administrators.
-
-Before Zulip 6.0 (feature level 145), users had no special
-privileges for managing bots that they own.
-
-[principals-param]: https://zulip.com/api/unsubscribe#parameter-principals
-[can-remove-parameter]: https://zulip.com/api/subscribe#parameter-can_remove_subscribers_group
-*/
+// Unsubscribe Unsubscribe from a channel
+//
+// Unsubscribe yourself or other users from one or more channels.
+//
+// In addition to managing the current user's subscriptions, this
+// endpoint can be used to remove other users from channels. This
+// is possible in 3 situations:
+//
+// - Organization administrators can remove any user from any
+// channel.
+// - Users can remove a bot that they own from any channel that
+// the user [can access](https://zulip.com/help/channel-permissions).
+// - Users can unsubscribe any user from a channel if they [have
+// access](https://zulip.com/help/channel-permissions) to the channel and are a
+// member of the [user group](https://zulip.com/api/get-user-groups) specified
+// by the [`can_remove_subscribers_group`][can-remove-parameter]
+// for the channel.
+//
+// *Changes**: Before Zulip 10.0 (feature level 362),
+// subscriptions in archived channels could not be modified.
+//
+// Before Zulip 8.0 (feature level 208), if a user specified by
+// the [`principals`][principals-param] parameter was a
+// deactivated user, or did not exist, then an HTTP status code
+// of 403 was returned with `code: "UNAUTHORIZED_PRINCIPAL"` in
+// the error response. As of this feature level, an HTTP status
+// code of 400 is returned with `code: "BAD_REQUEST"` in the
+// error response for these cases.
+//
+// Before Zulip 8.0 (feature level 197),
+// the `can_remove_subscribers_group` setting
+// was named `can_remove_subscribers_group_id`.
+//
+// Before Zulip 7.0 (feature level 161), the
+// `can_remove_subscribers_group_id` for all channels was always
+// the system group for organization administrators.
+//
+// Before Zulip 6.0 (feature level 145), users had no special
+// privileges for managing bots that they own.
+//
+// [principals-param]: https://zulip.com/api/unsubscribe#parameter-principals
+// [can-remove-parameter]: https://zulip.com/api/subscribe#parameter-can_remove_subscribers_group
 func (c *simpleClient) Unsubscribe(ctx context.Context) UnsubscribeRequest {
 	return UnsubscribeRequest{
 		ApiService: c,
@@ -3435,19 +3345,17 @@ func (r UpdateChannelFolderRequest) Execute() (*Response, *http.Response, error)
 	return r.ApiService.UpdateChannelFolderExecute(r)
 }
 
-/*
-UpdateChannelFolder Update a channel folder
-
-Update the name or description of a channel folder.
-
-This endpoint is also used to archive and unarchive
-a channel folder.
-
-Only organization administrators can update a
-channel folder.
-
-**Changes**: New in Zulip 11.0 (feature level 389).
-*/
+// UpdateChannelFolder Update a channel folder
+//
+// Update the name or description of a channel folder.
+//
+// This endpoint is also used to archive and unarchive
+// a channel folder.
+//
+// Only organization administrators can update a
+// channel folder.
+//
+// *Changes**: New in Zulip 11.0 (feature level 389).
 func (c *simpleClient) UpdateChannelFolder(ctx context.Context, channelFolderId int64) UpdateChannelFolderRequest {
 	return UpdateChannelFolderRequest{
 		ApiService:      c,
@@ -3692,29 +3600,27 @@ func (r UpdateChannelRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.UpdateChannelExecute(r)
 }
 
-/*
-UpdateChannel Update a channel
-
-Configure the channel with the Id `channelId`. This endpoint supports
-an organization administrator editing any property of a channel,
-including:
-
-  - Channel [name](https://zulip.com/help/rename-a-channel) and [description](https://zulip.com/help/change-the-channel-description)
-  - Channel [permissions](https://zulip.com/help/channel-permissions), including
-    [privacy](https://zulip.com/help/change-the-privacy-of-a-channel) and [who can
-    send](https://zulip.com/help/channel-posting-policy).
-
-Note that an organization administrator's ability to change a
-[private channel's permissions](https://zulip.com/help/channel-permissions#private-channels)
-depends on them being subscribed to the channel.
-
-**Changes**: Before Zulip 10.0 (feature level 362), channel privacy could not be
-edited for archived channels.
-
-Removed `stream_post_policy` and `is_announcement_only`
-parameters in Zulip 10.0 (feature level 333), as permission to post
-in the channel is now controlled by `can_send_message_group`.
-*/
+// UpdateChannel Update a channel
+//
+// Configure the channel with the Id `channelId`. This endpoint supports
+// an organization administrator editing any property of a channel,
+// including:
+//
+// - Channel [name](https://zulip.com/help/rename-a-channel) and [description](https://zulip.com/help/change-the-channel-description)
+// - Channel [permissions](https://zulip.com/help/channel-permissions), including
+// [privacy](https://zulip.com/help/change-the-privacy-of-a-channel) and [who can
+// send](https://zulip.com/help/channel-posting-policy).
+//
+// Note that an organization administrator's ability to change a
+// [private channel's permissions](https://zulip.com/help/channel-permissions#private-channels)
+// depends on them being subscribed to the channel.
+//
+// *Changes**: Before Zulip 10.0 (feature level 362), channel privacy could not be
+// edited for archived channels.
+//
+// Removed `stream_post_policy` and `is_announcement_only`
+// parameters in Zulip 10.0 (feature level 333), as permission to post
+// in the channel is now controlled by `can_send_message_group`.
 func (c *simpleClient) UpdateChannel(ctx context.Context, channelId int64) UpdateChannelRequest {
 	return UpdateChannelRequest{
 		ApiService: c,
@@ -3916,20 +3822,18 @@ func (r UpdateSubscriptionSettingsRequest) Execute() (*Response, *http.Response,
 	return r.ApiService.UpdateSubscriptionSettingsExecute(r)
 }
 
-/*
-UpdateSubscriptionSettings Update subscription settings
-
-This endpoint is used to update the user's personal settings for the
-channels they are subscribed to, including muting, color, pinning, and
-per-channel notification settings.
-
-**Changes**: Prior to Zulip 5.0 (feature level 111), response
-object included the `subscription_data` in the
-request. The endpoint now returns the more ergonomic
-[`ignored_parameters_unsupported`][ignored-parameters] array instead.
-
-[ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
-*/
+// UpdateSubscriptionSettings Update subscription settings
+//
+// This endpoint is used to update the user's personal settings for the
+// channels they are subscribed to, including muting, color, pinning, and
+// per-channel notification settings.
+//
+// *Changes**: Prior to Zulip 5.0 (feature level 111), response
+// object included the `subscription_data` in the
+// request. The endpoint now returns the more ergonomic
+// [`ignored_parameters_unsupported`][ignored-parameters] array instead.
+//
+// [ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
 func (c *simpleClient) UpdateSubscriptionSettings(ctx context.Context) UpdateSubscriptionSettingsRequest {
 	return UpdateSubscriptionSettingsRequest{
 		ApiService: c,
@@ -4043,14 +3947,12 @@ func (r UpdateSubscriptionsRequest) Execute() (*UpdateSubscriptionsResponse, *ht
 	return r.ApiService.UpdateSubscriptionsExecute(r)
 }
 
-/*
-UpdateSubscriptions Update subscriptions
-
-Update which channels you are subscribed to.
-
-**Changes**: Before Zulip 10.0 (feature level 362),
-subscriptions in archived channels could not be modified.
-*/
+// UpdateSubscriptions Update subscriptions
+//
+// Update which channels you are subscribed to.
+//
+// *Changes**: Before Zulip 10.0 (feature level 362),
+// subscriptions in archived channels could not be modified.
 func (c *simpleClient) UpdateSubscriptions(ctx context.Context) UpdateSubscriptionsRequest {
 	return UpdateSubscriptionsRequest{
 		ApiService: c,
@@ -4166,20 +4068,18 @@ func (r UpdateUserTopicRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.UpdateUserTopicExecute(r)
 }
 
-/*
-UpdateUserTopic Update personal preferences for a topic
-
-This endpoint is used to update the personal preferences for a topic,
-such as the topic's visibility policy, which is used to implement
-[mute a topic](https://zulip.com/help/mute-a-topic) and related features.
-
-This endpoint can be used to update the visibility policy for the single
-channel and topic pair indicated by the parameters for a user.
-
-**Changes**: New in Zulip 7.0 (feature level 170). Previously,
-toggling whether a topic was muted or unmuted was managed by the
-[PATCH /users/me/subscriptions/muted_topics](https://zulip.com/api/mute-topic) endpoint.
-*/
+// UpdateUserTopic Update personal preferences for a topic
+//
+// This endpoint is used to update the personal preferences for a topic,
+// such as the topic's visibility policy, which is used to implement
+// [mute a topic](https://zulip.com/help/mute-a-topic) and related features.
+//
+// This endpoint can be used to update the visibility policy for the single
+// channel and topic pair indicated by the parameters for a user.
+//
+// *Changes**: New in Zulip 7.0 (feature level 170). Previously,
+// toggling whether a topic was muted or unmuted was managed by the
+// [PATCH /users/me/subscriptions/muted_topics](https://zulip.com/api/mute-topic) endpoint.
 func (c *simpleClient) UpdateUserTopic(ctx context.Context) UpdateUserTopicRequest {
 	return UpdateUserTopicRequest{
 		ApiService: c,

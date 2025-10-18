@@ -11,111 +11,99 @@ import (
 
 type InvitesAPI interface {
 
-	/*
-			CreateInviteLink Create a reusable invitation link
-
-			Create a [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link)
-		which can be used to invite new users to the organization.
-
-		**Changes**: In Zulip 8.0 (feature level 209), added support for non-admin
-		users [with permission](https://zulip.com/help/restrict-account-creation#change-who-can-send-invitations)
-		to use this endpoint. Previously, it was restricted to administrators only.
-
-		In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
-		parameter was removed and replaced by `invite_expires_in_minutes`.
-
-		In Zulip 5.0 (feature level 117), added support for passing `null` as
-		the `invite_expires_in_days` parameter to request an invitation that never
-		expires.
-
-		In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
-		added which specified the number of days before the invitation would expire.
-
-	*/
+	// CreateInviteLink Create a reusable invitation link
+	//
+	// Create a [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link)
+	// which can be used to invite new users to the organization.
+	//
+	// *Changes**: In Zulip 8.0 (feature level 209), added support for non-admin
+	// users [with permission](https://zulip.com/help/restrict-account-creation#change-who-can-send-invitations)
+	// to use this endpoint. Previously, it was restricted to administrators only.
+	//
+	// In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
+	// parameter was removed and replaced by `invite_expires_in_minutes`.
+	//
+	// In Zulip 5.0 (feature level 117), added support for passing `null` as
+	// the `invite_expires_in_days` parameter to request an invitation that never
+	// expires.
+	//
+	// In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
+	// added which specified the number of days before the invitation would expire.
+	//
 	CreateInviteLink(ctx context.Context) CreateInviteLinkRequest
 
 	// CreateInviteLinkExecute executes the request
 	CreateInviteLinkExecute(r CreateInviteLinkRequest) (*CreateInviteLinkResponse, *http.Response, error)
 
-	/*
-			GetInvites Get all invitations
-
-			Fetch all unexpired [invitations](https://zulip.com/help/invite-new-users) (i.e. email
-		invitations and reusable invitation links) that can be managed by the user.
-
-		Note that administrators can manage invitations that were created by other users.
-
-		**Changes**: Prior to Zulip 8.0 (feature level 209), non-admin users could
-		only create email invitations, and therefore the response would never include
-		reusable invitation links for these users.
-
-	*/
+	// GetInvites Get all invitations
+	//
+	// Fetch all unexpired [invitations](https://zulip.com/help/invite-new-users) (i.e. email
+	// invitations and reusable invitation links) that can be managed by the user.
+	//
+	// Note that administrators can manage invitations that were created by other users.
+	//
+	// *Changes**: Prior to Zulip 8.0 (feature level 209), non-admin users could
+	// only create email invitations, and therefore the response would never include
+	// reusable invitation links for these users.
+	//
 	GetInvites(ctx context.Context) GetInvitesRequest
 
 	// GetInvitesExecute executes the request
 	GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResponse, *http.Response, error)
 
-	/*
-			ResendEmailInvite Resend an email invitation
-
-			Resend an [email invitation](https://zulip.com/help/invite-new-users#send-email-invitations).
-
-		A user can only resend [invitations that they can
-		manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
-
-	*/
+	// ResendEmailInvite Resend an email invitation
+	//
+	// Resend an [email invitation](https://zulip.com/help/invite-new-users#send-email-invitations).
+	//
+	// A user can only resend [invitations that they can
+	// manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
+	//
 	ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest
 
 	// ResendEmailInviteExecute executes the request
 	ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Response, *http.Response, error)
 
-	/*
-			RevokeEmailInvite Revoke an email invitation
-
-			Revoke an [email invitation](https://zulip.com/help/invite-new-users#send-email-invitations).
-
-		A user can only revoke [invitations that they can
-		manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
-
-	*/
+	// RevokeEmailInvite Revoke an email invitation
+	//
+	// Revoke an [email invitation](https://zulip.com/help/invite-new-users#send-email-invitations).
+	//
+	// A user can only revoke [invitations that they can
+	// manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
+	//
 	RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest
 
 	// RevokeEmailInviteExecute executes the request
 	RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Response, *http.Response, error)
 
-	/*
-			RevokeInviteLink Revoke a reusable invitation link
-
-			Revoke a [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link).
-
-		A user can only revoke [invitations that they can
-		manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
-
-		**Changes**: Prior to Zulip 8.0 (feature level 209), only organization
-		administrators were able to create and revoke reusable invitation links.
-
-	*/
+	// RevokeInviteLink Revoke a reusable invitation link
+	//
+	// Revoke a [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link).
+	//
+	// A user can only revoke [invitations that they can
+	// manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
+	//
+	// *Changes**: Prior to Zulip 8.0 (feature level 209), only organization
+	// administrators were able to create and revoke reusable invitation links.
+	//
 	RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInviteLinkRequest
 
 	// RevokeInviteLinkExecute executes the request
 	RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Response, *http.Response, error)
 
-	/*
-			SendInvites Send invitations
-
-			Send [invitations](https://zulip.com/help/invite-new-users) to specified email addresses.
-
-		**Changes**: In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
-		parameter was removed and replaced by `invite_expires_in_minutes`.
-
-		In Zulip 5.0 (feature level 117), added support for passing `null` as
-		the `invite_expires_in_days` parameter to request an invitation that never
-		expires.
-
-		In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
-		added which specified the number of days before the invitation would expire.
-
-	*/
+	// SendInvites Send invitations
+	//
+	// Send [invitations](https://zulip.com/help/invite-new-users) to specified email addresses.
+	//
+	// *Changes**: In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
+	// parameter was removed and replaced by `invite_expires_in_minutes`.
+	//
+	// In Zulip 5.0 (feature level 117), added support for passing `null` as
+	// the `invite_expires_in_days` parameter to request an invitation that never
+	// expires.
+	//
+	// In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
+	// added which specified the number of days before the invitation would expire.
+	//
 	SendInvites(ctx context.Context) SendInvitesRequest
 
 	// SendInvitesExecute executes the request
@@ -173,26 +161,24 @@ func (r CreateInviteLinkRequest) Execute() (*CreateInviteLinkResponse, *http.Res
 	return r.ApiService.CreateInviteLinkExecute(r)
 }
 
-/*
-CreateInviteLink Create a reusable invitation link
-
-Create a [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link)
-which can be used to invite new users to the organization.
-
-**Changes**: In Zulip 8.0 (feature level 209), added support for non-admin
-users [with permission](https://zulip.com/help/restrict-account-creation#change-who-can-send-invitations)
-to use this endpoint. Previously, it was restricted to administrators only.
-
-In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
-parameter was removed and replaced by `invite_expires_in_minutes`.
-
-In Zulip 5.0 (feature level 117), added support for passing `null` as
-the `invite_expires_in_days` parameter to request an invitation that never
-expires.
-
-In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
-added which specified the number of days before the invitation would expire.
-*/
+// CreateInviteLink Create a reusable invitation link
+//
+// Create a [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link)
+// which can be used to invite new users to the organization.
+//
+// *Changes**: In Zulip 8.0 (feature level 209), added support for non-admin
+// users [with permission](https://zulip.com/help/restrict-account-creation#change-who-can-send-invitations)
+// to use this endpoint. Previously, it was restricted to administrators only.
+//
+// In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
+// parameter was removed and replaced by `invite_expires_in_minutes`.
+//
+// In Zulip 5.0 (feature level 117), added support for passing `null` as
+// the `invite_expires_in_days` parameter to request an invitation that never
+// expires.
+//
+// In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
+// added which specified the number of days before the invitation would expire.
 func (c *simpleClient) CreateInviteLink(ctx context.Context) CreateInviteLinkRequest {
 	return CreateInviteLinkRequest{
 		ApiService: c,
@@ -299,18 +285,16 @@ func (r GetInvitesRequest) Execute() (*GetInvitesResponse, *http.Response, error
 	return r.ApiService.GetInvitesExecute(r)
 }
 
-/*
-GetInvites Get all invitations
-
-Fetch all unexpired [invitations](https://zulip.com/help/invite-new-users) (i.e. email
-invitations and reusable invitation links) that can be managed by the user.
-
-Note that administrators can manage invitations that were created by other users.
-
-**Changes**: Prior to Zulip 8.0 (feature level 209), non-admin users could
-only create email invitations, and therefore the response would never include
-reusable invitation links for these users.
-*/
+// GetInvites Get all invitations
+//
+// Fetch all unexpired [invitations](https://zulip.com/help/invite-new-users) (i.e. email
+// invitations and reusable invitation links) that can be managed by the user.
+//
+// Note that administrators can manage invitations that were created by other users.
+//
+// *Changes**: Prior to Zulip 8.0 (feature level 209), non-admin users could
+// only create email invitations, and therefore the response would never include
+// reusable invitation links for these users.
 func (c *simpleClient) GetInvites(ctx context.Context) GetInvitesRequest {
 	return GetInvitesRequest{
 		ApiService: c,
@@ -400,14 +384,12 @@ func (r ResendEmailInviteRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.ResendEmailInviteExecute(r)
 }
 
-/*
-ResendEmailInvite Resend an email invitation
-
-Resend an [email invitation](https://zulip.com/help/invite-new-users#send-email-invitations).
-
-A user can only resend [invitations that they can
-manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
-*/
+// ResendEmailInvite Resend an email invitation
+//
+// Resend an [email invitation](https://zulip.com/help/invite-new-users#send-email-invitations).
+//
+// A user can only resend [invitations that they can
+// manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
 func (c *simpleClient) ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest {
 	return ResendEmailInviteRequest{
 		ApiService: c,
@@ -499,14 +481,12 @@ func (r RevokeEmailInviteRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.RevokeEmailInviteExecute(r)
 }
 
-/*
-RevokeEmailInvite Revoke an email invitation
-
-Revoke an [email invitation](https://zulip.com/help/invite-new-users#send-email-invitations).
-
-A user can only revoke [invitations that they can
-manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
-*/
+// RevokeEmailInvite Revoke an email invitation
+//
+// Revoke an [email invitation](https://zulip.com/help/invite-new-users#send-email-invitations).
+//
+// A user can only revoke [invitations that they can
+// manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
 func (c *simpleClient) RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest {
 	return RevokeEmailInviteRequest{
 		ApiService: c,
@@ -598,17 +578,15 @@ func (r RevokeInviteLinkRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.RevokeInviteLinkExecute(r)
 }
 
-/*
-RevokeInviteLink Revoke a reusable invitation link
-
-Revoke a [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link).
-
-A user can only revoke [invitations that they can
-manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
-
-**Changes**: Prior to Zulip 8.0 (feature level 209), only organization
-administrators were able to create and revoke reusable invitation links.
-*/
+// RevokeInviteLink Revoke a reusable invitation link
+//
+// Revoke a [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link).
+//
+// A user can only revoke [invitations that they can
+// manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
+//
+// *Changes**: Prior to Zulip 8.0 (feature level 209), only organization
+// administrators were able to create and revoke reusable invitation links.
 func (c *simpleClient) RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInviteLinkRequest {
 	return RevokeInviteLinkRequest{
 		ApiService: c,
@@ -755,21 +733,19 @@ func (r SendInvitesRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.SendInvitesExecute(r)
 }
 
-/*
-SendInvites Send invitations
-
-Send [invitations](https://zulip.com/help/invite-new-users) to specified email addresses.
-
-**Changes**: In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
-parameter was removed and replaced by `invite_expires_in_minutes`.
-
-In Zulip 5.0 (feature level 117), added support for passing `null` as
-the `invite_expires_in_days` parameter to request an invitation that never
-expires.
-
-In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
-added which specified the number of days before the invitation would expire.
-*/
+// SendInvites Send invitations
+//
+// Send [invitations](https://zulip.com/help/invite-new-users) to specified email addresses.
+//
+// *Changes**: In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
+// parameter was removed and replaced by `invite_expires_in_minutes`.
+//
+// In Zulip 5.0 (feature level 117), added support for passing `null` as
+// the `invite_expires_in_days` parameter to request an invitation that never
+// expires.
+//
+// In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
+// added which specified the number of days before the invitation would expire.
 func (c *simpleClient) SendInvites(ctx context.Context) SendInvitesRequest {
 	return SendInvitesRequest{
 		ApiService: c,

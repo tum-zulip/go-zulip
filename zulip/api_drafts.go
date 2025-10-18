@@ -11,100 +11,84 @@ import (
 
 type DraftsAPI interface {
 
-	/*
-			CreateDrafts Create drafts
-
-			Create one or more drafts on the server. These drafts will be automatically
-		synchronized to other clients via `drafts` events.
-
-	*/
+	// CreateDrafts Create drafts
+	//
+	// Create one or more drafts on the server. These drafts will be automatically
+	// synchronized to other clients via `drafts` events.
+	//
 	CreateDrafts(ctx context.Context) CreateDraftsRequest
 
 	// CreateDraftsExecute executes the request
 	CreateDraftsExecute(r CreateDraftsRequest) (*CreateDraftsResponse, *http.Response, error)
 
-	/*
-			CreateSavedSnippet Create a saved snippet
-
-			Create a new saved snippet for the current user.
-
-		**Changes**: New in Zulip 10.0 (feature level 297).
-
-	*/
+	// CreateSavedSnippet Create a saved snippet
+	//
+	// Create a new saved snippet for the current user.
+	//
+	// *Changes**: New in Zulip 10.0 (feature level 297).
+	//
 	CreateSavedSnippet(ctx context.Context) CreateSavedSnippetRequest
 
 	// CreateSavedSnippetExecute executes the request
 	CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (*CreateSavedSnippetResponse, *http.Response, error)
 
-	/*
-			DeleteDraft Delete a draft
-
-			Delete a single draft from the server. The deletion will be automatically
-		synchronized to other clients via a `drafts` event.
-
-	*/
+	// DeleteDraft Delete a draft
+	//
+	// Delete a single draft from the server. The deletion will be automatically
+	// synchronized to other clients via a `drafts` event.
+	//
 	DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequest
 
 	// DeleteDraftExecute executes the request
 	DeleteDraftExecute(r DeleteDraftRequest) (*Response, *http.Response, error)
 
-	/*
-			DeleteSavedSnippet Delete a saved snippet
-
-			Delete a saved snippet.
-
-		**Changes**: New in Zulip 10.0 (feature level 297).
-
-	*/
+	// DeleteSavedSnippet Delete a saved snippet
+	//
+	// Delete a saved snippet.
+	//
+	// *Changes**: New in Zulip 10.0 (feature level 297).
+	//
 	DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) DeleteSavedSnippetRequest
 
 	// DeleteSavedSnippetExecute executes the request
 	DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*Response, *http.Response, error)
 
-	/*
-			EditDraft Edit a draft
-
-			Edit a draft on the server. The edit will be automatically
-		synchronized to other clients via `drafts` events.
-
-	*/
+	// EditDraft Edit a draft
+	//
+	// Edit a draft on the server. The edit will be automatically
+	// synchronized to other clients via `drafts` events.
+	//
 	EditDraft(ctx context.Context, draftId int64) EditDraftRequest
 
 	// EditDraftExecute executes the request
 	EditDraftExecute(r EditDraftRequest) (*Response, *http.Response, error)
 
-	/*
-			EditSavedSnippet Edit a saved snippet
-
-			Edit a saved snippet for the current user.
-
-		**Changes**: New in Zulip 10.0 (feature level 368).
-
-	*/
+	// EditSavedSnippet Edit a saved snippet
+	//
+	// Edit a saved snippet for the current user.
+	//
+	// *Changes**: New in Zulip 10.0 (feature level 368).
+	//
 	EditSavedSnippet(ctx context.Context, savedSnippetId int64) EditSavedSnippetRequest
 
 	// EditSavedSnippetExecute executes the request
 	EditSavedSnippetExecute(r EditSavedSnippetRequest) (*Response, *http.Response, error)
 
-	/*
-		GetDrafts Get drafts
-
-		Fetch all drafts for the current user.
-
-	*/
+	// GetDrafts Get drafts
+	//
+	// Fetch all drafts for the current user.
+	//
 	GetDrafts(ctx context.Context) GetDraftsRequest
 
 	// GetDraftsExecute executes the request
 	GetDraftsExecute(r GetDraftsRequest) (*GetDraftsResponse, *http.Response, error)
 
-	/*
-			GetSavedSnippets Get all saved snippets
-
-			Fetch all the saved snippets for the current user.
-
-		**Changes**: New in Zulip 10.0 (feature level 297).
-
-	*/
+	// GetSavedSnippets Get all saved snippets
+	//
+	// Fetch all the saved snippets for the current user.
+	//
+	// *Changes**: New in Zulip 10.0 (feature level 297).
+	//
 	GetSavedSnippets(ctx context.Context) GetSavedSnippetsRequest
 
 	// GetSavedSnippetsExecute executes the request
@@ -127,12 +111,10 @@ func (r CreateDraftsRequest) Execute() (*CreateDraftsResponse, *http.Response, e
 	return r.ApiService.CreateDraftsExecute(r)
 }
 
-/*
-CreateDrafts Create drafts
-
-Create one or more drafts on the server. These drafts will be automatically
-synchronized to other clients via `drafts` events.
-*/
+// CreateDrafts Create drafts
+//
+// Create one or more drafts on the server. These drafts will be automatically
+// synchronized to other clients via `drafts` events.
 func (c *simpleClient) CreateDrafts(ctx context.Context) CreateDraftsRequest {
 	return CreateDraftsRequest{
 		ApiService: c,
@@ -241,13 +223,11 @@ func (r CreateSavedSnippetRequest) Execute() (*CreateSavedSnippetResponse, *http
 	return r.ApiService.CreateSavedSnippetExecute(r)
 }
 
-/*
-CreateSavedSnippet Create a saved snippet
-
-Create a new saved snippet for the current user.
-
-**Changes**: New in Zulip 10.0 (feature level 297).
-*/
+// CreateSavedSnippet Create a saved snippet
+//
+// Create a new saved snippet for the current user.
+//
+// *Changes**: New in Zulip 10.0 (feature level 297).
 func (c *simpleClient) CreateSavedSnippet(ctx context.Context) CreateSavedSnippetRequest {
 	return CreateSavedSnippetRequest{
 		ApiService: c,
@@ -345,12 +325,10 @@ func (r DeleteDraftRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.DeleteDraftExecute(r)
 }
 
-/*
-DeleteDraft Delete a draft
-
-Delete a single draft from the server. The deletion will be automatically
-synchronized to other clients via a `drafts` event.
-*/
+// DeleteDraft Delete a draft
+//
+// Delete a single draft from the server. The deletion will be automatically
+// synchronized to other clients via a `drafts` event.
 func (c *simpleClient) DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequest {
 	return DeleteDraftRequest{
 		ApiService: c,
@@ -442,13 +420,11 @@ func (r DeleteSavedSnippetRequest) Execute() (*Response, *http.Response, error) 
 	return r.ApiService.DeleteSavedSnippetExecute(r)
 }
 
-/*
-DeleteSavedSnippet Delete a saved snippet
-
-Delete a saved snippet.
-
-**Changes**: New in Zulip 10.0 (feature level 297).
-*/
+// DeleteSavedSnippet Delete a saved snippet
+//
+// Delete a saved snippet.
+//
+// *Changes**: New in Zulip 10.0 (feature level 297).
 func (c *simpleClient) DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) DeleteSavedSnippetRequest {
 	return DeleteSavedSnippetRequest{
 		ApiService:     c,
@@ -547,12 +523,10 @@ func (r EditDraftRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.EditDraftExecute(r)
 }
 
-/*
-EditDraft Edit a draft
-
-Edit a draft on the server. The edit will be automatically
-synchronized to other clients via `drafts` events.
-*/
+// EditDraft Edit a draft
+//
+// Edit a draft on the server. The edit will be automatically
+// synchronized to other clients via `drafts` events.
 func (c *simpleClient) EditDraft(ctx context.Context, draftId int64) EditDraftRequest {
 	return EditDraftRequest{
 		ApiService: c,
@@ -663,13 +637,11 @@ func (r EditSavedSnippetRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.EditSavedSnippetExecute(r)
 }
 
-/*
-EditSavedSnippet Edit a saved snippet
-
-Edit a saved snippet for the current user.
-
-**Changes**: New in Zulip 10.0 (feature level 368).
-*/
+// EditSavedSnippet Edit a saved snippet
+//
+// Edit a saved snippet for the current user.
+//
+// *Changes**: New in Zulip 10.0 (feature level 368).
 func (c *simpleClient) EditSavedSnippet(ctx context.Context, savedSnippetId int64) EditSavedSnippetRequest {
 	return EditSavedSnippetRequest{
 		ApiService:     c,
@@ -766,11 +738,9 @@ func (r GetDraftsRequest) Execute() (*GetDraftsResponse, *http.Response, error) 
 	return r.ApiService.GetDraftsExecute(r)
 }
 
-/*
-GetDrafts Get drafts
-
-Fetch all drafts for the current user.
-*/
+// GetDrafts Get drafts
+//
+// Fetch all drafts for the current user.
 func (c *simpleClient) GetDrafts(ctx context.Context) GetDraftsRequest {
 	return GetDraftsRequest{
 		ApiService: c,
@@ -859,13 +829,11 @@ func (r GetSavedSnippetsRequest) Execute() (*GetSavedSnippetsResponse, *http.Res
 	return r.ApiService.GetSavedSnippetsExecute(r)
 }
 
-/*
-GetSavedSnippets Get all saved snippets
-
-Fetch all the saved snippets for the current user.
-
-**Changes**: New in Zulip 10.0 (feature level 297).
-*/
+// GetSavedSnippets Get all saved snippets
+//
+// Fetch all the saved snippets for the current user.
+//
+// *Changes**: New in Zulip 10.0 (feature level 297).
 func (c *simpleClient) GetSavedSnippets(ctx context.Context) GetSavedSnippetsRequest {
 	return GetSavedSnippetsRequest{
 		ApiService: c,

@@ -12,337 +12,297 @@ import (
 
 type ServerAndOrganizationsAPI interface {
 
-	/*
-			AddCodePlayground Add a code playground
-
-			Configure [code playgrounds](https://zulip.com/help/code-blocks#code-playgrounds) for the organization.
-
-		**Changes**: New in Zulip 4.0 (feature level 49). A parameter encoding bug was
-		fixed in Zulip 4.0 (feature level 57).
-
-	*/
+	// AddCodePlayground Add a code playground
+	//
+	// Configure [code playgrounds](https://zulip.com/help/code-blocks#code-playgrounds) for the organization.
+	//
+	// *Changes**: New in Zulip 4.0 (feature level 49). A parameter encoding bug was
+	// fixed in Zulip 4.0 (feature level 57).
+	//
 	AddCodePlayground(ctx context.Context) AddCodePlaygroundRequest
 
 	// AddCodePlaygroundExecute executes the request
 	AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*AddCodePlaygroundResponse, *http.Response, error)
 
-	/*
-			AddLinkifier Add a linkifier
-
-			Configure [linkifiers](https://zulip.com/help/add-a-custom-linkifier),
-		regular expression patterns that are automatically linkified when they
-		appear in messages and topics.
-
-	*/
+	// AddLinkifier Add a linkifier
+	//
+	// Configure [linkifiers](https://zulip.com/help/add-a-custom-linkifier),
+	// regular expression patterns that are automatically linkified when they
+	// appear in messages and topics.
+	//
 	AddLinkifier(ctx context.Context) AddLinkifierRequest
 
 	// AddLinkifierExecute executes the request
 	AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifierResponse, *http.Response, error)
 
-	/*
-		CreateCustomProfileField Create a custom profile field
-
-		[Create a custom profile field](https://zulip.com/help/custom-profile-fields#add-a-custom-profile-field) in the user's organization.
-
-	*/
+	// CreateCustomProfileField Create a custom profile field
+	//
+	// [Create a custom profile field](https://zulip.com/help/custom-profile-fields#add-a-custom-profile-field) in the user's organization.
+	//
 	CreateCustomProfileField(ctx context.Context) CreateCustomProfileFieldRequest
 
 	// CreateCustomProfileFieldExecute executes the request
 	CreateCustomProfileFieldExecute(r CreateCustomProfileFieldRequest) (*CreateCustomProfileFieldResponse, *http.Response, error)
 
-	/*
-			DeactivateCustomEmoji Deactivate custom emoji
-
-			[Deactivate a custom emoji](https://zulip.com/help/custom-emoji#deactivate-custom-emoji) from
-		the user's organization.
-
-		Users can only deactivate custom emoji that they added themselves except for
-		organization administrators, who can deactivate any custom emoji.
-
-		Note that deactivated emoji will still be visible in old messages, reactions,
-		user statuses and channel descriptions.
-
-		**Changes**: Before Zulip 8.0 (feature level 190), this endpoint returned an
-		HTTP status code of 400 when the emoji did not exist, instead of 404.
-
-	*/
+	// DeactivateCustomEmoji Deactivate custom emoji
+	//
+	// [Deactivate a custom emoji](https://zulip.com/help/custom-emoji#deactivate-custom-emoji) from
+	// the user's organization.
+	//
+	// Users can only deactivate custom emoji that they added themselves except for
+	// organization administrators, who can deactivate any custom emoji.
+	//
+	// Note that deactivated emoji will still be visible in old messages, reactions,
+	// user statuses and channel descriptions.
+	//
+	// *Changes**: Before Zulip 8.0 (feature level 190), this endpoint returned an
+	// HTTP status code of 400 when the emoji did not exist, instead of 404.
+	//
 	DeactivateCustomEmoji(ctx context.Context, emojiName string) DeactivateCustomEmojiRequest
 
 	// DeactivateCustomEmojiExecute executes the request
 	DeactivateCustomEmojiExecute(r DeactivateCustomEmojiRequest) (*Response, *http.Response, error)
 
-	/*
-			ExportRealm Create a data export
-
-			Create a public or a standard [data export][export-data] of the organization.
-
-		!!! warn ""
-
-		    **Note**: If you're the administrator of a self-hosted installation,
-		    you may be looking for the documentation on [server data export and
-		    import][data-export] or [server backups][backups].
-
-		**Changes**: Prior to Zulip 10.0 (feature level 304), only
-		public data exports could be created using this endpoint.
-
-		New in Zulip 2.1.
-
-		[export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
-		[data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
-		[backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
-
-	*/
+	// ExportRealm Create a data export
+	//
+	// Create a public or a standard [data export][export-data] of the organization.
+	//
+	// !!! warn ""
+	//
+	// *Note**: If you're the administrator of a self-hosted installation,
+	// you may be looking for the documentation on [server data export and
+	// import][data-export] or [server backups][backups].
+	//
+	// *Changes**: Prior to Zulip 10.0 (feature level 304), only
+	// public data exports could be created using this endpoint.
+	//
+	// New in Zulip 2.1.
+	//
+	// [export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+	// [data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
+	// [backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
+	//
 	ExportRealm(ctx context.Context) ExportRealmRequest
 
 	// ExportRealmExecute executes the request
 	ExportRealmExecute(r ExportRealmRequest) (*ExportRealmResponse, *http.Response, error)
 
-	/*
-		GetCustomEmoji Get all custom emoji
-
-		Get all the custom emoji in the user's organization.
-
-	*/
+	// GetCustomEmoji Get all custom emoji
+	//
+	// Get all the custom emoji in the user's organization.
+	//
 	GetCustomEmoji(ctx context.Context) GetCustomEmojiRequest
 
 	// GetCustomEmojiExecute executes the request
 	GetCustomEmojiExecute(r GetCustomEmojiRequest) (*GetCustomEmojiResponse, *http.Response, error)
 
-	/*
-			GetCustomProfileFields Get all custom profile fields
-
-			Get all the [custom profile fields](https://zulip.com/help/custom-profile-fields)
-		configured for the user's organization.
-
-	*/
+	// GetCustomProfileFields Get all custom profile fields
+	//
+	// Get all the [custom profile fields](https://zulip.com/help/custom-profile-fields)
+	// configured for the user's organization.
+	//
 	GetCustomProfileFields(ctx context.Context) GetCustomProfileFieldsRequest
 
 	// GetCustomProfileFieldsExecute executes the request
 	GetCustomProfileFieldsExecute(r GetCustomProfileFieldsRequest) (*GetCustomProfileFieldsResponse, *http.Response, error)
 
-	/*
-			GetLinkifiers Get linkifiers
-
-			List all of an organization's configured
-		[linkifiers](https://zulip.com/help/add-a-custom-linkifier), regular
-		expression patterns that are automatically linkified when they appear
-		in messages and topics.
-
-		**Changes**: New in Zulip 4.0 (feature level 54). On older versions,
-		a similar `GET /realm/filters` endpoint was available with each entry in
-		a `[pattern, url_format, id]` tuple format.
-
-	*/
+	// GetLinkifiers Get linkifiers
+	//
+	// List all of an organization's configured
+	// [linkifiers](https://zulip.com/help/add-a-custom-linkifier), regular
+	// expression patterns that are automatically linkified when they appear
+	// in messages and topics.
+	//
+	// *Changes**: New in Zulip 4.0 (feature level 54). On older versions,
+	// a similar `GET /realm/filters` endpoint was available with each entry in
+	// a `[pattern, url_format, id]` tuple format.
+	//
 	GetLinkifiers(ctx context.Context) GetLinkifiersRequest
 
 	// GetLinkifiersExecute executes the request
 	GetLinkifiersExecute(r GetLinkifiersRequest) (*GetLinkifiersResponse, *http.Response, error)
 
-	/*
-			GetPresence Get presence of all users
-
-			Get the presence information of all the users in an organization.
-
-		If the `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level
-		setting is set to `true`, presence information of only accessible
-		users are returned.
-
-		Complete Zulip apps are recommended to fetch presence
-		information when they post their own state using the [`POST
-		/presence`](https://zulip.com/api/update-presence) API endpoint.
-
-	*/
+	// GetPresence Get presence of all users
+	//
+	// Get the presence information of all the users in an organization.
+	//
+	// If the `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level
+	// setting is set to `true`, presence information of only accessible
+	// users are returned.
+	//
+	// Complete Zulip apps are recommended to fetch presence
+	// information when they post their own state using the [`POST
+	// /presence`](https://zulip.com/api/update-presence) API endpoint.
+	//
 	GetPresence(ctx context.Context) GetPresenceRequest
 
 	// GetPresenceExecute executes the request
 	GetPresenceExecute(r GetPresenceRequest) (*GetPresenceResponse, *http.Response, error)
 
-	/*
-			GetRealmExportConsents Get data export consent state
-
-			Fetches which users have [consented](https://zulip.com/help/export-your-organization#configure-whether-administrators-can-export-your-private-data)
-		for their private data to be exported by organization administrators.
-
-		**Changes**: New in Zulip 10.0 (feature level 295).
-
-	*/
+	// GetRealmExportConsents Get data export consent state
+	//
+	// Fetches which users have [consented](https://zulip.com/help/export-your-organization#configure-whether-administrators-can-export-your-private-data)
+	// for their private data to be exported by organization administrators.
+	//
+	// *Changes**: New in Zulip 10.0 (feature level 295).
+	//
 	GetRealmExportConsents(ctx context.Context) GetRealmExportConsentsRequest
 
 	// GetRealmExportConsentsExecute executes the request
 	GetRealmExportConsentsExecute(r GetRealmExportConsentsRequest) (*GetRealmExportConsentsResponse, *http.Response, error)
 
-	/*
-			GetRealmExports Get all data exports
-
-			Fetch all the public and standard [data exports][export-data]
-		of the organization.
-
-		**Changes**: Prior to Zulip 10.0 (feature level 304), only
-		public data exports could be fetched using this endpoint.
-
-		New in Zulip 2.1.
-
-		[export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
-
-	*/
+	// GetRealmExports Get all data exports
+	//
+	// Fetch all the public and standard [data exports][export-data]
+	// of the organization.
+	//
+	// *Changes**: Prior to Zulip 10.0 (feature level 304), only
+	// public data exports could be fetched using this endpoint.
+	//
+	// New in Zulip 2.1.
+	//
+	// [export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+	//
 	GetRealmExports(ctx context.Context) GetRealmExportsRequest
 
 	// GetRealmExportsExecute executes the request
 	GetRealmExportsExecute(r GetRealmExportsRequest) (*GetRealmExportsResponse, *http.Response, error)
 
-	/*
-			GetServerSettings Get server settings
-
-			Fetch global settings for a Zulip server.
-
-		**Note:** this endpoint does not require any authentication at all, and you can use it to check:
-
-		- If this is a Zulip server, and if so, what version of Zulip it's running.
-		- What a Zulip client (e.g. a mobile app or
-		  [zulip-terminal](https://github.com/zulip/zulip-terminal/)) needs to
-		  know in order to display a login prompt for the server (e.g. what
-		  authentication methods are available).
-
-	*/
+	// GetServerSettings Get server settings
+	//
+	// Fetch global settings for a Zulip server.
+	//
+	// *Note:** this endpoint does not require any authentication at all, and you can use it to check:
+	//
+	// - If this is a Zulip server, and if so, what version of Zulip it's running.
+	// - What a Zulip client (e.g. a mobile app or
+	// [zulip-terminal](https://github.com/zulip/zulip-terminal/)) needs to
+	// know in order to display a login prompt for the server (e.g. what
+	// authentication methods are available).
+	//
 	GetServerSettings(ctx context.Context) GetServerSettingsRequest
 
 	// GetServerSettingsExecute executes the request
 	GetServerSettingsExecute(r GetServerSettingsRequest) (*GetServerSettingsResponse, *http.Response, error)
 
-	/*
-			RemoveCodePlayground Remove a code playground
-
-			Remove a [code playground](https://zulip.com/help/code-blocks#code-playgrounds) previously
-		configured for an organization.
-
-		**Changes**: New in Zulip 4.0 (feature level 49).
-
-	*/
+	// RemoveCodePlayground Remove a code playground
+	//
+	// Remove a [code playground](https://zulip.com/help/code-blocks#code-playgrounds) previously
+	// configured for an organization.
+	//
+	// *Changes**: New in Zulip 4.0 (feature level 49).
+	//
 	RemoveCodePlayground(ctx context.Context, playgroundId int64) RemoveCodePlaygroundRequest
 
 	// RemoveCodePlaygroundExecute executes the request
 	RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*Response, *http.Response, error)
 
-	/*
-			RemoveLinkifier Remove a linkifier
-
-			Remove [linkifiers](https://zulip.com/help/add-a-custom-linkifier), regular
-		expression patterns that are automatically linkified when they appear
-		in messages and topics.
-
-	*/
+	// RemoveLinkifier Remove a linkifier
+	//
+	// Remove [linkifiers](https://zulip.com/help/add-a-custom-linkifier), regular
+	// expression patterns that are automatically linkified when they appear
+	// in messages and topics.
+	//
 	RemoveLinkifier(ctx context.Context, filterId int64) RemoveLinkifierRequest
 
 	// RemoveLinkifierExecute executes the request
 	RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Response, *http.Response, error)
 
-	/*
-			ReorderCustomProfileFields Reorder custom profile fields
-
-			Reorder the custom profile fields in the user's organization.
-
-		Custom profile fields are displayed in Zulip UI widgets in order; this
-		endpoint allows administrative settings UI to change the field ordering.
-
-		This endpoint is used to implement the dragging feature described in the
-		[custom profile fields documentation](https://zulip.com/help/custom-profile-fields).
-
-	*/
+	// ReorderCustomProfileFields Reorder custom profile fields
+	//
+	// Reorder the custom profile fields in the user's organization.
+	//
+	// Custom profile fields are displayed in Zulip UI widgets in order; this
+	// endpoint allows administrative settings UI to change the field ordering.
+	//
+	// This endpoint is used to implement the dragging feature described in the
+	// [custom profile fields documentation](https://zulip.com/help/custom-profile-fields).
+	//
 	ReorderCustomProfileFields(ctx context.Context) ReorderCustomProfileFieldsRequest
 
 	// ReorderCustomProfileFieldsExecute executes the request
 	ReorderCustomProfileFieldsExecute(r ReorderCustomProfileFieldsRequest) (*Response, *http.Response, error)
 
-	/*
-			ReorderLinkifiers Reorder linkifiers
-
-			Change the order that the regular expression patterns in the organization's
-		[linkifiers](https://zulip.com/help/add-a-custom-linkifier) are matched in messages and topics.
-		Useful when defining linkifiers with overlapping patterns.
-
-		**Changes**: New in Zulip 8.0 (feature level 202). Before this feature level,
-		linkifiers were always processed in order by Id, which meant users would
-		need to delete and recreate them to reorder the list of linkifiers.
-
-	*/
+	// ReorderLinkifiers Reorder linkifiers
+	//
+	// Change the order that the regular expression patterns in the organization's
+	// [linkifiers](https://zulip.com/help/add-a-custom-linkifier) are matched in messages and topics.
+	// Useful when defining linkifiers with overlapping patterns.
+	//
+	// *Changes**: New in Zulip 8.0 (feature level 202). Before this feature level,
+	// linkifiers were always processed in order by Id, which meant users would
+	// need to delete and recreate them to reorder the list of linkifiers.
+	//
 	ReorderLinkifiers(ctx context.Context) ReorderLinkifiersRequest
 
 	// ReorderLinkifiersExecute executes the request
 	ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Response, *http.Response, error)
 
-	/*
-			TestWelcomeBotCustomMessage Test welcome bot custom message
-
-			Sends a test Welcome Bot custom message to the acting administrator.
-		This allows administrators to preview how the custom welcome message will
-		appear when received by new users upon joining the organization.
-
-		**Changes**: New in Zulip 11.0 (feature level 416).
-
-	*/
+	// TestWelcomeBotCustomMessage Test welcome bot custom message
+	//
+	// Sends a test Welcome Bot custom message to the acting administrator.
+	// This allows administrators to preview how the custom welcome message will
+	// appear when received by new users upon joining the organization.
+	//
+	// *Changes**: New in Zulip 11.0 (feature level 416).
+	//
 	TestWelcomeBotCustomMessage(ctx context.Context) TestWelcomeBotCustomMessageRequest
 
 	// TestWelcomeBotCustomMessageExecute executes the request
 	TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustomMessageRequest) (*TestWelcomeBotCustomMessageResponse, *http.Response, error)
 
-	/*
-			UpdateLinkifier Update a linkifier
-
-			Update a [linkifier](https://zulip.com/help/add-a-custom-linkifier), regular
-		expression patterns that are automatically linkified when they appear
-		in messages and topics.
-
-		**Changes**: New in Zulip 4.0 (feature level 57).
-
-	*/
+	// UpdateLinkifier Update a linkifier
+	//
+	// Update a [linkifier](https://zulip.com/help/add-a-custom-linkifier), regular
+	// expression patterns that are automatically linkified when they appear
+	// in messages and topics.
+	//
+	// *Changes**: New in Zulip 4.0 (feature level 57).
+	//
 	UpdateLinkifier(ctx context.Context, filterId int64) UpdateLinkifierRequest
 
 	// UpdateLinkifierExecute executes the request
 	UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Response, *http.Response, error)
 
-	/*
-			UpdateRealmUserSettingsDefaults Update realm-level defaults of user settings
-
-			Change the [default values of settings][new-user-defaults] for new users
-		joining the organization. Essentially all
-		[personal preference settings](https://zulip.com/api/update-settings) are supported.
-
-		This feature can be invaluable for customizing Zulip's default
-		settings for notifications or UI to be appropriate for how the
-		organization is using Zulip. (Note that this only supports
-		personal preference settings, like when to send push
-		notifications or what emoji set to use, not profile or
-		identity settings that naturally should be different for each user).
-
-		Note that this endpoint cannot, at present, be used to modify
-		settings for existing users in any way.
-
-		**Changes**: Removed `dense_mode` setting in Zulip 10.0 (feature level 364)
-		as we now have `web_font_size_px` and `web_line_height_percent`
-		settings for more control.
-
-		New in Zulip 5.0 (feature level 96). If any parameters sent in the
-		request are not supported by this endpoint, an
-		[`ignored_parameters_unsupported`][ignored-parameters] array will
-		be returned in the JSON success response.
-
-		[new-user-defaults]: https://zulip.com/help/configure-default-new-user-settings
-		[ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
-
-	*/
+	// UpdateRealmUserSettingsDefaults Update realm-level defaults of user settings
+	//
+	// Change the [default values of settings][new-user-defaults] for new users
+	// joining the organization. Essentially all
+	// [personal preference settings](https://zulip.com/api/update-settings) are supported.
+	//
+	// This feature can be invaluable for customizing Zulip's default
+	// settings for notifications or UI to be appropriate for how the
+	// organization is using Zulip. (Note that this only supports
+	// personal preference settings, like when to send push
+	// notifications or what emoji set to use, not profile or
+	// identity settings that naturally should be different for each user).
+	//
+	// Note that this endpoint cannot, at present, be used to modify
+	// settings for existing users in any way.
+	//
+	// *Changes**: Removed `dense_mode` setting in Zulip 10.0 (feature level 364)
+	// as we now have `web_font_size_px` and `web_line_height_percent`
+	// settings for more control.
+	//
+	// New in Zulip 5.0 (feature level 96). If any parameters sent in the
+	// request are not supported by this endpoint, an
+	// [`ignored_parameters_unsupported`][ignored-parameters] array will
+	// be returned in the JSON success response.
+	//
+	// [new-user-defaults]: https://zulip.com/help/configure-default-new-user-settings
+	// [ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
+	//
 	UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest
 
 	// UpdateRealmUserSettingsDefaultsExecute executes the request
 	UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*Response, *http.Response, error)
 
-	/*
-			UploadCustomEmoji Upload custom emoji
-
-			This endpoint is used to upload a custom emoji for use in the user's
-		organization. Access to this endpoint depends on the
-		[organization's configuration](https://zulip.com/help/custom-emoji#change-who-can-add-custom-emoji).
-
-	*/
+	// UploadCustomEmoji Upload custom emoji
+	//
+	// This endpoint is used to upload a custom emoji for use in the user's
+	// organization. Access to this endpoint depends on the
+	// [organization's configuration](https://zulip.com/help/custom-emoji#change-who-can-add-custom-emoji).
+	//
 	UploadCustomEmoji(ctx context.Context, emojiName string) UploadCustomEmojiRequest
 
 	// UploadCustomEmojiExecute executes the request
@@ -379,14 +339,12 @@ func (r AddCodePlaygroundRequest) Execute() (*AddCodePlaygroundResponse, *http.R
 	return r.ApiService.AddCodePlaygroundExecute(r)
 }
 
-/*
-AddCodePlayground Add a code playground
-
-Configure [code playgrounds](https://zulip.com/help/code-blocks#code-playgrounds) for the organization.
-
-**Changes**: New in Zulip 4.0 (feature level 49). A parameter encoding bug was
-fixed in Zulip 4.0 (feature level 57).
-*/
+// AddCodePlayground Add a code playground
+//
+// Configure [code playgrounds](https://zulip.com/help/code-blocks#code-playgrounds) for the organization.
+//
+// *Changes**: New in Zulip 4.0 (feature level 49). A parameter encoding bug was
+// fixed in Zulip 4.0 (feature level 57).
 func (c *simpleClient) AddCodePlayground(ctx context.Context) AddCodePlaygroundRequest {
 	return AddCodePlaygroundRequest{
 		ApiService: c,
@@ -501,13 +459,11 @@ func (r AddLinkifierRequest) Execute() (*AddLinkifierResponse, *http.Response, e
 	return r.ApiService.AddLinkifierExecute(r)
 }
 
-/*
-AddLinkifier Add a linkifier
-
-Configure [linkifiers](https://zulip.com/help/add-a-custom-linkifier),
-regular expression patterns that are automatically linkified when they
-appear in messages and topics.
-*/
+// AddLinkifier Add a linkifier
+//
+// Configure [linkifiers](https://zulip.com/help/add-a-custom-linkifier),
+// regular expression patterns that are automatically linkified when they
+// appear in messages and topics.
 func (c *simpleClient) AddLinkifier(ctx context.Context) AddLinkifierRequest {
 	return AddLinkifierRequest{
 		ApiService: c,
@@ -653,11 +609,9 @@ func (r CreateCustomProfileFieldRequest) Execute() (*CreateCustomProfileFieldRes
 	return r.ApiService.CreateCustomProfileFieldExecute(r)
 }
 
-/*
-CreateCustomProfileField Create a custom profile field
-
-[Create a custom profile field](https://zulip.com/help/custom-profile-fields#add-a-custom-profile-field) in the user's organization.
-*/
+// CreateCustomProfileField Create a custom profile field
+//
+// [Create a custom profile field](https://zulip.com/help/custom-profile-fields#add-a-custom-profile-field) in the user's organization.
 func (c *simpleClient) CreateCustomProfileField(ctx context.Context) CreateCustomProfileFieldRequest {
 	return CreateCustomProfileFieldRequest{
 		ApiService: c,
@@ -769,21 +723,19 @@ func (r DeactivateCustomEmojiRequest) Execute() (*Response, *http.Response, erro
 	return r.ApiService.DeactivateCustomEmojiExecute(r)
 }
 
-/*
-DeactivateCustomEmoji Deactivate custom emoji
-
-[Deactivate a custom emoji](https://zulip.com/help/custom-emoji#deactivate-custom-emoji) from
-the user's organization.
-
-Users can only deactivate custom emoji that they added themselves except for
-organization administrators, who can deactivate any custom emoji.
-
-Note that deactivated emoji will still be visible in old messages, reactions,
-user statuses and channel descriptions.
-
-**Changes**: Before Zulip 8.0 (feature level 190), this endpoint returned an
-HTTP status code of 400 when the emoji did not exist, instead of 404.
-*/
+// DeactivateCustomEmoji Deactivate custom emoji
+//
+// [Deactivate a custom emoji](https://zulip.com/help/custom-emoji#deactivate-custom-emoji) from
+// the user's organization.
+//
+// Users can only deactivate custom emoji that they added themselves except for
+// organization administrators, who can deactivate any custom emoji.
+//
+// Note that deactivated emoji will still be visible in old messages, reactions,
+// user statuses and channel descriptions.
+//
+// *Changes**: Before Zulip 8.0 (feature level 190), this endpoint returned an
+// HTTP status code of 400 when the emoji did not exist, instead of 404.
 func (c *simpleClient) DeactivateCustomEmoji(ctx context.Context, emojiName string) DeactivateCustomEmojiRequest {
 	return DeactivateCustomEmojiRequest{
 		ApiService: c,
@@ -881,27 +833,24 @@ func (r ExportRealmRequest) Execute() (*ExportRealmResponse, *http.Response, err
 	return r.ApiService.ExportRealmExecute(r)
 }
 
-/*
-ExportRealm Create a data export
-
-Create a public or a standard [data export][export-data] of the organization.
-
-!!! warn ""
-
-	**Note**: If you're the administrator of a self-hosted installation,
-	you may be looking for the documentation on [server data export and
-	import][data-export] or [server backups][backups].
-
-**Changes**: Prior to Zulip 10.0 (feature level 304), only
-public data exports could be created using this endpoint.
-
-New in Zulip 2.1.
-
-[export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
-
-[data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
-[backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
-*/
+// ExportRealm Create a data export
+//
+// Create a public or a standard [data export][export-data] of the organization.
+//
+// !!! warn ""
+//
+// *Note**: If you're the administrator of a self-hosted installation,
+// you may be looking for the documentation on [server data export and
+// import][data-export] or [server backups][backups].
+//
+// *Changes**: Prior to Zulip 10.0 (feature level 304), only
+// public data exports could be created using this endpoint.
+//
+// New in Zulip 2.1.
+//
+// [export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+// [data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
+// [backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
 func (c *simpleClient) ExportRealm(ctx context.Context) ExportRealmRequest {
 	return ExportRealmRequest{
 		ApiService: c,
@@ -993,11 +942,9 @@ func (r GetCustomEmojiRequest) Execute() (*GetCustomEmojiResponse, *http.Respons
 	return r.ApiService.GetCustomEmojiExecute(r)
 }
 
-/*
-GetCustomEmoji Get all custom emoji
-
-Get all the custom emoji in the user's organization.
-*/
+// GetCustomEmoji Get all custom emoji
+//
+// Get all the custom emoji in the user's organization.
 func (c *simpleClient) GetCustomEmoji(ctx context.Context) GetCustomEmojiRequest {
 	return GetCustomEmojiRequest{
 		ApiService: c,
@@ -1086,12 +1033,10 @@ func (r GetCustomProfileFieldsRequest) Execute() (*GetCustomProfileFieldsRespons
 	return r.ApiService.GetCustomProfileFieldsExecute(r)
 }
 
-/*
-GetCustomProfileFields Get all custom profile fields
-
-Get all the [custom profile fields](https://zulip.com/help/custom-profile-fields)
-configured for the user's organization.
-*/
+// GetCustomProfileFields Get all custom profile fields
+//
+// Get all the [custom profile fields](https://zulip.com/help/custom-profile-fields)
+// configured for the user's organization.
 func (c *simpleClient) GetCustomProfileFields(ctx context.Context) GetCustomProfileFieldsRequest {
 	return GetCustomProfileFieldsRequest{
 		ApiService: c,
@@ -1180,18 +1125,16 @@ func (r GetLinkifiersRequest) Execute() (*GetLinkifiersResponse, *http.Response,
 	return r.ApiService.GetLinkifiersExecute(r)
 }
 
-/*
-GetLinkifiers Get linkifiers
-
-List all of an organization's configured
-[linkifiers](https://zulip.com/help/add-a-custom-linkifier), regular
-expression patterns that are automatically linkified when they appear
-in messages and topics.
-
-**Changes**: New in Zulip 4.0 (feature level 54). On older versions,
-a similar `GET /realm/filters` endpoint was available with each entry in
-a `[pattern, url_format, id]` tuple format.
-*/
+// GetLinkifiers Get linkifiers
+//
+// List all of an organization's configured
+// [linkifiers](https://zulip.com/help/add-a-custom-linkifier), regular
+// expression patterns that are automatically linkified when they appear
+// in messages and topics.
+//
+// *Changes**: New in Zulip 4.0 (feature level 54). On older versions,
+// a similar `GET /realm/filters` endpoint was available with each entry in
+// a `[pattern, url_format, id]` tuple format.
 func (c *simpleClient) GetLinkifiers(ctx context.Context) GetLinkifiersRequest {
 	return GetLinkifiersRequest{
 		ApiService: c,
@@ -1280,19 +1223,17 @@ func (r GetPresenceRequest) Execute() (*GetPresenceResponse, *http.Response, err
 	return r.ApiService.GetPresenceExecute(r)
 }
 
-/*
-GetPresence Get presence of all users
-
-Get the presence information of all the users in an organization.
-
-If the `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level
-setting is set to `true`, presence information of only accessible
-users are returned.
-
-Complete Zulip apps are recommended to fetch presence
-information when they post their own state using the [`POST
-/presence`](https://zulip.com/api/update-presence) API endpoint.
-*/
+// GetPresence Get presence of all users
+//
+// Get the presence information of all the users in an organization.
+//
+// If the `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level
+// setting is set to `true`, presence information of only accessible
+// users are returned.
+//
+// Complete Zulip apps are recommended to fetch presence
+// information when they post their own state using the [`POST
+// /presence`](https://zulip.com/api/update-presence) API endpoint.
 func (c *simpleClient) GetPresence(ctx context.Context) GetPresenceRequest {
 	return GetPresenceRequest{
 		ApiService: c,
@@ -1381,14 +1322,12 @@ func (r GetRealmExportConsentsRequest) Execute() (*GetRealmExportConsentsRespons
 	return r.ApiService.GetRealmExportConsentsExecute(r)
 }
 
-/*
-GetRealmExportConsents Get data export consent state
-
-Fetches which users have [consented](https://zulip.com/help/export-your-organization#configure-whether-administrators-can-export-your-private-data)
-for their private data to be exported by organization administrators.
-
-**Changes**: New in Zulip 10.0 (feature level 295).
-*/
+// GetRealmExportConsents Get data export consent state
+//
+// Fetches which users have [consented](https://zulip.com/help/export-your-organization#configure-whether-administrators-can-export-your-private-data)
+// for their private data to be exported by organization administrators.
+//
+// *Changes**: New in Zulip 10.0 (feature level 295).
 func (c *simpleClient) GetRealmExportConsents(ctx context.Context) GetRealmExportConsentsRequest {
 	return GetRealmExportConsentsRequest{
 		ApiService: c,
@@ -1477,19 +1416,17 @@ func (r GetRealmExportsRequest) Execute() (*GetRealmExportsResponse, *http.Respo
 	return r.ApiService.GetRealmExportsExecute(r)
 }
 
-/*
-GetRealmExports Get all data exports
-
-Fetch all the public and standard [data exports][export-data]
-of the organization.
-
-**Changes**: Prior to Zulip 10.0 (feature level 304), only
-public data exports could be fetched using this endpoint.
-
-New in Zulip 2.1.
-
-[export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
-*/
+// GetRealmExports Get all data exports
+//
+// Fetch all the public and standard [data exports][export-data]
+// of the organization.
+//
+// *Changes**: Prior to Zulip 10.0 (feature level 304), only
+// public data exports could be fetched using this endpoint.
+//
+// New in Zulip 2.1.
+//
+// [export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 func (c *simpleClient) GetRealmExports(ctx context.Context) GetRealmExportsRequest {
 	return GetRealmExportsRequest{
 		ApiService: c,
@@ -1578,20 +1515,18 @@ func (r GetServerSettingsRequest) Execute() (*GetServerSettingsResponse, *http.R
 	return r.ApiService.GetServerSettingsExecute(r)
 }
 
-/*
-GetServerSettings Get server settings
-
-Fetch global settings for a Zulip server.
-
-**Note:** this endpoint does not require any authentication at all, and you can use it to check:
-
-  - If this is a Zulip server, and if so, what version of Zulip it's running.
-
-  - What a Zulip client (e.g. a mobile app or
-    [zulip-terminal](https://github.com/zulip/zulip-terminal/)) needs to
-    know in order to display a login prompt for the server (e.g. what
-    authentication methods are available).
-*/
+// GetServerSettings Get server settings
+//
+// Fetch global settings for a Zulip server.
+//
+// *Note:** this endpoint does not require any authentication at all, and you can use it to check:
+//
+// - If this is a Zulip server, and if so, what version of Zulip it's running.
+//
+// - What a Zulip client (e.g. a mobile app or
+// [zulip-terminal](https://github.com/zulip/zulip-terminal/)) needs to
+// know in order to display a login prompt for the server (e.g. what
+// authentication methods are available).
 func (c *simpleClient) GetServerSettings(ctx context.Context) GetServerSettingsRequest {
 	return GetServerSettingsRequest{
 		ApiService: c,
@@ -1681,14 +1616,12 @@ func (r RemoveCodePlaygroundRequest) Execute() (*Response, *http.Response, error
 	return r.ApiService.RemoveCodePlaygroundExecute(r)
 }
 
-/*
-RemoveCodePlayground Remove a code playground
-
-Remove a [code playground](https://zulip.com/help/code-blocks#code-playgrounds) previously
-configured for an organization.
-
-**Changes**: New in Zulip 4.0 (feature level 49).
-*/
+// RemoveCodePlayground Remove a code playground
+//
+// Remove a [code playground](https://zulip.com/help/code-blocks#code-playgrounds) previously
+// configured for an organization.
+//
+// *Changes**: New in Zulip 4.0 (feature level 49).
 func (c *simpleClient) RemoveCodePlayground(ctx context.Context, playgroundId int64) RemoveCodePlaygroundRequest {
 	return RemoveCodePlaygroundRequest{
 		ApiService:   c,
@@ -1780,13 +1713,11 @@ func (r RemoveLinkifierRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.RemoveLinkifierExecute(r)
 }
 
-/*
-RemoveLinkifier Remove a linkifier
-
-Remove [linkifiers](https://zulip.com/help/add-a-custom-linkifier), regular
-expression patterns that are automatically linkified when they appear
-in messages and topics.
-*/
+// RemoveLinkifier Remove a linkifier
+//
+// Remove [linkifiers](https://zulip.com/help/add-a-custom-linkifier), regular
+// expression patterns that are automatically linkified when they appear
+// in messages and topics.
 func (c *simpleClient) RemoveLinkifier(ctx context.Context, filterId int64) RemoveLinkifierRequest {
 	return RemoveLinkifierRequest{
 		ApiService: c,
@@ -1884,17 +1815,15 @@ func (r ReorderCustomProfileFieldsRequest) Execute() (*Response, *http.Response,
 	return r.ApiService.ReorderCustomProfileFieldsExecute(r)
 }
 
-/*
-ReorderCustomProfileFields Reorder custom profile fields
-
-Reorder the custom profile fields in the user's organization.
-
-Custom profile fields are displayed in Zulip UI widgets in order; this
-endpoint allows administrative settings UI to change the field ordering.
-
-This endpoint is used to implement the dragging feature described in the
-[custom profile fields documentation](https://zulip.com/help/custom-profile-fields).
-*/
+// ReorderCustomProfileFields Reorder custom profile fields
+//
+// Reorder the custom profile fields in the user's organization.
+//
+// Custom profile fields are displayed in Zulip UI widgets in order; this
+// endpoint allows administrative settings UI to change the field ordering.
+//
+// This endpoint is used to implement the dragging feature described in the
+// [custom profile fields documentation](https://zulip.com/help/custom-profile-fields).
 func (c *simpleClient) ReorderCustomProfileFields(ctx context.Context) ReorderCustomProfileFieldsRequest {
 	return ReorderCustomProfileFieldsRequest{
 		ApiService: c,
@@ -1994,17 +1923,15 @@ func (r ReorderLinkifiersRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.ReorderLinkifiersExecute(r)
 }
 
-/*
-ReorderLinkifiers Reorder linkifiers
-
-Change the order that the regular expression patterns in the organization's
-[linkifiers](https://zulip.com/help/add-a-custom-linkifier) are matched in messages and topics.
-Useful when defining linkifiers with overlapping patterns.
-
-**Changes**: New in Zulip 8.0 (feature level 202). Before this feature level,
-linkifiers were always processed in order by Id, which meant users would
-need to delete and recreate them to reorder the list of linkifiers.
-*/
+// ReorderLinkifiers Reorder linkifiers
+//
+// Change the order that the regular expression patterns in the organization's
+// [linkifiers](https://zulip.com/help/add-a-custom-linkifier) are matched in messages and topics.
+// Useful when defining linkifiers with overlapping patterns.
+//
+// *Changes**: New in Zulip 8.0 (feature level 202). Before this feature level,
+// linkifiers were always processed in order by Id, which meant users would
+// need to delete and recreate them to reorder the list of linkifiers.
 func (c *simpleClient) ReorderLinkifiers(ctx context.Context) ReorderLinkifiersRequest {
 	return ReorderLinkifiersRequest{
 		ApiService: c,
@@ -2104,15 +2031,13 @@ func (r TestWelcomeBotCustomMessageRequest) Execute() (*TestWelcomeBotCustomMess
 	return r.ApiService.TestWelcomeBotCustomMessageExecute(r)
 }
 
-/*
-TestWelcomeBotCustomMessage Test welcome bot custom message
-
-Sends a test Welcome Bot custom message to the acting administrator.
-This allows administrators to preview how the custom welcome message will
-appear when received by new users upon joining the organization.
-
-**Changes**: New in Zulip 11.0 (feature level 416).
-*/
+// TestWelcomeBotCustomMessage Test welcome bot custom message
+//
+// Sends a test Welcome Bot custom message to the acting administrator.
+// This allows administrators to preview how the custom welcome message will
+// appear when received by new users upon joining the organization.
+//
+// *Changes**: New in Zulip 11.0 (feature level 416).
 func (c *simpleClient) TestWelcomeBotCustomMessage(ctx context.Context) TestWelcomeBotCustomMessageRequest {
 	return TestWelcomeBotCustomMessageRequest{
 		ApiService: c,
@@ -2223,15 +2148,13 @@ func (r UpdateLinkifierRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.UpdateLinkifierExecute(r)
 }
 
-/*
-UpdateLinkifier Update a linkifier
-
-Update a [linkifier](https://zulip.com/help/add-a-custom-linkifier), regular
-expression patterns that are automatically linkified when they appear
-in messages and topics.
-
-**Changes**: New in Zulip 4.0 (feature level 57).
-*/
+// UpdateLinkifier Update a linkifier
+//
+// Update a [linkifier](https://zulip.com/help/add-a-custom-linkifier), regular
+// expression patterns that are automatically linkified when they appear
+// in messages and topics.
+//
+// *Changes**: New in Zulip 4.0 (feature level 57).
 func (c *simpleClient) UpdateLinkifier(ctx context.Context, filterId int64) UpdateLinkifierRequest {
 	return UpdateLinkifierRequest{
 		ApiService: c,
@@ -2736,35 +2659,33 @@ func (r UpdateRealmUserSettingsDefaultsRequest) Execute() (*Response, *http.Resp
 	return r.ApiService.UpdateRealmUserSettingsDefaultsExecute(r)
 }
 
-/*
-UpdateRealmUserSettingsDefaults Update realm-level defaults of user settings
-
-Change the [default values of settings][new-user-defaults] for new users
-joining the organization. Essentially all
-[personal preference settings](https://zulip.com/api/update-settings) are supported.
-
-This feature can be invaluable for customizing Zulip's default
-settings for notifications or UI to be appropriate for how the
-organization is using Zulip. (Note that this only supports
-personal preference settings, like when to send push
-notifications or what emoji set to use, not profile or
-identity settings that naturally should be different for each user).
-
-Note that this endpoint cannot, at present, be used to modify
-settings for existing users in any way.
-
-**Changes**: Removed `dense_mode` setting in Zulip 10.0 (feature level 364)
-as we now have `web_font_size_px` and `web_line_height_percent`
-settings for more control.
-
-New in Zulip 5.0 (feature level 96). If any parameters sent in the
-request are not supported by this endpoint, an
-[`ignored_parameters_unsupported`][ignored-parameters] array will
-be returned in the JSON success response.
-
-[new-user-defaults]: https://zulip.com/help/configure-default-new-user-settings
-[ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
-*/
+// UpdateRealmUserSettingsDefaults Update realm-level defaults of user settings
+//
+// Change the [default values of settings][new-user-defaults] for new users
+// joining the organization. Essentially all
+// [personal preference settings](https://zulip.com/api/update-settings) are supported.
+//
+// This feature can be invaluable for customizing Zulip's default
+// settings for notifications or UI to be appropriate for how the
+// organization is using Zulip. (Note that this only supports
+// personal preference settings, like when to send push
+// notifications or what emoji set to use, not profile or
+// identity settings that naturally should be different for each user).
+//
+// Note that this endpoint cannot, at present, be used to modify
+// settings for existing users in any way.
+//
+// *Changes**: Removed `dense_mode` setting in Zulip 10.0 (feature level 364)
+// as we now have `web_font_size_px` and `web_line_height_percent`
+// settings for more control.
+//
+// New in Zulip 5.0 (feature level 96). If any parameters sent in the
+// request are not supported by this endpoint, an
+// [`ignored_parameters_unsupported`][ignored-parameters] array will
+// be returned in the JSON success response.
+//
+// [new-user-defaults]: https://zulip.com/help/configure-default-new-user-settings
+// [ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
 func (c *simpleClient) UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest {
 	return UpdateRealmUserSettingsDefaultsRequest{
 		ApiService: c,
@@ -3034,13 +2955,11 @@ func (r UploadCustomEmojiRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.UploadCustomEmojiExecute(r)
 }
 
-/*
-UploadCustomEmoji Upload custom emoji
-
-This endpoint is used to upload a custom emoji for use in the user's
-organization. Access to this endpoint depends on the
-[organization's configuration](https://zulip.com/help/custom-emoji#change-who-can-add-custom-emoji).
-*/
+// UploadCustomEmoji Upload custom emoji
+//
+// This endpoint is used to upload a custom emoji for use in the user's
+// organization. Access to this endpoint depends on the
+// [organization's configuration](https://zulip.com/help/custom-emoji#change-who-can-add-custom-emoji).
 func (c *simpleClient) UploadCustomEmoji(ctx context.Context, emojiName string) UploadCustomEmojiRequest {
 	return UploadCustomEmojiRequest{
 		ApiService: c,

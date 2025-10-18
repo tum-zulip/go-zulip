@@ -11,58 +11,50 @@ import (
 
 type NavigationViewsAPI interface {
 
-	/*
-			AddNavigationView Add a navigation view
-
-			Adds a new custom left sidebar navigation view configuration
-		for the current user.
-
-		This can be used both to configure built-in navigation views,
-		or to add new navigation views.
-
-		**Changes**: New in Zulip 11.0 (feature level 390).
-
-	*/
+	// AddNavigationView Add a navigation view
+	//
+	// Adds a new custom left sidebar navigation view configuration
+	// for the current user.
+	//
+	// This can be used both to configure built-in navigation views,
+	// or to add new navigation views.
+	//
+	// *Changes**: New in Zulip 11.0 (feature level 390).
+	//
 	AddNavigationView(ctx context.Context) AddNavigationViewRequest
 
 	// AddNavigationViewExecute executes the request
 	AddNavigationViewExecute(r AddNavigationViewRequest) (*Response, *http.Response, error)
 
-	/*
-			EditNavigationView Update the navigation view
-
-			Update the details of an existing configured navigation view,
-		such as its name or whether it's pinned.
-
-		**Changes**: New in Zulip 11.0 (feature level 390).
-
-	*/
+	// EditNavigationView Update the navigation view
+	//
+	// Update the details of an existing configured navigation view,
+	// such as its name or whether it's pinned.
+	//
+	// *Changes**: New in Zulip 11.0 (feature level 390).
+	//
 	EditNavigationView(ctx context.Context, fragment string) EditNavigationViewRequest
 
 	// EditNavigationViewExecute executes the request
 	EditNavigationViewExecute(r EditNavigationViewRequest) (*Response, *http.Response, error)
 
-	/*
-			GetNavigationViews Get all navigation views
-
-			Fetch all configured custom navigation views for the current user.
-
-		**Changes**: New in Zulip 11.0 (feature level 390).
-
-	*/
+	// GetNavigationViews Get all navigation views
+	//
+	// Fetch all configured custom navigation views for the current user.
+	//
+	// *Changes**: New in Zulip 11.0 (feature level 390).
+	//
 	GetNavigationViews(ctx context.Context) GetNavigationViewsRequest
 
 	// GetNavigationViewsExecute executes the request
 	GetNavigationViewsExecute(r GetNavigationViewsRequest) (*GetNavigationViewsResponse, *http.Response, error)
 
-	/*
-			RemoveNavigationView Remove a navigation view
-
-			Remove a navigation view.
-
-		**Changes**: New in Zulip 11.0 (feature level 390).
-
-	*/
+	// RemoveNavigationView Remove a navigation view
+	//
+	// Remove a navigation view.
+	//
+	// *Changes**: New in Zulip 11.0 (feature level 390).
+	//
 	RemoveNavigationView(ctx context.Context, fragment string) RemoveNavigationViewRequest
 
 	// RemoveNavigationViewExecute executes the request
@@ -99,17 +91,15 @@ func (r AddNavigationViewRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.AddNavigationViewExecute(r)
 }
 
-/*
-AddNavigationView Add a navigation view
-
-Adds a new custom left sidebar navigation view configuration
-for the current user.
-
-This can be used both to configure built-in navigation views,
-or to add new navigation views.
-
-**Changes**: New in Zulip 11.0 (feature level 390).
-*/
+// AddNavigationView Add a navigation view
+//
+// Adds a new custom left sidebar navigation view configuration
+// for the current user.
+//
+// This can be used both to configure built-in navigation views,
+// or to add new navigation views.
+//
+// *Changes**: New in Zulip 11.0 (feature level 390).
 func (c *simpleClient) AddNavigationView(ctx context.Context) AddNavigationViewRequest {
 	return AddNavigationViewRequest{
 		ApiService: c,
@@ -224,14 +214,12 @@ func (r EditNavigationViewRequest) Execute() (*Response, *http.Response, error) 
 	return r.ApiService.EditNavigationViewExecute(r)
 }
 
-/*
-EditNavigationView Update the navigation view
-
-Update the details of an existing configured navigation view,
-such as its name or whether it's pinned.
-
-**Changes**: New in Zulip 11.0 (feature level 390).
-*/
+// EditNavigationView Update the navigation view
+//
+// Update the details of an existing configured navigation view,
+// such as its name or whether it's pinned.
+//
+// *Changes**: New in Zulip 11.0 (feature level 390).
 func (c *simpleClient) EditNavigationView(ctx context.Context, fragment string) EditNavigationViewRequest {
 	return EditNavigationViewRequest{
 		ApiService: c,
@@ -328,13 +316,11 @@ func (r GetNavigationViewsRequest) Execute() (*GetNavigationViewsResponse, *http
 	return r.ApiService.GetNavigationViewsExecute(r)
 }
 
-/*
-GetNavigationViews Get all navigation views
-
-Fetch all configured custom navigation views for the current user.
-
-**Changes**: New in Zulip 11.0 (feature level 390).
-*/
+// GetNavigationViews Get all navigation views
+//
+// Fetch all configured custom navigation views for the current user.
+//
+// *Changes**: New in Zulip 11.0 (feature level 390).
 func (c *simpleClient) GetNavigationViews(ctx context.Context) GetNavigationViewsRequest {
 	return GetNavigationViewsRequest{
 		ApiService: c,
@@ -424,13 +410,11 @@ func (r RemoveNavigationViewRequest) Execute() (*Response, *http.Response, error
 	return r.ApiService.RemoveNavigationViewExecute(r)
 }
 
-/*
-RemoveNavigationView Remove a navigation view
-
-Remove a navigation view.
-
-**Changes**: New in Zulip 11.0 (feature level 390).
-*/
+// RemoveNavigationView Remove a navigation view
+//
+// Remove a navigation view.
+//
+// *Changes**: New in Zulip 11.0 (feature level 390).
 func (c *simpleClient) RemoveNavigationView(ctx context.Context, fragment string) RemoveNavigationViewRequest {
 	return RemoveNavigationViewRequest{
 		ApiService: c,

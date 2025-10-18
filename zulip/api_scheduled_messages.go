@@ -12,63 +12,55 @@ import (
 
 type ScheduledMessagesAPI interface {
 
-	/*
-			CreateScheduledMessage Create a scheduled message
-
-			Create a new [scheduled message](https://zulip.com/help/schedule-a-message).
-
-		**Changes**: In Zulip 7.0 (feature level 184), moved support for
-		[editing a scheduled message](https://zulip.com/api/update-scheduled-message) to a
-		separate API endpoint, which removed the `scheduled_message_id`
-		parameter from this endpoint.
-
-		New in Zulip 7.0 (feature level 179).
-
-	*/
+	// CreateScheduledMessage Create a scheduled message
+	//
+	// Create a new [scheduled message](https://zulip.com/help/schedule-a-message).
+	//
+	// *Changes**: In Zulip 7.0 (feature level 184), moved support for
+	// [editing a scheduled message](https://zulip.com/api/update-scheduled-message) to a
+	// separate API endpoint, which removed the `scheduled_message_id`
+	// parameter from this endpoint.
+	//
+	// New in Zulip 7.0 (feature level 179).
+	//
 	CreateScheduledMessage(ctx context.Context) CreateScheduledMessageRequest
 
 	// CreateScheduledMessageExecute executes the request
 	CreateScheduledMessageExecute(r CreateScheduledMessageRequest) (*CreateScheduledMessageResponse, *http.Response, error)
 
-	/*
-			DeleteScheduledMessage Delete a scheduled message
-
-			Delete, and therefore cancel sending, a previously [scheduled
-		message](https://zulip.com/help/schedule-a-message).
-
-		**Changes**: New in Zulip 7.0 (feature level 173).
-
-	*/
+	// DeleteScheduledMessage Delete a scheduled message
+	//
+	// Delete, and therefore cancel sending, a previously [scheduled
+	// message](https://zulip.com/help/schedule-a-message).
+	//
+	// *Changes**: New in Zulip 7.0 (feature level 173).
+	//
 	DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest
 
 	// DeleteScheduledMessageExecute executes the request
 	DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*Response, *http.Response, error)
 
-	/*
-			GetScheduledMessages Get scheduled messages
-
-			Fetch all [scheduled messages](https://zulip.com/help/schedule-a-message) for
-		the current user.
-
-		Scheduled messages are messages the user has scheduled to be
-		sent in the future via the send later feature.
-
-		**Changes**: New in Zulip 7.0 (feature level 173).
-
-	*/
+	// GetScheduledMessages Get scheduled messages
+	//
+	// Fetch all [scheduled messages](https://zulip.com/help/schedule-a-message) for
+	// the current user.
+	//
+	// Scheduled messages are messages the user has scheduled to be
+	// sent in the future via the send later feature.
+	//
+	// *Changes**: New in Zulip 7.0 (feature level 173).
+	//
 	GetScheduledMessages(ctx context.Context) GetScheduledMessagesRequest
 
 	// GetScheduledMessagesExecute executes the request
 	GetScheduledMessagesExecute(r GetScheduledMessagesRequest) (*GetScheduledMessagesResponse, *http.Response, error)
 
-	/*
-			UpdateScheduledMessage Edit a scheduled message
-
-			Edit an existing [scheduled message](https://zulip.com/help/schedule-a-message).
-
-		**Changes**: New in Zulip 7.0 (feature level 184).
-
-	*/
+	// UpdateScheduledMessage Edit a scheduled message
+	//
+	// Edit an existing [scheduled message](https://zulip.com/help/schedule-a-message).
+	//
+	// *Changes**: New in Zulip 7.0 (feature level 184).
+	//
 	UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest
 
 	// UpdateScheduledMessageExecute executes the request
@@ -126,18 +118,16 @@ func (r CreateScheduledMessageRequest) Execute() (*CreateScheduledMessageRespons
 	return r.ApiService.CreateScheduledMessageExecute(r)
 }
 
-/*
-CreateScheduledMessage Create a scheduled message
-
-Create a new [scheduled message](https://zulip.com/help/schedule-a-message).
-
-**Changes**: In Zulip 7.0 (feature level 184), moved support for
-[editing a scheduled message](https://zulip.com/api/update-scheduled-message) to a
-separate API endpoint, which removed the `scheduled_message_id`
-parameter from this endpoint.
-
-New in Zulip 7.0 (feature level 179).
-*/
+// CreateScheduledMessage Create a scheduled message
+//
+// Create a new [scheduled message](https://zulip.com/help/schedule-a-message).
+//
+// *Changes**: In Zulip 7.0 (feature level 184), moved support for
+// [editing a scheduled message](https://zulip.com/api/update-scheduled-message) to a
+// separate API endpoint, which removed the `scheduled_message_id`
+// parameter from this endpoint.
+//
+// New in Zulip 7.0 (feature level 179).
 func (c *simpleClient) CreateScheduledMessage(ctx context.Context) CreateScheduledMessageRequest {
 	return CreateScheduledMessageRequest{
 		ApiService: c,
@@ -250,14 +240,12 @@ func (r DeleteScheduledMessageRequest) Execute() (*Response, *http.Response, err
 	return r.ApiService.DeleteScheduledMessageExecute(r)
 }
 
-/*
-DeleteScheduledMessage Delete a scheduled message
-
-Delete, and therefore cancel sending, a previously [scheduled
-message](https://zulip.com/help/schedule-a-message).
-
-**Changes**: New in Zulip 7.0 (feature level 173).
-*/
+// DeleteScheduledMessage Delete a scheduled message
+//
+// Delete, and therefore cancel sending, a previously [scheduled
+// message](https://zulip.com/help/schedule-a-message).
+//
+// *Changes**: New in Zulip 7.0 (feature level 173).
 func (c *simpleClient) DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest {
 	return DeleteScheduledMessageRequest{
 		ApiService:         c,
@@ -348,17 +336,15 @@ func (r GetScheduledMessagesRequest) Execute() (*GetScheduledMessagesResponse, *
 	return r.ApiService.GetScheduledMessagesExecute(r)
 }
 
-/*
-GetScheduledMessages Get scheduled messages
-
-Fetch all [scheduled messages](https://zulip.com/help/schedule-a-message) for
-the current user.
-
-Scheduled messages are messages the user has scheduled to be
-sent in the future via the send later feature.
-
-**Changes**: New in Zulip 7.0 (feature level 173).
-*/
+// GetScheduledMessages Get scheduled messages
+//
+// Fetch all [scheduled messages](https://zulip.com/help/schedule-a-message) for
+// the current user.
+//
+// Scheduled messages are messages the user has scheduled to be
+// sent in the future via the send later feature.
+//
+// *Changes**: New in Zulip 7.0 (feature level 173).
 func (c *simpleClient) GetScheduledMessages(ctx context.Context) GetScheduledMessagesRequest {
 	return GetScheduledMessagesRequest{
 		ApiService: c,
@@ -483,13 +469,11 @@ func (r UpdateScheduledMessageRequest) Execute() (*Response, *http.Response, err
 	return r.ApiService.UpdateScheduledMessageExecute(r)
 }
 
-/*
-UpdateScheduledMessage Edit a scheduled message
-
-Edit an existing [scheduled message](https://zulip.com/help/schedule-a-message).
-
-**Changes**: New in Zulip 7.0 (feature level 184).
-*/
+// UpdateScheduledMessage Edit a scheduled message
+//
+// Edit an existing [scheduled message](https://zulip.com/help/schedule-a-message).
+//
+// *Changes**: New in Zulip 7.0 (feature level 184).
 func (c *simpleClient) UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest {
 	return UpdateScheduledMessageRequest{
 		ApiService:         c,
