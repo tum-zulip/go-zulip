@@ -328,7 +328,7 @@ func (r AddCodePlaygroundRequest) PygmentsLanguage(pygmentsLanguage string) AddC
 	return r
 }
 
-// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template for the playground. The template should contain exactly one variable named &#x60;code&#x60;, which determines how the extracted code should be substituted in the playground URL.  **Changes**: New in Zulip 8.0 (feature level 196). This replaced the &#x60;url_prefix&#x60; parameter, which was used to construct URLs by just concatenating &#x60;url_prefix&#x60; and &#x60;code&#x60;.
+// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template for the playground. The template should contain exactly one variable named `code`, which determines how the extracted code should be substituted in the playground URL.  **Changes**: New in Zulip 8.0 (feature level 196). This replaced the `url_prefix` parameter, which was used to construct URLs by just concatenating `url_prefix` and `code`.
 func (r AddCodePlaygroundRequest) UrlTemplate(urlTemplate string) AddCodePlaygroundRequest {
 	r.urlTemplate = &urlTemplate
 	return r
@@ -448,7 +448,7 @@ func (r AddLinkifierRequest) Pattern(pattern string) AddLinkifierRequest {
 	return r
 }
 
-// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template used for the link. If you used named groups in &#x60;pattern&#x60;, you can insert their content here with &#x60;{name_of_group}&#x60;.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced the &#x60;url_format_string&#x60; parameter, which was a format string in which named groups&#39; content could be inserted with &#x60;%(name_of_group)s&#x60;.
+// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template used for the link. If you used named groups in `pattern`, you can insert their content here with `{name_of_group}`.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups&#39; content could be inserted with `%(name_of_group)s`.
 func (r AddLinkifierRequest) UrlTemplate(urlTemplate string) AddLinkifierRequest {
 	r.urlTemplate = &urlTemplate
 	return r
@@ -562,7 +562,7 @@ type CreateCustomProfileFieldRequest struct {
 	editableByUser          *bool
 }
 
-// The field type can be any of the supported custom profile field types. See the [custom profile fields documentation](https://zulip.com/help/custom-profile-fields) for more details on what each type means.  - **1**: Short text - **2**: Long text - **3**: List of options - **4**: Date picker - **5**: Link - **6**: Person picker - **7**: External account - **8**: Pronouns  **Changes**: Field type &#x60;8&#x60; added in Zulip 6.0 (feature level 151).
+// The field type can be any of the supported custom profile field types. See the [custom profile fields documentation](https://zulip.com/help/custom-profile-fields) for more details on what each type means.  - **1**: Short text - **2**: Long text - **3**: List of options - **4**: Date picker - **5**: Link - **6**: Person picker - **7**: External account - **8**: Pronouns  **Changes**: Field type `8` added in Zulip 6.0 (feature level 151).
 func (r CreateCustomProfileFieldRequest) FieldType(fieldType int32) CreateCustomProfileFieldRequest {
 	r.fieldType = &fieldType
 	return r
@@ -580,13 +580,13 @@ func (r CreateCustomProfileFieldRequest) Hint(hint string) CreateCustomProfileFi
 	return r
 }
 
-// Field types 3 (List of options) and 7 (External account) support storing additional configuration for the field type in the &#x60;field_data&#x60; attribute.  For field type 3 (List of options), this attribute is a JSON dictionary defining the choices and the order they will be displayed in the dropdown UI for individual users to select an option.  The interface for field type 7 is not yet stabilized.
+// Field types 3 (List of options) and 7 (External account) support storing additional configuration for the field type in the `field_data` attribute.  For field type 3 (List of options), this attribute is a JSON dictionary defining the choices and the order they will be displayed in the dropdown UI for individual users to select an option.  The interface for field type 7 is not yet stabilized.
 func (r CreateCustomProfileFieldRequest) FieldData(fieldData map[string]interface{}) CreateCustomProfileFieldRequest {
 	r.fieldData = &fieldData
 	return r
 }
 
-// Whether clients should display this profile field in a summary section of a user&#39;s profile (or in a more easily accessible \\\&quot;small profile\\\&quot;).  At most 2 profile fields may have this property be true in a given organization. The \\\&quot;Long text\\\&quot; [profile field types] profile field types cannot be selected to be displayed in profile summaries.  The \\\&quot;Person picker\\\&quot; profile field is also not supported, but that is likely to be temporary.  [profile field types]: https://zulip.com/help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146).
+// Whether clients should display this profile field in a summary section of a user&#39;s profile (or in a more easily accessible \\"small profile\\").  At most 2 profile fields may have this property be true in a given organization. The \\"Long text\\" [profile field types] profile field types cannot be selected to be displayed in profile summaries.  The \\"Person picker\\" profile field is also not supported, but that is likely to be temporary.  [profile field types]: https://zulip.com/help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146).
 func (r CreateCustomProfileFieldRequest) DisplayInProfileSummary(displayInProfileSummary bool) CreateCustomProfileFieldRequest {
 	r.displayInProfileSummary = &displayInProfileSummary
 	return r
@@ -2137,7 +2137,7 @@ func (r UpdateLinkifierRequest) Pattern(pattern string) UpdateLinkifierRequest {
 	return r
 }
 
-// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template used for the link. If you used named groups in &#x60;pattern&#x60;, you can insert their content here with &#x60;{name_of_group}&#x60;.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced the &#x60;url_format_string&#x60; parameter, which was a format string in which named groups&#39; content could be inserted with &#x60;%(name_of_group)s&#x60;.
+// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template used for the link. If you used named groups in `pattern`, you can insert their content here with `{name_of_group}`.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups&#39; content could be inserted with `%(name_of_group)s`.
 func (r UpdateLinkifierRequest) UrlTemplate(urlTemplate string) UpdateLinkifierRequest {
 	r.urlTemplate = &urlTemplate
 	return r
@@ -2336,31 +2336,31 @@ func (r UpdateRealmUserSettingsDefaultsRequest) HighContrastMode(highContrastMod
 	return r
 }
 
-// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the \\\&quot;Always\\\&quot; setting when marking messages as read.
+// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the \\"Always\\" setting when marking messages as read.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebMarkReadOnScrollPolicy(webMarkReadOnScrollPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.webMarkReadOnScrollPolicy = &webMarkReadOnScrollPolicy
 	return r
 }
 
-// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The \\\&quot;Top unread topic in channel\\\&quot; is new in Zulip 11.0 (feature level 401).  The \\\&quot;List of topics\\\&quot; option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the \\\&quot;Channel feed\\\&quot; behavior.
+// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The \\"Top unread topic in channel\\" is new in Zulip 11.0 (feature level 401).  The \\"List of topics\\" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the \\"Channel feed\\" behavior.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelDefaultView(webChannelDefaultView int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.webChannelDefaultView = &webChannelDefaultView
 	return r
 }
 
-// User-configured primary &#x60;font-size&#x60; for the web application, in pixels.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level.
+// User-configured primary `font-size` for the web application, in pixels.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebFontSizePx(webFontSizePx int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.webFontSizePx = &webFontSizePx
 	return r
 }
 
-// User-configured primary &#x60;line-height&#x60; for the web application, in percent, so a value of 120 represents a &#x60;line-height&#x60; of 1.2.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
+// User-configured primary `line-height` for the web application, in percent, so a value of 120 represents a `line-height` of 1.2.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebLineHeightPercent(webLineHeightPercent int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.webLineHeightPercent = &webLineHeightPercent
 	return r
 }
 
-// Controls which [color theme](https://zulip.com/help/dark-theme) to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.
+// Controls which [color theme](https://zulip.com/help/dark-theme) to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard `prefers-color-scheme` media query.
 func (r UpdateRealmUserSettingsDefaultsRequest) ColorScheme(colorScheme ColorScheme) UpdateRealmUserSettingsDefaultsRequest {
 	r.colorScheme = &colorScheme
 	return r
@@ -2384,13 +2384,13 @@ func (r UpdateRealmUserSettingsDefaultsRequest) DisplayEmojiReactionUsers(displa
 	return r
 }
 
-// The [home view](https://zulip.com/help/configure-home-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  - \\\&quot;recent_topics\\\&quot; - Recent conversations view - \\\&quot;inbox\\\&quot; - Inbox view - \\\&quot;all_messages\\\&quot; - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;default_view&#x60;, which was new in Zulip 4.0 (feature level 42).
+// The [home view](https://zulip.com/help/configure-home-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  - \\"recent_topics\\" - Recent conversations view - \\"inbox\\" - Inbox view - \\"all_messages\\" - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
 func (r UpdateRealmUserSettingsDefaultsRequest) WebHomeView(webHomeView string) UpdateRealmUserSettingsDefaultsRequest {
 	r.webHomeView = &webHomeView
 	return r
 }
 
-// Whether the escape key navigates to the [configured home view](https://zulip.com/help/configure-home-view).  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;escape_navigates_to_default_view&#x60;, which was new in Zulip 5.0 (feature level 107).
+// Whether the escape key navigates to the [configured home view](https://zulip.com/help/configure-home-view).  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `escape_navigates_to_default_view`, which was new in Zulip 5.0 (feature level 107).
 func (r UpdateRealmUserSettingsDefaultsRequest) WebEscapeNavigatesToHomeView(webEscapeNavigatesToHomeView bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.webEscapeNavigatesToHomeView = &webEscapeNavigatesToHomeView
 	return r
@@ -2402,7 +2402,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) LeftSideUserlist(leftSideUserlis
 	return r
 }
 
-// The user&#39;s configured [emoji set](https://zulip.com/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everywhere they appear in the UI.  - \\\&quot;google\\\&quot; - Google - \\\&quot;twitter\\\&quot; - Twitter - \\\&quot;text\\\&quot; - Plain text - \\\&quot;google-blob\\\&quot; - Google blobs
+// The user&#39;s configured [emoji set](https://zulip.com/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everywhere they appear in the UI.  - \\"google\\" - Google - \\"twitter\\" - Twitter - \\"text\\" - Plain text - \\"google-blob\\" - Google blobs
 func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset string) UpdateRealmUserSettingsDefaultsRequest {
 	r.emojiset = &emojiset
 	return r
@@ -2420,7 +2420,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) UserListStyle(userListStyle int3
 	return r
 }
 
-// Controls how animated images should be played in the message feed in the web/desktop application.  - \\\&quot;always\\\&quot; - Always play the animated images in the message feed. - \\\&quot;on_hover\\\&quot; - Play the animated images on hover over them in the message feed. - \\\&quot;never\\\&quot; - Never play animated images in the message feed.  **Changes**: New in Zulip 9.0 (feature level 275). Previously, animated images always used to play in the message feed by default. This setting controls this behaviour.
+// Controls how animated images should be played in the message feed in the web/desktop application.  - \\"always\\" - Always play the animated images in the message feed. - \\"on_hover\\" - Play the animated images on hover over them in the message feed. - \\"never\\" - Never play animated images in the message feed.  **Changes**: New in Zulip 9.0 (feature level 275). Previously, animated images always used to play in the message feed by default. This setting controls this behaviour.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(webAnimateImagePreviews string) UpdateRealmUserSettingsDefaultsRequest {
 	r.webAnimateImagePreviews = &webAnimateImagePreviews
 	return r
@@ -2570,13 +2570,13 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicWildcardMenti
 	return r
 }
 
-// Unread count badge (appears in desktop sidebar and browser tab)  - 1 - All unread messages - 2 - DMs, mentions, and followed topics - 3 - DMs and mentions - 4 - None  **Changes**: In Zulip 8.0 (feature level 227), added &#x60;DMs, mentions, and followed topics&#x60; option, renumbering the options to insert it in order.
+// Unread count badge (appears in desktop sidebar and browser tab)  - 1 - All unread messages - 2 - DMs, mentions, and followed topics - 3 - DMs and mentions - 4 - None  **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
 func (r UpdateRealmUserSettingsDefaultsRequest) DesktopIconCountDisplay(desktopIconCountDisplay int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.desktopIconCountDisplay = &desktopIconCountDisplay
 	return r
 }
 
-// Whether to [include organization name in subject of message notification emails](https://zulip.com/help/email-notifications#include-organization-name-in-subject-line).  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous &#x60;realm_name_in_notifications&#x60; boolean; &#x60;true&#x60; corresponded to &#x60;Always&#x60;, and &#x60;false&#x60; to &#x60;Never&#x60;.
+// Whether to [include organization name in subject of message notification emails](https://zulip.com/help/email-notifications#include-organization-name-in-subject-line).  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous `realm_name_in_notifications` boolean; `true` corresponded to `Always`, and `false` to `Never`.
 func (r UpdateRealmUserSettingsDefaultsRequest) RealmNameInEmailNotificationsPolicy(realmNameInEmailNotificationsPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.realmNameInEmailNotificationsPolicy = &realmNameInEmailNotificationsPolicy
 	return r
@@ -2600,7 +2600,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsWhereMe
 	return r
 }
 
-// Controls whether the resolved-topic notices are marked as read.  - \\\&quot;always\\\&quot; - Always mark resolved-topic notices as read. - \\\&quot;except_followed\\\&quot; - Mark resolved-topic notices as read in topics not followed by the user. - \\\&quot;never\\\&quot; - Never mark resolved-topic notices as read.  **Changes**: New in Zulip 11.0 (feature level 385).
+// Controls whether the resolved-topic notices are marked as read.  - \\"always\\" - Always mark resolved-topic notices as read. - \\"except_followed\\" - Mark resolved-topic notices as read in topics not followed by the user. - \\"never\\" - Never mark resolved-topic notices as read.  **Changes**: New in Zulip 11.0 (feature level 385).
 func (r UpdateRealmUserSettingsDefaultsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy string) UpdateRealmUserSettingsDefaultsRequest {
 	r.resolvedTopicNoticeAutoReadPolicy = &resolvedTopicNoticeAutoReadPolicy
 	return r
@@ -2618,7 +2618,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnterSends(enterSends bool) Upda
 	return r
 }
 
-// Whether time should be [displayed in 24-hour notation](https://zulip.com/help/change-the-time-format).  **Changes**: New in Zulip 5.0 (feature level 99). Previously, this default was edited using the &#x60;default_twenty_four_hour_time&#x60; parameter to the &#x60;PATCH /realm&#x60; endpoint.
+// Whether time should be [displayed in 24-hour notation](https://zulip.com/help/change-the-time-format).  **Changes**: New in Zulip 5.0 (feature level 99). Previously, this default was edited using the `default_twenty_four_hour_time` parameter to the `PATCH /realm` endpoint.
 func (r UpdateRealmUserSettingsDefaultsRequest) TwentyFourHourTime(twentyFourHourTime bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.twentyFourHourTime = &twentyFourHourTime
 	return r

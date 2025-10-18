@@ -121,7 +121,7 @@ type CreateInviteLinkRequest struct {
 	welcomeMessageCustomText         *string
 }
 
-// The number of minutes before the invitation will expire. If &#x60;null&#x60;, the invitation will never expire. If unspecified, the server will use a default value (based on the &#x60;INVITATION_LINK_VALIdITY_MINUTES&#x60; server setting, which defaults to 14400, i.e. 10 days) for when the invitation will expire.  **Changes**: New in Zulip 6.0 (feature level 126). Previously, there was an &#x60;invite_expires_in_days&#x60; parameter, which specified the duration in days instead of minutes.
+// The number of minutes before the invitation will expire. If `null`, the invitation will never expire. If unspecified, the server will use a default value (based on the `INVITATION_LINK_VALIdITY_MINUTES` server setting, which defaults to 14400, i.e. 10 days) for when the invitation will expire.  **Changes**: New in Zulip 6.0 (feature level 126). Previously, there was an `invite_expires_in_days` parameter, which specified the duration in days instead of minutes.
 func (r CreateInviteLinkRequest) InviteExpiresInMinutes(inviteExpiresInMinutes int32) CreateInviteLinkRequest {
 	r.inviteExpiresInMinutes = &inviteExpiresInMinutes
 	return r
@@ -141,7 +141,7 @@ func (r CreateInviteLinkRequest) InviteAs(inviteAs Role) CreateInviteLinkRequest
 	return r
 }
 
-// A list containing the [Ids of the channels](https://zulip.com/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
+// A list containing the [Ids of the channels](https://zulip.com/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the `include_realm_default_subscriptions` parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 func (r CreateInviteLinkRequest) ChannelIds(channelIds []int64) CreateInviteLinkRequest {
 	r.channelIds = &channelIds
 	return r
@@ -153,13 +153,13 @@ func (r CreateInviteLinkRequest) GroupIds(groupIds []int64) CreateInviteLinkRequ
 	return r
 }
 
-// Boolean indicating whether the newly created user should be subscribed to the [default channels] for the organization.  Note that this parameter can be &#x60;true&#x60; even if the current user does not generally have permission to [subscribe other users to channels].  **Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always &#x60;false&#x60;; clients needed to include the organization&#39;s default channels in the &#x60;stream_ids&#x60; parameter for a newly created user to be automatically subscribed to them.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
+// Boolean indicating whether the newly created user should be subscribed to the [default channels] for the organization.  Note that this parameter can be `true` even if the current user does not generally have permission to [subscribe other users to channels].  **Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always `false`; clients needed to include the organization&#39;s default channels in the `stream_ids` parameter for a newly created user to be automatically subscribed to them.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 func (r CreateInviteLinkRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) CreateInviteLinkRequest {
 	r.includeRealmDefaultSubscriptions = &includeRealmDefaultSubscriptions
 	return r
 }
 
-// Custom message text, in Zulip Markdown format, to be sent by the Welcome Bot to new users that join the organization via this invitation.  Maximum length is 8000 characters.  Only organization administrators can use this feature; for other users, the value is always &#x60;null&#x60;.  - &#x60;null&#x60;: the organization&#39;s default &#x60;welcome_message_custom_text&#x60; is used. - Empty string: no Welcome Bot custom message is sent. - Otherwise, the provided string is the custom message.  **Changes**: New in Zulip 11.0 (feature level 416).
+// Custom message text, in Zulip Markdown format, to be sent by the Welcome Bot to new users that join the organization via this invitation.  Maximum length is 8000 characters.  Only organization administrators can use this feature; for other users, the value is always `null`.  - `null`: the organization&#39;s default `welcome_message_custom_text` is used. - Empty string: no Welcome Bot custom message is sent. - Otherwise, the provided string is the custom message.  **Changes**: New in Zulip 11.0 (feature level 416).
 func (r CreateInviteLinkRequest) WelcomeMessageCustomText(welcomeMessageCustomText string) CreateInviteLinkRequest {
 	r.welcomeMessageCustomText = &welcomeMessageCustomText
 	return r
@@ -695,13 +695,13 @@ func (r SendInvitesRequest) InviteeEmails(inviteeEmails string) SendInvitesReque
 	return r
 }
 
-// A list containing the [Ids of the channels](https://zulip.com/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying &#x60;stream_ids&#x60; as an empty list resulted in an error.  [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
+// A list containing the [Ids of the channels](https://zulip.com/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the `include_realm_default_subscriptions` parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying `stream_ids` as an empty list resulted in an error.  [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 func (r SendInvitesRequest) ChannelIds(channelIds []int64) SendInvitesRequest {
 	r.channelIds = &channelIds
 	return r
 }
 
-// The number of minutes before the invitation will expire. If &#x60;null&#x60;, the invitation will never expire. If unspecified, the server will use a default value (based on the &#x60;INVITATION_LINK_VALIdITY_MINUTES&#x60; server setting, which defaults to 14400, i.e. 10 days) for when the invitation will expire.  **Changes**: New in Zulip 6.0 (feature level 126). Previously, there was an &#x60;invite_expires_in_days&#x60; parameter, which specified the duration in days instead of minutes.
+// The number of minutes before the invitation will expire. If `null`, the invitation will never expire. If unspecified, the server will use a default value (based on the `INVITATION_LINK_VALIdITY_MINUTES` server setting, which defaults to 14400, i.e. 10 days) for when the invitation will expire.  **Changes**: New in Zulip 6.0 (feature level 126). Previously, there was an `invite_expires_in_days` parameter, which specified the duration in days instead of minutes.
 func (r SendInvitesRequest) InviteExpiresInMinutes(inviteExpiresInMinutes int32) SendInvitesRequest {
 	r.inviteExpiresInMinutes = &inviteExpiresInMinutes
 	return r
@@ -726,7 +726,7 @@ func (r SendInvitesRequest) GroupIds(groupIds []int64) SendInvitesRequest {
 	return r
 }
 
-// Boolean indicating whether the newly created user should be subscribed to the [default channels] for the organization.  Note that this parameter can be &#x60;true&#x60; even if the user creating the invitation does not generally have permission to [subscribe other users to channels].  **Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always &#x60;false&#x60;; clients needed to include the organization&#39;s default channels in the &#x60;stream_ids&#x60; parameter for a newly created user to be automatically subscribed to them.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
+// Boolean indicating whether the newly created user should be subscribed to the [default channels] for the organization.  Note that this parameter can be `true` even if the user creating the invitation does not generally have permission to [subscribe other users to channels].  **Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always `false`; clients needed to include the organization&#39;s default channels in the `stream_ids` parameter for a newly created user to be automatically subscribed to them.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 func (r SendInvitesRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) SendInvitesRequest {
 	r.includeRealmDefaultSubscriptions = &includeRealmDefaultSubscriptions
 	return r
@@ -738,7 +738,7 @@ func (r SendInvitesRequest) NotifyReferrerOnJoin(notifyReferrerOnJoin bool) Send
 	return r
 }
 
-// Custom message text, in Zulip Markdown format, to be sent by the Welcome Bot to new users that join the organization via this invitation.  Maximum length is 8000 characters.  Only organization administrators can use this feature; for other users, the value is always &#x60;null&#x60;.  - &#x60;null&#x60;: the organization&#39;s default &#x60;welcome_message_custom_text&#x60; is used. - Empty string: no Welcome Bot custom message is sent. - Otherwise, the provided string is the custom message.  **Changes**: New in Zulip 11.0 (feature level 416).
+// Custom message text, in Zulip Markdown format, to be sent by the Welcome Bot to new users that join the organization via this invitation.  Maximum length is 8000 characters.  Only organization administrators can use this feature; for other users, the value is always `null`.  - `null`: the organization&#39;s default `welcome_message_custom_text` is used. - Empty string: no Welcome Bot custom message is sent. - Otherwise, the provided string is the custom message.  **Changes**: New in Zulip 11.0 (feature level 416).
 func (r SendInvitesRequest) WelcomeMessageCustomText(welcomeMessageCustomText string) SendInvitesRequest {
 	r.welcomeMessageCustomText = &welcomeMessageCustomText
 	return r

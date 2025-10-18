@@ -194,7 +194,7 @@ type FetchApiKeyRequest struct {
 	password   *string
 }
 
-// The username to be used for authentication (typically, the email address, but depending on configuration, it could be an LDAP username).  See the &#x60;require_email_format_usernames&#x60; parameter documented in [GET /server_settings](zulip.com/api/get-server-settings) for details.
+// The username to be used for authentication (typically, the email address, but depending on configuration, it could be an LDAP username).  See the `require_email_format_usernames` parameter documented in [GET /server_settings](zulip.com/api/get-server-settings) for details.
 func (r FetchApiKeyRequest) Username(username string) FetchApiKeyRequest {
 	r.username = &username
 	return r

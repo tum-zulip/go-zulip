@@ -75,7 +75,7 @@ func (r AddNavigationViewRequest) Fragment(fragment string) AddNavigationViewReq
 	return r
 }
 
-// Determines whether the view appears directly in the sidebar or is hidden in the \\\&quot;More Views\\\&quot; menu.  - &#x60;true&#x60; - Pinned and visible in the sidebar. - &#x60;false&#x60; - Hidden and accessible via the \\\&quot;More Views\\\&quot; menu.
+// Determines whether the view appears directly in the sidebar or is hidden in the \\"More Views\\" menu.  - `true` - Pinned and visible in the sidebar. - `false` - Hidden and accessible via the \\"More Views\\" menu.
 func (r AddNavigationViewRequest) IsPinned(isPinned bool) AddNavigationViewRequest {
 	r.isPinned = &isPinned
 	return r
