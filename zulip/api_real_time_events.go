@@ -22,7 +22,7 @@ type RealTimeEventsAPI interface {
 	// GetEvents Get events from an event queue
 	//
 	// This endpoint allows you to receive new events from
-	// [a registered event queue](https://zulip.com/api/register-queue).
+	// [a registered event queue].
 	//
 	// Long-lived clients should use the
 	// `event_queue_longpoll_timeout_seconds` property returned by
@@ -31,6 +31,7 @@ type RealTimeEventsAPI interface {
 	// heartbeat frequency and should be respected by clients to
 	// avoid breaking when heartbeat frequency increases.
 	//
+	// [a registered event queue]: https://zulip.com/api/register-queue
 	GetEvents(ctx context.Context) GetEventsRequest
 
 	// GetEventsExecute executes the request
@@ -49,7 +50,7 @@ type RealTimeEventsAPI interface {
 	//
 	// This endpoint returns a `queue_id` and a `last_event_id`; these can be
 	// used in subsequent calls to the
-	// ["events" endpoint](https://zulip.com/api/get-events) to request events from
+	// ["events" endpoint] to request events from
 	// the Zulip server using long-polling.
 	//
 	// The server will queue events for up to 10 minutes of inactivity.
@@ -92,8 +93,7 @@ type RealTimeEventsAPI interface {
 	// in feature level 162.
 	//
 	// In Zulip 7.0 (feature level 163), the realm setting
-	// `email_address_visibility` was removed. It was replaced by a [user
-	// setting](https://zulip.com/api/update-settings#parameter-email_address_visibility with
+	// `email_address_visibility` was removed. It was replaced by a [user setting](https://zulip.com/api/update-settings#parameter-email_address_visibility with
 	// a [realm user default], with the encoding of different
 	// values preserved. Clients can support all versions by supporting the
 	// current API and treating every user as having the realm's
@@ -102,6 +102,7 @@ type RealTimeEventsAPI interface {
 	// [realm user default]: https://zulip.com/api/update-realm-user-settings-defaults#parameter-email_address_visibility
 	// [events system developer documentation]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
 	//
+	// ["events" endpoint]: https://zulip.com/api/get-events
 	RegisterQueue(ctx context.Context) RegisterQueueRequest
 
 	// RegisterQueueExecute executes the request
@@ -114,7 +115,9 @@ type DeleteQueueRequest struct {
 	queueId    *string
 }
 
-// The Id of an event queue that was previously registered via `POST /api/v1/register` (see [Register a queue](https://zulip.com/api/register-queue).
+// The Id of an event queue that was previously registered via `POST /api/v1/register` (see [Register a queue].
+//
+// [Register a queue]: https://zulip.com/api/register-queue
 func (r DeleteQueueRequest) QueueId(queueId string) DeleteQueueRequest {
 	r.queueId = &queueId
 	return r
@@ -218,13 +221,18 @@ type GetEventsRequest struct {
 	dontBlock   *bool
 }
 
-// The Id of an event queue that was previously registered via `POST /api/v1/register` (see [Register a queue](https://zulip.com/api/register-queue).
+// The Id of an event queue that was previously registered via `POST /api/v1/register` (see [Register a queue].
+//
+// [Register a queue]: https://zulip.com/api/register-queue
 func (r GetEventsRequest) QueueId(queueId string) GetEventsRequest {
 	r.queueId = &queueId
 	return r
 }
 
-// The highest event Id in this queue that you&#39;ve received and wish to acknowledge. See the [code for `call_on_each_event`](https://github.com/zulip/python-zulip-api/blob/main/zulip/zulip/__init__.py) in the [zulip Python module](https://github.com/zulip/python-zulip-api) for an example implementation of correctly processing each event exactly once.
+// The highest event Id in this queue that you&#39;ve received and wish to acknowledge. See the [code for `call_on_each_event`] in the [zulip Python module] for an example implementation of correctly processing each event exactly once.
+//
+// [code for `call_on_each_event`]: https://github.com/zulip/python-zulip-api/blob/main/zulip/zulip/__init__.py
+// [zulip Python module]: https://github.com/zulip/python-zulip-api
 func (r GetEventsRequest) LastEventId(lastEventId int64) GetEventsRequest {
 	r.lastEventId = &lastEventId
 	return r
@@ -243,7 +251,7 @@ func (r GetEventsRequest) Execute() (*GetEventsResponse, *http.Response, error) 
 // GetEvents Get events from an event queue
 //
 // This endpoint allows you to receive new events from
-// [a registered event queue](https://zulip.com/api/register-queue).
+// [a registered event queue].
 //
 // Long-lived clients should use the
 // `event_queue_longpoll_timeout_seconds` property returned by
@@ -251,6 +259,8 @@ func (r GetEventsRequest) Execute() (*GetEventsResponse, *http.Response, error) 
 // calls to this endpoint. It is guaranteed to be higher than
 // heartbeat frequency and should be respected by clients to
 // avoid breaking when heartbeat frequency increases.
+//
+// [a registered event queue]: https://zulip.com/api/register-queue
 func (c *simpleClient) GetEvents(ctx context.Context) GetEventsRequest {
 	return GetEventsRequest{
 		ApiService: c,
@@ -364,13 +374,17 @@ func (r RegisterQueueRequest) ApplyMarkdown(applyMarkdown bool) RegisterQueueReq
 	return r
 }
 
-// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.  The default value is `true` for authenticated requests and `false` for [unauthenticated requests](https://zulip.com/help/public-access-option). Passing `true` in an unauthenticated request is an error.  **Changes**: Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.
+// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.  The default value is `true` for authenticated requests and `false` for [unauthenticated requests]. Passing `true` in an unauthenticated request is an error.  **Changes**: Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.
+//
+// [unauthenticated requests]: https://zulip.com/help/public-access-option
 func (r RegisterQueueRequest) ClientGravatar(clientGravatar bool) RegisterQueueRequest {
 	r.clientGravatar = &clientGravatar
 	return r
 }
 
-// Whether each returned channel object should include a `subscribers` field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel&#39;s subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  Passing `true` in an [unauthenticated request](https://zulip.com/help/public-access-option) is an error.  **Changes**: The `partial` value is new in Zulip 11.0 (feature level 412).  Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.  New in Zulip 2.1.0.
+// Whether each returned channel object should include a `subscribers` field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel&#39;s subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  Passing `true` in an [unauthenticated request] is an error.  **Changes**: The `partial` value is new in Zulip 11.0 (feature level 412).  Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.  New in Zulip 2.1.0.
+//
+// [unauthenticated request]: https://zulip.com/help/public-access-option
 func (r RegisterQueueRequest) IncludeSubscribers(includeSubscribers string) RegisterQueueRequest {
 	r.includeSubscribers = &includeSubscribers
 	return r
@@ -409,13 +423,16 @@ func (r RegisterQueueRequest) AllPublicChannels(allPublicChannels bool) Register
 //	**Changes**: New in Zulip 5.0 (feature level 89). This capability is for   backwards-compatibility; it will be removed in a future server release.   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and also request all three   event types (`user_settings`, `update_display_settings`,   `update_global_notifications`), and get exactly one copy of settings data on   any server version. Clients can then use the `zulip_feature_level` in the   `/register` response or the presence/absence of a `user_settings` key to   determine where to look for the data.  - `linkifier_url_template`: Boolean for whether the client accepts   [linkifiers] that use [RFC 6570] compliant   URL templates for linkifying matches. If false or unset, then the   `realm_linkifiers` array in the `/register` response will be empty   if present, and no `realm_linkifiers` [events] will be sent to the client.
 //	**Changes**: New in Zulip 7.0 (feature level 176). This capability   is for backwards-compatibility.  - `user_list_incomplete`: Boolean for whether the client supports not having an   incomplete user database. If true, then the `realm_users` array in the `register`   response will not include data for inaccessible users and clients of guest users will   not receive `realm_user op:add` events for newly created users that are not accessible   to the current user.
 //	**Changes**: New in Zulip 8.0 (feature level 232). This   capability is for backwards-compatibility.  - `include_deactivated_groups`: Boolean for whether the client can handle   deactivated user groups by themselves. If false, then the `realm_user_groups`   array in the `/register` response will only include active groups, clients   will receive a `remove` event instead of `update` event when a group is   deactivated and no `update` event will be sent to the client if a deactivated   user group is renamed.
-//	**Changes**: New in Zulip 10.0 (feature level 294). This   capability is for backwards-compatibility.  - `archived_channels`: Boolean for whether the client supports processing   [archived channels](https://zulip.com/help/archive-a-channel) in the `stream` and   `subscription` event types. If `false`, the server will not include data   related to archived channels in the `register` response or in events.
-//	**Changes**: New in Zulip 10.0 (feature level 315). This allows clients to   access archived channels, without breaking backwards-compatibility for   existing clients.  - `empty_topic_name`: Boolean for whether the client supports processing   the empty string as a topic name. Clients not declaring this capability   will be sent the value of `realm_empty_topic_display_name` found in the   [POST /register](https://zulip.com/api/register-queue) response instead of the empty string   wherever topic names appear in the register response or events involving   topic names.   &lt;br/&gt;   **Changes**: New in Zulip 10.0 (feature level 334). Previously,   the empty string was not a valid topic name.  - `simplified_presence_events`: Boolean for whether the client supports   receiving the [`presence` event type](https://zulip.com/api/get-events#presence) with   user presence data in the modern format. If true, the server will   send these events with the `presences` field that has the user presence   data in the modern format. Otherwise, these event will contain fields   with legacy format user presence data.
+//	**Changes**: New in Zulip 10.0 (feature level 294). This   capability is for backwards-compatibility.  - `archived_channels`: Boolean for whether the client supports processing   [archived channels] in the `stream` and   `subscription` event types. If `false`, the server will not include data   related to archived channels in the `register` response or in events.
+//	**Changes**: New in Zulip 10.0 (feature level 315). This allows clients to   access archived channels, without breaking backwards-compatibility for   existing clients.  - `empty_topic_name`: Boolean for whether the client supports processing   the empty string as a topic name. Clients not declaring this capability   will be sent the value of `realm_empty_topic_display_name` found in the   [POST /register] response instead of the empty string   wherever topic names appear in the register response or events involving   topic names.   &lt;br/&gt;   **Changes**: New in Zulip 10.0 (feature level 334). Previously,   the empty string was not a valid topic name.  - `simplified_presence_events`: Boolean for whether the client supports   receiving the [`presence` event type] with   user presence data in the modern format. If true, the server will   send these events with the `presences` field that has the user presence   data in the modern format. Otherwise, these event will contain fields   with legacy format user presence data.
 //	**Changes**: New in Zulip 11.0 (feature level 419).
 //
 // [events]: https://zulip.com/api/get-events#realm_linkifiers
 // [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
 // [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
+// [archived channels]: https://zulip.com/help/archive-a-channel
+// [POST /register]: https://zulip.com/api/register-queue
+// [`presence` event type]: https://zulip.com/api/get-events#presence
 func (r RegisterQueueRequest) ClientCapabilities(clientCapabilities map[string]interface{}) RegisterQueueRequest {
 	r.clientCapabilities = &clientCapabilities
 	return r
@@ -427,7 +444,12 @@ func (r RegisterQueueRequest) FetchEventTypes(fetchEventTypes []string) Register
 	return r
 }
 
-// A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)](https://zulip.com/api/construct-narrow) for which you&#39;d like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use `\\"narrow\\": [[\\"is\\", \\"dm\\"]]`.  Unlike the API for [fetching messages](https://zulip.com/api/get-messages), this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a `narrow` filter of `[[\\"channel\\", \\"Denmark\\"]]` will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to `\\"Denmark\\"`.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed](https://zulip.com/api/subscribe) to any channels whose messages you&#39;d like them to process using this endpoint.  See the `all_public_streams` parameter for how to process all public channel messages in an organization.  **Changes**: See [changes section](https://zulip.com/api/construct-narrow#changes) of search/narrow filter documentation.
+// A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)] for which you&#39;d like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use `\\"narrow\\": [[\\"is\\", \\"dm\\"]]`.  Unlike the API for [fetching messages], this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a `narrow` filter of `[[\\"channel\\", \\"Denmark\\"]]` will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to `\\"Denmark\\"`.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed] to any channels whose messages you&#39;d like them to process using this endpoint.  See the `all_public_streams` parameter for how to process all public channel messages in an organization.  **Changes**: See [changes section] of search/narrow filter documentation.
+//
+// [narrow filter(s)]: https://zulip.com/api/construct-narrow
+// [fetching messages]: https://zulip.com/api/get-messages
+// [subscribed]: https://zulip.com/api/subscribe
+// [changes section]: https://zulip.com/api/construct-narrow#changes
 func (r RegisterQueueRequest) Narrow(narrow *Narrow) RegisterQueueRequest {
 	r.narrow = narrow
 	return r
@@ -450,7 +472,7 @@ func (r RegisterQueueRequest) Execute() (*RegisterQueueResponse, *http.Response,
 //
 // This endpoint returns a `queue_id` and a `last_event_id`; these can be
 // used in subsequent calls to the
-// ["events" endpoint](https://zulip.com/api/get-events) to request events from
+// ["events" endpoint] to request events from
 // the Zulip server using long-polling.
 //
 // The server will queue events for up to 10 minutes of inactivity.
@@ -493,8 +515,7 @@ func (r RegisterQueueRequest) Execute() (*RegisterQueueResponse, *http.Response,
 // in feature level 162.
 //
 // In Zulip 7.0 (feature level 163), the realm setting
-// `email_address_visibility` was removed. It was replaced by a [user
-// setting](https://zulip.com/api/update-settings#parameter-email_address_visibility with
+// `email_address_visibility` was removed. It was replaced by a [user setting](https://zulip.com/api/update-settings#parameter-email_address_visibility with
 // a [realm user default], with the encoding of different
 // values preserved. Clients can support all versions by supporting the
 // current API and treating every user as having the realm's
@@ -502,6 +523,7 @@ func (r RegisterQueueRequest) Execute() (*RegisterQueueResponse, *http.Response,
 //
 // [realm user default]: https://zulip.com/api/update-realm-user-settings-defaults#parameter-email_address_visibility
 // [events system developer documentation]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
+// ["events" endpoint]: https://zulip.com/api/get-events
 func (c *simpleClient) RegisterQueue(ctx context.Context) RegisterQueueRequest {
 	return RegisterQueueRequest{
 		ApiService: c,

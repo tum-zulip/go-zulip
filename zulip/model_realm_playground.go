@@ -8,6 +8,8 @@ type RealmPlayground struct {
 	Name string `json:"name,omitempty"`
 	// The name of the Pygments language lexer for that programming language.
 	PygmentsLanguage string `json:"pygments_language,omitempty"`
-	// The [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570.html) compliant URL template for the playground. The template contains exactly one variable named `code`, which determines how the extracted code should be substituted in the playground URL.  **Changes**: New in Zulip 8.0 (feature level 196). This replaced the `url_prefix` parameter, which was used to construct URLs by just concatenating url_prefix and code.
+	// The [RFC 6570] compliant URL template for the playground. The template contains exactly one variable named `code`, which determines how the extracted code should be substituted in the playground URL.  **Changes**: New in Zulip 8.0 (feature level 196). This replaced the `url_prefix` parameter, which was used to construct URLs by just concatenating url_prefix and code.
+	//
+	// [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
 	UrlTemplate string `json:"url_template,omitempty"`
 }

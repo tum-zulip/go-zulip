@@ -15,13 +15,21 @@ type SnapshotCommon struct {
 	Channel *int64 `json:"stream,omitempty"`
 	// Only present if message's channel was edited.  The Id of the channel containing the message immediately prior to this edit event.  **Changes**: New in Zulip 3.0 (feature level 1).
 	PrevChannel *int64 `json:"prev_stream,omitempty"`
-	// The raw [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) content of the message immediately after this edit event.
+	// The raw [Zulip-flavored Markdown] content of the message immediately after this edit event.
+	//
+	// [Zulip-flavored Markdown]: https://zulip.com/help/format-your-message-using-markdown
 	Content string `json:"content,omitempty"`
-	// The rendered HTML representation of `content`.  See [Markdown message formatting](https://zulip.com/api/message-formatting) for details on Zulip's HTML format.
+	// The rendered HTML representation of `content`.  See [Markdown message formatting] for details on Zulip's HTML format.
+	//
+	// [Markdown message formatting]: https://zulip.com/api/message-formatting
 	RenderedContent string `json:"rendered_content,omitempty"`
-	// Only present if message's content was edited.  The raw [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) content of the message immediately prior to this edit event.
+	// Only present if message's content was edited.  The raw [Zulip-flavored Markdown] content of the message immediately prior to this edit event.
+	//
+	// [Zulip-flavored Markdown]: https://zulip.com/help/format-your-message-using-markdown
 	PrevContent *string `json:"prev_content,omitempty"`
-	// Only present if message's content was edited.  The rendered HTML representation of `prev_content`.  See [Markdown message formatting](https://zulip.com/api/message-formatting) for details on Zulip's HTML format.
+	// Only present if message's content was edited.  The rendered HTML representation of `prev_content`.  See [Markdown message formatting] for details on Zulip's HTML format.
+	//
+	// [Markdown message formatting]: https://zulip.com/api/message-formatting
 	PrevRenderedContent *string `json:"prev_rendered_content,omitempty"`
 	// The Id of the user that made the edit.  Will be `null` only for edit history events predating March 2017.  Clients can display edit history events where this is `null` as modified by either the sender (for content edits) or an unknown user (for topic edits).
 	UserId *int64 `json:"user_id,omitempty"`
@@ -64,9 +72,13 @@ type Snapshot struct {
 	// The topic of the message immediately after this edit event.
 	Topic string `json:"topic,omitempty"`
 
-	// The raw [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) content of the message immediately after this edit event.
+	// The raw [Zulip-flavored Markdown] content of the message immediately after this edit event.
+	//
+	// [Zulip-flavored Markdown]: https://zulip.com/help/format-your-message-using-markdown
 	Content string `json:"content,omitempty"`
-	// The rendered HTML representation of `content`.  See [Markdown message formatting](https://zulip.com/api/message-formatting) for details on Zulip's HTML format.
+	// The rendered HTML representation of `content`.  See [Markdown message formatting] for details on Zulip's HTML format.
+	//
+	// [Markdown message formatting]: https://zulip.com/api/message-formatting
 	RenderedContent string `json:"rendered_content,omitempty"`
 
 	// Only present if message's content was edited.  An HTML diff between this version of the message and the previous one.

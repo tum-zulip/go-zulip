@@ -13,7 +13,10 @@ type Reminder struct {
 	Type RecipientType `json:"type"`
 	// Contains the Id of the user who scheduled the reminder, and to which the reminder will be sent.
 	To []int64 `json:"to"`
-	// The content/body of the reminder, in [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) format.  See [Markdown message formatting](https://zulip.com/api/message-formatting) for details on Zulip's HTML format.
+	// The content/body of the reminder, in [Zulip-flavored Markdown] format.  See [Markdown message formatting] for details on Zulip's HTML format.
+	//
+	// [Zulip-flavored Markdown]: https://zulip.com/help/format-your-message-using-markdown
+	// [Markdown message formatting]: https://zulip.com/api/message-formatting
 	Content string `json:"content"`
 	// The content/body of the reminder rendered in HTML.
 	RenderedContent string `json:"rendered_content"`

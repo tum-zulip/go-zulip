@@ -5,30 +5,40 @@ import (
 	"time"
 )
 
-// Invite A dictionary containing details about an [invitation](https://zulip.com/help/invite-new-users).
+// Invite A dictionary containing details about an [invitation].
+//
+// [invitation]: https://zulip.com/help/invite-new-users
 type Invite struct {
 	// The Id of the invitation.  Note that email invitations and reusable invitation links are stored in different database tables on the server, so each Id is guaranteed to be unique in combination with the boolean value of `is_multiuse`, e.g. there can only be one invitation with `id: 1` and `is_multiuse: true`.
 	Id int64 `json:"id,omitempty"`
-	// The [user Id](https://zulip.com/api/get-user) of the user who created the invitation.  **Changes**: New in Zulip 3.0 (feature level 22), replacing the `ref` field which contained the Zulip display email address of the user who created the invitation.
+	// The [user Id] of the user who created the invitation.  **Changes**: New in Zulip 3.0 (feature level 22), replacing the `ref` field which contained the Zulip display email address of the user who created the invitation.
+	//
+	// [user Id]: https://zulip.com/api/get-user
 	InvitedByUserId int64 `json:"invited_by_user_id,omitempty"`
 	// The UNIX timestamp for when the invitation was created, in UTC seconds.
 	Invited time.Time `json:"invited,omitempty"`
 	// The UNIX timestamp for when the invitation will expire, in UTC seconds. If `null`, the invitation never expires.
 	ExpiryDate *time.Time `json:"expiry_date,omitempty"`
-	// The [organization-level role](https://zulip.com/api/roles-and-permissions) of the user that is created when the invitation is accepted. Possible values are:
+	// The [organization-level role] of the user that is created when the invitation is accepted. Possible values are:
 	//   - 100 = Organization owner
 	//   - 200 = Organization administrator
 	//   - 300 = Organization moderator
 	//   - 400 = Member
 	//   - 600 = Guest
+	//
+	// [organization-level role]: https://zulip.com/api/roles-and-permissions
 	InvitedAs int32 `json:"invited_as,omitempty"`
 	// The email address the invitation was sent to. This will not be present when `is_multiuse` is `true` (i.e. the invitation is a reusable invitation link).
 	Email string `json:"email,omitempty"`
-	// A boolean indicating whether the referrer has opted to receive a direct message from [notification bot](https://zulip.com/help/configure-automated-notices) when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
+	// A boolean indicating whether the referrer has opted to receive a direct message from [notification bot] when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
+	//
+	// [notification bot]: https://zulip.com/help/configure-automated-notices
 	NotifyReferrerOnJoin bool `json:"notify_referrer_on_join,omitempty"`
 	// The URL of the reusable invitation link. This will not be present when `is_multiuse` is `false` (i.e. the invitation is an email invitation).
 	LinkUrl string `json:"link_url,omitempty"`
-	// A boolean specifying whether the [invitation](https://zulip.com/help/invite-new-users) is a reusable invitation link or an email invitation.
+	// A boolean specifying whether the [invitation] is a reusable invitation link or an email invitation.
+	//
+	// [invitation]: https://zulip.com/help/invite-new-users
 	IsMultiuse bool `json:"is_multiuse,omitempty"`
 }
 

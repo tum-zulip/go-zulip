@@ -19,17 +19,25 @@ type GetEventsResponse struct {
 type RegisterQueueResponse struct {
 	Response
 
-	// The Id of the queue that has been allocated for your client.  Will be `null` only for unauthenticated access in realms that have enabled the [public access option](https://zulip.com/help/public-access-option).
+	// The Id of the queue that has been allocated for your client.  Will be `null` only for unauthenticated access in realms that have enabled the [public access option].
+	//
+	// [public access option]: https://zulip.com/help/public-access-option
 	QueueId *string `json:"queue_id,omitempty"`
 	// The initial value of `last_event_id` to pass to `GET /api/v1/events`.
 	LastEventId int64 `json:"last_event_id,omitempty"`
-	// The server's current [Zulip feature level](https://zulip.com/api/changelog).  **Changes**: As of Zulip 3.0 (feature level 3), this is always present in the endpoint's response. Previously, it was only present if `event_types` included `zulip_version`.  New in Zulip 3.0 (feature level 1).
+	// The server's current [Zulip feature level].  **Changes**: As of Zulip 3.0 (feature level 3), this is always present in the endpoint's response. Previously, it was only present if `event_types` included `zulip_version`.  New in Zulip 3.0 (feature level 1).
+	//
+	// [Zulip feature level]: https://zulip.com/api/changelog
 	ZulipFeatureLevel int64 `json:"zulip_feature_level,omitempty"`
 	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.  **Changes**: As of Zulip 3.0 (feature level 3), this is always present in the endpoint's response. Previously, it was only present if `event_types` included `zulip_version`.  [version from Git]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
 	ZulipVersion string `json:"zulip_version,omitempty"`
-	// The `git merge-base` between `zulip_version` and official branches in the public [Zulip server and web app repository](https://github.com/zulip/zulip), in the same format as `zulip_version`. This will equal `zulip_version` if the server is not running a fork of the Zulip server.  This will be `\"\"` if the server does not know its `merge-base`.  **Changes**: New in Zulip 5.0 (feature level 88).
+	// The `git merge-base` between `zulip_version` and official branches in the public [Zulip server and web app repository], in the same format as `zulip_version`. This will equal `zulip_version` if the server is not running a fork of the Zulip server.  This will be `\"\"` if the server does not know its `merge-base`.  **Changes**: New in Zulip 5.0 (feature level 88).
+	//
+	// [Zulip server and web app repository]: https://github.com/zulip/zulip
 	ZulipMergeBase string `json:"zulip_merge_base,omitempty"`
-	// Present if `alert_words` is present in `fetch_event_types`.  An array of strings, each an [alert word](https://zulip.com/help/dm-mention-alert-notifications#alert-words) that the current user has configured.
+	// Present if `alert_words` is present in `fetch_event_types`.  An array of strings, each an [alert word] that the current user has configured.
+	//
+	// [alert word]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 	AlertWords []string `json:"alert_words,omitempty"`
 	// Present if `custom_profile_fields` is present in `fetch_event_types`.  An array of dictionaries where each dictionary contains the details of a single custom profile field that is available to users in this Zulip organization. This must be combined with the custom profile field values on individual user objects to display users' profiles.
 	CustomProfileFields []CustomProfileField `json:"custom_profile_fields,omitempty"`
@@ -57,11 +65,17 @@ type RegisterQueueResponse struct {
 	// Present if `muted_topics` is present in `fetch_event_types`.  Array of tuples, where each tuple describes a muted topic. The first element of the tuple is the channel name in which the topic has to be muted, the second element is the topic name to be muted and the third element is an integer UNIX timestamp representing when the topic was muted.  **Changes**: Deprecated in Zulip 6.0 (feature level 134). Starting with this version, `muted_topics` will only be present in the response if the `user_topic` object, which generalizes and replaces this field, is not explicitly requested via `fetch_event_types`.  Before Zulip 3.0 (feature level 1), the `muted_topics` array objects were 2-item tuples and did not include the timestamp information for when the topic was muted.
 	// Deprecated
 	MutedTopics [][]interface{} `json:"muted_topics,omitempty"`
-	// Present if `muted_users` is present in `fetch_event_types`.  A list of dictionaries where each dictionary describes a [muted user](https://zulip.com/api/mute-user).  **Changes**: New in Zulip 4.0 (feature level 48).
+	// Present if `muted_users` is present in `fetch_event_types`.  A list of dictionaries where each dictionary describes a [muted user].  **Changes**: New in Zulip 4.0 (feature level 48).
+	//
+	// [muted user]: https://zulip.com/api/mute-user
 	MutedUsers []MutedUser `json:"muted_users,omitempty"`
-	// Present if `presence` is present in `fetch_event_types`.  A dictionary where each entry describes the presence details of a user in the Zulip organization.  The format of the entry (modern or legacy) depends on the value of [`slim_presence`](#parameter-slim_presence).  Users who have been offline for multiple weeks may not appear in this object.
+	// Present if `presence` is present in `fetch_event_types`.  A dictionary where each entry describes the presence details of a user in the Zulip organization.  The format of the entry (modern or legacy) depends on the value of [`slim_presence`].  Users who have been offline for multiple weeks may not appear in this object.
+	//
+	// [`slim_presence`]: #parameter-slim_presence
 	Presences map[string]PresenceUpdateValue `json:"presences,omitempty"`
-	// Present if `presence` is present in `fetch_event_types`.  Provides the `last_update_id` value of the latest presence data fetched by the server and included in the response in `presences`. This can be used as the value of the `presence_last_update_id` parameter when polling for presence data at the [/users/me/presence](https://zulip.com/api/update-presence) endpoint to tell the server to only fetch the relevant newer data in order to skip redundant already-known presence information.  **Changes**: New in Zulip 9.0 (feature level 263).
+	// Present if `presence` is present in `fetch_event_types`.  Provides the `last_update_id` value of the latest presence data fetched by the server and included in the response in `presences`. This can be used as the value of the `presence_last_update_id` parameter when polling for presence data at the [/users/me/presence] endpoint to tell the server to only fetch the relevant newer data in order to skip redundant already-known presence information.  **Changes**: New in Zulip 9.0 (feature level 263).
+	//
+	// [/users/me/presence]: https://zulip.com/api/update-presence
 	PresenceLastUpdateId *int64 `json:"presence_last_update_id,omitempty"`
 	// Present if `presence` is present in `fetch_event_types`.  The time when the server fetched the `presences` data included in the response. Matches the similar field in presence responses.  **Changes**: New in Zulip 5.0 (feature level 70).
 	ServerTimestamp *float32 `json:"server_timestamp,omitempty"`
@@ -69,14 +83,24 @@ type RegisterQueueResponse struct {
 	RealmDomains []RealmDomain `json:"realm_domains,omitempty"`
 	// Present if `realm_emoji` is present in `fetch_event_types`.  A dictionary of objects where each object describes a custom emoji that has been uploaded in this Zulip organization.
 	RealmEmoji map[string]RealmEmoji `json:"realm_emoji,omitempty"`
-	// Present if `realm_linkifiers` is present in `fetch_event_types`.  An ordered array of objects where each object describes a single [linkifier](https://zulip.com/help/add-a-custom-linkifier).  The order of the array reflects the order that each linkifier should be processed when linkifying messages and topics. By default, new linkifiers are ordered last. This order can be modified with [`PATCH /realm/linkifiers`](https://zulip.com/api/reorder-linkifiers).  Clients will receive an empty array unless the event queue is registered with the client capability `{\"linkifier_url_template\": true}`. See [`client_capabilities`](https://zulip.com/api/register-queue#parameter-client_capabilities parameter for how this can be specified.  **Changes**: Before Zulip 7.0 (feature level 176), the `linkifier_url_template` client capability was not required. The requirement was added because linkifiers were updated to contain a URL template instead of a URL format string, which was a not backwards-compatible change.  New in Zulip 4.0 (feature level 54). Clients can access this data for servers on earlier feature levels via the legacy `realm_filters` property.
+	// Present if `realm_linkifiers` is present in `fetch_event_types`.  An ordered array of objects where each object describes a single [linkifier].  The order of the array reflects the order that each linkifier should be processed when linkifying messages and topics. By default, new linkifiers are ordered last. This order can be modified with [`PATCH /realm/linkifiers`].  Clients will receive an empty array unless the event queue is registered with the client capability `{\"linkifier_url_template\": true}`. See [`client_capabilities`], the `linkifier_url_template` client capability was not required. The requirement was added because linkifiers were updated to contain a URL template instead of a URL format string, which was a not backwards-compatible change.  New in Zulip 4.0 (feature level 54). Clients can access this data for servers on earlier feature levels via the legacy `realm_filters` property.
+	//
+	// [linkifier]: https://zulip.com/help/add-a-custom-linkifier
+	// [`PATCH /realm/linkifiers`]: https://zulip.com/api/reorder-linkifiers
+	// [`client_capabilities`]: https://zulip.com/api/register-queue#parameter-client_capabilities parameter for how this can be specified.  **Changes**: Before Zulip 7.0 (feature level 176
 	RealmLinkifiers []RealmLinkifiers `json:"realm_linkifiers,omitempty"`
-	// Legacy property for [linkifiers](https://zulip.com/help/add-a-custom-linkifier). Present if `realm_filters` is present in `fetch_event_types`.  When present, this is always an empty array.  **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `\"#(?P<id>[123])\"`. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be `\"https://realm.com/my_realm_filter/%(id)s\"`. And the third element was the Id of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the `realm_linkifiers` key.
+	// Legacy property for [linkifiers]. Present if `realm_filters` is present in `fetch_event_types`.  When present, this is always an empty array.  **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `\"#(?P<id>[123])\"`. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be `\"https://realm.com/my_realm_filter/%(id)s\"`. And the third element was the Id of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the `realm_linkifiers` key.
 	// Deprecated
+	//
+	// [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
 	RealmFilters [][]interface{} `json:"realm_filters,omitempty"`
-	// Present if `realm_playgrounds` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a [code playground](https://zulip.com/help/code-blocks#code-playgrounds) configured for this Zulip organization.  **Changes**: New in Zulip 4.0 (feature level 49).
+	// Present if `realm_playgrounds` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a [code playground] configured for this Zulip organization.  **Changes**: New in Zulip 4.0 (feature level 49).
+	//
+	// [code playground]: https://zulip.com/help/code-blocks#code-playgrounds
 	RealmPlaygrounds []RealmPlayground `json:"realm_playgrounds,omitempty"`
-	// Present if `realm_user_groups` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a [user group](https://zulip.com/help/user-groups) in the Zulip organization.  Deactivated groups will only be included if `include_deactivated_groups` client capability is set to `true`.  **Changes**: Prior to Zulip 10.0 (feature level 294), deactivated groups were included for all the clients.
+	// Present if `realm_user_groups` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a [user group] in the Zulip organization.  Deactivated groups will only be included if `include_deactivated_groups` client capability is set to `true`.  **Changes**: Prior to Zulip 10.0 (feature level 294), deactivated groups were included for all the clients.
+	//
+	// [user group]: https://zulip.com/help/user-groups
 	RealmUserGroups []UserGroup `json:"realm_user_groups,omitempty"`
 	// Present if `realm_bot` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a bot that the current user can administer. If the current user is an organization administrator, this will include all bots in the organization. Otherwise, it will only include bots owned by the user (either because the user created the bot or an administrator transferred the bot's ownership to the user).
 	RealmBots []Bot `json:"realm_bots,omitempty"`
@@ -99,24 +123,34 @@ type RegisterQueueResponse struct {
 	// Present if `channel_folders` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes one of the channel folders in the organization.  Only channel folders with one or more public web channels are visible to spectators.  **Changes**: New in Zulip 11.0 (feature level 389).
 	ChannelFolders []ChannelFolder `json:"channel_folders,omitempty"`
 	UnreadMsgs     *UnreadMsgs     `json:"unread_msgs,omitempty"`
-	// Present if `starred_messages` is present in `fetch_event_types`.  Array containing the Ids of all messages which have been [starred](https://zulip.com/help/star-a-message) by the user.
+	// Present if `starred_messages` is present in `fetch_event_types`.  Array containing the Ids of all messages which have been [starred] by the user.
+	//
+	// [starred]: https://zulip.com/help/star-a-message
 	StarredMessages []int64 `json:"starred_messages,omitempty"`
 	// Present if `stream` is present in `fetch_event_types`.  Array of dictionaries where each dictionary contains details about a single channel in the organization that is visible to the user.  For organization administrators, this will include all private channels in the organization.  **Changes**: Before Zulip 11.0 (feature level 378), archived channels did not appear in this list, even if the `archived_channels` [client capability] was declared by the client.  As of Zulip 8.0 (feature level 205), this will include all web-public channels in the organization as well.
 	Channels []Channel `json:"streams,omitempty"`
-	// Present if `default_streams` is present in `fetch_event_types`.  An array of Ids of all the [default channels](https://zulip.com/help/set-default-streams-for-new-users) in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
+	// Present if `default_streams` is present in `fetch_event_types`.  An array of Ids of all the [default channels] in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
+	//
+	// [default channels]: https://zulip.com/help/set-default-streams-for-new-users
 	RealmDefaultChannels []int64 `json:"realm_default_streams,omitempty"`
 	// Present if `default_stream_groups` is present in `fetch_event_types`.  An array of dictionaries where each dictionary contains details about a single default channel group configured for this Zulip organization.  Default channel groups are an experimental feature.
 	RealmDefaultChannelGroups []DefaultChannelGroup `json:"realm_default_stream_groups,omitempty"`
 	// Present if `stop_words` is present in `fetch_event_types`.  An array containing the stop words used by the Zulip server's full-text search implementation. Useful for showing helpful error messages when a search returns limited results because a stop word in the query was ignored.
 	StopWords []string `json:"stop_words,omitempty"`
-	// Present if `user_status` is present in `fetch_event_types`.  A dictionary which contains the [status](https://zulip.com/help/status-and-availability) of all users in the Zulip organization who have set a status.  **Changes**: The emoji parameters are new in Zulip 5.0 (feature level 86). Previously, Zulip did not support emoji associated with statuses.
+	// Present if `user_status` is present in `fetch_event_types`.  A dictionary which contains the [status] of all users in the Zulip organization who have set a status.  **Changes**: The emoji parameters are new in Zulip 5.0 (feature level 86). Previously, Zulip did not support emoji associated with statuses.
+	//
+	// [status]: https://zulip.com/help/status-and-availability
 	UserStatus   map[string]UserStatus `json:"user_status,omitempty"`
 	UserSettings *UserSettings         `json:"user_settings,omitempty"`
 	// Present if `user_topic` is present in `fetch_event_types`.  **Changes**: New in Zulip 6.0 (feature level 134), deprecating and replacing the previous `muted_topics` structure.
 	UserTopics []UserTopic `json:"user_topics,omitempty"`
-	// Present if `video_calls` is present in `fetch_event_types`.  A boolean which signifies whether the user has a Zoom token and has thus completed OAuth flow for the [Zoom integration](https://zulip.com/help/configure-call-provider). Clients need to know whether initiating Zoom OAuth is required before creating a Zoom call.
+	// Present if `video_calls` is present in `fetch_event_types`.  A boolean which signifies whether the user has a Zoom token and has thus completed OAuth flow for the [Zoom integration]. Clients need to know whether initiating Zoom OAuth is required before creating a Zoom call.
+	//
+	// [Zoom integration]: https://zulip.com/help/configure-call-provider
 	HasZoomToken *bool `json:"has_zoom_token,omitempty"`
-	// Present if `giphy` is present in `fetch_event_types`.  GIPHY's client-side SDKs needs this API key to use the GIPHY API. GIPHY API keys are not secret (their main purpose appears to be allowing GIPHY to block a problematic app). Please don't use our API key for an app unrelated to Zulip.  Developers of clients should also read the [GIPHY API TOS](https://support.giphy.com/hc/en-us/articles/360028134111-GIPHY-API-Terms-of-Service-) before using this API key.  **Changes**: Added in Zulip 4.0 (feature level 47).
+	// Present if `giphy` is present in `fetch_event_types`.  GIPHY's client-side SDKs needs this API key to use the GIPHY API. GIPHY API keys are not secret (their main purpose appears to be allowing GIPHY to block a problematic app). Please don't use our API key for an app unrelated to Zulip.  Developers of clients should also read the [GIPHY API TOS] before using this API key.  **Changes**: Added in Zulip 4.0 (feature level 47).
+	//
+	// [GIPHY API TOS]: https://support.giphy.com/hc/en-us/articles/360028134111-GIPHY-API-Terms-of-Service-
 	GiphyApiKey *string `json:"giphy_api_key,omitempty"`
 	// Present if `push_device` is present in `fetch_event_types`.  Dictionary where each entry describes the user's push device's registration status and error code (if registration failed).  **Changes**: New in Zulip 11.0 (feature level 406).
 	PushDevices map[string]PushDevicesValue `json:"push_devices,omitempty"`
@@ -124,7 +158,9 @@ type RegisterQueueResponse struct {
 	ReceivesTypingNotifications *bool `json:"receives_typing_notifications,omitempty"`
 
 	ServerSupportedPermissionSettings ServerSupportedPermissionSettings `json:"server_supported_permission_settings,omitempty"`
-	// Maximum number of new subscribers for which the server will respect the `send_new_subscription_messages` parameter when [adding subscribers to a channel](https://zulip.com/api/subscribe#parameter-send_new_subscription_messages.  **Changes**: New in Zulip 11.0 (feature level 397).
+	// Maximum number of new subscribers for which the server will respect the `send_new_subscription_messages` parameter when [adding subscribers to a channel].
+	//
+	// [adding subscribers to a channel]: https://zulip.com/api/subscribe#parameter-send_new_subscription_messages.  **Changes**: New in Zulip 11.0 (feature level 397
 	MaxBulkNewSubscriptionMessages float32 `json:"max_bulk_new_subscription_messages,omitempty"`
 
 	// Present if `update_display_settings` is present in `fetch_event_types` and only for clients that did not include `user_settings_object` in their [`client_capabilities`] when registering the event queue.
@@ -152,7 +188,9 @@ type RealmIncomingWebhookBot struct {
 	AllEventTypes []string `json:"all_event_types,omitempty"`
 	// An array of configuration options that can be set when creating a bot user for this incoming webhook integration.  This is an unstable API. Please discuss in chat.zulip.org before using it.  **Changes**: As of Zulip 11.0 (feature level 403), this object is reserved for integration-specific configuration options that can be set when creating a bot user. Previously, this object also included optional webhook URL parameters, which are now specified in the `url_options` object.  Before Zulip 10.0 (feature level 318), this field was named `config`, and was reserved for configuration data key-value pairs.
 	ConfigOptions []WebhookOption `json:"config_options,omitempty"`
-	// An array of optional URL parameter options for the incoming webhook integration. In the web app, these are used when [generating a URL for an integration](https://zulip.com/help/generate-integration-url).  This is an unstable API expected to be used only by the Zulip web app. Please discuss in chat.zulip.org before using it.  **Changes**: New in Zulip 11.0 (feature level 403). Previously, these optional URL parameter options were included in the `config_options` object.
+	// An array of optional URL parameter options for the incoming webhook integration. In the web app, these are used when [generating a URL for an integration].  This is an unstable API expected to be used only by the Zulip web app. Please discuss in chat.zulip.org before using it.  **Changes**: New in Zulip 11.0 (feature level 403). Previously, these optional URL parameter options were included in the `config_options` object.
+	//
+	// [generating a URL for an integration]: https://zulip.com/help/generate-integration-url
 	UrlOptions []WebhookOption `json:"url_options,omitempty"`
 }
 
@@ -174,7 +212,10 @@ type RecentPrivateConversation struct {
 	UserIds []int64 `json:"user_ids,omitempty"`
 }
 
-// ServerSupportedPermissionSettings Present if `realm` is present in `fetch_event_types`.  Metadata detailing the valid values for permission settings that use [group-setting values](https://zulip.com/api/group-setting-values). Clients should use these data as explained in the [main documentation](https://zulip.com/api/group-setting-values#permitted-values) to determine what values to present as possible values for these settings in UI components.  This part of the Zulip API is unstable and may change significantly in future versions.  **Changes**: New in Zulip 8.0 (feature level 221).
+// ServerSupportedPermissionSettings Present if `realm` is present in `fetch_event_types`.  Metadata detailing the valid values for permission settings that use [group-setting values]. Clients should use these data as explained in the [main documentation] to determine what values to present as possible values for these settings in UI components.  This part of the Zulip API is unstable and may change significantly in future versions.  **Changes**: New in Zulip 8.0 (feature level 221).
+//
+// [group-setting values]: https://zulip.com/api/group-setting-values
+// [main documentation]: https://zulip.com/api/group-setting-values#permitted-values
 type ServerSupportedPermissionSettings struct {
 	// Configuration for realm level group permission settings.
 	Realm map[string]GroupPermissionSetting `json:"realm,omitempty"`
@@ -192,7 +233,9 @@ type GroupPermissionSetting struct {
 	AllowInternetGroup bool `json:"allow_internet_group,omitempty"`
 	// Whether the setting can be set to `role:nobody` system group.
 	AllowNobodyGroup bool `json:"allow_nobody_group,omitempty"`
-	// Whether the setting can be set to `role:everyone` system group.  If false, guest users cannot exercise this permission even if they are part of the [group-setting value](https://zulip.com/api/group-setting-values) for this setting.
+	// Whether the setting can be set to `role:everyone` system group.  If false, guest users cannot exercise this permission even if they are part of the [group-setting value] for this setting.
+	//
+	// [group-setting value]: https://zulip.com/api/group-setting-values
 	AllowEveryoneGroup bool `json:"allow_everyone_group,omitempty"`
 	// Name of the default group for the setting.
 	DefaultGroupName string `json:"default_group_name,omitempty"`
@@ -206,7 +249,9 @@ type GroupPermissionSetting struct {
 type PushDevicesValue struct {
 	// The push account's registration status. Either `\"active\"`, `\"pending\"`, or `\"failed\"`.
 	Status string `json:"status,omitempty"`
-	// If the status is `\"failed\"`, a [Zulip API error code](https://zulip.com/api/rest-error-handling) indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `\"INVALId_BOUNCER_PUBLIC_KEY\"` - Inform the user to update app. - `\"REQUEST_EXPIRED` - Retry with a fresh payload.
+	// If the status is `\"failed\"`, a [Zulip API error code] indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `\"INVALId_BOUNCER_PUBLIC_KEY\"` - Inform the user to update app. - `\"REQUEST_EXPIRED` - Retry with a fresh payload.
+	//
+	// [Zulip API error code]: https://zulip.com/api/rest-error-handling
 	ErrorCode *string `json:"error_code,omitempty"`
 }
 
@@ -219,44 +264,72 @@ type RealmEmbeddedBots struct {
 }
 
 type UpdateDisplaySettings struct {
-	// The color scheme selected by the user.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The color scheme selected by the user.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	ColorScheme ColorScheme `json:"color_scheme,omitempty"`
-	// The default language chosen by the user.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The default language chosen by the user.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	DefaultLanguage string `json:"default_language,omitempty"`
-	// Whether the user has chosen to hide inactive channels.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// Whether the user has chosen to hide inactive channels.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	DemoteInactiveChannels int64 `json:"demote_inactive_streams,omitempty"`
-	// The name of the emoji set that the user has chosen.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The name of the emoji set that the user has chosen.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	Emojiset string `json:"emojiset,omitempty"`
-	// Whether drafts synchronization is enabled for the user. If disabled, clients will receive an error when trying to use the `drafts` endpoints.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  New in Zulip 5.0 (feature level 87).  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// Whether drafts synchronization is enabled for the user. If disabled, clients will receive an error when trying to use the `drafts` endpoints.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  New in Zulip 5.0 (feature level 87).  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableDraftsSynchronization bool `json:"enable_drafts_synchronization,omitempty"`
-	// Whether the user has chosen for the layout width to be fluid.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// Whether the user has chosen for the layout width to be fluid.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	FluidLayoutWidth bool `json:"fluid_layout_width,omitempty"`
-	// The [home view](https://zulip.com/help/configure-home-view) in Zulip, represented as the URL suffix after `#` to be rendered when Zulip loads.  Currently supported values are `all_messages` and `recent_topics`.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).  **Deprecated** in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The [home view] in Zulip, represented as the URL suffix after `#` to be rendered when Zulip loads.  Currently supported values are `all_messages` and `recent_topics`.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).  **Deprecated** in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [home view]: https://zulip.com/help/configure-home-view
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	WebHomeView string `json:"web_home_view,omitempty"`
-	// Whether has switched on high contrast mode.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// Whether has switched on high contrast mode.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	HighContrastMode bool `json:"high_contrast_mode,omitempty"`
-	// Whether the user has chosen for the userlist to be displayed on the left side of the screen (for desktop app and web app) in narrow windows.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// Whether the user has chosen for the userlist to be displayed on the left side of the screen (for desktop app and web app) in narrow windows.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	LeftSideUserlist bool `json:"left_side_userlist,omitempty"`
-	// Whether the user has chosen the number of starred messages to be displayed similar to unread counts.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// Whether the user has chosen the number of starred messages to be displayed similar to unread counts.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	StarredMessageCounts bool `json:"starred_message_counts,omitempty"`
-	// The user's [profile time zone](https://zulip.com/help/change-your-timezone), which is used primarily to display the user's local time to other users.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The user's [profile time zone], which is used primarily to display the user's local time to other users.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [profile time zone]: https://zulip.com/help/change-your-timezone
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	Timezone string `json:"timezone,omitempty"`
-	// Whether the user has chosen for emoticons to be translated into emoji in the Zulip compose box.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// Whether the user has chosen for emoticons to be translated into emoji in the Zulip compose box.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	TranslateEmoticons bool `json:"translate_emoticons,omitempty"`
-	// Whether the user has chosen a twenty four hour time display (true) or a twelve hour one (false).  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// Whether the user has chosen a twenty four hour time display (true) or a twelve hour one (false).  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	TwentyFourHourTime bool `json:"twenty_four_hour_time,omitempty"`
 	// Whether the user setting for [sending on pressing Enter] in the compose box is enabled.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.  Prior to Zulip 5.0 (feature level 84), this field was present in response if `realm_user` was present in `fetch_event_types`, not `update_display_settings`.
 	//
@@ -264,8 +337,10 @@ type UpdateDisplaySettings struct {
 	// [sending on pressing Enter]: https://zulip.com/help/configure-send-message-keys
 	// Deprecated
 	EnterSends bool `json:"enter_sends,omitempty"`
-	// Array of dictionaries where each dictionary describes an emoji set supported by this version of the Zulip server.  Only relevant to clients with configuration UI for choosing an emoji set; the currently selected emoji set is available in the `emojiset` key.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// Array of dictionaries where each dictionary describes an emoji set supported by this version of the Zulip server.  Only relevant to clients with configuration UI for choosing an emoji set; the currently selected emoji set is available in the `emojiset` key.  See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EmojisetChoices []UserSettingsEmojisetChoice `json:"emojiset_choices,omitempty"`
 }
 
@@ -285,27 +360,45 @@ type RealmUser struct {
 
 	Avatar
 
-	// Whether the current user is allowed to create at least one type of channel with the organization's [channel creation policy](https://zulip.com/help/configure-who-can-create-channels). Its value will always equal `can_create_public_streams || can_create_private_streams`.  **Changes**: Deprecated in Zulip 5.0 (feature level 102), when the new `create_private_stream_policy` and `create_public_stream_policy` properties introduced the possibility that a user could only create one type of channel.  This field will be removed in a future release.
+	// Whether the current user is allowed to create at least one type of channel with the organization's [channel creation policy]. Its value will always equal `can_create_public_streams || can_create_private_streams`.  **Changes**: Deprecated in Zulip 5.0 (feature level 102), when the new `create_private_stream_policy` and `create_public_stream_policy` properties introduced the possibility that a user could only create one type of channel.  This field will be removed in a future release.
 	// Deprecated
+	//
+	// [channel creation policy]: https://zulip.com/help/configure-who-can-create-channels
 	CanCreateStreams *bool `json:"can_create_streams,omitempty"`
-	// Whether the current user is allowed to create public channels with the organization's [channel creation policy](https://zulip.com/help/configure-who-can-create-channels).  **Changes**: New in Zulip 5.0 (feature level 102). In older versions, the deprecated `can_create_streams` property should be used to determine whether the user can create public channels.
+	// Whether the current user is allowed to create public channels with the organization's [channel creation policy].  **Changes**: New in Zulip 5.0 (feature level 102). In older versions, the deprecated `can_create_streams` property should be used to determine whether the user can create public channels.
+	//
+	// [channel creation policy]: https://zulip.com/help/configure-who-can-create-channels
 	CanCreatePublicStreams bool `json:"can_create_public_streams,omitempty"`
-	// Whether the current user is allowed to create private channels with the organization's [channel creation policy](https://zulip.com/help/configure-who-can-create-channels).  **Changes**: New in Zulip 5.0 (feature level 102). In older versions, the deprecated `can_create_streams` property should be used to determine whether the user can create private channels.
+	// Whether the current user is allowed to create private channels with the organization's [channel creation policy].  **Changes**: New in Zulip 5.0 (feature level 102). In older versions, the deprecated `can_create_streams` property should be used to determine whether the user can create private channels.
+	//
+	// [channel creation policy]: https://zulip.com/help/configure-who-can-create-channels
 	CanCreatePrivateStreams bool `json:"can_create_private_streams,omitempty"`
-	// Whether the current user is allowed to create public channels with the organization's [channel creation policy](https://zulip.com/help/configure-who-can-create-channels).  Note that this will be false if the Zulip server does not have the `WEB_PUBLIC_STREAMS_ENABLED` setting enabled or if the organization has not enabled the `enable_spectator_access` realm setting.  **Changes**: New in Zulip 5.0 (feature level 103).
+	// Whether the current user is allowed to create public channels with the organization's [channel creation policy].  Note that this will be false if the Zulip server does not have the `WEB_PUBLIC_STREAMS_ENABLED` setting enabled or if the organization has not enabled the `enable_spectator_access` realm setting.  **Changes**: New in Zulip 5.0 (feature level 103).
+	//
+	// [channel creation policy]: https://zulip.com/help/configure-who-can-create-channels
 	CanCreateWebPublicStreams bool `json:"can_create_web_public_streams,omitempty"`
-	// Whether the current user is allowed to subscribe other users to channels with the organization's [channels policy](https://zulip.com/help/configure-who-can-invite-to-channels).
+	// Whether the current user is allowed to subscribe other users to channels with the organization's [channels policy].
+	//
+	// [channels policy]: https://zulip.com/help/configure-who-can-invite-to-channels
 	CanSubscribeOtherUsers bool `json:"can_subscribe_other_users,omitempty"`
 	// Whether the current user [is allowed to invite others] to the organization.  **Changes**: New in Zulip 4.0 (feature level 51).
 	// [is allowed to invite others]: https://zulip.com/help/restrict-account-creation#change-who-can-send-invitations
 	CanInviteOthersToRealm bool `json:"can_invite_others_to_realm,omitempty"`
-	// Whether the current user is at least an [organization administrator](https://zulip.com/api/roles-and-permissions).
+	// Whether the current user is at least an [organization administrator].
+	//
+	// [organization administrator]: https://zulip.com/api/roles-and-permissions
 	IsAdmin bool `json:"is_admin,omitempty"`
-	// Whether the current user is an [organization owner](https://zulip.com/api/roles-and-permissions).  **Changes**: New in Zulip 3.0 (feature level 11).
+	// Whether the current user is an [organization owner].  **Changes**: New in Zulip 3.0 (feature level 11).
+	//
+	// [organization owner]: https://zulip.com/api/roles-and-permissions
 	IsOwner bool `json:"is_owner,omitempty"`
-	// Whether the current user is at least an [organization moderator](https://zulip.com/api/roles-and-permissions).  **Changes**: Prior to Zulip 11.0 (feature level 380), this was only true for users whose role was exactly the moderator role.  New in Zulip 4.0 (feature level 60).
+	// Whether the current user is at least an [organization moderator].  **Changes**: Prior to Zulip 11.0 (feature level 380), this was only true for users whose role was exactly the moderator role.  New in Zulip 4.0 (feature level 60).
+	//
+	// [organization moderator]: https://zulip.com/api/roles-and-permissions
 	IsModerator bool `json:"is_moderator,omitempty"`
-	// Whether the current user is a [guest user](https://zulip.com/api/roles-and-permissions).
+	// Whether the current user is a [guest user].
+	//
+	// [guest user]: https://zulip.com/api/roles-and-permissions
 	IsGuest bool `json:"is_guest,omitempty"`
 	// The unique Id for the current user.
 	UserId int64 `json:"user_id,omitempty"`
@@ -329,65 +422,105 @@ type Avatar struct {
 }
 
 type GlobalNotifications struct {
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableDesktopNotifications bool `json:"enable_desktop_notifications,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableDigestEmails bool `json:"enable_digest_emails,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableLoginEmails bool `json:"enable_login_emails,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableMarketingEmails bool `json:"enable_marketing_emails,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EmailNotificationsBatchingPeriodSeconds int64 `json:"email_notifications_batching_period_seconds,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableOfflineEmailNotifications bool `json:"enable_offline_email_notifications,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableOfflinePushNotifications bool `json:"enable_offline_push_notifications,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableOnlinePushNotifications bool `json:"enable_online_push_notifications,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableSounds bool `json:"enable_sounds,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableChannelDesktopNotifications bool `json:"enable_stream_desktop_notifications,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableChannelEmailNotifications bool `json:"enable_stream_email_notifications,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableChannelPushNotifications bool `json:"enable_stream_push_notifications,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EnableChannelAudibleNotifications bool `json:"enable_stream_audible_notifications,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	WildcardMentionsNotify bool `json:"wildcard_mentions_notify,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	MessageContentInEmailNotifications bool `json:"message_content_in_email_notifications,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	NotificationSound string `json:"notification_sound,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	PmContentInDesktopNotifications bool `json:"pm_content_in_desktop_notifications,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	DesktopIconCountDisplay int64 `json:"desktop_icon_count_display,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: In Zulip 7.0 (feature level 168), replaced previous `realm_name_in_notifications` global notifications setting with `realm_name_in_email_notifications_policy`.  **Deprecated** since Zulip 5.0 (feature level 89); both `realm_name_in_notifications` and the newer `realm_name_in_email_notifications_policy` are deprecated. Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: In Zulip 7.0 (feature level 168), replaced previous `realm_name_in_notifications` global notifications setting with `realm_name_in_email_notifications_policy`.  **Deprecated** since Zulip 5.0 (feature level 89); both `realm_name_in_notifications` and the newer `realm_name_in_email_notifications_policy` are deprecated. Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	RealmNameInEmailNotificationsPolicy int64 `json:"realm_name_in_email_notifications_policy,omitempty"`
-	// The current value of this global notification setting for the user. See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The current value of this global notification setting for the user. See [PATCH /settings] for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	PresenceEnabled bool `json:"presence_enabled,omitempty"`
 	// Array containing the names of the notification sound options supported by this Zulip server. Only relevant to support UI for configuring notification sounds.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
@@ -435,19 +568,27 @@ type ServerThumbnailFormat struct {
 }
 
 type RealmUserSettingsDefaults struct {
-	// Whether time should be [displayed in 24-hour notation](https://zulip.com/help/change-the-time-format).  A `null` value indicates that the client should use the default time format for the user's locale.  **Changes**: Prior to Zulip 11.0 (feature level 408), `null` was not a valid value for this setting. Note that it was not possible to actually set the time format to `null` at this feature level.  New in Zulip 5.0 (feature level 99). This value was previously available as `realm_default_twenty_four_hour_time` in the top-level response object (only when `realm` was present in `fetch_event_types`).
+	// Whether time should be [displayed in 24-hour notation].  A `null` value indicates that the client should use the default time format for the user's locale.  **Changes**: Prior to Zulip 11.0 (feature level 408), `null` was not a valid value for this setting. Note that it was not possible to actually set the time format to `null` at this feature level.  New in Zulip 5.0 (feature level 99). This value was previously available as `realm_default_twenty_four_hour_time` in the top-level response object (only when `realm` was present in `fetch_event_types`).
+	//
+	// [displayed in 24-hour notation]: https://zulip.com/help/change-the-time-format
 	TwentyFourHourTime *bool `json:"twenty_four_hour_time,omitempty"`
 	// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the \"Always\" setting when marking messages as read.
 	WebMarkReadOnScrollPolicy MarkReadOnScrollPolicy `json:"web_mark_read_on_scroll_policy,omitempty"`
 	// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The \"Top unread topic in channel\" is new in Zulip 11.0 (feature level 401).  In Zulip 11.0 (feature level 383), we added a new option \"List of topics\" to this setting.  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the \"Channel feed\" behavior.
 	WebChannelDefaultView ChannelDefaultView `json:"web_channel_default_view,omitempty"`
-	// Whether clients should display the [number of starred messages](https://zulip.com/help/star-a-message#display-the-number-of-starred-messages).
+	// Whether clients should display the [number of starred messages].
+	//
+	// [number of starred messages]: https://zulip.com/help/star-a-message#display-the-number-of-starred-messages
 	StarredMessageCounts *bool `json:"starred_message_counts,omitempty"`
 	// Whether the user is configured to receive typing notifications from other users. The server will only deliver typing notifications events to users who for whom this is enabled.  **Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications.
 	ReceivesTypingNotifications *bool `json:"receives_typing_notifications,omitempty"`
-	// Whether the user should be shown an alert, offering to update their [profile time zone](https://zulip.com/help/change-your-timezone), when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.  **Changes**: New in Zulip 10.0 (feature level 329).
+	// Whether the user should be shown an alert, offering to update their [profile time zone], when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.  **Changes**: New in Zulip 10.0 (feature level 329).
+	//
+	// [profile time zone]: https://zulip.com/help/change-your-timezone
 	WebSuggestUpdateTimezone *bool `json:"web_suggest_update_timezone,omitempty"`
-	// Whether to use the [maximum available screen width](https://zulip.com/help/enable-full-width-display) for the web app's center panel (message feed, recent conversations) on wide screens.
+	// Whether to use the [maximum available screen width] for the web app's center panel (message feed, recent conversations) on wide screens.
+	//
+	// [maximum available screen width]: https://zulip.com/help/enable-full-width-display
 	FluidLayoutWidth *bool `json:"fluid_layout_width,omitempty"`
 	// This setting is reserved for use to control variations in Zulip's design to help visually impaired users.
 	HighContrastMode *bool `json:"high_contrast_mode,omitempty"`
@@ -455,23 +596,37 @@ type RealmUserSettingsDefaults struct {
 	WebFontSizePx *int32 `json:"web_font_size_px,omitempty"`
 	// User-configured primary `line-height` for the web application, in percent, so a value of 120 represents a `line-height` of 1.2.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
 	WebLineHeightPercent *int32 `json:"web_line_height_percent,omitempty"`
-	// Controls which [color theme](https://zulip.com/help/dark-theme) to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard `prefers-color-scheme` media query.
+	// Controls which [color theme] to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard `prefers-color-scheme` media query.
+	//
+	// [color theme]: https://zulip.com/help/dark-theme
 	ColorScheme *int32 `json:"color_scheme,omitempty"`
-	// Whether to [translate emoticons to emoji](https://zulip.com/help/configure-emoticon-translations) in messages the user sends.
+	// Whether to [translate emoticons to emoji] in messages the user sends.
+	//
+	// [translate emoticons to emoji]: https://zulip.com/help/configure-emoticon-translations
 	TranslateEmoticons *bool `json:"translate_emoticons,omitempty"`
 	// Whether to display the names of reacting users on a message.  When enabled, clients should display the names of reacting users, rather than a count, for messages with few total reactions. The ideal cutoff may depend on the space available for displaying reactions; the official web application displays names when 3 or fewer total reactions are present with this setting enabled.  **Changes**: New in Zulip 6.0 (feature level 125).
 	DisplayEmojiReactionUsers *bool `json:"display_emoji_reaction_users,omitempty"`
-	// What [default language](https://zulip.com/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.
+	// What [default language] to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.
+	//
+	// [default language]: https://zulip.com/help/change-your-language
 	DefaultLanguage *string `json:"default_language,omitempty"`
-	// The [home view](https://zulip.com/help/configure-home-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  - \"recent_topics\" - Recent conversations view - \"inbox\" - Inbox view - \"all_messages\" - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
+	// The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  - \"recent_topics\" - Recent conversations view - \"inbox\" - Inbox view - \"all_messages\" - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
+	//
+	// [home view]: https://zulip.com/help/configure-home-view
 	WebHomeView *string `json:"web_home_view,omitempty"`
-	// Whether the escape key navigates to the [configured home view](https://zulip.com/help/configure-home-view).  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `escape_navigates_to_default_view`, which was new in Zulip 5.0 (feature level 107).
+	// Whether the escape key navigates to the [configured home view].  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `escape_navigates_to_default_view`, which was new in Zulip 5.0 (feature level 107).
+	//
+	// [configured home view]: https://zulip.com/help/configure-home-view
 	WebEscapeNavigatesToHomeView *bool `json:"web_escape_navigates_to_home_view,omitempty"`
 	// Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.
 	LeftSideUserlist *bool `json:"left_side_userlist,omitempty"`
-	// The user's configured [emoji set](https://zulip.com/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everywhere they appear in the UI.  - \"google\" - Google modern - \"google-blob\" - Google classic - \"twitter\" - Twitter - \"text\" - Plain text
+	// The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.  - \"google\" - Google modern - \"google-blob\" - Google classic - \"twitter\" - Twitter - \"text\" - Plain text
+	//
+	// [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
 	Emojiset *string `json:"emojiset,omitempty"`
-	// Whether to [hide inactive channels](https://zulip.com/help/manage-inactive-channels) in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never
+	// Whether to [hide inactive channels] in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never
+	//
+	// [hide inactive channels]: https://zulip.com/help/manage-inactive-channels
 	DemoteInactiveChannels *int32 `json:"demote_inactive_streams,omitempty"`
 	// The style selected by the user for the right sidebar user list.  - 1 - Compact - 2 - With status - 3 - With avatar and status  **Changes**: New in Zulip 6.0 (feature level 141).
 	UserListStyle *int32 `json:"user_list_style,omitempty"`
@@ -529,11 +684,17 @@ type RealmUserSettingsDefaults struct {
 	EnableFollowedTopicWildcardMentionsNotify *bool `json:"enable_followed_topic_wildcard_mentions_notify,omitempty"`
 	// Unread count badge (appears in desktop sidebar and browser tab)  - 1 - All unread messages - 2 - DMs, mentions, and followed topics - 3 - DMs and mentions - 4 - None  **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
 	DesktopIconCountDisplay *int32 `json:"desktop_icon_count_display,omitempty"`
-	// Whether to [include organization name in subject of message notification emails](https://zulip.com/help/email-notifications#include-organization-name-in-subject-line).  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous `realm_name_in_notifications` boolean; `true` corresponded to `Always`, and `false` to `Never`.
+	// Whether to [include organization name in subject of message notification emails].  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous `realm_name_in_notifications` boolean; `true` corresponded to `Always`, and `false` to `Never`.
+	//
+	// [include organization name in subject of message notification emails]: https://zulip.com/help/email-notifications#include-organization-name-in-subject-line
 	RealmNameInEmailNotificationsPolicy *int32 `json:"realm_name_in_email_notifications_policy,omitempty"`
-	// Which [topics to follow automatically](https://zulip.com/help/mute-a-topic).  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
+	// Which [topics to follow automatically].  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
+	//
+	// [topics to follow automatically]: https://zulip.com/help/mute-a-topic
 	AutomaticallyFollowTopicsPolicy *int32 `json:"automatically_follow_topics_policy,omitempty"`
-	// Which [topics to unmute automatically in muted channels](https://zulip.com/help/mute-a-topic).  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
+	// Which [topics to unmute automatically in muted channels].  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
+	//
+	// [topics to unmute automatically in muted channels]: https://zulip.com/help/mute-a-topic
 	AutomaticallyUnmuteTopicsInMutedChannelsPolicy *int32 `json:"automatically_unmute_topics_in_muted_streams_policy,omitempty"`
 	// Whether the server will automatically mark the user as following topics where the user is mentioned.  **Changes**: New in Zulip 8.0 (feature level 235).
 	AutomaticallyFollowTopicsWhereMentioned *bool `json:"automatically_follow_topics_where_mentioned,omitempty"`
@@ -541,7 +702,9 @@ type RealmUserSettingsDefaults struct {
 	ResolvedTopicNoticeAutoReadPolicy *string `json:"resolved_topic_notice_auto_read_policy,omitempty"`
 	// Display the presence status to other users when online.
 	PresenceEnabled *bool `json:"presence_enabled,omitempty"`
-	// Whether the user setting for [sending on pressing Enter](https://zulip.com/help/configure-send-message-keys) in the compose box is enabled.
+	// Whether the user setting for [sending on pressing Enter] in the compose box is enabled.
+	//
+	// [sending on pressing Enter]: https://zulip.com/help/configure-send-message-keys
 	EnterSends *bool `json:"enter_sends,omitempty"`
 	// A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.
 	EnableDraftsSynchronization *bool `json:"enable_drafts_synchronization,omitempty"`
@@ -549,11 +712,17 @@ type RealmUserSettingsDefaults struct {
 	EmailNotificationsBatchingPeriodSeconds *int32 `json:"email_notifications_batching_period_seconds,omitempty"`
 	// Array containing the names of the notification sound options supported by this Zulip server. Only relevant to support UI for configuring notification sounds.
 	AvailableNotificationSounds []string `json:"available_notification_sounds,omitempty"`
-	// Array of dictionaries where each dictionary describes an emoji set supported by this version of the Zulip server.  Only relevant to clients with configuration UI for choosing an emoji set; the currently selected emoji set is available in the `emojiset` key.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.
+	// Array of dictionaries where each dictionary describes an emoji set supported by this version of the Zulip server.  Only relevant to clients with configuration UI for choosing an emoji set; the currently selected emoji set is available in the `emojiset` key.  See [PATCH /settings] for details on the meaning of this setting.
+	//
+	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EmojisetChoices []UserSettingsEmojisetChoice `json:"emojiset_choices,omitempty"`
-	// Whether [typing notifications](https://zulip.com/help/typing-notifications) be sent when composing direct messages.  **Changes**: New in Zulip 5.0 (feature level 105).
+	// Whether [typing notifications] be sent when composing direct messages.  **Changes**: New in Zulip 5.0 (feature level 105).
+	//
+	// [typing notifications]: https://zulip.com/help/typing-notifications
 	SendPrivateTypingNotifications *bool `json:"send_private_typing_notifications,omitempty"`
-	// Whether [typing notifications](https://zulip.com/help/typing-notifications) be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105).
+	// Whether [typing notifications] be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105).
+	//
+	// [typing notifications]: https://zulip.com/help/typing-notifications
 	SendChannelTypingNotifications *bool `json:"send_stream_typing_notifications,omitempty"`
 	// Whether other users are allowed to see whether you've read messages.  **Changes**: New in Zulip 5.0 (feature level 105).
 	SendReadReceipts *bool `json:"send_read_receipts,omitempty"`
@@ -579,17 +748,22 @@ type RealmUserSettingsDefaults struct {
 type UserTopic struct {
 	// The Id of the channel to which the topic belongs.
 	ChannelId int64 `json:"stream_id,omitempty"`
-	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	//
+	// [`POST /register`]: https://zulip.com/api/register-queue
 	TopicName string `json:"topic_name,omitempty"`
 	// An integer UNIX timestamp representing when the user-topic relationship was last changed.
 	LastUpdated time.Time `json:"last_updated,omitempty"`
 	// An integer indicating the user's visibility preferences for the topic, such as whether the topic is muted.
 	//   - 0 = None. Used to indicate that the user no   longer has a special visibility policy for this topic.
-	//   - 1 = Muted. Used to record [muted topics](https://zulip.com/help/mute-a-topic).
+	//   - 1 = Muted. Used to record [muted topics].
 	//   - 2 = Unmuted. Used to record unmuted topics.
-	//   - 3 = Followed. Used to record [followed topics](https://zulip.com/help/follow-a-topic).
+	//   - 3 = Followed. Used to record [followed topics].
 	//
 	// **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.  In Zulip 7.0 (feature level 170), added unmuted as a visibility policy option.
+	//
+	// [muted topics]: https://zulip.com/help/mute-a-topic
+	// [followed topics]: https://zulip.com/help/follow-a-topic
 	VisibilityPolicy VisibilityPolicy `json:"visibility_policy,omitempty"`
 }
 
@@ -639,7 +813,9 @@ type DefaultChannelGroup struct {
 
 // UnreadMsgs Present if `message` and `update_message_flags` are both present in `event_types`.  A set of data structures describing the conversations containing the 50000 most recent unread messages the user has received. This will usually contain every unread message the user has received, but clients should support users with even more unread messages (and not hardcode the number 50000).
 type UnreadMsgs struct {
-	// The total number of unread messages to display. This includes one-on-one and group direct messages, as well as channel messages that are not [muted](https://zulip.com/help/mute-a-topic).  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field.
+	// The total number of unread messages to display. This includes one-on-one and group direct messages, as well as channel messages that are not [muted].  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field.
+	//
+	// [muted]: https://zulip.com/help/mute-a-topic
 	Count int64 `json:"count,omitempty"`
 	// An array of objects where each object contains details of unread one-on-one direct messages with a specific user.  Note that it is possible for a message that the current user sent to the specified user to be marked as unread and thus appear here.
 	Pms []UnreadMsgsPms `json:"pms,omitempty"`
@@ -647,7 +823,9 @@ type UnreadMsgs struct {
 	Channels []UnreadMsgsChannels `json:"streams,omitempty"`
 	// An array of objects where each object contains details of unread group direct messages with a specific group of users.
 	Huddles []UnreadMsgsHuddles `json:"huddles,omitempty"`
-	// Array containing the Ids of all unread messages in which the user was mentioned directly, and unread [non-muted](https://zulip.com/help/mute-a-topic) messages in which the user was mentioned through a wildcard.  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field.
+	// Array containing the Ids of all unread messages in which the user was mentioned directly, and unread [non-muted] messages in which the user was mentioned through a wildcard.  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field.
+	//
+	// [non-muted]: https://zulip.com/help/mute-a-topic
 	Mentions []int64 `json:"mentions,omitempty"`
 	// Whether this data set was truncated because the user has too many unread messages. When truncation occurs, only the most recent `MAX_UNREAD_MESSAGES` (currently 50000) messages will be considered when forming this response. When `true`, we recommend that clients display a warning, as they are likely to produce erroneous results until reloaded with the user having fewer than `MAX_UNREAD_MESSAGES` unread messages.  **Changes**: New in Zulip 4.0 (feature level 44).
 	OldUnreadsMissing *bool `json:"old_unreads_missing,omitempty"`
@@ -666,7 +844,9 @@ type UnreadMsgsPms struct {
 
 // UnreadMsgsChannels struct for UnreadMsgsChannels
 type UnreadMsgsChannels struct {
-	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response depending on the value of the `empty_topic_name` [client capability].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`] response depending on the value of the `empty_topic_name` [client capability].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	//
+	// [`POST /register`]: https://zulip.com/api/register-queue
 	Topic string `json:"topic,omitempty"`
 	// The Id of the channel to which the messages were sent.
 	ChannelId int64 `json:"stream_id,omitempty"`

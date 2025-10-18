@@ -1,11 +1,13 @@
 package zulip
 
-// Controls which [color theme](https://zulip.com/help/dark-theme) to use.
+// Controls which [color theme] to use.
 //   - 1 = Automatic
 //   - 2 = Dark theme
 //   - 3 = Light theme
 //
 // Automatic detection is implementing using the standard `prefers-color-scheme` media query.
+//
+// [color theme]: https://zulip.com/help/dark-theme
 type ColorScheme int
 
 const (

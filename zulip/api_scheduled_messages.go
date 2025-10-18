@@ -14,15 +14,17 @@ type ScheduledMessagesAPI interface {
 
 	// CreateScheduledMessage Create a scheduled message
 	//
-	// Create a new [scheduled message](https://zulip.com/help/schedule-a-message).
+	// Create a new [scheduled message].
 	//
 	// *Changes**: In Zulip 7.0 (feature level 184), moved support for
-	// [editing a scheduled message](https://zulip.com/api/update-scheduled-message) to a
+	// [editing a scheduled message] to a
 	// separate API endpoint, which removed the `scheduled_message_id`
 	// parameter from this endpoint.
 	//
 	// New in Zulip 7.0 (feature level 179).
 	//
+	// [scheduled message]: https://zulip.com/help/schedule-a-message
+	// [editing a scheduled message]: https://zulip.com/api/update-scheduled-message
 	CreateScheduledMessage(ctx context.Context) CreateScheduledMessageRequest
 
 	// CreateScheduledMessageExecute executes the request
@@ -30,11 +32,11 @@ type ScheduledMessagesAPI interface {
 
 	// DeleteScheduledMessage Delete a scheduled message
 	//
-	// Delete, and therefore cancel sending, a previously [scheduled
-	// message](https://zulip.com/help/schedule-a-message).
+	// Delete, and therefore cancel sending, a previously [scheduled message].
 	//
 	// *Changes**: New in Zulip 7.0 (feature level 173).
 	//
+	// [scheduled message]: https://zulip.com/help/schedule-a-message
 	DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest
 
 	// DeleteScheduledMessageExecute executes the request
@@ -42,7 +44,7 @@ type ScheduledMessagesAPI interface {
 
 	// GetScheduledMessages Get scheduled messages
 	//
-	// Fetch all [scheduled messages](https://zulip.com/help/schedule-a-message) for
+	// Fetch all [scheduled messages] for
 	// the current user.
 	//
 	// Scheduled messages are messages the user has scheduled to be
@@ -50,6 +52,7 @@ type ScheduledMessagesAPI interface {
 	//
 	// *Changes**: New in Zulip 7.0 (feature level 173).
 	//
+	// [scheduled messages]: https://zulip.com/help/schedule-a-message
 	GetScheduledMessages(ctx context.Context) GetScheduledMessagesRequest
 
 	// GetScheduledMessagesExecute executes the request
@@ -57,10 +60,11 @@ type ScheduledMessagesAPI interface {
 
 	// UpdateScheduledMessage Edit a scheduled message
 	//
-	// Edit an existing [scheduled message](https://zulip.com/help/schedule-a-message).
+	// Edit an existing [scheduled message].
 	//
 	// *Changes**: New in Zulip 7.0 (feature level 184).
 	//
+	// [scheduled message]: https://zulip.com/help/schedule-a-message
 	UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest
 
 	// UpdateScheduledMessageExecute executes the request
@@ -89,7 +93,9 @@ func (r CreateScheduledMessageRequest) To(to Recipient) CreateScheduledMessageRe
 	return r
 }
 
-// The content of the message.  Clients should use the `max_message_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum message size.
+// The content of the message.  Clients should use the `max_message_length` returned by the [`POST /register`] endpoint to determine the maximum message size.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r CreateScheduledMessageRequest) Content(content string) CreateScheduledMessageRequest {
 	r.content = &content
 	return r
@@ -102,7 +108,10 @@ func (r CreateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliv
 	return r
 }
 
-// The topic of the message. Only required for channel messages (`\\"type\\": \\"stream\\"` or `\\"type\\": \\"channel\\"`), ignored otherwise.  Clients should use the `max_topic_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum topic length.  Note: When `\\"(no topic)\\"` or the value of `realm_empty_topic_display_name` found in the [POST /register](https://zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](https://zulip.com/help/require-topics), this parameter can&#39;t be `\\"(no topic)\\"`, an empty string, or the value of `realm_empty_topic_display_name`.  **Changes**: Before Zulip 10.0 (feature level 370), `\\"(no topic)\\"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// The topic of the message. Only required for channel messages (`\\"type\\": \\"stream\\"` or `\\"type\\": \\"channel\\"`), ignored otherwise.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `\\"(no topic)\\"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can&#39;t be `\\"(no topic)\\"`, an empty string, or the value of `realm_empty_topic_display_name`.  **Changes**: Before Zulip 10.0 (feature level 370), `\\"(no topic)\\"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
+// [topics are required]: https://zulip.com/help/require-topics
 func (r CreateScheduledMessageRequest) Topic(topic string) CreateScheduledMessageRequest {
 	r.topic = &topic
 	return r
@@ -120,14 +129,17 @@ func (r CreateScheduledMessageRequest) Execute() (*CreateScheduledMessageRespons
 
 // CreateScheduledMessage Create a scheduled message
 //
-// Create a new [scheduled message](https://zulip.com/help/schedule-a-message).
+// Create a new [scheduled message].
 //
 // *Changes**: In Zulip 7.0 (feature level 184), moved support for
-// [editing a scheduled message](https://zulip.com/api/update-scheduled-message) to a
+// [editing a scheduled message] to a
 // separate API endpoint, which removed the `scheduled_message_id`
 // parameter from this endpoint.
 //
 // New in Zulip 7.0 (feature level 179).
+//
+// [scheduled message]: https://zulip.com/help/schedule-a-message
+// [editing a scheduled message]: https://zulip.com/api/update-scheduled-message
 func (c *simpleClient) CreateScheduledMessage(ctx context.Context) CreateScheduledMessageRequest {
 	return CreateScheduledMessageRequest{
 		ApiService: c,
@@ -242,10 +254,11 @@ func (r DeleteScheduledMessageRequest) Execute() (*Response, *http.Response, err
 
 // DeleteScheduledMessage Delete a scheduled message
 //
-// Delete, and therefore cancel sending, a previously [scheduled
-// message](https://zulip.com/help/schedule-a-message).
+// Delete, and therefore cancel sending, a previously [scheduled message].
 //
 // *Changes**: New in Zulip 7.0 (feature level 173).
+//
+// [scheduled message]: https://zulip.com/help/schedule-a-message
 func (c *simpleClient) DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest {
 	return DeleteScheduledMessageRequest{
 		ApiService:         c,
@@ -338,13 +351,15 @@ func (r GetScheduledMessagesRequest) Execute() (*GetScheduledMessagesResponse, *
 
 // GetScheduledMessages Get scheduled messages
 //
-// Fetch all [scheduled messages](https://zulip.com/help/schedule-a-message) for
+// Fetch all [scheduled messages] for
 // the current user.
 //
 // Scheduled messages are messages the user has scheduled to be
 // sent in the future via the send later feature.
 //
 // *Changes**: New in Zulip 7.0 (feature level 173).
+//
+// [scheduled messages]: https://zulip.com/help/schedule-a-message
 func (c *simpleClient) GetScheduledMessages(ctx context.Context) GetScheduledMessagesRequest {
 	return GetScheduledMessagesRequest{
 		ApiService: c,
@@ -446,19 +461,26 @@ func (r UpdateScheduledMessageRequest) To(to Recipient) UpdateScheduledMessageRe
 	return r
 }
 
-// The updated content of the scheduled message.  Clients should use the `max_message_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum message size.
+// The updated content of the scheduled message.  Clients should use the `max_message_length` returned by the [`POST /register`] endpoint to determine the maximum message size.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r UpdateScheduledMessageRequest) Content(content string) UpdateScheduledMessageRequest {
 	r.content = &content
 	return r
 }
 
-// The updated topic of the scheduled message.  Required when updating the `type` of the scheduled message to `\\"stream\\"` or `\\"channel\\"`. Ignored when the existing or updated `type` of the scheduled message is `\\"direct\\"` (or `\\"private\\"`).  Clients should use the `max_topic_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum topic length.  Note: When `\\"(no topic)\\"` or the value of `realm_empty_topic_display_name` found in the [POST /register](https://zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](https://zulip.com/help/require-topics), this parameter can&#39;t be `\\"(no topic)\\"`, an empty string, or the value of `realm_empty_topic_display_name`.  **Changes**: Before Zulip 10.0 (feature level 370), `\\"(no topic)\\"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// The updated topic of the scheduled message.  Required when updating the `type` of the scheduled message to `\\"stream\\"` or `\\"channel\\"`. Ignored when the existing or updated `type` of the scheduled message is `\\"direct\\"` (or `\\"private\\"`).  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `\\"(no topic)\\"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can&#39;t be `\\"(no topic)\\"`, an empty string, or the value of `realm_empty_topic_display_name`.  **Changes**: Before Zulip 10.0 (feature level 370), `\\"(no topic)\\"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
+// [topics are required]: https://zulip.com/help/require-topics
 func (r UpdateScheduledMessageRequest) Topic(topic string) UpdateScheduledMessageRequest {
 	r.topic = &topic
 	return r
 }
 
-// The UNIX timestamp for when the message will be sent, in UTC seconds.  Required when updating a scheduled message that the server has already tried and failed to send. This state is indicated with `\\"failed\\": true` in `scheduled_messages` objects; see response description at [`GET /scheduled_messages`](https://zulip.com/api/get-scheduled-messages#response).
+// The UNIX timestamp for when the message will be sent, in UTC seconds.  Required when updating a scheduled message that the server has already tried and failed to send. This state is indicated with `\\"failed\\": true` in `scheduled_messages` objects; see response description at [`GET /scheduled_messages`].
+//
+// [`GET /scheduled_messages`]: https://zulip.com/api/get-scheduled-messages#response
 func (r UpdateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliveryTimestamp time.Time) UpdateScheduledMessageRequest {
 	timestamp := scheduledDeliveryTimestamp.Unix()
 	r.scheduledDeliveryTimestamp = &timestamp
@@ -471,9 +493,11 @@ func (r UpdateScheduledMessageRequest) Execute() (*Response, *http.Response, err
 
 // UpdateScheduledMessage Edit a scheduled message
 //
-// Edit an existing [scheduled message](https://zulip.com/help/schedule-a-message).
+// Edit an existing [scheduled message].
 //
 // *Changes**: New in Zulip 7.0 (feature level 184).
+//
+// [scheduled message]: https://zulip.com/help/schedule-a-message
 func (c *simpleClient) UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest {
 	return UpdateScheduledMessageRequest{
 		ApiService:         c,

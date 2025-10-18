@@ -25,8 +25,9 @@ type ChannelsAPI interface {
 
 	// ArchiveChannel Archive a channel
 	//
-	// [Archive the channel](https://zulip.com/help/archive-a-channel) with the Id `channelId`.
+	// [Archive the channel] with the Id `channelId`.
 	//
+	// [Archive the channel]: https://zulip.com/help/archive-a-channel
 	ArchiveChannel(ctx context.Context, channelId int64) ArchiveChannelRequest
 
 	// ArchiveChannelExecute executes the request
@@ -35,7 +36,7 @@ type ChannelsAPI interface {
 	// CreateBigBlueButtonVideoCall Create BigBlueButton video call
 	//
 	// Create a video call URL for a BigBlueButton video call.
-	// Requires [BigBlueButton 2.4+](/integrations/doc/big-blue-button)
+	// Requires [BigBlueButton 2.4+]
 	// to be configured on the Zulip server.
 	//
 	// The acting user will be given the moderator role on the call.
@@ -44,6 +45,7 @@ type ChannelsAPI interface {
 	// user was given the moderator role on BigBlueButton calls, via
 	// encoding a moderator password in the generated URLs.
 	//
+	// [BigBlueButton 2.4+]: /integrations/doc/big-blue-button
 	CreateBigBlueButtonVideoCall(ctx context.Context) CreateBigBlueButtonVideoCallRequest
 
 	// CreateBigBlueButtonVideoCallExecute executes the request
@@ -51,13 +53,16 @@ type ChannelsAPI interface {
 
 	// CreateChannel Create a channel
 	//
-	// Create a new [channel](https://zulip.com/help/create-channels) and optionally
-	// subscribe users to the newly created channel. The initial [channel settings](https://zulip.com/api/update-stream)
+	// Create a new [channel] and optionally
+	// subscribe users to the newly created channel. The initial [channel settings]
 	// will be determined by the optional parameters, like `invite_only`, detailed below.
 	//
 	// *Changes**: New in Zulip 11.0 (feature level 417). Previously, this was only possible via
-	// the [`POST /api/subscribe`](https://zulip.com/api/subscribe) endpoint, which handled both creation and subscription.
+	// the [`POST /api/subscribe`] endpoint, which handled both creation and subscription.
 	//
+	// [channel]: https://zulip.com/help/create-channels
+	// [channel settings]: https://zulip.com/api/update-stream
+	// [`POST /api/subscribe`]: https://zulip.com/api/subscribe
 	CreateChannel(ctx context.Context) CreateChannelRequest
 
 	// CreateChannelExecute executes the request
@@ -93,7 +98,7 @@ type ChannelsAPI interface {
 	// response will return `"complete": true`.
 	//
 	// *Changes**: Before Zulip 9.0 (feature level 256), the server never sent
-	// [`stream` op: `update`](https://zulip.com/api/get-events#stream-update) events with an
+	// [`stream` op: `update`] events with an
 	// updated `first_message_id` for a channel when the oldest message that
 	// had been sent to it changed.
 	//
@@ -116,6 +121,7 @@ type ChannelsAPI interface {
 	// messages, so that progress is made even if the request times out and
 	// returns an error.
 	//
+	// [`stream` op: `update`]: https://zulip.com/api/get-events#stream-update
 	DeleteTopic(ctx context.Context, channelId int64) DeleteTopicRequest
 
 	// DeleteTopicExecute executes the request
@@ -171,14 +177,16 @@ type ChannelsAPI interface {
 	//
 	// Get all topics the user has access to in a specific channel.
 	//
-	// Note that for [private channels with
-	// protected history](https://zulip.com/help/channel-permissions#private-channels),
+	// Note that for [private channels with protected history],
 	// the user will only have access to topics of messages sent after they
-	// [subscribed to](https://zulip.com/api/subscribe) the channel. Similarly, a user's
-	// [bot](https://zulip.com/help/bots-overview#bot-type) will only have access to messages
+	// [subscribed to] the channel. Similarly, a user's
+	// [bot] will only have access to messages
 	// sent after the bot was subscribed to the channel, instead of when the
 	// user subscribed.
 	//
+	// [subscribed to]: https://zulip.com/api/subscribe
+	// [bot]: https://zulip.com/help/bots-overview#bot-type
+	// [private channels with protected history]: https://zulip.com/help/channel-permissions#private-channels
 	GetChannelTopics(ctx context.Context, channelId int64) GetChannelTopicsRequest
 
 	// GetChannelTopicsExecute executes the request
@@ -186,8 +194,9 @@ type ChannelsAPI interface {
 
 	// GetChannels Get all channels
 	//
-	// Get all channels that the user [has access to](https://zulip.com/help/channel-permissions).
+	// Get all channels that the user [has access to].
 	//
+	// [has access to]: https://zulip.com/help/channel-permissions
 	GetChannels(ctx context.Context) GetChannelsRequest
 
 	// GetChannelsExecute executes the request
@@ -224,11 +233,11 @@ type ChannelsAPI interface {
 
 	// MuteTopic Topic muting
 	//
-	// [Mute or unmute a topic](https://zulip.com/help/mute-a-topic) within a channel that
+	// [Mute or unmute a topic] within a channel that
 	// the current user is subscribed to.
 	//
 	// *Changes**: Deprecated in Zulip 7.0 (feature level 170). Clients connecting
-	// to newer servers should use the [POST /user_topics](https://zulip.com/api/update-user-topic)
+	// to newer servers should use the [POST /user_topics]
 	// endpoint, as this endpoint may be removed in a future release.
 	//
 	// Before Zulip 7.0 (feature level 169), this endpoint
@@ -237,6 +246,9 @@ type ChannelsAPI interface {
 	//
 	//
 	// Deprecated
+	//
+	// [Mute or unmute a topic]: https://zulip.com/help/mute-a-topic
+	// [POST /user_topics]: https://zulip.com/api/update-user-topic
 	MuteTopic(ctx context.Context) MuteTopicRequest
 
 	// MuteTopicExecute executes the request
@@ -273,7 +285,7 @@ type ChannelsAPI interface {
 	// Subscribe one or more users to one or more channels.
 	//
 	// If any of the specified channels do not exist, they are automatically
-	// created. The initial [channel settings](https://zulip.com/api/update-stream) will be determined
+	// created. The initial [channel settings] will be determined
 	// by the optional parameters, like `invite_only`, detailed below.
 	//
 	// Note that the ability to subscribe oneself and/or other users
@@ -306,6 +318,7 @@ type ChannelsAPI interface {
 	//
 	// [`principals`]: https://zulip.com/api/subscribe#parameter-principals
 	//
+	// [channel settings]: https://zulip.com/api/update-stream
 	Subscribe(ctx context.Context) SubscribeRequest
 
 	// SubscribeExecute executes the request
@@ -322,10 +335,9 @@ type ChannelsAPI interface {
 	//   - Organization administrators can remove any user from any
 	// channel.
 	//   - Users can remove a bot that they own from any channel that
-	// the user [can access](https://zulip.com/help/channel-permissions).
-	//   - Users can unsubscribe any user from a channel if they [have
-	// access](https://zulip.com/help/channel-permissions) to the channel and are a
-	// member of the [user group](https://zulip.com/api/get-user-groups) specified
+	// the user [can access].
+	//   - Users can unsubscribe any user from a channel if they [have access] to the channel and are a
+	// member of the [user group] specified
 	// by the [`can_remove_subscribers_group`]
 	// for the channel.
 	//
@@ -354,6 +366,9 @@ type ChannelsAPI interface {
 	// [`principals`]: https://zulip.com/api/unsubscribe#parameter-principals
 	// [`can_remove_subscribers_group`]: https://zulip.com/api/subscribe#parameter-can_remove_subscribers_group
 	//
+	// [can access]: https://zulip.com/help/channel-permissions
+	// [user group]: https://zulip.com/api/get-user-groups
+	// [have access]: https://zulip.com/help/channel-permissions
 	Unsubscribe(ctx context.Context) UnsubscribeRequest
 
 	// UnsubscribeExecute executes the request
@@ -382,13 +397,12 @@ type ChannelsAPI interface {
 	// an organization administrator editing any property of a channel,
 	// including:
 	//
-	//   - Channel [name](https://zulip.com/help/rename-a-channel) and [description](https://zulip.com/help/change-the-channel-description)
-	//   - Channel [permissions](https://zulip.com/help/channel-permissions), including
-	// [privacy](https://zulip.com/help/change-the-privacy-of-a-channel) and [who can
-	// send](https://zulip.com/help/channel-posting-policy).
+	//   - Channel [name] and [description]
+	//   - Channel [permissions], including
+	// [privacy] and [who can send].
 	//
 	// Note that an organization administrator's ability to change a
-	// [private channel's permissions](https://zulip.com/help/channel-permissions#private-channels)
+	// [private channel's permissions]
 	// depends on them being subscribed to the channel.
 	//
 	// *Changes**: Before Zulip 10.0 (feature level 362), channel privacy could not be
@@ -398,6 +412,12 @@ type ChannelsAPI interface {
 	// parameters in Zulip 10.0 (feature level 333), as permission to post
 	// in the channel is now controlled by `can_send_message_group`.
 	//
+	// [name]: https://zulip.com/help/rename-a-channel
+	// [description]: https://zulip.com/help/change-the-channel-description
+	// [permissions]: https://zulip.com/help/channel-permissions
+	// [privacy]: https://zulip.com/help/change-the-privacy-of-a-channel
+	// [private channel's permissions]: https://zulip.com/help/channel-permissions#private-channels
+	// [who can send]: https://zulip.com/help/channel-posting-policy
 	UpdateChannel(ctx context.Context, channelId int64) UpdateChannelRequest
 
 	// UpdateChannelExecute executes the request
@@ -437,15 +457,17 @@ type ChannelsAPI interface {
 	//
 	// This endpoint is used to update the personal preferences for a topic,
 	// such as the topic's visibility policy, which is used to implement
-	// [mute a topic](https://zulip.com/help/mute-a-topic) and related features.
+	// [mute a topic] and related features.
 	//
 	// This endpoint can be used to update the visibility policy for the single
 	// channel and topic pair indicated by the parameters for a user.
 	//
 	// *Changes**: New in Zulip 7.0 (feature level 170). Previously,
 	// toggling whether a topic was muted or unmuted was managed by the
-	// [PATCH /users/me/subscriptions/muted_topics](https://zulip.com/api/mute-topic) endpoint.
+	// [PATCH /users/me/subscriptions/muted_topics] endpoint.
 	//
+	// [mute a topic]: https://zulip.com/help/mute-a-topic
+	// [PATCH /users/me/subscriptions/muted_topics]: https://zulip.com/api/mute-topic
 	UpdateUserTopic(ctx context.Context) UpdateUserTopicRequest
 
 	// UpdateUserTopicExecute executes the request
@@ -569,7 +591,9 @@ func (r ArchiveChannelRequest) Execute() (*Response, *http.Response, error) {
 
 // ArchiveChannel Archive a channel
 //
-// [Archive the channel](https://zulip.com/help/archive-a-channel) with the Id `channelId`.
+// [Archive the channel] with the Id `channelId`.
+//
+// [Archive the channel]: https://zulip.com/help/archive-a-channel
 func (c *simpleClient) ArchiveChannel(ctx context.Context, channelId int64) ArchiveChannelRequest {
 	return ArchiveChannelRequest{
 		ApiService: c,
@@ -677,7 +701,7 @@ func (r CreateBigBlueButtonVideoCallRequest) Execute() (*CreateBigBlueButtonVide
 // CreateBigBlueButtonVideoCall Create BigBlueButton video call
 //
 // Create a video call URL for a BigBlueButton video call.
-// Requires [BigBlueButton 2.4+](/integrations/doc/big-blue-button)
+// Requires [BigBlueButton 2.4+]
 // to be configured on the Zulip server.
 //
 // The acting user will be given the moderator role on the call.
@@ -685,6 +709,8 @@ func (r CreateBigBlueButtonVideoCallRequest) Execute() (*CreateBigBlueButtonVide
 // *Changes**: Prior to Zulip 10.0 (feature level 337), every
 // user was given the moderator role on BigBlueButton calls, via
 // encoding a moderator password in the generated URLs.
+//
+// [BigBlueButton 2.4+]: /integrations/doc/big-blue-button
 func (c *simpleClient) CreateBigBlueButtonVideoCall(ctx context.Context) CreateBigBlueButtonVideoCallRequest {
 	return CreateBigBlueButtonVideoCallRequest{
 		ApiService: c,
@@ -798,7 +824,9 @@ type CreateChannelRequest struct {
 	canResolveTopicsGroup             *GroupSettingValue
 }
 
-// The name of the new channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum channel name length.
+// The name of the new channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`] endpoint to determine the maximum channel name length.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r CreateChannelRequest) Name(name string) CreateChannelRequest {
 	r.name = &name
 	return r
@@ -810,13 +838,18 @@ func (r CreateChannelRequest) Subscribers(subscribers []int64) CreateChannelRequ
 	return r
 }
 
-// The [description](https://zulip.com/help/change-the-channel-description) to use for the new channel being created, in text/markdown format.  Clients should use the `max_stream_description_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum channel description length.
+// The [description] to use for the new channel being created, in text/markdown format.  Clients should use the `max_stream_description_length` returned by the [`POST /register`] endpoint to determine the maximum channel description length.
+//
+// [description]: https://zulip.com/help/change-the-channel-description
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r CreateChannelRequest) Description(description string) CreateChannelRequest {
 	r.description = &description
 	return r
 }
 
-// This determines whether [notification bot](https://zulip.com/help/configure-automated-notices) will send an announcement about the new channel&#39;s creation.
+// This determines whether [notification bot] will send an announcement about the new channel&#39;s creation.
+//
+// [notification bot]: https://zulip.com/help/configure-automated-notices
 func (r CreateChannelRequest) Announce(announce bool) CreateChannelRequest {
 	r.announce = &announce
 	return r
@@ -846,7 +879,9 @@ func (r CreateChannelRequest) FolderId(folderId int64) CreateChannelRequest {
 	return r
 }
 
-// Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than `max_bulk_new_subscription_messages` (available in the [`POST /register`](https://zulip.com/api/register-queue) response) users were subscribed in this request.  **Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel.
+// Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than `max_bulk_new_subscription_messages` (available in the [`POST /register`] response) users were subscribed in this request.  **Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r CreateChannelRequest) SendNewSubscriptionMessages(sendNewSubscriptionMessages bool) CreateChannelRequest {
 	r.sendNewSubscriptionMessages = &sendNewSubscriptionMessages
 	return r
@@ -857,7 +892,9 @@ func (r CreateChannelRequest) TopicsPolicy(topicsPolicy TopicsPolicy) CreateChan
 	return r
 }
 
-// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels](https://zulip.com/help/channel-permissions#private-channels).
+// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels].
+//
+// [private channels]: https://zulip.com/help/channel-permissions#private-channels
 func (r CreateChannelRequest) HistoryPublicToSubscribers(historyPublicToSubscribers bool) CreateChannelRequest {
 	r.historyPublicToSubscribers = &historyPublicToSubscribers
 	return r
@@ -924,12 +961,16 @@ func (r CreateChannelRequest) Execute() (*CreateChannelResponse, *http.Response,
 
 // CreateChannel Create a channel
 //
-// Create a new [channel](https://zulip.com/help/create-channels) and optionally
-// subscribe users to the newly created channel. The initial [channel settings](https://zulip.com/api/update-stream)
+// Create a new [channel] and optionally
+// subscribe users to the newly created channel. The initial [channel settings]
 // will be determined by the optional parameters, like `invite_only`, detailed below.
 //
 // *Changes**: New in Zulip 11.0 (feature level 417). Previously, this was only possible via
-// the [`POST /api/subscribe`](https://zulip.com/api/subscribe) endpoint, which handled both creation and subscription.
+// the [`POST /api/subscribe`] endpoint, which handled both creation and subscription.
+//
+// [channel]: https://zulip.com/help/create-channels
+// [channel settings]: https://zulip.com/api/update-stream
+// [`POST /api/subscribe`]: https://zulip.com/api/subscribe
 func (c *simpleClient) CreateChannel(ctx context.Context) CreateChannelRequest {
 	return CreateChannelRequest{
 		ApiService: c,
@@ -1134,13 +1175,17 @@ type CreateChannelFolderRequest struct {
 	description *string
 }
 
-// The name of the channel folder.  Clients should use the `max_channel_folder_name_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum channel folder name length.
+// The name of the channel folder.  Clients should use the `max_channel_folder_name_length` returned by the [`POST /register`] endpoint to determine the maximum channel folder name length.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r CreateChannelFolderRequest) Name(name string) CreateChannelFolderRequest {
 	r.name = &name
 	return r
 }
 
-// The description of the channel folder.  Clients should use the `max_channel_folder_description_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum channel folder description length.
+// The description of the channel folder.  Clients should use the `max_channel_folder_description_length` returned by the [`POST /register`] endpoint to determine the maximum channel folder description length.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r CreateChannelFolderRequest) Description(description string) CreateChannelFolderRequest {
 	r.description = &description
 	return r
@@ -1251,7 +1296,9 @@ type DeleteTopicRequest struct {
 	topicName  *string
 }
 
-// The name of the topic to delete.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register](https://zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// The name of the topic to delete.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+//
+// [POST /register]: https://zulip.com/api/register-queue
 func (r DeleteTopicRequest) TopicName(topicName string) DeleteTopicRequest {
 	r.topicName = &topicName
 	return r
@@ -1276,7 +1323,7 @@ func (r DeleteTopicRequest) Execute() (*MarkAllAsReadResponse, *http.Response, e
 // response will return `"complete": true`.
 //
 // *Changes**: Before Zulip 9.0 (feature level 256), the server never sent
-// [`stream` op: `update`](https://zulip.com/api/get-events#stream-update) events with an
+// [`stream` op: `update`] events with an
 // updated `first_message_id` for a channel when the oldest message that
 // had been sent to it changed.
 //
@@ -1298,6 +1345,8 @@ func (r DeleteTopicRequest) Execute() (*MarkAllAsReadResponse, *http.Response, e
 // feature level, messages are deleted in batches, starting with the newest
 // messages, so that progress is made even if the request times out and
 // returns an error.
+//
+// [`stream` op: `update`]: https://zulip.com/api/get-events#stream-update
 func (c *simpleClient) DeleteTopic(ctx context.Context, channelId int64) DeleteTopicRequest {
 	return DeleteTopicRequest{
 		ApiService: c,
@@ -1801,7 +1850,9 @@ type GetChannelTopicsRequest struct {
 	allowEmptyTopicName *bool
 }
 
-// Whether the client supports processing the empty string as a topic name in the returned data.  If `false`, the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response is returned replacing the empty string as the topic name.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+// Whether the client supports processing the empty string as a topic name in the returned data.  If `false`, the value of `realm_empty_topic_display_name` found in the [`POST /register`] response is returned replacing the empty string as the topic name.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r GetChannelTopicsRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetChannelTopicsRequest {
 	r.allowEmptyTopicName = &allowEmptyTopicName
 	return r
@@ -1815,13 +1866,16 @@ func (r GetChannelTopicsRequest) Execute() (*GetChannelTopicsResponse, *http.Res
 //
 // Get all topics the user has access to in a specific channel.
 //
-// Note that for [private channels with
-// protected history](https://zulip.com/help/channel-permissions#private-channels),
+// Note that for [private channels with protected history],
 // the user will only have access to topics of messages sent after they
-// [subscribed to](https://zulip.com/api/subscribe) the channel. Similarly, a user's
-// [bot](https://zulip.com/help/bots-overview#bot-type) will only have access to messages
+// [subscribed to] the channel. Similarly, a user's
+// [bot] will only have access to messages
 // sent after the bot was subscribed to the channel, instead of when the
 // user subscribed.
+//
+// [subscribed to]: https://zulip.com/api/subscribe
+// [bot]: https://zulip.com/help/bots-overview#bot-type
+// [private channels with protected history]: https://zulip.com/help/channel-permissions#private-channels
 func (c *simpleClient) GetChannelTopics(ctx context.Context, channelId int64) GetChannelTopicsRequest {
 	return GetChannelTopicsRequest{
 		ApiService: c,
@@ -1984,7 +2038,9 @@ func (r GetChannelsRequest) Execute() (*GetChannelsResponse, *http.Response, err
 
 // GetChannels Get all channels
 //
-// Get all channels that the user [has access to](https://zulip.com/help/channel-permissions).
+// Get all channels that the user [has access to].
+//
+// [has access to]: https://zulip.com/help/channel-permissions
 func (c *simpleClient) GetChannels(ctx context.Context) GetChannelsRequest {
 	return GetChannelsRequest{
 		ApiService: c,
@@ -2424,7 +2480,9 @@ type MuteTopicRequest struct {
 	channel    *string
 }
 
-// The topic to (un)mute. Note that the request will succeed regardless of whether any messages have been sent to the specified topic.  Clients should use the `max_topic_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum topic length.
+// The topic to (un)mute. Note that the request will succeed regardless of whether any messages have been sent to the specified topic.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r MuteTopicRequest) Topic(topic string) MuteTopicRequest {
 	r.topic = &topic
 	return r
@@ -2454,18 +2512,21 @@ func (r MuteTopicRequest) Execute() (*Response, *http.Response, error) {
 
 // MuteTopic Topic muting
 //
-// [Mute or unmute a topic](https://zulip.com/help/mute-a-topic) within a channel that
+// [Mute or unmute a topic] within a channel that
 // the current user is subscribed to.
 //
 // *Changes**: Deprecated in Zulip 7.0 (feature level 170). Clients connecting
-// to newer servers should use the [POST /user_topics](https://zulip.com/api/update-user-topic)
+// to newer servers should use the [POST /user_topics]
 // endpoint, as this endpoint may be removed in a future release.
 //
 // Before Zulip 7.0 (feature level 169), this endpoint
 // returned an error if asked to mute a topic that was already muted
 // or asked to unmute a topic that had not previously been muted.
 //
-// Deprecated
+// # Deprecated
+//
+// [Mute or unmute a topic]: https://zulip.com/help/mute-a-topic
+// [POST /user_topics]: https://zulip.com/api/update-user-topic
 func (c *simpleClient) MuteTopic(ctx context.Context) MuteTopicRequest {
 	return MuteTopicRequest{
 		ApiService: c,
@@ -2800,9 +2861,15 @@ type SubscribeRequest struct {
 
 // SubscriptionRequest struct for SubscriptionRequest
 type SubscriptionRequest struct {
-	// The name of the channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum channel name length.
+	// The name of the channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`] endpoint to determine the maximum channel name length.
+	//
+	// [`POST /register`]: https://zulip.com/api/register-queue
 	Name string `json:"name"`
-	// The [description](https://zulip.com/help/change-the-channel-description) to use for a new channel being created, in text/markdown format.  See the help center article on [message formatting](https://zulip.com/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.  Clients should use the `max_stream_description_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum channel description length.
+	// The [description] to use for a new channel being created, in text/markdown format.  See the help center article on [message formatting] for details on Zulip-flavored Markdown.  Clients should use the `max_stream_description_length` returned by the [`POST /register`] endpoint to determine the maximum channel description length.
+	//
+	// [description]: https://zulip.com/help/change-the-channel-description
+	// [message formatting]: https://zulip.com/help/format-your-message-using-markdown
+	// [`POST /register`]: https://zulip.com/api/register-queue
 	Description *string `json:"description,omitempty"`
 }
 
@@ -2823,7 +2890,9 @@ func (r SubscribeRequest) AuthorizationErrorsFatal(authorizationErrorsFatal bool
 	return r
 }
 
-// If one of the channels specified did not exist previously and is thus created by this call, this determines whether [notification bot](https://zulip.com/help/configure-automated-notices) will send an announcement about the new channel&#39;s creation.
+// If one of the channels specified did not exist previously and is thus created by this call, this determines whether [notification bot] will send an announcement about the new channel&#39;s creation.
+//
+// [notification bot]: https://zulip.com/help/configure-automated-notices
 func (r SubscribeRequest) Announce(announce bool) SubscribeRequest {
 	r.announce = &announce
 	return r
@@ -2841,13 +2910,17 @@ func (r SubscribeRequest) IsWebPublic(isWebPublic bool) SubscribeRequest {
 	return r
 }
 
-// This parameter determines whether any newly created channels will be added as [default channels] for new users joining the organization.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint](https://zulip.com/api/add-default-stream).
+// This parameter determines whether any newly created channels will be added as [default channels] for new users joining the organization.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint].
+//
+// [dedicated API endpoint]: https://zulip.com/api/add-default-stream
 func (r SubscribeRequest) IsDefaultChannel(isDefaultChannel bool) SubscribeRequest {
 	r.isDefaultChannel = &isDefaultChannel
 	return r
 }
 
-// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels](https://zulip.com/help/channel-permissions#private-channels).
+// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels].
+//
+// [private channels]: https://zulip.com/help/channel-permissions#private-channels
 func (r SubscribeRequest) HistoryPublicToSubscribers(historyPublicToSubscribers bool) SubscribeRequest {
 	r.historyPublicToSubscribers = &historyPublicToSubscribers
 	return r
@@ -2919,7 +2992,9 @@ func (r SubscribeRequest) FolderId(folderId int64) SubscribeRequest {
 	return r
 }
 
-// Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than `max_bulk_new_subscription_messages` (available in the [`POST /register`](https://zulip.com/api/register-queue) response) users were subscribed in this request.  **Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel.
+// Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than `max_bulk_new_subscription_messages` (available in the [`POST /register`] response) users were subscribed in this request.  **Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r SubscribeRequest) SendNewSubscriptionMessages(sendNewSubscriptionMessages bool) SubscribeRequest {
 	r.sendNewSubscriptionMessages = &sendNewSubscriptionMessages
 	return r
@@ -2934,7 +3009,7 @@ func (r SubscribeRequest) Execute() (*SubscribeResponse, *http.Response, error) 
 // Subscribe one or more users to one or more channels.
 //
 // If any of the specified channels do not exist, they are automatically
-// created. The initial [channel settings](https://zulip.com/api/update-stream) will be determined
+// created. The initial [channel settings] will be determined
 // by the optional parameters, like `invite_only`, detailed below.
 //
 // Note that the ability to subscribe oneself and/or other users
@@ -2966,6 +3041,7 @@ func (r SubscribeRequest) Execute() (*SubscribeResponse, *http.Response, error) 
 // `code: "BAD_REQUEST"` in the error response for these cases.
 //
 // [`principals`]: https://zulip.com/api/subscribe#parameter-principals
+// [channel settings]: https://zulip.com/api/update-stream
 func (c *simpleClient) Subscribe(ctx context.Context) SubscribeRequest {
 	return SubscribeRequest{
 		ApiService: c,
@@ -3195,11 +3271,11 @@ func (r UnsubscribeRequest) Execute() (*UnsubscribeResponse, *http.Response, err
 // channel.
 //   - Users can remove a bot that they own from any channel that
 //
-// the user [can access](https://zulip.com/help/channel-permissions).
+// the user [can access].
 //   - Users can unsubscribe any user from a channel if they [have
 //
 // access](https://zulip.com/help/channel-permissions) to the channel and are a
-// member of the [user group](https://zulip.com/api/get-user-groups) specified
+// member of the [user group] specified
 // by the [`can_remove_subscribers_group`]
 // for the channel.
 //
@@ -3227,6 +3303,8 @@ func (r UnsubscribeRequest) Execute() (*UnsubscribeResponse, *http.Response, err
 //
 // [`can_remove_subscribers_group`]: https://zulip.com/api/subscribe#parameter-can_remove_subscribers_group
 // [`principals`]: https://zulip.com/api/unsubscribe#parameter-principals
+// [can access]: https://zulip.com/help/channel-permissions
+// [user group]: https://zulip.com/api/get-user-groups
 func (c *simpleClient) Unsubscribe(ctx context.Context) UnsubscribeRequest {
 	return UnsubscribeRequest{
 		ApiService: c,
@@ -3326,13 +3404,17 @@ type UpdateChannelFolderRequest struct {
 	isArchived      *bool
 }
 
-// The new name of the channel folder.  Clients should use the `max_channel_folder_name_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum channel folder name length.
+// The new name of the channel folder.  Clients should use the `max_channel_folder_name_length` returned by the [`POST /register`] endpoint to determine the maximum channel folder name length.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r UpdateChannelFolderRequest) Name(name string) UpdateChannelFolderRequest {
 	r.name = &name
 	return r
 }
 
-// The new description of the channel folder.  Clients should use the `max_channel_folder_description_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum channel folder description length.
+// The new description of the channel folder.  Clients should use the `max_channel_folder_description_length` returned by the [`POST /register`] endpoint to determine the maximum channel folder description length.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r UpdateChannelFolderRequest) Description(description string) UpdateChannelFolderRequest {
 	r.description = &description
 	return r
@@ -3481,13 +3563,19 @@ type GroupSettingValueUpdate struct {
 	Old *GroupSettingValue `json:"old,omitempty"`
 }
 
-// The new [description](https://zulip.com/help/change-the-channel-description) for the channel, in [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) format.  Clients should use the `max_stream_description_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum channel description length.  **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64).
+// The new [description] for the channel, in [Zulip-flavored Markdown] format.  Clients should use the `max_stream_description_length` returned by the [`POST /register`] endpoint to determine the maximum channel description length.  **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64).
+//
+// [description]: https://zulip.com/help/change-the-channel-description
+// [Zulip-flavored Markdown]: https://zulip.com/help/format-your-message-using-markdown
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r UpdateChannelRequest) Description(description string) UpdateChannelRequest {
 	r.description = &description
 	return r
 }
 
-// The new name for the channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum channel name length.  **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64).
+// The new name for the channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`] endpoint to determine the maximum channel name length.  **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64).
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r UpdateChannelRequest) NewName(newName string) UpdateChannelRequest {
 	r.newName = &newName
 	return r
@@ -3505,13 +3593,17 @@ func (r UpdateChannelRequest) IsWebPublic(isWebPublic bool) UpdateChannelRequest
 	return r
 }
 
-// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels](https://zulip.com/help/channel-permissions#private-channels).  It&#39;s an error for this parameter to be false for a public or web-public channel and when is_private is false.  **Changes**: Before Zulip 6.0 (feature level 136), `history_public_to_subscribers` was silently ignored unless the request also contained either `is_private` or `is_web_public`.
+// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels].  It&#39;s an error for this parameter to be false for a public or web-public channel and when is_private is false.  **Changes**: Before Zulip 6.0 (feature level 136), `history_public_to_subscribers` was silently ignored unless the request also contained either `is_private` or `is_web_public`.
+//
+// [private channels]: https://zulip.com/help/channel-permissions#private-channels
 func (r UpdateChannelRequest) HistoryPublicToSubscribers(historyPublicToSubscribers bool) UpdateChannelRequest {
 	r.historyPublicToSubscribers = &historyPublicToSubscribers
 	return r
 }
 
-// Add or remove the channel as a [default channel] for new users joining the organization.  [default channel]: https://zulip.com/help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint](https://zulip.com/api/add-default-stream).
+// Add or remove the channel as a [default channel] for new users joining the organization.  [default channel]: https://zulip.com/help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint].
+//
+// [dedicated API endpoint]: https://zulip.com/api/add-default-stream
 func (r UpdateChannelRequest) IsDefaultChannel(isDefaultChannel bool) UpdateChannelRequest {
 	r.isDefaultChannel = &isDefaultChannel
 	return r
@@ -3522,7 +3614,9 @@ func (r UpdateChannelRequest) MessageRetentionDays(messageRetentionDays MessageR
 	return r
 }
 
-// A boolean indicating whether the channel is [archived](https://zulip.com/help/archive-a-channel) or unarchived. Currently only allows unarchiving previously archived channels.  **Changes**: New in Zulip 11.0 (feature level 388).
+// A boolean indicating whether the channel is [archived] or unarchived. Currently only allows unarchiving previously archived channels.  **Changes**: New in Zulip 11.0 (feature level 388).
+//
+// [archived]: https://zulip.com/help/archive-a-channel
 func (r UpdateChannelRequest) IsArchived(isArchived bool) UpdateChannelRequest {
 	r.isArchived = &isArchived
 	return r
@@ -3539,7 +3633,9 @@ func (r UpdateChannelRequest) TopicsPolicy(topicsPolicy TopicsPolicy) UpdateChan
 	return r
 }
 
-// The set of users who have permission to add subscribers to this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Users who can administer the channel or have similar realm-level permissions can add subscribers to a public channel regardless of the value of this setting.  Users in this group need not be subscribed to a private channel to add subscribers to it.  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 342). Previously, there was no channel-level setting for this permission.
+// The set of users who have permission to add subscribers to this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Users who can administer the channel or have similar realm-level permissions can add subscribers to a public channel regardless of the value of this setting.  Users in this group need not be subscribed to a private channel to add subscribers to it.  Note that a user must [have content access] to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 342). Previously, there was no channel-level setting for this permission.
+//
+// [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanAddSubscribersGroup(canAddSubscribersGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canAddSubscribersGroup = &canAddSubscribersGroup
 	return r
@@ -3551,31 +3647,41 @@ func (r UpdateChannelRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGrou
 	return r
 }
 
-// The set of users who have permission to administer this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Organization administrators can administer every channel as though they were in this group without being explicitly listed here.  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to add other subscribers to the channel.  **Changes**: Prior to Zulip 10.0 (feature level 349) a user needed to [have content access](https://zulip.com/help/channel-permissions) to a channel in order to modify it. The exception to this rule was that organization administrators can edit channel names and descriptions without having full access to the channel.  New in Zulip 10.0 (feature level 325). Prior to this change, the permission to administer channels was limited to realm administrators.
+// The set of users who have permission to administer this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Organization administrators can administer every channel as though they were in this group without being explicitly listed here.  Note that a user must [have content access] to a channel in order to add other subscribers to the channel.  **Changes**: Prior to Zulip 10.0 (feature level 349) a user needed to [have content access] to a channel in order to modify it. The exception to this rule was that organization administrators can edit channel names and descriptions without having full access to the channel.  New in Zulip 10.0 (feature level 325). Prior to this change, the permission to administer channels was limited to realm administrators.
+//
+// [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanAdministerChannelGroup(canAdministerChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canAdministerChannelGroup = &canAdministerChannelGroup
 	return r
 }
 
-// The set of users who have permission to delete any message in the channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to delete any message in the channel.  Users present in the organization-level `can_delete_any_message_group` setting can always delete any message in the channel if they [have content access](https://zulip.com/help/channel-permissions) to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in `can_delete_any_message_group` were able delete any message in the organization.
+// The set of users who have permission to delete any message in the channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to delete any message in the channel.  Users present in the organization-level `can_delete_any_message_group` setting can always delete any message in the channel if they [have content access] to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in `can_delete_any_message_group` were able delete any message in the organization.
+//
+// [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canDeleteAnyMessageGroup = &canDeleteAnyMessageGroup
 	return r
 }
 
-// The set of users who have permission to delete the messages that they have sent in the channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to delete their own message in the channel.  Users with permission to delete any message in the channel and users present in the organization-level `can_delete_own_message_group` setting can always delete their own messages in the channel if they [have content access](https://zulip.com/help/channel-permissions) to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in the organization-level `can_delete_any_message_group` and `can_delete_own_message_group` settings were able delete their own messages in the organization.
+// The set of users who have permission to delete the messages that they have sent in the channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to delete their own message in the channel.  Users with permission to delete any message in the channel and users present in the organization-level `can_delete_own_message_group` setting can always delete their own messages in the channel if they [have content access] to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in the organization-level `can_delete_any_message_group` and `can_delete_own_message_group` settings were able delete their own messages in the organization.
+//
+// [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canDeleteOwnMessageGroup = &canDeleteOwnMessageGroup
 	return r
 }
 
-// The set of users who have permission to move messages out of this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to move messages out of the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_channels_group` setting can always move messages out of the channel if they [have content access](https://zulip.com/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in `can_move_messages_between_channels_group` were able move messages between channels.
+// The set of users who have permission to move messages out of this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to move messages out of the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_channels_group` setting can always move messages out of the channel if they [have content access] to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in `can_move_messages_between_channels_group` were able move messages between channels.
+//
+// [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canMoveMessagesOutOfChannelGroup = &canMoveMessagesOutOfChannelGroup
 	return r
 }
 
-// The set of users who have permission to move messages within this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_topics_group` setting can always move messages within the channel if they [have content access](https://zulip.com/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in `can_move_messages_between_topics_group` were able move messages between topics of a channel.
+// The set of users who have permission to move messages within this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_topics_group` setting can always move messages within the channel if they [have content access] to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in `can_move_messages_between_topics_group` were able move messages between topics of a channel.
+//
+// [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canMoveMessagesWithinChannelGroup = &canMoveMessagesWithinChannelGroup
 	return r
@@ -3587,7 +3693,9 @@ func (r UpdateChannelRequest) CanSendMessageGroup(canSendMessageGroup GroupSetti
 	return r
 }
 
-// The set of users who have permission to subscribe themselves to this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Everyone, excluding guests, can subscribe to any public channel irrespective of this setting.  Users in this group can subscribe to a private channel as well.  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 357).
+// The set of users who have permission to subscribe themselves to this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Everyone, excluding guests, can subscribe to any public channel irrespective of this setting.  Users in this group can subscribe to a private channel as well.  Note that a user must [have content access] to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 357).
+//
+// [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanSubscribeGroup(canSubscribeGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canSubscribeGroup = &canSubscribeGroup
 	return r
@@ -3609,14 +3717,13 @@ func (r UpdateChannelRequest) Execute() (*Response, *http.Response, error) {
 // an organization administrator editing any property of a channel,
 // including:
 //
-//   - Channel [name](https://zulip.com/help/rename-a-channel) and [description](https://zulip.com/help/change-the-channel-description)
-//   - Channel [permissions](https://zulip.com/help/channel-permissions), including
+//   - Channel [name] and [description]
+//   - Channel [permissions], including
 //
-// [privacy](https://zulip.com/help/change-the-privacy-of-a-channel) and [who can
-// send](https://zulip.com/help/channel-posting-policy).
+// [privacy] and [who can send].
 //
 // Note that an organization administrator's ability to change a
-// [private channel's permissions](https://zulip.com/help/channel-permissions#private-channels)
+// [private channel's permissions]
 // depends on them being subscribed to the channel.
 //
 // *Changes**: Before Zulip 10.0 (feature level 362), channel privacy could not be
@@ -3625,6 +3732,13 @@ func (r UpdateChannelRequest) Execute() (*Response, *http.Response, error) {
 // Removed `stream_post_policy` and `is_announcement_only`
 // parameters in Zulip 10.0 (feature level 333), as permission to post
 // in the channel is now controlled by `can_send_message_group`.
+//
+// [name]: https://zulip.com/help/rename-a-channel
+// [description]: https://zulip.com/help/change-the-channel-description
+// [permissions]: https://zulip.com/help/channel-permissions
+// [privacy]: https://zulip.com/help/change-the-privacy-of-a-channel
+// [private channel's permissions]: https://zulip.com/help/channel-permissions#private-channels
+// [who can send]: https://zulip.com/help/channel-posting-policy
 func (c *simpleClient) UpdateChannel(ctx context.Context, channelId int64) UpdateChannelRequest {
 	return UpdateChannelRequest{
 		ApiService: c,
@@ -4056,13 +4170,18 @@ func (r UpdateUserTopicRequest) ChannelId(channelId int64) UpdateUserTopicReques
 	return r
 }
 
-// The topic for which the personal preferences needs to be updated. Note that the request will succeed regardless of whether any messages have been sent to the specified topic.  Clients should use the `max_topic_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum topic length.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register](https://zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// The topic for which the personal preferences needs to be updated. Note that the request will succeed regardless of whether any messages have been sent to the specified topic.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r UpdateUserTopicRequest) Topic(topic string) UpdateUserTopicRequest {
 	r.topic = &topic
 	return r
 }
 
-// Controls which visibility policy to set.  - 0 &#x3D; None. Removes the visibility policy previously set for the topic. - 1 &#x3D; Muted. [Mutes the topic](https://zulip.com/help/mute-a-topic) in a channel. - 2 &#x3D; Unmuted. [Unmutes the topic](https://zulip.com/help/mute-a-topic) in a muted channel. - 3 &#x3D; Followed. [Follows the topic](https://zulip.com/help/follow-a-topic).  In an unmuted channel, a topic visibility policy of unmuted will have the same effect as the \\"None\\" visibility policy.  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.
+// Controls which visibility policy to set.  - 0 &#x3D; None. Removes the visibility policy previously set for the topic. - 1 &#x3D; Muted. [Mutes the topic] in a channel. - 2 &#x3D; Unmuted. [Unmutes the topic] in a muted channel. - 3 &#x3D; Followed. [Follows the topic].  In an unmuted channel, a topic visibility policy of unmuted will have the same effect as the \\"None\\" visibility policy.  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.
+//
+// [Mutes the topic]: https://zulip.com/help/mute-a-topic
+// [Follows the topic]: https://zulip.com/help/follow-a-topic
 func (r UpdateUserTopicRequest) VisibilityPolicy(visibilityPolicy VisibilityPolicy) UpdateUserTopicRequest {
 	r.visibilityPolicy = &visibilityPolicy
 	return r
@@ -4076,14 +4195,17 @@ func (r UpdateUserTopicRequest) Execute() (*Response, *http.Response, error) {
 //
 // This endpoint is used to update the personal preferences for a topic,
 // such as the topic's visibility policy, which is used to implement
-// [mute a topic](https://zulip.com/help/mute-a-topic) and related features.
+// [mute a topic] and related features.
 //
 // This endpoint can be used to update the visibility policy for the single
 // channel and topic pair indicated by the parameters for a user.
 //
 // *Changes**: New in Zulip 7.0 (feature level 170). Previously,
 // toggling whether a topic was muted or unmuted was managed by the
-// [PATCH /users/me/subscriptions/muted_topics](https://zulip.com/api/mute-topic) endpoint.
+// [PATCH /users/me/subscriptions/muted_topics] endpoint.
+//
+// [mute a topic]: https://zulip.com/help/mute-a-topic
+// [PATCH /users/me/subscriptions/muted_topics]: https://zulip.com/api/mute-topic
 func (c *simpleClient) UpdateUserTopic(ctx context.Context) UpdateUserTopicRequest {
 	return UpdateUserTopicRequest{
 		ApiService: c,

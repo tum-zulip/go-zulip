@@ -1,6 +1,8 @@
 package zulip
 
-// RealmExport Object containing details about a [data export](https://zulip.com/help/export-your-organization).
+// RealmExport Object containing details about a [data export].
+//
+// [data export]: https://zulip.com/help/export-your-organization
 type RealmExport struct {
 	// The Id of the data export.
 	Id int64 `json:"id,omitempty"`

@@ -1,6 +1,6 @@
 package zulip
 
-// The [organization type](https://zulip.com/help/organization-type) for the realm.
+// The [organization type] for the realm.
 //   - 0 = Unspecified
 //   - 10 = Business
 //   - 20 = Open-source project
@@ -16,6 +16,8 @@ package zulip
 //   - 1000 = Other
 //
 // **Changes**: New in Zulip 6.0 (feature level 128).
+//
+// [organization type]: https://zulip.com/help/organization-type
 type OrgType int
 
 const (

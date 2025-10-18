@@ -1,12 +1,14 @@
 package zulip
 
-// Which [topics to follow automatically](https://zulip.com/help/mute-a-topic).
+// Which [topics to follow automatically].
 //   - 1 = Topics the user participates in
 //   - 2 = Topics the user sends a message to
 //   - 3 = Topics the user starts
 //   - 4 = Never
 //
 // **Changes**: New in Zulip 8.0 (feature level 214).
+//
+// [topics to follow automatically]: https://zulip.com/help/mute-a-topic
 type AutomaticallyFollowTopicsPolicy int
 
 const (

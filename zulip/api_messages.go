@@ -14,8 +14,9 @@ type MessagesAPI interface {
 
 	// AddReaction Add an emoji reaction
 	//
-	// Add an [emoji reaction](https://zulip.com/help/emoji-reactions) to a message.
+	// Add an [emoji reaction] to a message.
 	//
+	// [emoji reaction]: https://zulip.com/help/emoji-reactions
 	AddReaction(ctx context.Context, messageId int64) AddReactionRequest
 
 	// AddReactionExecute executes the request
@@ -23,7 +24,7 @@ type MessagesAPI interface {
 
 	// CheckMessagesMatchNarrow Check if messages match a narrow
 	//
-	// Check whether a set of messages match a [narrow](https://zulip.com/api/construct-narrow).
+	// Check whether a set of messages match a [narrow].
 	//
 	// For many common narrows (e.g. a topic), clients can write an efficient
 	// client-side check to determine whether a newly arrived message belongs
@@ -34,12 +35,15 @@ type MessagesAPI interface {
 	// implement this check.
 	//
 	// The format of the `match_subject` and `match_content` objects is designed
-	// to match those returned by the [`GET /messages`](https://zulip.com/api/get-messages#response)
+	// to match those returned by the [`GET /messages`]
 	// endpoint, so that a client can splice these fields into a `message` object
-	// received from [`GET /events`](https://zulip.com/api/get-events#message) and end up with an
-	// extended message object identical to how a [`GET /messages`](https://zulip.com/api/get-messages)
+	// received from [`GET /events`] and end up with an
+	// extended message object identical to how a [`GET /messages`]
 	// request for the current narrow would have returned the message.
 	//
+	// [narrow]: https://zulip.com/api/construct-narrow
+	// [`GET /messages`]: https://zulip.com/api/get-messages#response
+	// [`GET /events`]: https://zulip.com/api/get-events#message
 	CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest
 
 	// CheckMessagesMatchNarrowExecute executes the request
@@ -78,13 +82,14 @@ type MessagesAPI interface {
 	// Additionally, a `raw_content` field is included. This field is
 	// useful for clients that primarily work with HTML-rendered
 	// messages but might need to occasionally fetch the message's
-	// raw [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) (e.g. for [view
-	// source](https://zulip.com/help/view-the-markdown-source-of-a-message) or
+	// raw [Zulip-flavored Markdown] (e.g. for [view source] or
 	// prefilling a message edit textarea).
 	//
 	// *Changes**: Before Zulip 5.0 (feature level 120), this
 	// endpoint only returned the `raw_content` field.
 	//
+	// [Zulip-flavored Markdown]: https://zulip.com/help/format-your-message-using-markdown
+	// [view source]: https://zulip.com/help/view-the-markdown-source-of-a-message
 	GetMessage(ctx context.Context, messageId int64) GetMessageRequest
 
 	// GetMessageExecute executes the request
@@ -110,10 +115,9 @@ type MessagesAPI interface {
 	// Zulip clients (e.g. the web, desktop, mobile, and terminal clients) as well as
 	// many bots, API clients, backup scripts, etc.
 	//
-	// Most queries will specify a [narrow filter](https://zulip.com/api/get-messages#parameter-narrow),
-	// to fetch the messages matching any supported [search
-	// query](https://zulip.com/help/search-for-messages). If not specified, it will return messages
-	// corresponding to the user's [combined feed](https://zulip.com/help/combined-feed). There are two
+	// Most queries will specify a [narrow filter],
+	// to fetch the messages matching any supported [search query]. If not specified, it will return messages
+	// corresponding to the user's [combined feed]. There are two
 	// ways to specify which messages matching the narrow filter to fetch:
 	//
 	//   - A range of messages, described by an `anchor` message Id (or a string-format
@@ -129,7 +133,7 @@ type MessagesAPI interface {
 	// `num_after` limits.
 	//
 	// Note that a user's message history does not contain messages sent to
-	// channels before they [subscribe](https://zulip.com/api/subscribe), and newly created
+	// channels before they [subscribe], and newly created
 	// bot users are not usually subscribed to any channels.
 	//
 	// We recommend requesting at most 1000 messages in a batch, to avoid generating very
@@ -138,6 +142,10 @@ type MessagesAPI interface {
 	//
 	// *Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
 	//
+	// [narrow filter]: https://zulip.com/api/get-messages#parameter-narrow
+	// [combined feed]: https://zulip.com/help/combined-feed
+	// [subscribe]: https://zulip.com/api/subscribe
+	// [search query]: https://zulip.com/help/search-for-messages
 	GetMessages(ctx context.Context) GetMessagesRequest
 
 	// GetMessagesExecute executes the request
@@ -176,8 +184,7 @@ type MessagesAPI interface {
 	// response. If all messages were marked as read, then the success response
 	// will return `"complete": true`.
 	//
-	// *Changes**: Deprecated; clients should use the [update personal message
-	// flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
+	// *Changes**: Deprecated; clients should use the [update personal message flags for narrow] endpoint instead
 	// as this endpoint will be removed in a future release.
 	//
 	// Before Zulip 8.0 (feature level 211), if the server's
@@ -197,6 +204,8 @@ type MessagesAPI interface {
 	//
 	//
 	// Deprecated
+	//
+	// [update personal message flags for narrow]: https://zulip.com/api/update-message-flags-for-narrow
 	MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest
 
 	// MarkAllAsReadExecute executes the request
@@ -207,12 +216,13 @@ type MessagesAPI interface {
 	//
 	// Mark all the unread messages in a channel as read.
 	//
-	// *Changes**: Deprecated; clients should use the [update personal message
-	// flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
+	// *Changes**: Deprecated; clients should use the [update personal message flags for narrow] endpoint instead
 	// as this endpoint will be removed in a future release.
 	//
 	//
 	// Deprecated
+	//
+	// [update personal message flags for narrow]: https://zulip.com/api/update-message-flags-for-narrow
 	MarkChannelAsRead(ctx context.Context) MarkChannelAsReadRequest
 
 	// MarkChannelAsReadExecute executes the request
@@ -223,12 +233,13 @@ type MessagesAPI interface {
 	//
 	// Mark all the unread messages in a topic as read.
 	//
-	// *Changes**: Deprecated; clients should use the [update personal message
-	// flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
+	// *Changes**: Deprecated; clients should use the [update personal message flags for narrow] endpoint instead
 	// as this endpoint will be removed in a future release.
 	//
 	//
 	// Deprecated
+	//
+	// [update personal message flags for narrow]: https://zulip.com/api/update-message-flags-for-narrow
 	MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest
 
 	// MarkTopicAsReadExecute executes the request
@@ -237,8 +248,9 @@ type MessagesAPI interface {
 
 	// RemoveReaction Remove an emoji reaction
 	//
-	// Remove an [emoji reaction](https://zulip.com/help/emoji-reactions) from a message.
+	// Remove an [emoji reaction] from a message.
 	//
+	// [emoji reaction]: https://zulip.com/help/emoji-reactions
 	RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest
 
 	// RemoveReactionExecute executes the request
@@ -277,9 +289,11 @@ type MessagesAPI interface {
 
 	// SendMessage Send a message
 	//
-	// Send a [channel message](https://zulip.com/help/introduction-to-topics) or a
-	// [direct message](https://zulip.com/help/direct-messages).
+	// Send a [channel message] or a
+	// [direct message].
 	//
+	// [channel message]: https://zulip.com/help/introduction-to-topics
+	// [direct message]: https://zulip.com/help/direct-messages
 	SendMessage(ctx context.Context) SendMessageRequest
 
 	// SendMessageExecute executes the request
@@ -290,7 +304,7 @@ type MessagesAPI interface {
 	// Update the content, topic, or channel of the message with the specified
 	// Id.
 	//
-	// You can [resolve topics](https://zulip.com/help/resolve-a-topic) by editing the topic to
+	// You can [resolve topics] by editing the topic to
 	// `✔ {original_topic}` with the `propagate_mode` parameter set to
 	// `"change_all"`.
 	//
@@ -312,14 +326,14 @@ type MessagesAPI interface {
 	// - `move_messages_between_streams_limit_seconds`
 	//
 	// More details about these realm settings can be found in the
-	// [`POST /register`](https://zulip.com/api/register-queue) response or in the documentation
+	// [`POST /register`] response or in the documentation
 	// of the [`realm op: update_dict`](https://zulip.com/api/get-events#realm-update_dict
-	// event in [`GET /events`](https://zulip.com/api/get-events).
+	// event in [`GET /events`].
 	//
 	// *Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
 	// resolving a topic was managed by `can_move_messages_between_topics_group`.
 	// As of this feature level, users belonging to the `can_resolve_topics_group`
-	// will have the permission to [resolve topics](https://zulip.com/help/resolve-a-topic) in the organization.
+	// will have the permission to [resolve topics] in the organization.
 	//
 	// In Zulip 10.0 (feature level 316), `edit_topic_policy`
 	// was removed and replaced by `can_move_messages_between_topics_group`
@@ -331,15 +345,14 @@ type MessagesAPI interface {
 	//
 	// Prior to Zulip 7.0 (feature level 172), anyone could add a
 	// topic to channel messages without a topic, regardless of the organization's
-	// [topic editing permissions](https://zulip.com/help/restrict-moving-messages). As of this
+	// [topic editing permissions]. As of this
 	// feature level, messages without topics have the same restrictions for
 	// topic edits as messages with topics.
 	//
 	// Before Zulip 7.0 (feature level 172), by using the `change_all` value for
 	// the `propagate_mode` parameter, users could move messages after the
 	// organization's configured time limits for changing a message's topic or
-	// channel had passed. As of this feature level, the server will [return an
-	// error](https://zulip.com/api/update-message#response) with `"code":
+	// channel had passed. As of this feature level, the server will [return an error] with `"code":
 	// "MOVE_MESSAGES_TIME_LIMIT_EXCEEDED"` if users, other than organization
 	// administrators or moderators, try to move messages after these time
 	// limits have passed.
@@ -371,6 +384,11 @@ type MessagesAPI interface {
 	// [configuring message editing]: https://zulip.com/help/restrict-message-editing-and-deletion
 	// [restricting moving messages]: https://zulip.com/help/restrict-moving-messages
 	//
+	// [resolve topics]: https://zulip.com/help/resolve-a-topic
+	// [`POST /register`]: https://zulip.com/api/register-queue
+	// [`GET /events`]: https://zulip.com/api/get-events
+	// [topic editing permissions]: https://zulip.com/help/restrict-moving-messages
+	// [return an error]: https://zulip.com/api/update-message#response
 	UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest
 
 	// UpdateMessageExecute executes the request
@@ -381,9 +399,9 @@ type MessagesAPI interface {
 	// Add or remove personal message flags like `read` and `starred`
 	// on a collection of message Ids.
 	//
-	// See also the endpoint for [updating flags on a range of
-	// messages within a narrow](https://zulip.com/api/update-message-flags-for-narrow).
+	// See also the endpoint for [updating flags on a range of messages within a narrow].
 	//
+	// [updating flags on a range of messages within a narrow]: https://zulip.com/api/update-message-flags-for-narrow
 	UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest
 
 	// UpdateMessageFlagsExecute executes the request
@@ -394,11 +412,11 @@ type MessagesAPI interface {
 	// Add or remove personal message flags like `read` and `starred`
 	// on a range of messages within a narrow.
 	//
-	// See also [the endpoint for updating flags on specific message
-	// Ids](https://zulip.com/api/update-message-flags).
+	// See also [the endpoint for updating flags on specific message Ids].
 	//
 	// *Changes**: New in Zulip 6.0 (feature level 155).
 	//
+	// [the endpoint for updating flags on specific message Ids]: https://zulip.com/api/update-message-flags
 	UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest
 
 	// UpdateMessageFlagsForNarrowExecute executes the request
@@ -406,7 +424,7 @@ type MessagesAPI interface {
 
 	// UploadFile Upload a file
 	//
-	// [Upload](https://zulip.com/help/share-and-upload-files) a single file and get the corresponding URL.
+	// [Upload] a single file and get the corresponding URL.
 	//
 	// Initially, only you will be able to access the link. To share the
 	// uploaded file, you'll need to [send a message]
@@ -415,13 +433,13 @@ type MessagesAPI interface {
 	// containing the link.
 	//
 	// The maximum allowed file size is available in the `max_file_upload_size_mib`
-	// field in the [`POST /register`](https://zulip.com/api/register-queue) response. Note that
+	// field in the [`POST /register`] response. Note that
 	// large files (25MB+) may fail to upload using this API endpoint due to
 	// network-layer timeouts, depending on the quality of your connection to the
 	// Zulip server.
 	//
 	// For uploading larger files, `/api/v1/tus` is an endpoint implementing the
-	// [`tus` resumable upload protocol](https://tus.io/protocols/resumable-upload),
+	// [`tus` resumable upload protocol],
 	// which supports uploading arbitrarily large files limited only by the server's
 	// `max_file_upload_size_mib` (Configured via `MAX_FILE_UPLOAD_SIZE` in
 	// `/etc/zulip/settings.py`). Clients which send authenticated credentials
@@ -435,6 +453,9 @@ type MessagesAPI interface {
 	// [uploaded-files]: https://zulip.com/help/manage-your-uploaded-files
 	// [send a message]: https://zulip.com/api/send-message
 	//
+	// [Upload]: https://zulip.com/help/share-and-upload-files
+	// [`POST /register`]: https://zulip.com/api/register-queue
+	// [`tus` resumable upload protocol]: https://tus.io/protocols/resumable-upload
 	UploadFile(ctx context.Context) UploadFileRequest
 
 	// UploadFileExecute executes the request
@@ -462,7 +483,9 @@ func (r AddReactionRequest) EmojiCode(emojiCode string) AddReactionRequest {
 	return r
 }
 
-// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji](https://zulip.com/help/custom-emoji).  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \\"zulip\\").  **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji](https://zulip.com/help/custom-emoji; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
+// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \\"zulip\\").  **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji](https://zulip.com/help/custom-emoji; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
+//
+// [custom emoji]: https://zulip.com/help/custom-emoji
 func (r AddReactionRequest) ReactionType(reactionType string) AddReactionRequest {
 	r.reactionType = &reactionType
 	return r
@@ -474,7 +497,9 @@ func (r AddReactionRequest) Execute() (*Response, *http.Response, error) {
 
 // AddReaction Add an emoji reaction
 //
-// Add an [emoji reaction](https://zulip.com/help/emoji-reactions) to a message.
+// Add an [emoji reaction] to a message.
+//
+// [emoji reaction]: https://zulip.com/help/emoji-reactions
 func (c *simpleClient) AddReaction(ctx context.Context, messageId int64) AddReactionRequest {
 	return AddReactionRequest{
 		ApiService: c,
@@ -579,7 +604,10 @@ func (r CheckMessagesMatchNarrowRequest) MsgIds(msgIds []int64) CheckMessagesMat
 	return r
 }
 
-// A structure defining the narrow to check against. See how to [construct a narrow](https://zulip.com/api/construct-narrow).  **Changes**: See [changes section](https://zulip.com/api/construct-narrow#changes) of search/narrow filter documentation.
+// A structure defining the narrow to check against. See how to [construct a narrow].  **Changes**: See [changes section] of search/narrow filter documentation.
+//
+// [construct a narrow]: https://zulip.com/api/construct-narrow
+// [changes section]: https://zulip.com/api/construct-narrow#changes
 func (r CheckMessagesMatchNarrowRequest) Narrow(narrow *Narrow) CheckMessagesMatchNarrowRequest {
 	r.narrow = narrow
 	return r
@@ -591,7 +619,7 @@ func (r CheckMessagesMatchNarrowRequest) Execute() (*CheckMessagesMatchNarrowRes
 
 // CheckMessagesMatchNarrow Check if messages match a narrow
 //
-// Check whether a set of messages match a [narrow](https://zulip.com/api/construct-narrow).
+// Check whether a set of messages match a [narrow].
 //
 // For many common narrows (e.g. a topic), clients can write an efficient
 // client-side check to determine whether a newly arrived message belongs
@@ -602,11 +630,15 @@ func (r CheckMessagesMatchNarrowRequest) Execute() (*CheckMessagesMatchNarrowRes
 // implement this check.
 //
 // The format of the `match_subject` and `match_content` objects is designed
-// to match those returned by the [`GET /messages`](https://zulip.com/api/get-messages#response)
+// to match those returned by the [`GET /messages`]
 // endpoint, so that a client can splice these fields into a `message` object
-// received from [`GET /events`](https://zulip.com/api/get-events#message) and end up with an
-// extended message object identical to how a [`GET /messages`](https://zulip.com/api/get-messages)
+// received from [`GET /events`] and end up with an
+// extended message object identical to how a [`GET /messages`]
 // request for the current narrow would have returned the message.
+//
+// [narrow]: https://zulip.com/api/construct-narrow
+// [`GET /messages`]: https://zulip.com/api/get-messages#response
+// [`GET /events`]: https://zulip.com/api/get-events#message
 func (c *simpleClient) CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest {
 	return CheckMessagesMatchNarrowRequest{
 		ApiService: c,
@@ -901,13 +933,17 @@ type GetMessageRequest struct {
 	allowEmptyTopicName *bool
 }
 
-// If `true`, message content is returned in the rendered HTML format. If `false`, message content is returned in the raw [Zulip-flavored Markdown format](https://zulip.com/help/format-your-message-using-markdown) text that user entered.  **Changes**: New in Zulip 5.0 (feature level 120).
+// If `true`, message content is returned in the rendered HTML format. If `false`, message content is returned in the raw [Zulip-flavored Markdown format] text that user entered.  **Changes**: New in Zulip 5.0 (feature level 120).
+//
+// [Zulip-flavored Markdown format]: https://zulip.com/help/format-your-message-using-markdown
 func (r GetMessageRequest) ApplyMarkdown(applyMarkdown bool) GetMessageRequest {
 	r.applyMarkdown = &applyMarkdown
 	return r
 }
 
-// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If `false`, the server will use the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response instead of empty string to represent the empty string topic in its response.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If `false`, the server will use the value of `realm_empty_topic_display_name` found in the [`POST /register`] response instead of empty string to represent the empty string topic in its response.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r GetMessageRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMessageRequest {
 	r.allowEmptyTopicName = &allowEmptyTopicName
 	return r
@@ -924,12 +960,14 @@ func (r GetMessageRequest) Execute() (*GetMessageResponse, *http.Response, error
 // Additionally, a `raw_content` field is included. This field is
 // useful for clients that primarily work with HTML-rendered
 // messages but might need to occasionally fetch the message's
-// raw [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) (e.g. for [view
-// source](https://zulip.com/help/view-the-markdown-source-of-a-message) or
+// raw [Zulip-flavored Markdown] (e.g. for [view source] or
 // prefilling a message edit textarea).
 //
 // *Changes**: Before Zulip 5.0 (feature level 120), this
 // endpoint only returned the `raw_content` field.
+//
+// [Zulip-flavored Markdown]: https://zulip.com/help/format-your-message-using-markdown
+// [view source]: https://zulip.com/help/view-the-markdown-source-of-a-message
 func (c *simpleClient) GetMessage(ctx context.Context, messageId int64) GetMessageRequest {
 	return GetMessageRequest{
 		ApiService: c,
@@ -1030,7 +1068,9 @@ type GetMessageHistoryRequest struct {
 	allowEmptyTopicName *bool
 }
 
-// Whether the topic names i.e. `topic` and `prev_topic` fields in the `message_history` objects returned can be empty string.  If `false`, the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response is returned replacing the empty string as the topic name.  **Changes**: New in Zulip 10.0 (feature level 334).
+// Whether the topic names i.e. `topic` and `prev_topic` fields in the `message_history` objects returned can be empty string.  If `false`, the value of `realm_empty_topic_display_name` found in the [`POST /register`] response is returned replacing the empty string as the topic name.  **Changes**: New in Zulip 10.0 (feature level 334).
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r GetMessageHistoryRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMessageHistoryRequest {
 	r.allowEmptyTopicName = &allowEmptyTopicName
 	return r
@@ -1174,7 +1214,11 @@ func (r GetMessagesRequest) NumAfter(numAfter int32) GetMessagesRequest {
 	return r
 }
 
-// The narrow where you want to fetch the messages from. See how to [construct a narrow](https://zulip.com/api/construct-narrow).  Note that many narrows, including all that lack a `channel`, `channels`, `stream`, or `streams` operator, search the user&#39;s personal message history. See [searching shared history](https://zulip.com/help/search-for-messages#search-shared-history) for details.  For example, if you would like to fetch messages from all public channels instead of only the user&#39;s message history, then a specific narrow for messages sent to all public channels can be used: `{"operator": "channels", "operand": "public"}`.  Newly created bot users are not usually subscribed to any channels, so bots using this API should either be subscribed to appropriate channels or use a shared history search narrow with this endpoint.  **Changes**: See [changes section](https://zulip.com/api/construct-narrow#changes) of search/narrow filter documentation.
+// The narrow where you want to fetch the messages from. See how to [construct a narrow].  Note that many narrows, including all that lack a `channel`, `channels`, `stream`, or `streams` operator, search the user&#39;s personal message history. See [searching shared history] for details.  For example, if you would like to fetch messages from all public channels instead of only the user&#39;s message history, then a specific narrow for messages sent to all public channels can be used: `{"operator": "channels", "operand": "public"}`.  Newly created bot users are not usually subscribed to any channels, so bots using this API should either be subscribed to appropriate channels or use a shared history search narrow with this endpoint.  **Changes**: See [changes section] of search/narrow filter documentation.
+//
+// [construct a narrow]: https://zulip.com/api/construct-narrow
+// [searching shared history]: https://zulip.com/help/search-for-messages#search-shared-history
+// [changes section]: https://zulip.com/api/construct-narrow#changes
 func (r GetMessagesRequest) Narrow(narrow *Narrow) GetMessagesRequest {
 	r.narrow = narrow
 	return r
@@ -1186,7 +1230,9 @@ func (r GetMessagesRequest) ClientGravatar(clientGravatar bool) GetMessagesReque
 	return r
 }
 
-// If `true`, message content is returned in the rendered HTML format. If `false`, message content is returned in the raw Markdown-format text that user entered.  See [Markdown message formatting](https://zulip.com/api/message-formatting) for details on Zulip&#39;s HTML format.
+// If `true`, message content is returned in the rendered HTML format. If `false`, message content is returned in the raw Markdown-format text that user entered.  See [Markdown message formatting] for details on Zulip&#39;s HTML format.
+//
+// [Markdown message formatting]: https://zulip.com/api/message-formatting
 func (r GetMessagesRequest) ApplyMarkdown(applyMarkdown bool) GetMessagesRequest {
 	r.applyMarkdown = &applyMarkdown
 	return r
@@ -1205,7 +1251,9 @@ func (r GetMessagesRequest) MessageIds(messageIds []int64) GetMessagesRequest {
 	return r
 }
 
-// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If `false`, the server will use the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response instead of empty string to represent the empty string topic in its response.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If `false`, the server will use the value of `realm_empty_topic_display_name` found in the [`POST /register`] response instead of empty string to represent the empty string topic in its response.  **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r GetMessagesRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMessagesRequest {
 	r.allowEmptyTopicName = &allowEmptyTopicName
 	return r
@@ -1221,10 +1269,9 @@ func (r GetMessagesRequest) Execute() (*GetMessagesResponse, *http.Response, err
 // Zulip clients (e.g. the web, desktop, mobile, and terminal clients) as well as
 // many bots, API clients, backup scripts, etc.
 //
-// Most queries will specify a [narrow filter](https://zulip.com/api/get-messages#parameter-narrow),
-// to fetch the messages matching any supported [search
-// query](https://zulip.com/help/search-for-messages). If not specified, it will return messages
-// corresponding to the user's [combined feed](https://zulip.com/help/combined-feed). There are two
+// Most queries will specify a [narrow filter],
+// to fetch the messages matching any supported [search query]. If not specified, it will return messages
+// corresponding to the user's [combined feed]. There are two
 // ways to specify which messages matching the narrow filter to fetch:
 //
 //   - A range of messages, described by an `anchor` message Id (or a string-format
@@ -1242,7 +1289,7 @@ func (r GetMessagesRequest) Execute() (*GetMessagesResponse, *http.Response, err
 // `num_after` limits.
 //
 // Note that a user's message history does not contain messages sent to
-// channels before they [subscribe](https://zulip.com/api/subscribe), and newly created
+// channels before they [subscribe], and newly created
 // bot users are not usually subscribed to any channels.
 //
 // We recommend requesting at most 1000 messages in a batch, to avoid generating very
@@ -1250,6 +1297,11 @@ func (r GetMessagesRequest) Execute() (*GetMessagesResponse, *http.Response, err
 // attempting to exceed this will result in an error.
 //
 // *Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
+//
+// [narrow filter]: https://zulip.com/api/get-messages#parameter-narrow
+// [combined feed]: https://zulip.com/help/combined-feed
+// [subscribe]: https://zulip.com/api/subscribe
+// [search query]: https://zulip.com/help/search-for-messages
 func (c *simpleClient) GetMessages(ctx context.Context) GetMessagesRequest {
 	return GetMessagesRequest{
 		ApiService: c,
@@ -1504,8 +1556,7 @@ func (r MarkAllAsReadRequest) Execute() (*MarkAllAsReadResponse, *http.Response,
 // response. If all messages were marked as read, then the success response
 // will return `"complete": true`.
 //
-// *Changes**: Deprecated; clients should use the [update personal message
-// flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
+// *Changes**: Deprecated; clients should use the [update personal message flags for narrow] endpoint instead
 // as this endpoint will be removed in a future release.
 //
 // Before Zulip 8.0 (feature level 211), if the server's
@@ -1524,6 +1575,8 @@ func (r MarkAllAsReadRequest) Execute() (*MarkAllAsReadResponse, *http.Response,
 // success response with `"result": "partially_completed"` is returned.
 //
 // Deprecated
+//
+// [update personal message flags for narrow]: https://zulip.com/api/update-message-flags-for-narrow
 func (c *simpleClient) MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest {
 	return MarkAllAsReadRequest{
 		ApiService: c,
@@ -1625,11 +1678,12 @@ func (r MarkChannelAsReadRequest) Execute() (*Response, *http.Response, error) {
 //
 // Mark all the unread messages in a channel as read.
 //
-// *Changes**: Deprecated; clients should use the [update personal message
-// flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
+// *Changes**: Deprecated; clients should use the [update personal message flags for narrow] endpoint instead
 // as this endpoint will be removed in a future release.
 //
 // Deprecated
+//
+// [update personal message flags for narrow]: https://zulip.com/api/update-message-flags-for-narrow
 func (c *simpleClient) MarkChannelAsRead(ctx context.Context) MarkChannelAsReadRequest {
 	return MarkChannelAsReadRequest{
 		ApiService: c,
@@ -1728,7 +1782,9 @@ func (r MarkTopicAsReadRequest) ChannelId(channelId int64) MarkTopicAsReadReques
 	return r
 }
 
-// The name of the topic whose messages should be marked as read.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register](https://zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// The name of the topic whose messages should be marked as read.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+//
+// [POST /register]: https://zulip.com/api/register-queue
 func (r MarkTopicAsReadRequest) TopicName(topicName string) MarkTopicAsReadRequest {
 	r.topicName = &topicName
 	return r
@@ -1742,11 +1798,12 @@ func (r MarkTopicAsReadRequest) Execute() (*Response, *http.Response, error) {
 //
 // Mark all the unread messages in a topic as read.
 //
-// *Changes**: Deprecated; clients should use the [update personal message
-// flags for narrow](https://zulip.com/api/update-message-flags-for-narrow) endpoint instead
+// *Changes**: Deprecated; clients should use the [update personal message flags for narrow] endpoint instead
 // as this endpoint will be removed in a future release.
 //
 // Deprecated
+//
+// [update personal message flags for narrow]: https://zulip.com/api/update-message-flags-for-narrow
 func (c *simpleClient) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest {
 	return MarkTopicAsReadRequest{
 		ApiService: c,
@@ -1857,7 +1914,9 @@ func (r RemoveReactionRequest) EmojiCode(emojiCode string) RemoveReactionRequest
 	return r
 }
 
-// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji](https://zulip.com/help/custom-emoji).  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \\"zulip\\").  **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji](https://zulip.com/help/custom-emoji; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
+// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \\"zulip\\").  **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji](https://zulip.com/help/custom-emoji; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
+//
+// [custom emoji]: https://zulip.com/help/custom-emoji
 func (r RemoveReactionRequest) ReactionType(reactionType string) RemoveReactionRequest {
 	r.reactionType = &reactionType
 	return r
@@ -1869,7 +1928,9 @@ func (r RemoveReactionRequest) Execute() (*Response, *http.Response, error) {
 
 // RemoveReaction Remove an emoji reaction
 //
-// Remove an [emoji reaction](https://zulip.com/help/emoji-reactions) from a message.
+// Remove an [emoji reaction] from a message.
+//
+// [emoji reaction]: https://zulip.com/help/emoji-reactions
 func (c *simpleClient) RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest {
 	return RemoveReactionRequest{
 		ApiService: c,
@@ -1966,7 +2027,9 @@ type RenderMessageRequest struct {
 	content    *string
 }
 
-// The content of the message.  Clients should use the `max_message_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum message size.
+// The content of the message.  Clients should use the `max_message_length` returned by the [`POST /register`] endpoint to determine the maximum message size.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r RenderMessageRequest) Content(content string) RenderMessageRequest {
 	r.content = &content
 	return r
@@ -2213,19 +2276,28 @@ func (r SendMessageRequest) To(to Recipient) SendMessageRequest {
 	return r
 }
 
-// The content of the message.  Clients should use the `max_message_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum message size.
+// The content of the message.  Clients should use the `max_message_length` returned by the [`POST /register`] endpoint to determine the maximum message size.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r SendMessageRequest) Content(content string) SendMessageRequest {
 	r.content = &content
 	return r
 }
 
-// The topic of the message. Only required for channel messages (`\\"type\\": \\"stream\\"` or `\\"type\\": \\"channel\\"`), ignored otherwise.  Clients should use the `max_topic_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum topic length.  Note: When `\\"(no topic)\\"` or the value of `realm_empty_topic_display_name` found in the [POST /register](https://zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](https://zulip.com/help/require-topics), this parameter can&#39;t be `\\"(no topic)\\"`, an empty string, or the value of `realm_empty_topic_display_name`.  **Changes**: Before Zulip 10.0 (feature level 370), `\\"(no topic)\\"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as `subject`, which is currently a deprecated alias.
+// The topic of the message. Only required for channel messages (`\\"type\\": \\"stream\\"` or `\\"type\\": \\"channel\\"`), ignored otherwise.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `\\"(no topic)\\"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can&#39;t be `\\"(no topic)\\"`, an empty string, or the value of `realm_empty_topic_display_name`.  **Changes**: Before Zulip 10.0 (feature level 370), `\\"(no topic)\\"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as `subject`, which is currently a deprecated alias.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
+// [topics are required]: https://zulip.com/help/require-topics
 func (r SendMessageRequest) Topic(topic string) SendMessageRequest {
 	r.topic = &topic
 	return r
 }
 
-// For clients supporting [local echo](https://zulip.readthedocs.io/en/latest/subsystems/sending-messages.html#local-echo), the [event queue](https://zulip.com/api/register-queue) Id for the client. If passed, `local_id` is required. If the message is successfully sent, the server will include `local_id` in the `message` event that the client with this `queue_id` will receive notifying it of the new message via [`GET /events`](https://zulip.com/api/get-events). This lets the client know unambiguously that it should replace the locally echoed message, rather than adding this new message (which would be correct if the user had sent the new message from another device).
+// For clients supporting [local echo], the [event queue] Id for the client. If passed, `local_id` is required. If the message is successfully sent, the server will include `local_id` in the `message` event that the client with this `queue_id` will receive notifying it of the new message via [`GET /events`]. This lets the client know unambiguously that it should replace the locally echoed message, rather than adding this new message (which would be correct if the user had sent the new message from another device).
+//
+// [local echo]: https://zulip.readthedocs.io/en/latest/subsystems/sending-messages.html#local-echo
+// [event queue]: https://zulip.com/api/register-queue
+// [`GET /events`]: https://zulip.com/api/get-events
 func (r SendMessageRequest) QueueId(queueId string) SendMessageRequest {
 	r.queueId = &queueId
 	return r
@@ -2249,8 +2321,11 @@ func (r SendMessageRequest) Execute() (*SendMessageResponse, *http.Response, err
 
 // SendMessage Send a message
 //
-// Send a [channel message](https://zulip.com/help/introduction-to-topics) or a
-// [direct message](https://zulip.com/help/direct-messages).
+// Send a [channel message] or a
+// [direct message].
+//
+// [channel message]: https://zulip.com/help/introduction-to-topics
+// [direct message]: https://zulip.com/help/direct-messages
 func (c *simpleClient) SendMessage(ctx context.Context) SendMessageRequest {
 	return SendMessageRequest{
 		ApiService: c,
@@ -2367,7 +2442,11 @@ type UpdateMessageRequest struct {
 	channelId                   *int64
 }
 
-// The topic to move the message(s) to, to request changing the topic.  Clients should use the `max_topic_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum topic length  Should only be sent when changing the topic, and will throw an error if the target message is not a channel message.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register](https://zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](https://zulip.com/help/require-topics), this parameter can&#39;t be `\\"(no topic)\\"`, an empty string, or the value of `realm_empty_topic_display_name`.  You can [resolve topics](https://zulip.com/help/resolve-a-topic) by editing the topic to `✔ {original_topic}` with the `propagate_mode` parameter set to `\\"change_all\\"`. The empty string topic cannot be marked as resolved.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as `subject`, which is currently a deprecated alias.
+// The topic to move the message(s) to, to request changing the topic.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length  Should only be sent when changing the topic, and will throw an error if the target message is not a channel message.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can&#39;t be `\\"(no topic)\\"`, an empty string, or the value of `realm_empty_topic_display_name`.  You can [resolve topics] by editing the topic to `✔ {original_topic}` with the `propagate_mode` parameter set to `\\"change_all\\"`. The empty string topic cannot be marked as resolved.  **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as `subject`, which is currently a deprecated alias.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
+// [topics are required]: https://zulip.com/help/require-topics
+// [resolve topics]: https://zulip.com/help/resolve-a-topic
 func (r UpdateMessageRequest) Topic(topic string) UpdateMessageRequest {
 	r.topic = &topic
 	return r
@@ -2385,13 +2464,17 @@ func (r UpdateMessageRequest) SendNotificationToOldThread(sendNotificationToOldT
 	return r
 }
 
-// Whether to send an automated message to the new topic to notify users where the messages came from.  If the move is just [resolving/unresolving a topic](https://zulip.com/help/resolve-a-topic), this parameter will not trigger an additional notification.  **Changes**: Before Zulip 6.0 (feature level 152), this parameter was ignored unless the channel was changed.  New in Zulip 3.0 (feature level 9).
+// Whether to send an automated message to the new topic to notify users where the messages came from.  If the move is just [resolving/unresolving a topic], this parameter will not trigger an additional notification.  **Changes**: Before Zulip 6.0 (feature level 152), this parameter was ignored unless the channel was changed.  New in Zulip 3.0 (feature level 9).
+//
+// [resolving/unresolving a topic]: https://zulip.com/help/resolve-a-topic
 func (r UpdateMessageRequest) SendNotificationToNewThread(sendNotificationToNewThread bool) UpdateMessageRequest {
 	r.sendNotificationToNewThread = &sendNotificationToNewThread
 	return r
 }
 
-// The updated content of the target message.  Clients should use the `max_message_length` returned by the [`POST /register`](https://zulip.com/api/register-queue) endpoint to determine the maximum message size.  Note that a message&#39;s content and channel cannot be changed at the same time, so sending both `content` and `stream_id` parameters will throw an error.
+// The updated content of the target message.  Clients should use the `max_message_length` returned by the [`POST /register`] endpoint to determine the maximum message size.  Note that a message&#39;s content and channel cannot be changed at the same time, so sending both `content` and `stream_id` parameters will throw an error.
+//
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (r UpdateMessageRequest) Content(content string) UpdateMessageRequest {
 	r.content = &content
 	return r
@@ -2418,7 +2501,7 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 // Update the content, topic, or channel of the message with the specified
 // Id.
 //
-// You can [resolve topics](https://zulip.com/help/resolve-a-topic) by editing the topic to
+// You can [resolve topics] by editing the topic to
 // `✔ {original_topic}` with the `propagate_mode` parameter set to
 // `"change_all"`.
 //
@@ -2440,14 +2523,14 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 // - `move_messages_between_streams_limit_seconds`
 //
 // More details about these realm settings can be found in the
-// [`POST /register`](https://zulip.com/api/register-queue) response or in the documentation
+// [`POST /register`] response or in the documentation
 // of the [`realm op: update_dict`](https://zulip.com/api/get-events#realm-update_dict
-// event in [`GET /events`](https://zulip.com/api/get-events).
+// event in [`GET /events`].
 //
 // *Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
 // resolving a topic was managed by `can_move_messages_between_topics_group`.
 // As of this feature level, users belonging to the `can_resolve_topics_group`
-// will have the permission to [resolve topics](https://zulip.com/help/resolve-a-topic) in the organization.
+// will have the permission to [resolve topics] in the organization.
 //
 // In Zulip 10.0 (feature level 316), `edit_topic_policy`
 // was removed and replaced by `can_move_messages_between_topics_group`
@@ -2459,15 +2542,14 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 //
 // Prior to Zulip 7.0 (feature level 172), anyone could add a
 // topic to channel messages without a topic, regardless of the organization's
-// [topic editing permissions](https://zulip.com/help/restrict-moving-messages). As of this
+// [topic editing permissions]. As of this
 // feature level, messages without topics have the same restrictions for
 // topic edits as messages with topics.
 //
 // Before Zulip 7.0 (feature level 172), by using the `change_all` value for
 // the `propagate_mode` parameter, users could move messages after the
 // organization's configured time limits for changing a message's topic or
-// channel had passed. As of this feature level, the server will [return an
-// error](https://zulip.com/api/update-message#response) with `"code":
+// channel had passed. As of this feature level, the server will [return an error] with `"code":
 // "MOVE_MESSAGES_TIME_LIMIT_EXCEEDED"` if users, other than organization
 // administrators or moderators, try to move messages after these time
 // limits have passed.
@@ -2498,6 +2580,11 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 //
 // [configuring message editing]: https://zulip.com/help/restrict-message-editing-and-deletion
 // [restricting moving messages]: https://zulip.com/help/restrict-moving-messages
+// [resolve topics]: https://zulip.com/help/resolve-a-topic
+// [`POST /register`]: https://zulip.com/api/register-queue
+// [`GET /events`]: https://zulip.com/api/get-events
+// [topic editing permissions]: https://zulip.com/help/restrict-moving-messages
+// [return an error]: https://zulip.com/api/update-message#response
 func (c *simpleClient) UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest {
 	return UpdateMessageRequest{
 		ApiService: c,
@@ -2635,8 +2722,9 @@ func (r UpdateMessageFlagsRequest) Execute() (*UpdateMessageFlagsResponse, *http
 // Add or remove personal message flags like `read` and `starred`
 // on a collection of message Ids.
 //
-// See also the endpoint for [updating flags on a range of
-// messages within a narrow](https://zulip.com/api/update-message-flags-for-narrow).
+// See also the endpoint for [updating flags on a range of messages within a narrow].
+//
+// [updating flags on a range of messages within a narrow]: https://zulip.com/api/update-message-flags-for-narrow
 func (c *simpleClient) UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest {
 	return UpdateMessageFlagsRequest{
 		ApiService: c,
@@ -2758,7 +2846,10 @@ func (r UpdateMessageFlagsForNarrowRequest) NumAfter(numAfter int32) UpdateMessa
 	return r
 }
 
-// The narrow you want update flags within. See how to [construct a narrow](https://zulip.com/api/construct-narrow).  Note that, when adding the `read` flag to messages, clients should consider including a narrow with the `is:unread` filter as an optimization. Including that filter takes advantage of the fact that the server has a database index for unread messages.  **Changes**: See [changes section](https://zulip.com/api/construct-narrow#changes) of search/narrow filter documentation.
+// The narrow you want update flags within. See how to [construct a narrow].  Note that, when adding the `read` flag to messages, clients should consider including a narrow with the `is:unread` filter as an optimization. Including that filter takes advantage of the fact that the server has a database index for unread messages.  **Changes**: See [changes section] of search/narrow filter documentation.
+//
+// [construct a narrow]: https://zulip.com/api/construct-narrow
+// [changes section]: https://zulip.com/api/construct-narrow#changes
 func (r UpdateMessageFlagsForNarrowRequest) Narrow(narrow *Narrow) UpdateMessageFlagsForNarrowRequest {
 	r.narrow = narrow
 	return r
@@ -2770,7 +2861,9 @@ func (r UpdateMessageFlagsForNarrowRequest) Op(op string) UpdateMessageFlagsForN
 	return r
 }
 
-// The flag that should be added/removed. See [available flags](https://zulip.com/api/update-message-flags#available-flags).
+// The flag that should be added/removed. See [available flags].
+//
+// [available flags]: https://zulip.com/api/update-message-flags#available-flags
 func (r UpdateMessageFlagsForNarrowRequest) Flag(flag string) UpdateMessageFlagsForNarrowRequest {
 	r.flag = &flag
 	return r
@@ -2791,10 +2884,11 @@ func (r UpdateMessageFlagsForNarrowRequest) Execute() (*UpdateMessageFlagsForNar
 // Add or remove personal message flags like `read` and `starred`
 // on a range of messages within a narrow.
 //
-// See also [the endpoint for updating flags on specific message
-// Ids](https://zulip.com/api/update-message-flags).
+// See also [the endpoint for updating flags on specific message Ids].
 //
 // *Changes**: New in Zulip 6.0 (feature level 155).
+//
+// [the endpoint for updating flags on specific message Ids]: https://zulip.com/api/update-message-flags
 func (c *simpleClient) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest {
 	return UpdateMessageFlagsForNarrowRequest{
 		ApiService: c,
@@ -2924,7 +3018,7 @@ func (r UploadFileRequest) Execute() (*UploadFileResponse, *http.Response, error
 
 // UploadFile Upload a file
 //
-// [Upload](https://zulip.com/help/share-and-upload-files) a single file and get the corresponding URL.
+// [Upload] a single file and get the corresponding URL.
 //
 // Initially, only you will be able to access the link. To share the
 // uploaded file, you'll need to [send a message]
@@ -2933,13 +3027,13 @@ func (r UploadFileRequest) Execute() (*UploadFileResponse, *http.Response, error
 // containing the link.
 //
 // The maximum allowed file size is available in the `max_file_upload_size_mib`
-// field in the [`POST /register`](https://zulip.com/api/register-queue) response. Note that
+// field in the [`POST /register`] response. Note that
 // large files (25MB+) may fail to upload using this API endpoint due to
 // network-layer timeouts, depending on the quality of your connection to the
 // Zulip server.
 //
 // For uploading larger files, `/api/v1/tus` is an endpoint implementing the
-// [`tus` resumable upload protocol](https://tus.io/protocols/resumable-upload),
+// [`tus` resumable upload protocol],
 // which supports uploading arbitrarily large files limited only by the server's
 // `max_file_upload_size_mib` (Configured via `MAX_FILE_UPLOAD_SIZE` in
 // `/etc/zulip/settings.py`). Clients which send authenticated credentials
@@ -2951,6 +3045,9 @@ func (r UploadFileRequest) Execute() (*UploadFileResponse, *http.Response, error
 // `max_file_upload_size_mib` was typically 25MB.
 //
 // [send a message]: https://zulip.com/api/send-message
+// [Upload]: https://zulip.com/help/share-and-upload-files
+// [`POST /register`]: https://zulip.com/api/register-queue
+// [`tus` resumable upload protocol]: https://tus.io/protocols/resumable-upload
 //
 // [uploaded-files]: https://zulip.com/help/manage-your-uploaded-files
 func (c *simpleClient) UploadFile(ctx context.Context) UploadFileRequest {

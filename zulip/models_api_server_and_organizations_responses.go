@@ -52,7 +52,9 @@ type GetCustomProfileFieldsResponse struct {
 type GetLinkifiersResponse struct {
 	Response
 
-	// An ordered array of objects, where each object describes a linkifier.  Clients should always process linkifiers in the order given; this is important if the realm has linkifiers with overlapping patterns. The order can be modified using [`PATCH /realm/linkifiers`](https://zulip.com/api/reorder-linkifiers).
+	// An ordered array of objects, where each object describes a linkifier.  Clients should always process linkifiers in the order given; this is important if the realm has linkifiers with overlapping patterns. The order can be modified using [`PATCH /realm/linkifiers`].
+	//
+	// [`PATCH /realm/linkifiers`]: https://zulip.com/api/reorder-linkifiers
 	Linkifiers []RealmLinkifiers `json:"linkifiers,omitempty"`
 }
 
@@ -106,11 +108,15 @@ type GetServerSettingsResponse struct {
 	AuthenticationMethods *AuthMethods `json:"authentication_methods,omitempty"`
 	// A list of dictionaries describing the available external authentication methods (E.g. Google, GitHub, or SAML) enabled for this organization.  The list is sorted in the order in which these authentication methods should be displayed.  **Changes**: New in Zulip 2.1.0.
 	ExternalAuthenticationMethods []ExternalAuthMethod `json:"external_authentication_methods,omitempty"`
-	// An integer indicating what features are available on the server. The feature level increases monotonically; a value of N means the server supports all API features introduced before feature level N. This is designed to provide a simple way for client apps to decide whether the server supports a given feature or API change. See the [changelog](https://zulip.com/api/changelog) for details on what each feature level means.  **Changes**: New in Zulip 3.0 (feature level 1). We recommend using an implied value of 0 for Zulip servers that do not send this field.
+	// An integer indicating what features are available on the server. The feature level increases monotonically; a value of N means the server supports all API features introduced before feature level N. This is designed to provide a simple way for client apps to decide whether the server supports a given feature or API change. See the [changelog] for details on what each feature level means.  **Changes**: New in Zulip 3.0 (feature level 1). We recommend using an implied value of 0 for Zulip servers that do not send this field.
+	//
+	// [changelog]: https://zulip.com/api/changelog
 	ZulipFeatureLevel int `json:"zulip_feature_level,omitempty"`
 	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.  [version from Git]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
 	ZulipVersion string `json:"zulip_version,omitempty"`
-	// The `git merge-base` between `zulip_version` and official branches in the public [Zulip server and web app repository](https://github.com/zulip/zulip), in the same format as `zulip_version`. This will equal `zulip_version` if the server is not running a fork of the Zulip server.  This will be `\"\"` if unavailable.  **Changes**: New in Zulip 5.0 (feature level 88).
+	// The `git merge-base` between `zulip_version` and official branches in the public [Zulip server and web app repository], in the same format as `zulip_version`. This will equal `zulip_version` if the server is not running a fork of the Zulip server.  This will be `\"\"` if unavailable.  **Changes**: New in Zulip 5.0 (feature level 88).
+	//
+	// [Zulip server and web app repository]: https://github.com/zulip/zulip
 	ZulipMergeBase string `json:"zulip_merge_base,omitempty"`
 	// Whether mobile/push notifications are configured.
 	PushNotificationsEnabled bool `json:"push_notifications_enabled,omitempty"`
@@ -121,8 +127,10 @@ type GetServerSettingsResponse struct {
 	// Whether all valid usernames for authentication to this organization will be email addresses. This is important for clients to know whether to do client side validation of email address format in a login prompt.  This value will be false if the server has [LDAP authentication] enabled with a username and password combination.
 	// [LDAP authentication]: https://zulip.readthedocs.io/en/latest/production/authentication-methods.html#ldap-including-active-directory
 	RequireEmailFormatUsernames bool `json:"require_email_format_usernames,omitempty"`
-	// The organization's canonical URL. Alias of `realm_url`.  **Changes**: Deprecated in Zulip 9.0 (feature level 257). The term \"URI\" is deprecated in [web standards](https://url.spec.whatwg.org/#goals).
+	// The organization's canonical URL. Alias of `realm_url`.  **Changes**: Deprecated in Zulip 9.0 (feature level 257). The term \"URI\" is deprecated in [web standards].
 	// Deprecated
+	//
+	// [web standards]: https://url.spec.whatwg.org/#goals
 	RealmUri *string `json:"realm_uri,omitempty"`
 	// The organization's canonical URL.  **Changes**: New in Zulip 9.0 (feature level 257), replacing the deprecated `realm_uri`.
 	RealmUrl string `json:"realm_url,omitempty"`
@@ -130,9 +138,13 @@ type GetServerSettingsResponse struct {
 	RealmName string `json:"realm_name,omitempty"`
 	// The URL for the organization's logo formatted as a square image, used for identifying the organization in small locations in the mobile and desktop apps.
 	RealmIcon string `json:"realm_icon,omitempty"`
-	// HTML description of the organization, as configured by the [organization profile](https://zulip.com/help/create-your-organization-profile).
+	// HTML description of the organization, as configured by the [organization profile].
+	//
+	// [organization profile]: https://zulip.com/help/create-your-organization-profile
 	RealmDescription string `json:"realm_description,omitempty"`
-	// Whether the organization has enabled the creation of [web-public channels](https://zulip.com/help/public-access-option) and at least one web-public channel on the server currently exists. Clients that support viewing content in web-public channels without an account can use this to determine whether to offer that feature on the login page for an organization.  **Changes**: New in Zulip 5.0 (feature level 116).
+	// Whether the organization has enabled the creation of [web-public channels] and at least one web-public channel on the server currently exists. Clients that support viewing content in web-public channels without an account can use this to determine whether to offer that feature on the login page for an organization.  **Changes**: New in Zulip 5.0 (feature level 116).
+	//
+	// [web-public channels]: https://zulip.com/help/public-access-option
 	RealmWebPublicAccessEnabled bool `json:"realm_web_public_access_enabled,omitempty"`
 }
 

@@ -25,11 +25,11 @@ type RemindersAPI interface {
 
 	// DeleteReminder Delete a reminder
 	//
-	// Delete, and therefore cancel sending, a previously [scheduled
-	// reminder](https://zulip.com/help/schedule-a-reminder).
+	// Delete, and therefore cancel sending, a previously [scheduled reminder].
 	//
 	// *Changes**: New in Zulip 11.0 (feature level 399).
 	//
+	// [scheduled reminder]: https://zulip.com/help/schedule-a-reminder
 	DeleteReminder(ctx context.Context, reminderId int64) DeleteReminderRequest
 
 	// DeleteReminderExecute executes the request
@@ -37,7 +37,7 @@ type RemindersAPI interface {
 
 	// GetReminders Get reminders
 	//
-	// Fetch all [reminders](https://zulip.com/help/schedule-a-reminder) for the
+	// Fetch all [reminders] for the
 	// current user.
 	//
 	// Reminders are messages the user has scheduled to be sent in the
@@ -45,6 +45,7 @@ type RemindersAPI interface {
 	//
 	// *Changes**: New in Zulip 11.0 (feature level 399).
 	//
+	// [reminders]: https://zulip.com/help/schedule-a-reminder
 	GetReminders(ctx context.Context) GetRemindersRequest
 
 	// GetRemindersExecute executes the request
@@ -187,10 +188,11 @@ func (r DeleteReminderRequest) Execute() (*Response, *http.Response, error) {
 
 // DeleteReminder Delete a reminder
 //
-// Delete, and therefore cancel sending, a previously [scheduled
-// reminder](https://zulip.com/help/schedule-a-reminder).
+// Delete, and therefore cancel sending, a previously [scheduled reminder].
 //
 // *Changes**: New in Zulip 11.0 (feature level 399).
+//
+// [scheduled reminder]: https://zulip.com/help/schedule-a-reminder
 func (c *simpleClient) DeleteReminder(ctx context.Context, reminderId int64) DeleteReminderRequest {
 	return DeleteReminderRequest{
 		ApiService: c,
@@ -283,13 +285,15 @@ func (r GetRemindersRequest) Execute() (*GetRemindersResponse, *http.Response, e
 
 // GetReminders Get reminders
 //
-// Fetch all [reminders](https://zulip.com/help/schedule-a-reminder) for the
+// Fetch all [reminders] for the
 // current user.
 //
 // Reminders are messages the user has scheduled to be sent in the
 // future to themself.
 //
 // *Changes**: New in Zulip 11.0 (feature level 399).
+//
+// [reminders]: https://zulip.com/help/schedule-a-reminder
 func (c *simpleClient) GetReminders(ctx context.Context) GetRemindersRequest {
 	return GetRemindersRequest{
 		ApiService: c,
