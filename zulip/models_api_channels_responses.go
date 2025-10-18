@@ -99,7 +99,7 @@ type SubscribeResponse struct {
 	//
 	// **Changes**: Before Zulip 10.0 (feature level 289), the user keys were Zulip API email addresses, not user Ids.
 	AlreadySubscribed map[string][]string `json:"already_subscribed,omitempty"`
-	// A list of names of channels that the requesting user/bot was not authorized to subscribe to. Only present if `\"authorization_errors_fatal\": false`.
+	// A list of names of channels that the requesting user/bot was not authorized to subscribe to. Only present if `"authorization_errors_fatal": false`.
 	Unauthorized []string `json:"unauthorized,omitempty"`
 	// Only present if the parameter `send_new_subscription_messages` in the request was `true`.  Whether Notification Bot DMs in fact sent to the added subscribers as requested by the `send_new_subscription_messages` parameter. Clients may find this value useful to communicate with users about the effect of this request.
 	//

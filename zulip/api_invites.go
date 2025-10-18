@@ -177,13 +177,13 @@ func (r CreateInviteLinkRequest) GroupIds(groupIds []int64) CreateInviteLinkRequ
 
 // Boolean indicating whether the newly created user should be subscribed to the [default channels] for the organization.  Note that this parameter can be `true` even if the current user does not generally have permission to [subscribe other users to channels].
 //
-//	**Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always `false`; clients needed to include the organization&#39;s default channels in the `stream_ids` parameter for a newly created user to be automatically subscribed to them.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
+//	**Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always `false`; clients needed to include the organization's default channels in the `stream_ids` parameter for a newly created user to be automatically subscribed to them.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 func (r CreateInviteLinkRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) CreateInviteLinkRequest {
 	r.includeRealmDefaultSubscriptions = &includeRealmDefaultSubscriptions
 	return r
 }
 
-// Custom message text, in Zulip Markdown format, to be sent by the Welcome Bot to new users that join the organization via this invitation.  Maximum length is 8000 characters.  Only organization administrators can use this feature; for other users, the value is always `null`.  - `null`: the organization&#39;s default `welcome_message_custom_text` is used. - Empty string: no Welcome Bot custom message is sent. - Otherwise, the provided string is the custom message.
+// Custom message text, in Zulip Markdown format, to be sent by the Welcome Bot to new users that join the organization via this invitation.  Maximum length is 8000 characters.  Only organization administrators can use this feature; for other users, the value is always `null`.  - `null`: the organization's default `welcome_message_custom_text` is used. - Empty string: no Welcome Bot custom message is sent. - Otherwise, the provided string is the custom message.
 //
 //	**Changes**: New in Zulip 11.0 (feature level 416).
 func (r CreateInviteLinkRequest) WelcomeMessageCustomText(welcomeMessageCustomText string) CreateInviteLinkRequest {
@@ -780,7 +780,7 @@ func (r SendInvitesRequest) GroupIds(groupIds []int64) SendInvitesRequest {
 
 // Boolean indicating whether the newly created user should be subscribed to the [default channels] for the organization.  Note that this parameter can be `true` even if the user creating the invitation does not generally have permission to [subscribe other users to channels].
 //
-//	**Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always `false`; clients needed to include the organization&#39;s default channels in the `stream_ids` parameter for a newly created user to be automatically subscribed to them.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
+//	**Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always `false`; clients needed to include the organization's default channels in the `stream_ids` parameter for a newly created user to be automatically subscribed to them.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 func (r SendInvitesRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) SendInvitesRequest {
 	r.includeRealmDefaultSubscriptions = &includeRealmDefaultSubscriptions
 	return r
@@ -796,7 +796,7 @@ func (r SendInvitesRequest) NotifyReferrerOnJoin(notifyReferrerOnJoin bool) Send
 	return r
 }
 
-// Custom message text, in Zulip Markdown format, to be sent by the Welcome Bot to new users that join the organization via this invitation.  Maximum length is 8000 characters.  Only organization administrators can use this feature; for other users, the value is always `null`.  - `null`: the organization&#39;s default `welcome_message_custom_text` is used. - Empty string: no Welcome Bot custom message is sent. - Otherwise, the provided string is the custom message.
+// Custom message text, in Zulip Markdown format, to be sent by the Welcome Bot to new users that join the organization via this invitation.  Maximum length is 8000 characters.  Only organization administrators can use this feature; for other users, the value is always `null`.  - `null`: the organization's default `welcome_message_custom_text` is used. - Empty string: no Welcome Bot custom message is sent. - Otherwise, the provided string is the custom message.
 //
 //	**Changes**: New in Zulip 11.0 (feature level 416).
 func (r SendInvitesRequest) WelcomeMessageCustomText(welcomeMessageCustomText string) SendInvitesRequest {

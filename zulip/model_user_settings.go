@@ -7,9 +7,9 @@ type UserSettings struct {
 	//
 	// [displayed in 24-hour notation]: https://zulip.com/help/change-the-time-format
 	TwentyFourHourTime *bool `json:"twenty_four_hour_time,omitempty"`
-	// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the \"Always\" setting when marking messages as read.
+	// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the "Always" setting when marking messages as read.
 	WebMarkReadOnScrollPolicy MarkReadOnScrollPolicy `json:"web_mark_read_on_scroll_policy,omitempty"`
-	// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The \"Top unread topic in channel\" is new in Zulip 11.0 (feature level 401).  The \"List of topics\" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the \"Channel feed\" behavior.
+	// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  The "List of topics" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
 	WebChannelDefaultView ChannelDefaultView `json:"web_channel_default_view,omitempty"`
 	// Whether clients should display the [number of starred messages].
 	//
@@ -51,7 +51,7 @@ type UserSettings struct {
 	//
 	// **Changes**: New in Zulip 6.0 (feature level 125).
 	DisplayEmojiReactionUsers bool `json:"display_emoji_reaction_users,omitempty"`
-	// What [default language] to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.
+	// What [default language] to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `"en"` for English or `"de"` for German.
 	//
 	// [default language]: https://zulip.com/help/change-your-language
 	DefaultLanguage string `json:"default_language,omitempty"`

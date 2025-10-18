@@ -473,7 +473,7 @@ func (r AddLinkifierRequest) Pattern(pattern string) AddLinkifierRequest {
 
 // The [RFC 6570] compliant URL template used for the link. If you used named groups in `pattern`, you can insert their content here with `{name_of_group}`.
 //
-//	**Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups&#39; content could be inserted with `%(name_of_group)s`.
+//	**Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups' content could be inserted with `%(name_of_group)s`.
 //
 // [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
 func (r AddLinkifierRequest) UrlTemplate(urlTemplate string) AddLinkifierRequest {
@@ -599,7 +599,7 @@ func (r CreateCustomProfileFieldRequest) FieldType(fieldType int32) CreateCustom
 	return r
 }
 
-// The name of the custom profile field, which will appear both in user-facing settings UI for configuring custom profile fields and in UI displaying a user&#39;s profile.
+// The name of the custom profile field, which will appear both in user-facing settings UI for configuring custom profile fields and in UI displaying a user's profile.
 func (r CreateCustomProfileFieldRequest) Name(name string) CreateCustomProfileFieldRequest {
 	r.name = &name
 	return r
@@ -617,7 +617,7 @@ func (r CreateCustomProfileFieldRequest) FieldData(fieldData map[string]interfac
 	return r
 }
 
-// Whether clients should display this profile field in a summary section of a user&#39;s profile (or in a more easily accessible \\"small profile\\").  At most 2 profile fields may have this property be true in a given organization. The \\"Long text\\" [profile field types] profile field types cannot be selected to be displayed in profile summaries.  The \\"Person picker\\" profile field is also not supported, but that is likely to be temporary.  [profile field types]: https://zulip.com/help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146).
+// Whether clients should display this profile field in a summary section of a user's profile (or in a more easily accessible "small profile").  At most 2 profile fields may have this property be true in a given organization. The "Long text" [profile field types] profile field types cannot be selected to be displayed in profile summaries.  The "Person picker" profile field is also not supported, but that is likely to be temporary.  [profile field types]: https://zulip.com/help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146).
 func (r CreateCustomProfileFieldRequest) DisplayInProfileSummary(displayInProfileSummary bool) CreateCustomProfileFieldRequest {
 	r.displayInProfileSummary = &displayInProfileSummary
 	return r
@@ -2198,7 +2198,7 @@ func (r UpdateLinkifierRequest) Pattern(pattern string) UpdateLinkifierRequest {
 
 // The [RFC 6570] compliant URL template used for the link. If you used named groups in `pattern`, you can insert their content here with `{name_of_group}`.
 //
-//	**Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups&#39; content could be inserted with `%(name_of_group)s`.
+//	**Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups' content could be inserted with `%(name_of_group)s`.
 //
 // [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
 func (r UpdateLinkifierRequest) UrlTemplate(urlTemplate string) UpdateLinkifierRequest {
@@ -2397,7 +2397,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebSuggestUpdateTimezone(webSugg
 	return r
 }
 
-// Whether to use the [maximum available screen width] for the web app&#39;s center panel (message feed, recent conversations) on wide screens.
+// Whether to use the [maximum available screen width] for the web app's center panel (message feed, recent conversations) on wide screens.
 //
 // [maximum available screen width]: https://zulip.com/help/enable-full-width-display
 func (r UpdateRealmUserSettingsDefaultsRequest) FluidLayoutWidth(fluidLayoutWidth bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2405,19 +2405,19 @@ func (r UpdateRealmUserSettingsDefaultsRequest) FluidLayoutWidth(fluidLayoutWidt
 	return r
 }
 
-// This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.
+// This setting is reserved for use to control variations in Zulip's design to help visually impaired users.
 func (r UpdateRealmUserSettingsDefaultsRequest) HighContrastMode(highContrastMode bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.highContrastMode = &highContrastMode
 	return r
 }
 
-// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the \\"Always\\" setting when marking messages as read.
+// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the "Always" setting when marking messages as read.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebMarkReadOnScrollPolicy(webMarkReadOnScrollPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.webMarkReadOnScrollPolicy = &webMarkReadOnScrollPolicy
 	return r
 }
 
-// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The \\"Top unread topic in channel\\" is new in Zulip 11.0 (feature level 401).  The \\"List of topics\\" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the \\"Channel feed\\" behavior.
+// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  The "List of topics" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelDefaultView(webChannelDefaultView int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.webChannelDefaultView = &webChannelDefaultView
 	return r
@@ -2469,7 +2469,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) DisplayEmojiReactionUsers(displa
 	return r
 }
 
-// The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  - \\"recent_topics\\" - Recent conversations view - \\"inbox\\" - Inbox view - \\"all_messages\\" - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
+// The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  - "recent_topics" - Recent conversations view - "inbox" - Inbox view - "all_messages" - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
 //
 // [home view]: https://zulip.com/help/configure-home-view
 func (r UpdateRealmUserSettingsDefaultsRequest) WebHomeView(webHomeView string) UpdateRealmUserSettingsDefaultsRequest {
@@ -2493,7 +2493,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) LeftSideUserlist(leftSideUserlis
 	return r
 }
 
-// The user&#39;s configured [emoji set], used to display emoji to the user everywhere they appear in the UI.  - \\"google\\" - Google - \\"twitter\\" - Twitter - \\"text\\" - Plain text - \\"google-blob\\" - Google blobs
+// The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.  - "google" - Google - "twitter" - Twitter - "text" - Plain text - "google-blob" - Google blobs
 //
 // [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
 func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset string) UpdateRealmUserSettingsDefaultsRequest {
@@ -2515,7 +2515,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) UserListStyle(userListStyle int3
 	return r
 }
 
-// Controls how animated images should be played in the message feed in the web/desktop application.  - \\"always\\" - Always play the animated images in the message feed. - \\"on_hover\\" - Play the animated images on hover over them in the message feed. - \\"never\\" - Never play animated images in the message feed.
+// Controls how animated images should be played in the message feed in the web/desktop application.  - "always" - Always play the animated images in the message feed. - "on_hover" - Play the animated images on hover over them in the message feed. - "never" - Never play animated images in the message feed.
 //
 //	**Changes**: New in Zulip 9.0 (feature level 275). Previously, animated images always used to play in the message feed by default. This setting controls this behaviour.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(webAnimateImagePreviews string) UpdateRealmUserSettingsDefaultsRequest {
@@ -2537,7 +2537,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) HideAiFeatures(hideAiFeatures bo
 	return r
 }
 
-// Determines whether the web/desktop application&#39;s left sidebar displays any channel folders configured by the organization.
+// Determines whether the web/desktop application's left sidebar displays any channel folders configured by the organization.
 //
 //	**Changes**: New in Zulip 11.0 (feature level 411).
 func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarShowChannelFolders(webLeftSidebarShowChannelFolders bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2545,7 +2545,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarShowChannelFolders
 	return r
 }
 
-// Determines whether the web/desktop application&#39;s left sidebar displays the unread message count summary.
+// Determines whether the web/desktop application's left sidebar displays the unread message count summary.
 //
 //	**Changes**: New in Zulip 11.0 (feature level 398).
 func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarUnreadsCountSummary(webLeftSidebarUnreadsCountSummary bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2657,7 +2657,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableDigestEmails(enableDigestE
 	return r
 }
 
-// Include the message&#39;s content in email notifications for new messages.
+// Include the message's content in email notifications for new messages.
 func (r UpdateRealmUserSettingsDefaultsRequest) MessageContentInEmailNotifications(messageContentInEmailNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.messageContentInEmailNotifications = &messageContentInEmailNotifications
 	return r
@@ -2721,7 +2721,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsWhereMe
 	return r
 }
 
-// Controls whether the resolved-topic notices are marked as read.  - \\"always\\" - Always mark resolved-topic notices as read. - \\"except_followed\\" - Mark resolved-topic notices as read in topics not followed by the user. - \\"never\\" - Never mark resolved-topic notices as read.
+// Controls whether the resolved-topic notices are marked as read.  - "always" - Always mark resolved-topic notices as read. - "except_followed" - Mark resolved-topic notices as read in topics not followed by the user. - "never" - Never mark resolved-topic notices as read.
 //
 //	**Changes**: New in Zulip 11.0 (feature level 385).
 func (r UpdateRealmUserSettingsDefaultsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy string) UpdateRealmUserSettingsDefaultsRequest {
@@ -2771,7 +2771,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendChannelTypingNotifications(s
 	return r
 }
 
-// Whether other users are allowed to see whether you&#39;ve read messages.
+// Whether other users are allowed to see whether you've read messages.
 //
 //	**Changes**: New in Zulip 5.0 (feature level 105).
 func (r UpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(sendReadReceipts bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2779,7 +2779,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(sendReadReceipt
 	return r
 }
 
-// The [policy] for [which other users] in this organization can see the user&#39;s real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
+// The [policy] for [which other users] in this organization can see the user's real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
 //
 // [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
 // [which other users]: https://zulip.com/help/configure-email-visibility
@@ -2788,7 +2788,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(emailAddr
 	return r
 }
 
-// Web/desktop app setting for whether the user&#39;s view should automatically go to the conversation where they sent a message.
+// Web/desktop app setting for whether the user's view should automatically go to the conversation where they sent a message.
 //
 //	**Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebNavigateToSentMessage(webNavigateToSentMessage bool) UpdateRealmUserSettingsDefaultsRequest {

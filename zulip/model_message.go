@@ -13,7 +13,7 @@ type Message struct {
 	Id int64 `json:"id,omitempty"`
 
 	AvatarUrl *string `json:"avatar_url,omitempty"`
-	// A Zulip \"client\" string, describing what Zulip client sent the message.
+	// A Zulip "client" string, describing what Zulip client sent the message.
 	Client string `json:"client,omitempty"`
 	// The content/body of the message. When `apply_markdown` is set, it will be in HTML format.  See [Markdown message formatting] for details on Zulip's HTML format.
 	//
@@ -62,7 +62,7 @@ type Message struct {
 	SenderRealmStr string `json:"sender_realm_str,omitempty"`
 	// Only present for channel messages; the Id of the channel.
 	ChannelId *int64 `json:"stream_id,omitempty"`
-	// The `topic` of the message. Currently always `\"\"` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called \"subjects\" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register] response, for channel messages.
+	// The `topic` of the message. Currently always `""` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called "subjects" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register] response, for channel messages.
 	//
 	// **Changes**: Before Zulip 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	//
@@ -76,7 +76,7 @@ type Message struct {
 	//
 	// [custom linkification filters]: https://zulip.com/help/add-a-custom-linkifier
 	TopicLinks []TopicLink `json:"topic_links,omitempty"`
-	// The type of the message: `\"stream\"` or `\"private\"`.
+	// The type of the message: `"stream"` or `"private"`.
 	Type RecipientType `json:"type,omitempty"`
 	// The user's [message flags] for the message.
 	//
@@ -240,9 +240,9 @@ type TopicLink struct {
 type MessageWithOptMatch struct {
 	Message
 
-	// Only present if keyword search was included among the narrow parameters.  HTML content of a queried message that matches the narrow, with `<span class=\"highlight\">` elements wrapping the matches for the search keywords.
+	// Only present if keyword search was included among the narrow parameters.  HTML content of a queried message that matches the narrow, with `<span class="highlight">` elements wrapping the matches for the search keywords.
 	MatchContent *string `json:"match_content,omitempty"`
-	// Only present if keyword search was included among the narrow parameters.  HTML-escaped topic of a queried message that matches the narrow, with `<span class=\"highlight\">` elements wrapping the matches for the search keywords.
+	// Only present if keyword search was included among the narrow parameters.  HTML-escaped topic of a queried message that matches the narrow, with `<span class="highlight">` elements wrapping the matches for the search keywords.
 	MatchSubject *string `json:"match_subject,omitempty"`
 }
 

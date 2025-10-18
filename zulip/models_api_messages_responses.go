@@ -10,9 +10,9 @@ type CheckMessagesMatchNarrowResponse struct {
 
 // NarrowMatch `message_id`: The Id of the message that matches the narrow. No record will be returned for queried messages that do not match the narrow.
 type NarrowMatch struct {
-	// HTML content of a queried message that matches the narrow. If the narrow is a search narrow, `<span class=\"highlight\">` elements will be included, wrapping the matches for the search keywords.
+	// HTML content of a queried message that matches the narrow. If the narrow is a search narrow, `<span class="highlight">` elements will be included, wrapping the matches for the search keywords.
 	MatchContent *string `json:"match_content,omitempty"`
-	// HTML-escaped topic of a queried message that matches the narrow. If the narrow is a search narrow, `<span class=\"highlight\">` elements will be included wrapping the matches for the search keywords.
+	// HTML-escaped topic of a queried message that matches the narrow. If the narrow is a search narrow, `<span class="highlight">` elements will be included wrapping the matches for the search keywords.
 	MatchSubject *string `json:"match_subject,omitempty"`
 }
 
@@ -28,7 +28,7 @@ type GetFileTemporaryUrlResponse struct {
 type GetMessageResponse struct {
 	Response
 
-	// The raw Markdown content of the message.  See the help center article on [message formatting] for details on Zulip-flavored Markdown.  **Deprecated** and to be removed once no longer required for legacy clients. Modern clients should prefer passing `\"apply_markdown\": false` to request raw message content.
+	// The raw Markdown content of the message.  See the help center article on [message formatting] for details on Zulip-flavored Markdown.  **Deprecated** and to be removed once no longer required for legacy clients. Modern clients should prefer passing `"apply_markdown": false` to request raw message content.
 	// Deprecated
 	//
 	// [message formatting]: https://zulip.com/help/format-your-message-using-markdown
@@ -54,7 +54,7 @@ type GetMessagesResponse struct {
 	FoundNewest bool `json:"found_newest,omitempty"`
 	// Whether the server promises that the `messages` list includes the very oldest messages matching the narrow (used by clients that paginate their requests to decide whether there may be more messages to fetch).
 	FoundOldest bool `json:"found_oldest,omitempty"`
-	// Whether the anchor message is included in the response. If the message with the Id specified in the request does not exist, did not match the narrow, or was excluded via `\"include_anchor\": false`, this will be false.
+	// Whether the anchor message is included in the response. If the message with the Id specified in the request does not exist, did not match the narrow, or was excluded via `"include_anchor": false`, this will be false.
 	FoundAnchor bool `json:"found_anchor,omitempty"`
 	// Whether the message history was limited due to plan restrictions. This flag is set to `true` only when the oldest messages(`found_oldest`) matching the narrow is fetched.
 	HistoryLimited bool `json:"history_limited,omitempty"`
@@ -68,7 +68,7 @@ type GetMessagesResponse struct {
 type GetReadReceiptsResponse struct {
 	Response
 
-	// An array of Ids of users who have marked the target message as read and whose read status is available to the current user.  The Ids of users who have disabled sending read receipts (`\"send_read_receipts\": false`) will never appear in the response, nor will the message's sender. Additionally, the Ids of any users who have been muted by the current user or who have muted the current user will not be included in the response.  The current user's Id will appear if they have marked the target message as read.
+	// An array of Ids of users who have marked the target message as read and whose read status is available to the current user.  The Ids of users who have disabled sending read receipts (`"send_read_receipts": false`) will never appear in the response, nor will the message's sender. Additionally, the Ids of any users who have been muted by the current user or who have muted the current user will not be included in the response.  The current user's Id will appear if they have marked the target message as read.
 	//
 	// **Changes**: Prior to Zulip 6.0 (feature level 143), the Ids of users who have been muted by or have muted the current user were included in the response.
 	UserIds []int64 `json:"user_ids,omitempty"`
@@ -151,7 +151,7 @@ type UploadFileResponse struct {
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// The URL of the uploaded file. Alias of `url`.
 	//
-	// **Changes**: Deprecated in Zulip 9.0 (feature level 272). The term \"URI\" is deprecated in [web standards].
+	// **Changes**: Deprecated in Zulip 9.0 (feature level 272). The term "URI" is deprecated in [web standards].
 	// Deprecated
 	//
 	// [web standards]: https://url.spec.whatwg.org/#goals

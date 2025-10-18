@@ -408,7 +408,7 @@ type UsersAPI interface {
 	// RemoveFcmTokenExecute executes the request
 	RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response, *http.Response, error)
 
-	// SetTypingStatus Set \"typing\" status
+	// SetTypingStatus Set "typing" status
 	//
 	// Notify other users whether the current user is
 	// [typing a message].
@@ -470,7 +470,7 @@ type UsersAPI interface {
 	// SetTypingStatusExecute executes the request
 	SetTypingStatusExecute(r SetTypingStatusRequest) (*Response, *http.Response, error)
 
-	// SetTypingStatusForMessageEdit Set \"typing\" status for message editing
+	// SetTypingStatusForMessageEdit Set "typing" status for message editing
 	//
 	// Notify other users whether the current user is editing a message.
 	//
@@ -723,7 +723,7 @@ type AddAlertWordsRequest struct {
 	alertWords *[]string
 }
 
-// An array of strings to be added to the user&#39;s set of configured alert words. Strings already present in the user&#39;s set of alert words already are ignored.  Alert words are case insensitive.
+// An array of strings to be added to the user's set of configured alert words. Strings already present in the user's set of alert words already are ignored.  Alert words are case insensitive.
 func (r AddAlertWordsRequest) AlertWords(alertWords []string) AddAlertWordsRequest {
 	r.alertWords = &alertWords
 	return r
@@ -840,7 +840,7 @@ func (r AddApnsTokenRequest) Token(token string) AddApnsTokenRequest {
 
 // The Id of the Zulip app that is making the request.
 //
-//	**Changes**: In Zulip 8.0 (feature level 223), this parameter was made required. Previously, if it was unspecified, the server would use a default value (based on the `ZULIP_IOS_APP_Id` server setting, which defaulted to `\\"org.zulip.Zulip\\"`).
+//	**Changes**: In Zulip 8.0 (feature level 223), this parameter was made required. Previously, if it was unspecified, the server would use a default value (based on the `ZULIP_IOS_APP_Id` server setting, which defaulted to `"org.zulip.Zulip"`).
 func (r AddApnsTokenRequest) Appid(appid string) AddApnsTokenRequest {
 	r.appid = &appid
 	return r
@@ -1249,7 +1249,7 @@ func (r CreateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValue) C
 	return r
 }
 
-// A [group-setting value] defining the set of users who have permission to [manage this user group].  This setting cannot be set to `\\"role:internet\\"` and `\\"role:everyone\\"` [system groups].
+// A [group-setting value] defining the set of users who have permission to [manage this user group].  This setting cannot be set to `"role:internet"` and `"role:everyone"` [system groups].
 //
 //	**Changes**: New in Zulip 10.0 (feature level 283).
 //
@@ -1261,7 +1261,7 @@ func (r CreateUserGroupRequest) CanManageGroup(canManageGroup GroupSettingValue)
 	return r
 }
 
-// A [group-setting value] defining the set of users who have permission to [mention this user group].  This setting cannot be set to `\\"role:internet\\"` and `\\"role:owners\\"` [system groups].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value].  Before Zulip 8.0 (feature level 198), this parameter was named `can_mention_group_id`.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups].
+// A [group-setting value] defining the set of users who have permission to [mention this user group].  This setting cannot be set to `"role:internet"` and `"role:owners"` [system groups].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value].  Before Zulip 8.0 (feature level 198), this parameter was named `can_mention_group_id`.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups].
 //
 // [group-setting value]: https://zulip.com/api/group-setting-values
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
@@ -1527,7 +1527,7 @@ type DeactivateUserRequest struct {
 	deactivationNotificationComment *string
 }
 
-// If not `null`, requests that the deactivated user receive a notification email about their account deactivation.  If not `\\"\\"`, encodes custom text written by the administrator to be included in the notification email.
+// If not `null`, requests that the deactivated user receive a notification email about their account deactivation.  If not `""`, encodes custom text written by the administrator to be included in the notification email.
 //
 //	**Changes**: New in Zulip 5.0 (feature level 135).
 func (r DeactivateUserRequest) DeactivationNotificationComment(deactivationNotificationComment string) DeactivateUserRequest {
@@ -3321,7 +3321,7 @@ type RemoveAlertWordsRequest struct {
 	alertWords *[]string
 }
 
-// An array of strings to be removed from the user&#39;s set of configured alert words. Strings that are not in the user&#39;s set of alert words are ignored.
+// An array of strings to be removed from the user's set of configured alert words. Strings that are not in the user's set of alert words are ignored.
 func (r RemoveAlertWordsRequest) AlertWords(alertWords []string) RemoveAlertWordsRequest {
 	r.alertWords = &alertWords
 	return r
@@ -3742,7 +3742,7 @@ type SetTypingStatusRequest struct {
 	topic      *string
 }
 
-// Whether the user has started (`\\"start\\"`) or stopped (`\\"stop\\"`) typing.
+// Whether the user has started (`"start"`) or stopped (`"stop"`) typing.
 func (r SetTypingStatusRequest) Op(op TypingStatusOp) SetTypingStatusRequest {
 	r.op = &op
 	return r
@@ -3750,21 +3750,21 @@ func (r SetTypingStatusRequest) Op(op TypingStatusOp) SetTypingStatusRequest {
 
 // Type of the message being composed.
 //
-//	**Changes**: In Zulip 9.0 (feature level 248), `\\"channel\\"` was added as an additional value for this parameter to indicate a channel message is being composed.  In Zulip 8.0 (feature level 215), stopped supporting `\\"private\\"` as a valid value for this parameter.  In Zulip 7.0 (feature level 174), `\\"direct\\"` was added as the preferred way to indicate a direct message is being composed, becoming the default value for this parameter and deprecating the original `\\"private\\"`.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
+//	**Changes**: In Zulip 9.0 (feature level 248), `"channel"` was added as an additional value for this parameter to indicate a channel message is being composed.  In Zulip 8.0 (feature level 215), stopped supporting `"private"` as a valid value for this parameter.  In Zulip 7.0 (feature level 174), `"direct"` was added as the preferred way to indicate a direct message is being composed, becoming the default value for this parameter and deprecating the original `"private"`.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 func (r SetTypingStatusRequest) Type_(type_ RecipientType) SetTypingStatusRequest {
 	r.type_ = &type_
 	return r
 }
 
-// User Ids of the recipients of the message being typed. Required for the `\\"direct\\"` type. Ignored in the case of `\\"stream\\"` or `\\"channel\\"` type.  Clients should send a JSON-encoded list of user Ids, even if there is only one recipient.
+// User Ids of the recipients of the message being typed. Required for the `"direct"` type. Ignored in the case of `"stream"` or `"channel"` type.  Clients should send a JSON-encoded list of user Ids, even if there is only one recipient.
 //
-//	**Changes**: In Zulip 8.0 (feature level 215), stopped using this parameter for the `\\"stream\\"` type. Previously, in the case of the `\\"stream\\"` type, it accepted a single-element list containing the Id of the channel. A new parameter, `stream_id`, is now used for this. Note that the `\\"channel\\"` type did not exist at this feature level.  Support for typing notifications for channel&#39; messages is new in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  Before Zulip 2.0.0, this parameter accepted only a JSON-encoded list of email addresses. Support for the email address-based format was removed in Zulip 3.0 (feature level 11).
+//	**Changes**: In Zulip 8.0 (feature level 215), stopped using this parameter for the `"stream"` type. Previously, in the case of the `"stream"` type, it accepted a single-element list containing the Id of the channel. A new parameter, `stream_id`, is now used for this. Note that the `"channel"` type did not exist at this feature level.  Support for typing notifications for channel' messages is new in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  Before Zulip 2.0.0, this parameter accepted only a JSON-encoded list of email addresses. Support for the email address-based format was removed in Zulip 3.0 (feature level 11).
 func (r SetTypingStatusRequest) To(to Recipient) SetTypingStatusRequest {
 	r.to = &to
 	return r
 }
 
-// Id of the channel in which the message is being typed. Required for the `\\"stream\\"` or `\\"channel\\"` type. Ignored in the case of `\\"direct\\"` type.
+// Id of the channel in which the message is being typed. Required for the `"stream"` or `"channel"` type. Ignored in the case of `"direct"` type.
 //
 //	**Changes**: New in Zulip 8.0 (feature level 215). Previously, a single-element list containing the Id of the channel was passed in `to` parameter.
 func (r SetTypingStatusRequest) ChannelId(channelId int64) SetTypingStatusRequest {
@@ -3772,9 +3772,9 @@ func (r SetTypingStatusRequest) ChannelId(channelId int64) SetTypingStatusReques
 	return r
 }
 
-// Topic to which message is being typed. Required for the `\\"stream\\"` or `\\"channel\\"` type. Ignored in the case of `\\"direct\\"` type.  Note: When `\\"(no topic)\\"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.
+// Topic to which message is being typed. Required for the `"stream"` or `"channel"` type. Ignored in the case of `"direct"` type.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.
 //
-//	**Changes**: Before Zulip 10.0 (feature level 372), `\\"(no topic)\\"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
+//	**Changes**: Before Zulip 10.0 (feature level 372), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 //
 // [POST /register]: https://zulip.com/api/register-queue
 func (r SetTypingStatusRequest) Topic(topic string) SetTypingStatusRequest {
@@ -3786,7 +3786,7 @@ func (r SetTypingStatusRequest) Execute() (*Response, *http.Response, error) {
 	return r.ApiService.SetTypingStatusExecute(r)
 }
 
-// SetTypingStatus Set \"typing\" status
+// SetTypingStatus Set "typing" status
 //
 // Notify other users whether the current user is
 // [typing a message].
@@ -3953,7 +3953,7 @@ type SetTypingStatusForMessageEditRequest struct {
 	op         *TypingStatusOp
 }
 
-// Whether the user has started (`\\"start\\"`) or stopped (`\\"stop\\"`) editing.
+// Whether the user has started (`"start"`) or stopped (`"stop"`) editing.
 func (r SetTypingStatusForMessageEditRequest) Op(op TypingStatusOp) SetTypingStatusForMessageEditRequest {
 	r.op = &op
 	return r
@@ -3963,7 +3963,7 @@ func (r SetTypingStatusForMessageEditRequest) Execute() (*Response, *http.Respon
 	return r.ApiService.SetTypingStatusForMessageEditExecute(r)
 }
 
-// SetTypingStatusForMessageEdit Set \"typing\" status for message editing
+// SetTypingStatusForMessageEdit Set "typing" status for message editing
 //
 // Notify other users whether the current user is editing a message.
 //
@@ -4175,7 +4175,7 @@ type UpdatePresenceRequest struct {
 	slimPresence     *bool
 }
 
-// The status of the user on this client.  Clients should report the user as `\\"active\\"` on this device if the client knows that the user is presently using the device (and thus would potentially see a notification immediately), even if the user has not directly interacted with the Zulip client.  Otherwise, it should report the user as `\\"idle\\"`.  See the related [`new_user_input`] parameter for how a client should report whether the user is actively using the Zulip client.
+// The status of the user on this client.  Clients should report the user as `"active"` on this device if the client knows that the user is presently using the device (and thus would potentially see a notification immediately), even if the user has not directly interacted with the Zulip client.  Otherwise, it should report the user as `"idle"`.  See the related [`new_user_input`] parameter for how a client should report whether the user is actively using the Zulip client.
 //
 // [`new_user_input`]: #parameter-new_user_input
 func (r UpdatePresenceRequest) Status(status PresenceStatus) UpdatePresenceRequest {
@@ -4183,7 +4183,7 @@ func (r UpdatePresenceRequest) Status(status PresenceStatus) UpdatePresenceReque
 	return r
 }
 
-// The identifier that specifies what presence data the client already has received, which allows the server to only return more recent user presence data.  This should be set to `-1` during initialization of the client in order to fetch all user presence data, unless the client is obtaining initial user presence metadata from the [`POST /register`] endpoint.  In subsequent queries to this endpoint, this value should be set to the most recent value of `presence_last_update_id` returned by the server in this endpoint&#39;s response, which implements incremental fetching of user presence data.  When this parameter is passed, the user presence data in the response will always be in the modern format.
+// The identifier that specifies what presence data the client already has received, which allows the server to only return more recent user presence data.  This should be set to `-1` during initialization of the client in order to fetch all user presence data, unless the client is obtaining initial user presence metadata from the [`POST /register`] endpoint.  In subsequent queries to this endpoint, this value should be set to the most recent value of `presence_last_update_id` returned by the server in this endpoint's response, which implements incremental fetching of user presence data.  When this parameter is passed, the user presence data in the response will always be in the modern format.
 //
 //	**Changes**: New in Zulip 9.0 (feature level 263). Previously, the server sent user presence data for all users who had been active in the last two weeks unconditionally.
 //
@@ -4209,7 +4209,7 @@ func (r UpdatePresenceRequest) NewUserInput(newUserInput bool) UpdatePresenceReq
 	return r
 }
 
-// Whether the client is sending a ping-only request, meaning it only wants to update the user&#39;s presence `status` on the server.  Otherwise, also requests the server return user presence data for all users in the organization, which is further specified by the [`last_update_id`] parameter.
+// Whether the client is sending a ping-only request, meaning it only wants to update the user's presence `status` on the server.  Otherwise, also requests the server return user presence data for all users in the organization, which is further specified by the [`last_update_id`] parameter.
 //
 // [`last_update_id`]: #parameter-last_update_id
 func (r UpdatePresenceRequest) PingOnly(pingOnly bool) UpdatePresenceRequest {
@@ -4446,19 +4446,19 @@ func (r UpdateSettingsRequest) FullName(fullName string) UpdateSettingsRequest {
 	return r
 }
 
-// Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.
+// Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.
 func (r UpdateSettingsRequest) Email(email string) UpdateSettingsRequest {
 	r.email = &email
 	return r
 }
 
-// The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter.
+// The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter.
 func (r UpdateSettingsRequest) OldPassword(oldPassword string) UpdateSettingsRequest {
 	r.oldPassword = &oldPassword
 	return r
 }
 
-// The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request.
+// The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request.
 func (r UpdateSettingsRequest) NewPassword(newPassword string) UpdateSettingsRequest {
 	r.newPassword = &newPassword
 	return r
@@ -4474,13 +4474,13 @@ func (r UpdateSettingsRequest) TwentyFourHourTime(twentyFourHourTime bool) Updat
 	return r
 }
 
-// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the \\"Always\\" setting when marking messages as read.
+// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the "Always" setting when marking messages as read.
 func (r UpdateSettingsRequest) WebMarkReadOnScrollPolicy(webMarkReadOnScrollPolicy int32) UpdateSettingsRequest {
 	r.webMarkReadOnScrollPolicy = &webMarkReadOnScrollPolicy
 	return r
 }
 
-// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The \\"Top unread topic in channel\\" is new in Zulip 11.0 (feature level 401).  The \\"List of topics\\" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the \\"Channel feed\\" behavior.
+// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  The "List of topics" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
 func (r UpdateSettingsRequest) WebChannelDefaultView(webChannelDefaultView int32) UpdateSettingsRequest {
 	r.webChannelDefaultView = &webChannelDefaultView
 	return r
@@ -4514,7 +4514,7 @@ func (r UpdateSettingsRequest) WebSuggestUpdateTimezone(webSuggestUpdateTimezone
 	return r
 }
 
-// Whether to use the [maximum available screen width] for the web app&#39;s center panel (message feed, recent conversations) on wide screens.
+// Whether to use the [maximum available screen width] for the web app's center panel (message feed, recent conversations) on wide screens.
 //
 //	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 //
@@ -4524,7 +4524,7 @@ func (r UpdateSettingsRequest) FluidLayoutWidth(fluidLayoutWidth bool) UpdateSet
 	return r
 }
 
-// This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.
+// This setting is reserved for use to control variations in Zulip's design to help visually impaired users.
 //
 //	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 func (r UpdateSettingsRequest) HighContrastMode(highContrastMode bool) UpdateSettingsRequest {
@@ -4584,7 +4584,7 @@ func (r UpdateSettingsRequest) DisplayEmojiReactionUsers(displayEmojiReactionUse
 	return r
 }
 
-// What [default language] to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\\"en\\"` for English or `\\"de\\"` for German.
+// What [default language] to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `"en"` for English or `"de"` for German.
 //
 //	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).
 //
@@ -4594,7 +4594,7 @@ func (r UpdateSettingsRequest) DefaultLanguage(defaultLanguage string) UpdateSet
 	return r
 }
 
-// The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  - \\"recent_topics\\" - Recent conversations view - \\"inbox\\" - Inbox view - \\"all_messages\\" - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).  Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
+// The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  - "recent_topics" - Recent conversations view - "inbox" - Inbox view - "all_messages" - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).  Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
 //
 // [home view]: https://zulip.com/help/configure-home-view
 func (r UpdateSettingsRequest) WebHomeView(webHomeView string) UpdateSettingsRequest {
@@ -4620,7 +4620,7 @@ func (r UpdateSettingsRequest) LeftSideUserlist(leftSideUserlist bool) UpdateSet
 	return r
 }
 
-// The user&#39;s configured [emoji set], used to display emoji to the user everywhere they appear in the UI.  - \\"google\\" - Google modern - \\"google-blob\\" - Google classic - \\"twitter\\" - Twitter - \\"text\\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
+// The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.  - "google" - Google modern - "google-blob" - Google classic - "twitter" - Twitter - "text" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
 //
 // [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
 func (r UpdateSettingsRequest) Emojiset(emojiset string) UpdateSettingsRequest {
@@ -4642,7 +4642,7 @@ func (r UpdateSettingsRequest) UserListStyle(userListStyle int32) UpdateSettings
 	return r
 }
 
-// Controls how animated images should be played in the message feed in the web/desktop application.  - \\"always\\" - Always play the animated images in the message feed. - \\"on_hover\\" - Play the animated images on hover over them in the message feed. - \\"never\\" - Never play animated images in the message feed.
+// Controls how animated images should be played in the message feed in the web/desktop application.  - "always" - Always play the animated images in the message feed. - "on_hover" - Play the animated images on hover over them in the message feed. - "never" - Never play animated images in the message feed.
 //
 //	**Changes**: New in Zulip 9.0 (feature level 275).
 func (r UpdateSettingsRequest) WebAnimateImagePreviews(webAnimateImagePreviews string) UpdateSettingsRequest {
@@ -4664,7 +4664,7 @@ func (r UpdateSettingsRequest) HideAiFeatures(hideAiFeatures bool) UpdateSetting
 	return r
 }
 
-// Determines whether the web/desktop application&#39;s left sidebar displays any channel folders configured by the organization.
+// Determines whether the web/desktop application's left sidebar displays any channel folders configured by the organization.
 //
 //	**Changes**: New in Zulip 11.0 (feature level 411).
 func (r UpdateSettingsRequest) WebLeftSidebarShowChannelFolders(webLeftSidebarShowChannelFolders bool) UpdateSettingsRequest {
@@ -4672,7 +4672,7 @@ func (r UpdateSettingsRequest) WebLeftSidebarShowChannelFolders(webLeftSidebarSh
 	return r
 }
 
-// Determines whether the web/desktop application&#39;s left sidebar displays the unread message count summary.
+// Determines whether the web/desktop application's left sidebar displays the unread message count summary.
 //
 //	**Changes**: New in Zulip 11.0 (feature level 398).
 func (r UpdateSettingsRequest) WebLeftSidebarUnreadsCountSummary(webLeftSidebarUnreadsCountSummary bool) UpdateSettingsRequest {
@@ -4680,7 +4680,7 @@ func (r UpdateSettingsRequest) WebLeftSidebarUnreadsCountSummary(webLeftSidebarU
 	return r
 }
 
-// The IANA identifier of the user&#39;s [profile time zone], which is used primarily to display the user&#39;s local time to other users.
+// The IANA identifier of the user's [profile time zone], which is used primarily to display the user's local time to other users.
 //
 //	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
 //
@@ -4834,7 +4834,7 @@ func (r UpdateSettingsRequest) EnableLoginEmails(enableLoginEmails bool) UpdateS
 	return r
 }
 
-// Include the message&#39;s content in email notifications for new messages.
+// Include the message's content in email notifications for new messages.
 //
 //	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) MessageContentInEmailNotifications(messageContentInEmailNotifications bool) UpdateSettingsRequest {
@@ -4904,7 +4904,7 @@ func (r UpdateSettingsRequest) AutomaticallyFollowTopicsWhereMentioned(automatic
 	return r
 }
 
-// Controls whether the resolved-topic notices are marked as read.  - \\"always\\" - Always mark resolved-topic notices as read. - \\"except_followed\\" - Mark resolved-topic notices as read in topics not followed by the user. - \\"never\\" - Never mark resolved-topic notices as read.
+// Controls whether the resolved-topic notices are marked as read.  - "always" - Always mark resolved-topic notices as read. - "except_followed" - Mark resolved-topic notices as read in topics not followed by the user. - "never" - Never mark resolved-topic notices as read.
 //
 //	**Changes**: New in Zulip 11.0 (feature level 385).
 func (r UpdateSettingsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy string) UpdateSettingsRequest {
@@ -4948,7 +4948,7 @@ func (r UpdateSettingsRequest) SendChannelTypingNotifications(sendChannelTypingN
 	return r
 }
 
-// Whether other users are allowed to see whether you&#39;ve read messages.
+// Whether other users are allowed to see whether you've read messages.
 //
 //	**Changes**: New in Zulip 5.0 (feature level 105).
 func (r UpdateSettingsRequest) SendReadReceipts(sendReadReceipts bool) UpdateSettingsRequest {
@@ -4973,7 +4973,7 @@ func (r UpdateSettingsRequest) EmailAddressVisibility(emailAddressVisibility int
 	return r
 }
 
-// Web/desktop app setting for whether the user&#39;s view should automatically go to the conversation where they sent a message.
+// Web/desktop app setting for whether the user's view should automatically go to the conversation where they sent a message.
 //
 //	**Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
 func (r UpdateSettingsRequest) WebNavigateToSentMessage(webNavigateToSentMessage bool) UpdateSettingsRequest {
@@ -5314,15 +5314,15 @@ type UpdateStatusRequest struct {
 	reactionType *string
 }
 
-// The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters.
+// The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters.
 func (r UpdateStatusRequest) StatusText(statusText string) UpdateStatusRequest {
 	r.statusText = &statusText
 	return r
 }
 
-// Whether the user should be marked as \\"away\\".
+// Whether the user should be marked as "away".
 //
-//	**Changes**: Deprecated in Zulip 6.0 (feature level 148); starting with that feature level, `away` is a legacy way to access the user&#39;s `presence_enabled` setting, with `away &#x3D; !presence_enabled`. To be removed in a future release.
+//	**Changes**: Deprecated in Zulip 6.0 (feature level 148); starting with that feature level, `away` is a legacy way to access the user's `presence_enabled` setting, with `away &#x3D; !presence_enabled`. To be removed in a future release.
 func (r UpdateStatusRequest) Away(away bool) UpdateStatusRequest {
 	r.away = &away
 	return r
@@ -5344,7 +5344,7 @@ func (r UpdateStatusRequest) EmojiCode(emojiCode string) UpdateStatusRequest {
 	return r
 }
 
-// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \\"zulip\\").
+// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   "zulip").
 //
 //	**Changes**: New in Zulip 5.0 (feature level 86).
 //
@@ -5477,7 +5477,7 @@ type UpdateStatusForUserRequest struct {
 	reactionType *string
 }
 
-// The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters.
+// The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters.
 func (r UpdateStatusForUserRequest) StatusText(statusText string) UpdateStatusForUserRequest {
 	r.statusText = &statusText
 	return r
@@ -5499,7 +5499,7 @@ func (r UpdateStatusForUserRequest) EmojiCode(emojiCode string) UpdateStatusForU
 	return r
 }
 
-// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \\"zulip\\").
+// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   "zulip").
 //
 //	**Changes**: New in Zulip 5.0 (feature level 86).
 //
@@ -5624,7 +5624,7 @@ type UpdateUserRequest struct {
 	newEmail    *string
 }
 
-// The user&#39;s full name.
+// The user's full name.
 //
 //	**Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 5.0 (feature level 106).
 func (r UpdateUserRequest) FullName(fullName string) UpdateUserRequest {
@@ -5773,7 +5773,7 @@ type UpdateUserByEmailRequest struct {
 	newEmail    *string
 }
 
-// The user&#39;s full name.
+// The user's full name.
 //
 //	**Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 5.0 (feature level 106).
 func (r UpdateUserByEmailRequest) FullName(fullName string) UpdateUserByEmailRequest {
@@ -5970,7 +5970,7 @@ func (r UpdateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValueUpd
 	return r
 }
 
-// The set of users who have permission to [manage this user group] expressed as an [update to a group-setting value].  This setting cannot be set to `\\"role:internet\\"` and `\\"role:everyone\\"` [system groups].
+// The set of users who have permission to [manage this user group] expressed as an [update to a group-setting value].  This setting cannot be set to `"role:internet"` and `"role:everyone"` [system groups].
 //
 //	**Changes**: New in Zulip 10.0 (feature level 283).
 //
@@ -5982,7 +5982,7 @@ func (r UpdateUserGroupRequest) CanManageGroup(canManageGroup GroupSettingValueU
 	return r
 }
 
-// The set of users who have permission to [mention this group], expressed as an [update to a group-setting value].  This setting cannot be set to `\\"role:internet\\"` and `\\"role:owners\\"` [system groups].
+// The set of users who have permission to [mention this group], expressed as an [update to a group-setting value].  This setting cannot be set to `"role:internet"` and `"role:owners"` [system groups].
 //
 //	**Changes**: In Zulip 9.0 (feature level 260), this parameter was updated to only accept an object with the `old` and `new` fields described below. Prior to this feature level, this parameter could be either of the two forms of a [group-setting value].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value].  Before Zulip 8.0 (feature level 198), this parameter was named `can_mention_group_id`.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups].
 //

@@ -205,7 +205,7 @@ func (r FetchApiKeyRequest) Username(username string) FetchApiKeyRequest {
 	return r
 }
 
-// The user&#39;s Zulip password (or LDAP password, if LDAP authentication is in use).
+// The user's Zulip password (or LDAP password, if LDAP authentication is in use).
 func (r FetchApiKeyRequest) Password(password string) FetchApiKeyRequest {
 	r.password = &password
 	return r

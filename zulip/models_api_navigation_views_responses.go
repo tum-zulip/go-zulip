@@ -14,7 +14,7 @@ type GetNavigationViewsResponse struct {
 type NavigationView struct {
 	// A unique identifier for the view, used to determine navigation behavior when clicked.  Clients should use this value to navigate to the corresponding URL hash.
 	Fragment string `json:"fragment"`
-	// Determines whether the view appears directly in the sidebar or is hidden in the \"More Views\" menu.  - `true` - Pinned and visible in the sidebar. - `false` - Hidden and accessible via the \"More Views\" menu.
+	// Determines whether the view appears directly in the sidebar or is hidden in the "More Views" menu.  - `true` - Pinned and visible in the sidebar. - `false` - Hidden and accessible via the "More Views" menu.
 	IsPinned bool `json:"is_pinned"`
 	// The user-facing name for custom navigation views. Omit this field for built-in views.
 	Name *string `json:"name,omitempty"`

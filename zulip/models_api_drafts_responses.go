@@ -27,7 +27,7 @@ type GetSavedSnippetsResponse struct {
 type GetDraftsResponse struct {
 	Response
 
-	// The number of drafts the user currently has. Also the number of drafts returned under \"drafts\".
+	// The number of drafts the user currently has. Also the number of drafts returned under "drafts".
 	Count int64 `json:"count,omitempty"`
 	// Returns all of the current user's drafts, in order of last edit time (with the most recently edited draft appearing first).
 	Drafts []Draft `json:"drafts,omitempty"`

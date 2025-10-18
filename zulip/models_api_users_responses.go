@@ -62,7 +62,7 @@ type GetOwnUserResponse struct {
 
 	User
 
-	// The integer Id of the last message received by the requesting user's account.  **Deprecated**. We plan to remove this in favor of recommending using `GET /messages` with `\"anchor\": \"newest\"`.
+	// The integer Id of the last message received by the requesting user's account.  **Deprecated**. We plan to remove this in favor of recommending using `GET /messages` with `"anchor": "newest"`.
 	// Deprecated
 	MaxMessageId *int64 `json:"max_message_id,omitempty"`
 }

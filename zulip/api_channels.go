@@ -849,7 +849,7 @@ func (r CreateChannelRequest) Description(description string) CreateChannelReque
 	return r
 }
 
-// This determines whether [notification bot] will send an announcement about the new channel&#39;s creation.
+// This determines whether [notification bot] will send an announcement about the new channel's creation.
 //
 // [notification bot]: https://zulip.com/help/configure-automated-notices
 func (r CreateChannelRequest) Announce(announce bool) CreateChannelRequest {
@@ -863,7 +863,7 @@ func (r CreateChannelRequest) InviteOnly(inviteOnly bool) CreateChannelRequest {
 	return r
 }
 
-// This parameter determines whether the newly created channel will be a web-public channel.  Note that creating web-public channels requires the `WEB_PUBLIC_STREAMS_ENABLED` [server setting] to be enabled on the Zulip server in question, the organization to have enabled the `enable_spectator_access` realm setting, and the current user to have permission under the organization&#39;s `can_create_web_public_channel_group` realm setting.  [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html
+// This parameter determines whether the newly created channel will be a web-public channel.  Note that creating web-public channels requires the `WEB_PUBLIC_STREAMS_ENABLED` [server setting] to be enabled on the Zulip server in question, the organization to have enabled the `enable_spectator_access` realm setting, and the current user to have permission under the organization's `can_create_web_public_channel_group` realm setting.  [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html
 func (r CreateChannelRequest) IsWebPublic(isWebPublic bool) CreateChannelRequest {
 	r.isWebPublic = &isWebPublic
 	return r
@@ -898,7 +898,7 @@ func (r CreateChannelRequest) TopicsPolicy(topicsPolicy TopicsPolicy) CreateChan
 	return r
 }
 
-// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels].
+// Whether the channel's message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels].
 //
 // [private channels]: https://zulip.com/help/channel-permissions#private-channels
 func (r CreateChannelRequest) HistoryPublicToSubscribers(historyPublicToSubscribers bool) CreateChannelRequest {
@@ -2033,13 +2033,13 @@ func (r GetChannelsRequest) IncludeAll(includeAll bool) GetChannelsRequest {
 	return r
 }
 
-// Include all default channels for the user&#39;s realm.
+// Include all default channels for the user's realm.
 func (r GetChannelsRequest) IncludeDefault(includeDefault bool) GetChannelsRequest {
 	r.includeDefault = &includeDefault
 	return r
 }
 
-// If the user is a bot, include all channels that the bot&#39;s owner is subscribed to.
+// If the user is a bot, include all channels that the bot's owner is subscribed to.
 func (r GetChannelsRequest) IncludeOwnerSubscribed(includeOwnerSubscribed bool) GetChannelsRequest {
 	r.includeOwnerSubscribed = &includeOwnerSubscribed
 	return r
@@ -2394,7 +2394,7 @@ type GetSubscriptionsRequest struct {
 	includeSubscribers *string
 }
 
-// Whether each returned channel object should include a `subscribers` field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel&#39;s subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.
+// Whether each returned channel object should include a `subscribers` field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel's subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.
 //
 //	**Changes**: The `partial` value is new in Zulip 11.0 (feature level 412).  New in Zulip 2.1.0.
 func (r GetSubscriptionsRequest) IncludeSubscribers(includeSubscribers string) GetSubscriptionsRequest {
@@ -2653,7 +2653,7 @@ type PatchChannelFoldersRequest struct {
 	order      *[]int64
 }
 
-// A list of channel folder Ids representing the new order.  This list must include the Ids of all the organization&#39;s channel folders, including archived folders.
+// A list of channel folder Ids representing the new order.  This list must include the Ids of all the organization's channel folders, including archived folders.
 func (r PatchChannelFoldersRequest) Order(order []int64) PatchChannelFoldersRequest {
 	r.order = &order
 	return r
@@ -2915,7 +2915,7 @@ func (r SubscribeRequest) AuthorizationErrorsFatal(authorizationErrorsFatal bool
 	return r
 }
 
-// If one of the channels specified did not exist previously and is thus created by this call, this determines whether [notification bot] will send an announcement about the new channel&#39;s creation.
+// If one of the channels specified did not exist previously and is thus created by this call, this determines whether [notification bot] will send an announcement about the new channel's creation.
 //
 // [notification bot]: https://zulip.com/help/configure-automated-notices
 func (r SubscribeRequest) Announce(announce bool) SubscribeRequest {
@@ -2923,13 +2923,13 @@ func (r SubscribeRequest) Announce(announce bool) SubscribeRequest {
 	return r
 }
 
-// As described above, this endpoint will create a new channel if passed a channel name that doesn&#39;t already exist. This parameters and the ones that follow are used to request an initial configuration of a created channel; they are ignored for channels that already exist.  This parameter determines whether any newly created channels will be private channels.
+// As described above, this endpoint will create a new channel if passed a channel name that doesn't already exist. This parameters and the ones that follow are used to request an initial configuration of a created channel; they are ignored for channels that already exist.  This parameter determines whether any newly created channels will be private channels.
 func (r SubscribeRequest) InviteOnly(inviteOnly bool) SubscribeRequest {
 	r.inviteOnly = &inviteOnly
 	return r
 }
 
-// This parameter determines whether any newly created channels will be web-public channels.  Note that creating web-public channels requires the `WEB_PUBLIC_STREAMS_ENABLED` [server setting] to be enabled on the Zulip server in question, the organization to have enabled the `enable_spectator_access` realm setting, and the current use to have permission under the organization&#39;s `can_create_web_public_channel_group` realm setting.  [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
+// This parameter determines whether any newly created channels will be web-public channels.  Note that creating web-public channels requires the `WEB_PUBLIC_STREAMS_ENABLED` [server setting] to be enabled on the Zulip server in question, the organization to have enabled the `enable_spectator_access` realm setting, and the current use to have permission under the organization's `can_create_web_public_channel_group` realm setting.  [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
 func (r SubscribeRequest) IsWebPublic(isWebPublic bool) SubscribeRequest {
 	r.isWebPublic = &isWebPublic
 	return r
@@ -2943,7 +2943,7 @@ func (r SubscribeRequest) IsDefaultChannel(isDefaultChannel bool) SubscribeReque
 	return r
 }
 
-// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels].
+// Whether the channel's message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels].
 //
 // [private channels]: https://zulip.com/help/channel-permissions#private-channels
 func (r SubscribeRequest) HistoryPublicToSubscribers(historyPublicToSubscribers bool) SubscribeRequest {
@@ -3620,13 +3620,13 @@ func (r UpdateChannelRequest) IsPrivate(isPrivate bool) UpdateChannelRequest {
 	return r
 }
 
-// Change whether the channel is a web-public channel.  Note that creating web-public channels requires the `WEB_PUBLIC_STREAMS_ENABLED` [server setting] to be enabled on the Zulip server in question, the organization to have enabled the `enable_spectator_access` realm setting, and the current use to have permission under the organization&#39;s `can_create_web_public_channel_group` realm setting.   [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
+// Change whether the channel is a web-public channel.  Note that creating web-public channels requires the `WEB_PUBLIC_STREAMS_ENABLED` [server setting] to be enabled on the Zulip server in question, the organization to have enabled the `enable_spectator_access` realm setting, and the current use to have permission under the organization's `can_create_web_public_channel_group` realm setting.   [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
 func (r UpdateChannelRequest) IsWebPublic(isWebPublic bool) UpdateChannelRequest {
 	r.isWebPublic = &isWebPublic
 	return r
 }
 
-// Whether the channel&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels].  It&#39;s an error for this parameter to be false for a public or web-public channel and when is_private is false.
+// Whether the channel's message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels].  It's an error for this parameter to be false for a public or web-public channel and when is_private is false.
 //
 //	**Changes**: Before Zulip 6.0 (feature level 136), `history_public_to_subscribers` was silently ignored unless the request also contained either `is_private` or `is_web_public`.
 //
@@ -4239,7 +4239,7 @@ func (r UpdateUserTopicRequest) Topic(topic string) UpdateUserTopicRequest {
 	return r
 }
 
-// Controls which visibility policy to set.  - 0 &#x3D; None. Removes the visibility policy previously set for the topic. - 1 &#x3D; Muted. [Mutes the topic] in a channel. - 2 &#x3D; Unmuted. [Unmutes the topic] in a muted channel. - 3 &#x3D; Followed. [Follows the topic].  In an unmuted channel, a topic visibility policy of unmuted will have the same effect as the \\"None\\" visibility policy.
+// Controls which visibility policy to set.  - 0 &#x3D; None. Removes the visibility policy previously set for the topic. - 1 &#x3D; Muted. [Mutes the topic] in a channel. - 2 &#x3D; Unmuted. [Unmutes the topic] in a muted channel. - 3 &#x3D; Followed. [Follows the topic].  In an unmuted channel, a topic visibility policy of unmuted will have the same effect as the "None" visibility policy.
 //
 //	**Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.
 //

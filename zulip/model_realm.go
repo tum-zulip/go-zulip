@@ -123,7 +123,7 @@ type Realm struct {
 	// Deprecated
 	WildcardMentionPolicy int32 `json:"realm_wildcard_mention_policy,omitempty"`
 
-	// Whether this organization is configured to allow users to access [message edit history].  The value of `realm_allow_edit_history` is set as `false` if the `realm_message_edit_history_visibility_policy` is configured as \"None\" and `true` if it is configured as \"Moves only\" or \"All\".
+	// Whether this organization is configured to allow users to access [message edit history].  The value of `realm_allow_edit_history` is set as `false` if the `realm_message_edit_history_visibility_policy` is configured as "None" and `true` if it is configured as "Moves only" or "All".
 	//
 	// **Changes**: Deprecated in Zulip 10.0 (feature level 358) and will be removed in the future, as it is an inaccurate version `realm_message_edit_history_visibility_policy`, which replaces this field.
 	// Deprecated
@@ -157,7 +157,7 @@ type Realm struct {
 	BotDomain string `json:"realm_bot_domain,omitempty"`
 	// The URL for the organization. Alias of `realm_url`.
 	//
-	// **Changes**: Deprecated in Zulip 9.0 (feature level 257). The term \"URI\" is deprecated in [web standards].
+	// **Changes**: Deprecated in Zulip 9.0 (feature level 257). The term "URI" is deprecated in [web standards].
 	// Deprecated
 	//
 	// [web standards]: https://url.spec.whatwg.org/#goals
@@ -331,7 +331,7 @@ type RealmConfiguration struct {
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 348).
 	EnableGuestUserDmWarning bool `json:"enable_guest_user_dm_warning,omitempty"`
-	// Whether clients should display \"(guest)\" after the names of guest users to prominently highlight their status.
+	// Whether clients should display "(guest)" after the names of guest users to prominently highlight their status.
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 216).
 	EnableGuestUserIndicator bool `json:"enable_guest_user_indicator,omitempty"`
@@ -348,11 +348,11 @@ type RealmConfiguration struct {
 	// **Changes**: New in Zulip 8.0 (feature level 212). Previously, this was only available as a server-level configuration, and required a server restart to change.
 	JitsiServerUrl *string `json:"jitsi_server_url,omitempty"`
 
-	// The organization's default policy for sending channel messages to the [empty \"general chat\" topic].  - `\"allow_empty_topic\"`: Channel messages can be sent to the empty topic. - `\"disable_empty_topic\"`: Channel messages cannot be sent to the empty topic.
+	// The organization's default policy for sending channel messages to the [empty "general chat" topic].  - `"allow_empty_topic"`: Channel messages can be sent to the empty topic. - `"disable_empty_topic"`: Channel messages cannot be sent to the empty topic.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 392). Previously, this was controlled by the boolean realm `mandatory_topics` setting, which is now deprecated.
 	//
-	// [empty \"general chat\" topic]: https://zulip.com/help/general-chat-topic
+	// [empty "general chat" topic]: https://zulip.com/help/general-chat-topic
 	TopicsPolicy TopicsPolicy `json:"topics_policy,omitempty"`
 	// Whether [topics are required] for messages in this organization.
 	//
@@ -416,7 +416,7 @@ type RealmConfiguration struct {
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 231).
 	PushNotificationsEnabledEndTimestamp *time.Time `json:"push_notifications_enabled_end_timestamp,omitempty"`
-	// Whether this realm is configured to disallow sending mobile push notifications with message content through the legacy mobile push notifications APIs. The new API uses end-to-end encryption to protect message content and metadata from being accessible to the push bouncer service, APNs, and FCM. Clients that support the new E2EE API will use it automatically regardless of this setting.  If `true`, mobile push notifications sent to clients that lack support for E2EE push notifications will always have \"New message\" as their content. Note that these legacy mobile notifications will still contain metadata, which may include the message's Id, the sender's name, email address, and avatar.  In a future release, once the official mobile apps have implemented fully validated their E2EE protocol support, this setting will become strict, and disable the legacy protocol entirely.
+	// Whether this realm is configured to disallow sending mobile push notifications with message content through the legacy mobile push notifications APIs. The new API uses end-to-end encryption to protect message content and metadata from being accessible to the push bouncer service, APNs, and FCM. Clients that support the new E2EE API will use it automatically regardless of this setting.  If `true`, mobile push notifications sent to clients that lack support for E2EE push notifications will always have "New message" as their content. Note that these legacy mobile notifications will still contain metadata, which may include the message's Id, the sender's name, email address, and avatar.  In a future release, once the official mobile apps have implemented fully validated their E2EE protocol support, this setting will become strict, and disable the legacy protocol entirely.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 409). Previously, this behavior was available only via the `PUSH_NOTIFICATION_REDACT_CONTENT` global server setting.
 	RequireE2eePushNotifications bool `json:"require_e2ee_push_notifications,omitempty"`
@@ -497,7 +497,7 @@ type RealmPresentation struct {
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 416).
 	WelcomeMessageCustomText string `json:"welcome_message_custom_text,omitempty"`
-	// String indicating whether the organization's [profile wide logo] was uploaded by a user or is the default. Useful for UI allowing editing the organization's wide logo.  - \"D\" means the logo is the default Zulip logo. - \"U\" means uploaded by an organization administrator.
+	// String indicating whether the organization's [profile wide logo] was uploaded by a user or is the default. Useful for UI allowing editing the organization's wide logo.  - "D" means the logo is the default Zulip logo. - "U" means uploaded by an organization administrator.
 	//
 	// [profile wide logo]: https://zulip.com/help/create-your-organization-profile
 	LogoSource string `json:"logo_source,omitempty"`
@@ -505,7 +505,7 @@ type RealmPresentation struct {
 	//
 	// [organization profile]: https://zulip.com/help/create-your-organization-profile
 	LogoUrl string `json:"logo_url,omitempty"`
-	// String indicating whether the organization's dark theme [profile wide logo] was uploaded by a user or is the default. Useful for UI allowing editing the organization's wide logo.  - \"D\" means the logo is the default Zulip logo. - \"U\" means uploaded by an organization administrator.
+	// String indicating whether the organization's dark theme [profile wide logo] was uploaded by a user or is the default. Useful for UI allowing editing the organization's wide logo.  - "D" means the logo is the default Zulip logo. - "U" means uploaded by an organization administrator.
 	//
 	// [profile wide logo]: https://zulip.com/help/create-your-organization-profile
 	NightLogoSource string `json:"night_logo_source,omitempty"`
@@ -517,7 +517,7 @@ type RealmPresentation struct {
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 55).
 	GiphyRating int32 `json:"giphy_rating,omitempty"`
-	// String indicating whether the organization's [profile icon] was uploaded by a user or is the default. Useful for UI allowing editing the organization's icon.  - \"G\" means generated by Gravatar (the default). - \"U\" means uploaded by an organization administrator.
+	// String indicating whether the organization's [profile icon] was uploaded by a user or is the default. Useful for UI allowing editing the organization's icon.  - "G" means generated by Gravatar (the default). - "U" means uploaded by an organization administrator.
 	//
 	// [profile icon]: https://zulip.com/help/create-your-organization-profile
 	IconSource string `json:"icon_source,omitempty"`
@@ -547,9 +547,9 @@ type RealmLocalization struct {
 }
 
 type SpecialChannels struct {
-	// The Id of the private channel to which messages flagged by users for moderation are sent. Moderators can use this channel to review and act on reported content.  Will be `-1` if moderation requests are disabled.  Clients should check whether moderation requests are disabled to determine whether to present a \"report message\" feature in their UI within a given organization.
+	// The Id of the private channel to which messages flagged by users for moderation are sent. Moderators can use this channel to review and act on reported content.  Will be `-1` if moderation requests are disabled.  Clients should check whether moderation requests are disabled to determine whether to present a "report message" feature in their UI within a given organization.
 	//
-	// **Changes**: New in Zulip 10.0 (feature level 331). Previously, no \"report message\" feature existed in Zulip.
+	// **Changes**: New in Zulip 10.0 (feature level 331). Previously, no "report message" feature existed in Zulip.
 	ModerationRequestChannelId int64 `json:"realm_moderation_request_channel_id,omitempty"`
 	// The Id of the channel to which automated messages announcing the [creation of new channels] are sent.  Will be `-1` if such automated messages are disabled.  Since these automated messages are sent by the server, this field is primarily relevant to clients containing UI for changing it.
 	//

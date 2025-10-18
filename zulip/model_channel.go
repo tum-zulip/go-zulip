@@ -46,10 +46,10 @@ type Channel struct {
 	// Deprecated
 	ChannelPostPolicy    int32 `json:"stream_post_policy"`
 	MessageRetentionDays *int  `json:"message_retention_days"`
-	// Whether the history of the channel is public to its subscribers.  Currently always true for public channels (i.e. `\"invite_only\": false` implies `\"history_public_to_subscribers\": true`), but clients should not make that assumption, as we may change that behavior in the future.
+	// Whether the history of the channel is public to its subscribers.  Currently always true for public channels (i.e. `"invite_only": false` implies `"history_public_to_subscribers": true`), but clients should not make that assumption, as we may change that behavior in the future.
 	HistoryPublicToSubscribers bool         `json:"history_public_to_subscribers"`
 	TopicsPolicy               TopicsPolicy `json:"topics_policy,omitempty"`
-	// The Id of the first message in the channel.  Intended to help clients determine whether they need to display UI like the \"show all topics\" widget that would suggest the channel has older history that can be accessed.  Is `null` for channels with no message history.
+	// The Id of the first message in the channel.  Intended to help clients determine whether they need to display UI like the "show all topics" widget that would suggest the channel has older history that can be accessed.  Is `null` for channels with no message history.
 	FirstMessageId *int64 `json:"first_message_id"`
 	// The Id of the folder to which the channel belongs.  Is `null` if channel does not belong to any folder.
 	//
@@ -100,9 +100,9 @@ type ChannelWithSubscribers struct {
 
 	// A list of user Ids of users who are subscribed to the channel. Included only if `include_subscribers` is `true`.  If a user is not allowed to know the subscribers for a channel, we will send an empty array. API authors should use other data to determine whether users like guest users are forbidden to know the subscribers.
 	Subscribers []int64 `json:"subscribers,omitempty"`
-	// If [`include_subscribers=\"partial\"`].
+	// If [`include_subscribers="partial"`].
 	//
-	// [`include_subscribers=\"partial\"`]: https://zulip.com/api/get-subscriptions#parameter-include_subscribers was requested, the server may, at its discretion, send a `partial_subscribers` list rather than a `subscribers` list for channels with a large number of subscribers.  The `partial_subscribers` list contains an arbitrary subset of the channel's subscribers that is guaranteed to include all bot user subscribers as well as all users who have been active in the last 14 days, but otherwise can be chosen arbitrarily by the server.  If a user is not allowed to know the subscribers for a channel, we will send an empty array. API authors should use other data to determine whether users like guest users are forbidden to know the subscribers.
+	// [`include_subscribers="partial"`]: https://zulip.com/api/get-subscriptions#parameter-include_subscribers was requested, the server may, at its discretion, send a `partial_subscribers` list rather than a `subscribers` list for channels with a large number of subscribers.  The `partial_subscribers` list contains an arbitrary subset of the channel's subscribers that is guaranteed to include all bot user subscribers as well as all users who have been active in the last 14 days, but otherwise can be chosen arbitrarily by the server.  If a user is not allowed to know the subscribers for a channel, we will send an empty array. API authors should use other data to determine whether users like guest users are forbidden to know the subscribers.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 412
 	PartialSubscribers []int64 `json:"partial_subscribers,omitempty"`

@@ -31,7 +31,7 @@ type SubscriptionData struct {
 	// [muted]: https://zulip.com/help/mute-a-channel
 	// [subscription update   events]: https://zulip.com/api/get-events#subscription-update
 	Property SubscriptionProperty `json:"property"`
-	// SubscriptionDataValue - The new value of the property being modified.  If the property is `\"color\"`, then `value` is a string representing the hex value of the user's display color for the channel. For all other above properties, `value` is a boolean.
+	// SubscriptionDataValue - The new value of the property being modified.  If the property is `"color"`, then `value` is a string representing the hex value of the user's display color for the channel. For all other above properties, `value` is a boolean.
 	Value SubscriptionDataValue `json:"value"`
 }
 

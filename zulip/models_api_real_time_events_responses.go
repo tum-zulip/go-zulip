@@ -35,7 +35,7 @@ type RegisterQueueResponse struct {
 	//
 	// **Changes**: As of Zulip 3.0 (feature level 3), this is always present in the endpoint's response. Previously, it was only present if `event_types` included `zulip_version`.  [version from Git]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
 	ZulipVersion string `json:"zulip_version,omitempty"`
-	// The `git merge-base` between `zulip_version` and official branches in the public [Zulip server and web app repository], in the same format as `zulip_version`. This will equal `zulip_version` if the server is not running a fork of the Zulip server.  This will be `\"\"` if the server does not know its `merge-base`.
+	// The `git merge-base` between `zulip_version` and official branches in the public [Zulip server and web app repository], in the same format as `zulip_version`. This will equal `zulip_version` if the server is not running a fork of the Zulip server.  This will be `""` if the server does not know its `merge-base`.
 	//
 	// **Changes**: New in Zulip 5.0 (feature level 88).
 	//
@@ -64,7 +64,7 @@ type RegisterQueueResponse struct {
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 369).
 	NavigationTourVideoUrl *string `json:"navigation_tour_video_url,omitempty"`
-	// Present if `message` is present in `fetch_event_types`.  The highest message Id among all messages the user has received as of the moment of this request.  **Deprecated**: This field may be removed in future versions as it no longer has a clear purpose. Clients wishing to fetch the latest messages should pass `\"anchor\": \"latest\"` to `GET /messages`.
+	// Present if `message` is present in `fetch_event_types`.  The highest message Id among all messages the user has received as of the moment of this request.  **Deprecated**: This field may be removed in future versions as it no longer has a clear purpose. Clients wishing to fetch the latest messages should pass `"anchor": "latest"` to `GET /messages`.
 	// Deprecated
 	MaxMessageId *int64 `json:"max_message_id,omitempty"`
 	// The maximum allowed length for a reminder note.
@@ -109,7 +109,7 @@ type RegisterQueueResponse struct {
 	RealmDomains []RealmDomain `json:"realm_domains,omitempty"`
 	// Present if `realm_emoji` is present in `fetch_event_types`.  A dictionary of objects where each object describes a custom emoji that has been uploaded in this Zulip organization.
 	RealmEmoji map[string]RealmEmoji `json:"realm_emoji,omitempty"`
-	// Present if `realm_linkifiers` is present in `fetch_event_types`.  An ordered array of objects where each object describes a single [linkifier].  The order of the array reflects the order that each linkifier should be processed when linkifying messages and topics. By default, new linkifiers are ordered last. This order can be modified with [`PATCH /realm/linkifiers`].  Clients will receive an empty array unless the event queue is registered with the client capability `{\"linkifier_url_template\": true}`. See [`client_capabilities`], the `linkifier_url_template` client capability was not required. The requirement was added because linkifiers were updated to contain a URL template instead of a URL format string, which was a not backwards-compatible change.  New in Zulip 4.0 (feature level 54). Clients can access this data for servers on earlier feature levels via the legacy `realm_filters` property.
+	// Present if `realm_linkifiers` is present in `fetch_event_types`.  An ordered array of objects where each object describes a single [linkifier].  The order of the array reflects the order that each linkifier should be processed when linkifying messages and topics. By default, new linkifiers are ordered last. This order can be modified with [`PATCH /realm/linkifiers`].  Clients will receive an empty array unless the event queue is registered with the client capability `{"linkifier_url_template": true}`. See [`client_capabilities`], the `linkifier_url_template` client capability was not required. The requirement was added because linkifiers were updated to contain a URL template instead of a URL format string, which was a not backwards-compatible change.  New in Zulip 4.0 (feature level 54). Clients can access this data for servers on earlier feature levels via the legacy `realm_filters` property.
 	//
 	// [linkifier]: https://zulip.com/help/add-a-custom-linkifier
 	// [`PATCH /realm/linkifiers`]: https://zulip.com/api/reorder-linkifiers
@@ -119,7 +119,7 @@ type RegisterQueueResponse struct {
 	RealmLinkifiers []RealmLinkifiers `json:"realm_linkifiers,omitempty"`
 	// Legacy property for [linkifiers]. Present if `realm_filters` is present in `fetch_event_types`.  When present, this is always an empty array.
 	//
-	// **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `\"#(?P<id>[123])\"`. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be `\"https://realm.com/my_realm_filter/%(id)s\"`. And the third element was the Id of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the `realm_linkifiers` key.
+	// **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `"#(?P<id>[123])"`. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be `"https://realm.com/my_realm_filter/%(id)s"`. And the third element was the Id of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the `realm_linkifiers` key.
 	// Deprecated
 	//
 	// [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
@@ -142,7 +142,7 @@ type RegisterQueueResponse struct {
 	RealmEmbeddedBots []RealmEmbeddedBots `json:"realm_embedded_bots,omitempty"`
 	// Present if `realm_incoming_webhook_bots` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a type of incoming webhook integration that is available to be configured on this Zulip server.  Clients only need these data if they contain UI for creating or administering bots.
 	RealmIncomingWebhookBots []RealmIncomingWebhookBot `json:"realm_incoming_webhook_bots,omitempty"`
-	// Present if `recent_private_conversations` is present in `fetch_event_types`.  An array of dictionaries containing data on all direct message and group direct message conversations that the user has received (or sent) messages in, organized by conversation. This data set is designed to support UI elements such as the \"Direct messages\" widget in the web application showing recent direct message conversations that the user has participated in.  \"Recent\" is defined as the server's discretion; the original implementation interpreted that as \"the 1000 most recent direct messages the user received\".
+	// Present if `recent_private_conversations` is present in `fetch_event_types`.  An array of dictionaries containing data on all direct message and group direct message conversations that the user has received (or sent) messages in, organized by conversation. This data set is designed to support UI elements such as the "Direct messages" widget in the web application showing recent direct message conversations that the user has participated in.  "Recent" is defined as the server's discretion; the original implementation interpreted that as "the 1000 most recent direct messages the user received".
 	RecentPrivateConversations []RecentPrivateConversation `json:"recent_private_conversations,omitempty"`
 	// Present if `navigation_views` is present in `fetch_event_types`. An array of dictionaries containing data on all of the current user's navigation views.
 	//
@@ -299,7 +299,7 @@ type ServerSupportedPermissionSettings struct {
 
 // GroupPermissionSetting Configuration for a group permission setting specifying the groups to which the setting can be set to and the default values for the setting.
 //
-//	**Changes**: Removed `allow_owners_group` field in Zulip 10.0 (feature level 326), as we now support anonymous user groups. Previously, the `role:owners` system group was not offered when `allow_owners_group` was false.  Removed unnecessary `id_field_name` field in Zulip 10.0 (feature level 326). Previously, this always had the value of `\"{setting_name}_id\"`; it was an internal implementation detail of the server not intended to be included in the API.
+//	**Changes**: Removed `allow_owners_group` field in Zulip 10.0 (feature level 326), as we now support anonymous user groups. Previously, the `role:owners` system group was not offered when `allow_owners_group` was false.  Removed unnecessary `id_field_name` field in Zulip 10.0 (feature level 326). Previously, this always had the value of `"{setting_name}_id"`; it was an internal implementation detail of the server not intended to be included in the API.
 type GroupPermissionSetting struct {
 	// Whether the setting can only be set to a system user group.
 	RequireSystemGroup bool `json:"require_system_group,omitempty"`
@@ -323,9 +323,9 @@ type GroupPermissionSetting struct {
 
 // PushDevicesValue `{push_account_id}`: Dictionary containing the details of a push device with the push account Id as the key.
 type PushDevicesValue struct {
-	// The push account's registration status. Either `\"active\"`, `\"pending\"`, or `\"failed\"`.
+	// The push account's registration status. Either `"active"`, `"pending"`, or `"failed"`.
 	Status string `json:"status,omitempty"`
-	// If the status is `\"failed\"`, a [Zulip API error code] indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `\"INVALId_BOUNCER_PUBLIC_KEY\"` - Inform the user to update app. - `\"REQUEST_EXPIRED` - Retry with a fresh payload.
+	// If the status is `"failed"`, a [Zulip API error code] indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `"INVALId_BOUNCER_PUBLIC_KEY"` - Inform the user to update app. - `"REQUEST_EXPIRED` - Retry with a fresh payload.
 	//
 	// [Zulip API error code]: https://zulip.com/api/rest-error-handling
 	ErrorCode *string `json:"error_code,omitempty"`
@@ -459,9 +459,9 @@ type UserSettingsEmojisetChoice struct {
 }
 
 type RealmUser struct {
-	// A array of dictionaries where each entry describes a user whose account has not been deactivated. Note that unlike the usual User dictionary, this does not contain the `is_active` key, as all the users present in this array have active accounts.  If the current user is a guest whose access to users is limited by a `can_access_all_users_group` policy, and the event queue was registered with the `user_list_incomplete` client capability, then users that the current user cannot access will not be included in this array. If the current user's access to a user is restricted but the client lacks this capability, then that inaccessible user will appear in the users array as an \"Unknown user\" object with the usual format but placeholder data whose only variable content is the user Id.  See also `cross_realm_bots` and `realm_non_active_users`.
+	// A array of dictionaries where each entry describes a user whose account has not been deactivated. Note that unlike the usual User dictionary, this does not contain the `is_active` key, as all the users present in this array have active accounts.  If the current user is a guest whose access to users is limited by a `can_access_all_users_group` policy, and the event queue was registered with the `user_list_incomplete` client capability, then users that the current user cannot access will not be included in this array. If the current user's access to a user is restricted but the client lacks this capability, then that inaccessible user will appear in the users array as an "Unknown user" object with the usual format but placeholder data whose only variable content is the user Id.  See also `cross_realm_bots` and `realm_non_active_users`.
 	//
-	// **Changes**: Before Zulip 8.0 (feature level 232), the `user_list_incomplete` client capability did not exist, and so all clients whose access to a new user was prevented by `can_access_all_users_group` policy would receive a fake \"Unknown user\" event for such users.
+	// **Changes**: Before Zulip 8.0 (feature level 232), the `user_list_incomplete` client capability did not exist, and so all clients whose access to a new user was prevented by `can_access_all_users_group` policy would receive a fake "Unknown user" event for such users.
 	RealmUsers []User `json:"realm_users,omitempty"`
 	// A array of dictionaries where each entry describes a user whose account has been deactivated. Note that unlike the usual User dictionary this does not contain the `is_active` key as all the users present in this array have deactivated accounts.
 	RealmNonActiveUsers []User `json:"realm_non_active_users,omitempty"`
@@ -740,9 +740,9 @@ type RealmUserSettingsDefaults struct {
 	//
 	// [displayed in 24-hour notation]: https://zulip.com/help/change-the-time-format
 	TwentyFourHourTime *bool `json:"twenty_four_hour_time,omitempty"`
-	// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the \"Always\" setting when marking messages as read.
+	// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the "Always" setting when marking messages as read.
 	WebMarkReadOnScrollPolicy MarkReadOnScrollPolicy `json:"web_mark_read_on_scroll_policy,omitempty"`
-	// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The \"Top unread topic in channel\" is new in Zulip 11.0 (feature level 401).  In Zulip 11.0 (feature level 383), we added a new option \"List of topics\" to this setting.  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the \"Channel feed\" behavior.
+	// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel  **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  In Zulip 11.0 (feature level 383), we added a new option "List of topics" to this setting.  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
 	WebChannelDefaultView ChannelDefaultView `json:"web_channel_default_view,omitempty"`
 	// Whether clients should display the [number of starred messages].
 	//
@@ -784,7 +784,7 @@ type RealmUserSettingsDefaults struct {
 	//
 	// **Changes**: New in Zulip 6.0 (feature level 125).
 	DisplayEmojiReactionUsers *bool `json:"display_emoji_reaction_users,omitempty"`
-	// What [default language] to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.
+	// What [default language] to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `"en"` for English or `"de"` for German.
 	//
 	// [default language]: https://zulip.com/help/change-your-language
 	DefaultLanguage *string `json:"default_language,omitempty"`
@@ -909,7 +909,7 @@ type RealmUserSettingsDefaults struct {
 	// **Changes**: New in Zulip 8.0 (feature level 235).
 	AutomaticallyFollowTopicsWhereMentioned *bool `json:"automatically_follow_topics_where_mentioned,omitempty"`
 	// Controls whether the resolved-topic notices are marked as read.
-	//  - "always" = Always mark resolved-topic notices as read. - \"except_followed\" - Mark resolved-topic notices as read in topics not followed by the user. - \"never\" - Never mark resolved-topic notices as read.
+	//  - "always" = Always mark resolved-topic notices as read. - "except_followed" - Mark resolved-topic notices as read in topics not followed by the user. - "never" - Never mark resolved-topic notices as read.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 385).
 	ResolvedTopicNoticeAutoReadPolicy *string `json:"resolved_topic_notice_auto_read_policy,omitempty"`
@@ -1097,7 +1097,7 @@ type UnreadMsgsChannels struct {
 
 // UnreadMsgsHuddles struct for UnreadMsgsHuddles
 type UnreadMsgsHuddles struct {
-	// A string containing the Ids of all users in the group direct message conversation, including the current user, separated by commas and sorted numerically; for example: `\"1,2,3\"`.
+	// A string containing the Ids of all users in the group direct message conversation, including the current user, separated by commas and sorted numerically; for example: `"1,2,3"`.
 	UserIdsString string `json:"user_ids_string,omitempty"`
 	// The message Ids of the recent unread messages which have been sent in this group direct message conversation, sorted in ascending order.
 	UnreadMessageIds []int64 `json:"unread_message_ids,omitempty"`

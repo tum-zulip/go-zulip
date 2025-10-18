@@ -5,7 +5,7 @@ package zulip
 //   - 2 = Only in conversation views
 //   - 3 = Never
 //
-// **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the \"Always\" setting when marking messages as read.
+// **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the "Always" setting when marking messages as read.
 type MarkReadOnScrollPolicy int
 
 const (

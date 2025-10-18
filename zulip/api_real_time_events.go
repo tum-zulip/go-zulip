@@ -229,7 +229,7 @@ func (r GetEventsRequest) QueueId(queueId string) GetEventsRequest {
 	return r
 }
 
-// The highest event Id in this queue that you&#39;ve received and wish to acknowledge. See the [code for `call_on_each_event`] in the [zulip Python module] for an example implementation of correctly processing each event exactly once.
+// The highest event Id in this queue that you've received and wish to acknowledge. See the [code for `call_on_each_event`] in the [zulip Python module] for an example implementation of correctly processing each event exactly once.
 //
 // [code for `call_on_each_event`]: https://github.com/zulip/python-zulip-api/blob/main/zulip/zulip/__init__.py
 // [zulip Python module]: https://github.com/zulip/python-zulip-api
@@ -384,7 +384,7 @@ func (r RegisterQueueRequest) ClientGravatar(clientGravatar bool) RegisterQueueR
 	return r
 }
 
-// Whether each returned channel object should include a `subscribers` field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel&#39;s subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  Passing `true` in an [unauthenticated request] is an error.
+// Whether each returned channel object should include a `subscribers` field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel's subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  Passing `true` in an [unauthenticated request] is an error.
 //
 //	**Changes**: The `partial` value is new in Zulip 11.0 (feature level 412).  Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.  New in Zulip 2.1.0.
 //
@@ -394,7 +394,7 @@ func (r RegisterQueueRequest) IncludeSubscribers(includeSubscribers string) Regi
 	return r
 }
 
-// If `true`, the `presences` object returned in the response will be keyed by user Id and the entry for each user&#39;s presence data will be in the modern format.
+// If `true`, the `presences` object returned in the response will be keyed by user Id and the entry for each user's presence data will be in the modern format.
 //
 //	**Changes**: New in Zulip 3.0 (no feature level; API unstable).
 func (r RegisterQueueRequest) SlimPresence(slimPresence bool) RegisterQueueRequest {
@@ -410,21 +410,21 @@ func (r RegisterQueueRequest) PresenceHistoryLimitDays(presenceHistoryLimitDays 
 	return r
 }
 
-// A JSON-encoded array indicating which types of events you&#39;re interested in. Values that you might find useful include:  - **message** (messages) - **subscription** (changes in your subscriptions) - **realm_user** (changes to users in the organization and   their properties, such as their name).  If you do not specify this parameter, you will receive all events, and have to filter out the events not relevant to your client in your client code. For most applications, one is only interested in messages, so one specifies: `\\"event_types\\": [\\"message\\"]`  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions.
+// A JSON-encoded array indicating which types of events you're interested in. Values that you might find useful include:  - **message** (messages) - **subscription** (changes in your subscriptions) - **realm_user** (changes to users in the organization and   their properties, such as their name).  If you do not specify this parameter, you will receive all events, and have to filter out the events not relevant to your client in your client code. For most applications, one is only interested in messages, so one specifies: `"event_types": ["message"]`  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions.
 func (r RegisterQueueRequest) EventTypes(eventTypes []string) RegisterQueueRequest {
 	r.eventTypes = &eventTypes
 	return r
 }
 
-// Whether you would like to request message events from all public channels. Useful for workflow bots that you&#39;d like to see all new messages sent to public channels. (You can also subscribe the user to private channels).
+// Whether you would like to request message events from all public channels. Useful for workflow bots that you'd like to see all new messages sent to public channels. (You can also subscribe the user to private channels).
 func (r RegisterQueueRequest) AllPublicChannels(allPublicChannels bool) RegisterQueueRequest {
 	r.allPublicChannels = &allPublicChannels
 	return r
 }
 
-// Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  - `notification_settings_null`: Boolean for whether the   client can handle the current API with `null` values for   channel-level notification settings (which means the channel   is not customized and should inherit the user&#39;s global   notification settings for channel messages).
+// Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  - `notification_settings_null`: Boolean for whether the   client can handle the current API with `null` values for   channel-level notification settings (which means the channel   is not customized and should inherit the user's global   notification settings for channel messages).
 //
-//	**Changes**: New in Zulip 2.1.0. In earlier Zulip releases,   channel-level notification settings were simple booleans.  - `bulk_message_deletion`: Boolean for whether the client&#39;s   handler for the `delete_message` event type has been   updated to process the new bulk format (with a   `message_ids`, rather than a singleton `message_id`).   Otherwise, the server will send `delete_message` events   in a loop.
+//	**Changes**: New in Zulip 2.1.0. In earlier Zulip releases,   channel-level notification settings were simple booleans.  - `bulk_message_deletion`: Boolean for whether the client's   handler for the `delete_message` event type has been   updated to process the new bulk format (with a   `message_ids`, rather than a singleton `message_id`).   Otherwise, the server will send `delete_message` events   in a loop.
 //	**Changes**: New in Zulip 3.0 (feature level 13). This   capability is for backwards-compatibility; it will be   required in a future server release.  - `user_avatar_url_field_optional`: Boolean for whether the   client required avatar URLs for all users, or supports   using `GET /avatar/{user_id}` to access user avatars. If the   client has this capability, the server may skip sending a   `avatar_url` field in the `realm_user` at its sole discretion   to optimize network performance. This is an important optimization   in organizations with 10,000s of users.
 //	**Changes**: New in Zulip 3.0 (feature level 18).  - `stream_typing_notifications`: Boolean for whether the client   supports channel typing notifications.
 //	**Changes**: New in Zulip 4.0 (feature level 58). This capability is   for backwards-compatibility; it will be required in a   future server release.  - `user_settings_object`: Boolean for whether the client supports the modern   `user_settings` event type. If false, the server will additionally send the   legacy `update_global_notifications` and `update_display_settings` event   types.
@@ -452,7 +452,7 @@ func (r RegisterQueueRequest) FetchEventTypes(fetchEventTypes []string) Register
 	return r
 }
 
-// A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)] for which you&#39;d like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use `\\"narrow\\": [[\\"is\\", \\"dm\\"]]`.  Unlike the API for [fetching messages], this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a `narrow` filter of `[[\\"channel\\", \\"Denmark\\"]]` will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to `\\"Denmark\\"`.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed] to any channels whose messages you&#39;d like them to process using this endpoint.  See the `all_public_streams` parameter for how to process all public channel messages in an organization.
+// A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)] for which you'd like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use `"narrow": [["is", "dm"]]`.  Unlike the API for [fetching messages], this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a `narrow` filter of `[["channel", "Denmark"]]` will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to `"Denmark"`.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed] to any channels whose messages you'd like them to process using this endpoint.  See the `all_public_streams` parameter for how to process all public channel messages in an organization.
 //
 //	**Changes**: See [changes section] of search/narrow filter documentation.
 //
