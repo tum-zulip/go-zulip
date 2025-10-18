@@ -14,11 +14,11 @@ type InvitesAPI interface {
 	/*
 			CreateInviteLink Create a reusable invitation link
 
-			Create a [reusable invitation link](zulip.com/help/invite-new-users#create-a-reusable-invitation-link
+			Create a [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link)
 		which can be used to invite new users to the organization.
 
 		**Changes**: In Zulip 8.0 (feature level 209), added support for non-admin
-		users [with permission](zulip.com/help/restrict-account-creation#change-who-can-send-invitations
+		users [with permission](https://zulip.com/help/restrict-account-creation#change-who-can-send-invitations)
 		to use this endpoint. Previously, it was restricted to administrators only.
 
 		In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
@@ -40,7 +40,7 @@ type InvitesAPI interface {
 	/*
 			GetInvites Get all invitations
 
-			Fetch all unexpired [invitations](zulip.com/help/invite-new-users) (i.e. email
+			Fetch all unexpired [invitations](https://zulip.com/help/invite-new-users) (i.e. email
 		invitations and reusable invitation links) that can be managed by the user.
 
 		Note that administrators can manage invitations that were created by other users.
@@ -58,10 +58,10 @@ type InvitesAPI interface {
 	/*
 			ResendEmailInvite Resend an email invitation
 
-			Resend an [email invitation](zulip.com/help/invite-new-users#send-email-invitations.
+			Resend an [email invitation](https://zulip.com/help/invite-new-users#send-email-invitations).
 
 		A user can only resend [invitations that they can
-		manage](zulip.com/help/invite-new-users#manage-pending-invitations.
+		manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
 
 	*/
 	ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest
@@ -72,10 +72,10 @@ type InvitesAPI interface {
 	/*
 			RevokeEmailInvite Revoke an email invitation
 
-			Revoke an [email invitation](zulip.com/help/invite-new-users#send-email-invitations.
+			Revoke an [email invitation](https://zulip.com/help/invite-new-users#send-email-invitations).
 
 		A user can only revoke [invitations that they can
-		manage](zulip.com/help/invite-new-users#manage-pending-invitations.
+		manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
 
 	*/
 	RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest
@@ -86,10 +86,10 @@ type InvitesAPI interface {
 	/*
 			RevokeInviteLink Revoke a reusable invitation link
 
-			Revoke a [reusable invitation link](zulip.com/help/invite-new-users#create-a-reusable-invitation-link.
+			Revoke a [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link).
 
 		A user can only revoke [invitations that they can
-		manage](zulip.com/help/invite-new-users#manage-pending-invitations.
+		manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
 
 		**Changes**: Prior to Zulip 8.0 (feature level 209), only organization
 		administrators were able to create and revoke reusable invitation links.
@@ -103,7 +103,7 @@ type InvitesAPI interface {
 	/*
 			SendInvites Send invitations
 
-			Send [invitations](zulip.com/help/invite-new-users) to specified email addresses.
+			Send [invitations](https://zulip.com/help/invite-new-users) to specified email addresses.
 
 		**Changes**: In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
 		parameter was removed and replaced by `invite_expires_in_minutes`.
@@ -139,25 +139,25 @@ func (r CreateInviteLinkRequest) InviteExpiresInMinutes(inviteExpiresInMinutes i
 	return r
 }
 
-// The [organization-level role](zulip.com/api/roles-and-permissions) of the user that is created when the invitation is accepted. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  Users can only create invitation links for [roles with equal or stricter restrictions](zulip.com/api/roles-and-permissions#permission-levels as their own. For example, a moderator cannot invite someone to be an owner or administrator, but they can invite them to be a moderator or member.  **Changes**: In Zulip 4.0 (feature level 61), added support for inviting users as moderators.
+// The [organization-level role](https://zulip.com/api/roles-and-permissions) of the user that is created when the invitation is accepted. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  Users can only create invitation links for [roles with equal or stricter restrictions](https://zulip.com/api/roles-and-permissions#permission-levels) as their own. For example, a moderator cannot invite someone to be an owner or administrator, but they can invite them to be a moderator or member.  **Changes**: In Zulip 4.0 (feature level 61), added support for inviting users as moderators.
 func (r CreateInviteLinkRequest) InviteAs(inviteAs Role) CreateInviteLinkRequest {
 	r.inviteAs = &inviteAs
 	return r
 }
 
-// A list containing the [Ids of the channels](zulip.com/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  [can-subscribe-others]: /help/configure-who-can-invite-to-channels
+// A list containing the [Ids of the channels](https://zulip.com/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  [can-subscribe-others]: https://zulip.com/help/configure-who-can-invite-to-channels
 func (r CreateInviteLinkRequest) ChannelIds(channelIds []int64) CreateInviteLinkRequest {
 	r.channelIds = &channelIds
 	return r
 }
 
-// A list containing the [Ids of the user groups](zulip.com/api/get-user-groups) that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.  **Changes**: New in Zulip 10.0 (feature level 322).
+// A list containing the [Ids of the user groups](https://zulip.com/api/get-user-groups) that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.  **Changes**: New in Zulip 10.0 (feature level 322).
 func (r CreateInviteLinkRequest) GroupIds(groupIds []int64) CreateInviteLinkRequest {
 	r.groupIds = &groupIds
 	return r
 }
 
-// Boolean indicating whether the newly created user should be subscribed to the [default channels][default-channels] for the organization.  Note that this parameter can be &#x60;true&#x60; even if the current user does not generally have permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always &#x60;false&#x60;; clients needed to include the organization&#39;s default channels in the &#x60;stream_ids&#x60; parameter for a newly created user to be automatically subscribed to them.  [default-channels]: /help/set-default-channels-for-new-users [can-subscribe-others]: /help/configure-who-can-invite-to-channels
+// Boolean indicating whether the newly created user should be subscribed to the [default channels][default-channels] for the organization.  Note that this parameter can be &#x60;true&#x60; even if the current user does not generally have permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always &#x60;false&#x60;; clients needed to include the organization&#39;s default channels in the &#x60;stream_ids&#x60; parameter for a newly created user to be automatically subscribed to them.  [default-channels]: https://zulip.com/help/set-default-channels-for-new-users [can-subscribe-others]: https://zulip.com/help/configure-who-can-invite-to-channels
 func (r CreateInviteLinkRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) CreateInviteLinkRequest {
 	r.includeRealmDefaultSubscriptions = &includeRealmDefaultSubscriptions
 	return r
@@ -176,11 +176,11 @@ func (r CreateInviteLinkRequest) Execute() (*CreateInviteLinkResponse, *http.Res
 /*
 CreateInviteLink Create a reusable invitation link
 
-Create a [reusable invitation link](zulip.com/help/invite-new-users#create-a-reusable-invitation-link
+Create a [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link)
 which can be used to invite new users to the organization.
 
 **Changes**: In Zulip 8.0 (feature level 209), added support for non-admin
-users [with permission](zulip.com/help/restrict-account-creation#change-who-can-send-invitations
+users [with permission](https://zulip.com/help/restrict-account-creation#change-who-can-send-invitations)
 to use this endpoint. Previously, it was restricted to administrators only.
 
 In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
@@ -302,7 +302,7 @@ func (r GetInvitesRequest) Execute() (*GetInvitesResponse, *http.Response, error
 /*
 GetInvites Get all invitations
 
-Fetch all unexpired [invitations](zulip.com/help/invite-new-users) (i.e. email
+Fetch all unexpired [invitations](https://zulip.com/help/invite-new-users) (i.e. email
 invitations and reusable invitation links) that can be managed by the user.
 
 Note that administrators can manage invitations that were created by other users.
@@ -403,10 +403,10 @@ func (r ResendEmailInviteRequest) Execute() (*Response, *http.Response, error) {
 /*
 ResendEmailInvite Resend an email invitation
 
-Resend an [email invitation](zulip.com/help/invite-new-users#send-email-invitations.
+Resend an [email invitation](https://zulip.com/help/invite-new-users#send-email-invitations).
 
 A user can only resend [invitations that they can
-manage](zulip.com/help/invite-new-users#manage-pending-invitations.
+manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
 */
 func (c *simpleClient) ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest {
 	return ResendEmailInviteRequest{
@@ -502,10 +502,10 @@ func (r RevokeEmailInviteRequest) Execute() (*Response, *http.Response, error) {
 /*
 RevokeEmailInvite Revoke an email invitation
 
-Revoke an [email invitation](zulip.com/help/invite-new-users#send-email-invitations.
+Revoke an [email invitation](https://zulip.com/help/invite-new-users#send-email-invitations).
 
 A user can only revoke [invitations that they can
-manage](zulip.com/help/invite-new-users#manage-pending-invitations.
+manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
 */
 func (c *simpleClient) RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest {
 	return RevokeEmailInviteRequest{
@@ -601,10 +601,10 @@ func (r RevokeInviteLinkRequest) Execute() (*Response, *http.Response, error) {
 /*
 RevokeInviteLink Revoke a reusable invitation link
 
-Revoke a [reusable invitation link](zulip.com/help/invite-new-users#create-a-reusable-invitation-link.
+Revoke a [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link).
 
 A user can only revoke [invitations that they can
-manage](zulip.com/help/invite-new-users#manage-pending-invitations.
+manage](https://zulip.com/help/invite-new-users#manage-pending-invitations).
 
 **Changes**: Prior to Zulip 8.0 (feature level 209), only organization
 administrators were able to create and revoke reusable invitation links.
@@ -709,7 +709,7 @@ func (r SendInvitesRequest) InviteeEmails(inviteeEmails string) SendInvitesReque
 	return r
 }
 
-// A list containing the [Ids of the channels](zulip.com/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying &#x60;stream_ids&#x60; as an empty list resulted in an error.  [can-subscribe-others]: /help/configure-who-can-invite-to-channels
+// A list containing the [Ids of the channels](https://zulip.com/api/get-stream-id) that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the &#x60;include_realm_default_subscriptions&#x60; parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying &#x60;stream_ids&#x60; as an empty list resulted in an error.  [can-subscribe-others]: https://zulip.com/help/configure-who-can-invite-to-channels
 func (r SendInvitesRequest) ChannelIds(channelIds []int64) SendInvitesRequest {
 	r.channelIds = &channelIds
 	return r
@@ -721,25 +721,25 @@ func (r SendInvitesRequest) InviteExpiresInMinutes(inviteExpiresInMinutes int32)
 	return r
 }
 
-// The [organization-level role](zulip.com/api/roles-and-permissions) of the user that is created when the invitation is accepted. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  Users can only create invitation links for [roles with equal or stricter restrictions](zulip.com/api/roles-and-permissions#permission-levels as their own. For example, a moderator cannot invite someone to be an owner or administrator, but they can invite them to be a moderator or member.  **Changes**: In Zulip 4.0 (feature level 61), added support for inviting users as moderators.
+// The [organization-level role](https://zulip.com/api/roles-and-permissions) of the user that is created when the invitation is accepted. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  Users can only create invitation links for [roles with equal or stricter restrictions](https://zulip.com/api/roles-and-permissions#permission-levels) as their own. For example, a moderator cannot invite someone to be an owner or administrator, but they can invite them to be a moderator or member.  **Changes**: In Zulip 4.0 (feature level 61), added support for inviting users as moderators.
 func (r SendInvitesRequest) InviteAs(inviteAs Role) SendInvitesRequest {
 	r.inviteAs = &inviteAs
 	return r
 }
 
-// A list containing the [Ids of the user groups](zulip.com/api/get-user-groups) that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.  **Changes**: New in Zulip 10.0 (feature level 322).
+// A list containing the [Ids of the user groups](https://zulip.com/api/get-user-groups) that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.  **Changes**: New in Zulip 10.0 (feature level 322).
 func (r SendInvitesRequest) GroupIds(groupIds []int64) SendInvitesRequest {
 	r.groupIds = &groupIds
 	return r
 }
 
-// Boolean indicating whether the newly created user should be subscribed to the [default channels][default-channels] for the organization.  Note that this parameter can be &#x60;true&#x60; even if the user creating the invitation does not generally have permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always &#x60;false&#x60;; clients needed to include the organization&#39;s default channels in the &#x60;stream_ids&#x60; parameter for a newly created user to be automatically subscribed to them.  [default-channels]: /help/set-default-channels-for-new-users [can-subscribe-others]: /help/configure-who-can-invite-to-channels
+// Boolean indicating whether the newly created user should be subscribed to the [default channels][default-channels] for the organization.  Note that this parameter can be &#x60;true&#x60; even if the user creating the invitation does not generally have permission to [subscribe other users to channels][can-subscribe-others].  **Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always &#x60;false&#x60;; clients needed to include the organization&#39;s default channels in the &#x60;stream_ids&#x60; parameter for a newly created user to be automatically subscribed to them.  [default-channels]: https://zulip.com/help/set-default-channels-for-new-users [can-subscribe-others]: https://zulip.com/help/configure-who-can-invite-to-channels
 func (r SendInvitesRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) SendInvitesRequest {
 	r.includeRealmDefaultSubscriptions = &includeRealmDefaultSubscriptions
 	return r
 }
 
-// A boolean indicating whether the referrer would like to receive a direct message from [notification bot](zulip.com/help/configure-automated-notices) when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
+// A boolean indicating whether the referrer would like to receive a direct message from [notification bot](https://zulip.com/help/configure-automated-notices) when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
 func (r SendInvitesRequest) NotifyReferrerOnJoin(notifyReferrerOnJoin bool) SendInvitesRequest {
 	r.notifyReferrerOnJoin = &notifyReferrerOnJoin
 	return r
@@ -758,7 +758,7 @@ func (r SendInvitesRequest) Execute() (*Response, *http.Response, error) {
 /*
 SendInvites Send invitations
 
-Send [invitations](zulip.com/help/invite-new-users) to specified email addresses.
+Send [invitations](https://zulip.com/help/invite-new-users) to specified email addresses.
 
 **Changes**: In Zulip 6.0 (feature level 126), the `invite_expires_in_days`
 parameter was removed and replaced by `invite_expires_in_minutes`.

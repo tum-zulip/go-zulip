@@ -1,6 +1,6 @@
 package zulip
 
-// The [organization type](zulip.com/help/organization-type) for the realm.
+// The [organization type](https://zulip.com/help/organization-type) for the realm.
 // - 0 = Unspecified
 // - 10 = Business
 // - 20 = Open-source project

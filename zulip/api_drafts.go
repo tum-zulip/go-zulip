@@ -178,7 +178,7 @@ func (c *simpleClient) CreateDraftsExecute(r CreateDraftsRequest) (*CreateDrafts
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.drafts != nil {
-		for i, _ := range *r.drafts {
+		for i := range *r.drafts {
 			(*r.drafts)[i].Type = (*r.drafts)[i].Type.ToLegacy()
 		}
 		parameterAddToHeaderOrQuery(localVarFormParams, "drafts", r.drafts, "form", "multi")
@@ -231,7 +231,7 @@ func (r CreateSavedSnippetRequest) Title(title string) CreateSavedSnippetRequest
 	return r
 }
 
-// The content of the saved snippet in [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.
+// The content of the saved snippet in [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.
 func (r CreateSavedSnippetRequest) Content(content string) CreateSavedSnippetRequest {
 	r.content = &content
 	return r
@@ -653,7 +653,7 @@ func (r EditSavedSnippetRequest) Title(title string) EditSavedSnippetRequest {
 	return r
 }
 
-// The content of the saved snippet in the original [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.
+// The content of the saved snippet in the original [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) format.  Clients should insert this content into a message when using a saved snippet.
 func (r EditSavedSnippetRequest) Content(content string) EditSavedSnippetRequest {
 	r.content = &content
 	return r

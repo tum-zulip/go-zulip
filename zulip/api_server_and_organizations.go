@@ -15,7 +15,7 @@ type ServerAndOrganizationsAPI interface {
 	/*
 			AddCodePlayground Add a code playground
 
-			Configure [code playgrounds](zulip.com/help/code-blocks#code-playgrounds for the organization.
+			Configure [code playgrounds](https://zulip.com/help/code-blocks#code-playgrounds) for the organization.
 
 		**Changes**: New in Zulip 4.0 (feature level 49). A parameter encoding bug was
 		fixed in Zulip 4.0 (feature level 57).
@@ -29,7 +29,7 @@ type ServerAndOrganizationsAPI interface {
 	/*
 			AddLinkifier Add a linkifier
 
-			Configure [linkifiers](zulip.com/help/add-a-custom-linkifier,
+			Configure [linkifiers](https://zulip.com/help/add-a-custom-linkifier),
 		regular expression patterns that are automatically linkified when they
 		appear in messages and topics.
 
@@ -42,7 +42,7 @@ type ServerAndOrganizationsAPI interface {
 	/*
 		CreateCustomProfileField Create a custom profile field
 
-		[Create a custom profile field](zulip.com/help/custom-profile-fields#add-a-custom-profile-field in the user's organization.
+		[Create a custom profile field](https://zulip.com/help/custom-profile-fields#add-a-custom-profile-field) in the user's organization.
 
 	*/
 	CreateCustomProfileField(ctx context.Context) CreateCustomProfileFieldRequest
@@ -53,7 +53,7 @@ type ServerAndOrganizationsAPI interface {
 	/*
 			DeactivateCustomEmoji Deactivate custom emoji
 
-			[Deactivate a custom emoji](zulip.com/help/custom-emoji#deactivate-custom-emoji from
+			[Deactivate a custom emoji](https://zulip.com/help/custom-emoji#deactivate-custom-emoji) from
 		the user's organization.
 
 		Users can only deactivate custom emoji that they added themselves except for
@@ -87,7 +87,7 @@ type ServerAndOrganizationsAPI interface {
 
 		New in Zulip 2.1.
 
-		[export-data]: /help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+		[export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 		[data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
 		[backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
 
@@ -111,7 +111,7 @@ type ServerAndOrganizationsAPI interface {
 	/*
 			GetCustomProfileFields Get all custom profile fields
 
-			Get all the [custom profile fields](zulip.com/help/custom-profile-fields
+			Get all the [custom profile fields](https://zulip.com/help/custom-profile-fields)
 		configured for the user's organization.
 
 	*/
@@ -124,7 +124,7 @@ type ServerAndOrganizationsAPI interface {
 			GetLinkifiers Get linkifiers
 
 			List all of an organization's configured
-		[linkifiers](zulip.com/help/add-a-custom-linkifier, regular
+		[linkifiers](https://zulip.com/help/add-a-custom-linkifier), regular
 		expression patterns that are automatically linkified when they appear
 		in messages and topics.
 
@@ -149,7 +149,7 @@ type ServerAndOrganizationsAPI interface {
 
 		Complete Zulip apps are recommended to fetch presence
 		information when they post their own state using the [`POST
-		/presence`](zulip.com/api/update-presence) API endpoint.
+		/presence`](https://zulip.com/api/update-presence) API endpoint.
 
 	*/
 	GetPresence(ctx context.Context) GetPresenceRequest
@@ -160,7 +160,7 @@ type ServerAndOrganizationsAPI interface {
 	/*
 			GetRealmExportConsents Get data export consent state
 
-			Fetches which users have [consented](zulip.com/help/export-your-organization#configure-whether-administrators-can-export-your-private-data
+			Fetches which users have [consented](https://zulip.com/help/export-your-organization#configure-whether-administrators-can-export-your-private-data)
 		for their private data to be exported by organization administrators.
 
 		**Changes**: New in Zulip 10.0 (feature level 295).
@@ -182,7 +182,7 @@ type ServerAndOrganizationsAPI interface {
 
 		New in Zulip 2.1.
 
-		[export-data]: /help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+		[export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 
 	*/
 	GetRealmExports(ctx context.Context) GetRealmExportsRequest
@@ -212,7 +212,7 @@ type ServerAndOrganizationsAPI interface {
 	/*
 			RemoveCodePlayground Remove a code playground
 
-			Remove a [code playground](zulip.com/help/code-blocks#code-playgrounds previously
+			Remove a [code playground](https://zulip.com/help/code-blocks#code-playgrounds) previously
 		configured for an organization.
 
 		**Changes**: New in Zulip 4.0 (feature level 49).
@@ -226,7 +226,7 @@ type ServerAndOrganizationsAPI interface {
 	/*
 			RemoveLinkifier Remove a linkifier
 
-			Remove [linkifiers](zulip.com/help/add-a-custom-linkifier, regular
+			Remove [linkifiers](https://zulip.com/help/add-a-custom-linkifier), regular
 		expression patterns that are automatically linkified when they appear
 		in messages and topics.
 
@@ -245,7 +245,7 @@ type ServerAndOrganizationsAPI interface {
 		endpoint allows administrative settings UI to change the field ordering.
 
 		This endpoint is used to implement the dragging feature described in the
-		[custom profile fields documentation](zulip.com/help/custom-profile-fields.
+		[custom profile fields documentation](https://zulip.com/help/custom-profile-fields).
 
 	*/
 	ReorderCustomProfileFields(ctx context.Context) ReorderCustomProfileFieldsRequest
@@ -257,7 +257,7 @@ type ServerAndOrganizationsAPI interface {
 			ReorderLinkifiers Reorder linkifiers
 
 			Change the order that the regular expression patterns in the organization's
-		[linkifiers](zulip.com/help/add-a-custom-linkifier) are matched in messages and topics.
+		[linkifiers](https://zulip.com/help/add-a-custom-linkifier) are matched in messages and topics.
 		Useful when defining linkifiers with overlapping patterns.
 
 		**Changes**: New in Zulip 8.0 (feature level 202). Before this feature level,
@@ -288,7 +288,7 @@ type ServerAndOrganizationsAPI interface {
 	/*
 			UpdateLinkifier Update a linkifier
 
-			Update a [linkifier](zulip.com/help/add-a-custom-linkifier, regular
+			Update a [linkifier](https://zulip.com/help/add-a-custom-linkifier), regular
 		expression patterns that are automatically linkified when they appear
 		in messages and topics.
 
@@ -305,7 +305,7 @@ type ServerAndOrganizationsAPI interface {
 
 			Change the [default values of settings][new-user-defaults] for new users
 		joining the organization. Essentially all
-		[personal preference settings](zulip.com/api/update-settings) are supported.
+		[personal preference settings](https://zulip.com/api/update-settings) are supported.
 
 		This feature can be invaluable for customizing Zulip's default
 		settings for notifications or UI to be appropriate for how the
@@ -326,8 +326,8 @@ type ServerAndOrganizationsAPI interface {
 		[`ignored_parameters_unsupported`][ignored-parameters] array will
 		be returned in the JSON success response.
 
-		[new-user-defaults]: /help/configure-default-new-user-settings
-		[ignored-parameters]: /api/rest-error-handling#ignored-parameters
+		[new-user-defaults]: https://zulip.com/help/configure-default-new-user-settings
+		[ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
 
 	*/
 	UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest
@@ -382,7 +382,7 @@ func (r AddCodePlaygroundRequest) Execute() (*AddCodePlaygroundResponse, *http.R
 /*
 AddCodePlayground Add a code playground
 
-Configure [code playgrounds](zulip.com/help/code-blocks#code-playgrounds for the organization.
+Configure [code playgrounds](https://zulip.com/help/code-blocks#code-playgrounds) for the organization.
 
 **Changes**: New in Zulip 4.0 (feature level 49). A parameter encoding bug was
 fixed in Zulip 4.0 (feature level 57).
@@ -504,7 +504,7 @@ func (r AddLinkifierRequest) Execute() (*AddLinkifierResponse, *http.Response, e
 /*
 AddLinkifier Add a linkifier
 
-Configure [linkifiers](zulip.com/help/add-a-custom-linkifier,
+Configure [linkifiers](https://zulip.com/help/add-a-custom-linkifier),
 regular expression patterns that are automatically linkified when they
 appear in messages and topics.
 */
@@ -607,7 +607,7 @@ type CreateCustomProfileFieldRequest struct {
 	editableByUser          *bool
 }
 
-// The field type can be any of the supported custom profile field types. See the [custom profile fields documentation](zulip.com/help/custom-profile-fields) for more details on what each type means.  - **1**: Short text - **2**: Long text - **3**: List of options - **4**: Date picker - **5**: Link - **6**: Person picker - **7**: External account - **8**: Pronouns  **Changes**: Field type &#x60;8&#x60; added in Zulip 6.0 (feature level 151).
+// The field type can be any of the supported custom profile field types. See the [custom profile fields documentation](https://zulip.com/help/custom-profile-fields) for more details on what each type means.  - **1**: Short text - **2**: Long text - **3**: List of options - **4**: Date picker - **5**: Link - **6**: Person picker - **7**: External account - **8**: Pronouns  **Changes**: Field type &#x60;8&#x60; added in Zulip 6.0 (feature level 151).
 func (r CreateCustomProfileFieldRequest) FieldType(fieldType int32) CreateCustomProfileFieldRequest {
 	r.fieldType = &fieldType
 	return r
@@ -631,7 +631,7 @@ func (r CreateCustomProfileFieldRequest) FieldData(fieldData map[string]interfac
 	return r
 }
 
-// Whether clients should display this profile field in a summary section of a user&#39;s profile (or in a more easily accessible \\\&quot;small profile\\\&quot;).  At most 2 profile fields may have this property be true in a given organization. The \\\&quot;Long text\\\&quot; [profile field types][profile-field-types] profile field types cannot be selected to be displayed in profile summaries.  The \\\&quot;Person picker\\\&quot; profile field is also not supported, but that is likely to be temporary.  [profile-field-types]: /help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146).
+// Whether clients should display this profile field in a summary section of a user&#39;s profile (or in a more easily accessible \\\&quot;small profile\\\&quot;).  At most 2 profile fields may have this property be true in a given organization. The \\\&quot;Long text\\\&quot; [profile field types][profile-field-types] profile field types cannot be selected to be displayed in profile summaries.  The \\\&quot;Person picker\\\&quot; profile field is also not supported, but that is likely to be temporary.  [profile-field-types]: https://zulip.com/help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146).
 func (r CreateCustomProfileFieldRequest) DisplayInProfileSummary(displayInProfileSummary bool) CreateCustomProfileFieldRequest {
 	r.displayInProfileSummary = &displayInProfileSummary
 	return r
@@ -656,7 +656,7 @@ func (r CreateCustomProfileFieldRequest) Execute() (*CreateCustomProfileFieldRes
 /*
 CreateCustomProfileField Create a custom profile field
 
-[Create a custom profile field](zulip.com/help/custom-profile-fields#add-a-custom-profile-field in the user's organization.
+[Create a custom profile field](https://zulip.com/help/custom-profile-fields#add-a-custom-profile-field) in the user's organization.
 */
 func (c *simpleClient) CreateCustomProfileField(ctx context.Context) CreateCustomProfileFieldRequest {
 	return CreateCustomProfileFieldRequest{
@@ -772,7 +772,7 @@ func (r DeactivateCustomEmojiRequest) Execute() (*Response, *http.Response, erro
 /*
 DeactivateCustomEmoji Deactivate custom emoji
 
-[Deactivate a custom emoji](zulip.com/help/custom-emoji#deactivate-custom-emoji from
+[Deactivate a custom emoji](https://zulip.com/help/custom-emoji#deactivate-custom-emoji) from
 the user's organization.
 
 Users can only deactivate custom emoji that they added themselves except for
@@ -897,7 +897,8 @@ public data exports could be created using this endpoint.
 
 New in Zulip 2.1.
 
-[export-data]: /help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+[export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+
 [data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
 [backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
 */
@@ -1088,7 +1089,7 @@ func (r GetCustomProfileFieldsRequest) Execute() (*GetCustomProfileFieldsRespons
 /*
 GetCustomProfileFields Get all custom profile fields
 
-Get all the [custom profile fields](zulip.com/help/custom-profile-fields
+Get all the [custom profile fields](https://zulip.com/help/custom-profile-fields)
 configured for the user's organization.
 */
 func (c *simpleClient) GetCustomProfileFields(ctx context.Context) GetCustomProfileFieldsRequest {
@@ -1183,7 +1184,7 @@ func (r GetLinkifiersRequest) Execute() (*GetLinkifiersResponse, *http.Response,
 GetLinkifiers Get linkifiers
 
 List all of an organization's configured
-[linkifiers](zulip.com/help/add-a-custom-linkifier, regular
+[linkifiers](https://zulip.com/help/add-a-custom-linkifier), regular
 expression patterns that are automatically linkified when they appear
 in messages and topics.
 
@@ -1290,7 +1291,7 @@ users are returned.
 
 Complete Zulip apps are recommended to fetch presence
 information when they post their own state using the [`POST
-/presence`](zulip.com/api/update-presence) API endpoint.
+/presence`](https://zulip.com/api/update-presence) API endpoint.
 */
 func (c *simpleClient) GetPresence(ctx context.Context) GetPresenceRequest {
 	return GetPresenceRequest{
@@ -1383,7 +1384,7 @@ func (r GetRealmExportConsentsRequest) Execute() (*GetRealmExportConsentsRespons
 /*
 GetRealmExportConsents Get data export consent state
 
-Fetches which users have [consented](zulip.com/help/export-your-organization#configure-whether-administrators-can-export-your-private-data
+Fetches which users have [consented](https://zulip.com/help/export-your-organization#configure-whether-administrators-can-export-your-private-data)
 for their private data to be exported by organization administrators.
 
 **Changes**: New in Zulip 10.0 (feature level 295).
@@ -1487,7 +1488,7 @@ public data exports could be fetched using this endpoint.
 
 New in Zulip 2.1.
 
-[export-data]: /help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+[export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 */
 func (c *simpleClient) GetRealmExports(ctx context.Context) GetRealmExportsRequest {
 	return GetRealmExportsRequest{
@@ -1683,7 +1684,7 @@ func (r RemoveCodePlaygroundRequest) Execute() (*Response, *http.Response, error
 /*
 RemoveCodePlayground Remove a code playground
 
-Remove a [code playground](zulip.com/help/code-blocks#code-playgrounds previously
+Remove a [code playground](https://zulip.com/help/code-blocks#code-playgrounds) previously
 configured for an organization.
 
 **Changes**: New in Zulip 4.0 (feature level 49).
@@ -1782,7 +1783,7 @@ func (r RemoveLinkifierRequest) Execute() (*Response, *http.Response, error) {
 /*
 RemoveLinkifier Remove a linkifier
 
-Remove [linkifiers](zulip.com/help/add-a-custom-linkifier, regular
+Remove [linkifiers](https://zulip.com/help/add-a-custom-linkifier), regular
 expression patterns that are automatically linkified when they appear
 in messages and topics.
 */
@@ -1892,7 +1893,7 @@ Custom profile fields are displayed in Zulip UI widgets in order; this
 endpoint allows administrative settings UI to change the field ordering.
 
 This endpoint is used to implement the dragging feature described in the
-[custom profile fields documentation](zulip.com/help/custom-profile-fields.
+[custom profile fields documentation](https://zulip.com/help/custom-profile-fields).
 */
 func (c *simpleClient) ReorderCustomProfileFields(ctx context.Context) ReorderCustomProfileFieldsRequest {
 	return ReorderCustomProfileFieldsRequest{
@@ -1997,7 +1998,7 @@ func (r ReorderLinkifiersRequest) Execute() (*Response, *http.Response, error) {
 ReorderLinkifiers Reorder linkifiers
 
 Change the order that the regular expression patterns in the organization's
-[linkifiers](zulip.com/help/add-a-custom-linkifier) are matched in messages and topics.
+[linkifiers](https://zulip.com/help/add-a-custom-linkifier) are matched in messages and topics.
 Useful when defining linkifiers with overlapping patterns.
 
 **Changes**: New in Zulip 8.0 (feature level 202). Before this feature level,
@@ -2225,7 +2226,7 @@ func (r UpdateLinkifierRequest) Execute() (*Response, *http.Response, error) {
 /*
 UpdateLinkifier Update a linkifier
 
-Update a [linkifier](zulip.com/help/add-a-custom-linkifier, regular
+Update a [linkifier](https://zulip.com/help/add-a-custom-linkifier), regular
 expression patterns that are automatically linkified when they appear
 in messages and topics.
 
@@ -2383,7 +2384,7 @@ type UpdateRealmUserSettingsDefaultsRequest struct {
 	webNavigateToSentMessage                       *bool
 }
 
-// Whether clients should display the [number of starred messages](zulip.com/help/star-a-message#display-the-number-of-starred-messages.
+// Whether clients should display the [number of starred messages](https://zulip.com/help/star-a-message#display-the-number-of-starred-messages).
 func (r UpdateRealmUserSettingsDefaultsRequest) StarredMessageCounts(starredMessageCounts bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.starredMessageCounts = &starredMessageCounts
 	return r
@@ -2395,13 +2396,13 @@ func (r UpdateRealmUserSettingsDefaultsRequest) ReceivesTypingNotifications(rece
 	return r
 }
 
-// Whether the user should be shown an alert, offering to update their [profile time zone](zulip.com/help/change-your-timezone, when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.  **Changes**: New in Zulip 10.0 (feature level 329).
+// Whether the user should be shown an alert, offering to update their [profile time zone](https://zulip.com/help/change-your-timezone), when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.  **Changes**: New in Zulip 10.0 (feature level 329).
 func (r UpdateRealmUserSettingsDefaultsRequest) WebSuggestUpdateTimezone(webSuggestUpdateTimezone bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.webSuggestUpdateTimezone = &webSuggestUpdateTimezone
 	return r
 }
 
-// Whether to use the [maximum available screen width](zulip.com/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent conversations) on wide screens.
+// Whether to use the [maximum available screen width](https://zulip.com/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent conversations) on wide screens.
 func (r UpdateRealmUserSettingsDefaultsRequest) FluidLayoutWidth(fluidLayoutWidth bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.fluidLayoutWidth = &fluidLayoutWidth
 	return r
@@ -2437,7 +2438,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebLineHeightPercent(webLineHeig
 	return r
 }
 
-// Controls which [color theme](zulip.com/help/dark-theme) to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.
+// Controls which [color theme](https://zulip.com/help/dark-theme) to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.
 func (r UpdateRealmUserSettingsDefaultsRequest) ColorScheme(colorScheme ColorScheme) UpdateRealmUserSettingsDefaultsRequest {
 	r.colorScheme = &colorScheme
 	return r
@@ -2449,7 +2450,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableDraftsSynchronization(enab
 	return r
 }
 
-// Whether to [translate emoticons to emoji](zulip.com/help/configure-emoticon-translations) in messages the user sends.
+// Whether to [translate emoticons to emoji](https://zulip.com/help/configure-emoticon-translations) in messages the user sends.
 func (r UpdateRealmUserSettingsDefaultsRequest) TranslateEmoticons(translateEmoticons bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.translateEmoticons = &translateEmoticons
 	return r
@@ -2461,13 +2462,13 @@ func (r UpdateRealmUserSettingsDefaultsRequest) DisplayEmojiReactionUsers(displa
 	return r
 }
 
-// The [home view](zulip.com/help/configure-home-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  - \\\&quot;recent_topics\\\&quot; - Recent conversations view - \\\&quot;inbox\\\&quot; - Inbox view - \\\&quot;all_messages\\\&quot; - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;default_view&#x60;, which was new in Zulip 4.0 (feature level 42).
+// The [home view](https://zulip.com/help/configure-home-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  - \\\&quot;recent_topics\\\&quot; - Recent conversations view - \\\&quot;inbox\\\&quot; - Inbox view - \\\&quot;all_messages\\\&quot; - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;default_view&#x60;, which was new in Zulip 4.0 (feature level 42).
 func (r UpdateRealmUserSettingsDefaultsRequest) WebHomeView(webHomeView string) UpdateRealmUserSettingsDefaultsRequest {
 	r.webHomeView = &webHomeView
 	return r
 }
 
-// Whether the escape key navigates to the [configured home view](zulip.com/help/configure-home-view.  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;escape_navigates_to_default_view&#x60;, which was new in Zulip 5.0 (feature level 107).
+// Whether the escape key navigates to the [configured home view](https://zulip.com/help/configure-home-view).  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;escape_navigates_to_default_view&#x60;, which was new in Zulip 5.0 (feature level 107).
 func (r UpdateRealmUserSettingsDefaultsRequest) WebEscapeNavigatesToHomeView(webEscapeNavigatesToHomeView bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.webEscapeNavigatesToHomeView = &webEscapeNavigatesToHomeView
 	return r
@@ -2479,13 +2480,13 @@ func (r UpdateRealmUserSettingsDefaultsRequest) LeftSideUserlist(leftSideUserlis
 	return r
 }
 
-// The user&#39;s configured [emoji set](zulip.com/help/emoji-and-emoticons#use-emoticons, used to display emoji to the user everywhere they appear in the UI.  - \\\&quot;google\\\&quot; - Google - \\\&quot;twitter\\\&quot; - Twitter - \\\&quot;text\\\&quot; - Plain text - \\\&quot;google-blob\\\&quot; - Google blobs
+// The user&#39;s configured [emoji set](https://zulip.com/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everywhere they appear in the UI.  - \\\&quot;google\\\&quot; - Google - \\\&quot;twitter\\\&quot; - Twitter - \\\&quot;text\\\&quot; - Plain text - \\\&quot;google-blob\\\&quot; - Google blobs
 func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset string) UpdateRealmUserSettingsDefaultsRequest {
 	r.emojiset = &emojiset
 	return r
 }
 
-// Whether to [hide inactive channels](zulip.com/help/manage-inactive-channels) in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never
+// Whether to [hide inactive channels](https://zulip.com/help/manage-inactive-channels) in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never
 func (r UpdateRealmUserSettingsDefaultsRequest) DemoteInactiveChannels(demoteInactiveChannels DemoteInactiveChannels) UpdateRealmUserSettingsDefaultsRequest {
 	r.demoteInactiveChannels = &demoteInactiveChannels
 	return r
@@ -2653,19 +2654,19 @@ func (r UpdateRealmUserSettingsDefaultsRequest) DesktopIconCountDisplay(desktopI
 	return r
 }
 
-// Whether to [include organization name in subject of message notification emails](zulip.com/help/email-notifications#include-organization-name-in-subject-line.  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous &#x60;realm_name_in_notifications&#x60; boolean; &#x60;true&#x60; corresponded to &#x60;Always&#x60;, and &#x60;false&#x60; to &#x60;Never&#x60;.
+// Whether to [include organization name in subject of message notification emails](https://zulip.com/help/email-notifications#include-organization-name-in-subject-line).  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous &#x60;realm_name_in_notifications&#x60; boolean; &#x60;true&#x60; corresponded to &#x60;Always&#x60;, and &#x60;false&#x60; to &#x60;Never&#x60;.
 func (r UpdateRealmUserSettingsDefaultsRequest) RealmNameInEmailNotificationsPolicy(realmNameInEmailNotificationsPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.realmNameInEmailNotificationsPolicy = &realmNameInEmailNotificationsPolicy
 	return r
 }
 
-// Which [topics to follow automatically](zulip.com/help/mute-a-topic.  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
+// Which [topics to follow automatically](https://zulip.com/help/mute-a-topic).  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
 func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyFollowTopicsPolicy = &automaticallyFollowTopicsPolicy
 	return r
 }
 
-// Which [topics to unmute automatically in muted channels](zulip.com/help/mute-a-topic.  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
+// Which [topics to unmute automatically in muted channels](https://zulip.com/help/mute-a-topic).  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
 func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyUnmuteTopicsInMutedChannelsPolicy = &automaticallyUnmuteTopicsInMutedChannelsPolicy
 	return r
@@ -2695,19 +2696,19 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnterSends(enterSends bool) Upda
 	return r
 }
 
-// Whether time should be [displayed in 24-hour notation](zulip.com/help/change-the-time-format.  **Changes**: New in Zulip 5.0 (feature level 99). Previously, this default was edited using the &#x60;default_twenty_four_hour_time&#x60; parameter to the &#x60;PATCH /realm&#x60; endpoint.
+// Whether time should be [displayed in 24-hour notation](https://zulip.com/help/change-the-time-format).  **Changes**: New in Zulip 5.0 (feature level 99). Previously, this default was edited using the &#x60;default_twenty_four_hour_time&#x60; parameter to the &#x60;PATCH /realm&#x60; endpoint.
 func (r UpdateRealmUserSettingsDefaultsRequest) TwentyFourHourTime(twentyFourHourTime bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.twentyFourHourTime = &twentyFourHourTime
 	return r
 }
 
-// Whether [typing notifications](zulip.com/help/typing-notifications) be sent when composing direct messages.  **Changes**: New in Zulip 5.0 (feature level 105).
+// Whether [typing notifications](https://zulip.com/help/typing-notifications) be sent when composing direct messages.  **Changes**: New in Zulip 5.0 (feature level 105).
 func (r UpdateRealmUserSettingsDefaultsRequest) SendPrivateTypingNotifications(sendPrivateTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.sendPrivateTypingNotifications = &sendPrivateTypingNotifications
 	return r
 }
 
-// Whether [typing notifications](zulip.com/help/typing-notifications) be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105).
+// Whether [typing notifications](https://zulip.com/help/typing-notifications) be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105).
 func (r UpdateRealmUserSettingsDefaultsRequest) SendChannelTypingNotifications(sendChannelTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.sendChannelTypingNotifications = &sendChannelTypingNotifications
 	return r
@@ -2719,7 +2720,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(sendReadReceipt
 	return r
 }
 
-// The [policy][permission-level] for [which other users][help-email-visibility] in this organization can see the user&#39;s real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.  [permission-level]: /api/roles-and-permissions#permission-levels [help-email-visibility]: /help/configure-email-visibility
+// The [policy][permission-level] for [which other users][help-email-visibility] in this organization can see the user&#39;s real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.  [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels [help-email-visibility]: https://zulip.com/help/configure-email-visibility
 func (r UpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(emailAddressVisibility int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.emailAddressVisibility = &emailAddressVisibility
 	return r
@@ -2740,7 +2741,7 @@ UpdateRealmUserSettingsDefaults Update realm-level defaults of user settings
 
 Change the [default values of settings][new-user-defaults] for new users
 joining the organization. Essentially all
-[personal preference settings](zulip.com/api/update-settings) are supported.
+[personal preference settings](https://zulip.com/api/update-settings) are supported.
 
 This feature can be invaluable for customizing Zulip's default
 settings for notifications or UI to be appropriate for how the
@@ -2761,8 +2762,8 @@ request are not supported by this endpoint, an
 [`ignored_parameters_unsupported`][ignored-parameters] array will
 be returned in the JSON success response.
 
-[new-user-defaults]: /help/configure-default-new-user-settings
-[ignored-parameters]: /api/rest-error-handling#ignored-parameters
+[new-user-defaults]: https://zulip.com/help/configure-default-new-user-settings
+[ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
 */
 func (c *simpleClient) UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest {
 	return UpdateRealmUserSettingsDefaultsRequest{

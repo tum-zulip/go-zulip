@@ -1,6 +1,6 @@
 package zulip
 
-// Which [topics to unmute automatically in muted channels](zulip.com/help/mute-a-topic.
+// Which [topics to unmute automatically in muted channels](https://zulip.com/help/mute-a-topic).
 // - 1 - Topics the user participates in
 // - 2 - Topics the user sends a message to
 // - 3 - Topics the user starts

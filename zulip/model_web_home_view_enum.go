@@ -1,6 +1,6 @@
 package zulip
 
-// The [home view](zulip.com/help/configure-home-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.
+// The [home view](https://zulip.com/help/configure-home-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.
 // - "recent_topics" - Recent conversations view
 // - "inbox" - Inbox view
 // - "all_messages" - Combined feed view

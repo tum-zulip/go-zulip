@@ -37,7 +37,7 @@ type GetDraftsResponse struct {
 type CreateInviteLinkResponse struct {
 	Response
 
-	// The URL of the [reusable invitation link](zulip.com/help/invite-new-users#create-a-reusable-invitation-link that was created by this request.
+	// The URL of the [reusable invitation link](https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link) that was created by this request.
 	InviteLink string `json:"invite_link,omitempty"`
 }
 
@@ -45,6 +45,6 @@ type CreateInviteLinkResponse struct {
 type GetInvitesResponse struct {
 	Response
 
-	// An array of objects, each representing a single unexpired [invitation](zulip.com/help/invite-new-users.
+	// An array of objects, each representing a single unexpired [invitation](https://zulip.com/help/invite-new-users).
 	Invites []Invite `json:"invites,omitempty"`
 }

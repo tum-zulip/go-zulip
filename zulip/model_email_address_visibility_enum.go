@@ -6,7 +6,7 @@ package zulip
 // - 3 = Administrators only
 // - 4 = Nobody
 // - 5 = Moderators only
-// **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.  [permission-level]: /api/roles-and-permissions#permission-levels [help-email-visibility]: /help/configure-email-visibility
+// **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.  [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels [help-email-visibility]: https://zulip.com/help/configure-email-visibility
 type EmailAddressVisibility int
 
 const (

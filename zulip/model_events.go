@@ -74,7 +74,7 @@ type MessageEvent struct {
 	EventCommon
 
 	Message *MessagesEventData `json:"message,omitempty"`
-	// The user's [message flags][message-flags] for the message.  Clients should inspect the flags field rather than assuming that new messages are unread; [muted users](zulip.com/api/mute-user, messages sent by the current user, and more subtle scenarios can result in a new message that the server has already marked as read for the user.  **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.  [message-flags]: /api/update-message-flags#available-flags
+	// The user's [message flags][message-flags] for the message.  Clients should inspect the flags field rather than assuming that new messages are unread; [muted users](https://zulip.com/api/mute-user), messages sent by the current user, and more subtle scenarios can result in a new message that the server has already marked as read for the user.  **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.  [message-flags]: https://zulip.com/api/update-message-flags#available-flags
 	Flags []string `json:"flags,omitempty"`
 }
 
@@ -83,20 +83,20 @@ type MessagesEventData struct {
 	AvatarUrl interface{} `json:"avatar_url,omitempty"`
 	// A Zulip \"client\" string, describing what Zulip client sent the message.
 	Client *string `json:"client,omitempty"`
-	// The content/body of the message. When `apply_markdown` is set, it will be in HTML format.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip's HTML format.
+	// The content/body of the message. When `apply_markdown` is set, it will be in HTML format.  See [Markdown message formatting](https://zulip.com/api/message-formatting) for details on Zulip's HTML format.
 	Content *string `json:"content,omitempty"`
-	// The HTTP `content_type` for the message content. This will be `text/html` or `text/x-markdown`, depending on whether `apply_markdown` was set.  See the help center article on [message formatting](zulip.com/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.
+	// The HTTP `content_type` for the message content. This will be `text/html` or `text/x-markdown`, depending on whether `apply_markdown` was set.  See the help center article on [message formatting](https://zulip.com/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.
 	ContentType      *string           `json:"content_type,omitempty"`
 	DisplayRecipient *DisplayRecipient `json:"display_recipient,omitempty"`
-	// An array of objects, with each object documenting the changes in a previous edit made to the message, ordered chronologically from most recent to least recent edit.  Not present if the message has never been edited or moved, or if [viewing message edit history][edit-history-access] is not allowed in the organization.  Every object will contain `user_id` and `timestamp`.  The other fields are optional, and will be present or not depending on whether the channel, topic, and/or message content were modified in the edit event. For example, if only the topic was edited, only `prev_topic` and `topic` will be present in addition to `user_id` and `timestamp`.  [edit-history-access]: /help/restrict-message-edit-history-access  **Changes**: In Zulip 10.0 (feature level 284), removed the `prev_rendered_content_version` field as it is an internal server implementation detail not used by any client.
+	// An array of objects, with each object documenting the changes in a previous edit made to the message, ordered chronologically from most recent to least recent edit.  Not present if the message has never been edited or moved, or if [viewing message edit history][edit-history-access] is not allowed in the organization.  Every object will contain `user_id` and `timestamp`.  The other fields are optional, and will be present or not depending on whether the channel, topic, and/or message content were modified in the edit event. For example, if only the topic was edited, only `prev_topic` and `topic` will be present in addition to `user_id` and `timestamp`.  [edit-history-access]: https://zulip.com/help/restrict-message-edit-history-access  **Changes**: In Zulip 10.0 (feature level 284), removed the `prev_rendered_content_version` field as it is an internal server implementation detail not used by any client.
 	EditHistory []EditHistory `json:"edit_history,omitempty"`
 	// The unique message Id. Messages should always be displayed sorted by Id.
 	Id int64 `json:"id,omitempty"`
-	// Whether the message is a [/me status message][status-messages]  [status-messages]: /help/format-your-message-using-markdown#status-messages
+	// Whether the message is a [/me status message][status-messages]  [status-messages]: https://zulip.com/help/format-your-message-using-markdown#status-messages
 	IsMeMessage bool `json:"is_me_message,omitempty"`
 	// The UNIX timestamp for when the message's content was last edited, in UTC seconds.  Not present if the message's content has never been edited.  Clients should use this field, rather than parsing the `edit_history` array, to display an indicator that the message has been edited.  **Changes**: Prior to Zulip 10.0 (feature level 365), this was the time when the message was last edited or moved.
 	LastEditTimestamp *time.Time `json:"last_edit_timestamp,omitempty"`
-	// The UNIX timestamp for when the message was last moved to a different channel or topic, in UTC seconds.  Not present if the message has never been moved, or if the only topic moves for the message are [resolving or unresolving](zulip.com/help/resolve-a-topic) the message's topic.  Clients should use this field, rather than parsing the `edit_history` array, to display an indicator that the message has been moved.  **Changes**: New in Zulip 10.0 (feature level 365). Previously, parsing the `edit_history` array was required in order to correctly display moved message indicators.
+	// The UNIX timestamp for when the message was last moved to a different channel or topic, in UTC seconds.  Not present if the message has never been moved, or if the only topic moves for the message are [resolving or unresolving](https://zulip.com/help/resolve-a-topic) the message's topic.  Clients should use this field, rather than parsing the `edit_history` array, to display an indicator that the message has been moved.  **Changes**: New in Zulip 10.0 (feature level 365). Previously, parsing the `edit_history` array was required in order to correctly display moved message indicators.
 	LastMovedTimestamp *time.Time `json:"last_moved_timestamp,omitempty"`
 	// Data on any reactions to the message.
 	Reactions []EmojiReaction `json:"reactions,omitempty"`
@@ -112,13 +112,13 @@ type MessagesEventData struct {
 	SenderRealmStr string `json:"sender_realm_str,omitempty"`
 	// Only present for channel messages; the Id of the channel.
 	ChannelId *int64 `json:"stream_id,omitempty"`
-	// The `topic` of the message. Currently always `\"\"` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called \"subjects\" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register](zulip.com/api/register-queue) response, for channel messages.  **Changes**: Before Zulip 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	// The `topic` of the message. Currently always `\"\"` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called \"subjects\" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register](https://zulip.com/api/register-queue) response, for channel messages.  **Changes**: Before Zulip 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	Subject string `json:"subject,omitempty"`
 	// Data used for certain experimental Zulip integrations.
 	Submessages []Submessage `json:"submessages,omitempty"`
 	// The UNIX timestamp for when the message was sent, in UTC seconds.
 	Timestamp time.Time `json:"timestamp,omitempty"`
-	// Data on any links to be included in the `topic` line (these are generated by [custom linkification filters](zulip.com/help/add-a-custom-linkifier) that match content in the message's topic.)  **Changes**: This field contained a list of urls before Zulip 4.0 (feature level 46).  New in Zulip 3.0 (feature level 1). Previously, this field was called `subject_links`; clients are recommended to rename `subject_links` to `topic_links` if present for compatibility with older Zulip servers.
+	// Data on any links to be included in the `topic` line (these are generated by [custom linkification filters](https://zulip.com/help/add-a-custom-linkifier) that match content in the message's topic.)  **Changes**: This field contained a list of urls before Zulip 4.0 (feature level 46).  New in Zulip 3.0 (feature level 1). Previously, this field was called `subject_links`; clients are recommended to rename `subject_links` to `topic_links` if present for compatibility with older Zulip servers.
 	TopicLinks []TopicLink `json:"topic_links,omitempty"`
 	// The type of the message: `\"stream\"` or `\"private\"`.
 	Type *string `json:"type,omitempty"`
@@ -236,7 +236,7 @@ type UpdateDisplaySettingsEvent struct {
 	LanguageName *string `json:"language_name,omitempty"`
 }
 
-// HasZoomTokenEvent Event sent to a user's clients when the user completes the OAuth flow for the [Zoom integration](zulip.com/help/configure-call-provider. Clients need to know whether initiating Zoom OAuth is required before creating a Zoom call.
+// HasZoomTokenEvent Event sent to a user's clients when the user completes the OAuth flow for the [Zoom integration](https://zulip.com/help/configure-call-provider). Clients need to know whether initiating Zoom OAuth is required before creating a Zoom call.
 type HasZoomTokenEvent struct {
 	EventCommon
 	// A boolean specifying whether the user has zoom token or not.
@@ -266,14 +266,14 @@ type UserInfo struct {
 	FullName *string `json:"full_name,omitempty"`
 }
 
-// PresenceEvent Event sent to all users in an organization when a user comes back online after being offline for a while.  In addition to handling these events, a client that wants to maintain presence data must poll the [main presence endpoint](https://zulip.com/api/get-presence). Most updates to presence data, refreshing the timestamps of users who are already online, do not appear in the event queue. This design is an optimization by allowing those updates to be batched up, because there is no urgency in the information that an already-online user is still online.  These events are provided because when a user transitions from offline to online, that is information the client may want to show promptly in the UI to avoid showing a confusing state (for example, if the newly-online user sends a message or otherwise demonstrates they're online).  If the client supports the `simplified_presence_events` [client capability](zulip.com/api/register-queue#parameter-client_capabilities, these events will include the `presences` field, which provides the modified user's presence data in the modern format. Clients are strongly encouraged to implement this client capability, as legacy format support will be removed in a future release.  If the `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level setting is set to `true`, then the event is only sent to users who can access the user who came back online.  **Changes**: Prior to Zulip 11.0 (feature level 419), the `simplified_presence_events` client capability did not exist. Therefore, all events were in the legacy format, and did not include the `presences` field.  Prior to Zulip 8.0 (feature level 228), this event was sent to all users in the organization.
+// PresenceEvent Event sent to all users in an organization when a user comes back online after being offline for a while.  In addition to handling these events, a client that wants to maintain presence data must poll the [main presence endpoint](https://zulip.com/api/get-presence). Most updates to presence data, refreshing the timestamps of users who are already online, do not appear in the event queue. This design is an optimization by allowing those updates to be batched up, because there is no urgency in the information that an already-online user is still online.  These events are provided because when a user transitions from offline to online, that is information the client may want to show promptly in the UI to avoid showing a confusing state (for example, if the newly-online user sends a message or otherwise demonstrates they're online).  If the client supports the `simplified_presence_events` [client capability](https://zulip.com/api/register-queue#parameter-client_capabilities, these events will include the `presences` field, which provides the modified user's presence data in the modern format. Clients are strongly encouraged to implement this client capability, as legacy format support will be removed in a future release.  If the `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level setting is set to `true`, then the event is only sent to users who can access the user who came back online.  **Changes**: Prior to Zulip 11.0 (feature level 419), the `simplified_presence_events` client capability did not exist. Therefore, all events were in the legacy format, and did not include the `presences` field.  Prior to Zulip 8.0 (feature level 228), this event was sent to all users in the organization.
 type PresenceEvent struct {
 	EventCommon
-	// Only present for clients that support the `simplified_presence_events` [client capability](zulip.com/api/register-queue#parameter-client_capabilities.  A dictionary mapping user Ids to the presence data (modern format) for the modified user(s). Clients should support updating multiple users in a single event.  **Changes**: New in Zulip 11.0 (feature level 419).
+	// Only present for clients that support the `simplified_presence_events` [client capability](https://zulip.com/api/register-queue#parameter-client_capabilities.  A dictionary mapping user Ids to the presence data (modern format) for the modified user(s). Clients should support updating multiple users in a single event.  **Changes**: New in Zulip 11.0 (feature level 419).
 	Presences map[string]ModernPresenceFormat `json:"presences,omitempty"`
 
 	// todo: custom unmarshal
-	// Not present for clients that support the `simplified_presence_events` [client capability](zulip.com/api/register-queue#parameter-client_capabilities.
+	// Not present for clients that support the `simplified_presence_events` [client capability](https://zulip.com/api/register-queue#parameter-client_capabilities.
 	Deprecated *PresenceEventDeprecated
 }
 
@@ -290,14 +290,14 @@ type PresenceEventDeprecated struct {
 	Presence map[string]interface{} `json:"presence,omitempty"`
 }
 
-// ChannelCreateEvent Event sent when a new channel is created to users who can see the new channel exists (for private channels, only subscribers and organization administrators will receive this event).  This event is also sent when a user gains access to a channel they previously [could not access](zulip.com/help/channel-permissions, such as when their [role](zulip.com/help/user-roles) changes, a private channel is made public, or a guest user is subscribed to a public (or private) channel.  This event is also sent when a channel is unarchived but only to clients that did not declare the `archived_channels` [client capability][client-capabilities].  Note that organization administrators who are not subscribed will not be able to see content on the channel; just that it exists.  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was unarchived.  Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users a web-public channel was created.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user gained access to a channel due to their role changing.  Prior to Zulip 8.0 (feature level 192), this event was not sent when guest users gained access to a public channel by being subscribed.  Prior to Zulip 6.0 (feature level 134), this event was not sent when a private channel was made public.
+// ChannelCreateEvent Event sent when a new channel is created to users who can see the new channel exists (for private channels, only subscribers and organization administrators will receive this event).  This event is also sent when a user gains access to a channel they previously [could not access](https://zulip.com/help/channel-permissions), such as when their [role](https://zulip.com/help/user-roles) changes, a private channel is made public, or a guest user is subscribed to a public (or private) channel.  This event is also sent when a channel is unarchived but only to clients that did not declare the `archived_channels` [client capability][client-capabilities].  Note that organization administrators who are not subscribed will not be able to see content on the channel; just that it exists.  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was unarchived.  Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users a web-public channel was created.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user gained access to a channel due to their role changing.  Prior to Zulip 8.0 (feature level 192), this event was not sent when guest users gained access to a public channel by being subscribed.  Prior to Zulip 6.0 (feature level 134), this event was not sent when a private channel was made public.
 type ChannelCreateEvent struct {
 	EventCommonWithOp
 	// Array of objects, each containing details about the newly added channel(s).
 	Channels []Channel `json:"streams,omitempty"`
 }
 
-// ChannelDeleteEvent Event sent when a user loses access to a channel they previously [could access](zulip.com/help/channel-permissions) because they are unsubscribed from a private channel or their [role](zulip.com/help/user-roles) has changed.  This event is also sent when a channel is archived but only to clients that did not declare the `archived_channels` [client capability][client-capabilities].  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was archived.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user lost access to a channel due to their role changing.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+// ChannelDeleteEvent Event sent when a user loses access to a channel they previously [could access](https://zulip.com/help/channel-permissions) because they are unsubscribed from a private channel or their [role](https://zulip.com/help/user-roles) has changed.  This event is also sent when a channel is archived but only to clients that did not declare the `archived_channels` [client capability][client-capabilities].  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was archived.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user lost access to a channel due to their role changing.  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 type ChannelDeleteEvent struct {
 	EventCommonWithOp
 
@@ -309,18 +309,18 @@ type ChannelDeleteEvent struct {
 	ChannelIds []int64 `json:"stream_ids,omitempty"`
 }
 
-// ChannelUpdateEvent Event sent to all users who can see that a channel exists when a property of that channel changes. See [GET /streams](zulip.com/api/get-streams#response response for details on the various properties of a channel.  This event is also sent when archiving or unarchiving a channel to all the users who can see that channel exists but only to the clients that declared the `archived_channels` [client capability][client-capabilities].  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was never sent when archiving or unarchiving a channel.  Before Zulip 9.0 (feature level 256), this event was never sent when the `first_message_id` property of a channel was updated because the oldest message that had been sent to it changed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+// ChannelUpdateEvent Event sent to all users who can see that a channel exists when a property of that channel changes. See [GET /streams](https://zulip.com/api/get-streams#response) response for details on the various properties of a channel.  This event is also sent when archiving or unarchiving a channel to all the users who can see that channel exists but only to the clients that declared the `archived_channels` [client capability][client-capabilities].  **Changes**: Prior to Zulip 11.0 (feature level 378), this event was never sent when archiving or unarchiving a channel.  Before Zulip 9.0 (feature level 256), this event was never sent when the `first_message_id` property of a channel was updated because the oldest message that had been sent to it changed.  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 type ChannelUpdateEvent struct {
 	EventCommonWithOp
 	// The Id of the channel whose details have changed.
 	ChannelId int64 `json:"stream_id,omitempty"`
 	// The name of the channel whose details have changed.
 	Name string `json:"name,omitempty"`
-	// The property of the channel which has changed. See [GET /streams](zulip.com/api/get-streams#response response for details on the various properties of a channel.  Clients should handle an \"unknown\" property received here without crashing, since that can happen when connecting to a server running a newer version of Zulip with new features.
+	// The property of the channel which has changed. See [GET /streams](https://zulip.com/api/get-streams#response) response for details on the various properties of a channel.  Clients should handle an \"unknown\" property received here without crashing, since that can happen when connecting to a server running a newer version of Zulip with new features.
 	Property string `json:"property,omitempty"`
-	// ChannelEventUpdateValue - The new value of the changed property.  **Changes**: Starting with Zulip 11.0 (feature level 389), this value can be `null` when a channel is removed from the folder.  Starting with Zulip 10.0 (feature level 320), this field can be an object for `can_remove_subscribers_group` property, which is a [group-setting value][setting-values], when the setting is set to a combination of users and groups.  [setting-values]: /api/group-setting-values
+	// ChannelEventUpdateValue - The new value of the changed property.  **Changes**: Starting with Zulip 11.0 (feature level 389), this value can be `null` when a channel is removed from the folder.  Starting with Zulip 10.0 (feature level 320), this field can be an object for `can_remove_subscribers_group` property, which is a [group-setting value][setting-values], when the setting is set to a combination of users and groups.  [setting-values]: https://zulip.com/api/group-setting-values
 	Value *ChannelEventUpdateValue `json:"value,omitempty"`
-	// Note: Only present if the changed property was `description`.  The short description of the channel rendered as HTML, intended to be used when displaying the channel description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip's HTML format.
+	// Note: Only present if the changed property was `description`.  The short description of the channel rendered as HTML, intended to be used when displaying the channel description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.  See [Markdown message formatting](https://zulip.com/api/message-formatting) for details on Zulip's HTML format.
 	RenderedDescription *string `json:"rendered_description,omitempty"`
 	// Note: Only present if the changed property was `invite_only`.  Whether the history of the channel is public to its subscribers.  Currently always true for public channels (i.e. `\"invite_only\": false` implies `\"history_public_to_subscribers\": true`), but clients should not make that assumption, as we may change that behavior in the future.
 	HistoryPublicToSubscribers *bool `json:"history_public_to_subscribers,omitempty"`
@@ -355,7 +355,7 @@ type ReactionEvent struct {
 	EmojiName string `json:"emoji_name,omitempty"`
 	// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.
 	EmojiCode string `json:"emoji_code,omitempty"`
-	// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji](zulip.com/help/custom-emoji.  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \"zulip\").
+	// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji](https://zulip.com/help/custom-emoji).  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   \"zulip\").
 	ReactionType ReactionType `json:"reaction_type,omitempty"`
 	// The Id of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future.
 	UserId int64 `json:"user_id,omitempty"`
@@ -364,7 +364,7 @@ type ReactionEvent struct {
 	User interface{} `json:"user,omitempty"`
 }
 
-// UpdateGlobalNotificationsEvent Event sent to a user's clients when that user's [notification settings](zulip.com/api/update-settings) have changed with an additional rule that it is only sent to clients that did not include `user_settings_object` in their `client_capabilities` when registering the event queue.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
+// UpdateGlobalNotificationsEvent Event sent to a user's clients when that user's [notification settings](https://zulip.com/api/update-settings) have changed with an additional rule that it is only sent to clients that did not include `user_settings_object` in their `client_capabilities` when registering the event queue.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
 type UpdateGlobalNotificationsEvent struct {
 	EventCommon
 	// The Zulip API email of the user.
@@ -436,14 +436,14 @@ type AttachmentId struct {
 	Id int64 `json:"id,omitempty"`
 }
 
-// PushDeviceEvent Event sent to a user's clients when the metadata in the `push_devices` dictionary for the user changes.  Helps clients to live-update the `push_devices` dictionary returned in [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: New in Zulip 11.0 (feature level 406).
+// PushDeviceEvent Event sent to a user's clients when the metadata in the `push_devices` dictionary for the user changes.  Helps clients to live-update the `push_devices` dictionary returned in [`POST /register`](https://zulip.com/api/register-queue) response.  **Changes**: New in Zulip 11.0 (feature level 406).
 type PushDeviceEvent struct {
 	EventCommon
-	// The push account Id for this client registration.  See [`POST /mobile_push/register`](zulip.com/api/register-push-device) for details on push account Ids.
+	// The push account Id for this client registration.  See [`POST /mobile_push/register`](https://zulip.com/api/register-push-device) for details on push account Ids.
 	PushAccountId string `json:"push_account_id,omitempty"`
 	// The updated registration status. Will be `\"active\"`, `\"failed\"`, or `\"pending\"`.
 	Status string `json:"status,omitempty"`
-	// If the status is `\"failed\"`, a [Zulip API error code](zulip.com/api/rest-error-handling) indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `\"INVALId_BOUNCER_PUBLIC_KEY\"` - Inform the user to update app. - `\"REQUEST_EXPIRED` - Retry with a fresh payload.   If the status is \"failed\", an error code explaining the failure.
+	// If the status is `\"failed\"`, a [Zulip API error code](https://zulip.com/api/rest-error-handling) indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `\"INVALId_BOUNCER_PUBLIC_KEY\"` - Inform the user to update app. - `\"REQUEST_EXPIRED` - Retry with a fresh payload.   If the status is \"failed\", an error code explaining the failure.
 	ErrorCode *string `json:"error_code,omitempty"`
 }
 
@@ -473,7 +473,7 @@ type CustomProfileFieldsEvent struct {
 type CustomProfileField struct {
 	// The Id of the custom profile field. This will be referenced in the custom profile fields section of user objects.
 	Id int64 `json:"id"`
-	// An integer indicating the type of the custom profile field, which determines how it is configured and displayed to users.  See the [Custom profile fields](zulip.com/help/custom-profile-fields#profile-field-types article for details on what each type means.  - **1**: Short text - **2**: Long text - **3**: List of options - **4**: Date picker - **5**: Link - **6**: Person picker - **7**: External account - **8**: Pronouns  **Changes**: Field type `8` added in Zulip 6.0 (feature level 151).
+	// An integer indicating the type of the custom profile field, which determines how it is configured and displayed to users.  See the [Custom profile fields](https://zulip.com/help/custom-profile-fields#profile-field-types) article for details on what each type means.  - **1**: Short text - **2**: Long text - **3**: List of options - **4**: Date picker - **5**: Link - **6**: Person picker - **7**: External account - **8**: Pronouns  **Changes**: Field type `8` added in Zulip 6.0 (feature level 151).
 	Type CustomFieldType `json:"type"`
 	// Custom profile fields are displayed in both settings UI and UI showing users' profiles in increasing `order`.
 	Order int32 `json:"order"`
@@ -483,7 +483,7 @@ type CustomProfileField struct {
 	Hint string `json:"hint"`
 	// Field types 3 (List of options) and 7 (External account) support storing additional configuration for the field type in the `field_data` attribute.  For field type 3 (List of options), this attribute is a JSON dictionary defining the choices and the order they will be displayed in the dropdown UI for individual users to select an option.  The interface for field type 7 is not yet stabilized.
 	FieldData *string `json:"field_data,omitempty"`
-	// Whether the custom profile field, display or not on the user card.  Currently it's value not allowed to be `true` of `Long text` and `Person picker` [profile field types](zulip.com/help/custom-profile-fields#profile-field-types.  This field is only included when its value is `true`.  **Changes**: New in Zulip 6.0 (feature level 146).
+	// Whether the custom profile field, display or not on the user card.  Currently it's value not allowed to be `true` of `Long text` and `Person picker` [profile field types](https://zulip.com/help/custom-profile-fields#profile-field-types).  This field is only included when its value is `true`.  **Changes**: New in Zulip 6.0 (feature level 146).
 	DisplayInProfileSummary *bool `json:"display_in_profile_summary,omitempty"`
 	// Whether an organization administrator has configured this profile field as required.  Because the required property is mutable, clients cannot assume that a required custom profile field has a value. The Zulip web application displays a prominent banner to any user who has not set a value for a required field.  **Changes**: New in Zulip 9.0 (feature level 244).
 	Required bool `json:"required"`
@@ -501,7 +501,7 @@ type DefaultChannelGroupsEvent struct {
 // DefaultChannelsEvent Event sent to all users in a Zulip organization when the default channels in the organization are changed by an organization administrator.
 type DefaultChannelsEvent struct {
 	EventCommon
-	// An array of Ids of all the [default channels](zulip.com/help/set-default-streams-for-new-users) in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
+	// An array of Ids of all the [default channels](https://zulip.com/help/set-default-streams-for-new-users) in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
 	DefaultChannels []int64 `json:"default_streams,omitempty"`
 }
 
@@ -524,29 +524,29 @@ type UserStatusEvent struct {
 
 	// The text content of the status message.  This will be `\"\"` for users who set a status without selecting or writing a message.
 	StatusText string `json:"status_text,omitempty"`
-	// The [emoji name](zulip.com/api/update-status#parameter-emoji_name for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
+	// The [emoji name](https://zulip.com/api/update-status#parameter-emoji_name for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
 	EmojiName string `json:"emoji_name,omitempty"`
-	// The [emoji code](zulip.com/api/update-status#parameter-emoji_code for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
+	// The [emoji code](https://zulip.com/api/update-status#parameter-emoji_code for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
 	EmojiCode string `json:"emoji_code,omitempty"`
-	// The [emoji type](zulip.com/api/update-status#parameter-reaction_type for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
+	// The [emoji type](https://zulip.com/api/update-status#parameter-reaction_type for the emoji the user selected for their new status.  This will be `\"\"` for users who set a status without selecting an emoji.  **Changes**: New in Zulip 5.0 (feature level 86).
 	ReactionType ReactionType `json:"reaction_type,omitempty"`
 	// The Id of the user whose status changed.
 	UserId int64 `json:"user_id,omitempty"`
 }
 
-// DeleteMessageEvent Event sent when a message has been deleted.  Sent to all users who currently are subscribed to the messages' recipient. May also be sent to additional users who had access to it, including, in particular, an administrator user deleting messages in a stream that they are not subscribed to.  This means that clients can assume that they will always receive an event of this type for deletions that the client itself initiated.  This event is also sent when the user loses access to a message, such as when it is [moved to a channel][message-move-channel] that the user does not [have permission to access][channel-access].  **Changes**: Before Zulip 9.0 (feature level 274), this event was only sent to subscribers of the message's recipient.  Before Zulip 5.0 (feature level 77), events for direct messages contained additional `sender_id` and `recipient_id` fields.  [message-move-channel]: /help/move-content-to-another-channel [channel-access]: /help/channel-permissions
+// DeleteMessageEvent Event sent when a message has been deleted.  Sent to all users who currently are subscribed to the messages' recipient. May also be sent to additional users who had access to it, including, in particular, an administrator user deleting messages in a stream that they are not subscribed to.  This means that clients can assume that they will always receive an event of this type for deletions that the client itself initiated.  This event is also sent when the user loses access to a message, such as when it is [moved to a channel][message-move-channel] that the user does not [have permission to access][channel-access].  **Changes**: Before Zulip 9.0 (feature level 274), this event was only sent to subscribers of the message's recipient.  Before Zulip 5.0 (feature level 77), events for direct messages contained additional `sender_id` and `recipient_id` fields.  [message-move-channel]: https://zulip.com/help/move-content-to-another-channel [channel-access]: https://zulip.com/help/channel-permissions
 type DeleteMessageEvent struct {
 	EventCommon
-	// Only present for clients that support the `bulk_message_deletion` [client capability][client-capabilities].  A sorted list containing the Ids of the newly deleted messages.  **Changes**: Before Zulip 11.0 (feature level 393), this list was not guaranteed to be sorted.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	// Only present for clients that support the `bulk_message_deletion` [client capability][client-capabilities].  A sorted list containing the Ids of the newly deleted messages.  **Changes**: Before Zulip 11.0 (feature level 393), this list was not guaranteed to be sorted.  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	MessageIds []int64 `json:"message_ids,omitempty"`
-	// Only present for clients that do not support the `bulk_message_deletion` [client capability][client-capabilities].  The Id of the newly deleted message.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	// Only present for clients that do not support the `bulk_message_deletion` [client capability][client-capabilities].  The Id of the newly deleted message.  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	MessageId *int64 `json:"message_id,omitempty"`
 
 	// The type of message. Either `\"stream\"` or `\"private\"`.
 	MessageType RecipientType `json:"message_type,omitempty"`
 	// Only present if `message_type` is `\"stream\"`.  The Id of the channel to which the message was sent.
 	ChannelId *int64 `json:"stream_id,omitempty"`
-	// Only present if `message_type` is `\"stream\"`.  The topic to which the message was sent.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name was empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	// Only present if `message_type` is `\"stream\"`.  The topic to which the message was sent.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name was empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
 }
 
@@ -564,7 +564,7 @@ type MutedTopicsEvent struct {
 	MutedTopics [][]interface{} `json:"muted_topics,omitempty"`
 }
 
-// MutedUsersEvent Event sent to a user's clients when that user's set of configured [muted users](zulip.com/api/mute-user) have changed.  **Changes**: New in Zulip 4.0 (feature level 48).
+// MutedUsersEvent Event sent to a user's clients when that user's set of configured [muted users](https://zulip.com/api/mute-user) have changed.  **Changes**: New in Zulip 4.0 (feature level 48).
 type MutedUsersEvent struct {
 	EventCommon
 	// A list of dictionaries where each dictionary describes a muted user.
@@ -597,7 +597,7 @@ type UpdateMessageEvent struct {
 	MessageId int64 `json:"message_id"`
 	// A sorted list of Ids of messages to which any channel or topic changes encoded in this event should be applied.  This list always includes `message_id`, even when there are no channel or topic changes to apply.  These messages are guaranteed to have all been previously sent to channel `stream_id` with topic `orig_subject`, and have been moved to `new_stream_id` with topic `subject` (if those fields are present in the event).  Clients processing these events should update all cached message history associated with the moved messages (including adjusting `unread_msgs` data structures, where the client may not have the message itself in its history) to reflect the new channel and topic.  Content changes should be applied only to the single message indicated by `message_id`.  **Changes**: Before Zulip 11.0 (feature level 393), this list was not guaranteed to be sorted.
 	MessageIds []int64 `json:"message_ids"`
-	// The user's personal [message flags][message-flags] for the message with Id `message_id` following the edit.  A client application should compare these to the original flags to identify cases where a mention or alert word was added by the edit.  **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.  [message-flags]: /api/update-message-flags#available-flags
+	// The user's personal [message flags][message-flags] for the message with Id `message_id` following the edit.  A client application should compare these to the original flags to identify cases where a mention or alert word was added by the edit.  **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.  [message-flags]: https://zulip.com/api/update-message-flags#available-flags
 	Flags []string `json:"flags"`
 	// The time when this message edit operation was processed by the server.  **Changes**: As of Zulip 5.0 (feature level 114), this field is present for all `update_message` events. Previously, this field was omitted for [inline URL preview][inline-url-previews] updates.
 	EditTimestamp time.Time `json:"edit_timestamp"`
@@ -609,25 +609,25 @@ type UpdateMessageEvent struct {
 	NewChannelId *int64 `json:"new_stream_id,omitempty"`
 	// Only present if this event moved messages to a different topic and/or channel.  The choice the editing user made about which messages should be affected by a channel/topic edit:  - `\"change_one\"`: Just change the one indicated in `message_id`. - `\"change_later\"`: Change messages in the same topic that had   been sent after this one. - `\"change_all\"`: Change all messages in that topic.  This parameter should be used to decide whether to change navigation and compose box state in response to the edit. For example, if the user was previously in topic narrow, and the topic was edited with `\"change_later\"` or `\"change_all\"`, the Zulip web app will automatically navigate to the new topic narrow. Similarly, a message being composed to the old topic should have its recipient changed to the new topic.  This navigation makes it much more convenient to move content between topics without disruption or messages continuing to be sent to the pre-edit topic by accident.
 	PropagateMode *string `json:"propagate_mode,omitempty"`
-	// Only present if this event moved messages to a different topic and/or channel.  The pre-edit topic for all of the messages with Ids in `message_ids`.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual pre-edit topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	// Only present if this event moved messages to a different topic and/or channel.  The pre-edit topic for all of the messages with Ids in `message_ids`.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual pre-edit topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	OrigSubject *string `json:"orig_subject,omitempty"`
-	// Only present if this event moved messages to a different topic; this field will not be present when moving messages to the same topic name in a different channel.  The post-edit topic for all of the messages with Ids in `message_ids`.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual post-edit topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	// Only present if this event moved messages to a different topic; this field will not be present when moving messages to the same topic name in a different channel.  The post-edit topic for all of the messages with Ids in `message_ids`.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual post-edit topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	Subject *string `json:"subject,omitempty"`
-	// Only present if this event moved messages to a different topic; this field will not be present when moving messages to the same topic name in a different channel.  Data on any links to be included in the `topic` line (these are generated by [custom linkification filter](zulip.com/help/add-a-custom-linkifier) that match content in the message's topic.), corresponding to the post-edit topic.  **Changes**: This field contained a list of urls before Zulip 4.0 (feature level 46).  New in Zulip 3.0 (feature level 1). Previously, this field was called `subject_links`; clients are recommended to rename `subject_links` to `topic_links` if present for compatibility with older Zulip servers.
+	// Only present if this event moved messages to a different topic; this field will not be present when moving messages to the same topic name in a different channel.  Data on any links to be included in the `topic` line (these are generated by [custom linkification filter](https://zulip.com/help/add-a-custom-linkifier) that match content in the message's topic.), corresponding to the post-edit topic.  **Changes**: This field contained a list of urls before Zulip 4.0 (feature level 46).  New in Zulip 3.0 (feature level 1). Previously, this field was called `subject_links`; clients are recommended to rename `subject_links` to `topic_links` if present for compatibility with older Zulip servers.
 	TopicLinks []TopicLink `json:"topic_links,omitempty"`
-	// Only present if this event changed the message content.  The original content of the message with Id `message_id` immediately prior to this edit, in the original [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown) format.
+	// Only present if this event changed the message content.  The original content of the message with Id `message_id` immediately prior to this edit, in the original [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) format.
 	OrigContent *string `json:"orig_content,omitempty"`
-	// Only present if this event changed the message content.  The original content of the message with Id `message_id` immediately prior to this edit, rendered as HTML.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip's HTML format.
+	// Only present if this event changed the message content.  The original content of the message with Id `message_id` immediately prior to this edit, rendered as HTML.  See [Markdown message formatting](https://zulip.com/api/message-formatting) for details on Zulip's HTML format.
 	OrigRenderedContent *string `json:"orig_rendered_content,omitempty"`
-	// Only present if this event changed the message content or updated the message content for an [inline URL preview][inline-url-previews].  The new content of the message with Id `message_id`, in the original [Zulip-flavored Markdown](zulip.com/help/format-your-message-using-markdown) format.
+	// Only present if this event changed the message content or updated the message content for an [inline URL preview][inline-url-previews].  The new content of the message with Id `message_id`, in the original [Zulip-flavored Markdown](https://zulip.com/help/format-your-message-using-markdown) format.
 	Content *string `json:"content,omitempty"`
-	// Only present if this event changed the message content or updated the message content for an [inline URL preview][inline-url-previews].  The new content of the message with Id `message_id`, rendered in HTML.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip's HTML format.
+	// Only present if this event changed the message content or updated the message content for an [inline URL preview][inline-url-previews].  The new content of the message with Id `message_id`, rendered in HTML.  See [Markdown message formatting](https://zulip.com/api/message-formatting) for details on Zulip's HTML format.
 	RenderedContent *string `json:"rendered_content,omitempty"`
-	// Only present if this event changed the message content.  Whether the message with Id `message_id` is now a [/me status message][status-messages].  [status-messages]: /help/format-your-message-using-markdown#status-messages
+	// Only present if this event changed the message content.  Whether the message with Id `message_id` is now a [/me status message][status-messages].  [status-messages]: https://zulip.com/help/format-your-message-using-markdown#status-messages
 	IsMeMessage *bool `json:"is_me_message,omitempty"`
 }
 
-// TypingStartEvent Event sent when a user starts typing a message.  Sent to all clients for users who would receive the message being typed, with the additional rule that typing notifications for channel messages are only sent to clients that included `stream_typing_notifications` in their [client capabilities][client-capabilities] when registering the event queue.  See [POST /typing](zulip.com/api/set-typing-status) endpoint for more details.  **Changes**: Typing notifications for channel messages are new in Zulip 4.0 (feature level 58).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+// TypingStartEvent Event sent when a user starts typing a message.  Sent to all clients for users who would receive the message being typed, with the additional rule that typing notifications for channel messages are only sent to clients that included `stream_typing_notifications` in their [client capabilities][client-capabilities] when registering the event queue.  See [POST /typing](https://zulip.com/api/set-typing-status) endpoint for more details.  **Changes**: Typing notifications for channel messages are new in Zulip 4.0 (feature level 58).  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 type TypingEvent struct {
 	EventCommonWithOp
 	// Type of message being composed. Must be `\"stream\"` or `\"direct\"`.  **Changes**: In Zulip 8.0 (feature level 215), replaced the value `\"private\"` with `\"direct\"`.  New in Zulip 4.0 (feature level 58). Previously, all typing notifications were implicitly direct messages.
@@ -637,7 +637,7 @@ type TypingEvent struct {
 	Recipients []UserIdentifier `json:"recipients,omitempty"`
 	// Only present if `message_type` is `\"stream\"`.  The unique Id of the channel to which message is being typed.  **Changes**: New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 	ChannelId *int64 `json:"stream_id,omitempty"`
-	// Only present if `message_type` is `\"stream\"`.  Topic within the channel where the message is being typed.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	// Only present if `message_type` is `\"stream\"`.  Topic within the channel where the message is being typed.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
 }
 
@@ -649,7 +649,7 @@ type UserIdentifier struct {
 	Email string `json:"email,omitempty"`
 }
 
-// TypingEditMessageStartEvent Event sent when a user starts editing a message. Event sent when a user starts typing in a textarea to edit the content of a message. See the [edit message typing notifications endpoint](zulip.com/api/set-typing-status-for-message-edit.  Clients requesting `typing_edit_message` event type that have `receives_typing_notifications` enabled will receive this event if they would have been notified if the message's content edit were to be saved (E.g., because they were a direct message recipient or are a subscribe to the channel).  **Changes**: New in Zulip 10.0 (feature level 351). Previously, typing notifications were not available when editing messages.
+// TypingEditMessageStartEvent Event sent when a user starts editing a message. Event sent when a user starts typing in a textarea to edit the content of a message. See the [edit message typing notifications endpoint](https://zulip.com/api/set-typing-status-for-message-edit).  Clients requesting `typing_edit_message` event type that have `receives_typing_notifications` enabled will receive this event if they would have been notified if the message's content edit were to be saved (E.g., because they were a direct message recipient or are a subscribe to the channel).  **Changes**: New in Zulip 10.0 (feature level 351). Previously, typing notifications were not available when editing messages.
 type TypingEditMessageEvent struct {
 	EventCommonWithOp
 
@@ -708,7 +708,7 @@ type UserUpdateEventFullName struct {
 	FullName string `json:"full_name,omitempty"`
 }
 
-// UserUpdateEventTimezone When a user changes their [profile time zone](zulip.com/help/change-your-timezone.
+// UserUpdateEventTimezone When a user changes their [profile time zone](https://zulip.com/help/change-your-timezone).
 type UserUpdateEventTimezone struct {
 	// The Zulip API email of the user.  **Deprecated**: This field will be removed in a future release as it is redundant with the `user_id`.
 	// Deprecated
@@ -723,9 +723,9 @@ type UserUpdateEventBotOwner struct {
 	BotOwnerId int64 `json:"bot_owner_id,omitempty"`
 }
 
-// UserUpdateEventRole When the [role](zulip.com/help/user-roles) of a user changes.
+// UserUpdateEventRole When the [role](https://zulip.com/help/user-roles) of a user changes.
 type UserUpdateEventRole struct {
-	// The new [role](zulip.com/api/roles-and-permissions) of the user.
+	// The new [role](https://zulip.com/api/roles-and-permissions) of the user.
 	Role Role `json:"role,omitempty"`
 }
 
@@ -740,7 +740,7 @@ type UserUpdateEventCustomField struct {
 	CustomProfileField ProfileDataValue `json:"custom_profile_field,omitempty"`
 }
 
-// UserUpdateEventEmail When the Zulip API email address of a user changes, either due to the user's email address changing, or due to changes in the user's [email address visibility][help-email-visibility].  [help-email-visibility]: /help/configure-email-visibility
+// UserUpdateEventEmail When the Zulip API email address of a user changes, either due to the user's email address changing, or due to changes in the user's [email address visibility][help-email-visibility].  [help-email-visibility]: https://zulip.com/help/configure-email-visibility
 type UserUpdateEventEmail struct {
 	// The new value of `email` for the user. The client should update any data structures associated with this user to use this new value as the user's Zulip API email address.
 	NewEmail string `json:"new_email,omitempty"`
@@ -752,7 +752,7 @@ type UserUpdateEventActivation struct {
 	IsActive bool `json:"is_active,omitempty"`
 }
 
-// UpdateMessageFlagsAddEvent Event sent to a user when [message flags][message-flags] are added to messages.  This can reflect a direct user action, or can be the indirect consequence of another action. Whatever the cause, if there's a change in the set of message flags that the user has for a message, then an `update_message_flags` event will be sent with the change. Note that this applies when the user already had access to the message, and continues to have access to it. When a message newly appears or disappears, a [`message`][message-event] or [`delete_message`][message-delete] event is sent instead.  Some examples of actions that trigger an `update_message_flags` event:  - The `\"starred\"` flag is added when the user chooses to [star a   message](zulip.com/help/star-a-message. - The `\"read\"` flag is added when the user marks messages as read by   scrolling through them, or uses [Mark all messages as read][all-read]   on a conversation. - The `\"read\"` flag is added when the user [mutes](zulip.com/help/mute-a-user) a   message's sender. - The `\"read\"` flag is added after the user unsubscribes from a channel,   or messages are moved to a not-subscribed channel, provided the user   can still access the messages at all. Note a   [`delete_message`][message-delete] event is sent in the case where the   user can no longer access the messages.  In some cases, a change in message flags that's caused by another change may happen a short while after the original change, rather than simultaneously. For example, when messages that were unread are moved to a channel where the user is not subscribed, the resulting change in message flags (and the corresponding `update_message_flags` event with flag `\"read\"`) may happen later than the message move itself. The delay in that example is typically at most a few hundred milliseconds and can in rare cases be minutes or longer.  [message-flags]: /api/update-message-flags#available-flags [message-event]: /api/get-events#message [message-delete]: /api/get-events#delete_message [all-read]: /help/marking-messages-as-read#mark-messages-in-multiple-topics-and-channels-as-read
+// UpdateMessageFlagsAddEvent Event sent to a user when [message flags][message-flags] are added to messages.  This can reflect a direct user action, or can be the indirect consequence of another action. Whatever the cause, if there's a change in the set of message flags that the user has for a message, then an `update_message_flags` event will be sent with the change. Note that this applies when the user already had access to the message, and continues to have access to it. When a message newly appears or disappears, a [`message`][message-event] or [`delete_message`][message-delete] event is sent instead.  Some examples of actions that trigger an `update_message_flags` event:  - The `\"starred\"` flag is added when the user chooses to [star a   message](https://zulip.com/help/star-a-message). - The `\"read\"` flag is added when the user marks messages as read by   scrolling through them, or uses [Mark all messages as read][all-read]   on a conversation. - The `\"read\"` flag is added when the user [mutes](https://zulip.com/help/mute-a-user) a   message's sender. - The `\"read\"` flag is added after the user unsubscribes from a channel,   or messages are moved to a not-subscribed channel, provided the user   can still access the messages at all. Note a   [`delete_message`][message-delete] event is sent in the case where the   user can no longer access the messages.  In some cases, a change in message flags that's caused by another change may happen a short while after the original change, rather than simultaneously. For example, when messages that were unread are moved to a channel where the user is not subscribed, the resulting change in message flags (and the corresponding `update_message_flags` event with flag `\"read\"`) may happen later than the message move itself. The delay in that example is typically at most a few hundred milliseconds and can in rare cases be minutes or longer.  [message-flags]: https://zulip.com/api/update-message-flags#available-flags [message-event]: https://zulip.com/api/get-events#message [message-delete]: https://zulip.com/api/get-events#delete_message [all-read]: https://zulip.com/help/marking-messages-as-read#mark-messages-in-multiple-topics-and-channels-as-read
 type UpdateMessageFlagsAddEvent struct {
 	EventCommonWithOp
 
@@ -767,7 +767,7 @@ type UpdateMessageFlagsAddEvent struct {
 	All bool `json:"all,omitempty"`
 }
 
-// UpdateMessageFlagsRemoveEvent Event sent to a user when [message flags][message-flags] are removed from messages.  See the description for the [`update_message_flags` op: `add`](zulip.com/api/get-events#update_message_flags-add event for more details about these events.  [message-flags]: /api/update-message-flags#available-flags
+// UpdateMessageFlagsRemoveEvent Event sent to a user when [message flags][message-flags] are removed from messages.  See the description for the [`update_message_flags` op: `add`](https://zulip.com/api/get-events#update_message_flags-add event for more details about these events.  [message-flags]: https://zulip.com/api/update-message-flags#available-flags
 type UpdateMessageFlagsRemoveEvent struct {
 	EventCommonWithOp
 
@@ -796,14 +796,14 @@ type MessageDetail struct {
 	UserIds []int64 `json:"user_ids,omitempty"`
 	// Present only if `type` is `\"stream\"`.  The Id of the channel where the message was sent.
 	ChannelId *int64 `json:"stream_id,omitempty"`
-	// Present only if `type` is `\"stream\"`.  Name of the topic where the message was sent.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	// Present only if `type` is `\"stream\"`.  Name of the topic where the message was sent.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	Topic *string `json:"topic,omitempty"`
 	// **Deprecated** internal implementation detail. Clients should ignore this field as it will be removed in the future.
 	// Deprecated
 	UnmutedStreamMsg *bool `json:"unmuted_stream_msg,omitempty"`
 }
 
-// UserGroupAddEvent Event sent to users in an organization when a [user group](zulip.com/help/user-groups) is created.
+// UserGroupAddEvent Event sent to users in an organization when a [user group](https://zulip.com/help/user-groups) is created.
 type UserGroupAddEvent struct {
 	EventCommonWithOp
 
@@ -887,28 +887,28 @@ type SubscriptionRemoveData struct {
 	Name string `json:"name,omitempty"`
 }
 
-// RealmLinkifiersEvent Event sent to all users in a Zulip organization when the set of configured [linkifiers](zulip.com/help/add-a-custom-linkifier) for the organization has changed.  Processing this event is important for doing Markdown local echo correctly.  Clients will not receive this event unless the event queue is registered with the client capability `{\"linkifier_url_template\": true}`. See [`POST /register`](zulip.com/api/register-queue#parameter-client_capabilities for how client capabilities can be specified.  **Changes**: Before Zulip 7.0 (feature level 176), the `linkifier_url_template` client capability was not required. The requirement was added because linkifiers were updated to contain a URL template instead of a URL format string, which was not a backwards-compatible change.  New in Zulip 4.0 (feature level 54), replacing the deprecated `realm_filters` event type.
+// RealmLinkifiersEvent Event sent to all users in a Zulip organization when the set of configured [linkifiers](https://zulip.com/help/add-a-custom-linkifier) for the organization has changed.  Processing this event is important for doing Markdown local echo correctly.  Clients will not receive this event unless the event queue is registered with the client capability `{\"linkifier_url_template\": true}`. See [`POST /register`](https://zulip.com/api/register-queue#parameter-client_capabilities for how client capabilities can be specified.  **Changes**: Before Zulip 7.0 (feature level 176), the `linkifier_url_template` client capability was not required. The requirement was added because linkifiers were updated to contain a URL template instead of a URL format string, which was not a backwards-compatible change.  New in Zulip 4.0 (feature level 54), replacing the deprecated `realm_filters` event type.
 type RealmLinkifiersEvent struct {
 	EventCommon
-	// An ordered array of dictionaries where each dictionary contains details about a single linkifier.  Clients should always process linkifiers in the order given; this is important if the realm has linkifiers with overlapping patterns. The order can be modified using [`PATCH /realm/linkifiers`](zulip.com/api/reorder-linkifiers.
+	// An ordered array of dictionaries where each dictionary contains details about a single linkifier.  Clients should always process linkifiers in the order given; this is important if the realm has linkifiers with overlapping patterns. The order can be modified using [`PATCH /realm/linkifiers`](https://zulip.com/api/reorder-linkifiers).
 	RealmLinkifiers []RealmLinkifiers `json:"realm_linkifiers,omitempty"`
 }
 
-// RealmPlaygroundsEvent Event sent to all users in a Zulip organization when the set of configured [code playgrounds](zulip.com/help/code-blocks#code-playgrounds for the organization has changed.  **Changes**: New in Zulip 4.0 (feature level 49).
+// RealmPlaygroundsEvent Event sent to all users in a Zulip organization when the set of configured [code playgrounds](https://zulip.com/help/code-blocks#code-playgrounds) for the organization has changed.  **Changes**: New in Zulip 4.0 (feature level 49).
 type RealmPlaygroundsEvent struct {
 	EventCommon
 	// An array of dictionaries where each dictionary contains data about a single playground entry.
 	RealmPlaygrounds []RealmPlayground `json:"realm_playgrounds,omitempty"`
 }
 
-// RealmDomainsAddEvent Event sent to all users in a Zulip organization when the set of [allowed domains for new users](zulip.com/help/restrict-account-creation#configuring-email-domain-restrictions has changed.
+// RealmDomainsAddEvent Event sent to all users in a Zulip organization when the set of [allowed domains for new users](https://zulip.com/help/restrict-account-creation#configuring-email-domain-restrictions) has changed.
 type RealmDomainsAddEvent struct {
 	EventCommonWithOp
 
 	RealmDomain *RealmDomain `json:"realm_domain,omitempty"`
 }
 
-// RealmFiltersEvent Legacy event type that is no longer sent to clients. Previously, sent to all users in a Zulip organization when the set of configured [linkifiers](zulip.com/help/add-a-custom-linkifier) for the organization was changed.  **Changes**: Prior to Zulip 7.0 (feature level 176), this event type was sent to clients.  **Deprecated** in Zulip 4.0 (feature level 54), and replaced by the `realm_linkifiers` event type, which has a clearer name and format.
+// RealmFiltersEvent Legacy event type that is no longer sent to clients. Previously, sent to all users in a Zulip organization when the set of configured [linkifiers](https://zulip.com/help/add-a-custom-linkifier) for the organization was changed.  **Changes**: Prior to Zulip 7.0 (feature level 176), this event type was sent to clients.  **Deprecated** in Zulip 4.0 (feature level 54), and replaced by the `realm_linkifiers` event type, which has a clearer name and format.
 // Deprecated
 type RealmFiltersEvent struct {
 	EventCommon
@@ -916,7 +916,7 @@ type RealmFiltersEvent struct {
 	RealmFilters []interface{}
 }
 
-// RealmEmojiUpdateEvent Event sent to all users in a Zulip organization when a [custom emoji](zulip.com/help/custom-emoji) has been updated, typically when a new emoji has been added or an old one has been deactivated. The event contains all custom emoji configured for the organization, not just the updated custom emoji.
+// RealmEmojiUpdateEvent Event sent to all users in a Zulip organization when a [custom emoji](https://zulip.com/help/custom-emoji) has been updated, typically when a new emoji has been added or an old one has been deactivated. The event contains all custom emoji configured for the organization, not just the updated custom emoji.
 type RealmEmojiUpdateEvent struct {
 	EventCommonWithOp
 
@@ -924,14 +924,14 @@ type RealmEmojiUpdateEvent struct {
 	RealmEmoji map[string]RealmEmoji `json:"realm_emoji,omitempty"`
 }
 
-// RealmDomainsChangeEvent Event sent to all users in a Zulip organization when the set of [allowed domains for new users](zulip.com/help/restrict-account-creation#configuring-email-domain-restrictions has changed.
+// RealmDomainsChangeEvent Event sent to all users in a Zulip organization when the set of [allowed domains for new users](https://zulip.com/help/restrict-account-creation#configuring-email-domain-restrictions) has changed.
 type RealmDomainsChangeEvent struct {
 	EventCommonWithOp
 
 	RealmDomain RealmDomain `json:"realm_domain,omitempty"`
 }
 
-// RealmDomainsRemoveEvent Event sent to all users in a Zulip organization when the set of [allowed domains for new users](zulip.com/help/restrict-account-creation#configuring-email-domain-restrictions has changed.
+// RealmDomainsRemoveEvent Event sent to all users in a Zulip organization when the set of [allowed domains for new users](https://zulip.com/help/restrict-account-creation#configuring-email-domain-restrictions) has changed.
 type RealmDomainsRemoveEvent struct {
 	EventCommonWithOp
 
@@ -939,14 +939,14 @@ type RealmDomainsRemoveEvent struct {
 	Domain string `json:"domain,omitempty"`
 }
 
-// RealmExportEvent Event sent to the user who requested a [data export](zulip.com/help/export-your-organization) when the status of the data export changes.
+// RealmExportEvent Event sent to the user who requested a [data export](https://zulip.com/help/export-your-organization) when the status of the data export changes.
 type RealmExportEvent struct {
 	EventCommon
 	// An array of dictionaries where each dictionary contains details about a data export of the organization.  **Changes**: Prior to Zulip 10.0 (feature level 304), `export_type` parameter was not present as only public data export was supported via API.
 	Exports []RealmExport `json:"exports,omitempty"`
 }
 
-// RealmExportConsentEvent Event sent to administrators when the [data export consent][help-export-consent] status for a user changes, whether due to a user changing their consent preferences or a user being created or reactivated (since user creation/activation events do not contain these data).  [help-export-consent]: /help/export-your-organization#configure-whether-administrators-can-export-your-private-data  **Changes**: New in Zulip 10.0 (feature level 312). Previously, there was not event available to administrators with these data.
+// RealmExportConsentEvent Event sent to administrators when the [data export consent][help-export-consent] status for a user changes, whether due to a user changing their consent preferences or a user being created or reactivated (since user creation/activation events do not contain these data).  [help-export-consent]: https://zulip.com/help/export-your-organization#configure-whether-administrators-can-export-your-private-data  **Changes**: New in Zulip 10.0 (feature level 312). Previously, there was not event available to administrators with these data.
 type RealmExportConsentEvent struct {
 	EventCommon
 
@@ -996,11 +996,11 @@ type RealmDeactivatedEvent struct {
 type RestartEvent struct {
 	EventCommonWithOp
 
-	// The Zulip version number, in the format where this appears in the [server_settings](zulip.com/api/get-server-settings) and [register](zulip.com/api/register-queue) responses.  **Changes**: New in Zulip 4.0 (feature level 59).
+	// The Zulip version number, in the format where this appears in the [server_settings](https://zulip.com/api/get-server-settings) and [register](https://zulip.com/api/register-queue) responses.  **Changes**: New in Zulip 4.0 (feature level 59).
 	ZulipVersion string `json:"zulip_version,omitempty"`
-	// The Zulip merge base number, in the format where this appears in the [server_settings](zulip.com/api/get-server-settings) and [register](zulip.com/api/register-queue) responses.  **Changes**: New in Zulip 5.0 (feature level 88).
+	// The Zulip merge base number, in the format where this appears in the [server_settings](https://zulip.com/api/get-server-settings) and [register](https://zulip.com/api/register-queue) responses.  **Changes**: New in Zulip 5.0 (feature level 88).
 	ZulipMergeBase string `json:"zulip_merge_base,omitempty"`
-	// The [Zulip feature level](zulip.com/api/changelog) of the server after the restart.  Clients should use this to update their tracking of the server's capabilities, and may choose to refetch their state and create a new event queue when the API feature level has changed in a way that the client finds significant. Clients choosing to do so must implement a random delay strategy to spread such restarts over 5 or more minutes to avoid creating a synchronized thundering herd effect.  **Changes**: New in Zulip 4.0 (feature level 59).
+	// The [Zulip feature level](https://zulip.com/api/changelog) of the server after the restart.  Clients should use this to update their tracking of the server's capabilities, and may choose to refetch their state and create a new event queue when the API feature level has changed in a way that the client finds significant. Clients choosing to do so must implement a random delay strategy to spread such restarts over 5 or more minutes to avoid creating a synchronized thundering herd effect.  **Changes**: New in Zulip 4.0 (feature level 59).
 	ZulipFeatureLevel int32 `json:"zulip_feature_level,omitempty"`
 	// The timestamp at which the server started.
 	ServerGeneration time.Time `json:"server_generation,omitempty"`
@@ -1049,7 +1049,7 @@ type WebReloadClientEvent struct {
 	Immediate bool `json:"immediate,omitempty"`
 }
 
-// RealmUpdateDictEvent The more general of two event types that may be used when sending an event to all users in a Zulip organization when the configuration of the organization (realm) has changed.  Unlike the simpler [realm/update](#realm-update) event format, this event type supports multiple properties being changed in a single event.  This event is also sent when deactivating or reactivating a user for settings set to anonymous user groups which the user is direct member of. When deactivating the user, event is only sent to users who cannot access the deactivated user.  **Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when deactivating or reactivating a user.  In Zulip 7.0 (feature level 163), the realm setting `email_address_visibility` was removed. It was replaced by a [user setting](zulip.com/api/update-settings#parameter-email_address_visibility with a [realm user default][user-defaults], with the encoding of different values preserved. Clients can support all versions by supporting the current API and treating every user as having the realm's `email_address_visibility` value.  [user-defaults]: /api/update-realm-user-settings-defaults#parameter-email_address_visibility
+// RealmUpdateDictEvent The more general of two event types that may be used when sending an event to all users in a Zulip organization when the configuration of the organization (realm) has changed.  Unlike the simpler [realm/update](#realm-update) event format, this event type supports multiple properties being changed in a single event.  This event is also sent when deactivating or reactivating a user for settings set to anonymous user groups which the user is direct member of. When deactivating the user, event is only sent to users who cannot access the deactivated user.  **Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when deactivating or reactivating a user.  In Zulip 7.0 (feature level 163), the realm setting `email_address_visibility` was removed. It was replaced by a [user setting](https://zulip.com/api/update-settings#parameter-email_address_visibility with a [realm user default][user-defaults], with the encoding of different values preserved. Clients can support all versions by supporting the current API and treating every user as having the realm's `email_address_visibility` value.  [user-defaults]: https://zulip.com/api/update-realm-user-settings-defaults#parameter-email_address_visibility
 type RealmUpdateDictEvent struct {
 	EventCommonWithOp
 
@@ -1074,12 +1074,12 @@ type DraftsUpdateEvent struct {
 	Draft Draft `json:"draft,omitempty"`
 }
 
-// SubscriptionUpdateEvent Event sent to a user's clients when a property of the user's subscription to a channel has been updated. This event is used only for personal properties like `is_muted` or `pin_to_top`. See the [`stream op: update` event](zulip.com/api/get-events#stream-update for updates to global properties of a channel.
+// SubscriptionUpdateEvent Event sent to a user's clients when a property of the user's subscription to a channel has been updated. This event is used only for personal properties like `is_muted` or `pin_to_top`. See the [`stream op: update` event](https://zulip.com/api/get-events#stream-update) for updates to global properties of a channel.
 type SubscriptionUpdateEvent struct {
 	EventCommonWithOp
 
 	ChannelId int64 `json:"stream_id,omitempty"`
-	// The property of the subscription which has changed. For details on the various subscription properties that a user can change, see [POST /users/me/subscriptions/properties](zulip.com/api/update-subscription-settings.  Clients should generally handle an unknown property received here without crashing, since that will naturally happen when connecting to a Zulip server running a new version that adds a new subscription property.  **Changes**: As of Zulip 6.0 (feature level 139), updates to the `is_muted` property or the deprecated `in_home_view` property will send two `subscription` update events, one for each property, to support clients fully migrating to use the `is_muted` property. Prior to this feature level, updates to either property only sent one event with the deprecated `in_home_view` property.
+	// The property of the subscription which has changed. For details on the various subscription properties that a user can change, see [POST /users/me/subscriptions/properties](https://zulip.com/api/update-subscription-settings).  Clients should generally handle an unknown property received here without crashing, since that will naturally happen when connecting to a Zulip server running a new version that adds a new subscription property.  **Changes**: As of Zulip 6.0 (feature level 139), updates to the `is_muted` property or the deprecated `in_home_view` property will send two `subscription` update events, one for each property, to support clients fully migrating to use the `is_muted` property. Prior to this feature level, updates to either property only sent one event with the deprecated `in_home_view` property.
 	Property string      `json:"property,omitempty"`
 	Value    UpdateValue `json:"value,omitempty"`
 }
@@ -1092,7 +1092,7 @@ type DraftsRemoveEvent struct {
 	DraftId int64 `json:"draft_id,omitempty"`
 }
 
-// RealmUserSettingsDefaultsUpdateEvent Event sent to all users in a Zulip organization when the [default settings for new users][new-user-defaults] of the organization (realm) have changed.  [new-user-defaults]: /help/configure-default-new-user-settings  See [PATCH /realm/user_settings_defaults](zulip.com/api/update-realm-user-settings-defaults) for details on possible properties.  **Changes**: New in Zulip 5.0 (feature level 95).
+// RealmUserSettingsDefaultsUpdateEvent Event sent to all users in a Zulip organization when the [default settings for new users][new-user-defaults] of the organization (realm) have changed.  [new-user-defaults]: https://zulip.com/help/configure-default-new-user-settings  See [PATCH /realm/user_settings_defaults](https://zulip.com/api/update-realm-user-settings-defaults) for details on possible properties.  **Changes**: New in Zulip 5.0 (feature level 95).
 type RealmUserSettingsDefaultsUpdateEvent struct {
 	EventCommonWithOp
 
@@ -1164,7 +1164,7 @@ type RemindersRemoveEvent struct {
 	ReminderId int64 `json:"reminder_id,omitempty"`
 }
 
-// SubscriptionPeerAddEvent Event sent when another user subscribes to a channel, or their subscription is newly visible to the current user.  When a user subscribes to a channel, the current user will receive this event only if they [have permission to see the channel's subscriber list](zulip.com/help/channel-permissions. When the current user gains permission to see a given channel's subscriber list, they will receive this event for the existing subscriptions to the channel.  **Changes**: Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users when subscribers to web-public channels and subscribed public channels changed.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user gained access to a channel due to their [role changing](zulip.com/help/user-roles.  Prior to Zulip 6.0 (feature level 134), this event was not sent when a private channel was made public.  In Zulip 4.0 (feature level 35), the singular `user_id` and `stream_id` integers included in this event were replaced with plural `user_ids` and `stream_ids` integer arrays.  In Zulip 3.0 (feature level 19), the `stream_id` field was added to identify the channel the user subscribed to, replacing the `name` field.
+// SubscriptionPeerAddEvent Event sent when another user subscribes to a channel, or their subscription is newly visible to the current user.  When a user subscribes to a channel, the current user will receive this event only if they [have permission to see the channel's subscriber list](https://zulip.com/help/channel-permissions). When the current user gains permission to see a given channel's subscriber list, they will receive this event for the existing subscriptions to the channel.  **Changes**: Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users when subscribers to web-public channels and subscribed public channels changed.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user gained access to a channel due to their [role changing](https://zulip.com/help/user-roles).  Prior to Zulip 6.0 (feature level 134), this event was not sent when a private channel was made public.  In Zulip 4.0 (feature level 35), the singular `user_id` and `stream_id` integers included in this event were replaced with plural `user_ids` and `stream_ids` integer arrays.  In Zulip 3.0 (feature level 19), the `stream_id` field was added to identify the channel the user subscribed to, replacing the `name` field.
 type SubscriptionPeerAddEvent struct {
 	EventCommonWithOp
 
@@ -1217,7 +1217,7 @@ type ChannelFolderUpdateEvent struct {
 type FolderUpdateData struct {
 	// The new name of the channel folder. Only present if the channel folder's name changed.
 	Name *string `json:"name,omitempty"`
-	// The new description of the channel folder. Only present if the description changed.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip's HTML format.
+	// The new description of the channel folder. Only present if the description changed.  See [Markdown message formatting](https://zulip.com/api/message-formatting) for details on Zulip's HTML format.
 	Description *string `json:"description,omitempty"`
 	// The new rendered description of the channel folder. Only present if the description changed.
 	RenderedDescription *string `json:"rendered_description,omitempty"`

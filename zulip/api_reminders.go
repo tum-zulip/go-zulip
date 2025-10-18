@@ -29,7 +29,7 @@ type RemindersAPI interface {
 			DeleteReminder Delete a reminder
 
 			Delete, and therefore cancel sending, a previously [scheduled
-		reminder](zulip.com/help/schedule-a-reminder.
+		reminder](https://zulip.com/help/schedule-a-reminder).
 
 		**Changes**: New in Zulip 11.0 (feature level 399).
 
@@ -42,7 +42,7 @@ type RemindersAPI interface {
 	/*
 			GetReminders Get reminders
 
-			Fetch all [reminders](zulip.com/help/schedule-a-reminder) for the
+			Fetch all [reminders](https://zulip.com/help/schedule-a-reminder) for the
 		current user.
 
 		Reminders are messages the user has scheduled to be sent in the
@@ -197,7 +197,7 @@ func (r DeleteReminderRequest) Execute() (*Response, *http.Response, error) {
 DeleteReminder Delete a reminder
 
 Delete, and therefore cancel sending, a previously [scheduled
-reminder](zulip.com/help/schedule-a-reminder.
+reminder](https://zulip.com/help/schedule-a-reminder).
 
 **Changes**: New in Zulip 11.0 (feature level 399).
 */
@@ -294,7 +294,7 @@ func (r GetRemindersRequest) Execute() (*GetRemindersResponse, *http.Response, e
 /*
 GetReminders Get reminders
 
-Fetch all [reminders](zulip.com/help/schedule-a-reminder) for the
+Fetch all [reminders](https://zulip.com/help/schedule-a-reminder) for the
 current user.
 
 Reminders are messages the user has scheduled to be sent in the

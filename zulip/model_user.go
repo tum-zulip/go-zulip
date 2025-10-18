@@ -22,9 +22,9 @@ type User struct {
 	// A boolean specifying whether the user is a bot or full account.
 	IsBot bool `json:"is_bot,omitempty"`
 
-	// [Organization-level role](zulip.com/api/roles-and-permissions) of the user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59).
+	// [Organization-level role](https://zulip.com/api/roles-and-permissions) of the user. Possible values are:  - 100 = Organization owner - 200 = Organization administrator - 300 = Organization moderator - 400 = Member - 600 = Guest  **Changes**: New in Zulip 4.0 (feature level 59).
 	Role Role `json:"role,omitempty"`
-	// The IANA identifier of the user's [profile time zone](zulip.com/help/change-your-timezone, which is used primarily to display the user's local time to other users.
+	// The IANA identifier of the user's [profile time zone](https://zulip.com/help/change-your-timezone), which is used primarily to display the user's local time to other users.
 	Timezone  string  `json:"timezone,omitempty"`
 	AvatarUrl *string `json:"avatar_url,omitempty"`
 	// Version for the user's avatar. Used for cache-busting requests for the user's avatar. Clients generally shouldn't need to use this; most avatar URLs sent by Zulip will already end with `?v={avatar_version}`.
@@ -44,6 +44,6 @@ type ProfileDataValue struct {
 	Id int64 `json:"id,omitempty"`
 	// User's personal value for this custom profile field.
 	Value string `json:"value,omitempty"`
-	// The `value` rendered in HTML. Will only be present for custom profile field types that support Markdown rendering.  This user-generated HTML content should be rendered using the same CSS and client-side security protections as are used for message content.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip's HTML format.
+	// The `value` rendered in HTML. Will only be present for custom profile field types that support Markdown rendering.  This user-generated HTML content should be rendered using the same CSS and client-side security protections as are used for message content.  See [Markdown message formatting](https://zulip.com/api/message-formatting) for details on Zulip's HTML format.
 	RenderedValue *string `json:"rendered_value,omitempty"`
 }

@@ -16,7 +16,7 @@ type UsersAPI interface {
 
 			Add words (or phrases) to the user's set of configured [alert words][alert-words].
 
-		[alert-words]: /help/dm-mention-alert-notifications#alert-words
+		[alert-words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 
 	*/
 	AddAlertWords(ctx context.Context) AddAlertWordsRequest
@@ -65,7 +65,7 @@ type UsersAPI interface {
 		**Changes**: Before Zulip 4.0 (feature level 36), this endpoint was
 		available to all organization administrators.
 
-		[support]: /help/contact-support
+		[support]: https://zulip.com/help/contact-support
 		[management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 
 	*/
@@ -77,7 +77,7 @@ type UsersAPI interface {
 	/*
 		CreateUserGroup Create a user group
 
-		Create a new [user group](zulip.com/help/user-groups.
+		Create a new [user group](https://zulip.com/help/user-groups).
 
 	*/
 	CreateUserGroup(ctx context.Context) CreateUserGroupRequest
@@ -89,7 +89,7 @@ type UsersAPI interface {
 			DeactivateOwnUser Deactivate own user
 
 			Deactivates the current user's account. See also the administrative endpoint for
-		[deactivating another user](zulip.com/api/deactivate-user.
+		[deactivating another user](https://zulip.com/api/deactivate-user).
 
 		This endpoint is primarily useful to Zulip clients providing a user settings UI.
 
@@ -137,7 +137,7 @@ type UsersAPI interface {
 
 			Get all of the user's configured [alert words][alert-words].
 
-		[alert-words]: /help/dm-mention-alert-notifications#alert-words
+		[alert-words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 
 	*/
 	GetAlertWords(ctx context.Context) GetAlertWordsRequest
@@ -192,8 +192,8 @@ type UsersAPI interface {
 
 			Fetch details for a single user in the organization.
 
-		You can also fetch details on [all users in the organization](zulip.com/api/get-users
-		or [by a user's Zulip API email](zulip.com/api/get-user-by-email.
+		You can also fetch details on [all users in the organization](https://zulip.com/api/get-users)
+		or [by a user's Zulip API email](https://zulip.com/api/get-user-by-email).
 
 		**Changes**: New in Zulip 3.0 (feature level 1).
 
@@ -209,12 +209,12 @@ type UsersAPI interface {
 			Fetch details for a single user in the organization given a Zulip
 		API email address.
 
-		You can also fetch details on [all users in the organization](zulip.com/api/get-users
-		or [by user Id](zulip.com/api/get-user.
+		You can also fetch details on [all users in the organization](https://zulip.com/api/get-users)
+		or [by user Id](https://zulip.com/api/get-user).
 
 		Fetching by user Id is generally recommended when possible,
-		as a user might [change their email address](zulip.com/help/change-your-email-address
-		or change their [email address visibility](zulip.com/help/configure-email-visibility,
+		as a user might [change their email address](https://zulip.com/help/change-your-email-address)
+		or change their [email address visibility](https://zulip.com/help/configure-email-visibility),
 		either of which could change the client's ability to look them up by that
 		email address.
 
@@ -236,7 +236,7 @@ type UsersAPI interface {
 	/*
 			GetUserGroupMembers Get user group members
 
-			Get the members of a [user group](zulip.com/help/user-groups.
+			Get the members of a [user group](https://zulip.com/help/user-groups).
 
 		**Changes**: New in Zulip 6.0 (feature level 127).
 
@@ -249,7 +249,7 @@ type UsersAPI interface {
 	/*
 			GetUserGroupSubgroups Get subgroups of a user group
 
-			Get the subgroups of a [user group](zulip.com/help/user-groups.
+			Get the subgroups of a [user group](https://zulip.com/help/user-groups).
 
 		**Changes**: New in Zulip 6.0 (feature level 127).
 
@@ -267,7 +267,7 @@ type UsersAPI interface {
 		!!! warn ""
 
 		    **Note**: This endpoint is only available to [members and
-		    administrators](zulip.com/help/user-roles; bots and guests
+		    administrators](https://zulip.com/help/user-roles; bots and guests
 		    cannot use this endpoint.
 
 	*/
@@ -284,7 +284,7 @@ type UsersAPI interface {
 		This endpoint is most useful for embedding data about a user's
 		presence status in other sites (e.g. an employee directory). Full
 		Zulip clients like mobile/desktop apps will want to use the [main
-		presence endpoint](zulip.com/api/get-presence, which returns data for all
+		presence endpoint](https://zulip.com/api/get-presence), which returns data for all
 		active users in the organization, instead.
 
 	*/
@@ -296,12 +296,12 @@ type UsersAPI interface {
 	/*
 			GetUserStatus Get a user's status
 
-			Get the [status](zulip.com/help/status-and-availability) currently set by a
+			Get the [status](https://zulip.com/help/status-and-availability) currently set by a
 		user in the organization.
 
 		**Changes**: New in Zulip 9.0 (feature level 262). Previously,
 		user statuses could only be fetched via the [`POST
-		/register`](zulip.com/api/register-queue) endpoint.
+		/register`](https://zulip.com/api/register-queue) endpoint.
 
 	*/
 	GetUserStatus(ctx context.Context, userId int64) GetUserStatusRequest
@@ -318,13 +318,13 @@ type UsersAPI interface {
 		The `user_ids` query parameter can be used to limit the
 		results to a specific set of user Ids.
 
-		Optionally includes values of [custom profile fields](zulip.com/help/custom-profile-fields.
+		Optionally includes values of [custom profile fields](https://zulip.com/help/custom-profile-fields).
 
-		You can also [fetch details on a single user](zulip.com/api/get-user.
+		You can also [fetch details on a single user](https://zulip.com/api/get-user).
 
 		**Changes**: This endpoint did not support unauthenticated
 		access in organizations using the [public access
-		option](zulip.com/help/public-access-option) prior to Zulip 11.0
+		option](https://zulip.com/help/public-access-option) prior to Zulip 11.0
 		(feature level 387).
 
 	*/
@@ -336,7 +336,7 @@ type UsersAPI interface {
 	/*
 			MuteUser Mute a user
 
-			[Mute a user](zulip.com/help/mute-a-user) from the perspective of the requesting
+			[Mute a user](https://zulip.com/help/mute-a-user) from the perspective of the requesting
 		user. Messages sent by muted users will be automatically marked as read
 		and hidden for the user who muted them.
 
@@ -393,7 +393,7 @@ type UsersAPI interface {
 
 		Alert words are case insensitive.
 
-		[alert-words]: /help/dm-mention-alert-notifications#alert-words
+		[alert-words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 
 	*/
 	RemoveAlertWords(ctx context.Context) RemoveAlertWordsRequest
@@ -420,12 +420,12 @@ type UsersAPI interface {
 		Note that uploaded files that have been referenced in at least
 		one message are automatically deleted once the last message
 		containing a link to them is deleted (whether directly or via
-		a [message retention policy](zulip.com/help/message-retention-policy).
+		a [message retention policy](https://zulip.com/help/message-retention-policy).
 
 		Uploaded files that are never used in a message are
 		automatically deleted a few weeks after being uploaded.
 
-		Attachment Ids can be contained from [GET /attachments](zulip.com/api/get-attachments.
+		Attachment Ids can be contained from [GET /attachments](https://zulip.com/api/get-attachments).
 
 	*/
 	RemoveAttachment(ctx context.Context, attachmentId int64) RemoveAttachmentRequest
@@ -495,11 +495,11 @@ type UsersAPI interface {
 		value in the `client_capabilities` parameter of the
 		[`POST /register`][client-capabilities] endpoint.
 
-		[help-typing]: /help/typing-notifications
-		[api-register]: /api/register-queue
-		[start-typing]: /api/get-events#typing-start
-		[stop-typing]: /api/get-events#typing-stop
-		[client-capabilities]: /api/register-queue#parameter-client_capabilities
+		[help-typing]: https://zulip.com/help/typing-notifications
+		[api-register]: https://zulip.com/api/register-queue
+		[start-typing]: https://zulip.com/api/get-events#typing-start
+		[stop-typing]: https://zulip.com/api/get-events#typing-stop
+		[client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 		[typing-protocol-docs]: https://zulip.readthedocs.io/en/latest/subsystems/typing-indicators.html
 
 	*/
@@ -514,7 +514,7 @@ type UsersAPI interface {
 			Notify other users whether the current user is editing a message.
 
 		Typing notifications for editing messages follow the same protocol as
-		[set-typing-status](zulip.com/api/set-typing-status, see that endpoint for
+		[set-typing-status](https://zulip.com/api/set-typing-status), see that endpoint for
 		details.
 
 		**Changes**: Before Zulip 10.0 (feature level 361), the endpoint was
@@ -534,7 +534,7 @@ type UsersAPI interface {
 	/*
 			UnmuteUser Unmute a user
 
-			[Unmute a user](zulip.com/help/mute-a-user#see-your-list-of-muted-users
+			[Unmute a user](https://zulip.com/help/mute-a-user#see-your-list-of-muted-users)
 		from the perspective of the requesting user.
 
 		**Changes**: New in Zulip 4.0 (feature level 48).
@@ -566,7 +566,7 @@ type UsersAPI interface {
 		minimize fetching duplicate user presence data.
 
 		Client apps implementing presence are recommended to also consume [`presence`
-		events](zulip.com/api/get-events#presence), in order to learn about newly online users
+		events](https://zulip.com/api/get-events#presence), in order to learn about newly online users
 		immediately.
 
 		The Zulip server is responsible for implementing [invisible mode][invisible],
@@ -580,9 +580,9 @@ type UsersAPI interface {
 		`true`, then user presence data in the response is [limited to users
 		the current user can see/access][limit-visibility].
 
-		[limit-visibility]: /help/guest-users#configure-whether-guests-can-see-all-other-users
-		[invisible]: /help/status-and-availability#invisible-mode
-		[availability]: /help/status-and-availability#availability
+		[limit-visibility]: https://zulip.com/help/guest-users#configure-whether-guests-can-see-all-other-users
+		[invisible]: https://zulip.com/help/status-and-availability#invisible-mode
+		[availability]: https://zulip.com/help/status-and-availability#availability
 
 	*/
 	UpdatePresence(ctx context.Context) UpdatePresenceRequest
@@ -629,7 +629,7 @@ type UsersAPI interface {
 		Before feature level 78, request parameters that were not supported
 		(or were unchanged) were silently ignored.
 
-		[ignored-parameters]: /api/rest-error-handling#ignored-parameters
+		[ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
 
 	*/
 	UpdateSettings(ctx context.Context) UpdateSettingsRequest
@@ -640,7 +640,7 @@ type UsersAPI interface {
 	/*
 			UpdateStatus Update your status
 
-			Change your [status](zulip.com/help/status-and-availability.
+			Change your [status](https://zulip.com/help/status-and-availability).
 
 		A request to this endpoint will only change the parameters passed.
 		For example, passing just `status_text` requests a change in the status
@@ -661,7 +661,7 @@ type UsersAPI interface {
 	/*
 			UpdateStatusForUser Update user status
 
-			Administrator endpoint for changing the [status](zulip.com/help/status-and-availability) of
+			Administrator endpoint for changing the [status](https://zulip.com/help/status-and-availability) of
 		another user.
 
 		**Changes**: New in Zulip 11.0 (feature level 407).
@@ -679,8 +679,8 @@ type UsersAPI interface {
 
 		Supports everything an administrator can do to edit details of another
 		user's account, including editing full name,
-		[role](zulip.com/help/user-roles, and [custom profile
-		fields](zulip.com/help/custom-profile-fields.
+		[role](https://zulip.com/help/user-roles), and [custom profile
+		fields](https://zulip.com/help/custom-profile-fields).
 
 	*/
 	UpdateUser(ctx context.Context, userId int64) UpdateUserRequest
@@ -692,7 +692,7 @@ type UsersAPI interface {
 			UpdateUserByEmail Update a user by email
 
 			Administrative endpoint to update the details of another user in the organization by their email address.
-		Works the same way as [`PATCH /users/{user_id}`](zulip.com/api/update-user) but fetching the target user by their
+		Works the same way as [`PATCH /users/{user_id}`](https://zulip.com/api/update-user) but fetching the target user by their
 		real email address.
 
 		The requester needs to have permission to view the target user's real email address, subject to the
@@ -711,7 +711,7 @@ type UsersAPI interface {
 			UpdateUserGroup Update a user group
 
 			Update the name, description or any of the permission settings
-		of a [user group](zulip.com/help/user-groups.
+		of a [user group](https://zulip.com/help/user-groups).
 
 		This endpoint is also used to reactivate a user group.
 
@@ -736,7 +736,7 @@ type UsersAPI interface {
 	/*
 			UpdateUserGroupMembers Update user group members
 
-			Update the members of a [user group](zulip.com/help/user-groups. The
+			Update the members of a [user group](https://zulip.com/help/user-groups). The
 		user Ids must correspond to non-deactivated users.
 
 		**Changes**: Prior to Zulip 11.0 (feature level 391), members
@@ -754,7 +754,7 @@ type UsersAPI interface {
 	/*
 			UpdateUserGroupSubgroups Update subgroups of a user group
 
-			Update the subgroups of a [user group](zulip.com/help/user-groups.
+			Update the subgroups of a [user group](https://zulip.com/help/user-groups).
 
 		**Changes**: Prior to Zulip 11.0 (feature level 391), subgroups
 		could not be added or removed from a deactivated group.
@@ -789,7 +789,7 @@ AddAlertWords Add alert words
 
 Add words (or phrases) to the user's set of configured [alert words][alert-words].
 
-[alert-words]: /help/dm-mention-alert-notifications#alert-words
+[alert-words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 */
 func (c *simpleClient) AddAlertWords(ctx context.Context) AddAlertWordsRequest {
 	return AddAlertWordsRequest{
@@ -1146,7 +1146,7 @@ Create a new user account via the API.
 **Changes**: Before Zulip 4.0 (feature level 36), this endpoint was
 available to all organization administrators.
 
-[support]: /help/contact-support
+[support]: https://zulip.com/help/contact-support
 [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 */
 func (c *simpleClient) CreateUser(ctx context.Context) CreateUserRequest {
@@ -1279,37 +1279,37 @@ func (r CreateUserGroupRequest) Subgroups(subgroups []int64) CreateUserGroupRequ
 	return r
 }
 
-// A [group-setting value][setting-values] defining the set of users who have permission to add members to this user group.  **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [setting-values]: /api/group-setting-values [system-groups]: /api/group-setting-values#system-groups
+// A [group-setting value][setting-values] defining the set of users who have permission to add members to this user group.  **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [setting-values]: https://zulip.com/api/group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canAddMembersGroup = &canAddMembersGroup
 	return r
 }
 
-// A [group-setting value][setting-values] defining the set of users who have permission to join this user group.  **Changes**: New in Zulip 10.0 (feature level 301).  [setting-values]: /api/group-setting-values [system-groups]: /api/group-setting-values#system-groups
+// A [group-setting value][setting-values] defining the set of users who have permission to join this user group.  **Changes**: New in Zulip 10.0 (feature level 301).  [setting-values]: https://zulip.com/api/group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canJoinGroup = &canJoinGroup
 	return r
 }
 
-// A [group-setting value][setting-values] defining the set of users who have permission to leave this user group.  **Changes**: New in Zulip 10.0 (feature level 308).  [setting-values]: /api/group-setting-values [system-groups]: /api/group-setting-values#system-groups
+// A [group-setting value][setting-values] defining the set of users who have permission to leave this user group.  **Changes**: New in Zulip 10.0 (feature level 308).  [setting-values]: https://zulip.com/api/group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canLeaveGroup = &canLeaveGroup
 	return r
 }
 
-// A [group-setting value][setting-values] defining the set of users who have permission to [manage this user group][manage-user-groups].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:everyone\\\&quot;&#x60; [system groups][system-groups].  **Changes**: New in Zulip 10.0 (feature level 283).  [setting-values]: /api/group-setting-values [system-groups]: /api/group-setting-values#system-groups [manage-user-groups]: /help/manage-user-groups
+// A [group-setting value][setting-values] defining the set of users who have permission to [manage this user group][manage-user-groups].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:everyone\\\&quot;&#x60; [system groups][system-groups].  **Changes**: New in Zulip 10.0 (feature level 283).  [setting-values]: https://zulip.com/api/group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups [manage-user-groups]: https://zulip.com/help/manage-user-groups
 func (r CreateUserGroupRequest) CanManageGroup(canManageGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canManageGroup = &canManageGroup
 	return r
 }
 
-// A [group-setting value][setting-values] defining the set of users who have permission to [mention this user group][mentions].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:owners\\\&quot;&#x60; [system groups][system-groups].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value][setting-values].  Before Zulip 8.0 (feature level 198), this parameter was named &#x60;can_mention_group_id&#x60;.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups][system-groups].  [setting-values]: /api/group-setting-values [system-groups]: /api/group-setting-values#system-groups [mentions]: /help/mention-a-user-or-group
+// A [group-setting value][setting-values] defining the set of users who have permission to [mention this user group][mentions].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:owners\\\&quot;&#x60; [system groups][system-groups].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value][setting-values].  Before Zulip 8.0 (feature level 198), this parameter was named &#x60;can_mention_group_id&#x60;.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups][system-groups].  [setting-values]: https://zulip.com/api/group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups [mentions]: https://zulip.com/help/mention-a-user-or-group
 func (r CreateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canMentionGroup = &canMentionGroup
 	return r
 }
 
-// A [group-setting value][setting-values] defining the set of users who have permission to remove members from this user group.  **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [setting-values]: /api/group-setting-values [system-groups]: /api/group-setting-values#system-groups
+// A [group-setting value][setting-values] defining the set of users who have permission to remove members from this user group.  **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [setting-values]: https://zulip.com/api/group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanRemoveMembersGroup(canRemoveMembersGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canRemoveMembersGroup = &canRemoveMembersGroup
 	return r
@@ -1322,7 +1322,7 @@ func (r CreateUserGroupRequest) Execute() (*CreateUserGroupResponse, *http.Respo
 /*
 CreateUserGroup Create a user group
 
-Create a new [user group](zulip.com/help/user-groups.
+Create a new [user group](https://zulip.com/help/user-groups).
 */
 func (c *simpleClient) CreateUserGroup(ctx context.Context) CreateUserGroupRequest {
 	return CreateUserGroupRequest{
@@ -1473,7 +1473,7 @@ func (r DeactivateOwnUserRequest) Execute() (*Response, *http.Response, error) {
 DeactivateOwnUser Deactivate own user
 
 Deactivates the current user's account. See also the administrative endpoint for
-[deactivating another user](zulip.com/api/deactivate-user.
+[deactivating another user](https://zulip.com/api/deactivate-user).
 
 This endpoint is primarily useful to Zulip clients providing a user settings UI.
 */
@@ -1783,7 +1783,7 @@ GetAlertWords Get all alert words
 
 Get all of the user's configured [alert words][alert-words].
 
-[alert-words]: /help/dm-mention-alert-notifications#alert-words
+[alert-words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 */
 func (c *simpleClient) GetAlertWords(ctx context.Context) GetAlertWordsRequest {
 	return GetAlertWordsRequest{
@@ -2182,7 +2182,7 @@ func (r GetUserRequest) ClientGravatar(clientGravatar bool) GetUserRequest {
 	return r
 }
 
-// Whether the client wants [custom profile field](zulip.com/help/custom-profile-fields) data to be included in the response.  **Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
+// Whether the client wants [custom profile field](https://zulip.com/help/custom-profile-fields) data to be included in the response.  **Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
 func (r GetUserRequest) IncludeCustomProfileFields(includeCustomProfileFields bool) GetUserRequest {
 	r.includeCustomProfileFields = &includeCustomProfileFields
 	return r
@@ -2197,8 +2197,8 @@ GetUser Get a user
 
 Fetch details for a single user in the organization.
 
-You can also fetch details on [all users in the organization](zulip.com/api/get-users
-or [by a user's Zulip API email](zulip.com/api/get-user-by-email.
+You can also fetch details on [all users in the organization](https://zulip.com/api/get-users)
+or [by a user's Zulip API email](https://zulip.com/api/get-user-by-email).
 
 **Changes**: New in Zulip 3.0 (feature level 1).
 */
@@ -2309,7 +2309,7 @@ func (r GetUserByEmailRequest) ClientGravatar(clientGravatar bool) GetUserByEmai
 	return r
 }
 
-// Whether the client wants [custom profile field](zulip.com/help/custom-profile-fields) data to be included in the response.  **Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
+// Whether the client wants [custom profile field](https://zulip.com/help/custom-profile-fields) data to be included in the response.  **Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
 func (r GetUserByEmailRequest) IncludeCustomProfileFields(includeCustomProfileFields bool) GetUserByEmailRequest {
 	r.includeCustomProfileFields = &includeCustomProfileFields
 	return r
@@ -2325,12 +2325,12 @@ GetUserByEmail Get a user by email
 Fetch details for a single user in the organization given a Zulip
 API email address.
 
-You can also fetch details on [all users in the organization](zulip.com/api/get-users
-or [by user Id](zulip.com/api/get-user.
+You can also fetch details on [all users in the organization](https://zulip.com/api/get-users)
+or [by user Id](https://zulip.com/api/get-user).
 
 Fetching by user Id is generally recommended when possible,
-as a user might [change their email address](zulip.com/help/change-your-email-address
-or change their [email address visibility](zulip.com/help/configure-email-visibility,
+as a user might [change their email address](https://zulip.com/help/change-your-email-address)
+or change their [email address visibility](https://zulip.com/help/configure-email-visibility),
 either of which could change the client's ability to look them up by that
 email address.
 
@@ -2456,7 +2456,7 @@ func (r GetUserGroupMembersRequest) Execute() (*GetUserGroupMembersResponse, *ht
 /*
 GetUserGroupMembers Get user group members
 
-Get the members of a [user group](zulip.com/help/user-groups.
+Get the members of a [user group](https://zulip.com/help/user-groups).
 
 **Changes**: New in Zulip 6.0 (feature level 127).
 */
@@ -2564,7 +2564,7 @@ func (r GetUserGroupSubgroupsRequest) Execute() (*GetUserGroupSubgroupsResponse,
 /*
 GetUserGroupSubgroups Get subgroups of a user group
 
-Get the subgroups of a [user group](zulip.com/help/user-groups.
+Get the subgroups of a [user group](https://zulip.com/help/user-groups).
 
 **Changes**: New in Zulip 6.0 (feature level 127).
 */
@@ -2679,7 +2679,7 @@ Fetches all of the user groups in the organization.
 !!! warn ""
 
 	**Note**: This endpoint is only available to [members and
-	administrators](zulip.com/help/user-roles; bots and guests
+	administrators](https://zulip.com/help/user-roles; bots and guests
 	cannot use this endpoint.
 */
 func (c *simpleClient) GetUserGroups(ctx context.Context) GetUserGroupsRequest {
@@ -2782,7 +2782,7 @@ Get the presence status for a specific user.
 This endpoint is most useful for embedding data about a user's
 presence status in other sites (e.g. an employee directory). Full
 Zulip clients like mobile/desktop apps will want to use the [main
-presence endpoint](zulip.com/api/get-presence, which returns data for all
+presence endpoint](https://zulip.com/api/get-presence), which returns data for all
 active users in the organization, instead.
 */
 func (c *simpleClient) GetUserPresence(ctx context.Context, userIdOrEmail string) GetUserPresenceRequest {
@@ -2879,12 +2879,12 @@ func (r GetUserStatusRequest) Execute() (*GetUserStatusResponse, *http.Response,
 /*
 GetUserStatus Get a user's status
 
-Get the [status](zulip.com/help/status-and-availability) currently set by a
+Get the [status](https://zulip.com/help/status-and-availability) currently set by a
 user in the organization.
 
 **Changes**: New in Zulip 9.0 (feature level 262). Previously,
 user statuses could only be fetched via the [`POST
-/register`](zulip.com/api/register-queue) endpoint.
+/register`](https://zulip.com/api/register-queue) endpoint.
 */
 func (c *simpleClient) GetUserStatus(ctx context.Context, userId int64) GetUserStatusRequest {
 	return GetUserStatusRequest{
@@ -2981,7 +2981,7 @@ func (r GetUsersRequest) ClientGravatar(clientGravatar bool) GetUsersRequest {
 	return r
 }
 
-// Whether the client wants [custom profile field](zulip.com/help/custom-profile-fields) data to be included in the response.  **Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
+// Whether the client wants [custom profile field](https://zulip.com/help/custom-profile-fields) data to be included in the response.  **Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
 func (r GetUsersRequest) IncludeCustomProfileFields(includeCustomProfileFields bool) GetUsersRequest {
 	r.includeCustomProfileFields = &includeCustomProfileFields
 	return r
@@ -3006,13 +3006,13 @@ By default, returns all accessible users in the organization.
 The `user_ids` query parameter can be used to limit the
 results to a specific set of user Ids.
 
-Optionally includes values of [custom profile fields](zulip.com/help/custom-profile-fields.
+Optionally includes values of [custom profile fields](https://zulip.com/help/custom-profile-fields).
 
-You can also [fetch details on a single user](zulip.com/api/get-user.
+You can also [fetch details on a single user](https://zulip.com/api/get-user).
 
 **Changes**: This endpoint did not support unauthenticated
 access in organizations using the [public access
-option](zulip.com/help/public-access-option) prior to Zulip 11.0
+option](https://zulip.com/help/public-access-option) prior to Zulip 11.0
 (feature level 387).
 */
 func (c *simpleClient) GetUsers(ctx context.Context) GetUsersRequest {
@@ -3122,7 +3122,7 @@ func (r MuteUserRequest) Execute() (*Response, *http.Response, error) {
 /*
 MuteUser Mute a user
 
-[Mute a user](zulip.com/help/mute-a-user) from the perspective of the requesting
+[Mute a user](https://zulip.com/help/mute-a-user) from the perspective of the requesting
 user. Messages sent by muted users will be automatically marked as read
 and hidden for the user who muted them.
 
@@ -3355,7 +3355,7 @@ Remove words (or phrases) from the user's set of configured [alert words][alert-
 
 Alert words are case insensitive.
 
-[alert-words]: /help/dm-mention-alert-notifications#alert-words
+[alert-words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 */
 func (c *simpleClient) RemoveAlertWords(ctx context.Context) RemoveAlertWordsRequest {
 	return RemoveAlertWordsRequest{
@@ -3562,12 +3562,12 @@ Delete an uploaded file given its attachment Id.
 Note that uploaded files that have been referenced in at least
 one message are automatically deleted once the last message
 containing a link to them is deleted (whether directly or via
-a [message retention policy](zulip.com/help/message-retention-policy).
+a [message retention policy](https://zulip.com/help/message-retention-policy).
 
 Uploaded files that are never used in a message are
 automatically deleted a few weeks after being uploaded.
 
-Attachment Ids can be contained from [GET /attachments](zulip.com/api/get-attachments.
+Attachment Ids can be contained from [GET /attachments](https://zulip.com/api/get-attachments).
 */
 func (c *simpleClient) RemoveAttachment(ctx context.Context, attachmentId int64) RemoveAttachmentRequest {
 	return RemoveAttachmentRequest{
@@ -3788,7 +3788,7 @@ func (r SetTypingStatusRequest) ChannelId(channelId int64) SetTypingStatusReques
 	return r
 }
 
-// Topic to which message is being typed. Required for the &#x60;\\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;channel\\\&quot;&#x60; type. Ignored in the case of &#x60;\\\&quot;direct\\\&quot;&#x60; type.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 372), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
+// Topic to which message is being typed. Required for the &#x60;\\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;channel\\\&quot;&#x60; type. Ignored in the case of &#x60;\\\&quot;direct\\\&quot;&#x60; type.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](https://zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  **Changes**: Before Zulip 10.0 (feature level 372), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 func (r SetTypingStatusRequest) Topic(topic string) SetTypingStatusRequest {
 	r.topic = &topic
 	return r
@@ -3849,11 +3849,11 @@ processing channel typing notifications via the `stream_typing_notifications`
 value in the `client_capabilities` parameter of the
 [`POST /register`][client-capabilities] endpoint.
 
-[help-typing]: /help/typing-notifications
-[api-register]: /api/register-queue
-[start-typing]: /api/get-events#typing-start
-[stop-typing]: /api/get-events#typing-stop
-[client-capabilities]: /api/register-queue#parameter-client_capabilities
+[help-typing]: https://zulip.com/help/typing-notifications
+[api-register]: https://zulip.com/api/register-queue
+[start-typing]: https://zulip.com/api/get-events#typing-start
+[stop-typing]: https://zulip.com/api/get-events#typing-stop
+[client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 [typing-protocol-docs]: https://zulip.readthedocs.io/en/latest/subsystems/typing-indicators.html
 */
 func (c *simpleClient) SetTypingStatus(ctx context.Context) SetTypingStatusRequest {
@@ -3978,7 +3978,7 @@ SetTypingStatusForMessageEdit Set \"typing\" status for message editing
 Notify other users whether the current user is editing a message.
 
 Typing notifications for editing messages follow the same protocol as
-[set-typing-status](zulip.com/api/set-typing-status, see that endpoint for
+[set-typing-status](https://zulip.com/api/set-typing-status), see that endpoint for
 details.
 
 **Changes**: Before Zulip 10.0 (feature level 361), the endpoint was
@@ -4087,7 +4087,7 @@ func (r UnmuteUserRequest) Execute() (*Response, *http.Response, error) {
 /*
 UnmuteUser Unmute a user
 
-[Unmute a user](zulip.com/help/mute-a-user#see-your-list-of-muted-users
+[Unmute a user](https://zulip.com/help/mute-a-user#see-your-list-of-muted-users)
 from the perspective of the requesting user.
 
 **Changes**: New in Zulip 4.0 (feature level 48).
@@ -4190,7 +4190,7 @@ func (r UpdatePresenceRequest) Status(status PresenceStatus) UpdatePresenceReque
 	return r
 }
 
-// The identifier that specifies what presence data the client already has received, which allows the server to only return more recent user presence data.  This should be set to &#x60;-1&#x60; during initialization of the client in order to fetch all user presence data, unless the client is obtaining initial user presence metadata from the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint.  In subsequent queries to this endpoint, this value should be set to the most recent value of &#x60;presence_last_update_id&#x60; returned by the server in this endpoint&#39;s response, which implements incremental fetching of user presence data.  When this parameter is passed, the user presence data in the response will always be in the modern format.  **Changes**: New in Zulip 9.0 (feature level 263). Previously, the server sent user presence data for all users who had been active in the last two weeks unconditionally.
+// The identifier that specifies what presence data the client already has received, which allows the server to only return more recent user presence data.  This should be set to &#x60;-1&#x60; during initialization of the client in order to fetch all user presence data, unless the client is obtaining initial user presence metadata from the [&#x60;POST /register&#x60;](https://zulip.com/api/register-queue) endpoint.  In subsequent queries to this endpoint, this value should be set to the most recent value of &#x60;presence_last_update_id&#x60; returned by the server in this endpoint&#39;s response, which implements incremental fetching of user presence data.  When this parameter is passed, the user presence data in the response will always be in the modern format.  **Changes**: New in Zulip 9.0 (feature level 263). Previously, the server sent user presence data for all users who had been active in the last two weeks unconditionally.
 func (r UpdatePresenceRequest) LastUpdateId(lastUpdateId int64) UpdatePresenceRequest {
 	r.lastUpdateId = &lastUpdateId
 	return r
@@ -4202,7 +4202,7 @@ func (r UpdatePresenceRequest) HistoryLimitDays(historyLimitDays int32) UpdatePr
 	return r
 }
 
-// Whether the user has interacted with the client (e.g. moved the mouse, used the keyboard, etc.) since the previous presence request from this client.  The server uses data from this parameter to implement certain [usage statistics](zulip.com/help/analytics.  User interface clients that might run in the background, without the user ever interacting with them, should be careful to only pass &#x60;true&#x60; if the user has actually interacted with the client in order to avoid corrupting usage statistics graphs.
+// Whether the user has interacted with the client (e.g. moved the mouse, used the keyboard, etc.) since the previous presence request from this client.  The server uses data from this parameter to implement certain [usage statistics](https://zulip.com/help/analytics).  User interface clients that might run in the background, without the user ever interacting with them, should be careful to only pass &#x60;true&#x60; if the user has actually interacted with the client in order to avoid corrupting usage statistics graphs.
 func (r UpdatePresenceRequest) NewUserInput(newUserInput bool) UpdatePresenceRequest {
 	r.newUserInput = &newUserInput
 	return r
@@ -4245,7 +4245,7 @@ use the modern [`last_update_id`](#parameter-last_update_id) protocol to
 minimize fetching duplicate user presence data.
 
 Client apps implementing presence are recommended to also consume [`presence`
-events](zulip.com/api/get-events#presence), in order to learn about newly online users
+events](https://zulip.com/api/get-events#presence), in order to learn about newly online users
 immediately.
 
 The Zulip server is responsible for implementing [invisible mode][invisible],
@@ -4259,9 +4259,9 @@ sharing their presence information.
 `true`, then user presence data in the response is [limited to users
 the current user can see/access][limit-visibility].
 
-[limit-visibility]: /help/guest-users#configure-whether-guests-can-see-all-other-users
-[invisible]: /help/status-and-availability#invisible-mode
-[availability]: /help/status-and-availability#availability
+[limit-visibility]: https://zulip.com/help/guest-users#configure-whether-guests-can-see-all-other-users
+[invisible]: https://zulip.com/help/status-and-availability#invisible-mode
+[availability]: https://zulip.com/help/status-and-availability#availability
 */
 func (c *simpleClient) UpdatePresence(ctx context.Context) UpdatePresenceRequest {
 	return UpdatePresenceRequest{
@@ -4457,7 +4457,7 @@ func (r UpdateSettingsRequest) NewPassword(newPassword string) UpdateSettingsReq
 	return r
 }
 
-// Whether time should be [displayed in 24-hour notation](zulip.com/help/change-the-time-format.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
+// Whether time should be [displayed in 24-hour notation](https://zulip.com/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
 func (r UpdateSettingsRequest) TwentyFourHourTime(twentyFourHourTime bool) UpdateSettingsRequest {
 	r.twentyFourHourTime = &twentyFourHourTime
 	return r
@@ -4475,7 +4475,7 @@ func (r UpdateSettingsRequest) WebChannelDefaultView(webChannelDefaultView int32
 	return r
 }
 
-// Whether clients should display the [number of starred messages](zulip.com/help/star-a-message#display-the-number-of-starred-messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
+// Whether clients should display the [number of starred messages](https://zulip.com/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
 func (r UpdateSettingsRequest) StarredMessageCounts(starredMessageCounts bool) UpdateSettingsRequest {
 	r.starredMessageCounts = &starredMessageCounts
 	return r
@@ -4487,13 +4487,13 @@ func (r UpdateSettingsRequest) ReceivesTypingNotifications(receivesTypingNotific
 	return r
 }
 
-// Whether the user should be shown an alert, offering to update their [profile time zone](zulip.com/help/change-your-timezone, when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.  **Changes**: New in Zulip 10.0 (feature level 329).
+// Whether the user should be shown an alert, offering to update their [profile time zone](https://zulip.com/help/change-your-timezone), when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.  **Changes**: New in Zulip 10.0 (feature level 329).
 func (r UpdateSettingsRequest) WebSuggestUpdateTimezone(webSuggestUpdateTimezone bool) UpdateSettingsRequest {
 	r.webSuggestUpdateTimezone = &webSuggestUpdateTimezone
 	return r
 }
 
-// Whether to use the [maximum available screen width](zulip.com/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent conversations) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
+// Whether to use the [maximum available screen width](https://zulip.com/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent conversations) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
 func (r UpdateSettingsRequest) FluidLayoutWidth(fluidLayoutWidth bool) UpdateSettingsRequest {
 	r.fluidLayoutWidth = &fluidLayoutWidth
 	return r
@@ -4517,7 +4517,7 @@ func (r UpdateSettingsRequest) WebLineHeightPercent(webLineHeightPercent int32) 
 	return r
 }
 
-// Controls which [color theme](zulip.com/help/dark-theme) to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
+// Controls which [color theme](https://zulip.com/help/dark-theme) to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
 func (r UpdateSettingsRequest) ColorScheme(colorScheme ColorScheme) UpdateSettingsRequest {
 	r.colorScheme = &colorScheme
 	return r
@@ -4529,7 +4529,7 @@ func (r UpdateSettingsRequest) EnableDraftsSynchronization(enableDraftsSynchroni
 	return r
 }
 
-// Whether to [translate emoticons to emoji](zulip.com/help/configure-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
+// Whether to [translate emoticons to emoji](https://zulip.com/help/configure-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
 func (r UpdateSettingsRequest) TranslateEmoticons(translateEmoticons bool) UpdateSettingsRequest {
 	r.translateEmoticons = &translateEmoticons
 	return r
@@ -4541,19 +4541,19 @@ func (r UpdateSettingsRequest) DisplayEmojiReactionUsers(displayEmojiReactionUse
 	return r
 }
 
-// What [default language](zulip.com/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\\\&quot;en\\\&quot;&#x60; for English or &#x60;\\\&quot;de\\\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).
+// What [default language](https://zulip.com/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\\\&quot;en\\\&quot;&#x60; for English or &#x60;\\\&quot;de\\\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).
 func (r UpdateSettingsRequest) DefaultLanguage(defaultLanguage string) UpdateSettingsRequest {
 	r.defaultLanguage = &defaultLanguage
 	return r
 }
 
-// The [home view](zulip.com/help/configure-home-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  - \\\&quot;recent_topics\\\&quot; - Recent conversations view - \\\&quot;inbox\\\&quot; - Inbox view - \\\&quot;all_messages\\\&quot; - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;default_view&#x60;, which was new in Zulip 4.0 (feature level 42).  Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
+// The [home view](https://zulip.com/help/configure-home-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  - \\\&quot;recent_topics\\\&quot; - Recent conversations view - \\\&quot;inbox\\\&quot; - Inbox view - \\\&quot;all_messages\\\&quot; - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;default_view&#x60;, which was new in Zulip 4.0 (feature level 42).  Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
 func (r UpdateSettingsRequest) WebHomeView(webHomeView string) UpdateSettingsRequest {
 	r.webHomeView = &webHomeView
 	return r
 }
 
-// Whether the escape key navigates to the [configured home view](zulip.com/help/configure-home-view.  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;escape_navigates_to_default_view&#x60;, which was new in Zulip 5.0 (feature level 107).
+// Whether the escape key navigates to the [configured home view](https://zulip.com/help/configure-home-view).  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called &#x60;escape_navigates_to_default_view&#x60;, which was new in Zulip 5.0 (feature level 107).
 func (r UpdateSettingsRequest) WebEscapeNavigatesToHomeView(webEscapeNavigatesToHomeView bool) UpdateSettingsRequest {
 	r.webEscapeNavigatesToHomeView = &webEscapeNavigatesToHomeView
 	return r
@@ -4565,13 +4565,13 @@ func (r UpdateSettingsRequest) LeftSideUserlist(leftSideUserlist bool) UpdateSet
 	return r
 }
 
-// The user&#39;s configured [emoji set](zulip.com/help/emoji-and-emoticons#use-emoticons, used to display emoji to the user everywhere they appear in the UI.  - \\\&quot;google\\\&quot; - Google modern - \\\&quot;google-blob\\\&quot; - Google classic - \\\&quot;twitter\\\&quot; - Twitter - \\\&quot;text\\\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
+// The user&#39;s configured [emoji set](https://zulip.com/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everywhere they appear in the UI.  - \\\&quot;google\\\&quot; - Google modern - \\\&quot;google-blob\\\&quot; - Google classic - \\\&quot;twitter\\\&quot; - Twitter - \\\&quot;text\\\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
 func (r UpdateSettingsRequest) Emojiset(emojiset string) UpdateSettingsRequest {
 	r.emojiset = &emojiset
 	return r
 }
 
-// Whether to [hide inactive channels](zulip.com/help/manage-inactive-channels) in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
+// Whether to [hide inactive channels](https://zulip.com/help/manage-inactive-channels) in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.
 func (r UpdateSettingsRequest) DemoteInactiveChannels(demoteInactiveChannels int32) UpdateSettingsRequest {
 	r.demoteInactiveChannels = &demoteInactiveChannels
 	return r
@@ -4613,7 +4613,7 @@ func (r UpdateSettingsRequest) WebLeftSidebarUnreadsCountSummary(webLeftSidebarU
 	return r
 }
 
-// The IANA identifier of the user&#39;s [profile time zone](zulip.com/help/change-your-timezone, which is used primarily to display the user&#39;s local time to other users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
+// The IANA identifier of the user&#39;s [profile time zone](https://zulip.com/help/change-your-timezone), which is used primarily to display the user&#39;s local time to other users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
 func (r UpdateSettingsRequest) Timezone(timezone string) UpdateSettingsRequest {
 	r.timezone = &timezone
 	return r
@@ -4757,19 +4757,19 @@ func (r UpdateSettingsRequest) DesktopIconCountDisplay(desktopIconCountDisplay i
 	return r
 }
 
-// Whether to [include organization name in subject of message notification emails](zulip.com/help/email-notifications#include-organization-name-in-subject-line.  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous &#x60;realm_name_in_notifications&#x60; boolean; &#x60;true&#x60; corresponded to &#x60;Always&#x60;, and &#x60;false&#x60; to &#x60;Never&#x60;.  Before Zulip 5.0 (feature level 80), the previous &#x60;realm_name_in_notifications&#x60; setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.
+// Whether to [include organization name in subject of message notification emails](https://zulip.com/help/email-notifications#include-organization-name-in-subject-line).  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous &#x60;realm_name_in_notifications&#x60; boolean; &#x60;true&#x60; corresponded to &#x60;Always&#x60;, and &#x60;false&#x60; to &#x60;Never&#x60;.  Before Zulip 5.0 (feature level 80), the previous &#x60;realm_name_in_notifications&#x60; setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.
 func (r UpdateSettingsRequest) RealmNameInEmailNotificationsPolicy(realmNameInEmailNotificationsPolicy int32) UpdateSettingsRequest {
 	r.realmNameInEmailNotificationsPolicy = &realmNameInEmailNotificationsPolicy
 	return r
 }
 
-// Which [topics to follow automatically](zulip.com/help/mute-a-topic.  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
+// Which [topics to follow automatically](https://zulip.com/help/mute-a-topic).  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
 func (r UpdateSettingsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy int32) UpdateSettingsRequest {
 	r.automaticallyFollowTopicsPolicy = &automaticallyFollowTopicsPolicy
 	return r
 }
 
-// Which [topics to unmute automatically in muted channels](zulip.com/help/mute-a-topic.  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
+// Which [topics to unmute automatically in muted channels](https://zulip.com/help/mute-a-topic).  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
 func (r UpdateSettingsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy int32) UpdateSettingsRequest {
 	r.automaticallyUnmuteTopicsInMutedChannelsPolicy = &automaticallyUnmuteTopicsInMutedChannelsPolicy
 	return r
@@ -4799,13 +4799,13 @@ func (r UpdateSettingsRequest) EnterSends(enterSends bool) UpdateSettingsRequest
 	return r
 }
 
-// Whether [typing notifications](zulip.com/help/typing-notifications) be sent when composing direct messages.  **Changes**: New in Zulip 5.0 (feature level 105).
+// Whether [typing notifications](https://zulip.com/help/typing-notifications) be sent when composing direct messages.  **Changes**: New in Zulip 5.0 (feature level 105).
 func (r UpdateSettingsRequest) SendPrivateTypingNotifications(sendPrivateTypingNotifications bool) UpdateSettingsRequest {
 	r.sendPrivateTypingNotifications = &sendPrivateTypingNotifications
 	return r
 }
 
-// Whether [typing notifications](zulip.com/help/typing-notifications) be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105).
+// Whether [typing notifications](https://zulip.com/help/typing-notifications) be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105).
 func (r UpdateSettingsRequest) SendChannelTypingNotifications(sendChannelTypingNotifications bool) UpdateSettingsRequest {
 	r.sendChannelTypingNotifications = &sendChannelTypingNotifications
 	return r
@@ -4823,7 +4823,7 @@ func (r UpdateSettingsRequest) AllowPrivateDataExport(allowPrivateDataExport boo
 	return r
 }
 
-// The [policy][permission-level] this user has selected for [which other users][help-email-visibility] in this organization can see their real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.  [permission-level]: /api/roles-and-permissions#permission-levels [help-email-visibility]: /help/configure-email-visibility
+// The [policy][permission-level] this user has selected for [which other users][help-email-visibility] in this organization can see their real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.  [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels [help-email-visibility]: https://zulip.com/help/configure-email-visibility
 func (r UpdateSettingsRequest) EmailAddressVisibility(emailAddressVisibility int32) UpdateSettingsRequest {
 	r.emailAddressVisibility = &emailAddressVisibility
 	return r
@@ -4878,7 +4878,7 @@ feature level 80 change above).
 Before feature level 78, request parameters that were not supported
 (or were unchanged) were silently ignored.
 
-[ignored-parameters]: /api/rest-error-handling#ignored-parameters
+[ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
 */
 func (c *simpleClient) UpdateSettings(ctx context.Context) UpdateSettingsRequest {
 	return UpdateSettingsRequest{
@@ -5194,7 +5194,7 @@ func (r UpdateStatusRequest) EmojiCode(emojiCode string) UpdateStatusRequest {
 	return r
 }
 
-// A string indicating the type of emoji. Each emoji &#x60;reaction_type&#x60; has an independent namespace for values of &#x60;emoji_code&#x60;.  Must be one of the following values:  - &#x60;unicode_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - &#x60;realm_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be the Id of   the uploaded [custom emoji](zulip.com/help/custom-emoji.  - &#x60;zulip_extra_emoji&#x60; : These are special emoji included with Zulip.   In this namespace, &#x60;emoji_code&#x60; will be the name of the emoji (e.g.   \\\&quot;zulip\\\&quot;).  **Changes**: New in Zulip 5.0 (feature level 86).
+// A string indicating the type of emoji. Each emoji &#x60;reaction_type&#x60; has an independent namespace for values of &#x60;emoji_code&#x60;.  Must be one of the following values:  - &#x60;unicode_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - &#x60;realm_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be the Id of   the uploaded [custom emoji](https://zulip.com/help/custom-emoji).  - &#x60;zulip_extra_emoji&#x60; : These are special emoji included with Zulip.   In this namespace, &#x60;emoji_code&#x60; will be the name of the emoji (e.g.   \\\&quot;zulip\\\&quot;).  **Changes**: New in Zulip 5.0 (feature level 86).
 func (r UpdateStatusRequest) ReactionType(reactionType string) UpdateStatusRequest {
 	r.reactionType = &reactionType
 	return r
@@ -5207,7 +5207,7 @@ func (r UpdateStatusRequest) Execute() (*Response, *http.Response, error) {
 /*
 UpdateStatus Update your status
 
-Change your [status](zulip.com/help/status-and-availability.
+Change your [status](https://zulip.com/help/status-and-availability).
 
 A request to this endpoint will only change the parameters passed.
 For example, passing just `status_text` requests a change in the status
@@ -5341,7 +5341,7 @@ func (r UpdateStatusForUserRequest) EmojiCode(emojiCode string) UpdateStatusForU
 	return r
 }
 
-// A string indicating the type of emoji. Each emoji &#x60;reaction_type&#x60; has an independent namespace for values of &#x60;emoji_code&#x60;.  Must be one of the following values:  - &#x60;unicode_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - &#x60;realm_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be the Id of   the uploaded [custom emoji](zulip.com/help/custom-emoji.  - &#x60;zulip_extra_emoji&#x60; : These are special emoji included with Zulip.   In this namespace, &#x60;emoji_code&#x60; will be the name of the emoji (e.g.   \\\&quot;zulip\\\&quot;).  **Changes**: New in Zulip 5.0 (feature level 86).
+// A string indicating the type of emoji. Each emoji &#x60;reaction_type&#x60; has an independent namespace for values of &#x60;emoji_code&#x60;.  Must be one of the following values:  - &#x60;unicode_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - &#x60;realm_emoji&#x60; : In this namespace, &#x60;emoji_code&#x60; will be the Id of   the uploaded [custom emoji](https://zulip.com/help/custom-emoji).  - &#x60;zulip_extra_emoji&#x60; : These are special emoji included with Zulip.   In this namespace, &#x60;emoji_code&#x60; will be the name of the emoji (e.g.   \\\&quot;zulip\\\&quot;).  **Changes**: New in Zulip 5.0 (feature level 86).
 func (r UpdateStatusForUserRequest) ReactionType(reactionType string) UpdateStatusForUserRequest {
 	r.reactionType = &reactionType
 	return r
@@ -5354,7 +5354,7 @@ func (r UpdateStatusForUserRequest) Execute() (*Response, *http.Response, error)
 /*
 UpdateStatusForUser Update user status
 
-Administrator endpoint for changing the [status](zulip.com/help/status-and-availability) of
+Administrator endpoint for changing the [status](https://zulip.com/help/status-and-availability) of
 another user.
 
 **Changes**: New in Zulip 11.0 (feature level 407).
@@ -5468,7 +5468,7 @@ func (r UpdateUserRequest) FullName(fullName string) UpdateUserRequest {
 	return r
 }
 
-// New [role](zulip.com/api/roles-and-permissions) for the user. Roles are encoded as:  - Organization owner: 100 - Organization administrator: 200 - Organization moderator: 300 - Member: 400 - Guest: 600  Only organization owners can add or remove the owner role.  The owner role cannot be removed from the only organization owner.  **Changes**: New in Zulip 3.0 (feature level 8), replacing the previous pair of &#x60;is_admin&#x60; and &#x60;is_guest&#x60; boolean parameters. Organization moderator role added in Zulip 4.0 (feature level 60).
+// New [role](https://zulip.com/api/roles-and-permissions) for the user. Roles are encoded as:  - Organization owner: 100 - Organization administrator: 200 - Organization moderator: 300 - Member: 400 - Guest: 600  Only organization owners can add or remove the owner role.  The owner role cannot be removed from the only organization owner.  **Changes**: New in Zulip 3.0 (feature level 8), replacing the previous pair of &#x60;is_admin&#x60; and &#x60;is_guest&#x60; boolean parameters. Organization moderator role added in Zulip 4.0 (feature level 60).
 func (r UpdateUserRequest) Role(role Role) UpdateUserRequest {
 	r.role = &role
 	return r
@@ -5497,8 +5497,8 @@ Administrative endpoint to update the details of another user in the organizatio
 
 Supports everything an administrator can do to edit details of another
 user's account, including editing full name,
-[role](zulip.com/help/user-roles, and [custom profile
-fields](zulip.com/help/custom-profile-fields.
+[role](https://zulip.com/help/user-roles), and [custom profile
+fields](https://zulip.com/help/custom-profile-fields).
 */
 func (c *simpleClient) UpdateUser(ctx context.Context, userId int64) UpdateUserRequest {
 	return UpdateUserRequest{
@@ -5609,7 +5609,7 @@ func (r UpdateUserByEmailRequest) FullName(fullName string) UpdateUserByEmailReq
 	return r
 }
 
-// New [role](zulip.com/api/roles-and-permissions) for the user. Roles are encoded as:  - Organization owner: 100 - Organization administrator: 200 - Organization moderator: 300 - Member: 400 - Guest: 600  Only organization owners can add or remove the owner role.  The owner role cannot be removed from the only organization owner.  **Changes**: New in Zulip 3.0 (feature level 8), replacing the previous pair of &#x60;is_admin&#x60; and &#x60;is_guest&#x60; boolean parameters. Organization moderator role added in Zulip 4.0 (feature level 60).
+// New [role](https://zulip.com/api/roles-and-permissions) for the user. Roles are encoded as:  - Organization owner: 100 - Organization administrator: 200 - Organization moderator: 300 - Member: 400 - Guest: 600  Only organization owners can add or remove the owner role.  The owner role cannot be removed from the only organization owner.  **Changes**: New in Zulip 3.0 (feature level 8), replacing the previous pair of &#x60;is_admin&#x60; and &#x60;is_guest&#x60; boolean parameters. Organization moderator role added in Zulip 4.0 (feature level 60).
 func (r UpdateUserByEmailRequest) Role(role int32) UpdateUserByEmailRequest {
 	r.role = &role
 	return r
@@ -5635,7 +5635,7 @@ func (r UpdateUserByEmailRequest) Execute() (*Response, *http.Response, error) {
 UpdateUserByEmail Update a user by email
 
 Administrative endpoint to update the details of another user in the organization by their email address.
-Works the same way as [`PATCH /users/{user_id}`](zulip.com/api/update-user) but fetching the target user by their
+Works the same way as [`PATCH /users/{user_id}`](https://zulip.com/api/update-user) but fetching the target user by their
 real email address.
 
 The requester needs to have permission to view the target user's real email address, subject to the
@@ -5764,37 +5764,37 @@ func (r UpdateUserGroupRequest) Description(description string) UpdateUserGroupR
 	return r
 }
 
-// The set of users who have permission to add members to this user group expressed as an [update to a group-setting value][update-group-setting].  **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [update-group-setting]: /api/group-setting-values#updating-group-setting-values [system-groups]: /api/group-setting-values#system-groups
+// The set of users who have permission to add members to this user group expressed as an [update to a group-setting value][update-group-setting].  **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canAddMembersGroup = &canAddMembersGroup
 	return r
 }
 
-// The set of users who have permission to join this user group expressed as an [update to a group-setting value][update-group-setting].  **Changes**: New in Zulip 10.0 (feature level 301).  [update-group-setting]: /api/group-setting-values#updating-group-setting-values [system-groups]: /api/group-setting-values#system-groups
+// The set of users who have permission to join this user group expressed as an [update to a group-setting value][update-group-setting].  **Changes**: New in Zulip 10.0 (feature level 301).  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canJoinGroup = &canJoinGroup
 	return r
 }
 
-// The set of users who have permission to leave this user group expressed as an [update to a group-setting value][update-group-setting].  **Changes**: New in Zulip 10.0 (feature level 308).  [update-group-setting]: /api/group-setting-values#updating-group-setting-values [system-groups]: /api/group-setting-values#system-groups
+// The set of users who have permission to leave this user group expressed as an [update to a group-setting value][update-group-setting].  **Changes**: New in Zulip 10.0 (feature level 308).  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canLeaveGroup = &canLeaveGroup
 	return r
 }
 
-// The set of users who have permission to [manage this user group][manage-user-groups] expressed as an [update to a group-setting value][update-group-setting].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:everyone\\\&quot;&#x60; [system groups][system-groups].  **Changes**: New in Zulip 10.0 (feature level 283).  [update-group-setting]: /api/group-setting-values#updating-group-setting-values [system-groups]: /api/group-setting-values#system-groups [manage-user-groups]: /help/manage-user-groups
+// The set of users who have permission to [manage this user group][manage-user-groups] expressed as an [update to a group-setting value][update-group-setting].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:everyone\\\&quot;&#x60; [system groups][system-groups].  **Changes**: New in Zulip 10.0 (feature level 283).  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups [manage-user-groups]: https://zulip.com/help/manage-user-groups
 func (r UpdateUserGroupRequest) CanManageGroup(canManageGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canManageGroup = &canManageGroup
 	return r
 }
 
-// The set of users who have permission to [mention this group][mentions], expressed as an [update to a group-setting value][update-group-setting].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:owners\\\&quot;&#x60; [system groups][system-groups].  **Changes**: In Zulip 9.0 (feature level 260), this parameter was updated to only accept an object with the &#x60;old&#x60; and &#x60;new&#x60; fields described below. Prior to this feature level, this parameter could be either of the two forms of a [group-setting value][setting-values].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value][setting-values].  Before Zulip 8.0 (feature level 198), this parameter was named &#x60;can_mention_group_id&#x60;.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups][system-groups].  [mentions]: /help/mention-a-user-or-group [update-group-setting]: /api/group-setting-values#updating-group-setting-values [system-groups]: /api/group-setting-values#system-groups [setting-values]: /api/group-setting-values
+// The set of users who have permission to [mention this group][mentions], expressed as an [update to a group-setting value][update-group-setting].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:owners\\\&quot;&#x60; [system groups][system-groups].  **Changes**: In Zulip 9.0 (feature level 260), this parameter was updated to only accept an object with the &#x60;old&#x60; and &#x60;new&#x60; fields described below. Prior to this feature level, this parameter could be either of the two forms of a [group-setting value][setting-values].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value][setting-values].  Before Zulip 8.0 (feature level 198), this parameter was named &#x60;can_mention_group_id&#x60;.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups][system-groups].  [mentions]: https://zulip.com/help/mention-a-user-or-group [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups [setting-values]: https://zulip.com/api/group-setting-values
 func (r UpdateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canMentionGroup = &canMentionGroup
 	return r
 }
 
-// The set of users who have permission to remove members from this user group expressed as an [update to a group-setting value][update-group-setting].  **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [update-group-setting]: /api/group-setting-values#updating-group-setting-values [system-groups]: /api/group-setting-values#system-groups
+// The set of users who have permission to remove members from this user group expressed as an [update to a group-setting value][update-group-setting].  **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanRemoveMembersGroup(canRemoveMembersGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canRemoveMembersGroup = &canRemoveMembersGroup
 	return r
@@ -5814,7 +5814,7 @@ func (r UpdateUserGroupRequest) Execute() (*Response, *http.Response, error) {
 UpdateUserGroup Update a user group
 
 Update the name, description or any of the permission settings
-of a [user group](zulip.com/help/user-groups.
+of a [user group](https://zulip.com/help/user-groups).
 
 This endpoint is also used to reactivate a user group.
 
@@ -6003,7 +6003,7 @@ func (r UpdateUserGroupMembersRequest) Execute() (*Response, *http.Response, err
 /*
 UpdateUserGroupMembers Update user group members
 
-Update the members of a [user group](zulip.com/help/user-groups. The
+Update the members of a [user group](https://zulip.com/help/user-groups). The
 user Ids must correspond to non-deactivated users.
 
 **Changes**: Prior to Zulip 11.0 (feature level 391), members
@@ -6132,7 +6132,7 @@ func (r UpdateUserGroupSubgroupsRequest) Execute() (*Response, *http.Response, e
 /*
 UpdateUserGroupSubgroups Update subgroups of a user group
 
-Update the subgroups of a [user group](zulip.com/help/user-groups.
+Update the subgroups of a [user group](https://zulip.com/help/user-groups).
 
 **Changes**: Prior to Zulip 11.0 (feature level 391), subgroups
 could not be added or removed from a deactivated group.

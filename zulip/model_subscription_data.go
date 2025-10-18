@@ -6,10 +6,10 @@ type SubscriptionData struct {
 	ChannelId int64 `json:"stream_id"`
 	// One of the channel properties described below.
 	// - `"color"`: The hex value of the user's display color for the channel.
-	// - `"is_muted"`: Whether the channel is [muted](zulip.com/help/mute-a-channel).
+	// - `"is_muted"`: Whether the channel is [muted](https://zulip.com/help/mute-a-channel).
 	//   **Changes**: As of Zulip 6.0 (feature level 139), updating either `"is_muted"`
 	//   or `"in_home_view"` generates two [subscription update
-	//   events](zulip.com/api/get-events#subscription-update), one for each property.
+	//   events](https://zulip.com/api/get-events#subscription-update), one for each property.
 	//   Prior to this feature level, updating either property only generated a
 	//   subscription update event for `"in_home_view"`. Before Zulip 2.1.0, this
 	//   feature was represented by the more confusingly named `"in_home_view"`

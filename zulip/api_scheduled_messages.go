@@ -15,10 +15,10 @@ type ScheduledMessagesAPI interface {
 	/*
 			CreateScheduledMessage Create a scheduled message
 
-			Create a new [scheduled message](zulip.com/help/schedule-a-message.
+			Create a new [scheduled message](https://zulip.com/help/schedule-a-message).
 
 		**Changes**: In Zulip 7.0 (feature level 184), moved support for
-		[editing a scheduled message](zulip.com/api/update-scheduled-message) to a
+		[editing a scheduled message](https://zulip.com/api/update-scheduled-message) to a
 		separate API endpoint, which removed the `scheduled_message_id`
 		parameter from this endpoint.
 
@@ -34,7 +34,7 @@ type ScheduledMessagesAPI interface {
 			DeleteScheduledMessage Delete a scheduled message
 
 			Delete, and therefore cancel sending, a previously [scheduled
-		message](zulip.com/help/schedule-a-message.
+		message](https://zulip.com/help/schedule-a-message).
 
 		**Changes**: New in Zulip 7.0 (feature level 173).
 
@@ -47,7 +47,7 @@ type ScheduledMessagesAPI interface {
 	/*
 			GetScheduledMessages Get scheduled messages
 
-			Fetch all [scheduled messages](zulip.com/help/schedule-a-message) for
+			Fetch all [scheduled messages](https://zulip.com/help/schedule-a-message) for
 		the current user.
 
 		Scheduled messages are messages the user has scheduled to be
@@ -64,7 +64,7 @@ type ScheduledMessagesAPI interface {
 	/*
 			UpdateScheduledMessage Edit a scheduled message
 
-			Edit an existing [scheduled message](zulip.com/help/schedule-a-message.
+			Edit an existing [scheduled message](https://zulip.com/help/schedule-a-message).
 
 		**Changes**: New in Zulip 7.0 (feature level 184).
 
@@ -97,7 +97,7 @@ func (r CreateScheduledMessageRequest) To(to Recipient) CreateScheduledMessageRe
 	return r
 }
 
-// The content of the message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum message size.
+// The content of the message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](https://zulip.com/api/register-queue) endpoint to determine the maximum message size.
 func (r CreateScheduledMessageRequest) Content(content string) CreateScheduledMessageRequest {
 	r.content = &content
 	return r
@@ -110,7 +110,7 @@ func (r CreateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliv
 	return r
 }
 
-// The topic of the message. Only required for channel messages (&#x60;\\\&quot;type\\\&quot;: \\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;type\\\&quot;: \\\&quot;channel\\\&quot;&#x60;), ignored otherwise.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum topic length.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  **Changes**: Before Zulip 10.0 (feature level 370), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// The topic of the message. Only required for channel messages (&#x60;\\\&quot;type\\\&quot;: \\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;type\\\&quot;: \\\&quot;channel\\\&quot;&#x60;), ignored otherwise.  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](https://zulip.com/api/register-queue) endpoint to determine the maximum topic length.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](https://zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](https://zulip.com/help/require-topics), this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  **Changes**: Before Zulip 10.0 (feature level 370), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 func (r CreateScheduledMessageRequest) Topic(topic string) CreateScheduledMessageRequest {
 	r.topic = &topic
 	return r
@@ -129,10 +129,10 @@ func (r CreateScheduledMessageRequest) Execute() (*CreateScheduledMessageRespons
 /*
 CreateScheduledMessage Create a scheduled message
 
-Create a new [scheduled message](zulip.com/help/schedule-a-message.
+Create a new [scheduled message](https://zulip.com/help/schedule-a-message).
 
 **Changes**: In Zulip 7.0 (feature level 184), moved support for
-[editing a scheduled message](zulip.com/api/update-scheduled-message) to a
+[editing a scheduled message](https://zulip.com/api/update-scheduled-message) to a
 separate API endpoint, which removed the `scheduled_message_id`
 parameter from this endpoint.
 
@@ -254,7 +254,7 @@ func (r DeleteScheduledMessageRequest) Execute() (*Response, *http.Response, err
 DeleteScheduledMessage Delete a scheduled message
 
 Delete, and therefore cancel sending, a previously [scheduled
-message](zulip.com/help/schedule-a-message.
+message](https://zulip.com/help/schedule-a-message).
 
 **Changes**: New in Zulip 7.0 (feature level 173).
 */
@@ -351,7 +351,7 @@ func (r GetScheduledMessagesRequest) Execute() (*GetScheduledMessagesResponse, *
 /*
 GetScheduledMessages Get scheduled messages
 
-Fetch all [scheduled messages](zulip.com/help/schedule-a-message) for
+Fetch all [scheduled messages](https://zulip.com/help/schedule-a-message) for
 the current user.
 
 Scheduled messages are messages the user has scheduled to be
@@ -460,19 +460,19 @@ func (r UpdateScheduledMessageRequest) To(to Recipient) UpdateScheduledMessageRe
 	return r
 }
 
-// The updated content of the scheduled message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum message size.
+// The updated content of the scheduled message.  Clients should use the &#x60;max_message_length&#x60; returned by the [&#x60;POST /register&#x60;](https://zulip.com/api/register-queue) endpoint to determine the maximum message size.
 func (r UpdateScheduledMessageRequest) Content(content string) UpdateScheduledMessageRequest {
 	r.content = &content
 	return r
 }
 
-// The updated topic of the scheduled message.  Required when updating the &#x60;type&#x60; of the scheduled message to &#x60;\\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;channel\\\&quot;&#x60;. Ignored when the existing or updated &#x60;type&#x60; of the scheduled message is &#x60;\\\&quot;direct\\\&quot;&#x60; (or &#x60;\\\&quot;private\\\&quot;&#x60;).  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](zulip.com/api/register-queue) endpoint to determine the maximum topic length.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](zulip.com/help/require-topics, this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  **Changes**: Before Zulip 10.0 (feature level 370), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// The updated topic of the scheduled message.  Required when updating the &#x60;type&#x60; of the scheduled message to &#x60;\\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;channel\\\&quot;&#x60;. Ignored when the existing or updated &#x60;type&#x60; of the scheduled message is &#x60;\\\&quot;direct\\\&quot;&#x60; (or &#x60;\\\&quot;private\\\&quot;&#x60;).  Clients should use the &#x60;max_topic_length&#x60; returned by the [&#x60;POST /register&#x60;](https://zulip.com/api/register-queue) endpoint to determine the maximum topic length.  Note: When &#x60;\\\&quot;(no topic)\\\&quot;&#x60; or the value of &#x60;realm_empty_topic_display_name&#x60; found in the [POST /register](https://zulip.com/api/register-queue) response is used for this parameter, it is interpreted as an empty string.  When [topics are required](https://zulip.com/help/require-topics), this parameter can&#39;t be &#x60;\\\&quot;(no topic)\\\&quot;&#x60;, an empty string, or the value of &#x60;realm_empty_topic_display_name&#x60;.  **Changes**: Before Zulip 10.0 (feature level 370), &#x60;\\\&quot;(no topic)\\\&quot;&#x60; was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 func (r UpdateScheduledMessageRequest) Topic(topic string) UpdateScheduledMessageRequest {
 	r.topic = &topic
 	return r
 }
 
-// The UNIX timestamp for when the message will be sent, in UTC seconds.  Required when updating a scheduled message that the server has already tried and failed to send. This state is indicated with &#x60;\\\&quot;failed\\\&quot;: true&#x60; in &#x60;scheduled_messages&#x60; objects; see response description at [&#x60;GET /scheduled_messages&#x60;](zulip.com/api/get-scheduled-messages#response.
+// The UNIX timestamp for when the message will be sent, in UTC seconds.  Required when updating a scheduled message that the server has already tried and failed to send. This state is indicated with &#x60;\\\&quot;failed\\\&quot;: true&#x60; in &#x60;scheduled_messages&#x60; objects; see response description at [&#x60;GET /scheduled_messages&#x60;](https://zulip.com/api/get-scheduled-messages#response).
 func (r UpdateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliveryTimestamp time.Time) UpdateScheduledMessageRequest {
 	timestamp := scheduledDeliveryTimestamp.Unix()
 	r.scheduledDeliveryTimestamp = &timestamp
@@ -486,7 +486,7 @@ func (r UpdateScheduledMessageRequest) Execute() (*Response, *http.Response, err
 /*
 UpdateScheduledMessage Edit a scheduled message
 
-Edit an existing [scheduled message](zulip.com/help/schedule-a-message.
+Edit an existing [scheduled message](https://zulip.com/help/schedule-a-message).
 
 **Changes**: New in Zulip 7.0 (feature level 184).
 */

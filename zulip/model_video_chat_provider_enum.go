@@ -1,6 +1,6 @@
 package zulip
 
-// The configured [video call provider](zulip.com/help/configure-call-provider) for the organization.
+// The configured [video call provider](https://zulip.com/help/configure-call-provider) for the organization.
 // - 0 = None
 // - 1 = Jitsi Meet
 // - 3 = Zoom (User OAuth integration)

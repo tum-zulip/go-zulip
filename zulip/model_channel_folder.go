@@ -12,7 +12,7 @@ type ChannelFolder struct {
 	DateCreated *time.Time `json:"date_created,omitempty"`
 	// The Id of the user who created this channel folder.
 	CreatorId *int64 `json:"creator_id,omitempty"`
-	// The description of the channel folder.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip's HTML format.
+	// The description of the channel folder.  See [Markdown message formatting](https://zulip.com/api/message-formatting) for details on Zulip's HTML format.
 	Description string `json:"description,omitempty"`
 	// The description of the channel folder rendered as HTML, intended to be used when displaying the channel folder description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.
 	RenderedDescription string `json:"rendered_description,omitempty"`

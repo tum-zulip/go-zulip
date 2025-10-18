@@ -28,7 +28,7 @@ type GetFileTemporaryUrlResponse struct {
 type GetMessageResponse struct {
 	Response
 
-	// The raw Markdown content of the message.  See the help center article on [message formatting](zulip.com/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.  **Deprecated** and to be removed once no longer required for legacy clients. Modern clients should prefer passing `\"apply_markdown\": false` to request raw message content.
+	// The raw Markdown content of the message.  See the help center article on [message formatting](https://zulip.com/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.  **Deprecated** and to be removed once no longer required for legacy clients. Modern clients should prefer passing `\"apply_markdown\": false` to request raw message content.
 	// Deprecated
 	RawContent string  `json:"raw_content,omitempty"`
 	Message    Message `json:"message,omitempty"`
@@ -82,7 +82,7 @@ type SendMessageResponse struct {
 
 	// The unique Id assigned to the sent message.
 	Id int64 `json:"id"`
-	// If the message's sender had configured their [visibility policy settings](zulip.com/help/mute-a-topic) to potentially automatically follow or unmute topics when sending messages, and one of these policies did in fact change the user's visibility policy for the topic where this message was sent, the new value for that user's visibility policy for the recipient topic.  Only present if the sender's visibility was in fact changed.  The value can be either [unmuted or followed](zulip.com/api/update-user-topic#parameter-visibility_policy).  Clients will also be notified about the change in policy via a `user_topic` event as usual. This field is intended to be used by clients to explicitly inform the user when a topic's visibility policy was changed automatically due to sending a message.  For example, the Zulip web application uses this field to decide whether to display a warning or notice suggesting to unmute the topic after sending a message to a muted channel. Such a notice would be confusing in the event that the act of sending the message had already resulted in the user automatically unmuting or following the topic in question.  **Changes**: New in Zulip 8.0 (feature level 218).
+	// If the message's sender had configured their [visibility policy settings](https://zulip.com/help/mute-a-topic) to potentially automatically follow or unmute topics when sending messages, and one of these policies did in fact change the user's visibility policy for the topic where this message was sent, the new value for that user's visibility policy for the recipient topic.  Only present if the sender's visibility was in fact changed.  The value can be either [unmuted or followed](https://zulip.com/api/update-user-topic#parameter-visibility_policy).  Clients will also be notified about the change in policy via a `user_topic` event as usual. This field is intended to be used by clients to explicitly inform the user when a topic's visibility policy was changed automatically due to sending a message.  For example, the Zulip web application uses this field to decide whether to display a warning or notice suggesting to unmute the topic after sending a message to a muted channel. Such a notice would be confusing in the event that the act of sending the message had already resulted in the user automatically unmuting or following the topic in question.  **Changes**: New in Zulip 8.0 (feature level 218).
 	AutomaticNewVisibilityPolicy *VisibilityPolicy `json:"automatic_new_visibility_policy,omitempty"`
 }
 
@@ -90,7 +90,7 @@ type SendMessageResponse struct {
 type UpdateMessageResponse struct {
 	Response
 
-	// Details on all files uploaded by the acting user whose only references were removed when editing this message. Clients should ask the acting user if they wish to delete the uploaded files returned in this response, which might otherwise remain visible only in message edit history.  Note that [access to message edit history][edit-history-access] is configurable; this detail may be important in presenting the question clearly to users.  New in Zulip 10.0 (feature level 285).  [edit-history-access]: /help/restrict-message-edit-history-access
+	// Details on all files uploaded by the acting user whose only references were removed when editing this message. Clients should ask the acting user if they wish to delete the uploaded files returned in this response, which might otherwise remain visible only in message edit history.  Note that [access to message edit history][edit-history-access] is configurable; this detail may be important in presenting the question clearly to users.  New in Zulip 10.0 (feature level 285).  [edit-history-access]: https://zulip.com/help/restrict-message-edit-history-access
 	DetachedUploads []Attachment `json:"detached_uploads,omitempty"`
 }
 
@@ -128,7 +128,7 @@ type UpdateMessageFlagsForNarrowResponse struct {
 type UploadFileResponse struct {
 	Result string `json:"result"`
 	Msg    string `json:"msg"`
-	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](zulip.com/api/rest-error-handling#ignored-parameters documentation for details on this and its change history.
+	// An array of any parameters sent in the request that are not supported by the endpoint.  See [error handling](https://zulip.com/api/rest-error-handling#ignored-parameters) documentation for details on this and its change history.
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 	// The URL of the uploaded file. Alias of `url`.  **Changes**: Deprecated in Zulip 9.0 (feature level 272). The term \"URI\" is deprecated in [web standards](https://url.spec.whatwg.org/#goals).
 	// Deprecated
