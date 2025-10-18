@@ -50,10 +50,10 @@ type MessagesAPI interface {
 	// Permanently delete a message.
 	//
 	// This API corresponds to the
-	// [delete a message completely][delete-completely] feature documented in
+	// [delete a message completely] feature documented in
 	// the Zulip Help Center.
 	//
-	// [delete-completely]: https://zulip.com/help/delete-a-message#delete-a-message-completely
+	// [delete a message completely]: https://zulip.com/help/delete-a-message#delete-a-message-completely
 	//
 	DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest
 
@@ -95,9 +95,9 @@ type MessagesAPI interface {
 	// Fetch the message edit history of a previously edited message.
 	//
 	// Note that edit history may be disabled in some organizations; see the
-	// [Zulip Help Center documentation on editing messages][edit-settings].
+	// [Zulip Help Center documentation on editing messages].
 	//
-	// [edit-settings]: https://zulip.com/help/view-a-messages-edit-history
+	// [Zulip Help Center documentation on editing messages]: https://zulip.com/help/view-a-messages-edit-history
 	//
 	GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest
 
@@ -294,9 +294,9 @@ type MessagesAPI interface {
 	// `✔ {original_topic}` with the `propagate_mode` parameter set to
 	// `"change_all"`.
 	//
-	// See [configuring message editing][config-message-editing] for detailed
+	// See [configuring message editing] for detailed
 	// documentation on when users are allowed to edit message content, and
-	// [restricting moving messages][restrict-move-messages] for detailed
+	// [restricting moving messages] for detailed
 	// documentation on when users are allowed to change a message's topic
 	// and/or channel.
 	//
@@ -368,8 +368,8 @@ type MessagesAPI interface {
 	// In Zulip 4.0 (feature level 56), the `move_messages_between_streams_policy`
 	// realm setting was added.
 	//
-	// [config-message-editing]: https://zulip.com/help/restrict-message-editing-and-deletion
-	// [restrict-move-messages]: https://zulip.com/help/restrict-moving-messages
+	// [configuring message editing]: https://zulip.com/help/restrict-message-editing-and-deletion
+	// [restricting moving messages]: https://zulip.com/help/restrict-moving-messages
 	//
 	UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest
 
@@ -409,7 +409,7 @@ type MessagesAPI interface {
 	// [Upload](https://zulip.com/help/share-and-upload-files) a single file and get the corresponding URL.
 	//
 	// Initially, only you will be able to access the link. To share the
-	// uploaded file, you'll need to [send a message][send-message]
+	// uploaded file, you'll need to [send a message]
 	// containing the resulting link. Users who can already access the link
 	// can reshare it with other users by sending additional Zulip messages
 	// containing the link.
@@ -433,7 +433,7 @@ type MessagesAPI interface {
 	// `max_file_upload_size_mib` was typically 25MB.
 	//
 	// [uploaded-files]: https://zulip.com/help/manage-your-uploaded-files
-	// [send-message]: https://zulip.com/api/send-message
+	// [send a message]: https://zulip.com/api/send-message
 	//
 	UploadFile(ctx context.Context) UploadFileRequest
 
@@ -709,10 +709,10 @@ func (r DeleteMessageRequest) Execute() (*Response, *http.Response, error) {
 // Permanently delete a message.
 //
 // This API corresponds to the
-// [delete a message completely][delete-completely] feature documented in
+// [delete a message completely] feature documented in
 // the Zulip Help Center.
 //
-// [delete-completely]: https://zulip.com/help/delete-a-message#delete-a-message-completely
+// [delete a message completely]: https://zulip.com/help/delete-a-message#delete-a-message-completely
 func (c *simpleClient) DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest {
 	return DeleteMessageRequest{
 		ApiService: c,
@@ -1045,9 +1045,9 @@ func (r GetMessageHistoryRequest) Execute() (*GetMessageHistoryResponse, *http.R
 // Fetch the message edit history of a previously edited message.
 //
 // Note that edit history may be disabled in some organizations; see the
-// [Zulip Help Center documentation on editing messages][edit-settings].
+// [Zulip Help Center documentation on editing messages].
 //
-// [edit-settings]: https://zulip.com/help/view-a-messages-edit-history
+// [Zulip Help Center documentation on editing messages]: https://zulip.com/help/view-a-messages-edit-history
 func (c *simpleClient) GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest {
 	return GetMessageHistoryRequest{
 		ApiService: c,
@@ -2420,9 +2420,9 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 // `✔ {original_topic}` with the `propagate_mode` parameter set to
 // `"change_all"`.
 //
-// See [configuring message editing][config-message-editing] for detailed
+// See [configuring message editing] for detailed
 // documentation on when users are allowed to edit message content, and
-// [restricting moving messages][restrict-move-messages] for detailed
+// [restricting moving messages] for detailed
 // documentation on when users are allowed to change a message's topic
 // and/or channel.
 //
@@ -2494,8 +2494,8 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 // In Zulip 4.0 (feature level 56), the `move_messages_between_streams_policy`
 // realm setting was added.
 //
-// [config-message-editing]: https://zulip.com/help/restrict-message-editing-and-deletion
-// [restrict-move-messages]: https://zulip.com/help/restrict-moving-messages
+// [configuring message editing]: https://zulip.com/help/restrict-message-editing-and-deletion
+// [restricting moving messages]: https://zulip.com/help/restrict-moving-messages
 func (c *simpleClient) UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest {
 	return UpdateMessageRequest{
 		ApiService: c,
@@ -2925,7 +2925,7 @@ func (r UploadFileRequest) Execute() (*UploadFileResponse, *http.Response, error
 // [Upload](https://zulip.com/help/share-and-upload-files) a single file and get the corresponding URL.
 //
 // Initially, only you will be able to access the link. To share the
-// uploaded file, you'll need to [send a message][send-message]
+// uploaded file, you'll need to [send a message]
 // containing the resulting link. Users who can already access the link
 // can reshare it with other users by sending additional Zulip messages
 // containing the link.
@@ -2948,7 +2948,7 @@ func (r UploadFileRequest) Execute() (*UploadFileResponse, *http.Response, error
 // introduced in Zulip 10.0 (feature level 296). Previously,
 // `max_file_upload_size_mib` was typically 25MB.
 //
-// [send-message]: https://zulip.com/api/send-message
+// [send a message]: https://zulip.com/api/send-message
 //
 // [uploaded-files]: https://zulip.com/help/manage-your-uploaded-files
 func (c *simpleClient) UploadFile(ctx context.Context) UploadFileRequest {

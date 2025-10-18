@@ -23,7 +23,9 @@ type Channel struct {
 	RenderedDescription string `json:"rendered_description"`
 	// Whether the channel has been configured to allow unauthenticated access to its message history from the web.  **Changes**: New in Zulip 2.1.0.
 	IsWebPublic bool `json:"is_web_public"`
-	// A deprecated representation of a superset of the users who have permission to post messages to the channel available for backwards-compatibility. Clients should use `can_send_message_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:  - 1 = Any user can post. - 2 = Only administrators can post. - 3 = Only [full members][calc-full-member] can post. - 4 = Only moderators can post.  **Changes**: Deprecated in Zulip 10.0 (feature level 333) and replaced by `can_send_message_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  New in Zulip 3.0 (feature level 1), replacing the previous `is_announcement_only` boolean.  [calc-full-member]: https://zulip.com/api/roles-and-permissions#determining-if-a-user-is-a-full-member
+	// A deprecated representation of a superset of the users who have permission to post messages to the channel available for backwards-compatibility. Clients should use `can_send_message_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:  - 1 = Any user can post. - 2 = Only administrators can post. - 3 = Only [full members] can post. - 4 = Only moderators can post.  **Changes**: Deprecated in Zulip 10.0 (feature level 333) and replaced by `can_send_message_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.  New in Zulip 3.0 (feature level 1), replacing the previous `is_announcement_only` boolean.
+	//
+	// [full members]: https://zulip.com/api/roles-and-permissions#determining-if-a-user-is-a-full-member
 	// Deprecated
 	ChannelPostPolicy    int32 `json:"stream_post_policy"`
 	MessageRetentionDays *int  `json:"message_retention_days"`
@@ -57,7 +59,7 @@ type Channel struct {
 
 type ChannelWithIsDefault struct {
 	Channel
-	// Only present when [`include_default`][include_default] parameter is `true`.  Whether the given channel is a [default channel](https://zulip.com/help/set-default-channels-for-new-users).  [include_default]: https://zulip.com/api/get-streams#parameter-include_default
+	// Only present when [`include_default`] parameter is `true`.  Whether the given channel is a [default channel](https://zulip.com/help/set-default-channels-for-new-users).  [`include_default`]: https://zulip.com/api/get-streams#parameter-include_default
 	IsDefault bool `json:"is_default,omitempty"`
 }
 

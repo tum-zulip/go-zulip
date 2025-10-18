@@ -13,9 +13,9 @@ type UsersAPI interface {
 
 	// AddAlertWords Add alert words
 	//
-	// Add words (or phrases) to the user's set of configured [alert words][alert-words].
+	// Add words (or phrases) to the user's set of configured [alert words].
 	//
-	// [alert-words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
+	// [alert words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 	//
 	AddAlertWords(ctx context.Context) AddAlertWordsRequest
 
@@ -50,16 +50,16 @@ type UsersAPI interface {
 	// organizations on a [Zulip Cloud Standard](https://zulip.com/plans/)
 	// or [Zulip Cloud Plus](https://zulip.com/plans/) plan. Administrators
 	// can request the required `can_create_users` permission for a bot or
-	// user by contacting [Zulip Cloud support][support] with an
+	// user by contacting [Zulip Cloud support] with an
 	// explanation for why it is needed. Self-hosted installations can
 	// toggle `can_create_users` on an account using the `manage.py
-	// change_user_role` [management command][management-commands].
+	// change_user_role` [management command].
 	//
 	// *Changes**: Before Zulip 4.0 (feature level 36), this endpoint was
 	// available to all organization administrators.
 	//
-	// [support]: https://zulip.com/help/contact-support
-	// [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
+	// [Zulip Cloud support]: https://zulip.com/help/contact-support
+	// [[management command]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 	//
 	CreateUser(ctx context.Context) CreateUserRequest
 
@@ -118,9 +118,9 @@ type UsersAPI interface {
 
 	// GetAlertWords Get all alert words
 	//
-	// Get all of the user's configured [alert words][alert-words].
+	// Get all of the user's configured [alert words].
 	//
-	// [alert-words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
+	// [alert words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 	//
 	GetAlertWords(ctx context.Context) GetAlertWordsRequest
 
@@ -344,11 +344,11 @@ type UsersAPI interface {
 
 	// RemoveAlertWords Remove alert words
 	//
-	// Remove words (or phrases) from the user's set of configured [alert words][alert-words].
+	// Remove words (or phrases) from the user's set of configured [alert words].
 	//
 	// Alert words are case insensitive.
 	//
-	// [alert-words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
+	// [alert words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 	//
 	RemoveAlertWords(ctx context.Context) RemoveAlertWordsRequest
 
@@ -395,7 +395,7 @@ type UsersAPI interface {
 	// SetTypingStatus Set \"typing\" status
 	//
 	// Notify other users whether the current user is
-	// [typing a message][help-typing].
+	// [typing a message].
 	//
 	// Clients implementing Zulip's typing notifications
 	// protocol should work as follows:
@@ -406,22 +406,22 @@ type UsersAPI interface {
 	// the compose UI (e.g. interacting with the compose box emoji picker),
 	// send regular `"op": "start"` requests to this endpoint, using
 	// `server_typing_started_wait_period_milliseconds` in the
-	// [`POST /register`][api-register] response as the time interval
+	// [`POST /register`] response as the time interval
 	// between each request.
 	// - Send a request to this endpoint with `"op": "stop"` when a user
 	// has stopped using the compose UI for the time period indicated by
 	// `server_typing_stopped_wait_period_milliseconds` in the
-	// [`POST /register`][api-register] response or when a user
+	// [`POST /register`] response or when a user
 	// cancels the compose action (if it had previously sent a "start"
 	// notification for that compose action).
 	// - Start displaying a visual typing indicator for a given conversation
-	// when a [`typing op:start`][start-typing] event is received
+	// when a [`typing op:start`] event is received
 	// from the server.
 	// - Continue displaying a visual typing indicator for the conversation
-	// until a [`typing op:stop`][stop-typing] event is received
+	// until a [`typing op:stop`] event is received
 	// from the server or the time period indicated by
 	// `server_typing_started_expiry_period_milliseconds` in the
-	// [`POST /register`][api-register] response has passed without
+	// [`POST /register`] response has passed without
 	// a new `typing "op": "start"` event for the conversation.
 	//
 	// This protocol is designed to allow the server-side typing notifications
@@ -429,7 +429,7 @@ type UsersAPI interface {
 	// will not result in a user being incorrectly displayed as perpetually
 	// typing.
 	//
-	// See the subsystems documentation on [typing indicators][typing-protocol-docs]
+	// See the subsystems documentation on [typing indicators]
 	// for additional design details on Zulip's typing notifications protocol.
 	//
 	// *Changes**: Clients shouldn't care about the APIs prior to Zulip 8.0 (feature level 215)
@@ -439,15 +439,15 @@ type UsersAPI interface {
 	// Support for displaying channel typing notifications was new
 	// in Zulip 4.0 (feature level 58). Clients should indicate they support
 	// processing channel typing notifications via the `stream_typing_notifications`
-	// value in the `client_capabilities` parameter of the
-	// [`POST /register`][client-capabilities] endpoint.
+	// value in the [`client_capabilities`] parameter of the
+	// `POST /register` endpoint.
 	//
-	// [help-typing]: https://zulip.com/help/typing-notifications
-	// [api-register]: https://zulip.com/api/register-queue
-	// [start-typing]: https://zulip.com/api/get-events#typing-start
-	// [stop-typing]: https://zulip.com/api/get-events#typing-stop
-	// [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
-	// [typing-protocol-docs]: https://zulip.readthedocs.io/en/latest/subsystems/typing-indicators.html
+	// [typing a message]: https://zulip.com/help/typing-notifications
+	// [`POST /register`]: https://zulip.com/api/register-queue
+	// [`typing op:start`]: https://zulip.com/api/get-events#typing-start
+	// [`typing op:stop`]: https://zulip.com/api/get-events#typing-stop
+	// [`client_capabilities`]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// [typing indicators]: https://zulip.readthedocs.io/en/latest/subsystems/typing-indicators.html
 	//
 	SetTypingStatus(ctx context.Context) SetTypingStatusRequest
 
@@ -489,7 +489,7 @@ type UsersAPI interface {
 
 	// UpdatePresence Update your presence
 	//
-	// Update the current user's [presence][availability] and fetch presence data
+	// Update the current user's [presence] and fetch presence data
 	// of other users in the organization.
 	//
 	// This endpoint is meant to be used by clients for both:
@@ -510,7 +510,7 @@ type UsersAPI interface {
 	// events](https://zulip.com/api/get-events#presence), in order to learn about newly online users
 	// immediately.
 	//
-	// The Zulip server is responsible for implementing [invisible mode][invisible],
+	// The Zulip server is responsible for implementing [invisible mode],
 	// which disables sharing a user's presence data. Nonetheless, clients
 	// should check the `presence_enabled` field in user objects in order to
 	// display the current user as online or offline based on whether they are
@@ -518,12 +518,11 @@ type UsersAPI interface {
 	//
 	// *Changes**: As of Zulip 8.0 (feature level 228), if the
 	// `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level setting is
-	// `true`, then user presence data in the response is [limited to users
-	// the current user can see/access][limit-visibility].
+	// `true`, then user presence data in the response is [limited to users the current user can see/access].
 	//
-	// [limit-visibility]: https://zulip.com/help/guest-users#configure-whether-guests-can-see-all-other-users
-	// [invisible]: https://zulip.com/help/status-and-availability#invisible-mode
-	// [availability]: https://zulip.com/help/status-and-availability#availability
+	// [limited to users the current user can see/access]: https://zulip.com/help/guest-users#configure-whether-guests-can-see-all-other-users
+	// [invisible mode]: https://zulip.com/help/status-and-availability#invisible-mode
+	// [presence]: https://zulip.com/help/status-and-availability#availability
 	//
 	UpdatePresence(ctx context.Context) UpdatePresenceRequest
 
@@ -558,7 +557,7 @@ type UsersAPI interface {
 	// which parameters it had processed by including in the response
 	// object `"key": value` entries for values successfully changed by
 	// the request. That was replaced by the more ergonomic
-	// [`ignored_parameters_unsupported`][ignored-parameters] array.
+	// [`ignored_parameters_unsupported`] array.
 	//
 	// The `PATCH /settings/notifications` and `PATCH /settings/display`
 	// endpoints also had this behavior of indicating processed parameters
@@ -568,7 +567,7 @@ type UsersAPI interface {
 	// Before feature level 78, request parameters that were not supported
 	// (or were unchanged) were silently ignored.
 	//
-	// [ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
+	// [`ignored_parameters_unsupported`]: https://zulip.com/api/rest-error-handling#ignored-parameters
 	//
 	UpdateSettings(ctx context.Context) UpdateSettingsRequest
 
@@ -710,9 +709,9 @@ func (r AddAlertWordsRequest) Execute() (*AlertWordsResponse, *http.Response, er
 
 // AddAlertWords Add alert words
 //
-// Add words (or phrases) to the user's set of configured [alert words][alert-words].
+// Add words (or phrases) to the user's set of configured [alert words].
 //
-// [alert-words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
+// [alert words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 func (c *simpleClient) AddAlertWords(ctx context.Context) AddAlertWordsRequest {
 	return AddAlertWordsRequest{
 		ApiService: c,
@@ -1055,16 +1054,16 @@ func (r CreateUserRequest) Execute() (*CreateUserResponse, *http.Response, error
 // organizations on a [Zulip Cloud Standard](https://zulip.com/plans/)
 // or [Zulip Cloud Plus](https://zulip.com/plans/) plan. Administrators
 // can request the required `can_create_users` permission for a bot or
-// user by contacting [Zulip Cloud support][support] with an
+// user by contacting [Zulip Cloud support] with an
 // explanation for why it is needed. Self-hosted installations can
 // toggle `can_create_users` on an account using the `manage.py
-// change_user_role` [management command][management-commands].
+// change_user_role` [management command].
 //
 // *Changes**: Before Zulip 4.0 (feature level 36), this endpoint was
 // available to all organization administrators.
 //
-// [support]: https://zulip.com/help/contact-support
-// [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
+// [Zulip Cloud support]: https://zulip.com/help/contact-support
+// [management command]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 func (c *simpleClient) CreateUser(ctx context.Context) CreateUserRequest {
 	return CreateUserRequest{
 		ApiService: c,
@@ -1195,37 +1194,45 @@ func (r CreateUserGroupRequest) Subgroups(subgroups []int64) CreateUserGroupRequ
 	return r
 }
 
-// A [group-setting value][setting-values] defining the set of users who have permission to add members to this user group.  **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [setting-values]: https://zulip.com/api/group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
+// A [group-setting value] defining the set of users who have permission to add members to this user group.  **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [group-setting value]: https://zulip.com/api/group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canAddMembersGroup = &canAddMembersGroup
 	return r
 }
 
-// A [group-setting value][setting-values] defining the set of users who have permission to join this user group.  **Changes**: New in Zulip 10.0 (feature level 301).  [setting-values]: https://zulip.com/api/group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
+// A [group-setting value] defining the set of users who have permission to join this user group.  **Changes**: New in Zulip 10.0 (feature level 301).  [group-setting value]: https://zulip.com/api/group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canJoinGroup = &canJoinGroup
 	return r
 }
 
-// A [group-setting value][setting-values] defining the set of users who have permission to leave this user group.  **Changes**: New in Zulip 10.0 (feature level 308).  [setting-values]: https://zulip.com/api/group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
+// A [group-setting value] defining the set of users who have permission to leave this user group.  **Changes**: New in Zulip 10.0 (feature level 308).  [group-setting value]: https://zulip.com/api/group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canLeaveGroup = &canLeaveGroup
 	return r
 }
 
-// A [group-setting value][setting-values] defining the set of users who have permission to [manage this user group][manage-user-groups].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:everyone\\\&quot;&#x60; [system groups][system-groups].  **Changes**: New in Zulip 10.0 (feature level 283).  [setting-values]: https://zulip.com/api/group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups [manage-user-groups]: https://zulip.com/help/manage-user-groups
+// A [group-setting value] defining the set of users who have permission to [manage this user group].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:everyone\\\&quot;&#x60; [system groups].  **Changes**: New in Zulip 10.0 (feature level 283).
+//
+// [group-setting value]: https://zulip.com/api/group-setting-values
+// [system groups]: https://zulip.com/api/group-setting-values#system-groups
+// [manage this user group]: https://zulip.com/help/manage-user-groups
 func (r CreateUserGroupRequest) CanManageGroup(canManageGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canManageGroup = &canManageGroup
 	return r
 }
 
-// A [group-setting value][setting-values] defining the set of users who have permission to [mention this user group][mentions].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:owners\\\&quot;&#x60; [system groups][system-groups].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value][setting-values].  Before Zulip 8.0 (feature level 198), this parameter was named &#x60;can_mention_group_id&#x60;.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups][system-groups].  [setting-values]: https://zulip.com/api/group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups [mentions]: https://zulip.com/help/mention-a-user-or-group
+// A [group-setting value] defining the set of users who have permission to [mention this user group].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:owners\\\&quot;&#x60; [system groups].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value].  Before Zulip 8.0 (feature level 198), this parameter was named &#x60;can_mention_group_id&#x60;.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups].
+//
+// [group-setting value]: https://zulip.com/api/group-setting-values
+// [system groups]: https://zulip.com/api/group-setting-values#system-groups
+// [mention this user group]: https://zulip.com/help/mention-a-user-or-group
 func (r CreateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canMentionGroup = &canMentionGroup
 	return r
 }
 
-// A [group-setting value][setting-values] defining the set of users who have permission to remove members from this user group.  **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [setting-values]: https://zulip.com/api/group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
+// A [group-setting value] defining the set of users who have permission to remove members from this user group.  **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [group-setting value]: https://zulip.com/api/group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanRemoveMembersGroup(canRemoveMembersGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canRemoveMembersGroup = &canRemoveMembersGroup
 	return r
@@ -1688,9 +1695,9 @@ func (r GetAlertWordsRequest) Execute() (*AlertWordsResponse, *http.Response, er
 
 // GetAlertWords Get all alert words
 //
-// Get all of the user's configured [alert words][alert-words].
+// Get all of the user's configured [alert words].
 //
-// [alert-words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
+// [alert words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 func (c *simpleClient) GetAlertWords(ctx context.Context) GetAlertWordsRequest {
 	return GetAlertWordsRequest{
 		ApiService: c,
@@ -3230,11 +3237,11 @@ func (r RemoveAlertWordsRequest) Execute() (*AlertWordsResponse, *http.Response,
 
 // RemoveAlertWords Remove alert words
 //
-// Remove words (or phrases) from the user's set of configured [alert words][alert-words].
+// Remove words (or phrases) from the user's set of configured [alert words].
 //
 // Alert words are case insensitive.
 //
-// [alert-words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
+// [alert words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 func (c *simpleClient) RemoveAlertWords(ctx context.Context) RemoveAlertWordsRequest {
 	return RemoveAlertWordsRequest{
 		ApiService: c,
@@ -3673,7 +3680,7 @@ func (r SetTypingStatusRequest) Execute() (*Response, *http.Response, error) {
 // SetTypingStatus Set \"typing\" status
 //
 // Notify other users whether the current user is
-// [typing a message][help-typing].
+// [typing a message].
 //
 // Clients implementing Zulip's typing notifications
 // protocol should work as follows:
@@ -3684,22 +3691,22 @@ func (r SetTypingStatusRequest) Execute() (*Response, *http.Response, error) {
 // the compose UI (e.g. interacting with the compose box emoji picker),
 // send regular `"op": "start"` requests to this endpoint, using
 // `server_typing_started_wait_period_milliseconds` in the
-// [`POST /register`][api-register] response as the time interval
+// [`POST /register`] response as the time interval
 // between each request.
 // - Send a request to this endpoint with `"op": "stop"` when a user
 // has stopped using the compose UI for the time period indicated by
 // `server_typing_stopped_wait_period_milliseconds` in the
-// [`POST /register`][api-register] response or when a user
+// [`POST /register`] response or when a user
 // cancels the compose action (if it had previously sent a "start"
 // notification for that compose action).
 // - Start displaying a visual typing indicator for a given conversation
-// when a [`typing op:start`][start-typing] event is received
+// when a [`typing op:start`] event is received
 // from the server.
 // - Continue displaying a visual typing indicator for the conversation
-// until a [`typing op:stop`][stop-typing] event is received
+// until a [`typing op:stop`] event is received
 // from the server or the time period indicated by
 // `server_typing_started_expiry_period_milliseconds` in the
-// [`POST /register`][api-register] response has passed without
+// [`POST /register`] response has passed without
 // a new `typing "op": "start"` event for the conversation.
 //
 // This protocol is designed to allow the server-side typing notifications
@@ -3707,7 +3714,7 @@ func (r SetTypingStatusRequest) Execute() (*Response, *http.Response, error) {
 // will not result in a user being incorrectly displayed as perpetually
 // typing.
 //
-// See the subsystems documentation on [typing indicators][typing-protocol-docs]
+// See the subsystems documentation on [typing indicators]
 // for additional design details on Zulip's typing notifications protocol.
 //
 // *Changes**: Clients shouldn't care about the APIs prior to Zulip 8.0 (feature level 215)
@@ -3717,15 +3724,15 @@ func (r SetTypingStatusRequest) Execute() (*Response, *http.Response, error) {
 // Support for displaying channel typing notifications was new
 // in Zulip 4.0 (feature level 58). Clients should indicate they support
 // processing channel typing notifications via the `stream_typing_notifications`
-// value in the `client_capabilities` parameter of the
-// [`POST /register`][client-capabilities] endpoint.
+// value in the [`client_capabilities`] parameter of the
+// `POST /register` endpoint.
 //
-// [help-typing]: https://zulip.com/help/typing-notifications
-// [api-register]: https://zulip.com/api/register-queue
-// [start-typing]: https://zulip.com/api/get-events#typing-start
-// [stop-typing]: https://zulip.com/api/get-events#typing-stop
-// [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
-// [typing-protocol-docs]: https://zulip.readthedocs.io/en/latest/subsystems/typing-indicators.html
+// [typing a message]: https://zulip.com/help/typing-notifications
+// [`typing op:start`]: https://zulip.com/api/get-events#typing-start
+// [`typing op:stop`]: https://zulip.com/api/get-events#typing-stop
+// [`client_capabilities`]: https://zulip.com/api/register-queue#parameter-client_capabilities
+// [typing indicators]: https://zulip.readthedocs.io/en/latest/subsystems/typing-indicators.html
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (c *simpleClient) SetTypingStatus(ctx context.Context) SetTypingStatusRequest {
 	return SetTypingStatusRequest{
 		ApiService: c,
@@ -4092,7 +4099,7 @@ func (r UpdatePresenceRequest) Execute() (*UpdatePresenceResponse, *http.Respons
 
 // UpdatePresence Update your presence
 //
-// Update the current user's [presence][availability] and fetch presence data
+// Update the current user's [presence] and fetch presence data
 // of other users in the organization.
 //
 // This endpoint is meant to be used by clients for both:
@@ -4113,7 +4120,7 @@ func (r UpdatePresenceRequest) Execute() (*UpdatePresenceResponse, *http.Respons
 // events](https://zulip.com/api/get-events#presence), in order to learn about newly online users
 // immediately.
 //
-// The Zulip server is responsible for implementing [invisible mode][invisible],
+// The Zulip server is responsible for implementing [invisible mode],
 // which disables sharing a user's presence data. Nonetheless, clients
 // should check the `presence_enabled` field in user objects in order to
 // display the current user as online or offline based on whether they are
@@ -4121,12 +4128,11 @@ func (r UpdatePresenceRequest) Execute() (*UpdatePresenceResponse, *http.Respons
 //
 // *Changes**: As of Zulip 8.0 (feature level 228), if the
 // `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level setting is
-// `true`, then user presence data in the response is [limited to users
-// the current user can see/access][limit-visibility].
+// `true`, then user presence data in the response is [limited to users the current user can see/access].
 //
-// [limit-visibility]: https://zulip.com/help/guest-users#configure-whether-guests-can-see-all-other-users
-// [invisible]: https://zulip.com/help/status-and-availability#invisible-mode
-// [availability]: https://zulip.com/help/status-and-availability#availability
+// [limited to users the current user can see/access]: https://zulip.com/help/guest-users#configure-whether-guests-can-see-all-other-users
+// [invisible mode]: https://zulip.com/help/status-and-availability#invisible-mode
+// [presence]: https://zulip.com/help/status-and-availability#availability
 func (c *simpleClient) UpdatePresence(ctx context.Context) UpdatePresenceRequest {
 	return UpdatePresenceRequest{
 		ApiService: c,
@@ -4687,7 +4693,10 @@ func (r UpdateSettingsRequest) AllowPrivateDataExport(allowPrivateDataExport boo
 	return r
 }
 
-// The [policy][permission-level] this user has selected for [which other users][help-email-visibility] in this organization can see their real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.  [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels [help-email-visibility]: https://zulip.com/help/configure-email-visibility
+// The [policy] this user has selected for [which other users] in this organization can see their real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
+//
+// [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
+// [which other users]: https://zulip.com/help/configure-email-visibility
 func (r UpdateSettingsRequest) EmailAddressVisibility(emailAddressVisibility int32) UpdateSettingsRequest {
 	r.emailAddressVisibility = &emailAddressVisibility
 	return r
@@ -4731,7 +4740,7 @@ func (r UpdateSettingsRequest) Execute() (*Response, *http.Response, error) {
 // which parameters it had processed by including in the response
 // object `"key": value` entries for values successfully changed by
 // the request. That was replaced by the more ergonomic
-// [`ignored_parameters_unsupported`][ignored-parameters] array.
+// [`ignored_parameters_unsupported`] array.
 //
 // The `PATCH /settings/notifications` and `PATCH /settings/display`
 // endpoints also had this behavior of indicating processed parameters
@@ -4741,7 +4750,7 @@ func (r UpdateSettingsRequest) Execute() (*Response, *http.Response, error) {
 // Before feature level 78, request parameters that were not supported
 // (or were unchanged) were silently ignored.
 //
-// [ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
+// [`ignored_parameters_unsupported`]: https://zulip.com/api/rest-error-handling#ignored-parameters
 func (c *simpleClient) UpdateSettings(ctx context.Context) UpdateSettingsRequest {
 	return UpdateSettingsRequest{
 		ApiService: c,
@@ -5618,37 +5627,46 @@ func (r UpdateUserGroupRequest) Description(description string) UpdateUserGroupR
 	return r
 }
 
-// The set of users who have permission to add members to this user group expressed as an [update to a group-setting value][update-group-setting].  **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
+// The set of users who have permission to add members to this user group expressed as an [update to a group-setting value].  **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canAddMembersGroup = &canAddMembersGroup
 	return r
 }
 
-// The set of users who have permission to join this user group expressed as an [update to a group-setting value][update-group-setting].  **Changes**: New in Zulip 10.0 (feature level 301).  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
+// The set of users who have permission to join this user group expressed as an [update to a group-setting value].  **Changes**: New in Zulip 10.0 (feature level 301).  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canJoinGroup = &canJoinGroup
 	return r
 }
 
-// The set of users who have permission to leave this user group expressed as an [update to a group-setting value][update-group-setting].  **Changes**: New in Zulip 10.0 (feature level 308).  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
+// The set of users who have permission to leave this user group expressed as an [update to a group-setting value].  **Changes**: New in Zulip 10.0 (feature level 308).  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canLeaveGroup = &canLeaveGroup
 	return r
 }
 
-// The set of users who have permission to [manage this user group][manage-user-groups] expressed as an [update to a group-setting value][update-group-setting].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:everyone\\\&quot;&#x60; [system groups][system-groups].  **Changes**: New in Zulip 10.0 (feature level 283).  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups [manage-user-groups]: https://zulip.com/help/manage-user-groups
+// The set of users who have permission to [manage this user group] expressed as an [update to a group-setting value].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:everyone\\\&quot;&#x60; [system groups].  **Changes**: New in Zulip 10.0 (feature level 283).
+//
+// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
+// [system groups]: https://zulip.com/api/group-setting-values#system-groups
+// [manage this user group]: https://zulip.com/help/manage-user-groups
 func (r UpdateUserGroupRequest) CanManageGroup(canManageGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canManageGroup = &canManageGroup
 	return r
 }
 
-// The set of users who have permission to [mention this group][mentions], expressed as an [update to a group-setting value][update-group-setting].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:owners\\\&quot;&#x60; [system groups][system-groups].  **Changes**: In Zulip 9.0 (feature level 260), this parameter was updated to only accept an object with the &#x60;old&#x60; and &#x60;new&#x60; fields described below. Prior to this feature level, this parameter could be either of the two forms of a [group-setting value][setting-values].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value][setting-values].  Before Zulip 8.0 (feature level 198), this parameter was named &#x60;can_mention_group_id&#x60;.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups][system-groups].  [mentions]: https://zulip.com/help/mention-a-user-or-group [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups [setting-values]: https://zulip.com/api/group-setting-values
+// The set of users who have permission to [mention this group], expressed as an [update to a group-setting value].  This setting cannot be set to &#x60;\\\&quot;role:internet\\\&quot;&#x60; and &#x60;\\\&quot;role:owners\\\&quot;&#x60; [system groups].  **Changes**: In Zulip 9.0 (feature level 260), this parameter was updated to only accept an object with the &#x60;old&#x60; and &#x60;new&#x60; fields described below. Prior to this feature level, this parameter could be either of the two forms of a [group-setting value].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value].  Before Zulip 8.0 (feature level 198), this parameter was named &#x60;can_mention_group_id&#x60;.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups].
+//
+// [mention this group]: https://zulip.com/help/mention-a-user-or-group
+// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
+// [system groups]: https://zulip.com/api/group-setting-values#system-groups
+// [group-setting value]: https://zulip.com/api/group-setting-values
 func (r UpdateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canMentionGroup = &canMentionGroup
 	return r
 }
 
-// The set of users who have permission to remove members from this user group expressed as an [update to a group-setting value][update-group-setting].  **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system-groups]: https://zulip.com/api/group-setting-values#system-groups
+// The set of users who have permission to remove members from this user group expressed as an [update to a group-setting value].  **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the &#x60;can_manage_group&#x60; setting.  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanRemoveMembersGroup(canRemoveMembersGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canRemoveMembersGroup = &canRemoveMembersGroup
 	return r

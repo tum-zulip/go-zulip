@@ -11,9 +11,13 @@ type UserGroup struct {
 	Description string `json:"description,omitempty"`
 	// The user group's integer Id.
 	Id int64 `json:"id,omitempty"`
-	// The UNIX timestamp for when the user group was created, in UTC seconds.  A `null` value means the user group has no recorded date, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command][management-commands].  **Changes**: New in Zulip 10.0 (feature level 292).  [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
+	// The UNIX timestamp for when the user group was created, in UTC seconds.  A `null` value means the user group has no recorded date, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command].  **Changes**: New in Zulip 10.0 (feature level 292).
+	//
+	// [management command]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 	DateCreated *time.Time `json:"date_created,omitempty"`
-	// The Id of the user who created this user group.  A `null` value means the user group has no recorded creator, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command][management-commands].  **Changes**: New in Zulip 10.0 (feature level 292).  [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
+	// The Id of the user who created this user group.  A `null` value means the user group has no recorded creator, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command].  **Changes**: New in Zulip 10.0 (feature level 292).
+	//
+	// [management command]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 	CreatorId *int64 `json:"creator_id,omitempty"`
 	// The integer user Ids of the user group's members, which are guaranteed to be non-deactivated users in the organization.  **Changes**: Prior to Zulip 10.0 (feature level 303), this list also included deactivated users who were members of the user group before being deactivated.
 	Members []int64 `json:"members,omitempty"`

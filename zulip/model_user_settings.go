@@ -127,7 +127,10 @@ type UserSettings struct {
 	SendReadReceipts bool `json:"send_read_receipts,omitempty"`
 	// Whether organization administrators are allowed to export your private data.  **Changes**: New in Zulip 10.0 (feature level 293).
 	AllowPrivateDataExport bool `json:"allow_private_data_export,omitempty"`
-	// The [policy][permission-level] for [which other users][help-email-visibility] in this organization can see the user's real email address.  - 1 = Everyone - 2 = Members only - 3 = Administrators only - 4 = Nobody - 5 = Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.  [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels [help-email-visibility]: https://zulip.com/help/configure-email-visibility
+	// The [policy] for [which other users] in this organization can see the user's real email address.  - 1 = Everyone - 2 = Members only - 3 = Administrators only - 4 = Nobody - 5 = Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
+	//
+	// [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
+	// [which other users]: https://zulip.com/help/configure-email-visibility
 	EmailAddressVisibility EmailAddressVisibility `json:"email_address_visibility,omitempty"`
 	// Web/desktop app setting for whether the user's view should automatically go to the conversation where they sent a message.  **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
 	WebNavigateToSentMessage bool `json:"web_navigate_to_sent_message,omitempty"`

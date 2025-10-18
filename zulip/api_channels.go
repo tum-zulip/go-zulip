@@ -13,10 +13,10 @@ type ChannelsAPI interface {
 
 	// AddDefaultChannel Add a default channel
 	//
-	// Add a channel to the set of [default channels][default-channels]
+	// Add a channel to the set of [default channels]
 	// for new users joining the organization.
 	//
-	// [default-channels]: https://zulip.com/help/set-default-channels-for-new-users
+	// [default channels]: https://zulip.com/help/set-default-channels-for-new-users
 	//
 	AddDefaultChannel(ctx context.Context) AddDefaultChannelRequest
 
@@ -258,10 +258,10 @@ type ChannelsAPI interface {
 
 	// RemoveDefaultChannel Remove a default channel
 	//
-	// Remove a channel from the set of [default channels][default-channels]
+	// Remove a channel from the set of [default channels]
 	// for new users joining the organization.
 	//
-	// [default-channels]: https://zulip.com/help/set-default-channels-for-new-users
+	// [default channels]: https://zulip.com/help/set-default-channels-for-new-users
 	//
 	RemoveDefaultChannel(ctx context.Context) RemoveDefaultChannelRequest
 
@@ -298,13 +298,13 @@ type ChannelsAPI interface {
 	// in the channel is now controlled by `can_send_message_group`.
 	//
 	// Before Zulip 8.0 (feature level 208), if a user specified by the
-	// [`principals`][principals-param] parameter was a deactivated user,
+	// [`principals`] parameter was a deactivated user,
 	// or did not exist, then an HTTP status code of 403 was returned with
 	// `code: "UNAUTHORIZED_PRINCIPAL"` in the error response. As of this
 	// feature level, an HTTP status code of 400 is returned with
 	// `code: "BAD_REQUEST"` in the error response for these cases.
 	//
-	// [principals-param]: https://zulip.com/api/subscribe#parameter-principals
+	// [`principals`]: https://zulip.com/api/subscribe#parameter-principals
 	//
 	Subscribe(ctx context.Context) SubscribeRequest
 
@@ -326,14 +326,14 @@ type ChannelsAPI interface {
 	// - Users can unsubscribe any user from a channel if they [have
 	// access](https://zulip.com/help/channel-permissions) to the channel and are a
 	// member of the [user group](https://zulip.com/api/get-user-groups) specified
-	// by the [`can_remove_subscribers_group`][can-remove-parameter]
+	// by the [`can_remove_subscribers_group`]
 	// for the channel.
 	//
 	// *Changes**: Before Zulip 10.0 (feature level 362),
 	// subscriptions in archived channels could not be modified.
 	//
 	// Before Zulip 8.0 (feature level 208), if a user specified by
-	// the [`principals`][principals-param] parameter was a
+	// the [`principals`] parameter was a
 	// deactivated user, or did not exist, then an HTTP status code
 	// of 403 was returned with `code: "UNAUTHORIZED_PRINCIPAL"` in
 	// the error response. As of this feature level, an HTTP status
@@ -351,8 +351,8 @@ type ChannelsAPI interface {
 	// Before Zulip 6.0 (feature level 145), users had no special
 	// privileges for managing bots that they own.
 	//
-	// [principals-param]: https://zulip.com/api/unsubscribe#parameter-principals
-	// [can-remove-parameter]: https://zulip.com/api/subscribe#parameter-can_remove_subscribers_group
+	// [`principals`]: https://zulip.com/api/unsubscribe#parameter-principals
+	// [`can_remove_subscribers_group`]: https://zulip.com/api/subscribe#parameter-can_remove_subscribers_group
 	//
 	Unsubscribe(ctx context.Context) UnsubscribeRequest
 
@@ -412,9 +412,9 @@ type ChannelsAPI interface {
 	// *Changes**: Prior to Zulip 5.0 (feature level 111), response
 	// object included the `subscription_data` in the
 	// request. The endpoint now returns the more ergonomic
-	// [`ignored_parameters_unsupported`][ignored-parameters] array instead.
+	// [`ignored_parameters_unsupported`] array instead.
 	//
-	// [ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
+	// [`ignored_parameters_unsupported`]: https://zulip.com/api/rest-error-handling#ignored-parameters
 	//
 	UpdateSubscriptionSettings(ctx context.Context) UpdateSubscriptionSettingsRequest
 
@@ -470,10 +470,10 @@ func (r AddDefaultChannelRequest) Execute() (*Response, *http.Response, error) {
 
 // AddDefaultChannel Add a default channel
 //
-// Add a channel to the set of [default channels][default-channels]
+// Add a channel to the set of [default channels]
 // for new users joining the organization.
 //
-// [default-channels]: https://zulip.com/help/set-default-channels-for-new-users
+// [default channels]: https://zulip.com/help/set-default-channels-for-new-users
 func (c *simpleClient) AddDefaultChannel(ctx context.Context) AddDefaultChannelRequest {
 	return AddDefaultChannelRequest{
 		ApiService: c,
@@ -828,13 +828,13 @@ func (r CreateChannelRequest) InviteOnly(inviteOnly bool) CreateChannelRequest {
 	return r
 }
 
-// This parameter determines whether the newly created channel will be a web-public channel.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting][server-settings] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current user to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.  [server-settings]: https://zulip.readthedocs.io/en/stable/production/settings.html
+// This parameter determines whether the newly created channel will be a web-public channel.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current user to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.  [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html
 func (r CreateChannelRequest) IsWebPublic(isWebPublic bool) CreateChannelRequest {
 	r.isWebPublic = &isWebPublic
 	return r
 }
 
-// This parameter determines whether the newly created channel will be added as a [default channel][default-channels] for new users joining the organization.  [default-channels]: https://zulip.com/help/set-default-channels-for-new-users
+// This parameter determines whether the newly created channel will be added as a [default channel] for new users joining the organization.  [default channel]: https://zulip.com/help/set-default-channels-for-new-users
 func (r CreateChannelRequest) IsDefaultChannel(isDefaultChannel bool) CreateChannelRequest {
 	r.isDefaultChannel = &isDefaultChannel
 	return r
@@ -2684,10 +2684,10 @@ func (r RemoveDefaultChannelRequest) Execute() (*Response, *http.Response, error
 
 // RemoveDefaultChannel Remove a default channel
 //
-// Remove a channel from the set of [default channels][default-channels]
+// Remove a channel from the set of [default channels]
 // for new users joining the organization.
 //
-// [default-channels]: https://zulip.com/help/set-default-channels-for-new-users
+// [default channels]: https://zulip.com/help/set-default-channels-for-new-users
 func (c *simpleClient) RemoveDefaultChannel(ctx context.Context) RemoveDefaultChannelRequest {
 	return RemoveDefaultChannelRequest{
 		ApiService: c,
@@ -2835,13 +2835,13 @@ func (r SubscribeRequest) InviteOnly(inviteOnly bool) SubscribeRequest {
 	return r
 }
 
-// This parameter determines whether any newly created channels will be web-public channels.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting][server-settings] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current use to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.  [server-settings]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
+// This parameter determines whether any newly created channels will be web-public channels.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current use to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.  [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
 func (r SubscribeRequest) IsWebPublic(isWebPublic bool) SubscribeRequest {
 	r.isWebPublic = &isWebPublic
 	return r
 }
 
-// This parameter determines whether any newly created channels will be added as [default channels][default-channels] for new users joining the organization.  [default-channels]: https://zulip.com/help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint](https://zulip.com/api/add-default-stream).
+// This parameter determines whether any newly created channels will be added as [default channels] for new users joining the organization.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint](https://zulip.com/api/add-default-stream).
 func (r SubscribeRequest) IsDefaultChannel(isDefaultChannel bool) SubscribeRequest {
 	r.isDefaultChannel = &isDefaultChannel
 	return r
@@ -2959,13 +2959,13 @@ func (r SubscribeRequest) Execute() (*SubscribeResponse, *http.Response, error) 
 // in the channel is now controlled by `can_send_message_group`.
 //
 // Before Zulip 8.0 (feature level 208), if a user specified by the
-// [`principals`][principals-param] parameter was a deactivated user,
+// [`principals`] parameter was a deactivated user,
 // or did not exist, then an HTTP status code of 403 was returned with
 // `code: "UNAUTHORIZED_PRINCIPAL"` in the error response. As of this
 // feature level, an HTTP status code of 400 is returned with
 // `code: "BAD_REQUEST"` in the error response for these cases.
 //
-// [principals-param]: https://zulip.com/api/subscribe#parameter-principals
+// [`principals`]: https://zulip.com/api/subscribe#parameter-principals
 func (c *simpleClient) Subscribe(ctx context.Context) SubscribeRequest {
 	return SubscribeRequest{
 		ApiService: c,
@@ -3197,14 +3197,14 @@ func (r UnsubscribeRequest) Execute() (*UnsubscribeResponse, *http.Response, err
 // - Users can unsubscribe any user from a channel if they [have
 // access](https://zulip.com/help/channel-permissions) to the channel and are a
 // member of the [user group](https://zulip.com/api/get-user-groups) specified
-// by the [`can_remove_subscribers_group`][can-remove-parameter]
+// by the [`can_remove_subscribers_group`]
 // for the channel.
 //
 // *Changes**: Before Zulip 10.0 (feature level 362),
 // subscriptions in archived channels could not be modified.
 //
 // Before Zulip 8.0 (feature level 208), if a user specified by
-// the [`principals`][principals-param] parameter was a
+// the [`principals`] parameter was a
 // deactivated user, or did not exist, then an HTTP status code
 // of 403 was returned with `code: "UNAUTHORIZED_PRINCIPAL"` in
 // the error response. As of this feature level, an HTTP status
@@ -3222,8 +3222,8 @@ func (r UnsubscribeRequest) Execute() (*UnsubscribeResponse, *http.Response, err
 // Before Zulip 6.0 (feature level 145), users had no special
 // privileges for managing bots that they own.
 //
-// [principals-param]: https://zulip.com/api/unsubscribe#parameter-principals
-// [can-remove-parameter]: https://zulip.com/api/subscribe#parameter-can_remove_subscribers_group
+// [`can_remove_subscribers_group`]: https://zulip.com/api/subscribe#parameter-can_remove_subscribers_group
+// [`principals`]: https://zulip.com/api/unsubscribe#parameter-principals
 func (c *simpleClient) Unsubscribe(ctx context.Context) UnsubscribeRequest {
 	return UnsubscribeRequest{
 		ApiService: c,
@@ -3496,7 +3496,7 @@ func (r UpdateChannelRequest) IsPrivate(isPrivate bool) UpdateChannelRequest {
 	return r
 }
 
-// Change whether the channel is a web-public channel.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting][server-settings] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current use to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.  [server-settings]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
+// Change whether the channel is a web-public channel.  Note that creating web-public channels requires the &#x60;WEB_PUBLIC_STREAMS_ENABLED&#x60; [server setting] to be enabled on the Zulip server in question, the organization to have enabled the &#x60;enable_spectator_access&#x60; realm setting, and the current use to have permission under the organization&#39;s &#x60;can_create_web_public_channel_group&#x60; realm setting.   [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
 func (r UpdateChannelRequest) IsWebPublic(isWebPublic bool) UpdateChannelRequest {
 	r.isWebPublic = &isWebPublic
 	return r
@@ -3508,7 +3508,7 @@ func (r UpdateChannelRequest) HistoryPublicToSubscribers(historyPublicToSubscrib
 	return r
 }
 
-// Add or remove the channel as a [default channel][default-channel] for new users joining the organization.  [default-channel]: https://zulip.com/help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint](https://zulip.com/api/add-default-stream).
+// Add or remove the channel as a [default channel] for new users joining the organization.  [default channel]: https://zulip.com/help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint](https://zulip.com/api/add-default-stream).
 func (r UpdateChannelRequest) IsDefaultChannel(isDefaultChannel bool) UpdateChannelRequest {
 	r.isDefaultChannel = &isDefaultChannel
 	return r
@@ -3536,61 +3536,61 @@ func (r UpdateChannelRequest) TopicsPolicy(topicsPolicy TopicsPolicy) UpdateChan
 	return r
 }
 
-// The set of users who have permission to add subscribers to this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Users who can administer the channel or have similar realm-level permissions can add subscribers to a public channel regardless of the value of this setting.  Users in this group need not be subscribed to a private channel to add subscribers to it.  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 342). Previously, there was no channel-level setting for this permission.
+// The set of users who have permission to add subscribers to this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Users who can administer the channel or have similar realm-level permissions can add subscribers to a public channel regardless of the value of this setting.  Users in this group need not be subscribed to a private channel to add subscribers to it.  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 342). Previously, there was no channel-level setting for this permission.
 func (r UpdateChannelRequest) CanAddSubscribersGroup(canAddSubscribersGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canAddSubscribersGroup = &canAddSubscribersGroup
 	return r
 }
 
-// The set of users who have permission to unsubscribe others from this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Organization administrators can unsubscribe others from a channel as though they were in this group without being explicitly listed here.  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.  **Changes**: Prior to Zulip 10.0 (feature level 349), channel administrators could not unsubscribe other users if they were not an organization administrator or part of &#x60;can_remove_subscribers_group&#x60;. Realm administrators were not allowed to unsubscribe other users from a private channel if they were not subscribed to that channel.  Prior to Zulip 10.0 (feature level 320), this value was always the integer Id of a system group.  Before Zulip 8.0 (feature level 197), the &#x60;can_remove_subscribers_group&#x60; setting was named &#x60;can_remove_subscribers_group_id&#x60;.  New in Zulip 7.0 (feature level 161).
+// The set of users who have permission to unsubscribe others from this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Organization administrators can unsubscribe others from a channel as though they were in this group without being explicitly listed here.  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.  **Changes**: Prior to Zulip 10.0 (feature level 349), channel administrators could not unsubscribe other users if they were not an organization administrator or part of &#x60;can_remove_subscribers_group&#x60;. Realm administrators were not allowed to unsubscribe other users from a private channel if they were not subscribed to that channel.  Prior to Zulip 10.0 (feature level 320), this value was always the integer Id of a system group.  Before Zulip 8.0 (feature level 197), the &#x60;can_remove_subscribers_group&#x60; setting was named &#x60;can_remove_subscribers_group_id&#x60;.  New in Zulip 7.0 (feature level 161).
 func (r UpdateChannelRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canRemoveSubscribersGroup = &canRemoveSubscribersGroup
 	return r
 }
 
-// The set of users who have permission to administer this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Organization administrators can administer every channel as though they were in this group without being explicitly listed here.  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to add other subscribers to the channel.  **Changes**: Prior to Zulip 10.0 (feature level 349) a user needed to [have content access](https://zulip.com/help/channel-permissions) to a channel in order to modify it. The exception to this rule was that organization administrators can edit channel names and descriptions without having full access to the channel.  New in Zulip 10.0 (feature level 325). Prior to this change, the permission to administer channels was limited to realm administrators.
+// The set of users who have permission to administer this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Organization administrators can administer every channel as though they were in this group without being explicitly listed here.  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to add other subscribers to the channel.  **Changes**: Prior to Zulip 10.0 (feature level 349) a user needed to [have content access](https://zulip.com/help/channel-permissions) to a channel in order to modify it. The exception to this rule was that organization administrators can edit channel names and descriptions without having full access to the channel.  New in Zulip 10.0 (feature level 325). Prior to this change, the permission to administer channels was limited to realm administrators.
 func (r UpdateChannelRequest) CanAdministerChannelGroup(canAdministerChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canAdministerChannelGroup = &canAdministerChannelGroup
 	return r
 }
 
-// The set of users who have permission to delete any message in the channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to delete any message in the channel.  Users present in the organization-level &#x60;can_delete_any_message_group&#x60; setting can always delete any message in the channel if they [have content access](https://zulip.com/help/channel-permissions) to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in &#x60;can_delete_any_message_group&#x60; were able delete any message in the organization.
+// The set of users who have permission to delete any message in the channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to delete any message in the channel.  Users present in the organization-level &#x60;can_delete_any_message_group&#x60; setting can always delete any message in the channel if they [have content access](https://zulip.com/help/channel-permissions) to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in &#x60;can_delete_any_message_group&#x60; were able delete any message in the organization.
 func (r UpdateChannelRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canDeleteAnyMessageGroup = &canDeleteAnyMessageGroup
 	return r
 }
 
-// The set of users who have permission to delete the messages that they have sent in the channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to delete their own message in the channel.  Users with permission to delete any message in the channel and users present in the organization-level &#x60;can_delete_own_message_group&#x60; setting can always delete their own messages in the channel if they [have content access](https://zulip.com/help/channel-permissions) to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in the organization-level &#x60;can_delete_any_message_group&#x60; and &#x60;can_delete_own_message_group&#x60; settings were able delete their own messages in the organization.
+// The set of users who have permission to delete the messages that they have sent in the channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to delete their own message in the channel.  Users with permission to delete any message in the channel and users present in the organization-level &#x60;can_delete_own_message_group&#x60; setting can always delete their own messages in the channel if they [have content access](https://zulip.com/help/channel-permissions) to that channel.  **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in the organization-level &#x60;can_delete_any_message_group&#x60; and &#x60;can_delete_own_message_group&#x60; settings were able delete their own messages in the organization.
 func (r UpdateChannelRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canDeleteOwnMessageGroup = &canDeleteOwnMessageGroup
 	return r
 }
 
-// The set of users who have permission to move messages out of this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to move messages out of the channel.  Channel administrators and users present in the organization-level &#x60;can_move_messages_between_channels_group&#x60; setting can always move messages out of the channel if they [have content access](https://zulip.com/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in &#x60;can_move_messages_between_channels_group&#x60; were able move messages between channels.
+// The set of users who have permission to move messages out of this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to move messages out of the channel.  Channel administrators and users present in the organization-level &#x60;can_move_messages_between_channels_group&#x60; setting can always move messages out of the channel if they [have content access](https://zulip.com/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in &#x60;can_move_messages_between_channels_group&#x60; were able move messages between channels.
 func (r UpdateChannelRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canMoveMessagesOutOfChannelGroup = &canMoveMessagesOutOfChannelGroup
 	return r
 }
 
-// The set of users who have permission to move messages within this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level &#x60;can_move_messages_between_topics_group&#x60; setting can always move messages within the channel if they [have content access](https://zulip.com/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in &#x60;can_move_messages_between_topics_group&#x60; were able move messages between topics of a channel.
+// The set of users who have permission to move messages within this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level &#x60;can_move_messages_between_topics_group&#x60; setting can always move messages within the channel if they [have content access](https://zulip.com/help/channel-permissions) to the channel.  **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in &#x60;can_move_messages_between_topics_group&#x60; were able move messages between topics of a channel.
 func (r UpdateChannelRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canMoveMessagesWithinChannelGroup = &canMoveMessagesWithinChannelGroup
 	return r
 }
 
-// The set of users who have permission to post in this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 333). Previously &#x60;stream_post_policy&#x60; field used to control the permission to post in the channel.
+// The set of users who have permission to post in this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 333). Previously &#x60;stream_post_policy&#x60; field used to control the permission to post in the channel.
 func (r UpdateChannelRequest) CanSendMessageGroup(canSendMessageGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canSendMessageGroup = &canSendMessageGroup
 	return r
 }
 
-// The set of users who have permission to subscribe themselves to this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Everyone, excluding guests, can subscribe to any public channel irrespective of this setting.  Users in this group can subscribe to a private channel as well.  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 357).
+// The set of users who have permission to subscribe themselves to this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Everyone, excluding guests, can subscribe to any public channel irrespective of this setting.  Users in this group can subscribe to a private channel as well.  Note that a user must [have content access](https://zulip.com/help/channel-permissions) to a channel and permission to administer the channel in order to modify this setting.  **Changes**: New in Zulip 10.0 (feature level 357).
 func (r UpdateChannelRequest) CanSubscribeGroup(canSubscribeGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canSubscribeGroup = &canSubscribeGroup
 	return r
 }
 
-// The set of users who have permission to to resolve topics in this channel expressed as an [update to a group-setting value][update-group-setting].  [update-group-setting]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Users who have similar realm-level permissions can resolve topics in a channel regardless of the value of this setting.  **Changes**: New in Zulip 11.0 (feature level 402).
+// The set of users who have permission to to resolve topics in this channel expressed as an [update to a group-setting value].  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Users who have similar realm-level permissions can resolve topics in a channel regardless of the value of this setting.  **Changes**: New in Zulip 11.0 (feature level 402).
 func (r UpdateChannelRequest) CanResolveTopicsGroup(canResolveTopicsGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canResolveTopicsGroup = &canResolveTopicsGroup
 	return r
@@ -3831,9 +3831,9 @@ func (r UpdateSubscriptionSettingsRequest) Execute() (*Response, *http.Response,
 // *Changes**: Prior to Zulip 5.0 (feature level 111), response
 // object included the `subscription_data` in the
 // request. The endpoint now returns the more ergonomic
-// [`ignored_parameters_unsupported`][ignored-parameters] array instead.
+// [`ignored_parameters_unsupported`] array instead.
 //
-// [ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
+// [`ignored_parameters_unsupported`]: https://zulip.com/api/rest-error-handling#ignored-parameters
 func (c *simpleClient) UpdateSubscriptionSettings(ctx context.Context) UpdateSubscriptionSettingsRequest {
 	return UpdateSubscriptionSettingsRequest{
 		ApiService: c,

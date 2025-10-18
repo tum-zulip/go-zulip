@@ -430,10 +430,8 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 		} else {
 			valuesMap.Add(keyPrefix, value)
 		}
-		break
 	case map[string]string:
 		valuesMap[keyPrefix] = value
-		break
 	}
 }
 

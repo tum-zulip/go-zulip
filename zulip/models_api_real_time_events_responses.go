@@ -25,7 +25,7 @@ type RegisterQueueResponse struct {
 	LastEventId int64 `json:"last_event_id,omitempty"`
 	// The server's current [Zulip feature level](https://zulip.com/api/changelog).  **Changes**: As of Zulip 3.0 (feature level 3), this is always present in the endpoint's response. Previously, it was only present if `event_types` included `zulip_version`.  New in Zulip 3.0 (feature level 1).
 	ZulipFeatureLevel int64 `json:"zulip_feature_level,omitempty"`
-	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git][git-release], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.  **Changes**: As of Zulip 3.0 (feature level 3), this is always present in the endpoint's response. Previously, it was only present if `event_types` included `zulip_version`.  [git-release]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
+	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.  **Changes**: As of Zulip 3.0 (feature level 3), this is always present in the endpoint's response. Previously, it was only present if `event_types` included `zulip_version`.  [version from Git]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
 	ZulipVersion string `json:"zulip_version,omitempty"`
 	// The `git merge-base` between `zulip_version` and official branches in the public [Zulip server and web app repository](https://github.com/zulip/zulip), in the same format as `zulip_version`. This will equal `zulip_version` if the server is not running a fork of the Zulip server.  This will be `\"\"` if the server does not know its `merge-base`.  **Changes**: New in Zulip 5.0 (feature level 88).
 	ZulipMergeBase string `json:"zulip_merge_base,omitempty"`
@@ -94,14 +94,14 @@ type RegisterQueueResponse struct {
 	Subscriptions []Subscription `json:"subscriptions,omitempty"`
 	// Present if `subscription` is present in `fetch_event_types`.  A array of dictionaries where each dictionary describes one of the channels the user has unsubscribed from but was previously subscribed to along with the subscription details.  Unlike `never_subscribed`, the user might have messages in their personal message history that were sent to these channels.  **Changes**: Prior to Zulip 10.0 (feature level 349), if a user was in `can_administer_channel_group` of a channel that they had unsubscribed from, but not an organization administrator, the channel in question would not be part of this array.  Removed `email_address` field from the dictionary in Zulip 8.0 (feature level 226).  Removed `role` field from the dictionary in Zulip 6.0 (feature level 133).
 	Unsubscribed []Subscription `json:"unsubscribed,omitempty"`
-	// Present if `subscription` is present in `fetch_event_types`.  A array of dictionaries where each dictionary describes one of the channels that is visible to the user and the user has never been subscribed to.  Important for clients containing UI where one can browse channels to subscribe to.  **Changes**: Before Zulip 10.0 (feature level 362), archived channels did not appear in this list, even if the `archived_channels` [client capability][client-capabilities] was declared by the client.  Prior to Zulip 10.0 (feature level 349), if a user was in `can_administer_channel_group` of a channel that they never subscribed to, but not an organization administrator, the channel in question would not be part of this array.
+	// Present if `subscription` is present in `fetch_event_types`.  A array of dictionaries where each dictionary describes one of the channels that is visible to the user and the user has never been subscribed to.  Important for clients containing UI where one can browse channels to subscribe to.  **Changes**: Before Zulip 10.0 (feature level 362), archived channels did not appear in this list, even if the `archived_channels` [client capability] was declared by the client.  Prior to Zulip 10.0 (feature level 349), if a user was in `can_administer_channel_group` of a channel that they never subscribed to, but not an organization administrator, the channel in question would not be part of this array.
 	NeverSubscribed []ChannelWithSubscribers `json:"never_subscribed,omitempty"`
 	// Present if `channel_folders` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes one of the channel folders in the organization.  Only channel folders with one or more public web channels are visible to spectators.  **Changes**: New in Zulip 11.0 (feature level 389).
 	ChannelFolders []ChannelFolder `json:"channel_folders,omitempty"`
 	UnreadMsgs     *UnreadMsgs     `json:"unread_msgs,omitempty"`
 	// Present if `starred_messages` is present in `fetch_event_types`.  Array containing the Ids of all messages which have been [starred](https://zulip.com/help/star-a-message) by the user.
 	StarredMessages []int64 `json:"starred_messages,omitempty"`
-	// Present if `stream` is present in `fetch_event_types`.  Array of dictionaries where each dictionary contains details about a single channel in the organization that is visible to the user.  For organization administrators, this will include all private channels in the organization.  **Changes**: Before Zulip 11.0 (feature level 378), archived channels did not appear in this list, even if the `archived_channels` [client capability][client-capabilities] was declared by the client.  As of Zulip 8.0 (feature level 205), this will include all web-public channels in the organization as well.
+	// Present if `stream` is present in `fetch_event_types`.  Array of dictionaries where each dictionary contains details about a single channel in the organization that is visible to the user.  For organization administrators, this will include all private channels in the organization.  **Changes**: Before Zulip 11.0 (feature level 378), archived channels did not appear in this list, even if the `archived_channels` [client capability] was declared by the client.  As of Zulip 8.0 (feature level 205), this will include all web-public channels in the organization as well.
 	Channels []Channel `json:"streams,omitempty"`
 	// Present if `default_streams` is present in `fetch_event_types`.  An array of Ids of all the [default channels](https://zulip.com/help/set-default-streams-for-new-users) in the organization.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
 	RealmDefaultChannels []int64 `json:"realm_default_streams,omitempty"`
@@ -127,13 +127,15 @@ type RegisterQueueResponse struct {
 	// Maximum number of new subscribers for which the server will respect the `send_new_subscription_messages` parameter when [adding subscribers to a channel](https://zulip.com/api/subscribe#parameter-send_new_subscription_messages.  **Changes**: New in Zulip 11.0 (feature level 397).
 	MaxBulkNewSubscriptionMessages float32 `json:"max_bulk_new_subscription_messages,omitempty"`
 
-	// Present if `update_display_settings` is present in `fetch_event_types` and only for clients that did not include `user_settings_object` in their [`client_capabilities`][capabilities] when registering the event queue.
+	// Present if `update_display_settings` is present in `fetch_event_types` and only for clients that did not include `user_settings_object` in their [`client_capabilities`] when registering the event queue.
+	// [`client_capabilities`]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	UpdateDisplaySettings *UpdateDisplaySettings `json:"update_display_settings,omitempty"`
 
 	// Present if `realm_user` is present in `fetch_event_types`.
 	RealmUser *RealmUser
 
-	// Present if `update_global_notifications` is present in `fetch_event_types` and only for clients that did not include `user_settings_object` in their [`client_capabilities`][capabilities] when registering the event queue.
+	// Present if `update_global_notifications` is present in `fetch_event_types` and only for clients that did not include `user_settings_object` in their [`client_capabilities`] when registering the event queue.
+	// [`client_capabilities`]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	GlobalNotifications *GlobalNotifications
 
 	// Present if `realm` is present in `fetch_event_types`.
@@ -256,7 +258,10 @@ type UpdateDisplaySettings struct {
 	// Whether the user has chosen a twenty four hour time display (true) or a twelve hour one (false).  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// Deprecated
 	TwentyFourHourTime bool `json:"twenty_four_hour_time,omitempty"`
-	// Whether the user setting for [sending on pressing Enter][set-enter-send] in the compose box is enabled.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.  Prior to Zulip 5.0 (feature level 84), this field was present in response if `realm_user` was present in `fetch_event_types`, not `update_display_settings`.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities [set-enter-send]: https://zulip.com/help/configure-send-message-keys
+	// Whether the user setting for [sending on pressing Enter] in the compose box is enabled.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.  Prior to Zulip 5.0 (feature level 84), this field was present in response if `realm_user` was present in `fetch_event_types`, not `update_display_settings`.
+	//
+	// [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// [sending on pressing Enter]: https://zulip.com/help/configure-send-message-keys
 	// Deprecated
 	EnterSends bool `json:"enter_sends,omitempty"`
 	// Array of dictionaries where each dictionary describes an emoji set supported by this version of the Zulip server.  Only relevant to clients with configuration UI for choosing an emoji set; the currently selected emoji set is available in the `emojiset` key.  See [PATCH /settings](https://zulip.com/api/update-settings) for details on the meaning of this setting.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.  [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
@@ -291,7 +296,8 @@ type RealmUser struct {
 	CanCreateWebPublicStreams bool `json:"can_create_web_public_streams,omitempty"`
 	// Whether the current user is allowed to subscribe other users to channels with the organization's [channels policy](https://zulip.com/help/configure-who-can-invite-to-channels).
 	CanSubscribeOtherUsers bool `json:"can_subscribe_other_users,omitempty"`
-	// Whether the current user [is allowed to invite others][who-can-send-invitations] to the organization.  **Changes**: New in Zulip 4.0 (feature level 51).  [who-can-send-invitations]: https://zulip.com/help/restrict-account-creation#change-who-can-send-invitations
+	// Whether the current user [is allowed to invite others] to the organization.  **Changes**: New in Zulip 4.0 (feature level 51).
+	// [is allowed to invite others]: https://zulip.com/help/restrict-account-creation#change-who-can-send-invitations
 	CanInviteOthersToRealm bool `json:"can_invite_others_to_realm,omitempty"`
 	// Whether the current user is at least an [organization administrator](https://zulip.com/api/roles-and-permissions).
 	IsAdmin bool `json:"is_admin,omitempty"`
@@ -553,7 +559,10 @@ type RealmUserSettingsDefaults struct {
 	SendReadReceipts *bool `json:"send_read_receipts,omitempty"`
 	// Whether organization administrators are allowed to export your private data.  **Changes**: New in Zulip 10.0 (feature level 293).
 	AllowPrivateDataExport *bool `json:"allow_private_data_export,omitempty"`
-	// The [policy][permission-level] for [which other users][help-email-visibility] in this organization can see the user's real email address.  - 1 = Everyone - 2 = Members only - 3 = Administrators only - 4 = Nobody - 5 = Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.  [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels [help-email-visibility]: https://zulip.com/help/configure-email-visibility
+	// The [policy] for [which other users] in this organization can see the user's real email address.  - 1 = Everyone - 2 = Members only - 3 = Administrators only - 4 = Nobody - 5 = Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
+	//
+	// [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
+	// [which other users]: https://zulip.com/help/configure-email-visibility
 	EmailAddressVisibility *int32 `json:"email_address_visibility,omitempty"`
 	// Web/desktop app setting for whether the user's view should automatically go to the conversation where they sent a message.  **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
 	WebNavigateToSentMessage *bool `json:"web_navigate_to_sent_message,omitempty"`
@@ -563,7 +572,7 @@ type RealmUserSettingsDefaults struct {
 type UserTopic struct {
 	// The Id of the channel to which the topic belongs.
 	ChannelId int64 `json:"stream_id,omitempty"`
-	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	TopicName string `json:"topic_name,omitempty"`
 	// An integer UNIX timestamp representing when the user-topic relationship was last changed.
 	LastUpdated time.Time `json:"last_updated,omitempty"`
@@ -644,7 +653,7 @@ type UnreadMsgsPms struct {
 
 // UnreadMsgsChannels struct for UnreadMsgsChannels
 type UnreadMsgsChannels struct {
-	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response depending on the value of the `empty_topic_name` [client capability][client-capabilities].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](https://zulip.com/api/register-queue) response depending on the value of the `empty_topic_name` [client capability].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	Topic string `json:"topic,omitempty"`
 	// The Id of the channel to which the messages were sent.
 	ChannelId int64 `json:"stream_id,omitempty"`

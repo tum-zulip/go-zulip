@@ -90,7 +90,9 @@ type SendMessageResponse struct {
 type UpdateMessageResponse struct {
 	Response
 
-	// Details on all files uploaded by the acting user whose only references were removed when editing this message. Clients should ask the acting user if they wish to delete the uploaded files returned in this response, which might otherwise remain visible only in message edit history.  Note that [access to message edit history][edit-history-access] is configurable; this detail may be important in presenting the question clearly to users.  New in Zulip 10.0 (feature level 285).  [edit-history-access]: https://zulip.com/help/restrict-message-edit-history-access
+	// Details on all files uploaded by the acting user whose only references were removed when editing this message. Clients should ask the acting user if they wish to delete the uploaded files returned in this response, which might otherwise remain visible only in message edit history.  Note that [access to message edit history] is configurable; this detail may be important in presenting the question clearly to users.  New in Zulip 10.0 (feature level 285).
+	//
+	// [access to message edit history]: https://zulip.com/help/restrict-message-edit-history-access
 	DetachedUploads []Attachment `json:"detached_uploads,omitempty"`
 }
 

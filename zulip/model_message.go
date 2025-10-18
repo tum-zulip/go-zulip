@@ -20,9 +20,15 @@ type Message struct {
 	// The HTTP `content_type` for the message content. This will be `text/html` or `text/x-markdown`, depending on whether `apply_markdown` was set.  See the help center article on [message formatting](https://zulip.com/help/format-your-message-using-markdown) for details on Zulip-flavored Markdown.
 	ContentType      string           `json:"content_type,omitempty"`
 	DisplayRecipient DisplayRecipient `json:"display_recipient,omitempty"`
-	// An array of objects, with each object documenting the changes in a previous edit made to the message, ordered chronologically from most recent to least recent edit.  Not present if the message has never been edited or moved, or if [viewing message edit history][edit-history-access] is not allowed in the organization.  Every object will contain `user_id` and `timestamp`.  The other fields are optional, and will be present or not depending on whether the channel, topic, and/or message content were modified in the edit event. For example, if only the topic was edited, only `prev_topic` and `topic` will be present in addition to `user_id` and `timestamp`.  [edit-history-access]: https://zulip.com/help/restrict-message-edit-history-access  **Changes**: In Zulip 10.0 (feature level 284), removed the `prev_rendered_content_version` field as it is an internal server implementation detail not used by any client.
+	// An array of objects, with each object documenting the changes in a previous edit made to the message, ordered chronologically from most recent to least recent edit.  Not present if the message has never been edited or moved, or if [viewing message edit history] is not allowed in the organization.  Every object will contain `user_id` and `timestamp`.  The other fields are optional, and will be present or not depending on whether the channel, topic, and/or message content were modified in the edit event. For example, if only the topic was edited, only `prev_topic` and `topic` will be present in addition to `user_id` and `timestamp`.
+	//
+	// **Changes**: In Zulip 10.0 (feature level 284), removed the `prev_rendered_content_version` field as it is an internal server implementation detail not used by any client.
+	//
+	// [viewing message edit history]: https://zulip.com/help/restrict-message-edit-history-access
 	EditHistory []EditHistory `json:"edit_history,omitempty"`
-	// Whether the message is a [/me status message][status-messages]  [status-messages]: https://zulip.com/help/format-your-message-using-markdown#status-messages
+	// Whether the message is a [/me status message]
+	//
+	// [/me status message]: https://zulip.com/help/format-your-message-using-markdown#status-messages
 	IsMeMessage bool `json:"is_me_message,omitempty"`
 	// The UNIX timestamp for when the message's content was last edited, in UTC seconds.  Not present if the message's content has never been edited.  Clients should use this field, rather than parsing the `edit_history` array, to display an indicator that the message has been edited.  **Changes**: Prior to Zulip 10.0 (feature level 365), this was the time when the message was last edited or moved.
 	LastEditTimestamp time.Time `json:"last_edit_timestamp,omitempty"`
@@ -42,7 +48,7 @@ type Message struct {
 	SenderRealmStr string `json:"sender_realm_str,omitempty"`
 	// Only present for channel messages; the Id of the channel.
 	ChannelId *int64 `json:"stream_id,omitempty"`
-	// The `topic` of the message. Currently always `\"\"` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called \"subjects\" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register](https://zulip.com/api/register-queue) response, for channel messages.  **Changes**: Before Zulip 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// The `topic` of the message. Currently always `\"\"` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called \"subjects\" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register](https://zulip.com/api/register-queue) response, for channel messages.  **Changes**: Before Zulip 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	Subject string `json:"subject,omitempty"`
 	// Data used for certain experimental Zulip integrations.
 	Submessages []Submessage `json:"submessages,omitempty"`
@@ -52,7 +58,7 @@ type Message struct {
 	TopicLinks []TopicLink `json:"topic_links,omitempty"`
 	// The type of the message: `\"stream\"` or `\"private\"`.
 	Type RecipientType `json:"type,omitempty"`
-	// The user's [message flags][message-flags] for the message.  **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.  [message-flags]: https://zulip.com/api/update-message-flags#available-flags
+	// The user's [message flags] for the message.  **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.  [message flags]: https://zulip.com/api/update-message-flags#available-flags
 	Flags []string `json:"flags,omitempty"`
 }
 

@@ -108,7 +108,7 @@ type GetServerSettingsResponse struct {
 	ExternalAuthenticationMethods []ExternalAuthMethod `json:"external_authentication_methods,omitempty"`
 	// An integer indicating what features are available on the server. The feature level increases monotonically; a value of N means the server supports all API features introduced before feature level N. This is designed to provide a simple way for client apps to decide whether the server supports a given feature or API change. See the [changelog](https://zulip.com/api/changelog) for details on what each feature level means.  **Changes**: New in Zulip 3.0 (feature level 1). We recommend using an implied value of 0 for Zulip servers that do not send this field.
 	ZulipFeatureLevel int `json:"zulip_feature_level,omitempty"`
-	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git][git-release], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.  [git-release]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
+	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.  [version from Git]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
 	ZulipVersion string `json:"zulip_version,omitempty"`
 	// The `git merge-base` between `zulip_version` and official branches in the public [Zulip server and web app repository](https://github.com/zulip/zulip), in the same format as `zulip_version`. This will equal `zulip_version` if the server is not running a fork of the Zulip server.  This will be `\"\"` if unavailable.  **Changes**: New in Zulip 5.0 (feature level 88).
 	ZulipMergeBase string `json:"zulip_merge_base,omitempty"`
@@ -118,7 +118,8 @@ type GetServerSettingsResponse struct {
 	IsIncompatible bool `json:"is_incompatible,omitempty"`
 	// Setting for allowing users authenticate with an email-password combination.
 	EmailAuthEnabled bool `json:"email_auth_enabled,omitempty"`
-	// Whether all valid usernames for authentication to this organization will be email addresses. This is important for clients to know whether to do client side validation of email address format in a login prompt.  This value will be false if the server has [LDAP authentication][ldap-auth] enabled with a username and password combination.  [ldap-auth]: https://zulip.readthedocs.io/en/latest/production/authentication-methods.html#ldap-including-active-directory
+	// Whether all valid usernames for authentication to this organization will be email addresses. This is important for clients to know whether to do client side validation of email address format in a login prompt.  This value will be false if the server has [LDAP authentication] enabled with a username and password combination.
+	// [LDAP authentication]: https://zulip.readthedocs.io/en/latest/production/authentication-methods.html#ldap-including-active-directory
 	RequireEmailFormatUsernames bool `json:"require_email_format_usernames,omitempty"`
 	// The organization's canonical URL. Alias of `realm_url`.  **Changes**: Deprecated in Zulip 9.0 (feature level 257). The term \"URI\" is deprecated in [web standards](https://url.spec.whatwg.org/#goals).
 	// Deprecated

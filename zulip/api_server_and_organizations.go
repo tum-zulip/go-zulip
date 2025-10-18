@@ -65,22 +65,21 @@ type ServerAndOrganizationsAPI interface {
 
 	// ExportRealm Create a data export
 	//
-	// Create a public or a standard [data export][export-data] of the organization.
+	// Create a public or a standard [data export] of the organization.
 	//
 	// !!! warn ""
 	//
 	// *Note**: If you're the administrator of a self-hosted installation,
-	// you may be looking for the documentation on [server data export and
-	// import][data-export] or [server backups][backups].
+	// you may be looking for the documentation on [server data export and import] or [server backups].
 	//
 	// *Changes**: Prior to Zulip 10.0 (feature level 304), only
 	// public data exports could be created using this endpoint.
 	//
 	// New in Zulip 2.1.
 	//
-	// [export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
-	// [data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
-	// [backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
+	// [data export]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+	// [server data export and import]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
+	// [server backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
 	//
 	ExportRealm(ctx context.Context) ExportRealmRequest
 
@@ -153,7 +152,7 @@ type ServerAndOrganizationsAPI interface {
 
 	// GetRealmExports Get all data exports
 	//
-	// Fetch all the public and standard [data exports][export-data]
+	// Fetch all the public and standard [data exports]
 	// of the organization.
 	//
 	// *Changes**: Prior to Zulip 10.0 (feature level 304), only
@@ -161,7 +160,7 @@ type ServerAndOrganizationsAPI interface {
 	//
 	// New in Zulip 2.1.
 	//
-	// [export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+	// [data exports]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 	//
 	GetRealmExports(ctx context.Context) GetRealmExportsRequest
 
@@ -266,7 +265,7 @@ type ServerAndOrganizationsAPI interface {
 
 	// UpdateRealmUserSettingsDefaults Update realm-level defaults of user settings
 	//
-	// Change the [default values of settings][new-user-defaults] for new users
+	// Change the [default values of settings] for new users
 	// joining the organization. Essentially all
 	// [personal preference settings](https://zulip.com/api/update-settings) are supported.
 	//
@@ -286,11 +285,11 @@ type ServerAndOrganizationsAPI interface {
 	//
 	// New in Zulip 5.0 (feature level 96). If any parameters sent in the
 	// request are not supported by this endpoint, an
-	// [`ignored_parameters_unsupported`][ignored-parameters] array will
+	// [`ignored_parameters_unsupported`] array will
 	// be returned in the JSON success response.
 	//
-	// [new-user-defaults]: https://zulip.com/help/configure-default-new-user-settings
-	// [ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
+	// [default values of settings]: https://zulip.com/help/configure-default-new-user-settings
+	// [`ignored_parameters_unsupported`]: https://zulip.com/api/rest-error-handling#ignored-parameters
 	//
 	UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest
 
@@ -587,7 +586,7 @@ func (r CreateCustomProfileFieldRequest) FieldData(fieldData map[string]interfac
 	return r
 }
 
-// Whether clients should display this profile field in a summary section of a user&#39;s profile (or in a more easily accessible \\\&quot;small profile\\\&quot;).  At most 2 profile fields may have this property be true in a given organization. The \\\&quot;Long text\\\&quot; [profile field types][profile-field-types] profile field types cannot be selected to be displayed in profile summaries.  The \\\&quot;Person picker\\\&quot; profile field is also not supported, but that is likely to be temporary.  [profile-field-types]: https://zulip.com/help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146).
+// Whether clients should display this profile field in a summary section of a user&#39;s profile (or in a more easily accessible \\\&quot;small profile\\\&quot;).  At most 2 profile fields may have this property be true in a given organization. The \\\&quot;Long text\\\&quot; [profile field types] profile field types cannot be selected to be displayed in profile summaries.  The \\\&quot;Person picker\\\&quot; profile field is also not supported, but that is likely to be temporary.  [profile field types]: https://zulip.com/help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146).
 func (r CreateCustomProfileFieldRequest) DisplayInProfileSummary(displayInProfileSummary bool) CreateCustomProfileFieldRequest {
 	r.displayInProfileSummary = &displayInProfileSummary
 	return r
@@ -835,22 +834,21 @@ func (r ExportRealmRequest) Execute() (*ExportRealmResponse, *http.Response, err
 
 // ExportRealm Create a data export
 //
-// Create a public or a standard [data export][export-data] of the organization.
+// Create a public or a standard [data export] of the organization.
 //
 // !!! warn ""
 //
 // *Note**: If you're the administrator of a self-hosted installation,
-// you may be looking for the documentation on [server data export and
-// import][data-export] or [server backups][backups].
+// you may be looking for the documentation on [server data export and import] or [server backups].
 //
 // *Changes**: Prior to Zulip 10.0 (feature level 304), only
 // public data exports could be created using this endpoint.
 //
 // New in Zulip 2.1.
 //
-// [export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
-// [data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
-// [backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
+// [server data export and import]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
+// [server backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
+// [data export]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 func (c *simpleClient) ExportRealm(ctx context.Context) ExportRealmRequest {
 	return ExportRealmRequest{
 		ApiService: c,
@@ -1418,7 +1416,7 @@ func (r GetRealmExportsRequest) Execute() (*GetRealmExportsResponse, *http.Respo
 
 // GetRealmExports Get all data exports
 //
-// Fetch all the public and standard [data exports][export-data]
+// Fetch all the public and standard [data exports]
 // of the organization.
 //
 // *Changes**: Prior to Zulip 10.0 (feature level 304), only
@@ -1426,7 +1424,7 @@ func (r GetRealmExportsRequest) Execute() (*GetRealmExportsResponse, *http.Respo
 //
 // New in Zulip 2.1.
 //
-// [export-data]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
+// [data exports]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 func (c *simpleClient) GetRealmExports(ctx context.Context) GetRealmExportsRequest {
 	return GetRealmExportsRequest{
 		ApiService: c,
@@ -2643,7 +2641,10 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(sendReadReceipt
 	return r
 }
 
-// The [policy][permission-level] for [which other users][help-email-visibility] in this organization can see the user&#39;s real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.  [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels [help-email-visibility]: https://zulip.com/help/configure-email-visibility
+// The [policy] for [which other users] in this organization can see the user&#39;s real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
+//
+// [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
+// [which other users]: https://zulip.com/help/configure-email-visibility
 func (r UpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(emailAddressVisibility int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.emailAddressVisibility = &emailAddressVisibility
 	return r
@@ -2661,7 +2662,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) Execute() (*Response, *http.Resp
 
 // UpdateRealmUserSettingsDefaults Update realm-level defaults of user settings
 //
-// Change the [default values of settings][new-user-defaults] for new users
+// Change the [default values of settings] for new users
 // joining the organization. Essentially all
 // [personal preference settings](https://zulip.com/api/update-settings) are supported.
 //
@@ -2681,11 +2682,11 @@ func (r UpdateRealmUserSettingsDefaultsRequest) Execute() (*Response, *http.Resp
 //
 // New in Zulip 5.0 (feature level 96). If any parameters sent in the
 // request are not supported by this endpoint, an
-// [`ignored_parameters_unsupported`][ignored-parameters] array will
+// [`ignored_parameters_unsupported`] array will
 // be returned in the JSON success response.
 //
-// [new-user-defaults]: https://zulip.com/help/configure-default-new-user-settings
-// [ignored-parameters]: https://zulip.com/api/rest-error-handling#ignored-parameters
+// [default values of settings]: https://zulip.com/help/configure-default-new-user-settings
+// [`ignored_parameters_unsupported`]: https://zulip.com/api/rest-error-handling#ignored-parameters
 func (c *simpleClient) UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest {
 	return UpdateRealmUserSettingsDefaultsRequest{
 		ApiService: c,
