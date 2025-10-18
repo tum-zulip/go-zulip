@@ -2,7 +2,6 @@ package zulip_test
 
 import (
 	"context"
-	"log/slog"
 	"testing"
 	"time"
 
@@ -12,7 +11,6 @@ import (
 )
 
 func Test_RealTimeEventsAPIService(t *testing.T) {
-	t.Parallel()
 
 	t.Run("DeleteQueue", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
@@ -34,7 +32,7 @@ func Test_RealTimeEventsAPIService(t *testing.T) {
 
 		queueId, lastEventId := registerMessageEventQueue(t, apiClient)
 		go func() {
-			time.Sleep(2 * time.Second)
+			time.Sleep(200 * time.Millisecond)
 			_, _, err := apiClient.SetTypingStatus(ctx).
 				Op(zulip.TypingStatusOpStart).
 				To(zulip.UserAsRecipient(getOwnUserId(t, apiClient))).
@@ -66,8 +64,6 @@ func registerMessageEventQueue(t *testing.T, apiClient zulip.Client) (string, in
 	ctx := context.Background()
 
 	resp, httpRes, err := apiClient.RegisterQueue(ctx).Execute()
-
-	slog.Error("debug", "resp", resp, "httpRes", httpRes, "err", err)
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)

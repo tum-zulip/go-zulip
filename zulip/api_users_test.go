@@ -12,14 +12,15 @@ import (
 )
 
 func Test_UsersAPIService_ActivateAndDeactivateUser(t *testing.T) {
-	otherUserId := getOwnUserId(t, GetOtherNormalClient(t))
+	deactivateUserClient := getTestClient(t, deactivateTestUser)
+	deactivateUserId := getOwnUserId(t, deactivateUserClient)
 
 	t.Run("DeactivateUser", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 		// ensure the user is active before deactivating
-		apiClient.ReactivateUser(ctx, otherUserId).Execute()
+		apiClient.ReactivateUser(ctx, deactivateUserId).Execute()
 
-		resp, httpRes, err := apiClient.DeactivateUser(ctx, otherUserId).Execute()
+		resp, httpRes, err := apiClient.DeactivateUser(ctx, deactivateUserId).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -30,27 +31,26 @@ func Test_UsersAPIService_ActivateAndDeactivateUser(t *testing.T) {
 		ctx := context.Background()
 
 		// ensure the user is deactivated before reactivating
-		apiClient.DeactivateUser(ctx, otherUserId).Execute()
+		apiClient.DeactivateUser(ctx, deactivateUserId).Execute()
 
-		resp, httpRes, err := apiClient.ReactivateUser(ctx, otherUserId).Execute()
+		resp, httpRes, err := apiClient.ReactivateUser(ctx, deactivateUserId).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 	}))
 
-	t.Run("DeactivateOwnUser", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("DeactivateOwnUser", func(t *testing.T) {
 		t.Skip("TODO: This test deactivates the user running the tests, so it should be the last test and the client should be recreated after this.")
 		ctx := context.Background()
 
-		resp, httpRes, err := apiClient.DeactivateOwnUser(ctx).Execute()
+		resp, httpRes, err := deactivateUserClient.DeactivateOwnUser(ctx).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
-	}))
-
+	})
 }
 
 func Test_UsersAPIService(t *testing.T) {

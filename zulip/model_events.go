@@ -1,6 +1,7 @@
 package zulip
 
 import (
+	"encoding/json"
 	"time"
 )
 
@@ -121,6 +122,105 @@ type MessagesEventData struct {
 	TopicLinks []TopicLink `json:"topic_links,omitempty"`
 	// The type of the message: `\"stream\"` or `\"private\"`.
 	Type *string `json:"type,omitempty"`
+}
+
+type messagesEventDataJSON struct {
+	AvatarUrl          interface{}       `json:"avatar_url,omitempty"`
+	Client             *string           `json:"client,omitempty"`
+	Content            *string           `json:"content,omitempty"`
+	ContentType        *string           `json:"content_type,omitempty"`
+	DisplayRecipient   *DisplayRecipient `json:"display_recipient,omitempty"`
+	EditHistory        []EditHistory     `json:"edit_history,omitempty"`
+	Id                 int64             `json:"id,omitempty"`
+	IsMeMessage        bool              `json:"is_me_message,omitempty"`
+	LastEditTimestamp  *int64            `json:"last_edit_timestamp,omitempty"`
+	LastMovedTimestamp *int64            `json:"last_moved_timestamp,omitempty"`
+	Reactions          []EmojiReaction   `json:"reactions,omitempty"`
+	RecipientId        int64             `json:"recipient_id,omitempty"`
+	SenderEmail        *string           `json:"sender_email,omitempty"`
+	SenderFullName     *string           `json:"sender_full_name,omitempty"`
+	SenderId           int64             `json:"sender_id,omitempty"`
+	SenderRealmStr     string            `json:"sender_realm_str,omitempty"`
+	ChannelId          *int64            `json:"stream_id,omitempty"`
+	Subject            string            `json:"subject,omitempty"`
+	Submessages        []Submessage      `json:"submessages,omitempty"`
+	Timestamp          int64             `json:"timestamp,omitempty"`
+	TopicLinks         []TopicLink       `json:"topic_links,omitempty"`
+	Type               *string           `json:"type,omitempty"`
+}
+
+func (m *MessagesEventData) MarshalJSON() ([]byte, error) {
+	obj := messagesEventDataJSON{
+		AvatarUrl:        m.AvatarUrl,
+		Client:           m.Client,
+		Content:          m.Content,
+		ContentType:      m.ContentType,
+		DisplayRecipient: m.DisplayRecipient,
+		EditHistory:      m.EditHistory,
+		Id:               m.Id,
+		IsMeMessage:      m.IsMeMessage,
+		Reactions:        m.Reactions,
+		RecipientId:      m.RecipientId,
+		SenderEmail:      m.SenderEmail,
+		SenderFullName:   m.SenderFullName,
+		SenderId:         m.SenderId,
+		SenderRealmStr:   m.SenderRealmStr,
+		ChannelId:        m.ChannelId,
+		Subject:          m.Subject,
+		Submessages:      m.Submessages,
+		TopicLinks:       m.TopicLinks,
+		Type:             m.Type,
+		Timestamp:        m.Timestamp.Unix(),
+	}
+	if m.LastEditTimestamp != nil {
+		t := m.LastEditTimestamp.Unix()
+		obj.LastEditTimestamp = &t
+	}
+	if m.LastMovedTimestamp != nil {
+		t := m.LastMovedTimestamp.Unix()
+		obj.LastMovedTimestamp = &t
+	}
+	return json.Marshal(obj)
+}
+
+func (m *MessagesEventData) UnmarshalJSON(data []byte) error {
+	var obj messagesEventDataJSON
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return err
+	}
+
+	m.AvatarUrl = obj.AvatarUrl
+	m.Client = obj.Client
+	m.Content = obj.Content
+	m.ContentType = obj.ContentType
+	m.DisplayRecipient = obj.DisplayRecipient
+	m.EditHistory = obj.EditHistory
+	m.Id = obj.Id
+	m.IsMeMessage = obj.IsMeMessage
+	m.Reactions = obj.Reactions
+	m.RecipientId = obj.RecipientId
+	m.SenderEmail = obj.SenderEmail
+	m.SenderFullName = obj.SenderFullName
+	m.SenderId = obj.SenderId
+	m.SenderRealmStr = obj.SenderRealmStr
+	m.ChannelId = obj.ChannelId
+	m.Subject = obj.Subject
+	m.Submessages = obj.Submessages
+	m.TopicLinks = obj.TopicLinks
+	m.Type = obj.Type
+	m.Timestamp = time.Unix(obj.Timestamp, 0)
+
+	if obj.LastEditTimestamp != nil {
+		t := time.Unix(*obj.LastEditTimestamp, 0)
+		m.LastEditTimestamp = &t
+	}
+
+	if obj.LastMovedTimestamp != nil {
+		t := time.Unix(*obj.LastMovedTimestamp, 0)
+		m.LastMovedTimestamp = &t
+	}
+
+	return nil
 }
 
 // UpdateDisplaySettingsEvent Event sent to clients that have requested the `update_display_settings` event type and did not include `user_settings_object` in their `client_capabilities` when registering the event queue.  **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
@@ -904,6 +1004,42 @@ type RestartEvent struct {
 	ZulipFeatureLevel int32 `json:"zulip_feature_level,omitempty"`
 	// The timestamp at which the server started.
 	ServerGeneration time.Time `json:"server_generation,omitempty"`
+}
+
+type restartEventJSON struct {
+	EventCommonWithOp
+
+	ZulipVersion      string  `json:"zulip_version,omitempty"`
+	ZulipMergeBase    string  `json:"zulip_merge_base,omitempty"`
+	ZulipFeatureLevel int32   `json:"zulip_feature_level,omitempty"`
+	ServerGeneration  float64 `json:"server_generation,omitempty"`
+}
+
+// UnmarshalJSON Custom unmarshaler to handle conversion of `server_generation` from a float timestamp to a `time.Time` object.
+func (e *RestartEvent) UnmarshalJSON(data []byte) error {
+	var rej restartEventJSON
+	if err := json.Unmarshal(data, &rej); err != nil {
+		return err
+	}
+
+	e.EventCommonWithOp = rej.EventCommonWithOp
+	e.ZulipVersion = rej.ZulipVersion
+	e.ZulipMergeBase = rej.ZulipMergeBase
+	e.ZulipFeatureLevel = rej.ZulipFeatureLevel
+	e.ServerGeneration = time.Unix(int64(rej.ServerGeneration), 0)
+
+	return nil
+}
+
+func (e *RestartEvent) MarshalJSON() ([]byte, error) {
+	rej := restartEventJSON{
+		EventCommonWithOp: e.EventCommonWithOp,
+		ZulipVersion:      e.ZulipVersion,
+		ZulipMergeBase:    e.ZulipMergeBase,
+		ZulipFeatureLevel: e.ZulipFeatureLevel,
+		ServerGeneration:  float64(e.ServerGeneration.Unix()),
+	}
+	return json.Marshal(rej)
 }
 
 // WebReloadClientEvent An event which signals the official Zulip web/desktop app to update, by reloading the page and fetching a new queue; this will generally follow a `restart` event. Clients which do not obtain their code from the server (e.g. mobile and terminal clients, which store their code locally) should ignore this event.  Clients choosing to reload the application must implement a random delay strategy to spread such restarts over 5 or more minutes to avoid creating a synchronized thundering herd effect.  **Changes**: New in Zulip 9.0 (feature level 240).

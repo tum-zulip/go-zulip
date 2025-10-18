@@ -24,6 +24,7 @@ const (
 	testGuestUsername     = "polonius@zulip.com"
 	testNormalUsername    = "AARON@zulip.com"
 	otherNormalUsername   = "hamlet@zulip.com"
+	deactivateTestUser    = "cordelia@zulip.com"
 )
 
 var (
@@ -223,5 +224,5 @@ func ensureUserActive(t *testing.T, username string) error {
 }
 
 func uniqueName(prefix string) string {
-	return fmt.Sprintf("%s-%d-%d", prefix, time.Now().UnixNano(), rand.Intn(100000))
+	return fmt.Sprintf("%s%d%d", prefix, time.Now().UnixNano(), rand.Intn(100000))
 }
