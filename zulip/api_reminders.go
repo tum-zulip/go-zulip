@@ -131,7 +131,7 @@ func (c *simpleClient) CreateMessageReminderExecute(r CreateMessageReminderReque
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/reminders"
@@ -184,16 +184,12 @@ func (c *simpleClient) CreateMessageReminderExecute(r CreateMessageReminderReque
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -248,7 +244,7 @@ func (c *simpleClient) DeleteReminderExecute(r DeleteReminderRequest) (*Response
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/reminders/{reminder_id}"
@@ -293,26 +289,12 @@ func (c *simpleClient) DeleteReminderExecute(r DeleteReminderRequest) (*Response
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 404 {
-			var v CodedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -367,7 +349,7 @@ func (c *simpleClient) GetRemindersExecute(r GetRemindersRequest) (*GetReminders
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/reminders"
@@ -411,16 +393,12 @@ func (c *simpleClient) GetRemindersExecute(r GetRemindersRequest) (*GetReminders
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

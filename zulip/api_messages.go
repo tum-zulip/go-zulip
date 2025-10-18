@@ -626,7 +626,7 @@ func (c *simpleClient) AddReactionExecute(r AddReactionRequest) (*Response, *htt
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages/{message_id}/reactions"
@@ -681,26 +681,12 @@ func (c *simpleClient) AddReactionExecute(r AddReactionRequest) (*Response, *htt
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v CodedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -778,7 +764,7 @@ func (c *simpleClient) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarro
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages/matches_narrow"
@@ -830,16 +816,12 @@ func (c *simpleClient) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarro
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -897,7 +879,7 @@ func (c *simpleClient) DeleteMessageExecute(r DeleteMessageRequest) (*Response, 
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages/{message_id}"
@@ -942,26 +924,12 @@ func (c *simpleClient) DeleteMessageExecute(r DeleteMessageRequest) (*Response, 
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v CodedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1018,7 +986,7 @@ func (c *simpleClient) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) 
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user_uploads/{realm_id_str}/{filename}"
@@ -1064,16 +1032,12 @@ func (c *simpleClient) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) 
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1149,7 +1113,7 @@ func (c *simpleClient) GetMessageExecute(r GetMessageRequest) (*GetMessageRespon
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages/{message_id}"
@@ -1206,26 +1170,12 @@ func (c *simpleClient) GetMessageExecute(r GetMessageRequest) (*GetMessageRespon
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v CodedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1289,7 +1239,7 @@ func (c *simpleClient) GetMessageHistoryExecute(r GetMessageHistoryRequest) (*Ge
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages/{message_id}/history"
@@ -1340,26 +1290,12 @@ func (c *simpleClient) GetMessageHistoryExecute(r GetMessageHistoryRequest) (*Ge
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v CodedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1509,7 +1445,7 @@ func (c *simpleClient) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesRes
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages"
@@ -1601,16 +1537,12 @@ func (c *simpleClient) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesRes
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1675,7 +1607,7 @@ func (c *simpleClient) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetRea
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages/{message_id}/read_receipts"
@@ -1720,26 +1652,12 @@ func (c *simpleClient) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetRea
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v CodedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1818,7 +1736,7 @@ func (c *simpleClient) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsR
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/mark_all_as_read"
@@ -1862,16 +1780,12 @@ func (c *simpleClient) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsR
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1935,7 +1849,7 @@ func (c *simpleClient) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Re
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/mark_stream_as_read"
@@ -1983,16 +1897,12 @@ func (c *simpleClient) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Re
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -2063,7 +1973,7 @@ func (c *simpleClient) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Respon
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/mark_topic_as_read"
@@ -2115,16 +2025,12 @@ func (c *simpleClient) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Respon
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -2197,7 +2103,7 @@ func (c *simpleClient) RemoveReactionExecute(r RemoveReactionRequest) (*Response
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages/{message_id}/reactions"
@@ -2251,26 +2157,12 @@ func (c *simpleClient) RemoveReactionExecute(r RemoveReactionRequest) (*Response
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v CodedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -2326,7 +2218,7 @@ func (c *simpleClient) RenderMessageExecute(r RenderMessageRequest) (*RenderMess
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages/render"
@@ -2374,16 +2266,12 @@ func (c *simpleClient) RenderMessageExecute(r RenderMessageRequest) (*RenderMess
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -2462,7 +2350,7 @@ func (c *simpleClient) ReportMessageExecute(r ReportMessageRequest) (*Response, 
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages/{message_id}/report"
@@ -2514,26 +2402,12 @@ func (c *simpleClient) ReportMessageExecute(r ReportMessageRequest) (*Response, 
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v CodedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -2631,7 +2505,7 @@ func (c *simpleClient) SendMessageExecute(r SendMessageRequest) (*SendMessageRes
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages"
@@ -2699,26 +2573,12 @@ func (c *simpleClient) SendMessageExecute(r SendMessageRequest) (*SendMessageRes
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v SendMessage400Response
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -2901,7 +2761,7 @@ func (c *simpleClient) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMess
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages/{message_id}"
@@ -2967,26 +2827,12 @@ func (c *simpleClient) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMess
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v CodedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -3060,7 +2906,7 @@ func (c *simpleClient) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages/flags"
@@ -3116,16 +2962,12 @@ func (c *simpleClient) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -3229,7 +3071,7 @@ func (c *simpleClient) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsFo
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/messages/flags/narrow"
@@ -3306,16 +3148,12 @@ func (c *simpleClient) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsFo
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -3397,7 +3235,7 @@ func (c *simpleClient) UploadFileExecute(r UploadFileRequest) (*UploadFileRespon
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user_uploads"
@@ -3456,16 +3294,12 @@ func (c *simpleClient) UploadFileExecute(r UploadFileRequest) (*UploadFileRespon
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

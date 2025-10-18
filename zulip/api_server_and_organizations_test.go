@@ -390,7 +390,7 @@ func profileFieldExists(fields []zulip.CustomProfileField, id int64) bool {
 }
 
 func handledRateLimit(t *testing.T, err error) bool {
-	var apiErr *zulip.GenericOpenAPIError
+	var apiErr *zulip.APIError
 	if !errors.As(err, &apiErr) {
 		return false
 	}

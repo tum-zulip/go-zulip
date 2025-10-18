@@ -235,34 +235,6 @@ type ChannelEventUpdateValue struct {
 	String            *string
 }
 
-// ChannelEventUpdateValueFromOneOf is a convenience function that returns GroupSettingValue wrapped in ChannelEventUpdateValue
-func ChannelEventUpdateValueFromOneOf(v *GroupSettingValue) ChannelEventUpdateValue {
-	return ChannelEventUpdateValue{
-		GroupSettingValue: v,
-	}
-}
-
-// boolAsChannelEventUpdateValue is a convenience function that returns bool wrapped in ChannelEventUpdateValue
-func BoolAsChannelEventUpdateValue(v *bool) ChannelEventUpdateValue {
-	return ChannelEventUpdateValue{
-		Bool: v,
-	}
-}
-
-// int32AsChannelEventUpdateValue is a convenience function that returns int32 wrapped in ChannelEventUpdateValue
-func Int64AsChannelEventUpdateValue(v *int64) ChannelEventUpdateValue {
-	return ChannelEventUpdateValue{
-		Int64: v,
-	}
-}
-
-// stringAsChannelEventUpdateValue is a convenience function that returns string wrapped in ChannelEventUpdateValue
-func StringAsChannelEventUpdateValue(v *string) ChannelEventUpdateValue {
-	return ChannelEventUpdateValue{
-		String: v,
-	}
-}
-
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *ChannelEventUpdateValue) UnmarshalJSON(data []byte) error {
 	return unmarshalUnionType(data, dst)
@@ -481,14 +453,7 @@ type DeleteMessageEvent struct {
 // UserTopicEvent Event sent to a user's clients when the user mutes/unmutes a topic, or otherwise modifies their personal per-topic configuration.  **Changes**: New in Zulip 6.0 (feature level 134). Previously, clients were notified about changes in muted topic configuration via the `muted_topics` event type.
 type UserTopicEvent struct {
 	EventCommon
-	// The Id of the channel to which the topic belongs.
-	ChannelId int64 `json:"stream_id,omitempty"`
-	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
-	TopicName string `json:"topic_name,omitempty"`
-	// An integer UNIX timestamp representing when the user-topic relationship was last changed.
-	LastUpdated time.Time `json:"last_updated,omitempty"`
-	// An integer indicating the user's visibility preferences for the topic, such as whether the topic is muted.  - 0 = None. Used to indicate that the user no   longer has a special visibility policy for this topic. - 1 = Muted. Used to record [muted topics](zulip.com/help/mute-a-topic. - 2 = Unmuted. Used to record unmuted topics. - 3 = Followed. Used to record [followed topics](zulip.com/help/follow-a-topic.  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.  In Zulip 7.0 (feature level 170), added unmuted as a visibility policy option.
-	VisibilityPolicy VisibilityPolicy `json:"visibility_policy,omitempty"`
+	UserTopic
 }
 
 // MutedTopicsEvent Event sent to a user's clients when that user's set of configured muted topics have changed.
@@ -611,7 +576,80 @@ type RecipientData struct {
 type RealmUserUpdateEvent struct {
 	EventCommonWithOp
 
-	Person UserUpdateEventEnvalop `json:"person,omitempty"`
+	Person UserUpdate `json:"person,omitempty"`
+}
+
+// UserUpdate - Object containing the changed details of the user. It has multiple forms depending on the value changed.  **Changes**: Removed `is_billing_admin` field in Zulip 10.0 (feature level 363), as it was replaced by the `can_manage_billing_group` realm setting.
+type UserUpdate struct {
+	// The Id of the user who is affected by this change.
+	UserId int64 `json:"user_id,omitempty"`
+
+	UserUpdateEventFullName      *UserUpdateEventFullName
+	UserUpdateEventAvatar        *UserUpdateEventAvatar
+	UserUpdateEventTimezone      *UserUpdateEventTimezone
+	UserUpdateEventBotOwner      *UserUpdateEventBotOwner
+	UserUpdateEventRole          *UserUpdateEventRole
+	UserUpdateEventDeliveryEmail *UserUpdateEventDeliveryEmail
+	UserUpdateEventCustomField   *UserUpdateEventCustomField
+	UserUpdateEventEmail         *UserUpdateEventEmail
+	UserUpdateEventActivation    *UserUpdateEventActivation
+}
+
+// UserUpdateEventAvatar When a user changes their avatar.
+type UserUpdateEventAvatar struct {
+	Avatar
+	// The version number for the user's avatar. This is useful for cache-busting.
+	AvatarVersion int64 `json:"avatar_version,omitempty"`
+}
+
+// UserUpdateEventFullName When a user changes their full name.
+type UserUpdateEventFullName struct {
+	// The new full name for the user.
+	FullName string `json:"full_name,omitempty"`
+}
+
+// UserUpdateEventTimezone When a user changes their [profile time zone](zulip.com/help/change-your-timezone.
+type UserUpdateEventTimezone struct {
+	// The Zulip API email of the user.  **Deprecated**: This field will be removed in a future release as it is redundant with the `user_id`.
+	// Deprecated
+	Email string `json:"email,omitempty"`
+	// The IANA identifier of the new profile time zone for the user.
+	Timezone string `json:"timezone,omitempty"`
+}
+
+// UserUpdateEventBotOwner When the owner of a bot changes.
+type UserUpdateEventBotOwner struct {
+	// The user Id of the new bot owner.
+	BotOwnerId int64 `json:"bot_owner_id,omitempty"`
+}
+
+// UserUpdateEventRole When the [role](zulip.com/help/user-roles) of a user changes.
+type UserUpdateEventRole struct {
+	// The new [role](zulip.com/api/roles-and-permissions) of the user.
+	Role Role `json:"role,omitempty"`
+}
+
+// UserUpdateEventDeliveryEmail When the value of a user's delivery email as visible to you changes, either due to the email address changing or your access to the user's email changing via an update to their `email_address_visibility` setting.  **Changes**: Prior to Zulip 7.0 (feature level 163), this event was sent only to the affected user, and this event would only be triggered by changing the affected user's delivery email.
+type UserUpdateEventDeliveryEmail struct {
+	// The new delivery email of the user.  This value can be `null` if the affected user changed their `email_address_visibility` setting such that you cannot access their real email.  **Changes**: Before Zulip 7.0 (feature level 163), `null` was not a possible value for this event as it was only sent to the affected user when their email address was changed.
+	DeliveryEmail *string `json:"delivery_email,omitempty"`
+}
+
+// UserUpdateEventCustomField When the user updates one of their custom profile fields.
+type UserUpdateEventCustomField struct {
+	CustomProfileField ProfileDataValue `json:"custom_profile_field,omitempty"`
+}
+
+// UserUpdateEventEmail When the Zulip API email address of a user changes, either due to the user's email address changing, or due to changes in the user's [email address visibility][help-email-visibility].  [help-email-visibility]: /help/configure-email-visibility
+type UserUpdateEventEmail struct {
+	// The new value of `email` for the user. The client should update any data structures associated with this user to use this new value as the user's Zulip API email address.
+	NewEmail string `json:"new_email,omitempty"`
+}
+
+// UserUpdateEventActivation When a user is deactivated or reactivated. Only users who can access the modified user under the organization's `can_access_all_users_group` policy will receive this event.  Clients receiving a deactivation event should remove the user from all user groups in their data structures, because deactivated users cannot be members of groups.  **Changes**: Prior to Zulip 10.0 (feature level 303), reactivation events were sent to users who could not access the reactivated user due to a `can_access_all_users_group` policy. Also, previously, Clients were not required to update group membership records during user deactivation.  New in Zulip 8.0 (feature level 222). Previously the server sent a `realm_user` event with `op` field set to `remove` when deactivating a user and a `realm_user` event with `op` field set to `add` when reactivating a user.
+type UserUpdateEventActivation struct {
+	// A boolean describing whether the user account has been deactivated.
+	IsActive bool `json:"is_active,omitempty"`
 }
 
 // UpdateMessageFlagsAddEvent Event sent to a user when [message flags][message-flags] are added to messages.  This can reflect a direct user action, or can be the indirect consequence of another action. Whatever the cause, if there's a change in the set of message flags that the user has for a message, then an `update_message_flags` event will be sent with the change. Note that this applies when the user already had access to the message, and continues to have access to it. When a message newly appears or disappears, a [`message`][message-event] or [`delete_message`][message-delete] event is sent instead.  Some examples of actions that trigger an `update_message_flags` event:  - The `\"starred\"` flag is added when the user chooses to [star a   message](zulip.com/help/star-a-message. - The `\"read\"` flag is added when the user marks messages as read by   scrolling through them, or uses [Mark all messages as read][all-read]   on a conversation. - The `\"read\"` flag is added when the user [mutes](zulip.com/help/mute-a-user) a   message's sender. - The `\"read\"` flag is added after the user unsubscribes from a channel,   or messages are moved to a not-subscribed channel, provided the user   can still access the messages at all. Note a   [`delete_message`][message-delete] event is sent in the case where the   user can no longer access the messages.  In some cases, a change in message flags that's caused by another change may happen a short while after the original change, rather than simultaneously. For example, when messages that were unread are moved to a channel where the user is not subscribed, the resulting change in message flags (and the corresponding `update_message_flags` event with flag `\"read\"`) may happen later than the message move itself. The delay in that example is typically at most a few hundred milliseconds and can in rare cases be minutes or longer.  [message-flags]: /api/update-message-flags#available-flags [message-event]: /api/get-events#message [message-delete]: /api/get-events#delete_message [all-read]: /help/marking-messages-as-read#mark-messages-in-multiple-topics-and-channels-as-read
@@ -881,8 +919,8 @@ type RealmUpdateDictEvent struct {
 
 	// Always `\"default\"`. Present for backwards-compatibility with older clients that predate the `update_dict` event style.  **Deprecated** and will be removed in a future release.
 	// Deprecated
-	Property string                       `json:"property,omitempty"`
-	Data     SubscriptionRemoveEvent7Data `json:"data,omitempty"`
+	Property           string             `json:"property,omitempty"`
+	RealmConfiguration RealmConfiguration `json:"data,omitempty"`
 }
 
 // DraftsAddEvent Event containing details of newly created drafts.

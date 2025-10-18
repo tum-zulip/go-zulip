@@ -233,7 +233,7 @@ func Test_MessagesAPIService(t *testing.T) {
 			Execute()
 
 		if err != nil {
-			var apiErr *zulip.GenericOpenAPIError
+			var apiErr *zulip.APIError
 			if errors.As(err, &apiErr) {
 				body := strings.TrimSpace(string(apiErr.Body()))
 				lower := strings.ToLower(fmt.Sprintf("%s %s", apiErr.Error(), body))

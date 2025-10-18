@@ -495,7 +495,7 @@ func (c *simpleClient) AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*Ad
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/playgrounds"
@@ -551,16 +551,12 @@ func (c *simpleClient) AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*Ad
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -625,7 +621,7 @@ func (c *simpleClient) AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifier
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/filters"
@@ -677,16 +673,12 @@ func (c *simpleClient) AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifier
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -784,7 +776,7 @@ func (c *simpleClient) CreateCustomProfileFieldExecute(r CreateCustomProfileFiel
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/profile_fields"
@@ -850,16 +842,12 @@ func (c *simpleClient) CreateCustomProfileFieldExecute(r CreateCustomProfileFiel
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -921,7 +909,7 @@ func (c *simpleClient) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiReque
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/emoji/{emoji_name}"
@@ -966,26 +954,12 @@ func (c *simpleClient) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiReque
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 404 {
-			var v CodedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1056,7 +1030,7 @@ func (c *simpleClient) ExportRealmExecute(r ExportRealmRequest) (*ExportRealmRes
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/export/realm"
@@ -1103,26 +1077,12 @@ func (c *simpleClient) ExportRealmExecute(r ExportRealmRequest) (*ExportRealmRes
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v CodedError
-			err = c.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1171,7 +1131,7 @@ func (c *simpleClient) GetCustomEmojiExecute(r GetCustomEmojiRequest) (*GetCusto
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/emoji"
@@ -1215,16 +1175,12 @@ func (c *simpleClient) GetCustomEmojiExecute(r GetCustomEmojiRequest) (*GetCusto
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1274,7 +1230,7 @@ func (c *simpleClient) GetCustomProfileFieldsExecute(r GetCustomProfileFieldsReq
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/profile_fields"
@@ -1318,16 +1274,12 @@ func (c *simpleClient) GetCustomProfileFieldsExecute(r GetCustomProfileFieldsReq
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1383,7 +1335,7 @@ func (c *simpleClient) GetLinkifiersExecute(r GetLinkifiersRequest) (*GetLinkifi
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/linkifiers"
@@ -1427,16 +1379,12 @@ func (c *simpleClient) GetLinkifiersExecute(r GetLinkifiersRequest) (*GetLinkifi
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1493,7 +1441,7 @@ func (c *simpleClient) GetPresenceExecute(r GetPresenceRequest) (*GetPresenceRes
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/presence"
@@ -1537,16 +1485,12 @@ func (c *simpleClient) GetPresenceExecute(r GetPresenceRequest) (*GetPresenceRes
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1598,7 +1542,7 @@ func (c *simpleClient) GetRealmExportConsentsExecute(r GetRealmExportConsentsReq
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/export/realm/consents"
@@ -1642,16 +1586,12 @@ func (c *simpleClient) GetRealmExportConsentsExecute(r GetRealmExportConsentsReq
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1708,7 +1648,7 @@ func (c *simpleClient) GetRealmExportsExecute(r GetRealmExportsRequest) (*GetRea
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/export/realm"
@@ -1752,16 +1692,12 @@ func (c *simpleClient) GetRealmExportsExecute(r GetRealmExportsRequest) (*GetRea
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1819,7 +1755,7 @@ func (c *simpleClient) GetServerSettingsExecute(r GetServerSettingsRequest) (*Ge
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/server_settings"
@@ -1863,16 +1799,12 @@ func (c *simpleClient) GetServerSettingsExecute(r GetServerSettingsRequest) (*Ge
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1927,7 +1859,7 @@ func (c *simpleClient) RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/playgrounds/{playground_id}"
@@ -1972,16 +1904,12 @@ func (c *simpleClient) RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -2035,7 +1963,7 @@ func (c *simpleClient) RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Respon
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/filters/{filter_id}"
@@ -2080,16 +2008,12 @@ func (c *simpleClient) RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Respon
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -2151,7 +2075,7 @@ func (c *simpleClient) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileF
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/profile_fields"
@@ -2199,16 +2123,12 @@ func (c *simpleClient) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileF
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -2270,7 +2190,7 @@ func (c *simpleClient) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Re
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/linkifiers"
@@ -2318,16 +2238,12 @@ func (c *simpleClient) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Re
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -2387,7 +2303,7 @@ func (c *simpleClient) TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustom
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/test_welcome_bot_custom_message"
@@ -2438,16 +2354,12 @@ func (c *simpleClient) TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustom
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -2517,7 +2429,7 @@ func (c *simpleClient) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Respon
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/filters/{filter_id}"
@@ -2570,16 +2482,12 @@ func (c *simpleClient) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Respon
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -3058,7 +2966,7 @@ func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserS
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/user_settings_defaults"
@@ -3276,16 +3184,12 @@ func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserS
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -3345,7 +3249,7 @@ func (c *simpleClient) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Re
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/realm/emoji/{emoji_name}"
@@ -3405,16 +3309,12 @@ func (c *simpleClient) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Re
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

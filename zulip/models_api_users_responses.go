@@ -56,7 +56,7 @@ type UpdatePresenceResponse struct {
 type GetOwnUserResponse struct {
 	Response
 
-	UserCommon
+	User
 
 	// The integer Id of the last message received by the requesting user's account.  **Deprecated**. We plan to remove this in favor of recommending using `GET /messages` with `\"anchor\": \"newest\"`.
 	// Deprecated

@@ -65,7 +65,7 @@ func (c *simpleClient) ZulipOutgoingWebhooksExecute(r ZulipOutgoingWebhooksReque
 
 	localBasePath, err := c.ServerURL()
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &APIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/zulip-outgoing-webhook"
@@ -109,16 +109,12 @@ func (c *simpleClient) ZulipOutgoingWebhooksExecute(r ZulipOutgoingWebhooksReque
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
 	}
 
 	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := &APIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

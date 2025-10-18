@@ -1,7 +1,7 @@
 package zulip
 
 // User struct for User
-type UserCommon struct {
+type User struct {
 	// The unique Id of the user.
 	UserId        int64   `json:"user_id,omitempty"`
 	DeliveryEmail *string `json:"delivery_email,omitempty"`
@@ -30,27 +30,20 @@ type UserCommon struct {
 	// Version for the user's avatar. Used for cache-busting requests for the user's avatar. Clients generally shouldn't need to use this; most avatar URLs sent by Zulip will already end with `?v={avatar_version}`.
 	AvatarVersion int32 `json:"avatar_version,omitempty"`
 	// Only present if `is_bot` is false; bots can't have custom profile fields.  A dictionary containing custom profile field data for the user. Each entry maps the integer Id of a custom profile field in the organization to a dictionary containing the user's data for that field. Generally the data includes just a single `value` key; for those custom profile fields supporting Markdown, a `rendered_value` key will also be present.
-	ProfileData map[string]ProfileDataValue `json:"profile_data,omitempty"`
-}
-
-type User struct {
-	UserCommon
+	ProfileData map[int64]ProfileDataValue `json:"profile_data,omitempty"`
 
 	BotType    *BotType `json:"bot_type,omitempty"`
 	BotOwnerId *int64   `json:"bot_owner_id,omitempty"`
-}
-
-type UserWithIsSystemBot struct {
-	User
-
 	// Whether the user is a system bot. System bots are special bot user accounts that are managed by the system, rather than the organization's administrators.  **Changes**: This field was called `is_cross_realm_bot` before Zulip 5.0 (feature level 83).
-	IsSystemBot bool `json:"is_system_bot,omitempty"`
+	IsSystemBot *bool `json:"is_system_bot,omitempty"`
 }
 
 // ProfileDataValue `{id}`: Object with data about what value the user filled in the custom profile field with that Id.
 type ProfileDataValue struct {
+	// The Id of the custom profile field which user updated.
+	Id int64 `json:"id,omitempty"`
 	// User's personal value for this custom profile field.
-	Value *string `json:"value,omitempty"`
+	Value string `json:"value,omitempty"`
 	// The `value` rendered in HTML. Will only be present for custom profile field types that support Markdown rendering.  This user-generated HTML content should be rendered using the same CSS and client-side security protections as are used for message content.  See [Markdown message formatting](zulip.com/api/message-formatting) for details on Zulip's HTML format.
 	RenderedValue *string `json:"rendered_value,omitempty"`
 }

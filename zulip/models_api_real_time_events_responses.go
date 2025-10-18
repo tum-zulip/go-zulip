@@ -53,7 +53,7 @@ type RegisterQueueResponse struct {
 	Reminders []ScheduledMessage `json:"reminders,omitempty"`
 	// Present if `muted_topics` is present in `fetch_event_types`.  Array of tuples, where each tuple describes a muted topic. The first element of the tuple is the channel name in which the topic has to be muted, the second element is the topic name to be muted and the third element is an integer UNIX timestamp representing when the topic was muted.  **Changes**: Deprecated in Zulip 6.0 (feature level 134). Starting with this version, `muted_topics` will only be present in the response if the `user_topic` object, which generalizes and replaces this field, is not explicitly requested via `fetch_event_types`.  Before Zulip 3.0 (feature level 1), the `muted_topics` array objects were 2-item tuples and did not include the timestamp information for when the topic was muted.
 	// Deprecated
-	MutedTopics [][]UserSettingsUpdateEvent1MutedTopicsInnerInner `json:"muted_topics,omitempty"`
+	MutedTopics [][]interface{} `json:"muted_topics,omitempty"`
 	// Present if `muted_users` is present in `fetch_event_types`.  A list of dictionaries where each dictionary describes a [muted user](zulip.com/api/mute-user.  **Changes**: New in Zulip 4.0 (feature level 48).
 	MutedUsers []MutedUser `json:"muted_users,omitempty"`
 	// Present if `presence` is present in `fetch_event_types`.  A dictionary where each entry describes the presence details of a user in the Zulip organization.  The format of the entry (modern or legacy) depends on the value of [`slim_presence`](#parameter-slim_presence).  Users who have been offline for multiple weeks may not appear in this object.
@@ -70,7 +70,7 @@ type RegisterQueueResponse struct {
 	RealmLinkifiers []RealmLinkifiers `json:"realm_linkifiers,omitempty"`
 	// Legacy property for [linkifiers](zulip.com/help/add-a-custom-linkifier. Present if `realm_filters` is present in `fetch_event_types`.  When present, this is always an empty array.  **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `\"#(?P<id>[123])\"`. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be `\"https://realm.com/my_realm_filter/%(id)s\"`. And the third element was the Id of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the `realm_linkifiers` key.
 	// Deprecated
-	RealmFilters [][]RealmFilterTuple `json:"realm_filters,omitempty"`
+	RealmFilters [][]interface{} `json:"realm_filters,omitempty"`
 	// Present if `realm_playgrounds` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a [code playground](zulip.com/help/code-blocks#code-playgrounds configured for this Zulip organization.  **Changes**: New in Zulip 4.0 (feature level 49).
 	RealmPlaygrounds []RealmPlayground `json:"realm_playgrounds,omitempty"`
 	// Present if `realm_user_groups` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a [user group](zulip.com/help/user-groups) in the Zulip organization.  Deactivated groups will only be included if `include_deactivated_groups` client capability is set to `true`.  **Changes**: Prior to Zulip 10.0 (feature level 294), deactivated groups were included for all the clients.
@@ -110,7 +110,7 @@ type RegisterQueueResponse struct {
 	UserStatus   map[string]UserStatus `json:"user_status,omitempty"`
 	UserSettings *UserSettings         `json:"user_settings,omitempty"`
 	// Present if `user_topic` is present in `fetch_event_types`.  **Changes**: New in Zulip 6.0 (feature level 134), deprecating and replacing the previous `muted_topics` structure.
-	UserTopics []UserTopics `json:"user_topics,omitempty"`
+	UserTopics []UserTopic `json:"user_topics,omitempty"`
 	// Present if `video_calls` is present in `fetch_event_types`.  A boolean which signifies whether the user has a Zoom token and has thus completed OAuth flow for the [Zoom integration](zulip.com/help/configure-call-provider. Clients need to know whether initiating Zoom OAuth is required before creating a Zoom call.
 	HasZoomToken *bool `json:"has_zoom_token,omitempty"`
 	// Present if `giphy` is present in `fetch_event_types`.  GIPHY's client-side SDKs needs this API key to use the GIPHY API. GIPHY API keys are not secret (their main purpose appears to be allowing GIPHY to block a problematic app). Please don't use our API key for an app unrelated to Zulip.  Developers of clients should also read the [GIPHY API TOS](https://support.giphy.com/hc/en-us/articles/360028134111-GIPHY-API-Terms-of-Service-) before using this API key.  **Changes**: Added in Zulip 4.0 (feature level 47).
@@ -135,6 +135,30 @@ type RegisterQueueResponse struct {
 
 	// Present if `realm` is present in `fetch_event_types`.
 	Realm *Realm
+}
+
+// RealmIncomingWebhookBot Object containing details of the bot.
+type RealmIncomingWebhookBot struct {
+	// A machine-readable unique name identifying the integration, all-lower-case without spaces.
+	Name string `json:"name,omitempty"`
+	// A human-readable display name identifying the integration that this bot implements, intended to be used in menus for selecting which integration to create.  **Changes**: New in Zulip 8.0 (feature level 207).
+	DisplayName string `json:"display_name,omitempty"`
+	// For incoming webhook integrations that support the Zulip server filtering incoming events, the list of event types supported by it.  A null value will be present if this incoming webhook integration doesn't support such filtering.  **Changes**: New in Zulip 8.0 (feature level 207).
+	AllEventTypes []string `json:"all_event_types,omitempty"`
+	// An array of configuration options that can be set when creating a bot user for this incoming webhook integration.  This is an unstable API. Please discuss in chat.zulip.org before using it.  **Changes**: As of Zulip 11.0 (feature level 403), this object is reserved for integration-specific configuration options that can be set when creating a bot user. Previously, this object also included optional webhook URL parameters, which are now specified in the `url_options` object.  Before Zulip 10.0 (feature level 318), this field was named `config`, and was reserved for configuration data key-value pairs.
+	ConfigOptions []WebhookOption `json:"config_options,omitempty"`
+	// An array of optional URL parameter options for the incoming webhook integration. In the web app, these are used when [generating a URL for an integration](zulip.com/help/generate-integration-url.  This is an unstable API expected to be used only by the Zulip web app. Please discuss in chat.zulip.org before using it.  **Changes**: New in Zulip 11.0 (feature level 403). Previously, these optional URL parameter options were included in the `config_options` object.
+	UrlOptions []WebhookOption `json:"url_options,omitempty"`
+}
+
+// WebhookConfigOptionInner struct for WebhookConfigOptionInner
+type WebhookOption struct {
+	// A key for the configuration option.
+	Key string `json:"key,omitempty"`
+	// A human-readable label of the configuration option.
+	Label string `json:"label,omitempty"`
+	// The name of the validator function for the configuration option.
+	Validator string `json:"validator,omitempty"`
 }
 
 // RecentPrivateConversation Object describing a single recent direct conversation in the user's history.
@@ -250,12 +274,9 @@ type RealmUser struct {
 	RealmUsers []User `json:"realm_users,omitempty"`
 	// A array of dictionaries where each entry describes a user whose account has been deactivated. Note that unlike the usual User dictionary this does not contain the `is_active` key as all the users present in this array have deactivated accounts.
 	RealmNonActiveUsers []User `json:"realm_non_active_users,omitempty"`
-	// The avatar data source type for the current user.  Value values are `G` (gravatar) and `U` (uploaded by user).
-	AvatarSource string `json:"avatar_source,omitempty"`
-	// The avatar URL for the current user at 500x500 resolution, appropriate for use in settings UI showing the user's avatar.
-	AvatarUrlMedium string `json:"avatar_url_medium,omitempty"`
-	// The URL of the avatar for the current user at 100x100 resolution. See also `avatar_url_medium`.
-	AvatarUrl string `json:"avatar_url,omitempty"`
+
+	Avatar
+
 	// Whether the current user is allowed to create at least one type of channel with the organization's [channel creation policy](zulip.com/help/configure-who-can-create-channels. Its value will always equal `can_create_public_streams || can_create_private_streams`.  **Changes**: Deprecated in Zulip 5.0 (feature level 102), when the new `create_private_stream_policy` and `create_public_stream_policy` properties introduced the possibility that a user could only create one type of channel.  This field will be removed in a future release.
 	// Deprecated
 	CanCreateStreams *bool `json:"can_create_streams,omitempty"`
@@ -286,7 +307,16 @@ type RealmUser struct {
 	// The full name of the current user.
 	FullName string `json:"full_name,omitempty"`
 	// Array of dictionaries where each dictionary contains details of a single cross realm bot. Cross-realm bots are special system bot accounts like Notification Bot.  Most clients will want to combine this with `realm_users` in many contexts.
-	CrossRealmBots []UserWithIsSystemBot `json:"cross_realm_bots,omitempty"`
+	CrossRealmBots []User `json:"cross_realm_bots,omitempty"`
+}
+
+type Avatar struct {
+	// The URL of the new avatar for the user.
+	AvatarUrl string `json:"avatar_url,omitempty"`
+	// The new avatar data source type for the user.  Value values are `G` (gravatar) and `U` (uploaded by user).
+	AvatarSource AvatarSource `json:"avatar_source,omitempty"`
+	// The new medium-size avatar URL for user.
+	AvatarUrlMedium string `json:"avatar_url_medium,omitempty"`
 }
 
 type GlobalNotifications struct {
@@ -354,7 +384,6 @@ type GlobalNotifications struct {
 	// Deprecated
 	AvailableNotificationSounds []string `json:"available_notification_sounds,omitempty"`
 }
-
 
 // VideoChatProviderInfo `{provider_name}`: Dictionary containing the details of the video call provider with the name of the chat provider as the key.
 type VideoChatProviderInfo struct {
@@ -525,4 +554,73 @@ type RealmUserSettingsDefaults struct {
 	EmailAddressVisibility *int32 `json:"email_address_visibility,omitempty"`
 	// Web/desktop app setting for whether the user's view should automatically go to the conversation where they sent a message.  **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
 	WebNavigateToSentMessage *bool `json:"web_navigate_to_sent_message,omitempty"`
+}
+
+// UserTopics Object describing the user's configuration for a given topic.
+type UserTopic struct {
+	// The Id of the channel to which the topic belongs.
+	ChannelId int64 `json:"stream_id,omitempty"`
+	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability][client-capabilities], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response.  **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	TopicName string `json:"topic_name,omitempty"`
+	// An integer UNIX timestamp representing when the user-topic relationship was last changed.
+	LastUpdated time.Time `json:"last_updated,omitempty"`
+	// An integer indicating the user's visibility preferences for the topic, such as whether the topic is muted.  - 0 = None. Used to indicate that the user no   longer has a special visibility policy for this topic. - 1 = Muted. Used to record [muted topics](zulip.com/help/mute-a-topic. - 2 = Unmuted. Used to record unmuted topics. - 3 = Followed. Used to record [followed topics](zulip.com/help/follow-a-topic.  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.  In Zulip 7.0 (feature level 170), added unmuted as a visibility policy option.
+	VisibilityPolicy VisibilityPolicy `json:"visibility_policy,omitempty"`
+}
+
+// DefaultChannelGroup Dictionary containing details of a default channel group.
+type DefaultChannelGroup struct {
+	// Name of the default channel group.
+	Name string `json:"name,omitempty"`
+	// Description of the default channel group.
+	Description string `json:"description,omitempty"`
+	// The Id of the default channel group.
+	Id int64 `json:"id,omitempty"`
+	// An array of Ids of all the channels in the default stream group.  **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single stream in the default stream group.
+	Channels []int64 `json:"streams,omitempty"`
+}
+
+// UnreadMsgs Present if `message` and `update_message_flags` are both present in `event_types`.  A set of data structures describing the conversations containing the 50000 most recent unread messages the user has received. This will usually contain every unread message the user has received, but clients should support users with even more unread messages (and not hardcode the number 50000).
+type UnreadMsgs struct {
+	// The total number of unread messages to display. This includes one-on-one and group direct messages, as well as channel messages that are not [muted](zulip.com/help/mute-a-topic.  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field.
+	Count int64 `json:"count,omitempty"`
+	// An array of objects where each object contains details of unread one-on-one direct messages with a specific user.  Note that it is possible for a message that the current user sent to the specified user to be marked as unread and thus appear here.
+	Pms []UnreadMsgsPms `json:"pms,omitempty"`
+	// An array of dictionaries where each dictionary contains details of all unread messages of a single subscribed channel. This includes muted channels and muted topics, even though those messages are excluded from `count`.  **Changes**: Prior to Zulip 5.0 (feature level 90), these objects included a `sender_ids` property, which listed the set of Ids of users who had sent the unread messages.
+	Channels []UnreadMsgsChannels `json:"streams,omitempty"`
+	// An array of objects where each object contains details of unread group direct messages with a specific group of users.
+	Huddles []UnreadMsgsHuddles `json:"huddles,omitempty"`
+	// Array containing the Ids of all unread messages in which the user was mentioned directly, and unread [non-muted](zulip.com/help/mute-a-topic) messages in which the user was mentioned through a wildcard.  **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field.
+	Mentions []int64 `json:"mentions,omitempty"`
+	// Whether this data set was truncated because the user has too many unread messages. When truncation occurs, only the most recent `MAX_UNREAD_MESSAGES` (currently 50000) messages will be considered when forming this response. When `true`, we recommend that clients display a warning, as they are likely to produce erroneous results until reloaded with the user having fewer than `MAX_UNREAD_MESSAGES` unread messages.  **Changes**: New in Zulip 4.0 (feature level 44).
+	OldUnreadsMissing *bool `json:"old_unreads_missing,omitempty"`
+}
+
+// UnreadMsgsPms struct for UnreadMsgsPms
+type UnreadMsgsPms struct {
+	// The user Id of the other participant in this one-on-one direct message conversation. Will be the current user's Id for messages that they sent in a one-on-one direct message conversation with themself.  **Changes**: New in Zulip 5.0 (feature level 119), replacing the less clearly named `sender_id` field.
+	OtherUserId int64 `json:"other_user_id,omitempty"`
+	// Old name for the `other_user_id` field. Clients should access this field in Zulip server versions that do not yet support `other_user_id`.  **Changes**: Deprecated in Zulip 5.0 (feature level 119). We expect to provide a next version of the full `unread_msgs` API before removing this legacy name.
+	// Deprecated
+	SenderId int64 `json:"sender_id,omitempty"`
+	// The message Ids of the recent unread direct messages sent by either user in this one-on-one direct message conversation, sorted in ascending order.
+	UnreadMessageIds []int64 `json:"unread_message_ids,omitempty"`
+}
+
+// UnreadMsgsChannels struct for UnreadMsgsChannels
+type UnreadMsgsChannels struct {
+	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`](zulip.com/api/register-queue) response depending on the value of the `empty_topic_name` [client capability][client-capabilities].  **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).  [client-capabilities]: /api/register-queue#parameter-client_capabilities
+	Topic string `json:"topic,omitempty"`
+	// The Id of the channel to which the messages were sent.
+	ChannelId int64 `json:"stream_id,omitempty"`
+	// The message Ids of the recent unread messages sent in this channel, sorted in ascending order.
+	UnreadMessageIds []int64 `json:"unread_message_ids,omitempty"`
+}
+
+// UnreadMsgsHuddles struct for UnreadMsgsHuddles
+type UnreadMsgsHuddles struct {
+	// A string containing the Ids of all users in the group direct message conversation, including the current user, separated by commas and sorted numerically; for example: `\"1,2,3\"`.
+	UserIdsString string `json:"user_ids_string,omitempty"`
+	// The message Ids of the recent unread messages which have been sent in this group direct message conversation, sorted in ascending order.
+	UnreadMessageIds []int64 `json:"unread_message_ids,omitempty"`
 }

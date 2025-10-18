@@ -469,7 +469,7 @@ func reverseSlice(values []int64) {
 func skipIfBigBlueButtonUnavailable(t *testing.T, err error) {
 	t.Helper()
 
-	var apiErr *zulip.GenericOpenAPIError
+	var apiErr *zulip.APIError
 	if !errors.As(err, &apiErr) {
 		return
 	}

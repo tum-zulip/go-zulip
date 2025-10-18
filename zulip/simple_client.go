@@ -693,3 +693,82 @@ func (c *simpleClient) handleUnsupportedParameters(ctx context.Context, paramete
 		c.logger.WarnContext(ctx, "Unsupported parameters were ignored", "parameters", parameters)
 	}
 }
+
+func tryUnmarshalErrorModel[T any](data []byte) (*T, error) {
+	var model T
+	dec := newStrictDecoder(data)
+	err := dec.Decode(&model)
+	if err != nil {
+		return nil, err
+	}
+	if reflect.ValueOf(model).IsZero() {
+		return nil, errors.New("no data")
+	}
+	return &model, nil
+}
+
+func (c *simpleClient) handleErrorResponse(ctx context.Context, resp *http.Response) error {
+	var model interface{}
+	var err error
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return &APIError{
+			body:  body,
+			error: fmt.Errorf("failed to read response body: %w", err).Error(),
+			model: nil,
+		}
+	}
+
+	switch resp.StatusCode {
+	case http.StatusTooManyRequests:
+		model, err = tryUnmarshalErrorModel[RateLimitedError](body)
+	case http.StatusBadRequest:
+		model, err = tryUnmarshalErrorModel[BadEventQueueIdError](body)
+		if err == nil {
+			break
+		}
+
+		model, err = tryUnmarshalErrorModel[IncompatibleParametersError](body)
+		if err == nil {
+			break
+		}
+		model, err = tryUnmarshalErrorModel[MissingArgumentError](body)
+		if err == nil {
+			break
+		}
+	case http.StatusNotFound:
+		model, err = tryUnmarshalErrorModel[NonExistingChannelIdError](body)
+		if err == nil {
+			break
+		}
+
+		model, err = tryUnmarshalErrorModel[InvitationFailedError](body)
+		if err == nil {
+			break
+		}
+		model, err = tryUnmarshalErrorModel[NonExistingChannelNameError](body)
+		if err == nil {
+			break
+		}
+	}
+
+	if model == nil {
+		model, err = tryUnmarshalErrorModel[CodedError](body)
+	}
+
+	if err != nil {
+		slog.WarnContext(ctx, "API returned an unknown error response", "status", resp.StatusCode, "body", string(body), "model", model)
+		return &APIError{
+			body:  body,
+			error: fmt.Sprintf("status %d: %s", resp.StatusCode, string(body)),
+			model: nil,
+		}
+	}
+
+	return &APIError{
+		body:  body,
+		error: fmt.Sprintf("status %d: %s", resp.StatusCode, http.StatusText(resp.StatusCode)),
+		model: model,
+	}
+}

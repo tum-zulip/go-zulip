@@ -49,9 +49,7 @@ type Realm struct {
 	// Deprecated
 	AllowEditHistory bool `json:"realm_allow_edit_history,omitempty"`
 
-	RealmPermissions
-	SpecialChannels
-	TODOFindGoodNames
+	RealmConfiguration
 
 	// The default [message retention policy](zulip.com/help/message-retention-policy) for this organization. It can have one special value:  - `-1` denoting that the messages will be retained forever for this realm, by default.  **Changes**: Prior to Zulip 3.0 (feature level 22), no limit was encoded as `null` instead of `-1`. Clients can correctly handle all server versions by treating both `-1` and `null` as indicating unlimited message retention.
 	MessageRetentionDays int64 `json:"realm_message_retention_days,omitempty"`
@@ -85,7 +83,7 @@ type Realm struct {
 	// Text to use when displaying UI for wide organization logos, a feature that is currently not available on the Zulip Cloud Free plan.  Useful only for clients supporting administrative UI for uploading a new wide organization logo to brand the organization.
 	UpgradeTextForWideOrganizationLogo string `json:"upgrade_text_for_wide_organization_logo,omitempty"`
 	// Dictionary where each entry describes a default external account type that can be configured with Zulip's [custom profile fields feature](zulip.com/help/custom-profile-fields.  **Changes**: New in Zulip 2.1.0.
-	DefaultExternalAccounts *map[string]RealmDefaultExternalAccounts `json:"realm_default_external_accounts,omitempty"`
+	DefaultExternalAccounts map[string]RealmDefaultExternalAccounts `json:"realm_default_external_accounts,omitempty"`
 	// The base URL to be used to create Jitsi video calls. Equals `realm_jitsi_server_url || server_jitsi_server_url`.  **Changes**: Deprecated in Zulip 8.0 (feature level 212) and will eventually be removed. Previously, the Jitsi server to use was not configurable on a per-realm basis, and this field contained the server's configured Jitsi server. (Which is now provided as `server_jitsi_server_url`). Clients supporting older versions should fall back to this field when creating calls: using `realm_jitsi_server_url || server_jitsi_server_url` with newer servers and using `jitsi_server_url` with servers below feature level 212.
 	// Deprecated
 	JitsiServerUrlDeprecated string `json:"jitsi_server_url,omitempty"`
@@ -133,17 +131,42 @@ type Realm struct {
 	UserSettingsDefaults *RealmUserSettingsDefaults `json:"realm_user_settings_defaults,omitempty"`
 }
 
-type TODOFindGoodNames struct {
+// RealmBilling Present if `realm_billing` is present in `fetch_event_types`.  A dictionary containing billing information of the organization.  **Changes**: New in Zulip 10.0 (feature level 363).
+type RealmBilling struct {
+	// Whether there is a pending sponsorship request for the organization. Note that this field will always be `false` if the user is not in `can_manage_billing_group`.  **Changes**: New in Zulip 10.0 (feature level 363).
+	HasPendingSponsorshipRequest bool `json:"has_pending_sponsorship_request,omitempty"`
+}
+
+// GiphyRatingOptionsValue `{rating_name}`: Dictionary containing the details of the rating with the name of the rating as the key.
+type GiphyRatingOptionsValue struct {
+	// The Id of the rating option.
+	Id int64 `json:"id,omitempty"`
+	// The description of the rating option.
+	Name string `json:"name,omitempty"`
+}
+
+// RealmDefaultExternalAccounts `{site_name}`: Dictionary containing the details of the default external account provider with the name of the website as the key.
+type RealmDefaultExternalAccounts struct {
+	// The name of the external account provider
+	Name string `json:"name,omitempty"`
+	// The text describing the external account.
+	Text string `json:"text,omitempty"`
+	// The help text to be displayed for the custom profile field in user-facing settings UI for configuring custom profile fields for this account.
+	Hint string `json:"hint,omitempty"`
+	// The regex pattern of the URL of a profile page on the external site.
+	UrlPattern string `json:"url_pattern,omitempty"`
+}
+
+type RealmConfiguration struct {
+	RealmIdentity
+	RealmPresentation
+	RealmLocalization
+	RealmPermissions
+	SpecialChannels
 
 	// Dictionary of authentication method keys mapped to dictionaries that describe the properties of the named authentication method for the organization - its enabled status and availability for use by the organization.  Clients should use this to implement server-settings UI to change which methods are enabled for the organization. For authentication UI itself, clients should use the pre-authentication metadata returned by [`GET /server_settings`](zulip.com/api/get-server-settings.  **Changes**: In Zulip 9.0 (feature level 243), the values in this dictionary were changed. Previously, the values were a simple boolean indicating whether the backend is enabled or not.
 	AuthenticationMethods map[string]RealmAuthenticationMethod `json:"authentication_methods,omitempty"`
 
-	// The default pygments language code to be used for code blocks in this organization. If an empty string, no default has been set.  **Changes**: Prior to Zulip 8.0 (feature level 195), a server bug meant that both `null` and an empty string could represent that no default was set for this realm setting in the [`POST /register`](zulip.com/api/register-queue) response. The documentation for both that endpoint and this event incorrectly stated that the only representation for no default language was `null`. This event in fact uses the empty string to indicate that no default has been set in all server versions.
-	DefaultCodeBlockLanguage string `json:"default_code_block_language,omitempty"`
-	// The default language for the organization.
-	DefaultLanguage string `json:"default_language,omitempty"`
-	// The description of the organization, used on login and registration pages.
-	Description string `json:"description,omitempty"`
 	// Whether the organization has enabled [weekly digest emails](zulip.com/help/digest-emails.
 	DigestEmailsEnabled bool `json:"digest_emails_enabled,omitempty"`
 	// The day of the week when the organization will send its weekly digest email to inactive users.
@@ -158,24 +181,11 @@ type TODOFindGoodNames struct {
 	EnableGuestUserIndicator bool `json:"enable_guest_user_indicator,omitempty"`
 	// Whether web-public channels are enabled in this organization.  Can only be enabled if the `WEB_PUBLIC_STREAMS_ENABLED` [server setting][server-settings] is enabled on the Zulip server. See also the `can_create_web_public_channel_group` realm setting.  [server-settings]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 109).
 	EnableSpectatorAccess bool `json:"enable_spectator_access,omitempty"`
-	// Maximum rating of the GIFs that will be retrieved from GIPHY.  **Changes**: New in Zulip 4.0 (feature level 55).
-	GiphyRating int32 `json:"giphy_rating,omitempty"`
-	// String indicating whether the organization's [profile icon](zulip.com/help/create-your-organization-profile) was uploaded by a user or is the default. Useful for UI allowing editing the organization's icon.  - \"G\" means generated by Gravatar (the default). - \"U\" means uploaded by an organization administrator.
-	IconSource string `json:"icon_source,omitempty"`
-	// The URL of the organization's [profile icon](zulip.com/help/create-your-organization-profile.
-	IconUrl string `json:"icon_url,omitempty"`
-	// Whether this organization has been configured to enable [previews of linked images](zulip.com/help/image-video-and-website-previews.
-	InlineImagePreview bool `json:"inline_image_preview,omitempty"`
-	// Whether this organization has been configured to enable [previews of linked websites](zulip.com/help/image-video-and-website-previews.
-	InlineUrlEmbedPreview bool `json:"inline_url_embed_preview,omitempty"`
 	// Whether an invitation is required to join this organization.
 	InviteRequired bool `json:"invite_required,omitempty"`
 	// The URL of the custom Jitsi Meet server configured in this organization's settings.  `null`, the default, means that the organization is using the should use the server-level configuration, `server_jitsi_server_url`.  **Changes**: New in Zulip 8.0 (feature level 212). Previously, this was only available as a server-level configuration, and required a server restart to change.
 	JitsiServerUrl *string `json:"jitsi_server_url,omitempty"`
-	// String indicating whether the organization's [profile wide logo](zulip.com/help/create-your-organization-profile) was uploaded by a user or is the default. Useful for UI allowing editing the organization's wide logo.  - \"D\" means the logo is the default Zulip logo. - \"U\" means uploaded by an organization administrator.
-	LogoSource string `json:"logo_source,omitempty"`
-	// The URL of the organization's wide logo configured in the [organization profile](zulip.com/help/create-your-organization-profile.
-	LogoUrl string `json:"logo_url,omitempty"`
+
 	// The organization's default policy for sending channel messages to the [empty \"general chat\" topic](zulip.com/help/general-chat-topic.  - `\"allow_empty_topic\"`: Channel messages can be sent to the empty topic. - `\"disable_empty_topic\"`: Channel messages cannot be sent to the empty topic.  **Changes**: New in Zulip 11.0 (feature level 392). Previously, this was controlled by the boolean realm `mandatory_topics` setting, which is now deprecated.
 	TopicsPolicy TopicsPolicy `json:"topics_policy,omitempty"`
 	// Whether [topics are required](zulip.com/help/require-topics) for messages in this organization.  **Changes**: Deprecated in Zulip 11.0 (feature level 392). This is now controlled by the realm `topics_policy` setting.
@@ -196,17 +206,6 @@ type TODOFindGoodNames struct {
 	// Messages sent more than this many seconds ago cannot be moved between channels by users who have permission to do so based on this organization's [message move policy](zulip.com/help/restrict-moving-messages. This setting does not affect moderators and administrators.  Will not be `0`. A `null` value means no limit, so messages can be moved regardless of how long ago they were sent.  See [`PATCH /messages/{message_id}`](zulip.com/api/update-message) for details and history of how message editing permissions work.  **Changes**: New in Zulip 7.0 (feature level 162). Previously, there was no time limit for moving messages between channels for users with permission to do so.
 	MoveMessagesBetweenStreamsLimitSeconds *int64 `json:"move_messages_between_streams_limit_seconds,omitempty"`
 
-	// The name of the organization, used in login pages etc.
-	Name string `json:"name,omitempty"`
-
-	// String indicating whether the organization's dark theme [profile wide logo](zulip.com/help/create-your-organization-profile) was uploaded by a user or is the default. Useful for UI allowing editing the organization's wide logo.  - \"D\" means the logo is the default Zulip logo. - \"U\" means uploaded by an organization administrator.
-	NightLogoSource string `json:"night_logo_source,omitempty"`
-	// The URL of the organization's dark theme wide-format logo configured in the [organization profile](zulip.com/help/create-your-organization-profile.
-	NightLogoUrl string `json:"night_logo_url,omitempty"`
-	// The [organization type](zulip.com/help/organization-type) for the realm.  - 0 = Unspecified - 10 = Business - 20 = Open-source project - 30 = Education (non-profit) - 35 = Education (for-profit) - 40 = Research - 50 = Event or conference - 60 = Non-profit (registered) - 70 = Government - 80 = Political group - 90 = Community - 100 = Personal - 1000 = Other  **Changes**: New in Zulip 6.0 (feature level 128).
-	OrgType OrgType `json:"org_type,omitempty"`
-	// The plan type of the organization.  - 1 = Self-hosted organization (SELF_HOSTED) - 2 = Zulip Cloud free plan (LIMITED) - 3 = Zulip Cloud Standard plan (STANDARD) - 4 = Zulip Cloud Standard plan, sponsored for free (STANDARD_FREE)
-	PlanType PlanType `json:"plan_type,omitempty"`
 	// Whether online presence of other users is shown in this organization.
 	PresenceDisabled bool `json:"presence_disabled,omitempty"`
 	// Whether push notifications are enabled for this organization. Typically `true` for Zulip Cloud and self-hosted realms that have a valid registration for the [Mobile push notifications service](https://zulip.readthedocs.io/en/latest/production/mobile-push-notifications.html), and `false` for self-hosted servers that do not.  **Changes**: New in Zulip 8.0 (feature level 231). Previously, this value was never updated via events.
@@ -227,15 +226,47 @@ type TODOFindGoodNames struct {
 	WaitingPeriodThreshold int64 `json:"waiting_period_threshold,omitempty"`
 	// Whether the organization has given permission to be advertised in the Zulip [communities directory](zulip.com/help/communities-directory.  **Changes**: New in Zulip 6.0 (feature level 129).
 	WantAdvertiseInCommunitiesDirectory bool `json:"want_advertise_in_communities_directory,omitempty"`
-	// This organization's configured custom message for Welcome Bot to send to new user accounts, in Zulip Markdown format.  Maximum length is 8000 characters.  **Changes**: New in Zulip 11.0 (feature level 416).
-	WelcomeMessageCustomText string `json:"welcome_message_custom_text,omitempty"`
 }
 
-// SubscriptionRemoveEvent7Data An object containing the properties that have changed.  **Changes**: In Zulip 10.0 (feature level 316), `edit_topic_policy` property was removed and replaced by `can_move_messages_between_topics_group` realm setting.  In Zulip 7.0 (feature level 183), the `community_topic_editing_limit_seconds` property was removed. It was documented as potentially returned as a changed property in this event, but in fact it was only ever returned in the [`POST /register`](zulip.com/api/register-queue) response.  Before Zulip 6.0 (feature level 150), on changing any of `allow_message_editing`, `message_content_edit_limit_seconds`, or `edit_topic_policy` settings, this object included all the three settings irrespective of which of these settings were changed. Now, a separate event is sent for each changed setting.
-type SubscriptionRemoveEvent7Data struct {
-	RealmPermissions
-	SpecialChannels
-	TODOFindGoodNames
+type RealmIdentity struct {
+	// The name of the organization, used in login pages etc.
+	Name string `json:"name,omitempty"`
+	// The [organization type](zulip.com/help/organization-type) for the realm.  - 0 = Unspecified - 10 = Business - 20 = Open-source project - 30 = Education (non-profit) - 35 = Education (for-profit) - 40 = Research - 50 = Event or conference - 60 = Non-profit (registered) - 70 = Government - 80 = Political group - 90 = Community - 100 = Personal - 1000 = Other  **Changes**: New in Zulip 6.0 (feature level 128).
+	OrgType OrgType `json:"org_type,omitempty"`
+	// The plan type of the organization.  - 1 = Self-hosted organization (SELF_HOSTED) - 2 = Zulip Cloud free plan (LIMITED) - 3 = Zulip Cloud Standard plan (STANDARD) - 4 = Zulip Cloud Standard plan, sponsored for free (STANDARD_FREE)
+	PlanType PlanType `json:"plan_type,omitempty"`
+}
+
+type RealmPresentation struct {
+	// The description of the organization, used on login and registration pages.
+	Description string `json:"description,omitempty"`
+	// This organization's configured custom message for Welcome Bot to send to new user accounts, in Zulip Markdown format.  Maximum length is 8000 characters.  **Changes**: New in Zulip 11.0 (feature level 416).
+	WelcomeMessageCustomText string `json:"welcome_message_custom_text,omitempty"`
+	// String indicating whether the organization's [profile wide logo](zulip.com/help/create-your-organization-profile) was uploaded by a user or is the default. Useful for UI allowing editing the organization's wide logo.  - \"D\" means the logo is the default Zulip logo. - \"U\" means uploaded by an organization administrator.
+	LogoSource string `json:"logo_source,omitempty"`
+	// The URL of the organization's wide logo configured in the [organization profile](zulip.com/help/create-your-organization-profile.
+	LogoUrl string `json:"logo_url,omitempty"`
+	// String indicating whether the organization's dark theme [profile wide logo](zulip.com/help/create-your-organization-profile) was uploaded by a user or is the default. Useful for UI allowing editing the organization's wide logo.  - \"D\" means the logo is the default Zulip logo. - \"U\" means uploaded by an organization administrator.
+	NightLogoSource string `json:"night_logo_source,omitempty"`
+	// The URL of the organization's dark theme wide-format logo configured in the [organization profile](zulip.com/help/create-your-organization-profile.
+	NightLogoUrl string `json:"night_logo_url,omitempty"`
+	// Maximum rating of the GIFs that will be retrieved from GIPHY.  **Changes**: New in Zulip 4.0 (feature level 55).
+	GiphyRating int32 `json:"giphy_rating,omitempty"`
+	// String indicating whether the organization's [profile icon](zulip.com/help/create-your-organization-profile) was uploaded by a user or is the default. Useful for UI allowing editing the organization's icon.  - \"G\" means generated by Gravatar (the default). - \"U\" means uploaded by an organization administrator.
+	IconSource string `json:"icon_source,omitempty"`
+	// The URL of the organization's [profile icon](zulip.com/help/create-your-organization-profile.
+	IconUrl string `json:"icon_url,omitempty"`
+	// Whether this organization has been configured to enable [previews of linked images](zulip.com/help/image-video-and-website-previews.
+	InlineImagePreview bool `json:"inline_image_preview,omitempty"`
+	// Whether this organization has been configured to enable [previews of linked websites](zulip.com/help/image-video-and-website-previews.
+	InlineUrlEmbedPreview bool `json:"inline_url_embed_preview,omitempty"`
+}
+
+type RealmLocalization struct {
+	// The default pygments language code to be used for code blocks in this organization. If an empty string, no default has been set.  **Changes**: Prior to Zulip 8.0 (feature level 195), a server bug meant that both `null` and an empty string could represent that no default was set for this realm setting in the [`POST /register`](zulip.com/api/register-queue) response. The documentation for both that endpoint and this event incorrectly stated that the only representation for no default language was `null`. This event in fact uses the empty string to indicate that no default has been set in all server versions.
+	DefaultCodeBlockLanguage string `json:"default_code_block_language,omitempty"`
+	// The default language for the organization.
+	DefaultLanguage string `json:"default_language,omitempty"`
 }
 
 type SpecialChannels struct {

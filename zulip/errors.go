@@ -6,27 +6,19 @@ import (
 	"strings"
 )
 
-type ErrInvalidEnumValue struct {
-	Value   interface{}
-	Enum    interface{}
-	VarName string
-}
-
-func (e *ErrInvalidEnumValue) Error() string {
-	return fmt.Sprintf("invalid value '%v' for '%v', valid values are %v", e.Value, e.VarName, e.Enum)
-}
-
-// GenericOpenAPIError Provides access to the body, error and model on returned errors.
-type GenericOpenAPIError struct {
+// APIError Provides access to the body, error and model on returned errors.
+type APIError struct {
 	body  []byte
 	error string
+
+	// the model error returned by the API
 	model interface{}
 }
 
 // CodedError struct for CodedError
 type CodedError struct {
-	Result string `json:"result"`
-	Msg    string `json:"msg"`
+	Response
+
 	// A string that identifies the error.
 	Code string `json:"code"`
 }
@@ -40,7 +32,7 @@ type RateLimitedError struct {
 	CodedError
 
 	// How many seconds the client must wait before making additional requests.
-	RetryAfter int `json:"retry-after,omitempty"`
+	RetryAfter int `json:"retry-after"`
 }
 
 // BadEventQueueIdError struct for BadEventQueueIdError
@@ -48,7 +40,7 @@ type BadEventQueueIdError struct {
 	CodedError
 
 	// The string that identifies the invalid event queue.
-	QueueId string `json:"queue_id,omitempty"`
+	QueueId string `json:"queue_id"`
 }
 
 // NonExistingChannelIdError struct for NonExistingChannelIdError
@@ -56,7 +48,7 @@ type NonExistingChannelIdError struct {
 	CodedError
 
 	// The channel Id that could not be found.
-	ChannelId int64 `json:"stream_id,omitempty"`
+	ChannelId int64 `json:"stream_id"`
 }
 
 // InvitationFailedError struct for InvitationFailedError
@@ -64,13 +56,13 @@ type InvitationFailedError struct {
 	CodedError
 
 	// An array of arrays of length 3, where each inner array consists of (a) an email address that was skipped while sending invitations, (b) the corresponding error message, and (c) a boolean which is `true` when the email address already uses Zulip and the corresponding user is deactivated in the organization.
-	Errors [][]interface{} `json:"errors,omitempty"`
+	Errors [][]interface{} `json:"errors"`
 	// A boolean specifying whether any invitations were sent.
-	SentInvitations bool `json:"sent_invitations,omitempty"`
+	SentInvitations bool `json:"sent_invitations"`
 	// A boolean specifying whether the limit on the number of invitations that can be sent in the organization in a day has been reached.
-	DailyLimitReached bool `json:"daily_limit_reached,omitempty"`
+	DailyLimitReached bool `json:"daily_limit_reached"`
 	// A boolean specifying whether the organization have enough unused Zulip licenses to invite specified number of users.
-	LicenseLimitReached bool `json:"license_limit_reached,omitempty"`
+	LicenseLimitReached bool `json:"license_limit_reached"`
 }
 
 // NonExistingChannelNameError struct for NonExistingChannelNameError
@@ -78,7 +70,7 @@ type NonExistingChannelNameError struct {
 	CodedError
 
 	// The name of the channel that could not be found.
-	Channel string `json:"stream,omitempty"`
+	Channel string `json:"stream"`
 }
 
 // IncompatibleParametersError struct for IncompatibleParametersError
@@ -86,7 +78,7 @@ type IncompatibleParametersError struct {
 	CodedError
 
 	// A string containing the parameters, separated by commas, that are incompatible.
-	Parameters string `json:"parameters,omitempty"`
+	Parameters string `json:"parameters"`
 }
 
 // MissingArgumentError struct for MissingArgumentError
@@ -94,7 +86,7 @@ type MissingArgumentError struct {
 	CodedError
 
 	// It contains the information about the missing parameter.
-	VarName string `json:"var_name,omitempty"`
+	VarName string `json:"var_name"`
 }
 
 // DeactivateOwnUserError struct for DeactivateOwnUserError
@@ -108,18 +100,28 @@ type DeactivateOwnUserError struct {
 }
 
 // Error returns non-empty string if there was an error.
-func (e GenericOpenAPIError) Error() string {
+func (e APIError) Error() string {
 	return fmt.Sprintf("%s: %s (%s)", e.error, e.model, string(e.body))
 }
 
 // Body returns the raw bytes of the response
-func (e GenericOpenAPIError) Body() []byte {
+func (e APIError) Body() []byte {
 	return e.body
 }
 
 // Model returns the unpacked model of the error
-func (e GenericOpenAPIError) Model() interface{} {
+func (e APIError) Model() interface{} {
 	return e.model
+}
+
+type ErrInvalidEnumValue struct {
+	Value   interface{}
+	Enum    interface{}
+	VarName string
+}
+
+func (e *ErrInvalidEnumValue) Error() string {
+	return fmt.Sprintf("invalid value '%v' for '%v', valid values are %v", e.Value, e.VarName, e.Enum)
 }
 
 // format error message using title and detail when model implements rfc7807
