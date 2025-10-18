@@ -1,6 +1,9 @@
 package zulip
 
-import "time"
+import (
+	"encoding/json"
+	"time"
+)
 
 // GetEventsResponse struct for GetEventsResponse
 type GetEventsResponse struct {
@@ -34,7 +37,7 @@ type RegisterQueueResponse struct {
 	CustomProfileFieldTypes map[string]CustomProfileFieldType `json:"custom_profile_field_types,omitempty"`
 
 	// Present if `realm` is present in `fetch_event_types`, and the realm is a demo organization.  The UNIX timestamp (UTC) when the demo organization will be automatically deleted. Clients should use this to display a prominent warning to the user that the organization will be deleted at the indicated time.  **Changes**: New in Zulip 5.0 (feature level 94).
-	DemoOrganizationScheduledDeletionDate *time.Time `json:"demo_organization_scheduled_deletion_date,omitempty"`
+	DemoOrganizationScheduledDeletionDate int64 `json:"demo_organization_scheduled_deletion_date,omitempty"`
 	// An array containing draft objects for the user. These drafts are being stored on the backend for the purpose of syncing across devices. This array will be empty if `enable_drafts_synchronization` is set to `false`.
 	Drafts []Draft `json:"drafts,omitempty"`
 	// Present if `onboarding_steps` is present in `fetch_event_types`.  An array of dictionaries, where each dictionary contains details about a single onboarding step that should be shown to the user.  We expect that only official Zulip clients will interact with this data.  **Changes**: Before Zulip 8.0 (feature level 233), this array was named `hotspots`. Prior to this feature level, one-time notice onboarding steps were not supported, and the `type` field in these objects did not exist as all onboarding steps were implicitly hotspots.
@@ -566,6 +569,38 @@ type UserTopic struct {
 	LastUpdated time.Time `json:"last_updated,omitempty"`
 	// An integer indicating the user's visibility preferences for the topic, such as whether the topic is muted.  - 0 = None. Used to indicate that the user no   longer has a special visibility policy for this topic. - 1 = Muted. Used to record [muted topics](zulip.com/help/mute-a-topic. - 2 = Unmuted. Used to record unmuted topics. - 3 = Followed. Used to record [followed topics](zulip.com/help/follow-a-topic.  **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.  In Zulip 7.0 (feature level 170), added unmuted as a visibility policy option.
 	VisibilityPolicy VisibilityPolicy `json:"visibility_policy,omitempty"`
+}
+
+type userTopicJSON struct {
+	ChannelId        int64            `json:"stream_id,omitempty"`
+	TopicName        string           `json:"topic_name,omitempty"`
+	LastUpdated      int64            `json:"last_updated,omitempty"`
+	VisibilityPolicy VisibilityPolicy `json:"visibility_policy,omitempty"`
+}
+
+func (u *UserTopic) UnmarshalJSON(data []byte) error {
+	var uj userTopicJSON
+	if err := json.Unmarshal(data, &uj); err != nil {
+		return err
+	}
+
+	u.ChannelId = uj.ChannelId
+	u.TopicName = uj.TopicName
+	u.LastUpdated = time.Unix(uj.LastUpdated, 0)
+	u.VisibilityPolicy = uj.VisibilityPolicy
+
+	return nil
+}
+
+func (u UserTopic) MarshalJSON() ([]byte, error) {
+	uj := userTopicJSON{
+		ChannelId:        u.ChannelId,
+		TopicName:        u.TopicName,
+		LastUpdated:      u.LastUpdated.Unix(),
+		VisibilityPolicy: u.VisibilityPolicy,
+	}
+
+	return json.Marshal(uj)
 }
 
 // DefaultChannelGroup Dictionary containing details of a default channel group.

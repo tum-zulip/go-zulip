@@ -31,5 +31,4 @@ type Client interface {
 	ScheduledMessagesAPI
 	ServerAndOrganizationsAPI
 	UsersAPI
-	WebhooksAPI
 }

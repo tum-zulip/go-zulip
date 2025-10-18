@@ -4076,7 +4076,7 @@ type SetTypingStatusRequest struct {
 	ApiService UsersAPI
 	op         *TypingStatusOp
 	type_      *RecipientType
-	to         *[]int64
+	to         *Recipient
 	channelId  *int64
 	topic      *string
 }
@@ -4094,7 +4094,7 @@ func (r SetTypingStatusRequest) Type_(type_ RecipientType) SetTypingStatusReques
 }
 
 // User Ids of the recipients of the message being typed. Required for the &#x60;\\\&quot;direct\\\&quot;&#x60; type. Ignored in the case of &#x60;\\\&quot;stream\\\&quot;&#x60; or &#x60;\\\&quot;channel\\\&quot;&#x60; type.  Clients should send a JSON-encoded list of user Ids, even if there is only one recipient.  **Changes**: In Zulip 8.0 (feature level 215), stopped using this parameter for the &#x60;\\\&quot;stream\\\&quot;&#x60; type. Previously, in the case of the &#x60;\\\&quot;stream\\\&quot;&#x60; type, it accepted a single-element list containing the Id of the channel. A new parameter, &#x60;stream_id&#x60;, is now used for this. Note that the &#x60;\\\&quot;channel\\\&quot;&#x60; type did not exist at this feature level.  Support for typing notifications for channel&#39; messages is new in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  Before Zulip 2.0.0, this parameter accepted only a JSON-encoded list of email addresses. Support for the email address-based format was removed in Zulip 3.0 (feature level 11).
-func (r SetTypingStatusRequest) To(to []int64) SetTypingStatusRequest {
+func (r SetTypingStatusRequest) To(to Recipient) SetTypingStatusRequest {
 	r.to = &to
 	return r
 }
@@ -4230,7 +4230,7 @@ func (c *simpleClient) SetTypingStatusExecute(r SetTypingStatusRequest) (*Respon
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "op", r.op, "", "")
 	if r.to != nil {
-		paramJson, err := parameterToJson(r.to)
+		paramJson, err := parameterToJson(r.to.asArray())
 		if err != nil {
 			return localVarReturnValue, nil, err
 		}

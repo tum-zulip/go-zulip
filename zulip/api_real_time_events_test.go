@@ -2,8 +2,6 @@ package zulip_test
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"log/slog"
 	"testing"
 	"time"
@@ -19,7 +17,11 @@ func Test_RealTimeEventsAPIService(t *testing.T) {
 	t.Run("DeleteQueue", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 
-		resp, httpRes, err := apiClient.DeleteQueue(ctx).Execute()
+		queueId, _ := registerMessageEventQueue(t, apiClient)
+
+		resp, httpRes, err := apiClient.DeleteQueue(ctx).
+			QueueId(queueId).
+			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -30,7 +32,21 @@ func Test_RealTimeEventsAPIService(t *testing.T) {
 	t.Run("GetEvents", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 
-		resp, httpRes, err := apiClient.GetEvents(ctx).Execute()
+		queueId, lastEventId := registerMessageEventQueue(t, apiClient)
+		go func() {
+			time.Sleep(2 * time.Second)
+			_, _, err := apiClient.SetTypingStatus(ctx).
+				Op(zulip.TypingStatusOpStart).
+				To(zulip.UserAsRecipient(getOwnUserId(t, apiClient))).
+				Execute()
+
+			require.NoError(t, err)
+		}()
+
+		resp, httpRes, err := apiClient.GetEvents(ctx).
+			QueueId(queueId).
+			LastEventId(lastEventId).
+			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -39,119 +55,25 @@ func Test_RealTimeEventsAPIService(t *testing.T) {
 	}))
 
 	t.Run("RegisterQueue", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
-		ctx := context.Background()
-
-		resp, httpRes, err := apiClient.RegisterQueue(ctx).Execute()
-
-		slog.Error("debug", "resp", resp, "httpRes", httpRes, "err", err)
-
-		require.NoError(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	}))
-
-	t.Run("QueueReceivesMessageEvent", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
-		queue := registerMessageEventQueue(t, apiClient)
-
-		t.Cleanup(func() {
-			_, _, cleanupErr := apiClient.DeleteQueue(context.Background()).
-				QueueId(queue.id).
-				Execute()
-			if cleanupErr != nil {
-				t.Fatalf("failed to delete queue %s: %v", queue.id, cleanupErr)
-			}
-		})
-
-		_, updatedLast := fetchQueueEvents(t, context.Background(), apiClient, queue.id, queue.lastEventID, true)
-		queue.lastEventID = updatedLast
-
-		userId := getOwnUserId(t, apiClient)
-		messageContent := fmt.Sprintf("event queue test %s", uniqueName("message"))
-
-		type sendResult struct {
-			id  int64
-			err error
-		}
-
-		sendCh := make(chan sendResult, 1)
-		go func() {
-			sendCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-			defer cancel()
-
-			resp, httpRes, err := apiClient.SendMessage(sendCtx).
-				RecipientType(zulip.RecipientTypeDirect).
-				To(zulip.UserAsRecipient(userId)).
-				Content(messageContent).
-				Execute()
-			if err != nil {
-				sendCh <- sendResult{err: fmt.Errorf("send message: %w", err)}
-				return
-			}
-			if httpRes == nil {
-				sendCh <- sendResult{err: fmt.Errorf("nil http response")}
-				return
-			}
-			if httpRes.StatusCode != 200 {
-				sendCh <- sendResult{err: fmt.Errorf("unexpected status %d", httpRes.StatusCode)}
-				return
-			}
-			if resp == nil {
-				sendCh <- sendResult{err: fmt.Errorf("nil response")}
-				return
-			}
-			sendCh <- sendResult{id: resp.Id}
-		}()
-
-		eventCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		defer cancel()
-
-		events, newLast := fetchQueueEvents(t, eventCtx, apiClient, queue.id, queue.lastEventID, false)
-		queue.lastEventID = newLast
-
-		sendRes := <-sendCh
-		require.NoError(t, sendRes.err)
-
-		require.NotEmpty(t, events)
-
-		var found bool
-		for _, raw := range events {
-			var msg struct {
-				Type    string `json:"type"`
-				Message struct {
-					Id int64 `json:"id"`
-				} `json:"message"`
-			}
-			if err := json.Unmarshal(raw, &msg); err != nil {
-				continue
-			}
-			if msg.Type == "message" && msg.Message.Id == sendRes.id {
-				found = true
-				break
-			}
-		}
-
-		require.True(t, found, "expected message event with id %d", sendRes.id)
+		registerMessageEventQueue(t, apiClient)
 	}))
 
 }
 
-type eventQueueState struct {
-	id          string
-	lastEventID int64
-}
-
-func registerMessageEventQueue(t *testing.T, apiClient zulip.Client) eventQueueState {
+func registerMessageEventQueue(t *testing.T, apiClient zulip.Client) (string, int64) {
 	t.Helper()
 
-	t.Skip()
+	ctx := context.Background()
 
-	return eventQueueState{}
-}
+	resp, httpRes, err := apiClient.RegisterQueue(ctx).Execute()
 
-func fetchQueueEvents(t *testing.T, ctx context.Context, apiClient zulip.Client, queueID string, lastEventID int64, dontBlock bool) ([]json.RawMessage, int64) {
-	t.Helper()
-	t.Skip()
+	slog.Error("debug", "resp", resp, "httpRes", httpRes, "err", err)
 
-	return nil, 0
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	assert.Equal(t, 200, httpRes.StatusCode)
+
+	require.NotEmpty(t, resp.QueueId)
+
+	return *resp.QueueId, resp.LastEventId
 }

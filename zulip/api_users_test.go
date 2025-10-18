@@ -298,7 +298,10 @@ func Test_UsersAPIService(t *testing.T) {
 	t.Run("SetTypingStatus", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
 		ctx := context.Background()
 
-		resp, httpRes, err := apiClient.SetTypingStatus(ctx).Op(zulip.TypingStatusOpStart).To([]int64{getOwnUserId(t, apiClient)}).Execute()
+		resp, httpRes, err := apiClient.SetTypingStatus(ctx).
+			Op(zulip.TypingStatusOpStart).
+			To(zulip.UserAsRecipient(getOwnUserId(t, apiClient))).
+			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
