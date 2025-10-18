@@ -343,7 +343,9 @@ func (r AddCodePlaygroundRequest) PygmentsLanguage(pygmentsLanguage string) AddC
 	return r
 }
 
-// The [RFC 6570] compliant URL template for the playground. The template should contain exactly one variable named `code`, which determines how the extracted code should be substituted in the playground URL.  **Changes**: New in Zulip 8.0 (feature level 196). This replaced the `url_prefix` parameter, which was used to construct URLs by just concatenating `url_prefix` and `code`.
+// The [RFC 6570] compliant URL template for the playground. The template should contain exactly one variable named `code`, which determines how the extracted code should be substituted in the playground URL.
+//
+//	**Changes**: New in Zulip 8.0 (feature level 196). This replaced the `url_prefix` parameter, which was used to construct URLs by just concatenating `url_prefix` and `code`.
 //
 // [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
 func (r AddCodePlaygroundRequest) UrlTemplate(urlTemplate string) AddCodePlaygroundRequest {
@@ -469,7 +471,9 @@ func (r AddLinkifierRequest) Pattern(pattern string) AddLinkifierRequest {
 	return r
 }
 
-// The [RFC 6570] compliant URL template used for the link. If you used named groups in `pattern`, you can insert their content here with `{name_of_group}`.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups&#39; content could be inserted with `%(name_of_group)s`.
+// The [RFC 6570] compliant URL template used for the link. If you used named groups in `pattern`, you can insert their content here with `{name_of_group}`.
+//
+//	**Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups&#39; content could be inserted with `%(name_of_group)s`.
 //
 // [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
 func (r AddLinkifierRequest) UrlTemplate(urlTemplate string) AddLinkifierRequest {
@@ -619,13 +623,17 @@ func (r CreateCustomProfileFieldRequest) DisplayInProfileSummary(displayInProfil
 	return r
 }
 
-// Whether an organization administrator has configured this profile field as required.  Because the required property is mutable, clients cannot assume that a required custom profile field has a value. The Zulip web application displays a prominent banner to any user who has not set a value for a required field.  **Changes**: New in Zulip 9.0 (feature level 244).
+// Whether an organization administrator has configured this profile field as required.  Because the required property is mutable, clients cannot assume that a required custom profile field has a value. The Zulip web application displays a prominent banner to any user who has not set a value for a required field.
+//
+//	**Changes**: New in Zulip 9.0 (feature level 244).
 func (r CreateCustomProfileFieldRequest) Required(required bool) CreateCustomProfileFieldRequest {
 	r.required = &required
 	return r
 }
 
-// Whether regular users can edit this profile field on their own account.  Note that organization administrators can edit custom profile fields for any user regardless of this setting.  **Changes**: New in Zulip 10.0 (feature level 296).
+// Whether regular users can edit this profile field on their own account.  Note that organization administrators can edit custom profile fields for any user regardless of this setting.
+//
+//	**Changes**: New in Zulip 10.0 (feature level 296).
 func (r CreateCustomProfileFieldRequest) EditableByUser(editableByUser bool) CreateCustomProfileFieldRequest {
 	r.editableByUser = &editableByUser
 	return r
@@ -853,7 +861,9 @@ type ExportRealmRequest struct {
 	exportType *int32
 }
 
-// Whether to create a public or a standard data export.  - 1 &#x3D; Public data export. - 2 &#x3D; Standard data export.  If not specified, defaults to 1.  **Changes**: New in Zulip 10.0 (feature level 304). Previously, all export requests were public data exports.
+// Whether to create a public or a standard data export.  - 1 &#x3D; Public data export. - 2 &#x3D; Standard data export.  If not specified, defaults to 1.
+//
+//	**Changes**: New in Zulip 10.0 (feature level 304). Previously, all export requests were public data exports.
 func (r ExportRealmRequest) ExportType(exportType int32) ExportRealmRequest {
 	r.exportType = &exportType
 	return r
@@ -2186,7 +2196,9 @@ func (r UpdateLinkifierRequest) Pattern(pattern string) UpdateLinkifierRequest {
 	return r
 }
 
-// The [RFC 6570] compliant URL template used for the link. If you used named groups in `pattern`, you can insert their content here with `{name_of_group}`.  **Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups&#39; content could be inserted with `%(name_of_group)s`.
+// The [RFC 6570] compliant URL template used for the link. If you used named groups in `pattern`, you can insert their content here with `{name_of_group}`.
+//
+//	**Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups&#39; content could be inserted with `%(name_of_group)s`.
 //
 // [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
 func (r UpdateLinkifierRequest) UrlTemplate(urlTemplate string) UpdateLinkifierRequest {
@@ -2367,13 +2379,17 @@ func (r UpdateRealmUserSettingsDefaultsRequest) StarredMessageCounts(starredMess
 	return r
 }
 
-// Whether the user is configured to receive typing notifications from other users. The server will only deliver typing notifications events to users who for whom this is enabled.  **Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications.
+// Whether the user is configured to receive typing notifications from other users. The server will only deliver typing notifications events to users who for whom this is enabled.
+//
+//	**Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications.
 func (r UpdateRealmUserSettingsDefaultsRequest) ReceivesTypingNotifications(receivesTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.receivesTypingNotifications = &receivesTypingNotifications
 	return r
 }
 
-// Whether the user should be shown an alert, offering to update their [profile time zone], when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.  **Changes**: New in Zulip 10.0 (feature level 329).
+// Whether the user should be shown an alert, offering to update their [profile time zone], when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.
+//
+//	**Changes**: New in Zulip 10.0 (feature level 329).
 //
 // [profile time zone]: https://zulip.com/help/change-your-timezone
 func (r UpdateRealmUserSettingsDefaultsRequest) WebSuggestUpdateTimezone(webSuggestUpdateTimezone bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2407,13 +2423,17 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelDefaultView(webChannel
 	return r
 }
 
-// User-configured primary `font-size` for the web application, in pixels.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level.
+// User-configured primary `font-size` for the web application, in pixels.
+//
+//	**Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebFontSizePx(webFontSizePx int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.webFontSizePx = &webFontSizePx
 	return r
 }
 
-// User-configured primary `line-height` for the web application, in percent, so a value of 120 represents a `line-height` of 1.2.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
+// User-configured primary `line-height` for the web application, in percent, so a value of 120 represents a `line-height` of 1.2.
+//
+//	**Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebLineHeightPercent(webLineHeightPercent int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.webLineHeightPercent = &webLineHeightPercent
 	return r
@@ -2441,7 +2461,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) TranslateEmoticons(translateEmot
 	return r
 }
 
-// Whether to display the names of reacting users on a message.  When enabled, clients should display the names of reacting users, rather than a count, for messages with few total reactions. The ideal cutoff may depend on the space available for displaying reactions; the official web application displays names when 3 or fewer total reactions are present with this setting enabled.  **Changes**: New in Zulip 6.0 (feature level 125).
+// Whether to display the names of reacting users on a message.  When enabled, clients should display the names of reacting users, rather than a count, for messages with few total reactions. The ideal cutoff may depend on the space available for displaying reactions; the official web application displays names when 3 or fewer total reactions are present with this setting enabled.
+//
+//	**Changes**: New in Zulip 6.0 (feature level 125).
 func (r UpdateRealmUserSettingsDefaultsRequest) DisplayEmojiReactionUsers(displayEmojiReactionUsers bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.displayEmojiReactionUsers = &displayEmojiReactionUsers
 	return r
@@ -2455,7 +2477,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebHomeView(webHomeView string) 
 	return r
 }
 
-// Whether the escape key navigates to the [configured home view].  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `escape_navigates_to_default_view`, which was new in Zulip 5.0 (feature level 107).
+// Whether the escape key navigates to the [configured home view].
+//
+//	**Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `escape_navigates_to_default_view`, which was new in Zulip 5.0 (feature level 107).
 //
 // [configured home view]: https://zulip.com/help/configure-home-view
 func (r UpdateRealmUserSettingsDefaultsRequest) WebEscapeNavigatesToHomeView(webEscapeNavigatesToHomeView bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2491,7 +2515,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) UserListStyle(userListStyle int3
 	return r
 }
 
-// Controls how animated images should be played in the message feed in the web/desktop application.  - \\"always\\" - Always play the animated images in the message feed. - \\"on_hover\\" - Play the animated images on hover over them in the message feed. - \\"never\\" - Never play animated images in the message feed.  **Changes**: New in Zulip 9.0 (feature level 275). Previously, animated images always used to play in the message feed by default. This setting controls this behaviour.
+// Controls how animated images should be played in the message feed in the web/desktop application.  - \\"always\\" - Always play the animated images in the message feed. - \\"on_hover\\" - Play the animated images on hover over them in the message feed. - \\"never\\" - Never play animated images in the message feed.
+//
+//	**Changes**: New in Zulip 9.0 (feature level 275). Previously, animated images always used to play in the message feed by default. This setting controls this behaviour.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(webAnimateImagePreviews string) UpdateRealmUserSettingsDefaultsRequest {
 	r.webAnimateImagePreviews = &webAnimateImagePreviews
 	return r
@@ -2503,19 +2529,25 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelUnreadsCountDisplayPol
 	return r
 }
 
-// Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.  **Changes**: New in Zulip 10.0 (feature level 350).
+// Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.
+//
+//	**Changes**: New in Zulip 10.0 (feature level 350).
 func (r UpdateRealmUserSettingsDefaultsRequest) HideAiFeatures(hideAiFeatures bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.hideAiFeatures = &hideAiFeatures
 	return r
 }
 
-// Determines whether the web/desktop application&#39;s left sidebar displays any channel folders configured by the organization.  **Changes**: New in Zulip 11.0 (feature level 411).
+// Determines whether the web/desktop application&#39;s left sidebar displays any channel folders configured by the organization.
+//
+//	**Changes**: New in Zulip 11.0 (feature level 411).
 func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarShowChannelFolders(webLeftSidebarShowChannelFolders bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.webLeftSidebarShowChannelFolders = &webLeftSidebarShowChannelFolders
 	return r
 }
 
-// Determines whether the web/desktop application&#39;s left sidebar displays the unread message count summary.  **Changes**: New in Zulip 11.0 (feature level 398).
+// Determines whether the web/desktop application&#39;s left sidebar displays the unread message count summary.
+//
+//	**Changes**: New in Zulip 11.0 (feature level 398).
 func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarUnreadsCountSummary(webLeftSidebarUnreadsCountSummary bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.webLeftSidebarUnreadsCountSummary = &webLeftSidebarUnreadsCountSummary
 	return r
@@ -2563,25 +2595,33 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableSounds(enableSounds bool) 
 	return r
 }
 
-// Enable visual desktop notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189).
+// Enable visual desktop notifications for messages sent to followed topics.
+//
+//	**Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicDesktopNotifications(enableFollowedTopicDesktopNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicDesktopNotifications = &enableFollowedTopicDesktopNotifications
 	return r
 }
 
-// Enable email notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189).
+// Enable email notifications for messages sent to followed topics.
+//
+//	**Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicEmailNotifications(enableFollowedTopicEmailNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicEmailNotifications = &enableFollowedTopicEmailNotifications
 	return r
 }
 
-// Enable push notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189).
+// Enable push notifications for messages sent to followed topics.
+//
+//	**Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicPushNotifications(enableFollowedTopicPushNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicPushNotifications = &enableFollowedTopicPushNotifications
 	return r
 }
 
-// Enable audible desktop notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189).
+// Enable audible desktop notifications for messages sent to followed topics.
+//
+//	**Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicAudibleNotifications(enableFollowedTopicAudibleNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicAudibleNotifications = &enableFollowedTopicAudibleNotifications
 	return r
@@ -2635,7 +2675,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WildcardMentionsNotify(wildcardM
 	return r
 }
 
-// Whether wildcard mentions (e.g., @**all**) in messages sent to followed topics should send notifications like a personal mention.  **Changes**: New in Zulip 8.0 (feature level 189).
+// Whether wildcard mentions (e.g., @**all**) in messages sent to followed topics should send notifications like a personal mention.
+//
+//	**Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicWildcardMentionsNotify(enableFollowedTopicWildcardMentionsNotify bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicWildcardMentionsNotify = &enableFollowedTopicWildcardMentionsNotify
 	return r
@@ -2671,13 +2713,17 @@ func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMuted
 	return r
 }
 
-// Whether the server will automatically mark the user as following topics where the user is mentioned.  **Changes**: New in Zulip 8.0 (feature level 235).
+// Whether the server will automatically mark the user as following topics where the user is mentioned.
+//
+//	**Changes**: New in Zulip 8.0 (feature level 235).
 func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsWhereMentioned(automaticallyFollowTopicsWhereMentioned bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyFollowTopicsWhereMentioned = &automaticallyFollowTopicsWhereMentioned
 	return r
 }
 
-// Controls whether the resolved-topic notices are marked as read.  - \\"always\\" - Always mark resolved-topic notices as read. - \\"except_followed\\" - Mark resolved-topic notices as read in topics not followed by the user. - \\"never\\" - Never mark resolved-topic notices as read.  **Changes**: New in Zulip 11.0 (feature level 385).
+// Controls whether the resolved-topic notices are marked as read.  - \\"always\\" - Always mark resolved-topic notices as read. - \\"except_followed\\" - Mark resolved-topic notices as read in topics not followed by the user. - \\"never\\" - Never mark resolved-topic notices as read.
+//
+//	**Changes**: New in Zulip 11.0 (feature level 385).
 func (r UpdateRealmUserSettingsDefaultsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy string) UpdateRealmUserSettingsDefaultsRequest {
 	r.resolvedTopicNoticeAutoReadPolicy = &resolvedTopicNoticeAutoReadPolicy
 	return r
@@ -2695,7 +2741,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnterSends(enterSends bool) Upda
 	return r
 }
 
-// Whether time should be [displayed in 24-hour notation].  **Changes**: New in Zulip 5.0 (feature level 99). Previously, this default was edited using the `default_twenty_four_hour_time` parameter to the `PATCH /realm` endpoint.
+// Whether time should be [displayed in 24-hour notation].
+//
+//	**Changes**: New in Zulip 5.0 (feature level 99). Previously, this default was edited using the `default_twenty_four_hour_time` parameter to the `PATCH /realm` endpoint.
 //
 // [displayed in 24-hour notation]: https://zulip.com/help/change-the-time-format
 func (r UpdateRealmUserSettingsDefaultsRequest) TwentyFourHourTime(twentyFourHourTime bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2703,7 +2751,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) TwentyFourHourTime(twentyFourHou
 	return r
 }
 
-// Whether [typing notifications] be sent when composing direct messages.  **Changes**: New in Zulip 5.0 (feature level 105).
+// Whether [typing notifications] be sent when composing direct messages.
+//
+//	**Changes**: New in Zulip 5.0 (feature level 105).
 //
 // [typing notifications]: https://zulip.com/help/typing-notifications
 func (r UpdateRealmUserSettingsDefaultsRequest) SendPrivateTypingNotifications(sendPrivateTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2711,7 +2761,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendPrivateTypingNotifications(s
 	return r
 }
 
-// Whether [typing notifications] be sent when composing channel messages.  **Changes**: New in Zulip 5.0 (feature level 105).
+// Whether [typing notifications] be sent when composing channel messages.
+//
+//	**Changes**: New in Zulip 5.0 (feature level 105).
 //
 // [typing notifications]: https://zulip.com/help/typing-notifications
 func (r UpdateRealmUserSettingsDefaultsRequest) SendChannelTypingNotifications(sendChannelTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2719,7 +2771,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendChannelTypingNotifications(s
 	return r
 }
 
-// Whether other users are allowed to see whether you&#39;ve read messages.  **Changes**: New in Zulip 5.0 (feature level 105).
+// Whether other users are allowed to see whether you&#39;ve read messages.
+//
+//	**Changes**: New in Zulip 5.0 (feature level 105).
 func (r UpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(sendReadReceipts bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.sendReadReceipts = &sendReadReceipts
 	return r
@@ -2734,7 +2788,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(emailAddr
 	return r
 }
 
-// Web/desktop app setting for whether the user&#39;s view should automatically go to the conversation where they sent a message.  **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
+// Web/desktop app setting for whether the user&#39;s view should automatically go to the conversation where they sent a message.
+//
+//	**Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebNavigateToSentMessage(webNavigateToSentMessage bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.webNavigateToSentMessage = &webNavigateToSentMessage
 	return r

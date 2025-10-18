@@ -11,7 +11,9 @@ import (
 type Invite struct {
 	// The Id of the invitation.  Note that email invitations and reusable invitation links are stored in different database tables on the server, so each Id is guaranteed to be unique in combination with the boolean value of `is_multiuse`, e.g. there can only be one invitation with `id: 1` and `is_multiuse: true`.
 	Id int64 `json:"id,omitempty"`
-	// The [user Id] of the user who created the invitation.  **Changes**: New in Zulip 3.0 (feature level 22), replacing the `ref` field which contained the Zulip display email address of the user who created the invitation.
+	// The [user Id] of the user who created the invitation.
+	//
+	// **Changes**: New in Zulip 3.0 (feature level 22), replacing the `ref` field which contained the Zulip display email address of the user who created the invitation.
 	//
 	// [user Id]: https://zulip.com/api/get-user
 	InvitedByUserId int64 `json:"invited_by_user_id,omitempty"`
@@ -30,7 +32,9 @@ type Invite struct {
 	InvitedAs int32 `json:"invited_as,omitempty"`
 	// The email address the invitation was sent to. This will not be present when `is_multiuse` is `true` (i.e. the invitation is a reusable invitation link).
 	Email string `json:"email,omitempty"`
-	// A boolean indicating whether the referrer has opted to receive a direct message from [notification bot] when a user account is created using this invitation.  **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
+	// A boolean indicating whether the referrer has opted to receive a direct message from [notification bot] when a user account is created using this invitation.
+	//
+	// **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
 	//
 	// [notification bot]: https://zulip.com/help/configure-automated-notices
 	NotifyReferrerOnJoin bool `json:"notify_referrer_on_join,omitempty"`

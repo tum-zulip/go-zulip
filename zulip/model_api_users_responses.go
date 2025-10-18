@@ -12,7 +12,9 @@ type AlertWordsResponse struct {
 type CreateUserResponse struct {
 	Response
 
-	// The Id assigned to the newly created user.  **Changes**: New in Zulip 4.0 (feature level 30).
+	// The Id assigned to the newly created user.
+	//
+	// **Changes**: New in Zulip 4.0 (feature level 30).
 	UserId int64 `json:"user_id,omitempty"`
 }
 

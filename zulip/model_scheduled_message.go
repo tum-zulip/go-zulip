@@ -23,7 +23,9 @@ type ScheduledMessage struct {
 	RenderedContent string `json:"rendered_content"`
 	// The UNIX timestamp for when the message will be sent by the server, in UTC seconds.
 	ScheduledDeliveryTimestamp time.Time `json:"scheduled_delivery_timestamp"`
-	// Whether the server has tried to send the scheduled message and it failed to successfully send.  Clients that support unscheduling and editing scheduled messages should display scheduled messages with `\"failed\": true` with an indicator that the server failed to send the message at the scheduled time, so that the user is aware of the failure and can get the content of the scheduled message.  **Changes**: New in Zulip 7.0 (feature level 181).
+	// Whether the server has tried to send the scheduled message and it failed to successfully send.  Clients that support unscheduling and editing scheduled messages should display scheduled messages with `\"failed\": true` with an indicator that the server failed to send the message at the scheduled time, so that the user is aware of the failure and can get the content of the scheduled message.
+	//
+	// **Changes**: New in Zulip 7.0 (feature level 181).
 	Failed bool `json:"failed"`
 }
 

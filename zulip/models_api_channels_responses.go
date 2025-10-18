@@ -81,7 +81,9 @@ type GetSubscriptionStatusResponse struct {
 // GetSubscriptionsResponse struct for GetSubscriptionsResponse
 type GetSubscriptionsResponse struct {
 	Response
-	// A list of dictionaries where each dictionary contains information about one of the subscribed channels.  **Changes**: Removed `email_address` field from the dictionary in Zulip 8.0 (feature level 226).  Removed `role` field from the dictionary in Zulip 6.0 (feature level 133).
+	// A list of dictionaries where each dictionary contains information about one of the subscribed channels.
+	//
+	// **Changes**: Removed `email_address` field from the dictionary in Zulip 8.0 (feature level 226).  Removed `role` field from the dictionary in Zulip 6.0 (feature level 133).
 	Subscriptions []Subscription `json:"subscriptions"`
 }
 
@@ -89,13 +91,19 @@ type GetSubscriptionsResponse struct {
 type SubscribeResponse struct {
 	Response
 
-	// A dictionary where the key is the Id of the user and the value is a list of the names of the channels that user was subscribed to as a result of the request.  **Changes**: Before Zulip 10.0 (feature level 289), the user keys were Zulip API email addresses, not user Id.
+	// A dictionary where the key is the Id of the user and the value is a list of the names of the channels that user was subscribed to as a result of the request.
+	//
+	// **Changes**: Before Zulip 10.0 (feature level 289), the user keys were Zulip API email addresses, not user Id.
 	Subscribed map[string][]string `json:"subscribed,omitempty"`
-	// A dictionary where the key is the Id of the user and the value is a list of the names of the channels that where the user was not added as a subscriber in this request, because they were already a subscriber.  **Changes**: Before Zulip 10.0 (feature level 289), the user keys were Zulip API email addresses, not user Ids.
+	// A dictionary where the key is the Id of the user and the value is a list of the names of the channels that where the user was not added as a subscriber in this request, because they were already a subscriber.
+	//
+	// **Changes**: Before Zulip 10.0 (feature level 289), the user keys were Zulip API email addresses, not user Ids.
 	AlreadySubscribed map[string][]string `json:"already_subscribed,omitempty"`
 	// A list of names of channels that the requesting user/bot was not authorized to subscribe to. Only present if `\"authorization_errors_fatal\": false`.
 	Unauthorized []string `json:"unauthorized,omitempty"`
-	// Only present if the parameter `send_new_subscription_messages` in the request was `true`.  Whether Notification Bot DMs in fact sent to the added subscribers as requested by the `send_new_subscription_messages` parameter. Clients may find this value useful to communicate with users about the effect of this request.  **Changes**: New in Zulip 11.0 (feature level 397).
+	// Only present if the parameter `send_new_subscription_messages` in the request was `true`.  Whether Notification Bot DMs in fact sent to the added subscribers as requested by the `send_new_subscription_messages` parameter. Clients may find this value useful to communicate with users about the effect of this request.
+	//
+	// **Changes**: New in Zulip 11.0 (feature level 397).
 	NewSubscriptionMessagesSent bool `json:"new_subscription_messages_sent,omitempty"`
 }
 
@@ -128,6 +136,8 @@ type UpdateSubscriptionsResponse struct {
 	NotRemoved []string `json:"not_removed,omitempty"`
 	// A list of the names of channels which were unsubscribed from as a result of the query.
 	Removed []string `json:"removed"`
-	// Only present if the parameter `send_new_subscription_messages` in the request was `true`.  Whether Notification Bot DMs in fact sent to the added subscribers as requested by the `send_new_subscription_messages` parameter. Clients may find this value useful to communicate with users about the effect of this request.  **Changes**: New in Zulip 11.0 (feature level 397).
+	// Only present if the parameter `send_new_subscription_messages` in the request was `true`.  Whether Notification Bot DMs in fact sent to the added subscribers as requested by the `send_new_subscription_messages` parameter. Clients may find this value useful to communicate with users about the effect of this request.
+	//
+	// **Changes**: New in Zulip 11.0 (feature level 397).
 	NewSubscriptionMessagesSent *bool `json:"new_subscription_messages_sent,omitempty"`
 }

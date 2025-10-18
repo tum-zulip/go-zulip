@@ -58,7 +58,9 @@ type GetMessagesResponse struct {
 	FoundAnchor bool `json:"found_anchor,omitempty"`
 	// Whether the message history was limited due to plan restrictions. This flag is set to `true` only when the oldest messages(`found_oldest`) matching the narrow is fetched.
 	HistoryLimited bool `json:"history_limited,omitempty"`
-	// An array of `message` objects.  **Changes**: In Zulip 3.1 (feature level 26), the `sender_short_name` field was removed from message objects.
+	// An array of `message` objects.
+	//
+	// **Changes**: In Zulip 3.1 (feature level 26), the `sender_short_name` field was removed from message objects.
 	Messages []MessageWithOptMatch `json:"messages"`
 }
 
@@ -66,7 +68,9 @@ type GetMessagesResponse struct {
 type GetReadReceiptsResponse struct {
 	Response
 
-	// An array of Ids of users who have marked the target message as read and whose read status is available to the current user.  The Ids of users who have disabled sending read receipts (`\"send_read_receipts\": false`) will never appear in the response, nor will the message's sender. Additionally, the Ids of any users who have been muted by the current user or who have muted the current user will not be included in the response.  The current user's Id will appear if they have marked the target message as read.  **Changes**: Prior to Zulip 6.0 (feature level 143), the Ids of users who have been muted by or have muted the current user were included in the response.
+	// An array of Ids of users who have marked the target message as read and whose read status is available to the current user.  The Ids of users who have disabled sending read receipts (`\"send_read_receipts\": false`) will never appear in the response, nor will the message's sender. Additionally, the Ids of any users who have been muted by the current user or who have muted the current user will not be included in the response.  The current user's Id will appear if they have marked the target message as read.
+	//
+	// **Changes**: Prior to Zulip 6.0 (feature level 143), the Ids of users who have been muted by or have muted the current user were included in the response.
 	UserIds []int64 `json:"user_ids,omitempty"`
 }
 
@@ -84,7 +88,9 @@ type SendMessageResponse struct {
 
 	// The unique Id assigned to the sent message.
 	Id int64 `json:"id"`
-	// If the message's sender had configured their [visibility policy settings] to potentially automatically follow or unmute topics when sending messages, and one of these policies did in fact change the user's visibility policy for the topic where this message was sent, the new value for that user's visibility policy for the recipient topic.  Only present if the sender's visibility was in fact changed.  The value can be either [unmuted or followed].  Clients will also be notified about the change in policy via a `user_topic` event as usual. This field is intended to be used by clients to explicitly inform the user when a topic's visibility policy was changed automatically due to sending a message.  For example, the Zulip web application uses this field to decide whether to display a warning or notice suggesting to unmute the topic after sending a message to a muted channel. Such a notice would be confusing in the event that the act of sending the message had already resulted in the user automatically unmuting or following the topic in question.  **Changes**: New in Zulip 8.0 (feature level 218).
+	// If the message's sender had configured their [visibility policy settings] to potentially automatically follow or unmute topics when sending messages, and one of these policies did in fact change the user's visibility policy for the topic where this message was sent, the new value for that user's visibility policy for the recipient topic.  Only present if the sender's visibility was in fact changed.  The value can be either [unmuted or followed].  Clients will also be notified about the change in policy via a `user_topic` event as usual. This field is intended to be used by clients to explicitly inform the user when a topic's visibility policy was changed automatically due to sending a message.  For example, the Zulip web application uses this field to decide whether to display a warning or notice suggesting to unmute the topic after sending a message to a muted channel. Such a notice would be confusing in the event that the act of sending the message had already resulted in the user automatically unmuting or following the topic in question.
+	//
+	// **Changes**: New in Zulip 8.0 (feature level 218).
 	//
 	// [visibility policy settings]: https://zulip.com/help/mute-a-topic
 	// [unmuted or followed]: https://zulip.com/api/update-user-topic#parameter-visibility_policy
@@ -107,7 +113,9 @@ type UpdateMessageFlagsResponse struct {
 
 	// An array with the Ids of the modified messages.
 	Messages []int64 `json:"messages,omitempty"`
-	// Only present if the flag is `read` and the operation is `remove`.  Zulip has an invariant that all unread messages must be in channels the user is subscribed to. This field will contain a list of the channels whose messages were skipped to mark as unread because the user is not subscribed to them.  **Changes**: New in Zulip 10.0 (feature level 355).
+	// Only present if the flag is `read` and the operation is `remove`.  Zulip has an invariant that all unread messages must be in channels the user is subscribed to. This field will contain a list of the channels whose messages were skipped to mark as unread because the user is not subscribed to them.
+	//
+	// **Changes**: New in Zulip 10.0 (feature level 355).
 	IgnoredBecauseNotSubscribedChannels []int64 `json:"ignored_because_not_subscribed_channels,omitempty"`
 }
 
@@ -127,7 +135,9 @@ type UpdateMessageFlagsForNarrowResponse struct {
 	FoundOldest bool `json:"found_oldest"`
 	// Whether the update range reached forward far enough to include very oldest message matching the narrow (used by clients doing a bulk update to decide whether to issue another request anchored at `last_processed_id`).
 	FoundNewest bool `json:"found_newest"`
-	// Only present if the flag is `read` and the operation is `remove`.  Zulip has an invariant that all unread messages must be in channels the user is subscribed to. This field will contain a list of the channels whose messages were skipped to mark as unread because the user is not subscribed to them.  **Changes**: New in Zulip 10.0 (feature level 355).
+	// Only present if the flag is `read` and the operation is `remove`.  Zulip has an invariant that all unread messages must be in channels the user is subscribed to. This field will contain a list of the channels whose messages were skipped to mark as unread because the user is not subscribed to them.
+	//
+	// **Changes**: New in Zulip 10.0 (feature level 355).
 	IgnoredBecauseNotSubscribedChannels []int64 `json:"ignored_because_not_subscribed_channels,omitempty"`
 }
 
@@ -139,14 +149,20 @@ type UploadFileResponse struct {
 	//
 	// [error handling]: https://zulip.com/api/rest-error-handling#ignored-parameters
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
-	// The URL of the uploaded file. Alias of `url`.  **Changes**: Deprecated in Zulip 9.0 (feature level 272). The term \"URI\" is deprecated in [web standards].
+	// The URL of the uploaded file. Alias of `url`.
+	//
+	// **Changes**: Deprecated in Zulip 9.0 (feature level 272). The term \"URI\" is deprecated in [web standards].
 	// Deprecated
 	//
 	// [web standards]: https://url.spec.whatwg.org/#goals
 	Uri string `json:"uri,omitempty"`
-	// The URL of the uploaded file.  **Changes**: New in Zulip 9.0 (feature level 272). Previously, this property was only available under the legacy `uri` name.
+	// The URL of the uploaded file.
+	//
+	// **Changes**: New in Zulip 9.0 (feature level 272). Previously, this property was only available under the legacy `uri` name.
 	Url string `json:"url,omitempty"`
-	// The filename that Zulip stored the upload as. This usually differs from the basename of the URL when HTML escaping is required to generate a valid URL.  Clients generating a Markdown link to a newly uploaded file should do so by combining the `url` and `filename` fields in the response as follows: `[{filename}]`, with care taken to clean `filename` of `[` and `]` characters that might break Markdown rendering.  **Changes**: New in Zulip 10.0 (feature level 285).
+	// The filename that Zulip stored the upload as. This usually differs from the basename of the URL when HTML escaping is required to generate a valid URL.  Clients generating a Markdown link to a newly uploaded file should do so by combining the `url` and `filename` fields in the response as follows: `[{filename}]`, with care taken to clean `filename` of `[` and `]` characters that might break Markdown rendering.
+	//
+	// **Changes**: New in Zulip 10.0 (feature level 285).
 	//
 	// [{filename}]: {url}
 	Filename string `json:"filename,omitempty"`

@@ -11,21 +11,31 @@ type UserGroup struct {
 	Description string `json:"description,omitempty"`
 	// The user group's integer Id.
 	Id int64 `json:"id,omitempty"`
-	// The UNIX timestamp for when the user group was created, in UTC seconds.  A `null` value means the user group has no recorded date, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command].  **Changes**: New in Zulip 10.0 (feature level 292).
+	// The UNIX timestamp for when the user group was created, in UTC seconds.  A `null` value means the user group has no recorded date, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command].
+	//
+	// **Changes**: New in Zulip 10.0 (feature level 292).
 	//
 	// [management command]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 	DateCreated *time.Time `json:"date_created,omitempty"`
-	// The Id of the user who created this user group.  A `null` value means the user group has no recorded creator, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command].  **Changes**: New in Zulip 10.0 (feature level 292).
+	// The Id of the user who created this user group.  A `null` value means the user group has no recorded creator, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command].
+	//
+	// **Changes**: New in Zulip 10.0 (feature level 292).
 	//
 	// [management command]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 	CreatorId *int64 `json:"creator_id,omitempty"`
-	// The integer user Ids of the user group's members, which are guaranteed to be non-deactivated users in the organization.  **Changes**: Prior to Zulip 10.0 (feature level 303), this list also included deactivated users who were members of the user group before being deactivated.
+	// The integer user Ids of the user group's members, which are guaranteed to be non-deactivated users in the organization.
+	//
+	// **Changes**: Prior to Zulip 10.0 (feature level 303), this list also included deactivated users who were members of the user group before being deactivated.
 	Members []int64 `json:"members,omitempty"`
-	// The integer user group Ids of the direct subgroups.  **Changes**: New in Zulip 6.0 (feature level 131). Introduced in feature level 127 as `subgroups`, but clients can ignore older events as this feature level predates subgroups being fully implemented.
+	// The integer user group Ids of the direct subgroups.
+	//
+	// **Changes**: New in Zulip 6.0 (feature level 131). Introduced in feature level 127 as `subgroups`, but clients can ignore older events as this feature level predates subgroups being fully implemented.
 	DirectSubgroupIds []int64 `json:"direct_subgroup_ids,omitempty"`
 	// User group name.
 	Name string `json:"name,omitempty"`
-	// Whether the user group is a system group which cannot be modified by users.  **Changes**: New in Zulip 5.0 (feature level 93).
+	// Whether the user group is a system group which cannot be modified by users.
+	//
+	// **Changes**: New in Zulip 5.0 (feature level 93).
 	IsSystemGroup         bool              `json:"is_system_group,omitempty"`
 	CanAddMembersGroup    GroupSettingValue `json:"can_add_members_group,omitempty"`
 	CanJoinGroup          GroupSettingValue `json:"can_join_group,omitempty"`
@@ -33,7 +43,9 @@ type UserGroup struct {
 	CanManageGroup        GroupSettingValue `json:"can_manage_group,omitempty"`
 	CanMentionGroup       GroupSettingValue `json:"can_mention_group,omitempty"`
 	CanRemoveMembersGroup GroupSettingValue `json:"can_remove_members_group,omitempty"`
-	// Whether the user group is deactivated. Deactivated groups cannot be used as a subgroup of another group or used for any other purpose.  **Changes**: New in Zulip 10.0 (feature level 290).
+	// Whether the user group is deactivated. Deactivated groups cannot be used as a subgroup of another group or used for any other purpose.
+	//
+	// **Changes**: New in Zulip 10.0 (feature level 290).
 	Deactivated bool `json:"deactivated,omitempty"`
 }
 

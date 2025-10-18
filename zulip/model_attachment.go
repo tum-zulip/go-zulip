@@ -15,7 +15,9 @@ type Attachment struct {
 	PathId string `json:"path_id,omitempty"`
 	// Size of the file in bytes.
 	Size int64 `json:"size,omitempty"`
-	// Time when the attachment was uploaded as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 3.0 (feature level 22). This field was previously a floating point number.
+	// Time when the attachment was uploaded as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).
+	//
+	// **Changes**: Changed in Zulip 3.0 (feature level 22). This field was previously a floating point number.
 	CreateTime time.Time `json:"create_time,omitempty"`
 	// Contains basic details on any Zulip messages that have been sent referencing this [uploaded file]. This includes messages sent by any user in the Zulip organization who sent a message containing a link to the uploaded file.
 	//
@@ -25,7 +27,9 @@ type Attachment struct {
 
 // AttachmentMessages struct for AttachmentMessages
 type AttachmentMessages struct {
-	// Time when the message was sent as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 3.0 (feature level 22). This field was previously strangely called `name` and was a floating point number.
+	// Time when the message was sent as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).
+	//
+	// **Changes**: Changed in Zulip 3.0 (feature level 22). This field was previously strangely called `name` and was a floating point number.
 	DateSent time.Time `json:"date_sent,omitempty"`
 	// The unique message Id. Messages should always be displayed sorted by Id.
 	Id int64 `json:"id,omitempty"`

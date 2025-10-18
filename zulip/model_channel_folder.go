@@ -18,7 +18,9 @@ type ChannelFolder struct {
 	Description string `json:"description,omitempty"`
 	// The description of the channel folder rendered as HTML, intended to be used when displaying the channel folder description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.
 	RenderedDescription string `json:"rendered_description,omitempty"`
-	// This value determines in which order the channel folders will be displayed in the UI. The value is 0 indexed, and the value with the lower order will be displayed first.  **Changes**: New in Zulip 11.0 (feature level 414).
+	// This value determines in which order the channel folders will be displayed in the UI. The value is 0 indexed, and the value with the lower order will be displayed first.
+	//
+	// **Changes**: New in Zulip 11.0 (feature level 414).
 	Order int32 `json:"order,omitempty"`
 	// The Id of the channel folder.
 	Id int64 `json:"id,omitempty"`

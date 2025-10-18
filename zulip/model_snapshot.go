@@ -11,9 +11,13 @@ import (
 type SnapshotCommon struct {
 	// Only present if message's topic was edited.  The topic of the message immediately prior to this edit event.
 	PrevTopic *string `json:"prev_topic,omitempty"`
-	// Only present if message's channel was edited.  The Id of the channel containing the message immediately after this edit event.  **Changes**: New in Zulip 5.0 (feature level 118).
+	// Only present if message's channel was edited.  The Id of the channel containing the message immediately after this edit event.
+	//
+	// **Changes**: New in Zulip 5.0 (feature level 118).
 	Channel *int64 `json:"stream,omitempty"`
-	// Only present if message's channel was edited.  The Id of the channel containing the message immediately prior to this edit event.  **Changes**: New in Zulip 3.0 (feature level 1).
+	// Only present if message's channel was edited.  The Id of the channel containing the message immediately prior to this edit event.
+	//
+	// **Changes**: New in Zulip 3.0 (feature level 1).
 	PrevChannel *int64 `json:"prev_stream,omitempty"`
 	// The raw [Zulip-flavored Markdown] content of the message immediately after this edit event.
 	//
@@ -42,7 +46,9 @@ type SnapshotCommon struct {
 // EditHistory struct for EditHistory
 type EditHistory struct {
 	SnapshotCommon
-	// Only present if message's topic was edited.  The topic of the message immediately after this edit event.  **Changes**: New in Zulip 5.0 (feature level 118).
+	// Only present if message's topic was edited.  The topic of the message immediately after this edit event.
+	//
+	// **Changes**: New in Zulip 5.0 (feature level 118).
 	Topic *string `json:"topic,omitempty"`
 }
 

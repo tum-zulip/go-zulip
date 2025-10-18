@@ -73,7 +73,9 @@ func (r CreateMessageReminderRequest) ScheduledDeliveryTimestamp(scheduledDelive
 	return r
 }
 
-// A note associated with the reminder shown in the Notification Bot message.  **Changes**: New in Zulip 11.0 (feature level 415).
+// A note associated with the reminder shown in the Notification Bot message.
+//
+//	**Changes**: New in Zulip 11.0 (feature level 415).
 func (r CreateMessageReminderRequest) Note(note string) CreateMessageReminderRequest {
 	r.note = &note
 	return r

@@ -8,7 +8,9 @@ type GetNavigationViewsResponse struct {
 	NavigationViews []NavigationView `json:"navigation_views,omitempty"`
 }
 
-// NavigationView Represents a user's personal configuration for a specific navigation view (displayed most visibly at the top of the web application's left sidebar).  Navigation views can be either an override to the default behavior of a built-in view, or a custom view.  **Changes**: New in Zulip 11.0 (feature level 390).
+// NavigationView Represents a user's personal configuration for a specific navigation view (displayed most visibly at the top of the web application's left sidebar).  Navigation views can be either an override to the default behavior of a built-in view, or a custom view.
+//
+//	**Changes**: New in Zulip 11.0 (feature level 390).
 type NavigationView struct {
 	// A unique identifier for the view, used to determine navigation behavior when clicked.  Clients should use this value to navigate to the corresponding URL hash.
 	Fragment string `json:"fragment"`

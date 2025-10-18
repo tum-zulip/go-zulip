@@ -1,6 +1,8 @@
 package zulip
 
-// What aspect of the message triggered the outgoing webhook notification. Possible values include `direct_message` and `mention`.  **Changes**: In Zulip 8.0 (feature level 201), renamed the trigger `private_message` to `direct_message`.
+// What aspect of the message triggered the outgoing webhook notification. Possible values include `direct_message` and `mention`.
+//
+//	**Changes**: In Zulip 8.0 (feature level 201), renamed the trigger `private_message` to `direct_message`.
 type WebhookTrigger string
 
 const (

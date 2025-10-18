@@ -13,7 +13,9 @@ type User struct {
 	DateJoined string `json:"date_joined,omitempty"`
 	// A boolean specifying whether the user account has been deactivated.
 	IsActive bool `json:"is_active,omitempty"`
-	// A boolean specifying whether the user is an organization owner. If true, `is_admin` will also be true.  **Changes**: New in Zulip 3.0 (feature level 8).
+	// A boolean specifying whether the user is an organization owner. If true, `is_admin` will also be true.
+	//
+	// **Changes**: New in Zulip 3.0 (feature level 8).
 	IsOwner bool `json:"is_owner,omitempty"`
 	// A boolean specifying whether the user is an organization administrator.
 	IsAdmin bool `json:"is_admin,omitempty"`
@@ -45,7 +47,9 @@ type User struct {
 
 	BotType    *BotType `json:"bot_type,omitempty"`
 	BotOwnerId *int64   `json:"bot_owner_id,omitempty"`
-	// Whether the user is a system bot. System bots are special bot user accounts that are managed by the system, rather than the organization's administrators.  **Changes**: This field was called `is_cross_realm_bot` before Zulip 5.0 (feature level 83).
+	// Whether the user is a system bot. System bots are special bot user accounts that are managed by the system, rather than the organization's administrators.
+	//
+	// **Changes**: This field was called `is_cross_realm_bot` before Zulip 5.0 (feature level 83).
 	IsSystemBot *bool `json:"is_system_bot,omitempty"`
 }
 

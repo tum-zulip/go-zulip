@@ -10,7 +10,9 @@ type Channel struct {
 	ChannelId int64 `json:"stream_id"`
 	// The name of the channel.
 	Name string `json:"name"`
-	// A boolean indicating whether the channel is [archived].  **Changes**: New in Zulip 10.0 (feature level 315). Previously, this endpoint never returned archived channels.
+	// A boolean indicating whether the channel is [archived].
+	//
+	// **Changes**: New in Zulip 10.0 (feature level 315). Previously, this endpoint never returned archived channels.
 	//
 	// [archived]: https://zulip.com/help/archive-a-channel
 	IsArchived bool `json:"is_archived"`
@@ -19,14 +21,18 @@ type Channel struct {
 	// [Zulip-flavored Markdown]: https://zulip.com/help/format-your-message-using-markdown
 	// [Markdown message formatting]: https://zulip.com/api/message-formatting
 	Description string `json:"description"`
-	// The UNIX timestamp for when the channel was created, in UTC seconds.  **Changes**: New in Zulip 4.0 (feature level 30).
+	// The UNIX timestamp for when the channel was created, in UTC seconds.
+	//
+	// **Changes**: New in Zulip 4.0 (feature level 30).
 	DateCreated time.Time `json:"date_created"`
 	CreatorId   *int64    `json:"creator_id"`
 	// Specifies whether the channel is private or not. Only people who have been invited can access a private channel.
 	InviteOnly bool `json:"invite_only"`
 	// The short description of the channel rendered as HTML, intended to be used when displaying the channel description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.
 	RenderedDescription string `json:"rendered_description"`
-	// Whether the channel has been configured to allow unauthenticated access to its message history from the web.  **Changes**: New in Zulip 2.1.0.
+	// Whether the channel has been configured to allow unauthenticated access to its message history from the web.
+	//
+	// **Changes**: New in Zulip 2.1.0.
 	IsWebPublic bool `json:"is_web_public"`
 	// A deprecated representation of a superset of the users who have permission to post messages to the channel available for backwards-compatibility. Clients should use `can_send_message_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:
 	//   - 1 = Any user can post.
@@ -45,13 +51,19 @@ type Channel struct {
 	TopicsPolicy               TopicsPolicy `json:"topics_policy,omitempty"`
 	// The Id of the first message in the channel.  Intended to help clients determine whether they need to display UI like the \"show all topics\" widget that would suggest the channel has older history that can be accessed.  Is `null` for channels with no message history.
 	FirstMessageId *int64 `json:"first_message_id"`
-	// The Id of the folder to which the channel belongs.  Is `null` if channel does not belong to any folder.  **Changes**: New in Zulip 11.0 (feature level 389).
+	// The Id of the folder to which the channel belongs.  Is `null` if channel does not belong to any folder.
+	//
+	// **Changes**: New in Zulip 11.0 (feature level 389).
 	FolderId *int64 `json:"folder_id"`
-	// Whether the channel has recent message activity. Clients should use this to implement [hide inactive channels] if `demote_inactive_streams` is enabled.  **Changes**: New in Zulip 10.0 (feature level 323). Previously, clients implemented the demote_inactive_streams from local message history, resulting in a choppy loading experience.
+	// Whether the channel has recent message activity. Clients should use this to implement [hide inactive channels] if `demote_inactive_streams` is enabled.
+	//
+	// **Changes**: New in Zulip 10.0 (feature level 323). Previously, clients implemented the demote_inactive_streams from local message history, resulting in a choppy loading experience.
 	//
 	// [hide inactive channels]: https://zulip.com/help/manage-inactive-channels
 	IsRecentlyActive bool `json:"is_recently_active"`
-	// Whether the given channel is announcement only or not.  **Changes**: Deprecated in Zulip 3.0 (feature level 1). Clients should use `stream_post_policy` instead.
+	// Whether the given channel is announcement only or not.
+	//
+	// **Changes**: Deprecated in Zulip 3.0 (feature level 1). Clients should use `stream_post_policy` instead.
 	// Deprecated
 	IsAnnouncementOnly                bool              `json:"is_announcement_only"`
 	CanAddSubscribersGroup            GroupSettingValue `json:"can_add_subscribers_group,omitempty"`
@@ -64,9 +76,13 @@ type Channel struct {
 	CanSendMessageGroup               GroupSettingValue `json:"can_send_message_group,omitempty"`
 	CanSubscribeGroup                 GroupSettingValue `json:"can_subscribe_group"`
 	CanResolveTopicsGroup             GroupSettingValue `json:"can_resolve_topics_group,omitempty"`
-	// The total number of non-deactivated users (including bots) who are subscribed to the channel. Clients are responsible for updating this value using `peer_add` and `peer_remove` events.  The server's internals cannot guarantee this value is correctly synced with `peer_add` and `peer_remove` events for the channel. As a result, if a (rare) race occurs between a change in the channel's subscribers and fetching this value, it is possible for a client that is correctly following the events protocol to end up with a permanently off-by-one error in the channel's subscriber count.  Clients are recommended to fetch full subscriber data for a channel in contexts where it is important to avoid this risk. The official web application, for example, uses this field primarily while waiting to fetch a given channel's full subscriber list from the server.  **Changes**: New in Zulip 11.0 (feature level 394).
+	// The total number of non-deactivated users (including bots) who are subscribed to the channel. Clients are responsible for updating this value using `peer_add` and `peer_remove` events.  The server's internals cannot guarantee this value is correctly synced with `peer_add` and `peer_remove` events for the channel. As a result, if a (rare) race occurs between a change in the channel's subscribers and fetching this value, it is possible for a client that is correctly following the events protocol to end up with a permanently off-by-one error in the channel's subscriber count.  Clients are recommended to fetch full subscriber data for a channel in contexts where it is important to avoid this risk. The official web application, for example, uses this field primarily while waiting to fetch a given channel's full subscriber list from the server.
+	//
+	// **Changes**: New in Zulip 11.0 (feature level 394).
 	SubscriberCount float32 `json:"subscriber_count"`
-	// The average number of messages sent to the channel per week, as estimated based on recent weeks, rounded to the nearest integer.  If `null`, no information is provided on the average traffic. This can be because the channel was recently created and there is insufficient data to make an estimate, or because the server wishes to omit this information for this client, this realm, or this endpoint or type of event.  **Changes**: New in Zulip 8.0 (feature level 199). Previously, this statistic was available only in subscription objects.
+	// The average number of messages sent to the channel per week, as estimated based on recent weeks, rounded to the nearest integer.  If `null`, no information is provided on the average traffic. This can be because the channel was recently created and there is insufficient data to make an estimate, or because the server wishes to omit this information for this client, this realm, or this endpoint or type of event.
+	//
+	// **Changes**: New in Zulip 8.0 (feature level 199). Previously, this statistic was available only in subscription objects.
 	ChannelWeeklyTraffic *int `json:"stream_weekly_traffic"`
 }
 
@@ -86,7 +102,9 @@ type ChannelWithSubscribers struct {
 	Subscribers []int64 `json:"subscribers,omitempty"`
 	// If [`include_subscribers=\"partial\"`].
 	//
-	// [`include_subscribers=\"partial\"`]: https://zulip.com/api/get-subscriptions#parameter-include_subscribers was requested, the server may, at its discretion, send a `partial_subscribers` list rather than a `subscribers` list for channels with a large number of subscribers.  The `partial_subscribers` list contains an arbitrary subset of the channel's subscribers that is guaranteed to include all bot user subscribers as well as all users who have been active in the last 14 days, but otherwise can be chosen arbitrarily by the server.  If a user is not allowed to know the subscribers for a channel, we will send an empty array. API authors should use other data to determine whether users like guest users are forbidden to know the subscribers.  **Changes**: New in Zulip 11.0 (feature level 412
+	// [`include_subscribers=\"partial\"`]: https://zulip.com/api/get-subscriptions#parameter-include_subscribers was requested, the server may, at its discretion, send a `partial_subscribers` list rather than a `subscribers` list for channels with a large number of subscribers.  The `partial_subscribers` list contains an arbitrary subset of the channel's subscribers that is guaranteed to include all bot user subscribers as well as all users who have been active in the last 14 days, but otherwise can be chosen arbitrarily by the server.  If a user is not allowed to know the subscribers for a channel, we will send an empty array. API authors should use other data to determine whether users like guest users are forbidden to know the subscribers.
+	//
+	// **Changes**: New in Zulip 11.0 (feature level 412
 	PartialSubscribers []int64 `json:"partial_subscribers,omitempty"`
 }
 

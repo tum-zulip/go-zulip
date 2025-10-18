@@ -41,7 +41,9 @@ type CreateUserGroupResponse struct {
 // UpdatePresenceResponse struct for UpdatePresenceResponse
 type UpdatePresenceResponse struct {
 	Response
-	// The identifier for the latest user presence data returned in the `presences` data of the response.  If a value was passed for `last_update_id`, then this is guaranteed to be equal to or greater than that value. If it is the same value, then that indicates to the client that there were no updates to previously received user presence data.  The client should then pass this value as the `last_update_id` parameter when it next queries this endpoint, in order to only receive new user presence data and avoid redundantly fetching already known information.  This will be `-1` if no value was passed for [`last_update_id`] and no user presence data was returned by the server. This can happen, for example, if an organization has disabled presence.  **Changes**: New in Zulip 9.0 (feature level 263).
+	// The identifier for the latest user presence data returned in the `presences` data of the response.  If a value was passed for `last_update_id`, then this is guaranteed to be equal to or greater than that value. If it is the same value, then that indicates to the client that there were no updates to previously received user presence data.  The client should then pass this value as the `last_update_id` parameter when it next queries this endpoint, in order to only receive new user presence data and avoid redundantly fetching already known information.  This will be `-1` if no value was passed for [`last_update_id`] and no user presence data was returned by the server. This can happen, for example, if an organization has disabled presence.
+	//
+	// **Changes**: New in Zulip 9.0 (feature level 263).
 	//
 	// [`last_update_id`]: #parameter-last_update_id
 	PresenceLastUpdateId int64 `json:"presence_last_update_id,omitempty"`

@@ -1,7 +1,9 @@
 package zulip
 
 type UserSettings struct {
-	// Whether time should be [displayed in 24-hour notation].  A `null` value indicates that the client should use the default time format for the user's locale.  **Changes**: Prior to Zulip 11.0 (feature level 408), `null` was not a valid value for this setting. Note that it was not possible to actually set the time format to `null` at this feature level.
+	// Whether time should be [displayed in 24-hour notation].  A `null` value indicates that the client should use the default time format for the user's locale.
+	//
+	// **Changes**: Prior to Zulip 11.0 (feature level 408), `null` was not a valid value for this setting. Note that it was not possible to actually set the time format to `null` at this feature level.
 	//
 	// [displayed in 24-hour notation]: https://zulip.com/help/change-the-time-format
 	TwentyFourHourTime *bool `json:"twenty_four_hour_time,omitempty"`
@@ -13,9 +15,13 @@ type UserSettings struct {
 	//
 	// [number of starred messages]: https://zulip.com/help/star-a-message#display-the-number-of-starred-messages
 	StarredMessageCounts bool `json:"starred_message_counts,omitempty"`
-	// Whether the user is configured to receive typing notifications from other users. The server will only deliver typing notifications events to users who for whom this is enabled.  **Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications.
+	// Whether the user is configured to receive typing notifications from other users. The server will only deliver typing notifications events to users who for whom this is enabled.
+	//
+	// **Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications.
 	ReceivesTypingNotifications bool `json:"receives_typing_notifications,omitempty"`
-	// Whether the user should be shown an alert, offering to update their [profile time zone], when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.  **Changes**: New in Zulip 10.0 (feature level 329).
+	// Whether the user should be shown an alert, offering to update their [profile time zone], when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.
+	//
+	// **Changes**: New in Zulip 10.0 (feature level 329).
 	//
 	// [profile time zone]: https://zulip.com/help/change-your-timezone
 	WebSuggestUpdateTimezone bool `json:"web_suggest_update_timezone,omitempty"`
@@ -25,9 +31,13 @@ type UserSettings struct {
 	FluidLayoutWidth bool `json:"fluid_layout_width,omitempty"`
 	// This setting is reserved for use to control variations in Zulip's design to help visually impaired users.
 	HighContrastMode bool `json:"high_contrast_mode,omitempty"`
-	// User-configured primary `font-size` for the web application, in pixels.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level.
+	// User-configured primary `font-size` for the web application, in pixels.
+	//
+	// **Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level.
 	WebFontSizePx int64 `json:"web_font_size_px,omitempty"`
-	// User-configured primary `line-height` for the web application, in percent, so a value of 120 represents a `line-height` of 1.2.  **Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
+	// User-configured primary `line-height` for the web application, in percent, so a value of 120 represents a `line-height` of 1.2.
+	//
+	// **Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
 	WebLineHeightPercent int `json:"web_line_height_percent,omitempty"`
 	// Controls which [color theme] to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard `prefers-color-scheme` media query.
 	//
@@ -37,7 +47,9 @@ type UserSettings struct {
 	//
 	// [translate emoticons to emoji]: https://zulip.com/help/configure-emoticon-translations
 	TranslateEmoticons bool `json:"translate_emoticons,omitempty"`
-	// Whether to display the names of reacting users on a message.  When enabled, clients should display the names of reacting users, rather than a count, for messages with few total reactions. The ideal cutoff may depend on the space available for displaying reactions; the official web application displays names when 3 or fewer total reactions are present with this setting enabled.  **Changes**: New in Zulip 6.0 (feature level 125).
+	// Whether to display the names of reacting users on a message.  When enabled, clients should display the names of reacting users, rather than a count, for messages with few total reactions. The ideal cutoff may depend on the space available for displaying reactions; the official web application displays names when 3 or fewer total reactions are present with this setting enabled.
+	//
+	// **Changes**: New in Zulip 6.0 (feature level 125).
 	DisplayEmojiReactionUsers bool `json:"display_emoji_reaction_users,omitempty"`
 	// What [default language] to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.
 	//
@@ -47,7 +59,9 @@ type UserSettings struct {
 	//
 	// [home view]: https://zulip.com/help/configure-home-view
 	WebHomeView WebHomeView `json:"web_home_view,omitempty"`
-	// Whether the escape key navigates to the [configured home view].  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `escape_navigates_to_default_view`, which was new in Zulip 5.0 (feature level 107).
+	// Whether the escape key navigates to the [configured home view].
+	//
+	// **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `escape_navigates_to_default_view`, which was new in Zulip 5.0 (feature level 107).
 	//
 	// [configured home view]: https://zulip.com/help/configure-home-view
 	WebEscapeNavigatesToHomeView bool `json:"web_escape_navigates_to_home_view,omitempty"`
@@ -63,15 +77,23 @@ type UserSettings struct {
 	DemoteInactiveChannels DemoteInactiveChannels `json:"demote_inactive_streams,omitempty"`
 	// The style selected by the user for the right sidebar user list.  - 1 - Compact - 2 - With status - 3 - With avatar and status  **Changes**: New in Zulip 6.0 (feature level 141).
 	UserListStyle UserListStyle `json:"user_list_style,omitempty"`
-	// Controls how animated images should be played in the message feed in the web/desktop application.  - \"always\" - Always play the animated images in the message feed. - \"on_hover\" - Play the animated images on hover over them in the message feed. - \"never\" - Never play animated images in the message feed.  **Changes**: New in Zulip 9.0 (feature level 275).
+	// Controls how animated images should be played in the message feed in the web/desktop application.  - \"always\" - Always play the animated images in the message feed. - \"on_hover\" - Play the animated images on hover over them in the message feed. - \"never\" - Never play animated images in the message feed.
+	//
+	// **Changes**: New in Zulip 9.0 (feature level 275).
 	WebAnimateImagePreviews WebAnimateImagePreviews `json:"web_animate_image_previews,omitempty"`
 	// Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.  - 1 - All channels - 2 - Unmuted channels and topics - 3 - No channels  **Changes**: New in Zulip 8.0 (feature level 210).
 	WebChannelUnreadsCountDisplayPolicy WebChannelUnreadsCountDisplayPolicy `json:"web_stream_unreads_count_display_policy,omitempty"`
-	// Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.  **Changes**: New in Zulip 10.0 (feature level 350).
+	// Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.
+	//
+	// **Changes**: New in Zulip 10.0 (feature level 350).
 	HideAiFeatures bool `json:"hide_ai_features,omitempty"`
-	// Determines whether the web/desktop application's left sidebar displays any channel folders configured by the organization.  **Changes**: New in Zulip 11.0 (feature level 411).
+	// Determines whether the web/desktop application's left sidebar displays any channel folders configured by the organization.
+	//
+	// **Changes**: New in Zulip 11.0 (feature level 411).
 	WebLeftSidebarShowChannelFolders bool `json:"web_left_sidebar_show_channel_folders,omitempty"`
-	// Determines whether the web/desktop application's left sidebar displays the unread message count summary.  **Changes**: New in Zulip 11.0 (feature level 398).
+	// Determines whether the web/desktop application's left sidebar displays the unread message count summary.
+	//
+	// **Changes**: New in Zulip 11.0 (feature level 398).
 	WebLeftSidebarUnreadsCountSummary bool `json:"web_left_sidebar_unreads_count_summary,omitempty"`
 	// The IANA identifier of the user's [profile time zone], which is used primarily to display the user's local time to other users.
 	//
@@ -97,13 +119,21 @@ type UserSettings struct {
 	EnableDesktopNotifications bool `json:"enable_desktop_notifications,omitempty"`
 	// Enable audible desktop notifications for direct messages and @-mentions.
 	EnableSounds bool `json:"enable_sounds,omitempty"`
-	// Enable visual desktop notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189).
+	// Enable visual desktop notifications for messages sent to followed topics.
+	//
+	// **Changes**: New in Zulip 8.0 (feature level 189).
 	EnableFollowedTopicDesktopNotifications bool `json:"enable_followed_topic_desktop_notifications,omitempty"`
-	// Enable email notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189).
+	// Enable email notifications for messages sent to followed topics.
+	//
+	// **Changes**: New in Zulip 8.0 (feature level 189).
 	EnableFollowedTopicEmailNotifications bool `json:"enable_followed_topic_email_notifications,omitempty"`
-	// Enable push notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189).
+	// Enable push notifications for messages sent to followed topics.
+	//
+	// **Changes**: New in Zulip 8.0 (feature level 189).
 	EnableFollowedTopicPushNotifications bool `json:"enable_followed_topic_push_notifications,omitempty"`
-	// Enable audible desktop notifications for messages sent to followed topics.  **Changes**: New in Zulip 8.0 (feature level 189).
+	// Enable audible desktop notifications for messages sent to followed topics.
+	//
+	// **Changes**: New in Zulip 8.0 (feature level 189).
 	EnableFollowedTopicAudibleNotifications bool `json:"enable_followed_topic_audible_notifications,omitempty"`
 	// The duration (in seconds) for which the server should wait to batch email notifications before sending them.
 	EmailNotificationsBatchingPeriodSeconds int `json:"email_notifications_batching_period_seconds,omitempty"`
@@ -125,7 +155,9 @@ type UserSettings struct {
 	PmContentInDesktopNotifications bool `json:"pm_content_in_desktop_notifications,omitempty"`
 	// Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.
 	WildcardMentionsNotify bool `json:"wildcard_mentions_notify,omitempty"`
-	// Whether wildcard mentions (e.g., @**all**) in messages sent to followed topics should send notifications like a personal mention.  **Changes**: New in Zulip 8.0 (feature level 189).
+	// Whether wildcard mentions (e.g., @**all**) in messages sent to followed topics should send notifications like a personal mention.
+	//
+	// **Changes**: New in Zulip 8.0 (feature level 189).
 	EnableFollowedTopicWildcardMentionsNotify bool `json:"enable_followed_topic_wildcard_mentions_notify,omitempty"`
 	// Unread count badge (appears in desktop sidebar and browser tab)  - 1 - All unread messages - 2 - DMs, mentions, and followed topics - 3 - DMs and mentions - 4 - None  **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
 	DesktopIconCountDisplay DesktopIconCountDisplay `json:"desktop_icon_count_display,omitempty"`
@@ -141,9 +173,13 @@ type UserSettings struct {
 	//
 	// [topics to unmute automatically in muted channels]: https://zulip.com/help/mute-a-topic
 	AutomaticallyUnmuteTopicsInMutedChannelsPolicy AutomaticallyUnmuteTopicsInMutedChannelsPolicy `json:"automatically_unmute_topics_in_muted_streams_policy,omitempty"`
-	// Whether the server will automatically mark the user as following topics where the user is mentioned.  **Changes**: New in Zulip 8.0 (feature level 235).
+	// Whether the server will automatically mark the user as following topics where the user is mentioned.
+	//
+	// **Changes**: New in Zulip 8.0 (feature level 235).
 	AutomaticallyFollowTopicsWhereMentioned bool `json:"automatically_follow_topics_where_mentioned,omitempty"`
-	// Controls whether the resolved-topic notices are marked as read.  - \"always\" - Always mark resolved-topic notices as read. - \"except_followed\" - Mark resolved-topic notices as read in topics not followed by the user. - \"never\" - Never mark resolved-topic notices as read.  **Changes**: New in Zulip 11.0 (feature level 385).
+	// Controls whether the resolved-topic notices are marked as read.  - \"always\" - Always mark resolved-topic notices as read. - \"except_followed\" - Mark resolved-topic notices as read in topics not followed by the user. - \"never\" - Never mark resolved-topic notices as read.
+	//
+	// **Changes**: New in Zulip 11.0 (feature level 385).
 	ResolvedTopicNoticeAutoReadPolicy ResolvedTopicNoticeAutoReadPolicy `json:"resolved_topic_notice_auto_read_policy,omitempty"`
 	// Display the presence status to other users when online.
 	PresenceEnabled bool `json:"presence_enabled,omitempty"`
@@ -153,17 +189,25 @@ type UserSettings struct {
 	//
 	// [PATCH /settings]: https://zulip.com/api/update-settings
 	EmojisetChoices []UserSettingsEmojisetChoice `json:"emojiset_choices,omitempty"`
-	// Whether the user has chosen to send [typing notifications] when composing direct messages. The client should send typing notifications for direct messages if and only if this setting is enabled.  **Changes**: New in Zulip 5.0 (feature level 105).
+	// Whether the user has chosen to send [typing notifications] when composing direct messages. The client should send typing notifications for direct messages if and only if this setting is enabled.
+	//
+	// **Changes**: New in Zulip 5.0 (feature level 105).
 	//
 	// [typing notifications]: https://zulip.com/help/typing-notifications
 	SendPrivateTypingNotifications bool `json:"send_private_typing_notifications,omitempty"`
-	// Whether the user has chosen to send [typing notifications] when composing channel messages. The client should send typing notifications for channel messages if and only if this setting is enabled.  **Changes**: New in Zulip 5.0 (feature level 105).
+	// Whether the user has chosen to send [typing notifications] when composing channel messages. The client should send typing notifications for channel messages if and only if this setting is enabled.
+	//
+	// **Changes**: New in Zulip 5.0 (feature level 105).
 	//
 	// [typing notifications]: https://zulip.com/help/typing-notifications
 	SendChannelTypingNotifications bool `json:"send_stream_typing_notifications,omitempty"`
-	// Whether other users are allowed to see whether you've read messages.  **Changes**: New in Zulip 5.0 (feature level 105).
+	// Whether other users are allowed to see whether you've read messages.
+	//
+	// **Changes**: New in Zulip 5.0 (feature level 105).
 	SendReadReceipts bool `json:"send_read_receipts,omitempty"`
-	// Whether organization administrators are allowed to export your private data.  **Changes**: New in Zulip 10.0 (feature level 293).
+	// Whether organization administrators are allowed to export your private data.
+	//
+	// **Changes**: New in Zulip 10.0 (feature level 293).
 	AllowPrivateDataExport bool `json:"allow_private_data_export,omitempty"`
 	// The [policy] for [which other users] in this organization can see the user's real email address.
 	//   - 1 = Everyone
@@ -177,6 +221,8 @@ type UserSettings struct {
 	// [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
 	// [which other users]: https://zulip.com/help/configure-email-visibility
 	EmailAddressVisibility EmailAddressVisibility `json:"email_address_visibility,omitempty"`
-	// Web/desktop app setting for whether the user's view should automatically go to the conversation where they sent a message.  **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
+	// Web/desktop app setting for whether the user's view should automatically go to the conversation where they sent a message.
+	//
+	// **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
 	WebNavigateToSentMessage bool `json:"web_navigate_to_sent_message,omitempty"`
 }

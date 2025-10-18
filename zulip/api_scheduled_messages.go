@@ -82,7 +82,9 @@ type CreateScheduledMessageRequest struct {
 	readBySender               *bool
 }
 
-// The type of scheduled message to be sent. `\\"direct\\"` for a direct message and `\\"stream\\"` or `\\"channel\\"` for a channel message.  Note that, while `\\"private\\"` is supported for scheduling direct messages, clients are encouraged to use to the modern convention of `\\"direct\\"` to indicate this message type, because support for `\\"private\\"` may eventually be removed.  **Changes**: In Zulip 9.0 (feature level 248), `\\"channel\\"` was added as an additional value for this parameter to indicate the type of a channel message.
+// The type of scheduled message to be sent. `\\"direct\\"` for a direct message and `\\"stream\\"` or `\\"channel\\"` for a channel message.  Note that, while `\\"private\\"` is supported for scheduling direct messages, clients are encouraged to use to the modern convention of `\\"direct\\"` to indicate this message type, because support for `\\"private\\"` may eventually be removed.
+//
+//	**Changes**: In Zulip 9.0 (feature level 248), `\\"channel\\"` was added as an additional value for this parameter to indicate the type of a channel message.
 func (r CreateScheduledMessageRequest) RecipientType(recipientType RecipientType) CreateScheduledMessageRequest {
 	r.recipientType = &recipientType
 	return r
@@ -108,7 +110,9 @@ func (r CreateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliv
 	return r
 }
 
-// The topic of the message. Only required for channel messages (`\\"type\\": \\"stream\\"` or `\\"type\\": \\"channel\\"`), ignored otherwise.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `\\"(no topic)\\"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can&#39;t be `\\"(no topic)\\"`, an empty string, or the value of `realm_empty_topic_display_name`.  **Changes**: Before Zulip 10.0 (feature level 370), `\\"(no topic)\\"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// The topic of the message. Only required for channel messages (`\\"type\\": \\"stream\\"` or `\\"type\\": \\"channel\\"`), ignored otherwise.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `\\"(no topic)\\"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can&#39;t be `\\"(no topic)\\"`, an empty string, or the value of `realm_empty_topic_display_name`.
+//
+//	**Changes**: Before Zulip 10.0 (feature level 370), `\\"(no topic)\\"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 // [topics are required]: https://zulip.com/help/require-topics
@@ -117,7 +121,9 @@ func (r CreateScheduledMessageRequest) Topic(topic string) CreateScheduledMessag
 	return r
 }
 
-// Whether the message should be initially marked read by its sender. If unspecified, the server uses a heuristic based on the client name and the recipient.  **Changes**: New in Zulip 8.0 (feature level 236).
+// Whether the message should be initially marked read by its sender. If unspecified, the server uses a heuristic based on the client name and the recipient.
+//
+//	**Changes**: New in Zulip 8.0 (feature level 236).
 func (r CreateScheduledMessageRequest) ReadBySender(readBySender bool) CreateScheduledMessageRequest {
 	r.readBySender = &readBySender
 	return r
@@ -450,7 +456,9 @@ type UpdateScheduledMessageRequest struct {
 	scheduledDeliveryTimestamp *int64
 }
 
-// The type of scheduled message to be sent. `\\"direct\\"` for a direct message and `\\"stream\\"` or `\\"channel\\"` for a channel message.  When updating the type of the scheduled message, the `to` parameter is required. And, if updating the type of the scheduled message to `\\"stream\\"`/`\\"channel\\"`, then the `topic` parameter is also required.  Note that, while `\\"private\\"` is supported for scheduling direct messages, clients are encouraged to use to the modern convention of `\\"direct\\"` to indicate this message type, because support for `\\"private\\"` may eventually be removed.  **Changes**: In Zulip 9.0 (feature level 248), `\\"channel\\"` was added as an additional value for this parameter to indicate the type of a channel message.
+// The type of scheduled message to be sent. `\\"direct\\"` for a direct message and `\\"stream\\"` or `\\"channel\\"` for a channel message.  When updating the type of the scheduled message, the `to` parameter is required. And, if updating the type of the scheduled message to `\\"stream\\"`/`\\"channel\\"`, then the `topic` parameter is also required.  Note that, while `\\"private\\"` is supported for scheduling direct messages, clients are encouraged to use to the modern convention of `\\"direct\\"` to indicate this message type, because support for `\\"private\\"` may eventually be removed.
+//
+//	**Changes**: In Zulip 9.0 (feature level 248), `\\"channel\\"` was added as an additional value for this parameter to indicate the type of a channel message.
 func (r UpdateScheduledMessageRequest) RecipientType(recipientType string) UpdateScheduledMessageRequest {
 	r.recipientType = &recipientType
 	return r
@@ -469,7 +477,9 @@ func (r UpdateScheduledMessageRequest) Content(content string) UpdateScheduledMe
 	return r
 }
 
-// The updated topic of the scheduled message.  Required when updating the `type` of the scheduled message to `\\"stream\\"` or `\\"channel\\"`. Ignored when the existing or updated `type` of the scheduled message is `\\"direct\\"` (or `\\"private\\"`).  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `\\"(no topic)\\"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can&#39;t be `\\"(no topic)\\"`, an empty string, or the value of `realm_empty_topic_display_name`.  **Changes**: Before Zulip 10.0 (feature level 370), `\\"(no topic)\\"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// The updated topic of the scheduled message.  Required when updating the `type` of the scheduled message to `\\"stream\\"` or `\\"channel\\"`. Ignored when the existing or updated `type` of the scheduled message is `\\"direct\\"` (or `\\"private\\"`).  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `\\"(no topic)\\"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can&#39;t be `\\"(no topic)\\"`, an empty string, or the value of `realm_empty_topic_display_name`.
+//
+//	**Changes**: Before Zulip 10.0 (feature level 370), `\\"(no topic)\\"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 // [topics are required]: https://zulip.com/help/require-topics

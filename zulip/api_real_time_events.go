@@ -374,7 +374,9 @@ func (r RegisterQueueRequest) ApplyMarkdown(applyMarkdown bool) RegisterQueueReq
 	return r
 }
 
-// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.  The default value is `true` for authenticated requests and `false` for [unauthenticated requests]. Passing `true` in an unauthenticated request is an error.  **Changes**: Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.
+// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.  The default value is `true` for authenticated requests and `false` for [unauthenticated requests]. Passing `true` in an unauthenticated request is an error.
+//
+//	**Changes**: Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.
 //
 // [unauthenticated requests]: https://zulip.com/help/public-access-option
 func (r RegisterQueueRequest) ClientGravatar(clientGravatar bool) RegisterQueueRequest {
@@ -382,7 +384,9 @@ func (r RegisterQueueRequest) ClientGravatar(clientGravatar bool) RegisterQueueR
 	return r
 }
 
-// Whether each returned channel object should include a `subscribers` field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel&#39;s subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  Passing `true` in an [unauthenticated request] is an error.  **Changes**: The `partial` value is new in Zulip 11.0 (feature level 412).  Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.  New in Zulip 2.1.0.
+// Whether each returned channel object should include a `subscribers` field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel&#39;s subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  Passing `true` in an [unauthenticated request] is an error.
+//
+//	**Changes**: The `partial` value is new in Zulip 11.0 (feature level 412).  Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.  New in Zulip 2.1.0.
 //
 // [unauthenticated request]: https://zulip.com/help/public-access-option
 func (r RegisterQueueRequest) IncludeSubscribers(includeSubscribers string) RegisterQueueRequest {
@@ -390,13 +394,17 @@ func (r RegisterQueueRequest) IncludeSubscribers(includeSubscribers string) Regi
 	return r
 }
 
-// If `true`, the `presences` object returned in the response will be keyed by user Id and the entry for each user&#39;s presence data will be in the modern format.  **Changes**: New in Zulip 3.0 (no feature level; API unstable).
+// If `true`, the `presences` object returned in the response will be keyed by user Id and the entry for each user&#39;s presence data will be in the modern format.
+//
+//	**Changes**: New in Zulip 3.0 (no feature level; API unstable).
 func (r RegisterQueueRequest) SlimPresence(slimPresence bool) RegisterQueueRequest {
 	r.slimPresence = &slimPresence
 	return r
 }
 
-// Limits how far back in time to fetch user presence data. If not specified, defaults to 14 days. A value of N means that the oldest presence data fetched will be from at most N days ago.  **Changes**: New in Zulip 10.0 (feature level 288).
+// Limits how far back in time to fetch user presence data. If not specified, defaults to 14 days. A value of N means that the oldest presence data fetched will be from at most N days ago.
+//
+//	**Changes**: New in Zulip 10.0 (feature level 288).
 func (r RegisterQueueRequest) PresenceHistoryLimitDays(presenceHistoryLimitDays int32) RegisterQueueRequest {
 	r.presenceHistoryLimitDays = &presenceHistoryLimitDays
 	return r
@@ -444,11 +452,14 @@ func (r RegisterQueueRequest) FetchEventTypes(fetchEventTypes []string) Register
 	return r
 }
 
-// A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)] for which you&#39;d like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use `\\"narrow\\": [[\\"is\\", \\"dm\\"]]`.  Unlike the API for [fetching messages], this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a `narrow` filter of `[[\\"channel\\", \\"Denmark\\"]]` will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to `\\"Denmark\\"`.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed] to any channels whose messages you&#39;d like them to process using this endpoint.  See the `all_public_streams` parameter for how to process all public channel messages in an organization.  **Changes**: See [changes section] of search/narrow filter documentation.
+// A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)] for which you&#39;d like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use `\\"narrow\\": [[\\"is\\", \\"dm\\"]]`.  Unlike the API for [fetching messages], this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a `narrow` filter of `[[\\"channel\\", \\"Denmark\\"]]` will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to `\\"Denmark\\"`.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed] to any channels whose messages you&#39;d like them to process using this endpoint.  See the `all_public_streams` parameter for how to process all public channel messages in an organization.
+//
+//	**Changes**: See [changes section] of search/narrow filter documentation.
 //
 // [narrow filter(s)]: https://zulip.com/api/construct-narrow
 // [fetching messages]: https://zulip.com/api/get-messages
 // [subscribed]: https://zulip.com/api/subscribe
+//
 // [changes section]: https://zulip.com/api/construct-narrow#changes
 func (r RegisterQueueRequest) Narrow(narrow *Narrow) RegisterQueueRequest {
 	r.narrow = narrow
