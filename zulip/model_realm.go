@@ -380,7 +380,10 @@ type RealmConfiguration struct {
 	// [message edit policy]: https://zulip.com/help/restrict-message-editing-and-deletion
 	// [`PATCH /messages/{message_id}`]: https://zulip.com/api/update-message
 	MessageContentEditLimitSeconds *int64 `json:"message_content_edit_limit_seconds,omitempty"`
-	// Which type of message edit history is configured to allow users to access [message edit history].  - \"all\" = All edit history is visible. - \"moves\" = Only moves are visible. - \"none\" = No edit history is visible.
+	// Which type of message edit history is configured to allow users to access [message edit history].
+	//  - "all" = All edit history is visible.
+	//  - "moves" = Only moves are visible.
+	//  - "none" = No edit history is visible.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 358), replacing the previous `allow_edit_history` boolean setting; `true` corresponds to `all`, and `false` to `none`.
 	//

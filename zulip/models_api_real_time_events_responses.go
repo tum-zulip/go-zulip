@@ -788,7 +788,10 @@ type RealmUserSettingsDefaults struct {
 	//
 	// [default language]: https://zulip.com/help/change-your-language
 	DefaultLanguage *string `json:"default_language,omitempty"`
-	// The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  - \"recent_topics\" - Recent conversations view - \"inbox\" - Inbox view - \"all_messages\" - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
+	// The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.
+	//  - "recent_topics" = Recent conversations view
+	//  - "inbox" = Inbox view
+	//  - "all_messages" = Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
 	//
 	// [home view]: https://zulip.com/help/configure-home-view
 	WebHomeView *string `json:"web_home_view,omitempty"`
@@ -800,7 +803,11 @@ type RealmUserSettingsDefaults struct {
 	WebEscapeNavigatesToHomeView *bool `json:"web_escape_navigates_to_home_view,omitempty"`
 	// Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.
 	LeftSideUserlist *bool `json:"left_side_userlist,omitempty"`
-	// The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.  - \"google\" - Google modern - \"google-blob\" - Google classic - \"twitter\" - Twitter - \"text\" - Plain text
+	// The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.
+	//  - "google" = Google modern
+	//  - "google-blob" = Google classic
+	//  - "twitter" = Twitter
+	//  - "text" = Plain text
 	//
 	// [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
 	Emojiset *string `json:"emojiset,omitempty"`
@@ -810,7 +817,10 @@ type RealmUserSettingsDefaults struct {
 	DemoteInactiveChannels *int32 `json:"demote_inactive_streams,omitempty"`
 	// The style selected by the user for the right sidebar user list.  - 1 - Compact - 2 - With status - 3 - With avatar and status  **Changes**: New in Zulip 6.0 (feature level 141).
 	UserListStyle *int32 `json:"user_list_style,omitempty"`
-	// Controls how animated images should be played in the message feed in the web/desktop application.  - \"always\" - Always play the animated images in the message feed. - \"on_hover\" - Play the animated images on hover over them in the message feed. - \"never\" - Never play animated images in the message feed.
+	// Controls how animated images should be played in the message feed in the web/desktop application.
+	//  - "always" = Always play the animated images in the message feed.
+	//  - "on_hover" = Play the animated images on hover over them in the message feed.
+	//  - "never" = Never play animated images in the message feed.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 275).
 	WebAnimateImagePreviews *string `json:"web_animate_image_previews,omitempty"`
@@ -898,7 +908,8 @@ type RealmUserSettingsDefaults struct {
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 235).
 	AutomaticallyFollowTopicsWhereMentioned *bool `json:"automatically_follow_topics_where_mentioned,omitempty"`
-	// Controls whether the resolved-topic notices are marked as read.  - \"always\" - Always mark resolved-topic notices as read. - \"except_followed\" - Mark resolved-topic notices as read in topics not followed by the user. - \"never\" - Never mark resolved-topic notices as read.
+	// Controls whether the resolved-topic notices are marked as read.
+	//  - "always" = Always mark resolved-topic notices as read. - \"except_followed\" - Mark resolved-topic notices as read in topics not followed by the user. - \"never\" - Never mark resolved-topic notices as read.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 385).
 	ResolvedTopicNoticeAutoReadPolicy *string `json:"resolved_topic_notice_auto_read_policy,omitempty"`
