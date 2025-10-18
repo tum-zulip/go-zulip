@@ -31,14 +31,10 @@ type InvitesAPI interface {
 		In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
 		added which specified the number of days before the invitation would expire.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return CreateInviteLinkRequest
 	*/
 	CreateInviteLink(ctx context.Context) CreateInviteLinkRequest
 
 	// CreateInviteLinkExecute executes the request
-	//  @return CreateInviteLinkResponse
 	CreateInviteLinkExecute(r CreateInviteLinkRequest) (*CreateInviteLinkResponse, *http.Response, error)
 
 	/*
@@ -53,14 +49,10 @@ type InvitesAPI interface {
 		only create email invitations, and therefore the response would never include
 		reusable invitation links for these users.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetInvitesRequest
 	*/
 	GetInvites(ctx context.Context) GetInvitesRequest
 
 	// GetInvitesExecute executes the request
-	//  @return GetInvitesResponse
 	GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResponse, *http.Response, error)
 
 	/*
@@ -71,15 +63,10 @@ type InvitesAPI interface {
 		A user can only resend [invitations that they can
 		manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param inviteId The Id of the email invitation to be resent.
-			@return ResendEmailInviteRequest
 	*/
 	ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest
 
 	// ResendEmailInviteExecute executes the request
-	//  @return Response
 	ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Response, *http.Response, error)
 
 	/*
@@ -90,15 +77,10 @@ type InvitesAPI interface {
 		A user can only revoke [invitations that they can
 		manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param inviteId The Id of the email invitation to be revoked.
-			@return RevokeEmailInviteRequest
 	*/
 	RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest
 
 	// RevokeEmailInviteExecute executes the request
-	//  @return Response
 	RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Response, *http.Response, error)
 
 	/*
@@ -112,15 +94,10 @@ type InvitesAPI interface {
 		**Changes**: Prior to Zulip 8.0 (feature level 209), only organization
 		administrators were able to create and revoke reusable invitation links.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param inviteId The Id of the reusable invitation link to be revoked.
-			@return RevokeInviteLinkRequest
 	*/
 	RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInviteLinkRequest
 
 	// RevokeInviteLinkExecute executes the request
-	//  @return Response
 	RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Response, *http.Response, error)
 
 	/*
@@ -138,14 +115,10 @@ type InvitesAPI interface {
 		In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
 		added which specified the number of days before the invitation would expire.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return SendInvitesRequest
 	*/
 	SendInvites(ctx context.Context) SendInvitesRequest
 
 	// SendInvitesExecute executes the request
-	//  @return Response
 	SendInvitesExecute(r SendInvitesRequest) (*Response, *http.Response, error)
 }
 
@@ -219,9 +192,6 @@ expires.
 
 In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
 added which specified the number of days before the invitation would expire.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return CreateInviteLinkRequest
 */
 func (c *simpleClient) CreateInviteLink(ctx context.Context) CreateInviteLinkRequest {
 	return CreateInviteLinkRequest{
@@ -231,8 +201,6 @@ func (c *simpleClient) CreateInviteLink(ctx context.Context) CreateInviteLinkReq
 }
 
 // Execute executes the request
-//
-//	@return CreateInviteLinkResponse
 func (c *simpleClient) CreateInviteLinkExecute(r CreateInviteLinkRequest) (*CreateInviteLinkResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -342,9 +310,6 @@ Note that administrators can manage invitations that were created by other users
 **Changes**: Prior to Zulip 8.0 (feature level 209), non-admin users could
 only create email invitations, and therefore the response would never include
 reusable invitation links for these users.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetInvitesRequest
 */
 func (c *simpleClient) GetInvites(ctx context.Context) GetInvitesRequest {
 	return GetInvitesRequest{
@@ -354,8 +319,6 @@ func (c *simpleClient) GetInvites(ctx context.Context) GetInvitesRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetInvitesResponse
 func (c *simpleClient) GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -444,10 +407,6 @@ Resend an [email invitation](zulip.com/help/invite-new-users#send-email-invitati
 
 A user can only resend [invitations that they can
 manage](zulip.com/help/invite-new-users#manage-pending-invitations.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param inviteId The Id of the email invitation to be resent.
-	@return ResendEmailInviteRequest
 */
 func (c *simpleClient) ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest {
 	return ResendEmailInviteRequest{
@@ -458,8 +417,6 @@ func (c *simpleClient) ResendEmailInvite(ctx context.Context, inviteId int64) Re
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -549,10 +506,6 @@ Revoke an [email invitation](zulip.com/help/invite-new-users#send-email-invitati
 
 A user can only revoke [invitations that they can
 manage](zulip.com/help/invite-new-users#manage-pending-invitations.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param inviteId The Id of the email invitation to be revoked.
-	@return RevokeEmailInviteRequest
 */
 func (c *simpleClient) RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest {
 	return RevokeEmailInviteRequest{
@@ -563,8 +516,6 @@ func (c *simpleClient) RevokeEmailInvite(ctx context.Context, inviteId int64) Re
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -657,10 +608,6 @@ manage](zulip.com/help/invite-new-users#manage-pending-invitations.
 
 **Changes**: Prior to Zulip 8.0 (feature level 209), only organization
 administrators were able to create and revoke reusable invitation links.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param inviteId The Id of the reusable invitation link to be revoked.
-	@return RevokeInviteLinkRequest
 */
 func (c *simpleClient) RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInviteLinkRequest {
 	return RevokeInviteLinkRequest{
@@ -671,8 +618,6 @@ func (c *simpleClient) RevokeInviteLink(ctx context.Context, inviteId int64) Rev
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -824,9 +769,6 @@ expires.
 
 In Zulip 5.0 (feature level 96), the `invite_expires_in_days` parameter was
 added which specified the number of days before the invitation would expire.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return SendInvitesRequest
 */
 func (c *simpleClient) SendInvites(ctx context.Context) SendInvitesRequest {
 	return SendInvitesRequest{
@@ -836,8 +778,6 @@ func (c *simpleClient) SendInvites(ctx context.Context) SendInvitesRequest {
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) SendInvitesExecute(r SendInvitesRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

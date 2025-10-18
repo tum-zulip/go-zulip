@@ -18,14 +18,10 @@ type MobileAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 420).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return E2eeTestNotifyRequest
 	*/
 	E2eeTestNotify(ctx context.Context) E2eeTestNotifyRequest
 
 	// E2eeTestNotifyExecute executes the request
-	//  @return Response
 	E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*Response, *http.Response, error)
 
 	/*
@@ -35,14 +31,10 @@ type MobileAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 406).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return RegisterPushDeviceRequest
 	*/
 	RegisterPushDevice(ctx context.Context) RegisterPushDeviceRequest
 
 	// RegisterPushDeviceExecute executes the request
-	//  @return Response
 	RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*Response, *http.Response, error)
 
 	/*
@@ -59,14 +51,10 @@ type MobileAPI interface {
 
 		New in Zulip 8.0 (feature level 217).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return TestNotifyRequest
 	*/
 	TestNotify(ctx context.Context) TestNotifyRequest
 
 	// TestNotifyExecute executes the request
-	//  @return Response
 	TestNotifyExecute(r TestNotifyRequest) (*Response, *http.Response, error)
 }
 
@@ -93,9 +81,6 @@ Trigger sending an end-to-end encrypted (E2EE) test push notification
 to the user's selected mobile device or all of their mobile devices.
 
 **Changes**: New in Zulip 11.0 (feature level 420).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return E2eeTestNotifyRequest
 */
 func (c *simpleClient) E2eeTestNotify(ctx context.Context) E2eeTestNotifyRequest {
 	return E2eeTestNotifyRequest{
@@ -105,8 +90,6 @@ func (c *simpleClient) E2eeTestNotify(ctx context.Context) E2eeTestNotifyRequest
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -231,9 +214,6 @@ RegisterPushDevice Register E2EE push device
 Register a device to receive end-to-end encrypted mobile push notifications.
 
 **Changes**: New in Zulip 11.0 (feature level 406).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return RegisterPushDeviceRequest
 */
 func (c *simpleClient) RegisterPushDevice(ctx context.Context) RegisterPushDeviceRequest {
 	return RegisterPushDeviceRequest{
@@ -243,8 +223,6 @@ func (c *simpleClient) RegisterPushDevice(ctx context.Context) RegisterPushDevic
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -365,9 +343,6 @@ feature level, all mobile push notifications now include a
 `realm_name` field.
 
 New in Zulip 8.0 (feature level 217).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return TestNotifyRequest
 */
 func (c *simpleClient) TestNotify(ctx context.Context) TestNotifyRequest {
 	return TestNotifyRequest{
@@ -377,8 +352,6 @@ func (c *simpleClient) TestNotify(ctx context.Context) TestNotifyRequest {
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) TestNotifyExecute(r TestNotifyRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

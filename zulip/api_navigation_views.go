@@ -22,14 +22,10 @@ type NavigationViewsAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 390).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return AddNavigationViewRequest
 	*/
 	AddNavigationView(ctx context.Context) AddNavigationViewRequest
 
 	// AddNavigationViewExecute executes the request
-	//  @return Response
 	AddNavigationViewExecute(r AddNavigationViewRequest) (*Response, *http.Response, error)
 
 	/*
@@ -40,15 +36,10 @@ type NavigationViewsAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 390).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param fragment The unique URL hash of the navigation view to be updated.  This also serves as the identifier for the navigation view.
-			@return EditNavigationViewRequest
 	*/
 	EditNavigationView(ctx context.Context, fragment string) EditNavigationViewRequest
 
 	// EditNavigationViewExecute executes the request
-	//  @return Response
 	EditNavigationViewExecute(r EditNavigationViewRequest) (*Response, *http.Response, error)
 
 	/*
@@ -58,14 +49,10 @@ type NavigationViewsAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 390).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetNavigationViewsRequest
 	*/
 	GetNavigationViews(ctx context.Context) GetNavigationViewsRequest
 
 	// GetNavigationViewsExecute executes the request
-	//  @return GetNavigationViewsResponse
 	GetNavigationViewsExecute(r GetNavigationViewsRequest) (*GetNavigationViewsResponse, *http.Response, error)
 
 	/*
@@ -75,15 +62,10 @@ type NavigationViewsAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 390).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param fragment The unique URL hash of the navigation view to be removed.  This also serves as the identifier for the navigation view.
-			@return RemoveNavigationViewRequest
 	*/
 	RemoveNavigationView(ctx context.Context, fragment string) RemoveNavigationViewRequest
 
 	// RemoveNavigationViewExecute executes the request
-	//  @return Response
 	RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*Response, *http.Response, error)
 }
 
@@ -127,9 +109,6 @@ This can be used both to configure built-in navigation views,
 or to add new navigation views.
 
 **Changes**: New in Zulip 11.0 (feature level 390).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return AddNavigationViewRequest
 */
 func (c *simpleClient) AddNavigationView(ctx context.Context) AddNavigationViewRequest {
 	return AddNavigationViewRequest{
@@ -139,8 +118,6 @@ func (c *simpleClient) AddNavigationView(ctx context.Context) AddNavigationViewR
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) AddNavigationViewExecute(r AddNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -254,10 +231,6 @@ Update the details of an existing configured navigation view,
 such as its name or whether it's pinned.
 
 **Changes**: New in Zulip 11.0 (feature level 390).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param fragment The unique URL hash of the navigation view to be updated.  This also serves as the identifier for the navigation view.
-	@return EditNavigationViewRequest
 */
 func (c *simpleClient) EditNavigationView(ctx context.Context, fragment string) EditNavigationViewRequest {
 	return EditNavigationViewRequest{
@@ -268,8 +241,6 @@ func (c *simpleClient) EditNavigationView(ctx context.Context, fragment string) 
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) EditNavigationViewExecute(r EditNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -363,9 +334,6 @@ GetNavigationViews Get all navigation views
 Fetch all configured custom navigation views for the current user.
 
 **Changes**: New in Zulip 11.0 (feature level 390).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetNavigationViewsRequest
 */
 func (c *simpleClient) GetNavigationViews(ctx context.Context) GetNavigationViewsRequest {
 	return GetNavigationViewsRequest{
@@ -375,8 +343,6 @@ func (c *simpleClient) GetNavigationViews(ctx context.Context) GetNavigationView
 }
 
 // Execute executes the request
-//
-//	@return GetNavigationViewsResponse
 func (c *simpleClient) GetNavigationViewsExecute(r GetNavigationViewsRequest) (*GetNavigationViewsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -464,10 +430,6 @@ RemoveNavigationView Remove a navigation view
 Remove a navigation view.
 
 **Changes**: New in Zulip 11.0 (feature level 390).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param fragment The unique URL hash of the navigation view to be removed.  This also serves as the identifier for the navigation view.
-	@return RemoveNavigationViewRequest
 */
 func (c *simpleClient) RemoveNavigationView(ctx context.Context, fragment string) RemoveNavigationViewRequest {
 	return RemoveNavigationViewRequest{
@@ -478,8 +440,6 @@ func (c *simpleClient) RemoveNavigationView(ctx context.Context, fragment string
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete

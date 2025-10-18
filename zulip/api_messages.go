@@ -17,15 +17,10 @@ type MessagesAPI interface {
 
 		Add an [emoji reaction](zulip.com/help/emoji-reactions) to a message.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param messageId The target message's Id.
-		@return AddReactionRequest
 	*/
 	AddReaction(ctx context.Context, messageId int64) AddReactionRequest
 
 	// AddReactionExecute executes the request
-	//  @return Response
 	AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error)
 
 	/*
@@ -48,14 +43,10 @@ type MessagesAPI interface {
 		extended message object identical to how a [`GET /messages`](zulip.com/api/get-messages
 		request for the current narrow would have returned the message.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return CheckMessagesMatchNarrowRequest
 	*/
 	CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest
 
 	// CheckMessagesMatchNarrowExecute executes the request
-	//  @return CheckMessagesMatchNarrowResponse
 	CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error)
 
 	/*
@@ -69,15 +60,10 @@ type MessagesAPI interface {
 
 		[delete-completely]: /help/delete-a-message#delete-a-message-completely
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's Id.
-			@return DeleteMessageRequest
 	*/
 	DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest
 
 	// DeleteMessageExecute executes the request
-	//  @return Response
 	DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error)
 
 	/*
@@ -87,16 +73,10 @@ type MessagesAPI interface {
 
 		**Changes**: New in Zulip 3.0 (feature level 1).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param realmIdStr The realm Id.
-			@param filename Path to the URL.
-			@return GetFileTemporaryUrlRequest
 	*/
 	GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, filename string) GetFileTemporaryUrlRequest
 
 	// GetFileTemporaryUrlExecute executes the request
-	//  @return GetFileTemporaryUrlResponse
 	GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error)
 
 	/*
@@ -114,15 +94,10 @@ type MessagesAPI interface {
 		**Changes**: Before Zulip 5.0 (feature level 120), this
 		endpoint only returned the `raw_content` field.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's Id.
-			@return GetMessageRequest
 	*/
 	GetMessage(ctx context.Context, messageId int64) GetMessageRequest
 
 	// GetMessageExecute executes the request
-	//  @return GetMessageResponse
 	GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error)
 
 	/*
@@ -135,15 +110,10 @@ type MessagesAPI interface {
 
 		[edit-settings]: /help/view-a-messages-edit-history
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's Id.
-			@return GetMessageHistoryRequest
 	*/
 	GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest
 
 	// GetMessageHistoryExecute executes the request
-	//  @return GetMessageHistoryResponse
 	GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error)
 
 	/*
@@ -181,14 +151,10 @@ type MessagesAPI interface {
 
 		**Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetMessagesRequest
 	*/
 	GetMessages(ctx context.Context) GetMessagesRequest
 
 	// GetMessagesExecute executes the request
-	//  @return GetMessagesResponse
 	GetMessagesExecute(r GetMessagesRequest) (*GetMessagesResponse, *http.Response, error)
 
 	/*
@@ -209,15 +175,10 @@ type MessagesAPI interface {
 
 		**Changes**: New in Zulip 6.0 (feature level 137).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's Id.
-			@return GetReadReceiptsRequest
 	*/
 	GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest
 
 	// GetReadReceiptsExecute executes the request
-	//  @return GetReadReceiptsResponse
 	GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error)
 
 	/*
@@ -252,15 +213,11 @@ type MessagesAPI interface {
 		success response with `"result": "partially_completed"` is returned.
 
 
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return MarkAllAsReadRequest
-
 			Deprecated
 	*/
 	MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest
 
 	// MarkAllAsReadExecute executes the request
-	//  @return MarkAllAsReadResponse
 	// Deprecated
 	MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error)
 
@@ -274,15 +231,11 @@ type MessagesAPI interface {
 		as this endpoint will be removed in a future release.
 
 
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return MarkChannelAsReadRequest
-
 			Deprecated
 	*/
 	MarkChannelAsRead(ctx context.Context) MarkChannelAsReadRequest
 
 	// MarkChannelAsReadExecute executes the request
-	//  @return Response
 	// Deprecated
 	MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Response, *http.Response, error)
 
@@ -296,15 +249,11 @@ type MessagesAPI interface {
 		as this endpoint will be removed in a future release.
 
 
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return MarkTopicAsReadRequest
-
 			Deprecated
 	*/
 	MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest
 
 	// MarkTopicAsReadExecute executes the request
-	//  @return Response
 	// Deprecated
 	MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error)
 
@@ -313,15 +262,10 @@ type MessagesAPI interface {
 
 		Remove an [emoji reaction](zulip.com/help/emoji-reactions) from a message.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param messageId The target message's Id.
-		@return RemoveReactionRequest
 	*/
 	RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest
 
 	// RemoveReactionExecute executes the request
-	//  @return Response
 	RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error)
 
 	/*
@@ -329,14 +273,10 @@ type MessagesAPI interface {
 
 		Render a message to HTML.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return RenderMessageRequest
 	*/
 	RenderMessage(ctx context.Context) RenderMessageRequest
 
 	// RenderMessageExecute executes the request
-	//  @return RenderMessageResponse
 	RenderMessageExecute(r RenderMessageRequest) (*RenderMessageResponse, *http.Response, error)
 
 	/*
@@ -357,15 +297,10 @@ type MessagesAPI interface {
 		the `moderation_request_channel` realm setting, which was added in
 		feature level 331.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's Id.
-			@return ReportMessageRequest
 	*/
 	ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest
 
 	// ReportMessageExecute executes the request
-	//  @return Response
 	ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error)
 
 	/*
@@ -374,14 +309,10 @@ type MessagesAPI interface {
 			Send a [channel message](zulip.com/help/introduction-to-topics) or a
 		[direct message](zulip.com/help/direct-messages.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return SendMessageRequest
 	*/
 	SendMessage(ctx context.Context) SendMessageRequest
 
 	// SendMessageExecute executes the request
-	//  @return SendMessageResponse
 	SendMessageExecute(r SendMessageRequest) (*SendMessageResponse, *http.Response, error)
 
 	/*
@@ -471,15 +402,10 @@ type MessagesAPI interface {
 		[config-message-editing]: /help/restrict-message-editing-and-deletion
 		[restrict-move-messages]: /help/restrict-moving-messages
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's Id.
-			@return UpdateMessageRequest
 	*/
 	UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest
 
 	// UpdateMessageExecute executes the request
-	//  @return UpdateMessageResponse
 	UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error)
 
 	/*
@@ -491,14 +417,10 @@ type MessagesAPI interface {
 		See also the endpoint for [updating flags on a range of
 		messages within a narrow](zulip.com/api/update-message-flags-for-narrow.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return UpdateMessageFlagsRequest
 	*/
 	UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest
 
 	// UpdateMessageFlagsExecute executes the request
-	//  @return UpdateMessageFlagsResponse
 	UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*UpdateMessageFlagsResponse, *http.Response, error)
 
 	/*
@@ -512,14 +434,10 @@ type MessagesAPI interface {
 
 		**Changes**: New in Zulip 6.0 (feature level 155).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return UpdateMessageFlagsForNarrowRequest
 	*/
 	UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest
 
 	// UpdateMessageFlagsForNarrowExecute executes the request
-	//  @return UpdateMessageFlagsForNarrowResponse
 	UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error)
 
 	/*
@@ -554,14 +472,10 @@ type MessagesAPI interface {
 		[uploaded-files]: /help/manage-your-uploaded-files
 		[send-message]: /api/send-message
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return UploadFileRequest
 	*/
 	UploadFile(ctx context.Context) UploadFileRequest
 
 	// UploadFileExecute executes the request
-	//  @return UploadFileResponse
 	UploadFileExecute(r UploadFileRequest) (*UploadFileResponse, *http.Response, error)
 }
 
@@ -600,10 +514,6 @@ func (r AddReactionRequest) Execute() (*Response, *http.Response, error) {
 AddReaction Add an emoji reaction
 
 Add an [emoji reaction](zulip.com/help/emoji-reactions) to a message.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's Id.
-	@return AddReactionRequest
 */
 func (c *simpleClient) AddReaction(ctx context.Context, messageId int64) AddReactionRequest {
 	return AddReactionRequest{
@@ -614,8 +524,6 @@ func (c *simpleClient) AddReaction(ctx context.Context, messageId int64) AddReac
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -740,9 +648,6 @@ endpoint, so that a client can splice these fields into a `message` object
 received from [`GET /events`](zulip.com/api/get-events#message and end up with an
 extended message object identical to how a [`GET /messages`](zulip.com/api/get-messages
 request for the current narrow would have returned the message.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return CheckMessagesMatchNarrowRequest
 */
 func (c *simpleClient) CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest {
 	return CheckMessagesMatchNarrowRequest{
@@ -752,8 +657,6 @@ func (c *simpleClient) CheckMessagesMatchNarrow(ctx context.Context) CheckMessag
 }
 
 // Execute executes the request
-//
-//	@return CheckMessagesMatchNarrowResponse
 func (c *simpleClient) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -853,10 +756,6 @@ This API corresponds to the
 the Zulip Help Center.
 
 [delete-completely]: /help/delete-a-message#delete-a-message-completely
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's Id.
-	@return DeleteMessageRequest
 */
 func (c *simpleClient) DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest {
 	return DeleteMessageRequest{
@@ -867,8 +766,6 @@ func (c *simpleClient) DeleteMessage(ctx context.Context, messageId int64) Delet
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -958,11 +855,6 @@ GetFileTemporaryUrl Get public temporary URL
 Get a temporary URL for access to the file that doesn't require authentication.
 
 **Changes**: New in Zulip 3.0 (feature level 1).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param realmIdStr The realm Id.
-	@param filename Path to the URL.
-	@return GetFileTemporaryUrlRequest
 */
 func (c *simpleClient) GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, filename string) GetFileTemporaryUrlRequest {
 	return GetFileTemporaryUrlRequest{
@@ -974,8 +866,6 @@ func (c *simpleClient) GetFileTemporaryUrl(ctx context.Context, realmIdStr int64
 }
 
 // Execute executes the request
-//
-//	@return GetFileTemporaryUrlResponse
 func (c *simpleClient) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1087,10 +977,6 @@ prefilling a message edit textarea).
 
 **Changes**: Before Zulip 5.0 (feature level 120), this
 endpoint only returned the `raw_content` field.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's Id.
-	@return GetMessageRequest
 */
 func (c *simpleClient) GetMessage(ctx context.Context, messageId int64) GetMessageRequest {
 	return GetMessageRequest{
@@ -1101,8 +987,6 @@ func (c *simpleClient) GetMessage(ctx context.Context, messageId int64) GetMessa
 }
 
 // Execute executes the request
-//
-//	@return GetMessageResponse
 func (c *simpleClient) GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1213,10 +1097,6 @@ Note that edit history may be disabled in some organizations; see the
 [Zulip Help Center documentation on editing messages][edit-settings].
 
 [edit-settings]: /help/view-a-messages-edit-history
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's Id.
-	@return GetMessageHistoryRequest
 */
 func (c *simpleClient) GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest {
 	return GetMessageHistoryRequest{
@@ -1227,8 +1107,6 @@ func (c *simpleClient) GetMessageHistory(ctx context.Context, messageId int64) G
 }
 
 // Execute executes the request
-//
-//	@return GetMessageHistoryResponse
 func (c *simpleClient) GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1421,9 +1299,6 @@ large HTTP responses. A maximum of 5000 messages can be obtained per request;
 attempting to exceed this will result in an error.
 
 **Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetMessagesRequest
 */
 func (c *simpleClient) GetMessages(ctx context.Context) GetMessagesRequest {
 	return GetMessagesRequest{
@@ -1433,8 +1308,6 @@ func (c *simpleClient) GetMessages(ctx context.Context) GetMessagesRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetMessagesResponse
 func (c *simpleClient) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1581,10 +1454,6 @@ for which this behavior is not desired may disable the
 It will never contain the message's sender.
 
 **Changes**: New in Zulip 6.0 (feature level 137).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's Id.
-	@return GetReadReceiptsRequest
 */
 func (c *simpleClient) GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest {
 	return GetReadReceiptsRequest{
@@ -1595,8 +1464,6 @@ func (c *simpleClient) GetReadReceipts(ctx context.Context, messageId int64) Get
 }
 
 // Execute executes the request
-//
-//	@return GetReadReceiptsResponse
 func (c *simpleClient) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1709,9 +1576,6 @@ even if the request times out. And, instead of returning an error when
 the request times out and some messages have been marked as read, a
 success response with `"result": "partially_completed"` is returned.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return MarkAllAsReadRequest
-
 Deprecated
 */
 func (c *simpleClient) MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest {
@@ -1722,8 +1586,6 @@ func (c *simpleClient) MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest {
 }
 
 // Execute executes the request
-//
-//	@return MarkAllAsReadResponse
 //
 // Deprecated
 func (c *simpleClient) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error) {
@@ -1822,9 +1684,6 @@ Mark all the unread messages in a channel as read.
 flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
 as this endpoint will be removed in a future release.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return MarkChannelAsReadRequest
-
 Deprecated
 */
 func (c *simpleClient) MarkChannelAsRead(ctx context.Context) MarkChannelAsReadRequest {
@@ -1835,8 +1694,6 @@ func (c *simpleClient) MarkChannelAsRead(ctx context.Context) MarkChannelAsReadR
 }
 
 // Execute executes the request
-//
-//	@return Response
 //
 // Deprecated
 func (c *simpleClient) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Response, *http.Response, error) {
@@ -1946,9 +1803,6 @@ Mark all the unread messages in a topic as read.
 flags for narrow](zulip.com/api/update-message-flags-for-narrow) endpoint instead
 as this endpoint will be removed in a future release.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return MarkTopicAsReadRequest
-
 Deprecated
 */
 func (c *simpleClient) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest {
@@ -1959,8 +1813,6 @@ func (c *simpleClient) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadReque
 }
 
 // Execute executes the request
-//
-//	@return Response
 //
 // Deprecated
 func (c *simpleClient) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error) {
@@ -2077,10 +1929,6 @@ func (r RemoveReactionRequest) Execute() (*Response, *http.Response, error) {
 RemoveReaction Remove an emoji reaction
 
 Remove an [emoji reaction](zulip.com/help/emoji-reactions) from a message.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's Id.
-	@return RemoveReactionRequest
 */
 func (c *simpleClient) RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest {
 	return RemoveReactionRequest{
@@ -2091,8 +1939,6 @@ func (c *simpleClient) RemoveReaction(ctx context.Context, messageId int64) Remo
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -2194,9 +2040,6 @@ func (r RenderMessageRequest) Execute() (*RenderMessageResponse, *http.Response,
 RenderMessage Render a message
 
 Render a message to HTML.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return RenderMessageRequest
 */
 func (c *simpleClient) RenderMessage(ctx context.Context) RenderMessageRequest {
 	return RenderMessageRequest{
@@ -2206,8 +2049,6 @@ func (c *simpleClient) RenderMessage(ctx context.Context) RenderMessageRequest {
 }
 
 // Execute executes the request
-//
-//	@return RenderMessageResponse
 func (c *simpleClient) RenderMessageExecute(r RenderMessageRequest) (*RenderMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -2324,10 +2165,6 @@ behavior in the UI.
 **Changes**: New in Zulip 11.0 (feature level 382). This API builds on
 the `moderation_request_channel` realm setting, which was added in
 feature level 331.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's Id.
-	@return ReportMessageRequest
 */
 func (c *simpleClient) ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest {
 	return ReportMessageRequest{
@@ -2338,8 +2175,6 @@ func (c *simpleClient) ReportMessage(ctx context.Context, messageId int64) Repor
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -2481,9 +2316,6 @@ SendMessage Send a message
 
 Send a [channel message](zulip.com/help/introduction-to-topics) or a
 [direct message](zulip.com/help/direct-messages.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return SendMessageRequest
 */
 func (c *simpleClient) SendMessage(ctx context.Context) SendMessageRequest {
 	return SendMessageRequest{
@@ -2493,8 +2325,6 @@ func (c *simpleClient) SendMessage(ctx context.Context) SendMessageRequest {
 }
 
 // Execute executes the request
-//
-//	@return SendMessageResponse
 func (c *simpleClient) SendMessageExecute(r SendMessageRequest) (*SendMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -2735,10 +2565,6 @@ realm setting was added.
 
 [config-message-editing]: /help/restrict-message-editing-and-deletion
 [restrict-move-messages]: /help/restrict-moving-messages
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's Id.
-	@return UpdateMessageRequest
 */
 func (c *simpleClient) UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest {
 	return UpdateMessageRequest{
@@ -2749,8 +2575,6 @@ func (c *simpleClient) UpdateMessage(ctx context.Context, messageId int64) Updat
 }
 
 // Execute executes the request
-//
-//	@return UpdateMessageResponse
 func (c *simpleClient) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -2882,9 +2706,6 @@ on a collection of message Ids.
 
 See also the endpoint for [updating flags on a range of
 messages within a narrow](zulip.com/api/update-message-flags-for-narrow.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return UpdateMessageFlagsRequest
 */
 func (c *simpleClient) UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest {
 	return UpdateMessageFlagsRequest{
@@ -2894,8 +2715,6 @@ func (c *simpleClient) UpdateMessageFlags(ctx context.Context) UpdateMessageFlag
 }
 
 // Execute executes the request
-//
-//	@return UpdateMessageFlagsResponse
 func (c *simpleClient) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*UpdateMessageFlagsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -3047,9 +2866,6 @@ See also [the endpoint for updating flags on specific message
 Ids](zulip.com/api/update-message-flags.
 
 **Changes**: New in Zulip 6.0 (feature level 155).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return UpdateMessageFlagsForNarrowRequest
 */
 func (c *simpleClient) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest {
 	return UpdateMessageFlagsForNarrowRequest{
@@ -3059,8 +2875,6 @@ func (c *simpleClient) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMe
 }
 
 // Execute executes the request
-//
-//	@return UpdateMessageFlagsForNarrowResponse
 func (c *simpleClient) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -3211,9 +3025,6 @@ introduced in Zulip 10.0 (feature level 296). Previously,
 
 [uploaded-files]: /help/manage-your-uploaded-files
 [send-message]: /api/send-message
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return UploadFileRequest
 */
 func (c *simpleClient) UploadFile(ctx context.Context) UploadFileRequest {
 	return UploadFileRequest{
@@ -3223,8 +3034,6 @@ func (c *simpleClient) UploadFile(ctx context.Context) UploadFileRequest {
 }
 
 // Execute executes the request
-//
-//	@return UploadFileResponse
 func (c *simpleClient) UploadFileExecute(r UploadFileRequest) (*UploadFileResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

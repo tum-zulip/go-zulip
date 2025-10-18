@@ -20,14 +20,10 @@ type ServerAndOrganizationsAPI interface {
 		**Changes**: New in Zulip 4.0 (feature level 49). A parameter encoding bug was
 		fixed in Zulip 4.0 (feature level 57).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return AddCodePlaygroundRequest
 	*/
 	AddCodePlayground(ctx context.Context) AddCodePlaygroundRequest
 
 	// AddCodePlaygroundExecute executes the request
-	//  @return AddCodePlaygroundResponse
 	AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*AddCodePlaygroundResponse, *http.Response, error)
 
 	/*
@@ -37,14 +33,10 @@ type ServerAndOrganizationsAPI interface {
 		regular expression patterns that are automatically linkified when they
 		appear in messages and topics.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return AddLinkifierRequest
 	*/
 	AddLinkifier(ctx context.Context) AddLinkifierRequest
 
 	// AddLinkifierExecute executes the request
-	//  @return AddLinkifierResponse
 	AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifierResponse, *http.Response, error)
 
 	/*
@@ -52,14 +44,10 @@ type ServerAndOrganizationsAPI interface {
 
 		[Create a custom profile field](zulip.com/help/custom-profile-fields#add-a-custom-profile-field in the user's organization.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return CreateCustomProfileFieldRequest
 	*/
 	CreateCustomProfileField(ctx context.Context) CreateCustomProfileFieldRequest
 
 	// CreateCustomProfileFieldExecute executes the request
-	//  @return CreateCustomProfileFieldResponse
 	CreateCustomProfileFieldExecute(r CreateCustomProfileFieldRequest) (*CreateCustomProfileFieldResponse, *http.Response, error)
 
 	/*
@@ -77,15 +65,10 @@ type ServerAndOrganizationsAPI interface {
 		**Changes**: Before Zulip 8.0 (feature level 190), this endpoint returned an
 		HTTP status code of 400 when the emoji did not exist, instead of 404.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param emojiName The name of the custom emoji to deactivate.
-			@return DeactivateCustomEmojiRequest
 	*/
 	DeactivateCustomEmoji(ctx context.Context, emojiName string) DeactivateCustomEmojiRequest
 
 	// DeactivateCustomEmojiExecute executes the request
-	//  @return Response
 	DeactivateCustomEmojiExecute(r DeactivateCustomEmojiRequest) (*Response, *http.Response, error)
 
 	/*
@@ -108,14 +91,10 @@ type ServerAndOrganizationsAPI interface {
 		[data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
 		[backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ExportRealmRequest
 	*/
 	ExportRealm(ctx context.Context) ExportRealmRequest
 
 	// ExportRealmExecute executes the request
-	//  @return ExportRealmResponse
 	ExportRealmExecute(r ExportRealmRequest) (*ExportRealmResponse, *http.Response, error)
 
 	/*
@@ -123,14 +102,10 @@ type ServerAndOrganizationsAPI interface {
 
 		Get all the custom emoji in the user's organization.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return GetCustomEmojiRequest
 	*/
 	GetCustomEmoji(ctx context.Context) GetCustomEmojiRequest
 
 	// GetCustomEmojiExecute executes the request
-	//  @return GetCustomEmojiResponse
 	GetCustomEmojiExecute(r GetCustomEmojiRequest) (*GetCustomEmojiResponse, *http.Response, error)
 
 	/*
@@ -139,14 +114,10 @@ type ServerAndOrganizationsAPI interface {
 			Get all the [custom profile fields](zulip.com/help/custom-profile-fields
 		configured for the user's organization.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetCustomProfileFieldsRequest
 	*/
 	GetCustomProfileFields(ctx context.Context) GetCustomProfileFieldsRequest
 
 	// GetCustomProfileFieldsExecute executes the request
-	//  @return GetCustomProfileFieldsResponse
 	GetCustomProfileFieldsExecute(r GetCustomProfileFieldsRequest) (*GetCustomProfileFieldsResponse, *http.Response, error)
 
 	/*
@@ -161,14 +132,10 @@ type ServerAndOrganizationsAPI interface {
 		a similar `GET /realm/filters` endpoint was available with each entry in
 		a `[pattern, url_format, id]` tuple format.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetLinkifiersRequest
 	*/
 	GetLinkifiers(ctx context.Context) GetLinkifiersRequest
 
 	// GetLinkifiersExecute executes the request
-	//  @return GetLinkifiersResponse
 	GetLinkifiersExecute(r GetLinkifiersRequest) (*GetLinkifiersResponse, *http.Response, error)
 
 	/*
@@ -184,14 +151,10 @@ type ServerAndOrganizationsAPI interface {
 		information when they post their own state using the [`POST
 		/presence`](zulip.com/api/update-presence) API endpoint.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetPresenceRequest
 	*/
 	GetPresence(ctx context.Context) GetPresenceRequest
 
 	// GetPresenceExecute executes the request
-	//  @return GetPresenceResponse
 	GetPresenceExecute(r GetPresenceRequest) (*GetPresenceResponse, *http.Response, error)
 
 	/*
@@ -202,14 +165,10 @@ type ServerAndOrganizationsAPI interface {
 
 		**Changes**: New in Zulip 10.0 (feature level 295).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetRealmExportConsentsRequest
 	*/
 	GetRealmExportConsents(ctx context.Context) GetRealmExportConsentsRequest
 
 	// GetRealmExportConsentsExecute executes the request
-	//  @return GetRealmExportConsentsResponse
 	GetRealmExportConsentsExecute(r GetRealmExportConsentsRequest) (*GetRealmExportConsentsResponse, *http.Response, error)
 
 	/*
@@ -225,14 +184,10 @@ type ServerAndOrganizationsAPI interface {
 
 		[export-data]: /help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetRealmExportsRequest
 	*/
 	GetRealmExports(ctx context.Context) GetRealmExportsRequest
 
 	// GetRealmExportsExecute executes the request
-	//  @return GetRealmExportsResponse
 	GetRealmExportsExecute(r GetRealmExportsRequest) (*GetRealmExportsResponse, *http.Response, error)
 
 	/*
@@ -248,14 +203,10 @@ type ServerAndOrganizationsAPI interface {
 		  know in order to display a login prompt for the server (e.g. what
 		  authentication methods are available).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetServerSettingsRequest
 	*/
 	GetServerSettings(ctx context.Context) GetServerSettingsRequest
 
 	// GetServerSettingsExecute executes the request
-	//  @return GetServerSettingsResponse
 	GetServerSettingsExecute(r GetServerSettingsRequest) (*GetServerSettingsResponse, *http.Response, error)
 
 	/*
@@ -266,15 +217,10 @@ type ServerAndOrganizationsAPI interface {
 
 		**Changes**: New in Zulip 4.0 (feature level 49).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param playgroundId The Id of the playground that you want to remove.
-			@return RemoveCodePlaygroundRequest
 	*/
 	RemoveCodePlayground(ctx context.Context, playgroundId int64) RemoveCodePlaygroundRequest
 
 	// RemoveCodePlaygroundExecute executes the request
-	//  @return Response
 	RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*Response, *http.Response, error)
 
 	/*
@@ -284,15 +230,10 @@ type ServerAndOrganizationsAPI interface {
 		expression patterns that are automatically linkified when they appear
 		in messages and topics.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param filterId The Id of the linkifier that you want to remove.
-			@return RemoveLinkifierRequest
 	*/
 	RemoveLinkifier(ctx context.Context, filterId int64) RemoveLinkifierRequest
 
 	// RemoveLinkifierExecute executes the request
-	//  @return Response
 	RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Response, *http.Response, error)
 
 	/*
@@ -306,14 +247,10 @@ type ServerAndOrganizationsAPI interface {
 		This endpoint is used to implement the dragging feature described in the
 		[custom profile fields documentation](zulip.com/help/custom-profile-fields.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ReorderCustomProfileFieldsRequest
 	*/
 	ReorderCustomProfileFields(ctx context.Context) ReorderCustomProfileFieldsRequest
 
 	// ReorderCustomProfileFieldsExecute executes the request
-	//  @return Response
 	ReorderCustomProfileFieldsExecute(r ReorderCustomProfileFieldsRequest) (*Response, *http.Response, error)
 
 	/*
@@ -327,14 +264,10 @@ type ServerAndOrganizationsAPI interface {
 		linkifiers were always processed in order by Id, which meant users would
 		need to delete and recreate them to reorder the list of linkifiers.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return ReorderLinkifiersRequest
 	*/
 	ReorderLinkifiers(ctx context.Context) ReorderLinkifiersRequest
 
 	// ReorderLinkifiersExecute executes the request
-	//  @return Response
 	ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Response, *http.Response, error)
 
 	/*
@@ -346,14 +279,10 @@ type ServerAndOrganizationsAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 416).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return TestWelcomeBotCustomMessageRequest
 	*/
 	TestWelcomeBotCustomMessage(ctx context.Context) TestWelcomeBotCustomMessageRequest
 
 	// TestWelcomeBotCustomMessageExecute executes the request
-	//  @return TestWelcomeBotCustomMessageResponse
 	TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustomMessageRequest) (*TestWelcomeBotCustomMessageResponse, *http.Response, error)
 
 	/*
@@ -365,15 +294,10 @@ type ServerAndOrganizationsAPI interface {
 
 		**Changes**: New in Zulip 4.0 (feature level 57).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param filterId The Id of the linkifier that you want to update.
-			@return UpdateLinkifierRequest
 	*/
 	UpdateLinkifier(ctx context.Context, filterId int64) UpdateLinkifierRequest
 
 	// UpdateLinkifierExecute executes the request
-	//  @return Response
 	UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Response, *http.Response, error)
 
 	/*
@@ -405,14 +329,10 @@ type ServerAndOrganizationsAPI interface {
 		[new-user-defaults]: /help/configure-default-new-user-settings
 		[ignored-parameters]: /api/rest-error-handling#ignored-parameters
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return UpdateRealmUserSettingsDefaultsRequest
 	*/
 	UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest
 
 	// UpdateRealmUserSettingsDefaultsExecute executes the request
-	//  @return Response
 	UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*Response, *http.Response, error)
 
 	/*
@@ -422,15 +342,10 @@ type ServerAndOrganizationsAPI interface {
 		organization. Access to this endpoint depends on the
 		[organization's configuration](https://zulip.com/help/custom-emoji#change-who-can-add-custom-emoji).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param emojiName The name that should be associated with the uploaded emoji image/gif. The emoji name can only contain letters, numbers, dashes, and spaces. Upper and lower case letters are treated the same, and underscores (\\_) are treated the same as spaces (consistent with how the Zulip UI handles emoji).
-			@return UploadCustomEmojiRequest
 	*/
 	UploadCustomEmoji(ctx context.Context, emojiName string) UploadCustomEmojiRequest
 
 	// UploadCustomEmojiExecute executes the request
-	//  @return Response
 	UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Response, *http.Response, error)
 }
 
@@ -471,9 +386,6 @@ Configure [code playgrounds](zulip.com/help/code-blocks#code-playgrounds for the
 
 **Changes**: New in Zulip 4.0 (feature level 49). A parameter encoding bug was
 fixed in Zulip 4.0 (feature level 57).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return AddCodePlaygroundRequest
 */
 func (c *simpleClient) AddCodePlayground(ctx context.Context) AddCodePlaygroundRequest {
 	return AddCodePlaygroundRequest{
@@ -483,8 +395,6 @@ func (c *simpleClient) AddCodePlayground(ctx context.Context) AddCodePlaygroundR
 }
 
 // Execute executes the request
-//
-//	@return AddCodePlaygroundResponse
 func (c *simpleClient) AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*AddCodePlaygroundResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -597,9 +507,6 @@ AddLinkifier Add a linkifier
 Configure [linkifiers](zulip.com/help/add-a-custom-linkifier,
 regular expression patterns that are automatically linkified when they
 appear in messages and topics.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return AddLinkifierRequest
 */
 func (c *simpleClient) AddLinkifier(ctx context.Context) AddLinkifierRequest {
 	return AddLinkifierRequest{
@@ -609,8 +516,6 @@ func (c *simpleClient) AddLinkifier(ctx context.Context) AddLinkifierRequest {
 }
 
 // Execute executes the request
-//
-//	@return AddLinkifierResponse
 func (c *simpleClient) AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifierResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -752,9 +657,6 @@ func (r CreateCustomProfileFieldRequest) Execute() (*CreateCustomProfileFieldRes
 CreateCustomProfileField Create a custom profile field
 
 [Create a custom profile field](zulip.com/help/custom-profile-fields#add-a-custom-profile-field in the user's organization.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return CreateCustomProfileFieldRequest
 */
 func (c *simpleClient) CreateCustomProfileField(ctx context.Context) CreateCustomProfileFieldRequest {
 	return CreateCustomProfileFieldRequest{
@@ -764,8 +666,6 @@ func (c *simpleClient) CreateCustomProfileField(ctx context.Context) CreateCusto
 }
 
 // Execute executes the request
-//
-//	@return CreateCustomProfileFieldResponse
 func (c *simpleClient) CreateCustomProfileFieldExecute(r CreateCustomProfileFieldRequest) (*CreateCustomProfileFieldResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -883,10 +783,6 @@ user statuses and channel descriptions.
 
 **Changes**: Before Zulip 8.0 (feature level 190), this endpoint returned an
 HTTP status code of 400 when the emoji did not exist, instead of 404.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param emojiName The name of the custom emoji to deactivate.
-	@return DeactivateCustomEmojiRequest
 */
 func (c *simpleClient) DeactivateCustomEmoji(ctx context.Context, emojiName string) DeactivateCustomEmojiRequest {
 	return DeactivateCustomEmojiRequest{
@@ -897,8 +793,6 @@ func (c *simpleClient) DeactivateCustomEmoji(ctx context.Context, emojiName stri
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -1006,9 +900,6 @@ New in Zulip 2.1.
 [export-data]: /help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 [data-export]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#data-export
 [backups]: https://zulip.readthedocs.io/en/stable/production/export-and-import.html#backups
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ExportRealmRequest
 */
 func (c *simpleClient) ExportRealm(ctx context.Context) ExportRealmRequest {
 	return ExportRealmRequest{
@@ -1018,8 +909,6 @@ func (c *simpleClient) ExportRealm(ctx context.Context) ExportRealmRequest {
 }
 
 // Execute executes the request
-//
-//	@return ExportRealmResponse
 func (c *simpleClient) ExportRealmExecute(r ExportRealmRequest) (*ExportRealmResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1107,9 +996,6 @@ func (r GetCustomEmojiRequest) Execute() (*GetCustomEmojiResponse, *http.Respons
 GetCustomEmoji Get all custom emoji
 
 Get all the custom emoji in the user's organization.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetCustomEmojiRequest
 */
 func (c *simpleClient) GetCustomEmoji(ctx context.Context) GetCustomEmojiRequest {
 	return GetCustomEmojiRequest{
@@ -1119,8 +1005,6 @@ func (c *simpleClient) GetCustomEmoji(ctx context.Context) GetCustomEmojiRequest
 }
 
 // Execute executes the request
-//
-//	@return GetCustomEmojiResponse
 func (c *simpleClient) GetCustomEmojiExecute(r GetCustomEmojiRequest) (*GetCustomEmojiResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1206,9 +1090,6 @@ GetCustomProfileFields Get all custom profile fields
 
 Get all the [custom profile fields](zulip.com/help/custom-profile-fields
 configured for the user's organization.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetCustomProfileFieldsRequest
 */
 func (c *simpleClient) GetCustomProfileFields(ctx context.Context) GetCustomProfileFieldsRequest {
 	return GetCustomProfileFieldsRequest{
@@ -1218,8 +1099,6 @@ func (c *simpleClient) GetCustomProfileFields(ctx context.Context) GetCustomProf
 }
 
 // Execute executes the request
-//
-//	@return GetCustomProfileFieldsResponse
 func (c *simpleClient) GetCustomProfileFieldsExecute(r GetCustomProfileFieldsRequest) (*GetCustomProfileFieldsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1311,9 +1190,6 @@ in messages and topics.
 **Changes**: New in Zulip 4.0 (feature level 54). On older versions,
 a similar `GET /realm/filters` endpoint was available with each entry in
 a `[pattern, url_format, id]` tuple format.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetLinkifiersRequest
 */
 func (c *simpleClient) GetLinkifiers(ctx context.Context) GetLinkifiersRequest {
 	return GetLinkifiersRequest{
@@ -1323,8 +1199,6 @@ func (c *simpleClient) GetLinkifiers(ctx context.Context) GetLinkifiersRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetLinkifiersResponse
 func (c *simpleClient) GetLinkifiersExecute(r GetLinkifiersRequest) (*GetLinkifiersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1417,9 +1291,6 @@ users are returned.
 Complete Zulip apps are recommended to fetch presence
 information when they post their own state using the [`POST
 /presence`](zulip.com/api/update-presence) API endpoint.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetPresenceRequest
 */
 func (c *simpleClient) GetPresence(ctx context.Context) GetPresenceRequest {
 	return GetPresenceRequest{
@@ -1429,8 +1300,6 @@ func (c *simpleClient) GetPresence(ctx context.Context) GetPresenceRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetPresenceResponse
 func (c *simpleClient) GetPresenceExecute(r GetPresenceRequest) (*GetPresenceResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1518,9 +1387,6 @@ Fetches which users have [consented](zulip.com/help/export-your-organization#con
 for their private data to be exported by organization administrators.
 
 **Changes**: New in Zulip 10.0 (feature level 295).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetRealmExportConsentsRequest
 */
 func (c *simpleClient) GetRealmExportConsents(ctx context.Context) GetRealmExportConsentsRequest {
 	return GetRealmExportConsentsRequest{
@@ -1530,8 +1396,6 @@ func (c *simpleClient) GetRealmExportConsents(ctx context.Context) GetRealmExpor
 }
 
 // Execute executes the request
-//
-//	@return GetRealmExportConsentsResponse
 func (c *simpleClient) GetRealmExportConsentsExecute(r GetRealmExportConsentsRequest) (*GetRealmExportConsentsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1624,9 +1488,6 @@ public data exports could be fetched using this endpoint.
 New in Zulip 2.1.
 
 [export-data]: /help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetRealmExportsRequest
 */
 func (c *simpleClient) GetRealmExports(ctx context.Context) GetRealmExportsRequest {
 	return GetRealmExportsRequest{
@@ -1636,8 +1497,6 @@ func (c *simpleClient) GetRealmExports(ctx context.Context) GetRealmExportsReque
 }
 
 // Execute executes the request
-//
-//	@return GetRealmExportsResponse
 func (c *simpleClient) GetRealmExportsExecute(r GetRealmExportsRequest) (*GetRealmExportsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1731,9 +1590,6 @@ Fetch global settings for a Zulip server.
     [zulip-terminal](https://github.com/zulip/zulip-terminal/)) needs to
     know in order to display a login prompt for the server (e.g. what
     authentication methods are available).
-
-    @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-    @return GetServerSettingsRequest
 */
 func (c *simpleClient) GetServerSettings(ctx context.Context) GetServerSettingsRequest {
 	return GetServerSettingsRequest{
@@ -1743,8 +1599,6 @@ func (c *simpleClient) GetServerSettings(ctx context.Context) GetServerSettingsR
 }
 
 // Execute executes the request
-//
-//	@return GetServerSettingsResponse
 func (c *simpleClient) GetServerSettingsExecute(r GetServerSettingsRequest) (*GetServerSettingsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1833,10 +1687,6 @@ Remove a [code playground](zulip.com/help/code-blocks#code-playgrounds previousl
 configured for an organization.
 
 **Changes**: New in Zulip 4.0 (feature level 49).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param playgroundId The Id of the playground that you want to remove.
-	@return RemoveCodePlaygroundRequest
 */
 func (c *simpleClient) RemoveCodePlayground(ctx context.Context, playgroundId int64) RemoveCodePlaygroundRequest {
 	return RemoveCodePlaygroundRequest{
@@ -1847,8 +1697,6 @@ func (c *simpleClient) RemoveCodePlayground(ctx context.Context, playgroundId in
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -1937,10 +1785,6 @@ RemoveLinkifier Remove a linkifier
 Remove [linkifiers](zulip.com/help/add-a-custom-linkifier, regular
 expression patterns that are automatically linkified when they appear
 in messages and topics.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param filterId The Id of the linkifier that you want to remove.
-	@return RemoveLinkifierRequest
 */
 func (c *simpleClient) RemoveLinkifier(ctx context.Context, filterId int64) RemoveLinkifierRequest {
 	return RemoveLinkifierRequest{
@@ -1951,8 +1795,6 @@ func (c *simpleClient) RemoveLinkifier(ctx context.Context, filterId int64) Remo
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -2051,9 +1893,6 @@ endpoint allows administrative settings UI to change the field ordering.
 
 This endpoint is used to implement the dragging feature described in the
 [custom profile fields documentation](zulip.com/help/custom-profile-fields.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ReorderCustomProfileFieldsRequest
 */
 func (c *simpleClient) ReorderCustomProfileFields(ctx context.Context) ReorderCustomProfileFieldsRequest {
 	return ReorderCustomProfileFieldsRequest{
@@ -2063,8 +1902,6 @@ func (c *simpleClient) ReorderCustomProfileFields(ctx context.Context) ReorderCu
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileFieldsRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -2166,9 +2003,6 @@ Useful when defining linkifiers with overlapping patterns.
 **Changes**: New in Zulip 8.0 (feature level 202). Before this feature level,
 linkifiers were always processed in order by Id, which meant users would
 need to delete and recreate them to reorder the list of linkifiers.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ReorderLinkifiersRequest
 */
 func (c *simpleClient) ReorderLinkifiers(ctx context.Context) ReorderLinkifiersRequest {
 	return ReorderLinkifiersRequest{
@@ -2178,8 +2012,6 @@ func (c *simpleClient) ReorderLinkifiers(ctx context.Context) ReorderLinkifiersR
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -2279,9 +2111,6 @@ This allows administrators to preview how the custom welcome message will
 appear when received by new users upon joining the organization.
 
 **Changes**: New in Zulip 11.0 (feature level 416).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return TestWelcomeBotCustomMessageRequest
 */
 func (c *simpleClient) TestWelcomeBotCustomMessage(ctx context.Context) TestWelcomeBotCustomMessageRequest {
 	return TestWelcomeBotCustomMessageRequest{
@@ -2291,8 +2120,6 @@ func (c *simpleClient) TestWelcomeBotCustomMessage(ctx context.Context) TestWelc
 }
 
 // Execute executes the request
-//
-//	@return TestWelcomeBotCustomMessageResponse
 func (c *simpleClient) TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustomMessageRequest) (*TestWelcomeBotCustomMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -2403,10 +2230,6 @@ expression patterns that are automatically linkified when they appear
 in messages and topics.
 
 **Changes**: New in Zulip 4.0 (feature level 57).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param filterId The Id of the linkifier that you want to update.
-	@return UpdateLinkifierRequest
 */
 func (c *simpleClient) UpdateLinkifier(ctx context.Context, filterId int64) UpdateLinkifierRequest {
 	return UpdateLinkifierRequest{
@@ -2417,8 +2240,6 @@ func (c *simpleClient) UpdateLinkifier(ctx context.Context, filterId int64) Upda
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -2942,9 +2763,6 @@ be returned in the JSON success response.
 
 [new-user-defaults]: /help/configure-default-new-user-settings
 [ignored-parameters]: /api/rest-error-handling#ignored-parameters
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return UpdateRealmUserSettingsDefaultsRequest
 */
 func (c *simpleClient) UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest {
 	return UpdateRealmUserSettingsDefaultsRequest{
@@ -2954,8 +2772,6 @@ func (c *simpleClient) UpdateRealmUserSettingsDefaults(ctx context.Context) Upda
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -3223,10 +3039,6 @@ UploadCustomEmoji Upload custom emoji
 This endpoint is used to upload a custom emoji for use in the user's
 organization. Access to this endpoint depends on the
 [organization's configuration](https://zulip.com/help/custom-emoji#change-who-can-add-custom-emoji).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param emojiName The name that should be associated with the uploaded emoji image/gif. The emoji name can only contain letters, numbers, dashes, and spaces. Upper and lower case letters are treated the same, and underscores (\\_) are treated the same as spaces (consistent with how the Zulip UI handles emoji).
-	@return UploadCustomEmojiRequest
 */
 func (c *simpleClient) UploadCustomEmoji(ctx context.Context, emojiName string) UploadCustomEmojiRequest {
 	return UploadCustomEmojiRequest{
@@ -3237,8 +3049,6 @@ func (c *simpleClient) UploadCustomEmoji(ctx context.Context, emojiName string) 
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

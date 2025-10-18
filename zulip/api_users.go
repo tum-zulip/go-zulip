@@ -18,14 +18,10 @@ type UsersAPI interface {
 
 		[alert-words]: /help/dm-mention-alert-notifications#alert-words
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return AddAlertWordsRequest
 	*/
 	AddAlertWords(ctx context.Context) AddAlertWordsRequest
 
 	// AddAlertWordsExecute executes the request
-	//  @return AlertWordsResponse
 	AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWordsResponse, *http.Response, error)
 
 	/*
@@ -33,14 +29,10 @@ type UsersAPI interface {
 
 		This endpoint adds an APNs device token to register for iOS push notifications.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return AddApnsTokenRequest
 	*/
 	AddApnsToken(ctx context.Context) AddApnsTokenRequest
 
 	// AddApnsTokenExecute executes the request
-	//  @return Response
 	AddApnsTokenExecute(r AddApnsTokenRequest) (*Response, *http.Response, error)
 
 	/*
@@ -48,14 +40,10 @@ type UsersAPI interface {
 
 		This endpoint adds an FCM registration token for push notifications.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return AddFcmTokenRequest
 	*/
 	AddFcmToken(ctx context.Context) AddFcmTokenRequest
 
 	// AddFcmTokenExecute executes the request
-	//  @return Response
 	AddFcmTokenExecute(r AddFcmTokenRequest) (*Response, *http.Response, error)
 
 	/*
@@ -80,14 +68,10 @@ type UsersAPI interface {
 		[support]: /help/contact-support
 		[management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return CreateUserRequest
 	*/
 	CreateUser(ctx context.Context) CreateUserRequest
 
 	// CreateUserExecute executes the request
-	//  @return CreateUserResponse
 	CreateUserExecute(r CreateUserRequest) (*CreateUserResponse, *http.Response, error)
 
 	/*
@@ -95,14 +79,10 @@ type UsersAPI interface {
 
 		Create a new [user group](zulip.com/help/user-groups.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return CreateUserGroupRequest
 	*/
 	CreateUserGroup(ctx context.Context) CreateUserGroupRequest
 
 	// CreateUserGroupExecute executes the request
-	//  @return CreateUserGroupResponse
 	CreateUserGroupExecute(r CreateUserGroupRequest) (*CreateUserGroupResponse, *http.Response, error)
 
 	/*
@@ -113,14 +93,10 @@ type UsersAPI interface {
 
 		This endpoint is primarily useful to Zulip clients providing a user settings UI.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return DeactivateOwnUserRequest
 	*/
 	DeactivateOwnUser(ctx context.Context) DeactivateOwnUserRequest
 
 	// DeactivateOwnUserExecute executes the request
-	//  @return Response
 	DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*Response, *http.Response, error)
 
 	/*
@@ -130,15 +106,10 @@ type UsersAPI interface {
 		user](https://zulip.com/help/deactivate-or-reactivate-a-user)
 		given their user Id.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userId The target user's Id.
-			@return DeactivateUserRequest
 	*/
 	DeactivateUser(ctx context.Context, userId int64) DeactivateUserRequest
 
 	// DeactivateUserExecute executes the request
-	//  @return Response
 	DeactivateUserExecute(r DeactivateUserRequest) (*Response, *http.Response, error)
 
 	/*
@@ -155,15 +126,10 @@ type UsersAPI interface {
 
 		**Changes**: New in Zulip 10.0 (feature level 290).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userGroupId The Id of the target user group.
-			@return DeactivateUserGroupRequest
 	*/
 	DeactivateUserGroup(ctx context.Context, userGroupId int64) DeactivateUserGroupRequest
 
 	// DeactivateUserGroupExecute executes the request
-	//  @return Response
 	DeactivateUserGroupExecute(r DeactivateUserGroupRequest) (*Response, *http.Response, error)
 
 	/*
@@ -173,14 +139,10 @@ type UsersAPI interface {
 
 		[alert-words]: /help/dm-mention-alert-notifications#alert-words
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetAlertWordsRequest
 	*/
 	GetAlertWords(ctx context.Context) GetAlertWordsRequest
 
 	// GetAlertWordsExecute executes the request
-	//  @return AlertWordsResponse
 	GetAlertWordsExecute(r GetAlertWordsRequest) (*AlertWordsResponse, *http.Response, error)
 
 	/*
@@ -188,14 +150,10 @@ type UsersAPI interface {
 
 		Fetch metadata on files uploaded by the requesting user.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return GetAttachmentsRequest
 	*/
 	GetAttachments(ctx context.Context) GetAttachmentsRequest
 
 	// GetAttachmentsExecute executes the request
-	//  @return GetAttachmentsResponse
 	GetAttachmentsExecute(r GetAttachmentsRequest) (*GetAttachmentsResponse, *http.Response, error)
 
 	/*
@@ -209,16 +167,10 @@ type UsersAPI interface {
 
 		New in Zulip 6.0 (feature level 127).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userGroupId The Id of the target user group.
-			@param userId The target user's Id.
-			@return GetIsUserGroupMemberRequest
 	*/
 	GetIsUserGroupMember(ctx context.Context, userGroupId int64, userId int64) GetIsUserGroupMemberRequest
 
 	// GetIsUserGroupMemberExecute executes the request
-	//  @return GetIsUserGroupMemberResponse
 	GetIsUserGroupMemberExecute(r GetIsUserGroupMemberRequest) (*GetIsUserGroupMemberResponse, *http.Response, error)
 
 	/*
@@ -229,14 +181,10 @@ type UsersAPI interface {
 		**Changes**: Removed `is_billing_admin` field in Zulip 10.0 (feature level 363), as it was
 		replaced by the `can_manage_billing_group` realm setting.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetOwnUserRequest
 	*/
 	GetOwnUser(ctx context.Context) GetOwnUserRequest
 
 	// GetOwnUserExecute executes the request
-	//  @return GetOwnUserResponse
 	GetOwnUserExecute(r GetOwnUserRequest) (*GetOwnUserResponse, *http.Response, error)
 
 	/*
@@ -249,15 +197,10 @@ type UsersAPI interface {
 
 		**Changes**: New in Zulip 3.0 (feature level 1).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userId The target user's Id.
-			@return GetUserRequest
 	*/
 	GetUser(ctx context.Context, userId int64) GetUserRequest
 
 	// GetUserExecute executes the request
-	//  @return GetUserResponse
 	GetUserExecute(r GetUserRequest) (*GetUserResponse, *http.Response, error)
 
 	/*
@@ -284,15 +227,10 @@ type UsersAPI interface {
 
 		New in Zulip Server 4.0 (feature level 39).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param email The email address of the user to fetch. Two forms are supported:  - The real email address of the user (`delivery_email`). The lookup will   succeed if and only if the user exists and their email address visibility   setting permits the client to see the email address.  - The dummy Zulip API email address of the form `user{user_id}@{realm_host}`. This   is identical to simply [getting user by Id](zulip.com/api/get-user. If the server or   realm change domains, the dummy email address used has to be adjustment to   match the new realm domain. This is legacy behavior for   backwards-compatibility, and will be removed in a future release.  **Changes**: Starting with Zulip 10.0 (feature level 302), lookups by real email address match the semantics of the target's email visibility setting and dummy email addresses work for all users, independently of their email visibility setting.  Previously, lookups were done only using the Zulip API email addresses.
-			@return GetUserByEmailRequest
 	*/
 	GetUserByEmail(ctx context.Context, email string) GetUserByEmailRequest
 
 	// GetUserByEmailExecute executes the request
-	//  @return GetUserResponse
 	GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserResponse, *http.Response, error)
 
 	/*
@@ -302,15 +240,10 @@ type UsersAPI interface {
 
 		**Changes**: New in Zulip 6.0 (feature level 127).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userGroupId The Id of the target user group.
-			@return GetUserGroupMembersRequest
 	*/
 	GetUserGroupMembers(ctx context.Context, userGroupId int64) GetUserGroupMembersRequest
 
 	// GetUserGroupMembersExecute executes the request
-	//  @return GetUserGroupMembersResponse
 	GetUserGroupMembersExecute(r GetUserGroupMembersRequest) (*GetUserGroupMembersResponse, *http.Response, error)
 
 	/*
@@ -320,15 +253,10 @@ type UsersAPI interface {
 
 		**Changes**: New in Zulip 6.0 (feature level 127).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userGroupId The Id of the target user group.
-			@return GetUserGroupSubgroupsRequest
 	*/
 	GetUserGroupSubgroups(ctx context.Context, userGroupId int64) GetUserGroupSubgroupsRequest
 
 	// GetUserGroupSubgroupsExecute executes the request
-	//  @return GetUserGroupSubgroupsResponse
 	GetUserGroupSubgroupsExecute(r GetUserGroupSubgroupsRequest) (*GetUserGroupSubgroupsResponse, *http.Response, error)
 
 	/*
@@ -342,14 +270,10 @@ type UsersAPI interface {
 		    administrators](zulip.com/help/user-roles; bots and guests
 		    cannot use this endpoint.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetUserGroupsRequest
 	*/
 	GetUserGroups(ctx context.Context) GetUserGroupsRequest
 
 	// GetUserGroupsExecute executes the request
-	//  @return GetUserGroupsResponse
 	GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGroupsResponse, *http.Response, error)
 
 	/*
@@ -363,15 +287,10 @@ type UsersAPI interface {
 		presence endpoint](zulip.com/api/get-presence, which returns data for all
 		active users in the organization, instead.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userIdOrEmail The Id or Zulip API email address of the user whose presence you want to fetch.  **Changes**: New in Zulip 4.0 (feature level 43). Previous versions only supported identifying the user by Zulip API email.
-			@return GetUserPresenceRequest
 	*/
 	GetUserPresence(ctx context.Context, userIdOrEmail string) GetUserPresenceRequest
 
 	// GetUserPresenceExecute executes the request
-	//  @return GetUserPresenceResponse
 	GetUserPresenceExecute(r GetUserPresenceRequest) (*GetUserPresenceResponse, *http.Response, error)
 
 	/*
@@ -384,15 +303,10 @@ type UsersAPI interface {
 		user statuses could only be fetched via the [`POST
 		/register`](zulip.com/api/register-queue) endpoint.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userId The target user's Id.
-			@return GetUserStatusRequest
 	*/
 	GetUserStatus(ctx context.Context, userId int64) GetUserStatusRequest
 
 	// GetUserStatusExecute executes the request
-	//  @return GetUserStatusResponse
 	GetUserStatusExecute(r GetUserStatusRequest) (*GetUserStatusResponse, *http.Response, error)
 
 	/*
@@ -413,14 +327,10 @@ type UsersAPI interface {
 		option](zulip.com/help/public-access-option) prior to Zulip 11.0
 		(feature level 387).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetUsersRequest
 	*/
 	GetUsers(ctx context.Context) GetUsersRequest
 
 	// GetUsersExecute executes the request
-	//  @return GetUsersResponse
 	GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *http.Response, error)
 
 	/*
@@ -457,15 +367,10 @@ type UsersAPI interface {
 
 		**Changes**: New in Zulip 4.0 (feature level 48).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param mutedUserId The Id of the user to mute/unmute.  **Changes**: Before Zulip 8.0 (feature level 188), bot users could not be muted/unmuted, and specifying a bot user's Id returned an error response.
-			@return MuteUserRequest
 	*/
 	MuteUser(ctx context.Context, mutedUserId int64) MuteUserRequest
 
 	// MuteUserExecute executes the request
-	//  @return Response
 	MuteUserExecute(r MuteUserRequest) (*Response, *http.Response, error)
 
 	/*
@@ -475,15 +380,10 @@ type UsersAPI interface {
 		user](https://zulip.com/help/deactivate-or-reactivate-a-user)
 		given their user Id.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userId The target user's Id.
-			@return ReactivateUserRequest
 	*/
 	ReactivateUser(ctx context.Context, userId int64) ReactivateUserRequest
 
 	// ReactivateUserExecute executes the request
-	//  @return Response
 	ReactivateUserExecute(r ReactivateUserRequest) (*Response, *http.Response, error)
 
 	/*
@@ -495,14 +395,10 @@ type UsersAPI interface {
 
 		[alert-words]: /help/dm-mention-alert-notifications#alert-words
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return RemoveAlertWordsRequest
 	*/
 	RemoveAlertWords(ctx context.Context) RemoveAlertWordsRequest
 
 	// RemoveAlertWordsExecute executes the request
-	//  @return AlertWordsResponse
 	RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*AlertWordsResponse, *http.Response, error)
 
 	/*
@@ -510,14 +406,10 @@ type UsersAPI interface {
 
 		This endpoint removes an APNs device token for iOS push notifications.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return RemoveApnsTokenRequest
 	*/
 	RemoveApnsToken(ctx context.Context) RemoveApnsTokenRequest
 
 	// RemoveApnsTokenExecute executes the request
-	//  @return Response
 	RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*Response, *http.Response, error)
 
 	/*
@@ -535,15 +427,10 @@ type UsersAPI interface {
 
 		Attachment Ids can be contained from [GET /attachments](zulip.com/api/get-attachments.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param attachmentId The Id of the attachment to be deleted.
-			@return RemoveAttachmentRequest
 	*/
 	RemoveAttachment(ctx context.Context, attachmentId int64) RemoveAttachmentRequest
 
 	// RemoveAttachmentExecute executes the request
-	//  @return Response
 	RemoveAttachmentExecute(r RemoveAttachmentRequest) (*Response, *http.Response, error)
 
 	/*
@@ -551,14 +438,10 @@ type UsersAPI interface {
 
 		This endpoint removes an FCM registration token for push notifications.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return RemoveFcmTokenRequest
 	*/
 	RemoveFcmToken(ctx context.Context) RemoveFcmTokenRequest
 
 	// RemoveFcmTokenExecute executes the request
-	//  @return Response
 	RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response, *http.Response, error)
 
 	/*
@@ -619,14 +502,10 @@ type UsersAPI interface {
 		[client-capabilities]: /api/register-queue#parameter-client_capabilities
 		[typing-protocol-docs]: https://zulip.readthedocs.io/en/latest/subsystems/typing-indicators.html
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return SetTypingStatusRequest
 	*/
 	SetTypingStatus(ctx context.Context) SetTypingStatusRequest
 
 	// SetTypingStatusExecute executes the request
-	//  @return Response
 	SetTypingStatusExecute(r SetTypingStatusRequest) (*Response, *http.Response, error)
 
 	/*
@@ -646,15 +525,10 @@ type UsersAPI interface {
 		New in Zulip 10.0 (feature level 351). Previously, typing notifications were
 		not available when editing messages.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param messageId The target message's Id.
-			@return SetTypingStatusForMessageEditRequest
 	*/
 	SetTypingStatusForMessageEdit(ctx context.Context, messageId int64) SetTypingStatusForMessageEditRequest
 
 	// SetTypingStatusForMessageEditExecute executes the request
-	//  @return Response
 	SetTypingStatusForMessageEditExecute(r SetTypingStatusForMessageEditRequest) (*Response, *http.Response, error)
 
 	/*
@@ -665,15 +539,10 @@ type UsersAPI interface {
 
 		**Changes**: New in Zulip 4.0 (feature level 48).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param mutedUserId The Id of the user to mute/unmute.  **Changes**: Before Zulip 8.0 (feature level 188), bot users could not be muted/unmuted, and specifying a bot user's Id returned an error response.
-			@return UnmuteUserRequest
 	*/
 	UnmuteUser(ctx context.Context, mutedUserId int64) UnmuteUserRequest
 
 	// UnmuteUserExecute executes the request
-	//  @return Response
 	UnmuteUserExecute(r UnmuteUserRequest) (*Response, *http.Response, error)
 
 	/*
@@ -715,14 +584,10 @@ type UsersAPI interface {
 		[invisible]: /help/status-and-availability#invisible-mode
 		[availability]: /help/status-and-availability#availability
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return UpdatePresenceRequest
 	*/
 	UpdatePresence(ctx context.Context) UpdatePresenceRequest
 
 	// UpdatePresenceExecute executes the request
-	//  @return UpdatePresenceResponse
 	UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePresenceResponse, *http.Response, error)
 
 	/*
@@ -766,14 +631,10 @@ type UsersAPI interface {
 
 		[ignored-parameters]: /api/rest-error-handling#ignored-parameters
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return UpdateSettingsRequest
 	*/
 	UpdateSettings(ctx context.Context) UpdateSettingsRequest
 
 	// UpdateSettingsExecute executes the request
-	//  @return Response
 	UpdateSettingsExecute(r UpdateSettingsRequest) (*Response, *http.Response, error)
 
 	/*
@@ -791,14 +652,10 @@ type UsersAPI interface {
 		**Changes**: In Zulip 5.0 (feature level 86), added support for
 		`emoji_name`, `emoji_code`, and `reaction_type` parameters.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return UpdateStatusRequest
 	*/
 	UpdateStatus(ctx context.Context) UpdateStatusRequest
 
 	// UpdateStatusExecute executes the request
-	//  @return Response
 	UpdateStatusExecute(r UpdateStatusRequest) (*Response, *http.Response, error)
 
 	/*
@@ -809,15 +666,10 @@ type UsersAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 407).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userId The target user's Id.
-			@return UpdateStatusForUserRequest
 	*/
 	UpdateStatusForUser(ctx context.Context, userId int64) UpdateStatusForUserRequest
 
 	// UpdateStatusForUserExecute executes the request
-	//  @return Response
 	UpdateStatusForUserExecute(r UpdateStatusForUserRequest) (*Response, *http.Response, error)
 
 	/*
@@ -830,15 +682,10 @@ type UsersAPI interface {
 		[role](zulip.com/help/user-roles, and [custom profile
 		fields](zulip.com/help/custom-profile-fields.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userId The target user's Id.
-			@return UpdateUserRequest
 	*/
 	UpdateUser(ctx context.Context, userId int64) UpdateUserRequest
 
 	// UpdateUserExecute executes the request
-	//  @return Response
 	UpdateUserExecute(r UpdateUserRequest) (*Response, *http.Response, error)
 
 	/*
@@ -854,15 +701,10 @@ type UsersAPI interface {
 
 		**Changes**: New in Zulip 10.0 (feature level 313).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param email The email address of the user, specified following the same rules as [`GET /users/{email}`](zulip.com/api/get-user-by-email.
-			@return UpdateUserByEmailRequest
 	*/
 	UpdateUserByEmail(ctx context.Context, email string) UpdateUserByEmailRequest
 
 	// UpdateUserByEmailExecute executes the request
-	//  @return Response
 	UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*Response, *http.Response, error)
 
 	/*
@@ -885,15 +727,10 @@ type UsersAPI interface {
 		Prior to Zulip 10.0 (feature level 340), only the name field
 		of deactivated groups could be modified.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userGroupId The Id of the target user group.
-			@return UpdateUserGroupRequest
 	*/
 	UpdateUserGroup(ctx context.Context, userGroupId int64) UpdateUserGroupRequest
 
 	// UpdateUserGroupExecute executes the request
-	//  @return Response
 	UpdateUserGroupExecute(r UpdateUserGroupRequest) (*Response, *http.Response, error)
 
 	/*
@@ -908,15 +745,10 @@ type UsersAPI interface {
 		**Changes**: Prior to Zulip 10.0 (feature level 303), group memberships of
 		deactivated users were visible to the API and could be edited via this endpoint.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userGroupId The Id of the target user group.
-			@return UpdateUserGroupMembersRequest
 	*/
 	UpdateUserGroupMembers(ctx context.Context, userGroupId int64) UpdateUserGroupMembersRequest
 
 	// UpdateUserGroupMembersExecute executes the request
-	//  @return Response
 	UpdateUserGroupMembersExecute(r UpdateUserGroupMembersRequest) (*Response, *http.Response, error)
 
 	/*
@@ -929,15 +761,10 @@ type UsersAPI interface {
 
 		**Changes**: New in Zulip 6.0 (feature level 127).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userGroupId The Id of the target user group.
-			@return UpdateUserGroupSubgroupsRequest
 	*/
 	UpdateUserGroupSubgroups(ctx context.Context, userGroupId int64) UpdateUserGroupSubgroupsRequest
 
 	// UpdateUserGroupSubgroupsExecute executes the request
-	//  @return Response
 	UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroupsRequest) (*Response, *http.Response, error)
 }
 
@@ -963,9 +790,6 @@ AddAlertWords Add alert words
 Add words (or phrases) to the user's set of configured [alert words][alert-words].
 
 [alert-words]: /help/dm-mention-alert-notifications#alert-words
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return AddAlertWordsRequest
 */
 func (c *simpleClient) AddAlertWords(ctx context.Context) AddAlertWordsRequest {
 	return AddAlertWordsRequest{
@@ -975,8 +799,6 @@ func (c *simpleClient) AddAlertWords(ctx context.Context) AddAlertWordsRequest {
 }
 
 // Execute executes the request
-//
-//	@return AddAlertWordsResponse
 func (c *simpleClient) AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1083,9 +905,6 @@ func (r AddApnsTokenRequest) Execute() (*Response, *http.Response, error) {
 AddApnsToken Add an APNs device token
 
 This endpoint adds an APNs device token to register for iOS push notifications.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return AddApnsTokenRequest
 */
 func (c *simpleClient) AddApnsToken(ctx context.Context) AddApnsTokenRequest {
 	return AddApnsTokenRequest{
@@ -1095,8 +914,6 @@ func (c *simpleClient) AddApnsToken(ctx context.Context) AddApnsTokenRequest {
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) AddApnsTokenExecute(r AddApnsTokenRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1196,9 +1013,6 @@ func (r AddFcmTokenRequest) Execute() (*Response, *http.Response, error) {
 AddFcmToken Add an FCM registration token
 
 This endpoint adds an FCM registration token for push notifications.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return AddFcmTokenRequest
 */
 func (c *simpleClient) AddFcmToken(ctx context.Context) AddFcmTokenRequest {
 	return AddFcmTokenRequest{
@@ -1208,8 +1022,6 @@ func (c *simpleClient) AddFcmToken(ctx context.Context) AddFcmTokenRequest {
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) AddFcmTokenExecute(r AddFcmTokenRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1336,9 +1148,6 @@ available to all organization administrators.
 
 [support]: /help/contact-support
 [management-commands]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return CreateUserRequest
 */
 func (c *simpleClient) CreateUser(ctx context.Context) CreateUserRequest {
 	return CreateUserRequest{
@@ -1348,8 +1157,6 @@ func (c *simpleClient) CreateUser(ctx context.Context) CreateUserRequest {
 }
 
 // Execute executes the request
-//
-//	@return CreateUserResponse
 func (c *simpleClient) CreateUserExecute(r CreateUserRequest) (*CreateUserResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1516,9 +1323,6 @@ func (r CreateUserGroupRequest) Execute() (*CreateUserGroupResponse, *http.Respo
 CreateUserGroup Create a user group
 
 Create a new [user group](zulip.com/help/user-groups.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return CreateUserGroupRequest
 */
 func (c *simpleClient) CreateUserGroup(ctx context.Context) CreateUserGroupRequest {
 	return CreateUserGroupRequest{
@@ -1528,8 +1332,6 @@ func (c *simpleClient) CreateUserGroup(ctx context.Context) CreateUserGroupReque
 }
 
 // Execute executes the request
-//
-//	@return CreateUserGroupResponse
 func (c *simpleClient) CreateUserGroupExecute(r CreateUserGroupRequest) (*CreateUserGroupResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1674,9 +1476,6 @@ Deactivates the current user's account. See also the administrative endpoint for
 [deactivating another user](zulip.com/api/deactivate-user.
 
 This endpoint is primarily useful to Zulip clients providing a user settings UI.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return DeactivateOwnUserRequest
 */
 func (c *simpleClient) DeactivateOwnUser(ctx context.Context) DeactivateOwnUserRequest {
 	return DeactivateOwnUserRequest{
@@ -1686,8 +1485,6 @@ func (c *simpleClient) DeactivateOwnUser(ctx context.Context) DeactivateOwnUserR
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -1782,10 +1579,6 @@ DeactivateUser Deactivate a user
 [Deactivates a
 user](https://zulip.com/help/deactivate-or-reactivate-a-user)
 given their user Id.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userId The target user's Id.
-	@return DeactivateUserRequest
 */
 func (c *simpleClient) DeactivateUser(ctx context.Context, userId int64) DeactivateUserRequest {
 	return DeactivateUserRequest{
@@ -1796,8 +1589,6 @@ func (c *simpleClient) DeactivateUser(ctx context.Context, userId int64) Deactiv
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) DeactivateUserExecute(r DeactivateUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -1896,10 +1687,6 @@ of changes to sensitive group-valued permissions to be
 maintained.
 
 **Changes**: New in Zulip 10.0 (feature level 290).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userGroupId The Id of the target user group.
-	@return DeactivateUserGroupRequest
 */
 func (c *simpleClient) DeactivateUserGroup(ctx context.Context, userGroupId int64) DeactivateUserGroupRequest {
 	return DeactivateUserGroupRequest{
@@ -1910,8 +1697,6 @@ func (c *simpleClient) DeactivateUserGroup(ctx context.Context, userGroupId int6
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) DeactivateUserGroupExecute(r DeactivateUserGroupRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1999,9 +1784,6 @@ GetAlertWords Get all alert words
 Get all of the user's configured [alert words][alert-words].
 
 [alert-words]: /help/dm-mention-alert-notifications#alert-words
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetAlertWordsRequest
 */
 func (c *simpleClient) GetAlertWords(ctx context.Context) GetAlertWordsRequest {
 	return GetAlertWordsRequest{
@@ -2011,8 +1793,6 @@ func (c *simpleClient) GetAlertWords(ctx context.Context) GetAlertWordsRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetAlertWordsResponse
 func (c *simpleClient) GetAlertWordsExecute(r GetAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2097,9 +1877,6 @@ func (r GetAttachmentsRequest) Execute() (*GetAttachmentsResponse, *http.Respons
 GetAttachments Get attachments
 
 Fetch metadata on files uploaded by the requesting user.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetAttachmentsRequest
 */
 func (c *simpleClient) GetAttachments(ctx context.Context) GetAttachmentsRequest {
 	return GetAttachmentsRequest{
@@ -2109,8 +1886,6 @@ func (c *simpleClient) GetAttachments(ctx context.Context) GetAttachmentsRequest
 }
 
 // Execute executes the request
-//
-//	@return GetAttachmentsResponse
 func (c *simpleClient) GetAttachmentsExecute(r GetAttachmentsRequest) (*GetAttachmentsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2210,11 +1985,6 @@ this would return true when passed a deactivated user
 who was a member of the user group before being deactivated.
 
 New in Zulip 6.0 (feature level 127).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userGroupId The Id of the target user group.
-	@param userId The target user's Id.
-	@return GetIsUserGroupMemberRequest
 */
 func (c *simpleClient) GetIsUserGroupMember(ctx context.Context, userGroupId int64, userId int64) GetIsUserGroupMemberRequest {
 	return GetIsUserGroupMemberRequest{
@@ -2226,8 +1996,6 @@ func (c *simpleClient) GetIsUserGroupMember(ctx context.Context, userGroupId int
 }
 
 // Execute executes the request
-//
-//	@return GetIsUserGroupMemberResponse
 func (c *simpleClient) GetIsUserGroupMemberExecute(r GetIsUserGroupMemberRequest) (*GetIsUserGroupMemberResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2320,9 +2088,6 @@ Get basic data about the user/bot that requests this endpoint.
 
 **Changes**: Removed `is_billing_admin` field in Zulip 10.0 (feature level 363), as it was
 replaced by the `can_manage_billing_group` realm setting.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetOwnUserRequest
 */
 func (c *simpleClient) GetOwnUser(ctx context.Context) GetOwnUserRequest {
 	return GetOwnUserRequest{
@@ -2332,8 +2097,6 @@ func (c *simpleClient) GetOwnUser(ctx context.Context) GetOwnUserRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetOwnUserResponse
 func (c *simpleClient) GetOwnUserExecute(r GetOwnUserRequest) (*GetOwnUserResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2438,10 +2201,6 @@ You can also fetch details on [all users in the organization](zulip.com/api/get-
 or [by a user's Zulip API email](zulip.com/api/get-user-by-email.
 
 **Changes**: New in Zulip 3.0 (feature level 1).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userId The target user's Id.
-	@return GetUserRequest
 */
 func (c *simpleClient) GetUser(ctx context.Context, userId int64) GetUserRequest {
 	return GetUserRequest{
@@ -2452,8 +2211,6 @@ func (c *simpleClient) GetUser(ctx context.Context, userId int64) GetUserRequest
 }
 
 // Execute executes the request
-//
-//	@return GetUserResponse
 func (c *simpleClient) GetUserExecute(r GetUserRequest) (*GetUserResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2585,10 +2342,6 @@ The dummy email addresses of the form `user{id}@{realm.host}` still work, and
 will now work for **all** users, via identifying them by the embedded user Id.
 
 New in Zulip Server 4.0 (feature level 39).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param email The email address of the user to fetch. Two forms are supported:  - The real email address of the user (`delivery_email`). The lookup will   succeed if and only if the user exists and their email address visibility   setting permits the client to see the email address.  - The dummy Zulip API email address of the form `user{user_id}@{realm_host}`. This   is identical to simply [getting user by Id](zulip.com/api/get-user. If the server or   realm change domains, the dummy email address used has to be adjustment to   match the new realm domain. This is legacy behavior for   backwards-compatibility, and will be removed in a future release.  **Changes**: Starting with Zulip 10.0 (feature level 302), lookups by real email address match the semantics of the target's email visibility setting and dummy email addresses work for all users, independently of their email visibility setting.  Previously, lookups were done only using the Zulip API email addresses.
-	@return GetUserByEmailRequest
 */
 func (c *simpleClient) GetUserByEmail(ctx context.Context, email string) GetUserByEmailRequest {
 	return GetUserByEmailRequest{
@@ -2599,8 +2352,6 @@ func (c *simpleClient) GetUserByEmail(ctx context.Context, email string) GetUser
 }
 
 // Execute executes the request
-//
-//	@return GetUserResponse
 func (c *simpleClient) GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2708,10 +2459,6 @@ GetUserGroupMembers Get user group members
 Get the members of a [user group](zulip.com/help/user-groups.
 
 **Changes**: New in Zulip 6.0 (feature level 127).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userGroupId The Id of the target user group.
-	@return GetUserGroupMembersRequest
 */
 func (c *simpleClient) GetUserGroupMembers(ctx context.Context, userGroupId int64) GetUserGroupMembersRequest {
 	return GetUserGroupMembersRequest{
@@ -2722,8 +2469,6 @@ func (c *simpleClient) GetUserGroupMembers(ctx context.Context, userGroupId int6
 }
 
 // Execute executes the request
-//
-//	@return GetUserGroupMembersResponse
 func (c *simpleClient) GetUserGroupMembersExecute(r GetUserGroupMembersRequest) (*GetUserGroupMembersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2822,10 +2567,6 @@ GetUserGroupSubgroups Get subgroups of a user group
 Get the subgroups of a [user group](zulip.com/help/user-groups.
 
 **Changes**: New in Zulip 6.0 (feature level 127).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userGroupId The Id of the target user group.
-	@return GetUserGroupSubgroupsRequest
 */
 func (c *simpleClient) GetUserGroupSubgroups(ctx context.Context, userGroupId int64) GetUserGroupSubgroupsRequest {
 	return GetUserGroupSubgroupsRequest{
@@ -2836,8 +2577,6 @@ func (c *simpleClient) GetUserGroupSubgroups(ctx context.Context, userGroupId in
 }
 
 // Execute executes the request
-//
-//	@return GetUserGroupSubgroupsResponse
 func (c *simpleClient) GetUserGroupSubgroupsExecute(r GetUserGroupSubgroupsRequest) (*GetUserGroupSubgroupsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2939,13 +2678,9 @@ Fetches all of the user groups in the organization.
 
 !!! warn ""
 
-	   **Note**: This endpoint is only available to [members and
-	   administrators](zulip.com/help/user-roles; bots and guests
-	   cannot use this endpoint.
-
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetUserGroupsRequest
+	**Note**: This endpoint is only available to [members and
+	administrators](zulip.com/help/user-roles; bots and guests
+	cannot use this endpoint.
 */
 func (c *simpleClient) GetUserGroups(ctx context.Context) GetUserGroupsRequest {
 	return GetUserGroupsRequest{
@@ -2955,8 +2690,6 @@ func (c *simpleClient) GetUserGroups(ctx context.Context) GetUserGroupsRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetUserGroupsResponse
 func (c *simpleClient) GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGroupsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -3051,10 +2784,6 @@ presence status in other sites (e.g. an employee directory). Full
 Zulip clients like mobile/desktop apps will want to use the [main
 presence endpoint](zulip.com/api/get-presence, which returns data for all
 active users in the organization, instead.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userIdOrEmail The Id or Zulip API email address of the user whose presence you want to fetch.  **Changes**: New in Zulip 4.0 (feature level 43). Previous versions only supported identifying the user by Zulip API email.
-	@return GetUserPresenceRequest
 */
 func (c *simpleClient) GetUserPresence(ctx context.Context, userIdOrEmail string) GetUserPresenceRequest {
 	return GetUserPresenceRequest{
@@ -3065,8 +2794,6 @@ func (c *simpleClient) GetUserPresence(ctx context.Context, userIdOrEmail string
 }
 
 // Execute executes the request
-//
-//	@return GetUserPresenceResponse
 func (c *simpleClient) GetUserPresenceExecute(r GetUserPresenceRequest) (*GetUserPresenceResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -3158,10 +2885,6 @@ user in the organization.
 **Changes**: New in Zulip 9.0 (feature level 262). Previously,
 user statuses could only be fetched via the [`POST
 /register`](zulip.com/api/register-queue) endpoint.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userId The target user's Id.
-	@return GetUserStatusRequest
 */
 func (c *simpleClient) GetUserStatus(ctx context.Context, userId int64) GetUserStatusRequest {
 	return GetUserStatusRequest{
@@ -3172,8 +2895,6 @@ func (c *simpleClient) GetUserStatus(ctx context.Context, userId int64) GetUserS
 }
 
 // Execute executes the request
-//
-//	@return GetUserStatusResponse
 func (c *simpleClient) GetUserStatusExecute(r GetUserStatusRequest) (*GetUserStatusResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -3293,9 +3014,6 @@ You can also [fetch details on a single user](zulip.com/api/get-user.
 access in organizations using the [public access
 option](zulip.com/help/public-access-option) prior to Zulip 11.0
 (feature level 387).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetUsersRequest
 */
 func (c *simpleClient) GetUsers(ctx context.Context) GetUsersRequest {
 	return GetUsersRequest{
@@ -3305,8 +3023,6 @@ func (c *simpleClient) GetUsers(ctx context.Context) GetUsersRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetUsersResponse
 func (c *simpleClient) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -3436,10 +3152,6 @@ Muted users should be implemented by clients as follows:
     the user's name as normal.
 
 **Changes**: New in Zulip 4.0 (feature level 48).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param mutedUserId The Id of the user to mute/unmute.  **Changes**: Before Zulip 8.0 (feature level 188), bot users could not be muted/unmuted, and specifying a bot user's Id returned an error response.
-	@return MuteUserRequest
 */
 func (c *simpleClient) MuteUser(ctx context.Context, mutedUserId int64) MuteUserRequest {
 	return MuteUserRequest{
@@ -3450,8 +3162,6 @@ func (c *simpleClient) MuteUser(ctx context.Context, mutedUserId int64) MuteUser
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) MuteUserExecute(r MuteUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -3540,10 +3250,6 @@ ReactivateUser Reactivate a user
 [Reactivates a
 user](https://zulip.com/help/deactivate-or-reactivate-a-user)
 given their user Id.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userId The target user's Id.
-	@return ReactivateUserRequest
 */
 func (c *simpleClient) ReactivateUser(ctx context.Context, userId int64) ReactivateUserRequest {
 	return ReactivateUserRequest{
@@ -3554,8 +3260,6 @@ func (c *simpleClient) ReactivateUser(ctx context.Context, userId int64) Reactiv
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) ReactivateUserExecute(r ReactivateUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -3652,9 +3356,6 @@ Remove words (or phrases) from the user's set of configured [alert words][alert-
 Alert words are case insensitive.
 
 [alert-words]: /help/dm-mention-alert-notifications#alert-words
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return RemoveAlertWordsRequest
 */
 func (c *simpleClient) RemoveAlertWords(ctx context.Context) RemoveAlertWordsRequest {
 	return RemoveAlertWordsRequest{
@@ -3664,8 +3365,6 @@ func (c *simpleClient) RemoveAlertWords(ctx context.Context) RemoveAlertWordsReq
 }
 
 // Execute executes the request
-//
-//	@return AlertWordsResponse
 func (c *simpleClient) RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -3761,9 +3460,6 @@ func (r RemoveApnsTokenRequest) Execute() (*Response, *http.Response, error) {
 RemoveApnsToken Remove an APNs device token
 
 This endpoint removes an APNs device token for iOS push notifications.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return RemoveApnsTokenRequest
 */
 func (c *simpleClient) RemoveApnsToken(ctx context.Context) RemoveApnsTokenRequest {
 	return RemoveApnsTokenRequest{
@@ -3773,8 +3469,6 @@ func (c *simpleClient) RemoveApnsToken(ctx context.Context) RemoveApnsTokenReque
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -3874,10 +3568,6 @@ Uploaded files that are never used in a message are
 automatically deleted a few weeks after being uploaded.
 
 Attachment Ids can be contained from [GET /attachments](zulip.com/api/get-attachments.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param attachmentId The Id of the attachment to be deleted.
-	@return RemoveAttachmentRequest
 */
 func (c *simpleClient) RemoveAttachment(ctx context.Context, attachmentId int64) RemoveAttachmentRequest {
 	return RemoveAttachmentRequest{
@@ -3888,8 +3578,6 @@ func (c *simpleClient) RemoveAttachment(ctx context.Context, attachmentId int64)
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -3982,9 +3670,6 @@ func (r RemoveFcmTokenRequest) Execute() (*Response, *http.Response, error) {
 RemoveFcmToken Remove an FCM registration token
 
 This endpoint removes an FCM registration token for push notifications.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return RemoveFcmTokenRequest
 */
 func (c *simpleClient) RemoveFcmToken(ctx context.Context) RemoveFcmTokenRequest {
 	return RemoveFcmTokenRequest{
@@ -3994,8 +3679,6 @@ func (c *simpleClient) RemoveFcmToken(ctx context.Context) RemoveFcmTokenRequest
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -4172,9 +3855,6 @@ value in the `client_capabilities` parameter of the
 [stop-typing]: /api/get-events#typing-stop
 [client-capabilities]: /api/register-queue#parameter-client_capabilities
 [typing-protocol-docs]: https://zulip.readthedocs.io/en/latest/subsystems/typing-indicators.html
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return SetTypingStatusRequest
 */
 func (c *simpleClient) SetTypingStatus(ctx context.Context) SetTypingStatusRequest {
 	return SetTypingStatusRequest{
@@ -4184,8 +3864,6 @@ func (c *simpleClient) SetTypingStatus(ctx context.Context) SetTypingStatusReque
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) SetTypingStatusExecute(r SetTypingStatusRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -4310,10 +3988,6 @@ typing notifications starting from this feature level.
 
 New in Zulip 10.0 (feature level 351). Previously, typing notifications were
 not available when editing messages.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param messageId The target message's Id.
-	@return SetTypingStatusForMessageEditRequest
 */
 func (c *simpleClient) SetTypingStatusForMessageEdit(ctx context.Context, messageId int64) SetTypingStatusForMessageEditRequest {
 	return SetTypingStatusForMessageEditRequest{
@@ -4324,8 +3998,6 @@ func (c *simpleClient) SetTypingStatusForMessageEdit(ctx context.Context, messag
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) SetTypingStatusForMessageEditExecute(r SetTypingStatusForMessageEditRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -4419,10 +4091,6 @@ UnmuteUser Unmute a user
 from the perspective of the requesting user.
 
 **Changes**: New in Zulip 4.0 (feature level 48).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param mutedUserId The Id of the user to mute/unmute.  **Changes**: Before Zulip 8.0 (feature level 188), bot users could not be muted/unmuted, and specifying a bot user's Id returned an error response.
-	@return UnmuteUserRequest
 */
 func (c *simpleClient) UnmuteUser(ctx context.Context, mutedUserId int64) UnmuteUserRequest {
 	return UnmuteUserRequest{
@@ -4433,8 +4101,6 @@ func (c *simpleClient) UnmuteUser(ctx context.Context, mutedUserId int64) Unmute
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UnmuteUserExecute(r UnmuteUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -4596,9 +4262,6 @@ the current user can see/access][limit-visibility].
 [limit-visibility]: /help/guest-users#configure-whether-guests-can-see-all-other-users
 [invisible]: /help/status-and-availability#invisible-mode
 [availability]: /help/status-and-availability#availability
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return UpdatePresenceRequest
 */
 func (c *simpleClient) UpdatePresence(ctx context.Context) UpdatePresenceRequest {
 	return UpdatePresenceRequest{
@@ -4608,8 +4271,6 @@ func (c *simpleClient) UpdatePresence(ctx context.Context) UpdatePresenceRequest
 }
 
 // Execute executes the request
-//
-//	@return UpdatePresenceResponse
 func (c *simpleClient) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePresenceResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -5218,9 +4879,6 @@ Before feature level 78, request parameters that were not supported
 (or were unchanged) were silently ignored.
 
 [ignored-parameters]: /api/rest-error-handling#ignored-parameters
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return UpdateSettingsRequest
 */
 func (c *simpleClient) UpdateSettings(ctx context.Context) UpdateSettingsRequest {
 	return UpdateSettingsRequest{
@@ -5230,8 +4888,6 @@ func (c *simpleClient) UpdateSettings(ctx context.Context) UpdateSettingsRequest
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -5562,9 +5218,6 @@ pass all supported parameters.
 
 **Changes**: In Zulip 5.0 (feature level 86), added support for
 `emoji_name`, `emoji_code`, and `reaction_type` parameters.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return UpdateStatusRequest
 */
 func (c *simpleClient) UpdateStatus(ctx context.Context) UpdateStatusRequest {
 	return UpdateStatusRequest{
@@ -5574,8 +5227,6 @@ func (c *simpleClient) UpdateStatus(ctx context.Context) UpdateStatusRequest {
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateStatusExecute(r UpdateStatusRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -5707,10 +5358,6 @@ Administrator endpoint for changing the [status](zulip.com/help/status-and-avail
 another user.
 
 **Changes**: New in Zulip 11.0 (feature level 407).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userId The target user's Id.
-	@return UpdateStatusForUserRequest
 */
 func (c *simpleClient) UpdateStatusForUser(ctx context.Context, userId int64) UpdateStatusForUserRequest {
 	return UpdateStatusForUserRequest{
@@ -5721,8 +5368,6 @@ func (c *simpleClient) UpdateStatusForUser(ctx context.Context, userId int64) Up
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateStatusForUserExecute(r UpdateStatusForUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -5854,10 +5499,6 @@ Supports everything an administrator can do to edit details of another
 user's account, including editing full name,
 [role](zulip.com/help/user-roles, and [custom profile
 fields](zulip.com/help/custom-profile-fields.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userId The target user's Id.
-	@return UpdateUserRequest
 */
 func (c *simpleClient) UpdateUser(ctx context.Context, userId int64) UpdateUserRequest {
 	return UpdateUserRequest{
@@ -5868,8 +5509,6 @@ func (c *simpleClient) UpdateUser(ctx context.Context, userId int64) UpdateUserR
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateUserExecute(r UpdateUserRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -6004,10 +5643,6 @@ user's email address visibility setting. Otherwise, the dummy address of the for
 `user{id}@{realm.host}` needs be used. This follows the same rules as `GET /users/{email}`.
 
 **Changes**: New in Zulip 10.0 (feature level 313).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param email The email address of the user, specified following the same rules as [`GET /users/{email}`](zulip.com/api/get-user-by-email.
-	@return UpdateUserByEmailRequest
 */
 func (c *simpleClient) UpdateUserByEmail(ctx context.Context, email string) UpdateUserByEmailRequest {
 	return UpdateUserByEmailRequest{
@@ -6018,8 +5653,6 @@ func (c *simpleClient) UpdateUserByEmail(ctx context.Context, email string) Upda
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -6196,10 +5829,6 @@ endpoint can be used to reactivate a user group.
 
 Prior to Zulip 10.0 (feature level 340), only the name field
 of deactivated groups could be modified.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userGroupId The Id of the target user group.
-	@return UpdateUserGroupRequest
 */
 func (c *simpleClient) UpdateUserGroup(ctx context.Context, userGroupId int64) UpdateUserGroupRequest {
 	return UpdateUserGroupRequest{
@@ -6210,8 +5839,6 @@ func (c *simpleClient) UpdateUserGroup(ctx context.Context, userGroupId int64) U
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -6384,10 +6011,6 @@ could not be added or removed from a deactivated group.
 
 **Changes**: Prior to Zulip 10.0 (feature level 303), group memberships of
 deactivated users were visible to the API and could be edited via this endpoint.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userGroupId The Id of the target user group.
-	@return UpdateUserGroupMembersRequest
 */
 func (c *simpleClient) UpdateUserGroupMembers(ctx context.Context, userGroupId int64) UpdateUserGroupMembersRequest {
 	return UpdateUserGroupMembersRequest{
@@ -6398,8 +6021,6 @@ func (c *simpleClient) UpdateUserGroupMembers(ctx context.Context, userGroupId i
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateUserGroupMembersExecute(r UpdateUserGroupMembersRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -6517,10 +6138,6 @@ Update the subgroups of a [user group](zulip.com/help/user-groups.
 could not be added or removed from a deactivated group.
 
 **Changes**: New in Zulip 6.0 (feature level 127).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userGroupId The Id of the target user group.
-	@return UpdateUserGroupSubgroupsRequest
 */
 func (c *simpleClient) UpdateUserGroupSubgroups(ctx context.Context, userGroupId int64) UpdateUserGroupSubgroupsRequest {
 	return UpdateUserGroupSubgroupsRequest{
@@ -6531,8 +6148,6 @@ func (c *simpleClient) UpdateUserGroupSubgroups(ctx context.Context, userGroupId
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroupsRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

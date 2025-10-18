@@ -19,14 +19,10 @@ type ChannelsAPI interface {
 
 		[default-channels]: /help/set-default-channels-for-new-users
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return AddDefaultChannelRequest
 	*/
 	AddDefaultChannel(ctx context.Context) AddDefaultChannelRequest
 
 	// AddDefaultChannelExecute executes the request
-	//  @return Response
 	AddDefaultChannelExecute(r AddDefaultChannelRequest) (*Response, *http.Response, error)
 
 	/*
@@ -34,15 +30,10 @@ type ChannelsAPI interface {
 
 		[Archive the channel](zulip.com/help/archive-a-channel) with the Id `channelId`.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param channelId The Id of the channel to access.
-		@return ArchiveChannelRequest
 	*/
 	ArchiveChannel(ctx context.Context, channelId int64) ArchiveChannelRequest
 
 	// ArchiveChannelExecute executes the request
-	//  @return Response
 	ArchiveChannelExecute(r ArchiveChannelRequest) (*Response, *http.Response, error)
 
 	/*
@@ -58,14 +49,10 @@ type ChannelsAPI interface {
 		user was given the moderator role on BigBlueButton calls, via
 		encoding a moderator password in the generated URLs.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return CreateBigBlueButtonVideoCallRequest
 	*/
 	CreateBigBlueButtonVideoCall(ctx context.Context) CreateBigBlueButtonVideoCallRequest
 
 	// CreateBigBlueButtonVideoCallExecute executes the request
-	//  @return CreateBigBlueButtonVideoCallResponse
 	CreateBigBlueButtonVideoCallExecute(r CreateBigBlueButtonVideoCallRequest) (*CreateBigBlueButtonVideoCallResponse, *http.Response, error)
 
 	/*
@@ -78,14 +65,10 @@ type ChannelsAPI interface {
 		**Changes**: New in Zulip 11.0 (feature level 417). Previously, this was only possible via
 		the [`POST /api/subscribe`](zulip.com/api/subscribe) endpoint, which handled both creation and subscription.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return CreateChannelRequest
 	*/
 	CreateChannel(ctx context.Context) CreateChannelRequest
 
 	// CreateChannelExecute executes the request
-	//  @return CreateChannelResponse
 	CreateChannelExecute(r CreateChannelRequest) (*CreateChannelResponse, *http.Response, error)
 
 	/*
@@ -99,14 +82,10 @@ type ChannelsAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 389).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return CreateChannelFolderRequest
 	*/
 	CreateChannelFolder(ctx context.Context) CreateChannelFolderRequest
 
 	// CreateChannelFolderExecute executes the request
-	//  @return CreateChannelFolderResponse
 	CreateChannelFolderExecute(r CreateChannelFolderRequest) (*CreateChannelFolderResponse, *http.Response, error)
 
 	/*
@@ -148,15 +127,10 @@ type ChannelsAPI interface {
 		messages, so that progress is made even if the request times out and
 		returns an error.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param channelId The Id of the channel to access.
-			@return DeleteTopicRequest
 	*/
 	DeleteTopic(ctx context.Context, channelId int64) DeleteTopicRequest
 
 	// DeleteTopicExecute executes the request
-	//  @return MarkAllAsReadResponse
 	DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsReadResponse, *http.Response, error)
 
 	/*
@@ -170,14 +144,10 @@ type ChannelsAPI interface {
 
 		New in Zulip 11.0 (feature level 389).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetChannelFoldersRequest
 	*/
 	GetChannelFolders(ctx context.Context) GetChannelFoldersRequest
 
 	// GetChannelFoldersExecute executes the request
-	//  @return GetChannelFoldersResponse
 	GetChannelFoldersExecute(r GetChannelFoldersRequest) (*GetChannelFoldersResponse, *http.Response, error)
 
 	/*
@@ -187,15 +157,10 @@ type ChannelsAPI interface {
 
 		**Changes**: New in Zulip 6.0 (feature level 132).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param channelId The Id of the channel to access.
-			@return GetChannelByIdRequest
 	*/
 	GetChannelById(ctx context.Context, channelId int64) GetChannelByIdRequest
 
 	// GetChannelByIdExecute executes the request
-	//  @return GetChannelResponse
 	GetChannelByIdExecute(r GetChannelByIdRequest) (*GetChannelResponse, *http.Response, error)
 
 	/*
@@ -205,15 +170,10 @@ type ChannelsAPI interface {
 
 		**Changes**: New in Zulip 8.0 (feature level 226).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param channelId The Id of the channel to access.
-			@return GetChannelEmailAddressRequest
 	*/
 	GetChannelEmailAddress(ctx context.Context, channelId int64) GetChannelEmailAddressRequest
 
 	// GetChannelEmailAddressExecute executes the request
-	//  @return GetChannelEmailAddressResponse
 	GetChannelEmailAddressExecute(r GetChannelEmailAddressRequest) (*GetChannelEmailAddressResponse, *http.Response, error)
 
 	/*
@@ -221,14 +181,10 @@ type ChannelsAPI interface {
 
 		Get the unique Id of a given channel.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return GetChannelIdRequest
 	*/
 	GetChannelId(ctx context.Context) GetChannelIdRequest
 
 	// GetChannelIdExecute executes the request
-	//  @return GetChannelIdResponse
 	GetChannelIdExecute(r GetChannelIdRequest) (*GetChannelIdResponse, *http.Response, error)
 
 	/*
@@ -244,15 +200,10 @@ type ChannelsAPI interface {
 		sent after the bot was subscribed to the channel, instead of when the
 		user subscribed.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param channelId The Id of the channel to access.
-			@return GetChannelTopicsRequest
 	*/
 	GetChannelTopics(ctx context.Context, channelId int64) GetChannelTopicsRequest
 
 	// GetChannelTopicsExecute executes the request
-	//  @return GetChannelTopicsResponse
 	GetChannelTopicsExecute(r GetChannelTopicsRequest) (*GetChannelTopicsResponse, *http.Response, error)
 
 	/*
@@ -260,14 +211,10 @@ type ChannelsAPI interface {
 
 		Get all channels that the user [has access to](zulip.com/help/channel-permissions.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return GetChannelsRequest
 	*/
 	GetChannels(ctx context.Context) GetChannelsRequest
 
 	// GetChannelsExecute executes the request
-	//  @return GetChannelsResponse
 	GetChannelsExecute(r GetChannelsRequest) (*GetChannelsResponse, *http.Response, error)
 
 	/*
@@ -275,15 +222,10 @@ type ChannelsAPI interface {
 
 		Get all users subscribed to a channel.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param channelId The Id of the channel to access.
-		@return GetSubscribersRequest
 	*/
 	GetSubscribers(ctx context.Context, channelId int64) GetSubscribersRequest
 
 	// GetSubscribersExecute executes the request
-	//  @return GetSubscribersResponse
 	GetSubscribersExecute(r GetSubscribersRequest) (*GetSubscribersResponse, *http.Response, error)
 
 	/*
@@ -293,16 +235,10 @@ type ChannelsAPI interface {
 
 		**Changes**: New in Zulip 3.0 (feature level 12).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param userId The target user's Id.
-			@param channelId The Id of the channel to access.
-			@return GetSubscriptionStatusRequest
 	*/
 	GetSubscriptionStatus(ctx context.Context, userId int64, channelId int64) GetSubscriptionStatusRequest
 
 	// GetSubscriptionStatusExecute executes the request
-	//  @return GetSubscriptionStatusResponse
 	GetSubscriptionStatusExecute(r GetSubscriptionStatusRequest) (*GetSubscriptionStatusResponse, *http.Response, error)
 
 	/*
@@ -310,14 +246,10 @@ type ChannelsAPI interface {
 
 		Get all channels that the user is subscribed to.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return GetSubscriptionsRequest
 	*/
 	GetSubscriptions(ctx context.Context) GetSubscriptionsRequest
 
 	// GetSubscriptionsExecute executes the request
-	//  @return GetSubscriptionsResponse
 	GetSubscriptionsExecute(r GetSubscriptionsRequest) (*GetSubscriptionsResponse, *http.Response, error)
 
 	/*
@@ -335,15 +267,11 @@ type ChannelsAPI interface {
 		or asked to unmute a topic that had not previously been muted.
 
 
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return MuteTopicRequest
-
 			Deprecated
 	*/
 	MuteTopic(ctx context.Context) MuteTopicRequest
 
 	// MuteTopicExecute executes the request
-	//  @return Response
 	// Deprecated
 	MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Response, error)
 
@@ -356,14 +284,10 @@ type ChannelsAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 414).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return PatchChannelFoldersRequest
 	*/
 	PatchChannelFolders(ctx context.Context) PatchChannelFoldersRequest
 
 	// PatchChannelFoldersExecute executes the request
-	//  @return Response
 	PatchChannelFoldersExecute(r PatchChannelFoldersRequest) (*Response, *http.Response, error)
 
 	/*
@@ -374,14 +298,10 @@ type ChannelsAPI interface {
 
 		[default-channels]: /help/set-default-channels-for-new-users
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return RemoveDefaultChannelRequest
 	*/
 	RemoveDefaultChannel(ctx context.Context) RemoveDefaultChannelRequest
 
 	// RemoveDefaultChannelExecute executes the request
-	//  @return Response
 	RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest) (*Response, *http.Response, error)
 
 	/*
@@ -423,14 +343,10 @@ type ChannelsAPI interface {
 
 		[principals-param]: /api/subscribe#parameter-principals
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return SubscribeRequest
 	*/
 	Subscribe(ctx context.Context) SubscribeRequest
 
 	// SubscribeExecute executes the request
-	//  @return SubscribeResponse
 	SubscribeExecute(r SubscribeRequest) (*SubscribeResponse, *http.Response, error)
 
 	/*
@@ -477,14 +393,10 @@ type ChannelsAPI interface {
 		[principals-param]: /api/unsubscribe#parameter-principals
 		[can-remove-parameter]: /api/subscribe#parameter-can_remove_subscribers_group
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return UnsubscribeRequest
 	*/
 	Unsubscribe(ctx context.Context) UnsubscribeRequest
 
 	// UnsubscribeExecute executes the request
-	//  @return UnsubscribeResponse
 	UnsubscribeExecute(r UnsubscribeRequest) (*UnsubscribeResponse, *http.Response, error)
 
 	/*
@@ -500,15 +412,10 @@ type ChannelsAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 389).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param channelFolderId The Id of the target channel folder.
-			@return UpdateChannelFolderRequest
 	*/
 	UpdateChannelFolder(ctx context.Context, channelFolderId int64) UpdateChannelFolderRequest
 
 	// UpdateChannelFolderExecute executes the request
-	//  @return Response
 	UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*Response, *http.Response, error)
 
 	/*
@@ -534,15 +441,10 @@ type ChannelsAPI interface {
 		parameters in Zulip 10.0 (feature level 333), as permission to post
 		in the channel is now controlled by `can_send_message_group`.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param channelId The Id of the channel to access.
-			@return UpdateChannelRequest
 	*/
 	UpdateChannel(ctx context.Context, channelId int64) UpdateChannelRequest
 
 	// UpdateChannelExecute executes the request
-	//  @return Response
 	UpdateChannelExecute(r UpdateChannelRequest) (*Response, *http.Response, error)
 
 	/*
@@ -559,14 +461,10 @@ type ChannelsAPI interface {
 
 		[ignored-parameters]: /api/rest-error-handling#ignored-parameters
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return UpdateSubscriptionSettingsRequest
 	*/
 	UpdateSubscriptionSettings(ctx context.Context) UpdateSubscriptionSettingsRequest
 
 	// UpdateSubscriptionSettingsExecute executes the request
-	//  @return Response
 	UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSettingsRequest) (*Response, *http.Response, error)
 
 	/*
@@ -577,14 +475,10 @@ type ChannelsAPI interface {
 		**Changes**: Before Zulip 10.0 (feature level 362),
 		subscriptions in archived channels could not be modified.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return UpdateSubscriptionsRequest
 	*/
 	UpdateSubscriptions(ctx context.Context) UpdateSubscriptionsRequest
 
 	// UpdateSubscriptionsExecute executes the request
-	//  @return UpdateSubscriptionsResponse
 	UpdateSubscriptionsExecute(r UpdateSubscriptionsRequest) (*UpdateSubscriptionsResponse, *http.Response, error)
 
 	/*
@@ -601,14 +495,10 @@ type ChannelsAPI interface {
 		toggling whether a topic was muted or unmuted was managed by the
 		[PATCH /users/me/subscriptions/muted_topics](zulip.com/api/mute-topic) endpoint.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return UpdateUserTopicRequest
 	*/
 	UpdateUserTopic(ctx context.Context) UpdateUserTopicRequest
 
 	// UpdateUserTopicExecute executes the request
-	//  @return Response
 	UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Response, *http.Response, error)
 }
 
@@ -635,9 +525,6 @@ Add a channel to the set of [default channels][default-channels]
 for new users joining the organization.
 
 [default-channels]: /help/set-default-channels-for-new-users
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return AddDefaultChannelRequest
 */
 func (c *simpleClient) AddDefaultChannel(ctx context.Context) AddDefaultChannelRequest {
 	return AddDefaultChannelRequest{
@@ -647,8 +534,6 @@ func (c *simpleClient) AddDefaultChannel(ctx context.Context) AddDefaultChannelR
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) AddDefaultChannelExecute(r AddDefaultChannelRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -738,10 +623,6 @@ func (r ArchiveChannelRequest) Execute() (*Response, *http.Response, error) {
 ArchiveChannel Archive a channel
 
 [Archive the channel](zulip.com/help/archive-a-channel) with the Id `channelId`.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param channelId The Id of the channel to access.
-	@return ArchiveChannelRequest
 */
 func (c *simpleClient) ArchiveChannel(ctx context.Context, channelId int64) ArchiveChannelRequest {
 	return ArchiveChannelRequest{
@@ -752,8 +633,6 @@ func (c *simpleClient) ArchiveChannel(ctx context.Context, channelId int64) Arch
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) ArchiveChannelExecute(r ArchiveChannelRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -861,9 +740,6 @@ The acting user will be given the moderator role on the call.
 **Changes**: Prior to Zulip 10.0 (feature level 337), every
 user was given the moderator role on BigBlueButton calls, via
 encoding a moderator password in the generated URLs.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return CreateBigBlueButtonVideoCallRequest
 */
 func (c *simpleClient) CreateBigBlueButtonVideoCall(ctx context.Context) CreateBigBlueButtonVideoCallRequest {
 	return CreateBigBlueButtonVideoCallRequest{
@@ -873,8 +749,6 @@ func (c *simpleClient) CreateBigBlueButtonVideoCall(ctx context.Context) CreateB
 }
 
 // Execute executes the request
-//
-//	@return CreateBigBlueButtonVideoCallResponse
 func (c *simpleClient) CreateBigBlueButtonVideoCallExecute(r CreateBigBlueButtonVideoCallRequest) (*CreateBigBlueButtonVideoCallResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1113,9 +987,6 @@ will be determined by the optional parameters, like `invite_only`, detailed belo
 
 **Changes**: New in Zulip 11.0 (feature level 417). Previously, this was only possible via
 the [`POST /api/subscribe`](zulip.com/api/subscribe) endpoint, which handled both creation and subscription.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return CreateChannelRequest
 */
 func (c *simpleClient) CreateChannel(ctx context.Context) CreateChannelRequest {
 	return CreateChannelRequest{
@@ -1125,8 +996,6 @@ func (c *simpleClient) CreateChannel(ctx context.Context) CreateChannelRequest {
 }
 
 // Execute executes the request
-//
-//	@return CreateChannelResponse
 func (c *simpleClient) CreateChannelExecute(r CreateChannelRequest) (*CreateChannelResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1349,9 +1218,6 @@ Only organization administrators can create a new channel
 folder.
 
 **Changes**: New in Zulip 11.0 (feature level 389).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return CreateChannelFolderRequest
 */
 func (c *simpleClient) CreateChannelFolder(ctx context.Context) CreateChannelFolderRequest {
 	return CreateChannelFolderRequest{
@@ -1361,8 +1227,6 @@ func (c *simpleClient) CreateChannelFolder(ctx context.Context) CreateChannelFol
 }
 
 // Execute executes the request
-//
-//	@return CreateChannelFolderResponse
 func (c *simpleClient) CreateChannelFolderExecute(r CreateChannelFolderRequest) (*CreateChannelFolderResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1495,10 +1359,6 @@ operation, which could time out for very large topics. As of this
 feature level, messages are deleted in batches, starting with the newest
 messages, so that progress is made even if the request times out and
 returns an error.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param channelId The Id of the channel to access.
-	@return DeleteTopicRequest
 */
 func (c *simpleClient) DeleteTopic(ctx context.Context, channelId int64) DeleteTopicRequest {
 	return DeleteTopicRequest{
@@ -1509,8 +1369,6 @@ func (c *simpleClient) DeleteTopic(ctx context.Context, channelId int64) DeleteT
 }
 
 // Execute executes the request
-//
-//	@return MarkAllAsReadResponse
 func (c *simpleClient) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsReadResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1613,9 +1471,6 @@ The folders are sorted by the `order` field.
 these were sorted by Id. (The `order` field didn't exist).
 
 New in Zulip 11.0 (feature level 389).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetChannelFoldersRequest
 */
 func (c *simpleClient) GetChannelFolders(ctx context.Context) GetChannelFoldersRequest {
 	return GetChannelFoldersRequest{
@@ -1625,8 +1480,6 @@ func (c *simpleClient) GetChannelFolders(ctx context.Context) GetChannelFoldersR
 }
 
 // Execute executes the request
-//
-//	@return GetChannelFoldersResponse
 func (c *simpleClient) GetChannelFoldersExecute(r GetChannelFoldersRequest) (*GetChannelFoldersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1717,10 +1570,6 @@ GetChannelById Get a channel by Id
 Fetch details for the channel with the Id `channelId`.
 
 **Changes**: New in Zulip 6.0 (feature level 132).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param channelId The Id of the channel to access.
-	@return GetChannelByIdRequest
 */
 func (c *simpleClient) GetChannelById(ctx context.Context, channelId int64) GetChannelByIdRequest {
 	return GetChannelByIdRequest{
@@ -1731,8 +1580,6 @@ func (c *simpleClient) GetChannelById(ctx context.Context, channelId int64) GetC
 }
 
 // Execute executes the request
-//
-//	@return GetChannelResponse
 func (c *simpleClient) GetChannelByIdExecute(r GetChannelByIdRequest) (*GetChannelResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1828,10 +1675,6 @@ GetChannelEmailAddress Get channel's email address
 Get email address of a channel.
 
 **Changes**: New in Zulip 8.0 (feature level 226).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param channelId The Id of the channel to access.
-	@return GetChannelEmailAddressRequest
 */
 func (c *simpleClient) GetChannelEmailAddress(ctx context.Context, channelId int64) GetChannelEmailAddressRequest {
 	return GetChannelEmailAddressRequest{
@@ -1842,8 +1685,6 @@ func (c *simpleClient) GetChannelEmailAddress(ctx context.Context, channelId int
 }
 
 // Execute executes the request
-//
-//	@return GetChannelEmailAddressResponse
 func (c *simpleClient) GetChannelEmailAddressExecute(r GetChannelEmailAddressRequest) (*GetChannelEmailAddressResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1939,9 +1780,6 @@ func (r GetChannelIdRequest) Execute() (*GetChannelIdResponse, *http.Response, e
 GetChannelId Get channel Id
 
 Get the unique Id of a given channel.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetChannelIdRequest
 */
 func (c *simpleClient) GetChannelId(ctx context.Context) GetChannelIdRequest {
 	return GetChannelIdRequest{
@@ -1951,8 +1789,6 @@ func (c *simpleClient) GetChannelId(ctx context.Context) GetChannelIdRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetChannelIdResponse
 func (c *simpleClient) GetChannelIdExecute(r GetChannelIdRequest) (*GetChannelIdResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2057,10 +1893,6 @@ the user will only have access to topics of messages sent after they
 [bot](zulip.com/help/bots-overview#bot-type will only have access to messages
 sent after the bot was subscribed to the channel, instead of when the
 user subscribed.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param channelId The Id of the channel to access.
-	@return GetChannelTopicsRequest
 */
 func (c *simpleClient) GetChannelTopics(ctx context.Context, channelId int64) GetChannelTopicsRequest {
 	return GetChannelTopicsRequest{
@@ -2071,8 +1903,6 @@ func (c *simpleClient) GetChannelTopics(ctx context.Context, channelId int64) Ge
 }
 
 // Execute executes the request
-//
-//	@return GetChannelTopicsResponse
 func (c *simpleClient) GetChannelTopicsExecute(r GetChannelTopicsRequest) (*GetChannelTopicsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2228,9 +2058,6 @@ func (r GetChannelsRequest) Execute() (*GetChannelsResponse, *http.Response, err
 GetChannels Get all channels
 
 Get all channels that the user [has access to](zulip.com/help/channel-permissions.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetChannelsRequest
 */
 func (c *simpleClient) GetChannels(ctx context.Context) GetChannelsRequest {
 	return GetChannelsRequest{
@@ -2240,8 +2067,6 @@ func (c *simpleClient) GetChannels(ctx context.Context) GetChannelsRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetChannelsResponse
 func (c *simpleClient) GetChannelsExecute(r GetChannelsRequest) (*GetChannelsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2381,10 +2206,6 @@ func (r GetSubscribersRequest) Execute() (*GetSubscribersResponse, *http.Respons
 GetSubscribers Get channel subscribers
 
 Get all users subscribed to a channel.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param channelId The Id of the channel to access.
-	@return GetSubscribersRequest
 */
 func (c *simpleClient) GetSubscribers(ctx context.Context, channelId int64) GetSubscribersRequest {
 	return GetSubscribersRequest{
@@ -2395,8 +2216,6 @@ func (c *simpleClient) GetSubscribers(ctx context.Context, channelId int64) GetS
 }
 
 // Execute executes the request
-//
-//	@return GetSubscribersResponse
 func (c *simpleClient) GetSubscribersExecute(r GetSubscribersRequest) (*GetSubscribersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2486,11 +2305,6 @@ GetSubscriptionStatus Get subscription status
 Check whether a user is subscribed to a channel.
 
 **Changes**: New in Zulip 3.0 (feature level 12).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param userId The target user's Id.
-	@param channelId The Id of the channel to access.
-	@return GetSubscriptionStatusRequest
 */
 func (c *simpleClient) GetSubscriptionStatus(ctx context.Context, userId int64, channelId int64) GetSubscriptionStatusRequest {
 	return GetSubscriptionStatusRequest{
@@ -2502,8 +2316,6 @@ func (c *simpleClient) GetSubscriptionStatus(ctx context.Context, userId int64, 
 }
 
 // Execute executes the request
-//
-//	@return GetSubscriptionStatusResponse
 func (c *simpleClient) GetSubscriptionStatusExecute(r GetSubscriptionStatusRequest) (*GetSubscriptionStatusResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2597,9 +2409,6 @@ func (r GetSubscriptionsRequest) Execute() (*GetSubscriptionsResponse, *http.Res
 GetSubscriptions Get subscribed channels
 
 Get all channels that the user is subscribed to.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetSubscriptionsRequest
 */
 func (c *simpleClient) GetSubscriptions(ctx context.Context) GetSubscriptionsRequest {
 	return GetSubscriptionsRequest{
@@ -2609,8 +2418,6 @@ func (c *simpleClient) GetSubscriptions(ctx context.Context) GetSubscriptionsReq
 }
 
 // Execute executes the request
-//
-//	@return GetSubscriptionsResponse
 func (c *simpleClient) GetSubscriptionsExecute(r GetSubscriptionsRequest) (*GetSubscriptionsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2739,9 +2546,6 @@ Before Zulip 7.0 (feature level 169), this endpoint
 returned an error if asked to mute a topic that was already muted
 or asked to unmute a topic that had not previously been muted.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return MuteTopicRequest
-
 Deprecated
 */
 func (c *simpleClient) MuteTopic(ctx context.Context) MuteTopicRequest {
@@ -2752,8 +2556,6 @@ func (c *simpleClient) MuteTopic(ctx context.Context) MuteTopicRequest {
 }
 
 // Execute executes the request
-//
-//	@return Response
 //
 // Deprecated
 func (c *simpleClient) MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Response, error) {
@@ -2865,9 +2667,6 @@ property of all of the channel folders in the organization according to
 the order of the channel folder Ids specified in the request.
 
 **Changes**: New in Zulip 11.0 (feature level 414).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return PatchChannelFoldersRequest
 */
 func (c *simpleClient) PatchChannelFolders(ctx context.Context) PatchChannelFoldersRequest {
 	return PatchChannelFoldersRequest{
@@ -2877,8 +2676,6 @@ func (c *simpleClient) PatchChannelFolders(ctx context.Context) PatchChannelFold
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) PatchChannelFoldersExecute(r PatchChannelFoldersRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -2976,9 +2773,6 @@ Remove a channel from the set of [default channels][default-channels]
 for new users joining the organization.
 
 [default-channels]: /help/set-default-channels-for-new-users
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return RemoveDefaultChannelRequest
 */
 func (c *simpleClient) RemoveDefaultChannel(ctx context.Context) RemoveDefaultChannelRequest {
 	return RemoveDefaultChannelRequest{
@@ -2988,8 +2782,6 @@ func (c *simpleClient) RemoveDefaultChannel(ctx context.Context) RemoveDefaultCh
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -3261,9 +3053,6 @@ feature level, an HTTP status code of 400 is returned with
 `code: "BAD_REQUEST"` in the error response for these cases.
 
 [principals-param]: /api/subscribe#parameter-principals
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return SubscribeRequest
 */
 func (c *simpleClient) Subscribe(ctx context.Context) SubscribeRequest {
 	return SubscribeRequest{
@@ -3273,8 +3062,6 @@ func (c *simpleClient) Subscribe(ctx context.Context) SubscribeRequest {
 }
 
 // Execute executes the request
-//
-//	@return SubscribeResponse
 func (c *simpleClient) SubscribeExecute(r SubscribeRequest) (*SubscribeResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -3526,9 +3313,6 @@ privileges for managing bots that they own.
 
 [principals-param]: /api/unsubscribe#parameter-principals
 [can-remove-parameter]: /api/subscribe#parameter-can_remove_subscribers_group
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return UnsubscribeRequest
 */
 func (c *simpleClient) Unsubscribe(ctx context.Context) UnsubscribeRequest {
 	return UnsubscribeRequest{
@@ -3538,8 +3322,6 @@ func (c *simpleClient) Unsubscribe(ctx context.Context) UnsubscribeRequest {
 }
 
 // Execute executes the request
-//
-//	@return UnsubscribeResponse
 func (c *simpleClient) UnsubscribeExecute(r UnsubscribeRequest) (*UnsubscribeResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -3665,10 +3447,6 @@ Only organization administrators can update a
 channel folder.
 
 **Changes**: New in Zulip 11.0 (feature level 389).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param channelFolderId The Id of the target channel folder.
-	@return UpdateChannelFolderRequest
 */
 func (c *simpleClient) UpdateChannelFolder(ctx context.Context, channelFolderId int64) UpdateChannelFolderRequest {
 	return UpdateChannelFolderRequest{
@@ -3679,8 +3457,6 @@ func (c *simpleClient) UpdateChannelFolder(ctx context.Context, channelFolderId 
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -3938,10 +3714,6 @@ edited for archived channels.
 Removed `stream_post_policy` and `is_announcement_only`
 parameters in Zulip 10.0 (feature level 333), as permission to post
 in the channel is now controlled by `can_send_message_group`.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param channelId The Id of the channel to access.
-	@return UpdateChannelRequest
 */
 func (c *simpleClient) UpdateChannel(ctx context.Context, channelId int64) UpdateChannelRequest {
 	return UpdateChannelRequest{
@@ -3952,8 +3724,6 @@ func (c *simpleClient) UpdateChannel(ctx context.Context, channelId int64) Updat
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateChannelExecute(r UpdateChannelRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -4159,9 +3929,6 @@ request. The endpoint now returns the more ergonomic
 [`ignored_parameters_unsupported`][ignored-parameters] array instead.
 
 [ignored-parameters]: /api/rest-error-handling#ignored-parameters
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return UpdateSubscriptionSettingsRequest
 */
 func (c *simpleClient) UpdateSubscriptionSettings(ctx context.Context) UpdateSubscriptionSettingsRequest {
 	return UpdateSubscriptionSettingsRequest{
@@ -4171,8 +3938,6 @@ func (c *simpleClient) UpdateSubscriptionSettings(ctx context.Context) UpdateSub
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSettingsRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -4285,9 +4050,6 @@ Update which channels you are subscribed to.
 
 **Changes**: Before Zulip 10.0 (feature level 362),
 subscriptions in archived channels could not be modified.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return UpdateSubscriptionsRequest
 */
 func (c *simpleClient) UpdateSubscriptions(ctx context.Context) UpdateSubscriptionsRequest {
 	return UpdateSubscriptionsRequest{
@@ -4297,8 +4059,6 @@ func (c *simpleClient) UpdateSubscriptions(ctx context.Context) UpdateSubscripti
 }
 
 // Execute executes the request
-//
-//	@return UpdateSubscriptionsResponse
 func (c *simpleClient) UpdateSubscriptionsExecute(r UpdateSubscriptionsRequest) (*UpdateSubscriptionsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -4419,9 +4179,6 @@ channel and topic pair indicated by the parameters for a user.
 **Changes**: New in Zulip 7.0 (feature level 170). Previously,
 toggling whether a topic was muted or unmuted was managed by the
 [PATCH /users/me/subscriptions/muted_topics](zulip.com/api/mute-topic) endpoint.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return UpdateUserTopicRequest
 */
 func (c *simpleClient) UpdateUserTopic(ctx context.Context) UpdateUserTopicRequest {
 	return UpdateUserTopicRequest{
@@ -4431,8 +4188,6 @@ func (c *simpleClient) UpdateUserTopic(ctx context.Context) UpdateUserTopicReque
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

@@ -17,14 +17,10 @@ type DraftsAPI interface {
 			Create one or more drafts on the server. These drafts will be automatically
 		synchronized to other clients via `drafts` events.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return CreateDraftsRequest
 	*/
 	CreateDrafts(ctx context.Context) CreateDraftsRequest
 
 	// CreateDraftsExecute executes the request
-	//  @return CreateDraftsResponse
 	CreateDraftsExecute(r CreateDraftsRequest) (*CreateDraftsResponse, *http.Response, error)
 
 	/*
@@ -34,14 +30,10 @@ type DraftsAPI interface {
 
 		**Changes**: New in Zulip 10.0 (feature level 297).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return CreateSavedSnippetRequest
 	*/
 	CreateSavedSnippet(ctx context.Context) CreateSavedSnippetRequest
 
 	// CreateSavedSnippetExecute executes the request
-	//  @return CreateSavedSnippetResponse
 	CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (*CreateSavedSnippetResponse, *http.Response, error)
 
 	/*
@@ -50,15 +42,10 @@ type DraftsAPI interface {
 			Delete a single draft from the server. The deletion will be automatically
 		synchronized to other clients via a `drafts` event.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param draftId The Id of the draft you want to delete.
-			@return DeleteDraftRequest
 	*/
 	DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequest
 
 	// DeleteDraftExecute executes the request
-	//  @return Response
 	DeleteDraftExecute(r DeleteDraftRequest) (*Response, *http.Response, error)
 
 	/*
@@ -68,15 +55,10 @@ type DraftsAPI interface {
 
 		**Changes**: New in Zulip 10.0 (feature level 297).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param savedSnippetId The Id of the saved snippet to delete.
-			@return DeleteSavedSnippetRequest
 	*/
 	DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) DeleteSavedSnippetRequest
 
 	// DeleteSavedSnippetExecute executes the request
-	//  @return Response
 	DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*Response, *http.Response, error)
 
 	/*
@@ -85,15 +67,10 @@ type DraftsAPI interface {
 			Edit a draft on the server. The edit will be automatically
 		synchronized to other clients via `drafts` events.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param draftId The Id of the draft to be edited.
-			@return EditDraftRequest
 	*/
 	EditDraft(ctx context.Context, draftId int64) EditDraftRequest
 
 	// EditDraftExecute executes the request
-	//  @return Response
 	EditDraftExecute(r EditDraftRequest) (*Response, *http.Response, error)
 
 	/*
@@ -103,15 +80,10 @@ type DraftsAPI interface {
 
 		**Changes**: New in Zulip 10.0 (feature level 368).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param savedSnippetId The Id of the saved snippet to edit.
-			@return EditSavedSnippetRequest
 	*/
 	EditSavedSnippet(ctx context.Context, savedSnippetId int64) EditSavedSnippetRequest
 
 	// EditSavedSnippetExecute executes the request
-	//  @return Response
 	EditSavedSnippetExecute(r EditSavedSnippetRequest) (*Response, *http.Response, error)
 
 	/*
@@ -119,14 +91,10 @@ type DraftsAPI interface {
 
 		Fetch all drafts for the current user.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return GetDraftsRequest
 	*/
 	GetDrafts(ctx context.Context) GetDraftsRequest
 
 	// GetDraftsExecute executes the request
-	//  @return GetDraftsResponse
 	GetDraftsExecute(r GetDraftsRequest) (*GetDraftsResponse, *http.Response, error)
 
 	/*
@@ -136,14 +104,10 @@ type DraftsAPI interface {
 
 		**Changes**: New in Zulip 10.0 (feature level 297).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetSavedSnippetsRequest
 	*/
 	GetSavedSnippets(ctx context.Context) GetSavedSnippetsRequest
 
 	// GetSavedSnippetsExecute executes the request
-	//  @return GetSavedSnippetsResponse
 	GetSavedSnippetsExecute(r GetSavedSnippetsRequest) (*GetSavedSnippetsResponse, *http.Response, error)
 }
 
@@ -168,9 +132,6 @@ CreateDrafts Create drafts
 
 Create one or more drafts on the server. These drafts will be automatically
 synchronized to other clients via `drafts` events.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return CreateDraftsRequest
 */
 func (c *simpleClient) CreateDrafts(ctx context.Context) CreateDraftsRequest {
 	return CreateDraftsRequest{
@@ -180,8 +141,6 @@ func (c *simpleClient) CreateDrafts(ctx context.Context) CreateDraftsRequest {
 }
 
 // Execute executes the request
-//
-//	@return CreateDraftsResponse
 func (c *simpleClient) CreateDraftsExecute(r CreateDraftsRequest) (*CreateDraftsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -288,9 +247,6 @@ CreateSavedSnippet Create a saved snippet
 Create a new saved snippet for the current user.
 
 **Changes**: New in Zulip 10.0 (feature level 297).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return CreateSavedSnippetRequest
 */
 func (c *simpleClient) CreateSavedSnippet(ctx context.Context) CreateSavedSnippetRequest {
 	return CreateSavedSnippetRequest{
@@ -300,8 +256,6 @@ func (c *simpleClient) CreateSavedSnippet(ctx context.Context) CreateSavedSnippe
 }
 
 // Execute executes the request
-//
-//	@return CreateSavedSnippetResponse
 func (c *simpleClient) CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (*CreateSavedSnippetResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -396,10 +350,6 @@ DeleteDraft Delete a draft
 
 Delete a single draft from the server. The deletion will be automatically
 synchronized to other clients via a `drafts` event.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param draftId The Id of the draft you want to delete.
-	@return DeleteDraftRequest
 */
 func (c *simpleClient) DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequest {
 	return DeleteDraftRequest{
@@ -410,8 +360,6 @@ func (c *simpleClient) DeleteDraft(ctx context.Context, draftId int64) DeleteDra
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) DeleteDraftExecute(r DeleteDraftRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -500,10 +448,6 @@ DeleteSavedSnippet Delete a saved snippet
 Delete a saved snippet.
 
 **Changes**: New in Zulip 10.0 (feature level 297).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param savedSnippetId The Id of the saved snippet to delete.
-	@return DeleteSavedSnippetRequest
 */
 func (c *simpleClient) DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) DeleteSavedSnippetRequest {
 	return DeleteSavedSnippetRequest{
@@ -514,8 +458,6 @@ func (c *simpleClient) DeleteSavedSnippet(ctx context.Context, savedSnippetId in
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -610,10 +552,6 @@ EditDraft Edit a draft
 
 Edit a draft on the server. The edit will be automatically
 synchronized to other clients via `drafts` events.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param draftId The Id of the draft to be edited.
-	@return EditDraftRequest
 */
 func (c *simpleClient) EditDraft(ctx context.Context, draftId int64) EditDraftRequest {
 	return EditDraftRequest{
@@ -624,8 +562,6 @@ func (c *simpleClient) EditDraft(ctx context.Context, draftId int64) EditDraftRe
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) EditDraftExecute(r EditDraftRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -733,10 +669,6 @@ EditSavedSnippet Edit a saved snippet
 Edit a saved snippet for the current user.
 
 **Changes**: New in Zulip 10.0 (feature level 368).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param savedSnippetId The Id of the saved snippet to edit.
-	@return EditSavedSnippetRequest
 */
 func (c *simpleClient) EditSavedSnippet(ctx context.Context, savedSnippetId int64) EditSavedSnippetRequest {
 	return EditSavedSnippetRequest{
@@ -747,8 +679,6 @@ func (c *simpleClient) EditSavedSnippet(ctx context.Context, savedSnippetId int6
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) EditSavedSnippetExecute(r EditSavedSnippetRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -840,9 +770,6 @@ func (r GetDraftsRequest) Execute() (*GetDraftsResponse, *http.Response, error) 
 GetDrafts Get drafts
 
 Fetch all drafts for the current user.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetDraftsRequest
 */
 func (c *simpleClient) GetDrafts(ctx context.Context) GetDraftsRequest {
 	return GetDraftsRequest{
@@ -852,8 +779,6 @@ func (c *simpleClient) GetDrafts(ctx context.Context) GetDraftsRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetDraftsResponse
 func (c *simpleClient) GetDraftsExecute(r GetDraftsRequest) (*GetDraftsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -940,9 +865,6 @@ GetSavedSnippets Get all saved snippets
 Fetch all the saved snippets for the current user.
 
 **Changes**: New in Zulip 10.0 (feature level 297).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetSavedSnippetsRequest
 */
 func (c *simpleClient) GetSavedSnippets(ctx context.Context) GetSavedSnippetsRequest {
 	return GetSavedSnippetsRequest{
@@ -952,8 +874,6 @@ func (c *simpleClient) GetSavedSnippets(ctx context.Context) GetSavedSnippetsReq
 }
 
 // Execute executes the request
-//
-//	@return GetSavedSnippetsResponse
 func (c *simpleClient) GetSavedSnippetsExecute(r GetSavedSnippetsRequest) (*GetSavedSnippetsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

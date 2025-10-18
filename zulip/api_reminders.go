@@ -19,14 +19,10 @@ type RemindersAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 381).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return CreateMessageReminderRequest
 	*/
 	CreateMessageReminder(ctx context.Context) CreateMessageReminderRequest
 
 	// CreateMessageReminderExecute executes the request
-	//  @return CreateMessageReminderResponse
 	CreateMessageReminderExecute(r CreateMessageReminderRequest) (*CreateMessageReminderResponse, *http.Response, error)
 
 	/*
@@ -37,15 +33,10 @@ type RemindersAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 399).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param reminderId The Id of the reminder to delete.  This is different from the unique Id that the message would have after being sent.
-			@return DeleteReminderRequest
 	*/
 	DeleteReminder(ctx context.Context, reminderId int64) DeleteReminderRequest
 
 	// DeleteReminderExecute executes the request
-	//  @return Response
 	DeleteReminderExecute(r DeleteReminderRequest) (*Response, *http.Response, error)
 
 	/*
@@ -59,14 +50,10 @@ type RemindersAPI interface {
 
 		**Changes**: New in Zulip 11.0 (feature level 399).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetRemindersRequest
 	*/
 	GetReminders(ctx context.Context) GetRemindersRequest
 
 	// GetRemindersExecute executes the request
-	//  @return GetRemindersResponse
 	GetRemindersExecute(r GetRemindersRequest) (*GetRemindersResponse, *http.Response, error)
 }
 
@@ -107,9 +94,6 @@ CreateMessageReminder Create a message reminder
 Schedule a reminder to be sent to the current user at the specified time. The reminder will link the relevant message.
 
 **Changes**: New in Zulip 11.0 (feature level 381).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return CreateMessageReminderRequest
 */
 func (c *simpleClient) CreateMessageReminder(ctx context.Context) CreateMessageReminderRequest {
 	return CreateMessageReminderRequest{
@@ -119,8 +103,6 @@ func (c *simpleClient) CreateMessageReminder(ctx context.Context) CreateMessageR
 }
 
 // Execute executes the request
-//
-//	@return CreateMessageReminderResponse
 func (c *simpleClient) CreateMessageReminderExecute(r CreateMessageReminderRequest) (*CreateMessageReminderResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -218,10 +200,6 @@ Delete, and therefore cancel sending, a previously [scheduled
 reminder](zulip.com/help/schedule-a-reminder.
 
 **Changes**: New in Zulip 11.0 (feature level 399).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param reminderId The Id of the reminder to delete.  This is different from the unique Id that the message would have after being sent.
-	@return DeleteReminderRequest
 */
 func (c *simpleClient) DeleteReminder(ctx context.Context, reminderId int64) DeleteReminderRequest {
 	return DeleteReminderRequest{
@@ -232,8 +210,6 @@ func (c *simpleClient) DeleteReminder(ctx context.Context, reminderId int64) Del
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) DeleteReminderExecute(r DeleteReminderRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -325,9 +301,6 @@ Reminders are messages the user has scheduled to be sent in the
 future to themself.
 
 **Changes**: New in Zulip 11.0 (feature level 399).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetRemindersRequest
 */
 func (c *simpleClient) GetReminders(ctx context.Context) GetRemindersRequest {
 	return GetRemindersRequest{
@@ -337,8 +310,6 @@ func (c *simpleClient) GetReminders(ctx context.Context) GetRemindersRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetRemindersResponse
 func (c *simpleClient) GetRemindersExecute(r GetRemindersRequest) (*GetRemindersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

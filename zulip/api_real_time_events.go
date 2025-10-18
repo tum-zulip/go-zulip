@@ -15,14 +15,10 @@ type RealTimeEventsAPI interface {
 
 		Delete a previously registered queue.
 
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return DeleteQueueRequest
 	*/
 	DeleteQueue(ctx context.Context) DeleteQueueRequest
 
 	// DeleteQueueExecute executes the request
-	//  @return Response
 	DeleteQueueExecute(r DeleteQueueRequest) (*Response, *http.Response, error)
 
 	/*
@@ -38,14 +34,10 @@ type RealTimeEventsAPI interface {
 		heartbeat frequency and should be respected by clients to
 		avoid breaking when heartbeat frequency increases.
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetEventsRequest
 	*/
 	GetEvents(ctx context.Context) GetEventsRequest
 
 	// GetEventsExecute executes the request
-	//  @return GetEventsResponse
 	GetEventsExecute(r GetEventsRequest) (*GetEventsResponse, *http.Response, error)
 
 	/*
@@ -115,14 +107,10 @@ type RealTimeEventsAPI interface {
 		[user-defaults]: /api/update-realm-user-settings-defaults#parameter-email_address_visibility
 		[events-system-docs]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return RegisterQueueRequest
 	*/
 	RegisterQueue(ctx context.Context) RegisterQueueRequest
 
 	// RegisterQueueExecute executes the request
-	//  @return RegisterQueueResponse
 	RegisterQueueExecute(r RegisterQueueRequest) (*RegisterQueueResponse, *http.Response, error)
 }
 
@@ -146,9 +134,6 @@ func (r DeleteQueueRequest) Execute() (*Response, *http.Response, error) {
 DeleteQueue Delete an event queue
 
 Delete a previously registered queue.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return DeleteQueueRequest
 */
 func (c *simpleClient) DeleteQueue(ctx context.Context) DeleteQueueRequest {
 	return DeleteQueueRequest{
@@ -158,8 +143,6 @@ func (c *simpleClient) DeleteQueue(ctx context.Context) DeleteQueueRequest {
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) DeleteQueueExecute(r DeleteQueueRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -277,9 +260,6 @@ Long-lived clients should use the
 calls to this endpoint. It is guaranteed to be higher than
 heartbeat frequency and should be respected by clients to
 avoid breaking when heartbeat frequency increases.
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetEventsRequest
 */
 func (c *simpleClient) GetEvents(ctx context.Context) GetEventsRequest {
 	return GetEventsRequest{
@@ -289,8 +269,6 @@ func (c *simpleClient) GetEvents(ctx context.Context) GetEventsRequest {
 }
 
 // Execute executes the request
-//
-//	@return GetEventsResponse
 func (c *simpleClient) GetEventsExecute(r GetEventsRequest) (*GetEventsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -520,9 +498,6 @@ current API and treating every user as having the realm's
 
 [user-defaults]: /api/update-realm-user-settings-defaults#parameter-email_address_visibility
 [events-system-docs]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return RegisterQueueRequest
 */
 func (c *simpleClient) RegisterQueue(ctx context.Context) RegisterQueueRequest {
 	return RegisterQueueRequest{
@@ -532,8 +507,6 @@ func (c *simpleClient) RegisterQueue(ctx context.Context) RegisterQueueRequest {
 }
 
 // Execute executes the request
-//
-//	@return RegisterQueueResponse
 func (c *simpleClient) RegisterQueueExecute(r RegisterQueueRequest) (*RegisterQueueResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

@@ -24,14 +24,10 @@ type ScheduledMessagesAPI interface {
 
 		New in Zulip 7.0 (feature level 179).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return CreateScheduledMessageRequest
 	*/
 	CreateScheduledMessage(ctx context.Context) CreateScheduledMessageRequest
 
 	// CreateScheduledMessageExecute executes the request
-	//  @return CreateScheduledMessageResponse
 	CreateScheduledMessageExecute(r CreateScheduledMessageRequest) (*CreateScheduledMessageResponse, *http.Response, error)
 
 	/*
@@ -42,15 +38,10 @@ type ScheduledMessagesAPI interface {
 
 		**Changes**: New in Zulip 7.0 (feature level 173).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param scheduledMessageId The Id of the scheduled message to delete.  This is different from the unique Id that the message would have after being sent.
-			@return DeleteScheduledMessageRequest
 	*/
 	DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest
 
 	// DeleteScheduledMessageExecute executes the request
-	//  @return Response
 	DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*Response, *http.Response, error)
 
 	/*
@@ -64,14 +55,10 @@ type ScheduledMessagesAPI interface {
 
 		**Changes**: New in Zulip 7.0 (feature level 173).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@return GetScheduledMessagesRequest
 	*/
 	GetScheduledMessages(ctx context.Context) GetScheduledMessagesRequest
 
 	// GetScheduledMessagesExecute executes the request
-	//  @return GetScheduledMessagesResponse
 	GetScheduledMessagesExecute(r GetScheduledMessagesRequest) (*GetScheduledMessagesResponse, *http.Response, error)
 
 	/*
@@ -81,15 +68,10 @@ type ScheduledMessagesAPI interface {
 
 		**Changes**: New in Zulip 7.0 (feature level 184).
 
-
-			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-			@param scheduledMessageId The Id of the scheduled message to update.  This is different from the unique Id that the message would have after being sent.
-			@return UpdateScheduledMessageRequest
 	*/
 	UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest
 
 	// UpdateScheduledMessageExecute executes the request
-	//  @return Response
 	UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*Response, *http.Response, error)
 }
 
@@ -155,9 +137,6 @@ separate API endpoint, which removed the `scheduled_message_id`
 parameter from this endpoint.
 
 New in Zulip 7.0 (feature level 179).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return CreateScheduledMessageRequest
 */
 func (c *simpleClient) CreateScheduledMessage(ctx context.Context) CreateScheduledMessageRequest {
 	return CreateScheduledMessageRequest{
@@ -167,8 +146,6 @@ func (c *simpleClient) CreateScheduledMessage(ctx context.Context) CreateSchedul
 }
 
 // Execute executes the request
-//
-//	@return CreateScheduledMessageResponse
 func (c *simpleClient) CreateScheduledMessageExecute(r CreateScheduledMessageRequest) (*CreateScheduledMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -280,10 +257,6 @@ Delete, and therefore cancel sending, a previously [scheduled
 message](zulip.com/help/schedule-a-message.
 
 **Changes**: New in Zulip 7.0 (feature level 173).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param scheduledMessageId The Id of the scheduled message to delete.  This is different from the unique Id that the message would have after being sent.
-	@return DeleteScheduledMessageRequest
 */
 func (c *simpleClient) DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest {
 	return DeleteScheduledMessageRequest{
@@ -294,8 +267,6 @@ func (c *simpleClient) DeleteScheduledMessage(ctx context.Context, scheduledMess
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -387,9 +358,6 @@ Scheduled messages are messages the user has scheduled to be
 sent in the future via the send later feature.
 
 **Changes**: New in Zulip 7.0 (feature level 173).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return GetScheduledMessagesRequest
 */
 func (c *simpleClient) GetScheduledMessages(ctx context.Context) GetScheduledMessagesRequest {
 	return GetScheduledMessagesRequest{
@@ -399,8 +367,6 @@ func (c *simpleClient) GetScheduledMessages(ctx context.Context) GetScheduledMes
 }
 
 // Execute executes the request
-//
-//	@return GetScheduledMessagesResponse
 func (c *simpleClient) GetScheduledMessagesExecute(r GetScheduledMessagesRequest) (*GetScheduledMessagesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -523,10 +489,6 @@ UpdateScheduledMessage Edit a scheduled message
 Edit an existing [scheduled message](zulip.com/help/schedule-a-message.
 
 **Changes**: New in Zulip 7.0 (feature level 184).
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param scheduledMessageId The Id of the scheduled message to update.  This is different from the unique Id that the message would have after being sent.
-	@return UpdateScheduledMessageRequest
 */
 func (c *simpleClient) UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest {
 	return UpdateScheduledMessageRequest{
@@ -537,8 +499,6 @@ func (c *simpleClient) UpdateScheduledMessage(ctx context.Context, scheduledMess
 }
 
 // Execute executes the request
-//
-//	@return Response
 func (c *simpleClient) UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
