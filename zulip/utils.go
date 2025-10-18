@@ -205,8 +205,8 @@ func readOSRelease() (string, string, error) {
 
 func trimOSReleaseValue(value string) string {
 	value = strings.TrimSpace(value)
-	value = strings.TrimPrefix(value, """)
-	value = strings.TrimSuffix(value, """)
+	value = strings.TrimPrefix(value, "\"")
+	value = strings.TrimSuffix(value, "\"")
 	return value
 }
 
