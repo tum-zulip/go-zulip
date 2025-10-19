@@ -86,19 +86,18 @@ jobs:
       - name: Build go-zulip
         run: go build ./...
 
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
       - name: Checkout Zulip server ${{ matrix.zulip-branch }}
         run: git clone --depth 1 --branch "${{ matrix.zulip-branch }}" https://github.com/zulip/zulip.git /tmp/zulip-server
 
       - name: Provision Zulip dev server
         working-directory: /tmp/zulip-server
         run: |
-          sudo apt-get update
-          sudo apt-get install -y rabbitmq-server redis-server memcached postgresql
-          sudo service postgresql start
-          sudo service rabbitmq-server start
-          sudo service redis-server start
-          sudo service memcached start
-          ./tools/provision --force
+          ./tools/provision
 
       - name: Start Zulip dev server
         working-directory: /tmp/zulip-server
