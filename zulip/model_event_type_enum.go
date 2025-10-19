@@ -1,35 +1,83 @@
 package zulip
 
+// EventType represents the type of event that occurred in a model event.
+//   - EventTypeAlertWords
+//   - EventTypeAttachment
+//   - EventTypeChannelFolder
+//   - EventTypeCustomProfileFields
+//   - EventTypeDefaultChannelGroups
+//   - EventTypeDefaultChannels
+//   - EventTypeDeleteMessage
+//   - EventTypeDrafts
+//   - EventTypeHasZoomToken
+//   - EventTypeHeartbeat
+//   - EventTypeInvitesChanged
+//   - EventTypeMessage
+//   - EventTypeMutedTopics
+//   - EventTypeMutedUsers
+//   - EventTypeNavigationView
+//   - EventTypeOnboardingSteps
+//   - EventTypePresence
+//   - EventTypePushDevice
+//   - EventTypeReaction
+//   - EventTypeRealm
+//   - EventTypeRealmBot
+//   - EventTypeRealmDomains
+//   - EventTypeRealmEmoji
+//   - EventTypeRealmExport
+//   - EventTypeRealmExportConsent
+//   - EventTypeRealmFilters
+//   - EventTypeRealmLinkifiers
+//   - EventTypeRealmPlaygrounds
+//   - EventTypeRealmUser
+//   - EventTypeRealmUserSettingsDefaults
+//   - EventTypeReminders
+//   - EventTypeRestart
+//   - EventTypeSavedSnippets
+//   - EventTypeScheduledMessages
+//   - EventTypeChannel
+//   - EventTypeSubmessage
+//   - EventTypeSubscription
+//   - EventTypeTyping
+//   - EventTypeTypingEditMessage
+//   - EventTypeUpdateDisplaySettings
+//   - EventTypeUpdateGlobalNotifications
+//   - EventTypeUpdateMessage
+//   - EventTypeUpdateMessageFlags
+//   - EventTypeUserGroup
+//   - EventTypeUserSettings
+//   - EventTypeUserStatus
+//   - EventTypeUserTopic
+//   - EventTypeWebReloadClient
 type EventType string
 
 const (
-	EventTypeAlertWords           EventType = "alert_words"
-	EventTypeAttachment           EventType = "attachment"
-	EventTypeChannelFolder        EventType = "channel_folder"
-	EventTypeCustomProfileFields  EventType = "custom_profile_fields"
-	EventTypeDefaultChannelGroups EventType = "default_stream_groups"
-	EventTypeDefaultChannels      EventType = "default_streams"
-	EventTypeDeleteMessage        EventType = "delete_message"
-	EventTypeDrafts               EventType = "drafts"
-	EventTypeHasZoomToken         EventType = "has_zoom_token"
-	EventTypeHeartbeat            EventType = "heartbeat"
-	EventTypeInvitesChanged       EventType = "invites_changed"
-	EventTypeMessage              EventType = "message"
-	EventTypeMutedTopics          EventType = "muted_topics"
-	EventTypeMutedUsers           EventType = "muted_users"
-	EventTypeNavigationView       EventType = "navigation_view"
-	EventTypeOnboardingSteps      EventType = "onboarding_steps"
-	EventTypePresence             EventType = "presence"
-	EventTypePushDevice           EventType = "push_device"
-	EventTypeReaction             EventType = "reaction"
-	EventTypeRealm                EventType = "realm"
-	EventTypeRealmBot             EventType = "realm_bot"
-	EventTypeRealmDomains         EventType = "realm_domains"
-	EventTypeRealmEmoji           EventType = "realm_emoji"
-	EventTypeRealmExport          EventType = "realm_export"
-	EventTypeRealmExportConsent   EventType = "realm_export_consent"
-	// Deprecated
-	EventTypeRealmFilters              EventType = "realm_filters"
+	EventTypeAlertWords                EventType = "alert_words"
+	EventTypeAttachment                EventType = "attachment"
+	EventTypeChannelFolder             EventType = "channel_folder"
+	EventTypeCustomProfileFields       EventType = "custom_profile_fields"
+	EventTypeDefaultChannelGroups      EventType = "default_stream_groups"
+	EventTypeDefaultChannels           EventType = "default_streams"
+	EventTypeDeleteMessage             EventType = "delete_message"
+	EventTypeDrafts                    EventType = "drafts"
+	EventTypeHasZoomToken              EventType = "has_zoom_token"
+	EventTypeHeartbeat                 EventType = "heartbeat"
+	EventTypeInvitesChanged            EventType = "invites_changed"
+	EventTypeMessage                   EventType = "message"
+	EventTypeMutedTopics               EventType = "muted_topics"
+	EventTypeMutedUsers                EventType = "muted_users"
+	EventTypeNavigationView            EventType = "navigation_view"
+	EventTypeOnboardingSteps           EventType = "onboarding_steps"
+	EventTypePresence                  EventType = "presence"
+	EventTypePushDevice                EventType = "push_device"
+	EventTypeReaction                  EventType = "reaction"
+	EventTypeRealm                     EventType = "realm"
+	EventTypeRealmBot                  EventType = "realm_bot"
+	EventTypeRealmDomains              EventType = "realm_domains"
+	EventTypeRealmEmoji                EventType = "realm_emoji"
+	EventTypeRealmExport               EventType = "realm_export"
+	EventTypeRealmExportConsent        EventType = "realm_export_consent"
+	EventTypeRealmFilters              EventType = "realm_filters" // Deprecated
 	EventTypeRealmLinkifiers           EventType = "realm_linkifiers"
 	EventTypeRealmPlaygrounds          EventType = "realm_playgrounds"
 	EventTypeRealmUser                 EventType = "realm_user"

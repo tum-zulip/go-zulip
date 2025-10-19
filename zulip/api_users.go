@@ -4145,7 +4145,8 @@ type UpdatePresenceRequest struct {
 	slimPresence     *bool
 }
 
-// The status of the user on this client.  Clients should report the user as `"active"` on this device if the client knows that the user is presently using the device (and thus would potentially see a notification immediately), even if the user has not directly interacted with the Zulip client.  Otherwise, it should report the user as `"idle"`.  See the related [`new_user_input`] parameter for how a client should report whether the user is actively using the Zulip client.
+// The status of the user on this client.  Clients should report the user as `PresenceStatusActive` on this device if the client knows that the user is presently using the device (and thus would potentially see a notification immediately), even if the user has not directly interacted with the Zulip client.  Otherwise, it should report the user as `PresenceStatusIdle`.
+// See the related [`new_user_input`] parameter for how a client should report whether the user is actively using the Zulip client.
 //
 // [`new_user_input`]: https://zulip.com/api/update-presence#parameter-new_user_input
 func (r UpdatePresenceRequest) Status(status PresenceStatus) UpdatePresenceRequest {
@@ -4357,7 +4358,7 @@ type UpdateSettingsRequest struct {
 	webHomeView                                    *string
 	webEscapeNavigatesToHomeView                   *bool
 	leftSideUserlist                               *bool
-	emojiset                                       *string
+	emojiset                                       *Emojiset
 	demoteInactiveChannels                         *DemoteInactiveChannels
 	userListStyle                                  *int32
 	webAnimateImagePreviews                        *string
@@ -4388,7 +4389,7 @@ type UpdateSettingsRequest struct {
 	pmContentInDesktopNotifications                *bool
 	wildcardMentionsNotify                         *bool
 	enableFollowedTopicWildcardMentionsNotify      *bool
-	desktopIconCountDisplay                        *int32
+	desktopIconCountDisplay                        *BadgeCount
 	realmNameInEmailNotificationsPolicy            *int32
 	automaticallyFollowTopicsPolicy                *TopicInteraction
 	automaticallyUnmuteTopicsInMutedChannelsPolicy *TopicInteraction
@@ -4400,7 +4401,7 @@ type UpdateSettingsRequest struct {
 	sendChannelTypingNotifications                 *bool
 	sendReadReceipts                               *bool
 	allowPrivateDataExport                         *bool
-	emailAddressVisibility                         *int32
+	emailAddressVisibility                         *EmailVisibility
 	webNavigateToSentMessage                       *bool
 }
 
@@ -4603,12 +4604,16 @@ func (r UpdateSettingsRequest) LeftSideUserlist(leftSideUserlist bool) UpdateSet
 	return r
 }
 
-// The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.  - "google" - Google modern - "google-blob" - Google classic - "twitter" - Twitter - "text" - Plain text
+// The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.
+//   - EmojisetGoogle = Google modern
+//   - EmojisetGoogleBlob = Google classic
+//   - EmojisetTwitter = Twitter
+//   - EmojisetText = Plain text
 //
 // **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
 //
 // [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
-func (r UpdateSettingsRequest) Emojiset(emojiset string) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) Emojiset(emojiset Emojiset) UpdateSettingsRequest {
 	r.emojiset = &emojiset
 	return r
 }
@@ -4867,13 +4872,13 @@ func (r UpdateSettingsRequest) EnableFollowedTopicWildcardMentionsNotify(enableF
 }
 
 // Unread count badge (appears in desktop sidebar and browser tab)
-//   - 1 = All unread messages
-//   - 2 = DMs, mentions, and followed topics
-//   - 3 = DMs and mentions
-//   - 4 = None
+//   - BadgeCountAllUnreadMessages
+//   - BadgeCountDMsMentionsAndFollowedTopics
+//   - BadgeCountDMsAndMentions
+//   - BadgeCountNone
 //
 // **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.  Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
-func (r UpdateSettingsRequest) DesktopIconCountDisplay(desktopIconCountDisplay int32) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) DesktopIconCountDisplay(desktopIconCountDisplay BadgeCount) UpdateSettingsRequest {
 	r.desktopIconCountDisplay = &desktopIconCountDisplay
 	return r
 }
@@ -4987,13 +4992,18 @@ func (r UpdateSettingsRequest) AllowPrivateDataExport(allowPrivateDataExport boo
 	return r
 }
 
-// The [policy] this user has selected for [which other users] in this organization can see their real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only
+// The [policy] this user has selected for [which other users] in this organization can see their real email address.
+//   - EmailVisibilityEveryone
+//   - EmailVisibilityMembersOnly
+//   - EmailVisibilityAdministratorsOnly
+//   - EmailVisibilityNobody
+//   - EmailVisibilityModeratorsOnly
 //
 // **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
 //
 // [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
 // [which other users]: https://zulip.com/help/configure-email-visibility
-func (r UpdateSettingsRequest) EmailAddressVisibility(emailAddressVisibility int32) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) EmailAddressVisibility(emailAddressVisibility EmailVisibility) UpdateSettingsRequest {
 	r.emailAddressVisibility = &emailAddressVisibility
 	return r
 }
@@ -5347,7 +5357,7 @@ func (r UpdateStatusRequest) StatusText(statusText string) UpdateStatusRequest {
 
 // Whether the user should be marked as "away".
 //
-//	**Changes**: Deprecated in Zulip 6.0 (feature level 148); starting with that feature level, `away` is a legacy way to access the user's `presence_enabled` setting, with `away &#x3D; !presence_enabled`. To be removed in a future release.
+//	**Changes**: Deprecated in Zulip 6.0 (feature level 148); starting with that feature level, `away` is a legacy way to access the user's `presence_enabled` setting, with `away - !presence_enabled`. To be removed in a future release.
 func (r UpdateStatusRequest) Away(away bool) UpdateStatusRequest {
 	r.away = &away
 	return r

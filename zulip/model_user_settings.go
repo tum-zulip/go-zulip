@@ -2,11 +2,12 @@ package zulip
 
 type UserSettings struct {
 	DisplaySettings
+	GlobalNotifications
 
 	// Whether or not to mark messages as read when the user scrolls through their feed.
-	//   - 1 = Always
-	//   - 2 = Only in conversation views
-	//   - 3 = Never
+	//   - MarkReadOnScrollPolicyAlways
+	//   - MarkReadOnScrollPolicyOnlyInConversationViews
+	//   - MarkReadOnScrollPolicyNever
 	//
 	// **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the "Always" setting when marking messages as read.
 	WebMarkReadOnScrollPolicy MarkReadOnScrollPolicy `json:"web_mark_read_on_scroll_policy,omitempty"`
@@ -79,26 +80,6 @@ type UserSettings struct {
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 398).
 	WebLeftSidebarUnreadsCountSummary bool `json:"web_left_sidebar_unreads_count_summary,omitempty"`
-	// Enable visual desktop notifications for channel messages.
-	EnableChannelDesktopNotifications bool `json:"enable_stream_desktop_notifications,omitempty"`
-	// Enable email notifications for channel messages.
-	EnableChannelEmailNotifications bool `json:"enable_stream_email_notifications,omitempty"`
-	// Enable mobile notifications for channel messages.
-	EnableChannelPushNotifications bool `json:"enable_stream_push_notifications,omitempty"`
-	// Enable audible desktop notifications for channel messages.
-	EnableChannelAudibleNotifications bool `json:"enable_stream_audible_notifications,omitempty"`
-	// Notification sound name.
-	NotificationSound string `json:"notification_sound,omitempty"`
-	// Enable visual desktop notifications for direct messages and @-mentions.
-	EnableDesktopNotifications bool `json:"enable_desktop_notifications,omitempty"`
-	// Enable audible desktop notifications for direct messages and @-mentions.
-	EnableSounds bool `json:"enable_sounds,omitempty"`
-	// Enable email notifications for direct messages and @-mentions received when the user is offline.
-	EnableOfflineEmailNotifications bool `json:"enable_offline_email_notifications,omitempty"`
-	// Enable mobile notification for direct messages and @-mentions received when the user is offline.
-	EnableOfflinePushNotifications bool `json:"enable_offline_push_notifications,omitempty"`
-	// Enable mobile notification for direct messages and @-mentions received when the user is online.
-	EnableOnlinePushNotifications bool `json:"enable_online_push_notifications,omitempty"`
 	// Enable visual desktop notifications for messages sent to followed topics.
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 189).
@@ -115,39 +96,10 @@ type UserSettings struct {
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 189).
 	EnableFollowedTopicAudibleNotifications bool `json:"enable_followed_topic_audible_notifications,omitempty"`
-	// Enable digest emails when the user is away.
-	EnableDigestEmails bool `json:"enable_digest_emails,omitempty"`
-	// Enable marketing emails. Has no function outside Zulip Cloud.
-	EnableMarketingEmails bool `json:"enable_marketing_emails,omitempty"`
-	// Enable email notifications for new logins to account.
-	EnableLoginEmails bool `json:"enable_login_emails,omitempty"`
-	// Include the message's content in email notifications for new messages.
-	MessageContentInEmailNotifications bool `json:"message_content_in_email_notifications,omitempty"`
-	// Include content of direct messages in desktop notifications.
-	PmContentInDesktopNotifications bool `json:"pm_content_in_desktop_notifications,omitempty"`
-	// Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.
-	WildcardMentionsNotify bool `json:"wildcard_mentions_notify,omitempty"`
 	// Whether wildcard mentions (e.g., @**all**) in messages sent to followed topics should send notifications like a personal mention.
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 189).
 	EnableFollowedTopicWildcardMentionsNotify bool `json:"enable_followed_topic_wildcard_mentions_notify,omitempty"`
-	// Unread count badge (appears in desktop sidebar and browser tab)
-	//   - 1 = All unread messages
-	//   - 2 = DMs, mentions, and followed topics
-	//   - 3 = DMs and mentions
-	//   - 4 = None
-	//
-	// **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
-	DesktopIconCountDisplay DesktopIconCountDisplay `json:"desktop_icon_count_display,omitempty"`
-	// Whether to [include organization name in subject of message notification emails].
-	//   - 1 = Automatic
-	//   - 2 = Always
-	//   - 3 = Never
-	//
-	// **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous `realm_name_in_notifications` boolean; `true` corresponded to `Always`, and `false` to `Never`.
-	//
-	// [include organization name in subject of message notification emails]: https://zulip.com/help/email-notifications#include-organization-name-in-subject-line
-	RealmNameInEmailNotificationsPolicy NameInEmailNotificationsPolicy `json:"realm_name_in_email_notifications_policy,omitempty"`
 	// Which [topics to follow automatically].
 	//   - TopicInteractionTopicsTheUserParticipatesIn
 	//   - TopicInteractionTopicsTheUserSendsAMessageTo
@@ -179,12 +131,6 @@ type UserSettings struct {
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 385).
 	ResolvedTopicNoticeAutoReadPolicy ResolvedTopicNoticeAutoReadPolicy `json:"resolved_topic_notice_auto_read_policy,omitempty"`
-	// Display the presence status to other users when online.
-	PresenceEnabled bool `json:"presence_enabled,omitempty"`
-	// The duration (in seconds) for which the server should wait to batch email notifications before sending them.
-	EmailNotificationsBatchingPeriodSeconds int `json:"email_notifications_batching_period_seconds,omitempty"`
-	// Array containing the names of the notification sound options supported by this Zulip server. Only relevant to support UI for configuring notification sounds.
-	AvailableNotificationSounds []string `json:"available_notification_sounds,omitempty"`
 	// Whether the user has chosen to send [typing notifications] when composing direct messages. The client should send typing notifications for direct messages if and only if this setting is enabled.
 	//
 	// **Changes**: New in Zulip 5.0 (feature level 105).
@@ -206,21 +152,79 @@ type UserSettings struct {
 	// **Changes**: New in Zulip 10.0 (feature level 293).
 	AllowPrivateDataExport bool `json:"allow_private_data_export,omitempty"`
 	// The [policy] for [which other users] in this organization can see the user's real email address.
-	//   - 1 = Everyone
-	//   - 2 = Members only
-	//   - 3 = Administrators only
-	//   - 4 = Nobody
-	//   - 5 = Moderators only
+	//   - EmailVisibilityEveryone
+	//   - EmailVisibilityMembersOnly
+	//   - EmailVisibilityAdministratorsOnly
+	//   - EmailVisibilityNobody
+	//   - EmailVisibilityModeratorsOnly
 	//
 	// **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
 	//
 	// [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
 	// [which other users]: https://zulip.com/help/configure-email-visibility
-	EmailAddressVisibility EmailAddressVisibility `json:"email_address_visibility,omitempty"`
+	EmailAddressVisibility EmailVisibility `json:"email_address_visibility,omitempty"`
 	// Web/desktop app setting for whether the user's view should automatically go to the conversation where they sent a message.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
 	WebNavigateToSentMessage bool `json:"web_navigate_to_sent_message,omitempty"`
+}
+
+type GlobalNotifications struct {
+	// Enable visual desktop notifications for channel messages.
+	EnableChannelDesktopNotifications bool `json:"enable_stream_desktop_notifications,omitempty"`
+	// Enable email notifications for channel messages.
+	EnableChannelEmailNotifications bool `json:"enable_stream_email_notifications,omitempty"`
+	// Enable mobile notifications for channel messages.
+	EnableChannelPushNotifications bool `json:"enable_stream_push_notifications,omitempty"`
+	// Enable audible desktop notifications for channel messages.
+	EnableChannelAudibleNotifications bool `json:"enable_stream_audible_notifications,omitempty"`
+	// Notification sound name.
+	NotificationSound string `json:"notification_sound,omitempty"`
+	// Enable visual desktop notifications for direct messages and @-mentions.
+	EnableDesktopNotifications bool `json:"enable_desktop_notifications,omitempty"`
+	// Enable audible desktop notifications for direct messages and @-mentions.
+	EnableSounds bool `json:"enable_sounds,omitempty"`
+	// Enable email notifications for direct messages and @-mentions received when the user is offline.
+	EnableOfflineEmailNotifications bool `json:"enable_offline_email_notifications,omitempty"`
+	// Enable mobile notification for direct messages and @-mentions received when the user is offline.
+	EnableOfflinePushNotifications bool `json:"enable_offline_push_notifications,omitempty"`
+	// Enable mobile notification for direct messages and @-mentions received when the user is online.
+	EnableOnlinePushNotifications bool `json:"enable_online_push_notifications,omitempty"`
+	// Enable digest emails when the user is away.
+	EnableDigestEmails bool `json:"enable_digest_emails,omitempty"`
+	// Enable marketing emails. Has no function outside Zulip Cloud.
+	EnableMarketingEmails bool `json:"enable_marketing_emails,omitempty"`
+	// Enable email notifications for new logins to account.
+	EnableLoginEmails bool `json:"enable_login_emails,omitempty"`
+	// Include the message's content in email notifications for new messages.
+	MessageContentInEmailNotifications bool `json:"message_content_in_email_notifications,omitempty"`
+	// Include content of direct messages in desktop notifications.
+	PmContentInDesktopNotifications bool `json:"pm_content_in_desktop_notifications,omitempty"`
+	// Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.
+	WildcardMentionsNotify bool `json:"wildcard_mentions_notify,omitempty"`
+	// Unread count badge (appears in desktop sidebar and browser tab)
+	//   - BadgeCountAllUnreadMessages
+	//   - BadgeCountDMsMentionsAndFollowedTopics
+	//   - BadgeCountDMsAndMentions
+	//   - BadgeCountNone
+	//
+	// **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
+	DesktopIconCountDisplay BadgeCount `json:"desktop_icon_count_display,omitempty"`
+	// Whether to [include organization name in subject of message notification emails].
+	//   - NameInEmailNotificationsPolicyAutomatic
+	//   - NameInEmailNotificationsPolicyAlways
+	//   - NameInEmailNotificationsPolicyNever
+	//
+	// **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous `realm_name_in_notifications` boolean; `true` corresponded to `Always`, and `false` to `Never`.
+	//
+	// [include organization name in subject of message notification emails]: https://zulip.com/help/email-notifications#include-organization-name-in-subject-line
+	RealmNameInEmailNotificationsPolicy NameInEmailNotificationsPolicy `json:"realm_name_in_email_notifications_policy,omitempty"`
+	// Display the presence status to other users when online.
+	PresenceEnabled bool `json:"presence_enabled,omitempty"`
+	// The duration (in seconds) for which the server should wait to batch email notifications before sending them.
+	EmailNotificationsBatchingPeriodSeconds int `json:"email_notifications_batching_period_seconds,omitempty"`
+	// Array containing the names of the notification sound options supported by this Zulip server. Only relevant to support UI for configuring notification sounds.
+	AvailableNotificationSounds []string `json:"available_notification_sounds,omitempty"`
 }
 
 type DisplaySettings struct {
@@ -273,10 +277,10 @@ type DisplaySettings struct {
 	// Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.
 	LeftSideUserlist bool `json:"left_side_userlist,omitempty"`
 	// The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.
-	//  - "google" = Google modern
-	//  - "google-blob" = Google classic
-	//  - "twitter" = Twitter
-	//  - "text" = Plain text
+	//   - EmojisetGoogle = Google modern
+	//   - EmojisetGoogleBlob = Google classic
+	//   - EmojisetTwitter = Twitter
+	//   - EmojisetText = Plain text
 	//
 	// [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
 	Emojiset Emojiset `json:"emojiset,omitempty"`

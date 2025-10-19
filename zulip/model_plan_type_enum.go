@@ -1,10 +1,10 @@
 package zulip
 
 // The plan type of the organization.
-//   - 1 = Self-hosted organization (SELF_HOSTED)
-//   - 2 = Zulip Cloud free plan (LIMITED)
-//   - 3 = Zulip Cloud Standard plan (STANDARD)
-//   - 4 = Zulip Cloud Standard plan, sponsored for free (STANDARD_FREE)
+//   - PlanTypeSelfHosted = Self-hosted organization (SELF_HOSTED)
+//   - PlanTypeLimited = Zulip Cloud free plan (LIMITED)
+//   - PlanTypeStandard = Zulip Cloud Standard plan (STANDARD)
+//   - PlanTypeStandardFree = Zulip Cloud Standard plan, sponsored for free (STANDARD_FREE)
 type PlanType int
 
 const (

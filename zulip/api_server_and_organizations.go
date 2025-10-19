@@ -860,13 +860,17 @@ func (c *simpleClient) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiReque
 type ExportRealmRequest struct {
 	ctx        context.Context
 	ApiService ServerAndOrganizationsAPI
-	exportType *int32
+	exportType *ExportType
 }
 
-// Whether to create a public or a standard data export.  - 1 &#x3D; Public data export. - 2 &#x3D; Standard data export.  If not specified, defaults to 1.
+// Whether to create a public or a standard data export.
+//   - ExportTypePublicData
+//   - ExportTypeStandardData
 //
-//	**Changes**: New in Zulip 10.0 (feature level 304). Previously, all export requests were public data exports.
-func (r ExportRealmRequest) ExportType(exportType int32) ExportRealmRequest {
+// If not specified, defaults to ExportTypePublicData.
+//
+// **Changes**: New in Zulip 10.0 (feature level 304). Previously, all export requests were public data exports.
+func (r ExportRealmRequest) ExportType(exportType ExportType) ExportRealmRequest {
 	r.exportType = &exportType
 	return r
 }
@@ -2324,7 +2328,7 @@ type UpdateRealmUserSettingsDefaultsRequest struct {
 	webHomeView                                    *string
 	webEscapeNavigatesToHomeView                   *bool
 	leftSideUserlist                               *bool
-	emojiset                                       *string
+	emojiset                                       *Emojiset
 	demoteInactiveChannels                         *DemoteInactiveChannels
 	userListStyle                                  *int32
 	webAnimateImagePreviews                        *string
@@ -2352,7 +2356,7 @@ type UpdateRealmUserSettingsDefaultsRequest struct {
 	pmContentInDesktopNotifications                *bool
 	wildcardMentionsNotify                         *bool
 	enableFollowedTopicWildcardMentionsNotify      *bool
-	desktopIconCountDisplay                        *int32
+	desktopIconCountDisplay                        *BadgeCount
 	realmNameInEmailNotificationsPolicy            *int32
 	automaticallyFollowTopicsPolicy                *TopicInteraction
 	automaticallyUnmuteTopicsInMutedChannelsPolicy *TopicInteraction
@@ -2364,7 +2368,7 @@ type UpdateRealmUserSettingsDefaultsRequest struct {
 	sendPrivateTypingNotifications                 *bool
 	sendChannelTypingNotifications                 *bool
 	sendReadReceipts                               *bool
-	emailAddressVisibility                         *int32
+	emailAddressVisibility                         *EmailVisibility
 	webNavigateToSentMessage                       *bool
 }
 
@@ -2504,10 +2508,14 @@ func (r UpdateRealmUserSettingsDefaultsRequest) LeftSideUserlist(leftSideUserlis
 	return r
 }
 
-// The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.  - "google" - Google - "twitter" - Twitter - "text" - Plain text - "google-blob" - Google blobs
+// The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.
+//   - EmojisetGoogle = Google modern
+//   - EmojisetGoogleBlob = Google classic
+//   - EmojisetTwitter = Twitter
+//   - EmojisetText = Plain text
 //
 // [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
-func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset string) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset Emojiset) UpdateRealmUserSettingsDefaultsRequest {
 	r.emojiset = &emojiset
 	return r
 }
@@ -2704,13 +2712,13 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicWildcardMenti
 }
 
 // Unread count badge (appears in desktop sidebar and browser tab)
-//   - 1 = All unread messages
-//   - 2 = DMs, mentions, and followed topics
-//   - 3 = DMs and mentions
-//   - 4 = None
+//   - BadgeCountAllUnreadMessages
+//   - BadgeCountDMsMentionsAndFollowedTopics
+//   - BadgeCountDMsAndMentions
+//   - BadgeCountNone
 //
 // **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
-func (r UpdateRealmUserSettingsDefaultsRequest) DesktopIconCountDisplay(desktopIconCountDisplay int32) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) DesktopIconCountDisplay(desktopIconCountDisplay BadgeCount) UpdateRealmUserSettingsDefaultsRequest {
 	r.desktopIconCountDisplay = &desktopIconCountDisplay
 	return r
 }
@@ -2822,13 +2830,18 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(sendReadReceipt
 	return r
 }
 
-// The [policy] for [which other users] in this organization can see the user's real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only
+// The [policy] for [which other users] in this organization can see the user's real email address.
+//   - EmailVisibilityEveryone
+//   - EmailVisibilityMembersOnly
+//   - EmailVisibilityAdministratorsOnly
+//   - EmailVisibilityNobody
+//   - EmailVisibilityModeratorsOnly
 //
 // **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
 //
 // [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
 // [which other users]: https://zulip.com/help/configure-email-visibility
-func (r UpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(emailAddressVisibility int32) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(emailAddressVisibility EmailVisibility) UpdateRealmUserSettingsDefaultsRequest {
 	r.emailAddressVisibility = &emailAddressVisibility
 	return r
 }

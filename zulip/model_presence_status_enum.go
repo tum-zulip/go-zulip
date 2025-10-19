@@ -1,5 +1,10 @@
 package zulip
 
+// PresenceStatus types Zulip supports
+//   - PresenceStatusActive = active
+//   - PresenceStatusIdle = idle
+//
+// These can be used to represent a user's presence status.
 type PresenceStatus string
 
 const (

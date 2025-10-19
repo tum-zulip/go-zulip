@@ -1,5 +1,24 @@
 package zulip
 
+// EventOp represents the type of operation that occurred in a model event.
+//   - EventOpAdd
+//   - EventOpRemove
+//   - EventOpUpdate
+//   - EventOpOnboardingSteps
+//   - EventOpDeactivated
+//   - EventOpCreate
+//   - EventOpDelete
+//   - EventOpChange
+//   - EventOpReorder
+//   - EventOpStart
+//   - EventOpStop
+//   - EventOpUpdateDict
+//   - EventOpPeerAdd
+//   - EventOpPeerRemove
+//   - EventOpAddMembers
+//   - EventOpAddSubgroups
+//   - EventOpRemoveMembers
+//   - EventOpRemoveSubgroups
 type EventOp string
 
 const (

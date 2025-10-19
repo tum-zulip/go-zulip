@@ -5,8 +5,8 @@ type SubscriptionData struct {
 	// The unique Id of a channel.
 	ChannelId int64 `json:"stream_id"`
 	// One of the channel properties described below.
-	// - `"color"`: The hex value of the user's display color for the channel.
-	// - `"is_muted"`: Whether the channel is [muted].
+	//   - `"color"`: The hex value of the user's display color for the channel.
+	//   - `"is_muted"`: Whether the channel is [muted].
 	//   **Changes**: As of Zulip 6.0 (feature level 139), updating either `"is_muted"`
 	//   or `"in_home_view"` generates two [subscription update   events], one for each property.
 	//   Prior to this feature level, updating either property only generated a
@@ -14,18 +14,18 @@ type SubscriptionData struct {
 	//   feature was represented by the more confusingly named `"in_home_view"`
 	//   (with the opposite value: `in_home_view=!is_muted`); for
 	//   backwards-compatibility, modern Zulip still accepts that property.
-	// - `"pin_to_top"`: Whether to pin the channel at the top of the channel list.
-	// - `"desktop_notifications"`: Whether to show desktop notifications for all
+	//   - `"pin_to_top"`: Whether to pin the channel at the top of the channel list.
+	//   - `"desktop_notifications"`: Whether to show desktop notifications for all
 	//   messages sent to the channel.
-	// - `"audible_notifications"`: Whether to play a sound notification for all
+	//   - `"audible_notifications"`: Whether to play a sound notification for all
 	//   messages sent to the channel.
-	// - `"push_notifications"`: Whether to trigger a mobile push notification for
+	//   - `"push_notifications"`: Whether to trigger a mobile push notification for
 	//   all messages sent to the channel.
-	// - `"email_notifications"`: Whether to trigger an email notification for all
+	//   - `"email_notifications"`: Whether to trigger an email notification for all
 	//   messages sent to the channel.
-	// - `"wildcard_mentions_notify"`: Whether wildcard mentions trigger
+	//   - `"wildcard_mentions_notify"`: Whether wildcard mentions trigger
 	//   notifications as though they were personal mentions in this channel.
-	// - `"in_home_view"`: Legacy name for `"is_muted"`, provided for
+	//   - `"in_home_view"`: Legacy name for `"is_muted"`, provided for
 	//   backwards-compatibility with older Zulip server versions.
 	//
 	// [muted]: https://zulip.com/help/mute-a-channel

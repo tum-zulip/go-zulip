@@ -1,9 +1,10 @@
 package zulip
 
 // The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.
-// - "recent_topics" - Recent conversations view
-// - "inbox" - Inbox view
-// - "all_messages" - Combined feed view
+//   - "recent_topics" - Recent conversations view
+//   - "inbox" - Inbox view
+//   - "all_messages" - Combined feed view
+//
 // **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
 //
 // [home view]: https://zulip.com/help/configure-home-view

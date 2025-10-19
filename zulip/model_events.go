@@ -5,11 +5,20 @@ import (
 	"time"
 )
 
+// Event is the interface that all Zulip events implement.
+// Use type assertion or GetType() to determine the specific event type and handle accordingly.
 type Event interface {
+	// GetType returns the EventType of this event (e.g., EventTypeMessage, EventTypeChannel).
 	GetType() EventType
+	// GetId returns the unique ID of this event. Events appear in increasing order but may not be consecutive.
 	GetId() int64
+	// HasOp returns true if this event includes an operation type field (Op).
 	HasOp() bool
+	// GetOp returns the operation type for this event (e.g., EventOpAdd, EventOpRemove, EventOpUpdate).
+	// Only meaningful if HasOp() returns true; otherwise returns empty string.
 	GetOp() EventOp
+	// GetOpOk returns the operation type and a boolean indicating if an operation exists.
+	// Useful for safely checking if an operation is present.
 	GetOpOk() (*EventOp, bool)
 }
 
@@ -19,22 +28,27 @@ type EventCommon struct {
 	Type EventType `json:"type,omitempty"`
 }
 
+// GetType implements Event.GetType by returning the Type field.
 func (e EventCommon) GetType() EventType {
 	return e.Type
 }
 
+// GetId implements Event.GetId by returning the Id field.
 func (e EventCommon) GetId() int64 {
 	return e.Id
 }
 
+// HasOp implements Event.HasOp for EventCommon by returning false (no operation field).
 func (e EventCommon) HasOp() bool {
 	return false
 }
 
+// GetOp implements Event.GetOp for EventCommon by returning empty string (no operation).
 func (e EventCommon) GetOp() EventOp {
 	return ""
 }
 
+// GetOpOk implements Event.GetOpOk for EventCommon by returning (nil, false) (no operation).
 func (e EventCommon) GetOpOk() (*EventOp, bool) {
 	return nil, false
 }
@@ -44,14 +58,17 @@ type EventCommonWithOp struct {
 	Op EventOp `json:"op,omitempty"`
 }
 
+// HasOp implements Event.HasOp for EventCommonWithOp by returning true (operation field exists).
 func (e EventCommonWithOp) HasOp() bool {
 	return true
 }
 
+// GetOp implements Event.GetOp for EventCommonWithOp by returning the Op field.
 func (e EventCommonWithOp) GetOp() EventOp {
 	return e.Op
 }
 
+// GetOpOk implements Event.GetOpOk for EventCommonWithOp by returning the Op field and true.
 func (e EventCommonWithOp) GetOpOk() (*EventOp, bool) {
 	return &e.Op, true
 }

@@ -1,10 +1,10 @@
 package zulip
 
 // The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.
-// - "google" - Google modern
-// - "google-blob" - Google classic
-// - "twitter" - Twitter
-// - "text" - Plain text
+//   - EmojisetGoogle = Google modern
+//   - EmojisetGoogleBlob = Google classic
+//   - EmojisetTwitter = Twitter
+//   - EmojisetText = Plain text
 //
 // [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
 type Emojiset string

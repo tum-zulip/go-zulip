@@ -50,7 +50,7 @@ type LegacyPresenceFormat struct {
 	//
 	// **Changes**: Starting with Zulip 7.0 (feature level 178), this will always be `"website"` as the server no longer stores which client submitted presence data.
 	Client string `json:"client,omitempty"`
-	// The status of the user on this client. Will be either `"idle"` or `"active"`.
+	// The status of the user on this client. Will be either `PresenceStatusIdle` or `PresenceStatusActive`.
 	Status PresenceStatus `json:"status,omitempty"`
 	// The UNIX timestamp of when this client sent the user's presence to the server with the precision of a second.
 	Timestamp int32 `json:"timestamp,omitempty"`

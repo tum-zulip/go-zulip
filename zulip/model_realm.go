@@ -475,29 +475,29 @@ type RealmIdentity struct {
 	// The name of the organization, used in login pages etc.
 	Name string `json:"name,omitempty"`
 	// The [organization type] for the realm.
-	//   - 0 = Unspecified
-	//   - 10 = Business
-	//   - 20 = Open-source project
-	//   - 30 = Education (non-profit)
-	//   - 35 = Education (for-profit)
-	//   - 40 = Research
-	//   - 50 = Event or conference
-	//   - 60 = Non-profit (registered)
-	//   - 70 = Government
-	//   - 80 = Political group
-	//   - 90 = Community
-	//   - 100 = Personal
-	//   - 1000 = Other
+	//   - OrgTypeUnspecified
+	//   - OrgTypeBusiness
+	//   - OrgTypeOpenSource
+	//   - OrgTypeEducationNonProfit
+	//   - OrgTypeEducationForProfit
+	//   - OrgTypeResearch
+	//   - OrgTypeEventOrConference
+	//   - OrgTypeNonProfitRegistered
+	//   - OrgTypeGovernment
+	//   - OrgTypePoliticalGroup
+	//   - OrgTypeCommunity
+	//   - OrgTypePersonal
+	//   - OrgTypeOther
 	//
 	// **Changes**: New in Zulip 6.0 (feature level 128).
 	//
 	// [organization type]: https://zulip.com/help/organization-type
 	OrgType OrgType `json:"org_type,omitempty"`
 	// The plan type of the organization.
-	//   - 1 = Self-hosted organization (SELF_HOSTED)
-	//   - 2 = Zulip Cloud free plan (LIMITED)
-	//   - 3 = Zulip Cloud Standard plan (STANDARD)
-	//   - 4 = Zulip Cloud Standard plan, sponsored for free (STANDARD_FREE)
+	//   - PlanTypeSelfHosted
+	//   - PlanTypeLimited
+	//   - PlanTypeStandard
+	//   - PlanTypeStandardFree
 	PlanType PlanType `json:"plan_type,omitempty"`
 }
 

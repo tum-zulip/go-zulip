@@ -1,9 +1,9 @@
 package zulip
 
 // Whether to [include organization name in subject of message notification emails].
-//   - 1 = Automatic
-//   - 2 = Always
-//   - 3 = Never
+//   - NameInEmailNotificationsPolicyAutomatic
+//   - NameInEmailNotificationsPolicyAlways
+//   - NameInEmailNotificationsPolicyNever
 //
 // **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous `realm_name_in_notifications` boolean; `true` corresponded to `Always`, and `false` to `Never`.
 //

@@ -317,13 +317,13 @@ type MessagesAPI interface {
 	// The relevant realm settings in the API that are related to the above
 	// linked documentation on when users are allowed to update messages are:
 	//
-	// - `allow_message_editing`
-	// - `can_resolve_topics_group`
-	// - `can_move_messages_between_channels_group`
-	// - `can_move_messages_between_topics_group`
-	// - `message_content_edit_limit_seconds`
-	// - `move_messages_within_stream_limit_seconds`
-	// - `move_messages_between_streams_limit_seconds`
+	//   - `allow_message_editing`
+	//   - `can_resolve_topics_group`
+	//   - `can_move_messages_between_channels_group`
+	//   - `can_move_messages_between_topics_group`
+	//   - `message_content_edit_limit_seconds`
+	//   - `move_messages_within_stream_limit_seconds`
+	//   - `move_messages_between_streams_limit_seconds`
 	//
 	// More details about these realm settings can be found in the
 	// [`POST /register`] response or in the documentation
@@ -2556,13 +2556,13 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 // The relevant realm settings in the API that are related to the above
 // linked documentation on when users are allowed to update messages are:
 //
-// - `allow_message_editing`
-// - `can_resolve_topics_group`
-// - `can_move_messages_between_channels_group`
-// - `can_move_messages_between_topics_group`
-// - `message_content_edit_limit_seconds`
-// - `move_messages_within_stream_limit_seconds`
-// - `move_messages_between_streams_limit_seconds`
+//   - `allow_message_editing`
+//   - `can_resolve_topics_group`
+//   - `can_move_messages_between_channels_group`
+//   - `can_move_messages_between_topics_group`
+//   - `message_content_edit_limit_seconds`
+//   - `move_messages_within_stream_limit_seconds`
+//   - `move_messages_between_streams_limit_seconds`
 //
 // More details about these realm settings can be found in the
 // [`POST /register`] response or in the documentation

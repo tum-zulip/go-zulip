@@ -1,19 +1,19 @@
 package zulip
 
 // The [organization type] for the realm.
-//   - 0 = Unspecified
-//   - 10 = Business
-//   - 20 = Open-source project
-//   - 30 = Education (non-profit)
-//   - 35 = Education (for-profit)
-//   - 40 = Research
-//   - 50 = Event or conference
-//   - 60 = Non-profit (registered)
-//   - 70 = Government
-//   - 80 = Political group
-//   - 90 = Community
-//   - 100 = Personal
-//   - 1000 = Other
+//   - OrgTypeUnspecified = Unspecified
+//   - OrgTypeBusiness = Business
+//   - OrgTypeOpenSource = Open-source project
+//   - OrgTypeEducationNonProfit = Education (non-profit)
+//   - OrgTypeEducationForProfit = Education (for-profit)
+//   - OrgTypeResearch = Research
+//   - OrgTypeEventOrConference = Event or conference
+//   - OrgTypeNonProfitRegistered = Non-profit (registered)
+//   - OrgTypeGovernment = Government
+//   - OrgTypePoliticalGroup = Political group
+//   - OrgTypeCommunity = Community
+//   - OrgTypePersonal = Personal
+//   - OrgTypeOther = Other
 //
 // **Changes**: New in Zulip 6.0 (feature level 128).
 //
