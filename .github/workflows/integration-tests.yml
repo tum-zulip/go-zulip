@@ -100,18 +100,18 @@ jobs:
           fi
 
       - name: Checkout Zulip server ${{ matrix.zulip-branch }}
-        run: git clone --depth 1 --branch "${{ matrix.zulip-branch }}" https://github.com/zulip/zulip.git /tmp/zulip-server
+        run: git clone --depth 1 --branch "${{ matrix.zulip-branch }}" https://github.com/zulip/zulip.git tmp/zulip-server
 
       - name: Provision Zulip dev server
-        working-directory: /tmp/zulip-server
+        working-directory: tmp/zulip-server
         run: |
           ./tools/provision
 
       - name: Start Zulip dev server
-        working-directory: /tmp/zulip-server
+        working-directory: tmp/zulip-server
         run: |
           nohup ./tools/run-dev.sh >"${ZULIP_DEV_LOG}" 2>&1 &
-          echo $! > /tmp/zulip-dev.pid
+          echo $! > tmp/zulip-dev.pid
 
       - name: Wait for Zulip dev server to become ready
         run: |
@@ -161,8 +161,8 @@ jobs:
       - name: Stop Zulip dev server
         if: always()
         run: |
-          if [ -f /tmp/zulip-dev.pid ]; then
-            sudo kill "$(cat /tmp/zulip-dev.pid)" || true
+          if [ -f tmp/zulip-dev.pid ]; then
+            sudo kill "$(cat tmp/zulip-dev.pid)" || true
           fi
           sudo pkill -f run-dev.sh || true
 
