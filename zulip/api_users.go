@@ -4438,7 +4438,10 @@ func (r UpdateSettingsRequest) TwentyFourHourTime(twentyFourHourTime bool) Updat
 	return r
 }
 
-// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never
+// Whether or not to mark messages as read when the user scrolls through their feed.
+//   - 1 = Always
+//   - 2 = Only in conversation views
+//   - 3 = Never
 //
 // **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the "Always" setting when marking messages as read.
 func (r UpdateSettingsRequest) WebMarkReadOnScrollPolicy(webMarkReadOnScrollPolicy int32) UpdateSettingsRequest {
@@ -4446,7 +4449,11 @@ func (r UpdateSettingsRequest) WebMarkReadOnScrollPolicy(webMarkReadOnScrollPoli
 	return r
 }
 
-// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel
+// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.
+//   - 1 = Top topic in the channel
+//   - 2 = Channel feed
+//   - 3 = List of topics
+//   - 4 = Top unread topic in channel
 //
 // **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  The "List of topics" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
 func (r UpdateSettingsRequest) WebChannelDefaultView(webChannelDefaultView int32) UpdateSettingsRequest {
@@ -4516,9 +4523,15 @@ func (r UpdateSettingsRequest) WebLineHeightPercent(webLineHeightPercent int32) 
 	return r
 }
 
-// Controls which [color theme] to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard `prefers-color-scheme` media query.
+// Controls which [color theme] to use.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
+//   - 1 = Automatic
+//
+//   - 2 = Dark theme
+//
+//   - 3 = Light theme  Automatic detection is implementing using the standard `prefers-color-scheme` media query.
+//
+//     **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 //
 // [color theme]: https://zulip.com/help/dark-theme
 func (r UpdateSettingsRequest) ColorScheme(colorScheme ColorScheme) UpdateSettingsRequest {
@@ -4600,7 +4613,10 @@ func (r UpdateSettingsRequest) Emojiset(emojiset string) UpdateSettingsRequest {
 	return r
 }
 
-// Whether to [hide inactive channels] in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never
+// Whether to [hide inactive channels] in the left sidebar.
+//   - 1 = Automatic
+//   - 2 = Always
+//   - 3 = Never
 //
 // **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 //
@@ -4610,7 +4626,10 @@ func (r UpdateSettingsRequest) DemoteInactiveChannels(demoteInactiveChannels int
 	return r
 }
 
-// The style selected by the user for the right sidebar user list.  - 1 - Compact - 2 - With status - 3 - With avatar and status
+// The style selected by the user for the right sidebar user list.
+//   - 1 = Compact
+//   - 2 = With status
+//   - 3 = With avatar and status
 //
 // **Changes**: New in Zulip 6.0 (feature level 141).
 func (r UpdateSettingsRequest) UserListStyle(userListStyle int32) UpdateSettingsRequest {
@@ -4626,7 +4645,10 @@ func (r UpdateSettingsRequest) WebAnimateImagePreviews(webAnimateImagePreviews s
 	return r
 }
 
-// Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.  - 1 - All channels - 2 - Unmuted channels and topics - 3 - No channels
+// Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.
+//   - 1 = All channels
+//   - 2 = Unmuted channels and topics
+//   - 3 = No channels
 //
 // **Changes**: New in Zulip 8.0 (feature level 210).
 func (r UpdateSettingsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnreadsCountDisplayPolicy int32) UpdateSettingsRequest {
@@ -4844,7 +4866,11 @@ func (r UpdateSettingsRequest) EnableFollowedTopicWildcardMentionsNotify(enableF
 	return r
 }
 
-// Unread count badge (appears in desktop sidebar and browser tab)  - 1 - All unread messages - 2 - DMs, mentions, and followed topics - 3 - DMs and mentions - 4 - None
+// Unread count badge (appears in desktop sidebar and browser tab)
+//   - 1 = All unread messages
+//   - 2 = DMs, mentions, and followed topics
+//   - 3 = DMs and mentions
+//   - 4 = None
 //
 // **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.  Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) DesktopIconCountDisplay(desktopIconCountDisplay int32) UpdateSettingsRequest {
@@ -4852,7 +4878,10 @@ func (r UpdateSettingsRequest) DesktopIconCountDisplay(desktopIconCountDisplay i
 	return r
 }
 
-// Whether to [include organization name in subject of message notification emails].  - 1 - Automatic - 2 - Always - 3 - Never
+// Whether to [include organization name in subject of message notification emails].
+//   - 1 = Automatic
+//   - 2 = Always
+//   - 3 = Never
 //
 // **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous `realm_name_in_notifications` boolean; `true` corresponded to `Always`, and `false` to `Never`.  Before Zulip 5.0 (feature level 80), the previous `realm_name_in_notifications` setting was managed by the `PATCH /settings/notifications` endpoint.
 //
@@ -4862,7 +4891,11 @@ func (r UpdateSettingsRequest) RealmNameInEmailNotificationsPolicy(realmNameInEm
 	return r
 }
 
-// Which [topics to follow automatically].  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never
+// Which [topics to follow automatically].
+//   - 1 = Topics the user participates in
+//   - 2 = Topics the user sends a message to
+//   - 3 = Topics the user starts
+//   - 4 = Never
 //
 // **Changes**: New in Zulip 8.0 (feature level 214).
 //
@@ -4872,7 +4905,11 @@ func (r UpdateSettingsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFoll
 	return r
 }
 
-// Which [topics to unmute automatically in muted channels].  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never
+// Which [topics to unmute automatically in muted channels].
+//   - 1 = Topics the user participates in
+//   - 2 = Topics the user sends a message to
+//   - 3 = Topics the user starts
+//   - 4 = Never
 //
 // **Changes**: New in Zulip 8.0 (feature level 214).
 //

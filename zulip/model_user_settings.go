@@ -7,11 +7,18 @@ type UserSettings struct {
 	//
 	// [displayed in 24-hour notation]: https://zulip.com/help/change-the-time-format
 	TwentyFourHourTime *bool `json:"twenty_four_hour_time,omitempty"`
-	// Whether or not to mark messages as read when the user scrolls through their feed.  - 1 - Always - 2 - Only in conversation views - 3 - Never
+	// Whether or not to mark messages as read when the user scrolls through their feed.
+	//   - 1 = Always
+	//   - 2 = Only in conversation views
+	//   - 3 = Never
 	//
 	// **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the "Always" setting when marking messages as read.
 	WebMarkReadOnScrollPolicy MarkReadOnScrollPolicy `json:"web_mark_read_on_scroll_policy,omitempty"`
-	// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.  - 1 - Top topic in the channel - 2 - Channel feed - 3 - List of topics - 4 - Top unread topic in channel
+	// Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.
+	//   - 1 = Top topic in the channel
+	//   - 2 = Channel feed
+	//   - 3 = List of topics
+	//   - 4 = Top unread topic in channel
 	//
 	// **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  The "List of topics" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
 	WebChannelDefaultView ChannelDefaultView `json:"web_channel_default_view,omitempty"`
@@ -43,7 +50,10 @@ type UserSettings struct {
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
 	WebLineHeightPercent int `json:"web_line_height_percent,omitempty"`
-	// Controls which [color theme] to use.  - 1 - Automatic - 2 - Dark theme - 3 - Light theme  Automatic detection is implementing using the standard `prefers-color-scheme` media query.
+	// Controls which [color theme] to use.
+	//   - 1 = Automatic
+	//   - 2 = Dark theme
+	//   - 3 = Light theme  Automatic detection is implementing using the standard `prefers-color-scheme` media query.
 	//
 	// [color theme]: https://zulip.com/help/dark-theme
 	ColorScheme ColorScheme `json:"color_scheme,omitempty"`
@@ -84,11 +94,17 @@ type UserSettings struct {
 	//
 	// [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
 	Emojiset Emojiset `json:"emojiset,omitempty"`
-	// Whether to [hide inactive channels] in the left sidebar.  - 1 - Automatic - 2 - Always - 3 - Never
+	// Whether to [hide inactive channels] in the left sidebar.
+	//   - 1 = Automatic
+	//   - 2 = Always
+	//   - 3 = Never
 	//
 	// [hide inactive channels]: https://zulip.com/help/manage-inactive-channels
 	DemoteInactiveChannels DemoteInactiveChannels `json:"demote_inactive_streams,omitempty"`
-	// The style selected by the user for the right sidebar user list.  - 1 - Compact - 2 - With status - 3 - With avatar and status
+	// The style selected by the user for the right sidebar user list.
+	//   - 1 = Compact
+	//   - 2 = With status
+	//   - 3 = With avatar and status
 	//
 	// **Changes**: New in Zulip 6.0 (feature level 141).
 	UserListStyle UserListStyle `json:"user_list_style,omitempty"`
@@ -99,7 +115,10 @@ type UserSettings struct {
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 275).
 	WebAnimateImagePreviews WebAnimateImagePreviews `json:"web_animate_image_previews,omitempty"`
-	// Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.  - 1 - All channels - 2 - Unmuted channels and topics - 3 - No channels
+	// Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.
+	//   - 1 = All channels
+	//   - 2 = Unmuted channels and topics
+	//   - 3 = No channels
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 210).
 	WebChannelUnreadsCountDisplayPolicy WebChannelUnreadsCountDisplayPolicy `json:"web_stream_unreads_count_display_policy,omitempty"`
@@ -179,23 +198,38 @@ type UserSettings struct {
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 189).
 	EnableFollowedTopicWildcardMentionsNotify bool `json:"enable_followed_topic_wildcard_mentions_notify,omitempty"`
-	// Unread count badge (appears in desktop sidebar and browser tab)  - 1 - All unread messages - 2 - DMs, mentions, and followed topics - 3 - DMs and mentions - 4 - None
+	// Unread count badge (appears in desktop sidebar and browser tab)
+	//   - 1 = All unread messages
+	//   - 2 = DMs, mentions, and followed topics
+	//   - 3 = DMs and mentions
+	//   - 4 = None
 	//
 	// **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
 	DesktopIconCountDisplay DesktopIconCountDisplay `json:"desktop_icon_count_display,omitempty"`
-	// Whether to [include organization name in subject of message notification emails].  - 1 - Automatic - 2 - Always - 3 - Never
+	// Whether to [include organization name in subject of message notification emails].
+	//   - 1 = Automatic
+	//   - 2 = Always
+	//   - 3 = Never
 	//
 	// **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous `realm_name_in_notifications` boolean; `true` corresponded to `Always`, and `false` to `Never`.
 	//
 	// [include organization name in subject of message notification emails]: https://zulip.com/help/email-notifications#include-organization-name-in-subject-line
 	RealmNameInEmailNotificationsPolicy NameInEmailNotificationsPolicy `json:"realm_name_in_email_notifications_policy,omitempty"`
-	// Which [topics to follow automatically].  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Neve
+	// Which [topics to follow automatically].
+	//   - 1 = Topics the user participates in
+	//   - 2 = Topics the user sends a message to
+	//   - 3 = Topics the user starts
+	//   - 4 = Neve
 	//
 	//  **Changes**: New in Zulip 8.0 (feature level 214).
 	//
 	// [topics to follow automatically]: https://zulip.com/help/mute-a-topic
 	AutomaticallyFollowTopicsPolicy AutomaticallyFollowTopicsPolicy `json:"automatically_follow_topics_policy,omitempty"`
-	// Which [topics to unmute automatically in muted channels].  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never
+	// Which [topics to unmute automatically in muted channels].
+	//   - 1 = Topics the user participates in
+	//   - 2 = Topics the user sends a message to
+	//   - 3 = Topics the user starts
+	//   - 4 = Never
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 214).
 	//
