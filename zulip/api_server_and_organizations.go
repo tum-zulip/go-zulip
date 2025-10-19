@@ -2680,13 +2680,17 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicWildcardMenti
 	return r
 }
 
-// Unread count badge (appears in desktop sidebar and browser tab)  - 1 - All unread messages - 2 - DMs, mentions, and followed topics - 3 - DMs and mentions - 4 - None  **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
+// Unread count badge (appears in desktop sidebar and browser tab)  - 1 - All unread messages - 2 - DMs, mentions, and followed topics - 3 - DMs and mentions - 4 - None
+//
+// **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
 func (r UpdateRealmUserSettingsDefaultsRequest) DesktopIconCountDisplay(desktopIconCountDisplay int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.desktopIconCountDisplay = &desktopIconCountDisplay
 	return r
 }
 
-// Whether to [include organization name in subject of message notification emails].  - 1 - Automatic - 2 - Always - 3 - Never  **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous `realm_name_in_notifications` boolean; `true` corresponded to `Always`, and `false` to `Never`.
+// Whether to [include organization name in subject of message notification emails].  - 1 - Automatic - 2 - Always - 3 - Never
+//
+// **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous `realm_name_in_notifications` boolean; `true` corresponded to `Always`, and `false` to `Never`.
 //
 // [include organization name in subject of message notification emails]: https://zulip.com/help/email-notifications#include-organization-name-in-subject-line
 func (r UpdateRealmUserSettingsDefaultsRequest) RealmNameInEmailNotificationsPolicy(realmNameInEmailNotificationsPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
@@ -2694,7 +2698,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) RealmNameInEmailNotificationsPol
 	return r
 }
 
-// Which [topics to follow automatically].  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
+// Which [topics to follow automatically].  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never
+//
+// **Changes**: New in Zulip 8.0 (feature level 214).
 //
 // [topics to follow automatically]: https://zulip.com/help/mute-a-topic
 func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
@@ -2702,7 +2708,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(
 	return r
 }
 
-// Which [topics to unmute automatically in muted channels].  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never  **Changes**: New in Zulip 8.0 (feature level 214).
+// Which [topics to unmute automatically in muted channels].  - 1 - Topics the user participates in - 2 - Topics the user sends a message to - 3 - Topics the user starts - 4 - Never
+//
+// **Changes**: New in Zulip 8.0 (feature level 214).
 //
 // [topics to unmute automatically in muted channels]: https://zulip.com/help/mute-a-topic
 func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
@@ -2776,7 +2784,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(sendReadReceipt
 	return r
 }
 
-// The [policy] for [which other users] in this organization can see the user's real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only  **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
+// The [policy] for [which other users] in this organization can see the user's real email address.  - 1 &#x3D; Everyone - 2 &#x3D; Members only - 3 &#x3D; Administrators only - 4 &#x3D; Nobody - 5 &#x3D; Moderators only
+//
+// **Changes**: New in Zulip 7.0 (feature level 163), replacing the realm-level setting.
 //
 // [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
 // [which other users]: https://zulip.com/help/configure-email-visibility

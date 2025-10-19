@@ -2938,7 +2938,9 @@ func (r SubscribeRequest) InviteOnly(inviteOnly bool) SubscribeRequest {
 //
 // [server setting] to be enabled on the Zulip server in question, the organization to have enabled the `enable_spectator_access` realm setting, and the current use to have permission under the organization's `can_create_web_public_channel_group` realm setting.
 //
-// [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
+// **Changes**: New in Zulip 5.0 (feature level 98).
+//
+// [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html
 func (r SubscribeRequest) IsWebPublic(isWebPublic bool) SubscribeRequest {
 	r.isWebPublic = &isWebPublic
 	return r
@@ -2946,8 +2948,9 @@ func (r SubscribeRequest) IsWebPublic(isWebPublic bool) SubscribeRequest {
 
 // This parameter determines whether any newly created channels will be added as [default channels] for new users joining the organization.
 //
-// [default channels]: https://zulip.com/help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint].
+// **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint].
 //
+// [default channels]: https://zulip.com/help/set-default-channels-for-new-users
 // [dedicated API endpoint]: https://zulip.com/api/add-default-stream
 func (r SubscribeRequest) IsDefaultChannel(isDefaultChannel bool) SubscribeRequest {
 	r.isDefaultChannel = &isDefaultChannel
@@ -3623,11 +3626,11 @@ func (r UpdateChannelRequest) IsPrivate(isPrivate bool) UpdateChannelRequest {
 	return r
 }
 
-// Change whether the channel is a web-public channel.  Note that creating web-public channels requires the `WEB_PUBLIC_STREAMS_ENABLED`
+// Change whether the channel is a web-public channel.  Note that creating web-public channels requires the `WEB_PUBLIC_STREAMS_ENABLED` [server setting] to be enabled on the Zulip server in question, the organization to have enabled the `enable_spectator_access` realm setting, and the current use to have permission under the organization's `can_create_web_public_channel_group` realm setting.
 //
-// [server setting] to be enabled on the Zulip server in question, the organization to have enabled the `enable_spectator_access` realm setting, and the current use to have permission under the organization's `can_create_web_public_channel_group` realm setting.
+// **Changes**: New in Zulip 5.0 (feature level 98).
 //
-// [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html  **Changes**: New in Zulip 5.0 (feature level 98).
+// [server setting]: https://zulip.readthedocs.io/en/stable/production/settings.html
 func (r UpdateChannelRequest) IsWebPublic(isWebPublic bool) UpdateChannelRequest {
 	r.isWebPublic = &isWebPublic
 	return r
@@ -3645,8 +3648,9 @@ func (r UpdateChannelRequest) HistoryPublicToSubscribers(historyPublicToSubscrib
 
 // Add or remove the channel as a [default channel] for new users joining the organization.
 //
-// [default channel]: https://zulip.com/help/set-default-channels-for-new-users  **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint].
+// **Changes**: New in Zulip 8.0 (feature level 200). Previously, default channel status could only be changed using the [dedicated API endpoint].
 //
+// [default channel]: https://zulip.com/help/set-default-channels-for-new-users
 // [dedicated API endpoint]: https://zulip.com/api/add-default-stream
 func (r UpdateChannelRequest) IsDefaultChannel(isDefaultChannel bool) UpdateChannelRequest {
 	r.isDefaultChannel = &isDefaultChannel
