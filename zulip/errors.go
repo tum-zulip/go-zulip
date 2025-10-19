@@ -2,8 +2,6 @@ package zulip
 
 import (
 	"fmt"
-	"reflect"
-	"strings"
 )
 
 // APIError Provides access to the body, error and model on returned errors.
@@ -122,26 +120,6 @@ type ErrInvalidEnumValue struct {
 
 func (e *ErrInvalidEnumValue) Error() string {
 	return fmt.Sprintf("invalid value '%v' for '%v', valid values are %v", e.Value, e.VarName, e.Enum)
-}
-
-// format error message using title and detail when model implements rfc7807
-func formatErrorMessage(status string, v interface{}) string {
-	str := ""
-	metaValue := reflect.ValueOf(v).Elem()
-
-	if metaValue.Kind() == reflect.Struct {
-		field := metaValue.FieldByName("Title")
-		if field != (reflect.Value{}) {
-			str = fmt.Sprintf("%s", field.Interface())
-		}
-
-		field = metaValue.FieldByName("Detail")
-		if field != (reflect.Value{}) {
-			str = fmt.Sprintf("%s (%s)", str, field.Interface())
-		}
-	}
-
-	return strings.TrimSpace(fmt.Sprintf("%s %s", status, str))
 }
 
 // Prevent trying to import "fmt"

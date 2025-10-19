@@ -184,11 +184,3 @@ func normalizePath(pathStr string) (string, error) {
 	}
 	return filepath.Abs(expanded)
 }
-
-func getDefaultConfigFilename() string {
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return ""
-	}
-	return filepath.Join(home, ".zuliprc")
-}

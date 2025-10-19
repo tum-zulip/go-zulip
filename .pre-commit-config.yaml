@@ -28,7 +28,7 @@ repos:
 
       - id: staticcheck
         name: staticcheck
-        entry: go run honnef.co/go/tools/cmd/staticcheck@2024.1.1 ./...
+        entry: go run honnef.co/go/tools/cmd/staticcheck@2025.1.1 ./...
         language: system
         pass_filenames: false
 

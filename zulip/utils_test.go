@@ -32,11 +32,11 @@ var (
 	adminClient     = namedClient{name: "admin", factory: GetAdminClient}
 	moderatorClient = namedClient{name: "moderator", factory: GetModeratorClient}
 	normalClient    = namedClient{name: "normal", factory: GetNormalClient}
-	otherClient     = namedClient{name: "other", factory: GetOtherNormalClient}
-	guestClient     = namedClient{name: "guest", factory: GetGuestClient}
 	botClient       = namedClient{name: "bot", factory: GetBotClient}
 	allClients      = []namedClient{ownerClient, adminClient, moderatorClient, normalClient, botClient}
 )
+
+// TODO(janez): Add guest client to tests
 
 type namedClient struct {
 	name    string

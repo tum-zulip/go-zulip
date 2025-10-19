@@ -446,9 +446,10 @@ func Test_UsersAPIService(t *testing.T) {
 	}))
 
 	t.Run("AddApnsToken", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+		t.Skip("TODO: Not implemented")
+
 		ctx := context.Background()
 
-		t.Skip("TODO: Not implemented")
 		resp, httpRes, err := apiClient.AddApnsToken(ctx).Execute()
 
 		require.NoError(t, err)
@@ -458,9 +459,10 @@ func Test_UsersAPIService(t *testing.T) {
 	}))
 
 	t.Run("AddFcmToken", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+		t.Skip("TODO: Not implemented")
+
 		ctx := context.Background()
 
-		t.Skip("TODO: Not implemented")
 		resp, httpRes, err := apiClient.AddFcmToken(ctx).Execute()
 
 		require.NoError(t, err)
@@ -470,9 +472,10 @@ func Test_UsersAPIService(t *testing.T) {
 	}))
 
 	t.Run("RemoveApnsToken", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+		t.Skip("TODO: Not implemented")
+
 		ctx := context.Background()
 
-		t.Skip("TODO: Not implemented")
 		resp, httpRes, err := apiClient.RemoveApnsToken(ctx).Execute()
 
 		require.NoError(t, err)

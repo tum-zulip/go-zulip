@@ -47,7 +47,7 @@ func TestReminderUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 	require.NoError(t, json.Unmarshal(raw, &reminder))
 
 	assert.Equal(t, int64(123), reminder.ReminderId)
-	assert.Equal(t, zulip.RecipientTypePrivate, reminder.Type)
+	assert.Equal(t, zulip.RecipientTypeDirect, reminder.Type)
 	assert.Equal(t, []int64{1, 2, 3}, reminder.To)
 	assert.Equal(t, "Don't forget", reminder.Content)
 	assert.Equal(t, "<p>Don't forget</p>", reminder.RenderedContent)

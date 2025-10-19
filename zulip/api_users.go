@@ -4394,7 +4394,7 @@ type UpdateSettingsRequest struct {
 	automaticallyFollowTopicsPolicy                *TopicInteraction
 	automaticallyUnmuteTopicsInMutedChannelsPolicy *TopicInteraction
 	automaticallyFollowTopicsWhereMentioned        *bool
-	resolvedTopicNoticeAutoReadPolicy              *string
+	resolvedTopicNoticeAutoReadPolicy              *ResolvedTopicNoticeAutoReadPolicy
 	presenceEnabled                                *bool
 	enterSends                                     *bool
 	sendPrivateTypingNotifications                 *bool
