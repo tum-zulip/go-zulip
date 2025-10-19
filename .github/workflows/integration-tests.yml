@@ -89,7 +89,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.11"
+          python-version: "3.11.14"
 
       - name: Checkout Zulip server ${{ matrix.zulip-branch }}
         run: git clone --depth 1 --branch "${{ matrix.zulip-branch }}" https://github.com/zulip/zulip.git /tmp/zulip-server
