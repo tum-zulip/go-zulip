@@ -95,7 +95,7 @@ type RegisterQueueResponse struct {
 	MutedUsers []MutedUser `json:"muted_users,omitempty"`
 	// Present if `presence` is present in `fetch_event_types`.  A dictionary where each entry describes the presence details of a user in the Zulip organization.  The format of the entry (modern or legacy) depends on the value of [`slim_presence`].  Users who have been offline for multiple weeks may not appear in this object.
 	//
-	// [`slim_presence`]: #parameter-slim_presence
+	// [`slim_presence`]: https://zulip.com/api/register-queue#parameter-slim_presence
 	Presences map[string]PresenceUpdateValue `json:"presences,omitempty"`
 	// Present if `presence` is present in `fetch_event_types`.  Provides the `last_update_id` value of the latest presence data fetched by the server and included in the response in `presences`. This can be used as the value of the `presence_last_update_id` parameter when polling for presence data at the [/users/me/presence] endpoint to tell the server to only fetch the relevant newer data in order to skip redundant already-known presence information.
 	//

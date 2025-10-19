@@ -45,7 +45,7 @@ type ChannelsAPI interface {
 	// user was given the moderator role on BigBlueButton calls, via
 	// encoding a moderator password in the generated URLs.
 	//
-	// [BigBlueButton 2.4+]: /integrations/doc/big-blue-button
+	// [BigBlueButton 2.4+]: https://zulip.com/integrations/doc/big-blue-button
 	CreateBigBlueButtonVideoCall(ctx context.Context) CreateBigBlueButtonVideoCallRequest
 
 	// CreateBigBlueButtonVideoCallExecute executes the request
@@ -98,8 +98,7 @@ type ChannelsAPI interface {
 	// response will return `"complete": true`.
 	//
 	// *Changes**: Before Zulip 9.0 (feature level 256), the server never sent
-	// [`stream` op: `update`] events with an
-	// updated `first_message_id` for a channel when the oldest message that
+	// [`stream` op: `update`] events with an updated `first_message_id` for a channel when the oldest message that
 	// had been sent to it changed.
 	//
 	// Before Zulip 8.0 (feature level 211), if the server's

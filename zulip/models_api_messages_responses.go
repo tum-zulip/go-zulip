@@ -160,10 +160,8 @@ type UploadFileResponse struct {
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 272). Previously, this property was only available under the legacy `uri` name.
 	Url string `json:"url,omitempty"`
-	// The filename that Zulip stored the upload as. This usually differs from the basename of the URL when HTML escaping is required to generate a valid URL.  Clients generating a Markdown link to a newly uploaded file should do so by combining the `url` and `filename` fields in the response as follows: `[{filename}]`, with care taken to clean `filename` of `[` and `]` characters that might break Markdown rendering.
+	// The filename that Zulip stored the upload as. This usually differs from the basename of the URL when HTML escaping is required to generate a valid URL.  Clients generating a Markdown link to a newly uploaded file should do so by combining the `url` and `filename` fields in the response as follows: `[{filename}]({url})`, with care taken to clean `filename` of `[` and `]` characters that might break Markdown rendering.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 285).
-	//
-	// [{filename}]: {url}
 	Filename string `json:"filename,omitempty"`
 }

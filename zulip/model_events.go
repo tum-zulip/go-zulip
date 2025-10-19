@@ -1295,7 +1295,7 @@ type RealmBotDeleteEvent struct {
 //
 //	**Changes**: Removed `extra_data` optional property in Zulip 10.0 (feature level 306). The `extra_data` used to include an `upload_quota` field when changed property was `plan_type`. The server now sends a standard `realm/update_dict` event for plan changes.
 //
-// [realm/update_dict]: #realm-update_dict
+// [realm/update_dict]: https://zulip.com/api/get-events#realm-update_dict
 type RealmUpdateEvent struct {
 	EventCommonWithOp
 
@@ -1391,8 +1391,9 @@ type WebReloadClientEvent struct {
 //
 //	**Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when deactivating or reactivating a user.  In Zulip 7.0 (feature level 163), the realm setting `email_address_visibility` was removed. It was replaced by a [user setting] with a [realm user default], with the encoding of different values preserved. Clients can support all versions by supporting the current API and treating every user as having the realm's `email_address_visibility` value.
 //
+// [realm/update]: https://zulip.com/api/get-events#realm-update
+//
 // [realm user default]: https://zulip.com/api/update-realm-user-settings-defaults#parameter-email_address_visibility
-// [realm/update]: #realm-update
 // [user setting]: https://zulip.com/api/update-settings#parameter-email_address_visibility
 type RealmUpdateDictEvent struct {
 	EventCommonWithOp

@@ -436,7 +436,7 @@ type RealmConfiguration struct {
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 306). Previously, this was present changed via an `upload_quota` field in `extra_data` property of [realm/update] event format for `plan_type` events.
 	//
-	// [realm/update]: #realm-update
+	// [realm/update]: https://zulip.com/api/get-events#realm-update
 	UploadQuotaMib *int64 `json:"upload_quota_mib,omitempty"`
 	// The configured [video call provider] for the organization.
 	//   - 0 = None

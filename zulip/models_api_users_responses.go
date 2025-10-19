@@ -45,7 +45,7 @@ type UpdatePresenceResponse struct {
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 263).
 	//
-	// [`last_update_id`]: #parameter-last_update_id
+	// [`last_update_id`]: https://zulip.com/api/update-presence#parameter-last_update_id
 	PresenceLastUpdateId int64 `json:"presence_last_update_id,omitempty"`
 	// Only present if `ping_only` is `false`.  The time when the server fetched the `presences` data included in the response.
 	ServerTimestamp *float32 `json:"server_timestamp,omitempty"`

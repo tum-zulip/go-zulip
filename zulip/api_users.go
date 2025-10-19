@@ -540,7 +540,7 @@ type UsersAPI interface {
 	// [invisible mode]: https://zulip.com/help/status-and-availability#invisible-mode
 	// [presence]: https://zulip.com/help/status-and-availability#availability
 	//
-	// [`last_update_id`]: #parameter-last_update_id
+	// [`last_update_id`]: https://zulip.com/api/update-presence#parameter-last_update_id
 	UpdatePresence(ctx context.Context) UpdatePresenceRequest
 
 	// UpdatePresenceExecute executes the request
@@ -4147,7 +4147,7 @@ type UpdatePresenceRequest struct {
 
 // The status of the user on this client.  Clients should report the user as `"active"` on this device if the client knows that the user is presently using the device (and thus would potentially see a notification immediately), even if the user has not directly interacted with the Zulip client.  Otherwise, it should report the user as `"idle"`.  See the related [`new_user_input`] parameter for how a client should report whether the user is actively using the Zulip client.
 //
-// [`new_user_input`]: #parameter-new_user_input
+// [`new_user_input`]: https://zulip.com/api/update-presence#parameter-new_user_input
 func (r UpdatePresenceRequest) Status(status PresenceStatus) UpdatePresenceRequest {
 	r.status = &status
 	return r
@@ -4181,7 +4181,7 @@ func (r UpdatePresenceRequest) NewUserInput(newUserInput bool) UpdatePresenceReq
 
 // Whether the client is sending a ping-only request, meaning it only wants to update the user's presence `status` on the server.  Otherwise, also requests the server return user presence data for all users in the organization, which is further specified by the [`last_update_id`] parameter.
 //
-// [`last_update_id`]: #parameter-last_update_id
+// [`last_update_id`]: https://zulip.com/api/update-presence#parameter-last_update_id
 func (r UpdatePresenceRequest) PingOnly(pingOnly bool) UpdatePresenceRequest {
 	r.pingOnly = &pingOnly
 	return r
@@ -4191,7 +4191,7 @@ func (r UpdatePresenceRequest) PingOnly(pingOnly bool) UpdatePresenceRequest {
 //
 //	**Changes**: **Deprecated** in Zulip 9.0 (feature level 263). Using the modern `last_update_id` parameter is the recommended way to request the modern format for user presence data.  New in Zulip 3.0 (no feature level as it was an unstable API at that point).
 //
-// [`last_update_id`]: #parameter-last_update_id
+// [`last_update_id`]: https://zulip.com/api/update-presence#parameter-last_update_id
 func (r UpdatePresenceRequest) SlimPresence(slimPresence bool) UpdatePresenceRequest {
 	r.slimPresence = &slimPresence
 	return r
@@ -4233,7 +4233,7 @@ func (r UpdatePresenceRequest) Execute() (*UpdatePresenceResponse, *http.Respons
 // [invisible mode]: https://zulip.com/help/status-and-availability#invisible-mode
 // [presence]: https://zulip.com/help/status-and-availability#availability
 // [`presence` events]: https://zulip.com/api/get-events#presence
-// [`last_update_id`]: #parameter-last_update_id
+// [`last_update_id`]: https://zulip.com/api/update-presence#parameter-last_update_id
 func (c *simpleClient) UpdatePresence(ctx context.Context) UpdatePresenceRequest {
 	return UpdatePresenceRequest{
 		ApiService: c,
