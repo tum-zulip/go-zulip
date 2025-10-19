@@ -1,9 +1,9 @@
 package zulip
 
 // Whether to [hide inactive channels] in the left sidebar.
-//   - 1 = Automatic
-//   - 2 = Always
-//   - 3 = Never
+//   - DemoteInactiveChannelsAutomatic = Automatic
+//   - DemoteInactiveChannelsAlways = Always
+//   - DemoteInactiveChannelsNever = Never
 //
 // [hide inactive channels]: https://zulip.com/help/manage-inactive-channels
 type DemoteInactiveChannels int

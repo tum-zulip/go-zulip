@@ -1,8 +1,8 @@
 package zulip
 
 // The avatar data source type for the current user.
-// - "G" - Gravatar
-// - "U" - Uploaded by user
+//   - AvatarSourceGravatar = Gravatar
+//   - AvatarSourceUploaded = Uploaded by user
 type AvatarSource string
 
 const (

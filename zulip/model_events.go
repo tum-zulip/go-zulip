@@ -578,9 +578,17 @@ type CustomProfileFieldsEvent struct {
 type CustomProfileField struct {
 	// The Id of the custom profile field. This will be referenced in the custom profile fields section of user objects.
 	Id int64 `json:"id"`
-	// An integer indicating the type of the custom profile field, which determines how it is configured and displayed to users.  See the [Custom profile fields] article for details on what each type means.  - **1**: Short text - **2**: Long text - **3**: List of options - **4**: Date picker - **5**: Link - **6**: Person picker - **7**: External account - **8**: Pronouns
+	// An integer indicating the type of the custom profile field, which determines how it is configured and displayed to users.  See the [Custom profile fields] article for details on what each type means.
+	//   - CustomFieldTypeShortText
+	//   - CustomFieldTypeLongText
+	//   - CustomFieldTypeListOfOptions
+	//   - CustomFieldTypeDatePicker
+	//   - CustomFieldTypeLink
+	//   - CustomFieldTypePersonPicker
+	//   - CustomFieldTypeExternalAccount
+	//   - CustomFieldTypePronouns
 	//
-	// **Changes**: Field type `8` added in Zulip 6.0 (feature level 151).
+	// **Changes**: Field type `CustomFieldTypePronouns` added in Zulip 6.0 (feature level 151).
 	//
 	// [Custom profile fields]: https://zulip.com/help/custom-profile-fields#profile-field-types
 	Type CustomFieldType `json:"type"`
@@ -590,7 +598,7 @@ type CustomProfileField struct {
 	Name string `json:"name"`
 	// The help text to be displayed for the custom profile field in user-facing settings UI for configuring custom profile fields.
 	Hint string `json:"hint"`
-	// Field types 3 (List of options) and 7 (External account) support storing additional configuration for the field type in the `field_data` attribute.  For field type 3 (List of options), this attribute is a JSON dictionary defining the choices and the order they will be displayed in the dropdown UI for individual users to select an option.  The interface for field type 7 is not yet stabilized.
+	// Field types CustomFieldTypeListOfOptions (List of options) and CustomFieldTypeExternalAccount (External account) support storing additional configuration for the field type in the `field_data` attribute.  For field type 3 (List of options), this attribute is a JSON dictionary defining the choices and the order they will be displayed in the dropdown UI for individual users to select an option.  The interface for field type CustomFieldTypeExternalAccount is not yet stabilized.
 	FieldData *string `json:"field_data,omitempty"`
 	// Whether the custom profile field, display or not on the user card.  Currently it's value not allowed to be `true` of `Long text` and `Person picker` [profile field types].  This field is only included when its value is `true`.
 	//

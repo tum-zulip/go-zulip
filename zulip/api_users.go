@@ -4341,7 +4341,7 @@ type UpdateSettingsRequest struct {
 	newPassword                                    *string
 	twentyFourHourTime                             *bool
 	webMarkReadOnScrollPolicy                      *int32
-	webChannelDefaultView                          *int32
+	webChannelDefaultView                          *ChannelDefaultView
 	starredMessageCounts                           *bool
 	receivesTypingNotifications                    *bool
 	webSuggestUpdateTimezone                       *bool
@@ -4358,7 +4358,7 @@ type UpdateSettingsRequest struct {
 	webEscapeNavigatesToHomeView                   *bool
 	leftSideUserlist                               *bool
 	emojiset                                       *string
-	demoteInactiveChannels                         *int32
+	demoteInactiveChannels                         *DemoteInactiveChannels
 	userListStyle                                  *int32
 	webAnimateImagePreviews                        *string
 	webChannelUnreadsCountDisplayPolicy            *int32
@@ -4390,8 +4390,8 @@ type UpdateSettingsRequest struct {
 	enableFollowedTopicWildcardMentionsNotify      *bool
 	desktopIconCountDisplay                        *int32
 	realmNameInEmailNotificationsPolicy            *int32
-	automaticallyFollowTopicsPolicy                *int32
-	automaticallyUnmuteTopicsInMutedChannelsPolicy *int32
+	automaticallyFollowTopicsPolicy                *TopicInteraction
+	automaticallyUnmuteTopicsInMutedChannelsPolicy *TopicInteraction
 	automaticallyFollowTopicsWhereMentioned        *bool
 	resolvedTopicNoticeAutoReadPolicy              *string
 	presenceEnabled                                *bool
@@ -4450,13 +4450,13 @@ func (r UpdateSettingsRequest) WebMarkReadOnScrollPolicy(webMarkReadOnScrollPoli
 }
 
 // Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.
-//   - 1 = Top topic in the channel
-//   - 2 = Channel feed
-//   - 3 = List of topics
-//   - 4 = Top unread topic in channel
+//   - ChannelDefaultViewTopTopicInChannel
+//   - ChannelDefaultViewChannelFeed
+//   - ChannelDefaultViewListOfTopics
+//   - ChannelDefaultViewTopUnreadTopicInChannel
 //
 // **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  The "List of topics" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
-func (r UpdateSettingsRequest) WebChannelDefaultView(webChannelDefaultView int32) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) WebChannelDefaultView(webChannelDefaultView ChannelDefaultView) UpdateSettingsRequest {
 	r.webChannelDefaultView = &webChannelDefaultView
 	return r
 }
@@ -4525,13 +4525,13 @@ func (r UpdateSettingsRequest) WebLineHeightPercent(webLineHeightPercent int32) 
 
 // Controls which [color theme] to use.
 //
-//   - 1 = Automatic
+//   - ColorSchemeAutomatic
+//   - ColorSchemeDark
+//   - ColorSchemeLight
 //
-//   - 2 = Dark theme
+// Automatic detection is implementing using the standard `prefers-color-scheme` media query.
 //
-//   - 3 = Light theme  Automatic detection is implementing using the standard `prefers-color-scheme` media query.
-//
-//     **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
+//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 //
 // [color theme]: https://zulip.com/help/dark-theme
 func (r UpdateSettingsRequest) ColorScheme(colorScheme ColorScheme) UpdateSettingsRequest {
@@ -4614,14 +4614,14 @@ func (r UpdateSettingsRequest) Emojiset(emojiset string) UpdateSettingsRequest {
 }
 
 // Whether to [hide inactive channels] in the left sidebar.
-//   - 1 = Automatic
-//   - 2 = Always
-//   - 3 = Never
+//   - DemoteInactiveChannelsAutomatic
+//   - DemoteInactiveChannelsAlways
+//   - DemoteInactiveChannelsNever
 //
 // **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 //
 // [hide inactive channels]: https://zulip.com/help/manage-inactive-channels
-func (r UpdateSettingsRequest) DemoteInactiveChannels(demoteInactiveChannels int32) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) DemoteInactiveChannels(demoteInactiveChannels DemoteInactiveChannels) UpdateSettingsRequest {
 	r.demoteInactiveChannels = &demoteInactiveChannels
 	return r
 }
@@ -4892,29 +4892,29 @@ func (r UpdateSettingsRequest) RealmNameInEmailNotificationsPolicy(realmNameInEm
 }
 
 // Which [topics to follow automatically].
-//   - 1 = Topics the user participates in
-//   - 2 = Topics the user sends a message to
-//   - 3 = Topics the user starts
-//   - 4 = Never
+//   - TopicInteractionTopicsTheUserParticipatesIn
+//   - TopicInteractionTopicsTheUserSendsAMessageTo
+//   - TopicInteractionTopicsTheUserStarts
+//   - TopicInteractionNever
 //
 // **Changes**: New in Zulip 8.0 (feature level 214).
 //
 // [topics to follow automatically]: https://zulip.com/help/mute-a-topic
-func (r UpdateSettingsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy int32) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy TopicInteraction) UpdateSettingsRequest {
 	r.automaticallyFollowTopicsPolicy = &automaticallyFollowTopicsPolicy
 	return r
 }
 
 // Which [topics to unmute automatically in muted channels].
-//   - 1 = Topics the user participates in
-//   - 2 = Topics the user sends a message to
-//   - 3 = Topics the user starts
-//   - 4 = Never
+//   - TopicInteractionTopicsTheUserParticipatesIn
+//   - TopicInteractionTopicsTheUserSendsAMessageTo
+//   - TopicInteractionTopicsTheUserStarts
+//   - TopicInteractionNever
 //
 // **Changes**: New in Zulip 8.0 (feature level 214).
 //
 // [topics to unmute automatically in muted channels]: https://zulip.com/help/mute-a-topic
-func (r UpdateSettingsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy int32) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy TopicInteraction) UpdateSettingsRequest {
 	r.automaticallyUnmuteTopicsInMutedChannelsPolicy = &automaticallyUnmuteTopicsInMutedChannelsPolicy
 	return r
 }

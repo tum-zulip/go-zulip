@@ -1,5 +1,14 @@
 package zulip
 
+// See the [Custom profile fields] article for details on what each type means.
+//   - CustomFieldTypeShortText = Short text
+//   - CustomFieldTypeLongText = Long text
+//   - CustomFieldTypeListOfOptions = List of options
+//   - CustomFieldTypeDatePicker = Date picker
+//   - CustomFieldTypeLink = Link
+//   - CustomFieldTypePersonPicker = Person picker
+//   - CustomFieldTypeExternalAccount = External account
+//   - CustomFieldTypePronouns = Pronouns
 type CustomFieldType int
 
 const (

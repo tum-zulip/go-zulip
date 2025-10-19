@@ -269,8 +269,15 @@ type Realm struct {
 
 	// RealmUserSettingsDefaults Present if `realm_user_settings_defaults` is present in `fetch_event_types`.  A dictionary containing the default values of settings for new users.
 	//
+	//
 	// **Changes**: New in Zulip 5.0 (feature level 95).
-	UserSettingsDefaults *RealmUserSettingsDefaults `json:"realm_user_settings_defaults,omitempty"`
+	// Prior to Zulip 5.0 (feature level 84), this field was present in response if `realm_user` was present in `fetch_event_types`, not `update_display_settings`.
+	// **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
+	// Deprecated
+	//
+	// [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// [sending on pressing Enter]: https://zulip.com/help/configure-send-message-keys
+	UserSettingsDefaults *UserSettings `json:"realm_user_settings_defaults,omitempty"`
 }
 
 // RealmBilling Present if `realm_billing` is present in `fetch_event_types`.  A dictionary containing billing information of the organization.

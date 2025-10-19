@@ -1,5 +1,12 @@
 package zulip
 
+// BotType types Zulip supports
+//   - BotTypeGeneric = Generic bot
+//   - BotTypeIncomingWebhook = Incoming webhook
+//   - BotTypeOutgoingWebhook = Outgoing webhook
+//   - BotTypeEmbedded = Embedded bot
+//
+// These can be used to identify the type of a bot user.
 type BotType int
 
 const (

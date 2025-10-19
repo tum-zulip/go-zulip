@@ -2314,7 +2314,7 @@ type UpdateRealmUserSettingsDefaultsRequest struct {
 	fluidLayoutWidth                               *bool
 	highContrastMode                               *bool
 	webMarkReadOnScrollPolicy                      *int32
-	webChannelDefaultView                          *int32
+	webChannelDefaultView                          *ChannelDefaultView
 	webFontSizePx                                  *int32
 	webLineHeightPercent                           *int32
 	colorScheme                                    *ColorScheme
@@ -2354,8 +2354,8 @@ type UpdateRealmUserSettingsDefaultsRequest struct {
 	enableFollowedTopicWildcardMentionsNotify      *bool
 	desktopIconCountDisplay                        *int32
 	realmNameInEmailNotificationsPolicy            *int32
-	automaticallyFollowTopicsPolicy                *int32
-	automaticallyUnmuteTopicsInMutedChannelsPolicy *int32
+	automaticallyFollowTopicsPolicy                *TopicInteraction
+	automaticallyUnmuteTopicsInMutedChannelsPolicy *TopicInteraction
 	automaticallyFollowTopicsWhereMentioned        *bool
 	resolvedTopicNoticeAutoReadPolicy              *string
 	presenceEnabled                                *bool
@@ -2418,11 +2418,13 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebMarkReadOnScrollPolicy(webMar
 }
 
 // Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.
-//   - 1 = Top topic in the channel
-//   - 2 = Channel feed
-//   - 3 = List of topics
-//   - 4 = Top unread topic in channel  **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  The "List of topics" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
-func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelDefaultView(webChannelDefaultView int32) UpdateRealmUserSettingsDefaultsRequest {
+//   - ChannelDefaultViewTopTopicInChannel
+//   - ChannelDefaultViewChannelFeed
+//   - ChannelDefaultViewListOfTopics
+//   - ChannelDefaultViewTopUnreadTopicInChannel
+//
+// **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  The "List of topics" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
+func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelDefaultView(webChannelDefaultView ChannelDefaultView) UpdateRealmUserSettingsDefaultsRequest {
 	r.webChannelDefaultView = &webChannelDefaultView
 	return r
 }
@@ -2444,9 +2446,11 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebLineHeightPercent(webLineHeig
 }
 
 // Controls which [color theme] to use.
-//   - 1 = Automatic
-//   - 2 = Dark theme
-//   - 3 = Light theme  Automatic detection is implementing using the standard `prefers-color-scheme` media query.
+//   - ColorSchemeAutomatic
+//   - ColorSchemeDark
+//   - ColorSchemeLight
+//
+// Automatic detection is implementing using the standard `prefers-color-scheme` media query.
 //
 // [color theme]: https://zulip.com/help/dark-theme
 func (r UpdateRealmUserSettingsDefaultsRequest) ColorScheme(colorScheme ColorScheme) UpdateRealmUserSettingsDefaultsRequest {
@@ -2509,9 +2513,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset string) Update
 }
 
 // Whether to [hide inactive channels] in the left sidebar.
-//   - 1 = Automatic
-//   - 2 = Always
-//   - 3 = Never
+//   - DemoteInactiveChannelsAutomatic
+//   - DemoteInactiveChannelsAlways
+//   - DemoteInactiveChannelsNever
 //
 // [hide inactive channels]: https://zulip.com/help/manage-inactive-channels
 func (r UpdateRealmUserSettingsDefaultsRequest) DemoteInactiveChannels(demoteInactiveChannels DemoteInactiveChannels) UpdateRealmUserSettingsDefaultsRequest {
@@ -2725,29 +2729,29 @@ func (r UpdateRealmUserSettingsDefaultsRequest) RealmNameInEmailNotificationsPol
 }
 
 // Which [topics to follow automatically].
-//   - 1 = Topics the user participates in
-//   - 2 = Topics the user sends a message to
-//   - 3 = Topics the user starts
-//   - 4 = Never
+//   - TopicInteractionTopicsTheUserParticipatesIn
+//   - TopicInteractionTopicsTheUserSendsAMessageTo
+//   - TopicInteractionTopicsTheUserStarts
+//   - TopicInteractionNever
 //
 // **Changes**: New in Zulip 8.0 (feature level 214).
 //
 // [topics to follow automatically]: https://zulip.com/help/mute-a-topic
-func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy TopicInteraction) UpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyFollowTopicsPolicy = &automaticallyFollowTopicsPolicy
 	return r
 }
 
 // Which [topics to unmute automatically in muted channels].
-//   - 1 = Topics the user participates in
-//   - 2 = Topics the user sends a message to
-//   - 3 = Topics the user starts
-//   - 4 = Never
+//   - TopicInteractionTopicsTheUserParticipatesIn
+//   - TopicInteractionTopicsTheUserSendsAMessageTo
+//   - TopicInteractionTopicsTheUserStarts
+//   - TopicInteractionNever
 //
 // **Changes**: New in Zulip 8.0 (feature level 214).
 //
 // [topics to unmute automatically in muted channels]: https://zulip.com/help/mute-a-topic
-func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy TopicInteraction) UpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyUnmuteTopicsInMutedChannelsPolicy = &automaticallyUnmuteTopicsInMutedChannelsPolicy
 	return r
 }
