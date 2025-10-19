@@ -11,10 +11,11 @@ concurrency:
   group: integration-${{ github.ref }}
   cancel-in-progress: false
 
+
 jobs:
   integration:
     name: Go tests against Zulip ${{ matrix.zulip-branch }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       fail-fast: false
       matrix:
