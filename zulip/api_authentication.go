@@ -52,20 +52,21 @@ type AuthenticationAPI interface {
 	// !!! warn ""
 	//
 	// *Note:** If you signed up using passwordless authentication and
-	// never had a password, you can [reset your password](zulip.com/help/change-your-password.
+	// never had a password, you can [reset your password].
 	//
 	// See the [API keys] documentation for more details
 	// on how to download an API key manually.
 	//
-	// In a [Zulip development environment],
-	// see also [the unauthenticated variant](zulip.com/api/dev-fetch-api-key.
+	// In a [Zulip development environment], see also [the unauthenticated variant].
 	//
 	//
 	// @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	// @return FetchApiKeyRequest
 	//
-	// [API keys]: zulip.com/api/api-keys
+	// [reset your password]: https://zulip.com/help/change-your-password
+	// [API keys]: https://zulip.com/api/api-keys
 	// [Zulip development environment]: https://zulip.readthedocs.io/en/latest/development/overview.html
+	// [the unauthenticated variant]: https://zulip.com/api/dev-fetch-api-key
 	FetchApiKey(ctx context.Context) FetchApiKeyRequest
 
 	// FetchApiKeyExecute executes the request
@@ -199,7 +200,7 @@ type FetchApiKeyRequest struct {
 
 // The username to be used for authentication (typically, the email address, but depending on configuration, it could be an LDAP username).  See the `require_email_format_usernames` parameter documented in [GET /server_settings] for details.
 //
-// [GET /server_settings]: zulip.com/api/get-server-settings
+// [GET /server_settings]: https://zulip.com/api/get-server-settings
 func (r FetchApiKeyRequest) Username(username string) FetchApiKeyRequest {
 	r.username = &username
 	return r
@@ -234,19 +235,20 @@ func (r FetchApiKeyRequest) Execute() (*ApiKeyResponse, *http.Response, error) {
 // !!! warn ""
 //
 // *Note:** If you signed up using passwordless authentication and
-// never had a password, you can [reset your password](zulip.com/help/change-your-password.
+// never had a password, you can [reset your password].
 //
 // See the [API keys] documentation for more details
 // on how to download an API key manually.
 //
-// In a [Zulip development environment],
-// see also [the unauthenticated variant](zulip.com/api/dev-fetch-api-key.
+// In a [Zulip development environment], see also [the unauthenticated variant].
 //
 // @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 // @return FetchApiKeyRequest
 //
-// [API keys]: zulip.com/api/api-keys
+// [reset your password]: https://zulip.com/help/change-your-password
+// [API keys]: https://zulip.com/api/api-keys
 // [Zulip development environment]: https://zulip.readthedocs.io/en/latest/development/overview.html
+// [the unauthenticated variant]: https://zulip.com/api/dev-fetch-api-key
 func (c *simpleClient) FetchApiKey(ctx context.Context) FetchApiKeyRequest {
 	return FetchApiKeyRequest{
 		ApiService: c,

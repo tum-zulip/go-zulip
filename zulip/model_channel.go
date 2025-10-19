@@ -88,7 +88,9 @@ type Channel struct {
 
 type ChannelWithIsDefault struct {
 	Channel
-	// Only present when [`include_default`] parameter is `true`.  Whether the given channel is a [default channel].  [`include_default`]: https://zulip.com/api/get-streams#parameter-include_default
+	// Only present when [`include_default`] parameter is `true`.  Whether the given channel is a [default channel].
+	//
+	// [`include_default`]: https://zulip.com/api/get-streams#parameter-include_default
 	//
 	// [default channel]: https://zulip.com/help/set-default-channels-for-new-users
 	IsDefault bool `json:"is_default,omitempty"`

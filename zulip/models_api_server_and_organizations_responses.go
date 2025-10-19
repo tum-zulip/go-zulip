@@ -118,7 +118,9 @@ type GetServerSettingsResponse struct {
 	//
 	// [changelog]: https://zulip.com/api/changelog
 	ZulipFeatureLevel int `json:"zulip_feature_level,omitempty"`
-	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.  [version from Git]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
+	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.
+	//
+	// [version from Git]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
 	ZulipVersion string `json:"zulip_version,omitempty"`
 	// The `git merge-base` between `zulip_version` and official branches in the public [Zulip server and web app repository], in the same format as `zulip_version`. This will equal `zulip_version` if the server is not running a fork of the Zulip server.  This will be `""` if unavailable.
 	//

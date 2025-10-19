@@ -103,7 +103,9 @@ type Realm struct {
 	//
 	// **Changes**: Deprecated in Zulip 10.0 (feature level 280) and replaced by `realm_can_create_web_public_channel_group`, which supports finer resolution of configurations, resulting in this property being inaccurate following that transition.
 	//
-	// **Changes**: Added in Zulip 5.0 (feature level 103).  [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels
+	// **Changes**: Added in Zulip 5.0 (feature level 103).
+	//
+	// [permission-level]: https://zulip.com/api/roles-and-permissions#permission-levels
 	// Deprecated
 	CreateWebPublicStreamPolicy int32 `json:"realm_create_web_public_stream_policy,omitempty"`
 	// A deprecated representation of a superset of the users who have permission to use wildcard mentions in large channels, available for backwards-compatibility. Clients should use `can_mention_many_users_group` instead.  It is an enum with the following possible values, corresponding to roles/system groups:
@@ -239,9 +241,11 @@ type Realm struct {
 	ServerWebPublicStreamsEnabled bool `json:"server_web_public_streams_enabled,omitempty"`
 	// The URL to a JSON file that describes which emoji names map to which emoji codes, for all Unicode emoji this Zulip server accepts.  The data at the given URL is a JSON object with one property, `code_to_names`. The value of that property is a JSON object where each key is an [emoji code].
 	//
-	// [emoji code]: https://zulip.com/api/add-reaction#parameter-emoji_code for an available Unicode emoji, and each value is the corresponding [emoji names](https://zulip.com/api/add-reaction#parameter-emoji_name for this emoji, with the canonical name for the emoji always appearing first.  The HTTP response at that URL will have appropriate HTTP caching headers, such any HTTP implementation should get a cached version if emoji haven't changed since the last request.
+	// [emoji code]: https://zulip.com/api/add-reaction#parameter-emoji_code for an available Unicode emoji, and each value is the corresponding [emoji names] for this emoji, with the canonical name for the emoji always appearing first.  The HTTP response at that URL will have appropriate HTTP caching headers, such any HTTP implementation should get a cached version if emoji haven't changed since the last request.
 	//
 	// **Changes**: New in Zulip 6.0 (feature level 140
+	//
+	// [emoji names]: https://zulip.com/api/add-reaction#parameter-emoji_name
 	ServerEmojiDataUrl string `json:"server_emoji_data_url,omitempty"`
 	// The URL of the Jitsi server that the Zulip server is configured to use by default; the organization-level setting `realm_jitsi_server_url` takes precedence over this setting when both are set.
 	//

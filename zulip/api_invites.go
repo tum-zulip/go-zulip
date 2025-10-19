@@ -157,8 +157,9 @@ func (r CreateInviteLinkRequest) InviteAs(inviteAs Role) CreateInviteLinkRequest
 
 // A list containing the [Ids of the channels] that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the `include_realm_default_subscriptions` parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels].
 //
-//	**Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
+//	**Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.
 //
+// [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 // [Ids of the channels]: https://zulip.com/api/get-stream-id
 func (r CreateInviteLinkRequest) ChannelIds(channelIds []int64) CreateInviteLinkRequest {
 	r.channelIds = &channelIds
@@ -177,7 +178,10 @@ func (r CreateInviteLinkRequest) GroupIds(groupIds []int64) CreateInviteLinkRequ
 
 // Boolean indicating whether the newly created user should be subscribed to the [default channels] for the organization.  Note that this parameter can be `true` even if the current user does not generally have permission to [subscribe other users to channels].
 //
-//	**Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always `false`; clients needed to include the organization's default channels in the `stream_ids` parameter for a newly created user to be automatically subscribed to them.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
+// **Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always `false`; clients needed to include the organization's default channels in the `stream_ids` parameter for a newly created user to be automatically subscribed to them.
+//
+// [default channels]: https://zulip.com/help/set-default-channels-for-new-users
+// [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 func (r CreateInviteLinkRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) CreateInviteLinkRequest {
 	r.includeRealmDefaultSubscriptions = &includeRealmDefaultSubscriptions
 	return r
@@ -734,8 +738,9 @@ func (r SendInvitesRequest) InviteeEmails(inviteeEmails string) SendInvitesReque
 
 // A list containing the [Ids of the channels] that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the `include_realm_default_subscriptions` parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels].
 //
-//	**Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying `stream_ids` as an empty list resulted in an error.  [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
+//	**Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying `stream_ids` as an empty list resulted in an error.
 //
+// [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 // [Ids of the channels]: https://zulip.com/api/get-stream-id
 func (r SendInvitesRequest) ChannelIds(channelIds []int64) SendInvitesRequest {
 	r.channelIds = &channelIds
@@ -780,7 +785,10 @@ func (r SendInvitesRequest) GroupIds(groupIds []int64) SendInvitesRequest {
 
 // Boolean indicating whether the newly created user should be subscribed to the [default channels] for the organization.  Note that this parameter can be `true` even if the user creating the invitation does not generally have permission to [subscribe other users to channels].
 //
-//	**Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always `false`; clients needed to include the organization's default channels in the `stream_ids` parameter for a newly created user to be automatically subscribed to them.  [default channels]: https://zulip.com/help/set-default-channels-for-new-users [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
+//	**Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always `false`; clients needed to include the organization's default channels in the `stream_ids` parameter for a newly created user to be automatically subscribed to them.
+//
+// [default channels]: https://zulip.com/help/set-default-channels-for-new-users
+// [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 func (r SendInvitesRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) SendInvitesRequest {
 	r.includeRealmDefaultSubscriptions = &includeRealmDefaultSubscriptions
 	return r

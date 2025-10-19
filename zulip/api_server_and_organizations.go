@@ -136,9 +136,9 @@ type ServerAndOrganizationsAPI interface {
 	// users are returned.
 	//
 	// Complete Zulip apps are recommended to fetch presence
-	// information when they post their own state using the [`POST
-	// /presence`](https://zulip.com/api/update-presence) API endpoint.
+	// information when they post their own state using the [`POST /presence`] API endpoint.
 	//
+	// [`POST /presence`]: https://zulip.com/api/update-presence
 	GetPresence(ctx context.Context) GetPresenceRequest
 
 	// GetPresenceExecute executes the request
@@ -617,7 +617,9 @@ func (r CreateCustomProfileFieldRequest) FieldData(fieldData map[string]interfac
 	return r
 }
 
-// Whether clients should display this profile field in a summary section of a user's profile (or in a more easily accessible "small profile").  At most 2 profile fields may have this property be true in a given organization. The "Long text" [profile field types] profile field types cannot be selected to be displayed in profile summaries.  The "Person picker" profile field is also not supported, but that is likely to be temporary.  [profile field types]: https://zulip.com/help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146).
+// Whether clients should display this profile field in a summary section of a user's profile (or in a more easily accessible "small profile").  At most 2 profile fields may have this property be true in a given organization. The "Long text" [profile field types] profile field types cannot be selected to be displayed in profile summaries.  The "Person picker" profile field is also not supported, but that is likely to be temporary.
+//
+// [profile field types]: https://zulip.com/help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146).
 func (r CreateCustomProfileFieldRequest) DisplayInProfileSummary(displayInProfileSummary bool) CreateCustomProfileFieldRequest {
 	r.displayInProfileSummary = &displayInProfileSummary
 	return r
@@ -1275,8 +1277,9 @@ func (r GetPresenceRequest) Execute() (*GetPresenceResponse, *http.Response, err
 // users are returned.
 //
 // Complete Zulip apps are recommended to fetch presence
-// information when they post their own state using the [`POST
-// /presence`](https://zulip.com/api/update-presence) API endpoint.
+// information when they post their own state using the [`POST /presence`] API endpoint.
+//
+// [`POST /presence`]: https://zulip.com/api/update-presence
 func (c *simpleClient) GetPresence(ctx context.Context) GetPresenceRequest {
 	return GetPresenceRequest{
 		ApiService: c,
@@ -1565,14 +1568,8 @@ func (r GetServerSettingsRequest) Execute() (*GetServerSettingsResponse, *http.R
 // Fetch global settings for a Zulip server.
 //
 // *Note:** this endpoint does not require any authentication at all, and you can use it to check:
-//
 //   - If this is a Zulip server, and if so, what version of Zulip it's running.
-//
-//   - What a Zulip client (e.g. a mobile app or
-//
-// [zulip-terminal]) needs to
-// know in order to display a login prompt for the server (e.g. what
-// authentication methods are available).
+//   - What a Zulip client (e.g. a mobile app or [zulip-terminal]) needs to know in order to display a login prompt for the server (e.g. what authentication methods are available).
 //
 // [zulip-terminal]: https://github.com/zulip/zulip-terminal/
 func (c *simpleClient) GetServerSettings(ctx context.Context) GetServerSettingsRequest {

@@ -64,7 +64,9 @@ type Message struct {
 	ChannelId *int64 `json:"stream_id,omitempty"`
 	// The `topic` of the message. Currently always `""` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called "subjects" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register] response, for channel messages.
 	//
-	// **Changes**: Before Zulip 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
+	// **Changes**: Before Zulip 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.
+	//
+	// [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	//
 	// [POST /register]: https://zulip.com/api/register-queue
 	Subject string `json:"subject,omitempty"`
@@ -80,7 +82,9 @@ type Message struct {
 	Type RecipientType `json:"type,omitempty"`
 	// The user's [message flags] for the message.
 	//
-	// **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.  [message flags]: https://zulip.com/api/update-message-flags#available-flags
+	// **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.
+	//
+	// [message flags]: https://zulip.com/api/update-message-flags#available-flags
 	Flags []string `json:"flags,omitempty"`
 }
 

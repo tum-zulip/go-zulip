@@ -327,8 +327,7 @@ type MessagesAPI interface {
 	//
 	// More details about these realm settings can be found in the
 	// [`POST /register`] response or in the documentation
-	// of the [`realm op: update_dict`](https://zulip.com/api/get-events#realm-update_dict
-	// event in [`GET /events`].
+	// of the [`realm op: update_dict`] event in [`GET /events`].
 	//
 	// *Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
 	// resolving a topic was managed by `can_move_messages_between_topics_group`.
@@ -383,7 +382,7 @@ type MessagesAPI interface {
 	//
 	// [configuring message editing]: https://zulip.com/help/restrict-message-editing-and-deletion
 	// [restricting moving messages]: https://zulip.com/help/restrict-moving-messages
-	//
+	// [`realm op: update_dict`] https://zulip.com/api/get-events#realm-update_dict
 	// [resolve topics]: https://zulip.com/help/resolve-a-topic
 	// [`POST /register`]: https://zulip.com/api/register-queue
 	// [`GET /events`]: https://zulip.com/api/get-events
@@ -485,7 +484,7 @@ func (r AddReactionRequest) EmojiCode(emojiCode string) AddReactionRequest {
 
 // A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   "zulip").
 //
-//	**Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji](https://zulip.com/help/custom-emoji; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
+//	**Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji]; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
 //
 // [custom emoji]: https://zulip.com/help/custom-emoji
 func (r AddReactionRequest) ReactionType(reactionType string) AddReactionRequest {
@@ -1301,14 +1300,8 @@ func (r GetMessagesRequest) Execute() (*GetMessagesResponse, *http.Response, err
 // corresponding to the user's [combined feed]. There are two
 // ways to specify which messages matching the narrow filter to fetch:
 //
-//   - A range of messages, described by an `anchor` message Id (or a string-format
-//
-// specification of how the server should computer an anchor to use) and a maximum
-// number of messages in each direction from that anchor.
-//
-//   - A rarely used variant (`message_ids`) where the client specifies the message Ids
-//
-// to fetch.
+//   - A range of messages, described by an `anchor` message Id (or a string-format specification of how the server should computer an anchor to use) and a maximum number of messages in each direction from that anchor.
+//   - A rarely used variant (`message_ids`) where the client specifies the message Ids to fetch.
 //
 // The server returns the matching messages, sorted by message Id, as well as some
 // metadata that makes it easy for a client to determine whether there are more
@@ -1945,7 +1938,9 @@ func (r RemoveReactionRequest) EmojiCode(emojiCode string) RemoveReactionRequest
 
 // A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   "zulip").
 //
-//	**Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji](https://zulip.com/help/custom-emoji; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
+//	**Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji]; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
+//
+// [custom emoji]: https://zulip.com/help/custom-emoji
 //
 // [custom emoji]: https://zulip.com/help/custom-emoji
 func (r RemoveReactionRequest) ReactionType(reactionType string) RemoveReactionRequest {
@@ -2571,8 +2566,7 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 //
 // More details about these realm settings can be found in the
 // [`POST /register`] response or in the documentation
-// of the [`realm op: update_dict`](https://zulip.com/api/get-events#realm-update_dict
-// event in [`GET /events`].
+// of the [`realm op: update_dict`] event in [`GET /events`].
 //
 // *Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
 // resolving a topic was managed by `can_move_messages_between_topics_group`.
@@ -2632,6 +2626,7 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 // [`GET /events`]: https://zulip.com/api/get-events
 // [topic editing permissions]: https://zulip.com/help/restrict-moving-messages
 // [return an error]: https://zulip.com/api/update-message#response
+// [`realm op: update_dict`]: https://zulip.com/api/get-events#realm-update_dict
 func (c *simpleClient) UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest {
 	return UpdateMessageRequest{
 		ApiService: c,

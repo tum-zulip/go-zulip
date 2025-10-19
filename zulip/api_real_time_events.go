@@ -61,7 +61,7 @@ type RealTimeEventsAPI interface {
 	// or longer.
 	//
 	// Once the server garbage-collects your event queue, the server will
-	// [return an error](https://zulip.com/api/get-events#bad_event_queue_id-errors
+	// [return an error]
 	// with a code of `BAD_EVENT_QUEUE_Id` if you try to fetch events from
 	// the event queue. Your software will need to handle that error
 	// condition by re-initializing itself (e.g. this is what triggers your
@@ -93,7 +93,7 @@ type RealTimeEventsAPI interface {
 	// in feature level 162.
 	//
 	// In Zulip 7.0 (feature level 163), the realm setting
-	// `email_address_visibility` was removed. It was replaced by a [user setting](https://zulip.com/api/update-settings#parameter-email_address_visibility with
+	// `email_address_visibility` was removed. It was replaced by a [user setting] with
 	// a [realm user default], with the encoding of different
 	// values preserved. Clients can support all versions by supporting the
 	// current API and treating every user as having the realm's
@@ -101,8 +101,9 @@ type RealTimeEventsAPI interface {
 	//
 	// [realm user default]: https://zulip.com/api/update-realm-user-settings-defaults#parameter-email_address_visibility
 	// [events system developer documentation]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
-	//
 	// ["events" endpoint]: https://zulip.com/api/get-events
+	// [return an error]: https://zulip.com/api/get-events#bad_event_queue_id-errors
+	// [user setting]: https://zulip.com/api/update-settings#parameter-email_address_visibility
 	RegisterQueue(ctx context.Context) RegisterQueueRequest
 
 	// RegisterQueueExecute executes the request
@@ -494,7 +495,7 @@ func (r RegisterQueueRequest) Execute() (*RegisterQueueResponse, *http.Response,
 // or longer.
 //
 // Once the server garbage-collects your event queue, the server will
-// [return an error](https://zulip.com/api/get-events#bad_event_queue_id-errors
+// [return an error]
 // with a code of `BAD_EVENT_QUEUE_Id` if you try to fetch events from
 // the event queue. Your software will need to handle that error
 // condition by re-initializing itself (e.g. this is what triggers your
@@ -526,7 +527,7 @@ func (r RegisterQueueRequest) Execute() (*RegisterQueueResponse, *http.Response,
 // in feature level 162.
 //
 // In Zulip 7.0 (feature level 163), the realm setting
-// `email_address_visibility` was removed. It was replaced by a [user setting](https://zulip.com/api/update-settings#parameter-email_address_visibility with
+// `email_address_visibility` was removed. It was replaced by a [user setting] with
 // a [realm user default], with the encoding of different
 // values preserved. Clients can support all versions by supporting the
 // current API and treating every user as having the realm's
@@ -535,6 +536,8 @@ func (r RegisterQueueRequest) Execute() (*RegisterQueueResponse, *http.Response,
 // [realm user default]: https://zulip.com/api/update-realm-user-settings-defaults#parameter-email_address_visibility
 // [events system developer documentation]: https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
 // ["events" endpoint]: https://zulip.com/api/get-events
+// [return an error]: https://zulip.com/api/get-events#bad_event_queue_id-errors
+// [user setting]: https://zulip.com/api/update-settings#parameter-email_address_visibility
 func (c *simpleClient) RegisterQueue(ctx context.Context) RegisterQueueRequest {
 	return RegisterQueueRequest{
 		ApiService: c,

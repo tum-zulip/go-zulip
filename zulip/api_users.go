@@ -244,9 +244,10 @@ type UsersAPI interface {
 	//
 	// !!! warn ""
 	//
-	// *Note**: This endpoint is only available to [members and administrators](https://zulip.com/help/user-roles; bots and guests
+	// *Note**: This endpoint is only available to [members and administrators]; bots and guests
 	// cannot use this endpoint.
 	//
+	// [members and administrators]: https://zulip.com/help/user-roles
 	GetUserGroups(ctx context.Context) GetUserGroupsRequest
 
 	// GetUserGroupsExecute executes the request
@@ -273,9 +274,9 @@ type UsersAPI interface {
 	// user in the organization.
 	//
 	// *Changes**: New in Zulip 9.0 (feature level 262). Previously,
-	// user statuses could only be fetched via the [`POST
-	// /register`](https://zulip.com/api/register-queue) endpoint.
+	// user statuses could only be fetched via the [`POST /register`] endpoint.
 	//
+	// [`POST /register`]: https://zulip.com/api/register-queue
 	// [status]: https://zulip.com/help/status-and-availability
 	GetUserStatus(ctx context.Context, userId int64) GetUserStatusRequest
 
@@ -512,11 +513,8 @@ type UsersAPI interface {
 	//
 	// This endpoint is meant to be used by clients for both:
 	//
-	//   - Reporting the current user's presence status (`"active"` or `"idle"`)
-	// to the server.
-	//
-	//   - Obtaining the presence data of all other users in the organization via
-	// regular polling.
+	//   - Reporting the current user's presence status (`"active"` or `"idle"`) to the server.
+	//   - Obtaining the presence data of all other users in the organization via regular polling.
 	//
 	// Accurate user presence is one of the most expensive parts of any
 	// chat application (in terms of bandwidth and other resources). Therefore,
@@ -524,8 +522,7 @@ type UsersAPI interface {
 	// use the modern [`last_update_id`] protocol to
 	// minimize fetching duplicate user presence data.
 	//
-	// Client apps implementing presence are recommended to also consume [`presence`
-	// events](https://zulip.com/api/get-events#presence), in order to learn about newly online users
+	// Client apps implementing presence are recommended to also consume [`presence` events], in order to learn about newly online users
 	// immediately.
 	//
 	// The Zulip server is responsible for implementing [invisible mode],
@@ -538,6 +535,7 @@ type UsersAPI interface {
 	// `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level setting is
 	// `true`, then user presence data in the response is [limited to users the current user can see/access].
 	//
+	// [`presence` events]: https://zulip.com/api/get-events#presence
 	// [limited to users the current user can see/access]: https://zulip.com/help/guest-users#configure-whether-guests-can-see-all-other-users
 	// [invisible mode]: https://zulip.com/help/status-and-availability#invisible-mode
 	// [presence]: https://zulip.com/help/status-and-availability#availability
@@ -1227,7 +1225,11 @@ func (r CreateUserGroupRequest) Subgroups(subgroups []int64) CreateUserGroupRequ
 
 // A [group-setting value] defining the set of users who have permission to add members to this user group.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.  [group-setting value]: https://zulip.com/api/group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
+//	**Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.
+//
+// [group-setting value]: https://zulip.com/api/group-setting-values
+//
+// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canAddMembersGroup = &canAddMembersGroup
 	return r
@@ -1235,7 +1237,11 @@ func (r CreateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSetti
 
 // A [group-setting value] defining the set of users who have permission to join this user group.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 301).  [group-setting value]: https://zulip.com/api/group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
+//	**Changes**: New in Zulip 10.0 (feature level 301).
+//
+// [group-setting value]: https://zulip.com/api/group-setting-values
+//
+// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canJoinGroup = &canJoinGroup
 	return r
@@ -1243,7 +1249,11 @@ func (r CreateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValue) Cre
 
 // A [group-setting value] defining the set of users who have permission to leave this user group.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 308).  [group-setting value]: https://zulip.com/api/group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
+//	**Changes**: New in Zulip 10.0 (feature level 308).
+//
+// [group-setting value]: https://zulip.com/api/group-setting-values
+//
+// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canLeaveGroup = &canLeaveGroup
 	return r
@@ -1273,7 +1283,11 @@ func (r CreateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValu
 
 // A [group-setting value] defining the set of users who have permission to remove members from this user group.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.  [group-setting value]: https://zulip.com/api/group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
+//	**Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.
+//
+// [group-setting value]: https://zulip.com/api/group-setting-values
+//
+// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanRemoveMembersGroup(canRemoveMembersGroup GroupSettingValue) CreateUserGroupRequest {
 	r.canRemoveMembersGroup = &canRemoveMembersGroup
 	return r
@@ -2650,8 +2664,10 @@ func (r GetUserGroupsRequest) Execute() (*GetUserGroupsResponse, *http.Response,
 //
 // !!! warn ""
 //
-// *Note**: This endpoint is only available to [members and administrators](https://zulip.com/help/user-roles; bots and guests
+// *Note**: This endpoint is only available to [members and administrators]; bots and guests
 // cannot use this endpoint.
+//
+// [members and administrators]: https://zulip.com/help/user-roles
 func (c *simpleClient) GetUserGroups(ctx context.Context) GetUserGroupsRequest {
 	return GetUserGroupsRequest{
 		ApiService: c,
@@ -2851,10 +2867,9 @@ func (r GetUserStatusRequest) Execute() (*GetUserStatusResponse, *http.Response,
 // user in the organization.
 //
 // *Changes**: New in Zulip 9.0 (feature level 262). Previously,
-// user statuses could only be fetched via the [`POST
-// /register`](https://zulip.com/api/register-queue) endpoint.
-//
+// user statuses could only be fetched via the [`POST /register`] endpoint.
 // [status]: https://zulip.com/help/status-and-availability
+// [`POST /register`]: https://zulip.com/api/register-queue
 func (c *simpleClient) GetUserStatus(ctx context.Context, userId int64) GetUserStatusRequest {
 	return GetUserStatusRequest{
 		ApiService: c,
@@ -3105,34 +3120,12 @@ func (r MuteUserRequest) Execute() (*Response, *http.Response, error) {
 //
 // Muted users should be implemented by clients as follows:
 //
-//   - The server will immediately mark all messages sent by the muted
-//
-// user as read. This will automatically clear any existing mobile
-// push notifications related to the muted user.
-//   - The server will mark any new messages sent by the muted user as read
-//
-// for the requesting user's account, which prevents all email and mobile
-// push notifications.
-//   - Clients should exclude muted users from presence lists or other UI
-//
-// for viewing or composing one-on-one direct messages. One-on-one direct
-// messages sent by muted users should be hidden everywhere in the Zulip UI.
-//   - Channel messages and group direct messages sent by the muted
-//
-// user should avoid displaying the content and name/avatar,
-// but should display that N messages by a muted user were
-// hidden (so that it is possible to interpret the messages by
-// other users who are talking with the muted user).
-//   - Group direct message conversations including the muted user
-//
-// should display muted users as "Muted user", rather than
-// showing their name, in lists of such conversations, along with using
-// a blank grey avatar where avatars are displayed.
-//   - Administrative/settings UI elements for showing "All users that exist
-//
-// on this channel or realm", e.g. for organization
-// administration or showing channel subscribers, should display
-// the user's name as normal.
+//   - The server will immediately mark all messages sent by the muted user as read. This will automatically clear any existing mobile push notifications related to the muted user.
+//   - The server will mark any new messages sent by the muted user as read for the requesting user's account, which prevents all email and mobile push notifications.
+//   - Clients should exclude muted users from presence lists or other UI for viewing or composing one-on-one direct messages. One-on-one direct messages sent by muted users should be hidden everywhere in the Zulip UI.
+//   - Channel messages and group direct messages sent by the muted user should avoid displaying the content and name/avatar, but should display that N messages by a muted user were hidden (so that it is possible to interpret the messages by other users who are talking with the muted user).
+//   - Group direct message conversations including the muted user should display muted users as "Muted user", rather than showing their name, in lists of such conversations, along with using a blank grey avatar where avatars are displayed.
+//   - Administrative/settings UI elements for showing "All users that exist on this channel or realm", e.g. for organization administration or showing channel subscribers, should display the user's name as normal.
 //
 // *Changes**: New in Zulip 4.0 (feature level 48).
 //
@@ -3794,34 +3787,11 @@ func (r SetTypingStatusRequest) Execute() (*Response, *http.Response, error) {
 // Clients implementing Zulip's typing notifications
 // protocol should work as follows:
 //
-//   - Send a request to this endpoint with `"op": "start"` when a user
-//
-// starts composing a message.
-//   - While the user continues to actively type or otherwise interact with
-//
-// the compose UI (e.g. interacting with the compose box emoji picker),
-// send regular `"op": "start"` requests to this endpoint, using
-// `server_typing_started_wait_period_milliseconds` in the
-// [`POST /register`] response as the time interval
-// between each request.
-//   - Send a request to this endpoint with `"op": "stop"` when a user
-//
-// has stopped using the compose UI for the time period indicated by
-// `server_typing_stopped_wait_period_milliseconds` in the
-// [`POST /register`] response or when a user
-// cancels the compose action (if it had previously sent a "start"
-// notification for that compose action).
-//   - Start displaying a visual typing indicator for a given conversation
-//
-// when a [`typing op:start`] event is received
-// from the server.
-//   - Continue displaying a visual typing indicator for the conversation
-//
-// until a [`typing op:stop`] event is received
-// from the server or the time period indicated by
-// `server_typing_started_expiry_period_milliseconds` in the
-// [`POST /register`] response has passed without
-// a new `typing "op": "start"` event for the conversation.
+//   - Send a request to this endpoint with `"op": "start"` when a user starts composing a message.
+//   - While the user continues to actively type or otherwise interact with the compose UI (e.g. interacting with the compose box emoji picker), send regular `"op": "start"` requests to this endpoint, using `server_typing_started_wait_period_milliseconds` in the [`POST /register`] response as the time interval between each request.
+//   - Send a request to this endpoint with `"op": "stop"` when a user has stopped using the compose UI for the time period indicated by `server_typing_stopped_wait_period_milliseconds` in the [`POST /register`] response or when a user cancels the compose action (if it had previously sent a "start" notification for that compose action).
+//   - Start displaying a visual typing indicator for a given conversation when a [`typing op:start`] event is received from the server.
+//   - Continue displaying a visual typing indicator for the conversation until a [`typing op:stop`] event is received from the server or the time period indicated by `server_typing_started_expiry_period_milliseconds` in the [`POST /register`] response has passed without a new `typing "op": "start"` event for the conversation.
 //
 // This protocol is designed to allow the server-side typing notifications
 // implementation to be stateless while being resilient as network failures
@@ -4237,14 +4207,8 @@ func (r UpdatePresenceRequest) Execute() (*UpdatePresenceResponse, *http.Respons
 // of other users in the organization.
 //
 // This endpoint is meant to be used by clients for both:
-//
-//   - Reporting the current user's presence status (`"active"` or `"idle"`)
-//
-// to the server.
-//
-//   - Obtaining the presence data of all other users in the organization via
-//
-// regular polling.
+//   - Reporting the current user's presence status (`"active"` or `"idle"`) to the server.
+//   - Obtaining the presence data of all other users in the organization via regular polling.
 //
 // Accurate user presence is one of the most expensive parts of any
 // chat application (in terms of bandwidth and other resources). Therefore,
@@ -4252,8 +4216,7 @@ func (r UpdatePresenceRequest) Execute() (*UpdatePresenceResponse, *http.Respons
 // use the modern [`last_update_id`] protocol to
 // minimize fetching duplicate user presence data.
 //
-// Client apps implementing presence are recommended to also consume [`presence`
-// events](https://zulip.com/api/get-events#presence), in order to learn about newly online users
+// Client apps implementing presence are recommended to also consume [`presence` events], in order to learn about newly online users
 // immediately.
 //
 // The Zulip server is responsible for implementing [invisible mode],
@@ -4269,6 +4232,7 @@ func (r UpdatePresenceRequest) Execute() (*UpdatePresenceResponse, *http.Respons
 // [limited to users the current user can see/access]: https://zulip.com/help/guest-users#configure-whether-guests-can-see-all-other-users
 // [invisible mode]: https://zulip.com/help/status-and-availability#invisible-mode
 // [presence]: https://zulip.com/help/status-and-availability#availability
+// [`presence` events]: https://zulip.com/api/get-events#presence
 // [`last_update_id`]: #parameter-last_update_id
 func (c *simpleClient) UpdatePresence(ctx context.Context) UpdatePresenceRequest {
 	return UpdatePresenceRequest{
@@ -5948,7 +5912,11 @@ func (r UpdateUserGroupRequest) Description(description string) UpdateUserGroupR
 
 // The set of users who have permission to add members to this user group expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
+//	**Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.
+//
+// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
+//
+// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canAddMembersGroup = &canAddMembersGroup
 	return r
@@ -5956,7 +5924,11 @@ func (r UpdateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSetti
 
 // The set of users who have permission to join this user group expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 301).  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
+//	**Changes**: New in Zulip 10.0 (feature level 301).
+//
+// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
+//
+// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canJoinGroup = &canJoinGroup
 	return r
@@ -5964,7 +5936,11 @@ func (r UpdateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValueUpdat
 
 // The set of users who have permission to leave this user group expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 308).  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
+//	**Changes**: New in Zulip 10.0 (feature level 308).
+//
+// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
+//
+// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canLeaveGroup = &canLeaveGroup
 	return r
@@ -5998,7 +5974,11 @@ func (r UpdateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValu
 
 // The set of users who have permission to remove members from this user group expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.  [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values [system groups]: https://zulip.com/api/group-setting-values#system-groups
+//	**Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.
+//
+// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
+//
+// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanRemoveMembersGroup(canRemoveMembersGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canRemoveMembersGroup = &canRemoveMembersGroup
 	return r
