@@ -165,3 +165,27 @@ jobs:
           fi
           sudo pkill -f run-dev.sh || true
 
+  godoc:
+    name: Generate godoc HTML
+    runs-on: self-hosted
+    steps:
+      - name: Checkout go-zulip
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.2"
+
+      - name: Generate godoc
+        run: |
+          mkdir -p ./docs/godoc
+          go install golang.org/x/tools/cmd/godoc@latest
+          godoc -html github.com/tum-zulip/go-zulip/zulip > ./docs/godoc/index.html
+
+      - name: Upload godoc artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: godoc-html
+          path: ./docs/godoc/
+          retention-days: 7
