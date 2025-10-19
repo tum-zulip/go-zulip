@@ -461,9 +461,11 @@ type ReactionEvent struct {
 	EmojiName string `json:"emoji_name,omitempty"`
 	// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.
 	EmojiCode string `json:"emoji_code,omitempty"`
-	// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   "zulip").
-	//
-	// [custom emoji]: https://zulip.com/help/custom-emoji
+	// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.
+	//	- ReactionTypeRealmEmoji
+	//	- ReactionTypeUnicodeEmoji
+	//	- ReactionTypeZulipExtraEmoji
+	// 	- ReactionTypeEmpty
 	ReactionType ReactionType `json:"reaction_type,omitempty"`
 	// The Id of the user who added the reaction.
 	//
@@ -668,32 +670,8 @@ type UserSettingsUpdateEvent struct {
 //	**Changes**: Prior to Zulip 8.0 (feature level 228), this event was sent to all users in the organization.
 type UserStatusEvent struct {
 	EventCommon
-	// Whether the user has marked themself "away" with this status.
-	//
-	// **Changes**: Deprecated in Zulip 6.0 (feature level 148); starting with that feature level, `away` is a legacy way to access the user's `presence_enabled` setting, with `away = !presence_enabled`. To be removed in a future release.
-	// Deprecated
-	Away *bool `json:"away,omitempty"`
+	UserStatus
 
-	// The text content of the status message.  This will be `""` for users who set a status without selecting or writing a message.
-	StatusText string `json:"status_text,omitempty"`
-	// The [emoji name].
-	//
-	// [emoji name]: https://zulip.com/api/update-status#parameter-emoji_name for the emoji the user selected for their new status.  This will be `""` for users who set a status without selecting an emoji.
-	//
-	// **Changes**: New in Zulip 5.0 (feature level 86
-	EmojiName string `json:"emoji_name,omitempty"`
-	// The [emoji code].
-	//
-	// [emoji code]: https://zulip.com/api/update-status#parameter-emoji_code for the emoji the user selected for their new status.  This will be `""` for users who set a status without selecting an emoji.
-	//
-	// **Changes**: New in Zulip 5.0 (feature level 86
-	EmojiCode string `json:"emoji_code,omitempty"`
-	// The [emoji type].
-	//
-	// [emoji type]: https://zulip.com/api/update-status#parameter-reaction_type for the emoji the user selected for their new status.  This will be `""` for users who set a status without selecting an emoji.
-	//
-	// **Changes**: New in Zulip 5.0 (feature level 86
-	ReactionType ReactionType `json:"reaction_type,omitempty"`
 	// The Id of the user whose status changed.
 	UserId int64 `json:"user_id,omitempty"`
 }
@@ -719,7 +697,7 @@ type DeleteMessageEvent struct {
 	// [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	MessageId *int64 `json:"message_id,omitempty"`
 
-	// The type of message. Either `"stream"` or `"private"`.
+	// The type of message. Either `RecipientTypeStream` or `RecipientTypePrivate`.
 	MessageType RecipientType `json:"message_type,omitempty"`
 	// Only present if `message_type` is `"stream"`.  The Id of the channel to which the message was sent.
 	ChannelId *int64 `json:"stream_id,omitempty"`
@@ -876,18 +854,18 @@ type UpdateMessageEvent struct {
 // [POST /typing]: https://zulip.com/api/set-typing-status
 type TypingEvent struct {
 	EventCommonWithOp
-	// Type of message being composed. Must be `"stream"` or `"direct"`.
+	// Type of message being composed. Must be `RecipientTypeStream` or `RecipientTypeDirect`.
 	//
-	// **Changes**: In Zulip 8.0 (feature level 215), replaced the value `"private"` with `"direct"`.  New in Zulip 4.0 (feature level 58). Previously, all typing notifications were implicitly direct messages.
+	// **Changes**: In Zulip 8.0 (feature level 215), replaced the value `RecipientTypePrivate` with `RecipientTypeDirect`.  New in Zulip 4.0 (feature level 58). Previously, all typing notifications were implicitly direct messages.
 	MessageType RecipientType  `json:"message_type,omitempty"`
 	Sender      UserIdentifier `json:"sender,omitempty"`
-	// Only present if `message_type` is `"direct"`.  Array of dictionaries describing the set of users who would be recipients of the message being typed. Each dictionary contains details about one of the recipients. The sending user is guaranteed to appear among the recipients.
+	// Only present if `message_type` is `RecipientTypeDirect`.  Array of dictionaries describing the set of users who would be recipients of the message being typed. Each dictionary contains details about one of the recipients. The sending user is guaranteed to appear among the recipients.
 	Recipients []UserIdentifier `json:"recipients,omitempty"`
-	// Only present if `message_type` is `"stream"`.  The unique Id of the channel to which message is being typed.
+	// Only present if `message_type` is `RecipientTypeStream`.  The unique Id of the channel to which message is being typed.
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 	ChannelId *int64 `json:"stream_id,omitempty"`
-	// Only present if `message_type` is `"stream"`.  Topic within the channel where the message is being typed.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
+	// Only present if `message_type` is `RecipientTypeStream`.  Topic within the channel where the message is being typed.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
 	//
 	// **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 	//
@@ -922,13 +900,13 @@ type TypingEditMessageEvent struct {
 
 // Recipient Object containing details about recipient of message edit typing notification.
 type RecipientData struct {
-	// Type of message being composed. Must be `"channel"` or `"direct"`.
+	// Type of message being composed. Must be `RecipientTypeChannel` or `RecipientTypeDirect`.
 	Type RecipientType `json:"type,omitempty"`
-	// Only present if `type` is `"channel"`.  The unique Id of the channel to which message is being edited.
+	// Only present if `type` is `RecipientTypeChannel`.  The unique Id of the channel to which message is being edited.
 	ChannelId *int64 `json:"channel_id,omitempty"`
-	// Only present if `type` is `"channel"`.  Topic within the channel where the message is being edited.
+	// Only present if `type` is `RecipientTypeChannel`.  Topic within the channel where the message is being edited.
 	Topic *string `json:"topic,omitempty"`
-	// Present only if `type` is `direct`.  The user Ids of every recipient of this direct message.
+	// Present only if `type` is `RecipientTypeDirect`.  The user Ids of every recipient of this direct message.
 	UserIds []int64 `json:"user_ids,omitempty"`
 }
 
@@ -1081,15 +1059,15 @@ type UpdateMessageFlagsRemoveEvent struct {
 
 // UpdateMessageFlagsRemoveEventMessageDetailsValue `{message_id}`: Object containing details about the message with the specified Id.
 type MessageDetail struct {
-	// The type of this message. Either `"stream"` or `"private"`.
+	// The type of this message. Either `RecipientTypeStream` or `RecipientTypePrivate`.
 	Type RecipientType `json:"type"`
 	// A flag which indicates whether the message contains a mention of the user.  Present only if the message mentions the current user.
 	Mentioned *bool `json:"mentioned,omitempty"`
-	// Present only if `type` is `private`.  The user Ids of every recipient of this direct message, excluding yourself. Will be the empty list for a message you had sent to only yourself.
+	// Present only if `type` is `RecipientTypePrivate`.  The user Ids of every recipient of this direct message, excluding yourself. Will be the empty list for a message you had sent to only yourself.
 	UserIds []int64 `json:"user_ids,omitempty"`
-	// Present only if `type` is `"stream"`.  The Id of the channel where the message was sent.
+	// Present only if `type` is `RecipientTypeStream`.  The Id of the channel where the message was sent.
 	ChannelId *int64 `json:"stream_id,omitempty"`
-	// Present only if `type` is `"stream"`.  Name of the topic where the message was sent.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
+	// Present only if `type` is `RecipientTypeStream`.  Name of the topic where the message was sent.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
 	//
 	// **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.
 	//

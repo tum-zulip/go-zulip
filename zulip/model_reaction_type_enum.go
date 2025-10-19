@@ -1,12 +1,22 @@
 package zulip
 
+// A string indicating the type of emoji.
+//
+// Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:
+//   - ReactionTypeRealmEmoji
+//   - ReactionTypeUnicodeEmoji
+//   - ReactionTypeZulipExtraEmoji
+//   - ReactionTypeEmpty
 type ReactionType string
 
 const (
-	ReactionTypeUnicodeEmoji    ReactionType = "unicode_emoji"
+	// In this namespace, `emoji_code` will be the Id of the uploaded [custom emoji].
+	//
+	// [custom emoji]: https://zulip.com/help/custom-emoji
 	ReactionTypeRealmEmoji      ReactionType = "realm_emoji"
-	ReactionTypeZulipExtraEmoji ReactionType = "zulip_extra_emoji"
-	ReactionTypeEmpty           ReactionType = ""
+	ReactionTypeUnicodeEmoji    ReactionType = "unicode_emoji"     // In this namespace, `emoji_code` will be a  dash-separated hex encoding of the sequence of Unicode codepoints that define this emoji in the Unicode specification.
+	ReactionTypeZulipExtraEmoji ReactionType = "zulip_extra_emoji" // These are special emoji included with Zulip. In this namespace, `emoji_code` will be the name of the emoji (e.g. "zulip").
+	ReactionTypeEmpty           ReactionType = ""                  // For users who set a status without selecting an emoji.
 )
 
 var AllowedReactionTypeEnumValues = []ReactionType{

@@ -9,7 +9,7 @@ import (
 type Reminder struct {
 	// The unique Id of the reminder, which can be used to delete the reminder.  This is different from the unique Id that the message would have after being sent.
 	ReminderId int64 `json:"reminder_id"`
-	// The type of the reminder. Always set to `"private"`.
+	// The type of the reminder. Always set to `RecipientTypePrivate`.
 	Type RecipientType `json:"type"`
 	// Contains the Id of the user who scheduled the reminder, and to which the reminder will be sent.
 	To []int64 `json:"to"`

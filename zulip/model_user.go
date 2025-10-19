@@ -25,11 +25,11 @@ type User struct {
 	IsBot bool `json:"is_bot,omitempty"`
 
 	// [Organization-level role] of the user. Possible values are:
-	//   - 100 = Organization owner
-	//   - 200 = Organization administrator
-	//   - 300 = Organization moderator
-	//   - 400 = Member
-	//   - 600 = Guest
+	//   - RoleOwner
+	//   - RoleAdmin
+	//   - RoleModerator
+	//   - RoleMember
+	//   - RoleGuest
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 59).
 	//

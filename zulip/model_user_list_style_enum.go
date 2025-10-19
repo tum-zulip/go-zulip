@@ -1,9 +1,9 @@
 package zulip
 
 // The style selected by the user for the right sidebar user list.
-//   - 1 = Compact
-//   - 2 = With status
-//   - 3 = With avatar and status
+//   - UserListStyleCompact = Compact
+//   - UserListStyleWithStatus = With status
+//   - UserListStyleWithAvatarAndStatus = With avatar and status
 //
 // **Changes**: New in Zulip 6.0 (feature level 141).
 type UserListStyle int

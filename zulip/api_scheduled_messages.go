@@ -82,9 +82,11 @@ type CreateScheduledMessageRequest struct {
 	readBySender               *bool
 }
 
-// The type of scheduled message to be sent. `"direct"` for a direct message and `"stream"` or `"channel"` for a channel message.  Note that, while `"private"` is supported for scheduling direct messages, clients are encouraged to use to the modern convention of `"direct"` to indicate this message type, because support for `"private"` may eventually be removed.
+// The type of scheduled message to be sent. `RecipientTypeDirect` for a direct message and `RecipientTypeStream` or `RecipientTypeChannel` for a channel message.
 //
-//	**Changes**: In Zulip 9.0 (feature level 248), `"channel"` was added as an additional value for this parameter to indicate the type of a channel message.
+// Note that, while `RecipientTypePrivate` is supported for scheduling direct messages, clients are encouraged to use to the modern convention of `RecipientTypeDirect` to indicate this message type, because support for `RecipientTypePrivate` may eventually be removed.
+//
+//	**Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to indicate the type of a channel message.
 func (r CreateScheduledMessageRequest) RecipientType(recipientType RecipientType) CreateScheduledMessageRequest {
 	r.recipientType = &recipientType
 	return r

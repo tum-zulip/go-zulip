@@ -10,7 +10,7 @@ import (
 type Draft struct {
 	// The unique Id of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited.
 	Id *int64 `json:"id,omitempty"`
-	// The type of the draft. Either unaddressed (empty string), `"stream"`, or `"private"` (for one-on-one and group direct messages).
+	// The type of the draft. Either unaddressed (empty string), `RecipientTypeStream`, or `RecipientTypePrivate` (for one-on-one and group direct messages).
 	Type RecipientType `json:"type"`
 	// An array of the tentative target audience Ids. For channel messages, this should contain exactly 1 Id, the Id of the target channel. For direct messages, this should be an array of target user Ids. For unaddressed drafts, this is ignored, and clients should send an empty array.
 	To Recipient `json:"to"`

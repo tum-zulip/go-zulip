@@ -3735,7 +3735,7 @@ type SetTypingStatusRequest struct {
 	topic      *string
 }
 
-// Whether the user has started (`"start"`) or stopped (`"stop"`) typing.
+// Whether the user has started (`TypingStatusOpStart`) or stopped (`TypingStatusOpStop`) typing.
 func (r SetTypingStatusRequest) Op(op TypingStatusOp) SetTypingStatusRequest {
 	r.op = &op
 	return r
@@ -3743,7 +3743,7 @@ func (r SetTypingStatusRequest) Op(op TypingStatusOp) SetTypingStatusRequest {
 
 // Type of the message being composed.
 //
-//	**Changes**: In Zulip 9.0 (feature level 248), `"channel"` was added as an additional value for this parameter to indicate a channel message is being composed.  In Zulip 8.0 (feature level 215), stopped supporting `"private"` as a valid value for this parameter.  In Zulip 7.0 (feature level 174), `"direct"` was added as the preferred way to indicate a direct message is being composed, becoming the default value for this parameter and deprecating the original `"private"`.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
+//	**Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to indicate a channel message is being composed.  In Zulip 8.0 (feature level 215), stopped supporting `RecipientTypePrivate` as a valid value for this parameter.  In Zulip 7.0 (feature level 174), `RecipientTypeDirect` was added as the preferred way to indicate a direct message is being composed, becoming the default value for this parameter and deprecating the original `RecipientTypePrivate`.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 func (r SetTypingStatusRequest) Type_(type_ RecipientType) SetTypingStatusRequest {
 	r.type_ = &type_
 	return r
@@ -3923,7 +3923,7 @@ type SetTypingStatusForMessageEditRequest struct {
 	op         *TypingStatusOp
 }
 
-// Whether the user has started (`"start"`) or stopped (`"stop"`) editing.
+// Whether the user has started (`TypingStatusOpStart`) or stopped (`TypingStatusOpStop`) editing.
 func (r SetTypingStatusForMessageEditRequest) Op(op TypingStatusOp) SetTypingStatusForMessageEditRequest {
 	r.op = &op
 	return r
@@ -4355,14 +4355,14 @@ type UpdateSettingsRequest struct {
 	translateEmoticons                             *bool
 	displayEmojiReactionUsers                      *bool
 	defaultLanguage                                *string
-	webHomeView                                    *string
+	webHomeView                                    *HomeView
 	webEscapeNavigatesToHomeView                   *bool
 	leftSideUserlist                               *bool
 	emojiset                                       *Emojiset
 	demoteInactiveChannels                         *DemoteInactiveChannels
-	userListStyle                                  *int32
-	webAnimateImagePreviews                        *string
-	webChannelUnreadsCountDisplayPolicy            *int32
+	userListStyle                                  *UserListStyle
+	webAnimateImagePreviews                        *WebAnimateImagePreviews
+	webChannelUnreadsCountDisplayPolicy            *UnreadsCountDisplay
 	hideAiFeatures                                 *bool
 	webLeftSidebarShowChannelFolders               *bool
 	webLeftSidebarUnreadsCountSummary              *bool
@@ -4576,12 +4576,15 @@ func (r UpdateSettingsRequest) DefaultLanguage(defaultLanguage string) UpdateSet
 	return r
 }
 
-// The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  - "recent_topics" - Recent conversations view - "inbox" - Inbox view - "all_messages" - Combined feed view
+// The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.
+//   - HomeViewRecentTopics
+//   - HomeViewInbox
+//   - HomeViewAllMessages
 //
 // **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).  Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
 //
 // [home view]: https://zulip.com/help/configure-home-view
-func (r UpdateSettingsRequest) WebHomeView(webHomeView string) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) WebHomeView(webHomeView HomeView) UpdateSettingsRequest {
 	r.webHomeView = &webHomeView
 	return r
 }
@@ -4632,31 +4635,34 @@ func (r UpdateSettingsRequest) DemoteInactiveChannels(demoteInactiveChannels Dem
 }
 
 // The style selected by the user for the right sidebar user list.
-//   - 1 = Compact
-//   - 2 = With status
-//   - 3 = With avatar and status
+//   - UserListStyleCompact
+//   - UserListStyleWithStatus
+//   - UserListStyleWithAvatarAndStatus
 //
 // **Changes**: New in Zulip 6.0 (feature level 141).
-func (r UpdateSettingsRequest) UserListStyle(userListStyle int32) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) UserListStyle(userListStyle UserListStyle) UpdateSettingsRequest {
 	r.userListStyle = &userListStyle
 	return r
 }
 
-// Controls how animated images should be played in the message feed in the web/desktop application.  - "always" - Always play the animated images in the message feed. - "on_hover" - Play the animated images on hover over them in the message feed. - "never" - Never play animated images in the message feed.
+// Controls how animated images should be played in the message feed in the web/desktop application.
+//   - WebAnimateImagePreviewsAlways
+//   - WebAnimateImagePreviewsOnHover
+//   - WebAnimateImagePreviewsNever
 //
-//	**Changes**: New in Zulip 9.0 (feature level 275).
-func (r UpdateSettingsRequest) WebAnimateImagePreviews(webAnimateImagePreviews string) UpdateSettingsRequest {
+// **Changes**: New in Zulip 9.0 (feature level 275).
+func (r UpdateSettingsRequest) WebAnimateImagePreviews(webAnimateImagePreviews WebAnimateImagePreviews) UpdateSettingsRequest {
 	r.webAnimateImagePreviews = &webAnimateImagePreviews
 	return r
 }
 
 // Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.
-//   - 1 = All channels
-//   - 2 = Unmuted channels and topics
-//   - 3 = No channels
+//   - UnreadsCountDisplayAllChannels
+//   - UnreadsCountDisplayUnmutedChannelsAndTopics
+//   - UnreadsCountDisplayNoChannels
 //
 // **Changes**: New in Zulip 8.0 (feature level 210).
-func (r UpdateSettingsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnreadsCountDisplayPolicy int32) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnreadsCountDisplayPolicy UnreadsCountDisplay) UpdateSettingsRequest {
 	r.webChannelUnreadsCountDisplayPolicy = &webChannelUnreadsCountDisplayPolicy
 	return r
 }
@@ -4932,10 +4938,13 @@ func (r UpdateSettingsRequest) AutomaticallyFollowTopicsWhereMentioned(automatic
 	return r
 }
 
-// Controls whether the resolved-topic notices are marked as read.  - "always" - Always mark resolved-topic notices as read. - "except_followed" - Mark resolved-topic notices as read in topics not followed by the user. - "never" - Never mark resolved-topic notices as read.
+// Controls whether the resolved-topic notices are marked as read.
+//   - ResolvedTopicNoticeAutoReadPolicyAlways
+//   - ResolvedTopicNoticeAutoReadPolicyExceptFollowed
+//   - ResolvedTopicNoticeAutoReadPolicyNever
 //
-//	**Changes**: New in Zulip 11.0 (feature level 385).
-func (r UpdateSettingsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy string) UpdateSettingsRequest {
+// **Changes**: New in Zulip 11.0 (feature level 385).
+func (r UpdateSettingsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy ResolvedTopicNoticeAutoReadPolicy) UpdateSettingsRequest {
 	r.resolvedTopicNoticeAutoReadPolicy = &resolvedTopicNoticeAutoReadPolicy
 	return r
 }
@@ -5346,7 +5355,7 @@ type UpdateStatusRequest struct {
 	away         *bool
 	emojiName    *string
 	emojiCode    *string
-	reactionType *string
+	reactionType *ReactionType
 }
 
 // The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters.
@@ -5379,12 +5388,16 @@ func (r UpdateStatusRequest) EmojiCode(emojiCode string) UpdateStatusRequest {
 	return r
 }
 
-// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   "zulip").
+// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 86).
+// Must be one of the following values:
+//   - ReactionTypeRealmEmoji
+//   - ReactionTypeUnicodeEmoji
+//   - ReactionTypeZulipExtraEmoji
+//   - ReactionTypeEmpty
 //
-// [custom emoji]: https://zulip.com/help/custom-emoji
-func (r UpdateStatusRequest) ReactionType(reactionType string) UpdateStatusRequest {
+// **Changes**: New in Zulip 5.0 (feature level 86).
+func (r UpdateStatusRequest) ReactionType(reactionType ReactionType) UpdateStatusRequest {
 	r.reactionType = &reactionType
 	return r
 }
@@ -5534,11 +5547,13 @@ func (r UpdateStatusForUserRequest) EmojiCode(emojiCode string) UpdateStatusForU
 	return r
 }
 
-// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   "zulip").
+// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  Must be one of the following values:
+//   - ReactionTypeRealmEmoji
+//   - ReactionTypeUnicodeEmoji
+//   - ReactionTypeZulipExtraEmoji
+//   - ReactionTypeEmpty
 //
-//	**Changes**: New in Zulip 5.0 (feature level 86).
-//
-// [custom emoji]: https://zulip.com/help/custom-emoji
+// **Changes**: New in Zulip 5.0 (feature level 86).
 func (r UpdateStatusForUserRequest) ReactionType(reactionType string) UpdateStatusForUserRequest {
 	r.reactionType = &reactionType
 	return r

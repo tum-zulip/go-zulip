@@ -359,7 +359,9 @@ type RealmConfiguration struct {
 	// **Changes**: New in Zulip 8.0 (feature level 212). Previously, this was only available as a server-level configuration, and required a server restart to change.
 	JitsiServerUrl *string `json:"jitsi_server_url,omitempty"`
 
-	// The organization's default policy for sending channel messages to the [empty "general chat" topic].  - `"allow_empty_topic"`: Channel messages can be sent to the empty topic. - `"disable_empty_topic"`: Channel messages cannot be sent to the empty topic.
+	// The organization's default policy for sending channel messages to the [empty "general chat" topic].
+	//   - TopicsPolicyAllowEmptyTopic: Channel messages can be sent to the empty topic.
+	//   - TopicsPolicyDisableEmptyTopic: Channel messages cannot be sent to the empty topic.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 392). Previously, this was controlled by the boolean realm `mandatory_topics` setting, which is now deprecated.
 	//
@@ -446,16 +448,17 @@ type RealmConfiguration struct {
 	// [realm/update]: https://zulip.com/api/get-events#realm-update
 	UploadQuotaMib *int64 `json:"upload_quota_mib,omitempty"`
 	// The configured [video call provider] for the organization.
-	//   - 0 = None
-	//   - 1 = Jitsi Meet
-	//   - 3 = Zoom (User OAuth integration)
-	//   - 4 = BigBlueButton
-	//   - 5 = Zoom (Server to Server OAuth integration)
+	//   - VideoChatProviderNone
+	//   - VideoChatProviderJitsiMeet
+	//   - VideoChatProviderZoomUserOAuthIntegration
+	//   - VideoChatProviderBigBlueButton
+	//   - VideoChatProviderZoomServerToServerOAuth
 	//
 	// Note that only one of the [Zoom integrations] can be configured on a Zulip server.
 	//
 	// **Changes**: In Zulip 10.0 (feature level 353), added the Zoom Server to Server OAuth option.
 	// In Zulip 3.0 (feature level 1), added the None option to disable video call UI.
+	//
 	// [Zoom integrations]: https://zulip.readthedocs.io/en/latest/production/video-calls.html#zoom
 	// [video call provider]: https://zulip.com/help/configure-call-provider
 	VideoChatProvider VideoChatProvider `json:"video_chat_provider,omitempty"`

@@ -482,9 +482,15 @@ func (r AddReactionRequest) EmojiCode(emojiCode string) AddReactionRequest {
 	return r
 }
 
-// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   "zulip").
+// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity.
 //
-//	**Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji]; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
+// Supported values:
+//   - ReactionTypeRealmEmoji
+//   - ReactionTypeUnicodeEmoji
+//   - ReactionTypeZulipExtraEmoji
+//   - ReactionTypeEmpty
+//
+// **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji]; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
 //
 // [custom emoji]: https://zulip.com/help/custom-emoji
 func (r AddReactionRequest) ReactionType(reactionType string) AddReactionRequest {
@@ -1921,7 +1927,7 @@ type RemoveReactionRequest struct {
 	messageId    int64
 	emojiName    *string
 	emojiCode    *string
-	reactionType *string
+	reactionType *ReactionType
 }
 
 // The target emoji's human-readable name.  To find an emoji's name, hover over a message to reveal three icons on the right, then click the smiley face icon. Images of available reaction emojis appear. Hover over the emoji you want, and note that emoji's text name.
@@ -1936,14 +1942,18 @@ func (r RemoveReactionRequest) EmojiCode(emojiCode string) RemoveReactionRequest
 	return r
 }
 
-// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.  If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity. Supported values:  - `unicode_emoji` : In this namespace, `emoji_code` will be a   dash-separated hex encoding of the sequence of Unicode codepoints   that define this emoji in the Unicode specification.  - `realm_emoji` : In this namespace, `emoji_code` will be the Id of   the uploaded [custom emoji].  - `zulip_extra_emoji` : These are special emoji included with Zulip.   In this namespace, `emoji_code` will be the name of the emoji (e.g.   "zulip").
+// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`. If an API client is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity.
 //
-//	**Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji]; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
+// Supported values:
+//   - ReactionTypeRealmEmoji
+//   - ReactionTypeUnicodeEmoji
+//   - ReactionTypeZulipExtraEmoji
+//   - ReactionTypeEmpty
+//
+// **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji]; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
 //
 // [custom emoji]: https://zulip.com/help/custom-emoji
-//
-// [custom emoji]: https://zulip.com/help/custom-emoji
-func (r RemoveReactionRequest) ReactionType(reactionType string) RemoveReactionRequest {
+func (r RemoveReactionRequest) ReactionType(reactionType ReactionType) RemoveReactionRequest {
 	r.reactionType = &reactionType
 	return r
 }
@@ -2291,9 +2301,9 @@ type SendMessageRequest struct {
 	readBySender  *bool
 }
 
-// The type of message to be sent.  `"direct"` for a direct message and `"stream"` or `"channel"` for a channel message.
+// The type of message to be sent.  `RecipientTypeDirect` for a direct message and `RecipientTypeStream` or `RecipientTypeChannel` for a channel message.
 //
-//	**Changes**: In Zulip 9.0 (feature level 248), `"channel"` was added as an additional value for this parameter to request a channel message.  In Zulip 7.0 (feature level 174), `"direct"` was added as the preferred way to request a direct message, deprecating the original `"private"`. While `"private"` is still supported for requesting direct messages, clients are encouraged to use to the modern convention with servers that support it, because support for `"private"` will eventually be removed.
+//	**Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to request a channel message.  In Zulip 7.0 (feature level 174), `RecipientTypeDirect` was added as the preferred way to request a direct message, deprecating the original `RecipientTypePrivate`. While `RecipientTypePrivate` is still supported for requesting direct messages, clients are encouraged to use to the modern convention with servers that support it, because support for `RecipientTypePrivate` will eventually be removed.
 func (r SendMessageRequest) RecipientType(recipientType RecipientType) SendMessageRequest {
 	r.recipientType = &recipientType
 	return r

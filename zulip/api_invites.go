@@ -137,12 +137,11 @@ func (r CreateInviteLinkRequest) InviteExpiresInMinutes(inviteExpiresInMinutes i
 }
 
 // The [organization-level role] of the user that is created when the invitation is accepted. Possible values are:
-//
-//   - 100 = Organization owner
-//   - 200 = Organization administrator
-//   - 300 = Organization moderator
-//   - 400 = Member
-//   - 600 = Guest
+//   - RoleOwner
+//   - RoleAdmin
+//   - RoleModerator
+//   - RoleMember
+//   - RoleGuest
 //
 // Users can only create invitation links for [roles with equal or stricter restrictions] as their own. For example, a moderator cannot invite someone to be an owner or administrator, but they can invite them to be a moderator or member.
 //
@@ -756,11 +755,11 @@ func (r SendInvitesRequest) InviteExpiresInMinutes(inviteExpiresInMinutes int32)
 }
 
 // The [organization-level role] of the user that is created when the invitation is accepted. Possible values are:
-//   - 100 = Organization owner
-//   - 200 = Organization administrator
-//   - 300 = Organization moderator
-//   - 400 = Member
-//   - 600 = Guest
+//   - RoleOwner
+//   - RoleAdmin
+//   - RoleModerator
+//   - RoleMember
+//   - RoleGuest
 //
 // Users can only create invitation links for [roles with equal or stricter restrictions] as their own. For example, a moderator cannot invite someone to be an owner or administrator, but they can invite them to be a moderator or member.
 //

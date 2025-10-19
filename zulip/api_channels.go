@@ -4273,18 +4273,14 @@ func (r UpdateUserTopicRequest) Topic(topic string) UpdateUserTopicRequest {
 }
 
 // Controls which visibility policy to set.
-//
-//   - 0 = None. Removes the visibility policy previously set for the topic.
-//   - 1 = Muted. [Mutes the topic] in a channel.
-//   - 2 = Unmuted. [Unmutes the topic] in a muted channel.
-//   - 3 = Followed. [Follows the topic].
+//   - VisibilityPolicyNone
+//   - VisibilityPolicyMuted
+//   - VisibilityPolicyUnmuted
+//   - VisibilityPolicyFollowed
 //
 // In an unmuted channel, a topic visibility policy of unmuted will have the same effect as the "None" visibility policy.
 //
 //	**Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.
-//
-// [Mutes the topic]: https://zulip.com/help/mute-a-topic
-// [Follows the topic]: https://zulip.com/help/follow-a-topic
 func (r UpdateUserTopicRequest) VisibilityPolicy(visibilityPolicy VisibilityPolicy) UpdateUserTopicRequest {
 	r.visibilityPolicy = &visibilityPolicy
 	return r

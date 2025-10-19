@@ -9,10 +9,10 @@ import (
 type ScheduledMessage struct {
 	// The unique Id of the scheduled message, which can be used to modify or delete the scheduled message.  This is different from the unique Id that the message will have after it is sent.
 	ScheduledMessageId int64 `json:"scheduled_message_id"`
-	// The type of the scheduled message. Either `"stream"` or `"private"`.
+	// The type of the scheduled message. Either `RecipientTypeStream` or `RecipientTypePrivate`.
 	Type RecipientType `json:"type"`
 	To   Recipient     `json:"to"`
-	// Only present if `type` is `"stream"`.  The topic for the channel message.
+	// Only present if `type` is `RecipientTypeStream`.  The topic for the channel message.
 	Topic *string `json:"topic,omitempty"`
 	// The content/body of the scheduled message, in [Zulip-flavored Markdown] format.  See [Markdown message formatting] for details on Zulip's HTML format.
 	//

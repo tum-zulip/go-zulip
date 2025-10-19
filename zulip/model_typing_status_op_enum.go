@@ -1,5 +1,8 @@
 package zulip
 
+// TypingStatusOp represents whether the user has started or stopped typing.
+//   - TypingStatusOpStart = start
+//   - TypingStatusOpStop = stop
 type TypingStatusOp string
 
 const (

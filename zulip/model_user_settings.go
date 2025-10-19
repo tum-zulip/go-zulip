@@ -48,9 +48,9 @@ type UserSettings struct {
 	// [configured home view]: https://zulip.com/help/configure-home-view
 	WebEscapeNavigatesToHomeView bool `json:"web_escape_navigates_to_home_view,omitempty"`
 	// The style selected by the user for the right sidebar user list.
-	//   - 1 = Compact
-	//   - 2 = With status
-	//   - 3 = With avatar and status
+	//   - UserListStyleCompact
+	//   - UserListStyleWithStatus
+	//   - UserListStyleWithAvatarAndStatus
 	//
 	// **Changes**: New in Zulip 6.0 (feature level 141).
 	UserListStyle UserListStyle `json:"user_list_style,omitempty"`
@@ -62,12 +62,12 @@ type UserSettings struct {
 	// **Changes**: New in Zulip 9.0 (feature level 275).
 	WebAnimateImagePreviews WebAnimateImagePreviews `json:"web_animate_image_previews,omitempty"`
 	// Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.
-	//   - 1 = All channels
-	//   - 2 = Unmuted channels and topics
-	//   - 3 = No channels
+	//   - UnreadsCountDisplayAllChannels
+	//   - UnreadsCountDisplayUnmutedChannelsAndTopics
+	//   - UnreadsCountDisplayNoChannels
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 210).
-	WebChannelUnreadsCountDisplayPolicy WebChannelUnreadsCountDisplayPolicy `json:"web_stream_unreads_count_display_policy,omitempty"`
+	WebChannelUnreadsCountDisplayPolicy UnreadsCountDisplay `json:"web_stream_unreads_count_display_policy,omitempty"`
 	// Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 350).
@@ -125,9 +125,9 @@ type UserSettings struct {
 	// **Changes**: New in Zulip 8.0 (feature level 235).
 	AutomaticallyFollowTopicsWhereMentioned bool `json:"automatically_follow_topics_where_mentioned,omitempty"`
 	// Controls whether the resolved-topic notices are marked as read.
-	//  - "always" = Always mark resolved-topic notices as read.
-	//  - "except_followed" = Mark resolved-topic notices as read in topics not followed by the user.
-	//  - "never" = Never mark resolved-topic notices as read.
+	//  - ResolvedTopicNoticeAutoReadPolicyAlways
+	//  - ResolvedTopicNoticeAutoReadPolicyExceptFollowed
+	//  - ResolvedTopicNoticeAutoReadPolicyNever
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 385).
 	ResolvedTopicNoticeAutoReadPolicy ResolvedTopicNoticeAutoReadPolicy `json:"resolved_topic_notice_auto_read_policy,omitempty"`
@@ -266,14 +266,14 @@ type DisplaySettings struct {
 	// [default language]: https://zulip.com/help/change-your-language
 	DefaultLanguage string `json:"default_language,omitempty"`
 	// The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.
-	//  - "recent_topics" = Recent conversations view
-	//  - "inbox" = Inbox view
-	//  - "all_messages" = Combined feed view
+	//  - HomeViewRecentTopics
+	//  - HomeViewInbox
+	//  - HomeViewAllMessages
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
 	//
 	// [home view]: https://zulip.com/help/configure-home-view
-	WebHomeView WebHomeView `json:"web_home_view,omitempty"`
+	WebHomeView HomeView `json:"web_home_view,omitempty"`
 	// Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.
 	LeftSideUserlist bool `json:"left_side_userlist,omitempty"`
 	// The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.

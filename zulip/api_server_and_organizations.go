@@ -2325,14 +2325,14 @@ type UpdateRealmUserSettingsDefaultsRequest struct {
 	enableDraftsSynchronization                    *bool
 	translateEmoticons                             *bool
 	displayEmojiReactionUsers                      *bool
-	webHomeView                                    *string
+	webHomeView                                    *HomeView
 	webEscapeNavigatesToHomeView                   *bool
 	leftSideUserlist                               *bool
 	emojiset                                       *Emojiset
 	demoteInactiveChannels                         *DemoteInactiveChannels
-	userListStyle                                  *int32
-	webAnimateImagePreviews                        *string
-	webChannelUnreadsCountDisplayPolicy            *int32
+	userListStyle                                  *UserListStyle
+	webAnimateImagePreviews                        *WebAnimateImagePreviews
+	webChannelUnreadsCountDisplayPolicy            *UnreadsCountDisplay
 	hideAiFeatures                                 *bool
 	webLeftSidebarShowChannelFolders               *bool
 	webLeftSidebarUnreadsCountSummary              *bool
@@ -2484,10 +2484,15 @@ func (r UpdateRealmUserSettingsDefaultsRequest) DisplayEmojiReactionUsers(displa
 	return r
 }
 
-// The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  - "recent_topics" - Recent conversations view - "inbox" - Inbox view - "all_messages" - Combined feed view  **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
+// The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.
+//   - HomeViewRecentTopics
+//   - HomeViewInbox
+//   - HomeViewAllMessages
+//
+// **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
 //
 // [home view]: https://zulip.com/help/configure-home-view
-func (r UpdateRealmUserSettingsDefaultsRequest) WebHomeView(webHomeView string) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebHomeView(webHomeView HomeView) UpdateRealmUserSettingsDefaultsRequest {
 	r.webHomeView = &webHomeView
 	return r
 }
@@ -2532,27 +2537,34 @@ func (r UpdateRealmUserSettingsDefaultsRequest) DemoteInactiveChannels(demoteIna
 }
 
 // The style selected by the user for the right sidebar user list.
-//   - 1 = Compact
-//   - 2 = With status
-//   - 3 = With avatar and status  **Changes**: New in Zulip 6.0 (feature level 141).
-func (r UpdateRealmUserSettingsDefaultsRequest) UserListStyle(userListStyle int32) UpdateRealmUserSettingsDefaultsRequest {
+//   - UserListStyleCompact
+//   - UserListStyleWithStatus
+//   - UserListStyleWithAvatarAndStatus
+//
+// **Changes**: New in Zulip 6.0 (feature level 141).
+func (r UpdateRealmUserSettingsDefaultsRequest) UserListStyle(userListStyle UserListStyle) UpdateRealmUserSettingsDefaultsRequest {
 	r.userListStyle = &userListStyle
 	return r
 }
 
-// Controls how animated images should be played in the message feed in the web/desktop application.  - "always" - Always play the animated images in the message feed. - "on_hover" - Play the animated images on hover over them in the message feed. - "never" - Never play animated images in the message feed.
+// Controls how animated images should be played in the message feed in the web/desktop application.
+//   - WebAnimateImagePreviewsAlways
+//   - WebAnimateImagePreviewsOnHover
+//   - WebAnimateImagePreviewsNever
 //
-//	**Changes**: New in Zulip 9.0 (feature level 275). Previously, animated images always used to play in the message feed by default. This setting controls this behaviour.
-func (r UpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(webAnimateImagePreviews string) UpdateRealmUserSettingsDefaultsRequest {
+// **Changes**: New in Zulip 9.0 (feature level 275). Previously, animated images always used to play in the message feed by default. This setting controls this behaviour.
+func (r UpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(webAnimateImagePreviews WebAnimateImagePreviews) UpdateRealmUserSettingsDefaultsRequest {
 	r.webAnimateImagePreviews = &webAnimateImagePreviews
 	return r
 }
 
 // Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.
-//   - 1 = All channels
-//   - 2 = Unmuted channels and topics
-//   - 3 = No channels  **Changes**: New in Zulip 8.0 (feature level 210).
-func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnreadsCountDisplayPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
+//   - UnreadsCountDisplayAllChannels
+//   - UnreadsCountDisplayUnmutedChannelsAndTopics
+//   - UnreadsCountDisplayNoChannels
+//
+// **Changes**: New in Zulip 8.0 (feature level 210).
+func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnreadsCountDisplayPolicy UnreadsCountDisplay) UpdateRealmUserSettingsDefaultsRequest {
 	r.webChannelUnreadsCountDisplayPolicy = &webChannelUnreadsCountDisplayPolicy
 	return r
 }
@@ -2772,10 +2784,13 @@ func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsWhereMe
 	return r
 }
 
-// Controls whether the resolved-topic notices are marked as read.  - "always" - Always mark resolved-topic notices as read. - "except_followed" - Mark resolved-topic notices as read in topics not followed by the user. - "never" - Never mark resolved-topic notices as read.
+// Controls whether the resolved-topic notices are marked as read.
+//   - ResolvedTopicNoticeAutoReadPolicyAlways
+//   - ResolvedTopicNoticeAutoReadPolicyExceptFollowed
+//   - ResolvedTopicNoticeAutoReadPolicyNever
 //
-//	**Changes**: New in Zulip 11.0 (feature level 385).
-func (r UpdateRealmUserSettingsDefaultsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy string) UpdateRealmUserSettingsDefaultsRequest {
+// **Changes**: New in Zulip 11.0 (feature level 385).
+func (r UpdateRealmUserSettingsDefaultsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy ResolvedTopicNoticeAutoReadPolicy) UpdateRealmUserSettingsDefaultsRequest {
 	r.resolvedTopicNoticeAutoReadPolicy = &resolvedTopicNoticeAutoReadPolicy
 	return r
 }

@@ -500,15 +500,12 @@ type UserTopic struct {
 	// An integer UNIX timestamp representing when the user-topic relationship was last changed.
 	LastUpdated time.Time `json:"last_updated,omitempty"`
 	// An integer indicating the user's visibility preferences for the topic, such as whether the topic is muted.
-	//   - 0 = None. Used to indicate that the user no   longer has a special visibility policy for this topic.
-	//   - 1 = Muted. Used to record [muted topics].
-	//   - 2 = Unmuted. Used to record unmuted topics.
-	//   - 3 = Followed. Used to record [followed topics].
+	//   - VisibilityPolicyNone
+	//   - VisibilityPolicyMuted
+	//   - VisibilityPolicyUnmuted
+	//   - VisibilityPolicyFollowed
 	//
 	// **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.  In Zulip 7.0 (feature level 170), added unmuted as a visibility policy option.
-	//
-	// [muted topics]: https://zulip.com/help/mute-a-topic
-	// [followed topics]: https://zulip.com/help/follow-a-topic
 	VisibilityPolicy VisibilityPolicy `json:"visibility_policy,omitempty"`
 }
 

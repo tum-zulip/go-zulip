@@ -1,7 +1,27 @@
 package zulip
 
+// [Organization-level role] of the user. Possible values are:
+//   - RoleOwner = Organization owner
+//   - RoleAdmin = Organization administrator
+//   - RoleModerator = Organization moderator
+//   - RoleMember = Member
+//   - RoleGuest = Guest
+//
+// **Changes**: New in Zulip 4.0 (feature level 59).
+//
+// [Organization-level role]: https://zulip.com/api/roles-and-permissions
 type Role int
 
+// [Organization-level role] of the user. Possible values are:
+//   - RoleOwner = Organization owner
+//   - RoleAdmin = Organization administrator
+//   - RoleModerator = Organization moderator
+//   - RoleMember = Member
+//   - RoleGuest = Guest
+//
+// **Changes**: New in Zulip 4.0 (feature level 59).
+//
+// [Organization-level role]: https://zulip.com/api/roles-and-permissions
 const (
 	RoleOwner     Role = 100
 	RoleAdmin     Role = 200

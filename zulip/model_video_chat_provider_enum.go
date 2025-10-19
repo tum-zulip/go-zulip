@@ -1,11 +1,11 @@
 package zulip
 
 // The configured [video call provider] for the organization.
-//   - 0 = None
-//   - 1 = Jitsi Meet
-//   - 3 = Zoom (User OAuth integration)
-//   - 4 = BigBlueButton
-//   - 5 = Zoom (Server to Server OAuth integration)
+//   - VideoChatProviderNone = None
+//   - VideoChatProviderJitsiMeet = Jitsi Meet
+//   - VideoChatProviderZoomUserOAuthIntegration = Zoom (User OAuth integration)
+//   - VideoChatProviderBigBlueButton = BigBlueButton
+//   - VideoChatProviderZoomServerToServerOAuth = Zoom (Server to Server OAuth integration)
 //
 // Note that only one of the [Zoom integrations] can be configured on a Zulip server.
 // **Changes**: In Zulip 10.0 (feature level 353), added the Zoom Server to Server OAuth option.  In Zulip 3.0 (feature level 1), added the None option to disable video call UI.

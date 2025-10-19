@@ -1,9 +1,10 @@
 package zulip
 
 // Controls whether the resolved-topic notices are marked as read.
-// //  - "always" = Always mark resolved-topic notices as read.
-// //  - "except_followed" = Mark resolved-topic notices as read in topics not followed by the user.
-// //  - "never" = Never mark resolved-topic notices as read.
+//   - ResolvedTopicNoticeAutoReadPolicyAlways = Always mark resolved-topic notices as read.
+//   - ResolvedTopicNoticeAutoReadPolicyExceptFollowed = Mark resolved-topic notices as read in topics not followed by the user.
+//   - ResolvedTopicNoticeAutoReadPolicyNever = Never mark resolved-topic notices as read.
+//
 // **Changes**: New in Zulip 11.0 (feature level 385).
 type ResolvedTopicNoticeAutoReadPolicy string
 

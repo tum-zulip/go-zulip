@@ -1,10 +1,13 @@
 package zulip
 
 // Controls visibility policy
-// 0 = None. Removes the visibility policy previously set for the topic.
-// 1 = Muted. Mutes the topic in a channel.
-// 2 = Unmuted. Unmutes the topic in a muted channel.
-// 3 = Followed. Follows the topic.
+//   - VisibilityPolicyNone = None. Removes the visibility policy previously set for the topic.
+//   - VisibilityPolicyMuted = Muted. [Mutes the topic] in a channel.
+//   - VisibilityPolicyUnmuted = Unmuted. [Unmutes the topic] in a muted channel.
+//   - VisibilityPolicyFollowed = Followed. [Follows the topic].
+//
+// [Mutes the topic]: https://zulip.com/help/mute-a-topic
+// [Follows the topic]: https://zulip.com/help/follow-a-topic
 type VisibilityPolicy int
 
 const (

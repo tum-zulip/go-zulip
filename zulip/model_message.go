@@ -80,7 +80,7 @@ type Message struct {
 	//
 	// [custom linkification filters]: https://zulip.com/help/add-a-custom-linkifier
 	TopicLinks []TopicLink `json:"topic_links,omitempty"`
-	// The type of the message: `"stream"` or `"private"`.
+	// The type of the message: `RecipientTypeStream` or `RecipientTypePrivate`.
 	Type RecipientType `json:"type,omitempty"`
 	// The user's [message flags] for the message.
 	//
