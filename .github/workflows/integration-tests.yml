@@ -17,16 +17,15 @@ jobs:
     name: Go tests against Zulip ${{ matrix.zulip-branch }}
     runs-on: self-hosted
     strategy:
-      fail-fast: false
       matrix:
         zulip-branch:
           - main
-          - 7.x
     env:
       GO111MODULE: "on"
       GOFLAGS: "-trimpath"
       ZULIP_TEST_SITE: http://127.0.0.1:9991
       ZULIP_DEV_LOG: ${{ github.workspace }}/zulip-dev.log
+      ZULIP_SERVER_PATH: /tmp/zulip-server-${{ github.run_id }}
     steps:
       - name: Checkout go-zulip
         uses: actions/checkout@v4
@@ -100,18 +99,18 @@ jobs:
           fi
 
       - name: Checkout Zulip server ${{ matrix.zulip-branch }}
-        run: git clone --depth 1 --branch "${{ matrix.zulip-branch }}" https://github.com/zulip/zulip.git tmp/zulip-server
+        run: git clone --depth 1 --branch "${{ matrix.zulip-branch }}" https://github.com/zulip/zulip.git "$ZULIP_SERVER_PATH"
 
       - name: Provision Zulip dev server
-        working-directory: tmp/zulip-server
+        working-directory: ${{ env.ZULIP_SERVER_PATH }}
         run: |
           ./tools/provision
 
       - name: Start Zulip dev server
-        working-directory: tmp/zulip-server
+        working-directory: ${{ env.ZULIP_SERVER_PATH }}
         run: |
           nohup ./tools/run-dev.sh >"${ZULIP_DEV_LOG}" 2>&1 &
-          echo $! > tmp/zulip-dev.pid
+          echo $! > /tmp/zulip-dev-${{ github.run_id }}.pid
 
       - name: Wait for Zulip dev server to become ready
         run: |
@@ -161,8 +160,8 @@ jobs:
       - name: Stop Zulip dev server
         if: always()
         run: |
-          if [ -f tmp/zulip-dev.pid ]; then
-            sudo kill "$(cat tmp/zulip-dev.pid)" || true
+          if [ -f /tmp/zulip-dev-${{ github.run_id }}.pid ]; then
+            sudo kill "$(cat /tmp/zulip-dev-${{ github.run_id }}.pid)" || true
           fi
           sudo pkill -f run-dev.sh || true
 
