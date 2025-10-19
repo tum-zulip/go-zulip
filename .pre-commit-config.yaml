@@ -1,0 +1,39 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: local
+    hooks:
+      - id: gofmt
+        name: gofmt (with simplify)
+        entry: bash -c 'if [ "$#" -eq 0 ]; then exit 0; fi; gofmt -w -s "$@"'
+        language: system
+        types: [go]
+
+      - id: goimports
+        name: goimports
+        entry: bash -c 'if [ "$#" -eq 0 ]; then exit 0; fi; go run golang.org/x/tools/cmd/goimports@latest -w "$@"'
+        language: system
+        types: [go]
+
+      - id: go-vet
+        name: go vet
+        entry: go vet ./...
+        language: system
+        pass_filenames: false
+
+      - id: staticcheck
+        name: staticcheck
+        entry: go run honnef.co/go/tools/cmd/staticcheck@2024.1.1 ./...
+        language: system
+        pass_filenames: false
+
+      - id: go-test-models
+        name: go test (models)
+        entry: ./scripts/run-model-tests.sh
+        language: system
+        pass_filenames: false
