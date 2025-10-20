@@ -32,10 +32,3 @@ type Client interface {
 	ServerAndOrganizationsAPI
 	UsersAPI
 }
-
-type EventQueue interface {
-	Create() (queueId string, lastEventId int64, err error)
-	Connect(queueId string, lastEventId int64) (queue <-chan Event, errs <-chan error, err error)
-	Close() error
-	Delete(queueId string) error
-}
