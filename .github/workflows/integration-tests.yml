@@ -90,7 +90,7 @@ jobs:
           python3_version=$(python3 --version | awk '{print $2}')
           major_minor=$(echo $python3_version | cut -d. -f1-2)
           required_version="3.10"
-          
+
           if [ "$(printf '%s\n' "$required_version" "$major_minor" | sort -V | head -n1)" = "$required_version" ]; then
             echo "✓ Python version $python3_version is >= 3.10"
           else
@@ -109,7 +109,8 @@ jobs:
       - name: Start Zulip dev server
         working-directory: ${{ env.ZULIP_SERVER_PATH }}
         run: |
-          nohup ./tools/run-dev.sh >"${ZULIP_DEV_LOG}" 2>&1 &
+          source  venv/bin/activate
+          nohup ./tools/run-dev >"${ZULIP_DEV_LOG}" 2>&1 &
           echo $! > /tmp/zulip-dev-${{ github.run_id }}.pid
 
       - name: Wait for Zulip dev server to become ready
@@ -181,7 +182,7 @@ jobs:
         run: |
           mkdir -p ./docs/godoc
           go install golang.org/x/tools/cmd/godoc@latest
-          godoc -html github.com/tum-zulip/go-zulip/zulip > ./docs/godoc/index.html
+          godoc -url="/pkg/github.com/tum-zulip/go-zulip/zulip/" > ./docs/godoc/index.html
 
       - name: Upload godoc artifact
         uses: actions/upload-artifact@v4
