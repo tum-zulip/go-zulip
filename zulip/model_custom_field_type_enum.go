@@ -22,7 +22,7 @@ const (
 	CustomFieldTypePronouns        CustomFieldType = 8 // Pronouns
 )
 
-var AllowedCustomFieldTypes = []CustomFieldType{
+var allowedCustomFieldTypes = []CustomFieldType{
 	CustomFieldTypeShortText,
 	CustomFieldTypeLongText,
 	CustomFieldTypeListOfOptions,
@@ -40,7 +40,7 @@ func NewCustomFieldTypeFromValue(v int) (*CustomFieldType, error) {
 	} else {
 		return nil, &ErrInvalidEnumValue{
 			Value:   v,
-			Enum:    AllowedCustomFieldTypes,
+			Enum:    allowedCustomFieldTypes,
 			VarName: "CustomFieldType",
 		}
 	}
@@ -48,7 +48,7 @@ func NewCustomFieldTypeFromValue(v int) (*CustomFieldType, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v CustomFieldType) IsValid() bool {
-	for _, existing := range AllowedCustomFieldTypes {
+	for _, existing := range allowedCustomFieldTypes {
 		if existing == v {
 			return true
 		}

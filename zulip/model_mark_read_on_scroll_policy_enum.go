@@ -14,7 +14,7 @@ const (
 	MarkReadOnScrollPolicyNever                   MarkReadOnScrollPolicy = 3
 )
 
-var AllowedMarkReadOnScrollPolicyEnumValues = []MarkReadOnScrollPolicy{
+var allowedMarkReadOnScrollPolicyEnumValues = []MarkReadOnScrollPolicy{
 	MarkReadOnScrollPolicyAlways,
 	MarkReadOnScrollPolicyOnlyInConversationViews,
 	MarkReadOnScrollPolicyNever,
@@ -26,7 +26,7 @@ func NewMarkReadOnScrollPolicyFromValue(v int) (*MarkReadOnScrollPolicy, error) 
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedMarkReadOnScrollPolicyEnumValues,
+			Enum:    allowedMarkReadOnScrollPolicyEnumValues,
 			Value:   v,
 			VarName: "MarkReadOnScrollPolicy",
 		}
@@ -35,7 +35,7 @@ func NewMarkReadOnScrollPolicyFromValue(v int) (*MarkReadOnScrollPolicy, error) 
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v MarkReadOnScrollPolicy) IsValid() bool {
-	for _, existing := range AllowedMarkReadOnScrollPolicyEnumValues {
+	for _, existing := range allowedMarkReadOnScrollPolicyEnumValues {
 		if existing == v {
 			return true
 		}

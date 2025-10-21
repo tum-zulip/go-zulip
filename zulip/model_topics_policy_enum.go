@@ -33,7 +33,7 @@ const (
 	TopicsPolicyEmptyTopicOnly TopicsPolicy = "empty_topic_only"
 )
 
-var AllowedTopicsPolicyEnumValues = []TopicsPolicy{
+var allowedTopicsPolicyEnumValues = []TopicsPolicy{
 	TopicsPolicyAllowEmptyTopic,
 	TopicsPolicyDisableEmptyTopic,
 	TopicsPolicyEmptyTopicOnly,
@@ -47,7 +47,7 @@ func NewTopicsPolicyFromValue(v string) (*TopicsPolicy, error) {
 	} else {
 		return nil, &ErrInvalidEnumValue{
 			Value:   v,
-			Enum:    AllowedTopicsPolicyEnumValues,
+			Enum:    allowedTopicsPolicyEnumValues,
 			VarName: "TopicsPolicy",
 		}
 	}
@@ -55,7 +55,7 @@ func NewTopicsPolicyFromValue(v string) (*TopicsPolicy, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v TopicsPolicy) IsValid() bool {
-	for _, existing := range AllowedTopicsPolicyEnumValues {
+	for _, existing := range allowedTopicsPolicyEnumValues {
 		if existing == v {
 			return true
 		}

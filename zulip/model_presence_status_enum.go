@@ -12,7 +12,7 @@ const (
 	PresenceStatusIdle   PresenceStatus = "idle"
 )
 
-var AllowedPresenceStatusEnumValues = []PresenceStatus{
+var allowedPresenceStatusEnumValues = []PresenceStatus{
 	PresenceStatusActive,
 	PresenceStatusIdle,
 }
@@ -24,7 +24,7 @@ func NewPresenceStatusFromValue(v string) (*PresenceStatus, error) {
 	} else {
 		return nil, &ErrInvalidEnumValue{
 			Value:   v,
-			Enum:    AllowedPresenceStatusEnumValues,
+			Enum:    allowedPresenceStatusEnumValues,
 			VarName: "PresenceStatus",
 		}
 	}
@@ -32,7 +32,7 @@ func NewPresenceStatusFromValue(v string) (*PresenceStatus, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v PresenceStatus) IsValid() bool {
-	for _, existing := range AllowedPresenceStatusEnumValues {
+	for _, existing := range allowedPresenceStatusEnumValues {
 		if existing == v {
 			return true
 		}

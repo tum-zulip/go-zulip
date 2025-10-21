@@ -21,7 +21,7 @@ const (
 	EmailVisibilityModeratorsOnly     EmailVisibility = 5
 )
 
-var AllowedEmailVisibilityEnumValues = []EmailVisibility{
+var allowedEmailVisibilityEnumValues = []EmailVisibility{
 	EmailVisibilityEveryone,
 	EmailVisibilityMembersOnly,
 	EmailVisibilityAdministratorsOnly,
@@ -35,7 +35,7 @@ func NewEmailAddressVisibilityFromValue(v int) (*EmailVisibility, error) {
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedEmailVisibilityEnumValues,
+			Enum:    allowedEmailVisibilityEnumValues,
 			Value:   v,
 			VarName: "EmailVisibility",
 		}
@@ -44,7 +44,7 @@ func NewEmailAddressVisibilityFromValue(v int) (*EmailVisibility, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v EmailVisibility) IsValid() bool {
-	for _, existing := range AllowedEmailVisibilityEnumValues {
+	for _, existing := range allowedEmailVisibilityEnumValues {
 		if existing == v {
 			return true
 		}

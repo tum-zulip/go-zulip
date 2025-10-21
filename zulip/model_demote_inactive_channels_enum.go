@@ -14,7 +14,7 @@ const (
 	DemoteInactiveChannelsNever     DemoteInactiveChannels = 3
 )
 
-var AllowedDemoteInactiveChannelsEnumValues = []DemoteInactiveChannels{
+var allowedDemoteInactiveChannelsEnumValues = []DemoteInactiveChannels{
 	DemoteInactiveChannelsAutomatic,
 	DemoteInactiveChannelsAlways,
 	DemoteInactiveChannelsNever,
@@ -26,7 +26,7 @@ func NewDemoteInactiveChannelsFromValue(v int) (*DemoteInactiveChannels, error) 
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedDemoteInactiveChannelsEnumValues,
+			Enum:    allowedDemoteInactiveChannelsEnumValues,
 			Value:   v,
 			VarName: "DemoteInactiveChannels",
 		}
@@ -35,7 +35,7 @@ func NewDemoteInactiveChannelsFromValue(v int) (*DemoteInactiveChannels, error) 
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v DemoteInactiveChannels) IsValid() bool {
-	for _, existing := range AllowedDemoteInactiveChannelsEnumValues {
+	for _, existing := range allowedDemoteInactiveChannelsEnumValues {
 		if existing == v {
 			return true
 		}

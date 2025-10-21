@@ -16,7 +16,7 @@ const (
 	EmojisetText       Emojiset = "text"
 )
 
-var AllowedEmojisetEnumValues = []Emojiset{
+var allowedEmojisetEnumValues = []Emojiset{
 	EmojisetGoogle,
 	EmojisetGoogleBlob,
 	EmojisetTwitter,
@@ -29,7 +29,7 @@ func NewEmojisetFromValue(v string) (*Emojiset, error) {
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedEmojisetEnumValues,
+			Enum:    allowedEmojisetEnumValues,
 			Value:   v,
 			VarName: "Emojiset",
 		}
@@ -38,7 +38,7 @@ func NewEmojisetFromValue(v string) (*Emojiset, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v Emojiset) IsValid() bool {
-	for _, existing := range AllowedEmojisetEnumValues {
+	for _, existing := range allowedEmojisetEnumValues {
 		if existing == v {
 			return true
 		}

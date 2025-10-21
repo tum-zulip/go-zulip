@@ -22,7 +22,7 @@ const (
 	VideoChatProviderZoomServerToServerOAuth  VideoChatProvider = 5
 )
 
-var AllowedVideoChatProviderEnumValues = []VideoChatProvider{
+var allowedVideoChatProviderEnumValues = []VideoChatProvider{
 	VideoChatProviderNone,
 	VideoChatProviderJitsiMeet,
 	VideoChatProviderZoomUserOAuthIntegration,
@@ -36,14 +36,14 @@ func NewVideoChatProviderFromValue(v int) (*VideoChatProvider, error) {
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedVideoChatProviderEnumValues,
+			Enum:    allowedVideoChatProviderEnumValues,
 			Value:   v,
 			VarName: "VideoChatProvider",
 		}
 	}
 }
 func (v VideoChatProvider) IsValid() bool {
-	for _, existing := range AllowedVideoChatProviderEnumValues {
+	for _, existing := range allowedVideoChatProviderEnumValues {
 		if existing == v {
 			return true
 		}

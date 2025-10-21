@@ -10,7 +10,7 @@ const (
 	AvatarSourceUploaded AvatarSource = "U"
 )
 
-var AllowedAvatarSourceEnumValues = []AvatarSource{
+var allowedAvatarSourceEnumValues = []AvatarSource{
 	AvatarSourceGravatar,
 	AvatarSourceUploaded,
 }
@@ -22,7 +22,7 @@ func NewAvatarSourceFromValue(v string) (*AvatarSource, error) {
 	} else {
 		return nil, &ErrInvalidEnumValue{
 			Value:   v,
-			Enum:    AllowedAvatarSourceEnumValues,
+			Enum:    allowedAvatarSourceEnumValues,
 			VarName: "AvatarSource",
 		}
 	}
@@ -30,7 +30,7 @@ func NewAvatarSourceFromValue(v string) (*AvatarSource, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v AvatarSource) IsValid() bool {
-	for _, existing := range AllowedAvatarSourceEnumValues {
+	for _, existing := range allowedAvatarSourceEnumValues {
 		if existing == v {
 			return true
 		}

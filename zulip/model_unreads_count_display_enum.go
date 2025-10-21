@@ -14,7 +14,7 @@ const (
 	UnreadsCountDisplayNoChannels               UnreadsCountDisplay = 3
 )
 
-var AllowedUnreadsCountDisplayEnumValues = []UnreadsCountDisplay{
+var allowedUnreadsCountDisplayEnumValues = []UnreadsCountDisplay{
 	UnreadsCountDisplayAllChannels,
 	UnreadsCountDisplayUnmutedChannelsAndTopics,
 	UnreadsCountDisplayNoChannels,
@@ -26,7 +26,7 @@ func NewUnreadsCountDisplayFromValue(v int) (*UnreadsCountDisplay, error) {
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedUnreadsCountDisplayEnumValues,
+			Enum:    allowedUnreadsCountDisplayEnumValues,
 			Value:   v,
 			VarName: "UnreadsCountDisplay",
 		}
@@ -35,7 +35,7 @@ func NewUnreadsCountDisplayFromValue(v int) (*UnreadsCountDisplay, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v UnreadsCountDisplay) IsValid() bool {
-	for _, existing := range AllowedUnreadsCountDisplayEnumValues {
+	for _, existing := range allowedUnreadsCountDisplayEnumValues {
 		if existing == v {
 			return true
 		}

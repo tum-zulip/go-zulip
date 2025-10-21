@@ -14,7 +14,7 @@ const (
 	WebAnimateImagePreviewsNever   WebAnimateImagePreviews = "never"
 )
 
-var AllowedWebAnimateImagePreviewsEnumValues = []WebAnimateImagePreviews{
+var allowedWebAnimateImagePreviewsEnumValues = []WebAnimateImagePreviews{
 	WebAnimateImagePreviewsAlways,
 	WebAnimateImagePreviewsOnHover,
 	WebAnimateImagePreviewsNever,
@@ -26,7 +26,7 @@ func NewWebAnimateImagePreviewsFromValue(v string) (*WebAnimateImagePreviews, er
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedWebAnimateImagePreviewsEnumValues,
+			Enum:    allowedWebAnimateImagePreviewsEnumValues,
 			Value:   v,
 			VarName: "WebAnimateImagePreviews",
 		}
@@ -35,7 +35,7 @@ func NewWebAnimateImagePreviewsFromValue(v string) (*WebAnimateImagePreviews, er
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v WebAnimateImagePreviews) IsValid() bool {
-	for _, existing := range AllowedWebAnimateImagePreviewsEnumValues {
+	for _, existing := range allowedWebAnimateImagePreviewsEnumValues {
 		if existing == v {
 			return true
 		}

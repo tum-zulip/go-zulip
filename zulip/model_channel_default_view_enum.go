@@ -16,7 +16,7 @@ const (
 	ChannelDefaultViewTopUnreadTopicInChannel ChannelDefaultView = 4
 )
 
-var AllowedChannelDefaultViewEnumValues = []ChannelDefaultView{
+var allowedChannelDefaultViewEnumValues = []ChannelDefaultView{
 	ChannelDefaultViewTopTopicInChannel,
 	ChannelDefaultViewChannelFeed,
 	ChannelDefaultViewListOfTopics,
@@ -29,7 +29,7 @@ func NewChannelDefaultViewFromValue(v int) (*ChannelDefaultView, error) {
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedChannelDefaultViewEnumValues,
+			Enum:    allowedChannelDefaultViewEnumValues,
 			Value:   v,
 			VarName: "ChannelDefaultView",
 		}
@@ -38,7 +38,7 @@ func NewChannelDefaultViewFromValue(v int) (*ChannelDefaultView, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v ChannelDefaultView) IsValid() bool {
-	for _, existing := range AllowedChannelDefaultViewEnumValues {
+	for _, existing := range allowedChannelDefaultViewEnumValues {
 		if existing == v {
 			return true
 		}

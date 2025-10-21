@@ -16,7 +16,7 @@ const (
 	BotTypeEmbedded        BotType = 4
 )
 
-var AllowedBotTypeEnumValues = []BotType{
+var allowedBotTypeEnumValues = []BotType{
 	BotTypeGeneric,
 	BotTypeIncomingWebhook,
 	BotTypeOutgoingWebhook,
@@ -30,7 +30,7 @@ func NewBotTypeFromValue(v int) (*BotType, error) {
 	} else {
 		return nil, &ErrInvalidEnumValue{
 			Value:   v,
-			Enum:    AllowedBotTypeEnumValues,
+			Enum:    allowedBotTypeEnumValues,
 			VarName: "BotType",
 		}
 	}
@@ -38,7 +38,7 @@ func NewBotTypeFromValue(v int) (*BotType, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v BotType) IsValid() bool {
-	for _, existing := range AllowedBotTypeEnumValues {
+	for _, existing := range allowedBotTypeEnumValues {
 		if existing == v {
 			return true
 		}

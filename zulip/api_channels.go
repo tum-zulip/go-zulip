@@ -812,7 +812,7 @@ type CreateChannelRequest struct {
 	sendNewSubscriptionMessages       *bool
 	topicsPolicy                      *TopicsPolicy
 	historyPublicToSubscribers        *bool
-	messageRetentionDays              *MessageRetentionDays
+	messageRetentionDays              *MessageRetentionDaysValue
 	canAddSubscribersGroup            *GroupSettingValue
 	canDeleteAnyMessageGroup          *GroupSettingValue
 	canDeleteOwnMessageGroup          *GroupSettingValue
@@ -911,7 +911,7 @@ func (r CreateChannelRequest) HistoryPublicToSubscribers(historyPublicToSubscrib
 	return r
 }
 
-func (r CreateChannelRequest) MessageRetentionDays(messageRetentionDays MessageRetentionDays) CreateChannelRequest {
+func (r CreateChannelRequest) MessageRetentionDays(messageRetentionDays MessageRetentionDaysValue) CreateChannelRequest {
 	r.messageRetentionDays = &messageRetentionDays
 	return r
 }
@@ -2873,7 +2873,7 @@ type SubscribeRequest struct {
 	isWebPublic                       *bool
 	isDefaultChannel                  *bool
 	historyPublicToSubscribers        *bool
-	messageRetentionDays              *MessageRetentionDays
+	messageRetentionDays              *MessageRetentionDaysValue
 	topicsPolicy                      *TopicsPolicy
 	canAddSubscribersGroup            *GroupSettingValue
 	canRemoveSubscribersGroup         *GroupSettingValue
@@ -2965,7 +2965,7 @@ func (r SubscribeRequest) HistoryPublicToSubscribers(historyPublicToSubscribers 
 	return r
 }
 
-func (r SubscribeRequest) MessageRetentionDays(messageRetentionDays MessageRetentionDays) SubscribeRequest {
+func (r SubscribeRequest) MessageRetentionDays(messageRetentionDays MessageRetentionDaysValue) SubscribeRequest {
 	r.messageRetentionDays = &messageRetentionDays
 	return r
 }
@@ -3576,7 +3576,7 @@ type UpdateChannelRequest struct {
 	isWebPublic                       *bool
 	historyPublicToSubscribers        *bool
 	isDefaultChannel                  *bool
-	messageRetentionDays              *MessageRetentionDays
+	messageRetentionDays              *MessageRetentionDaysValue
 	isArchived                        *bool
 	folderId                          *int64
 	topicsPolicy                      *TopicsPolicy
@@ -3657,7 +3657,7 @@ func (r UpdateChannelRequest) IsDefaultChannel(isDefaultChannel bool) UpdateChan
 	return r
 }
 
-func (r UpdateChannelRequest) MessageRetentionDays(messageRetentionDays MessageRetentionDays) UpdateChannelRequest {
+func (r UpdateChannelRequest) MessageRetentionDays(messageRetentionDays MessageRetentionDaysValue) UpdateChannelRequest {
 	r.messageRetentionDays = &messageRetentionDays
 	return r
 }

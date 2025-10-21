@@ -16,7 +16,7 @@ const (
 	ColorSchemeLight     ColorScheme = 3
 )
 
-var AllowedColorSchemeEnumValues = []ColorScheme{
+var allowedColorSchemeEnumValues = []ColorScheme{
 	ColorSchemeAutomatic,
 	ColorSchemeDark,
 	ColorSchemeLight,
@@ -28,7 +28,7 @@ func NewColorSchemeFromValue(v int) (*ColorScheme, error) {
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedColorSchemeEnumValues,
+			Enum:    allowedColorSchemeEnumValues,
 			Value:   v,
 			VarName: "ColorScheme",
 		}
@@ -37,7 +37,7 @@ func NewColorSchemeFromValue(v int) (*ColorScheme, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v ColorScheme) IsValid() bool {
-	for _, existing := range AllowedColorSchemeEnumValues {
+	for _, existing := range allowedColorSchemeEnumValues {
 		if existing == v {
 			return true
 		}

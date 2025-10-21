@@ -14,7 +14,7 @@ const (
 	UserListStyleWithAvatarAndStatus UserListStyle = 3
 )
 
-var AllowedUserListStyleEnumValues = []UserListStyle{
+var allowedUserListStyleEnumValues = []UserListStyle{
 	UserListStyleCompact,
 	UserListStyleWithStatus,
 	UserListStyleWithAvatarAndStatus,
@@ -26,7 +26,7 @@ func NewUserListStyleFromValue(v int) (*UserListStyle, error) {
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedUserListStyleEnumValues,
+			Enum:    allowedUserListStyleEnumValues,
 			Value:   v,
 			VarName: "UserListStyle",
 		}
@@ -35,7 +35,7 @@ func NewUserListStyleFromValue(v int) (*UserListStyle, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v UserListStyle) IsValid() bool {
-	for _, existing := range AllowedUserListStyleEnumValues {
+	for _, existing := range allowedUserListStyleEnumValues {
 		if existing == v {
 			return true
 		}

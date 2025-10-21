@@ -14,7 +14,7 @@ const (
 	ResolvedTopicNoticeAutoReadPolicyNever          ResolvedTopicNoticeAutoReadPolicy = "never"
 )
 
-var AllowedResolvedTopicNoticeAutoReadPolicyEnumValues = []ResolvedTopicNoticeAutoReadPolicy{
+var allowedResolvedTopicNoticeAutoReadPolicyEnumValues = []ResolvedTopicNoticeAutoReadPolicy{
 	ResolvedTopicNoticeAutoReadPolicyAlways,
 	ResolvedTopicNoticeAutoReadPolicyExceptFollowed,
 	ResolvedTopicNoticeAutoReadPolicyNever,
@@ -27,7 +27,7 @@ func NewResolvedTopicNoticeAutoReadPolicyFromValue(v string) (*ResolvedTopicNoti
 	} else {
 		return nil, &ErrInvalidEnumValue{
 			Value:   v,
-			Enum:    AllowedResolvedTopicNoticeAutoReadPolicyEnumValues,
+			Enum:    allowedResolvedTopicNoticeAutoReadPolicyEnumValues,
 			VarName: "ResolvedTopicNoticeAutoReadPolicy",
 		}
 	}
@@ -35,7 +35,7 @@ func NewResolvedTopicNoticeAutoReadPolicyFromValue(v string) (*ResolvedTopicNoti
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v ResolvedTopicNoticeAutoReadPolicy) IsValid() bool {
-	for _, existing := range AllowedResolvedTopicNoticeAutoReadPolicyEnumValues {
+	for _, existing := range allowedResolvedTopicNoticeAutoReadPolicyEnumValues {
 		if existing == v {
 			return true
 		}

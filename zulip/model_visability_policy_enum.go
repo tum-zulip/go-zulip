@@ -17,7 +17,7 @@ const (
 	VisibilityPolicyFollowed VisibilityPolicy = 3
 )
 
-var AllowedVisibilityPolicyEnumValues = []VisibilityPolicy{
+var allowedVisibilityPolicyEnumValues = []VisibilityPolicy{
 	VisibilityPolicyNone,
 	VisibilityPolicyMuted,
 	VisibilityPolicyUnmuted,
@@ -31,7 +31,7 @@ func NewVisibilityPolicyFromValue(v int) (*VisibilityPolicy, error) {
 	} else {
 		return nil, &ErrInvalidEnumValue{
 			Value:   v,
-			Enum:    AllowedVisibilityPolicyEnumValues,
+			Enum:    allowedVisibilityPolicyEnumValues,
 			VarName: "VisibilityPolicy",
 		}
 	}
@@ -39,7 +39,7 @@ func NewVisibilityPolicyFromValue(v int) (*VisibilityPolicy, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v VisibilityPolicy) IsValid() bool {
-	for _, existing := range AllowedVisibilityPolicyEnumValues {
+	for _, existing := range allowedVisibilityPolicyEnumValues {
 		if existing == v {
 			return true
 		}

@@ -14,7 +14,7 @@ const (
 	PlanTypeStandardFree PlanType = 4
 )
 
-var AllowedPlanTypeEnumValues = []PlanType{
+var allowedPlanTypeEnumValues = []PlanType{
 	PlanTypeSelfHosted,
 	PlanTypeLimited,
 	PlanTypeStandard,
@@ -27,7 +27,7 @@ func NewPlanTypeFromValue(v int) (*PlanType, error) {
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedPlanTypeEnumValues,
+			Enum:    allowedPlanTypeEnumValues,
 			Value:   v,
 			VarName: "PlanType",
 		}
@@ -35,7 +35,7 @@ func NewPlanTypeFromValue(v int) (*PlanType, error) {
 }
 
 func (v PlanType) IsValid() bool {
-	for _, existing := range AllowedPlanTypeEnumValues {
+	for _, existing := range allowedPlanTypeEnumValues {
 		if existing == v {
 			return true
 		}

@@ -33,7 +33,7 @@ const (
 	SubscriptionPropertyInHomeView             SubscriptionProperty = "in_home_view"             // Legacy name for `is_muted`, provided for backwards-compatibility with older Zulip server versions.
 )
 
-var AllowedSubscriptionPropertyEnumValues = []SubscriptionProperty{
+var allowedSubscriptionPropertyEnumValues = []SubscriptionProperty{
 	SubscriptionPropertyColor,
 	SubscriptionPropertyIsMuted,
 	SubscriptionPropertyPinToTop,
@@ -52,14 +52,14 @@ func NewSubscriptionPropertyFromValue(v string) (*SubscriptionProperty, error) {
 	}
 	return nil, &ErrInvalidEnumValue{
 		Value:   v,
-		Enum:    AllowedSubscriptionPropertyEnumValues,
+		Enum:    allowedSubscriptionPropertyEnumValues,
 		VarName: "SubscriptionProperty",
 	}
 }
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v SubscriptionProperty) IsValid() bool {
-	for _, existing := range AllowedSubscriptionPropertyEnumValues {
+	for _, existing := range allowedSubscriptionPropertyEnumValues {
 		if existing == v {
 			return true
 		}

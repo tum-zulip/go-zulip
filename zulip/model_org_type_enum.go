@@ -36,7 +36,7 @@ const (
 	OrgTypeOther               OrgType = 1000
 )
 
-var AllowedOrgTypeEnumValues = []OrgType{
+var allowedOrgTypeEnumValues = []OrgType{
 	OrgTypeUnspecified,
 	OrgTypeBusiness,
 	OrgTypeOpenSource,
@@ -58,7 +58,7 @@ func NewOrgTypeFromValue(v int) (*OrgType, error) {
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedOrgTypeEnumValues,
+			Enum:    allowedOrgTypeEnumValues,
 			Value:   v,
 			VarName: "OrgType",
 		}
@@ -67,7 +67,7 @@ func NewOrgTypeFromValue(v int) (*OrgType, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v OrgType) IsValid() bool {
-	for _, existing := range AllowedOrgTypeEnumValues {
+	for _, existing := range allowedOrgTypeEnumValues {
 		if existing == v {
 			return true
 		}

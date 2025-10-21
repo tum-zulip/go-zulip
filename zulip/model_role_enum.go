@@ -31,7 +31,7 @@ const (
 )
 
 // All allowed values of Role enum
-var AllowedRoleEnumValues = []Role{
+var allowedRoleEnumValues = []Role{
 	RoleMember,
 	RoleGuest,
 	RoleModerator,
@@ -48,7 +48,7 @@ func NewRoleFromValue(v int) (*Role, error) {
 	} else {
 		return nil, &ErrInvalidEnumValue{
 			Value:   v,
-			Enum:    AllowedRoleEnumValues,
+			Enum:    allowedRoleEnumValues,
 			VarName: "Role",
 		}
 	}
@@ -56,7 +56,7 @@ func NewRoleFromValue(v int) (*Role, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v Role) IsValid() bool {
-	for _, existing := range AllowedRoleEnumValues {
+	for _, existing := range allowedRoleEnumValues {
 		if existing == v {
 			return true
 		}

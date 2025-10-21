@@ -20,7 +20,7 @@ const (
 	RecipientTypeStream  RecipientType = "stream"  //  Legacy value, maps to RecipientTypeChannel.
 )
 
-var AllowedRecipientTypeEnumValues = []RecipientType{
+var allowedRecipientTypeEnumValues = []RecipientType{
 	RecipientTypeEmpty,
 	RecipientTypeDirect,
 	RecipientTypePrivate,
@@ -49,7 +49,7 @@ func NewRecipientTypeFromValue(v string) (*RecipientType, error) {
 	} else {
 		return nil, &ErrInvalidEnumValue{
 			Value:   v,
-			Enum:    AllowedRecipientTypeEnumValues,
+			Enum:    allowedRecipientTypeEnumValues,
 			VarName: "RecipientType",
 		}
 	}
@@ -57,7 +57,7 @@ func NewRecipientTypeFromValue(v string) (*RecipientType, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v RecipientType) IsValid() bool {
-	for _, existing := range AllowedRecipientTypeEnumValues {
+	for _, existing := range allowedRecipientTypeEnumValues {
 		if existing == v {
 			return true
 		}

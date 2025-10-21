@@ -19,7 +19,7 @@ const (
 	ReactionTypeEmpty           ReactionType = ""                  // For users who set a status without selecting an emoji.
 )
 
-var AllowedReactionTypeEnumValues = []ReactionType{
+var allowedReactionTypeEnumValues = []ReactionType{
 	ReactionTypeUnicodeEmoji,
 	ReactionTypeRealmEmoji,
 	ReactionTypeZulipExtraEmoji,
@@ -33,7 +33,7 @@ func NewReactionTypeFromValue(v string) (*ReactionType, error) {
 	} else {
 		return nil, &ErrInvalidEnumValue{
 			Value:   v,
-			Enum:    AllowedReactionTypeEnumValues,
+			Enum:    allowedReactionTypeEnumValues,
 			VarName: "ReactionType",
 		}
 	}
@@ -41,7 +41,7 @@ func NewReactionTypeFromValue(v string) (*ReactionType, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v ReactionType) IsValid() bool {
-	for _, existing := range AllowedReactionTypeEnumValues {
+	for _, existing := range allowedReactionTypeEnumValues {
 		if existing == v {
 			return true
 		}

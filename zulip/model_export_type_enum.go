@@ -13,7 +13,7 @@ const (
 	ExportTypeStandardData ExportType = 2
 )
 
-var AllowedExportTypes = []ExportType{
+var allowedExportTypes = []ExportType{
 	ExportTypePublicData,
 	ExportTypeStandardData,
 }
@@ -25,14 +25,14 @@ func ExportTypeFromValue(v int32) (*ExportType, error) {
 	} else {
 		return nil, &ErrInvalidEnumValue{
 			VarName: "ExportType",
-			Enum:    AllowedExportTypes,
+			Enum:    allowedExportTypes,
 			Value:   v,
 		}
 	}
 }
 
 func (v ExportType) IsValid() bool {
-	for _, existing := range AllowedExportTypes {
+	for _, existing := range allowedExportTypes {
 		if existing == v {
 			return true
 		}

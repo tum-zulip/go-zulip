@@ -11,7 +11,7 @@ const (
 )
 
 // All allowed values of TypingStatusOp enum
-var AllowedTypingStatusOpEnumValues = []TypingStatusOp{
+var allowedTypingStatusOpEnumValues = []TypingStatusOp{
 	TypingStatusOpStart,
 	TypingStatusOpStop,
 }
@@ -25,7 +25,7 @@ func NewTypingStatusOpFromValue(v string) (*TypingStatusOp, error) {
 	} else {
 		return nil, &ErrInvalidEnumValue{
 			Value:   v,
-			Enum:    AllowedTypingStatusOpEnumValues,
+			Enum:    allowedTypingStatusOpEnumValues,
 			VarName: "TypingStatusOp",
 		}
 	}
@@ -33,7 +33,7 @@ func NewTypingStatusOpFromValue(v string) (*TypingStatusOp, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v TypingStatusOp) IsValid() bool {
-	for _, existing := range AllowedTypingStatusOpEnumValues {
+	for _, existing := range allowedTypingStatusOpEnumValues {
 		if existing == v {
 			return true
 		}

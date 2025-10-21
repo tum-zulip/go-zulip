@@ -16,7 +16,7 @@ const (
 	TopicInteractionyNever                        TopicInteraction = 4
 )
 
-var AllowedTopicInteractionEnumValues = []TopicInteraction{
+var allowedTopicInteractionEnumValues = []TopicInteraction{
 	TopicInteractionyTopicsTheUserParticipatesIn,
 	TopicInteractionyTopicsTheUserSendsAMessageTo,
 	TopicInteractionyTopicsTheUserStarts,
@@ -29,7 +29,7 @@ func NewTopicInteractionFromValue(v int) (*TopicInteraction, error) {
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedTopicInteractionEnumValues,
+			Enum:    allowedTopicInteractionEnumValues,
 			Value:   v,
 			VarName: "TopicInteraction",
 		}
@@ -38,7 +38,7 @@ func NewTopicInteractionFromValue(v int) (*TopicInteraction, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v TopicInteraction) IsValid() bool {
-	for _, existing := range AllowedTopicInteractionEnumValues {
+	for _, existing := range allowedTopicInteractionEnumValues {
 		if existing == v {
 			return true
 		}

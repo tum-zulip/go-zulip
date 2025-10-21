@@ -105,7 +105,7 @@ const (
 	EventTypeInvalid EventType = "invalid" // used when an invalid value is supplied
 )
 
-var AllowedEventTypeEnumValues = []EventType{
+var allowedEventTypeEnumValues = []EventType{
 	EventTypeAlertWords,
 	EventTypeAttachment,
 	EventTypeChannelFolder,
@@ -164,7 +164,7 @@ func NewEventTypeFromValue(v string) (*EventType, error) {
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedEventTypeEnumValues,
+			Enum:    allowedEventTypeEnumValues,
 			Value:   v,
 			VarName: "EventType",
 		}
@@ -173,7 +173,7 @@ func NewEventTypeFromValue(v string) (*EventType, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v EventType) IsValid() bool {
-	for _, existing := range AllowedEventTypeEnumValues {
+	for _, existing := range allowedEventTypeEnumValues {
 		if existing == v {
 			return true
 		}

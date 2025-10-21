@@ -16,7 +16,7 @@ const (
 	NameInEmailNotificationsPolicyNever     NameInEmailNotificationsPolicy = 3
 )
 
-var AllowedNameInEmailNotificationsPolicyEnumValues = []NameInEmailNotificationsPolicy{
+var allowedNameInEmailNotificationsPolicyEnumValues = []NameInEmailNotificationsPolicy{
 	NameInEmailNotificationsPolicyAutomatic,
 	NameInEmailNotificationsPolicyAlways,
 	NameInEmailNotificationsPolicyNever,
@@ -28,7 +28,7 @@ func NewNameInEmailNotificationsPolicyFromValue(v int) (*NameInEmailNotification
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedNameInEmailNotificationsPolicyEnumValues,
+			Enum:    allowedNameInEmailNotificationsPolicyEnumValues,
 			Value:   v,
 			VarName: "NameInEmailNotificationsPolicy",
 		}
@@ -37,7 +37,7 @@ func NewNameInEmailNotificationsPolicyFromValue(v int) (*NameInEmailNotification
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v NameInEmailNotificationsPolicy) IsValid() bool {
-	for _, existing := range AllowedNameInEmailNotificationsPolicyEnumValues {
+	for _, existing := range allowedNameInEmailNotificationsPolicyEnumValues {
 		if existing == v {
 			return true
 		}

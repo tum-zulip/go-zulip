@@ -16,7 +16,7 @@ const (
 	BadgeCountNone                         BadgeCount = 4
 )
 
-var AllowedBadgeCountEnumValues = []BadgeCount{
+var allowedBadgeCountEnumValues = []BadgeCount{
 	BadgeCountAllUnreadMessages,
 	BadgeCountDMsMentionsAndFollowedTopics,
 	BadgeCountDMsAndMentions,
@@ -29,7 +29,7 @@ func NewDesktopIconCountDisplayFromValue(v int) (*BadgeCount, error) {
 		return &ev, nil
 	} else {
 		return nil, &ErrInvalidEnumValue{
-			Enum:    AllowedBadgeCountEnumValues,
+			Enum:    allowedBadgeCountEnumValues,
 			Value:   v,
 			VarName: "BadgeCount",
 		}
@@ -38,7 +38,7 @@ func NewDesktopIconCountDisplayFromValue(v int) (*BadgeCount, error) {
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v BadgeCount) IsValid() bool {
-	for _, existing := range AllowedBadgeCountEnumValues {
+	for _, existing := range allowedBadgeCountEnumValues {
 		if existing == v {
 			return true
 		}
