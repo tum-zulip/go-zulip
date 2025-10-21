@@ -109,7 +109,7 @@ jobs:
       - name: Start Zulip dev server
         working-directory: ${{ env.ZULIP_SERVER_PATH }}
         run: |
-          source  venv/bin/activate
+          source  .venv/bin/activate
           nohup ./tools/run-dev >"${ZULIP_DEV_LOG}" 2>&1 &
           echo $! > /tmp/zulip-dev-${{ github.run_id }}.pid
 
@@ -169,6 +169,7 @@ jobs:
   godoc:
     name: Generate godoc HTML
     runs-on: self-hosted
+    
     steps:
       - name: Checkout go-zulip
         uses: actions/checkout@v4
