@@ -23,7 +23,7 @@ jobs:
     env:
       GO111MODULE: "on"
       GOFLAGS: "-trimpath"
-      ZULIP_TEST_SITE: http://127.0.0.1:9991
+      ZULIP_TEST_SITE: http://localhost:9991
       ZULIP_DEV_LOG: ${{ github.workspace }}/zulip-dev.log
       ZULIP_SERVER_PATH: /tmp/zulip-server-${{ github.run_id }}
     steps:
