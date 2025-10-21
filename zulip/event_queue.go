@@ -193,8 +193,8 @@ func (q *eventQueue) processEvents(ctx context.Context, resp *GetEventsResponse,
 		slog.DebugContext(ctx, "polled events", "count", len(resp.Events), "last_event_id", lastId)
 	}()
 
-	for _, envelope := range resp.Events {
-		if envelope.Event == nil {
+	for _, event := range resp.Events {
+		if event == nil {
 			slog.WarnContext(ctx, "received nil event from server")
 			continue
 		}
@@ -202,8 +202,8 @@ func (q *eventQueue) processEvents(ctx context.Context, resp *GetEventsResponse,
 		case <-ctx.Done():
 			slog.DebugContext(ctx, "event queue context cancelled while processing events")
 			return false
-		case events <- envelope.Event:
-			lastId = envelope.Event.GetId()
+		case events <- event:
+			lastId = event.GetId()
 			valid = true
 		}
 	}

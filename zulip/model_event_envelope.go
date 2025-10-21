@@ -2,18 +2,20 @@ package zulip
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
-type EventEnvelope struct {
+type eventEnvelope struct {
 	Event Event `json:"event"`
 }
 
 type eventPeeker struct {
 	Type EventType `json:"type"`
+	Id   int64     `json:"id"`
 	Op   *EventOp  `json:"op,omitempty"`
 }
 
-func decodeAndWrap[T Event](event *EventEnvelope, data []byte) error {
+func decodeAndWrap[T Event](event *eventEnvelope, data []byte) error {
 	var t T
 	err := newStrictDecoder(data).Decode(&t)
 	if err != nil {
@@ -24,7 +26,7 @@ func decodeAndWrap[T Event](event *EventEnvelope, data []byte) error {
 	return nil
 }
 
-func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
+func (e *eventEnvelope) UnmarshalJSON(data []byte) error {
 	var peeker eventPeeker
 	if err := json.Unmarshal(data, &peeker); err != nil {
 		return err
@@ -283,23 +285,29 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 	case EventTypeWebReloadClient:
 		err = decodeAndWrap[WebReloadClientEvent](e, data)
 	default:
-		err = &json.UnmarshalTypeError{
-			Value:  "EventEnvelope",
-			Struct: "EventEnvelope",
-			Field:  "type",
-		}
 		goto unknownEventError
 	}
 
 	if err != nil {
-		return err
+		e.Event = &EventUnmarshallingError{
+			EventCommon: EventCommon{
+				Type: peeker.Type,
+				Id:   peeker.Id,
+			},
+			Data: data,
+			Err:  err,
+		}
 	}
 	return nil
 
 unknownEventError:
-	return &json.UnmarshalTypeError{
-		Value:  "EventEnvelope",
-		Struct: "EventEnvelope",
-		Field:  "type",
+	e.Event = &EventUnmarshallingError{
+		EventCommon: EventCommon{
+			Type: peeker.Type,
+			Id:   peeker.Id,
+		},
+		Data: data,
+		Err:  fmt.Errorf("unknown event type %s with op %v", peeker.Type, peeker.Op),
 	}
+	return nil
 }

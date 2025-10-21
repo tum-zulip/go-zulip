@@ -73,6 +73,18 @@ func (e EventCommonWithOp) GetOpOk() (*EventOp, bool) {
 	return &e.Op, true
 }
 
+type EventUnmarshallingError struct {
+	EventCommon
+
+	Type EventType
+	Err  error
+	Data []byte
+}
+
+func (e EventUnmarshallingError) Error() string {
+	return e.Err.Error()
+}
+
 // HeartbeatEvent Event sent periodically to indicate that the event queue is still active.
 type HeartbeatEvent struct{ EventCommon }
 

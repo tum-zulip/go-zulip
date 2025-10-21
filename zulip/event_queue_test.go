@@ -3,6 +3,7 @@ package zulip_test
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 	"github.com/tum-zulip/go-zulip/zulip"
@@ -34,6 +35,17 @@ func TestEventQueue(t *testing.T) {
 		require.NotNil(t, events)
 		require.Equal(t, *resp.QueueId, q.QueueId())
 		require.Equal(t, resp.LastEventId, q.LastEventId())
+
+		go func() {
+			for i := 0; i < 2; i++ {
+				time.Sleep(200 * time.Millisecond)
+				apiClient.SetTypingStatus(ctx).
+					Type_(zulip.RecipientTypeDirect).
+					To(zulip.UserAsRecipient(getOwnUserId(t, apiClient))).
+					Op(zulip.TypingStatusOpStart).
+					Execute()
+			}
+		}()
 
 		e1 := <-events
 		require.NotNil(t, e1)

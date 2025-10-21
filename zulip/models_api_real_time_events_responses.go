@@ -10,9 +10,29 @@ type GetEventsResponse struct {
 	Response
 
 	// An array of `event` objects (possibly zero-length if `dont_block` is set) with Ids newer than `last_event_id`. Event Ids are guaranteed to be increasing, but they are not guaranteed to be consecutive.
-	Events []EventEnvelope `json:"events,omitempty"`
+	Events []Event `json:"events,omitempty"`
 	// The Id of the registered queue.
 	QueueId string `json:"queue_id,omitempty"`
+}
+
+type getEventsResponseJSON struct {
+	Response
+	Events  []eventEnvelope `json:"events,omitempty"`
+	QueueId string          `json:"queue_id,omitempty"`
+}
+
+func (r *GetEventsResponse) UnmarshalJSON(data []byte) error {
+	var temp getEventsResponseJSON
+	if err := json.Unmarshal(data, &temp); err != nil {
+		return err
+	}
+	r.Response = temp.Response
+	r.QueueId = temp.QueueId
+	r.Events = make([]Event, len(temp.Events))
+	for i := range temp.Events {
+		r.Events[i] = temp.Events[i].Event
+	}
+	return nil
 }
 
 // RegisterQueueResponse struct for RegisterQueueResponse

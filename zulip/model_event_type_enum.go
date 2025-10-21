@@ -100,6 +100,9 @@ const (
 	EventTypeUserStatus                EventType = "user_status"
 	EventTypeUserTopic                 EventType = "user_topic"
 	EventTypeWebReloadClient           EventType = "web_reload_client"
+	// Special non-zulip event types used for error handling
+	EventTypeUnknown EventType = "unknown" // used when unmarshaling an unknown event type
+	EventTypeInvalid EventType = "invalid" // used when an invalid value is supplied
 )
 
 var AllowedEventTypeEnumValues = []EventType{
@@ -151,6 +154,8 @@ var AllowedEventTypeEnumValues = []EventType{
 	EventTypeUserStatus,
 	EventTypeUserTopic,
 	EventTypeWebReloadClient,
+	EventTypeUnknown,
+	EventTypeInvalid,
 }
 
 func NewEventTypeFromValue(v string) (*EventType, error) {
