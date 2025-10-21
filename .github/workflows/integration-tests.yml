@@ -117,12 +117,12 @@ jobs:
         run: |
           echo "Waiting for Zulip server at ${ZULIP_TEST_SITE}"
           for attempt in {1..60}; do
-            if curl --silent --show-error --fail "${ZULIP_TEST_SITE}/api/v1/server_settings" >/dev/null; then
+            if curl --silent --show-error --fail "${ZULIP_TEST_SITE}/api/v1/dev_fetch_api_key" --data-urlencode username=iago@zulip.com >/dev/null; then
               echo "Zulip is up"
               exit 0
             fi
             echo "Attempt ${attempt}: Zulip not ready yet"
-            sleep 10
+            sleep 2
           done
           echo "Zulip server failed to start" >&2
           exit 1
