@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestChannelFolderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
@@ -15,7 +15,7 @@ func TestChannelFolderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 
 	ts := time.Unix(1700000000, 0).UTC()
 	creator := int64(42)
-	folder := zulip.ChannelFolder{
+	folder := z.ChannelFolder{
 		Name:        "general",
 		DateCreated: &ts,
 		CreatorId:   &creator,
@@ -42,7 +42,7 @@ func TestChannelFolderUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 
 	raw := []byte(`{"name":"general","date_created":1700000000}`)
 
-	var folder zulip.ChannelFolder
+	var folder z.ChannelFolder
 	require.NoError(t, json.Unmarshal(raw, &folder))
 
 	if assert.NotNil(t, folder.DateCreated) {

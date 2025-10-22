@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestDraftMarshalJSON_EncodesUnixSeconds(t *testing.T) {
@@ -15,10 +15,10 @@ func TestDraftMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 
 	ts := time.Unix(1700000000, 123000000).UTC()
 	id := int64(42)
-	draft := zulip.Draft{
+	draft := z.Draft{
 		Id:        &id,
-		Type:      zulip.RecipientTypeDirect,
-		To:        zulip.UsersAsRecipient([]int64{1, 2}),
+		Type:      z.RecipientTypeDirect,
+		To:        z.UsersAsRecipient([]int64{1, 2}),
 		Topic:     "topic",
 		Content:   "hello",
 		Timestamp: ts,
@@ -41,12 +41,12 @@ func TestDraftUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 
 	raw := []byte(`{"id":42,"type":"direct","to":[1,2],"topic":"topic","content":"hello","timestamp":1700000000}`)
 
-	var draft zulip.Draft
+	var draft z.Draft
 	require.NoError(t, json.Unmarshal(raw, &draft))
 
 	assert.Equal(t, int64(42), *draft.Id)
-	assert.Equal(t, zulip.RecipientTypeDirect, draft.Type)
-	expectedTo := zulip.UsersAsRecipient([]int64{1, 2})
+	assert.Equal(t, z.RecipientTypeDirect, draft.Type)
+	expectedTo := z.UsersAsRecipient([]int64{1, 2})
 	if !expectedTo.Equals(draft.To) {
 		t.Errorf("Expected %#v, got %#v", expectedTo, draft.To)
 	}

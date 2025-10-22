@@ -6,11 +6,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestGroupSettingValueUnmarshalJSON(t *testing.T) {
-	var v zulip.GroupSettingValue
+	var v z.GroupSettingValue
 
 	err := json.Unmarshal([]byte(`1`), &v)
 	require.NoError(t, err)

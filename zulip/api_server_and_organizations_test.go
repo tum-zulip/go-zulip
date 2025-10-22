@@ -13,13 +13,13 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func Test_ServerAndOrganizationsAPIService(t *testing.T) {
 	t.Parallel()
 
-	t.Run("GetServerSettings", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetServerSettings", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetServerSettings(ctx).Execute()
@@ -30,25 +30,25 @@ func Test_ServerAndOrganizationsAPIService(t *testing.T) {
 		assert.NotEmpty(t, resp.RealmUrl)
 	}))
 
-	t.Run("CodePlaygrounds", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("CodePlaygrounds", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		testCodePlaygroundLifecycle(t, ctx, apiClient)
 	}))
 
-	t.Run("Linkifiers", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("Linkifiers", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		testLinkifierLifecycle(t, ctx, apiClient)
 	}))
 
-	t.Run("CustomProfileFields", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("CustomProfileFields", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		testCustomProfileFieldManagement(t, ctx, apiClient)
 	}))
 
-	t.Run("Presence", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("Presence", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetPresence(ctx).Execute()
@@ -63,13 +63,13 @@ func Test_ServerAndOrganizationsAPIService(t *testing.T) {
 		}
 	}))
 
-	t.Run("RealmExports", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("RealmExports", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		testRealmExports(t, ctx, apiClient)
 	}))
 
-	t.Run("WelcomeBotPreview", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("WelcomeBotPreview", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.TestWelcomeBotCustomMessage(ctx).
@@ -81,7 +81,7 @@ func Test_ServerAndOrganizationsAPIService(t *testing.T) {
 		assert.Greater(t, resp.MessageId, int64(0))
 	}))
 
-	t.Run("RealmUserSettingsDefaults", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("RealmUserSettingsDefaults", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.UpdateRealmUserSettingsDefaults(ctx).Execute()
@@ -91,19 +91,19 @@ func Test_ServerAndOrganizationsAPIService(t *testing.T) {
 		assert.Equal(t, "success", resp.Result)
 	}))
 
-	t.Run("CustomEmojiLifecycle", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("CustomEmojiLifecycle", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		testCustomEmojiLifecycle(t, ctx, apiClient)
 	}))
 }
 
-func testCodePlaygroundLifecycle(t *testing.T, ctx context.Context, apiClient zulip.Client) {
+func testCodePlaygroundLifecycle(t *testing.T, ctx context.Context, apiClient z.Client) {
 	name := fmt.Sprintf("Playground %s", uniqueName("code"))
 	resp, httpRes, err := apiClient.AddCodePlayground(ctx).
 		Name(name).
 		PygmentsLanguage("python").
-		UrlTemplate("https://play.zulip.example/run?code={code}").
+		UrlTemplate("https://play.z.example/run?code={code}").
 		Execute()
 	require.NoError(t, err)
 	require.NotNil(t, resp)
@@ -129,9 +129,9 @@ func testCodePlaygroundLifecycle(t *testing.T, ctx context.Context, apiClient zu
 	removed = true
 }
 
-func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient zulip.Client) {
+func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient z.Client) {
 	pattern := fmt.Sprintf("test-%s-(?P<id>[0-9]+)", uniqueName("linkifier"))
-	urlTemplate := "https://zulip.example/issues/{id}"
+	urlTemplate := "https://z.example/issues/{id}"
 
 	addResp, httpRes, err := apiClient.AddLinkifier(ctx).
 		Pattern(pattern).
@@ -206,7 +206,7 @@ func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient zulip.C
 	removed = true
 }
 
-func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClient zulip.Client) {
+func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClient z.Client) {
 	const fieldName = "API Test Profile Field"
 
 	listResp, httpRes, err := apiClient.GetCustomProfileFields(ctx).Execute()
@@ -227,7 +227,7 @@ func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClie
 		createResp, createHTTP, err := apiClient.CreateCustomProfileField(ctx).
 			FieldType(1).
 			Name(fieldName).
-			Hint("Created by go-zulip automated tests").
+			Hint("Created by go-z.automated tests").
 			EditableByUser(true).
 			Required(false).
 			Execute()
@@ -267,7 +267,7 @@ func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClie
 	}
 }
 
-func testRealmExports(t *testing.T, ctx context.Context, apiClient zulip.Client) {
+func testRealmExports(t *testing.T, ctx context.Context, apiClient z.Client) {
 	consentsResp, httpRes, err := apiClient.GetRealmExportConsents(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, consentsResp)
@@ -290,7 +290,7 @@ func testRealmExports(t *testing.T, ctx context.Context, apiClient zulip.Client)
 	requireStatusOK(t, httpRes)
 }
 
-func testCustomEmojiLifecycle(t *testing.T, ctx context.Context, apiClient zulip.Client) {
+func testCustomEmojiLifecycle(t *testing.T, ctx context.Context, apiClient z.Client) {
 	emojiName := strings.ToLower(uniqueName("emoji"))
 	emojiFile := newEmojiPNG(t)
 
@@ -327,7 +327,7 @@ func testCustomEmojiLifecycle(t *testing.T, ctx context.Context, apiClient zulip
 	assert.True(t, deactivated.Deactivated)
 }
 
-func linkifierExists(linkifiers []zulip.RealmLinkifiers, id int64, pattern, urlTemplate string) bool {
+func linkifierExists(linkifiers []z.RealmLinkifiers, id int64, pattern, urlTemplate string) bool {
 	for _, lf := range linkifiers {
 		if lf.Id == id {
 			return lf.Pattern == pattern && lf.UrlTemplate == urlTemplate
@@ -336,7 +336,7 @@ func linkifierExists(linkifiers []zulip.RealmLinkifiers, id int64, pattern, urlT
 	return false
 }
 
-func extractlinkifierIds(linkifiers []zulip.RealmLinkifiers) []int64 {
+func extractlinkifierIds(linkifiers []z.RealmLinkifiers) []int64 {
 	ids := make([]int64, 0, len(linkifiers))
 	for _, lf := range linkifiers {
 		ids = append(ids, lf.Id)
@@ -344,7 +344,7 @@ func extractlinkifierIds(linkifiers []zulip.RealmLinkifiers) []int64 {
 	return ids
 }
 
-func extractProfileFieldIds(fields []zulip.CustomProfileField) []int64 {
+func extractProfileFieldIds(fields []z.CustomProfileField) []int64 {
 	ids := make([]int64, 0, len(fields))
 	for _, field := range fields {
 		ids = append(ids, field.Id)
@@ -380,7 +380,7 @@ func int64SlicesEqual(a, b []int64) bool {
 	return true
 }
 
-func profileFieldExists(fields []zulip.CustomProfileField, id int64) bool {
+func profileFieldExists(fields []z.CustomProfileField, id int64) bool {
 	for _, field := range fields {
 		if field.Id == id {
 			return true
@@ -390,7 +390,7 @@ func profileFieldExists(fields []zulip.CustomProfileField, id int64) bool {
 }
 
 func handledRateLimit(t *testing.T, err error) bool {
-	var apiErr *zulip.APIError
+	var apiErr *z.APIError
 	if !errors.As(err, &apiErr) {
 		return false
 	}
@@ -407,7 +407,7 @@ func handledRateLimit(t *testing.T, err error) bool {
 func newEmojiPNG(t *testing.T) *os.File {
 	t.Helper()
 
-	tmp, err := os.CreateTemp("", "zulip-emoji-*.png")
+	tmp, err := os.CreateTemp("", "z.emoji-*.png")
 	require.NoError(t, err)
 
 	img := image.NewRGBA(image.Rect(0, 0, 16, 16))
@@ -430,7 +430,7 @@ func newEmojiPNG(t *testing.T) *os.File {
 	return tmp
 }
 
-func findEmojiByName(emojis map[string]zulip.RealmEmoji, name string) *zulip.RealmEmoji {
+func findEmojiByName(emojis map[string]z.RealmEmoji, name string) *z.RealmEmoji {
 	if len(emojis) == 0 {
 		return nil
 	}

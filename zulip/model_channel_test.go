@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestChannelMarshalJSON_EncodesUnixSeconds(t *testing.T) {
@@ -15,7 +15,7 @@ func TestChannelMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 
 	creatorId := int64(7)
 	date := time.Unix(1700000000, 500*int64(time.Millisecond)).UTC()
-	channel := zulip.Channel{
+	channel := z.Channel{
 		ChannelId:            123,
 		Name:                 "general",
 		DateCreated:          date,
@@ -41,7 +41,7 @@ func TestChannelUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 
 	raw := []byte(`{"stream_id":123,"name":"general","date_created":1700000000}`)
 
-	var channel zulip.Channel
+	var channel z.Channel
 	require.NoError(t, json.Unmarshal(raw, &channel))
 
 	assert.Equal(t, int64(123), channel.ChannelId)

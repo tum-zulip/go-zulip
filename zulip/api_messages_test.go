@@ -11,7 +11,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func Test_MessagesAPIService(t *testing.T) {
@@ -22,7 +22,7 @@ func Test_MessagesAPIService(t *testing.T) {
 
 	t.Parallel()
 
-	t.Run("AddReaction", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("AddReaction", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
@@ -36,16 +36,16 @@ func Test_MessagesAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	}))
 
-	t.Run("CheckMessagesMatchNarrow", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("CheckMessagesMatchNarrow", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
 
 		resp, httpRes, err := apiClient.CheckMessagesMatchNarrow(ctx).
 			MsgIds([]int64{msg.messageId}).
-			Narrow(zulip.NewNarrow().
-				Where(zulip.ChannelNameIs(channelName)).
-				Where(zulip.TopicIs(msg.topic))).
+			Narrow(
+				z.Where(z.ChannelNameIs(channelName)).
+					And(z.TopicIs(msg.topic))).
 			Execute()
 
 		require.NoError(t, err)
@@ -56,7 +56,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		assert.Contains(t, resp.Messages, key)
 	}))
 
-	t.Run("DeleteMessage", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("DeleteMessage", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
@@ -68,7 +68,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	}))
 
-	t.Run("GetFileTemporaryUrl", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetFileTemporaryUrl", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		upload := uploadFileForTest(t, ctx, apiClient)
@@ -83,7 +83,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		assert.NotEmpty(t, resp.Url)
 	}))
 
-	t.Run("GetMessage", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetMessage", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
@@ -96,7 +96,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		assert.Equal(t, msg.messageId, resp.Message.Id)
 	}))
 
-	t.Run("GetMessageHistory", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetMessageHistory", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
@@ -115,7 +115,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		assert.NotEmpty(t, resp.MessageHistory)
 	}))
 
-	t.Run("GetMessages", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetMessages", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
@@ -125,9 +125,8 @@ func Test_MessagesAPIService(t *testing.T) {
 			IncludeAnchor(true).
 			NumBefore(0).
 			NumAfter(0).
-			Narrow(zulip.NewNarrow().
-				Where(zulip.ChannelNameIs(channelName)).
-				Where(zulip.TopicIs(msg.topic))).
+			Narrow(z.Where(z.ChannelNameIs(channelName)).
+				And(z.TopicIs(msg.topic))).
 			Execute()
 
 		require.NoError(t, err)
@@ -136,7 +135,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		assert.NotEmpty(t, resp.Messages)
 	}))
 
-	t.Run("GetReadReceipts", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetReadReceipts", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
@@ -148,7 +147,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	}))
 
-	t.Run("MarkAllAsRead", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("MarkAllAsRead", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.MarkAllAsRead(ctx).Execute()
@@ -158,7 +157,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	}))
 
-	t.Run("MarkChannelAsRead", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("MarkChannelAsRead", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
@@ -172,7 +171,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	}))
 
-	t.Run("MarkTopicAsRead", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("MarkTopicAsRead", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, otherClient, channelId)
@@ -189,7 +188,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	}))
 
-	t.Run("RemoveReaction", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("RemoveReaction", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
@@ -208,7 +207,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	}))
 
-	t.Run("RenderMessage", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("RenderMessage", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		content := "**bold** _italic_"
@@ -222,7 +221,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		assert.Contains(t, resp.Rendered, "<strong>bold</strong>")
 	}))
 
-	t.Run("ReportMessage", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("ReportMessage", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
@@ -233,7 +232,7 @@ func Test_MessagesAPIService(t *testing.T) {
 			Execute()
 
 		if err != nil {
-			var apiErr *zulip.APIError
+			var apiErr *z.APIError
 			if errors.As(err, &apiErr) {
 				body := strings.TrimSpace(string(apiErr.Body()))
 				lower := strings.ToLower(fmt.Sprintf("%s %s", apiErr.Error(), body))
@@ -250,15 +249,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	}))
 
-	t.Run("SendMessage", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("SendMessage", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		topic := uniqueName("topic")
 		content := fmt.Sprintf("message sent via client %s", uniqueName("content"))
 
 		resp, httpRes, err := apiClient.SendMessage(ctx).
-			RecipientType(zulip.RecipientTypeChannel).
-			To(zulip.ChannelAsRecipient(channelId)).
+			RecipientType(z.RecipientTypeChannel).
+			To(z.ChannelAsRecipient(channelId)).
 			Topic(topic).
 			Content(content).
 			Execute()
@@ -269,7 +268,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		assert.Greater(t, resp.Id, int64(0))
 	}))
 
-	t.Run("UpdateMessage", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UpdateMessage", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
@@ -284,7 +283,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		requireStatusOK(t, httpRes)
 	}))
 
-	t.Run("UpdateMessageFlags", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UpdateMessageFlags", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
@@ -301,7 +300,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		assert.Contains(t, resp.Messages, msg.messageId)
 	}))
 
-	t.Run("UpdateMessageFlagsForNarrow", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UpdateMessageFlagsForNarrow", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		msg := createChannelMessage(t, apiClient, channelId)
@@ -311,9 +310,9 @@ func Test_MessagesAPIService(t *testing.T) {
 			NumBefore(0).
 			NumAfter(0).
 			IncludeAnchor(true).
-			Narrow(zulip.NewNarrow().
-				Where(zulip.ChannelNameIs(channelName)).
-				Where(zulip.TopicIs(msg.topic))).
+			Narrow(
+				z.Where(z.ChannelNameIs(channelName)).
+					And(z.TopicIs(msg.topic))).
 			Op("add").
 			Flag("starred").
 			Execute()
@@ -324,7 +323,7 @@ func Test_MessagesAPIService(t *testing.T) {
 		assert.GreaterOrEqual(t, resp.ProcessedCount, int64(1))
 	}))
 
-	t.Run("UploadFile", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UploadFile", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp := uploadFileForTest(t, ctx, apiClient)
@@ -339,7 +338,7 @@ type channelMessage struct {
 	messageId int64
 }
 
-func createChannelMessage(t *testing.T, apiClient zulip.Client, channelId int64) channelMessage {
+func createChannelMessage(t *testing.T, apiClient z.Client, channelId int64) channelMessage {
 	t.Helper()
 
 	topic := uniqueName("topic")
@@ -354,10 +353,10 @@ func createChannelMessage(t *testing.T, apiClient zulip.Client, channelId int64)
 	}
 }
 
-func uploadFileForTest(t *testing.T, ctx context.Context, apiClient zulip.Client) *zulip.UploadFileResponse {
+func uploadFileForTest(t *testing.T, ctx context.Context, apiClient z.Client) *z.UploadFileResponse {
 	t.Helper()
 
-	tmp, err := os.CreateTemp("", "zulip-upload-*.txt")
+	tmp, err := os.CreateTemp("", "z.upload-*.txt")
 	require.NoError(t, err)
 	defer func() {
 		tmp.Close()
@@ -399,13 +398,13 @@ func parseUploadedFilePath(t *testing.T, uploadPath string) (int64, string) {
 	return realmId, filename
 }
 
-func createDirectMessage(t *testing.T, apiClient zulip.Client, to int64) int64 {
+func createDirectMessage(t *testing.T, apiClient z.Client, to int64) int64 {
 	t.Helper()
 
 	content := uniqueName("content")
 	resp, httpRes, err := apiClient.SendMessage(context.Background()).
-		RecipientType(zulip.RecipientTypePrivate).
-		To(zulip.UserAsRecipient(to)).
+		RecipientType(z.RecipientTypePrivate).
+		To(z.UserAsRecipient(to)).
 		Content(content).
 		Execute()
 

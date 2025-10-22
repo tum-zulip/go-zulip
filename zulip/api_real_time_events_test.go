@@ -7,12 +7,12 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func Test_RealTimeEventsAPIService(t *testing.T) {
 
-	t.Run("DeleteQueue", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("DeleteQueue", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		queueId, _ := registerMessageEventQueue(t, apiClient)
@@ -27,15 +27,15 @@ func Test_RealTimeEventsAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetEvents", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetEvents", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		queueId, lastEventId := registerMessageEventQueue(t, apiClient)
 		go func() {
 			time.Sleep(200 * time.Millisecond)
 			_, _, err := apiClient.SetTypingStatus(ctx).
-				Op(zulip.TypingStatusOpStart).
-				To(zulip.UserAsRecipient(getOwnUserId(t, apiClient))).
+				Op(z.TypingStatusOpStart).
+				To(z.UserAsRecipient(getOwnUserId(t, apiClient))).
 				Execute()
 
 			require.NoError(t, err)
@@ -52,13 +52,13 @@ func Test_RealTimeEventsAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("RegisterQueue", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("RegisterQueue", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		registerMessageEventQueue(t, apiClient)
 	}))
 
 }
 
-func registerMessageEventQueue(t *testing.T, apiClient zulip.Client) (string, int64) {
+func registerMessageEventQueue(t *testing.T, apiClient z.Client) (string, int64) {
 	t.Helper()
 
 	ctx := context.Background()

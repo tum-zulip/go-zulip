@@ -7,14 +7,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestAttachmentMarshalJSON_UsesUnixMillis(t *testing.T) {
 	t.Parallel()
 
 	timestamp := time.UnixMilli(1700000000123)
-	attachment := zulip.Attachment{
+	attachment := z.Attachment{
 		CreateTime: timestamp,
 	}
 
@@ -35,7 +35,7 @@ func TestAttachmentUnmarshalJSON_ParsesUnixMillis(t *testing.T) {
 
 	raw := []byte(`{"create_time":1700000000123}`)
 
-	var attachment zulip.Attachment
+	var attachment z.Attachment
 	require.NoError(t, json.Unmarshal(raw, &attachment))
 
 	if assert.NotNil(t, attachment.CreateTime) {
@@ -47,7 +47,7 @@ func TestAttachmentMessagesMarshalJSON_UsesUnixMillis(t *testing.T) {
 	t.Parallel()
 
 	timestamp := time.UnixMilli(1700000000456)
-	message := zulip.AttachmentMessages{
+	message := z.AttachmentMessages{
 		DateSent: timestamp,
 	}
 
@@ -68,7 +68,7 @@ func TestAttachmentMessagesUnmarshalJSON_ParsesUnixMillis(t *testing.T) {
 
 	raw := []byte(`{"date_sent":1700000000456}`)
 
-	var message zulip.AttachmentMessages
+	var message z.AttachmentMessages
 	require.NoError(t, json.Unmarshal(raw, &message))
 
 	if assert.NotNil(t, message.DateSent) {

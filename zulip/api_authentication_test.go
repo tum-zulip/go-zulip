@@ -6,13 +6,13 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func Test_AuthenticationAPIService(t *testing.T) {
 	t.Parallel()
 
-	t.Run("DevFetchApiKey", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("DevFetchApiKey", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.DevFetchApiKey(ctx).Username(testAdminUsername).Execute()
@@ -23,7 +23,7 @@ func Test_AuthenticationAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("FetchApiKey", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("FetchApiKey", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		// More complex authentication flow not trivial to test here
 		t.Skip("Not implemented yet")
 		ctx := context.Background()

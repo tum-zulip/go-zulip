@@ -7,13 +7,13 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestPresenceUpdateValue_MarshalUnmarshal_Modern(t *testing.T) {
 	// create PresenceUpdateValue with modern presence format
-	p := zulip.PresenceUpdateValue{
-		ModernPresenceFormat: &zulip.ModernPresenceFormat{
+	p := z.PresenceUpdateValue{
+		ModernPresenceFormat: &z.ModernPresenceFormat{
 			ActiveTimestamp: time.Unix(1760534744, 0).UTC(),
 			IdleTimestamp:   time.Unix(1760534744, 0).UTC(),
 		},
@@ -26,15 +26,15 @@ func TestPresenceUpdateValue_MarshalUnmarshal_Modern(t *testing.T) {
 	assert.Equal(t, `{"active_timestamp":1760534744,"idle_timestamp":1760534744}`, string(b))
 
 	// round-trip through the envelope
-	var got zulip.PresenceUpdateValue
+	var got z.PresenceUpdateValue
 	require.NoError(t, json.Unmarshal(b, &got))
 	assert.Equal(t, p, got)
 }
 
 func TestPresenceUpdateValue_MarshalUnmarshal_Legacy(t *testing.T) {
 	// expected legacy map
-	expected := zulip.PresenceUpdateValue{
-		LegacyPresenceMap: map[string]zulip.LegacyPresenceFormat{
+	expected := z.PresenceUpdateValue{
+		LegacyPresenceMap: map[string]z.LegacyPresenceFormat{
 			"aggregated": {
 				Client:    "website",
 				Status:    "active",
@@ -56,7 +56,7 @@ func TestPresenceUpdateValue_MarshalUnmarshal_Legacy(t *testing.T) {
 	assert.Equal(t, `{"aggregated":{"client":"website","status":"active","timestamp":1760534744},"website":{"client":"website","status":"active","timestamp":1760534744}}`, string(b))
 
 	// unmarshal produced bytes back into a map and compare
-	var got zulip.PresenceUpdateValue
+	var got z.PresenceUpdateValue
 	require.NoError(t, json.Unmarshal(b, &got))
 	assert.Equal(t, expected, got)
 }

@@ -7,14 +7,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestUserPresenceMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	t.Parallel()
 
 	ts := time.Unix(1700000000, 123000000)
-	presence := zulip.UserPresence{
+	presence := z.UserPresence{
 		Timestamp: ts,
 		Status:    "active",
 	}
@@ -37,7 +37,7 @@ func TestUserPresenceUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 
 	raw := []byte(`{"timestamp":1700000000,"status":"idle"}`)
 
-	var presence zulip.UserPresence
+	var presence z.UserPresence
 	require.NoError(t, json.Unmarshal(raw, &presence))
 
 	assert.Equal(t, "idle", presence.Status)

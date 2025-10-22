@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestSnapshotMarshalJSON_EncodesUnixSeconds(t *testing.T) {
@@ -17,7 +17,7 @@ func TestSnapshotMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	channel := int64(5)
 	prevChannel := int64(4)
 	prevTopic := "old"
-	snapshot := zulip.Snapshot{
+	snapshot := z.Snapshot{
 		Topic:           "new",
 		Content:         "content",
 		RenderedContent: "<p>content</p>",
@@ -45,7 +45,7 @@ func TestSnapshotUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 
 	raw := []byte(`{"topic":"new","timestamp":1700000000}`)
 
-	var snapshot zulip.Snapshot
+	var snapshot z.Snapshot
 	require.NoError(t, json.Unmarshal(raw, &snapshot))
 
 	assert.Equal(t, "new", snapshot.Topic)

@@ -7,13 +7,13 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func Test_NavigationViewsAPIService(t *testing.T) {
 	t.Parallel()
 
-	t.Run("AddNavigationView", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("AddNavigationView", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		view := createTestNavigationView(t, apiClient, true)
 
 		ctx := context.Background()
@@ -31,7 +31,7 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("EditNavigationView", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("EditNavigationView", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		view := createTestNavigationView(t, apiClient, true)
@@ -59,7 +59,7 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetNavigationViews", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetNavigationViews", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		view := createTestNavigationView(t, apiClient, false)
@@ -74,7 +74,7 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("RemoveNavigationView", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("RemoveNavigationView", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		view := createTestNavigationView(t, apiClient, true)
@@ -101,7 +101,7 @@ type navigationViewState struct {
 	isPinned bool
 }
 
-func createTestNavigationView(t *testing.T, apiClient zulip.Client, isPinned bool) navigationViewState {
+func createTestNavigationView(t *testing.T, apiClient z.Client, isPinned bool) navigationViewState {
 	t.Helper()
 
 	ctx := context.Background()
@@ -121,7 +121,7 @@ func createTestNavigationView(t *testing.T, apiClient zulip.Client, isPinned boo
 	return navigationViewState{fragment: fragment, name: name, isPinned: isPinned}
 }
 
-func navigationViewByFragment(views []zulip.NavigationView, fragment string) *zulip.NavigationView {
+func navigationViewByFragment(views []z.NavigationView, fragment string) *z.NavigationView {
 	for i := range views {
 		if views[i].Fragment == fragment {
 			return &views[i]

@@ -6,19 +6,19 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestEventQueue(t *testing.T) {
-	t.Run("Connect requires queue ID", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
-		q := zulip.NewEventQueue(apiClient, nil)
+	t.Run("Connect requires queue ID", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+		q := z.NewEventQueue(apiClient, nil)
 
 		events, err := q.Connect(context.Background(), "", 0)
 		require.Error(t, err)
 		require.Nil(t, events)
 	}))
 
-	t.Run("Polls events and updates state", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("Polls events and updates state", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpResp, err := apiClient.RegisterQueue(ctx).Execute()
@@ -28,7 +28,7 @@ func TestEventQueue(t *testing.T) {
 		require.Equal(t, httpResp.StatusCode, 200)
 		require.NotNil(t, resp.QueueId)
 
-		q := zulip.NewEventQueue(apiClient, zulip.NewEventQueueLoggingErrorHandler())
+		q := z.NewEventQueue(apiClient, z.NewEventQueueLoggingErrorHandler())
 
 		events, err := q.Connect(context.Background(), *resp.QueueId, resp.LastEventId)
 		require.NoError(t, err)
@@ -40,9 +40,9 @@ func TestEventQueue(t *testing.T) {
 			for i := 0; i < 2; i++ {
 				time.Sleep(200 * time.Millisecond)
 				apiClient.SetTypingStatus(ctx).
-					Type_(zulip.RecipientTypeDirect).
-					To(zulip.UserAsRecipient(getOwnUserId(t, apiClient))).
-					Op(zulip.TypingStatusOpStart).
+					Type_(z.RecipientTypeDirect).
+					To(z.UserAsRecipient(getOwnUserId(t, apiClient))).
+					Op(z.TypingStatusOpStart).
 					Execute()
 			}
 		}()
@@ -60,8 +60,8 @@ func TestEventQueue(t *testing.T) {
 		}
 	}))
 
-	t.Run("Close without Connect", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
-		q := zulip.NewEventQueue(apiClient, nil)
+	t.Run("Close without Connect", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+		q := z.NewEventQueue(apiClient, nil)
 
 		require.Error(t, q.Close())
 	}))

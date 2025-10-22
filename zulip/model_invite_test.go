@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestInviteMarshalJSON_EncodesUnixSeconds(t *testing.T) {
@@ -15,7 +15,7 @@ func TestInviteMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 
 	invited := time.Unix(1700000000, 123000000).UTC()
 	expiry := time.Unix(1700003600, 0).UTC()
-	invite := zulip.Invite{
+	invite := z.Invite{
 		Id:                   10,
 		InvitedByUserId:      3,
 		Invited:              invited,
@@ -49,7 +49,7 @@ func TestInviteUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 
 	raw := []byte(`{"id":10,"invited_by_user_id":3,"invited":1700000000,"expiry_date":1700003600,"invited_as":400,"email":"user@example.com","notify_referrer_on_join":true,"link_url":"https://example.com/invite","is_multiuse":false}`)
 
-	var invite zulip.Invite
+	var invite z.Invite
 	require.NoError(t, json.Unmarshal(raw, &invite))
 
 	assert.Equal(t, int64(10), invite.Id)

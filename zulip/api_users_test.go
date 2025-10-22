@@ -8,14 +8,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func Test_UsersAPIService_ActivateAndDeactivateUser(t *testing.T) {
 	deactivateUserClient := getTestClient(t, deactivateTestUser)
 	deactivateUserId := getOwnUserId(t, deactivateUserClient)
 
-	t.Run("DeactivateUser", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("DeactivateUser", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 		// ensure the user is active before deactivating
 		apiClient.ReactivateUser(ctx, deactivateUserId).Execute()
@@ -27,7 +27,7 @@ func Test_UsersAPIService_ActivateAndDeactivateUser(t *testing.T) {
 		assert.Equal(t, 200, httpRes.StatusCode)
 	}))
 
-	t.Run("ReactivateUser", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("ReactivateUser", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		// ensure the user is deactivated before reactivating
@@ -58,7 +58,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	otherUserId := getOwnUserId(t, GetOtherNormalClient(t))
 
-	t.Run("CreateUser", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("CreateUser", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
 		t.Skip("TODO: not implemented")
 		ctx := context.Background()
 
@@ -70,7 +70,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("AddAlertWords", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("AddAlertWords", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.AddAlertWords(ctx).AlertWords([]string{"word1", "word2"}).Execute()
@@ -81,7 +81,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("CreateUserGroup", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("CreateUserGroup", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.CreateUserGroup(ctx).Name(uniqueName("test-usergroup")).Description("Test User Group").Members([]int64{getOwnUserId(t, apiClient)}).Execute()
@@ -92,7 +92,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("DeactivateOwnUser", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("DeactivateOwnUser", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		t.Skip("TODO: This test deactivates the user running the tests, so it should be the last test and the client should be recreated after this.")
 		ctx := context.Background()
 
@@ -104,7 +104,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("DeactivateUserGroup", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("DeactivateUserGroup", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		userGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
@@ -116,7 +116,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetAlertWords", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetAlertWords", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetAlertWords(ctx).Execute()
@@ -127,7 +127,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetAttachments", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetAttachments", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetAttachments(ctx).Execute()
@@ -138,7 +138,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetIsUserGroupMember", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetIsUserGroupMember", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		userId := getOwnUserId(t, apiClient)
@@ -152,7 +152,7 @@ func Test_UsersAPIService(t *testing.T) {
 		assert.True(t, resp.IsUserGroupMember)
 	}))
 
-	t.Run("GetOwnUser", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetOwnUser", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetOwnUser(ctx).Execute()
@@ -163,7 +163,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetUser", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetUser", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetUser(ctx, getOwnUserId(t, apiClient)).Execute()
@@ -174,7 +174,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetUserByEmail", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetUserByEmail", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		var email string = getOwnUserEmail(t, apiClient)
@@ -187,7 +187,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetUserGroupMembers", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetUserGroupMembers", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		userGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
@@ -200,7 +200,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetUserGroupSubgroups", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetUserGroupSubgroups", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		userGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
@@ -218,7 +218,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetUserGroups", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetUserGroups", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetUserGroups(ctx).Execute()
@@ -229,7 +229,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetUserPresence", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetUserPresence", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		var userIdOrEmail string = fmt.Sprintf("%d", getOwnUserId(t, apiClient))
@@ -242,7 +242,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetUserStatus", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetUserStatus", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		var userId int64 = getOwnUserId(t, apiClient)
@@ -255,7 +255,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetUsers", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetUsers", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetUsers(ctx).Execute()
@@ -266,7 +266,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("MuteUser", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("MuteUser", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		// ensure the user is not muted before muting
@@ -280,7 +280,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("RemoveAlertWords", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("RemoveAlertWords", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		alterWord := uniqueName("word")
@@ -295,12 +295,12 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("SetTypingStatus", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("SetTypingStatus", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.SetTypingStatus(ctx).
-			Op(zulip.TypingStatusOpStart).
-			To(zulip.UserAsRecipient(getOwnUserId(t, apiClient))).
+			Op(z.TypingStatusOpStart).
+			To(z.UserAsRecipient(getOwnUserId(t, apiClient))).
 			Execute()
 
 		require.NoError(t, err)
@@ -309,13 +309,13 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("SetTypingStatusForMessageEdit", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("SetTypingStatusForMessageEdit", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		messageId := createDirectMessage(t, apiClient, otherUserId)
 
 		resp, httpRes, err := apiClient.SetTypingStatusForMessageEdit(ctx, messageId).
-			Op(zulip.TypingStatusOpStart).
+			Op(z.TypingStatusOpStart).
 			Execute()
 
 		require.NoError(t, err)
@@ -324,7 +324,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("UnmuteUser", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UnmuteUser", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		// ensure the user is muted before unmuting
@@ -338,10 +338,10 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("UpdatePresence", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UpdatePresence", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
-		resp, httpRes, err := apiClient.UpdatePresence(ctx).Status(zulip.PresenceStatusActive).Execute()
+		resp, httpRes, err := apiClient.UpdatePresence(ctx).Status(z.PresenceStatusActive).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -349,7 +349,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("UpdateSettings", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UpdateSettings", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.UpdateSettings(ctx).Execute()
@@ -360,7 +360,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("UpdateStatus", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UpdateStatus", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.UpdateStatus(ctx).StatusText(uniqueName("status")).Execute()
@@ -371,7 +371,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("UpdateStatusForUser", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UpdateStatusForUser", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.UpdateStatusForUser(ctx, getOwnUserId(t, apiClient)).StatusText(uniqueName("status")).Execute()
@@ -382,7 +382,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("UpdateUser", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UpdateUser", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.UpdateUser(ctx, getOwnUserId(t, apiClient)).ProfileData([]map[string]interface{}{{"id": 9, "value": uniqueName("they/them")}}).Execute()
@@ -393,7 +393,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("UpdateUserByEmail", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UpdateUserByEmail", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		var email string = getOwnUserEmail(t, apiClient)
@@ -406,7 +406,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("UpdateUserGroup", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UpdateUserGroup", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		userGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
@@ -418,7 +418,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("UpdateUserGroupMembers", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UpdateUserGroupMembers", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		userGroupId := createRandomUserGroup(t, apiClient, getOwnUserId(t, apiClient))
@@ -430,7 +430,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("UpdateUserGroupSubgroups", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("UpdateUserGroupSubgroups", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		userId := getOwnUserId(t, apiClient)
@@ -445,7 +445,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("AddApnsToken", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("AddApnsToken", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		t.Skip("TODO: Not implemented")
 
 		ctx := context.Background()
@@ -458,7 +458,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("AddFcmToken", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("AddFcmToken", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		t.Skip("TODO: Not implemented")
 
 		ctx := context.Background()
@@ -471,7 +471,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("RemoveApnsToken", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("RemoveApnsToken", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		t.Skip("TODO: Not implemented")
 
 		ctx := context.Background()
@@ -484,7 +484,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("RemoveAttachment", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("RemoveAttachment", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 
 		// Upload a file using the test helper
@@ -513,7 +513,7 @@ func Test_UsersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("RemoveFcmToken", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("RemoveFcmToken", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		t.Skip("TODO: Not implemented")
 
 		ctx := context.Background()
@@ -526,7 +526,7 @@ func Test_UsersAPIService(t *testing.T) {
 	}))
 }
 
-func getOwnUser(t *testing.T, apiClient zulip.Client) *zulip.GetOwnUserResponse {
+func getOwnUser(t *testing.T, apiClient z.Client) *z.GetOwnUserResponse {
 	resp, httpRes, err := apiClient.GetOwnUser(context.Background()).Execute()
 
 	require.NoError(t, err)
@@ -535,7 +535,7 @@ func getOwnUser(t *testing.T, apiClient zulip.Client) *zulip.GetOwnUserResponse 
 	return resp
 }
 
-func getOwnUserId(t *testing.T, apiClient zulip.Client) int64 {
+func getOwnUserId(t *testing.T, apiClient z.Client) int64 {
 	t.Helper()
 
 	resp := getOwnUser(t, apiClient)
@@ -543,7 +543,7 @@ func getOwnUserId(t *testing.T, apiClient zulip.Client) int64 {
 	return resp.UserId
 }
 
-func getOwnUserEmail(t *testing.T, apiClient zulip.Client) string {
+func getOwnUserEmail(t *testing.T, apiClient z.Client) string {
 	t.Helper()
 
 	resp := getOwnUser(t, apiClient)
@@ -551,7 +551,7 @@ func getOwnUserEmail(t *testing.T, apiClient zulip.Client) string {
 	return resp.Email
 }
 
-func createRandomUserGroup(t *testing.T, apiClient zulip.Client, members ...int64) int64 {
+func createRandomUserGroup(t *testing.T, apiClient z.Client, members ...int64) int64 {
 	t.Helper()
 
 	groupId := rand.Intn(1000000)

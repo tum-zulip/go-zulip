@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestMessageMarshalJSON_EncodesUnixSeconds(t *testing.T) {
@@ -17,7 +17,7 @@ func TestMessageMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	lastEdit := time.Unix(1700000100, 0).UTC()
 	lastMoved := time.Unix(1700000200, 0).UTC()
 
-	message := zulip.Message{
+	message := z.Message{
 		Id:                 42,
 		Client:             "web",
 		Content:            "hello",
@@ -65,7 +65,7 @@ func TestMessageUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
         "flags": ["read"]
     }`)
 
-	var message zulip.Message
+	var message z.Message
 	require.NoError(t, json.Unmarshal(raw, &message))
 
 	assert.Equal(t, int64(42), message.Id)

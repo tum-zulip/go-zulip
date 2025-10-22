@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func Test_RemindersAPIService(t *testing.T) {
@@ -15,11 +15,11 @@ func Test_RemindersAPIService(t *testing.T) {
 
 	t.Parallel()
 
-	t.Run("CreateMessageReminder", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("CreateMessageReminder", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		createMessageReminder(t, apiClient, channelId)
 	}))
 
-	t.Run("DeleteReminder", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("DeleteReminder", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 		reminderId := createMessageReminder(t, apiClient, channelId)
 
@@ -31,7 +31,7 @@ func Test_RemindersAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetReminders", runForAllClients(t, func(t *testing.T, apiClient zulip.Client) {
+	t.Run("GetReminders", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
 		ctx := context.Background()
 		reminderId := createMessageReminder(t, apiClient, channelId)
 
@@ -51,7 +51,7 @@ func Test_RemindersAPIService(t *testing.T) {
 	}))
 }
 
-func createMessageReminder(t *testing.T, apiClient zulip.Client, channelId int64) int64 {
+func createMessageReminder(t *testing.T, apiClient z.Client, channelId int64) int64 {
 	msg := createChannelMessage(t, apiClient, channelId)
 
 	note := "This is a reminder note"

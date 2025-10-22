@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 const (
@@ -40,56 +40,56 @@ var (
 
 type namedClient struct {
 	name    string
-	factory func(*testing.T) zulip.Client
+	factory func(*testing.T) z.Client
 }
 
 func Test_getTestClient(t *testing.T) {
 	t.Parallel()
 
-	runForClients(t, allClients, func(t *testing.T, client zulip.Client) {
+	runForClients(t, allClients, func(t *testing.T, client z.Client) {
 		if client == nil {
 			t.Fatal("getTestClient returned nil client")
 		}
 	})
 }
 
-func GetOwnerClient(t *testing.T) zulip.Client {
+func GetOwnerClient(t *testing.T) z.Client {
 	t.Helper()
 	return getTestClient(t, testOwnerUsername)
 }
 
-func GetAdminClient(t *testing.T) zulip.Client {
+func GetAdminClient(t *testing.T) z.Client {
 	t.Helper()
 	return getTestClient(t, testAdminUsername)
 }
 
-func GetModeratorClient(t *testing.T) zulip.Client {
+func GetModeratorClient(t *testing.T) z.Client {
 	t.Helper()
 	return getTestClient(t, testModeratorUsername)
 }
 
-func GetGuestClient(t *testing.T) zulip.Client {
+func GetGuestClient(t *testing.T) z.Client {
 	t.Helper()
 	return getTestClient(t, testGuestUsername)
 }
 
-func GetBotClient(t *testing.T) zulip.Client {
+func GetBotClient(t *testing.T) z.Client {
 	t.Helper()
 	t.Skip("Bot user tests are not implemented yet")
 	return nil
 }
 
-func GetNormalClient(t *testing.T) zulip.Client {
+func GetNormalClient(t *testing.T) z.Client {
 	t.Helper()
 	return getTestClient(t, testNormalUsername)
 }
 
-func GetOtherNormalClient(t *testing.T) zulip.Client {
+func GetOtherNormalClient(t *testing.T) z.Client {
 	t.Helper()
 	return getTestClient(t, otherNormalUsername)
 }
 
-func runForClients(t *testing.T, clients []namedClient, fn func(*testing.T, zulip.Client)) func(*testing.T) {
+func runForClients(t *testing.T, clients []namedClient, fn func(*testing.T, z.Client)) func(*testing.T) {
 	return func(t *testing.T) {
 		for _, client := range clients {
 			t.Run(client.name, func(t *testing.T) {
@@ -100,15 +100,15 @@ func runForClients(t *testing.T, clients []namedClient, fn func(*testing.T, zuli
 	}
 }
 
-func runForAllClients(t *testing.T, fn func(*testing.T, zulip.Client)) func(*testing.T) {
+func runForAllClients(t *testing.T, fn func(*testing.T, z.Client)) func(*testing.T) {
 	return runForClients(t, allClients, fn)
 }
 
-func runForAdminAndOwnerClients(t *testing.T, fn func(*testing.T, zulip.Client)) func(*testing.T) {
+func runForAdminAndOwnerClients(t *testing.T, fn func(*testing.T, z.Client)) func(*testing.T) {
 	return runForClients(t, []namedClient{ownerClient, adminClient}, fn)
 }
 
-func getTestClient(t *testing.T, username string) zulip.Client {
+func getTestClient(t *testing.T, username string) z.Client {
 	t.Helper()
 
 	for attempt := 0; attempt < 2; attempt++ {
@@ -139,7 +139,7 @@ func getTestClient(t *testing.T, username string) zulip.Client {
 	return nil
 }
 
-func buildClientFromResponse(t *testing.T, username string, body []byte) zulip.Client {
+func buildClientFromResponse(t *testing.T, username string, body []byte) z.Client {
 	t.Helper()
 
 	var result struct {
@@ -159,7 +159,7 @@ func buildClientFromResponse(t *testing.T, username string, body []byte) zulip.C
 	}
 
 	insecure := true
-	rc := &zulip.ZulipRC{
+	rc := &z.ZulipRC{
 		Site:     testSite,
 		Email:    username,
 		APIKey:   result.APIKey,
@@ -168,9 +168,9 @@ func buildClientFromResponse(t *testing.T, username string, body []byte) zulip.C
 
 	handler := slog.NewTextHandler(log.Default().Writer(), &slog.HandlerOptions{Level: slog.LevelInfo})
 
-	client, err := zulip.NewSimpleClient(rc, zulip.WithLogger(slog.New(handler)), zulip.SkipWarnOnInsecureTLS())
+	client, err := z.NewSimpleClient(rc, z.WithLogger(slog.New(handler)), z.SkipWarnOnInsecureTLS())
 	if err != nil {
-		t.Fatalf("Failed to create Zulip client: %v", err)
+		t.Fatalf("Failed to create z.client: %v", err)
 	}
 
 	return client

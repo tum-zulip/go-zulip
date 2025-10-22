@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
+	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestReminderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
@@ -15,9 +15,9 @@ func TestReminderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 
 	ts := time.Unix(1700000000, 789000000).UTC()
 
-	reminder := zulip.Reminder{
+	reminder := z.Reminder{
 		ReminderId:                 123,
-		Type:                       zulip.RecipientTypePrivate,
+		Type:                       z.RecipientTypePrivate,
 		To:                         []int64{1, 2, 3},
 		Content:                    "Don't forget",
 		RenderedContent:            "<p>Don't forget</p>",
@@ -43,11 +43,11 @@ func TestReminderUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 
 	raw := []byte(`{"reminder_id":123,"type":"private","to":[1,2,3],"content":"Don't forget","rendered_content":"<p>Don't forget</p>","scheduled_delivery_timestamp":1700000000,"failed":true,"reminder_target_message_id":456}`)
 
-	var reminder zulip.Reminder
+	var reminder z.Reminder
 	require.NoError(t, json.Unmarshal(raw, &reminder))
 
 	assert.Equal(t, int64(123), reminder.ReminderId)
-	assert.Equal(t, zulip.RecipientTypeDirect, reminder.Type)
+	assert.Equal(t, z.RecipientTypeDirect, reminder.Type)
 	assert.Equal(t, []int64{1, 2, 3}, reminder.To)
 	assert.Equal(t, "Don't forget", reminder.Content)
 	assert.Equal(t, "<p>Don't forget</p>", reminder.RenderedContent)
