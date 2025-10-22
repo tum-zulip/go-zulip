@@ -1,9 +1,7 @@
 package zulip
 
 import (
-	"bytes"
 	"context"
-	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -86,7 +84,7 @@ type CreateScheduledMessageRequest struct {
 //
 // Note that, while `RecipientTypePrivate` is supported for scheduling direct messages, clients are encouraged to use to the modern convention of `RecipientTypeDirect` to indicate this message type, because support for `RecipientTypePrivate` may eventually be removed.
 //
-//	**Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to indicate the type of a channel message.
+// **Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to indicate the type of a channel message.
 func (r CreateScheduledMessageRequest) RecipientType(recipientType RecipientType) CreateScheduledMessageRequest {
 	r.recipientType = &recipientType
 	return r
@@ -114,7 +112,7 @@ func (r CreateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliv
 
 // The topic of the message. Only required for channel messages (`"type": "stream"` or `"type": "channel"`), ignored otherwise.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.
 //
-//	**Changes**: Before Zulip 10.0 (feature level 370), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// **Changes**: Before Zulip 10.0 (feature level 370), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 // [topics are required]: https://zulip.com/help/require-topics
@@ -125,7 +123,7 @@ func (r CreateScheduledMessageRequest) Topic(topic string) CreateScheduledMessag
 
 // Whether the message should be initially marked read by its sender. If unspecified, the server uses a heuristic based on the client name and the recipient.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 236).
+// **Changes**: New in Zulip 8.0 (feature level 236).
 func (r CreateScheduledMessageRequest) ReadBySender(readBySender bool) CreateScheduledMessageRequest {
 	r.readBySender = &readBySender
 	return r
@@ -158,96 +156,45 @@ func (c *simpleClient) CreateScheduledMessage(ctx context.Context) CreateSchedul
 // Execute executes the request
 func (c *simpleClient) CreateScheduledMessageExecute(r CreateScheduledMessageRequest) (*CreateScheduledMessageResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *CreateScheduledMessageResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &CreateScheduledMessageResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/scheduled_messages"
 
-	localVarPath := localBasePath + "/scheduled_messages"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.recipientType == nil {
-		return localVarReturnValue, nil, reportError("recipientType is required and must be specified")
+		return nil, nil, reportError("recipientType is required and must be specified")
 	}
 	if r.to == nil {
-		return localVarReturnValue, nil, reportError("to is required and must be specified")
+		return nil, nil, reportError("to is required and must be specified")
 	}
 	if r.content == nil {
-		return localVarReturnValue, nil, reportError("content is required and must be specified")
+		return nil, nil, reportError("content is required and must be specified")
 	}
 	if r.scheduledDeliveryTimestamp == nil {
-		return localVarReturnValue, nil, reportError("scheduledDeliveryTimestamp is required and must be specified")
+		return nil, nil, reportError("scheduledDeliveryTimestamp is required and must be specified")
 	}
 
-	// to determine the Content-Type header
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "type", r.recipientType, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "to", r.to, "form", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "content", r.content, "", "")
-	if r.topic != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp, "form", "")
-	if r.readBySender != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "read_by_sender", r.readBySender, "form", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "type", r.recipientType, "", "")
+	addParam(formParams, "to", r.to, "form", "")
+	addParam(formParams, "content", r.content, "", "")
+	addOptionalParam(formParams, "topic", r.topic, "", "")
+	addParam(formParams, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp, "form", "")
+	addOptionalParam(formParams, "read_by_sender", r.readBySender, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type DeleteScheduledMessageRequest struct {
@@ -278,74 +225,27 @@ func (c *simpleClient) DeleteScheduledMessage(ctx context.Context, scheduledMess
 // Execute executes the request
 func (c *simpleClient) DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/scheduled_messages/{scheduled_message_id}"
+	endpoint = strings.Replace(endpoint, "{"+"scheduled_message_id"+"}", idToString(r.scheduledMessageId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/scheduled_messages/{scheduled_message_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"scheduled_message_id"+"}", url.PathEscape(parameterValueToString(r.scheduledMessageId, "scheduledMessageId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetScheduledMessagesRequest struct {
@@ -378,73 +278,26 @@ func (c *simpleClient) GetScheduledMessages(ctx context.Context) GetScheduledMes
 // Execute executes the request
 func (c *simpleClient) GetScheduledMessagesExecute(r GetScheduledMessagesRequest) (*GetScheduledMessagesResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetScheduledMessagesResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetScheduledMessagesResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/scheduled_messages"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/scheduled_messages"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateScheduledMessageRequest struct {
@@ -460,7 +313,7 @@ type UpdateScheduledMessageRequest struct {
 
 // The type of scheduled message to be sent. `"direct"` for a direct message and `"stream"` or `"channel"` for a channel message.  When updating the type of the scheduled message, the `to` parameter is required. And, if updating the type of the scheduled message to `"stream"`/`"channel"`, then the `topic` parameter is also required.  Note that, while `"private"` is supported for scheduling direct messages, clients are encouraged to use to the modern convention of `"direct"` to indicate this message type, because support for `"private"` may eventually be removed.
 //
-//	**Changes**: In Zulip 9.0 (feature level 248), `"channel"` was added as an additional value for this parameter to indicate the type of a channel message.
+// **Changes**: In Zulip 9.0 (feature level 248), `"channel"` was added as an additional value for this parameter to indicate the type of a channel message.
 func (r UpdateScheduledMessageRequest) RecipientType(recipientType string) UpdateScheduledMessageRequest {
 	r.recipientType = &recipientType
 	return r
@@ -481,7 +334,7 @@ func (r UpdateScheduledMessageRequest) Content(content string) UpdateScheduledMe
 
 // The updated topic of the scheduled message.  Required when updating the `type` of the scheduled message to `"stream"` or `"channel"`. Ignored when the existing or updated `type` of the scheduled message is `"direct"` (or `"private"`).  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.
 //
-//	**Changes**: Before Zulip 10.0 (feature level 370), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// **Changes**: Before Zulip 10.0 (feature level 370), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 // [topics are required]: https://zulip.com/help/require-topics
@@ -521,91 +374,36 @@ func (c *simpleClient) UpdateScheduledMessage(ctx context.Context, scheduledMess
 // Execute executes the request
 func (c *simpleClient) UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/scheduled_messages/{scheduled_message_id}"
+	endpoint = strings.Replace(endpoint, "{"+"scheduled_message_id"+"}", idToString(r.scheduledMessageId), -1)
 
-	localVarPath := localBasePath + "/scheduled_messages/{scheduled_message_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"scheduled_message_id"+"}", url.PathEscape(parameterValueToString(r.scheduledMessageId, "scheduledMessageId")), -1)
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.recipientType != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "type", r.recipientType, "", "")
-	}
+	addOptionalParam(formParams, "type", r.recipientType, "", "")
 	if r.to != nil {
 		paramJson, err := parameterToJson(*r.to)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("to", paramJson)
+		formParams.Add("to", paramJson)
 	}
-	if r.content != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "content", r.content, "", "")
-	}
-	if r.topic != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
-	}
-	if r.scheduledDeliveryTimestamp != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp, "form", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addOptionalParam(formParams, "content", r.content, "", "")
+	addOptionalParam(formParams, "topic", r.topic, "", "")
+	addOptionalParam(formParams, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }

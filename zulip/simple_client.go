@@ -19,23 +19,28 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
-	"strconv"
 	"strings"
 	"time"
 )
+
+const retryIndefinitely = -1
+
+// Will not be returned if max-retires is set to zero
+var ErrMaxRetriesReached = errors.New("hit max retires")
 
 // Client manages communication with the Zulip REST API API v1.0.0
 // In most cases there should be only one, shared, Client.
 type simpleClient struct {
 	cfg *ZulipRC
 
-	defaultHeader map[string]string
-	userAgent     string
-	httpClient    *http.Client
-	logger        *slog.Logger
+	defaultHeader   map[string]string
+	userAgent       string
+	httpClient      *http.Client
+	maxRetries      int
+	logger          *slog.Logger
+	insecureWarning bool
 
-	clientName    string
-	retryOnErrors bool
+	clientName string
 
 	apiSuffix  string
 	apiVersion string
@@ -86,20 +91,21 @@ func NewSimpleClient(zuliprc *ZulipRC, options ...Option) (*simpleClient, error)
 	}
 
 	client := &simpleClient{
-		cfg:           zuliprc,
-		defaultHeader: make(map[string]string),
-		clientName:    defaultClientName,
-		retryOnErrors: true,
-		apiSuffix:     defaultAPISuffix,
-		apiVersion:    defaultAPIVersion,
-		logger:        slog.Default(),
+		cfg:             zuliprc,
+		defaultHeader:   make(map[string]string),
+		clientName:      defaultClientName,
+		maxRetries:      retryIndefinitely,
+		insecureWarning: true,
+		apiSuffix:       defaultAPISuffix,
+		apiVersion:      defaultAPIVersion,
+		logger:          slog.Default(),
 	}
 
 	for _, option := range options {
 		option(client)
 	}
 
-	httpClient, userAgent, err := buildHTTPClient(zuliprc, client.logger)
+	httpClient, userAgent, err := buildHTTPClient(zuliprc, client.logger, client.insecureWarning)
 	if err != nil {
 		return nil, err
 	}
@@ -141,6 +147,12 @@ func WithLogger(logger *slog.Logger) Option {
 	}
 }
 
+func WithMaxRetries(maxRetries int) Option {
+	return func(c *simpleClient) {
+		c.maxRetries = maxRetries
+	}
+}
+
 func WithHTTPClient(httpClient *http.Client) Option {
 	return func(c *simpleClient) {
 		c.httpClient = httpClient
@@ -153,6 +165,12 @@ func WithClientName(name string) Option {
 	}
 }
 
+func SkipWarnOnInsecureTLS() Option {
+	return func(c *simpleClient) {
+		c.insecureWarning = false
+	}
+}
+
 func (c *simpleClient) ServerURL() (string, error) {
 	if c.cfg.Site != "" {
 		return fmt.Sprintf("%s/%s/%s", c.cfg.Site, c.apiSuffix, c.apiVersion), nil
@@ -160,7 +178,7 @@ func (c *simpleClient) ServerURL() (string, error) {
 	return "", errors.New("base URL is not set")
 }
 
-func buildHTTPClient(params *ZulipRC, logger *slog.Logger) (*http.Client, string, error) {
+func buildHTTPClient(params *ZulipRC, logger *slog.Logger, warnOnInsecureTLS bool) (*http.Client, string, error) {
 	if params == nil {
 		return nil, "", errors.New("invalid configuration: nil")
 	}
@@ -186,7 +204,9 @@ func buildHTTPClient(params *ZulipRC, logger *slog.Logger) (*http.Client, string
 	}
 
 	if params.Insecure != nil && *params.Insecure {
-		logger.Warn("Insecure mode enabled. The server's SSL/TLS certificate will not be validated, making the HTTPS connection potentially insecure")
+		if warnOnInsecureTLS {
+			logger.Warn("Insecure mode enabled. The server's SSL/TLS certificate will not be validated, making the HTTPS connection potentially insecure")
+		}
 		transport.TLSClientConfig.InsecureSkipVerify = true
 	}
 
@@ -251,187 +271,62 @@ func buildHTTPClient(params *ZulipRC, logger *slog.Logger) (*http.Client, string
 	return client, userAgent, nil
 }
 
-// selectHeaderContentType select a content type from the available list.
-func selectHeaderContentType(contentTypes []string) string {
-	if len(contentTypes) == 0 {
-		return ""
-	}
-	if contains(contentTypes, "application/json") {
-		return "application/json"
-	}
-	return contentTypes[0] // use the first content type specified in 'consumes'
-}
+func (c *simpleClient) callAPI(ctx context.Context, req *http.Request, responseModel responseModel) (httpResp *http.Response, err error) {
+	retryForever := c.maxRetries == retryIndefinitely
 
-// selectHeaderAccept join all accept types and return
-func selectHeaderAccept(accepts []string) string {
-	if len(accepts) == 0 {
-		return ""
-	}
-
-	if contains(accepts, "application/json") {
-		return "application/json"
-	}
-
-	return strings.Join(accepts, ",")
-}
-
-// contains is a case insensitive match, finding needle in a haystack
-func contains(haystack []string, needle string) bool {
-	for _, a := range haystack {
-		if strings.EqualFold(a, needle) {
-			return true
+	for i := 0; retryForever || i <= c.maxRetries; i++ {
+		httpResp, err = c.doHTTPCallAndParseResponse(ctx, req, responseModel)
+		if httpResp != nil && httpResp.StatusCode == http.StatusTooManyRequests {
+			if apiErr, ok := err.(APIError); ok {
+				if rateLimitedError, ok := apiErr.Model().(RateLimitedError); ok {
+					slog.DebugContext(ctx, "hit API rate-limit", "retry-after", rateLimitedError.RetryAfter)
+					time.Sleep(rateLimitedError.RetryAfter)
+					continue
+				}
+			}
 		}
+		return
 	}
-	return false
+	slog.DebugContext(ctx, "hit max retires", "max-retires", c.maxRetries)
+	return httpResp, ErrMaxRetriesReached
 }
 
-func parameterValueToString(obj interface{}, key string) string {
-	if reflect.TypeOf(obj).Kind() != reflect.Ptr {
-		if actualObj, ok := obj.(interface{ GetActualInstanceValue() interface{} }); ok {
-			return fmt.Sprintf("%v", actualObj.GetActualInstanceValue())
-		}
+func (c *simpleClient) doHTTPCallAndParseResponse(ctx context.Context, req *http.Request, responseModel responseModel) (*http.Response, error) {
+	if responseModel == nil {
+		return nil, fmt.Errorf("response model cannot be nil")
+	}
+	httpResp, err := c.doHTTPCall(ctx, req)
+	if err != nil || httpResp == nil {
+		return httpResp, err
+	}
 
-		return fmt.Sprintf("%v", obj)
-	}
-	var param, ok = obj.(MappedNullable)
-	if !ok {
-		return ""
-	}
-	dataMap, err := param.ToMap()
+	body, err := io.ReadAll(httpResp.Body)
+	httpResp.Body.Close()
+	httpResp.Body = io.NopCloser(bytes.NewBuffer(body))
 	if err != nil {
-		return ""
-	}
-	return fmt.Sprintf("%v", dataMap[key])
-}
-
-// parameterAddToHeaderOrQuery adds the provided object to the request header or url query
-// supporting deep object syntax
-func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix string, obj interface{}, style string, collectionType string) {
-	var v = reflect.ValueOf(obj)
-	var value = ""
-	if v == reflect.ValueOf(nil) {
-		value = "null"
-	} else {
-		switch v.Kind() {
-		case reflect.Invalid:
-			value = "invalid"
-
-		case reflect.Struct:
-			if t, ok := obj.(MappedNullable); ok {
-				dataMap, err := t.ToMap()
-				if err != nil {
-					return
-				}
-				parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, dataMap, style, collectionType)
-				return
-			}
-			if t, ok := obj.(time.Time); ok {
-				parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, t.Format(time.RFC3339Nano), style, collectionType)
-				return
-			}
-			if marshaler, ok := obj.(json.Marshaler); ok {
-				if data, err := marshaler.MarshalJSON(); err == nil {
-					value = string(data)
-					break
-				}
-			}
-			value = v.Type().String() + " value"
-		case reflect.Slice:
-			if v.Type().Elem().Kind() == reflect.Uint8 {
-				value = string(v.Bytes())
-				break
-			}
-			if data, err := json.Marshal(obj); err == nil {
-				value = string(data)
-				break
-			}
-			var indValue = reflect.ValueOf(obj)
-			if indValue == reflect.ValueOf(nil) {
-				return
-			}
-			var lenIndValue = indValue.Len()
-			for i := 0; i < lenIndValue; i++ {
-				var arrayValue = indValue.Index(i)
-				var keyPrefixForCollectionType = keyPrefix
-				if style == "deepObject" {
-					keyPrefixForCollectionType = keyPrefix + "[" + strconv.Itoa(i) + "]"
-				}
-				parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), style, collectionType)
-			}
-			return
-
-		case reflect.Map:
-			if data, err := json.Marshal(obj); err == nil {
-				value = string(data)
-				break
-			}
-			var indValue = reflect.ValueOf(obj)
-			if indValue == reflect.ValueOf(nil) {
-				return
-			}
-			iter := indValue.MapRange()
-			for iter.Next() {
-				k, v := iter.Key(), iter.Value()
-				parameterAddToHeaderOrQuery(headerOrQueryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface(), style, collectionType)
-			}
-			return
-
-		case reflect.Interface:
-			fallthrough
-		case reflect.Ptr:
-			parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, v.Elem().Interface(), style, collectionType)
-			return
-
-		case reflect.Int, reflect.Int8, reflect.Int16,
-			reflect.Int32, reflect.Int64:
-			value = strconv.FormatInt(v.Int(), 10)
-		case reflect.Uint, reflect.Uint8, reflect.Uint16,
-			reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-			value = strconv.FormatUint(v.Uint(), 10)
-		case reflect.Float32, reflect.Float64:
-			value = strconv.FormatFloat(v.Float(), 'g', -1, 32)
-		case reflect.Bool:
-			value = strconv.FormatBool(v.Bool())
-		case reflect.String:
-			value = v.String()
-		default:
-			if marshaler, ok := obj.(json.Marshaler); ok {
-				if data, err := marshaler.MarshalJSON(); err == nil {
-					value = string(data)
-					break
-				}
-			}
-			if data, err := json.Marshal(obj); err == nil {
-				value = string(data)
-				break
-			}
-			value = v.Type().String() + " value"
-		}
+		return httpResp, err
 	}
 
-	switch valuesMap := headerOrQueryParams.(type) {
-	case url.Values:
-		if collectionType == "csv" && valuesMap.Get(keyPrefix) != "" {
-			valuesMap.Set(keyPrefix, valuesMap.Get(keyPrefix)+","+value)
-		} else {
-			valuesMap.Add(keyPrefix, value)
-		}
-	case map[string]string:
-		valuesMap[keyPrefix] = value
+	if httpResp.StatusCode >= 300 {
+		return httpResp, c.handleErrorResponse(ctx, httpResp)
 	}
-}
 
-// helper for converting interface{} parameters to json strings
-func parameterToJson(obj interface{}) (string, error) {
-	jsonBuf, err := json.Marshal(obj)
+	err = c.decode(responseModel, body, httpResp.Header.Get("Content-Type"))
 	if err != nil {
-		return "", err
+		newErr := &APIError{
+			body:  body,
+			error: err.Error(),
+		}
+		return httpResp, newErr
 	}
-	return string(jsonBuf), err
+
+	c.handleUnsupportedParameters(ctx, responseModel.getIgnoredParametersUnsupported())
+
+	return httpResp, nil
 }
 
 // callAPI do the request.
-func (c *simpleClient) callAPI(ctx context.Context, request *http.Request) (*http.Response, error) {
+func (c *simpleClient) doHTTPCall(ctx context.Context, request *http.Request) (*http.Response, error) {
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -447,17 +342,15 @@ func (c *simpleClient) callAPI(ctx context.Context, request *http.Request) (*htt
 	}
 
 	resp, err := c.httpClient.Do(request)
-	if err != nil {
-		return resp, err
-	}
 
-	if debug {
+	if debug && resp != nil {
 		dump, err := httputil.DumpResponse(resp, true)
 		if err != nil {
-			return resp, err
+			c.logger.ErrorContext(ctx, "failed to dump http response to string", "error", err)
 		}
 		c.logger.DebugContext(ctx, "HTTP Response", "dump", string(dump))
 	}
+
 	return resp, err
 }
 
@@ -476,12 +369,19 @@ type formFile struct {
 // prepareRequest build the request
 func (c *simpleClient) prepareRequest(
 	ctx context.Context,
-	path string, method string,
+	endpoint string, method string,
 	postBody interface{},
 	headerParams map[string]string,
 	queryParams url.Values,
 	formParams url.Values,
 	formFiles []formFile) (localVarRequest *http.Request, err error) {
+
+	basePath, err := c.ServerURL()
+	if err != nil {
+		return nil, &APIError{error: err.Error()}
+	}
+
+	path := basePath + endpoint
 
 	var body *bytes.Buffer
 

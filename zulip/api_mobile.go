@@ -1,9 +1,7 @@
 package zulip
 
 import (
-	"bytes"
 	"context"
-	"io"
 	"net/http"
 	"net/url"
 )
@@ -86,76 +84,27 @@ func (c *simpleClient) E2eeTestNotify(ctx context.Context) E2eeTestNotifyRequest
 // Execute executes the request
 func (c *simpleClient) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/mobile_push/e2ee/test_notification"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "push_account_id", r.pushAccountId, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/mobile_push/e2ee/test_notification"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.pushAccountId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "push_account_id", r.pushAccountId, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RegisterPushDeviceRequest struct {
@@ -217,93 +166,47 @@ func (c *simpleClient) RegisterPushDevice(ctx context.Context) RegisterPushDevic
 // Execute executes the request
 func (c *simpleClient) RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/mobile_push/register"
 
-	localVarPath := localBasePath + "/mobile_push/register"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.tokenKind == nil {
-		return localVarReturnValue, nil, reportError("tokenKind is required and must be specified")
+		return nil, nil, reportError("tokenKind is required and must be specified")
 	}
 	if r.pushAccountId == nil {
-		return localVarReturnValue, nil, reportError("pushAccountId is required and must be specified")
+		return nil, nil, reportError("pushAccountId is required and must be specified")
 	}
 	if r.pushPublicKey == nil {
-		return localVarReturnValue, nil, reportError("pushPublicKey is required and must be specified")
+		return nil, nil, reportError("pushPublicKey is required and must be specified")
 	}
 	if r.bouncerPublicKey == nil {
-		return localVarReturnValue, nil, reportError("bouncerPublicKey is required and must be specified")
+		return nil, nil, reportError("bouncerPublicKey is required and must be specified")
 	}
 	if r.encryptedPushRegistration == nil {
-		return localVarReturnValue, nil, reportError("encryptedPushRegistration is required and must be specified")
+		return nil, nil, reportError("encryptedPushRegistration is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "token_kind", r.tokenKind, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "push_account_id", r.pushAccountId, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "push_public_key", r.pushPublicKey, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "bouncer_public_key", r.bouncerPublicKey, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "encrypted_push_registration", r.encryptedPushRegistration, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "token_kind", r.tokenKind, "", "")
+	addParam(formParams, "push_account_id", r.pushAccountId, "", "")
+	addParam(formParams, "push_public_key", r.pushPublicKey, "", "")
+	addParam(formParams, "bouncer_public_key", r.bouncerPublicKey, "", "")
+	addParam(formParams, "encrypted_push_registration", r.encryptedPushRegistration, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type TestNotifyRequest struct {
@@ -344,74 +247,25 @@ func (c *simpleClient) TestNotify(ctx context.Context) TestNotifyRequest {
 // Execute executes the request
 func (c *simpleClient) TestNotifyExecute(r TestNotifyRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/mobile_push/test_notification"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "token", r.token, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/mobile_push/test_notification"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.token != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "token", r.token, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }

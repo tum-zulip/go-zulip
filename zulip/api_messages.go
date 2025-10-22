@@ -1,7 +1,6 @@
 package zulip
 
 import (
-	"bytes"
 	"context"
 	"io"
 	"net/http"
@@ -70,7 +69,7 @@ type MessagesAPI interface {
 	//
 	// *Changes**: New in Zulip 3.0 (feature level 1).
 	//
-	GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, filename string) GetFileTemporaryUrlRequest
+	GetFileTemporaryUrl(ctx context.Context, realmId int64, filename string) GetFileTemporaryUrlRequest
 
 	// GetFileTemporaryUrlExecute executes the request
 	GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error)
@@ -518,84 +517,34 @@ func (c *simpleClient) AddReaction(ctx context.Context, messageId int64) AddReac
 // Execute executes the request
 func (c *simpleClient) AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/messages/{message_id}/reactions"
+	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
 
-	localVarPath := localBasePath + "/messages/{message_id}/reactions"
-	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.emojiName == nil {
-		return localVarReturnValue, nil, reportError("emojiName is required and must be specified")
+		return nil, nil, reportError("emojiName is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "emoji_name", r.emojiName, "", "")
-	if r.emojiCode != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "emoji_code", r.emojiCode, "", "")
-	}
-	if r.reactionType != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "reaction_type", r.reactionType, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "emoji_name", r.emojiName, "", "")
+	addOptionalParam(formParams, "emoji_code", r.emojiCode, "", "")
+	addOptionalParam(formParams, "reaction_type", r.reactionType, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type CheckMessagesMatchNarrowRequest struct {
@@ -613,10 +562,9 @@ func (r CheckMessagesMatchNarrowRequest) MsgIds(msgIds []int64) CheckMessagesMat
 
 // A structure defining the narrow to check against. See how to [construct a narrow].
 //
-//	**Changes**: See [changes section] of search/narrow filter documentation.
+// **Changes**: See [changes section] of search/narrow filter documentation.
 //
 // [construct a narrow]: https://zulip.com/api/construct-narrow
-//
 // [changes section]: https://zulip.com/api/construct-narrow#changes
 func (r CheckMessagesMatchNarrowRequest) Narrow(narrow *Narrow) CheckMessagesMatchNarrowRequest {
 	r.narrow = narrow
@@ -659,81 +607,35 @@ func (c *simpleClient) CheckMessagesMatchNarrow(ctx context.Context) CheckMessag
 // Execute executes the request
 func (c *simpleClient) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *CheckMessagesMatchNarrowResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &CheckMessagesMatchNarrowResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/messages/matches_narrow"
 
-	localVarPath := localBasePath + "/messages/matches_narrow"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.msgIds == nil {
-		return localVarReturnValue, nil, reportError("msgIds is required and must be specified")
+		return nil, nil, reportError("msgIds is required and must be specified")
 	}
 	if r.narrow == nil {
-		return localVarReturnValue, nil, reportError("narrow is required and must be specified")
+		return nil, nil, reportError("narrow is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "msg_ids", r.msgIds, "", "csv")
-	parameterAddToHeaderOrQuery(localVarQueryParams, "narrow", r.narrow, "", "csv")
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	addParam(queryParams, "msg_ids", r.msgIds, "", "csv")
+	addParam(queryParams, "narrow", r.narrow, "", "csv")
+	// no Content-Type header
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type DeleteMessageRequest struct {
@@ -766,80 +668,33 @@ func (c *simpleClient) DeleteMessage(ctx context.Context, messageId int64) Delet
 // Execute executes the request
 func (c *simpleClient) DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/messages/{message_id}"
+	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/messages/{message_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetFileTemporaryUrlRequest struct {
 	ctx        context.Context
 	ApiService MessagesAPI
-	realmIdStr int64
+	realmId    int64
 	filename   string
 }
 
@@ -852,11 +707,11 @@ func (r GetFileTemporaryUrlRequest) Execute() (*GetFileTemporaryUrlResponse, *ht
 // Get a temporary URL for access to the file that doesn't require authentication.
 //
 // *Changes**: New in Zulip 3.0 (feature level 1).
-func (c *simpleClient) GetFileTemporaryUrl(ctx context.Context, realmIdStr int64, filename string) GetFileTemporaryUrlRequest {
+func (c *simpleClient) GetFileTemporaryUrl(ctx context.Context, realmId int64, filename string) GetFileTemporaryUrlRequest {
 	return GetFileTemporaryUrlRequest{
 		ApiService: c,
 		ctx:        ctx,
-		realmIdStr: realmIdStr,
+		realmId:    realmId,
 		filename:   filename,
 	}
 }
@@ -864,75 +719,28 @@ func (c *simpleClient) GetFileTemporaryUrl(ctx context.Context, realmIdStr int64
 // Execute executes the request
 func (c *simpleClient) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetFileTemporaryUrlResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetFileTemporaryUrlResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/user_uploads/{realm_id_str}/{filename}"
+	endpoint = strings.Replace(endpoint, "{"+"realm_id_str"+"}", idToString(r.realmId), -1)
+	endpoint = strings.Replace(endpoint, "{"+"filename"+"}", url.PathEscape(r.filename), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/user_uploads/{realm_id_str}/{filename}"
-	localVarPath = strings.Replace(localVarPath, "{"+"realm_id_str"+"}", url.PathEscape(parameterValueToString(r.realmIdStr, "realmIdStr")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"filename"+"}", url.PathEscape(parameterValueToString(r.filename, "filename")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetMessageRequest struct {
@@ -945,7 +753,7 @@ type GetMessageRequest struct {
 
 // If `true`, message content is returned in the rendered HTML format. If `false`, message content is returned in the raw [Zulip-flavored Markdown format] text that user entered.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 120).
+// **Changes**: New in Zulip 5.0 (feature level 120).
 //
 // [Zulip-flavored Markdown format]: https://zulip.com/help/format-your-message-using-markdown
 func (r GetMessageRequest) ApplyMarkdown(applyMarkdown bool) GetMessageRequest {
@@ -955,7 +763,7 @@ func (r GetMessageRequest) ApplyMarkdown(applyMarkdown bool) GetMessageRequest {
 
 // Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If `false`, the server will use the value of `realm_empty_topic_display_name` found in the [`POST /register`] response instead of empty string to represent the empty string topic in its response.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+// **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 func (r GetMessageRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMessageRequest {
@@ -993,86 +801,29 @@ func (c *simpleClient) GetMessage(ctx context.Context, messageId int64) GetMessa
 // Execute executes the request
 func (c *simpleClient) GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetMessageResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetMessageResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/messages/{message_id}"
+	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+
+	addOptionalParam(queryParams, "apply_markdown", r.applyMarkdown, "form", "")
+	addOptionalParam(queryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/messages/{message_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.applyMarkdown != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "apply_markdown", r.applyMarkdown, "form", "")
-	} else {
-		var defaultValue bool = true
-		r.applyMarkdown = &defaultValue
-	}
-	if r.allowEmptyTopicName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.allowEmptyTopicName = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetMessageHistoryRequest struct {
@@ -1084,7 +835,7 @@ type GetMessageHistoryRequest struct {
 
 // Whether the topic names i.e. `topic` and `prev_topic` fields in the `message_history` objects returned can be empty string.  If `false`, the value of `realm_empty_topic_display_name` found in the [`POST /register`] response is returned replacing the empty string as the topic name.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 334).
+// **Changes**: New in Zulip 10.0 (feature level 334).
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 func (r GetMessageHistoryRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMessageHistoryRequest {
@@ -1115,80 +866,28 @@ func (c *simpleClient) GetMessageHistory(ctx context.Context, messageId int64) G
 // Execute executes the request
 func (c *simpleClient) GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetMessageHistoryResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetMessageHistoryResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/messages/{message_id}/history"
+	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+
+	addOptionalParam(queryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/messages/{message_id}/history"
-	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.allowEmptyTopicName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.allowEmptyTopicName = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetMessagesRequest struct {
@@ -1208,7 +907,7 @@ type GetMessagesRequest struct {
 
 // Integer message Id to anchor fetching of new messages. Supports special string values for when the client wants the server to compute the anchor to use:  - `newest`: The most recent message. - `oldest`: The oldest message. - `first_unread`: The oldest unread message matching the   query, if any; otherwise, the most recent message.
 //
-//	**Changes**: String values are new in Zulip 3.0 (feature level 1). The `first_unread` functionality was supported in Zulip 2.1.x and older by not sending `anchor` and using `use_first_unread_anchor`.  In Zulip 2.1.x and older, `oldest` can be emulated with `"anchor": 0`, and `newest` with `"anchor": 10000000000000000` (that specific large value works around a bug in Zulip 2.1.x and older in the `found_newest` return value).
+// **Changes**: String values are new in Zulip 3.0 (feature level 1). The `first_unread` functionality was supported in Zulip 2.1.x and older by not sending `anchor` and using `use_first_unread_anchor`.  In Zulip 2.1.x and older, `oldest` can be emulated with `"anchor": 0`, and `newest` with `"anchor": 10000000000000000` (that specific large value works around a bug in Zulip 2.1.x and older in the `found_newest` return value).
 func (r GetMessagesRequest) Anchor(anchor string) GetMessagesRequest {
 	r.anchor = &anchor
 	return r
@@ -1216,7 +915,7 @@ func (r GetMessagesRequest) Anchor(anchor string) GetMessagesRequest {
 
 // Whether a message with the specified Id matching the narrow should be included.
 //
-//	**Changes**: New in Zulip 6.0 (feature level 155).
+// **Changes**: New in Zulip 6.0 (feature level 155).
 func (r GetMessagesRequest) IncludeAnchor(includeAnchor bool) GetMessagesRequest {
 	r.includeAnchor = &includeAnchor
 	return r
@@ -1236,11 +935,10 @@ func (r GetMessagesRequest) NumAfter(numAfter int32) GetMessagesRequest {
 
 // The narrow where you want to fetch the messages from. See how to [construct a narrow].  Note that many narrows, including all that lack a `channel`, `channels`, `stream`, or `streams` operator, search the user's personal message history. See [searching shared history] for details.  For example, if you would like to fetch messages from all public channels instead of only the user's message history, then a specific narrow for messages sent to all public channels can be used: `{"operator": "channels", "operand": "public"}`.  Newly created bot users are not usually subscribed to any channels, so bots using this API should either be subscribed to appropriate channels or use a shared history search narrow with this endpoint.
 //
-//	**Changes**: See [changes section] of search/narrow filter documentation.
+// **Changes**: See [changes section] of search/narrow filter documentation.
 //
 // [construct a narrow]: https://zulip.com/api/construct-narrow
 // [searching shared history]: https://zulip.com/help/search-for-messages#search-shared-history
-//
 // [changes section]: https://zulip.com/api/construct-narrow#changes
 func (r GetMessagesRequest) Narrow(narrow *Narrow) GetMessagesRequest {
 	r.narrow = narrow
@@ -1249,7 +947,7 @@ func (r GetMessagesRequest) Narrow(narrow *Narrow) GetMessagesRequest {
 
 // Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
 //
-//	**Changes**: The default value of this parameter was `false` prior to Zulip 5.0 (feature level 92).
+// **Changes**: The default value of this parameter was `false` prior to Zulip 5.0 (feature level 92).
 func (r GetMessagesRequest) ClientGravatar(clientGravatar bool) GetMessagesRequest {
 	r.clientGravatar = &clientGravatar
 	return r
@@ -1265,7 +963,7 @@ func (r GetMessagesRequest) ApplyMarkdown(applyMarkdown bool) GetMessagesRequest
 
 // Legacy way to specify `"anchor": "first_unread"` in Zulip 2.1.x and older.  Whether to use the (computed by the server) first unread message matching the narrow as the `anchor`. Mutually exclusive with `anchor`.
 //
-//	**Changes**: Deprecated in Zulip 3.0 (feature level 1) and replaced by `"anchor": "first_unread"`.
+// **Changes**: Deprecated in Zulip 3.0 (feature level 1) and replaced by `"anchor": "first_unread"`.
 //
 // Deprecated
 func (r GetMessagesRequest) UseFirstUnreadAnchor(useFirstUnreadAnchor bool) GetMessagesRequest {
@@ -1275,7 +973,7 @@ func (r GetMessagesRequest) UseFirstUnreadAnchor(useFirstUnreadAnchor bool) GetM
 
 // A list of message Ids to fetch. The server will return messages corresponding to the subset of the requested message Ids that exist and the current user has access to, potentially filtered by the narrow (if that parameter is provided).  It is an error to pass this parameter as well as any of the parameters involved in specifying a range of messages: `anchor`, `include_anchor`, `use_first_unread_anchor`, `num_before`, and `num_after`.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 300). Previously, there was no way to request a specific set of messages Ids.
+// **Changes**: New in Zulip 10.0 (feature level 300). Previously, there was no way to request a specific set of messages Ids.
 func (r GetMessagesRequest) MessageIds(messageIds []int64) GetMessagesRequest {
 	r.messageIds = &messageIds
 	return r
@@ -1283,7 +981,7 @@ func (r GetMessagesRequest) MessageIds(messageIds []int64) GetMessagesRequest {
 
 // Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If `false`, the server will use the value of `realm_empty_topic_display_name` found in the [`POST /register`] response instead of empty string to represent the empty string topic in its response.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+// **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 func (r GetMessagesRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMessagesRequest {
@@ -1338,121 +1036,36 @@ func (c *simpleClient) GetMessages(ctx context.Context) GetMessagesRequest {
 // Execute executes the request
 func (c *simpleClient) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetMessagesResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetMessagesResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/messages"
+
+	addOptionalParam(queryParams, "anchor", r.anchor, "form", "")
+	addOptionalParam(queryParams, "include_anchor", r.includeAnchor, "form", "")
+	addOptionalParam(queryParams, "num_before", r.numBefore, "form", "")
+	addOptionalParam(queryParams, "num_after", r.numAfter, "form", "")
+	addOptionalParam(queryParams, "narrow", r.narrow, "", "csv")
+	addOptionalParam(queryParams, "client_gravatar", r.clientGravatar, "form", "")
+	addOptionalParam(queryParams, "apply_markdown", r.applyMarkdown, "form", "")
+	addOptionalParam(queryParams, "use_first_unread_anchor", r.useFirstUnreadAnchor, "form", "")
+	addOptionalParam(queryParams, "message_ids", r.messageIds, "", "csv")
+	addOptionalParam(queryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/messages"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.anchor != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "anchor", r.anchor, "form", "")
-	}
-	if r.includeAnchor != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_anchor", r.includeAnchor, "form", "")
-	} else {
-		var defaultValue bool = true
-		r.includeAnchor = &defaultValue
-	}
-	if r.numBefore != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "num_before", r.numBefore, "form", "")
-	}
-	if r.numAfter != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "num_after", r.numAfter, "form", "")
-	}
-	if r.narrow != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "narrow", r.narrow, "", "csv")
-	} else {
-		var defaultValue Narrow = Narrow{}
-		r.narrow = &defaultValue
-	}
-	if r.clientGravatar != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "client_gravatar", r.clientGravatar, "form", "")
-	} else {
-		var defaultValue bool = true
-		r.clientGravatar = &defaultValue
-	}
-	if r.applyMarkdown != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "apply_markdown", r.applyMarkdown, "form", "")
-	} else {
-		var defaultValue bool = true
-		r.applyMarkdown = &defaultValue
-	}
-	if r.useFirstUnreadAnchor != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "use_first_unread_anchor", r.useFirstUnreadAnchor, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.useFirstUnreadAnchor = &defaultValue
-	}
-	if r.messageIds != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "message_ids", r.messageIds, "", "csv")
-	}
-	if r.allowEmptyTopicName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.allowEmptyTopicName = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetReadReceiptsRequest struct {
@@ -1492,74 +1105,27 @@ func (c *simpleClient) GetReadReceipts(ctx context.Context, messageId int64) Get
 // Execute executes the request
 func (c *simpleClient) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetReadReceiptsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetReadReceiptsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/messages/{message_id}/read_receipts"
+	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/messages/{message_id}/read_receipts"
-	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type MarkAllAsReadRequest struct {
@@ -1615,73 +1181,26 @@ func (c *simpleClient) MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest {
 // Deprecated
 func (c *simpleClient) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *MarkAllAsReadResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &MarkAllAsReadResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/mark_all_as_read"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/mark_all_as_read"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type MarkChannelAsReadRequest struct {
@@ -1722,77 +1241,31 @@ func (c *simpleClient) MarkChannelAsRead(ctx context.Context) MarkChannelAsReadR
 // Deprecated
 func (c *simpleClient) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/mark_stream_as_read"
 
-	localVarPath := localBasePath + "/mark_stream_as_read"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.channelId == nil {
-		return localVarReturnValue, nil, reportError("channelId is required and must be specified")
+		return nil, nil, reportError("channelId is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "stream_id", r.channelId, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type MarkTopicAsReadRequest struct {
@@ -1810,7 +1283,7 @@ func (r MarkTopicAsReadRequest) ChannelId(channelId int64) MarkTopicAsReadReques
 
 // The name of the topic whose messages should be marked as read.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.
 //
-//	**Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 //
 // [POST /register]: https://zulip.com/api/register-queue
 func (r MarkTopicAsReadRequest) TopicName(topicName string) MarkTopicAsReadRequest {
@@ -1844,81 +1317,35 @@ func (c *simpleClient) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadReque
 // Deprecated
 func (c *simpleClient) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/mark_topic_as_read"
 
-	localVarPath := localBasePath + "/mark_topic_as_read"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.channelId == nil {
-		return localVarReturnValue, nil, reportError("channelId is required and must be specified")
+		return nil, nil, reportError("channelId is required and must be specified")
 	}
 	if r.topicName == nil {
-		return localVarReturnValue, nil, reportError("topicName is required and must be specified")
+		return nil, nil, reportError("topicName is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "topic_name", r.topicName, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "stream_id", r.channelId, "form", "")
+	addParam(formParams, "topic_name", r.topicName, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RemoveReactionRequest struct {
@@ -1978,83 +1405,30 @@ func (c *simpleClient) RemoveReaction(ctx context.Context, messageId int64) Remo
 // Execute executes the request
 func (c *simpleClient) RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/messages/{message_id}/reactions"
+	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "emoji_name", r.emojiName, "", "")
+	addOptionalParam(formParams, "emoji_code", r.emojiCode, "", "")
+	addOptionalParam(formParams, "reaction_type", r.reactionType, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/messages/{message_id}/reactions"
-	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.emojiName != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "emoji_name", r.emojiName, "", "")
-	}
-	if r.emojiCode != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "emoji_code", r.emojiCode, "", "")
-	}
-	if r.reactionType != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "reaction_type", r.reactionType, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RenderMessageRequest struct {
@@ -2088,77 +1462,31 @@ func (c *simpleClient) RenderMessage(ctx context.Context) RenderMessageRequest {
 // Execute executes the request
 func (c *simpleClient) RenderMessageExecute(r RenderMessageRequest) (*RenderMessageResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *RenderMessageResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &RenderMessageResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/messages/render"
 
-	localVarPath := localBasePath + "/messages/render"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.content == nil {
-		return localVarReturnValue, nil, reportError("content is required and must be specified")
+		return nil, nil, reportError("content is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "content", r.content, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "content", r.content, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type ReportMessageRequest struct {
@@ -2212,81 +1540,33 @@ func (c *simpleClient) ReportMessage(ctx context.Context, messageId int64) Repor
 // Execute executes the request
 func (c *simpleClient) ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/messages/{message_id}/report"
+	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
 
-	localVarPath := localBasePath + "/messages/{message_id}/report"
-	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.reportType == nil {
-		return localVarReturnValue, nil, reportError("reportType is required and must be specified")
+		return nil, nil, reportError("reportType is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "report_type", r.reportType, "", "")
-	if r.description != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "description", r.description, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "report_type", r.reportType, "", "")
+	addOptionalParam(formParams, "description", r.description, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type SendMessageRequest struct {
@@ -2303,7 +1583,7 @@ type SendMessageRequest struct {
 
 // The type of message to be sent.  `RecipientTypeDirect` for a direct message and `RecipientTypeStream` or `RecipientTypeChannel` for a channel message.
 //
-//	**Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to request a channel message.  In Zulip 7.0 (feature level 174), `RecipientTypeDirect` was added as the preferred way to request a direct message, deprecating the original `RecipientTypePrivate`. While `RecipientTypePrivate` is still supported for requesting direct messages, clients are encouraged to use to the modern convention with servers that support it, because support for `RecipientTypePrivate` will eventually be removed.
+// **Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to request a channel message.  In Zulip 7.0 (feature level 174), `RecipientTypeDirect` was added as the preferred way to request a direct message, deprecating the original `RecipientTypePrivate`. While `RecipientTypePrivate` is still supported for requesting direct messages, clients are encouraged to use to the modern convention with servers that support it, because support for `RecipientTypePrivate` will eventually be removed.
 func (r SendMessageRequest) RecipientType(recipientType RecipientType) SendMessageRequest {
 	r.recipientType = &recipientType
 	return r
@@ -2324,7 +1604,7 @@ func (r SendMessageRequest) Content(content string) SendMessageRequest {
 
 // The topic of the message. Only required for channel messages (`"type": "stream"` or `"type": "channel"`), ignored otherwise.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.
 //
-//	**Changes**: Before Zulip 10.0 (feature level 370), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as `subject`, which is currently a deprecated alias.
+// **Changes**: Before Zulip 10.0 (feature level 370), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as `subject`, which is currently a deprecated alias.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 // [topics are required]: https://zulip.com/help/require-topics
@@ -2351,7 +1631,7 @@ func (r SendMessageRequest) LocalId(localId string) SendMessageRequest {
 
 // Whether the message should be initially marked read by its sender. If unspecified, the server uses a heuristic based on the client name.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 236).
+// **Changes**: New in Zulip 8.0 (feature level 236).
 func (r SendMessageRequest) ReadBySender(readBySender bool) SendMessageRequest {
 	r.readBySender = &readBySender
 	return r
@@ -2378,97 +1658,43 @@ func (c *simpleClient) SendMessage(ctx context.Context) SendMessageRequest {
 // Execute executes the request
 func (c *simpleClient) SendMessageExecute(r SendMessageRequest) (*SendMessageResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *SendMessageResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &SendMessageResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/messages"
 
-	localVarPath := localBasePath + "/messages"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.recipientType == nil {
-		return localVarReturnValue, nil, reportError("recipientType is required and must be specified")
+		return nil, nil, reportError("recipientType is required and must be specified")
 	}
 	if r.to == nil {
-		return localVarReturnValue, nil, reportError("to is required and must be specified")
+		return nil, nil, reportError("to is required and must be specified")
 	}
 	if r.content == nil {
-		return localVarReturnValue, nil, reportError("content is required and must be specified")
+		return nil, nil, reportError("content is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "type", r.recipientType, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "to", r.to, "form", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "content", r.content, "", "")
-	if r.topic != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
-	}
-	if r.queueId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "queue_id", r.queueId, "", "")
-	}
-	if r.localId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "local_id", r.localId, "", "")
-	}
-	if r.readBySender != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "read_by_sender", r.readBySender, "form", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "type", r.recipientType, "", "")
+	addParam(formParams, "to", r.to, "form", "")
+	addParam(formParams, "content", r.content, "", "")
+	addOptionalParam(formParams, "topic", r.topic, "", "")
+	addOptionalParam(formParams, "queue_id", r.queueId, "", "")
+	addOptionalParam(formParams, "local_id", r.localId, "", "")
+	addOptionalParam(formParams, "read_by_sender", r.readBySender, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateMessageRequest struct {
@@ -2486,7 +1712,7 @@ type UpdateMessageRequest struct {
 
 // The topic to move the message(s) to, to request changing the topic.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length  Should only be sent when changing the topic, and will throw an error if the target message is not a channel message.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.  You can [resolve topics] by editing the topic to `✔ {original_topic}` with the `propagate_mode` parameter set to `"change_all"`. The empty string topic cannot be marked as resolved.
 //
-//	**Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as `subject`, which is currently a deprecated alias.
+// **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as `subject`, which is currently a deprecated alias.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 // [topics are required]: https://zulip.com/help/require-topics
@@ -2504,7 +1730,7 @@ func (r UpdateMessageRequest) PropagateMode(propagateMode string) UpdateMessageR
 
 // Whether to send an automated message to the old topic to notify users where the messages were moved to.
 //
-//	**Changes**: Before Zulip 6.0 (feature level 152), this parameter had a default of `true` and was ignored unless the channel was changed.  New in Zulip 3.0 (feature level 9).
+// **Changes**: Before Zulip 6.0 (feature level 152), this parameter had a default of `true` and was ignored unless the channel was changed.  New in Zulip 3.0 (feature level 9).
 func (r UpdateMessageRequest) SendNotificationToOldThread(sendNotificationToOldThread bool) UpdateMessageRequest {
 	r.sendNotificationToOldThread = &sendNotificationToOldThread
 	return r
@@ -2512,7 +1738,7 @@ func (r UpdateMessageRequest) SendNotificationToOldThread(sendNotificationToOldT
 
 // Whether to send an automated message to the new topic to notify users where the messages came from.  If the move is just [resolving/unresolving a topic], this parameter will not trigger an additional notification.
 //
-//	**Changes**: Before Zulip 6.0 (feature level 152), this parameter was ignored unless the channel was changed.  New in Zulip 3.0 (feature level 9).
+// **Changes**: Before Zulip 6.0 (feature level 152), this parameter was ignored unless the channel was changed.  New in Zulip 3.0 (feature level 9).
 //
 // [resolving/unresolving a topic]: https://zulip.com/help/resolve-a-topic
 func (r UpdateMessageRequest) SendNotificationToNewThread(sendNotificationToNewThread bool) UpdateMessageRequest {
@@ -2530,7 +1756,7 @@ func (r UpdateMessageRequest) Content(content string) UpdateMessageRequest {
 
 // An optional SHA-256 hash of the previous raw content of the message that the client has at the time of the request.  If provided, the server will return an error if it does not match the SHA-256 hash of the message's content stored in the database.  Clients can use this feature to prevent races where multiple clients save conflicting edits to a message.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 379).
+// **Changes**: New in Zulip 11.0 (feature level 379).
 func (r UpdateMessageRequest) PrevContentSha256(prevContentSha256 string) UpdateMessageRequest {
 	r.prevContentSha256 = &prevContentSha256
 	return r
@@ -2538,7 +1764,7 @@ func (r UpdateMessageRequest) PrevContentSha256(prevContentSha256 string) Update
 
 // The channel Id to move the message(s) to, to request moving messages to another channel.  Should only be sent when changing the channel, and will throw an error if the target message is not a channel message.  Note that a message's content and channel cannot be changed at the same time, so sending both `content` and `stream_id` parameters will throw an error.
 //
-//	**Changes**: New in Zulip 3.0 (feature level 1).
+// **Changes**: New in Zulip 3.0 (feature level 1).
 func (r UpdateMessageRequest) ChannelId(channelId int64) UpdateMessageRequest {
 	r.channelId = &channelId
 	return r
@@ -2648,95 +1874,34 @@ func (c *simpleClient) UpdateMessage(ctx context.Context, messageId int64) Updat
 // Execute executes the request
 func (c *simpleClient) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *UpdateMessageResponse
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &UpdateMessageResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/messages/{message_id}"
+	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "topic", r.topic, "", "")
+	addOptionalParam(formParams, "propagate_mode", r.propagateMode, "", "")
+	addOptionalParam(formParams, "send_notification_to_old_thread", r.sendNotificationToOldThread, "form", "")
+	addOptionalParam(formParams, "send_notification_to_new_thread", r.sendNotificationToNewThread, "form", "")
+	addOptionalParam(formParams, "content", r.content, "", "")
+	addOptionalParam(formParams, "prev_content_sha256", r.prevContentSha256, "", "")
+	addOptionalParam(formParams, "stream_id", r.channelId, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/messages/{message_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.topic != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
-	}
-	if r.propagateMode != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "propagate_mode", r.propagateMode, "", "")
-	}
-	if r.sendNotificationToOldThread != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "send_notification_to_old_thread", r.sendNotificationToOldThread, "form", "")
-	}
-	if r.sendNotificationToNewThread != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "send_notification_to_new_thread", r.sendNotificationToNewThread, "form", "")
-	}
-	if r.content != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "content", r.content, "", "")
-	}
-	if r.prevContentSha256 != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "prev_content_sha256", r.prevContentSha256, "", "")
-	}
-	if r.channelId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateMessageFlagsRequest struct {
@@ -2787,85 +1952,39 @@ func (c *simpleClient) UpdateMessageFlags(ctx context.Context) UpdateMessageFlag
 // Execute executes the request
 func (c *simpleClient) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*UpdateMessageFlagsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *UpdateMessageFlagsResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &UpdateMessageFlagsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/messages/flags"
 
-	localVarPath := localBasePath + "/messages/flags"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.messages == nil {
-		return localVarReturnValue, nil, reportError("messages is required and must be specified")
+		return nil, nil, reportError("messages is required and must be specified")
 	}
 	if r.op == nil {
-		return localVarReturnValue, nil, reportError("op is required and must be specified")
+		return nil, nil, reportError("op is required and must be specified")
 	}
 	if r.flag == nil {
-		return localVarReturnValue, nil, reportError("flag is required and must be specified")
+		return nil, nil, reportError("flag is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "messages", r.messages, "form", "multi")
-	parameterAddToHeaderOrQuery(localVarFormParams, "op", r.op, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "flag", r.flag, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "messages", r.messages, "form", "multi")
+	addParam(formParams, "op", r.op, "", "")
+	addParam(formParams, "flag", r.flag, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateMessageFlagsForNarrowRequest struct {
@@ -2900,10 +2019,9 @@ func (r UpdateMessageFlagsForNarrowRequest) NumAfter(numAfter int32) UpdateMessa
 
 // The narrow you want update flags within. See how to [construct a narrow].  Note that, when adding the `read` flag to messages, clients should consider including a narrow with the `is:unread` filter as an optimization. Including that filter takes advantage of the fact that the server has a database index for unread messages.
 //
-//	**Changes**: See [changes section] of search/narrow filter documentation.
+// **Changes**: See [changes section] of search/narrow filter documentation.
 //
 // [construct a narrow]: https://zulip.com/api/construct-narrow
-//
 // [changes section]: https://zulip.com/api/construct-narrow#changes
 func (r UpdateMessageFlagsForNarrowRequest) Narrow(narrow *Narrow) UpdateMessageFlagsForNarrowRequest {
 	r.narrow = narrow
@@ -2954,106 +2072,58 @@ func (c *simpleClient) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMe
 // Execute executes the request
 func (c *simpleClient) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *UpdateMessageFlagsForNarrowResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &UpdateMessageFlagsForNarrowResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/messages/flags/narrow"
 
-	localVarPath := localBasePath + "/messages/flags/narrow"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.anchor == nil {
-		return localVarReturnValue, nil, reportError("anchor is required and must be specified")
+		return nil, nil, reportError("anchor is required and must be specified")
 	}
 	if r.numBefore == nil {
-		return localVarReturnValue, nil, reportError("numBefore is required and must be specified")
+		return nil, nil, reportError("numBefore is required and must be specified")
 	}
 	if *r.numBefore < 0 {
-		return localVarReturnValue, nil, reportError("numBefore must be greater than 0")
+		return nil, nil, reportError("numBefore must be greater than 0")
 	}
 	if r.numAfter == nil {
-		return localVarReturnValue, nil, reportError("numAfter is required and must be specified")
+		return nil, nil, reportError("numAfter is required and must be specified")
 	}
 	if *r.numAfter < 0 {
-		return localVarReturnValue, nil, reportError("numAfter must be greater than 0")
+		return nil, nil, reportError("numAfter must be greater than 0")
 	}
 	if r.narrow == nil {
-		return localVarReturnValue, nil, reportError("narrow is required and must be specified")
+		return nil, nil, reportError("narrow is required and must be specified")
 	}
 	if r.op == nil {
-		return localVarReturnValue, nil, reportError("op is required and must be specified")
+		return nil, nil, reportError("op is required and must be specified")
 	}
 	if r.flag == nil {
-		return localVarReturnValue, nil, reportError("flag is required and must be specified")
+		return nil, nil, reportError("flag is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "anchor", r.anchor, "", "")
-	if r.includeAnchor != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "include_anchor", r.includeAnchor, "form", "")
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "num_before", r.numBefore, "form", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "num_after", r.numAfter, "form", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "narrow", r.narrow, "form", "multi")
-	parameterAddToHeaderOrQuery(localVarFormParams, "op", r.op, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "flag", r.flag, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "anchor", r.anchor, "", "")
+	addOptionalParam(formParams, "include_anchor", r.includeAnchor, "form", "")
+	addParam(formParams, "num_before", r.numBefore, "form", "")
+	addParam(formParams, "num_after", r.numAfter, "form", "")
+	addParam(formParams, "narrow", r.narrow, "form", "multi")
+	addParam(formParams, "op", r.op, "", "")
+	addParam(formParams, "flag", r.flag, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UploadFileRequest struct {
@@ -3115,40 +2185,20 @@ func (c *simpleClient) UploadFile(ctx context.Context) UploadFileRequest {
 // Execute executes the request
 func (c *simpleClient) UploadFileExecute(r UploadFileRequest) (*UploadFileResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *UploadFileResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		formFiles   []formFile
+		response    = &UploadFileResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/user_uploads"
 
-	localVarPath := localBasePath + "/user_uploads"
+	headers["Content-Type"] = "multipart/form-data"
+	headers["Accept"] = "application/json"
 
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"multipart/form-data"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
 	var filenameLocalVarFormFileName string
 	var filenameLocalVarFileName string
 	var filenameLocalVarFileBytes []byte
@@ -3164,37 +2214,11 @@ func (c *simpleClient) UploadFileExecute(r UploadFileRequest) (*UploadFileRespon
 		filenameLocalVarFile.Close()
 		formFiles = append(formFiles, formFile{fileBytes: filenameLocalVarFileBytes, fileName: filenameLocalVarFileName, formFileName: filenameLocalVarFormFileName})
 	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, formFiles)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }

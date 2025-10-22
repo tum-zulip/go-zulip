@@ -1,9 +1,7 @@
 package zulip
 
 import (
-	"bytes"
 	"context"
-	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -110,84 +108,36 @@ func (c *simpleClient) AddNavigationView(ctx context.Context) AddNavigationViewR
 // Execute executes the request
 func (c *simpleClient) AddNavigationViewExecute(r AddNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/navigation_views"
 
-	localVarPath := localBasePath + "/navigation_views"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.fragment == nil {
-		return localVarReturnValue, nil, reportError("fragment is required and must be specified")
+		return nil, nil, reportError("fragment is required and must be specified")
 	}
 	if r.isPinned == nil {
-		return localVarReturnValue, nil, reportError("isPinned is required and must be specified")
+		return nil, nil, reportError("isPinned is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "fragment", r.fragment, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "is_pinned", r.isPinned, "", "")
-	if r.name != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "fragment", r.fragment, "", "")
+	addParam(formParams, "is_pinned", r.isPinned, "", "")
+	addOptionalParam(formParams, "name", r.name, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type EditNavigationViewRequest struct {
@@ -231,80 +181,29 @@ func (c *simpleClient) EditNavigationView(ctx context.Context, fragment string) 
 // Execute executes the request
 func (c *simpleClient) EditNavigationViewExecute(r EditNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/navigation_views/{fragment}"
+	endpoint = strings.Replace(endpoint, "{"+"fragment"+"}", url.PathEscape(r.fragment), -1)
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "is_pinned", r.isPinned, "", "")
+	addOptionalParam(formParams, "name", r.name, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/navigation_views/{fragment}"
-	localVarPath = strings.Replace(localVarPath, "{"+"fragment"+"}", url.PathEscape(parameterValueToString(r.fragment, "fragment")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.isPinned != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_pinned", r.isPinned, "", "")
-	}
-	if r.name != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetNavigationViewsRequest struct {
@@ -331,73 +230,26 @@ func (c *simpleClient) GetNavigationViews(ctx context.Context) GetNavigationView
 // Execute executes the request
 func (c *simpleClient) GetNavigationViewsExecute(r GetNavigationViewsRequest) (*GetNavigationViewsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetNavigationViewsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetNavigationViewsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/navigation_views"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/navigation_views"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RemoveNavigationViewRequest struct {
@@ -426,72 +278,25 @@ func (c *simpleClient) RemoveNavigationView(ctx context.Context, fragment string
 // Execute executes the request
 func (c *simpleClient) RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/navigation_views/{fragment}"
+	endpoint = strings.Replace(endpoint, "{"+"fragment"+"}", url.PathEscape(r.fragment), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/navigation_views/{fragment}"
-	localVarPath = strings.Replace(localVarPath, "{"+"fragment"+"}", url.PathEscape(parameterValueToString(r.fragment, "fragment")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }

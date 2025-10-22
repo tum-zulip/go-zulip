@@ -1,9 +1,7 @@
 package zulip
 
 import (
-	"bytes"
 	"context"
-	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -75,7 +73,7 @@ func (r CreateMessageReminderRequest) ScheduledDeliveryTimestamp(scheduledDelive
 
 // A note associated with the reminder shown in the Notification Bot message.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 415).
+// **Changes**: New in Zulip 11.0 (feature level 415).
 func (r CreateMessageReminderRequest) Note(note string) CreateMessageReminderRequest {
 	r.note = &note
 	return r
@@ -100,82 +98,29 @@ func (c *simpleClient) CreateMessageReminder(ctx context.Context) CreateMessageR
 // Execute executes the request
 func (c *simpleClient) CreateMessageReminderExecute(r CreateMessageReminderRequest) (*CreateMessageReminderResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *CreateMessageReminderResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &CreateMessageReminderResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/reminders"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "message_id", r.messageId, "", "")
+	addOptionalParam(formParams, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp, "", "")
+	addOptionalParam(formParams, "note", r.note, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/reminders"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.messageId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "message_id", r.messageId, "", "")
-	}
-	if r.scheduledDeliveryTimestamp != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp, "", "")
-	}
-	if r.note != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "note", r.note, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type DeleteReminderRequest struct {
@@ -206,74 +151,27 @@ func (c *simpleClient) DeleteReminder(ctx context.Context, reminderId int64) Del
 // Execute executes the request
 func (c *simpleClient) DeleteReminderExecute(r DeleteReminderRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/reminders/{reminder_id}"
+	endpoint = strings.Replace(endpoint, "{"+"reminder_id"+"}", idToString(r.reminderId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/reminders/{reminder_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"reminder_id"+"}", url.PathEscape(parameterValueToString(r.reminderId, "reminderId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetRemindersRequest struct {
@@ -306,71 +204,24 @@ func (c *simpleClient) GetReminders(ctx context.Context) GetRemindersRequest {
 // Execute executes the request
 func (c *simpleClient) GetRemindersExecute(r GetRemindersRequest) (*GetRemindersResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetRemindersResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetRemindersResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/reminders"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/reminders"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }

@@ -106,7 +106,7 @@ type UserSettings struct {
 	//   - TopicInteractionTopicsTheUserStarts
 	//   - TopicInteractionNever
 	//
-	//  **Changes**: New in Zulip 8.0 (feature level 214).
+	// **Changes**: New in Zulip 8.0 (feature level 214).
 	//
 	// [topics to follow automatically]: https://zulip.com/help/mute-a-topic
 	AutomaticallyFollowTopicsPolicy TopicInteraction `json:"automatically_follow_topics_policy,omitempty"`

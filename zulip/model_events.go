@@ -90,7 +90,7 @@ type HeartbeatEvent struct{ EventCommon }
 
 // InvitesChangedEvent A simple event sent when the set of invitations changes. This event is sent to organization administrators and the creator of the changed invitation; this tells clients they need to refetch data from `GET /invites` if they are displaying UI containing active invitations.
 //
-//	**Changes**: Before Zulip 8.0 (feature level 209), this event was only sent to organization administrators.
+// **Changes**: Before Zulip 8.0 (feature level 209), this event was only sent to organization administrators.
 type InvitesChangedEvent struct{ EventCommon }
 
 type AlertWordsEvent struct {
@@ -102,7 +102,7 @@ type AlertWordsEvent struct {
 
 // MessageEvent Event type for messages.
 //
-//	**Changes**: In Zulip 3.1 (feature level 26), the `sender_short_name` field was removed from message objects.
+// **Changes**: In Zulip 3.1 (feature level 26), the `sender_short_name` field was removed from message objects.
 type MessageEvent struct {
 	EventCommon
 
@@ -292,7 +292,7 @@ func (m *MessagesEventData) UnmarshalJSON(data []byte) error {
 
 // UpdateDisplaySettingsEvent Event sent to clients that have requested the `update_display_settings` event type and did not include `user_settings_object` in their `client_capabilities` when registering the event queue.
 //
-//	**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
+// **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
 type UpdateDisplaySettingsEvent struct {
 	EventCommon
 
@@ -316,7 +316,7 @@ type HasZoomTokenEvent struct {
 
 // RealmUserAddEvent Event sent to all users in a Zulip organization when a new user joins or when a guest user gains access to a user. Processing this event is important to being able to display basic details on other users given only their Id.  If the current user is a guest whose access to a newly created user is limited by a `can_access_all_users_group` policy, and the event queue was registered with the `user_list_incomplete` client capability, then the event queue will not receive an event for such a new user. If a newly created user is inaccessible to the current user via such a policy, but the client lacks `user_list_incomplete` client capability, then this event will be delivered to the queue, with an "Unknown user" object with the usual format but placeholder data whose only variable content is the user Id.
 //
-//	**Changes**: Before Zulip 8.0 (feature level 232), the `user_list_incomplete` client capability did not exist, and so all clients whose access to a new user was prevented by `can_access_all_users_group` policy would receive a fake "Unknown user" event for such a user.  Starting with Zulip 8.0 (feature level 228), this event is also sent when a guest user gains access to a user.
+// **Changes**: Before Zulip 8.0 (feature level 232), the `user_list_incomplete` client capability did not exist, and so all clients whose access to a new user was prevented by `can_access_all_users_group` policy would receive a fake "Unknown user" event for such a user.  Starting with Zulip 8.0 (feature level 228), this event is also sent when a guest user gains access to a user.
 type RealmUserAddEvent struct {
 	EventCommonWithOp
 
@@ -325,7 +325,7 @@ type RealmUserAddEvent struct {
 
 // RealmUserRemoveEvent Event sent to guest users when they lose access to a user.
 //
-//	**Changes**: As of Zulip 8.0 (feature level 228), this event is no longer deprecated.  In Zulip 8.0 (feature level 222), this event was deprecated and no longer sent to clients. Prior to this feature level, it was sent to all users in a Zulip organization when a user was deactivated.
+// **Changes**: As of Zulip 8.0 (feature level 228), this event is no longer deprecated.  In Zulip 8.0 (feature level 222), this event was deprecated and no longer sent to clients. Prior to this feature level, it was sent to all users in a Zulip organization when a user was deactivated.
 type RealmUserRemoveEvent struct {
 	EventCommonWithOp
 
@@ -343,7 +343,7 @@ type UserInfo struct {
 
 // PresenceEvent Event sent to all users in an organization when a user comes back online after being offline for a while.  In addition to handling these events, a client that wants to maintain presence data must poll the [main presence endpoint]. Most updates to presence data, refreshing the timestamps of users who are already online, do not appear in the event queue. This design is an optimization by allowing those updates to be batched up, because there is no urgency in the information that an already-online user is still online.  These events are provided because when a user transitions from offline to online, that is information the client may want to show promptly in the UI to avoid showing a confusing state (for example, if the newly-online user sends a message or otherwise demonstrates they're online).  If the client supports the `simplified_presence_events` [client capability], the `simplified_presence_events` client capability did not exist. Therefore, all events were in the legacy format, and did not include the `presences` field.  Prior to Zulip 8.0 (feature level 228), this event was sent to all users in the organization.
 //
-//	**Changes**: Prior to Zulip 11.0 (feature level 419
+// **Changes**: Prior to Zulip 11.0 (feature level 419
 //
 // [main presence endpoint]: https://zulip.com/api/get-presence
 // [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities, these events will include the `presences` field, which provides the modified user's presence data in the modern format. Clients are strongly encouraged to implement this client capability, as legacy format support will be removed in a future release.  If the `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level setting is set to `true`, then the event is only sent to users who can access the user who came back online.
@@ -380,7 +380,7 @@ type PresenceEventDeprecated struct {
 
 // ChannelCreateEvent Event sent when a new channel is created to users who can see the new channel exists (for private channels, only subscribers and organization administrators will receive this event).  This event is also sent when a user gains access to a channel they previously [could not access], such as when their [role] changes, a private channel is made public, or a guest user is subscribed to a public (or private) channel.  This event is also sent when a channel is unarchived but only to clients that did not declare the `archived_channels` [client capability].  Note that organization administrators who are not subscribed will not be able to see content on the channel; just that it exists.
 //
-//	**Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was unarchived.  Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users a web-public channel was created.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user gained access to a channel due to their role changing.  Prior to Zulip 8.0 (feature level 192), this event was not sent when guest users gained access to a public channel by being subscribed.  Prior to Zulip 6.0 (feature level 134), this event was not sent when a private channel was made public.
+// **Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was unarchived.  Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users a web-public channel was created.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user gained access to a channel due to their role changing.  Prior to Zulip 8.0 (feature level 192), this event was not sent when guest users gained access to a public channel by being subscribed.  Prior to Zulip 6.0 (feature level 134), this event was not sent when a private channel was made public.
 //
 // [could not access]: https://zulip.com/help/channel-permissions
 // [role]: https://zulip.com/help/user-roles
@@ -392,7 +392,7 @@ type ChannelCreateEvent struct {
 
 // ChannelDeleteEvent Event sent when a user loses access to a channel they previously [could access] because they are unsubscribed from a private channel or their [role] has changed.  This event is also sent when a channel is archived but only to clients that did not declare the `archived_channels` [client capability].
 //
-//	**Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was archived.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user lost access to a channel due to their role changing.
+// **Changes**: Prior to Zulip 11.0 (feature level 378), this event was sent to all the users who could see the channel when it was archived.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user lost access to a channel due to their role changing.
 //
 // [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
 // [could access]: https://zulip.com/help/channel-permissions
@@ -402,7 +402,7 @@ type ChannelDeleteEvent struct {
 
 	// Array of objects, each containing Id of the channel that was deleted.
 	//
-	// **Changes**: **Deprecated** in Zulip 10.0 (feature level 343) and will be removed in a future release. Previously, these objects additionally contained all the standard fields for a channel object.
+	// **Changes**:**Deprecated** in Zulip 10.0 (feature level 343) and will be removed in a future release. Previously, these objects additionally contained all the standard fields for a channel object.
 	// Deprecated
 	Channels []interface{} `json:"streams,omitempty"`
 
@@ -414,7 +414,7 @@ type ChannelDeleteEvent struct {
 
 // ChannelUpdateEvent Event sent to all users who can see that a channel exists when a property of that channel changes. See [GET /streams] response for details on the various properties of a channel.  This event is also sent when archiving or unarchiving a channel to all the users who can see that channel exists but only to the clients that declared the `archived_channels` [client capability].
 //
-//	**Changes**: Prior to Zulip 11.0 (feature level 378), this event was never sent when archiving or unarchiving a channel.  Before Zulip 9.0 (feature level 256), this event was never sent when the `first_message_id` property of a channel was updated because the oldest message that had been sent to it changed.
+// **Changes**: Prior to Zulip 11.0 (feature level 378), this event was never sent when archiving or unarchiving a channel.  Before Zulip 9.0 (feature level 256), this event was never sent when the `first_message_id` property of a channel was updated because the oldest message that had been sent to it changed.
 //
 // [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
 // [GET /streams]: https://zulip.com/api/get-streams#response
@@ -490,7 +490,7 @@ type ReactionEvent struct {
 
 // UpdateGlobalNotificationsEvent Event sent to a user's clients when that user's [notification settings] have changed with an additional rule that it is only sent to clients that did not include `user_settings_object` in their `client_capabilities` when registering the event queue.
 //
-//	**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
+// **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
 //
 // [notification settings]: https://zulip.com/api/update-settings
 type UpdateGlobalNotificationsEvent struct {
@@ -566,7 +566,7 @@ type AttachmentId struct {
 
 // PushDeviceEvent Event sent to a user's clients when the metadata in the `push_devices` dictionary for the user changes.  Helps clients to live-update the `push_devices` dictionary returned in [`POST /register`] response.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 406).
+// **Changes**: New in Zulip 11.0 (feature level 406).
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 type PushDeviceEvent struct {
@@ -667,7 +667,7 @@ type DefaultChannelsEvent struct {
 
 // UserSettingsUpdateEvent Event sent to a user's clients when that user's settings have changed.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 89), replacing the previous `update_display_settings` and `update_global_notifications` event types, which are still present for backwards compatibility reasons.
+// **Changes**: New in Zulip 5.0 (feature level 89), replacing the previous `update_display_settings` and `update_global_notifications` event types, which are still present for backwards compatibility reasons.
 type UserSettingsUpdateEvent struct {
 	EventCommonWithOp
 	// Name of the changed setting.
@@ -679,7 +679,7 @@ type UserSettingsUpdateEvent struct {
 
 // UserStatusEvent Event sent to all users who can access the modified user when the status of a user changes.
 //
-//	**Changes**: Prior to Zulip 8.0 (feature level 228), this event was sent to all users in the organization.
+// **Changes**: Prior to Zulip 8.0 (feature level 228), this event was sent to all users in the organization.
 type UserStatusEvent struct {
 	EventCommon
 	UserStatus
@@ -690,7 +690,7 @@ type UserStatusEvent struct {
 
 // DeleteMessageEvent Event sent when a message has been deleted.  Sent to all users who currently are subscribed to the messages' recipient. May also be sent to additional users who had access to it, including, in particular, an administrator user deleting messages in a stream that they are not subscribed to.  This means that clients can assume that they will always receive an event of this type for deletions that the client itself initiated.  This event is also sent when the user loses access to a message, such as when it is [moved to a channel] that the user does not [have permission to access].
 //
-//	**Changes**: Before Zulip 9.0 (feature level 274), this event was only sent to subscribers of the message's recipient.  Before Zulip 5.0 (feature level 77), events for direct messages contained additional `sender_id` and `recipient_id` fields.
+// **Changes**: Before Zulip 9.0 (feature level 274), this event was only sent to subscribers of the message's recipient.  Before Zulip 5.0 (feature level 77), events for direct messages contained additional `sender_id` and `recipient_id` fields.
 //
 // [moved to a channel]: https://zulip.com/help/move-content-to-another-channel
 // [have permission to access]: https://zulip.com/help/channel-permissions
@@ -725,7 +725,7 @@ type DeleteMessageEvent struct {
 
 // UserTopicEvent Event sent to a user's clients when the user mutes/unmutes a topic, or otherwise modifies their personal per-topic configuration.
 //
-//	**Changes**: New in Zulip 6.0 (feature level 134). Previously, clients were notified about changes in muted topic configuration via the `muted_topics` event type.
+// **Changes**: New in Zulip 6.0 (feature level 134). Previously, clients were notified about changes in muted topic configuration via the `muted_topics` event type.
 type UserTopicEvent struct {
 	EventCommon
 	UserTopic
@@ -743,7 +743,7 @@ type MutedTopicsEvent struct {
 
 // MutedUsersEvent Event sent to a user's clients when that user's set of configured [muted users] have changed.
 //
-//	**Changes**: New in Zulip 4.0 (feature level 48).
+// **Changes**: New in Zulip 4.0 (feature level 48).
 //
 // [muted users]: https://zulip.com/api/mute-user
 type MutedUsersEvent struct {
@@ -754,7 +754,7 @@ type MutedUsersEvent struct {
 
 // OnboardingStepsEvent Event sent when the set of onboarding steps to show for the current user has changed (e.g. because the user dismissed one).  Clients that feature a similar tutorial experience to the Zulip web app may want to handle these events.
 //
-//	**Changes**: Before Zulip 8.0 (feature level 233), this event was named `hotspots`. Prior to this feature level, one-time notice onboarding steps were not supported.
+// **Changes**: Before Zulip 8.0 (feature level 233), this event was named `hotspots`. Prior to this feature level, one-time notice onboarding steps were not supported.
 type OnboardingStepsEvent struct {
 	EventCommon
 	// An array of dictionaries where each dictionary contains details about a single onboarding step.
@@ -860,7 +860,7 @@ type UpdateMessageEvent struct {
 
 // TypingStartEvent Event sent when a user starts typing a message.  Sent to all clients for users who would receive the message being typed, with the additional rule that typing notifications for channel messages are only sent to clients that included `stream_typing_notifications` in their [client capabilities] when registering the event queue.  See [POST /typing] endpoint for more details.
 //
-//	**Changes**: Typing notifications for channel messages are new in Zulip 4.0 (feature level 58).
+// **Changes**: Typing notifications for channel messages are new in Zulip 4.0 (feature level 58).
 //
 // [client capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 // [POST /typing]: https://zulip.com/api/set-typing-status
@@ -897,7 +897,7 @@ type UserIdentifier struct {
 
 // TypingEditMessageStartEvent Event sent when a user starts editing a message. Event sent when a user starts typing in a textarea to edit the content of a message. See the [edit message typing notifications endpoint].  Clients requesting `typing_edit_message` event type that have `receives_typing_notifications` enabled will receive this event if they would have been notified if the message's content edit were to be saved (E.g., because they were a direct message recipient or are a subscribe to the channel).
 //
-//	**Changes**: New in Zulip 10.0 (feature level 351). Previously, typing notifications were not available when editing messages.
+// **Changes**: New in Zulip 10.0 (feature level 351). Previously, typing notifications were not available when editing messages.
 //
 // [edit message typing notifications endpoint]: https://zulip.com/api/set-typing-status-for-message-edit
 type TypingEditMessageEvent struct {
@@ -924,7 +924,7 @@ type RecipientData struct {
 
 // RealmUserUpdateEvent Event sent generally to all users who can access the modified user for changes in the set of users or those users metadata.
 //
-//	**Changes**: Prior to Zulip 8.0 (feature level 228), this event was sent to all users in the organization.
+// **Changes**: Prior to Zulip 8.0 (feature level 228), this event was sent to all users in the organization.
 type RealmUserUpdateEvent struct {
 	EventCommonWithOp
 
@@ -933,7 +933,7 @@ type RealmUserUpdateEvent struct {
 
 // UserUpdate - Object containing the changed details of the user. It has multiple forms depending on the value changed.
 //
-//	**Changes**: Removed `is_billing_admin` field in Zulip 10.0 (feature level 363), as it was replaced by the `can_manage_billing_group` realm setting.
+// **Changes**: Removed `is_billing_admin` field in Zulip 10.0 (feature level 363), as it was replaced by the `can_manage_billing_group` realm setting.
 type UserUpdate struct {
 	// The Id of the user who is affected by this change.
 	UserId int64 `json:"user_id,omitempty"`
@@ -991,7 +991,7 @@ type UserUpdateEventRole struct {
 
 // UserUpdateEventDeliveryEmail When the value of a user's delivery email as visible to you changes, either due to the email address changing or your access to the user's email changing via an update to their `email_address_visibility` setting.
 //
-//	**Changes**: Prior to Zulip 7.0 (feature level 163), this event was sent only to the affected user, and this event would only be triggered by changing the affected user's delivery email.
+// **Changes**: Prior to Zulip 7.0 (feature level 163), this event was sent only to the affected user, and this event would only be triggered by changing the affected user's delivery email.
 type UserUpdateEventDeliveryEmail struct {
 	// The new delivery email of the user.  This value can be `null` if the affected user changed their `email_address_visibility` setting such that you cannot access their real email.
 	//
@@ -1014,7 +1014,7 @@ type UserUpdateEventEmail struct {
 
 // UserUpdateEventActivation When a user is deactivated or reactivated. Only users who can access the modified user under the organization's `can_access_all_users_group` policy will receive this event.  Clients receiving a deactivation event should remove the user from all user groups in their data structures, because deactivated users cannot be members of groups.
 //
-//	**Changes**: Prior to Zulip 10.0 (feature level 303), reactivation events were sent to users who could not access the reactivated user due to a `can_access_all_users_group` policy. Also, previously, Clients were not required to update group membership records during user deactivation.  New in Zulip 8.0 (feature level 222). Previously the server sent a `realm_user` event with `op` field set to `remove` when deactivating a user and a `realm_user` event with `op` field set to `add` when reactivating a user.
+// **Changes**: Prior to Zulip 10.0 (feature level 303), reactivation events were sent to users who could not access the reactivated user due to a `can_access_all_users_group` policy. Also, previously, Clients were not required to update group membership records during user deactivation.  New in Zulip 8.0 (feature level 222). Previously the server sent a `realm_user` event with `op` field set to `remove` when deactivating a user and a `realm_user` event with `op` field set to `add` when reactivating a user.
 type UserUpdateEventActivation struct {
 	// A boolean describing whether the user account has been deactivated.
 	IsActive bool `json:"is_active,omitempty"`
@@ -1103,7 +1103,7 @@ type UserGroupAddEvent struct {
 
 // UserGroupRemoveEvent Event sent when a user group is deactivated but only to clients with `include_deactivated_groups` client capability set to `false`.
 //
-//	**Changes**: Prior to Zulip 10.0 (feature level 294), this event was sent when a user group was deleted.
+// **Changes**: Prior to Zulip 10.0 (feature level 294), this event was sent when a user group was deleted.
 type UserGroupRemoveEvent struct {
 	EventCommonWithOp
 
@@ -1113,7 +1113,7 @@ type UserGroupRemoveEvent struct {
 
 // UserGroupUpdateEvent Event sent to all users in a Zulip organization when a property of a user group is changed.  For group deactivation, this event is only sent if `include_deactivated_groups` client capability is set to `true`.  This event is also sent when deactivating or reactivating a user for settings set to anonymous user groups which the user is direct member of. When deactivating the user, event is only sent to users who cannot access the deactivated user.
 //
-//	**Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when deactivating or reactivating a user.  Prior to Zulip 10.0 (feature level 294), this event was sent to all clients when a user group was deactivated.
+// **Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when deactivating or reactivating a user.  Prior to Zulip 10.0 (feature level 294), this event was sent to all clients when a user group was deactivated.
 type UserGroupUpdateEvent struct {
 	EventCommonWithOp
 
@@ -1142,7 +1142,7 @@ type UserGroupUpdateData struct {
 
 // UserGroupAddMembersEvent Event sent to all users when users have been added to a user group.  This event is also sent when reactivating a user for all the user groups the reactivated user was a member of before being deactivated.
 //
-//	**Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when reactivating a user.
+// **Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when reactivating a user.
 type UserGroupMembersEvent struct {
 	EventCommonWithOp
 
@@ -1154,7 +1154,7 @@ type UserGroupMembersEvent struct {
 
 // UserGroupAddSubgroupsEvent Event sent to all users when subgroups have been added to a user group.
 //
-//	**Changes**: New in Zulip 6.0 (feature level 127).
+// **Changes**: New in Zulip 6.0 (feature level 127).
 type UserGroupSubgroupsEvent struct {
 	EventCommonWithOp
 
@@ -1194,7 +1194,7 @@ type SubscriptionRemoveData struct {
 
 // RealmLinkifiersEvent Event sent to all users in a Zulip organization when the set of configured [linkifiers] for the organization has changed.  Processing this event is important for doing Markdown local echo correctly.  Clients will not receive this event unless the event queue is registered with the client capability `{"linkifier_url_template": true}`. See [`POST /register`], the `linkifier_url_template` client capability was not required. The requirement was added because linkifiers were updated to contain a URL template instead of a URL format string, which was not a backwards-compatible change.  New in Zulip 4.0 (feature level 54), replacing the deprecated `realm_filters` event type.
 //
-//	**Changes**: Before Zulip 7.0 (feature level 176
+// **Changes**: Before Zulip 7.0 (feature level 176
 //
 // [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
 // [`POST /register`]: https://zulip.com/api/register-queue#parameter-client_capabilities for how client capabilities can be specified.
@@ -1208,7 +1208,7 @@ type RealmLinkifiersEvent struct {
 
 // RealmPlaygroundsEvent Event sent to all users in a Zulip organization when the set of configured [code playgrounds] for the organization has changed.
 //
-//	**Changes**: New in Zulip 4.0 (feature level 49).
+// **Changes**: New in Zulip 4.0 (feature level 49).
 //
 // [code playgrounds]: https://zulip.com/help/code-blocks#code-playgrounds
 type RealmPlaygroundsEvent struct {
@@ -1228,7 +1228,7 @@ type RealmDomainsAddEvent struct {
 
 // RealmFiltersEvent Legacy event type that is no longer sent to clients. Previously, sent to all users in a Zulip organization when the set of configured [linkifiers] for the organization was changed.
 //
-//	**Changes**: Prior to Zulip 7.0 (feature level 176), this event type was sent to clients.  **Deprecated** in Zulip 4.0 (feature level 54), and replaced by the `realm_linkifiers` event type, which has a clearer name and format.
+// **Changes**: Prior to Zulip 7.0 (feature level 176), this event type was sent to clients.  **Deprecated** in Zulip 4.0 (feature level 54), and replaced by the `realm_linkifiers` event type, which has a clearer name and format.
 //
 // # Deprecated
 //
@@ -1314,7 +1314,7 @@ type RealmBotDeleteEvent struct {
 
 // RealmUpdateEvent The simpler of two possible event types sent to all users in a Zulip organization when the configuration of the organization (realm) has changed.  Often individual settings are migrated from this format to the [realm/update_dict] event format when additional realm settings are added whose values are coupled to each other in some way. The specific values supported by this event type are documented in the [realm/update_dict] documentation.  A correct client implementation should convert these events into the corresponding [realm/update_dict] event and then process that.
 //
-//	**Changes**: Removed `extra_data` optional property in Zulip 10.0 (feature level 306). The `extra_data` used to include an `upload_quota` field when changed property was `plan_type`. The server now sends a standard `realm/update_dict` event for plan changes.
+// **Changes**: Removed `extra_data` optional property in Zulip 10.0 (feature level 306). The `extra_data` used to include an `upload_quota` field when changed property was `plan_type`. The server now sends a standard `realm/update_dict` event for plan changes.
 //
 // [realm/update_dict]: https://zulip.com/api/get-events#realm-update_dict
 type RealmUpdateEvent struct {
@@ -1335,7 +1335,7 @@ type RealmDeactivatedEvent struct {
 
 // RestartEvent Event sent to all the users whenever the Zulip server restarts.  Specifically, this event is sent whenever the Tornado process for the user is restarted; in particular, this will always happen when the Zulip server is upgraded.  Clients should use this event to update their tracking of the server's capabilities, and to decide if they wish to get a new event queue after a server upgrade. Clients doing so must implement a random delay strategy to spread such restarts over 5 minutes or more to avoid creating a synchronized thundering herd effect.
 //
-//	**Changes**: Removed the `immediate` flag, which was only used by web clients in development, in Zulip 9.0 (feature level 240).
+// **Changes**: Removed the `immediate` flag, which was only used by web clients in development, in Zulip 9.0 (feature level 240).
 type RestartEvent struct {
 	EventCommonWithOp
 
@@ -1401,7 +1401,7 @@ func (e *RestartEvent) MarshalJSON() ([]byte, error) {
 
 // WebReloadClientEvent An event which signals the official Zulip web/desktop app to update, by reloading the page and fetching a new queue; this will generally follow a `restart` event. Clients which do not obtain their code from the server (e.g. mobile and terminal clients, which store their code locally) should ignore this event.  Clients choosing to reload the application must implement a random delay strategy to spread such restarts over 5 or more minutes to avoid creating a synchronized thundering herd effect.
 //
-//	**Changes**: New in Zulip 9.0 (feature level 240).
+// **Changes**: New in Zulip 9.0 (feature level 240).
 type WebReloadClientEvent struct {
 	EventCommon
 	// Whether the client should fetch a new event queue immediately, rather than using a backoff strategy to avoid thundering herds. A Zulip development server uses this parameter to reload clients immediately.
@@ -1410,10 +1410,9 @@ type WebReloadClientEvent struct {
 
 // RealmUpdateDictEvent The more general of two event types that may be used when sending an event to all users in a Zulip organization when the configuration of the organization (realm) has changed.  Unlike the simpler [realm/update] event format, this event type supports multiple properties being changed in a single event.  This event is also sent when deactivating or reactivating a user for settings set to anonymous user groups which the user is direct member of. When deactivating the user, event is only sent to users who cannot access the deactivated user.
 //
-//	**Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when deactivating or reactivating a user.  In Zulip 7.0 (feature level 163), the realm setting `email_address_visibility` was removed. It was replaced by a [user setting] with a [realm user default], with the encoding of different values preserved. Clients can support all versions by supporting the current API and treating every user as having the realm's `email_address_visibility` value.
+// **Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when deactivating or reactivating a user.  In Zulip 7.0 (feature level 163), the realm setting `email_address_visibility` was removed. It was replaced by a [user setting] with a [realm user default], with the encoding of different values preserved. Clients can support all versions by supporting the current API and treating every user as having the realm's `email_address_visibility` value.
 //
 // [realm/update]: https://zulip.com/api/get-events#realm-update
-//
 // [realm user default]: https://zulip.com/api/update-realm-user-settings-defaults#parameter-email_address_visibility
 // [user setting]: https://zulip.com/api/update-settings#parameter-email_address_visibility
 type RealmUpdateDictEvent struct {
@@ -1480,7 +1479,7 @@ type RealmUserSettingsDefaultsUpdateEvent struct {
 
 // NavigationViewAddEvent Event containing details of a newly configured navigation view.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 390).
+// **Changes**: New in Zulip 11.0 (feature level 390).
 type NavigationViewAddEvent struct {
 	EventCommonWithOp
 
@@ -1489,7 +1488,7 @@ type NavigationViewAddEvent struct {
 
 // NavigationViewUpdateEvent Event containing details of an update to an existing navigation view.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 390).
+// **Changes**: New in Zulip 11.0 (feature level 390).
 type NavigationViewUpdateEvent struct {
 	EventCommonWithOp
 
@@ -1508,7 +1507,7 @@ type NavigationViewUpdateData struct {
 
 // NavigationViewRemoveEvent Event containing the fragment of a deleted navigation view.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 390).
+// **Changes**: New in Zulip 11.0 (feature level 390).
 type NavigationViewRemoveEvent struct {
 	EventCommonWithOp
 
@@ -1518,7 +1517,7 @@ type NavigationViewRemoveEvent struct {
 
 // SavedSnippetsEvent Event containing details of a newly created saved snippet.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 297).
+// **Changes**: New in Zulip 10.0 (feature level 297).
 type SavedSnippetsEvent struct {
 	EventCommonWithOp
 
@@ -1527,7 +1526,7 @@ type SavedSnippetsEvent struct {
 
 // SavedSnippetsRemoveEvent Event containing the Id of a deleted saved snippet.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 297).
+// **Changes**: New in Zulip 10.0 (feature level 297).
 type SavedSnippetsRemoveEvent struct {
 	EventCommonWithOp
 
@@ -1539,7 +1538,7 @@ type SavedSnippetsRemoveEvent struct {
 
 // RemindersAddEvent Event sent to a user's clients when a reminder is scheduled.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 399).
+// **Changes**: New in Zulip 11.0 (feature level 399).
 type RemindersAddEvent struct {
 	EventCommonWithOp
 
@@ -1549,7 +1548,7 @@ type RemindersAddEvent struct {
 
 // RemindersRemoveEvent Event sent to a user's clients when a reminder is deleted.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 399).
+// **Changes**: New in Zulip 11.0 (feature level 399).
 type RemindersRemoveEvent struct {
 	EventCommonWithOp
 
@@ -1559,10 +1558,9 @@ type RemindersRemoveEvent struct {
 
 // SubscriptionPeerAddEvent Event sent when another user subscribes to a channel, or their subscription is newly visible to the current user.  When a user subscribes to a channel, the current user will receive this event only if they [have permission to see the channel's subscriber list]. When the current user gains permission to see a given channel's subscriber list, they will receive this event for the existing subscriptions to the channel.
 //
-//	**Changes**: Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users when subscribers to web-public channels and subscribed public channels changed.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user gained access to a channel due to their [role changing].  Prior to Zulip 6.0 (feature level 134), this event was not sent when a private channel was made public.  In Zulip 4.0 (feature level 35), the singular `user_id` and `stream_id` integers included in this event were replaced with plural `user_ids` and `stream_ids` integer arrays.  In Zulip 3.0 (feature level 19), the `stream_id` field was added to identify the channel the user subscribed to, replacing the `name` field.
+// **Changes**: Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users when subscribers to web-public channels and subscribed public channels changed.  Prior to Zulip 8.0 (feature level 205), this event was not sent when a user gained access to a channel due to their [role changing].  Prior to Zulip 6.0 (feature level 134), this event was not sent when a private channel was made public.  In Zulip 4.0 (feature level 35), the singular `user_id` and `stream_id` integers included in this event were replaced with plural `user_ids` and `stream_ids` integer arrays.  In Zulip 3.0 (feature level 19), the `stream_id` field was added to identify the channel the user subscribed to, replacing the `name` field.
 //
 // [have permission to see the channel's subscriber list]: https://zulip.com/help/channel-permissions
-//
 // [role changing]: https://zulip.com/help/user-roles
 type SubscriptionPeerAddEvent struct {
 	EventCommonWithOp
@@ -1579,7 +1577,7 @@ type SubscriptionPeerAddEvent struct {
 
 // ScheduledMessagesAddEvent Event sent to a user's clients when scheduled messages are created.
 //
-//	**Changes**: New in Zulip 7.0 (feature level 179).
+// **Changes**: New in Zulip 7.0 (feature level 179).
 type ScheduledMessagesAddEvent struct {
 	EventCommonWithOp
 
@@ -1589,7 +1587,7 @@ type ScheduledMessagesAddEvent struct {
 
 // ScheduledMessagesUpdateEvent Event sent to a user's clients when a scheduled message is edited.
 //
-//	**Changes**: New in Zulip 7.0 (feature level 179).
+// **Changes**: New in Zulip 7.0 (feature level 179).
 type ScheduledMessagesUpdateEvent struct {
 	EventCommonWithOp
 
@@ -1598,7 +1596,7 @@ type ScheduledMessagesUpdateEvent struct {
 
 // ScheduledMessagesRemoveEvent Event sent to a user's clients when a scheduled message is deleted.
 //
-//	**Changes**: New in Zulip 7.0 (feature level 179).
+// **Changes**: New in Zulip 7.0 (feature level 179).
 type ScheduledMessagesRemoveEvent struct {
 	EventCommonWithOp
 
@@ -1608,7 +1606,7 @@ type ScheduledMessagesRemoveEvent struct {
 
 // ChannelFolderAddEvent Event sent to users in an organization when a channel folder is created.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 389).
+// **Changes**: New in Zulip 11.0 (feature level 389).
 type ChannelFolderAddEvent struct {
 	EventCommonWithOp
 
@@ -1617,7 +1615,7 @@ type ChannelFolderAddEvent struct {
 
 // ChannelFolderUpdateEvent Event sent to users in an organization when a channel folder is updated.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 389).
+// **Changes**: New in Zulip 11.0 (feature level 389).
 type ChannelFolderUpdateEvent struct {
 	EventCommonWithOp
 
@@ -1642,7 +1640,7 @@ type FolderUpdateData struct {
 
 // ChannelFolderReorderEvent Event sent to users in an organization when channel folders are reordered.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 418).
+// **Changes**: New in Zulip 11.0 (feature level 418).
 type ChannelFolderReorderEvent struct {
 	EventCommonWithOp
 
@@ -1652,7 +1650,7 @@ type ChannelFolderReorderEvent struct {
 
 // SubscriptionPeerRemoveEvent Event sent to other users when users have been unsubscribed from channels. Sent to all users if the channel is public or to only the existing subscribers if the channel is private.
 //
-//	**Changes**: Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users when subscribers to web-public channels and subscribed public channels changed.  In Zulip 4.0 (feature level 35), the singular `user_id` and `stream_id` integers included in this event were replaced with plural `user_ids` and `stream_ids` integer arrays.  In Zulip 3.0 (feature level 19), the `stream_id` field was added to identify the channel the user unsubscribed from, replacing the `name` field.
+// **Changes**: Prior to Zulip 8.0 (feature level 220), this event was incorrectly not sent to guest users when subscribers to web-public channels and subscribed public channels changed.  In Zulip 4.0 (feature level 35), the singular `user_id` and `stream_id` integers included in this event were replaced with plural `user_ids` and `stream_ids` integer arrays.  In Zulip 3.0 (feature level 19), the `stream_id` field was added to identify the channel the user unsubscribed from, replacing the `name` field.
 type SubscriptionPeerRemoveEvent struct {
 	EventCommonWithOp
 

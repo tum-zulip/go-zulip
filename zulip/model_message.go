@@ -7,7 +7,7 @@ import (
 
 // Message An object containing details of the message.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 120).
+// **Changes**: New in Zulip 5.0 (feature level 120).
 type Message struct {
 	// The unique message Id. Messages should always be displayed sorted by Id.
 	Id int64 `json:"id,omitempty"`

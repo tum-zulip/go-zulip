@@ -312,7 +312,7 @@ type RecentPrivateConversation struct {
 
 // ServerSupportedPermissionSettings Present if `realm` is present in `fetch_event_types`.  Metadata detailing the valid values for permission settings that use [group-setting values]. Clients should use these data as explained in the [main documentation] to determine what values to present as possible values for these settings in UI components.  This part of the Zulip API is unstable and may change significantly in future versions.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 221).
+// **Changes**: New in Zulip 8.0 (feature level 221).
 //
 // [group-setting values]: https://zulip.com/api/group-setting-values
 // [main documentation]: https://zulip.com/api/group-setting-values#permitted-values
@@ -327,7 +327,7 @@ type ServerSupportedPermissionSettings struct {
 
 // GroupPermissionSetting Configuration for a group permission setting specifying the groups to which the setting can be set to and the default values for the setting.
 //
-//	**Changes**: Removed `allow_owners_group` field in Zulip 10.0 (feature level 326), as we now support anonymous user groups. Previously, the `role:owners` system group was not offered when `allow_owners_group` was false.  Removed unnecessary `id_field_name` field in Zulip 10.0 (feature level 326). Previously, this always had the value of `"{setting_name}_id"`; it was an internal implementation detail of the server not intended to be included in the API.
+// **Changes**: Removed `allow_owners_group` field in Zulip 10.0 (feature level 326), as we now support anonymous user groups. Previously, the `role:owners` system group was not offered when `allow_owners_group` was false.  Removed unnecessary `id_field_name` field in Zulip 10.0 (feature level 326). Previously, this always had the value of `"{setting_name}_id"`; it was an internal implementation detail of the server not intended to be included in the API.
 type GroupPermissionSetting struct {
 	// Whether the setting can only be set to a system user group.
 	RequireSystemGroup bool `json:"require_system_group,omitempty"`
@@ -483,7 +483,7 @@ type RealmAuthenticationMethod struct {
 
 // CustomProfileFieldType `{FIELD_TYPE}`: Dictionary which contains the details of the field type with the field type as the name of the property itself. The current supported field types are as follows:  - `SHORT_TEXT` - `LONG_TEXT` - `DATE` for date-based fields. - `SELECT` for a list of options. - `URL` for links. - `EXTERNAL_ACCOUNT` for external accounts. - `USER` for selecting a user for the field. - `PRONOUNS` for a short text field with convenient typeahead for one's preferred pronouns.
 //
-//	**Changes**: `PRONOUNS` type added in Zulip 6.0 (feature level 151).
+// **Changes**:`PRONOUNS` type added in Zulip 6.0 (feature level 151).
 type CustomProfileFieldType struct {
 	// The Id of the custom profile field type.
 	Id int64 `json:"id,omitempty"`

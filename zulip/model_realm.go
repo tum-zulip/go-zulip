@@ -282,7 +282,7 @@ type Realm struct {
 
 // RealmBilling Present if `realm_billing` is present in `fetch_event_types`.  A dictionary containing billing information of the organization.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 363).
+// **Changes**: New in Zulip 10.0 (feature level 363).
 type RealmBilling struct {
 	// Whether there is a pending sponsorship request for the organization. Note that this field will always be `false` if the user is not in `can_manage_billing_group`.
 	//

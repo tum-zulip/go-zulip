@@ -1,9 +1,7 @@
 package zulip
 
 import (
-	"bytes"
 	"context"
-	"io"
 	"net/http"
 	"net/url"
 )
@@ -141,77 +139,31 @@ func (c *simpleClient) DeleteQueue(ctx context.Context) DeleteQueueRequest {
 // Execute executes the request
 func (c *simpleClient) DeleteQueueExecute(r DeleteQueueRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/events"
 
-	localVarPath := localBasePath + "/events"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.queueId == nil {
-		return localVarReturnValue, nil, reportError("queueId is required and must be specified")
+		return nil, nil, reportError("queueId is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "queue_id", r.queueId, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "queue_id", r.queueId, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetEventsRequest struct {
@@ -272,86 +224,33 @@ func (c *simpleClient) GetEvents(ctx context.Context) GetEventsRequest {
 // Execute executes the request
 func (c *simpleClient) GetEventsExecute(r GetEventsRequest) (*GetEventsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetEventsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetEventsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/events"
 
-	localVarPath := localBasePath + "/events"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.queueId == nil {
-		return localVarReturnValue, nil, reportError("queueId is required and must be specified")
+		return nil, nil, reportError("queueId is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "queue_id", r.queueId, "form", "")
-	if r.lastEventId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "last_event_id", r.lastEventId, "form", "")
-	}
-	if r.dontBlock != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "dont_block", r.dontBlock, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.dontBlock = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	addParam(queryParams, "queue_id", r.queueId, "form", "")
+	addOptionalParam(queryParams, "last_event_id", r.lastEventId, "form", "")
+	addOptionalParam(queryParams, "dont_block", r.dontBlock, "form", "")
+	// no Content-Type header
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RegisterQueueRequest struct {
@@ -377,7 +276,7 @@ func (r RegisterQueueRequest) ApplyMarkdown(applyMarkdown bool) RegisterQueueReq
 
 // Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.  The default value is `true` for authenticated requests and `false` for [unauthenticated requests]. Passing `true` in an unauthenticated request is an error.
 //
-//	**Changes**: Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.
+// **Changes**: Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.
 //
 // [unauthenticated requests]: https://zulip.com/help/public-access-option
 func (r RegisterQueueRequest) ClientGravatar(clientGravatar bool) RegisterQueueRequest {
@@ -387,7 +286,7 @@ func (r RegisterQueueRequest) ClientGravatar(clientGravatar bool) RegisterQueueR
 
 // Whether each returned channel object should include a `subscribers` field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel's subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  Passing `true` in an [unauthenticated request] is an error.
 //
-//	**Changes**: The `partial` value is new in Zulip 11.0 (feature level 412).  Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.  New in Zulip 2.1.0.
+// **Changes**: The `partial` value is new in Zulip 11.0 (feature level 412).  Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.  New in Zulip 2.1.0.
 //
 // [unauthenticated request]: https://zulip.com/help/public-access-option
 func (r RegisterQueueRequest) IncludeSubscribers(includeSubscribers string) RegisterQueueRequest {
@@ -397,7 +296,7 @@ func (r RegisterQueueRequest) IncludeSubscribers(includeSubscribers string) Regi
 
 // If `true`, the `presences` object returned in the response will be keyed by user Id and the entry for each user's presence data will be in the modern format.
 //
-//	**Changes**: New in Zulip 3.0 (no feature level; API unstable).
+// **Changes**: New in Zulip 3.0 (no feature level; API unstable).
 func (r RegisterQueueRequest) SlimPresence(slimPresence bool) RegisterQueueRequest {
 	r.slimPresence = &slimPresence
 	return r
@@ -405,7 +304,7 @@ func (r RegisterQueueRequest) SlimPresence(slimPresence bool) RegisterQueueReque
 
 // Limits how far back in time to fetch user presence data. If not specified, defaults to 14 days. A value of N means that the oldest presence data fetched will be from at most N days ago.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 288).
+// **Changes**: New in Zulip 10.0 (feature level 288).
 func (r RegisterQueueRequest) PresenceHistoryLimitDays(presenceHistoryLimitDays int32) RegisterQueueRequest {
 	r.presenceHistoryLimitDays = &presenceHistoryLimitDays
 	return r
@@ -425,17 +324,17 @@ func (r RegisterQueueRequest) AllPublicChannels(allPublicChannels bool) Register
 
 // Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  - `notification_settings_null`: Boolean for whether the   client can handle the current API with `null` values for   channel-level notification settings (which means the channel   is not customized and should inherit the user's global   notification settings for channel messages).
 //
-//		**Changes**: New in Zulip 2.1.0. In earlier Zulip releases,   channel-level notification settings were simple booleans.  - `bulk_message_deletion`: Boolean for whether the client's   handler for the `delete_message` event type has been   updated to process the new bulk format (with a   `message_ids`, rather than a singleton `message_id`).   Otherwise, the server will send `delete_message` events   in a loop.
-//		**Changes**: New in Zulip 3.0 (feature level 13). This   capability is for backwards-compatibility; it will be   required in a future server release.  - `user_avatar_url_field_optional`: Boolean for whether the   client required avatar URLs for all users, or supports   using `GET /avatar/{user_id}` to access user avatars. If the   client has this capability, the server may skip sending a   `avatar_url` field in the `realm_user` at its sole discretion   to optimize network performance. This is an important optimization   in organizations with 10,000s of users.
-//		**Changes**: New in Zulip 3.0 (feature level 18).  - `stream_typing_notifications`: Boolean for whether the client   supports channel typing notifications.
-//		**Changes**: New in Zulip 4.0 (feature level 58). This capability is   for backwards-compatibility; it will be required in a   future server release.  - `user_settings_object`: Boolean for whether the client supports the modern   `user_settings` event type. If false, the server will additionally send the   legacy `update_global_notifications` and `update_display_settings` event   types.
-//		**Changes**: New in Zulip 5.0 (feature level 89). This capability is for   backwards-compatibility; it will be removed in a future server release.   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and also request all three   event types (`user_settings`, `update_display_settings`,   `update_global_notifications`), and get exactly one copy of settings data on   any server version. Clients can then use the `zulip_feature_level` in the   `/register` response or the presence/absence of a `user_settings` key to   determine where to look for the data.  - `linkifier_url_template`: Boolean for whether the client accepts   [linkifiers] that use [RFC 6570] compliant   URL templates for linkifying matches. If false or unset, then the   `realm_linkifiers` array in the `/register` response will be empty   if present, and no `realm_linkifiers` [events] will be sent to the client.
-//		**Changes**: New in Zulip 7.0 (feature level 176). This capability   is for backwards-compatibility.  - `user_list_incomplete`: Boolean for whether the client supports not having an   incomplete user database. If true, then the `realm_users` array in the `register`   response will not include data for inaccessible users and clients of guest users will   not receive `realm_user op:add` events for newly created users that are not accessible   to the current user.
-//		**Changes**: New in Zulip 8.0 (feature level 232). This   capability is for backwards-compatibility.  - `include_deactivated_groups`: Boolean for whether the client can handle   deactivated user groups by themselves. If false, then the `realm_user_groups`   array in the `/register` response will only include active groups, clients   will receive a `remove` event instead of `update` event when a group is   deactivated and no `update` event will be sent to the client if a deactivated   user group is renamed.
-//		**Changes**: New in Zulip 10.0 (feature level 294). This   capability is for backwards-compatibility.  - `archived_channels`: Boolean for whether the client supports processing   [archived channels] in the `stream` and   `subscription` event types. If `false`, the server will not include data   related to archived channels in the `register` response or in events.
-//		**Changes**: New in Zulip 10.0 (feature level 315). This allows clients to   access archived channels, without breaking backwards-compatibility for   existing clients.  - `empty_topic_name`: Boolean for whether the client supports processing   the empty string as a topic name. Clients not declaring this capability   will be sent the value of `realm_empty_topic_display_name` found in the   [POST /register] response instead of the empty string   wherever topic names appear in the register response or events involving   topic names.
-//	 **Changes**: New in Zulip 10.0 (feature level 334). Previously,   the empty string was not a valid topic name.  - `simplified_presence_events`: Boolean for whether the client supports   receiving the [`presence` event type] with   user presence data in the modern format. If true, the server will   send these events with the `presences` field that has the user presence   data in the modern format. Otherwise, these event will contain fields   with legacy format user presence data.
-//		**Changes**: New in Zulip 11.0 (feature level 419).
+// **Changes**: New in Zulip 2.1.0. In earlier Zulip releases,   channel-level notification settings were simple booleans.  - `bulk_message_deletion`: Boolean for whether the client's   handler for the `delete_message` event type has been   updated to process the new bulk format (with a   `message_ids`, rather than a singleton `message_id`).   Otherwise, the server will send `delete_message` events   in a loop.
+// **Changes**: New in Zulip 3.0 (feature level 13). This   capability is for backwards-compatibility; it will be   required in a future server release.  - `user_avatar_url_field_optional`: Boolean for whether the   client required avatar URLs for all users, or supports   using `GET /avatar/{user_id}` to access user avatars. If the   client has this capability, the server may skip sending a   `avatar_url` field in the `realm_user` at its sole discretion   to optimize network performance. This is an important optimization   in organizations with 10,000s of users.
+// **Changes**: New in Zulip 3.0 (feature level 18).  - `stream_typing_notifications`: Boolean for whether the client   supports channel typing notifications.
+// **Changes**: New in Zulip 4.0 (feature level 58). This capability is   for backwards-compatibility; it will be required in a   future server release.  - `user_settings_object`: Boolean for whether the client supports the modern   `user_settings` event type. If false, the server will additionally send the   legacy `update_global_notifications` and `update_display_settings` event   types.
+// **Changes**: New in Zulip 5.0 (feature level 89). This capability is for   backwards-compatibility; it will be removed in a future server release.   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and also request all three   event types (`user_settings`, `update_display_settings`,   `update_global_notifications`), and get exactly one copy of settings data on   any server version. Clients can then use the `zulip_feature_level` in the   `/register` response or the presence/absence of a `user_settings` key to   determine where to look for the data.  - `linkifier_url_template`: Boolean for whether the client accepts   [linkifiers] that use [RFC 6570] compliant   URL templates for linkifying matches. If false or unset, then the   `realm_linkifiers` array in the `/register` response will be empty   if present, and no `realm_linkifiers` [events] will be sent to the client.
+// **Changes**: New in Zulip 7.0 (feature level 176). This capability   is for backwards-compatibility.  - `user_list_incomplete`: Boolean for whether the client supports not having an   incomplete user database. If true, then the `realm_users` array in the `register`   response will not include data for inaccessible users and clients of guest users will   not receive `realm_user op:add` events for newly created users that are not accessible   to the current user.
+// **Changes**: New in Zulip 8.0 (feature level 232). This   capability is for backwards-compatibility.  - `include_deactivated_groups`: Boolean for whether the client can handle   deactivated user groups by themselves. If false, then the `realm_user_groups`   array in the `/register` response will only include active groups, clients   will receive a `remove` event instead of `update` event when a group is   deactivated and no `update` event will be sent to the client if a deactivated   user group is renamed.
+// **Changes**: New in Zulip 10.0 (feature level 294). This   capability is for backwards-compatibility.  - `archived_channels`: Boolean for whether the client supports processing   [archived channels] in the `stream` and   `subscription` event types. If `false`, the server will not include data   related to archived channels in the `register` response or in events.
+// **Changes**: New in Zulip 10.0 (feature level 315). This allows clients to   access archived channels, without breaking backwards-compatibility for   existing clients.  - `empty_topic_name`: Boolean for whether the client supports processing   the empty string as a topic name. Clients not declaring this capability   will be sent the value of `realm_empty_topic_display_name` found in the   [POST /register] response instead of the empty string   wherever topic names appear in the register response or events involving   topic names.
+// **Changes**: New in Zulip 10.0 (feature level 334). Previously,   the empty string was not a valid topic name.  - `simplified_presence_events`: Boolean for whether the client supports   receiving the [`presence` event type] with   user presence data in the modern format. If true, the server will   send these events with the `presences` field that has the user presence   data in the modern format. Otherwise, these event will contain fields   with legacy format user presence data.
+// **Changes**: New in Zulip 11.0 (feature level 419).
 //
 // [events]: https://zulip.com/api/get-events#realm_linkifiers
 // [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
@@ -456,12 +355,11 @@ func (r RegisterQueueRequest) FetchEventTypes(fetchEventTypes []string) Register
 
 // A JSON-encoded array of arrays of length 2 indicating the [narrow filter(s)] for which you'd like to receive events for.  For example, to receive events for direct messages (including group direct messages) received by the user, one can use `"narrow": [["is", "dm"]]`.  Unlike the API for [fetching messages], this narrow parameter is simply a filter on messages that the user receives through their channel subscriptions (or because they are a recipient of a direct message).  This means that a client that requests a `narrow` filter of `[["channel", "Denmark"]]` will receive events for new messages sent to that channel while the user is subscribed to that channel. The client will not receive any message events at all if the user is not subscribed to `"Denmark"`.  Newly created bot users are not usually subscribed to any channels, so bots using this API need to be [subscribed] to any channels whose messages you'd like them to process using this endpoint.  See the `all_public_streams` parameter for how to process all public channel messages in an organization.
 //
-//	**Changes**: See [changes section] of search/narrow filter documentation.
+// **Changes**: See [changes section] of search/narrow filter documentation.
 //
 // [narrow filter(s)]: https://zulip.com/api/construct-narrow
 // [fetching messages]: https://zulip.com/api/get-messages
 // [subscribed]: https://zulip.com/api/subscribe
-//
 // [changes section]: https://zulip.com/api/construct-narrow#changes
 func (r RegisterQueueRequest) Narrow(narrow *Narrow) RegisterQueueRequest {
 	r.narrow = narrow
@@ -549,101 +447,34 @@ func (c *simpleClient) RegisterQueue(ctx context.Context) RegisterQueueRequest {
 // Execute executes the request
 func (c *simpleClient) RegisterQueueExecute(r RegisterQueueRequest) (*RegisterQueueResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *RegisterQueueResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &RegisterQueueResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/register"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "apply_markdown", r.applyMarkdown, "form", "")
+	addOptionalParam(formParams, "client_gravatar", r.clientGravatar, "form", "")
+	addOptionalParam(formParams, "include_subscribers", r.includeSubscribers, "", "")
+	addOptionalParam(formParams, "slim_presence", r.slimPresence, "form", "")
+	addOptionalParam(formParams, "presence_history_limit_days", r.presenceHistoryLimitDays, "", "")
+	addOptionalParam(formParams, "event_types", r.eventTypes, "form", "multi")
+	addOptionalParam(formParams, "all_public_streams", r.allPublicChannels, "form", "")
+	addOptionalParam(formParams, "client_capabilities", r.clientCapabilities, "form", "")
+	addOptionalParam(formParams, "fetch_event_types", r.fetchEventTypes, "form", "multi")
+	addOptionalParam(formParams, "narrow", r.narrow, "form", "multi")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/register"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.applyMarkdown != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "apply_markdown", r.applyMarkdown, "form", "")
-	}
-	if r.clientGravatar != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "client_gravatar", r.clientGravatar, "form", "")
-	}
-	if r.includeSubscribers != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "include_subscribers", r.includeSubscribers, "", "")
-	}
-	if r.slimPresence != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "slim_presence", r.slimPresence, "form", "")
-	}
-	if r.presenceHistoryLimitDays != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "presence_history_limit_days", r.presenceHistoryLimitDays, "", "")
-	}
-	if r.eventTypes != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "event_types", r.eventTypes, "form", "multi")
-	}
-	if r.allPublicChannels != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "all_public_streams", r.allPublicChannels, "form", "")
-	}
-	if r.clientCapabilities != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "client_capabilities", r.clientCapabilities, "form", "")
-	}
-	if r.fetchEventTypes != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "fetch_event_types", r.fetchEventTypes, "form", "multi")
-	}
-	if r.narrow != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "narrow", r.narrow, "form", "multi")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }

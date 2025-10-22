@@ -14,20 +14,14 @@ type Response struct {
 	IgnoredParametersUnsupported []string `json:"ignored_parameters_unsupported,omitempty"`
 }
 
-func (o *Response) GetResult() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Result
+type responseModel interface {
+	getIgnoredParametersUnsupported() []string
 }
 
-func (o *Response) GetMsg() string {
-	if o == nil {
-		var ret string
-		return ret
+func (o *Response) getIgnoredParametersUnsupported() []string {
+	if o == nil || o.IgnoredParametersUnsupported == nil {
+		var empty []string
+		return empty
 	}
-
-	return o.Msg
+	return o.IgnoredParametersUnsupported
 }

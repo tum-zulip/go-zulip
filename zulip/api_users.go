@@ -1,9 +1,7 @@
 package zulip
 
 import (
-	"bytes"
 	"context"
-	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -746,81 +744,35 @@ func (c *simpleClient) AddAlertWords(ctx context.Context) AddAlertWordsRequest {
 // Execute executes the request
 func (c *simpleClient) AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *AlertWordsResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &AlertWordsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/users/me/alert_words"
 
-	localVarPath := localBasePath + "/users/me/alert_words"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.alertWords == nil {
-		return localVarReturnValue, nil, reportError("alertWords is required and must be specified")
+		return nil, nil, reportError("alertWords is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
 	paramJson, err := parameterToJson(r.alertWords)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
-	localVarFormParams.Add("alert_words", paramJson)
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	formParams.Add("alert_words", paramJson)
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type AddApnsTokenRequest struct {
@@ -838,7 +790,7 @@ func (r AddApnsTokenRequest) Token(token string) AddApnsTokenRequest {
 
 // The Id of the Zulip app that is making the request.
 //
-//	**Changes**: In Zulip 8.0 (feature level 223), this parameter was made required. Previously, if it was unspecified, the server would use a default value (based on the `ZULIP_IOS_APP_Id` server setting, which defaulted to `"org.zulip.Zulip"`).
+// **Changes**: In Zulip 8.0 (feature level 223), this parameter was made required. Previously, if it was unspecified, the server would use a default value (based on the `ZULIP_IOS_APP_Id` server setting, which defaulted to `"org.zulip.Zulip"`).
 func (r AddApnsTokenRequest) Appid(appid string) AddApnsTokenRequest {
 	r.appid = &appid
 	return r
@@ -861,81 +813,35 @@ func (c *simpleClient) AddApnsToken(ctx context.Context) AddApnsTokenRequest {
 // Execute executes the request
 func (c *simpleClient) AddApnsTokenExecute(r AddApnsTokenRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/users/me/apns_device_token"
 
-	localVarPath := localBasePath + "/users/me/apns_device_token"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.token == nil {
-		return localVarReturnValue, nil, reportError("token is required and must be specified")
+		return nil, nil, reportError("token is required and must be specified")
 	}
 	if r.appid == nil {
-		return localVarReturnValue, nil, reportError("appid is required and must be specified")
+		return nil, nil, reportError("appid is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "token", r.token, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "appid", r.appid, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "token", r.token, "", "")
+	addParam(formParams, "appid", r.appid, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type AddFcmTokenRequest struct {
@@ -967,77 +873,31 @@ func (c *simpleClient) AddFcmToken(ctx context.Context) AddFcmTokenRequest {
 // Execute executes the request
 func (c *simpleClient) AddFcmTokenExecute(r AddFcmTokenRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/users/me/android_gcm_reg_id"
 
-	localVarPath := localBasePath + "/users/me/android_gcm_reg_id"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.token == nil {
-		return localVarReturnValue, nil, reportError("token is required and must be specified")
+		return nil, nil, reportError("token is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "token", r.token, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "token", r.token, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type CreateUserRequest struct {
@@ -1101,85 +961,39 @@ func (c *simpleClient) CreateUser(ctx context.Context) CreateUserRequest {
 // Execute executes the request
 func (c *simpleClient) CreateUserExecute(r CreateUserRequest) (*CreateUserResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *CreateUserResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &CreateUserResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/users"
 
-	localVarPath := localBasePath + "/users"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.email == nil {
-		return localVarReturnValue, nil, reportError("email is required and must be specified")
+		return nil, nil, reportError("email is required and must be specified")
 	}
 	if r.password == nil {
-		return localVarReturnValue, nil, reportError("password is required and must be specified")
+		return nil, nil, reportError("password is required and must be specified")
 	}
 	if r.fullName == nil {
-		return localVarReturnValue, nil, reportError("fullName is required and must be specified")
+		return nil, nil, reportError("fullName is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "email", r.email, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "password", r.password, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "full_name", r.fullName, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "email", r.email, "", "")
+	addParam(formParams, "password", r.password, "", "")
+	addParam(formParams, "full_name", r.fullName, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type CreateUserGroupRequest struct {
@@ -1217,7 +1031,7 @@ func (r CreateUserGroupRequest) Members(members []int64) CreateUserGroupRequest 
 
 // An array containing the Ids of the initial subgroups for the new user group.  User can add subgroups to the new group irrespective of other permissions for the new group.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 311).
+// **Changes**: New in Zulip 10.0 (feature level 311).
 func (r CreateUserGroupRequest) Subgroups(subgroups []int64) CreateUserGroupRequest {
 	r.subgroups = &subgroups
 	return r
@@ -1225,7 +1039,7 @@ func (r CreateUserGroupRequest) Subgroups(subgroups []int64) CreateUserGroupRequ
 
 // A [group-setting value] defining the set of users who have permission to add members to this user group.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.
+// **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.
 //
 // [group-setting value]: https://zulip.com/api/group-setting-values
 //
@@ -1237,7 +1051,7 @@ func (r CreateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSetti
 
 // A [group-setting value] defining the set of users who have permission to join this user group.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 301).
+// **Changes**: New in Zulip 10.0 (feature level 301).
 //
 // [group-setting value]: https://zulip.com/api/group-setting-values
 //
@@ -1249,7 +1063,7 @@ func (r CreateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValue) Cre
 
 // A [group-setting value] defining the set of users who have permission to leave this user group.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 308).
+// **Changes**: New in Zulip 10.0 (feature level 308).
 //
 // [group-setting value]: https://zulip.com/api/group-setting-values
 //
@@ -1261,7 +1075,7 @@ func (r CreateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValue) C
 
 // A [group-setting value] defining the set of users who have permission to [manage this user group].  This setting cannot be set to `"role:internet"` and `"role:everyone"` [system groups].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 283).
+// **Changes**: New in Zulip 10.0 (feature level 283).
 //
 // [group-setting value]: https://zulip.com/api/group-setting-values
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
@@ -1283,7 +1097,7 @@ func (r CreateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValu
 
 // A [group-setting value] defining the set of users who have permission to remove members from this user group.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.
+// **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.
 //
 // [group-setting value]: https://zulip.com/api/group-setting-values
 //
@@ -1312,130 +1126,82 @@ func (c *simpleClient) CreateUserGroup(ctx context.Context) CreateUserGroupReque
 // Execute executes the request
 func (c *simpleClient) CreateUserGroupExecute(r CreateUserGroupRequest) (*CreateUserGroupResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *CreateUserGroupResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &CreateUserGroupResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/user_groups/create"
 
-	localVarPath := localBasePath + "/user_groups/create"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.name == nil {
-		return localVarReturnValue, nil, reportError("name is required and must be specified")
+		return nil, nil, reportError("name is required and must be specified")
 	}
 	if r.description == nil {
-		return localVarReturnValue, nil, reportError("description is required and must be specified")
+		return nil, nil, reportError("description is required and must be specified")
 	}
 	if r.members == nil {
-		return localVarReturnValue, nil, reportError("members is required and must be specified")
+		return nil, nil, reportError("members is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "description", r.description, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "members", r.members, "form", "multi")
-	if r.subgroups != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "subgroups", r.subgroups, "form", "multi")
-	}
+	addParam(formParams, "name", r.name, "", "")
+	addParam(formParams, "description", r.description, "", "")
+	addParam(formParams, "members", r.members, "form", "multi")
+	addOptionalParam(formParams, "subgroups", r.subgroups, "form", "multi")
 	if r.canAddMembersGroup != nil {
 		paramJson, err := parameterToJson(*r.canAddMembersGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_add_members_group", paramJson)
+		formParams.Add("can_add_members_group", paramJson)
 	}
 	if r.canJoinGroup != nil {
 		paramJson, err := parameterToJson(*r.canJoinGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_join_group", paramJson)
+		formParams.Add("can_join_group", paramJson)
 	}
 	if r.canLeaveGroup != nil {
 		paramJson, err := parameterToJson(*r.canLeaveGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_leave_group", paramJson)
+		formParams.Add("can_leave_group", paramJson)
 	}
 	if r.canManageGroup != nil {
 		paramJson, err := parameterToJson(*r.canManageGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_manage_group", paramJson)
+		formParams.Add("can_manage_group", paramJson)
 	}
 	if r.canMentionGroup != nil {
 		paramJson, err := parameterToJson(*r.canMentionGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_mention_group", paramJson)
+		formParams.Add("can_mention_group", paramJson)
 	}
 	if r.canRemoveMembersGroup != nil {
 		paramJson, err := parameterToJson(*r.canRemoveMembersGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_remove_members_group", paramJson)
+		formParams.Add("can_remove_members_group", paramJson)
 	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type DeactivateOwnUserRequest struct {
@@ -1465,73 +1231,26 @@ func (c *simpleClient) DeactivateOwnUser(ctx context.Context) DeactivateOwnUserR
 // Execute executes the request
 func (c *simpleClient) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/me"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/me"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type DeactivateUserRequest struct {
@@ -1543,7 +1262,7 @@ type DeactivateUserRequest struct {
 
 // If not `null`, requests that the deactivated user receive a notification email about their account deactivation.  If not `""`, encodes custom text written by the administrator to be included in the notification email.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 135).
+// **Changes**: New in Zulip 5.0 (feature level 135).
 func (r DeactivateUserRequest) DeactivationNotificationComment(deactivationNotificationComment string) DeactivateUserRequest {
 	r.deactivationNotificationComment = &deactivationNotificationComment
 	return r
@@ -1570,77 +1289,28 @@ func (c *simpleClient) DeactivateUser(ctx context.Context, userId int64) Deactiv
 // Execute executes the request
 func (c *simpleClient) DeactivateUserExecute(r DeactivateUserRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/{user_id}"
+	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "deactivation_notification_comment", r.deactivationNotificationComment, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/{user_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.deactivationNotificationComment != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "deactivation_notification_comment", r.deactivationNotificationComment, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type DeactivateUserGroupRequest struct {
@@ -1676,74 +1346,27 @@ func (c *simpleClient) DeactivateUserGroup(ctx context.Context, userGroupId int6
 // Execute executes the request
 func (c *simpleClient) DeactivateUserGroupExecute(r DeactivateUserGroupRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/user_groups/{user_group_id}/deactivate"
+	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/user_groups/{user_group_id}/deactivate"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_group_id"+"}", url.PathEscape(parameterValueToString(r.userGroupId, "userGroupId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetAlertWordsRequest struct {
@@ -1770,73 +1393,26 @@ func (c *simpleClient) GetAlertWords(ctx context.Context) GetAlertWordsRequest {
 // Execute executes the request
 func (c *simpleClient) GetAlertWordsExecute(r GetAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *AlertWordsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &AlertWordsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/me/alert_words"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/me/alert_words"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetAttachmentsRequest struct {
@@ -1861,73 +1437,26 @@ func (c *simpleClient) GetAttachments(ctx context.Context) GetAttachmentsRequest
 // Execute executes the request
 func (c *simpleClient) GetAttachmentsExecute(r GetAttachmentsRequest) (*GetAttachmentsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetAttachmentsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetAttachmentsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/attachments"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/attachments"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetIsUserGroupMemberRequest struct {
@@ -1969,78 +1498,29 @@ func (c *simpleClient) GetIsUserGroupMember(ctx context.Context, userGroupId int
 // Execute executes the request
 func (c *simpleClient) GetIsUserGroupMemberExecute(r GetIsUserGroupMemberRequest) (*GetIsUserGroupMemberResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetIsUserGroupMemberResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetIsUserGroupMemberResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/user_groups/{user_group_id}/members/{user_id}"
+	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
+	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+
+	addOptionalParam(queryParams, "direct_member_only", r.directMemberOnly, "form", "")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/user_groups/{user_group_id}/members/{user_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_group_id"+"}", url.PathEscape(parameterValueToString(r.userGroupId, "userGroupId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.directMemberOnly != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "direct_member_only", r.directMemberOnly, "form", "")
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetOwnUserRequest struct {
@@ -2068,73 +1548,26 @@ func (c *simpleClient) GetOwnUser(ctx context.Context) GetOwnUserRequest {
 // Execute executes the request
 func (c *simpleClient) GetOwnUserExecute(r GetOwnUserRequest) (*GetOwnUserResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetOwnUserResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetOwnUserResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/me"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/me"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetUserRequest struct {
@@ -2147,7 +1580,7 @@ type GetUserRequest struct {
 
 // Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
 //
-//	**Changes**: The default value of this parameter was `false` prior to Zulip 5.0 (feature level 92).
+// **Changes**: The default value of this parameter was `false` prior to Zulip 5.0 (feature level 92).
 func (r GetUserRequest) ClientGravatar(clientGravatar bool) GetUserRequest {
 	r.clientGravatar = &clientGravatar
 	return r
@@ -2155,7 +1588,7 @@ func (r GetUserRequest) ClientGravatar(clientGravatar bool) GetUserRequest {
 
 // Whether the client wants [custom profile field] data to be included in the response.
 //
-//	**Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
+// **Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
 //
 // [custom profile field]: https://zulip.com/help/custom-profile-fields
 func (r GetUserRequest) IncludeCustomProfileFields(includeCustomProfileFields bool) GetUserRequest {
@@ -2189,86 +1622,29 @@ func (c *simpleClient) GetUser(ctx context.Context, userId int64) GetUserRequest
 // Execute executes the request
 func (c *simpleClient) GetUserExecute(r GetUserRequest) (*GetUserResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetUserResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetUserResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/{user_id}"
+	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+
+	addOptionalParam(queryParams, "client_gravatar", r.clientGravatar, "form", "")
+	addOptionalParam(queryParams, "include_custom_profile_fields", r.includeCustomProfileFields, "form", "")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/{user_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.clientGravatar != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "client_gravatar", r.clientGravatar, "form", "")
-	} else {
-		var defaultValue bool = true
-		r.clientGravatar = &defaultValue
-	}
-	if r.includeCustomProfileFields != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_custom_profile_fields", r.includeCustomProfileFields, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.includeCustomProfileFields = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetUserByEmailRequest struct {
@@ -2281,7 +1657,7 @@ type GetUserByEmailRequest struct {
 
 // Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
 //
-//	**Changes**: The default value of this parameter was `false` prior to Zulip 5.0 (feature level 92).
+// **Changes**: The default value of this parameter was `false` prior to Zulip 5.0 (feature level 92).
 func (r GetUserByEmailRequest) ClientGravatar(clientGravatar bool) GetUserByEmailRequest {
 	r.clientGravatar = &clientGravatar
 	return r
@@ -2289,7 +1665,7 @@ func (r GetUserByEmailRequest) ClientGravatar(clientGravatar bool) GetUserByEmai
 
 // Whether the client wants [custom profile field] data to be included in the response.
 //
-//	**Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
+// **Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
 //
 // [custom profile field]: https://zulip.com/help/custom-profile-fields
 func (r GetUserByEmailRequest) IncludeCustomProfileFields(includeCustomProfileFields bool) GetUserByEmailRequest {
@@ -2339,86 +1715,29 @@ func (c *simpleClient) GetUserByEmail(ctx context.Context, email string) GetUser
 // Execute executes the request
 func (c *simpleClient) GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetUserResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetUserResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/{email}"
+	endpoint = strings.Replace(endpoint, "{"+"email"+"}", url.PathEscape(r.email), -1)
+
+	addOptionalParam(queryParams, "client_gravatar", r.clientGravatar, "form", "")
+	addOptionalParam(queryParams, "include_custom_profile_fields", r.includeCustomProfileFields, "form", "")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/{email}"
-	localVarPath = strings.Replace(localVarPath, "{"+"email"+"}", url.PathEscape(parameterValueToString(r.email, "email")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.clientGravatar != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "client_gravatar", r.clientGravatar, "form", "")
-	} else {
-		var defaultValue bool = true
-		r.clientGravatar = &defaultValue
-	}
-	if r.includeCustomProfileFields != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_custom_profile_fields", r.includeCustomProfileFields, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.includeCustomProfileFields = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetUserGroupMembersRequest struct {
@@ -2456,77 +1775,28 @@ func (c *simpleClient) GetUserGroupMembers(ctx context.Context, userGroupId int6
 // Execute executes the request
 func (c *simpleClient) GetUserGroupMembersExecute(r GetUserGroupMembersRequest) (*GetUserGroupMembersResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetUserGroupMembersResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetUserGroupMembersResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/user_groups/{user_group_id}/members"
+	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
+
+	addOptionalParam(queryParams, "direct_member_only", r.directMemberOnly, "form", "")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/user_groups/{user_group_id}/members"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_group_id"+"}", url.PathEscape(parameterValueToString(r.userGroupId, "userGroupId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.directMemberOnly != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "direct_member_only", r.directMemberOnly, "form", "")
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetUserGroupSubgroupsRequest struct {
@@ -2564,80 +1834,28 @@ func (c *simpleClient) GetUserGroupSubgroups(ctx context.Context, userGroupId in
 // Execute executes the request
 func (c *simpleClient) GetUserGroupSubgroupsExecute(r GetUserGroupSubgroupsRequest) (*GetUserGroupSubgroupsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetUserGroupSubgroupsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetUserGroupSubgroupsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/user_groups/{user_group_id}/subgroups"
+	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
+
+	addOptionalParam(queryParams, "direct_subgroup_only", r.directSubgroupOnly, "form", "")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/user_groups/{user_group_id}/subgroups"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_group_id"+"}", url.PathEscape(parameterValueToString(r.userGroupId, "userGroupId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.directSubgroupOnly != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "direct_subgroup_only", r.directSubgroupOnly, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.directSubgroupOnly = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetUserGroupsRequest struct {
@@ -2648,7 +1866,7 @@ type GetUserGroupsRequest struct {
 
 // Whether to include deactivated user groups in the response.
 //
-//	**Changes**: In Zulip 10.0 (feature level 294), renamed `allow_deactivated` to `include_deactivated_groups`.  New in Zulip 10.0 (feature level 290). Previously, deactivated user groups did not exist and thus would never be included in the response.
+// **Changes**: In Zulip 10.0 (feature level 294), renamed `allow_deactivated` to `include_deactivated_groups`.  New in Zulip 10.0 (feature level 290). Previously, deactivated user groups did not exist and thus would never be included in the response.
 func (r GetUserGroupsRequest) IncludeDeactivatedGroups(includeDeactivatedGroups bool) GetUserGroupsRequest {
 	r.includeDeactivatedGroups = &includeDeactivatedGroups
 	return r
@@ -2678,76 +1896,27 @@ func (c *simpleClient) GetUserGroups(ctx context.Context) GetUserGroupsRequest {
 // Execute executes the request
 func (c *simpleClient) GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGroupsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetUserGroupsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetUserGroupsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/user_groups"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "include_deactivated_groups", r.includeDeactivatedGroups, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/user_groups"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.includeDeactivatedGroups != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "include_deactivated_groups", r.includeDeactivatedGroups, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetUserPresenceRequest struct {
@@ -2781,74 +1950,27 @@ func (c *simpleClient) GetUserPresence(ctx context.Context, userIdOrEmail string
 // Execute executes the request
 func (c *simpleClient) GetUserPresenceExecute(r GetUserPresenceRequest) (*GetUserPresenceResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetUserPresenceResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetUserPresenceResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/{user_id_or_email}/presence"
+	endpoint = strings.Replace(endpoint, "{"+"user_id_or_email"+"}", url.PathEscape(r.userIdOrEmail), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/{user_id_or_email}/presence"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id_or_email"+"}", url.PathEscape(parameterValueToString(r.userIdOrEmail, "userIdOrEmail")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetUserStatusRequest struct {
@@ -2881,74 +2003,27 @@ func (c *simpleClient) GetUserStatus(ctx context.Context, userId int64) GetUserS
 // Execute executes the request
 func (c *simpleClient) GetUserStatusExecute(r GetUserStatusRequest) (*GetUserStatusResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetUserStatusResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetUserStatusResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/{user_id}/status"
+	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/{user_id}/status"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetUsersRequest struct {
@@ -2961,7 +2036,7 @@ type GetUsersRequest struct {
 
 // Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
 //
-//	**Changes**: The default value of this parameter was `false` prior to Zulip 5.0 (feature level 92).
+// **Changes**: The default value of this parameter was `false` prior to Zulip 5.0 (feature level 92).
 func (r GetUsersRequest) ClientGravatar(clientGravatar bool) GetUsersRequest {
 	r.clientGravatar = &clientGravatar
 	return r
@@ -2969,7 +2044,7 @@ func (r GetUsersRequest) ClientGravatar(clientGravatar bool) GetUsersRequest {
 
 // Whether the client wants [custom profile field] data to be included in the response.
 //
-//	**Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
+// **Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
 //
 // [custom profile field]: https://zulip.com/help/custom-profile-fields
 func (r GetUsersRequest) IncludeCustomProfileFields(includeCustomProfileFields bool) GetUsersRequest {
@@ -2979,7 +2054,7 @@ func (r GetUsersRequest) IncludeCustomProfileFields(includeCustomProfileFields b
 
 // Limits the results to the specified user Ids. If not provided, the server will return all accessible users in the organization.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 384).
+// **Changes**: New in Zulip 11.0 (feature level 384).
 func (r GetUsersRequest) UserIds(userIds []int64) GetUsersRequest {
 	r.userIds = &userIds
 	return r
@@ -3018,88 +2093,29 @@ func (c *simpleClient) GetUsers(ctx context.Context) GetUsersRequest {
 // Execute executes the request
 func (c *simpleClient) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetUsersResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetUsersResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users"
+
+	addOptionalParam(queryParams, "client_gravatar", r.clientGravatar, "form", "")
+	addOptionalParam(queryParams, "include_custom_profile_fields", r.includeCustomProfileFields, "form", "")
+	addOptionalParam(queryParams, "user_ids", r.userIds, "", "csv")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.clientGravatar != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "client_gravatar", r.clientGravatar, "form", "")
-	} else {
-		var defaultValue bool = true
-		r.clientGravatar = &defaultValue
-	}
-	if r.includeCustomProfileFields != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_custom_profile_fields", r.includeCustomProfileFields, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.includeCustomProfileFields = &defaultValue
-	}
-	if r.userIds != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "user_ids", r.userIds, "", "csv")
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type MuteUserRequest struct {
@@ -3141,74 +2157,27 @@ func (c *simpleClient) MuteUser(ctx context.Context, mutedUserId int64) MuteUser
 // Execute executes the request
 func (c *simpleClient) MuteUserExecute(r MuteUserRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/me/muted_users/{muted_user_id}"
+	endpoint = strings.Replace(endpoint, "{"+"muted_user_id"+"}", idToString(r.mutedUserId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/me/muted_users/{muted_user_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"muted_user_id"+"}", url.PathEscape(parameterValueToString(r.mutedUserId, "mutedUserId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type ReactivateUserRequest struct {
@@ -3238,74 +2207,27 @@ func (c *simpleClient) ReactivateUser(ctx context.Context, userId int64) Reactiv
 // Execute executes the request
 func (c *simpleClient) ReactivateUserExecute(r ReactivateUserRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/{user_id}/reactivate"
+	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/{user_id}/reactivate"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RemoveAlertWordsRequest struct {
@@ -3341,77 +2263,31 @@ func (c *simpleClient) RemoveAlertWords(ctx context.Context) RemoveAlertWordsReq
 // Execute executes the request
 func (c *simpleClient) RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *AlertWordsResponse
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &AlertWordsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/users/me/alert_words"
 
-	localVarPath := localBasePath + "/users/me/alert_words"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.alertWords == nil {
-		return localVarReturnValue, nil, reportError("alertWords is required and must be specified")
+		return nil, nil, reportError("alertWords is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "alert_words", r.alertWords, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "alert_words", r.alertWords, "form", "multi")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RemoveApnsTokenRequest struct {
@@ -3443,77 +2319,31 @@ func (c *simpleClient) RemoveApnsToken(ctx context.Context) RemoveApnsTokenReque
 // Execute executes the request
 func (c *simpleClient) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/users/me/apns_device_token"
 
-	localVarPath := localBasePath + "/users/me/apns_device_token"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.token == nil {
-		return localVarReturnValue, nil, reportError("token is required and must be specified")
+		return nil, nil, reportError("token is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "token", r.token, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "token", r.token, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RemoveAttachmentRequest struct {
@@ -3553,74 +2383,27 @@ func (c *simpleClient) RemoveAttachment(ctx context.Context, attachmentId int64)
 // Execute executes the request
 func (c *simpleClient) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/attachments/{attachment_id}"
+	endpoint = strings.Replace(endpoint, "{"+"attachment_id"+"}", idToString(r.attachmentId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/attachments/{attachment_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"attachment_id"+"}", url.PathEscape(parameterValueToString(r.attachmentId, "attachmentId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RemoveFcmTokenRequest struct {
@@ -3652,77 +2435,31 @@ func (c *simpleClient) RemoveFcmToken(ctx context.Context) RemoveFcmTokenRequest
 // Execute executes the request
 func (c *simpleClient) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/users/me/android_gcm_reg_id"
 
-	localVarPath := localBasePath + "/users/me/android_gcm_reg_id"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.token == nil {
-		return localVarReturnValue, nil, reportError("token is required and must be specified")
+		return nil, nil, reportError("token is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "token", r.token, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "token", r.token, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type SetTypingStatusRequest struct {
@@ -3743,7 +2480,7 @@ func (r SetTypingStatusRequest) Op(op TypingStatusOp) SetTypingStatusRequest {
 
 // Type of the message being composed.
 //
-//	**Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to indicate a channel message is being composed.  In Zulip 8.0 (feature level 215), stopped supporting `RecipientTypePrivate` as a valid value for this parameter.  In Zulip 7.0 (feature level 174), `RecipientTypeDirect` was added as the preferred way to indicate a direct message is being composed, becoming the default value for this parameter and deprecating the original `RecipientTypePrivate`.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
+// **Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to indicate a channel message is being composed.  In Zulip 8.0 (feature level 215), stopped supporting `RecipientTypePrivate` as a valid value for this parameter.  In Zulip 7.0 (feature level 174), `RecipientTypeDirect` was added as the preferred way to indicate a direct message is being composed, becoming the default value for this parameter and deprecating the original `RecipientTypePrivate`.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 func (r SetTypingStatusRequest) Type_(type_ RecipientType) SetTypingStatusRequest {
 	r.type_ = &type_
 	return r
@@ -3751,7 +2488,7 @@ func (r SetTypingStatusRequest) Type_(type_ RecipientType) SetTypingStatusReques
 
 // User Ids of the recipients of the message being typed. Required for the `"direct"` type. Ignored in the case of `"stream"` or `"channel"` type.  Clients should send a JSON-encoded list of user Ids, even if there is only one recipient.
 //
-//	**Changes**: In Zulip 8.0 (feature level 215), stopped using this parameter for the `"stream"` type. Previously, in the case of the `"stream"` type, it accepted a single-element list containing the Id of the channel. A new parameter, `stream_id`, is now used for this. Note that the `"channel"` type did not exist at this feature level.  Support for typing notifications for channel' messages is new in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  Before Zulip 2.0.0, this parameter accepted only a JSON-encoded list of email addresses. Support for the email address-based format was removed in Zulip 3.0 (feature level 11).
+// **Changes**: In Zulip 8.0 (feature level 215), stopped using this parameter for the `"stream"` type. Previously, in the case of the `"stream"` type, it accepted a single-element list containing the Id of the channel. A new parameter, `stream_id`, is now used for this. Note that the `"channel"` type did not exist at this feature level.  Support for typing notifications for channel' messages is new in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  Before Zulip 2.0.0, this parameter accepted only a JSON-encoded list of email addresses. Support for the email address-based format was removed in Zulip 3.0 (feature level 11).
 func (r SetTypingStatusRequest) To(to Recipient) SetTypingStatusRequest {
 	r.to = &to
 	return r
@@ -3759,7 +2496,7 @@ func (r SetTypingStatusRequest) To(to Recipient) SetTypingStatusRequest {
 
 // Id of the channel in which the message is being typed. Required for the `"stream"` or `"channel"` type. Ignored in the case of `"direct"` type.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 215). Previously, a single-element list containing the Id of the channel was passed in `to` parameter.
+// **Changes**: New in Zulip 8.0 (feature level 215). Previously, a single-element list containing the Id of the channel was passed in `to` parameter.
 func (r SetTypingStatusRequest) ChannelId(channelId int64) SetTypingStatusRequest {
 	r.channelId = &channelId
 	return r
@@ -3767,7 +2504,7 @@ func (r SetTypingStatusRequest) ChannelId(channelId int64) SetTypingStatusReques
 
 // Topic to which message is being typed. Required for the `"stream"` or `"channel"` type. Ignored in the case of `"direct"` type.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.
 //
-//	**Changes**: Before Zulip 10.0 (feature level 372), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
+// **Changes**: Before Zulip 10.0 (feature level 372), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 //
 // [POST /register]: https://zulip.com/api/register-queue
 func (r SetTypingStatusRequest) Topic(topic string) SetTypingStatusRequest {
@@ -3827,93 +2564,41 @@ func (c *simpleClient) SetTypingStatus(ctx context.Context) SetTypingStatusReque
 // Execute executes the request
 func (c *simpleClient) SetTypingStatusExecute(r SetTypingStatusRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/typing"
 
-	localVarPath := localBasePath + "/typing"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.op == nil {
-		return localVarReturnValue, nil, reportError("op is required and must be specified")
+		return nil, nil, reportError("op is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.type_ != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "type", r.type_, "", "")
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "op", r.op, "", "")
+	addOptionalParam(formParams, "type", r.type_, "", "")
+	addParam(formParams, "op", r.op, "", "")
 	if r.to != nil {
 		paramJson, err := parameterToJson(r.to.asArray())
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("to", paramJson)
+		formParams.Add("to", paramJson)
 	}
-	if r.channelId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
-	}
-	if r.topic != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addOptionalParam(formParams, "stream_id", r.channelId, "form", "")
+	addOptionalParam(formParams, "topic", r.topic, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type SetTypingStatusForMessageEditRequest struct {
@@ -3961,78 +2646,32 @@ func (c *simpleClient) SetTypingStatusForMessageEdit(ctx context.Context, messag
 // Execute executes the request
 func (c *simpleClient) SetTypingStatusForMessageEditExecute(r SetTypingStatusForMessageEditRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/messages/{message_id}/typing"
+	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
 
-	localVarPath := localBasePath + "/messages/{message_id}/typing"
-	localVarPath = strings.Replace(localVarPath, "{"+"message_id"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.op == nil {
-		return localVarReturnValue, nil, reportError("op is required and must be specified")
+		return nil, nil, reportError("op is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "op", r.op, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "op", r.op, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UnmuteUserRequest struct {
@@ -4064,74 +2703,27 @@ func (c *simpleClient) UnmuteUser(ctx context.Context, mutedUserId int64) Unmute
 // Execute executes the request
 func (c *simpleClient) UnmuteUserExecute(r UnmuteUserRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/me/muted_users/{muted_user_id}"
+	endpoint = strings.Replace(endpoint, "{"+"muted_user_id"+"}", idToString(r.mutedUserId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/me/muted_users/{muted_user_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"muted_user_id"+"}", url.PathEscape(parameterValueToString(r.mutedUserId, "mutedUserId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdatePresenceRequest struct {
@@ -4156,7 +2748,7 @@ func (r UpdatePresenceRequest) Status(status PresenceStatus) UpdatePresenceReque
 
 // The identifier that specifies what presence data the client already has received, which allows the server to only return more recent user presence data.  This should be set to `-1` during initialization of the client in order to fetch all user presence data, unless the client is obtaining initial user presence metadata from the [`POST /register`] endpoint.  In subsequent queries to this endpoint, this value should be set to the most recent value of `presence_last_update_id` returned by the server in this endpoint's response, which implements incremental fetching of user presence data.  When this parameter is passed, the user presence data in the response will always be in the modern format.
 //
-//	**Changes**: New in Zulip 9.0 (feature level 263). Previously, the server sent user presence data for all users who had been active in the last two weeks unconditionally.
+// **Changes**: New in Zulip 9.0 (feature level 263). Previously, the server sent user presence data for all users who had been active in the last two weeks unconditionally.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 func (r UpdatePresenceRequest) LastUpdateId(lastUpdateId int64) UpdatePresenceRequest {
@@ -4166,7 +2758,7 @@ func (r UpdatePresenceRequest) LastUpdateId(lastUpdateId int64) UpdatePresenceRe
 
 // Limits how far back in time to fetch user presence data. If not specified, defaults to 14 days. A value of N means that the oldest presence data fetched will be from at most N days ago.  Note that this is only useful during the initial user presence data fetch, as subsequent fetches should use the `last_update_id` parameter, which will act as the limit on how much presence data is returned. `history_limit_days` is ignored if `last_update_id` is passed with a value greater than `0`, indicating that the client already has some presence data.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 288).
+// **Changes**: New in Zulip 10.0 (feature level 288).
 func (r UpdatePresenceRequest) HistoryLimitDays(historyLimitDays int32) UpdatePresenceRequest {
 	r.historyLimitDays = &historyLimitDays
 	return r
@@ -4190,7 +2782,7 @@ func (r UpdatePresenceRequest) PingOnly(pingOnly bool) UpdatePresenceRequest {
 
 // Legacy parameter for configuring the format (modern or legacy) in which the server will return user presence data for the organization.  Modern clients should use [`last_update_id`], which guarantees that user presence data will be returned in the modern format, and should not pass this parameter as `true` unless interacting with an older server.  Legacy clients that do not yet support `last_update_id` may use the value of `true` to request the modern format for user presence data.  **Note**: The legacy format for user presence data will be removed entirely in a future release.
 //
-//	**Changes**: **Deprecated** in Zulip 9.0 (feature level 263). Using the modern `last_update_id` parameter is the recommended way to request the modern format for user presence data.  New in Zulip 3.0 (no feature level as it was an unstable API at that point).
+// **Changes**:**Deprecated** in Zulip 9.0 (feature level 263). Using the modern `last_update_id` parameter is the recommended way to request the modern format for user presence data.  New in Zulip 3.0 (no feature level as it was an unstable API at that point).
 //
 // [`last_update_id`]: https://zulip.com/api/update-presence#parameter-last_update_id
 func (r UpdatePresenceRequest) SlimPresence(slimPresence bool) UpdatePresenceRequest {
@@ -4245,92 +2837,36 @@ func (c *simpleClient) UpdatePresence(ctx context.Context) UpdatePresenceRequest
 // Execute executes the request
 func (c *simpleClient) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePresenceResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *UpdatePresenceResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &UpdatePresenceResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/users/me/presence"
 
-	localVarPath := localBasePath + "/users/me/presence"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.status == nil {
-		return localVarReturnValue, nil, reportError("status is required and must be specified")
+		return nil, nil, reportError("status is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.lastUpdateId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "last_update_id", r.lastUpdateId, "", "")
-	}
-	if r.historyLimitDays != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "history_limit_days", r.historyLimitDays, "", "")
-	}
-	if r.newUserInput != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "new_user_input", r.newUserInput, "", "")
-	}
-	if r.pingOnly != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "ping_only", r.pingOnly, "", "")
-	}
-	if r.slimPresence != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "slim_presence", r.slimPresence, "", "")
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "status", r.status, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addOptionalParam(formParams, "last_update_id", r.lastUpdateId, "", "")
+	addOptionalParam(formParams, "history_limit_days", r.historyLimitDays, "", "")
+	addOptionalParam(formParams, "new_user_input", r.newUserInput, "", "")
+	addOptionalParam(formParams, "ping_only", r.pingOnly, "", "")
+	addOptionalParam(formParams, "slim_presence", r.slimPresence, "", "")
+	addParam(formParams, "status", r.status, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateSettingsRequest struct {
@@ -4431,7 +2967,7 @@ func (r UpdateSettingsRequest) NewPassword(newPassword string) UpdateSettingsReq
 
 // Whether time should be [displayed in 24-hour notation].
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 //
 // [displayed in 24-hour notation]: https://zulip.com/help/change-the-time-format
 func (r UpdateSettingsRequest) TwentyFourHourTime(twentyFourHourTime bool) UpdateSettingsRequest {
@@ -4464,7 +3000,7 @@ func (r UpdateSettingsRequest) WebChannelDefaultView(webChannelDefaultView Chann
 
 // Whether clients should display the [number of starred messages].
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 //
 // [number of starred messages]: https://zulip.com/help/star-a-message#display-the-number-of-starred-messages
 func (r UpdateSettingsRequest) StarredMessageCounts(starredMessageCounts bool) UpdateSettingsRequest {
@@ -4474,7 +3010,7 @@ func (r UpdateSettingsRequest) StarredMessageCounts(starredMessageCounts bool) U
 
 // Whether the user is configured to receive typing notifications from other users. The server will only deliver typing notifications events to users who for whom this is enabled.  By default, this is set to true, enabling user to receive typing notifications from other users.
 //
-//	**Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications.
+// **Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications.
 func (r UpdateSettingsRequest) ReceivesTypingNotifications(receivesTypingNotifications bool) UpdateSettingsRequest {
 	r.receivesTypingNotifications = &receivesTypingNotifications
 	return r
@@ -4482,7 +3018,7 @@ func (r UpdateSettingsRequest) ReceivesTypingNotifications(receivesTypingNotific
 
 // Whether the user should be shown an alert, offering to update their [profile time zone], when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 329).
+// **Changes**: New in Zulip 10.0 (feature level 329).
 //
 // [profile time zone]: https://zulip.com/help/change-your-timezone
 func (r UpdateSettingsRequest) WebSuggestUpdateTimezone(webSuggestUpdateTimezone bool) UpdateSettingsRequest {
@@ -4492,7 +3028,7 @@ func (r UpdateSettingsRequest) WebSuggestUpdateTimezone(webSuggestUpdateTimezone
 
 // Whether to use the [maximum available screen width] for the web app's center panel (message feed, recent conversations) on wide screens.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 //
 // [maximum available screen width]: https://zulip.com/help/enable-full-width-display
 func (r UpdateSettingsRequest) FluidLayoutWidth(fluidLayoutWidth bool) UpdateSettingsRequest {
@@ -4502,7 +3038,7 @@ func (r UpdateSettingsRequest) FluidLayoutWidth(fluidLayoutWidth bool) UpdateSet
 
 // This setting is reserved for use to control variations in Zulip's design to help visually impaired users.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 func (r UpdateSettingsRequest) HighContrastMode(highContrastMode bool) UpdateSettingsRequest {
 	r.highContrastMode = &highContrastMode
 	return r
@@ -4510,7 +3046,7 @@ func (r UpdateSettingsRequest) HighContrastMode(highContrastMode bool) UpdateSet
 
 // User-configured primary `font-size` for the web application, in pixels.
 //
-//	**Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level.
+// **Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level.
 func (r UpdateSettingsRequest) WebFontSizePx(webFontSizePx int32) UpdateSettingsRequest {
 	r.webFontSizePx = &webFontSizePx
 	return r
@@ -4518,7 +3054,7 @@ func (r UpdateSettingsRequest) WebFontSizePx(webFontSizePx int32) UpdateSettings
 
 // User-configured primary `line-height` for the web application, in percent, so a value of 120 represents a `line-height` of 1.2.
 //
-//	**Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
+// **Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
 func (r UpdateSettingsRequest) WebLineHeightPercent(webLineHeightPercent int32) UpdateSettingsRequest {
 	r.webLineHeightPercent = &webLineHeightPercent
 	return r
@@ -4532,7 +3068,7 @@ func (r UpdateSettingsRequest) WebLineHeightPercent(webLineHeightPercent int32) 
 //
 // Automatic detection is implementing using the standard `prefers-color-scheme` media query.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 //
 // [color theme]: https://zulip.com/help/dark-theme
 func (r UpdateSettingsRequest) ColorScheme(colorScheme ColorScheme) UpdateSettingsRequest {
@@ -4542,7 +3078,7 @@ func (r UpdateSettingsRequest) ColorScheme(colorScheme ColorScheme) UpdateSettin
 
 // A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 87).
+// **Changes**: New in Zulip 5.0 (feature level 87).
 func (r UpdateSettingsRequest) EnableDraftsSynchronization(enableDraftsSynchronization bool) UpdateSettingsRequest {
 	r.enableDraftsSynchronization = &enableDraftsSynchronization
 	return r
@@ -4550,7 +3086,7 @@ func (r UpdateSettingsRequest) EnableDraftsSynchronization(enableDraftsSynchroni
 
 // Whether to [translate emoticons to emoji] in messages the user sends.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 //
 // [translate emoticons to emoji]: https://zulip.com/help/configure-emoticon-translations
 func (r UpdateSettingsRequest) TranslateEmoticons(translateEmoticons bool) UpdateSettingsRequest {
@@ -4560,7 +3096,7 @@ func (r UpdateSettingsRequest) TranslateEmoticons(translateEmoticons bool) Updat
 
 // Whether to display the names of reacting users on a message.  When enabled, clients should display the names of reacting users, rather than a count, for messages with few total reactions. The ideal cutoff may depend on the space available for displaying reactions; the official web application displays names when 3 or fewer total reactions are present with this setting enabled.
 //
-//	**Changes**: New in Zulip 6.0 (feature level 125).
+// **Changes**: New in Zulip 6.0 (feature level 125).
 func (r UpdateSettingsRequest) DisplayEmojiReactionUsers(displayEmojiReactionUsers bool) UpdateSettingsRequest {
 	r.displayEmojiReactionUsers = &displayEmojiReactionUsers
 	return r
@@ -4568,7 +3104,7 @@ func (r UpdateSettingsRequest) DisplayEmojiReactionUsers(displayEmojiReactionUse
 
 // What [default language] to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `"en"` for English or `"de"` for German.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).
 //
 // [default language]: https://zulip.com/help/change-your-language
 func (r UpdateSettingsRequest) DefaultLanguage(defaultLanguage string) UpdateSettingsRequest {
@@ -4591,7 +3127,7 @@ func (r UpdateSettingsRequest) WebHomeView(webHomeView HomeView) UpdateSettingsR
 
 // Whether the escape key navigates to the [configured home view].
 //
-//	**Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `escape_navigates_to_default_view`, which was new in Zulip 5.0 (feature level 107).
+// **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `escape_navigates_to_default_view`, which was new in Zulip 5.0 (feature level 107).
 //
 // [configured home view]: https://zulip.com/help/configure-home-view
 func (r UpdateSettingsRequest) WebEscapeNavigatesToHomeView(webEscapeNavigatesToHomeView bool) UpdateSettingsRequest {
@@ -4601,7 +3137,7 @@ func (r UpdateSettingsRequest) WebEscapeNavigatesToHomeView(webEscapeNavigatesTo
 
 // Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 func (r UpdateSettingsRequest) LeftSideUserlist(leftSideUserlist bool) UpdateSettingsRequest {
 	r.leftSideUserlist = &leftSideUserlist
 	return r
@@ -4669,7 +3205,7 @@ func (r UpdateSettingsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnr
 
 // Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 350).
+// **Changes**: New in Zulip 10.0 (feature level 350).
 func (r UpdateSettingsRequest) HideAiFeatures(hideAiFeatures bool) UpdateSettingsRequest {
 	r.hideAiFeatures = &hideAiFeatures
 	return r
@@ -4677,7 +3213,7 @@ func (r UpdateSettingsRequest) HideAiFeatures(hideAiFeatures bool) UpdateSetting
 
 // Determines whether the web/desktop application's left sidebar displays any channel folders configured by the organization.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 411).
+// **Changes**: New in Zulip 11.0 (feature level 411).
 func (r UpdateSettingsRequest) WebLeftSidebarShowChannelFolders(webLeftSidebarShowChannelFolders bool) UpdateSettingsRequest {
 	r.webLeftSidebarShowChannelFolders = &webLeftSidebarShowChannelFolders
 	return r
@@ -4685,7 +3221,7 @@ func (r UpdateSettingsRequest) WebLeftSidebarShowChannelFolders(webLeftSidebarSh
 
 // Determines whether the web/desktop application's left sidebar displays the unread message count summary.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 398).
+// **Changes**: New in Zulip 11.0 (feature level 398).
 func (r UpdateSettingsRequest) WebLeftSidebarUnreadsCountSummary(webLeftSidebarUnreadsCountSummary bool) UpdateSettingsRequest {
 	r.webLeftSidebarUnreadsCountSummary = &webLeftSidebarUnreadsCountSummary
 	return r
@@ -4693,7 +3229,7 @@ func (r UpdateSettingsRequest) WebLeftSidebarUnreadsCountSummary(webLeftSidebarU
 
 // The IANA identifier of the user's [profile time zone], which is used primarily to display the user's local time to other users.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
 //
 // [profile time zone]: https://zulip.com/help/change-your-timezone
 func (r UpdateSettingsRequest) Timezone(timezone string) UpdateSettingsRequest {
@@ -4703,7 +3239,7 @@ func (r UpdateSettingsRequest) Timezone(timezone string) UpdateSettingsRequest {
 
 // Enable visual desktop notifications for channel messages.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) EnableChannelDesktopNotifications(enableChannelDesktopNotifications bool) UpdateSettingsRequest {
 	r.enableChannelDesktopNotifications = &enableChannelDesktopNotifications
 	return r
@@ -4711,7 +3247,7 @@ func (r UpdateSettingsRequest) EnableChannelDesktopNotifications(enableChannelDe
 
 // Enable email notifications for channel messages.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) EnableChannelEmailNotifications(enableChannelEmailNotifications bool) UpdateSettingsRequest {
 	r.enableChannelEmailNotifications = &enableChannelEmailNotifications
 	return r
@@ -4719,7 +3255,7 @@ func (r UpdateSettingsRequest) EnableChannelEmailNotifications(enableChannelEmai
 
 // Enable mobile notifications for channel messages.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) EnableChannelPushNotifications(enableChannelPushNotifications bool) UpdateSettingsRequest {
 	r.enableChannelPushNotifications = &enableChannelPushNotifications
 	return r
@@ -4727,7 +3263,7 @@ func (r UpdateSettingsRequest) EnableChannelPushNotifications(enableChannelPushN
 
 // Enable audible desktop notifications for channel messages.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) EnableChannelAudibleNotifications(enableChannelAudibleNotifications bool) UpdateSettingsRequest {
 	r.enableChannelAudibleNotifications = &enableChannelAudibleNotifications
 	return r
@@ -4735,7 +3271,7 @@ func (r UpdateSettingsRequest) EnableChannelAudibleNotifications(enableChannelAu
 
 // Notification sound name.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).
 func (r UpdateSettingsRequest) NotificationSound(notificationSound string) UpdateSettingsRequest {
 	r.notificationSound = &notificationSound
 	return r
@@ -4743,7 +3279,7 @@ func (r UpdateSettingsRequest) NotificationSound(notificationSound string) Updat
 
 // Enable visual desktop notifications for direct messages and @-mentions.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) EnableDesktopNotifications(enableDesktopNotifications bool) UpdateSettingsRequest {
 	r.enableDesktopNotifications = &enableDesktopNotifications
 	return r
@@ -4751,7 +3287,7 @@ func (r UpdateSettingsRequest) EnableDesktopNotifications(enableDesktopNotificat
 
 // Enable audible desktop notifications for direct messages and @-mentions.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) EnableSounds(enableSounds bool) UpdateSettingsRequest {
 	r.enableSounds = &enableSounds
 	return r
@@ -4759,7 +3295,7 @@ func (r UpdateSettingsRequest) EnableSounds(enableSounds bool) UpdateSettingsReq
 
 // The duration (in seconds) for which the server should wait to batch email notifications before sending them.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 82)
+// **Changes**: New in Zulip 5.0 (feature level 82)
 func (r UpdateSettingsRequest) EmailNotificationsBatchingPeriodSeconds(emailNotificationsBatchingPeriodSeconds int32) UpdateSettingsRequest {
 	r.emailNotificationsBatchingPeriodSeconds = &emailNotificationsBatchingPeriodSeconds
 	return r
@@ -4767,7 +3303,7 @@ func (r UpdateSettingsRequest) EmailNotificationsBatchingPeriodSeconds(emailNoti
 
 // Enable email notifications for direct messages and @-mentions received when the user is offline.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) EnableOfflineEmailNotifications(enableOfflineEmailNotifications bool) UpdateSettingsRequest {
 	r.enableOfflineEmailNotifications = &enableOfflineEmailNotifications
 	return r
@@ -4775,7 +3311,7 @@ func (r UpdateSettingsRequest) EnableOfflineEmailNotifications(enableOfflineEmai
 
 // Enable mobile notification for direct messages and @-mentions received when the user is offline.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) EnableOfflinePushNotifications(enableOfflinePushNotifications bool) UpdateSettingsRequest {
 	r.enableOfflinePushNotifications = &enableOfflinePushNotifications
 	return r
@@ -4783,7 +3319,7 @@ func (r UpdateSettingsRequest) EnableOfflinePushNotifications(enableOfflinePushN
 
 // Enable mobile notification for direct messages and @-mentions received when the user is online.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) EnableOnlinePushNotifications(enableOnlinePushNotifications bool) UpdateSettingsRequest {
 	r.enableOnlinePushNotifications = &enableOnlinePushNotifications
 	return r
@@ -4791,7 +3327,7 @@ func (r UpdateSettingsRequest) EnableOnlinePushNotifications(enableOnlinePushNot
 
 // Enable visual desktop notifications for messages sent to followed topics.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 189).
+// **Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateSettingsRequest) EnableFollowedTopicDesktopNotifications(enableFollowedTopicDesktopNotifications bool) UpdateSettingsRequest {
 	r.enableFollowedTopicDesktopNotifications = &enableFollowedTopicDesktopNotifications
 	return r
@@ -4799,7 +3335,7 @@ func (r UpdateSettingsRequest) EnableFollowedTopicDesktopNotifications(enableFol
 
 // Enable email notifications for messages sent to followed topics.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 189).
+// **Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateSettingsRequest) EnableFollowedTopicEmailNotifications(enableFollowedTopicEmailNotifications bool) UpdateSettingsRequest {
 	r.enableFollowedTopicEmailNotifications = &enableFollowedTopicEmailNotifications
 	return r
@@ -4807,7 +3343,7 @@ func (r UpdateSettingsRequest) EnableFollowedTopicEmailNotifications(enableFollo
 
 // Enable push notifications for messages sent to followed topics.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 189).
+// **Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateSettingsRequest) EnableFollowedTopicPushNotifications(enableFollowedTopicPushNotifications bool) UpdateSettingsRequest {
 	r.enableFollowedTopicPushNotifications = &enableFollowedTopicPushNotifications
 	return r
@@ -4815,7 +3351,7 @@ func (r UpdateSettingsRequest) EnableFollowedTopicPushNotifications(enableFollow
 
 // Enable audible desktop notifications for messages sent to followed topics.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 189).
+// **Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateSettingsRequest) EnableFollowedTopicAudibleNotifications(enableFollowedTopicAudibleNotifications bool) UpdateSettingsRequest {
 	r.enableFollowedTopicAudibleNotifications = &enableFollowedTopicAudibleNotifications
 	return r
@@ -4823,7 +3359,7 @@ func (r UpdateSettingsRequest) EnableFollowedTopicAudibleNotifications(enableFol
 
 // Enable digest emails when the user is away.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) EnableDigestEmails(enableDigestEmails bool) UpdateSettingsRequest {
 	r.enableDigestEmails = &enableDigestEmails
 	return r
@@ -4831,7 +3367,7 @@ func (r UpdateSettingsRequest) EnableDigestEmails(enableDigestEmails bool) Updat
 
 // Enable marketing emails. Has no function outside Zulip Cloud.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) EnableMarketingEmails(enableMarketingEmails bool) UpdateSettingsRequest {
 	r.enableMarketingEmails = &enableMarketingEmails
 	return r
@@ -4839,7 +3375,7 @@ func (r UpdateSettingsRequest) EnableMarketingEmails(enableMarketingEmails bool)
 
 // Enable email notifications for new logins to account.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) EnableLoginEmails(enableLoginEmails bool) UpdateSettingsRequest {
 	r.enableLoginEmails = &enableLoginEmails
 	return r
@@ -4847,7 +3383,7 @@ func (r UpdateSettingsRequest) EnableLoginEmails(enableLoginEmails bool) UpdateS
 
 // Include the message's content in email notifications for new messages.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) MessageContentInEmailNotifications(messageContentInEmailNotifications bool) UpdateSettingsRequest {
 	r.messageContentInEmailNotifications = &messageContentInEmailNotifications
 	return r
@@ -4855,7 +3391,7 @@ func (r UpdateSettingsRequest) MessageContentInEmailNotifications(messageContent
 
 // Include content of direct messages in desktop notifications.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) PmContentInDesktopNotifications(pmContentInDesktopNotifications bool) UpdateSettingsRequest {
 	r.pmContentInDesktopNotifications = &pmContentInDesktopNotifications
 	return r
@@ -4863,7 +3399,7 @@ func (r UpdateSettingsRequest) PmContentInDesktopNotifications(pmContentInDeskto
 
 // Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) WildcardMentionsNotify(wildcardMentionsNotify bool) UpdateSettingsRequest {
 	r.wildcardMentionsNotify = &wildcardMentionsNotify
 	return r
@@ -4871,7 +3407,7 @@ func (r UpdateSettingsRequest) WildcardMentionsNotify(wildcardMentionsNotify boo
 
 // Whether wildcard mentions (e.g., @**all**) in messages sent to followed topics should send notifications like a personal mention.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 189).
+// **Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateSettingsRequest) EnableFollowedTopicWildcardMentionsNotify(enableFollowedTopicWildcardMentionsNotify bool) UpdateSettingsRequest {
 	r.enableFollowedTopicWildcardMentionsNotify = &enableFollowedTopicWildcardMentionsNotify
 	return r
@@ -4932,7 +3468,7 @@ func (r UpdateSettingsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(au
 
 // Whether the server will automatically mark the user as following topics where the user is mentioned.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 235).
+// **Changes**: New in Zulip 8.0 (feature level 235).
 func (r UpdateSettingsRequest) AutomaticallyFollowTopicsWhereMentioned(automaticallyFollowTopicsWhereMentioned bool) UpdateSettingsRequest {
 	r.automaticallyFollowTopicsWhereMentioned = &automaticallyFollowTopicsWhereMentioned
 	return r
@@ -4951,7 +3487,7 @@ func (r UpdateSettingsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNo
 
 // Display the presence status to other users when online.
 //
-//	**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
+// **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
 func (r UpdateSettingsRequest) PresenceEnabled(presenceEnabled bool) UpdateSettingsRequest {
 	r.presenceEnabled = &presenceEnabled
 	return r
@@ -4959,7 +3495,7 @@ func (r UpdateSettingsRequest) PresenceEnabled(presenceEnabled bool) UpdateSetti
 
 // Whether pressing Enter in the compose box sends a message (or saves a message edit).
 //
-//	**Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format.
+// **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format.
 func (r UpdateSettingsRequest) EnterSends(enterSends bool) UpdateSettingsRequest {
 	r.enterSends = &enterSends
 	return r
@@ -4967,7 +3503,7 @@ func (r UpdateSettingsRequest) EnterSends(enterSends bool) UpdateSettingsRequest
 
 // Whether [typing notifications] be sent when composing direct messages.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 105).
+// **Changes**: New in Zulip 5.0 (feature level 105).
 //
 // [typing notifications]: https://zulip.com/help/typing-notifications
 func (r UpdateSettingsRequest) SendPrivateTypingNotifications(sendPrivateTypingNotifications bool) UpdateSettingsRequest {
@@ -4977,7 +3513,7 @@ func (r UpdateSettingsRequest) SendPrivateTypingNotifications(sendPrivateTypingN
 
 // Whether [typing notifications] be sent when composing channel messages.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 105).
+// **Changes**: New in Zulip 5.0 (feature level 105).
 //
 // [typing notifications]: https://zulip.com/help/typing-notifications
 func (r UpdateSettingsRequest) SendChannelTypingNotifications(sendChannelTypingNotifications bool) UpdateSettingsRequest {
@@ -4987,7 +3523,7 @@ func (r UpdateSettingsRequest) SendChannelTypingNotifications(sendChannelTypingN
 
 // Whether other users are allowed to see whether you've read messages.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 105).
+// **Changes**: New in Zulip 5.0 (feature level 105).
 func (r UpdateSettingsRequest) SendReadReceipts(sendReadReceipts bool) UpdateSettingsRequest {
 	r.sendReadReceipts = &sendReadReceipts
 	return r
@@ -4995,7 +3531,7 @@ func (r UpdateSettingsRequest) SendReadReceipts(sendReadReceipts bool) UpdateSet
 
 // Whether organization administrators are allowed to export your private data.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 293).
+// **Changes**: New in Zulip 10.0 (feature level 293).
 func (r UpdateSettingsRequest) AllowPrivateDataExport(allowPrivateDataExport bool) UpdateSettingsRequest {
 	r.allowPrivateDataExport = &allowPrivateDataExport
 	return r
@@ -5019,7 +3555,7 @@ func (r UpdateSettingsRequest) EmailAddressVisibility(emailAddressVisibility Ema
 
 // Web/desktop app setting for whether the user's view should automatically go to the conversation where they sent a message.
 //
-//	**Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
+// **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
 func (r UpdateSettingsRequest) WebNavigateToSentMessage(webNavigateToSentMessage bool) UpdateSettingsRequest {
 	r.webNavigateToSentMessage = &webNavigateToSentMessage
 	return r
@@ -5078,274 +3614,93 @@ func (c *simpleClient) UpdateSettings(ctx context.Context) UpdateSettingsRequest
 // Execute executes the request
 func (c *simpleClient) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/settings"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "full_name", r.fullName, "", "")
+	addOptionalParam(formParams, "email", r.email, "", "")
+	addOptionalParam(formParams, "old_password", r.oldPassword, "", "")
+	addOptionalParam(formParams, "new_password", r.newPassword, "", "")
+	addOptionalParam(formParams, "twenty_four_hour_time", r.twentyFourHourTime, "form", "")
+	addOptionalParam(formParams, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy, "form", "")
+	addOptionalParam(formParams, "web_channel_default_view", r.webChannelDefaultView, "form", "")
+	addOptionalParam(formParams, "starred_message_counts", r.starredMessageCounts, "form", "")
+	addOptionalParam(formParams, "receives_typing_notifications", r.receivesTypingNotifications, "form", "")
+	addOptionalParam(formParams, "web_suggest_update_timezone", r.webSuggestUpdateTimezone, "form", "")
+	addOptionalParam(formParams, "fluid_layout_width", r.fluidLayoutWidth, "form", "")
+	addOptionalParam(formParams, "high_contrast_mode", r.highContrastMode, "form", "")
+	addOptionalParam(formParams, "web_font_size_px", r.webFontSizePx, "form", "")
+	addOptionalParam(formParams, "web_line_height_percent", r.webLineHeightPercent, "form", "")
+	addOptionalParam(formParams, "color_scheme", r.colorScheme, "form", "")
+	addOptionalParam(formParams, "enable_drafts_synchronization", r.enableDraftsSynchronization, "form", "")
+	addOptionalParam(formParams, "translate_emoticons", r.translateEmoticons, "form", "")
+	addOptionalParam(formParams, "display_emoji_reaction_users", r.displayEmojiReactionUsers, "form", "")
+	addOptionalParam(formParams, "default_language", r.defaultLanguage, "", "")
+	addOptionalParam(formParams, "web_home_view", r.webHomeView, "", "")
+	addOptionalParam(formParams, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView, "form", "")
+	addOptionalParam(formParams, "left_side_userlist", r.leftSideUserlist, "form", "")
+	addOptionalParam(formParams, "emojiset", r.emojiset, "", "")
+	addOptionalParam(formParams, "demote_inactive_streams", r.demoteInactiveChannels, "form", "")
+	addOptionalParam(formParams, "user_list_style", r.userListStyle, "form", "")
+	addOptionalParam(formParams, "web_animate_image_previews", r.webAnimateImagePreviews, "", "")
+	addOptionalParam(formParams, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy, "form", "")
+	addOptionalParam(formParams, "hide_ai_features", r.hideAiFeatures, "form", "")
+	addOptionalParam(formParams, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders, "form", "")
+	addOptionalParam(formParams, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary, "form", "")
+	addOptionalParam(formParams, "timezone", r.timezone, "", "")
+	addOptionalParam(formParams, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications, "form", "")
+	addOptionalParam(formParams, "enable_stream_email_notifications", r.enableChannelEmailNotifications, "form", "")
+	addOptionalParam(formParams, "enable_stream_push_notifications", r.enableChannelPushNotifications, "form", "")
+	addOptionalParam(formParams, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications, "form", "")
+	addOptionalParam(formParams, "notification_sound", r.notificationSound, "", "")
+	addOptionalParam(formParams, "enable_desktop_notifications", r.enableDesktopNotifications, "form", "")
+	addOptionalParam(formParams, "enable_sounds", r.enableSounds, "form", "")
+	addOptionalParam(formParams, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds, "form", "")
+	addOptionalParam(formParams, "enable_offline_email_notifications", r.enableOfflineEmailNotifications, "form", "")
+	addOptionalParam(formParams, "enable_offline_push_notifications", r.enableOfflinePushNotifications, "form", "")
+	addOptionalParam(formParams, "enable_online_push_notifications", r.enableOnlinePushNotifications, "form", "")
+	addOptionalParam(formParams, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications, "form", "")
+	addOptionalParam(formParams, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications, "form", "")
+	addOptionalParam(formParams, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications, "form", "")
+	addOptionalParam(formParams, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications, "form", "")
+	addOptionalParam(formParams, "enable_digest_emails", r.enableDigestEmails, "form", "")
+	addOptionalParam(formParams, "enable_marketing_emails", r.enableMarketingEmails, "form", "")
+	addOptionalParam(formParams, "enable_login_emails", r.enableLoginEmails, "form", "")
+	addOptionalParam(formParams, "message_content_in_email_notifications", r.messageContentInEmailNotifications, "form", "")
+	addOptionalParam(formParams, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications, "form", "")
+	addOptionalParam(formParams, "wildcard_mentions_notify", r.wildcardMentionsNotify, "form", "")
+	addOptionalParam(formParams, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify, "form", "")
+	addOptionalParam(formParams, "desktop_icon_count_display", r.desktopIconCountDisplay, "form", "")
+	addOptionalParam(formParams, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy, "form", "")
+	addOptionalParam(formParams, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy, "form", "")
+	addOptionalParam(formParams, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy, "form", "")
+	addOptionalParam(formParams, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned, "form", "")
+	addOptionalParam(formParams, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy, "", "")
+	addOptionalParam(formParams, "presence_enabled", r.presenceEnabled, "form", "")
+	addOptionalParam(formParams, "enter_sends", r.enterSends, "form", "")
+	addOptionalParam(formParams, "send_private_typing_notifications", r.sendPrivateTypingNotifications, "form", "")
+	addOptionalParam(formParams, "send_stream_typing_notifications", r.sendChannelTypingNotifications, "form", "")
+	addOptionalParam(formParams, "send_read_receipts", r.sendReadReceipts, "form", "")
+	addOptionalParam(formParams, "allow_private_data_export", r.allowPrivateDataExport, "form", "")
+	addOptionalParam(formParams, "email_address_visibility", r.emailAddressVisibility, "form", "")
+	addOptionalParam(formParams, "web_navigate_to_sent_message", r.webNavigateToSentMessage, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/settings"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.fullName != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "full_name", r.fullName, "", "")
-	}
-	if r.email != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "email", r.email, "", "")
-	}
-	if r.oldPassword != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "old_password", r.oldPassword, "", "")
-	}
-	if r.newPassword != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "new_password", r.newPassword, "", "")
-	}
-	if r.twentyFourHourTime != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "twenty_four_hour_time", r.twentyFourHourTime, "form", "")
-	}
-	if r.webMarkReadOnScrollPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy, "form", "")
-	}
-	if r.webChannelDefaultView != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_channel_default_view", r.webChannelDefaultView, "form", "")
-	}
-	if r.starredMessageCounts != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "starred_message_counts", r.starredMessageCounts, "form", "")
-	}
-	if r.receivesTypingNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "receives_typing_notifications", r.receivesTypingNotifications, "form", "")
-	}
-	if r.webSuggestUpdateTimezone != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_suggest_update_timezone", r.webSuggestUpdateTimezone, "form", "")
-	}
-	if r.fluidLayoutWidth != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "fluid_layout_width", r.fluidLayoutWidth, "form", "")
-	}
-	if r.highContrastMode != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "high_contrast_mode", r.highContrastMode, "form", "")
-	}
-	if r.webFontSizePx != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_font_size_px", r.webFontSizePx, "form", "")
-	}
-	if r.webLineHeightPercent != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_line_height_percent", r.webLineHeightPercent, "form", "")
-	}
-	if r.colorScheme != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "color_scheme", r.colorScheme, "form", "")
-	}
-	if r.enableDraftsSynchronization != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_drafts_synchronization", r.enableDraftsSynchronization, "form", "")
-	}
-	if r.translateEmoticons != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "translate_emoticons", r.translateEmoticons, "form", "")
-	}
-	if r.displayEmojiReactionUsers != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "display_emoji_reaction_users", r.displayEmojiReactionUsers, "form", "")
-	}
-	if r.defaultLanguage != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "default_language", r.defaultLanguage, "", "")
-	}
-	if r.webHomeView != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_home_view", r.webHomeView, "", "")
-	}
-	if r.webEscapeNavigatesToHomeView != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView, "form", "")
-	}
-	if r.leftSideUserlist != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "left_side_userlist", r.leftSideUserlist, "form", "")
-	}
-	if r.emojiset != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "emojiset", r.emojiset, "", "")
-	}
-	if r.demoteInactiveChannels != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "demote_inactive_streams", r.demoteInactiveChannels, "form", "")
-	}
-	if r.userListStyle != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "user_list_style", r.userListStyle, "form", "")
-	}
-	if r.webAnimateImagePreviews != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_animate_image_previews", r.webAnimateImagePreviews, "", "")
-	}
-	if r.webChannelUnreadsCountDisplayPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy, "form", "")
-	}
-	if r.hideAiFeatures != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "hide_ai_features", r.hideAiFeatures, "form", "")
-	}
-	if r.webLeftSidebarShowChannelFolders != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders, "form", "")
-	}
-	if r.webLeftSidebarUnreadsCountSummary != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary, "form", "")
-	}
-	if r.timezone != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "timezone", r.timezone, "", "")
-	}
-	if r.enableChannelDesktopNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications, "form", "")
-	}
-	if r.enableChannelEmailNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_email_notifications", r.enableChannelEmailNotifications, "form", "")
-	}
-	if r.enableChannelPushNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_push_notifications", r.enableChannelPushNotifications, "form", "")
-	}
-	if r.enableChannelAudibleNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications, "form", "")
-	}
-	if r.notificationSound != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "notification_sound", r.notificationSound, "", "")
-	}
-	if r.enableDesktopNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_desktop_notifications", r.enableDesktopNotifications, "form", "")
-	}
-	if r.enableSounds != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_sounds", r.enableSounds, "form", "")
-	}
-	if r.emailNotificationsBatchingPeriodSeconds != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds, "form", "")
-	}
-	if r.enableOfflineEmailNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_offline_email_notifications", r.enableOfflineEmailNotifications, "form", "")
-	}
-	if r.enableOfflinePushNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_offline_push_notifications", r.enableOfflinePushNotifications, "form", "")
-	}
-	if r.enableOnlinePushNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_online_push_notifications", r.enableOnlinePushNotifications, "form", "")
-	}
-	if r.enableFollowedTopicDesktopNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications, "form", "")
-	}
-	if r.enableFollowedTopicEmailNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications, "form", "")
-	}
-	if r.enableFollowedTopicPushNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications, "form", "")
-	}
-	if r.enableFollowedTopicAudibleNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications, "form", "")
-	}
-	if r.enableDigestEmails != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_digest_emails", r.enableDigestEmails, "form", "")
-	}
-	if r.enableMarketingEmails != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_marketing_emails", r.enableMarketingEmails, "form", "")
-	}
-	if r.enableLoginEmails != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_login_emails", r.enableLoginEmails, "form", "")
-	}
-	if r.messageContentInEmailNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "message_content_in_email_notifications", r.messageContentInEmailNotifications, "form", "")
-	}
-	if r.pmContentInDesktopNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications, "form", "")
-	}
-	if r.wildcardMentionsNotify != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "wildcard_mentions_notify", r.wildcardMentionsNotify, "form", "")
-	}
-	if r.enableFollowedTopicWildcardMentionsNotify != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify, "form", "")
-	}
-	if r.desktopIconCountDisplay != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "desktop_icon_count_display", r.desktopIconCountDisplay, "form", "")
-	}
-	if r.realmNameInEmailNotificationsPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy, "form", "")
-	}
-	if r.automaticallyFollowTopicsPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy, "form", "")
-	}
-	if r.automaticallyUnmuteTopicsInMutedChannelsPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy, "form", "")
-	}
-	if r.automaticallyFollowTopicsWhereMentioned != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned, "form", "")
-	}
-	if r.resolvedTopicNoticeAutoReadPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy, "", "")
-	}
-	if r.presenceEnabled != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "presence_enabled", r.presenceEnabled, "form", "")
-	}
-	if r.enterSends != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enter_sends", r.enterSends, "form", "")
-	}
-	if r.sendPrivateTypingNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "send_private_typing_notifications", r.sendPrivateTypingNotifications, "form", "")
-	}
-	if r.sendChannelTypingNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "send_stream_typing_notifications", r.sendChannelTypingNotifications, "form", "")
-	}
-	if r.sendReadReceipts != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "send_read_receipts", r.sendReadReceipts, "form", "")
-	}
-	if r.allowPrivateDataExport != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "allow_private_data_export", r.allowPrivateDataExport, "form", "")
-	}
-	if r.emailAddressVisibility != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "email_address_visibility", r.emailAddressVisibility, "form", "")
-	}
-	if r.webNavigateToSentMessage != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_navigate_to_sent_message", r.webNavigateToSentMessage, "form", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateStatusRequest struct {
@@ -5366,7 +3721,7 @@ func (r UpdateStatusRequest) StatusText(statusText string) UpdateStatusRequest {
 
 // Whether the user should be marked as "away".
 //
-//	**Changes**: Deprecated in Zulip 6.0 (feature level 148); starting with that feature level, `away` is a legacy way to access the user's `presence_enabled` setting, with `away - !presence_enabled`. To be removed in a future release.
+// **Changes**: Deprecated in Zulip 6.0 (feature level 148); starting with that feature level, `away` is a legacy way to access the user's `presence_enabled` setting, with `away - !presence_enabled`. To be removed in a future release.
 func (r UpdateStatusRequest) Away(away bool) UpdateStatusRequest {
 	r.away = &away
 	return r
@@ -5374,7 +3729,7 @@ func (r UpdateStatusRequest) Away(away bool) UpdateStatusRequest {
 
 // The name for the emoji to associate with this status.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 86).
+// **Changes**: New in Zulip 5.0 (feature level 86).
 func (r UpdateStatusRequest) EmojiName(emojiName string) UpdateStatusRequest {
 	r.emojiName = &emojiName
 	return r
@@ -5382,7 +3737,7 @@ func (r UpdateStatusRequest) EmojiName(emojiName string) UpdateStatusRequest {
 
 // A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 86).
+// **Changes**: New in Zulip 5.0 (feature level 86).
 func (r UpdateStatusRequest) EmojiCode(emojiCode string) UpdateStatusRequest {
 	r.emojiCode = &emojiCode
 	return r
@@ -5431,88 +3786,31 @@ func (c *simpleClient) UpdateStatus(ctx context.Context) UpdateStatusRequest {
 // Execute executes the request
 func (c *simpleClient) UpdateStatusExecute(r UpdateStatusRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/me/status"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "status_text", r.statusText, "", "")
+	addOptionalParam(formParams, "away", r.away, "form", "")
+	addOptionalParam(formParams, "emoji_name", r.emojiName, "", "")
+	addOptionalParam(formParams, "emoji_code", r.emojiCode, "", "")
+	addOptionalParam(formParams, "reaction_type", r.reactionType, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/me/status"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.statusText != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "status_text", r.statusText, "", "")
-	}
-	if r.away != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "away", r.away, "form", "")
-	}
-	if r.emojiName != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "emoji_name", r.emojiName, "", "")
-	}
-	if r.emojiCode != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "emoji_code", r.emojiCode, "", "")
-	}
-	if r.reactionType != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "reaction_type", r.reactionType, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateStatusForUserRequest struct {
@@ -5533,7 +3831,7 @@ func (r UpdateStatusForUserRequest) StatusText(statusText string) UpdateStatusFo
 
 // The name for the emoji to associate with this status.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 86).
+// **Changes**: New in Zulip 5.0 (feature level 86).
 func (r UpdateStatusForUserRequest) EmojiName(emojiName string) UpdateStatusForUserRequest {
 	r.emojiName = &emojiName
 	return r
@@ -5541,7 +3839,7 @@ func (r UpdateStatusForUserRequest) EmojiName(emojiName string) UpdateStatusForU
 
 // A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 86).
+// **Changes**: New in Zulip 5.0 (feature level 86).
 func (r UpdateStatusForUserRequest) EmojiCode(emojiCode string) UpdateStatusForUserRequest {
 	r.emojiCode = &emojiCode
 	return r
@@ -5582,86 +3880,31 @@ func (c *simpleClient) UpdateStatusForUser(ctx context.Context, userId int64) Up
 // Execute executes the request
 func (c *simpleClient) UpdateStatusForUserExecute(r UpdateStatusForUserRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/{user_id}/status"
+	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "status_text", r.statusText, "", "")
+	addOptionalParam(formParams, "emoji_name", r.emojiName, "", "")
+	addOptionalParam(formParams, "emoji_code", r.emojiCode, "", "")
+	addOptionalParam(formParams, "reaction_type", r.reactionType, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/{user_id}/status"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.statusText != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "status_text", r.statusText, "", "")
-	}
-	if r.emojiName != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "emoji_name", r.emojiName, "", "")
-	}
-	if r.emojiCode != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "emoji_code", r.emojiCode, "", "")
-	}
-	if r.reactionType != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "reaction_type", r.reactionType, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateUserRequest struct {
@@ -5676,7 +3919,7 @@ type UpdateUserRequest struct {
 
 // The user's full name.
 //
-//	**Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 5.0 (feature level 106).
+// **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 5.0 (feature level 106).
 func (r UpdateUserRequest) FullName(fullName string) UpdateUserRequest {
 	r.fullName = &fullName
 	return r
@@ -5684,7 +3927,7 @@ func (r UpdateUserRequest) FullName(fullName string) UpdateUserRequest {
 
 // New [role] for the user. Roles are encoded as:  - Organization owner: 100 - Organization administrator: 200 - Organization moderator: 300 - Member: 400 - Guest: 600  Only organization owners can add or remove the owner role.  The owner role cannot be removed from the only organization owner.
 //
-//	**Changes**: New in Zulip 3.0 (feature level 8), replacing the previous pair of `is_admin` and `is_guest` boolean parameters. Organization moderator role added in Zulip 4.0 (feature level 60).
+// **Changes**: New in Zulip 3.0 (feature level 8), replacing the previous pair of `is_admin` and `is_guest` boolean parameters. Organization moderator role added in Zulip 4.0 (feature level 60).
 //
 // [role]: https://zulip.com/api/roles-and-permissions
 func (r UpdateUserRequest) Role(role Role) UpdateUserRequest {
@@ -5700,7 +3943,7 @@ func (r UpdateUserRequest) ProfileData(profileData []map[string]interface{}) Upd
 
 // New email address for the user. Requires the user making the request to be an organization owner and additionally have the `.can_change_user_emails` special permission.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 285).
+// **Changes**: New in Zulip 10.0 (feature level 285).
 func (r UpdateUserRequest) NewEmail(newEmail string) UpdateUserRequest {
 	r.newEmail = &newEmail
 	return r
@@ -5731,86 +3974,31 @@ func (c *simpleClient) UpdateUser(ctx context.Context, userId int64) UpdateUserR
 // Execute executes the request
 func (c *simpleClient) UpdateUserExecute(r UpdateUserRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/{user_id}"
+	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "full_name", r.fullName, "", "")
+	addOptionalParam(formParams, "role", r.role, "form", "")
+	addOptionalParam(formParams, "profile_data", r.profileData, "form", "multi")
+	addOptionalParam(formParams, "new_email", r.newEmail, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/{user_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.fullName != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "full_name", r.fullName, "", "")
-	}
-	if r.role != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "role", r.role, "form", "")
-	}
-	if r.profileData != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "profile_data", r.profileData, "form", "multi")
-	}
-	if r.newEmail != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "new_email", r.newEmail, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateUserByEmailRequest struct {
@@ -5825,7 +4013,7 @@ type UpdateUserByEmailRequest struct {
 
 // The user's full name.
 //
-//	**Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 5.0 (feature level 106).
+// **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 5.0 (feature level 106).
 func (r UpdateUserByEmailRequest) FullName(fullName string) UpdateUserByEmailRequest {
 	r.fullName = &fullName
 	return r
@@ -5833,7 +4021,7 @@ func (r UpdateUserByEmailRequest) FullName(fullName string) UpdateUserByEmailReq
 
 // New [role] for the user. Roles are encoded as:  - Organization owner: 100 - Organization administrator: 200 - Organization moderator: 300 - Member: 400 - Guest: 600  Only organization owners can add or remove the owner role.  The owner role cannot be removed from the only organization owner.
 //
-//	**Changes**: New in Zulip 3.0 (feature level 8), replacing the previous pair of `is_admin` and `is_guest` boolean parameters. Organization moderator role added in Zulip 4.0 (feature level 60).
+// **Changes**: New in Zulip 3.0 (feature level 8), replacing the previous pair of `is_admin` and `is_guest` boolean parameters. Organization moderator role added in Zulip 4.0 (feature level 60).
 //
 // [role]: https://zulip.com/api/roles-and-permissions
 func (r UpdateUserByEmailRequest) Role(role int32) UpdateUserByEmailRequest {
@@ -5849,7 +4037,7 @@ func (r UpdateUserByEmailRequest) ProfileData(profileData []map[string]interface
 
 // New email address for the user. Requires the user making the request to be an organization owner and additionally have the `.can_change_user_emails` special permission.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 285).
+// **Changes**: New in Zulip 10.0 (feature level 285).
 func (r UpdateUserByEmailRequest) NewEmail(newEmail string) UpdateUserByEmailRequest {
 	r.newEmail = &newEmail
 	return r
@@ -5883,86 +4071,31 @@ func (c *simpleClient) UpdateUserByEmail(ctx context.Context, email string) Upda
 // Execute executes the request
 func (c *simpleClient) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/{email}"
+	endpoint = strings.Replace(endpoint, "{"+"email"+"}", url.PathEscape(r.email), -1)
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "full_name", r.fullName, "", "")
+	addOptionalParam(formParams, "role", r.role, "form", "")
+	addOptionalParam(formParams, "profile_data", r.profileData, "form", "multi")
+	addOptionalParam(formParams, "new_email", r.newEmail, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/{email}"
-	localVarPath = strings.Replace(localVarPath, "{"+"email"+"}", url.PathEscape(parameterValueToString(r.email, "email")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.fullName != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "full_name", r.fullName, "", "")
-	}
-	if r.role != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "role", r.role, "form", "")
-	}
-	if r.profileData != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "profile_data", r.profileData, "form", "multi")
-	}
-	if r.newEmail != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "new_email", r.newEmail, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateUserGroupRequest struct {
@@ -5982,7 +4115,7 @@ type UpdateUserGroupRequest struct {
 
 // The new name of the group.
 //
-//	**Changes**: Before Zulip 7.0 (feature level 165), this was a required field.
+// **Changes**: Before Zulip 7.0 (feature level 165), this was a required field.
 func (r UpdateUserGroupRequest) Name(name string) UpdateUserGroupRequest {
 	r.name = &name
 	return r
@@ -5990,7 +4123,7 @@ func (r UpdateUserGroupRequest) Name(name string) UpdateUserGroupRequest {
 
 // The new description of the group.
 //
-//	**Changes**: Before Zulip 7.0 (feature level 165), this was a required field.
+// **Changes**: Before Zulip 7.0 (feature level 165), this was a required field.
 func (r UpdateUserGroupRequest) Description(description string) UpdateUserGroupRequest {
 	r.description = &description
 	return r
@@ -5998,7 +4131,7 @@ func (r UpdateUserGroupRequest) Description(description string) UpdateUserGroupR
 
 // The set of users who have permission to add members to this user group expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.
+// **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 //
@@ -6010,7 +4143,7 @@ func (r UpdateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSetti
 
 // The set of users who have permission to join this user group expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 301).
+// **Changes**: New in Zulip 10.0 (feature level 301).
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 //
@@ -6022,7 +4155,7 @@ func (r UpdateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValueUpdat
 
 // The set of users who have permission to leave this user group expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 308).
+// **Changes**: New in Zulip 10.0 (feature level 308).
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 //
@@ -6034,7 +4167,7 @@ func (r UpdateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValueUpd
 
 // The set of users who have permission to [manage this user group] expressed as an [update to a group-setting value].  This setting cannot be set to `"role:internet"` and `"role:everyone"` [system groups].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 283).
+// **Changes**: New in Zulip 10.0 (feature level 283).
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
@@ -6046,12 +4179,11 @@ func (r UpdateUserGroupRequest) CanManageGroup(canManageGroup GroupSettingValueU
 
 // The set of users who have permission to [mention this group], expressed as an [update to a group-setting value].  This setting cannot be set to `"role:internet"` and `"role:owners"` [system groups].
 //
-//	**Changes**: In Zulip 9.0 (feature level 260), this parameter was updated to only accept an object with the `old` and `new` fields described below. Prior to this feature level, this parameter could be either of the two forms of a [group-setting value].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value].  Before Zulip 8.0 (feature level 198), this parameter was named `can_mention_group_id`.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups].
+// **Changes**: In Zulip 9.0 (feature level 260), this parameter was updated to only accept an object with the `old` and `new` fields described below. Prior to this feature level, this parameter could be either of the two forms of a [group-setting value].  Before Zulip 9.0 (feature level 258), this parameter could only be the integer form of a [group-setting value].  Before Zulip 8.0 (feature level 198), this parameter was named `can_mention_group_id`.  New in Zulip 8.0 (feature level 191). Previously, groups could be mentioned only if they were not [system groups].
 //
 // [mention this group]: https://zulip.com/help/mention-a-user-or-group
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
-//
 // [group-setting value]: https://zulip.com/api/group-setting-values
 func (r UpdateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canMentionGroup = &canMentionGroup
@@ -6060,7 +4192,7 @@ func (r UpdateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValu
 
 // The set of users who have permission to remove members from this user group expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.
+// **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 //
@@ -6072,7 +4204,7 @@ func (r UpdateUserGroupRequest) CanRemoveMembersGroup(canRemoveMembersGroup Grou
 
 // A deactivated user group can be reactivated by passing this parameter as `false`.  Passing `true` does nothing as user group is deactivated using [`POST /user_groups/{user_group_id}/deactivate`] endpoint.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 386).
+// **Changes**: New in Zulip 11.0 (feature level 386).
 //
 // [`POST /user_groups/{user_group_id}/deactivate`]: deactivate-user-group
 func (r UpdateUserGroupRequest) Deactivated(deactivated bool) UpdateUserGroupRequest {
@@ -6115,125 +4247,72 @@ func (c *simpleClient) UpdateUserGroup(ctx context.Context, userGroupId int64) U
 // Execute executes the request
 func (c *simpleClient) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/user_groups/{user_group_id}"
+	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
 
-	localVarPath := localBasePath + "/user_groups/{user_group_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_group_id"+"}", url.PathEscape(parameterValueToString(r.userGroupId, "userGroupId")), -1)
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.name != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "", "")
-	}
-	if r.description != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "description", r.description, "", "")
-	}
+	addOptionalParam(formParams, "name", r.name, "", "")
+	addOptionalParam(formParams, "description", r.description, "", "")
 	if r.canAddMembersGroup != nil {
 		paramJson, err := parameterToJson(*r.canAddMembersGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_add_members_group", paramJson)
+		formParams.Add("can_add_members_group", paramJson)
 	}
 	if r.canJoinGroup != nil {
 		paramJson, err := parameterToJson(*r.canJoinGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_join_group", paramJson)
+		formParams.Add("can_join_group", paramJson)
 	}
 	if r.canLeaveGroup != nil {
 		paramJson, err := parameterToJson(*r.canLeaveGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_leave_group", paramJson)
+		formParams.Add("can_leave_group", paramJson)
 	}
 	if r.canManageGroup != nil {
 		paramJson, err := parameterToJson(*r.canManageGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_manage_group", paramJson)
+		formParams.Add("can_manage_group", paramJson)
 	}
 	if r.canMentionGroup != nil {
 		paramJson, err := parameterToJson(*r.canMentionGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_mention_group", paramJson)
+		formParams.Add("can_mention_group", paramJson)
 	}
 	if r.canRemoveMembersGroup != nil {
 		paramJson, err := parameterToJson(*r.canRemoveMembersGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_remove_members_group", paramJson)
+		formParams.Add("can_remove_members_group", paramJson)
 	}
-	if r.deactivated != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "deactivated", r.deactivated, "form", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addOptionalParam(formParams, "deactivated", r.deactivated, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateUserGroupMembersRequest struct {
@@ -6260,7 +4339,7 @@ func (r UpdateUserGroupMembersRequest) Add(add []int64) UpdateUserGroupMembersRe
 
 // The list of user group Ids to be removed from the user group.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 311).
+// **Changes**: New in Zulip 10.0 (feature level 311).
 func (r UpdateUserGroupMembersRequest) DeleteSubgroups(deleteSubgroups []int64) UpdateUserGroupMembersRequest {
 	r.deleteSubgroups = &deleteSubgroups
 	return r
@@ -6268,7 +4347,7 @@ func (r UpdateUserGroupMembersRequest) DeleteSubgroups(deleteSubgroups []int64) 
 
 // The list of user group Ids to be added to the user group.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 311).
+// **Changes**: New in Zulip 10.0 (feature level 311).
 func (r UpdateUserGroupMembersRequest) AddSubgroups(addSubgroups []int64) UpdateUserGroupMembersRequest {
 	r.addSubgroups = &addSubgroups
 	return r
@@ -6301,86 +4380,31 @@ func (c *simpleClient) UpdateUserGroupMembers(ctx context.Context, userGroupId i
 // Execute executes the request
 func (c *simpleClient) UpdateUserGroupMembersExecute(r UpdateUserGroupMembersRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/user_groups/{user_group_id}/members"
+	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "delete", r.delete, "form", "multi")
+	addOptionalParam(formParams, "add", r.add, "form", "multi")
+	addOptionalParam(formParams, "delete_subgroups", r.deleteSubgroups, "form", "multi")
+	addOptionalParam(formParams, "add_subgroups", r.addSubgroups, "form", "multi")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/user_groups/{user_group_id}/members"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_group_id"+"}", url.PathEscape(parameterValueToString(r.userGroupId, "userGroupId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.delete != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "delete", r.delete, "form", "multi")
-	}
-	if r.add != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "add", r.add, "form", "multi")
-	}
-	if r.deleteSubgroups != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "delete_subgroups", r.deleteSubgroups, "form", "multi")
-	}
-	if r.addSubgroups != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "add_subgroups", r.addSubgroups, "form", "multi")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateUserGroupSubgroupsRequest struct {
@@ -6428,78 +4452,27 @@ func (c *simpleClient) UpdateUserGroupSubgroups(ctx context.Context, userGroupId
 // Execute executes the request
 func (c *simpleClient) UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroupsRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/user_groups/{user_group_id}/subgroups"
+	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "delete", r.delete, "form", "multi")
+	addOptionalParam(formParams, "add", r.add, "form", "multi")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/user_groups/{user_group_id}/subgroups"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_group_id"+"}", url.PathEscape(parameterValueToString(r.userGroupId, "userGroupId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.delete != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "delete", r.delete, "form", "multi")
-	}
-	if r.add != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "add", r.add, "form", "multi")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }

@@ -1,7 +1,10 @@
 package zulip
 
 import (
+	"encoding/json"
 	"fmt"
+	"math"
+	"time"
 )
 
 // APIError Provides access to the body, error and model on returned errors.
@@ -30,7 +33,38 @@ type RateLimitedError struct {
 	CodedError
 
 	// How many seconds the client must wait before making additional requests.
-	RetryAfter int `json:"retry-after"`
+	RetryAfter time.Duration `json:"retry-after"`
+}
+
+type rateLimitErrorJSON struct {
+	CodedError
+	RetryAfter int64 `json:"retry-after"`
+}
+
+func (o *RateLimitedError) MarshalJSON() ([]byte, error) {
+	secs := math.Ceil(o.RetryAfter.Seconds())
+	if secs < 0 {
+		return nil, fmt.Errorf("retry-after cannot be negative")
+	}
+	model := rateLimitErrorJSON{
+		CodedError: o.CodedError,
+		RetryAfter: int64(secs),
+	}
+
+	return json.Marshal(model)
+}
+
+func (o *RateLimitedError) UnmarshalJSON(data []byte) error {
+	var model rateLimitErrorJSON
+
+	err := json.Unmarshal(data, &model)
+	if err != nil {
+		return err
+	}
+
+	o.CodedError = model.CodedError
+	o.RetryAfter = time.Duration(model.RetryAfter) * time.Second
+	return nil
 }
 
 // BadEventQueueIdError struct for BadEventQueueIdError

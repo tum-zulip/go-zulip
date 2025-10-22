@@ -168,7 +168,7 @@ func buildClientFromResponse(t *testing.T, username string, body []byte) zulip.C
 
 	handler := slog.NewTextHandler(log.Default().Writer(), &slog.HandlerOptions{Level: slog.LevelInfo})
 
-	client, err := zulip.NewSimpleClient(rc, zulip.WithLogger(slog.New(handler)))
+	client, err := zulip.NewSimpleClient(rc, zulip.WithLogger(slog.New(handler)), zulip.SkipWarnOnInsecureTLS())
 	if err != nil {
 		t.Fatalf("Failed to create Zulip client: %v", err)
 	}

@@ -1,16 +1,12 @@
 package zulip
 
 // Whether [named topics] and the empty topic (i.e., ["general chat" topic] are enabled in this channel.
-//
 //   - TopicsPolicyInherit
-//
 //   - TopicsPolicyAllowEmptyTopic
-//
 //   - TopicsPolicyDisableEmptyTopic
-//
 //   - TopicsPolicyEmptyTopicOnly
 //
-//     **Changes**: In Zulip 11.0 (feature level 404), the `"empty_topic_only"` option was added.  New in Zulip 11.0 (feature level 392).
+// **Changes**: In Zulip 11.0 (feature level 404), the `"empty_topic_only"` option was added.  New in Zulip 11.0 (feature level 392).
 //
 // [named topics]: https://zulip.com/help/introduction-to-topics
 // ["general chat" topic]: https://zulip.com/help/general-chat-topic

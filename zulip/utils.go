@@ -12,10 +12,15 @@ import (
 	"path/filepath"
 	"reflect"
 	"runtime"
+	"strconv"
 	"strings"
 	"time"
 	"unicode/utf8"
 )
+
+func idToString(id int64) string {
+	return strconv.FormatInt(id, 10)
+}
 
 // Add a file to the multipart request
 func addFile(w *multipart.Writer, fieldName, path string) error {
@@ -215,8 +220,4 @@ func newStrictDecoder(data []byte) *json.Decoder {
 	dec := json.NewDecoder(bytes.NewBuffer(data))
 	dec.DisallowUnknownFields()
 	return dec
-}
-
-type MappedNullable interface {
-	ToMap() (map[string]interface{}, error)
 }

@@ -1,9 +1,7 @@
 package zulip
 
 import (
-	"bytes"
 	"context"
-	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -130,7 +128,7 @@ type CreateInviteLinkRequest struct {
 
 // The number of minutes before the invitation will expire. If `null`, the invitation will never expire. If unspecified, the server will use a default value (based on the `INVITATION_LINK_VALIdITY_MINUTES` server setting, which defaults to 14400, i.e. 10 days) for when the invitation will expire.
 //
-//	**Changes**: New in Zulip 6.0 (feature level 126). Previously, there was an `invite_expires_in_days` parameter, which specified the duration in days instead of minutes.
+// **Changes**: New in Zulip 6.0 (feature level 126). Previously, there was an `invite_expires_in_days` parameter, which specified the duration in days instead of minutes.
 func (r CreateInviteLinkRequest) InviteExpiresInMinutes(inviteExpiresInMinutes int32) CreateInviteLinkRequest {
 	r.inviteExpiresInMinutes = &inviteExpiresInMinutes
 	return r
@@ -145,7 +143,7 @@ func (r CreateInviteLinkRequest) InviteExpiresInMinutes(inviteExpiresInMinutes i
 //
 // Users can only create invitation links for [roles with equal or stricter restrictions] as their own. For example, a moderator cannot invite someone to be an owner or administrator, but they can invite them to be a moderator or member.
 //
-//	**Changes**: In Zulip 4.0 (feature level 61), added support for inviting users as moderators.
+// **Changes**: In Zulip 4.0 (feature level 61), added support for inviting users as moderators.
 //
 // [organization-level role]: https://zulip.com/api/roles-and-permissions
 // [roles with equal or stricter restrictions]: https://zulip.com/api/roles-and-permissions#permission-levels
@@ -156,7 +154,7 @@ func (r CreateInviteLinkRequest) InviteAs(inviteAs Role) CreateInviteLinkRequest
 
 // A list containing the [Ids of the channels] that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the `include_realm_default_subscriptions` parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels].
 //
-//	**Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.
+// **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.
 //
 // [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 // [Ids of the channels]: https://zulip.com/api/get-stream-id
@@ -167,7 +165,7 @@ func (r CreateInviteLinkRequest) ChannelIds(channelIds []int64) CreateInviteLink
 
 // A list containing the [Ids of the user groups] that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 322).
+// **Changes**: New in Zulip 10.0 (feature level 322).
 //
 // [Ids of the user groups]: https://zulip.com/api/get-user-groups
 func (r CreateInviteLinkRequest) GroupIds(groupIds []int64) CreateInviteLinkRequest {
@@ -188,7 +186,7 @@ func (r CreateInviteLinkRequest) IncludeRealmDefaultSubscriptions(includeRealmDe
 
 // Custom message text, in Zulip Markdown format, to be sent by the Welcome Bot to new users that join the organization via this invitation.  Maximum length is 8000 characters.  Only organization administrators can use this feature; for other users, the value is always `null`.  - `null`: the organization's default `welcome_message_custom_text` is used. - Empty string: no Welcome Bot custom message is sent. - Otherwise, the provided string is the custom message.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 416).
+// **Changes**: New in Zulip 11.0 (feature level 416).
 func (r CreateInviteLinkRequest) WelcomeMessageCustomText(welcomeMessageCustomText string) CreateInviteLinkRequest {
 	r.welcomeMessageCustomText = &welcomeMessageCustomText
 	return r
@@ -229,91 +227,32 @@ func (c *simpleClient) CreateInviteLink(ctx context.Context) CreateInviteLinkReq
 // Execute executes the request
 func (c *simpleClient) CreateInviteLinkExecute(r CreateInviteLinkRequest) (*CreateInviteLinkResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *CreateInviteLinkResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &CreateInviteLinkResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/invites/multiuse"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "invite_expires_in_minutes", r.inviteExpiresInMinutes, "form", "")
+	addOptionalParam(formParams, "invite_as", r.inviteAs, "", "")
+	addOptionalParam(formParams, "stream_ids", r.channelIds, "form", "multi")
+	addOptionalParam(formParams, "group_ids", r.groupIds, "form", "multi")
+	addOptionalParam(formParams, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions, "", "")
+	addOptionalParam(formParams, "welcome_message_custom_text", r.welcomeMessageCustomText, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/invites/multiuse"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.inviteExpiresInMinutes != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "invite_expires_in_minutes", r.inviteExpiresInMinutes, "form", "")
-	}
-	if r.inviteAs != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "invite_as", r.inviteAs, "", "")
-	}
-	if r.channelIds != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "stream_ids", r.channelIds, "form", "multi")
-	}
-	if r.groupIds != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "group_ids", r.groupIds, "form", "multi")
-	}
-	if r.includeRealmDefaultSubscriptions != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions, "", "")
-	}
-	if r.welcomeMessageCustomText != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "welcome_message_custom_text", r.welcomeMessageCustomText, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetInvitesRequest struct {
@@ -347,73 +286,26 @@ func (c *simpleClient) GetInvites(ctx context.Context) GetInvitesRequest {
 // Execute executes the request
 func (c *simpleClient) GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetInvitesResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetInvitesResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/invites"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/invites"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type ResendEmailInviteRequest struct {
@@ -445,74 +337,27 @@ func (c *simpleClient) ResendEmailInvite(ctx context.Context, inviteId int64) Re
 // Execute executes the request
 func (c *simpleClient) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/invites/{invite_id}/resend"
+	endpoint = strings.Replace(endpoint, "{"+"invite_id"+"}", idToString(r.inviteId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/invites/{invite_id}/resend"
-	localVarPath = strings.Replace(localVarPath, "{"+"invite_id"+"}", url.PathEscape(parameterValueToString(r.inviteId, "inviteId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RevokeEmailInviteRequest struct {
@@ -544,74 +389,27 @@ func (c *simpleClient) RevokeEmailInvite(ctx context.Context, inviteId int64) Re
 // Execute executes the request
 func (c *simpleClient) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/invites/{invite_id}"
+	endpoint = strings.Replace(endpoint, "{"+"invite_id"+"}", idToString(r.inviteId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/invites/{invite_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"invite_id"+"}", url.PathEscape(parameterValueToString(r.inviteId, "inviteId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RevokeInviteLinkRequest struct {
@@ -646,74 +444,27 @@ func (c *simpleClient) RevokeInviteLink(ctx context.Context, inviteId int64) Rev
 // Execute executes the request
 func (c *simpleClient) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/invites/multiuse/{invite_id}"
+	endpoint = strings.Replace(endpoint, "{"+"invite_id"+"}", idToString(r.inviteId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/invites/multiuse/{invite_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"invite_id"+"}", url.PathEscape(parameterValueToString(r.inviteId, "inviteId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type SendInvitesRequest struct {
@@ -737,7 +488,7 @@ func (r SendInvitesRequest) InviteeEmails(inviteeEmails string) SendInvitesReque
 
 // A list containing the [Ids of the channels] that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the `include_realm_default_subscriptions` parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels].
 //
-//	**Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying `stream_ids` as an empty list resulted in an error.
+// **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying `stream_ids` as an empty list resulted in an error.
 //
 // [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 // [Ids of the channels]: https://zulip.com/api/get-stream-id
@@ -748,7 +499,7 @@ func (r SendInvitesRequest) ChannelIds(channelIds []int64) SendInvitesRequest {
 
 // The number of minutes before the invitation will expire. If `null`, the invitation will never expire. If unspecified, the server will use a default value (based on the `INVITATION_LINK_VALIdITY_MINUTES` server setting, which defaults to 14400, i.e. 10 days) for when the invitation will expire.
 //
-//	**Changes**: New in Zulip 6.0 (feature level 126). Previously, there was an `invite_expires_in_days` parameter, which specified the duration in days instead of minutes.
+// **Changes**: New in Zulip 6.0 (feature level 126). Previously, there was an `invite_expires_in_days` parameter, which specified the duration in days instead of minutes.
 func (r SendInvitesRequest) InviteExpiresInMinutes(inviteExpiresInMinutes int32) SendInvitesRequest {
 	r.inviteExpiresInMinutes = &inviteExpiresInMinutes
 	return r
@@ -763,7 +514,7 @@ func (r SendInvitesRequest) InviteExpiresInMinutes(inviteExpiresInMinutes int32)
 //
 // Users can only create invitation links for [roles with equal or stricter restrictions] as their own. For example, a moderator cannot invite someone to be an owner or administrator, but they can invite them to be a moderator or member.
 //
-//	**Changes**: In Zulip 4.0 (feature level 61), added support for inviting users as moderators.
+// **Changes**: In Zulip 4.0 (feature level 61), added support for inviting users as moderators.
 //
 // [organization-level role]: https://zulip.com/api/roles-and-permissions
 // [roles with equal or stricter restrictions]: https://zulip.com/api/roles-and-permissions#permission-levels
@@ -774,7 +525,7 @@ func (r SendInvitesRequest) InviteAs(inviteAs Role) SendInvitesRequest {
 
 // A list containing the [Ids of the user groups] that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 322).
+// **Changes**: New in Zulip 10.0 (feature level 322).
 //
 // [Ids of the user groups]: https://zulip.com/api/get-user-groups
 func (r SendInvitesRequest) GroupIds(groupIds []int64) SendInvitesRequest {
@@ -784,7 +535,7 @@ func (r SendInvitesRequest) GroupIds(groupIds []int64) SendInvitesRequest {
 
 // Boolean indicating whether the newly created user should be subscribed to the [default channels] for the organization.  Note that this parameter can be `true` even if the user creating the invitation does not generally have permission to [subscribe other users to channels].
 //
-//	**Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always `false`; clients needed to include the organization's default channels in the `stream_ids` parameter for a newly created user to be automatically subscribed to them.
+// **Changes**: New in Zulip 9.0 (feature level 261). Previous versions of Zulip behaved as though this parameter was always `false`; clients needed to include the organization's default channels in the `stream_ids` parameter for a newly created user to be automatically subscribed to them.
 //
 // [default channels]: https://zulip.com/help/set-default-channels-for-new-users
 // [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
@@ -795,7 +546,7 @@ func (r SendInvitesRequest) IncludeRealmDefaultSubscriptions(includeRealmDefault
 
 // A boolean indicating whether the referrer would like to receive a direct message from [notification bot] when a user account is created using this invitation.
 //
-//	**Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
+// **Changes**: New in Zulip 9.0 (feature level 267). Previously, referrers always received such direct messages.
 //
 // [notification bot]: https://zulip.com/help/configure-automated-notices
 func (r SendInvitesRequest) NotifyReferrerOnJoin(notifyReferrerOnJoin bool) SendInvitesRequest {
@@ -805,7 +556,7 @@ func (r SendInvitesRequest) NotifyReferrerOnJoin(notifyReferrerOnJoin bool) Send
 
 // Custom message text, in Zulip Markdown format, to be sent by the Welcome Bot to new users that join the organization via this invitation.  Maximum length is 8000 characters.  Only organization administrators can use this feature; for other users, the value is always `null`.  - `null`: the organization's default `welcome_message_custom_text` is used. - Empty string: no Welcome Bot custom message is sent. - Otherwise, the provided string is the custom message.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 416).
+// **Changes**: New in Zulip 11.0 (feature level 416).
 func (r SendInvitesRequest) WelcomeMessageCustomText(welcomeMessageCustomText string) SendInvitesRequest {
 	r.welcomeMessageCustomText = &welcomeMessageCustomText
 	return r
@@ -840,97 +591,39 @@ func (c *simpleClient) SendInvites(ctx context.Context) SendInvitesRequest {
 // Execute executes the request
 func (c *simpleClient) SendInvitesExecute(r SendInvitesRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/invites"
 
-	localVarPath := localBasePath + "/invites"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.inviteeEmails == nil {
-		return localVarReturnValue, nil, reportError("inviteeEmails is required and must be specified")
+		return nil, nil, reportError("inviteeEmails is required and must be specified")
 	}
 	if r.channelIds == nil {
-		return localVarReturnValue, nil, reportError("channelIds is required and must be specified")
+		return nil, nil, reportError("channelIds is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "invitee_emails", r.inviteeEmails, "", "")
-	if r.inviteExpiresInMinutes != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "invite_expires_in_minutes", r.inviteExpiresInMinutes, "form", "")
-	}
-	if r.inviteAs != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "invite_as", r.inviteAs, "", "")
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "stream_ids", r.channelIds, "form", "multi")
-	if r.groupIds != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "group_ids", r.groupIds, "form", "multi")
-	}
-	if r.includeRealmDefaultSubscriptions != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions, "", "")
-	}
-	if r.notifyReferrerOnJoin != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "notify_referrer_on_join", r.notifyReferrerOnJoin, "", "")
-	}
-	if r.welcomeMessageCustomText != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "welcome_message_custom_text", r.welcomeMessageCustomText, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "invitee_emails", r.inviteeEmails, "", "")
+	addOptionalParam(formParams, "invite_expires_in_minutes", r.inviteExpiresInMinutes, "form", "")
+	addOptionalParam(formParams, "invite_as", r.inviteAs, "", "")
+	addParam(formParams, "stream_ids", r.channelIds, "form", "multi")
+	addOptionalParam(formParams, "group_ids", r.groupIds, "form", "multi")
+	addOptionalParam(formParams, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions, "", "")
+	addOptionalParam(formParams, "notify_referrer_on_join", r.notifyReferrerOnJoin, "", "")
+	addOptionalParam(formParams, "welcome_message_custom_text", r.welcomeMessageCustomText, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }

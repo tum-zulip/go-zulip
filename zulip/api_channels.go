@@ -1,9 +1,7 @@
 package zulip
 
 import (
-	"bytes"
 	"context"
-	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -505,77 +503,31 @@ func (c *simpleClient) AddDefaultChannel(ctx context.Context) AddDefaultChannelR
 // Execute executes the request
 func (c *simpleClient) AddDefaultChannelExecute(r AddDefaultChannelRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/default_streams"
 
-	localVarPath := localBasePath + "/default_streams"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.channelId == nil {
-		return localVarReturnValue, nil, reportError("channelId is required and must be specified")
+		return nil, nil, reportError("channelId is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "stream_id", r.channelId, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type ArchiveChannelRequest struct {
@@ -604,74 +556,27 @@ func (c *simpleClient) ArchiveChannel(ctx context.Context, channelId int64) Arch
 // Execute executes the request
 func (c *simpleClient) ArchiveChannelExecute(r ArchiveChannelRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/streams/{stream_id}"
+	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/streams/{stream_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type CreateBigBlueButtonVideoCallRequest struct {
@@ -689,7 +594,7 @@ func (r CreateBigBlueButtonVideoCallRequest) MeetingName(meetingName string) Cre
 
 // Configures whether the call is voice-only; if true, disables cameras for all users. Only the call creator/moderator can edit this configuration.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 337).
+// **Changes**: New in Zulip 10.0 (feature level 337).
 func (r CreateBigBlueButtonVideoCallRequest) VoiceOnly(voiceOnly bool) CreateBigBlueButtonVideoCallRequest {
 	r.voiceOnly = &voiceOnly
 	return r
@@ -722,80 +627,32 @@ func (c *simpleClient) CreateBigBlueButtonVideoCall(ctx context.Context) CreateB
 // Execute executes the request
 func (c *simpleClient) CreateBigBlueButtonVideoCallExecute(r CreateBigBlueButtonVideoCallRequest) (*CreateBigBlueButtonVideoCallResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *CreateBigBlueButtonVideoCallResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &CreateBigBlueButtonVideoCallResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/calls/bigbluebutton/create"
 
-	localVarPath := localBasePath + "/calls/bigbluebutton/create"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.meetingName == nil {
-		return localVarReturnValue, nil, reportError("meetingName is required and must be specified")
+		return nil, nil, reportError("meetingName is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "meeting_name", r.meetingName, "form", "")
-	if r.voiceOnly != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "voice_only", r.voiceOnly, "form", "")
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	addParam(queryParams, "meeting_name", r.meetingName, "form", "")
+	addOptionalParam(queryParams, "voice_only", r.voiceOnly, "form", "")
+	// no Content-Type header
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type CreateChannelRequest struct {
@@ -882,7 +739,7 @@ func (r CreateChannelRequest) IsDefaultChannel(isDefaultChannel bool) CreateChan
 
 // The Id of the folder to which the channel belongs.  Is `null` if channel does not belong to any folder.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 389).
+// **Changes**: New in Zulip 11.0 (feature level 389).
 func (r CreateChannelRequest) FolderId(folderId int64) CreateChannelRequest {
 	r.folderId = &folderId
 	return r
@@ -890,7 +747,7 @@ func (r CreateChannelRequest) FolderId(folderId int64) CreateChannelRequest {
 
 // Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than `max_bulk_new_subscription_messages` (available in the [`POST /register`] response) users were subscribed in this request.
 //
-//	**Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel.
+// **Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 func (r CreateChannelRequest) SendNewSubscriptionMessages(sendNewSubscriptionMessages bool) CreateChannelRequest {
@@ -992,191 +849,127 @@ func (c *simpleClient) CreateChannel(ctx context.Context) CreateChannelRequest {
 // Execute executes the request
 func (c *simpleClient) CreateChannelExecute(r CreateChannelRequest) (*CreateChannelResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *CreateChannelResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &CreateChannelResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/channels/create"
 
-	localVarPath := localBasePath + "/channels/create"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.name == nil {
-		return localVarReturnValue, nil, reportError("name is required and must be specified")
+		return nil, nil, reportError("name is required and must be specified")
 	}
 	if r.subscribers == nil {
-		return localVarReturnValue, nil, reportError("subscribers is required and must be specified")
+		return nil, nil, reportError("subscribers is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "", "")
-	if r.description != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "description", r.description, "", "")
-	}
+	addParam(formParams, "name", r.name, "", "")
+	addOptionalParam(formParams, "description", r.description, "", "")
 	if r.subscribers != nil {
 		paramJsonSubscribers, err := parameterToJson(*r.subscribers)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("subscribers", paramJsonSubscribers)
+		formParams.Add("subscribers", paramJsonSubscribers)
 	}
-	if r.announce != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "announce", r.announce, "form", "")
-	}
-	if r.inviteOnly != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "invite_only", r.inviteOnly, "form", "")
-	}
-	if r.isWebPublic != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_web_public", r.isWebPublic, "form", "")
-	}
-	if r.isDefaultChannel != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_default_stream", r.isDefaultChannel, "form", "")
-	}
-	if r.folderId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "folder_id", r.folderId, "form", "")
-	}
-	if r.sendNewSubscriptionMessages != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "send_new_subscription_messages", r.sendNewSubscriptionMessages, "", "")
-	}
-	if r.topicsPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "topics_policy", r.topicsPolicy, "form", "")
-	}
-	if r.historyPublicToSubscribers != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "history_public_to_subscribers", r.historyPublicToSubscribers, "form", "")
-	}
+	addOptionalParam(formParams, "announce", r.announce, "form", "")
+	addOptionalParam(formParams, "invite_only", r.inviteOnly, "form", "")
+	addOptionalParam(formParams, "is_web_public", r.isWebPublic, "form", "")
+	addOptionalParam(formParams, "is_default_stream", r.isDefaultChannel, "form", "")
+	addOptionalParam(formParams, "folder_id", r.folderId, "form", "")
+	addOptionalParam(formParams, "send_new_subscription_messages", r.sendNewSubscriptionMessages, "", "")
+	addOptionalParam(formParams, "topics_policy", r.topicsPolicy, "form", "")
+	addOptionalParam(formParams, "history_public_to_subscribers", r.historyPublicToSubscribers, "form", "")
 	if r.messageRetentionDays != nil {
 		paramJson, err := parameterToJson(*r.messageRetentionDays)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("message_retention_days", paramJson)
+		formParams.Add("message_retention_days", paramJson)
 	}
 	if r.canAddSubscribersGroup != nil {
 		paramJson, err := parameterToJson(*r.canAddSubscribersGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_add_subscribers_group", paramJson)
+		formParams.Add("can_add_subscribers_group", paramJson)
 	}
 	if r.canDeleteAnyMessageGroup != nil {
 		paramJson, err := parameterToJson(*r.canDeleteAnyMessageGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_delete_any_message_group", paramJson)
+		formParams.Add("can_delete_any_message_group", paramJson)
 	}
 	if r.canDeleteOwnMessageGroup != nil {
 		paramJson, err := parameterToJson(*r.canDeleteOwnMessageGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_delete_own_message_group", paramJson)
+		formParams.Add("can_delete_own_message_group", paramJson)
 	}
 	if r.canRemoveSubscribersGroup != nil {
 		paramJson, err := parameterToJson(*r.canRemoveSubscribersGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_remove_subscribers_group", paramJson)
+		formParams.Add("can_remove_subscribers_group", paramJson)
 	}
 	if r.canAdministerChannelGroup != nil {
 		paramJson, err := parameterToJson(*r.canAdministerChannelGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_administer_channel_group", paramJson)
+		formParams.Add("can_administer_channel_group", paramJson)
 	}
 	if r.canMoveMessagesOutOfChannelGroup != nil {
 		paramJson, err := parameterToJson(*r.canMoveMessagesOutOfChannelGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_move_messages_out_of_channel_group", paramJson)
+		formParams.Add("can_move_messages_out_of_channel_group", paramJson)
 	}
 	if r.canMoveMessagesWithinChannelGroup != nil {
 		paramJson, err := parameterToJson(*r.canMoveMessagesWithinChannelGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_move_messages_within_channel_group", paramJson)
+		formParams.Add("can_move_messages_within_channel_group", paramJson)
 	}
 	if r.canSendMessageGroup != nil {
 		paramJson, err := parameterToJson(*r.canSendMessageGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_send_message_group", paramJson)
+		formParams.Add("can_send_message_group", paramJson)
 	}
 	if r.canSubscribeGroup != nil {
 		paramJson, err := parameterToJson(*r.canSubscribeGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_subscribe_group", paramJson)
+		formParams.Add("can_subscribe_group", paramJson)
 	}
 	if r.canResolveTopicsGroup != nil {
 		paramJson, err := parameterToJson(*r.canResolveTopicsGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_resolve_topics_group", paramJson)
+		formParams.Add("can_resolve_topics_group", paramJson)
 	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type CreateChannelFolderRequest struct {
@@ -1225,79 +1018,28 @@ func (c *simpleClient) CreateChannelFolder(ctx context.Context) CreateChannelFol
 // Execute executes the request
 func (c *simpleClient) CreateChannelFolderExecute(r CreateChannelFolderRequest) (*CreateChannelFolderResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *CreateChannelFolderResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &CreateChannelFolderResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/channel_folders/create"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "name", r.name, "", "")
+	addOptionalParam(formParams, "description", r.description, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/channel_folders/create"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.name != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "", "")
-	}
-	if r.description != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "description", r.description, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type DeleteTopicRequest struct {
@@ -1309,7 +1051,7 @@ type DeleteTopicRequest struct {
 
 // The name of the topic to delete.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.
 //
-//	**Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 //
 // [POST /register]: https://zulip.com/api/register-queue
 func (r DeleteTopicRequest) TopicName(topicName string) DeleteTopicRequest {
@@ -1371,78 +1113,32 @@ func (c *simpleClient) DeleteTopic(ctx context.Context, channelId int64) DeleteT
 // Execute executes the request
 func (c *simpleClient) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsReadResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *MarkAllAsReadResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &MarkAllAsReadResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/streams/{stream_id}/delete_topic"
+	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
 
-	localVarPath := localBasePath + "/streams/{stream_id}/delete_topic"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.topicName == nil {
-		return localVarReturnValue, nil, reportError("topicName is required and must be specified")
+		return nil, nil, reportError("topicName is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "topic_name", r.topicName, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "topic_name", r.topicName, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetChannelFoldersRequest struct {
@@ -1480,76 +1176,27 @@ func (c *simpleClient) GetChannelFolders(ctx context.Context) GetChannelFoldersR
 // Execute executes the request
 func (c *simpleClient) GetChannelFoldersExecute(r GetChannelFoldersRequest) (*GetChannelFoldersResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetChannelFoldersResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetChannelFoldersResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/channel_folders"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "include_archived", r.includeArchived, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/channel_folders"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.includeArchived != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "include_archived", r.includeArchived, "form", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetChannelByIdRequest struct {
@@ -1578,74 +1225,27 @@ func (c *simpleClient) GetChannelById(ctx context.Context, channelId int64) GetC
 // Execute executes the request
 func (c *simpleClient) GetChannelByIdExecute(r GetChannelByIdRequest) (*GetChannelResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetChannelResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetChannelResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/streams/{stream_id}"
+	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/streams/{stream_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetChannelEmailAddressRequest struct {
@@ -1657,7 +1257,7 @@ type GetChannelEmailAddressRequest struct {
 
 // The Id of a user or bot which should appear as the sender when messages are sent to the channel using the returned channel email address.  `sender_id` can be:  - Id of the current user. - Id of the Email gateway bot. (Default value) - Id of a bot owned by the current user.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 335).  Previously, the sender was always Email gateway bot.
+// **Changes**: New in Zulip 10.0 (feature level 335).  Previously, the sender was always Email gateway bot.
 func (r GetChannelEmailAddressRequest) SenderId(senderId int64) GetChannelEmailAddressRequest {
 	r.senderId = &senderId
 	return r
@@ -1683,77 +1283,28 @@ func (c *simpleClient) GetChannelEmailAddress(ctx context.Context, channelId int
 // Execute executes the request
 func (c *simpleClient) GetChannelEmailAddressExecute(r GetChannelEmailAddressRequest) (*GetChannelEmailAddressResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetChannelEmailAddressResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetChannelEmailAddressResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/streams/{stream_id}/email_address"
+	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
+
+	addOptionalParam(queryParams, "sender_id", r.senderId, "form", "")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/streams/{stream_id}/email_address"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.senderId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "sender_id", r.senderId, "form", "")
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetChannelIdRequest struct {
@@ -1785,77 +1336,31 @@ func (c *simpleClient) GetChannelId(ctx context.Context) GetChannelIdRequest {
 // Execute executes the request
 func (c *simpleClient) GetChannelIdExecute(r GetChannelIdRequest) (*GetChannelIdResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetChannelIdResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetChannelIdResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/get_stream_id"
 
-	localVarPath := localBasePath + "/get_stream_id"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.channel == nil {
-		return localVarReturnValue, nil, reportError("channel is required and must be specified")
+		return nil, nil, reportError("channel is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "stream", r.channel, "form", "")
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	addParam(queryParams, "stream", r.channel, "form", "")
+	// no Content-Type header
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetChannelTopicsRequest struct {
@@ -1867,7 +1372,7 @@ type GetChannelTopicsRequest struct {
 
 // Whether the client supports processing the empty string as a topic name in the returned data.  If `false`, the value of `realm_empty_topic_display_name` found in the [`POST /register`] response is returned replacing the empty string as the topic name.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
+// **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 func (r GetChannelTopicsRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetChannelTopicsRequest {
@@ -1904,80 +1409,28 @@ func (c *simpleClient) GetChannelTopics(ctx context.Context, channelId int64) Ge
 // Execute executes the request
 func (c *simpleClient) GetChannelTopicsExecute(r GetChannelTopicsRequest) (*GetChannelTopicsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetChannelTopicsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetChannelTopicsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/me/{stream_id}/topics"
+	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
+
+	addOptionalParam(queryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/me/{stream_id}/topics"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.allowEmptyTopicName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.allowEmptyTopicName = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetChannelsRequest struct {
@@ -2014,7 +1467,7 @@ func (r GetChannelsRequest) IncludeSubscribed(includeSubscribed bool) GetChannel
 
 // Whether to exclude archived streams from the results.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 315).
+// **Changes**: New in Zulip 10.0 (feature level 315).
 func (r GetChannelsRequest) ExcludeArchived(excludeArchived bool) GetChannelsRequest {
 	r.excludeArchived = &excludeArchived
 	return r
@@ -2022,7 +1475,7 @@ func (r GetChannelsRequest) ExcludeArchived(excludeArchived bool) GetChannelsReq
 
 // Deprecated parameter to include all channels. The user must have administrative privileges to use this parameter.
 //
-//	**Changes**: Deprecated in Zulip 10.0 (feature level 356). Clients interacting with newer servers should use the equivalent `include_all` parameter, which does not incorrectly hint that this parameter, and not `exclude_archived`, controls whether archived channels appear in the response.
+// **Changes**: Deprecated in Zulip 10.0 (feature level 356). Clients interacting with newer servers should use the equivalent `include_all` parameter, which does not incorrectly hint that this parameter, and not `exclude_archived`, controls whether archived channels appear in the response.
 //
 // Deprecated
 func (r GetChannelsRequest) IncludeAllActive(includeAllActive bool) GetChannelsRequest {
@@ -2032,7 +1485,7 @@ func (r GetChannelsRequest) IncludeAllActive(includeAllActive bool) GetChannelsR
 
 // Include all channels that the user has metadata access to.  For organization administrators, this will be all channels in the organization, since organization administrators implicitly have metadata access to all channels.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 356). On older versions, use `include_all_active`, which this replaces.
+// **Changes**: New in Zulip 10.0 (feature level 356). On older versions, use `include_all_active`, which this replaces.
 func (r GetChannelsRequest) IncludeAll(includeAll bool) GetChannelsRequest {
 	r.includeAll = &includeAll
 	return r
@@ -2052,7 +1505,7 @@ func (r GetChannelsRequest) IncludeOwnerSubscribed(includeOwnerSubscribed bool) 
 
 // Include all the channels that the user has content access to.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 356).
+// **Changes**: New in Zulip 10.0 (feature level 356).
 func (r GetChannelsRequest) IncludeCanAccessContent(includeCanAccessContent bool) GetChannelsRequest {
 	r.includeCanAccessContent = &includeCanAccessContent
 	return r
@@ -2077,127 +1530,35 @@ func (c *simpleClient) GetChannels(ctx context.Context) GetChannelsRequest {
 // Execute executes the request
 func (c *simpleClient) GetChannelsExecute(r GetChannelsRequest) (*GetChannelsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetChannelsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetChannelsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/streams"
+
+	addOptionalParam(queryParams, "include_public", r.includePublic, "form", "")
+	addOptionalParam(queryParams, "include_web_public", r.includeWebPublic, "form", "")
+	addOptionalParam(queryParams, "include_subscribed", r.includeSubscribed, "form", "")
+	addOptionalParam(queryParams, "exclude_archived", r.excludeArchived, "form", "")
+	addOptionalParam(queryParams, "include_all_active", r.includeAllActive, "form", "")
+	addOptionalParam(queryParams, "include_all", r.includeAll, "form", "")
+	addOptionalParam(queryParams, "include_default", r.includeDefault, "form", "")
+	addOptionalParam(queryParams, "include_owner_subscribed", r.includeOwnerSubscribed, "form", "")
+	addOptionalParam(queryParams, "include_can_access_content", r.includeCanAccessContent, "form", "")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/streams"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.includePublic != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_public", r.includePublic, "form", "")
-	} else {
-		var defaultValue bool = true
-		r.includePublic = &defaultValue
-	}
-	if r.includeWebPublic != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_web_public", r.includeWebPublic, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.includeWebPublic = &defaultValue
-	}
-	if r.includeSubscribed != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_subscribed", r.includeSubscribed, "form", "")
-	} else {
-		var defaultValue bool = true
-		r.includeSubscribed = &defaultValue
-	}
-	if r.excludeArchived != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "exclude_archived", r.excludeArchived, "form", "")
-	} else {
-		var defaultValue bool = true
-		r.excludeArchived = &defaultValue
-	}
-	if r.includeAllActive != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_all_active", r.includeAllActive, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.includeAllActive = &defaultValue
-	}
-	if r.includeAll != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_all", r.includeAll, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.includeAll = &defaultValue
-	}
-	if r.includeDefault != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_default", r.includeDefault, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.includeDefault = &defaultValue
-	}
-	if r.includeOwnerSubscribed != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_owner_subscribed", r.includeOwnerSubscribed, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.includeOwnerSubscribed = &defaultValue
-	}
-	if r.includeCanAccessContent != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_can_access_content", r.includeCanAccessContent, "form", "")
-	} else {
-		var defaultValue bool = false
-		r.includeCanAccessContent = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetSubscribersRequest struct {
@@ -2224,74 +1585,27 @@ func (c *simpleClient) GetSubscribers(ctx context.Context, channelId int64) GetS
 // Execute executes the request
 func (c *simpleClient) GetSubscribersExecute(r GetSubscribersRequest) (*GetSubscribersResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetSubscribersResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetSubscribersResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/streams/{stream_id}/members"
+	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/streams/{stream_id}/members"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetSubscriptionStatusRequest struct {
@@ -2322,75 +1636,28 @@ func (c *simpleClient) GetSubscriptionStatus(ctx context.Context, userId int64, 
 // Execute executes the request
 func (c *simpleClient) GetSubscriptionStatusExecute(r GetSubscriptionStatusRequest) (*GetSubscriptionStatusResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetSubscriptionStatusResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetSubscriptionStatusResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/{user_id}/subscriptions/{stream_id}"
+	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/{user_id}/subscriptions/{stream_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"user_id"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetSubscriptionsRequest struct {
@@ -2401,7 +1668,7 @@ type GetSubscriptionsRequest struct {
 
 // Whether each returned channel object should include a `subscribers` field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel's subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.
 //
-//	**Changes**: The `partial` value is new in Zulip 11.0 (feature level 412).  New in Zulip 2.1.0.
+// **Changes**: The `partial` value is new in Zulip 11.0 (feature level 412).  New in Zulip 2.1.0.
 func (r GetSubscriptionsRequest) IncludeSubscribers(includeSubscribers string) GetSubscriptionsRequest {
 	r.includeSubscribers = &includeSubscribers
 	return r
@@ -2424,79 +1691,27 @@ func (c *simpleClient) GetSubscriptions(ctx context.Context) GetSubscriptionsReq
 // Execute executes the request
 func (c *simpleClient) GetSubscriptionsExecute(r GetSubscriptionsRequest) (*GetSubscriptionsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetSubscriptionsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetSubscriptionsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/me/subscriptions"
+
+	addOptionalParam(queryParams, "include_subscribers", r.includeSubscribers, "form", "")
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/me/subscriptions"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.includeSubscribers != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "include_subscribers", r.includeSubscribers, "form", "")
-	} else {
-		var defaultValue string = "false"
-		r.includeSubscribers = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type MuteTopicRequest struct {
@@ -2524,7 +1739,7 @@ func (r MuteTopicRequest) Op(op string) MuteTopicRequest {
 
 // The Id of the channel to access.  Clients must provide either `stream` or `stream_id` as a parameter to this endpoint, but not both.
 //
-//	**Changes**: New in Zulip 2.0.0.
+// **Changes**: New in Zulip 2.0.0.
 func (r MuteTopicRequest) ChannelId(channelId int64) MuteTopicRequest {
 	r.channelId = &channelId
 	return r
@@ -2569,87 +1784,37 @@ func (c *simpleClient) MuteTopic(ctx context.Context) MuteTopicRequest {
 // Deprecated
 func (c *simpleClient) MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/users/me/subscriptions/muted_topics"
 
-	localVarPath := localBasePath + "/users/me/subscriptions/muted_topics"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.topic == nil {
-		return localVarReturnValue, nil, reportError("topic is required and must be specified")
+		return nil, nil, reportError("topic is required and must be specified")
 	}
 	if r.op == nil {
-		return localVarReturnValue, nil, reportError("op is required and must be specified")
+		return nil, nil, reportError("op is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.channelId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
-	}
-	if r.channel != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "stream", r.channel, "", "")
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "op", r.op, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addOptionalParam(formParams, "stream_id", r.channelId, "form", "")
+	addOptionalParam(formParams, "stream", r.channel, "", "")
+	addParam(formParams, "topic", r.topic, "", "")
+	addParam(formParams, "op", r.op, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type PatchChannelFoldersRequest struct {
@@ -2685,76 +1850,27 @@ func (c *simpleClient) PatchChannelFolders(ctx context.Context) PatchChannelFold
 // Execute executes the request
 func (c *simpleClient) PatchChannelFoldersExecute(r PatchChannelFoldersRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/channel_folders"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "order", r.order, "form", "multi")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/channel_folders"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.order != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "order", r.order, "form", "multi")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RemoveDefaultChannelRequest struct {
@@ -2789,77 +1905,31 @@ func (c *simpleClient) RemoveDefaultChannel(ctx context.Context) RemoveDefaultCh
 // Execute executes the request
 func (c *simpleClient) RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/default_streams"
 
-	localVarPath := localBasePath + "/default_streams"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.channelId == nil {
-		return localVarReturnValue, nil, reportError("channelId is required and must be specified")
+		return nil, nil, reportError("channelId is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "stream_id", r.channelId, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type SubscribeRequest struct {
@@ -3027,7 +2097,7 @@ func (r SubscribeRequest) CanResolveTopicsGroup(canResolveTopicsGroup GroupSetti
 
 // This parameter determines the folder to which the newly created channel will be added.  If the value is `None`, the channel will not be added to any folder.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 389).
+// **Changes**: New in Zulip 11.0 (feature level 389).
 func (r SubscribeRequest) FolderId(folderId int64) SubscribeRequest {
 	r.folderId = &folderId
 	return r
@@ -3035,7 +2105,7 @@ func (r SubscribeRequest) FolderId(folderId int64) SubscribeRequest {
 
 // Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than `max_bulk_new_subscription_messages` (available in the [`POST /register`] response) users were subscribed in this request.
 //
-//	**Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel.
+// **Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 func (r SubscribeRequest) SendNewSubscriptionMessages(sendNewSubscriptionMessages bool) SubscribeRequest {
@@ -3095,188 +2165,124 @@ func (c *simpleClient) Subscribe(ctx context.Context) SubscribeRequest {
 // Execute executes the request
 func (c *simpleClient) SubscribeExecute(r SubscribeRequest) (*SubscribeResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *SubscribeResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &SubscribeResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/users/me/subscriptions"
 
-	localVarPath := localBasePath + "/users/me/subscriptions"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.subscriptions == nil {
-		return localVarReturnValue, nil, reportError("subscriptions is required and must be specified")
+		return nil, nil, reportError("subscriptions is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "subscriptions", r.subscriptions, "form", "multi")
+	addParam(formParams, "subscriptions", r.subscriptions, "form", "multi")
 	if r.principals != nil {
 		paramJson, err := parameterToJson(*r.principals)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("principals", paramJson)
+		formParams.Add("principals", paramJson)
 	}
-	if r.authorizationErrorsFatal != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "authorization_errors_fatal", r.authorizationErrorsFatal, "form", "")
-	}
-	if r.announce != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "announce", r.announce, "form", "")
-	}
-	if r.inviteOnly != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "invite_only", r.inviteOnly, "form", "")
-	}
-	if r.isWebPublic != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_web_public", r.isWebPublic, "form", "")
-	}
-	if r.isDefaultChannel != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_default_stream", r.isDefaultChannel, "form", "")
-	}
-	if r.historyPublicToSubscribers != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "history_public_to_subscribers", r.historyPublicToSubscribers, "form", "")
-	}
+	addOptionalParam(formParams, "authorization_errors_fatal", r.authorizationErrorsFatal, "form", "")
+	addOptionalParam(formParams, "announce", r.announce, "form", "")
+	addOptionalParam(formParams, "invite_only", r.inviteOnly, "form", "")
+	addOptionalParam(formParams, "is_web_public", r.isWebPublic, "form", "")
+	addOptionalParam(formParams, "is_default_stream", r.isDefaultChannel, "form", "")
+	addOptionalParam(formParams, "history_public_to_subscribers", r.historyPublicToSubscribers, "form", "")
 	if r.messageRetentionDays != nil {
 		paramJson, err := parameterToJson(*r.messageRetentionDays)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("message_retention_days", paramJson)
+		formParams.Add("message_retention_days", paramJson)
 	}
-	if r.topicsPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "topics_policy", r.topicsPolicy, "form", "")
-	}
+	addOptionalParam(formParams, "topics_policy", r.topicsPolicy, "form", "")
 	if r.canAddSubscribersGroup != nil {
 		paramJson, err := parameterToJson(*r.canAddSubscribersGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_add_subscribers_group", paramJson)
+		formParams.Add("can_add_subscribers_group", paramJson)
 	}
 	if r.canRemoveSubscribersGroup != nil {
 		paramJson, err := parameterToJson(*r.canRemoveSubscribersGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_remove_subscribers_group", paramJson)
+		formParams.Add("can_remove_subscribers_group", paramJson)
 	}
 	if r.canAdministerChannelGroup != nil {
 		paramJson, err := parameterToJson(*r.canAdministerChannelGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_administer_channel_group", paramJson)
+		formParams.Add("can_administer_channel_group", paramJson)
 	}
 	if r.canDeleteAnyMessageGroup != nil {
 		paramJson, err := parameterToJson(*r.canDeleteAnyMessageGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_delete_any_message_group", paramJson)
+		formParams.Add("can_delete_any_message_group", paramJson)
 	}
 	if r.canDeleteOwnMessageGroup != nil {
 		paramJson, err := parameterToJson(*r.canDeleteOwnMessageGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_delete_own_message_group", paramJson)
+		formParams.Add("can_delete_own_message_group", paramJson)
 	}
 	if r.canMoveMessagesOutOfChannelGroup != nil {
 		paramJson, err := parameterToJson(*r.canMoveMessagesOutOfChannelGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_move_messages_out_of_channel_group", paramJson)
+		formParams.Add("can_move_messages_out_of_channel_group", paramJson)
 	}
 	if r.canMoveMessagesWithinChannelGroup != nil {
 		paramJson, err := parameterToJson(*r.canMoveMessagesWithinChannelGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_move_messages_within_channel_group", paramJson)
+		formParams.Add("can_move_messages_within_channel_group", paramJson)
 	}
 	if r.canSendMessageGroup != nil {
 		paramJson, err := parameterToJson(*r.canSendMessageGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_send_message_group", paramJson)
+		formParams.Add("can_send_message_group", paramJson)
 	}
 	if r.canSubscribeGroup != nil {
 		paramJson, err := parameterToJson(*r.canSubscribeGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_subscribe_group", paramJson)
+		formParams.Add("can_subscribe_group", paramJson)
 	}
 	if r.canResolveTopicsGroup != nil {
 		paramJson, err := parameterToJson(*r.canResolveTopicsGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_resolve_topics_group", paramJson)
+		formParams.Add("can_resolve_topics_group", paramJson)
 	}
-	if r.folderId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "folder_id", r.folderId, "form", "")
-	}
-	if r.sendNewSubscriptionMessages != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "send_new_subscription_messages", r.sendNewSubscriptionMessages, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addOptionalParam(formParams, "folder_id", r.folderId, "form", "")
+	addOptionalParam(formParams, "send_new_subscription_messages", r.sendNewSubscriptionMessages, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UnsubscribeRequest struct {
@@ -3350,84 +2356,38 @@ func (c *simpleClient) Unsubscribe(ctx context.Context) UnsubscribeRequest {
 // Execute executes the request
 func (c *simpleClient) UnsubscribeExecute(r UnsubscribeRequest) (*UnsubscribeResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *UnsubscribeResponse
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &UnsubscribeResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/users/me/subscriptions"
 
-	localVarPath := localBasePath + "/users/me/subscriptions"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.subscriptions == nil {
-		return localVarReturnValue, nil, reportError("subscriptions is required and must be specified")
+		return nil, nil, reportError("subscriptions is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "subscriptions", r.subscriptions, "form", "multi")
+	addParam(formParams, "subscriptions", r.subscriptions, "form", "multi")
 	if r.principals != nil {
 		paramJson, err := parameterToJson(*r.principals)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("principals", paramJson)
+		formParams.Add("principals", paramJson)
 	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateChannelFolderRequest struct {
@@ -3487,83 +2447,30 @@ func (c *simpleClient) UpdateChannelFolder(ctx context.Context, channelFolderId 
 // Execute executes the request
 func (c *simpleClient) UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/channel_folders/{channel_folder_id}"
+	endpoint = strings.Replace(endpoint, "{"+"channel_folder_id"+"}", idToString(r.channelFolderId), -1)
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "name", r.name, "", "")
+	addOptionalParam(formParams, "description", r.description, "", "")
+	addOptionalParam(formParams, "is_archived", r.isArchived, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/channel_folders/{channel_folder_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"channel_folder_id"+"}", url.PathEscape(parameterValueToString(r.channelFolderId, "channelFolderId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.name != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "", "")
-	}
-	if r.description != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "description", r.description, "", "")
-	}
-	if r.isArchived != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_archived", r.isArchived, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateChannelRequest struct {
@@ -3600,7 +2507,7 @@ type GroupSettingValueUpdate struct {
 
 // The new [description] for the channel, in [Zulip-flavored Markdown] format.  Clients should use the `max_stream_description_length` returned by the [`POST /register`] endpoint to determine the maximum channel description length.
 //
-//	**Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64).
+// **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64).
 //
 // [description]: https://zulip.com/help/change-the-channel-description
 // [Zulip-flavored Markdown]: https://zulip.com/help/format-your-message-using-markdown
@@ -3612,7 +2519,7 @@ func (r UpdateChannelRequest) Description(description string) UpdateChannelReque
 
 // The new name for the channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`] endpoint to determine the maximum channel name length.
 //
-//	**Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64).
+// **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64).
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 func (r UpdateChannelRequest) NewName(newName string) UpdateChannelRequest {
@@ -3638,7 +2545,7 @@ func (r UpdateChannelRequest) IsWebPublic(isWebPublic bool) UpdateChannelRequest
 
 // Whether the channel's message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the channel.  Corresponds to the shared history option for [private channels].  It's an error for this parameter to be false for a public or web-public channel and when is_private is false.
 //
-//	**Changes**: Before Zulip 6.0 (feature level 136), `history_public_to_subscribers` was silently ignored unless the request also contained either `is_private` or `is_web_public`.
+// **Changes**: Before Zulip 6.0 (feature level 136), `history_public_to_subscribers` was silently ignored unless the request also contained either `is_private` or `is_web_public`.
 //
 // [private channels]: https://zulip.com/help/channel-permissions#private-channels
 func (r UpdateChannelRequest) HistoryPublicToSubscribers(historyPublicToSubscribers bool) UpdateChannelRequest {
@@ -3664,7 +2571,7 @@ func (r UpdateChannelRequest) MessageRetentionDays(messageRetentionDays MessageR
 
 // A boolean indicating whether the channel is [archived] or unarchived. Currently only allows unarchiving previously archived channels.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 388).
+// **Changes**: New in Zulip 11.0 (feature level 388).
 //
 // [archived]: https://zulip.com/help/archive-a-channel
 func (r UpdateChannelRequest) IsArchived(isArchived bool) UpdateChannelRequest {
@@ -3674,7 +2581,7 @@ func (r UpdateChannelRequest) IsArchived(isArchived bool) UpdateChannelRequest {
 
 // Id of the new folder to which the channel should belong.  It can be `None` if the user wants to just remove the channel from its existing folder.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 389).
+// **Changes**: New in Zulip 11.0 (feature level 389).
 func (r UpdateChannelRequest) FolderId(folderId int64) UpdateChannelRequest {
 	r.folderId = &folderId
 	return r
@@ -3687,7 +2594,7 @@ func (r UpdateChannelRequest) TopicsPolicy(topicsPolicy TopicsPolicy) UpdateChan
 
 // The set of users who have permission to add subscribers to this channel expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 342). Previously, there was no channel-level setting for this permission.
+// **Changes**: New in Zulip 10.0 (feature level 342). Previously, there was no channel-level setting for this permission.
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Users who can administer the channel or have similar realm-level permissions can add subscribers to a public channel regardless of the value of this setting.  Users in this group need not be subscribed to a private channel to add subscribers to it.  Note that a user must [have content access] to a channel and permission to administer the channel in order to modify this setting.
 //
@@ -3699,7 +2606,7 @@ func (r UpdateChannelRequest) CanAddSubscribersGroup(canAddSubscribersGroup Grou
 
 // The set of users who have permission to unsubscribe others from this channel expressed as an [update to a group-setting value].
 //
-//	**Changes**: Prior to Zulip 10.0 (feature level 349), channel administrators could not unsubscribe other users if they were not an organization administrator or part of `can_remove_subscribers_group`. Realm administrators were not allowed to unsubscribe other users from a private channel if they were not subscribed to that channel.  Prior to Zulip 10.0 (feature level 320), this value was always the integer Id of a system group.  Before Zulip 8.0 (feature level 197), the `can_remove_subscribers_group` setting was named `can_remove_subscribers_group_id`.  New in Zulip 7.0 (feature level 161).
+// **Changes**: Prior to Zulip 10.0 (feature level 349), channel administrators could not unsubscribe other users if they were not an organization administrator or part of `can_remove_subscribers_group`. Realm administrators were not allowed to unsubscribe other users from a private channel if they were not subscribed to that channel.  Prior to Zulip 10.0 (feature level 320), this value was always the integer Id of a system group.  Before Zulip 8.0 (feature level 197), the `can_remove_subscribers_group` setting was named `can_remove_subscribers_group_id`.  New in Zulip 7.0 (feature level 161).
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Organization administrators can unsubscribe others from a channel as though they were in this group without being explicitly listed here.  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.
 func (r UpdateChannelRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup GroupSettingValueUpdate) UpdateChannelRequest {
@@ -3709,10 +2616,9 @@ func (r UpdateChannelRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGrou
 
 // The set of users who have permission to administer this channel expressed as an [update to a group-setting value].
 //
-//	**Changes**: Prior to Zulip 10.0 (feature level 349) a user needed to [have content access] to a channel in order to modify it. The exception to this rule was that organization administrators can edit channel names and descriptions without having full access to the channel.  New in Zulip 10.0 (feature level 325). Prior to this change, the permission to administer channels was limited to realm administrators.
+// **Changes**: Prior to Zulip 10.0 (feature level 349) a user needed to [have content access] to a channel in order to modify it. The exception to this rule was that organization administrators can edit channel names and descriptions without having full access to the channel.  New in Zulip 10.0 (feature level 325). Prior to this change, the permission to administer channels was limited to realm administrators.
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Organization administrators can administer every channel as though they were in this group without being explicitly listed here.  Note that a user must [have content access] to a channel in order to add other subscribers to the channel.
-//
 // [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanAdministerChannelGroup(canAdministerChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canAdministerChannelGroup = &canAdministerChannelGroup
@@ -3721,7 +2627,7 @@ func (r UpdateChannelRequest) CanAdministerChannelGroup(canAdministerChannelGrou
 
 // The set of users who have permission to delete any message in the channel expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in `can_delete_any_message_group` were able delete any message in the organization.
+// **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in `can_delete_any_message_group` were able delete any message in the organization.
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to delete any message in the channel.  Users present in the organization-level `can_delete_any_message_group` setting can always delete any message in the channel if they [have content access] to that channel.
 //
@@ -3733,7 +2639,7 @@ func (r UpdateChannelRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup 
 
 // The set of users who have permission to delete the messages that they have sent in the channel expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in the organization-level `can_delete_any_message_group` and `can_delete_own_message_group` settings were able delete their own messages in the organization.
+// **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in the organization-level `can_delete_any_message_group` and `can_delete_own_message_group` settings were able delete their own messages in the organization.
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to delete their own message in the channel.  Users with permission to delete any message in the channel and users present in the organization-level `can_delete_own_message_group` setting can always delete their own messages in the channel if they [have content access] to that channel.
 //
@@ -3745,7 +2651,7 @@ func (r UpdateChannelRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup 
 
 // The set of users who have permission to move messages out of this channel expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in `can_move_messages_between_channels_group` were able move messages between channels.
+// **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in `can_move_messages_between_channels_group` were able move messages between channels.
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to move messages out of the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_channels_group` setting can always move messages out of the channel if they [have content access] to the channel.
 //
@@ -3757,7 +2663,7 @@ func (r UpdateChannelRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOu
 
 // The set of users who have permission to move messages within this channel expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in `can_move_messages_between_topics_group` were able move messages between topics of a channel.
+// **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in `can_move_messages_between_topics_group` were able move messages between topics of a channel.
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_topics_group` setting can always move messages within the channel if they [have content access] to the channel.
 //
@@ -3769,7 +2675,7 @@ func (r UpdateChannelRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesW
 
 // The set of users who have permission to post in this channel expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 333). Previously `stream_post_policy` field used to control the permission to post in the channel.
+// **Changes**: New in Zulip 10.0 (feature level 333). Previously `stream_post_policy` field used to control the permission to post in the channel.
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.
 func (r UpdateChannelRequest) CanSendMessageGroup(canSendMessageGroup GroupSettingValueUpdate) UpdateChannelRequest {
@@ -3779,7 +2685,7 @@ func (r UpdateChannelRequest) CanSendMessageGroup(canSendMessageGroup GroupSetti
 
 // The set of users who have permission to subscribe themselves to this channel expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 10.0 (feature level 357).
+// **Changes**: New in Zulip 10.0 (feature level 357).
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Everyone, excluding guests, can subscribe to any public channel irrespective of this setting.  Users in this group can subscribe to a private channel as well.  Note that a user must [have content access] to a channel and permission to administer the channel in order to modify this setting.
 //
@@ -3791,7 +2697,7 @@ func (r UpdateChannelRequest) CanSubscribeGroup(canSubscribeGroup GroupSettingVa
 
 // The set of users who have permission to to resolve topics in this channel expressed as an [update to a group-setting value].
 //
-//	**Changes**: New in Zulip 11.0 (feature level 402).
+// **Changes**: New in Zulip 11.0 (feature level 402).
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Users who have similar realm-level permissions can resolve topics in a channel regardless of the value of this setting.
 func (r UpdateChannelRequest) CanResolveTopicsGroup(canResolveTopicsGroup GroupSettingValueUpdate) UpdateChannelRequest {
@@ -3842,178 +2748,113 @@ func (c *simpleClient) UpdateChannel(ctx context.Context, channelId int64) Updat
 // Execute executes the request
 func (c *simpleClient) UpdateChannelExecute(r UpdateChannelRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/streams/{stream_id}"
+	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
 
-	localVarPath := localBasePath + "/streams/{stream_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", url.PathEscape(parameterValueToString(r.channelId, "channelId")), -1)
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.description != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "description", r.description, "", "")
-	}
-	if r.newName != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "new_name", r.newName, "", "")
-	}
-	if r.isPrivate != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_private", r.isPrivate, "form", "")
-	}
-	if r.isWebPublic != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_web_public", r.isWebPublic, "form", "")
-	}
-	if r.historyPublicToSubscribers != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "history_public_to_subscribers", r.historyPublicToSubscribers, "form", "")
-	}
-	if r.isDefaultChannel != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_default_stream", r.isDefaultChannel, "form", "")
-	}
+	addOptionalParam(formParams, "description", r.description, "", "")
+	addOptionalParam(formParams, "new_name", r.newName, "", "")
+	addOptionalParam(formParams, "is_private", r.isPrivate, "form", "")
+	addOptionalParam(formParams, "is_web_public", r.isWebPublic, "form", "")
+	addOptionalParam(formParams, "history_public_to_subscribers", r.historyPublicToSubscribers, "form", "")
+	addOptionalParam(formParams, "is_default_stream", r.isDefaultChannel, "form", "")
 	if r.messageRetentionDays != nil {
 		paramJson, err := parameterToJson(*r.messageRetentionDays)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("message_retention_days", paramJson)
+		formParams.Add("message_retention_days", paramJson)
 	}
-	if r.isArchived != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "is_archived", r.isArchived, "", "")
-	}
-	if r.folderId != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "folder_id", r.folderId, "form", "")
-	}
-	if r.topicsPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "topics_policy", r.topicsPolicy, "", "")
-	}
+	addOptionalParam(formParams, "is_archived", r.isArchived, "", "")
+	addOptionalParam(formParams, "folder_id", r.folderId, "form", "")
+	addOptionalParam(formParams, "topics_policy", r.topicsPolicy, "", "")
 	if r.canAddSubscribersGroup != nil {
 		paramJson, err := parameterToJson(*r.canAddSubscribersGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_add_subscribers_group", paramJson)
+		formParams.Add("can_add_subscribers_group", paramJson)
 	}
 	if r.canRemoveSubscribersGroup != nil {
 		paramJson, err := parameterToJson(*r.canRemoveSubscribersGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_remove_subscribers_group", paramJson)
+		formParams.Add("can_remove_subscribers_group", paramJson)
 	}
 	if r.canAdministerChannelGroup != nil {
 		paramJson, err := parameterToJson(*r.canAdministerChannelGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_administer_channel_group", paramJson)
+		formParams.Add("can_administer_channel_group", paramJson)
 	}
 	if r.canDeleteAnyMessageGroup != nil {
 		paramJson, err := parameterToJson(*r.canDeleteAnyMessageGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_delete_any_message_group", paramJson)
+		formParams.Add("can_delete_any_message_group", paramJson)
 	}
 	if r.canDeleteOwnMessageGroup != nil {
 		paramJson, err := parameterToJson(*r.canDeleteOwnMessageGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_delete_own_message_group", paramJson)
+		formParams.Add("can_delete_own_message_group", paramJson)
 	}
 	if r.canMoveMessagesOutOfChannelGroup != nil {
 		paramJson, err := parameterToJson(*r.canMoveMessagesOutOfChannelGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_move_messages_out_of_channel_group", paramJson)
+		formParams.Add("can_move_messages_out_of_channel_group", paramJson)
 	}
 	if r.canMoveMessagesWithinChannelGroup != nil {
 		paramJson, err := parameterToJson(*r.canMoveMessagesWithinChannelGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_move_messages_within_channel_group", paramJson)
+		formParams.Add("can_move_messages_within_channel_group", paramJson)
 	}
 	if r.canSendMessageGroup != nil {
 		paramJson, err := parameterToJson(*r.canSendMessageGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_send_message_group", paramJson)
+		formParams.Add("can_send_message_group", paramJson)
 	}
 	if r.canSubscribeGroup != nil {
 		paramJson, err := parameterToJson(*r.canSubscribeGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_subscribe_group", paramJson)
+		formParams.Add("can_subscribe_group", paramJson)
 	}
 	if r.canResolveTopicsGroup != nil {
 		paramJson, err := parameterToJson(*r.canResolveTopicsGroup)
 		if err != nil {
-			return localVarReturnValue, nil, err
+			return nil, nil, err
 		}
-		localVarFormParams.Add("can_resolve_topics_group", paramJson)
+		formParams.Add("can_resolve_topics_group", paramJson)
 	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateSubscriptionSettingsRequest struct {
@@ -4054,77 +2895,31 @@ func (c *simpleClient) UpdateSubscriptionSettings(ctx context.Context) UpdateSub
 // Execute executes the request
 func (c *simpleClient) UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSettingsRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/users/me/subscriptions/properties"
 
-	localVarPath := localBasePath + "/users/me/subscriptions/properties"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.subscriptionData == nil {
-		return localVarReturnValue, nil, reportError("subscriptionData is required and must be specified")
+		return nil, nil, reportError("subscriptionData is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "subscription_data", r.subscriptionData, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "subscription_data", r.subscriptionData, "form", "multi")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateSubscriptionsRequest struct {
@@ -4173,79 +2968,28 @@ func (c *simpleClient) UpdateSubscriptions(ctx context.Context) UpdateSubscripti
 // Execute executes the request
 func (c *simpleClient) UpdateSubscriptionsExecute(r UpdateSubscriptionsRequest) (*UpdateSubscriptionsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *UpdateSubscriptionsResponse
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &UpdateSubscriptionsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/users/me/subscriptions"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "delete", r.delete, "form", "multi")
+	addOptionalParam(formParams, "add", r.add, "form", "multi")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/users/me/subscriptions"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.delete != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "delete", r.delete, "form", "multi")
-	}
-	if r.add != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "add", r.add, "form", "multi")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateUserTopicRequest struct {
@@ -4264,7 +3008,7 @@ func (r UpdateUserTopicRequest) ChannelId(channelId int64) UpdateUserTopicReques
 
 // The topic for which the personal preferences needs to be updated. Note that the request will succeed regardless of whether any messages have been sent to the specified topic.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.
 //
-//	**Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
+// **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 func (r UpdateUserTopicRequest) Topic(topic string) UpdateUserTopicRequest {
@@ -4280,7 +3024,7 @@ func (r UpdateUserTopicRequest) Topic(topic string) UpdateUserTopicRequest {
 //
 // In an unmuted channel, a topic visibility policy of unmuted will have the same effect as the "None" visibility policy.
 //
-//	**Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.
+// **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.
 func (r UpdateUserTopicRequest) VisibilityPolicy(visibilityPolicy VisibilityPolicy) UpdateUserTopicRequest {
 	r.visibilityPolicy = &visibilityPolicy
 	return r
@@ -4315,83 +3059,37 @@ func (c *simpleClient) UpdateUserTopic(ctx context.Context) UpdateUserTopicReque
 // Execute executes the request
 func (c *simpleClient) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/user_topics"
 
-	localVarPath := localBasePath + "/user_topics"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.channelId == nil {
-		return localVarReturnValue, nil, reportError("channelId is required and must be specified")
+		return nil, nil, reportError("channelId is required and must be specified")
 	}
 	if r.topic == nil {
-		return localVarReturnValue, nil, reportError("topic is required and must be specified")
+		return nil, nil, reportError("topic is required and must be specified")
 	}
 	if r.visibilityPolicy == nil {
-		return localVarReturnValue, nil, reportError("visibilityPolicy is required and must be specified")
+		return nil, nil, reportError("visibilityPolicy is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "stream_id", r.channelId, "form", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "topic", r.topic, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "visibility_policy", r.visibilityPolicy, "form", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "stream_id", r.channelId, "form", "")
+	addParam(formParams, "topic", r.topic, "", "")
+	addParam(formParams, "visibility_policy", r.visibilityPolicy, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }

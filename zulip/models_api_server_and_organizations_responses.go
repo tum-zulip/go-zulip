@@ -166,7 +166,7 @@ type GetServerSettingsResponse struct {
 
 // AuthMethods Each key-value pair in the object indicates whether the authentication method is enabled on this server.
 //
-//	**Changes**: Deprecated in Zulip 2.1.0, in favor of the more expressive `external_authentication_methods`.
+// **Changes**: Deprecated in Zulip 2.1.0, in favor of the more expressive `external_authentication_methods`.
 type AuthMethods struct {
 	// Whether the user can authenticate using password.
 	Password bool `json:"password,omitempty"`

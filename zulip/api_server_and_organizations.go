@@ -1,7 +1,6 @@
 package zulip
 
 import (
-	"bytes"
 	"context"
 	"io"
 	"net/http"
@@ -345,7 +344,7 @@ func (r AddCodePlaygroundRequest) PygmentsLanguage(pygmentsLanguage string) AddC
 
 // The [RFC 6570] compliant URL template for the playground. The template should contain exactly one variable named `code`, which determines how the extracted code should be substituted in the playground URL.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 196). This replaced the `url_prefix` parameter, which was used to construct URLs by just concatenating `url_prefix` and `code`.
+// **Changes**: New in Zulip 8.0 (feature level 196). This replaced the `url_prefix` parameter, which was used to construct URLs by just concatenating `url_prefix` and `code`.
 //
 // [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
 func (r AddCodePlaygroundRequest) UrlTemplate(urlTemplate string) AddCodePlaygroundRequest {
@@ -375,85 +374,39 @@ func (c *simpleClient) AddCodePlayground(ctx context.Context) AddCodePlaygroundR
 // Execute executes the request
 func (c *simpleClient) AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*AddCodePlaygroundResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *AddCodePlaygroundResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &AddCodePlaygroundResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/realm/playgrounds"
 
-	localVarPath := localBasePath + "/realm/playgrounds"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.name == nil {
-		return localVarReturnValue, nil, reportError("name is required and must be specified")
+		return nil, nil, reportError("name is required and must be specified")
 	}
 	if r.pygmentsLanguage == nil {
-		return localVarReturnValue, nil, reportError("pygmentsLanguage is required and must be specified")
+		return nil, nil, reportError("pygmentsLanguage is required and must be specified")
 	}
 	if r.urlTemplate == nil {
-		return localVarReturnValue, nil, reportError("urlTemplate is required and must be specified")
+		return nil, nil, reportError("urlTemplate is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "pygments_language", r.pygmentsLanguage, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "url_template", r.urlTemplate, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "name", r.name, "", "")
+	addParam(formParams, "pygments_language", r.pygmentsLanguage, "", "")
+	addParam(formParams, "url_template", r.urlTemplate, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type AddLinkifierRequest struct {
@@ -473,7 +426,7 @@ func (r AddLinkifierRequest) Pattern(pattern string) AddLinkifierRequest {
 
 // The [RFC 6570] compliant URL template used for the link. If you used named groups in `pattern`, you can insert their content here with `{name_of_group}`.
 //
-//	**Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups' content could be inserted with `%(name_of_group)s`.
+// **Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups' content could be inserted with `%(name_of_group)s`.
 //
 // [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
 func (r AddLinkifierRequest) UrlTemplate(urlTemplate string) AddLinkifierRequest {
@@ -502,81 +455,35 @@ func (c *simpleClient) AddLinkifier(ctx context.Context) AddLinkifierRequest {
 // Execute executes the request
 func (c *simpleClient) AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifierResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *AddLinkifierResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &AddLinkifierResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/realm/filters"
 
-	localVarPath := localBasePath + "/realm/filters"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.pattern == nil {
-		return localVarReturnValue, nil, reportError("pattern is required and must be specified")
+		return nil, nil, reportError("pattern is required and must be specified")
 	}
 	if r.urlTemplate == nil {
-		return localVarReturnValue, nil, reportError("urlTemplate is required and must be specified")
+		return nil, nil, reportError("urlTemplate is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "pattern", r.pattern, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "url_template", r.urlTemplate, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "pattern", r.pattern, "", "")
+	addParam(formParams, "url_template", r.urlTemplate, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type CreateCustomProfileFieldRequest struct {
@@ -627,7 +534,7 @@ func (r CreateCustomProfileFieldRequest) DisplayInProfileSummary(displayInProfil
 
 // Whether an organization administrator has configured this profile field as required.  Because the required property is mutable, clients cannot assume that a required custom profile field has a value. The Zulip web application displays a prominent banner to any user who has not set a value for a required field.
 //
-//	**Changes**: New in Zulip 9.0 (feature level 244).
+// **Changes**: New in Zulip 9.0 (feature level 244).
 func (r CreateCustomProfileFieldRequest) Required(required bool) CreateCustomProfileFieldRequest {
 	r.required = &required
 	return r
@@ -635,7 +542,7 @@ func (r CreateCustomProfileFieldRequest) Required(required bool) CreateCustomPro
 
 // Whether regular users can edit this profile field on their own account.  Note that organization administrators can edit custom profile fields for any user regardless of this setting.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 296).
+// **Changes**: New in Zulip 10.0 (feature level 296).
 func (r CreateCustomProfileFieldRequest) EditableByUser(editableByUser bool) CreateCustomProfileFieldRequest {
 	r.editableByUser = &editableByUser
 	return r
@@ -660,95 +567,37 @@ func (c *simpleClient) CreateCustomProfileField(ctx context.Context) CreateCusto
 // Execute executes the request
 func (c *simpleClient) CreateCustomProfileFieldExecute(r CreateCustomProfileFieldRequest) (*CreateCustomProfileFieldResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *CreateCustomProfileFieldResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &CreateCustomProfileFieldResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/realm/profile_fields"
 
-	localVarPath := localBasePath + "/realm/profile_fields"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.fieldType == nil {
-		return localVarReturnValue, nil, reportError("fieldType is required and must be specified")
+		return nil, nil, reportError("fieldType is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.name != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "", "")
-	}
-	if r.hint != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "hint", r.hint, "", "")
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "field_type", r.fieldType, "form", "")
-	if r.fieldData != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "field_data", r.fieldData, "form", "")
-	}
-	if r.displayInProfileSummary != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "display_in_profile_summary", r.displayInProfileSummary, "form", "")
-	}
-	if r.required != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "required", r.required, "form", "")
-	}
-	if r.editableByUser != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "editable_by_user", r.editableByUser, "form", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addOptionalParam(formParams, "name", r.name, "", "")
+	addOptionalParam(formParams, "hint", r.hint, "", "")
+	addParam(formParams, "field_type", r.fieldType, "form", "")
+	addOptionalParam(formParams, "field_data", r.fieldData, "form", "")
+	addOptionalParam(formParams, "display_in_profile_summary", r.displayInProfileSummary, "form", "")
+	addOptionalParam(formParams, "required", r.required, "form", "")
+	addOptionalParam(formParams, "editable_by_user", r.editableByUser, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type DeactivateCustomEmojiRequest struct {
@@ -787,74 +636,27 @@ func (c *simpleClient) DeactivateCustomEmoji(ctx context.Context, emojiName stri
 // Execute executes the request
 func (c *simpleClient) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/realm/emoji/{emoji_name}"
+	endpoint = strings.Replace(endpoint, "{"+"emoji_name"+"}", url.PathEscape(r.emojiName), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/realm/emoji/{emoji_name}"
-	localVarPath = strings.Replace(localVarPath, "{"+"emoji_name"+"}", url.PathEscape(parameterValueToString(r.emojiName, "emojiName")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type ExportRealmRequest struct {
@@ -906,76 +708,27 @@ func (c *simpleClient) ExportRealm(ctx context.Context) ExportRealmRequest {
 // Execute executes the request
 func (c *simpleClient) ExportRealmExecute(r ExportRealmRequest) (*ExportRealmResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *ExportRealmResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &ExportRealmResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/export/realm"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "export_type", r.exportType, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/export/realm"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.exportType != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "export_type", r.exportType, "", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetCustomEmojiRequest struct {
@@ -1000,73 +753,26 @@ func (c *simpleClient) GetCustomEmoji(ctx context.Context) GetCustomEmojiRequest
 // Execute executes the request
 func (c *simpleClient) GetCustomEmojiExecute(r GetCustomEmojiRequest) (*GetCustomEmojiResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetCustomEmojiResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetCustomEmojiResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/realm/emoji"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/realm/emoji"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetCustomProfileFieldsRequest struct {
@@ -1094,73 +800,26 @@ func (c *simpleClient) GetCustomProfileFields(ctx context.Context) GetCustomProf
 // Execute executes the request
 func (c *simpleClient) GetCustomProfileFieldsExecute(r GetCustomProfileFieldsRequest) (*GetCustomProfileFieldsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetCustomProfileFieldsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetCustomProfileFieldsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/realm/profile_fields"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/realm/profile_fields"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetLinkifiersRequest struct {
@@ -1194,73 +853,26 @@ func (c *simpleClient) GetLinkifiers(ctx context.Context) GetLinkifiersRequest {
 // Execute executes the request
 func (c *simpleClient) GetLinkifiersExecute(r GetLinkifiersRequest) (*GetLinkifiersResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetLinkifiersResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetLinkifiersResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/realm/linkifiers"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/realm/linkifiers"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetPresenceRequest struct {
@@ -1294,73 +906,26 @@ func (c *simpleClient) GetPresence(ctx context.Context) GetPresenceRequest {
 // Execute executes the request
 func (c *simpleClient) GetPresenceExecute(r GetPresenceRequest) (*GetPresenceResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetPresenceResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetPresenceResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/realm/presence"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/realm/presence"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetRealmExportConsentsRequest struct {
@@ -1390,73 +955,26 @@ func (c *simpleClient) GetRealmExportConsents(ctx context.Context) GetRealmExpor
 // Execute executes the request
 func (c *simpleClient) GetRealmExportConsentsExecute(r GetRealmExportConsentsRequest) (*GetRealmExportConsentsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetRealmExportConsentsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetRealmExportConsentsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/export/realm/consents"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/export/realm/consents"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetRealmExportsRequest struct {
@@ -1489,73 +1007,26 @@ func (c *simpleClient) GetRealmExports(ctx context.Context) GetRealmExportsReque
 // Execute executes the request
 func (c *simpleClient) GetRealmExportsExecute(r GetRealmExportsRequest) (*GetRealmExportsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetRealmExportsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetRealmExportsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/export/realm"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/export/realm"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type GetServerSettingsRequest struct {
@@ -1586,73 +1057,26 @@ func (c *simpleClient) GetServerSettings(ctx context.Context) GetServerSettingsR
 // Execute executes the request
 func (c *simpleClient) GetServerSettingsExecute(r GetServerSettingsRequest) (*GetServerSettingsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *GetServerSettingsResponse
+		httpMethod  = http.MethodGet
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &GetServerSettingsResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/server_settings"
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/server_settings"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RemoveCodePlaygroundRequest struct {
@@ -1684,74 +1108,27 @@ func (c *simpleClient) RemoveCodePlayground(ctx context.Context, playgroundId in
 // Execute executes the request
 func (c *simpleClient) RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/realm/playgrounds/{playground_id}"
+	endpoint = strings.Replace(endpoint, "{"+"playground_id"+"}", idToString(r.playgroundId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/realm/playgrounds/{playground_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"playground_id"+"}", url.PathEscape(parameterValueToString(r.playgroundId, "playgroundId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type RemoveLinkifierRequest struct {
@@ -1782,74 +1159,27 @@ func (c *simpleClient) RemoveLinkifier(ctx context.Context, filterId int64) Remo
 // Execute executes the request
 func (c *simpleClient) RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodDelete
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/realm/filters/{filter_id}"
+	endpoint = strings.Replace(endpoint, "{"+"filter_id"+"}", idToString(r.filterId), -1)
+
+	// no Content-Type header
+
+	headers["Accept"] = "application/json"
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/realm/filters/{filter_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"filter_id"+"}", url.PathEscape(parameterValueToString(r.filterId, "filterId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type ReorderCustomProfileFieldsRequest struct {
@@ -1889,77 +1219,31 @@ func (c *simpleClient) ReorderCustomProfileFields(ctx context.Context) ReorderCu
 // Execute executes the request
 func (c *simpleClient) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileFieldsRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/realm/profile_fields"
 
-	localVarPath := localBasePath + "/realm/profile_fields"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.order == nil {
-		return localVarReturnValue, nil, reportError("order is required and must be specified")
+		return nil, nil, reportError("order is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "order", r.order, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "order", r.order, "form", "multi")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type ReorderLinkifiersRequest struct {
@@ -1999,77 +1283,31 @@ func (c *simpleClient) ReorderLinkifiers(ctx context.Context) ReorderLinkifiersR
 // Execute executes the request
 func (c *simpleClient) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/realm/linkifiers"
 
-	localVarPath := localBasePath + "/realm/linkifiers"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.orderedLinkifierIds == nil {
-		return localVarReturnValue, nil, reportError("orderedLinkifierIds is required and must be specified")
+		return nil, nil, reportError("orderedLinkifierIds is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "ordered_linkifier_ids", r.orderedLinkifierIds, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "ordered_linkifier_ids", r.orderedLinkifierIds, "form", "multi")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type TestWelcomeBotCustomMessageRequest struct {
@@ -2105,80 +1343,34 @@ func (c *simpleClient) TestWelcomeBotCustomMessage(ctx context.Context) TestWelc
 // Execute executes the request
 func (c *simpleClient) TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustomMessageRequest) (*TestWelcomeBotCustomMessageResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *TestWelcomeBotCustomMessageResponse
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &TestWelcomeBotCustomMessageResponse{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/realm/test_welcome_bot_custom_message"
 
-	localVarPath := localBasePath + "/realm/test_welcome_bot_custom_message"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.welcomeMessageCustomText == nil {
-		return localVarReturnValue, nil, reportError("welcomeMessageCustomText is required and must be specified")
+		return nil, nil, reportError("welcomeMessageCustomText is required and must be specified")
 	}
 	if strlen(*r.welcomeMessageCustomText) > 8000 {
-		return localVarReturnValue, nil, reportError("welcomeMessageCustomText must have less than 8000 elements")
+		return nil, nil, reportError("welcomeMessageCustomText must have less than 8000 elements")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "welcome_message_custom_text", r.welcomeMessageCustomText, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "welcome_message_custom_text", r.welcomeMessageCustomText, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateLinkifierRequest struct {
@@ -2199,7 +1391,7 @@ func (r UpdateLinkifierRequest) Pattern(pattern string) UpdateLinkifierRequest {
 
 // The [RFC 6570] compliant URL template used for the link. If you used named groups in `pattern`, you can insert their content here with `{name_of_group}`.
 //
-//	**Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups' content could be inserted with `%(name_of_group)s`.
+// **Changes**: New in Zulip 7.0 (feature level 176). This replaced the `url_format_string` parameter, which was a format string in which named groups' content could be inserted with `%(name_of_group)s`.
 //
 // [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
 func (r UpdateLinkifierRequest) UrlTemplate(urlTemplate string) UpdateLinkifierRequest {
@@ -2231,82 +1423,36 @@ func (c *simpleClient) UpdateLinkifier(ctx context.Context, filterId int64) Upda
 // Execute executes the request
 func (c *simpleClient) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/realm/filters/{filter_id}"
+	endpoint = strings.Replace(endpoint, "{"+"filter_id"+"}", idToString(r.filterId), -1)
 
-	localVarPath := localBasePath + "/realm/filters/{filter_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"filter_id"+"}", url.PathEscape(parameterValueToString(r.filterId, "filterId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
 	if r.pattern == nil {
-		return localVarReturnValue, nil, reportError("pattern is required and must be specified")
+		return nil, nil, reportError("pattern is required and must be specified")
 	}
 	if r.urlTemplate == nil {
-		return localVarReturnValue, nil, reportError("urlTemplate is required and must be specified")
+		return nil, nil, reportError("urlTemplate is required and must be specified")
 	}
 
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
 
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "pattern", r.pattern, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "url_template", r.urlTemplate, "", "")
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	addParam(formParams, "pattern", r.pattern, "", "")
+	addParam(formParams, "url_template", r.urlTemplate, "", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UpdateRealmUserSettingsDefaultsRequest struct {
@@ -2382,7 +1528,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) StarredMessageCounts(starredMess
 
 // Whether the user is configured to receive typing notifications from other users. The server will only deliver typing notifications events to users who for whom this is enabled.
 //
-//	**Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications.
+// **Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications.
 func (r UpdateRealmUserSettingsDefaultsRequest) ReceivesTypingNotifications(receivesTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.receivesTypingNotifications = &receivesTypingNotifications
 	return r
@@ -2390,7 +1536,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) ReceivesTypingNotifications(rece
 
 // Whether the user should be shown an alert, offering to update their [profile time zone], when the time displayed for the profile time zone differs from the current time displayed by the time zone configured on their device.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 329).
+// **Changes**: New in Zulip 10.0 (feature level 329).
 //
 // [profile time zone]: https://zulip.com/help/change-your-timezone
 func (r UpdateRealmUserSettingsDefaultsRequest) WebSuggestUpdateTimezone(webSuggestUpdateTimezone bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2435,7 +1581,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelDefaultView(webChannel
 
 // User-configured primary `font-size` for the web application, in pixels.
 //
-//	**Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level.
+// **Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebFontSizePx(webFontSizePx int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.webFontSizePx = &webFontSizePx
 	return r
@@ -2443,7 +1589,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebFontSizePx(webFontSizePx int3
 
 // User-configured primary `line-height` for the web application, in percent, so a value of 120 represents a `line-height` of 1.2.
 //
-//	**Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
+// **Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebLineHeightPercent(webLineHeightPercent int32) UpdateRealmUserSettingsDefaultsRequest {
 	r.webLineHeightPercent = &webLineHeightPercent
 	return r
@@ -2478,7 +1624,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) TranslateEmoticons(translateEmot
 
 // Whether to display the names of reacting users on a message.  When enabled, clients should display the names of reacting users, rather than a count, for messages with few total reactions. The ideal cutoff may depend on the space available for displaying reactions; the official web application displays names when 3 or fewer total reactions are present with this setting enabled.
 //
-//	**Changes**: New in Zulip 6.0 (feature level 125).
+// **Changes**: New in Zulip 6.0 (feature level 125).
 func (r UpdateRealmUserSettingsDefaultsRequest) DisplayEmojiReactionUsers(displayEmojiReactionUsers bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.displayEmojiReactionUsers = &displayEmojiReactionUsers
 	return r
@@ -2499,7 +1645,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebHomeView(webHomeView HomeView
 
 // Whether the escape key navigates to the [configured home view].
 //
-//	**Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `escape_navigates_to_default_view`, which was new in Zulip 5.0 (feature level 107).
+// **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `escape_navigates_to_default_view`, which was new in Zulip 5.0 (feature level 107).
 //
 // [configured home view]: https://zulip.com/help/configure-home-view
 func (r UpdateRealmUserSettingsDefaultsRequest) WebEscapeNavigatesToHomeView(webEscapeNavigatesToHomeView bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2571,7 +1717,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelUnreadsCountDisplayPol
 
 // Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.
 //
-//	**Changes**: New in Zulip 10.0 (feature level 350).
+// **Changes**: New in Zulip 10.0 (feature level 350).
 func (r UpdateRealmUserSettingsDefaultsRequest) HideAiFeatures(hideAiFeatures bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.hideAiFeatures = &hideAiFeatures
 	return r
@@ -2579,7 +1725,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) HideAiFeatures(hideAiFeatures bo
 
 // Determines whether the web/desktop application's left sidebar displays any channel folders configured by the organization.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 411).
+// **Changes**: New in Zulip 11.0 (feature level 411).
 func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarShowChannelFolders(webLeftSidebarShowChannelFolders bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.webLeftSidebarShowChannelFolders = &webLeftSidebarShowChannelFolders
 	return r
@@ -2587,7 +1733,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarShowChannelFolders
 
 // Determines whether the web/desktop application's left sidebar displays the unread message count summary.
 //
-//	**Changes**: New in Zulip 11.0 (feature level 398).
+// **Changes**: New in Zulip 11.0 (feature level 398).
 func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarUnreadsCountSummary(webLeftSidebarUnreadsCountSummary bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.webLeftSidebarUnreadsCountSummary = &webLeftSidebarUnreadsCountSummary
 	return r
@@ -2637,7 +1783,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableSounds(enableSounds bool) 
 
 // Enable visual desktop notifications for messages sent to followed topics.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 189).
+// **Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicDesktopNotifications(enableFollowedTopicDesktopNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicDesktopNotifications = &enableFollowedTopicDesktopNotifications
 	return r
@@ -2645,7 +1791,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicDesktopNotifi
 
 // Enable email notifications for messages sent to followed topics.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 189).
+// **Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicEmailNotifications(enableFollowedTopicEmailNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicEmailNotifications = &enableFollowedTopicEmailNotifications
 	return r
@@ -2653,7 +1799,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicEmailNotifica
 
 // Enable push notifications for messages sent to followed topics.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 189).
+// **Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicPushNotifications(enableFollowedTopicPushNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicPushNotifications = &enableFollowedTopicPushNotifications
 	return r
@@ -2661,7 +1807,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicPushNotificat
 
 // Enable audible desktop notifications for messages sent to followed topics.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 189).
+// **Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicAudibleNotifications(enableFollowedTopicAudibleNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicAudibleNotifications = &enableFollowedTopicAudibleNotifications
 	return r
@@ -2717,7 +1863,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WildcardMentionsNotify(wildcardM
 
 // Whether wildcard mentions (e.g., @**all**) in messages sent to followed topics should send notifications like a personal mention.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 189).
+// **Changes**: New in Zulip 8.0 (feature level 189).
 func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicWildcardMentionsNotify(enableFollowedTopicWildcardMentionsNotify bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicWildcardMentionsNotify = &enableFollowedTopicWildcardMentionsNotify
 	return r
@@ -2778,7 +1924,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMuted
 
 // Whether the server will automatically mark the user as following topics where the user is mentioned.
 //
-//	**Changes**: New in Zulip 8.0 (feature level 235).
+// **Changes**: New in Zulip 8.0 (feature level 235).
 func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsWhereMentioned(automaticallyFollowTopicsWhereMentioned bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyFollowTopicsWhereMentioned = &automaticallyFollowTopicsWhereMentioned
 	return r
@@ -2809,7 +1955,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnterSends(enterSends bool) Upda
 
 // Whether time should be [displayed in 24-hour notation].
 //
-//	**Changes**: New in Zulip 5.0 (feature level 99). Previously, this default was edited using the `default_twenty_four_hour_time` parameter to the `PATCH /realm` endpoint.
+// **Changes**: New in Zulip 5.0 (feature level 99). Previously, this default was edited using the `default_twenty_four_hour_time` parameter to the `PATCH /realm` endpoint.
 //
 // [displayed in 24-hour notation]: https://zulip.com/help/change-the-time-format
 func (r UpdateRealmUserSettingsDefaultsRequest) TwentyFourHourTime(twentyFourHourTime bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2819,7 +1965,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) TwentyFourHourTime(twentyFourHou
 
 // Whether [typing notifications] be sent when composing direct messages.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 105).
+// **Changes**: New in Zulip 5.0 (feature level 105).
 //
 // [typing notifications]: https://zulip.com/help/typing-notifications
 func (r UpdateRealmUserSettingsDefaultsRequest) SendPrivateTypingNotifications(sendPrivateTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2829,7 +1975,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendPrivateTypingNotifications(s
 
 // Whether [typing notifications] be sent when composing channel messages.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 105).
+// **Changes**: New in Zulip 5.0 (feature level 105).
 //
 // [typing notifications]: https://zulip.com/help/typing-notifications
 func (r UpdateRealmUserSettingsDefaultsRequest) SendChannelTypingNotifications(sendChannelTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
@@ -2839,7 +1985,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendChannelTypingNotifications(s
 
 // Whether other users are allowed to see whether you've read messages.
 //
-//	**Changes**: New in Zulip 5.0 (feature level 105).
+// **Changes**: New in Zulip 5.0 (feature level 105).
 func (r UpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(sendReadReceipts bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.sendReadReceipts = &sendReadReceipts
 	return r
@@ -2863,7 +2009,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(emailAddr
 
 // Web/desktop app setting for whether the user's view should automatically go to the conversation where they sent a message.
 //
-//	**Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
+// **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
 func (r UpdateRealmUserSettingsDefaultsRequest) WebNavigateToSentMessage(webNavigateToSentMessage bool) UpdateRealmUserSettingsDefaultsRequest {
 	r.webNavigateToSentMessage = &webNavigateToSentMessage
 	return r
@@ -2911,247 +2057,84 @@ func (c *simpleClient) UpdateRealmUserSettingsDefaults(ctx context.Context) Upda
 // Execute executes the request
 func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPatch
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPatch
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
+	endpoint := "/realm/user_settings_defaults"
+
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	headers["Accept"] = "application/json"
+
+	addOptionalParam(formParams, "starred_message_counts", r.starredMessageCounts, "form", "")
+	addOptionalParam(formParams, "receives_typing_notifications", r.receivesTypingNotifications, "form", "")
+	addOptionalParam(formParams, "web_suggest_update_timezone", r.webSuggestUpdateTimezone, "form", "")
+	addOptionalParam(formParams, "fluid_layout_width", r.fluidLayoutWidth, "form", "")
+	addOptionalParam(formParams, "high_contrast_mode", r.highContrastMode, "form", "")
+	addOptionalParam(formParams, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy, "form", "")
+	addOptionalParam(formParams, "web_channel_default_view", r.webChannelDefaultView, "form", "")
+	addOptionalParam(formParams, "web_font_size_px", r.webFontSizePx, "form", "")
+	addOptionalParam(formParams, "web_line_height_percent", r.webLineHeightPercent, "form", "")
+	addOptionalParam(formParams, "color_scheme", r.colorScheme, "form", "")
+	addOptionalParam(formParams, "enable_drafts_synchronization", r.enableDraftsSynchronization, "form", "")
+	addOptionalParam(formParams, "translate_emoticons", r.translateEmoticons, "form", "")
+	addOptionalParam(formParams, "display_emoji_reaction_users", r.displayEmojiReactionUsers, "form", "")
+	addOptionalParam(formParams, "web_home_view", r.webHomeView, "", "")
+	addOptionalParam(formParams, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView, "form", "")
+	addOptionalParam(formParams, "left_side_userlist", r.leftSideUserlist, "form", "")
+	addOptionalParam(formParams, "emojiset", r.emojiset, "", "")
+	addOptionalParam(formParams, "demote_inactive_streams", r.demoteInactiveChannels, "form", "")
+	addOptionalParam(formParams, "user_list_style", r.userListStyle, "form", "")
+	addOptionalParam(formParams, "web_animate_image_previews", r.webAnimateImagePreviews, "", "")
+	addOptionalParam(formParams, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy, "form", "")
+	addOptionalParam(formParams, "hide_ai_features", r.hideAiFeatures, "form", "")
+	addOptionalParam(formParams, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders, "form", "")
+	addOptionalParam(formParams, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary, "form", "")
+	addOptionalParam(formParams, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications, "form", "")
+	addOptionalParam(formParams, "enable_stream_email_notifications", r.enableChannelEmailNotifications, "form", "")
+	addOptionalParam(formParams, "enable_stream_push_notifications", r.enableChannelPushNotifications, "form", "")
+	addOptionalParam(formParams, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications, "form", "")
+	addOptionalParam(formParams, "notification_sound", r.notificationSound, "", "")
+	addOptionalParam(formParams, "enable_desktop_notifications", r.enableDesktopNotifications, "form", "")
+	addOptionalParam(formParams, "enable_sounds", r.enableSounds, "form", "")
+	addOptionalParam(formParams, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications, "form", "")
+	addOptionalParam(formParams, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications, "form", "")
+	addOptionalParam(formParams, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications, "form", "")
+	addOptionalParam(formParams, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications, "form", "")
+	addOptionalParam(formParams, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds, "form", "")
+	addOptionalParam(formParams, "enable_offline_email_notifications", r.enableOfflineEmailNotifications, "form", "")
+	addOptionalParam(formParams, "enable_offline_push_notifications", r.enableOfflinePushNotifications, "form", "")
+	addOptionalParam(formParams, "enable_online_push_notifications", r.enableOnlinePushNotifications, "form", "")
+	addOptionalParam(formParams, "enable_digest_emails", r.enableDigestEmails, "form", "")
+	addOptionalParam(formParams, "message_content_in_email_notifications", r.messageContentInEmailNotifications, "form", "")
+	addOptionalParam(formParams, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications, "form", "")
+	addOptionalParam(formParams, "wildcard_mentions_notify", r.wildcardMentionsNotify, "form", "")
+	addOptionalParam(formParams, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify, "form", "")
+	addOptionalParam(formParams, "desktop_icon_count_display", r.desktopIconCountDisplay, "form", "")
+	addOptionalParam(formParams, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy, "form", "")
+	addOptionalParam(formParams, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy, "form", "")
+	addOptionalParam(formParams, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy, "form", "")
+	addOptionalParam(formParams, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned, "form", "")
+	addOptionalParam(formParams, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy, "", "")
+	addOptionalParam(formParams, "presence_enabled", r.presenceEnabled, "form", "")
+	addOptionalParam(formParams, "enter_sends", r.enterSends, "form", "")
+	addOptionalParam(formParams, "twenty_four_hour_time", r.twentyFourHourTime, "form", "")
+	addOptionalParam(formParams, "send_private_typing_notifications", r.sendPrivateTypingNotifications, "form", "")
+	addOptionalParam(formParams, "send_stream_typing_notifications", r.sendChannelTypingNotifications, "form", "")
+	addOptionalParam(formParams, "send_read_receipts", r.sendReadReceipts, "form", "")
+	addOptionalParam(formParams, "email_address_visibility", r.emailAddressVisibility, "form", "")
+	addOptionalParam(formParams, "web_navigate_to_sent_message", r.webNavigateToSentMessage, "form", "")
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
+		return nil, nil, err
 	}
 
-	localVarPath := localBasePath + "/realm/user_settings_defaults"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.starredMessageCounts != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "starred_message_counts", r.starredMessageCounts, "form", "")
-	}
-	if r.receivesTypingNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "receives_typing_notifications", r.receivesTypingNotifications, "form", "")
-	}
-	if r.webSuggestUpdateTimezone != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_suggest_update_timezone", r.webSuggestUpdateTimezone, "form", "")
-	}
-	if r.fluidLayoutWidth != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "fluid_layout_width", r.fluidLayoutWidth, "form", "")
-	}
-	if r.highContrastMode != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "high_contrast_mode", r.highContrastMode, "form", "")
-	}
-	if r.webMarkReadOnScrollPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy, "form", "")
-	}
-	if r.webChannelDefaultView != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_channel_default_view", r.webChannelDefaultView, "form", "")
-	}
-	if r.webFontSizePx != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_font_size_px", r.webFontSizePx, "form", "")
-	}
-	if r.webLineHeightPercent != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_line_height_percent", r.webLineHeightPercent, "form", "")
-	}
-	if r.colorScheme != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "color_scheme", r.colorScheme, "form", "")
-	}
-	if r.enableDraftsSynchronization != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_drafts_synchronization", r.enableDraftsSynchronization, "form", "")
-	}
-	if r.translateEmoticons != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "translate_emoticons", r.translateEmoticons, "form", "")
-	}
-	if r.displayEmojiReactionUsers != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "display_emoji_reaction_users", r.displayEmojiReactionUsers, "form", "")
-	}
-	if r.webHomeView != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_home_view", r.webHomeView, "", "")
-	}
-	if r.webEscapeNavigatesToHomeView != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView, "form", "")
-	}
-	if r.leftSideUserlist != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "left_side_userlist", r.leftSideUserlist, "form", "")
-	}
-	if r.emojiset != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "emojiset", r.emojiset, "", "")
-	}
-	if r.demoteInactiveChannels != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "demote_inactive_streams", r.demoteInactiveChannels, "form", "")
-	}
-	if r.userListStyle != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "user_list_style", r.userListStyle, "form", "")
-	}
-	if r.webAnimateImagePreviews != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_animate_image_previews", r.webAnimateImagePreviews, "", "")
-	}
-	if r.webChannelUnreadsCountDisplayPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy, "form", "")
-	}
-	if r.hideAiFeatures != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "hide_ai_features", r.hideAiFeatures, "form", "")
-	}
-	if r.webLeftSidebarShowChannelFolders != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders, "form", "")
-	}
-	if r.webLeftSidebarUnreadsCountSummary != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary, "form", "")
-	}
-	if r.enableChannelDesktopNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications, "form", "")
-	}
-	if r.enableChannelEmailNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_email_notifications", r.enableChannelEmailNotifications, "form", "")
-	}
-	if r.enableChannelPushNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_push_notifications", r.enableChannelPushNotifications, "form", "")
-	}
-	if r.enableChannelAudibleNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications, "form", "")
-	}
-	if r.notificationSound != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "notification_sound", r.notificationSound, "", "")
-	}
-	if r.enableDesktopNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_desktop_notifications", r.enableDesktopNotifications, "form", "")
-	}
-	if r.enableSounds != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_sounds", r.enableSounds, "form", "")
-	}
-	if r.enableFollowedTopicDesktopNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications, "form", "")
-	}
-	if r.enableFollowedTopicEmailNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications, "form", "")
-	}
-	if r.enableFollowedTopicPushNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications, "form", "")
-	}
-	if r.enableFollowedTopicAudibleNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications, "form", "")
-	}
-	if r.emailNotificationsBatchingPeriodSeconds != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds, "form", "")
-	}
-	if r.enableOfflineEmailNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_offline_email_notifications", r.enableOfflineEmailNotifications, "form", "")
-	}
-	if r.enableOfflinePushNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_offline_push_notifications", r.enableOfflinePushNotifications, "form", "")
-	}
-	if r.enableOnlinePushNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_online_push_notifications", r.enableOnlinePushNotifications, "form", "")
-	}
-	if r.enableDigestEmails != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_digest_emails", r.enableDigestEmails, "form", "")
-	}
-	if r.messageContentInEmailNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "message_content_in_email_notifications", r.messageContentInEmailNotifications, "form", "")
-	}
-	if r.pmContentInDesktopNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications, "form", "")
-	}
-	if r.wildcardMentionsNotify != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "wildcard_mentions_notify", r.wildcardMentionsNotify, "form", "")
-	}
-	if r.enableFollowedTopicWildcardMentionsNotify != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify, "form", "")
-	}
-	if r.desktopIconCountDisplay != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "desktop_icon_count_display", r.desktopIconCountDisplay, "form", "")
-	}
-	if r.realmNameInEmailNotificationsPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy, "form", "")
-	}
-	if r.automaticallyFollowTopicsPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy, "form", "")
-	}
-	if r.automaticallyUnmuteTopicsInMutedChannelsPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy, "form", "")
-	}
-	if r.automaticallyFollowTopicsWhereMentioned != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned, "form", "")
-	}
-	if r.resolvedTopicNoticeAutoReadPolicy != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy, "", "")
-	}
-	if r.presenceEnabled != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "presence_enabled", r.presenceEnabled, "form", "")
-	}
-	if r.enterSends != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "enter_sends", r.enterSends, "form", "")
-	}
-	if r.twentyFourHourTime != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "twenty_four_hour_time", r.twentyFourHourTime, "form", "")
-	}
-	if r.sendPrivateTypingNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "send_private_typing_notifications", r.sendPrivateTypingNotifications, "form", "")
-	}
-	if r.sendChannelTypingNotifications != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "send_stream_typing_notifications", r.sendChannelTypingNotifications, "form", "")
-	}
-	if r.sendReadReceipts != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "send_read_receipts", r.sendReadReceipts, "form", "")
-	}
-	if r.emailAddressVisibility != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "email_address_visibility", r.emailAddressVisibility, "form", "")
-	}
-	if r.webNavigateToSentMessage != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "web_navigate_to_sent_message", r.webNavigateToSentMessage, "form", "")
-	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
 
 type UploadCustomEmojiRequest struct {
@@ -3188,41 +2171,21 @@ func (c *simpleClient) UploadCustomEmoji(ctx context.Context, emojiName string) 
 // Execute executes the request
 func (c *simpleClient) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *Response
+		httpMethod  = http.MethodPost
+		postBody    interface{}
+		headers     = make(map[string]string)
+		queryParams = url.Values{}
+		formParams  = url.Values{}
+		formFiles   []formFile
+		response    = &Response{}
 	)
 
-	localBasePath, err := c.ServerURL()
-	if err != nil {
-		return localVarReturnValue, nil, &APIError{error: err.Error()}
-	}
+	endpoint := "/realm/emoji/{emoji_name}"
+	endpoint = strings.Replace(endpoint, "{"+"emoji_name"+"}", url.PathEscape(r.emojiName), -1)
 
-	localVarPath := localBasePath + "/realm/emoji/{emoji_name}"
-	localVarPath = strings.Replace(localVarPath, "{"+"emoji_name"+"}", url.PathEscape(parameterValueToString(r.emojiName, "emojiName")), -1)
+	headers["Content-Type"] = "multipart/form-data"
+	headers["Accept"] = "application/json"
 
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"multipart/form-data"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
 	var filenameLocalVarFormFileName string
 	var filenameLocalVarFileName string
 	var filenameLocalVarFileBytes []byte
@@ -3238,37 +2201,11 @@ func (c *simpleClient) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Re
 		filenameLocalVarFile.Close()
 		formFiles = append(formFiles, formFile{fileBytes: filenameLocalVarFileBytes, fileName: filenameLocalVarFileName, formFileName: filenameLocalVarFormFileName})
 	}
-	req, err := c.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, formFiles)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, nil, err
 	}
 
-	localVarHTTPResponse, err := c.callAPI(r.ctx, req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		return localVarReturnValue, localVarHTTPResponse, c.handleErrorResponse(r.ctx, localVarHTTPResponse)
-	}
-
-	err = c.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &APIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	c.handleUnsupportedParameters(r.ctx, localVarReturnValue.IgnoredParametersUnsupported)
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	httpResp, err := c.callAPI(r.ctx, req, response)
+	return response, httpResp, err
 }
