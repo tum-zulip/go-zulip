@@ -1,5 +1,7 @@
 package zulip
 
+import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+
 // Bot struct for Bot
 type Bot struct {
 	// The user Id of the bot.
@@ -46,12 +48,12 @@ func EmbeddedBotDataAsBotData(v *EmbeddedBotData) BotData {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *BotData) UnmarshalJSON(data []byte) error {
-	return unmarshalUnionType(data, dst)
+	return utils.UnmarshalUnionType(data, dst)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src BotData) MarshalJSON() ([]byte, error) {
-	return marshalUnionType(src)
+	return utils.MarshalUnionType(src)
 }
 
 // OutgoingWebhookBotData When the bot is an outgoing webhook.

@@ -1,10 +1,9 @@
-package zulip
+package utils
 
 import (
 	"encoding/json"
 	"reflect"
 
-	. "github.com/tum-zulip/go-zulip/zulip/internal/utils"
 	"gopkg.in/validator.v2"
 )
 
@@ -12,7 +11,7 @@ type Union interface {
 	// Union is a marker interface
 }
 
-func marshalUnionType[T Union](v T) ([]byte, error) {
+func MarshalUnionType[T Union](v T) ([]byte, error) {
 	typ := reflect.TypeOf(v)
 	if typ.Kind() != reflect.Struct {
 		return nil, &json.UnsupportedTypeError{Type: typ}
@@ -40,7 +39,7 @@ func marshalUnionType[T Union](v T) ([]byte, error) {
 	return []byte("{}"), nil
 }
 
-func unmarshalUnionType[T Union](data []byte, dst *T) error {
+func UnmarshalUnionType[T Union](data []byte, dst *T) error {
 	var err error
 	match := 0
 	val := reflect.ValueOf(dst).Elem()

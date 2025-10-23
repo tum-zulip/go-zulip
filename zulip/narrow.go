@@ -3,6 +3,8 @@ package zulip
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
 )
 
 // Narrow represents a query constraint for filtering messages in the Zulip API.
@@ -280,11 +282,11 @@ func (o NarrowOperator) IsValid() bool {
 }
 
 func (o NarrowOperand) MarshalJSON() ([]byte, error) {
-	return marshalUnionType(o)
+	return utils.MarshalUnionType(o)
 }
 
 func (o *NarrowOperand) UnmarshalJSON(data []byte) error {
-	return unmarshalUnionType(data, o)
+	return utils.UnmarshalUnionType(data, o)
 }
 
 // NewNarrowStringOperand creates a NarrowOperand with a string value.

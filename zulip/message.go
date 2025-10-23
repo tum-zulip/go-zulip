@@ -3,6 +3,8 @@ package zulip
 import (
 	"encoding/json"
 	"time"
+
+	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
 )
 
 // Message An object containing details of the message.
@@ -268,10 +270,10 @@ func ChannelNameAsDisplayRecipient(v *string) DisplayRecipient {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *DisplayRecipient) UnmarshalJSON(data []byte) error {
-	return unmarshalUnionType(data, dst)
+	return utils.UnmarshalUnionType(data, dst)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src DisplayRecipient) MarshalJSON() ([]byte, error) {
-	return marshalUnionType(src)
+	return utils.MarshalUnionType(src)
 }

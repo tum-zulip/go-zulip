@@ -1,5 +1,7 @@
 package zulip
 
+import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+
 // Principals - A list of user Ids (preferred) or Zulip API email addresses of the users to be subscribed to or unsubscribed from the channels specified in the `subscriptions` parameter. If not provided, then the requesting user/bot is subscribed.
 //
 // **Changes**: The integer format is new in Zulip 3.0 (feature level 9).
@@ -24,10 +26,10 @@ func UserEmailsAsPrincipals(v []string) Principals {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Principals) UnmarshalJSON(data []byte) error {
-	return unmarshalUnionType(data, dst)
+	return utils.UnmarshalUnionType(data, dst)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Principals) MarshalJSON() ([]byte, error) {
-	return marshalUnionType(src)
+	return utils.MarshalUnionType(src)
 }

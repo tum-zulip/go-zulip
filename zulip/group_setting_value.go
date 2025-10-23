@@ -1,5 +1,7 @@
 package zulip
 
+import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+
 // GroupSettingValue - struct for GroupSettingValue
 type GroupSettingValue struct {
 	ComplexGroupSettingValue *ComplexGroupSettingValue
@@ -24,10 +26,10 @@ type ComplexGroupSettingValue struct {
 
 // special json marshaler and unmarshaler for union GroupSettingValue
 func (o GroupSettingValue) MarshalJSON() ([]byte, error) {
-	return marshalUnionType(o)
+	return utils.MarshalUnionType(o)
 }
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (o *GroupSettingValue) UnmarshalJSON(data []byte) error {
-	return unmarshalUnionType(data, o)
+	return utils.UnmarshalUnionType(data, o)
 }

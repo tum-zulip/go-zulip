@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/utils"
 )
 
@@ -78,10 +79,10 @@ func LegacyPresenceMapAsPresenceUpdateValue(v map[string]LegacyPresenceFormat) P
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *PresenceUpdateValue) UnmarshalJSON(data []byte) error {
-	return unmarshalUnionType(data, dst)
+	return utils.UnmarshalUnionType(data, dst)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src PresenceUpdateValue) MarshalJSON() ([]byte, error) {
-	return marshalUnionType(src)
+	return utils.MarshalUnionType(src)
 }

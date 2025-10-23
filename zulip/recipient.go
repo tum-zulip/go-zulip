@@ -1,5 +1,7 @@
 package zulip
 
+import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+
 // Recipients - A message's tentative target audience.
 // For channel messages, the integer Id of the channel.
 // For direct messages, a list containing integer user Ids.
@@ -75,10 +77,10 @@ func (r Recipient) Equals(other Recipient) bool {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Recipient) UnmarshalJSON(data []byte) error {
-	return unmarshalUnionType(data, dst)
+	return utils.UnmarshalUnionType(data, dst)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Recipient) MarshalJSON() ([]byte, error) {
-	return marshalUnionType(src)
+	return utils.MarshalUnionType(src)
 }

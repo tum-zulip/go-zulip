@@ -3,6 +3,8 @@ package zulip
 import (
 	"encoding/json"
 	"time"
+
+	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
 )
 
 // Event is the interface that all Zulip events implement.
@@ -282,12 +284,12 @@ type ChannelEventUpdateValue struct {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *ChannelEventUpdateValue) UnmarshalJSON(data []byte) error {
-	return unmarshalUnionType(data, dst)
+	return utils.UnmarshalUnionType(data, dst)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src ChannelEventUpdateValue) MarshalJSON() ([]byte, error) {
-	return marshalUnionType(src)
+	return utils.MarshalUnionType(src)
 }
 
 // ReactionEvent Event sent when a reaction is added to or removed from a message. Sent to all users who were recipients of the message.
@@ -346,12 +348,12 @@ func StringAsUpdateValue(v string) UpdateValue {
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *UpdateValue) UnmarshalJSON(data []byte) error {
-	return unmarshalUnionType(data, dst)
+	return utils.UnmarshalUnionType(data, dst)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src UpdateValue) MarshalJSON() ([]byte, error) {
-	return marshalUnionType(src)
+	return utils.MarshalUnionType(src)
 }
 
 // AttachmentAddEvent Event sent to a user's clients when the user uploads a new file in a Zulip message. Useful to implement live update in UI showing all files the current user has uploaded.
