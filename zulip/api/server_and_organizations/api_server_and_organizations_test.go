@@ -1,0 +1,446 @@
+package server_and_organizations_test
+
+import (
+	"context"
+	"errors"
+	"fmt"
+	"image"
+	"image/color"
+	"image/png"
+	"os"
+	"strings"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	z "github.com/tum-zulip/go-zulip/zulip"
+)
+
+func Test_ServerAndOrganizationsAPIService(t *testing.T) {
+	t.Parallel()
+
+	t.Run("GetServerSettings", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+		ctx := context.Background()
+
+		resp, httpRes, err := apiClient.GetServerSettings(ctx).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.NotEmpty(t, resp.RealmName)
+		assert.NotEmpty(t, resp.RealmUrl)
+	}))
+
+	t.Run("CodePlaygrounds", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+		ctx := context.Background()
+
+		testCodePlaygroundLifecycle(t, ctx, apiClient)
+	}))
+
+	t.Run("Linkifiers", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+		ctx := context.Background()
+
+		testLinkifierLifecycle(t, ctx, apiClient)
+	}))
+
+	t.Run("CustomProfileFields", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+		ctx := context.Background()
+
+		testCustomProfileFieldManagement(t, ctx, apiClient)
+	}))
+
+	t.Run("Presence", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+		ctx := context.Background()
+
+		resp, httpRes, err := apiClient.GetPresence(ctx).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+
+		presences := resp.Presences
+		assert.NotEmpty(t, presences)
+		for email, details := range presences {
+			assert.NotEmpty(t, details, "presence data missing for %s", email)
+		}
+	}))
+
+	t.Run("RealmExports", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+		ctx := context.Background()
+
+		testRealmExports(t, ctx, apiClient)
+	}))
+
+	t.Run("WelcomeBotPreview", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+		ctx := context.Background()
+
+		resp, httpRes, err := apiClient.TestWelcomeBotCustomMessage(ctx).
+			WelcomeMessageCustomText(fmt.Sprintf("Welcome preview from automated test %s", uniqueName("welcome"))).
+			Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.Greater(t, resp.MessageId, int64(0))
+	}))
+
+	t.Run("RealmUserSettingsDefaults", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+		ctx := context.Background()
+
+		resp, httpRes, err := apiClient.UpdateRealmUserSettingsDefaults(ctx).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		requireStatusOK(t, httpRes)
+		assert.Equal(t, "success", resp.Result)
+	}))
+
+	t.Run("CustomEmojiLifecycle", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+		ctx := context.Background()
+
+		testCustomEmojiLifecycle(t, ctx, apiClient)
+	}))
+}
+
+func testCodePlaygroundLifecycle(t *testing.T, ctx context.Context, apiClient z.Client) {
+	name := fmt.Sprintf("Playground %s", uniqueName("code"))
+	resp, httpRes, err := apiClient.AddCodePlayground(ctx).
+		Name(name).
+		PygmentsLanguage("python").
+		UrlTemplate("https://play.z.example/run?code={code}").
+		Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	requireStatusOK(t, httpRes)
+
+	playgroundId := resp.Id
+	removed := false
+	defer func() {
+		if removed {
+			return
+		}
+		_, _, cleanupErr := apiClient.RemoveCodePlayground(context.Background(), playgroundId).Execute()
+		if cleanupErr != nil {
+			t.Logf("cleanup remove code playground %d: %v", playgroundId, cleanupErr)
+		}
+	}()
+
+	removeResp, removeHTTP, err := apiClient.RemoveCodePlayground(ctx, playgroundId).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, removeResp)
+	requireStatusOK(t, removeHTTP)
+	assert.Equal(t, "success", removeResp.Result)
+	removed = true
+}
+
+func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient z.Client) {
+	pattern := fmt.Sprintf("test-%s-(?P<id>[0-9]+)", uniqueName("linkifier"))
+	urlTemplate := "https://z.example/issues/{id}"
+
+	addResp, httpRes, err := apiClient.AddLinkifier(ctx).
+		Pattern(pattern).
+		UrlTemplate(urlTemplate).
+		Execute()
+	require.NoError(t, err)
+	require.NotNil(t, addResp)
+	requireStatusOK(t, httpRes)
+
+	linkifierId := addResp.Id
+	removed := false
+	defer func() {
+		if removed {
+			return
+		}
+		_, _, cleanupErr := apiClient.RemoveLinkifier(context.Background(), linkifierId).Execute()
+		if cleanupErr != nil {
+			t.Logf("cleanup remove linkifier %d: %v", linkifierId, cleanupErr)
+		}
+	}()
+
+	listResp, httpRes, err := apiClient.GetLinkifiers(ctx).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, listResp)
+	requireStatusOK(t, httpRes)
+
+	linkifiers := listResp.Linkifiers
+	require.NotEmpty(t, linkifiers)
+	require.True(t, linkifierExists(linkifiers, linkifierId, pattern, urlTemplate), "created linkifier missing from listing")
+
+	updatedTemplate := urlTemplate + "?source=api-test"
+	updateResp, httpRes, err := apiClient.UpdateLinkifier(ctx, linkifierId).
+		Pattern(pattern).
+		UrlTemplate(updatedTemplate).
+		Execute()
+	require.NoError(t, err)
+	require.NotNil(t, updateResp)
+	requireStatusOK(t, httpRes)
+	assert.Equal(t, "success", updateResp.Result)
+
+	updatedListResp, httpRes, err := apiClient.GetLinkifiers(ctx).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, updatedListResp)
+	requireStatusOK(t, httpRes)
+	assert.True(t, linkifierExists(updatedListResp.Linkifiers, linkifierId, pattern, updatedTemplate), "updated linkifier missing or incorrect")
+
+	originalOrder := extractlinkifierIds(updatedListResp.Linkifiers)
+	movedOrder := moveIdToFront(originalOrder, linkifierId)
+	if !int64SlicesEqual(originalOrder, movedOrder) {
+		reorderResp, httpRes, err := apiClient.ReorderLinkifiers(ctx).
+			OrderedLinkifierIds(movedOrder).
+			Execute()
+		require.NoError(t, err)
+		require.NotNil(t, reorderResp)
+		requireStatusOK(t, httpRes)
+		assert.Equal(t, "success", reorderResp.Result)
+
+		restoreResp, httpRes, err := apiClient.ReorderLinkifiers(ctx).
+			OrderedLinkifierIds(originalOrder).
+			Execute()
+		require.NoError(t, err)
+		require.NotNil(t, restoreResp)
+		requireStatusOK(t, httpRes)
+		assert.Equal(t, "success", restoreResp.Result)
+	}
+
+	removeResp, removeHTTP, err := apiClient.RemoveLinkifier(ctx, linkifierId).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, removeResp)
+	requireStatusOK(t, removeHTTP)
+	assert.Equal(t, "success", removeResp.Result)
+	removed = true
+}
+
+func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClient z.Client) {
+	const fieldName = "API Test Profile Field"
+
+	listResp, httpRes, err := apiClient.GetCustomProfileFields(ctx).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, listResp)
+	requireStatusOK(t, httpRes)
+
+	fields := listResp.CustomFields
+	var fieldId int64
+	for _, field := range fields {
+		if field.Name == fieldName {
+			fieldId = field.Id
+			break
+		}
+	}
+
+	if fieldId == 0 {
+		createResp, createHTTP, err := apiClient.CreateCustomProfileField(ctx).
+			FieldType(1).
+			Name(fieldName).
+			Hint("Created by go-z.automated tests").
+			EditableByUser(true).
+			Required(false).
+			Execute()
+		require.NoError(t, err)
+		require.NotNil(t, createResp)
+		requireStatusOK(t, createHTTP)
+		fieldId = createResp.Id
+
+		listResp, httpRes, err = apiClient.GetCustomProfileFields(ctx).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, listResp)
+		requireStatusOK(t, httpRes)
+		fields = listResp.CustomFields
+	}
+
+	require.NotZero(t, fieldId, "profile field Id must be set")
+	require.True(t, profileFieldExists(fields, fieldId), "profile field missing from listing")
+
+	originalOrder := extractProfileFieldIds(fields)
+	movedOrder := moveIdToFront(originalOrder, fieldId)
+	if !int64SlicesEqual(originalOrder, movedOrder) {
+		reorderResp, reorderHTTP, err := apiClient.ReorderCustomProfileFields(ctx).
+			Order(movedOrder).
+			Execute()
+		require.NoError(t, err)
+		require.NotNil(t, reorderResp)
+		requireStatusOK(t, reorderHTTP)
+		assert.Equal(t, "success", reorderResp.Result)
+
+		restoreResp, restoreHTTP, err := apiClient.ReorderCustomProfileFields(ctx).
+			Order(originalOrder).
+			Execute()
+		require.NoError(t, err)
+		require.NotNil(t, restoreResp)
+		requireStatusOK(t, restoreHTTP)
+		assert.Equal(t, "success", restoreResp.Result)
+	}
+}
+
+func testRealmExports(t *testing.T, ctx context.Context, apiClient z.Client) {
+	consentsResp, httpRes, err := apiClient.GetRealmExportConsents(ctx).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, consentsResp)
+	requireStatusOK(t, httpRes)
+
+	exportsResp, httpRes, err := apiClient.GetRealmExports(ctx).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, exportsResp)
+	requireStatusOK(t, httpRes)
+	assert.NotNil(t, exportsResp.Exports)
+
+	exportResp, httpRes, err := apiClient.ExportRealm(ctx).Execute()
+	if err != nil {
+		if handledRateLimit(t, err) {
+			return
+		}
+	}
+	require.NoError(t, err)
+	require.NotNil(t, exportResp)
+	requireStatusOK(t, httpRes)
+}
+
+func testCustomEmojiLifecycle(t *testing.T, ctx context.Context, apiClient z.Client) {
+	emojiName := strings.ToLower(uniqueName("emoji"))
+	emojiFile := newEmojiPNG(t)
+
+	uploadResp, httpRes, err := apiClient.UploadCustomEmoji(ctx, emojiName).
+		Filename(emojiFile).
+		Execute()
+	require.NoError(t, err)
+	require.NotNil(t, uploadResp)
+	requireStatusOK(t, httpRes)
+	assert.Equal(t, "success", uploadResp.Result)
+
+	listResp, httpRes, err := apiClient.GetCustomEmoji(ctx).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, listResp)
+	requireStatusOK(t, httpRes)
+
+	currentEmoji := findEmojiByName(listResp.Emoji, emojiName)
+	require.NotNil(t, currentEmoji, "uploaded emoji not returned by GET /realm/emoji")
+	assert.False(t, currentEmoji.Deactivated)
+
+	deactivateResp, deactivateHTTP, err := apiClient.DeactivateCustomEmoji(ctx, emojiName).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, deactivateResp)
+	requireStatusOK(t, deactivateHTTP)
+	assert.Equal(t, "success", deactivateResp.Result)
+
+	afterResp, httpRes, err := apiClient.GetCustomEmoji(ctx).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, afterResp)
+	requireStatusOK(t, httpRes)
+
+	deactivated := findEmojiByName(afterResp.Emoji, emojiName)
+	require.NotNil(t, deactivated, "deactivated emoji missing from listing")
+	assert.True(t, deactivated.Deactivated)
+}
+
+func linkifierExists(linkifiers []z.RealmLinkifiers, id int64, pattern, urlTemplate string) bool {
+	for _, lf := range linkifiers {
+		if lf.Id == id {
+			return lf.Pattern == pattern && lf.UrlTemplate == urlTemplate
+		}
+	}
+	return false
+}
+
+func extractlinkifierIds(linkifiers []z.RealmLinkifiers) []int64 {
+	ids := make([]int64, 0, len(linkifiers))
+	for _, lf := range linkifiers {
+		ids = append(ids, lf.Id)
+	}
+	return ids
+}
+
+func extractProfileFieldIds(fields []z.CustomProfileField) []int64 {
+	ids := make([]int64, 0, len(fields))
+	for _, field := range fields {
+		ids = append(ids, field.Id)
+	}
+	return ids
+}
+
+func moveIdToFront(ids []int64, id int64) []int64 {
+	result := make([]int64, 0, len(ids))
+	found := false
+	for _, value := range ids {
+		if value == id {
+			found = true
+			continue
+		}
+		result = append(result, value)
+	}
+	if !found {
+		return append([]int64(nil), ids...)
+	}
+	return append([]int64{id}, result...)
+}
+
+func int64SlicesEqual(a, b []int64) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func profileFieldExists(fields []z.CustomProfileField, id int64) bool {
+	for _, field := range fields {
+		if field.Id == id {
+			return true
+		}
+	}
+	return false
+}
+
+func handledRateLimit(t *testing.T, err error) bool {
+	var apiErr *z.APIError
+	if !errors.As(err, &apiErr) {
+		return false
+	}
+
+	body := string(apiErr.Body())
+	if strings.Contains(body, "Exceeded rate limit") {
+		t.Logf("realm export skipped due to rate limit: %s", strings.TrimSpace(body))
+		return true
+	}
+
+	return false
+}
+
+func newEmojiPNG(t *testing.T) *os.File {
+	t.Helper()
+
+	tmp, err := os.CreateTemp("", "z.emoji-*.png")
+	require.NoError(t, err)
+
+	img := image.NewRGBA(image.Rect(0, 0, 16, 16))
+	for x := 0; x < 16; x++ {
+		for y := 0; y < 16; y++ {
+			img.Set(x, y, color.RGBA{R: 0xff, G: 0xa5, B: 0, A: 0xff})
+		}
+	}
+
+	err = png.Encode(tmp, img)
+	require.NoError(t, err)
+	_, err = tmp.Seek(0, 0)
+	require.NoError(t, err)
+
+	t.Cleanup(func() {
+		tmp.Close()
+		os.Remove(tmp.Name())
+	})
+
+	return tmp
+}
+
+func findEmojiByName(emojis map[string]z.RealmEmoji, name string) *z.RealmEmoji {
+	if len(emojis) == 0 {
+		return nil
+	}
+
+	for _, emoji := range emojis {
+		if strings.EqualFold(emoji.Name, name) {
+			e := emoji
+			return &e
+		}
+	}
+
+	return nil
+}
