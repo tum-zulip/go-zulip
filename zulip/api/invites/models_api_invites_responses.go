@@ -1,10 +1,10 @@
 package invites
 
-import . "github.com/tum-zulip/go-zulip/zulip/models"
+import "github.com/tum-zulip/go-zulip/zulip"
 
 // CreateInviteLinkResponse struct for CreateInviteLinkResponse
 type CreateInviteLinkResponse struct {
-	Response
+	zulip.Response
 
 	// The URL of the [reusable invitation link] that was created by this request.
 	//
@@ -14,10 +14,10 @@ type CreateInviteLinkResponse struct {
 
 // GetInvitesResponse struct for GetInvitesResponse
 type GetInvitesResponse struct {
-	Response
+	zulip.Response
 
 	// An array of objects, each representing a single unexpired [invitation].
 	//
 	// [invitation]: https://zulip.com/help/invite-new-users
-	Invites []Invite `json:"invites,omitempty"`
+	Invites []zulip.Invite `json:"invites,omitempty"`
 }

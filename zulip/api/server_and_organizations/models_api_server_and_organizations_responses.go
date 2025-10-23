@@ -1,10 +1,10 @@
 package server_and_organizations
 
-import . "github.com/tum-zulip/go-zulip/zulip/models"
+import "github.com/tum-zulip/go-zulip/zulip"
 
 // AddCodePlaygroundResponse struct for AddCodePlaygroundResponse
 type AddCodePlaygroundResponse struct {
-	Response
+	zulip.Response
 
 	// The numeric Id assigned to this playground.
 	Id int64 `json:"id,omitempty"`
@@ -12,7 +12,7 @@ type AddCodePlaygroundResponse struct {
 
 // AddLinkifierResponse struct for AddLinkifierResponse
 type AddLinkifierResponse struct {
-	Response
+	zulip.Response
 
 	// The numeric Id assigned to this filter.
 	Id int64 `json:"id,omitempty"`
@@ -20,7 +20,7 @@ type AddLinkifierResponse struct {
 
 // CreateCustomProfileFieldResponse struct for CreateCustomProfileFieldResponse
 type CreateCustomProfileFieldResponse struct {
-	Response
+	zulip.Response
 
 	// The Id for the custom profile field.
 	Id int64 `json:"id,omitempty"`
@@ -28,7 +28,7 @@ type CreateCustomProfileFieldResponse struct {
 
 // ExportRealmResponse struct for ExportRealmResponse
 type ExportRealmResponse struct {
-	Response
+	zulip.Response
 
 	// The Id of the data export created.
 	//
@@ -38,59 +38,59 @@ type ExportRealmResponse struct {
 
 // GetCustomEmojiResponse struct for GetCustomEmojiResponse
 type GetCustomEmojiResponse struct {
-	Response
+	zulip.Response
 
 	// An object that contains `emoji` objects, each identified with their emoji Id as the key.
-	Emoji map[string]RealmEmoji `json:"emoji,omitempty"`
+	Emoji map[string]zulip.RealmEmoji `json:"emoji,omitempty"`
 }
 
 // GetCustomProfileFieldsResponse struct for GetCustomProfileFieldsResponse
 type GetCustomProfileFieldsResponse struct {
-	Response
+	zulip.Response
 
 	// An array containing all the custom profile fields defined in this Zulip organization.
-	CustomFields []CustomProfileField `json:"custom_fields,omitempty"`
+	CustomFields []zulip.CustomProfileField `json:"custom_fields,omitempty"`
 }
 
 // GetLinkifiersResponse struct for GetLinkifiersResponse
 type GetLinkifiersResponse struct {
-	Response
+	zulip.Response
 
 	// An ordered array of objects, where each object describes a linkifier.  Clients should always process linkifiers in the order given; this is important if the realm has linkifiers with overlapping patterns. The order can be modified using [`PATCH /realm/linkifiers`].
 	//
 	// [`PATCH /realm/linkifiers`]: https://zulip.com/api/reorder-linkifiers
-	Linkifiers []RealmLinkifiers `json:"linkifiers,omitempty"`
+	Linkifiers []zulip.RealmLinkifiers `json:"linkifiers,omitempty"`
 }
 
 // GetPresenceResponse struct for GetPresenceResponse
 type GetPresenceResponse struct {
-	Response
+	zulip.Response
 
 	// The time when the server fetched the `presences` data included in the response.
 	ServerTimestamp float32 `json:"server_timestamp,omitempty"`
 	// A dictionary where each entry describes the presence details of a user in the Zulip organization.
-	Presences map[string]map[string]LegacyPresenceFormat `json:"presences,omitempty"`
+	Presences map[string]map[string]zulip.LegacyPresenceFormat `json:"presences,omitempty"`
 }
 
 // GetRealmExportConsentsResponse struct for GetRealmExportConsentsResponse
 type GetRealmExportConsentsResponse struct {
-	Response
+	zulip.Response
 
 	// An array of objects where each object contains a user Id and whether the user has consented for their private data to be exported.
-	ExportConsents []ExportConsent `json:"export_consents,omitempty"`
+	ExportConsents []zulip.ExportConsent `json:"export_consents,omitempty"`
 }
 
 // GetRealmExportsResponse struct for GetRealmExportsResponse
 type GetRealmExportsResponse struct {
-	Response
+	zulip.Response
 
 	// An array of dictionaries where each dictionary contains details about a data export of the organization.
-	Exports []RealmExport `json:"exports,omitempty"`
+	Exports []zulip.RealmExport `json:"exports,omitempty"`
 }
 
 // TestWelcomeBotCustomMessageResponse struct for TestWelcomeBotCustomMessageResponse
 type TestWelcomeBotCustomMessageResponse struct {
-	Response
+	zulip.Response
 
 	// The message_id of the test welcome bot custom message.
 	MessageId int64 `json:"message_id,omitempty"`
@@ -98,7 +98,7 @@ type TestWelcomeBotCustomMessageResponse struct {
 
 // GetServerSettingsResponse struct for GetServerSettingsResponse
 type GetServerSettingsResponse struct {
-	Response
+	zulip.Response
 
 	// Deprecated
 	AuthenticationMethods *AuthMethods `json:"authentication_methods,omitempty"`

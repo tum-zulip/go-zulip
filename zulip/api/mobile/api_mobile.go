@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	. "github.com/tum-zulip/go-zulip/zulip/models"
 )
 
 type APIMobile interface {
@@ -22,7 +22,7 @@ type APIMobile interface {
 	E2eeTestNotify(ctx context.Context) E2eeTestNotifyRequest
 
 	// E2eeTestNotifyExecute executes the request
-	E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*Response, *http.Response, error)
+	E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*zulip.Response, *http.Response, error)
 
 	// RegisterPushDevice Register E2EE push device
 	//
@@ -33,7 +33,7 @@ type APIMobile interface {
 	RegisterPushDevice(ctx context.Context) RegisterPushDeviceRequest
 
 	// RegisterPushDeviceExecute executes the request
-	RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*Response, *http.Response, error)
+	RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*zulip.Response, *http.Response, error)
 
 	// TestNotify Send a test notification to mobile device(s)
 	//
@@ -51,11 +51,15 @@ type APIMobile interface {
 	TestNotify(ctx context.Context) TestNotifyRequest
 
 	// TestNotifyExecute executes the request
-	TestNotifyExecute(r TestNotifyRequest) (*Response, *http.Response, error)
+	TestNotifyExecute(r TestNotifyRequest) (*zulip.Response, *http.Response, error)
 }
 
 type mobileService struct {
 	client StructuredClient
+}
+
+func NewMobileService(client StructuredClient) *mobileService {
+	return &mobileService{client: client}
 }
 
 var _ APIMobile = (*mobileService)(nil)
@@ -74,7 +78,7 @@ func (r E2eeTestNotifyRequest) PushAccountId(pushAccountId int64) E2eeTestNotify
 	return r
 }
 
-func (r E2eeTestNotifyRequest) Execute() (*Response, *http.Response, error) {
+func (r E2eeTestNotifyRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.E2eeTestNotifyExecute(r)
 }
 
@@ -92,13 +96,13 @@ func (s *mobileService) E2eeTestNotify(ctx context.Context) E2eeTestNotifyReques
 }
 
 // Execute executes the request
-func (s *mobileService) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*Response, *http.Response, error) {
+func (s *mobileService) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/mobile_push/e2ee/test_notification"
 	)
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
@@ -154,7 +158,7 @@ func (r RegisterPushDeviceRequest) EncryptedPushRegistration(encryptedPushRegist
 	return r
 }
 
-func (r RegisterPushDeviceRequest) Execute() (*Response, *http.Response, error) {
+func (r RegisterPushDeviceRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.RegisterPushDeviceExecute(r)
 }
 
@@ -171,13 +175,13 @@ func (s *mobileService) RegisterPushDevice(ctx context.Context) RegisterPushDevi
 }
 
 // Execute executes the request
-func (s *mobileService) RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*Response, *http.Response, error) {
+func (s *mobileService) RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/mobile_push/register"
 	)
 	if r.tokenKind == nil {
@@ -225,7 +229,7 @@ func (r TestNotifyRequest) Token(token string) TestNotifyRequest {
 	return r
 }
 
-func (r TestNotifyRequest) Execute() (*Response, *http.Response, error) {
+func (r TestNotifyRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.TestNotifyExecute(r)
 }
 
@@ -249,13 +253,13 @@ func (s *mobileService) TestNotify(ctx context.Context) TestNotifyRequest {
 }
 
 // Execute executes the request
-func (s *mobileService) TestNotifyExecute(r TestNotifyRequest) (*Response, *http.Response, error) {
+func (s *mobileService) TestNotifyExecute(r TestNotifyRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/mobile_push/test_notification"
 	)
 	headers["Content-Type"] = "application/x-www-form-urlencoded"

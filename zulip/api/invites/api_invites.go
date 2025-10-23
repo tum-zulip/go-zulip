@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	. "github.com/tum-zulip/go-zulip/zulip/models"
 )
 
 type APIInvites interface {
@@ -67,7 +67,7 @@ type APIInvites interface {
 	ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest
 
 	// ResendEmailInviteExecute executes the request
-	ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Response, *http.Response, error)
+	ResendEmailInviteExecute(r ResendEmailInviteRequest) (*zulip.Response, *http.Response, error)
 
 	// RevokeEmailInvite Revoke an email invitation
 	//
@@ -80,7 +80,7 @@ type APIInvites interface {
 	RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest
 
 	// RevokeEmailInviteExecute executes the request
-	RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Response, *http.Response, error)
+	RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*zulip.Response, *http.Response, error)
 
 	// RevokeInviteLink Revoke a reusable invitation link
 	//
@@ -96,7 +96,7 @@ type APIInvites interface {
 	RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInviteLinkRequest
 
 	// RevokeInviteLinkExecute executes the request
-	RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Response, *http.Response, error)
+	RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*zulip.Response, *http.Response, error)
 
 	// SendInvites Send invitations
 	//
@@ -116,14 +116,14 @@ type APIInvites interface {
 	SendInvites(ctx context.Context) SendInvitesRequest
 
 	// SendInvitesExecute executes the request
-	SendInvitesExecute(r SendInvitesRequest) (*Response, *http.Response, error)
+	SendInvitesExecute(r SendInvitesRequest) (*zulip.Response, *http.Response, error)
 }
 
 type CreateInviteLinkRequest struct {
 	ctx                              context.Context
 	apiService                       APIInvites
 	inviteExpiresInMinutes           *int32
-	inviteAs                         *Role
+	inviteAs                         *zulip.Role
 	channelIds                       *[]int64
 	groupIds                         *[]int64
 	includeRealmDefaultSubscriptions *bool
@@ -132,6 +132,10 @@ type CreateInviteLinkRequest struct {
 
 type invitesService struct {
 	client StructuredClient
+}
+
+func NewInvitesService(client StructuredClient) *invitesService {
+	return &invitesService{client: client}
 }
 
 var _ APIInvites = (*invitesService)(nil)
@@ -157,7 +161,7 @@ func (r CreateInviteLinkRequest) InviteExpiresInMinutes(inviteExpiresInMinutes i
 //
 // [organization-level role]: https://zulip.com/api/roles-and-permissions
 // [roles with equal or stricter restrictions]: https://zulip.com/api/roles-and-permissions#permission-levels
-func (r CreateInviteLinkRequest) InviteAs(inviteAs Role) CreateInviteLinkRequest {
+func (r CreateInviteLinkRequest) InviteAs(inviteAs zulip.Role) CreateInviteLinkRequest {
 	r.inviteAs = &inviteAs
 	return r
 }
@@ -317,7 +321,7 @@ type ResendEmailInviteRequest struct {
 	inviteId   int64
 }
 
-func (r ResendEmailInviteRequest) Execute() (*Response, *http.Response, error) {
+func (r ResendEmailInviteRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.ResendEmailInviteExecute(r)
 }
 
@@ -338,13 +342,13 @@ func (s *invitesService) ResendEmailInvite(ctx context.Context, inviteId int64) 
 }
 
 // Execute executes the request
-func (s *invitesService) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Response, *http.Response, error) {
+func (s *invitesService) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/invites/{invite_id}/resend"
 	)
 
@@ -366,7 +370,7 @@ type RevokeEmailInviteRequest struct {
 	inviteId   int64
 }
 
-func (r RevokeEmailInviteRequest) Execute() (*Response, *http.Response, error) {
+func (r RevokeEmailInviteRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.RevokeEmailInviteExecute(r)
 }
 
@@ -387,13 +391,13 @@ func (s *invitesService) RevokeEmailInvite(ctx context.Context, inviteId int64) 
 }
 
 // Execute executes the request
-func (s *invitesService) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Response, *http.Response, error) {
+func (s *invitesService) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/invites/{invite_id}"
 	)
 
@@ -415,7 +419,7 @@ type RevokeInviteLinkRequest struct {
 	inviteId   int64
 }
 
-func (r RevokeInviteLinkRequest) Execute() (*Response, *http.Response, error) {
+func (r RevokeInviteLinkRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.RevokeInviteLinkExecute(r)
 }
 
@@ -439,13 +443,13 @@ func (s *invitesService) RevokeInviteLink(ctx context.Context, inviteId int64) R
 }
 
 // Execute executes the request
-func (s *invitesService) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Response, *http.Response, error) {
+func (s *invitesService) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/invites/multiuse/{invite_id}"
 	)
 
@@ -467,7 +471,7 @@ type SendInvitesRequest struct {
 	inviteeEmails                    *string
 	channelIds                       *[]int64
 	inviteExpiresInMinutes           *int32
-	inviteAs                         *Role
+	inviteAs                         *zulip.Role
 	groupIds                         *[]int64
 	includeRealmDefaultSubscriptions *bool
 	notifyReferrerOnJoin             *bool
@@ -512,7 +516,7 @@ func (r SendInvitesRequest) InviteExpiresInMinutes(inviteExpiresInMinutes int32)
 //
 // [organization-level role]: https://zulip.com/api/roles-and-permissions
 // [roles with equal or stricter restrictions]: https://zulip.com/api/roles-and-permissions#permission-levels
-func (r SendInvitesRequest) InviteAs(inviteAs Role) SendInvitesRequest {
+func (r SendInvitesRequest) InviteAs(inviteAs zulip.Role) SendInvitesRequest {
 	r.inviteAs = &inviteAs
 	return r
 }
@@ -556,7 +560,7 @@ func (r SendInvitesRequest) WelcomeMessageCustomText(welcomeMessageCustomText st
 	return r
 }
 
-func (r SendInvitesRequest) Execute() (*Response, *http.Response, error) {
+func (r SendInvitesRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.SendInvitesExecute(r)
 }
 
@@ -583,13 +587,13 @@ func (s *invitesService) SendInvites(ctx context.Context) SendInvitesRequest {
 }
 
 // Execute executes the request
-func (s *invitesService) SendInvitesExecute(r SendInvitesRequest) (*Response, *http.Response, error) {
+func (s *invitesService) SendInvitesExecute(r SendInvitesRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/invites"
 	)
 	if r.inviteeEmails == nil {

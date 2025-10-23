@@ -79,6 +79,10 @@ type authenticationService struct {
 	client StructuredClient
 }
 
+func NewAuthenticationService(client StructuredClient) *authenticationService {
+	return &authenticationService{client: client}
+}
+
 var _ APIAuthentication = (*authenticationService)(nil)
 
 type DevFetchApiKeyRequest struct {

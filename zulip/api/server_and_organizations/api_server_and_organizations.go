@@ -9,9 +9,9 @@ import (
 	"os"
 	"strings"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/utils"
-	. "github.com/tum-zulip/go-zulip/zulip/models"
 )
 
 type APIServerAndOrganizations interface {
@@ -69,7 +69,7 @@ type APIServerAndOrganizations interface {
 	DeactivateCustomEmoji(ctx context.Context, emojiName string) DeactivateCustomEmojiRequest
 
 	// DeactivateCustomEmojiExecute executes the request
-	DeactivateCustomEmojiExecute(r DeactivateCustomEmojiRequest) (*Response, *http.Response, error)
+	DeactivateCustomEmojiExecute(r DeactivateCustomEmojiRequest) (*zulip.Response, *http.Response, error)
 
 	// ExportRealm Create a data export
 	//
@@ -207,7 +207,7 @@ type APIServerAndOrganizations interface {
 	RemoveCodePlayground(ctx context.Context, playgroundId int64) RemoveCodePlaygroundRequest
 
 	// RemoveCodePlaygroundExecute executes the request
-	RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*Response, *http.Response, error)
+	RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*zulip.Response, *http.Response, error)
 
 	// RemoveLinkifier Remove a linkifier
 	//
@@ -219,7 +219,7 @@ type APIServerAndOrganizations interface {
 	RemoveLinkifier(ctx context.Context, filterId int64) RemoveLinkifierRequest
 
 	// RemoveLinkifierExecute executes the request
-	RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Response, *http.Response, error)
+	RemoveLinkifierExecute(r RemoveLinkifierRequest) (*zulip.Response, *http.Response, error)
 
 	// ReorderCustomProfileFields Reorder custom profile fields
 	//
@@ -235,7 +235,7 @@ type APIServerAndOrganizations interface {
 	ReorderCustomProfileFields(ctx context.Context) ReorderCustomProfileFieldsRequest
 
 	// ReorderCustomProfileFieldsExecute executes the request
-	ReorderCustomProfileFieldsExecute(r ReorderCustomProfileFieldsRequest) (*Response, *http.Response, error)
+	ReorderCustomProfileFieldsExecute(r ReorderCustomProfileFieldsRequest) (*zulip.Response, *http.Response, error)
 
 	// ReorderLinkifiers Reorder linkifiers
 	//
@@ -251,7 +251,7 @@ type APIServerAndOrganizations interface {
 	ReorderLinkifiers(ctx context.Context) ReorderLinkifiersRequest
 
 	// ReorderLinkifiersExecute executes the request
-	ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Response, *http.Response, error)
+	ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*zulip.Response, *http.Response, error)
 
 	// TestWelcomeBotCustomMessage Test welcome bot custom message
 	//
@@ -278,7 +278,7 @@ type APIServerAndOrganizations interface {
 	UpdateLinkifier(ctx context.Context, filterId int64) UpdateLinkifierRequest
 
 	// UpdateLinkifierExecute executes the request
-	UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Response, *http.Response, error)
+	UpdateLinkifierExecute(r UpdateLinkifierRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdateRealmUserSettingsDefaults Update realm-level defaults of user settings
 	//
@@ -312,7 +312,7 @@ type APIServerAndOrganizations interface {
 	UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest
 
 	// UpdateRealmUserSettingsDefaultsExecute executes the request
-	UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*Response, *http.Response, error)
+	UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*zulip.Response, *http.Response, error)
 
 	// UploadCustomEmoji Upload custom emoji
 	//
@@ -324,11 +324,15 @@ type APIServerAndOrganizations interface {
 	UploadCustomEmoji(ctx context.Context, emojiName string) UploadCustomEmojiRequest
 
 	// UploadCustomEmojiExecute executes the request
-	UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Response, *http.Response, error)
+	UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*zulip.Response, *http.Response, error)
 }
 
 type serverAndOrganizationsService struct {
 	client StructuredClient
+}
+
+func NewServerAndOrganizationsService(client StructuredClient) *serverAndOrganizationsService {
+	return &serverAndOrganizationsService{client: client}
 }
 
 var _ APIServerAndOrganizations = (*serverAndOrganizationsService)(nil)
@@ -608,7 +612,7 @@ type DeactivateCustomEmojiRequest struct {
 	emojiName  string
 }
 
-func (r DeactivateCustomEmojiRequest) Execute() (*Response, *http.Response, error) {
+func (r DeactivateCustomEmojiRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.DeactivateCustomEmojiExecute(r)
 }
 
@@ -636,13 +640,13 @@ func (s *serverAndOrganizationsService) DeactivateCustomEmoji(ctx context.Contex
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiRequest) (*Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/realm/emoji/{emoji_name}"
 	)
 
@@ -661,7 +665,7 @@ func (s *serverAndOrganizationsService) DeactivateCustomEmojiExecute(r Deactivat
 type ExportRealmRequest struct {
 	ctx        context.Context
 	apiService APIServerAndOrganizations
-	exportType *ExportType
+	exportType *zulip.ExportType
 }
 
 // Whether to create a public or a standard data export.
@@ -671,7 +675,7 @@ type ExportRealmRequest struct {
 // If not specified, defaults to ExportTypePublicData.
 //
 // **Changes**: New in Zulip 10.0 (feature level 304). Previously, all export requests were public data exports.
-func (r ExportRealmRequest) ExportType(exportType ExportType) ExportRealmRequest {
+func (r ExportRealmRequest) ExportType(exportType zulip.ExportType) ExportRealmRequest {
 	r.exportType = &exportType
 	return r
 }
@@ -1053,7 +1057,7 @@ type RemoveCodePlaygroundRequest struct {
 	playgroundId int64
 }
 
-func (r RemoveCodePlaygroundRequest) Execute() (*Response, *http.Response, error) {
+func (r RemoveCodePlaygroundRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.RemoveCodePlaygroundExecute(r)
 }
 
@@ -1074,13 +1078,13 @@ func (s *serverAndOrganizationsService) RemoveCodePlayground(ctx context.Context
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/realm/playgrounds/{playground_id}"
 	)
 
@@ -1102,7 +1106,7 @@ type RemoveLinkifierRequest struct {
 	filterId   int64
 }
 
-func (r RemoveLinkifierRequest) Execute() (*Response, *http.Response, error) {
+func (r RemoveLinkifierRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.RemoveLinkifierExecute(r)
 }
 
@@ -1122,13 +1126,13 @@ func (s *serverAndOrganizationsService) RemoveLinkifier(ctx context.Context, fil
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) RemoveLinkifierExecute(r RemoveLinkifierRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/realm/filters/{filter_id}"
 	)
 
@@ -1156,7 +1160,7 @@ func (r ReorderCustomProfileFieldsRequest) Order(order []int64) ReorderCustomPro
 	return r
 }
 
-func (r ReorderCustomProfileFieldsRequest) Execute() (*Response, *http.Response, error) {
+func (r ReorderCustomProfileFieldsRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.ReorderCustomProfileFieldsExecute(r)
 }
 
@@ -1179,13 +1183,13 @@ func (s *serverAndOrganizationsService) ReorderCustomProfileFields(ctx context.C
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileFieldsRequest) (*Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileFieldsRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/realm/profile_fields"
 	)
 	if r.order == nil {
@@ -1217,7 +1221,7 @@ func (r ReorderLinkifiersRequest) OrderedLinkifierIds(orderedLinkifierIds []int6
 	return r
 }
 
-func (r ReorderLinkifiersRequest) Execute() (*Response, *http.Response, error) {
+func (r ReorderLinkifiersRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.ReorderLinkifiersExecute(r)
 }
 
@@ -1240,13 +1244,13 @@ func (s *serverAndOrganizationsService) ReorderLinkifiers(ctx context.Context) R
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/realm/linkifiers"
 	)
 	if r.orderedLinkifierIds == nil {
@@ -1352,7 +1356,7 @@ func (r UpdateLinkifierRequest) UrlTemplate(urlTemplate string) UpdateLinkifierR
 	return r
 }
 
-func (r UpdateLinkifierRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateLinkifierRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateLinkifierExecute(r)
 }
 
@@ -1374,13 +1378,13 @@ func (s *serverAndOrganizationsService) UpdateLinkifier(ctx context.Context, fil
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/realm/filters/{filter_id}"
 	)
 
@@ -1416,21 +1420,21 @@ type UpdateRealmUserSettingsDefaultsRequest struct {
 	fluidLayoutWidth                               *bool
 	highContrastMode                               *bool
 	webMarkReadOnScrollPolicy                      *int32
-	webChannelDefaultView                          *ChannelDefaultView
+	webChannelDefaultView                          *zulip.ChannelDefaultView
 	webFontSizePx                                  *int32
 	webLineHeightPercent                           *int32
-	colorScheme                                    *ColorScheme
+	colorScheme                                    *zulip.ColorScheme
 	enableDraftsSynchronization                    *bool
 	translateEmoticons                             *bool
 	displayEmojiReactionUsers                      *bool
-	webHomeView                                    *HomeView
+	webHomeView                                    *zulip.HomeView
 	webEscapeNavigatesToHomeView                   *bool
 	leftSideUserlist                               *bool
-	emojiset                                       *Emojiset
-	demoteInactiveChannels                         *DemoteInactiveChannels
-	userListStyle                                  *UserListStyle
-	webAnimateImagePreviews                        *WebAnimateImagePreviews
-	webChannelUnreadsCountDisplayPolicy            *UnreadsCountDisplay
+	emojiset                                       *zulip.Emojiset
+	demoteInactiveChannels                         *zulip.DemoteInactiveChannels
+	userListStyle                                  *zulip.UserListStyle
+	webAnimateImagePreviews                        *zulip.WebAnimateImagePreviews
+	webChannelUnreadsCountDisplayPolicy            *zulip.UnreadsCountDisplay
 	hideAiFeatures                                 *bool
 	webLeftSidebarShowChannelFolders               *bool
 	webLeftSidebarUnreadsCountSummary              *bool
@@ -1454,19 +1458,19 @@ type UpdateRealmUserSettingsDefaultsRequest struct {
 	pmContentInDesktopNotifications                *bool
 	wildcardMentionsNotify                         *bool
 	enableFollowedTopicWildcardMentionsNotify      *bool
-	desktopIconCountDisplay                        *BadgeCount
+	desktopIconCountDisplay                        *zulip.BadgeCount
 	realmNameInEmailNotificationsPolicy            *int32
-	automaticallyFollowTopicsPolicy                *TopicInteraction
-	automaticallyUnmuteTopicsInMutedChannelsPolicy *TopicInteraction
+	automaticallyFollowTopicsPolicy                *zulip.TopicInteraction
+	automaticallyUnmuteTopicsInMutedChannelsPolicy *zulip.TopicInteraction
 	automaticallyFollowTopicsWhereMentioned        *bool
-	resolvedTopicNoticeAutoReadPolicy              *ResolvedTopicNoticeAutoReadPolicy
+	resolvedTopicNoticeAutoReadPolicy              *zulip.ResolvedTopicNoticeAutoReadPolicy
 	presenceEnabled                                *bool
 	enterSends                                     *bool
 	twentyFourHourTime                             *bool
 	sendPrivateTypingNotifications                 *bool
 	sendChannelTypingNotifications                 *bool
 	sendReadReceipts                               *bool
-	emailAddressVisibility                         *EmailVisibility
+	emailAddressVisibility                         *zulip.EmailVisibility
 	webNavigateToSentMessage                       *bool
 }
 
@@ -1526,7 +1530,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebMarkReadOnScrollPolicy(webMar
 //   - ChannelDefaultViewTopUnreadTopicInChannel
 //
 // **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  The "List of topics" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
-func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelDefaultView(webChannelDefaultView ChannelDefaultView) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelDefaultView(webChannelDefaultView zulip.ChannelDefaultView) UpdateRealmUserSettingsDefaultsRequest {
 	r.webChannelDefaultView = &webChannelDefaultView
 	return r
 }
@@ -1555,7 +1559,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebLineHeightPercent(webLineHeig
 // Automatic detection is implementing using the standard `prefers-color-scheme` media query.
 //
 // [color theme]: https://zulip.com/help/dark-theme
-func (r UpdateRealmUserSettingsDefaultsRequest) ColorScheme(colorScheme ColorScheme) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) ColorScheme(colorScheme zulip.ColorScheme) UpdateRealmUserSettingsDefaultsRequest {
 	r.colorScheme = &colorScheme
 	return r
 }
@@ -1590,7 +1594,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) DisplayEmojiReactionUsers(displa
 // **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
 //
 // [home view]: https://zulip.com/help/configure-home-view
-func (r UpdateRealmUserSettingsDefaultsRequest) WebHomeView(webHomeView HomeView) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebHomeView(webHomeView zulip.HomeView) UpdateRealmUserSettingsDefaultsRequest {
 	r.webHomeView = &webHomeView
 	return r
 }
@@ -1618,7 +1622,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) LeftSideUserlist(leftSideUserlis
 //   - EmojisetText = Plain text
 //
 // [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
-func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset Emojiset) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset zulip.Emojiset) UpdateRealmUserSettingsDefaultsRequest {
 	r.emojiset = &emojiset
 	return r
 }
@@ -1629,7 +1633,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset Emojiset) Upda
 //   - DemoteInactiveChannelsNever
 //
 // [hide inactive channels]: https://zulip.com/help/manage-inactive-channels
-func (r UpdateRealmUserSettingsDefaultsRequest) DemoteInactiveChannels(demoteInactiveChannels DemoteInactiveChannels) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) DemoteInactiveChannels(demoteInactiveChannels zulip.DemoteInactiveChannels) UpdateRealmUserSettingsDefaultsRequest {
 	r.demoteInactiveChannels = &demoteInactiveChannels
 	return r
 }
@@ -1640,7 +1644,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) DemoteInactiveChannels(demoteIna
 //   - UserListStyleWithAvatarAndStatus
 //
 // **Changes**: New in Zulip 6.0 (feature level 141).
-func (r UpdateRealmUserSettingsDefaultsRequest) UserListStyle(userListStyle UserListStyle) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) UserListStyle(userListStyle zulip.UserListStyle) UpdateRealmUserSettingsDefaultsRequest {
 	r.userListStyle = &userListStyle
 	return r
 }
@@ -1651,7 +1655,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) UserListStyle(userListStyle User
 //   - WebAnimateImagePreviewsNever
 //
 // **Changes**: New in Zulip 9.0 (feature level 275). Previously, animated images always used to play in the message feed by default. This setting controls this behaviour.
-func (r UpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(webAnimateImagePreviews WebAnimateImagePreviews) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(webAnimateImagePreviews zulip.WebAnimateImagePreviews) UpdateRealmUserSettingsDefaultsRequest {
 	r.webAnimateImagePreviews = &webAnimateImagePreviews
 	return r
 }
@@ -1662,7 +1666,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(webAnima
 //   - UnreadsCountDisplayNoChannels
 //
 // **Changes**: New in Zulip 8.0 (feature level 210).
-func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnreadsCountDisplayPolicy UnreadsCountDisplay) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnreadsCountDisplayPolicy zulip.UnreadsCountDisplay) UpdateRealmUserSettingsDefaultsRequest {
 	r.webChannelUnreadsCountDisplayPolicy = &webChannelUnreadsCountDisplayPolicy
 	return r
 }
@@ -1828,7 +1832,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicWildcardMenti
 //   - BadgeCountNone
 //
 // **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
-func (r UpdateRealmUserSettingsDefaultsRequest) DesktopIconCountDisplay(desktopIconCountDisplay BadgeCount) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) DesktopIconCountDisplay(desktopIconCountDisplay zulip.BadgeCount) UpdateRealmUserSettingsDefaultsRequest {
 	r.desktopIconCountDisplay = &desktopIconCountDisplay
 	return r
 }
@@ -1855,7 +1859,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) RealmNameInEmailNotificationsPol
 // **Changes**: New in Zulip 8.0 (feature level 214).
 //
 // [topics to follow automatically]: https://zulip.com/help/mute-a-topic
-func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy TopicInteraction) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy zulip.TopicInteraction) UpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyFollowTopicsPolicy = &automaticallyFollowTopicsPolicy
 	return r
 }
@@ -1869,7 +1873,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(
 // **Changes**: New in Zulip 8.0 (feature level 214).
 //
 // [topics to unmute automatically in muted channels]: https://zulip.com/help/mute-a-topic
-func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy TopicInteraction) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy zulip.TopicInteraction) UpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyUnmuteTopicsInMutedChannelsPolicy = &automaticallyUnmuteTopicsInMutedChannelsPolicy
 	return r
 }
@@ -1888,7 +1892,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsWhereMe
 //   - ResolvedTopicNoticeAutoReadPolicyNever
 //
 // **Changes**: New in Zulip 11.0 (feature level 385).
-func (r UpdateRealmUserSettingsDefaultsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy ResolvedTopicNoticeAutoReadPolicy) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy zulip.ResolvedTopicNoticeAutoReadPolicy) UpdateRealmUserSettingsDefaultsRequest {
 	r.resolvedTopicNoticeAutoReadPolicy = &resolvedTopicNoticeAutoReadPolicy
 	return r
 }
@@ -1954,7 +1958,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(sendReadReceipt
 //
 // [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
 // [which other users]: https://zulip.com/help/configure-email-visibility
-func (r UpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(emailAddressVisibility EmailVisibility) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(emailAddressVisibility zulip.EmailVisibility) UpdateRealmUserSettingsDefaultsRequest {
 	r.emailAddressVisibility = &emailAddressVisibility
 	return r
 }
@@ -1967,7 +1971,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebNavigateToSentMessage(webNavi
 	return r
 }
 
-func (r UpdateRealmUserSettingsDefaultsRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateRealmUserSettingsDefaultsRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateRealmUserSettingsDefaultsExecute(r)
 }
 
@@ -2007,13 +2011,13 @@ func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaults(ctx cont
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/realm/user_settings_defaults"
 	)
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
@@ -2098,7 +2102,7 @@ func (r UploadCustomEmojiRequest) Filename(filename *os.File) UploadCustomEmojiR
 	return r
 }
 
-func (r UploadCustomEmojiRequest) Execute() (*Response, *http.Response, error) {
+func (r UploadCustomEmojiRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UploadCustomEmojiExecute(r)
 }
 
@@ -2118,14 +2122,14 @@ func (s *serverAndOrganizationsService) UploadCustomEmoji(ctx context.Context, e
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method    = http.MethodPost
 		headers   = make(map[string]string)
 		query     = url.Values{}
 		form      = url.Values{}
 		formFiles []FormFile
-		response  = &Response{}
+		response  = &zulip.Response{}
 		endpoint  = "/realm/emoji/{emoji_name}"
 	)
 

@@ -1,10 +1,10 @@
 package messages
 
-import . "github.com/tum-zulip/go-zulip/zulip/models"
+import "github.com/tum-zulip/go-zulip/zulip"
 
 // CheckMessagesMatchNarrowResponse struct for CheckMessagesMatchNarrowResponse
 type CheckMessagesMatchNarrowResponse struct {
-	Response
+	zulip.Response
 
 	// A dictionary with a key for each queried message that matches the narrow, with message Ids as keys and search rendering data as values.
 	Messages map[string]NarrowMatch `json:"messages,omitempty"`
@@ -20,41 +20,41 @@ type NarrowMatch struct {
 
 // GetFileTemporaryUrlResponse struct for GetFileTemporaryUrlResponse
 type GetFileTemporaryUrlResponse struct {
-	Response
+	zulip.Response
 
 	// A temporary URL that can be used to access the uploaded file without Zulip's normal API authentication.
 	Url string `json:"url,omitempty"`
 }
 
 type MarkAllAsReadResponse struct {
-	Response
+	zulip.Response
 	// Whether all unread messages were marked as read.  Will be `false` if the request successfully marked some, but not all, messages as read.
 	Complete bool `json:"complete"`
 }
 
 // GetMessageResponse struct for GetMessageResponse
 type GetMessageResponse struct {
-	Response
+	zulip.Response
 
 	// The raw Markdown content of the message.  See the help center article on [message formatting] for details on Zulip-flavored Markdown.  **Deprecated** and to be removed once no longer required for legacy clients. Modern clients should prefer passing `"apply_markdown": false` to request raw message content.
 	// Deprecated
 	//
 	// [message formatting]: https://zulip.com/help/format-your-message-using-markdown
-	RawContent string  `json:"raw_content,omitempty"`
-	Message    Message `json:"message,omitempty"`
+	RawContent string        `json:"raw_content,omitempty"`
+	Message    zulip.Message `json:"message,omitempty"`
 }
 
 // GetMessageHistoryResponse struct for GetMessageHistoryResponse
 type GetMessageHistoryResponse struct {
-	Response
+	zulip.Response
 
 	// A chronologically sorted, oldest to newest, array of `snapshot` objects, each one with the values of the message after the edit.
-	MessageHistory []Snapshot `json:"message_history,omitempty"`
+	MessageHistory []zulip.Snapshot `json:"message_history,omitempty"`
 }
 
 // GetMessagesResponse struct for GetMessagesResponse
 type GetMessagesResponse struct {
-	Response
+	zulip.Response
 
 	// The same `anchor` specified in the request (or the computed one, if `use_first_unread_anchor` is `true`).  Only present if `message_ids` is not provided.
 	Anchor int32 `json:"anchor,omitempty"`
@@ -69,12 +69,12 @@ type GetMessagesResponse struct {
 	// An array of `message` objects.
 	//
 	// **Changes**: In Zulip 3.1 (feature level 26), the `sender_short_name` field was removed from message objects.
-	Messages []MessageWithOptMatch `json:"messages"`
+	Messages []zulip.MessageWithOptMatch `json:"messages"`
 }
 
 // GetReadReceiptsResponse struct for GetReadReceiptsResponse
 type GetReadReceiptsResponse struct {
-	Response
+	zulip.Response
 
 	// An array of Ids of users who have marked the target message as read and whose read status is available to the current user.  The Ids of users who have disabled sending read receipts (`"send_read_receipts": false`) will never appear in the response, nor will the message's sender. Additionally, the Ids of any users who have been muted by the current user or who have muted the current user will not be included in the response.  The current user's Id will appear if they have marked the target message as read.
 	//
@@ -84,7 +84,7 @@ type GetReadReceiptsResponse struct {
 
 // RenderMessageResponse struct for RenderMessageResponse
 type RenderMessageResponse struct {
-	Response
+	zulip.Response
 
 	// The rendered HTML.
 	Rendered string `json:"rendered,omitempty"`
@@ -92,7 +92,7 @@ type RenderMessageResponse struct {
 
 // SendMessageResponse struct for SendMessageResponse
 type SendMessageResponse struct {
-	Response
+	zulip.Response
 
 	// The unique Id assigned to the sent message.
 	Id int64 `json:"id"`
@@ -102,22 +102,22 @@ type SendMessageResponse struct {
 	//
 	// [visibility policy settings]: https://zulip.com/help/mute-a-topic
 	// [unmuted or followed]: https://zulip.com/api/update-user-topic#parameter-visibility_policy
-	AutomaticNewVisibilityPolicy *VisibilityPolicy `json:"automatic_new_visibility_policy,omitempty"`
+	AutomaticNewVisibilityPolicy *zulip.VisibilityPolicy `json:"automatic_new_visibility_policy,omitempty"`
 }
 
 // UpdateMessageResponse struct for UpdateMessageResponse
 type UpdateMessageResponse struct {
-	Response
+	zulip.Response
 
 	// Details on all files uploaded by the acting user whose only references were removed when editing this message. Clients should ask the acting user if they wish to delete the uploaded files returned in this response, which might otherwise remain visible only in message edit history.  Note that [access to message edit history] is configurable; this detail may be important in presenting the question clearly to users.  New in Zulip 10.0 (feature level 285).
 	//
 	// [access to message edit history]: https://zulip.com/help/restrict-message-edit-history-access
-	DetachedUploads []Attachment `json:"detached_uploads,omitempty"`
+	DetachedUploads []zulip.Attachment `json:"detached_uploads,omitempty"`
 }
 
 // UpdateMessageFlagsResponse struct for UpdateMessageFlagsResponse
 type UpdateMessageFlagsResponse struct {
-	Response
+	zulip.Response
 
 	// An array with the Ids of the modified messages.
 	Messages []int64 `json:"messages,omitempty"`
@@ -129,7 +129,7 @@ type UpdateMessageFlagsResponse struct {
 
 // UpdateMessageFlagsForNarrowResponse struct for UpdateMessageFlagsForNarrowResponse
 type UpdateMessageFlagsForNarrowResponse struct {
-	Response
+	zulip.Response
 
 	// The number of messages that were within the update range (at most `num_before + 1 + num_after`).
 	ProcessedCount int64 `json:"processed_count"`
@@ -151,7 +151,7 @@ type UpdateMessageFlagsForNarrowResponse struct {
 
 // UploadFileResponse struct for UploadFileResponse
 type UploadFileResponse struct {
-	Response
+	zulip.Response
 
 	// The URL of the uploaded file. Alias of `url`.
 	//

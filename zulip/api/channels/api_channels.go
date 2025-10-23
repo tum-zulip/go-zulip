@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	. "github.com/tum-zulip/go-zulip/zulip/models"
 )
 
 type APIChannels interface {
@@ -23,7 +23,7 @@ type APIChannels interface {
 	AddDefaultChannel(ctx context.Context) AddDefaultChannelRequest
 
 	// AddDefaultChannelExecute executes the request
-	AddDefaultChannelExecute(r AddDefaultChannelRequest) (*Response, *http.Response, error)
+	AddDefaultChannelExecute(r AddDefaultChannelRequest) (*zulip.Response, *http.Response, error)
 
 	// ArchiveChannel Archive a channel
 	//
@@ -33,7 +33,7 @@ type APIChannels interface {
 	ArchiveChannel(ctx context.Context, channelId int64) ArchiveChannelRequest
 
 	// ArchiveChannelExecute executes the request
-	ArchiveChannelExecute(r ArchiveChannelRequest) (*Response, *http.Response, error)
+	ArchiveChannelExecute(r ArchiveChannelRequest) (*zulip.Response, *http.Response, error)
 
 	// CreateBigBlueButtonVideoCall Create BigBlueButton video call
 	//
@@ -254,7 +254,7 @@ type APIChannels interface {
 
 	// MuteTopicExecute executes the request
 	// Deprecated
-	MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Response, error)
+	MuteTopicExecute(r MuteTopicRequest) (*zulip.Response, *http.Response, error)
 
 	// PatchChannelFolders Reorder channel folders
 	//
@@ -267,7 +267,7 @@ type APIChannels interface {
 	PatchChannelFolders(ctx context.Context) PatchChannelFoldersRequest
 
 	// PatchChannelFoldersExecute executes the request
-	PatchChannelFoldersExecute(r PatchChannelFoldersRequest) (*Response, *http.Response, error)
+	PatchChannelFoldersExecute(r PatchChannelFoldersRequest) (*zulip.Response, *http.Response, error)
 
 	// RemoveDefaultChannel Remove a default channel
 	//
@@ -279,7 +279,7 @@ type APIChannels interface {
 	RemoveDefaultChannel(ctx context.Context) RemoveDefaultChannelRequest
 
 	// RemoveDefaultChannelExecute executes the request
-	RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest) (*Response, *http.Response, error)
+	RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest) (*zulip.Response, *http.Response, error)
 
 	// Subscribe Subscribe to a channel
 	//
@@ -390,7 +390,7 @@ type APIChannels interface {
 	UpdateChannelFolder(ctx context.Context, channelFolderId int64) UpdateChannelFolderRequest
 
 	// UpdateChannelFolderExecute executes the request
-	UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*Response, *http.Response, error)
+	UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdateChannel Update a channel
 	//
@@ -422,7 +422,7 @@ type APIChannels interface {
 	UpdateChannel(ctx context.Context, channelId int64) UpdateChannelRequest
 
 	// UpdateChannelExecute executes the request
-	UpdateChannelExecute(r UpdateChannelRequest) (*Response, *http.Response, error)
+	UpdateChannelExecute(r UpdateChannelRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdateSubscriptionSettings Update subscription settings
 	//
@@ -440,7 +440,7 @@ type APIChannels interface {
 	UpdateSubscriptionSettings(ctx context.Context) UpdateSubscriptionSettingsRequest
 
 	// UpdateSubscriptionSettingsExecute executes the request
-	UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSettingsRequest) (*Response, *http.Response, error)
+	UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSettingsRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdateSubscriptions Update subscriptions
 	//
@@ -472,11 +472,15 @@ type APIChannels interface {
 	UpdateUserTopic(ctx context.Context) UpdateUserTopicRequest
 
 	// UpdateUserTopicExecute executes the request
-	UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Response, *http.Response, error)
+	UpdateUserTopicExecute(r UpdateUserTopicRequest) (*zulip.Response, *http.Response, error)
 }
 
 type channelsService struct {
 	client StructuredClient
+}
+
+func NewChannelsService(client StructuredClient) *channelsService {
+	return &channelsService{client: client}
 }
 
 var _ APIChannels = (*channelsService)(nil)
@@ -493,7 +497,7 @@ func (r AddDefaultChannelRequest) ChannelId(channelId int64) AddDefaultChannelRe
 	return r
 }
 
-func (r AddDefaultChannelRequest) Execute() (*Response, *http.Response, error) {
+func (r AddDefaultChannelRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.AddDefaultChannelExecute(r)
 }
 
@@ -511,13 +515,13 @@ func (s *channelsService) AddDefaultChannel(ctx context.Context) AddDefaultChann
 }
 
 // Execute executes the request
-func (s *channelsService) AddDefaultChannelExecute(r AddDefaultChannelRequest) (*Response, *http.Response, error) {
+func (s *channelsService) AddDefaultChannelExecute(r AddDefaultChannelRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/default_streams"
 	)
 	if r.channelId == nil {
@@ -543,7 +547,7 @@ type ArchiveChannelRequest struct {
 	channelId  int64
 }
 
-func (r ArchiveChannelRequest) Execute() (*Response, *http.Response, error) {
+func (r ArchiveChannelRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.ArchiveChannelExecute(r)
 }
 
@@ -561,13 +565,13 @@ func (s *channelsService) ArchiveChannel(ctx context.Context, channelId int64) A
 }
 
 // Execute executes the request
-func (s *channelsService) ArchiveChannelExecute(r ArchiveChannelRequest) (*Response, *http.Response, error) {
+func (s *channelsService) ArchiveChannelExecute(r ArchiveChannelRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/streams/{stream_id}"
 	)
 
@@ -667,19 +671,19 @@ type CreateChannelRequest struct {
 	isDefaultChannel                  *bool
 	folderId                          *int64
 	sendNewSubscriptionMessages       *bool
-	topicsPolicy                      *TopicsPolicy
+	topicsPolicy                      *zulip.TopicsPolicy
 	historyPublicToSubscribers        *bool
-	messageRetentionDays              *MessageRetentionDaysValue
-	canAddSubscribersGroup            *GroupSettingValue
-	canDeleteAnyMessageGroup          *GroupSettingValue
-	canDeleteOwnMessageGroup          *GroupSettingValue
-	canRemoveSubscribersGroup         *GroupSettingValue
-	canAdministerChannelGroup         *GroupSettingValue
-	canMoveMessagesOutOfChannelGroup  *GroupSettingValue
-	canMoveMessagesWithinChannelGroup *GroupSettingValue
-	canSendMessageGroup               *GroupSettingValue
-	canSubscribeGroup                 *GroupSettingValue
-	canResolveTopicsGroup             *GroupSettingValue
+	messageRetentionDays              *zulip.MessageRetentionDaysValue
+	canAddSubscribersGroup            *zulip.GroupSettingValue
+	canDeleteAnyMessageGroup          *zulip.GroupSettingValue
+	canDeleteOwnMessageGroup          *zulip.GroupSettingValue
+	canRemoveSubscribersGroup         *zulip.GroupSettingValue
+	canAdministerChannelGroup         *zulip.GroupSettingValue
+	canMoveMessagesOutOfChannelGroup  *zulip.GroupSettingValue
+	canMoveMessagesWithinChannelGroup *zulip.GroupSettingValue
+	canSendMessageGroup               *zulip.GroupSettingValue
+	canSubscribeGroup                 *zulip.GroupSettingValue
+	canResolveTopicsGroup             *zulip.GroupSettingValue
 }
 
 // The name of the new channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`] endpoint to determine the maximum channel name length.
@@ -755,7 +759,7 @@ func (r CreateChannelRequest) SendNewSubscriptionMessages(sendNewSubscriptionMes
 	return r
 }
 
-func (r CreateChannelRequest) TopicsPolicy(topicsPolicy TopicsPolicy) CreateChannelRequest {
+func (r CreateChannelRequest) TopicsPolicy(topicsPolicy zulip.TopicsPolicy) CreateChannelRequest {
 	r.topicsPolicy = &topicsPolicy
 	return r
 }
@@ -768,57 +772,57 @@ func (r CreateChannelRequest) HistoryPublicToSubscribers(historyPublicToSubscrib
 	return r
 }
 
-func (r CreateChannelRequest) MessageRetentionDays(messageRetentionDays MessageRetentionDaysValue) CreateChannelRequest {
+func (r CreateChannelRequest) MessageRetentionDays(messageRetentionDays zulip.MessageRetentionDaysValue) CreateChannelRequest {
 	r.messageRetentionDays = &messageRetentionDays
 	return r
 }
 
-func (r CreateChannelRequest) CanAddSubscribersGroup(canAddSubscribersGroup GroupSettingValue) CreateChannelRequest {
+func (r CreateChannelRequest) CanAddSubscribersGroup(canAddSubscribersGroup zulip.GroupSettingValue) CreateChannelRequest {
 	r.canAddSubscribersGroup = &canAddSubscribersGroup
 	return r
 }
 
-func (r CreateChannelRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup GroupSettingValue) CreateChannelRequest {
+func (r CreateChannelRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup zulip.GroupSettingValue) CreateChannelRequest {
 	r.canDeleteAnyMessageGroup = &canDeleteAnyMessageGroup
 	return r
 }
 
-func (r CreateChannelRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup GroupSettingValue) CreateChannelRequest {
+func (r CreateChannelRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup zulip.GroupSettingValue) CreateChannelRequest {
 	r.canDeleteOwnMessageGroup = &canDeleteOwnMessageGroup
 	return r
 }
 
-func (r CreateChannelRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup GroupSettingValue) CreateChannelRequest {
+func (r CreateChannelRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup zulip.GroupSettingValue) CreateChannelRequest {
 	r.canRemoveSubscribersGroup = &canRemoveSubscribersGroup
 	return r
 }
 
-func (r CreateChannelRequest) CanAdministerChannelGroup(canAdministerChannelGroup GroupSettingValue) CreateChannelRequest {
+func (r CreateChannelRequest) CanAdministerChannelGroup(canAdministerChannelGroup zulip.GroupSettingValue) CreateChannelRequest {
 	r.canAdministerChannelGroup = &canAdministerChannelGroup
 	return r
 }
 
-func (r CreateChannelRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup GroupSettingValue) CreateChannelRequest {
+func (r CreateChannelRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup zulip.GroupSettingValue) CreateChannelRequest {
 	r.canMoveMessagesOutOfChannelGroup = &canMoveMessagesOutOfChannelGroup
 	return r
 }
 
-func (r CreateChannelRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup GroupSettingValue) CreateChannelRequest {
+func (r CreateChannelRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup zulip.GroupSettingValue) CreateChannelRequest {
 	r.canMoveMessagesWithinChannelGroup = &canMoveMessagesWithinChannelGroup
 	return r
 }
 
-func (r CreateChannelRequest) CanSendMessageGroup(canSendMessageGroup GroupSettingValue) CreateChannelRequest {
+func (r CreateChannelRequest) CanSendMessageGroup(canSendMessageGroup zulip.GroupSettingValue) CreateChannelRequest {
 	r.canSendMessageGroup = &canSendMessageGroup
 	return r
 }
 
-func (r CreateChannelRequest) CanSubscribeGroup(canSubscribeGroup GroupSettingValue) CreateChannelRequest {
+func (r CreateChannelRequest) CanSubscribeGroup(canSubscribeGroup zulip.GroupSettingValue) CreateChannelRequest {
 	r.canSubscribeGroup = &canSubscribeGroup
 	return r
 }
 
-func (r CreateChannelRequest) CanResolveTopicsGroup(canResolveTopicsGroup GroupSettingValue) CreateChannelRequest {
+func (r CreateChannelRequest) CanResolveTopicsGroup(canResolveTopicsGroup zulip.GroupSettingValue) CreateChannelRequest {
 	r.canResolveTopicsGroup = &canResolveTopicsGroup
 	return r
 }
@@ -879,37 +883,37 @@ func (s *channelsService) CreateChannelExecute(r CreateChannelRequest) (*CreateC
 	AddOptionalParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
 	AddOptionalParam(form, "topics_policy", r.topicsPolicy)
 	AddOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
-	if err := AddOptionalJSONParam(form, "message_retention_days", *r.messageRetentionDays); err != nil {
+	if err := AddOptionalJSONParam(form, "message_retention_days", r.messageRetentionDays); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_add_subscribers_group", *r.canAddSubscribersGroup); err != nil {
+	if err := AddOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_delete_any_message_group", *r.canDeleteAnyMessageGroup); err != nil {
+	if err := AddOptionalJSONParam(form, "can_delete_any_message_group", r.canDeleteAnyMessageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_delete_own_message_group", *r.canDeleteOwnMessageGroup); err != nil {
+	if err := AddOptionalJSONParam(form, "can_delete_own_message_group", r.canDeleteOwnMessageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_remove_subscribers_group", *r.canRemoveSubscribersGroup); err != nil {
+	if err := AddOptionalJSONParam(form, "can_remove_subscribers_group", r.canRemoveSubscribersGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_administer_channel_group", *r.canAdministerChannelGroup); err != nil {
+	if err := AddOptionalJSONParam(form, "can_administer_channel_group", r.canAdministerChannelGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_move_messages_out_of_channel_group", *r.canMoveMessagesOutOfChannelGroup); err != nil {
+	if err := AddOptionalJSONParam(form, "can_move_messages_out_of_channel_group", r.canMoveMessagesOutOfChannelGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_move_messages_within_channel_group", *r.canMoveMessagesWithinChannelGroup); err != nil {
+	if err := AddOptionalJSONParam(form, "can_move_messages_within_channel_group", r.canMoveMessagesWithinChannelGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_send_message_group", *r.canSendMessageGroup); err != nil {
+	if err := AddOptionalJSONParam(form, "can_send_message_group", r.canSendMessageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_subscribe_group", *r.canSubscribeGroup); err != nil {
+	if err := AddOptionalJSONParam(form, "can_subscribe_group", r.canSubscribeGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_resolve_topics_group", *r.canResolveTopicsGroup); err != nil {
+	if err := AddOptionalJSONParam(form, "can_resolve_topics_group", r.canResolveTopicsGroup); err != nil {
 		return nil, nil, err
 	}
 	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -1668,7 +1672,7 @@ func (r MuteTopicRequest) Channel(channel string) MuteTopicRequest {
 	return r
 }
 
-func (r MuteTopicRequest) Execute() (*Response, *http.Response, error) {
+func (r MuteTopicRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.MuteTopicExecute(r)
 }
 
@@ -1699,13 +1703,13 @@ func (s *channelsService) MuteTopic(ctx context.Context) MuteTopicRequest {
 // Execute executes the request
 //
 // Deprecated
-func (s *channelsService) MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Response, error) {
+func (s *channelsService) MuteTopicExecute(r MuteTopicRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/me/subscriptions/muted_topics"
 	)
 	if r.topic == nil {
@@ -1743,7 +1747,7 @@ func (r PatchChannelFoldersRequest) Order(order []int64) PatchChannelFoldersRequ
 	return r
 }
 
-func (r PatchChannelFoldersRequest) Execute() (*Response, *http.Response, error) {
+func (r PatchChannelFoldersRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.PatchChannelFoldersExecute(r)
 }
 
@@ -1762,13 +1766,13 @@ func (s *channelsService) PatchChannelFolders(ctx context.Context) PatchChannelF
 }
 
 // Execute executes the request
-func (s *channelsService) PatchChannelFoldersExecute(r PatchChannelFoldersRequest) (*Response, *http.Response, error) {
+func (s *channelsService) PatchChannelFoldersExecute(r PatchChannelFoldersRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/channel_folders"
 	)
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
@@ -1796,7 +1800,7 @@ func (r RemoveDefaultChannelRequest) ChannelId(channelId int64) RemoveDefaultCha
 	return r
 }
 
-func (r RemoveDefaultChannelRequest) Execute() (*Response, *http.Response, error) {
+func (r RemoveDefaultChannelRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.RemoveDefaultChannelExecute(r)
 }
 
@@ -1814,13 +1818,13 @@ func (s *channelsService) RemoveDefaultChannel(ctx context.Context) RemoveDefaul
 }
 
 // Execute executes the request
-func (s *channelsService) RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest) (*Response, *http.Response, error) {
+func (s *channelsService) RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/default_streams"
 	)
 	if r.channelId == nil {
@@ -1844,7 +1848,7 @@ type SubscribeRequest struct {
 	ctx                               context.Context
 	apiService                        APIChannels
 	subscriptions                     *[]SubscriptionRequest
-	principals                        *Principals
+	principals                        *zulip.Principals
 	authorizationErrorsFatal          *bool
 	announce                          *bool
 	inviteOnly                        *bool
@@ -1852,19 +1856,19 @@ type SubscribeRequest struct {
 	isDefaultChannel                  *bool
 	folderId                          *int64
 	sendNewSubscriptionMessages       *bool
-	topicsPolicy                      *TopicsPolicy
+	topicsPolicy                      *zulip.TopicsPolicy
 	historyPublicToSubscribers        *bool
-	messageRetentionDays              *MessageRetentionDaysValue
-	canAddSubscribersGroup            *GroupSettingValue
-	canDeleteAnyMessageGroup          *GroupSettingValue
-	canDeleteOwnMessageGroup          *GroupSettingValue
-	canRemoveSubscribersGroup         *GroupSettingValue
-	canAdministerChannelGroup         *GroupSettingValue
-	canMoveMessagesOutOfChannelGroup  *GroupSettingValue
-	canMoveMessagesWithinChannelGroup *GroupSettingValue
-	canSendMessageGroup               *GroupSettingValue
-	canSubscribeGroup                 *GroupSettingValue
-	canResolveTopicsGroup             *GroupSettingValue
+	messageRetentionDays              *zulip.MessageRetentionDaysValue
+	canAddSubscribersGroup            *zulip.GroupSettingValue
+	canDeleteAnyMessageGroup          *zulip.GroupSettingValue
+	canDeleteOwnMessageGroup          *zulip.GroupSettingValue
+	canRemoveSubscribersGroup         *zulip.GroupSettingValue
+	canAdministerChannelGroup         *zulip.GroupSettingValue
+	canMoveMessagesOutOfChannelGroup  *zulip.GroupSettingValue
+	canMoveMessagesWithinChannelGroup *zulip.GroupSettingValue
+	canSendMessageGroup               *zulip.GroupSettingValue
+	canSubscribeGroup                 *zulip.GroupSettingValue
+	canResolveTopicsGroup             *zulip.GroupSettingValue
 }
 
 // SubscriptionRequest struct for SubscriptionRequest
@@ -1887,7 +1891,7 @@ func (r SubscribeRequest) Subscriptions(subscriptions []SubscriptionRequest) Sub
 	return r
 }
 
-func (r SubscribeRequest) Principals(principals Principals) SubscribeRequest {
+func (r SubscribeRequest) Principals(principals zulip.Principals) SubscribeRequest {
 	r.principals = &principals
 	return r
 }
@@ -1943,62 +1947,62 @@ func (r SubscribeRequest) HistoryPublicToSubscribers(historyPublicToSubscribers 
 	return r
 }
 
-func (r SubscribeRequest) MessageRetentionDays(messageRetentionDays MessageRetentionDaysValue) SubscribeRequest {
+func (r SubscribeRequest) MessageRetentionDays(messageRetentionDays zulip.MessageRetentionDaysValue) SubscribeRequest {
 	r.messageRetentionDays = &messageRetentionDays
 	return r
 }
 
-func (r SubscribeRequest) TopicsPolicy(topicsPolicy TopicsPolicy) SubscribeRequest {
+func (r SubscribeRequest) TopicsPolicy(topicsPolicy zulip.TopicsPolicy) SubscribeRequest {
 	r.topicsPolicy = &topicsPolicy
 	return r
 }
 
-func (r SubscribeRequest) CanAddSubscribersGroup(canAddSubscribersGroup GroupSettingValue) SubscribeRequest {
+func (r SubscribeRequest) CanAddSubscribersGroup(canAddSubscribersGroup zulip.GroupSettingValue) SubscribeRequest {
 	r.canAddSubscribersGroup = &canAddSubscribersGroup
 	return r
 }
 
-func (r SubscribeRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup GroupSettingValue) SubscribeRequest {
+func (r SubscribeRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup zulip.GroupSettingValue) SubscribeRequest {
 	r.canRemoveSubscribersGroup = &canRemoveSubscribersGroup
 	return r
 }
 
-func (r SubscribeRequest) CanAdministerChannelGroup(canAdministerChannelGroup GroupSettingValue) SubscribeRequest {
+func (r SubscribeRequest) CanAdministerChannelGroup(canAdministerChannelGroup zulip.GroupSettingValue) SubscribeRequest {
 	r.canAdministerChannelGroup = &canAdministerChannelGroup
 	return r
 }
 
-func (r SubscribeRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup GroupSettingValue) SubscribeRequest {
+func (r SubscribeRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup zulip.GroupSettingValue) SubscribeRequest {
 	r.canDeleteAnyMessageGroup = &canDeleteAnyMessageGroup
 	return r
 }
 
-func (r SubscribeRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup GroupSettingValue) SubscribeRequest {
+func (r SubscribeRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup zulip.GroupSettingValue) SubscribeRequest {
 	r.canDeleteOwnMessageGroup = &canDeleteOwnMessageGroup
 	return r
 }
 
-func (r SubscribeRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup GroupSettingValue) SubscribeRequest {
+func (r SubscribeRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup zulip.GroupSettingValue) SubscribeRequest {
 	r.canMoveMessagesOutOfChannelGroup = &canMoveMessagesOutOfChannelGroup
 	return r
 }
 
-func (r SubscribeRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup GroupSettingValue) SubscribeRequest {
+func (r SubscribeRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup zulip.GroupSettingValue) SubscribeRequest {
 	r.canMoveMessagesWithinChannelGroup = &canMoveMessagesWithinChannelGroup
 	return r
 }
 
-func (r SubscribeRequest) CanSendMessageGroup(canSendMessageGroup GroupSettingValue) SubscribeRequest {
+func (r SubscribeRequest) CanSendMessageGroup(canSendMessageGroup zulip.GroupSettingValue) SubscribeRequest {
 	r.canSendMessageGroup = &canSendMessageGroup
 	return r
 }
 
-func (r SubscribeRequest) CanSubscribeGroup(canSubscribeGroup GroupSettingValue) SubscribeRequest {
+func (r SubscribeRequest) CanSubscribeGroup(canSubscribeGroup zulip.GroupSettingValue) SubscribeRequest {
 	r.canSubscribeGroup = &canSubscribeGroup
 	return r
 }
 
-func (r SubscribeRequest) CanResolveTopicsGroup(canResolveTopicsGroup GroupSettingValue) SubscribeRequest {
+func (r SubscribeRequest) CanResolveTopicsGroup(canResolveTopicsGroup zulip.GroupSettingValue) SubscribeRequest {
 	r.canResolveTopicsGroup = &canResolveTopicsGroup
 	return r
 }
@@ -2146,7 +2150,7 @@ type UnsubscribeRequest struct {
 	ctx           context.Context
 	apiService    APIChannels
 	subscriptions *[]string
-	principals    *Principals
+	principals    *zulip.Principals
 }
 
 // A list of channel names to unsubscribe from. This parameter is called `streams` in our Python API.
@@ -2155,7 +2159,7 @@ func (r UnsubscribeRequest) Subscriptions(subscriptions []string) UnsubscribeReq
 	return r
 }
 
-func (r UnsubscribeRequest) Principals(principals Principals) UnsubscribeRequest {
+func (r UnsubscribeRequest) Principals(principals zulip.Principals) UnsubscribeRequest {
 	r.principals = &principals
 	return r
 }
@@ -2271,7 +2275,7 @@ func (r UpdateChannelFolderRequest) IsArchived(isArchived bool) UpdateChannelFol
 	return r
 }
 
-func (r UpdateChannelFolderRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateChannelFolderRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateChannelFolderExecute(r)
 }
 
@@ -2295,13 +2299,13 @@ func (s *channelsService) UpdateChannelFolder(ctx context.Context, channelFolder
 }
 
 // Execute executes the request
-func (s *channelsService) UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*Response, *http.Response, error) {
+func (s *channelsService) UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/channel_folders/{channel_folder_id}"
 	)
 
@@ -2332,20 +2336,20 @@ type UpdateChannelRequest struct {
 	isWebPublic                       *bool
 	historyPublicToSubscribers        *bool
 	isDefaultChannel                  *bool
-	messageRetentionDays              *MessageRetentionDaysValue
+	messageRetentionDays              *zulip.MessageRetentionDaysValue
 	isArchived                        *bool
 	folderId                          *int64
-	topicsPolicy                      *TopicsPolicy
-	canAddSubscribersGroup            *GroupSettingValueUpdate
-	canRemoveSubscribersGroup         *GroupSettingValueUpdate
-	canAdministerChannelGroup         *GroupSettingValueUpdate
-	canDeleteAnyMessageGroup          *GroupSettingValueUpdate
-	canDeleteOwnMessageGroup          *GroupSettingValueUpdate
-	canMoveMessagesOutOfChannelGroup  *GroupSettingValueUpdate
-	canMoveMessagesWithinChannelGroup *GroupSettingValueUpdate
-	canSendMessageGroup               *GroupSettingValueUpdate
-	canSubscribeGroup                 *GroupSettingValueUpdate
-	canResolveTopicsGroup             *GroupSettingValueUpdate
+	topicsPolicy                      *zulip.TopicsPolicy
+	canAddSubscribersGroup            *zulip.GroupSettingValueUpdate
+	canRemoveSubscribersGroup         *zulip.GroupSettingValueUpdate
+	canAdministerChannelGroup         *zulip.GroupSettingValueUpdate
+	canDeleteAnyMessageGroup          *zulip.GroupSettingValueUpdate
+	canDeleteOwnMessageGroup          *zulip.GroupSettingValueUpdate
+	canMoveMessagesOutOfChannelGroup  *zulip.GroupSettingValueUpdate
+	canMoveMessagesWithinChannelGroup *zulip.GroupSettingValueUpdate
+	canSendMessageGroup               *zulip.GroupSettingValueUpdate
+	canSubscribeGroup                 *zulip.GroupSettingValueUpdate
+	canResolveTopicsGroup             *zulip.GroupSettingValueUpdate
 }
 
 // The new [description] for the channel, in [Zulip-flavored Markdown] format.  Clients should use the `max_stream_description_length` returned by the [`POST /register`] endpoint to determine the maximum channel description length.
@@ -2407,7 +2411,7 @@ func (r UpdateChannelRequest) IsDefaultChannel(isDefaultChannel bool) UpdateChan
 	return r
 }
 
-func (r UpdateChannelRequest) MessageRetentionDays(messageRetentionDays MessageRetentionDaysValue) UpdateChannelRequest {
+func (r UpdateChannelRequest) MessageRetentionDays(messageRetentionDays zulip.MessageRetentionDaysValue) UpdateChannelRequest {
 	r.messageRetentionDays = &messageRetentionDays
 	return r
 }
@@ -2430,7 +2434,7 @@ func (r UpdateChannelRequest) FolderId(folderId int64) UpdateChannelRequest {
 	return r
 }
 
-func (r UpdateChannelRequest) TopicsPolicy(topicsPolicy TopicsPolicy) UpdateChannelRequest {
+func (r UpdateChannelRequest) TopicsPolicy(topicsPolicy zulip.TopicsPolicy) UpdateChannelRequest {
 	r.topicsPolicy = &topicsPolicy
 	return r
 }
@@ -2442,7 +2446,7 @@ func (r UpdateChannelRequest) TopicsPolicy(topicsPolicy TopicsPolicy) UpdateChan
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Users who can administer the channel or have similar realm-level permissions can add subscribers to a public channel regardless of the value of this setting.  Users in this group need not be subscribed to a private channel to add subscribers to it.  Note that a user must [have content access] to a channel and permission to administer the channel in order to modify this setting.
 //
 // [have content access]: https://zulip.com/help/channel-permissions
-func (r UpdateChannelRequest) CanAddSubscribersGroup(canAddSubscribersGroup GroupSettingValueUpdate) UpdateChannelRequest {
+func (r UpdateChannelRequest) CanAddSubscribersGroup(canAddSubscribersGroup zulip.GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canAddSubscribersGroup = &canAddSubscribersGroup
 	return r
 }
@@ -2452,7 +2456,7 @@ func (r UpdateChannelRequest) CanAddSubscribersGroup(canAddSubscribersGroup Grou
 // **Changes**: Prior to Zulip 10.0 (feature level 349), channel administrators could not unsubscribe other users if they were not an organization administrator or part of `can_remove_subscribers_group`. Realm administrators were not allowed to unsubscribe other users from a private channel if they were not subscribed to that channel.  Prior to Zulip 10.0 (feature level 320), this value was always the integer Id of a system group.  Before Zulip 8.0 (feature level 197), the `can_remove_subscribers_group` setting was named `can_remove_subscribers_group_id`.  New in Zulip 7.0 (feature level 161).
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Organization administrators can unsubscribe others from a channel as though they were in this group without being explicitly listed here.  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.
-func (r UpdateChannelRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup GroupSettingValueUpdate) UpdateChannelRequest {
+func (r UpdateChannelRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGroup zulip.GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canRemoveSubscribersGroup = &canRemoveSubscribersGroup
 	return r
 }
@@ -2463,7 +2467,7 @@ func (r UpdateChannelRequest) CanRemoveSubscribersGroup(canRemoveSubscribersGrou
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Organization administrators can administer every channel as though they were in this group without being explicitly listed here.  Note that a user must [have content access] to a channel in order to add other subscribers to the channel.
 // [have content access]: https://zulip.com/help/channel-permissions
-func (r UpdateChannelRequest) CanAdministerChannelGroup(canAdministerChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
+func (r UpdateChannelRequest) CanAdministerChannelGroup(canAdministerChannelGroup zulip.GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canAdministerChannelGroup = &canAdministerChannelGroup
 	return r
 }
@@ -2475,7 +2479,7 @@ func (r UpdateChannelRequest) CanAdministerChannelGroup(canAdministerChannelGrou
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to delete any message in the channel.  Users present in the organization-level `can_delete_any_message_group` setting can always delete any message in the channel if they [have content access] to that channel.
 //
 // [have content access]: https://zulip.com/help/channel-permissions
-func (r UpdateChannelRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup GroupSettingValueUpdate) UpdateChannelRequest {
+func (r UpdateChannelRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup zulip.GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canDeleteAnyMessageGroup = &canDeleteAnyMessageGroup
 	return r
 }
@@ -2487,7 +2491,7 @@ func (r UpdateChannelRequest) CanDeleteAnyMessageGroup(canDeleteAnyMessageGroup 
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to delete their own message in the channel.  Users with permission to delete any message in the channel and users present in the organization-level `can_delete_own_message_group` setting can always delete their own messages in the channel if they [have content access] to that channel.
 //
 // [have content access]: https://zulip.com/help/channel-permissions
-func (r UpdateChannelRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup GroupSettingValueUpdate) UpdateChannelRequest {
+func (r UpdateChannelRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup zulip.GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canDeleteOwnMessageGroup = &canDeleteOwnMessageGroup
 	return r
 }
@@ -2499,7 +2503,7 @@ func (r UpdateChannelRequest) CanDeleteOwnMessageGroup(canDeleteOwnMessageGroup 
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to move messages out of the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_channels_group` setting can always move messages out of the channel if they [have content access] to the channel.
 //
 // [have content access]: https://zulip.com/help/channel-permissions
-func (r UpdateChannelRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
+func (r UpdateChannelRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOutOfChannelGroup zulip.GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canMoveMessagesOutOfChannelGroup = &canMoveMessagesOutOfChannelGroup
 	return r
 }
@@ -2511,7 +2515,7 @@ func (r UpdateChannelRequest) CanMoveMessagesOutOfChannelGroup(canMoveMessagesOu
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_topics_group` setting can always move messages within the channel if they [have content access] to the channel.
 //
 // [have content access]: https://zulip.com/help/channel-permissions
-func (r UpdateChannelRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup GroupSettingValueUpdate) UpdateChannelRequest {
+func (r UpdateChannelRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesWithinChannelGroup zulip.GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canMoveMessagesWithinChannelGroup = &canMoveMessagesWithinChannelGroup
 	return r
 }
@@ -2521,7 +2525,7 @@ func (r UpdateChannelRequest) CanMoveMessagesWithinChannelGroup(canMoveMessagesW
 // **Changes**: New in Zulip 10.0 (feature level 333). Previously `stream_post_policy` field used to control the permission to post in the channel.
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.
-func (r UpdateChannelRequest) CanSendMessageGroup(canSendMessageGroup GroupSettingValueUpdate) UpdateChannelRequest {
+func (r UpdateChannelRequest) CanSendMessageGroup(canSendMessageGroup zulip.GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canSendMessageGroup = &canSendMessageGroup
 	return r
 }
@@ -2533,7 +2537,7 @@ func (r UpdateChannelRequest) CanSendMessageGroup(canSendMessageGroup GroupSetti
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Everyone, excluding guests, can subscribe to any public channel irrespective of this setting.  Users in this group can subscribe to a private channel as well.  Note that a user must [have content access] to a channel and permission to administer the channel in order to modify this setting.
 //
 // [have content access]: https://zulip.com/help/channel-permissions
-func (r UpdateChannelRequest) CanSubscribeGroup(canSubscribeGroup GroupSettingValueUpdate) UpdateChannelRequest {
+func (r UpdateChannelRequest) CanSubscribeGroup(canSubscribeGroup zulip.GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canSubscribeGroup = &canSubscribeGroup
 	return r
 }
@@ -2543,12 +2547,12 @@ func (r UpdateChannelRequest) CanSubscribeGroup(canSubscribeGroup GroupSettingVa
 // **Changes**: New in Zulip 11.0 (feature level 402).
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Users who have similar realm-level permissions can resolve topics in a channel regardless of the value of this setting.
-func (r UpdateChannelRequest) CanResolveTopicsGroup(canResolveTopicsGroup GroupSettingValueUpdate) UpdateChannelRequest {
+func (r UpdateChannelRequest) CanResolveTopicsGroup(canResolveTopicsGroup zulip.GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canResolveTopicsGroup = &canResolveTopicsGroup
 	return r
 }
 
-func (r UpdateChannelRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateChannelRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateChannelExecute(r)
 }
 
@@ -2589,13 +2593,13 @@ func (s *channelsService) UpdateChannel(ctx context.Context, channelId int64) Up
 }
 
 // Execute executes the request
-func (s *channelsService) UpdateChannelExecute(r UpdateChannelRequest) (*Response, *http.Response, error) {
+func (s *channelsService) UpdateChannelExecute(r UpdateChannelRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/streams/{stream_id}"
 	)
 
@@ -2658,16 +2662,16 @@ func (s *channelsService) UpdateChannelExecute(r UpdateChannelRequest) (*Respons
 type UpdateSubscriptionSettingsRequest struct {
 	ctx              context.Context
 	apiService       APIChannels
-	subscriptionData *[]SubscriptionData
+	subscriptionData *[]zulip.SubscriptionData
 }
 
 // A list of objects that describe the changes that should be applied in each subscription. Each object represents a subscription, and must have a `stream_id` key that identifies the channel, as well as the `property` being modified and its new `value`.
-func (r UpdateSubscriptionSettingsRequest) SubscriptionData(subscriptionData []SubscriptionData) UpdateSubscriptionSettingsRequest {
+func (r UpdateSubscriptionSettingsRequest) SubscriptionData(subscriptionData []zulip.SubscriptionData) UpdateSubscriptionSettingsRequest {
 	r.subscriptionData = &subscriptionData
 	return r
 }
 
-func (r UpdateSubscriptionSettingsRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateSubscriptionSettingsRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateSubscriptionSettingsExecute(r)
 }
 
@@ -2691,13 +2695,13 @@ func (s *channelsService) UpdateSubscriptionSettings(ctx context.Context) Update
 }
 
 // Execute executes the request
-func (s *channelsService) UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSettingsRequest) (*Response, *http.Response, error) {
+func (s *channelsService) UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSettingsRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/me/subscriptions/properties"
 	)
 	if r.subscriptionData == nil {
@@ -2789,7 +2793,7 @@ type UpdateUserTopicRequest struct {
 	apiService       APIChannels
 	channelId        *int64
 	topic            *string
-	visibilityPolicy *VisibilityPolicy
+	visibilityPolicy *zulip.VisibilityPolicy
 }
 
 // The Id of the channel to access.
@@ -2817,12 +2821,12 @@ func (r UpdateUserTopicRequest) Topic(topic string) UpdateUserTopicRequest {
 // In an unmuted channel, a topic visibility policy of unmuted will have the same effect as the "None" visibility policy.
 //
 // **Changes**: In Zulip 7.0 (feature level 219), added followed as a visibility policy option.
-func (r UpdateUserTopicRequest) VisibilityPolicy(visibilityPolicy VisibilityPolicy) UpdateUserTopicRequest {
+func (r UpdateUserTopicRequest) VisibilityPolicy(visibilityPolicy zulip.VisibilityPolicy) UpdateUserTopicRequest {
 	r.visibilityPolicy = &visibilityPolicy
 	return r
 }
 
-func (r UpdateUserTopicRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateUserTopicRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateUserTopicExecute(r)
 }
 
@@ -2849,13 +2853,13 @@ func (s *channelsService) UpdateUserTopic(ctx context.Context) UpdateUserTopicRe
 }
 
 // Execute executes the request
-func (s *channelsService) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Response, *http.Response, error) {
+func (s *channelsService) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/user_topics"
 	)
 	if r.channelId == nil {

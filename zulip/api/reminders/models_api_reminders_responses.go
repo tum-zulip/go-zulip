@@ -1,10 +1,10 @@
 package reminders
 
-import . "github.com/tum-zulip/go-zulip/zulip/models"
+import "github.com/tum-zulip/go-zulip/zulip"
 
 // CreateMessageReminderResponse struct for CreateMessageReminderResponse
 type CreateMessageReminderResponse struct {
-	Response
+	zulip.Response
 
 	// Unique Id of the scheduled message reminder.
 	ReminderId int64 `json:"reminder_id,omitempty"`
@@ -12,8 +12,8 @@ type CreateMessageReminderResponse struct {
 
 // GetRemindersResponse struct for GetRemindersResponse
 type GetRemindersResponse struct {
-	Response
+	zulip.Response
 
 	// Returns all of the current user's undelivered reminders, ordered by `scheduled_delivery_timestamp` (ascending).
-	Reminders []Reminder `json:"reminders,omitempty"`
+	Reminders []zulip.Reminder `json:"reminders,omitempty"`
 }

@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	. "github.com/tum-zulip/go-zulip/zulip/models"
 )
 
 type APIUsers interface {
@@ -31,7 +31,7 @@ type APIUsers interface {
 	AddApnsToken(ctx context.Context) AddApnsTokenRequest
 
 	// AddApnsTokenExecute executes the request
-	AddApnsTokenExecute(r AddApnsTokenRequest) (*Response, *http.Response, error)
+	AddApnsTokenExecute(r AddApnsTokenRequest) (*zulip.Response, *http.Response, error)
 
 	// AddFcmToken Add an FCM registration token
 	//
@@ -40,7 +40,7 @@ type APIUsers interface {
 	AddFcmToken(ctx context.Context) AddFcmTokenRequest
 
 	// AddFcmTokenExecute executes the request
-	AddFcmTokenExecute(r AddFcmTokenRequest) (*Response, *http.Response, error)
+	AddFcmTokenExecute(r AddFcmTokenRequest) (*zulip.Response, *http.Response, error)
 
 	// CreateUser Create a user
 	//
@@ -90,7 +90,7 @@ type APIUsers interface {
 	DeactivateOwnUser(ctx context.Context) DeactivateOwnUserRequest
 
 	// DeactivateOwnUserExecute executes the request
-	DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*Response, *http.Response, error)
+	DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*zulip.Response, *http.Response, error)
 
 	// DeactivateUser Deactivate a user
 	//
@@ -101,7 +101,7 @@ type APIUsers interface {
 	DeactivateUser(ctx context.Context, userId int64) DeactivateUserRequest
 
 	// DeactivateUserExecute executes the request
-	DeactivateUserExecute(r DeactivateUserRequest) (*Response, *http.Response, error)
+	DeactivateUserExecute(r DeactivateUserRequest) (*zulip.Response, *http.Response, error)
 
 	// DeactivateUserGroup Deactivate a user group
 	//
@@ -119,7 +119,7 @@ type APIUsers interface {
 	DeactivateUserGroup(ctx context.Context, userGroupId int64) DeactivateUserGroupRequest
 
 	// DeactivateUserGroupExecute executes the request
-	DeactivateUserGroupExecute(r DeactivateUserGroupRequest) (*Response, *http.Response, error)
+	DeactivateUserGroupExecute(r DeactivateUserGroupRequest) (*zulip.Response, *http.Response, error)
 
 	// GetAlertWords Get all alert words
 	//
@@ -346,7 +346,7 @@ type APIUsers interface {
 	MuteUser(ctx context.Context, mutedUserId int64) MuteUserRequest
 
 	// MuteUserExecute executes the request
-	MuteUserExecute(r MuteUserRequest) (*Response, *http.Response, error)
+	MuteUserExecute(r MuteUserRequest) (*zulip.Response, *http.Response, error)
 
 	// ReactivateUser Reactivate a user
 	//
@@ -357,7 +357,7 @@ type APIUsers interface {
 	ReactivateUser(ctx context.Context, userId int64) ReactivateUserRequest
 
 	// ReactivateUserExecute executes the request
-	ReactivateUserExecute(r ReactivateUserRequest) (*Response, *http.Response, error)
+	ReactivateUserExecute(r ReactivateUserRequest) (*zulip.Response, *http.Response, error)
 
 	// RemoveAlertWords Remove alert words
 	//
@@ -379,7 +379,7 @@ type APIUsers interface {
 	RemoveApnsToken(ctx context.Context) RemoveApnsTokenRequest
 
 	// RemoveApnsTokenExecute executes the request
-	RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*Response, *http.Response, error)
+	RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*zulip.Response, *http.Response, error)
 
 	// RemoveAttachment Delete an attachment
 	//
@@ -400,7 +400,7 @@ type APIUsers interface {
 	RemoveAttachment(ctx context.Context, attachmentId int64) RemoveAttachmentRequest
 
 	// RemoveAttachmentExecute executes the request
-	RemoveAttachmentExecute(r RemoveAttachmentRequest) (*Response, *http.Response, error)
+	RemoveAttachmentExecute(r RemoveAttachmentRequest) (*zulip.Response, *http.Response, error)
 
 	// RemoveFcmToken Remove an FCM registration token
 	//
@@ -409,7 +409,7 @@ type APIUsers interface {
 	RemoveFcmToken(ctx context.Context) RemoveFcmTokenRequest
 
 	// RemoveFcmTokenExecute executes the request
-	RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response, *http.Response, error)
+	RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*zulip.Response, *http.Response, error)
 
 	// SetTypingStatus Set "typing" status
 	//
@@ -471,7 +471,7 @@ type APIUsers interface {
 	SetTypingStatus(ctx context.Context) SetTypingStatusRequest
 
 	// SetTypingStatusExecute executes the request
-	SetTypingStatusExecute(r SetTypingStatusRequest) (*Response, *http.Response, error)
+	SetTypingStatusExecute(r SetTypingStatusRequest) (*zulip.Response, *http.Response, error)
 
 	// SetTypingStatusForMessageEdit Set "typing" status for message editing
 	//
@@ -493,7 +493,7 @@ type APIUsers interface {
 	SetTypingStatusForMessageEdit(ctx context.Context, messageId int64) SetTypingStatusForMessageEditRequest
 
 	// SetTypingStatusForMessageEditExecute executes the request
-	SetTypingStatusForMessageEditExecute(r SetTypingStatusForMessageEditRequest) (*Response, *http.Response, error)
+	SetTypingStatusForMessageEditExecute(r SetTypingStatusForMessageEditRequest) (*zulip.Response, *http.Response, error)
 
 	// UnmuteUser Unmute a user
 	//
@@ -506,7 +506,7 @@ type APIUsers interface {
 	UnmuteUser(ctx context.Context, mutedUserId int64) UnmuteUserRequest
 
 	// UnmuteUserExecute executes the request
-	UnmuteUserExecute(r UnmuteUserRequest) (*Response, *http.Response, error)
+	UnmuteUserExecute(r UnmuteUserRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdatePresence Update your presence
 	//
@@ -591,7 +591,7 @@ type APIUsers interface {
 	UpdateSettings(ctx context.Context) UpdateSettingsRequest
 
 	// UpdateSettingsExecute executes the request
-	UpdateSettingsExecute(r UpdateSettingsRequest) (*Response, *http.Response, error)
+	UpdateSettingsExecute(r UpdateSettingsRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdateStatus Update your status
 	//
@@ -611,7 +611,7 @@ type APIUsers interface {
 	UpdateStatus(ctx context.Context) UpdateStatusRequest
 
 	// UpdateStatusExecute executes the request
-	UpdateStatusExecute(r UpdateStatusRequest) (*Response, *http.Response, error)
+	UpdateStatusExecute(r UpdateStatusRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdateStatusForUser Update user status
 	//
@@ -624,7 +624,7 @@ type APIUsers interface {
 	UpdateStatusForUser(ctx context.Context, userId int64) UpdateStatusForUserRequest
 
 	// UpdateStatusForUserExecute executes the request
-	UpdateStatusForUserExecute(r UpdateStatusForUserRequest) (*Response, *http.Response, error)
+	UpdateStatusForUserExecute(r UpdateStatusForUserRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdateUser Update a user
 	//
@@ -639,7 +639,7 @@ type APIUsers interface {
 	UpdateUser(ctx context.Context, userId int64) UpdateUserRequest
 
 	// UpdateUserExecute executes the request
-	UpdateUserExecute(r UpdateUserRequest) (*Response, *http.Response, error)
+	UpdateUserExecute(r UpdateUserRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdateUserByEmail Update a user by email
 	//
@@ -657,7 +657,7 @@ type APIUsers interface {
 	UpdateUserByEmail(ctx context.Context, email string) UpdateUserByEmailRequest
 
 	// UpdateUserByEmailExecute executes the request
-	UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*Response, *http.Response, error)
+	UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdateUserGroup Update a user group
 	//
@@ -682,7 +682,7 @@ type APIUsers interface {
 	UpdateUserGroup(ctx context.Context, userGroupId int64) UpdateUserGroupRequest
 
 	// UpdateUserGroupExecute executes the request
-	UpdateUserGroupExecute(r UpdateUserGroupRequest) (*Response, *http.Response, error)
+	UpdateUserGroupExecute(r UpdateUserGroupRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdateUserGroupMembers Update user group members
 	//
@@ -699,7 +699,7 @@ type APIUsers interface {
 	UpdateUserGroupMembers(ctx context.Context, userGroupId int64) UpdateUserGroupMembersRequest
 
 	// UpdateUserGroupMembersExecute executes the request
-	UpdateUserGroupMembersExecute(r UpdateUserGroupMembersRequest) (*Response, *http.Response, error)
+	UpdateUserGroupMembersExecute(r UpdateUserGroupMembersRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdateUserGroupSubgroups Update subgroups of a user group
 	//
@@ -714,11 +714,15 @@ type APIUsers interface {
 	UpdateUserGroupSubgroups(ctx context.Context, userGroupId int64) UpdateUserGroupSubgroupsRequest
 
 	// UpdateUserGroupSubgroupsExecute executes the request
-	UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroupsRequest) (*Response, *http.Response, error)
+	UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroupsRequest) (*zulip.Response, *http.Response, error)
 }
 
 type usersService struct {
 	client StructuredClient
+}
+
+func NewUsersService(client StructuredClient) *usersService {
+	return &usersService{client: client}
 }
 
 var _ APIUsers = (*usersService)(nil)
@@ -801,7 +805,7 @@ func (r AddApnsTokenRequest) Appid(appid string) AddApnsTokenRequest {
 	return r
 }
 
-func (r AddApnsTokenRequest) Execute() (*Response, *http.Response, error) {
+func (r AddApnsTokenRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.AddApnsTokenExecute(r)
 }
 
@@ -816,13 +820,13 @@ func (s *usersService) AddApnsToken(ctx context.Context) AddApnsTokenRequest {
 }
 
 // Execute executes the request
-func (s *usersService) AddApnsTokenExecute(r AddApnsTokenRequest) (*Response, *http.Response, error) {
+func (s *usersService) AddApnsTokenExecute(r AddApnsTokenRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/me/apns_device_token"
 	)
 	if r.token == nil {
@@ -858,7 +862,7 @@ func (r AddFcmTokenRequest) Token(token string) AddFcmTokenRequest {
 	return r
 }
 
-func (r AddFcmTokenRequest) Execute() (*Response, *http.Response, error) {
+func (r AddFcmTokenRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.AddFcmTokenExecute(r)
 }
 
@@ -873,13 +877,13 @@ func (s *usersService) AddFcmToken(ctx context.Context) AddFcmTokenRequest {
 }
 
 // Execute executes the request
-func (s *usersService) AddFcmTokenExecute(r AddFcmTokenRequest) (*Response, *http.Response, error) {
+func (s *usersService) AddFcmTokenExecute(r AddFcmTokenRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/me/android_gcm_reg_id"
 	)
 	if r.token == nil {
@@ -999,12 +1003,12 @@ type CreateUserGroupRequest struct {
 	description           *string
 	members               *[]int64
 	subgroups             *[]int64
-	canAddMembersGroup    *GroupSettingValue
-	canJoinGroup          *GroupSettingValue
-	canLeaveGroup         *GroupSettingValue
-	canManageGroup        *GroupSettingValue
-	canMentionGroup       *GroupSettingValue
-	canRemoveMembersGroup *GroupSettingValue
+	canAddMembersGroup    *zulip.GroupSettingValue
+	canJoinGroup          *zulip.GroupSettingValue
+	canLeaveGroup         *zulip.GroupSettingValue
+	canManageGroup        *zulip.GroupSettingValue
+	canMentionGroup       *zulip.GroupSettingValue
+	canRemoveMembersGroup *zulip.GroupSettingValue
 }
 
 // The name of the user group.
@@ -1040,7 +1044,7 @@ func (r CreateUserGroupRequest) Subgroups(subgroups []int64) CreateUserGroupRequ
 // [group-setting value]: https://zulip.com/api/group-setting-values
 //
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
-func (r CreateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSettingValue) CreateUserGroupRequest {
+func (r CreateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup zulip.GroupSettingValue) CreateUserGroupRequest {
 	r.canAddMembersGroup = &canAddMembersGroup
 	return r
 }
@@ -1052,7 +1056,7 @@ func (r CreateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSetti
 // [group-setting value]: https://zulip.com/api/group-setting-values
 //
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
-func (r CreateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValue) CreateUserGroupRequest {
+func (r CreateUserGroupRequest) CanJoinGroup(canJoinGroup zulip.GroupSettingValue) CreateUserGroupRequest {
 	r.canJoinGroup = &canJoinGroup
 	return r
 }
@@ -1064,7 +1068,7 @@ func (r CreateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValue) Cre
 // [group-setting value]: https://zulip.com/api/group-setting-values
 //
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
-func (r CreateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValue) CreateUserGroupRequest {
+func (r CreateUserGroupRequest) CanLeaveGroup(canLeaveGroup zulip.GroupSettingValue) CreateUserGroupRequest {
 	r.canLeaveGroup = &canLeaveGroup
 	return r
 }
@@ -1076,7 +1080,7 @@ func (r CreateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValue) C
 // [group-setting value]: https://zulip.com/api/group-setting-values
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
 // [manage this user group]: https://zulip.com/help/manage-user-groups
-func (r CreateUserGroupRequest) CanManageGroup(canManageGroup GroupSettingValue) CreateUserGroupRequest {
+func (r CreateUserGroupRequest) CanManageGroup(canManageGroup zulip.GroupSettingValue) CreateUserGroupRequest {
 	r.canManageGroup = &canManageGroup
 	return r
 }
@@ -1086,7 +1090,7 @@ func (r CreateUserGroupRequest) CanManageGroup(canManageGroup GroupSettingValue)
 // [group-setting value]: https://zulip.com/api/group-setting-values
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
 // [mention this user group]: https://zulip.com/help/mention-a-user-or-group
-func (r CreateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValue) CreateUserGroupRequest {
+func (r CreateUserGroupRequest) CanMentionGroup(canMentionGroup zulip.GroupSettingValue) CreateUserGroupRequest {
 	r.canMentionGroup = &canMentionGroup
 	return r
 }
@@ -1098,7 +1102,7 @@ func (r CreateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValu
 // [group-setting value]: https://zulip.com/api/group-setting-values
 //
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
-func (r CreateUserGroupRequest) CanRemoveMembersGroup(canRemoveMembersGroup GroupSettingValue) CreateUserGroupRequest {
+func (r CreateUserGroupRequest) CanRemoveMembersGroup(canRemoveMembersGroup zulip.GroupSettingValue) CreateUserGroupRequest {
 	r.canRemoveMembersGroup = &canRemoveMembersGroup
 	return r
 }
@@ -1178,7 +1182,7 @@ type DeactivateOwnUserRequest struct {
 	apiService APIUsers
 }
 
-func (r DeactivateOwnUserRequest) Execute() (*Response, *http.Response, error) {
+func (r DeactivateOwnUserRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.DeactivateOwnUserExecute(r)
 }
 
@@ -1198,13 +1202,13 @@ func (s *usersService) DeactivateOwnUser(ctx context.Context) DeactivateOwnUserR
 }
 
 // Execute executes the request
-func (s *usersService) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*Response, *http.Response, error) {
+func (s *usersService) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/me"
 	)
 
@@ -1233,7 +1237,7 @@ func (r DeactivateUserRequest) DeactivationNotificationComment(deactivationNotif
 	return r
 }
 
-func (r DeactivateUserRequest) Execute() (*Response, *http.Response, error) {
+func (r DeactivateUserRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.DeactivateUserExecute(r)
 }
 
@@ -1252,13 +1256,13 @@ func (s *usersService) DeactivateUser(ctx context.Context, userId int64) Deactiv
 }
 
 // Execute executes the request
-func (s *usersService) DeactivateUserExecute(r DeactivateUserRequest) (*Response, *http.Response, error) {
+func (s *usersService) DeactivateUserExecute(r DeactivateUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/{user_id}"
 	)
 
@@ -1283,7 +1287,7 @@ type DeactivateUserGroupRequest struct {
 	userGroupId int64
 }
 
-func (r DeactivateUserGroupRequest) Execute() (*Response, *http.Response, error) {
+func (r DeactivateUserGroupRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.DeactivateUserGroupExecute(r)
 }
 
@@ -1308,13 +1312,13 @@ func (s *usersService) DeactivateUserGroup(ctx context.Context, userGroupId int6
 }
 
 // Execute executes the request
-func (s *usersService) DeactivateUserGroupExecute(r DeactivateUserGroupRequest) (*Response, *http.Response, error) {
+func (s *usersService) DeactivateUserGroupExecute(r DeactivateUserGroupRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/user_groups/{user_group_id}/deactivate"
 	)
 
@@ -2049,7 +2053,7 @@ type MuteUserRequest struct {
 	mutedUserId int64
 }
 
-func (r MuteUserRequest) Execute() (*Response, *http.Response, error) {
+func (r MuteUserRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.MuteUserExecute(r)
 }
 
@@ -2080,13 +2084,13 @@ func (s *usersService) MuteUser(ctx context.Context, mutedUserId int64) MuteUser
 }
 
 // Execute executes the request
-func (s *usersService) MuteUserExecute(r MuteUserRequest) (*Response, *http.Response, error) {
+func (s *usersService) MuteUserExecute(r MuteUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/me/muted_users/{muted_user_id}"
 	)
 
@@ -2108,7 +2112,7 @@ type ReactivateUserRequest struct {
 	userId     int64
 }
 
-func (r ReactivateUserRequest) Execute() (*Response, *http.Response, error) {
+func (r ReactivateUserRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.ReactivateUserExecute(r)
 }
 
@@ -2127,13 +2131,13 @@ func (s *usersService) ReactivateUser(ctx context.Context, userId int64) Reactiv
 }
 
 // Execute executes the request
-func (s *usersService) ReactivateUserExecute(r ReactivateUserRequest) (*Response, *http.Response, error) {
+func (s *usersService) ReactivateUserExecute(r ReactivateUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/{user_id}/reactivate"
 	)
 
@@ -2218,7 +2222,7 @@ func (r RemoveApnsTokenRequest) Token(token string) RemoveApnsTokenRequest {
 	return r
 }
 
-func (r RemoveApnsTokenRequest) Execute() (*Response, *http.Response, error) {
+func (r RemoveApnsTokenRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.RemoveApnsTokenExecute(r)
 }
 
@@ -2233,13 +2237,13 @@ func (s *usersService) RemoveApnsToken(ctx context.Context) RemoveApnsTokenReque
 }
 
 // Execute executes the request
-func (s *usersService) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*Response, *http.Response, error) {
+func (s *usersService) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/me/apns_device_token"
 	)
 	if r.token == nil {
@@ -2265,7 +2269,7 @@ type RemoveAttachmentRequest struct {
 	attachmentId int64
 }
 
-func (r RemoveAttachmentRequest) Execute() (*Response, *http.Response, error) {
+func (r RemoveAttachmentRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.RemoveAttachmentExecute(r)
 }
 
@@ -2294,13 +2298,13 @@ func (s *usersService) RemoveAttachment(ctx context.Context, attachmentId int64)
 }
 
 // Execute executes the request
-func (s *usersService) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*Response, *http.Response, error) {
+func (s *usersService) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/attachments/{attachment_id}"
 	)
 
@@ -2328,7 +2332,7 @@ func (r RemoveFcmTokenRequest) Token(token string) RemoveFcmTokenRequest {
 	return r
 }
 
-func (r RemoveFcmTokenRequest) Execute() (*Response, *http.Response, error) {
+func (r RemoveFcmTokenRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.RemoveFcmTokenExecute(r)
 }
 
@@ -2343,13 +2347,13 @@ func (s *usersService) RemoveFcmToken(ctx context.Context) RemoveFcmTokenRequest
 }
 
 // Execute executes the request
-func (s *usersService) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response, *http.Response, error) {
+func (s *usersService) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/me/android_gcm_reg_id"
 	)
 	if r.token == nil {
@@ -2372,15 +2376,15 @@ func (s *usersService) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response
 type SetTypingStatusRequest struct {
 	ctx        context.Context
 	apiService APIUsers
-	op         *TypingStatusOp
-	type_      *RecipientType
-	to         *Recipient
+	op         *zulip.TypingStatusOp
+	type_      *zulip.RecipientType
+	to         *zulip.Recipient
 	channelId  *int64
 	topic      *string
 }
 
 // Whether the user has started (`TypingStatusOpStart`) or stopped (`TypingStatusOpStop`) typing.
-func (r SetTypingStatusRequest) Op(op TypingStatusOp) SetTypingStatusRequest {
+func (r SetTypingStatusRequest) Op(op zulip.TypingStatusOp) SetTypingStatusRequest {
 	r.op = &op
 	return r
 }
@@ -2388,7 +2392,7 @@ func (r SetTypingStatusRequest) Op(op TypingStatusOp) SetTypingStatusRequest {
 // Type of the message being composed.
 //
 // **Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to indicate a channel message is being composed.  In Zulip 8.0 (feature level 215), stopped supporting `RecipientTypePrivate` as a valid value for this parameter.  In Zulip 7.0 (feature level 174), `RecipientTypeDirect` was added as the preferred way to indicate a direct message is being composed, becoming the default value for this parameter and deprecating the original `RecipientTypePrivate`.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
-func (r SetTypingStatusRequest) Type_(type_ RecipientType) SetTypingStatusRequest {
+func (r SetTypingStatusRequest) Type_(type_ zulip.RecipientType) SetTypingStatusRequest {
 	r.type_ = &type_
 	return r
 }
@@ -2396,7 +2400,7 @@ func (r SetTypingStatusRequest) Type_(type_ RecipientType) SetTypingStatusReques
 // User Ids of the recipients of the message being typed. Required for the `"direct"` type. Ignored in the case of `"stream"` or `"channel"` type.  Clients should send a JSON-encoded list of user Ids, even if there is only one recipient.
 //
 // **Changes**: In Zulip 8.0 (feature level 215), stopped using this parameter for the `"stream"` type. Previously, in the case of the `"stream"` type, it accepted a single-element list containing the Id of the channel. A new parameter, `stream_id`, is now used for this. Note that the `"channel"` type did not exist at this feature level.  Support for typing notifications for channel' messages is new in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  Before Zulip 2.0.0, this parameter accepted only a JSON-encoded list of email addresses. Support for the email address-based format was removed in Zulip 3.0 (feature level 11).
-func (r SetTypingStatusRequest) To(to Recipient) SetTypingStatusRequest {
+func (r SetTypingStatusRequest) To(to zulip.Recipient) SetTypingStatusRequest {
 	r.to = &to
 	return r
 }
@@ -2419,7 +2423,7 @@ func (r SetTypingStatusRequest) Topic(topic string) SetTypingStatusRequest {
 	return r
 }
 
-func (r SetTypingStatusRequest) Execute() (*Response, *http.Response, error) {
+func (r SetTypingStatusRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.SetTypingStatusExecute(r)
 }
 
@@ -2469,13 +2473,13 @@ func (s *usersService) SetTypingStatus(ctx context.Context) SetTypingStatusReque
 }
 
 // Execute executes the request
-func (s *usersService) SetTypingStatusExecute(r SetTypingStatusRequest) (*Response, *http.Response, error) {
+func (s *usersService) SetTypingStatusExecute(r SetTypingStatusRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/typing"
 	)
 	if r.op == nil {
@@ -2487,7 +2491,7 @@ func (s *usersService) SetTypingStatusExecute(r SetTypingStatusRequest) (*Respon
 
 	AddOptionalParam(form, "type", r.type_)
 	AddParam(form, "op", r.op)
-	if err := AddOptionalJSONParam(form, "to", *r.to); err != nil {
+	if err := AddOptionalJSONParam(form, "to", r.to); err != nil {
 		return nil, nil, err
 	}
 	AddOptionalParam(form, "stream_id", r.channelId)
@@ -2505,16 +2509,16 @@ type SetTypingStatusForMessageEditRequest struct {
 	ctx        context.Context
 	apiService APIUsers
 	messageId  int64
-	op         *TypingStatusOp
+	op         *zulip.TypingStatusOp
 }
 
 // Whether the user has started (`TypingStatusOpStart`) or stopped (`TypingStatusOpStop`) editing.
-func (r SetTypingStatusForMessageEditRequest) Op(op TypingStatusOp) SetTypingStatusForMessageEditRequest {
+func (r SetTypingStatusForMessageEditRequest) Op(op zulip.TypingStatusOp) SetTypingStatusForMessageEditRequest {
 	r.op = &op
 	return r
 }
 
-func (r SetTypingStatusForMessageEditRequest) Execute() (*Response, *http.Response, error) {
+func (r SetTypingStatusForMessageEditRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.SetTypingStatusForMessageEditExecute(r)
 }
 
@@ -2544,13 +2548,13 @@ func (s *usersService) SetTypingStatusForMessageEdit(ctx context.Context, messag
 }
 
 // Execute executes the request
-func (s *usersService) SetTypingStatusForMessageEditExecute(r SetTypingStatusForMessageEditRequest) (*Response, *http.Response, error) {
+func (s *usersService) SetTypingStatusForMessageEditExecute(r SetTypingStatusForMessageEditRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/messages/{message_id}/typing"
 	)
 
@@ -2579,7 +2583,7 @@ type UnmuteUserRequest struct {
 	mutedUserId int64
 }
 
-func (r UnmuteUserRequest) Execute() (*Response, *http.Response, error) {
+func (r UnmuteUserRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UnmuteUserExecute(r)
 }
 
@@ -2600,13 +2604,13 @@ func (s *usersService) UnmuteUser(ctx context.Context, mutedUserId int64) Unmute
 }
 
 // Execute executes the request
-func (s *usersService) UnmuteUserExecute(r UnmuteUserRequest) (*Response, *http.Response, error) {
+func (s *usersService) UnmuteUserExecute(r UnmuteUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/me/muted_users/{muted_user_id}"
 	)
 
@@ -2625,7 +2629,7 @@ func (s *usersService) UnmuteUserExecute(r UnmuteUserRequest) (*Response, *http.
 type UpdatePresenceRequest struct {
 	ctx              context.Context
 	apiService       APIUsers
-	status           *PresenceStatus
+	status           *zulip.PresenceStatus
 	lastUpdateId     *int64
 	historyLimitDays *int32
 	newUserInput     *bool
@@ -2637,7 +2641,7 @@ type UpdatePresenceRequest struct {
 // See the related [`new_user_input`] parameter for how a client should report whether the user is actively using the Zulip client.
 //
 // [`new_user_input`]: https://zulip.com/api/update-presence#parameter-new_user_input
-func (r UpdatePresenceRequest) Status(status PresenceStatus) UpdatePresenceRequest {
+func (r UpdatePresenceRequest) Status(status zulip.PresenceStatus) UpdatePresenceRequest {
 	r.status = &status
 	return r
 }
@@ -2771,7 +2775,7 @@ type UpdateSettingsRequest struct {
 	newPassword                                    *string
 	twentyFourHourTime                             *bool
 	webMarkReadOnScrollPolicy                      *int32
-	webChannelDefaultView                          *ChannelDefaultView
+	webChannelDefaultView                          *zulip.ChannelDefaultView
 	starredMessageCounts                           *bool
 	receivesTypingNotifications                    *bool
 	webSuggestUpdateTimezone                       *bool
@@ -2779,19 +2783,19 @@ type UpdateSettingsRequest struct {
 	highContrastMode                               *bool
 	webFontSizePx                                  *int32
 	webLineHeightPercent                           *int32
-	colorScheme                                    *ColorScheme
+	colorScheme                                    *zulip.ColorScheme
 	enableDraftsSynchronization                    *bool
 	translateEmoticons                             *bool
 	displayEmojiReactionUsers                      *bool
 	defaultLanguage                                *string
-	webHomeView                                    *HomeView
+	webHomeView                                    *zulip.HomeView
 	webEscapeNavigatesToHomeView                   *bool
 	leftSideUserlist                               *bool
-	emojiset                                       *Emojiset
-	demoteInactiveChannels                         *DemoteInactiveChannels
-	userListStyle                                  *UserListStyle
-	webAnimateImagePreviews                        *WebAnimateImagePreviews
-	webChannelUnreadsCountDisplayPolicy            *UnreadsCountDisplay
+	emojiset                                       *zulip.Emojiset
+	demoteInactiveChannels                         *zulip.DemoteInactiveChannels
+	userListStyle                                  *zulip.UserListStyle
+	webAnimateImagePreviews                        *zulip.WebAnimateImagePreviews
+	webChannelUnreadsCountDisplayPolicy            *zulip.UnreadsCountDisplay
 	hideAiFeatures                                 *bool
 	webLeftSidebarShowChannelFolders               *bool
 	webLeftSidebarUnreadsCountSummary              *bool
@@ -2818,19 +2822,19 @@ type UpdateSettingsRequest struct {
 	pmContentInDesktopNotifications                *bool
 	wildcardMentionsNotify                         *bool
 	enableFollowedTopicWildcardMentionsNotify      *bool
-	desktopIconCountDisplay                        *BadgeCount
+	desktopIconCountDisplay                        *zulip.BadgeCount
 	realmNameInEmailNotificationsPolicy            *int32
-	automaticallyFollowTopicsPolicy                *TopicInteraction
-	automaticallyUnmuteTopicsInMutedChannelsPolicy *TopicInteraction
+	automaticallyFollowTopicsPolicy                *zulip.TopicInteraction
+	automaticallyUnmuteTopicsInMutedChannelsPolicy *zulip.TopicInteraction
 	automaticallyFollowTopicsWhereMentioned        *bool
-	resolvedTopicNoticeAutoReadPolicy              *ResolvedTopicNoticeAutoReadPolicy
+	resolvedTopicNoticeAutoReadPolicy              *zulip.ResolvedTopicNoticeAutoReadPolicy
 	presenceEnabled                                *bool
 	enterSends                                     *bool
 	sendPrivateTypingNotifications                 *bool
 	sendChannelTypingNotifications                 *bool
 	sendReadReceipts                               *bool
 	allowPrivateDataExport                         *bool
-	emailAddressVisibility                         *EmailVisibility
+	emailAddressVisibility                         *zulip.EmailVisibility
 	webNavigateToSentMessage                       *bool
 }
 
@@ -2886,7 +2890,7 @@ func (r UpdateSettingsRequest) WebMarkReadOnScrollPolicy(webMarkReadOnScrollPoli
 //   - ChannelDefaultViewTopUnreadTopicInChannel
 //
 // **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  The "List of topics" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
-func (r UpdateSettingsRequest) WebChannelDefaultView(webChannelDefaultView ChannelDefaultView) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) WebChannelDefaultView(webChannelDefaultView zulip.ChannelDefaultView) UpdateSettingsRequest {
 	r.webChannelDefaultView = &webChannelDefaultView
 	return r
 }
@@ -2964,7 +2968,7 @@ func (r UpdateSettingsRequest) WebLineHeightPercent(webLineHeightPercent int32) 
 // **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 //
 // [color theme]: https://zulip.com/help/dark-theme
-func (r UpdateSettingsRequest) ColorScheme(colorScheme ColorScheme) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) ColorScheme(colorScheme zulip.ColorScheme) UpdateSettingsRequest {
 	r.colorScheme = &colorScheme
 	return r
 }
@@ -3013,7 +3017,7 @@ func (r UpdateSettingsRequest) DefaultLanguage(defaultLanguage string) UpdateSet
 // **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).  Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
 //
 // [home view]: https://zulip.com/help/configure-home-view
-func (r UpdateSettingsRequest) WebHomeView(webHomeView HomeView) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) WebHomeView(webHomeView zulip.HomeView) UpdateSettingsRequest {
 	r.webHomeView = &webHomeView
 	return r
 }
@@ -3045,7 +3049,7 @@ func (r UpdateSettingsRequest) LeftSideUserlist(leftSideUserlist bool) UpdateSet
 // **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).
 //
 // [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
-func (r UpdateSettingsRequest) Emojiset(emojiset Emojiset) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) Emojiset(emojiset zulip.Emojiset) UpdateSettingsRequest {
 	r.emojiset = &emojiset
 	return r
 }
@@ -3058,7 +3062,7 @@ func (r UpdateSettingsRequest) Emojiset(emojiset Emojiset) UpdateSettingsRequest
 // **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.
 //
 // [hide inactive channels]: https://zulip.com/help/manage-inactive-channels
-func (r UpdateSettingsRequest) DemoteInactiveChannels(demoteInactiveChannels DemoteInactiveChannels) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) DemoteInactiveChannels(demoteInactiveChannels zulip.DemoteInactiveChannels) UpdateSettingsRequest {
 	r.demoteInactiveChannels = &demoteInactiveChannels
 	return r
 }
@@ -3069,7 +3073,7 @@ func (r UpdateSettingsRequest) DemoteInactiveChannels(demoteInactiveChannels Dem
 //   - UserListStyleWithAvatarAndStatus
 //
 // **Changes**: New in Zulip 6.0 (feature level 141).
-func (r UpdateSettingsRequest) UserListStyle(userListStyle UserListStyle) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) UserListStyle(userListStyle zulip.UserListStyle) UpdateSettingsRequest {
 	r.userListStyle = &userListStyle
 	return r
 }
@@ -3080,7 +3084,7 @@ func (r UpdateSettingsRequest) UserListStyle(userListStyle UserListStyle) Update
 //   - WebAnimateImagePreviewsNever
 //
 // **Changes**: New in Zulip 9.0 (feature level 275).
-func (r UpdateSettingsRequest) WebAnimateImagePreviews(webAnimateImagePreviews WebAnimateImagePreviews) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) WebAnimateImagePreviews(webAnimateImagePreviews zulip.WebAnimateImagePreviews) UpdateSettingsRequest {
 	r.webAnimateImagePreviews = &webAnimateImagePreviews
 	return r
 }
@@ -3091,7 +3095,7 @@ func (r UpdateSettingsRequest) WebAnimateImagePreviews(webAnimateImagePreviews W
 //   - UnreadsCountDisplayNoChannels
 //
 // **Changes**: New in Zulip 8.0 (feature level 210).
-func (r UpdateSettingsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnreadsCountDisplayPolicy UnreadsCountDisplay) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnreadsCountDisplayPolicy zulip.UnreadsCountDisplay) UpdateSettingsRequest {
 	r.webChannelUnreadsCountDisplayPolicy = &webChannelUnreadsCountDisplayPolicy
 	return r
 }
@@ -3313,7 +3317,7 @@ func (r UpdateSettingsRequest) EnableFollowedTopicWildcardMentionsNotify(enableF
 //   - BadgeCountNone
 //
 // **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.  Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.
-func (r UpdateSettingsRequest) DesktopIconCountDisplay(desktopIconCountDisplay BadgeCount) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) DesktopIconCountDisplay(desktopIconCountDisplay zulip.BadgeCount) UpdateSettingsRequest {
 	r.desktopIconCountDisplay = &desktopIconCountDisplay
 	return r
 }
@@ -3340,7 +3344,7 @@ func (r UpdateSettingsRequest) RealmNameInEmailNotificationsPolicy(realmNameInEm
 // **Changes**: New in Zulip 8.0 (feature level 214).
 //
 // [topics to follow automatically]: https://zulip.com/help/mute-a-topic
-func (r UpdateSettingsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy TopicInteraction) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy zulip.TopicInteraction) UpdateSettingsRequest {
 	r.automaticallyFollowTopicsPolicy = &automaticallyFollowTopicsPolicy
 	return r
 }
@@ -3354,7 +3358,7 @@ func (r UpdateSettingsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFoll
 // **Changes**: New in Zulip 8.0 (feature level 214).
 //
 // [topics to unmute automatically in muted channels]: https://zulip.com/help/mute-a-topic
-func (r UpdateSettingsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy TopicInteraction) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy zulip.TopicInteraction) UpdateSettingsRequest {
 	r.automaticallyUnmuteTopicsInMutedChannelsPolicy = &automaticallyUnmuteTopicsInMutedChannelsPolicy
 	return r
 }
@@ -3373,7 +3377,7 @@ func (r UpdateSettingsRequest) AutomaticallyFollowTopicsWhereMentioned(automatic
 //   - ResolvedTopicNoticeAutoReadPolicyNever
 //
 // **Changes**: New in Zulip 11.0 (feature level 385).
-func (r UpdateSettingsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy ResolvedTopicNoticeAutoReadPolicy) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy zulip.ResolvedTopicNoticeAutoReadPolicy) UpdateSettingsRequest {
 	r.resolvedTopicNoticeAutoReadPolicy = &resolvedTopicNoticeAutoReadPolicy
 	return r
 }
@@ -3441,7 +3445,7 @@ func (r UpdateSettingsRequest) AllowPrivateDataExport(allowPrivateDataExport boo
 //
 // [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
 // [which other users]: https://zulip.com/help/configure-email-visibility
-func (r UpdateSettingsRequest) EmailAddressVisibility(emailAddressVisibility EmailVisibility) UpdateSettingsRequest {
+func (r UpdateSettingsRequest) EmailAddressVisibility(emailAddressVisibility zulip.EmailVisibility) UpdateSettingsRequest {
 	r.emailAddressVisibility = &emailAddressVisibility
 	return r
 }
@@ -3454,7 +3458,7 @@ func (r UpdateSettingsRequest) WebNavigateToSentMessage(webNavigateToSentMessage
 	return r
 }
 
-func (r UpdateSettingsRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateSettingsRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateSettingsExecute(r)
 }
 
@@ -3505,13 +3509,13 @@ func (s *usersService) UpdateSettings(ctx context.Context) UpdateSettingsRequest
 }
 
 // Execute executes the request
-func (s *usersService) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response, *http.Response, error) {
+func (s *usersService) UpdateSettingsExecute(r UpdateSettingsRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/settings"
 	)
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
@@ -3600,7 +3604,7 @@ type UpdateStatusRequest struct {
 	away         *bool
 	emojiName    *string
 	emojiCode    *string
-	reactionType *ReactionType
+	reactionType *zulip.ReactionType
 }
 
 // The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters.
@@ -3642,12 +3646,12 @@ func (r UpdateStatusRequest) EmojiCode(emojiCode string) UpdateStatusRequest {
 //   - ReactionTypeEmpty
 //
 // **Changes**: New in Zulip 5.0 (feature level 86).
-func (r UpdateStatusRequest) ReactionType(reactionType ReactionType) UpdateStatusRequest {
+func (r UpdateStatusRequest) ReactionType(reactionType zulip.ReactionType) UpdateStatusRequest {
 	r.reactionType = &reactionType
 	return r
 }
 
-func (r UpdateStatusRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateStatusRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateStatusExecute(r)
 }
 
@@ -3674,13 +3678,13 @@ func (s *usersService) UpdateStatus(ctx context.Context) UpdateStatusRequest {
 }
 
 // Execute executes the request
-func (s *usersService) UpdateStatusExecute(r UpdateStatusRequest) (*Response, *http.Response, error) {
+func (s *usersService) UpdateStatusExecute(r UpdateStatusRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/me/status"
 	)
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
@@ -3744,7 +3748,7 @@ func (r UpdateStatusForUserRequest) ReactionType(reactionType string) UpdateStat
 	return r
 }
 
-func (r UpdateStatusForUserRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateStatusForUserRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateStatusForUserExecute(r)
 }
 
@@ -3765,13 +3769,13 @@ func (s *usersService) UpdateStatusForUser(ctx context.Context, userId int64) Up
 }
 
 // Execute executes the request
-func (s *usersService) UpdateStatusForUserExecute(r UpdateStatusForUserRequest) (*Response, *http.Response, error) {
+func (s *usersService) UpdateStatusForUserExecute(r UpdateStatusForUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/{user_id}/status"
 	)
 
@@ -3798,7 +3802,7 @@ type UpdateUserRequest struct {
 	apiService  APIUsers
 	userId      int64
 	fullName    *string
-	role        *Role
+	role        *zulip.Role
 	profileData *[]map[string]interface{}
 	newEmail    *string
 }
@@ -3816,7 +3820,7 @@ func (r UpdateUserRequest) FullName(fullName string) UpdateUserRequest {
 // **Changes**: New in Zulip 3.0 (feature level 8), replacing the previous pair of `is_admin` and `is_guest` boolean parameters. Organization moderator role added in Zulip 4.0 (feature level 60).
 //
 // [role]: https://zulip.com/api/roles-and-permissions
-func (r UpdateUserRequest) Role(role Role) UpdateUserRequest {
+func (r UpdateUserRequest) Role(role zulip.Role) UpdateUserRequest {
 	r.role = &role
 	return r
 }
@@ -3835,7 +3839,7 @@ func (r UpdateUserRequest) NewEmail(newEmail string) UpdateUserRequest {
 	return r
 }
 
-func (r UpdateUserRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateUserRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateUserExecute(r)
 }
 
@@ -3858,13 +3862,13 @@ func (s *usersService) UpdateUser(ctx context.Context, userId int64) UpdateUserR
 }
 
 // Execute executes the request
-func (s *usersService) UpdateUserExecute(r UpdateUserRequest) (*Response, *http.Response, error) {
+func (s *usersService) UpdateUserExecute(r UpdateUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/{user_id}"
 	)
 
@@ -3928,7 +3932,7 @@ func (r UpdateUserByEmailRequest) NewEmail(newEmail string) UpdateUserByEmailReq
 	return r
 }
 
-func (r UpdateUserByEmailRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateUserByEmailRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateUserByEmailExecute(r)
 }
 
@@ -3954,13 +3958,13 @@ func (s *usersService) UpdateUserByEmail(ctx context.Context, email string) Upda
 }
 
 // Execute executes the request
-func (s *usersService) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*Response, *http.Response, error) {
+func (s *usersService) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/users/{email}"
 	)
 
@@ -3988,12 +3992,12 @@ type UpdateUserGroupRequest struct {
 	userGroupId           int64
 	name                  *string
 	description           *string
-	canAddMembersGroup    *GroupSettingValueUpdate
-	canJoinGroup          *GroupSettingValueUpdate
-	canLeaveGroup         *GroupSettingValueUpdate
-	canManageGroup        *GroupSettingValueUpdate
-	canMentionGroup       *GroupSettingValueUpdate
-	canRemoveMembersGroup *GroupSettingValueUpdate
+	canAddMembersGroup    *zulip.GroupSettingValueUpdate
+	canJoinGroup          *zulip.GroupSettingValueUpdate
+	canLeaveGroup         *zulip.GroupSettingValueUpdate
+	canManageGroup        *zulip.GroupSettingValueUpdate
+	canMentionGroup       *zulip.GroupSettingValueUpdate
+	canRemoveMembersGroup *zulip.GroupSettingValueUpdate
 	deactivated           *bool
 }
 
@@ -4020,7 +4024,7 @@ func (r UpdateUserGroupRequest) Description(description string) UpdateUserGroupR
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 //
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
-func (r UpdateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
+func (r UpdateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup zulip.GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canAddMembersGroup = &canAddMembersGroup
 	return r
 }
@@ -4032,7 +4036,7 @@ func (r UpdateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup GroupSetti
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 //
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
-func (r UpdateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
+func (r UpdateUserGroupRequest) CanJoinGroup(canJoinGroup zulip.GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canJoinGroup = &canJoinGroup
 	return r
 }
@@ -4044,7 +4048,7 @@ func (r UpdateUserGroupRequest) CanJoinGroup(canJoinGroup GroupSettingValueUpdat
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 //
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
-func (r UpdateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
+func (r UpdateUserGroupRequest) CanLeaveGroup(canLeaveGroup zulip.GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canLeaveGroup = &canLeaveGroup
 	return r
 }
@@ -4056,7 +4060,7 @@ func (r UpdateUserGroupRequest) CanLeaveGroup(canLeaveGroup GroupSettingValueUpd
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
 // [manage this user group]: https://zulip.com/help/manage-user-groups
-func (r UpdateUserGroupRequest) CanManageGroup(canManageGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
+func (r UpdateUserGroupRequest) CanManageGroup(canManageGroup zulip.GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canManageGroup = &canManageGroup
 	return r
 }
@@ -4069,7 +4073,7 @@ func (r UpdateUserGroupRequest) CanManageGroup(canManageGroup GroupSettingValueU
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
 // [group-setting value]: https://zulip.com/api/group-setting-values
-func (r UpdateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
+func (r UpdateUserGroupRequest) CanMentionGroup(canMentionGroup zulip.GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canMentionGroup = &canMentionGroup
 	return r
 }
@@ -4081,7 +4085,7 @@ func (r UpdateUserGroupRequest) CanMentionGroup(canMentionGroup GroupSettingValu
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 //
 // [system groups]: https://zulip.com/api/group-setting-values#system-groups
-func (r UpdateUserGroupRequest) CanRemoveMembersGroup(canRemoveMembersGroup GroupSettingValueUpdate) UpdateUserGroupRequest {
+func (r UpdateUserGroupRequest) CanRemoveMembersGroup(canRemoveMembersGroup zulip.GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canRemoveMembersGroup = &canRemoveMembersGroup
 	return r
 }
@@ -4096,7 +4100,7 @@ func (r UpdateUserGroupRequest) Deactivated(deactivated bool) UpdateUserGroupReq
 	return r
 }
 
-func (r UpdateUserGroupRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateUserGroupRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateUserGroupExecute(r)
 }
 
@@ -4129,13 +4133,13 @@ func (s *usersService) UpdateUserGroup(ctx context.Context, userGroupId int64) U
 }
 
 // Execute executes the request
-func (s *usersService) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*Response, *http.Response, error) {
+func (s *usersService) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/user_groups/{user_group_id}"
 	)
 
@@ -4212,7 +4216,7 @@ func (r UpdateUserGroupMembersRequest) AddSubgroups(addSubgroups []int64) Update
 	return r
 }
 
-func (r UpdateUserGroupMembersRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateUserGroupMembersRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateUserGroupMembersExecute(r)
 }
 
@@ -4237,13 +4241,13 @@ func (s *usersService) UpdateUserGroupMembers(ctx context.Context, userGroupId i
 }
 
 // Execute executes the request
-func (s *usersService) UpdateUserGroupMembersExecute(r UpdateUserGroupMembersRequest) (*Response, *http.Response, error) {
+func (s *usersService) UpdateUserGroupMembersExecute(r UpdateUserGroupMembersRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/user_groups/{user_group_id}/members"
 	)
 
@@ -4285,7 +4289,7 @@ func (r UpdateUserGroupSubgroupsRequest) Add(add []int64) UpdateUserGroupSubgrou
 	return r
 }
 
-func (r UpdateUserGroupSubgroupsRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateUserGroupSubgroupsRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateUserGroupSubgroupsExecute(r)
 }
 
@@ -4308,13 +4312,13 @@ func (s *usersService) UpdateUserGroupSubgroups(ctx context.Context, userGroupId
 }
 
 // Execute executes the request
-func (s *usersService) UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroupsRequest) (*Response, *http.Response, error) {
+func (s *usersService) UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroupsRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/user_groups/{user_group_id}/subgroups"
 	)
 

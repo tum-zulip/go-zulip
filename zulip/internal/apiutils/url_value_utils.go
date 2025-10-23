@@ -19,7 +19,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/tum-zulip/go-zulip/zulip/models"
+	"github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
 )
 
@@ -94,7 +94,7 @@ func PrepareRequest(
 
 	basePath, err := c.ServerURL()
 	if err != nil {
-		return nil, models.NewAPIError(nil, err.Error(), nil)
+		return nil, zulip.NewAPIError(nil, err.Error(), nil)
 	}
 
 	path := basePath + endpoint
@@ -195,7 +195,7 @@ func PrepareRequest(
 	}
 
 	// Add the user agent to the request.
-	localVarRequest.Header.Add("User-Agent", c.UserAgent())
+	localVarRequest.Header.Add("User-Agent", c.GetUserAgent())
 
 	if ctx != nil {
 		// add context to the request

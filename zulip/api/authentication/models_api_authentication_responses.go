@@ -1,9 +1,11 @@
 package authentication
 
-import . "github.com/tum-zulip/go-zulip/zulip/models"
+import (
+	"github.com/tum-zulip/go-zulip/zulip"
+)
 
 type ApiKeyResponse struct {
-	Response
+	zulip.Response
 
 	// The API key that can be used to authenticate as the requested user.
 	ApiKey string `json:"api_key"`

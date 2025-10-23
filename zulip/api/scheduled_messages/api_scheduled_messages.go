@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	. "github.com/tum-zulip/go-zulip/zulip/models"
 )
 
 type APIScheduledMessages interface {
@@ -42,7 +42,7 @@ type APIScheduledMessages interface {
 	DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest
 
 	// DeleteScheduledMessageExecute executes the request
-	DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*Response, *http.Response, error)
+	DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*zulip.Response, *http.Response, error)
 
 	// GetScheduledMessages Get scheduled messages
 	//
@@ -70,11 +70,15 @@ type APIScheduledMessages interface {
 	UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest
 
 	// UpdateScheduledMessageExecute executes the request
-	UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*Response, *http.Response, error)
+	UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*zulip.Response, *http.Response, error)
 }
 
 type scheduledMessagesService struct {
 	client StructuredClient
+}
+
+func NewScheduledMessagesService(client StructuredClient) *scheduledMessagesService {
+	return &scheduledMessagesService{client: client}
 }
 
 var _ APIScheduledMessages = (*scheduledMessagesService)(nil)
@@ -82,8 +86,8 @@ var _ APIScheduledMessages = (*scheduledMessagesService)(nil)
 type CreateScheduledMessageRequest struct {
 	ctx                        context.Context
 	apiService                 APIScheduledMessages
-	recipientType              *RecipientType
-	to                         *Recipient
+	recipientType              *zulip.RecipientType
+	to                         *zulip.Recipient
 	content                    *string
 	scheduledDeliveryTimestamp *int64
 	topic                      *string
@@ -95,12 +99,12 @@ type CreateScheduledMessageRequest struct {
 // Note that, while `RecipientTypePrivate` is supported for scheduling direct messages, clients are encouraged to use to the modern convention of `RecipientTypeDirect` to indicate this message type, because support for `RecipientTypePrivate` may eventually be removed.
 //
 // **Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to indicate the type of a channel message.
-func (r CreateScheduledMessageRequest) RecipientType(recipientType RecipientType) CreateScheduledMessageRequest {
+func (r CreateScheduledMessageRequest) RecipientType(recipientType zulip.RecipientType) CreateScheduledMessageRequest {
 	r.recipientType = &recipientType
 	return r
 }
 
-func (r CreateScheduledMessageRequest) To(to Recipient) CreateScheduledMessageRequest {
+func (r CreateScheduledMessageRequest) To(to zulip.Recipient) CreateScheduledMessageRequest {
 	r.to = &to
 	return r
 }
@@ -210,7 +214,7 @@ type DeleteScheduledMessageRequest struct {
 	scheduledMessageId int64
 }
 
-func (r DeleteScheduledMessageRequest) Execute() (*Response, *http.Response, error) {
+func (r DeleteScheduledMessageRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.DeleteScheduledMessageExecute(r)
 }
 
@@ -230,13 +234,13 @@ func (s *scheduledMessagesService) DeleteScheduledMessage(ctx context.Context, s
 }
 
 // Execute executes the request
-func (s *scheduledMessagesService) DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*Response, *http.Response, error) {
+func (s *scheduledMessagesService) DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/scheduled_messages/{scheduled_message_id}"
 	)
 
@@ -305,7 +309,7 @@ type UpdateScheduledMessageRequest struct {
 	apiService                 APIScheduledMessages
 	scheduledMessageId         int64
 	recipientType              *string
-	to                         *Recipient
+	to                         *zulip.Recipient
 	content                    *string
 	topic                      *string
 	scheduledDeliveryTimestamp *int64
@@ -319,7 +323,7 @@ func (r UpdateScheduledMessageRequest) RecipientType(recipientType string) Updat
 	return r
 }
 
-func (r UpdateScheduledMessageRequest) To(to Recipient) UpdateScheduledMessageRequest {
+func (r UpdateScheduledMessageRequest) To(to zulip.Recipient) UpdateScheduledMessageRequest {
 	r.to = &to
 	return r
 }
@@ -352,7 +356,7 @@ func (r UpdateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliv
 	return r
 }
 
-func (r UpdateScheduledMessageRequest) Execute() (*Response, *http.Response, error) {
+func (r UpdateScheduledMessageRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.UpdateScheduledMessageExecute(r)
 }
 
@@ -372,13 +376,13 @@ func (s *scheduledMessagesService) UpdateScheduledMessage(ctx context.Context, s
 }
 
 // Execute executes the request
-func (s *scheduledMessagesService) UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*Response, *http.Response, error) {
+func (s *scheduledMessagesService) UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/scheduled_messages/{scheduled_message_id}"
 	)
 

@@ -1,11 +1,11 @@
 package navigation_views
 
-import . "github.com/tum-zulip/go-zulip/zulip/models"
+import "github.com/tum-zulip/go-zulip/zulip"
 
 // GetNavigationViewsResponse struct for GetNavigationViewsResponse
 type GetNavigationViewsResponse struct {
-	Response
+	zulip.Response
 
 	// An array of dictionaries containing the user's navigation views.
-	NavigationViews []NavigationView `json:"navigation_views,omitempty"`
+	NavigationViews []zulip.NavigationView `json:"navigation_views,omitempty"`
 }

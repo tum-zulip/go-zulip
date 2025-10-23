@@ -8,25 +8,29 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/tum-zulip/go-zulip/zulip"
 	z "github.com/tum-zulip/go-zulip/zulip"
+	"github.com/tum-zulip/go-zulip/zulip/api/drafts"
+	"github.com/tum-zulip/go-zulip/zulip/client"
+	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
 func Test_DraftsAPIService(t *testing.T) {
 	t.Parallel()
 
-	t.Run("CreateDrafts", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("CreateDrafts", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		draft := createDraft(t, ctx, apiClient)
 		assert.NotZero(t, draft.Id)
 	}))
 
-	t.Run("CreateSavedSnippet", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("CreateSavedSnippet", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(t, ctx, apiClient)
 		assert.NotZero(t, snippet.SavedSnippetId)
 	}))
 
-	t.Run("DeleteDraft", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("DeleteDraft", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		draft := createDraft(t, ctx, apiClient)
 
@@ -45,7 +49,7 @@ func Test_DraftsAPIService(t *testing.T) {
 		}
 	}))
 
-	t.Run("DeleteSavedSnippet", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("DeleteSavedSnippet", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(t, ctx, apiClient)
 
@@ -61,14 +65,14 @@ func Test_DraftsAPIService(t *testing.T) {
 		}
 	}))
 
-	t.Run("EditDraft", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("EditDraft", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		draft := createDraft(t, ctx, apiClient)
 
 		updatedDraft := *draft
 		updatedDraft.Id = nil // ID is passed as path param, not in body
-		updatedDraft.Topic = uniqueName("draft-topic")
-		updatedDraft.Content = fmt.Sprintf("updated draft content %s", uniqueName("draft"))
+		updatedDraft.Topic = UniqueName("draft-topic")
+		updatedDraft.Content = fmt.Sprintf("updated draft content %s", UniqueName("draft"))
 
 		resp, httpRes, err := apiClient.EditDraft(ctx, *draft.Id).
 			Draft(updatedDraft).
@@ -76,7 +80,7 @@ func Test_DraftsAPIService(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 		assert.Equal(t, "success", resp.Result)
 
 		draftsResp, _, err := apiClient.GetDrafts(ctx).Execute()
@@ -95,12 +99,12 @@ func Test_DraftsAPIService(t *testing.T) {
 		assert.True(t, found, "Updated draft not found in draft list")
 	}))
 
-	t.Run("EditSavedSnippet", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("EditSavedSnippet", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(t, ctx, apiClient)
 
-		newTitle := uniqueName("snippet-title-updated")
-		newContent := fmt.Sprintf("updated content %s", uniqueName("snippet"))
+		newTitle := UniqueName("snippet-title-updated")
+		newContent := fmt.Sprintf("updated content %s", UniqueName("snippet"))
 
 		resp, httpRes, err := apiClient.EditSavedSnippet(ctx, snippet.SavedSnippetId).
 			Title(newTitle).
@@ -109,7 +113,7 @@ func Test_DraftsAPIService(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 		assert.Equal(t, "success", resp.Result)
 
 		snippetsResp, _, err := apiClient.GetSavedSnippets(ctx).Execute()
@@ -127,7 +131,7 @@ func Test_DraftsAPIService(t *testing.T) {
 		assert.True(t, found, "Updated saved snippet not found in list")
 	}))
 
-	t.Run("GetDrafts", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("GetDrafts", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		draft := createDraft(t, ctx, apiClient)
 
@@ -135,7 +139,7 @@ func Test_DraftsAPIService(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 		assert.GreaterOrEqual(t, len(resp.Drafts), 1)
 
 		found := false
@@ -150,7 +154,7 @@ func Test_DraftsAPIService(t *testing.T) {
 		assert.True(t, found, "Created draft not found in list of drafts")
 	}))
 
-	t.Run("GetSavedSnippets", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("GetSavedSnippets", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(t, ctx, apiClient)
 
@@ -158,7 +162,7 @@ func Test_DraftsAPIService(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 		assert.GreaterOrEqual(t, len(resp.SavedSnippets), 1)
 
 		found := false
@@ -171,17 +175,17 @@ func Test_DraftsAPIService(t *testing.T) {
 	}))
 }
 
-func createDraft(t *testing.T, ctx context.Context, apiClient z.Client) *z.Draft {
+func createDraft(t *testing.T, ctx context.Context, apiClient client.Client) *z.Draft {
 	t.Helper()
 
-	userId := getOwnUserId(t, apiClient)
-	_, channelId := createRandomChannel(t, apiClient, userId)
+	userId := GetUserId(t, apiClient)
+	_, channelId := CreateRandomChannel(t, apiClient, userId)
 
 	draft := &z.Draft{
 		Type:    z.RecipientTypeChannel,
 		To:      z.ChannelAsRecipient(channelId),
-		Topic:   uniqueName("draft-topic"),
-		Content: fmt.Sprintf("draft content %s", uniqueName("draft")),
+		Topic:   UniqueName("draft-topic"),
+		Content: fmt.Sprintf("draft content %s", UniqueName("draft")),
 		// in the past to avoid any clock skew issues
 		Timestamp: time.Now().Add(-1 * time.Minute),
 	}
@@ -192,7 +196,7 @@ func createDraft(t *testing.T, ctx context.Context, apiClient z.Client) *z.Draft
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 	require.NotEmpty(t, resp.Ids)
 
 	draftId := resp.Ids[0]
@@ -202,23 +206,23 @@ func createDraft(t *testing.T, ctx context.Context, apiClient z.Client) *z.Draft
 	return draft
 }
 
-func deleteDraft(t *testing.T, ctx context.Context, apiClient z.Client, draftId int64) *z.Response {
+func deleteDraft(t *testing.T, ctx context.Context, apiClient client.Client, draftId int64) *zulip.Response {
 	t.Helper()
 
 	resp, httpRes, err := apiClient.DeleteDraft(ctx, draftId).Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 
 	return resp
 }
 
-func createSavedSnippet(t *testing.T, ctx context.Context, apiClient z.Client) *z.CreateSavedSnippetResponse {
+func createSavedSnippet(t *testing.T, ctx context.Context, apiClient client.Client) *drafts.CreateSavedSnippetResponse {
 	t.Helper()
 
-	title := uniqueName("snippet-title")
-	content := fmt.Sprintf("snippet content %s", uniqueName("snippet"))
+	title := UniqueName("snippet-title")
+	content := fmt.Sprintf("snippet content %s", UniqueName("snippet"))
 
 	resp, httpRes, err := apiClient.CreateSavedSnippet(ctx).
 		Title(title).
@@ -227,19 +231,19 @@ func createSavedSnippet(t *testing.T, ctx context.Context, apiClient z.Client) *
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 
 	return resp
 }
 
-func deleteSavedSnippet(t *testing.T, ctx context.Context, apiClient z.Client, savedSnippetId int64) *z.Response {
+func deleteSavedSnippet(t *testing.T, ctx context.Context, apiClient client.Client, savedSnippetId int64) *zulip.Response {
 	t.Helper()
 
 	resp, httpRes, err := apiClient.DeleteSavedSnippet(ctx, savedSnippetId).Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 
 	return resp
 }

@@ -9,8 +9,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	. "github.com/tum-zulip/go-zulip/zulip/models"
 )
 
 type APIMessages interface {
@@ -23,7 +23,7 @@ type APIMessages interface {
 	AddReaction(ctx context.Context, messageId int64) AddReactionRequest
 
 	// AddReactionExecute executes the request
-	AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error)
+	AddReactionExecute(r AddReactionRequest) (*zulip.Response, *http.Response, error)
 
 	// CheckMessagesMatchNarrow Check if messages match a narrow
 	//
@@ -65,7 +65,7 @@ type APIMessages interface {
 	DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest
 
 	// DeleteMessageExecute executes the request
-	DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error)
+	DeleteMessageExecute(r DeleteMessageRequest) (*zulip.Response, *http.Response, error)
 
 	// GetFileTemporaryUrl Get public temporary URL
 	//
@@ -230,7 +230,7 @@ type APIMessages interface {
 
 	// MarkChannelAsReadExecute executes the request
 	// Deprecated
-	MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Response, *http.Response, error)
+	MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*zulip.Response, *http.Response, error)
 
 	// MarkTopicAsRead Mark messages in a topic as read
 	//
@@ -247,7 +247,7 @@ type APIMessages interface {
 
 	// MarkTopicAsReadExecute executes the request
 	// Deprecated
-	MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error)
+	MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*zulip.Response, *http.Response, error)
 
 	// RemoveReaction Remove an emoji reaction
 	//
@@ -257,7 +257,7 @@ type APIMessages interface {
 	RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest
 
 	// RemoveReactionExecute executes the request
-	RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error)
+	RemoveReactionExecute(r RemoveReactionRequest) (*zulip.Response, *http.Response, error)
 
 	// RenderMessage Render a message
 	//
@@ -288,7 +288,7 @@ type APIMessages interface {
 	ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest
 
 	// ReportMessageExecute executes the request
-	ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error)
+	ReportMessageExecute(r ReportMessageRequest) (*zulip.Response, *http.Response, error)
 
 	// SendMessage Send a message
 	//
@@ -468,6 +468,10 @@ type messagesService struct {
 	client StructuredClient
 }
 
+func NewMessagesService(client StructuredClient) *messagesService {
+	return &messagesService{client: client}
+}
+
 var _ APIMessages = (*messagesService)(nil)
 
 type AddReactionRequest struct {
@@ -507,7 +511,7 @@ func (r AddReactionRequest) ReactionType(reactionType string) AddReactionRequest
 	return r
 }
 
-func (r AddReactionRequest) Execute() (*Response, *http.Response, error) {
+func (r AddReactionRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.AddReactionExecute(r)
 }
 
@@ -525,13 +529,13 @@ func (s *messagesService) AddReaction(ctx context.Context, messageId int64) AddR
 }
 
 // Execute executes the request
-func (s *messagesService) AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error) {
+func (s *messagesService) AddReactionExecute(r AddReactionRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/messages/{message_id}/reactions"
 	)
 
@@ -560,7 +564,7 @@ type CheckMessagesMatchNarrowRequest struct {
 	ctx        context.Context
 	apiService APIMessages
 	msgIds     *[]int64
-	narrow     *Narrow
+	narrow     *zulip.Narrow
 }
 
 // List of Ids for the messages to check.
@@ -575,7 +579,7 @@ func (r CheckMessagesMatchNarrowRequest) MsgIds(msgIds []int64) CheckMessagesMat
 //
 // [construct a narrow]: https://zulip.com/api/construct-narrow
 // [changes section]: https://zulip.com/api/construct-narrow#changes
-func (r CheckMessagesMatchNarrowRequest) Narrow(narrow *Narrow) CheckMessagesMatchNarrowRequest {
+func (r CheckMessagesMatchNarrowRequest) Narrow(narrow *zulip.Narrow) CheckMessagesMatchNarrowRequest {
 	r.narrow = narrow
 	return r
 }
@@ -649,7 +653,7 @@ type DeleteMessageRequest struct {
 	messageId  int64
 }
 
-func (r DeleteMessageRequest) Execute() (*Response, *http.Response, error) {
+func (r DeleteMessageRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.DeleteMessageExecute(r)
 }
 
@@ -671,13 +675,13 @@ func (s *messagesService) DeleteMessage(ctx context.Context, messageId int64) De
 }
 
 // Execute executes the request
-func (s *messagesService) DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error) {
+func (s *messagesService) DeleteMessageExecute(r DeleteMessageRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/messages/{message_id}"
 	)
 
@@ -892,7 +896,7 @@ type GetMessagesRequest struct {
 	includeAnchor        *bool
 	numBefore            *int32
 	numAfter             *int32
-	narrow               *Narrow
+	narrow               *zulip.Narrow
 	clientGravatar       *bool
 	applyMarkdown        *bool
 	useFirstUnreadAnchor *bool
@@ -935,7 +939,7 @@ func (r GetMessagesRequest) NumAfter(numAfter int32) GetMessagesRequest {
 // [construct a narrow]: https://zulip.com/api/construct-narrow
 // [searching shared history]: https://zulip.com/help/search-for-messages#search-shared-history
 // [changes section]: https://zulip.com/api/construct-narrow#changes
-func (r GetMessagesRequest) Narrow(narrow *Narrow) GetMessagesRequest {
+func (r GetMessagesRequest) Narrow(narrow *zulip.Narrow) GetMessagesRequest {
 	r.narrow = narrow
 	return r
 }
@@ -1199,7 +1203,7 @@ func (r MarkChannelAsReadRequest) ChannelId(channelId int64) MarkChannelAsReadRe
 	return r
 }
 
-func (r MarkChannelAsReadRequest) Execute() (*Response, *http.Response, error) {
+func (r MarkChannelAsReadRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.MarkChannelAsReadExecute(r)
 }
 
@@ -1223,13 +1227,13 @@ func (s *messagesService) MarkChannelAsRead(ctx context.Context) MarkChannelAsRe
 // Execute executes the request
 //
 // Deprecated
-func (s *messagesService) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Response, *http.Response, error) {
+func (s *messagesService) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/mark_stream_as_read"
 	)
 	if r.channelId == nil {
@@ -1272,7 +1276,7 @@ func (r MarkTopicAsReadRequest) TopicName(topicName string) MarkTopicAsReadReque
 	return r
 }
 
-func (r MarkTopicAsReadRequest) Execute() (*Response, *http.Response, error) {
+func (r MarkTopicAsReadRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.MarkTopicAsReadExecute(r)
 }
 
@@ -1296,13 +1300,13 @@ func (s *messagesService) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRe
 // Execute executes the request
 //
 // Deprecated
-func (s *messagesService) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error) {
+func (s *messagesService) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/mark_topic_as_read"
 	)
 	if r.channelId == nil {
@@ -1332,7 +1336,7 @@ type RemoveReactionRequest struct {
 	messageId    int64
 	emojiName    *string
 	emojiCode    *string
-	reactionType *ReactionType
+	reactionType *zulip.ReactionType
 }
 
 // The target emoji's human-readable name.  To find an emoji's name, hover over a message to reveal three icons on the right, then click the smiley face icon. Images of available reaction emojis appear. Hover over the emoji you want, and note that emoji's text name.
@@ -1358,12 +1362,12 @@ func (r RemoveReactionRequest) EmojiCode(emojiCode string) RemoveReactionRequest
 // **Changes**: In Zulip 3.0 (feature level 2), this parameter became optional for [custom emoji]; previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.
 //
 // [custom emoji]: https://zulip.com/help/custom-emoji
-func (r RemoveReactionRequest) ReactionType(reactionType ReactionType) RemoveReactionRequest {
+func (r RemoveReactionRequest) ReactionType(reactionType zulip.ReactionType) RemoveReactionRequest {
 	r.reactionType = &reactionType
 	return r
 }
 
-func (r RemoveReactionRequest) Execute() (*Response, *http.Response, error) {
+func (r RemoveReactionRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.RemoveReactionExecute(r)
 }
 
@@ -1381,13 +1385,13 @@ func (s *messagesService) RemoveReaction(ctx context.Context, messageId int64) R
 }
 
 // Execute executes the request
-func (s *messagesService) RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error) {
+func (s *messagesService) RemoveReactionExecute(r RemoveReactionRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/messages/{message_id}/reactions"
 	)
 
@@ -1483,7 +1487,7 @@ func (r ReportMessageRequest) Description(description string) ReportMessageReque
 	return r
 }
 
-func (r ReportMessageRequest) Execute() (*Response, *http.Response, error) {
+func (r ReportMessageRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.ReportMessageExecute(r)
 }
 
@@ -1512,13 +1516,13 @@ func (s *messagesService) ReportMessage(ctx context.Context, messageId int64) Re
 }
 
 // Execute executes the request
-func (s *messagesService) ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error) {
+func (s *messagesService) ReportMessageExecute(r ReportMessageRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/messages/{message_id}/report"
 	)
 
@@ -1545,8 +1549,8 @@ func (s *messagesService) ReportMessageExecute(r ReportMessageRequest) (*Respons
 type SendMessageRequest struct {
 	ctx           context.Context
 	apiService    APIMessages
-	recipientType *RecipientType
-	to            *Recipient
+	recipientType *zulip.RecipientType
+	to            *zulip.Recipient
 	content       *string
 	topic         *string
 	queueId       *string
@@ -1557,12 +1561,12 @@ type SendMessageRequest struct {
 // The type of message to be sent.  `RecipientTypeDirect` for a direct message and `RecipientTypeStream` or `RecipientTypeChannel` for a channel message.
 //
 // **Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to request a channel message.  In Zulip 7.0 (feature level 174), `RecipientTypeDirect` was added as the preferred way to request a direct message, deprecating the original `RecipientTypePrivate`. While `RecipientTypePrivate` is still supported for requesting direct messages, clients are encouraged to use to the modern convention with servers that support it, because support for `RecipientTypePrivate` will eventually be removed.
-func (r SendMessageRequest) RecipientType(recipientType RecipientType) SendMessageRequest {
+func (r SendMessageRequest) RecipientType(recipientType zulip.RecipientType) SendMessageRequest {
 	r.recipientType = &recipientType
 	return r
 }
 
-func (r SendMessageRequest) To(to Recipient) SendMessageRequest {
+func (r SendMessageRequest) To(to zulip.Recipient) SendMessageRequest {
 	r.to = &to
 	return r
 }
@@ -1959,7 +1963,7 @@ type UpdateMessageFlagsForNarrowRequest struct {
 	anchor        *string
 	numBefore     *int32
 	numAfter      *int32
-	narrow        *Narrow
+	narrow        *zulip.Narrow
 	op            *string
 	flag          *string
 	includeAnchor *bool
@@ -1989,7 +1993,7 @@ func (r UpdateMessageFlagsForNarrowRequest) NumAfter(numAfter int32) UpdateMessa
 //
 // [construct a narrow]: https://zulip.com/api/construct-narrow
 // [changes section]: https://zulip.com/api/construct-narrow#changes
-func (r UpdateMessageFlagsForNarrowRequest) Narrow(narrow *Narrow) UpdateMessageFlagsForNarrowRequest {
+func (r UpdateMessageFlagsForNarrowRequest) Narrow(narrow *zulip.Narrow) UpdateMessageFlagsForNarrowRequest {
 	r.narrow = narrow
 	return r
 }

@@ -3,23 +3,23 @@ package real_time_events
 import (
 	"encoding/json"
 
-	. "github.com/tum-zulip/go-zulip/zulip/models"
+	"github.com/tum-zulip/go-zulip/zulip"
 )
 
 // GetEventsResponse struct for GetEventsResponse
 type GetEventsResponse struct {
-	Response
+	zulip.Response
 
 	// An array of `event` objects (possibly zero-length if `dont_block` is set) with Ids newer than `last_event_id`. Event Ids are guaranteed to be increasing, but they are not guaranteed to be consecutive.
-	Events []Event `json:"events,omitempty"`
+	Events []zulip.Event `json:"events,omitempty"`
 	// The Id of the registered queue.
 	QueueId string `json:"queue_id,omitempty"`
 }
 
 type getEventsResponseJSON struct {
-	Response
-	Events  []EventEnvelope `json:"events,omitempty"`
-	QueueId string          `json:"queue_id,omitempty"`
+	zulip.Response
+	Events  []zulip.EventEnvelope `json:"events,omitempty"`
+	QueueId string                `json:"queue_id,omitempty"`
 }
 
 func (r *GetEventsResponse) UnmarshalJSON(data []byte) error {
@@ -29,7 +29,7 @@ func (r *GetEventsResponse) UnmarshalJSON(data []byte) error {
 	}
 	r.Response = temp.Response
 	r.QueueId = temp.QueueId
-	r.Events = make([]Event, len(temp.Events))
+	r.Events = make([]zulip.Event, len(temp.Events))
 	for i := range temp.Events {
 		r.Events[i] = temp.Events[i].Event
 	}
@@ -38,7 +38,7 @@ func (r *GetEventsResponse) UnmarshalJSON(data []byte) error {
 
 // RegisterQueueResponse struct for RegisterQueueResponse
 type RegisterQueueResponse struct {
-	Response
+	zulip.Response
 
 	// The Id of the queue that has been allocated for your client.  Will be `null` only for unauthenticated access in realms that have enabled the [public access option].
 	//
@@ -69,7 +69,7 @@ type RegisterQueueResponse struct {
 	// [alert word]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 	AlertWords []string `json:"alert_words,omitempty"`
 	// Present if `custom_profile_fields` is present in `fetch_event_types`.  An array of dictionaries where each dictionary contains the details of a single custom profile field that is available to users in this Zulip organization. This must be combined with the custom profile field values on individual user objects to display users' profiles.
-	CustomProfileFields []CustomProfileField `json:"custom_profile_fields,omitempty"`
+	CustomProfileFields []zulip.CustomProfileField `json:"custom_profile_fields,omitempty"`
 	// Present if `custom_profile_fields` is present in `fetch_event_types`.  An array of objects; each object describes a type of custom profile field that could be configured on this Zulip server. Each custom profile type has an Id and the `type` property of a custom profile field is equal to one of these Ids.  This attribute is only useful for clients containing UI for changing the set of configured custom profile fields in a Zulip organization.
 	CustomProfileFieldTypes map[string]CustomProfileFieldType `json:"custom_profile_field_types,omitempty"`
 
@@ -78,11 +78,11 @@ type RegisterQueueResponse struct {
 	// **Changes**: New in Zulip 5.0 (feature level 94).
 	DemoOrganizationScheduledDeletionDate int64 `json:"demo_organization_scheduled_deletion_date,omitempty"`
 	// An array containing draft objects for the user. These drafts are being stored on the backend for the purpose of syncing across devices. This array will be empty if `enable_drafts_synchronization` is set to `false`.
-	Drafts []Draft `json:"drafts,omitempty"`
+	Drafts []zulip.Draft `json:"drafts,omitempty"`
 	// Present if `onboarding_steps` is present in `fetch_event_types`.  An array of dictionaries, where each dictionary contains details about a single onboarding step that should be shown to the user.  We expect that only official Zulip clients will interact with this data.
 	//
 	// **Changes**: Before Zulip 8.0 (feature level 233), this array was named `hotspots`. Prior to this feature level, one-time notice onboarding steps were not supported, and the `type` field in these objects did not exist as all onboarding steps were implicitly hotspots.
-	OnboardingSteps []OnboardingStep `json:"onboarding_steps,omitempty"`
+	OnboardingSteps []zulip.OnboardingStep `json:"onboarding_steps,omitempty"`
 	// Present if `onboarding_steps` is present in `fetch_event_types`.  URL of the navigation tour video to display to new users during onboarding. If `null`, the onboarding video experience is disabled.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 369).
@@ -98,11 +98,11 @@ type RegisterQueueResponse struct {
 	// Present if `scheduled_messages` is present in `fetch_event_types`.  An array of all undelivered scheduled messages by the user.
 	//
 	// **Changes**: New in Zulip 7.0 (feature level 179).
-	ScheduledMessages []ScheduledMessage `json:"scheduled_messages,omitempty"`
+	ScheduledMessages []zulip.ScheduledMessage `json:"scheduled_messages,omitempty"`
 	// Present if `reminders` is present in `fetch_event_types`.  An array of all undelivered reminders scheduled by the user.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 399).
-	Reminders []ScheduledMessage `json:"reminders,omitempty"`
+	Reminders []zulip.ScheduledMessage `json:"reminders,omitempty"`
 	// Present if `muted_topics` is present in `fetch_event_types`.  Array of tuples, where each tuple describes a muted topic. The first element of the tuple is the channel name in which the topic has to be muted, the second element is the topic name to be muted and the third element is an integer UNIX timestamp representing when the topic was muted.
 	//
 	// **Changes**: Deprecated in Zulip 6.0 (feature level 134). Starting with this version, `muted_topics` will only be present in the response if the `user_topic` object, which generalizes and replaces this field, is not explicitly requested via `fetch_event_types`.  Before Zulip 3.0 (feature level 1), the `muted_topics` array objects were 2-item tuples and did not include the timestamp information for when the topic was muted.
@@ -113,11 +113,11 @@ type RegisterQueueResponse struct {
 	// **Changes**: New in Zulip 4.0 (feature level 48).
 	//
 	// [muted user]: https://zulip.com/api/mute-user
-	MutedUsers []MutedUser `json:"muted_users,omitempty"`
+	MutedUsers []zulip.MutedUser `json:"muted_users,omitempty"`
 	// Present if `presence` is present in `fetch_event_types`.  A dictionary where each entry describes the presence details of a user in the Zulip organization.  The format of the entry (modern or legacy) depends on the value of [`slim_presence`].  Users who have been offline for multiple weeks may not appear in this object.
 	//
 	// [`slim_presence`]: https://zulip.com/api/register-queue#parameter-slim_presence
-	Presences map[string]PresenceUpdateValue `json:"presences,omitempty"`
+	Presences map[string]zulip.PresenceUpdateValue `json:"presences,omitempty"`
 	// Present if `presence` is present in `fetch_event_types`.  Provides the `last_update_id` value of the latest presence data fetched by the server and included in the response in `presences`. This can be used as the value of the `presence_last_update_id` parameter when polling for presence data at the [/users/me/presence] endpoint to tell the server to only fetch the relevant newer data in order to skip redundant already-known presence information.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 263).
@@ -129,9 +129,9 @@ type RegisterQueueResponse struct {
 	// **Changes**: New in Zulip 5.0 (feature level 70).
 	ServerTimestamp *float32 `json:"server_timestamp,omitempty"`
 	// Present if `realm_domains` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a domain within which users can join the organization without and invitation.
-	RealmDomains []RealmDomain `json:"realm_domains,omitempty"`
+	RealmDomains []zulip.RealmDomain `json:"realm_domains,omitempty"`
 	// Present if `realm_emoji` is present in `fetch_event_types`.  A dictionary of objects where each object describes a custom emoji that has been uploaded in this Zulip organization.
-	RealmEmoji map[string]RealmEmoji `json:"realm_emoji,omitempty"`
+	RealmEmoji map[string]zulip.RealmEmoji `json:"realm_emoji,omitempty"`
 	// Present if `realm_linkifiers` is present in `fetch_event_types`.  An ordered array of objects where each object describes a single [linkifier].  The order of the array reflects the order that each linkifier should be processed when linkifying messages and topics. By default, new linkifiers are ordered last. This order can be modified with [`PATCH /realm/linkifiers`].  Clients will receive an empty array unless the event queue is registered with the client capability `{"linkifier_url_template": true}`. See [`client_capabilities`], the `linkifier_url_template` client capability was not required. The requirement was added because linkifiers were updated to contain a URL template instead of a URL format string, which was a not backwards-compatible change.  New in Zulip 4.0 (feature level 54). Clients can access this data for servers on earlier feature levels via the legacy `realm_filters` property.
 	//
 	// [linkifier]: https://zulip.com/help/add-a-custom-linkifier
@@ -139,7 +139,7 @@ type RegisterQueueResponse struct {
 	// [`client_capabilities`]: https://zulip.com/api/register-queue#parameter-client_capabilities parameter for how this can be specified.
 	//
 	// **Changes**: Before Zulip 7.0 (feature level 176
-	RealmLinkifiers []RealmLinkifiers `json:"realm_linkifiers,omitempty"`
+	RealmLinkifiers []zulip.RealmLinkifiers `json:"realm_linkifiers,omitempty"`
 	// Legacy property for [linkifiers]. Present if `realm_filters` is present in `fetch_event_types`.  When present, this is always an empty array.
 	//
 	// **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `"#(?P<id>[123])"`. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be `"https://realm.com/my_realm_filter/%(id)s"`. And the third element was the Id of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the `realm_linkifiers` key.
@@ -152,15 +152,15 @@ type RegisterQueueResponse struct {
 	// **Changes**: New in Zulip 4.0 (feature level 49).
 	//
 	// [code playground]: https://zulip.com/help/code-blocks#code-playgrounds
-	RealmPlaygrounds []RealmPlayground `json:"realm_playgrounds,omitempty"`
+	RealmPlaygrounds []zulip.RealmPlayground `json:"realm_playgrounds,omitempty"`
 	// Present if `realm_user_groups` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a [user group] in the Zulip organization.  Deactivated groups will only be included if `include_deactivated_groups` client capability is set to `true`.
 	//
 	// **Changes**: Prior to Zulip 10.0 (feature level 294), deactivated groups were included for all the clients.
 	//
 	// [user group]: https://zulip.com/help/user-groups
-	RealmUserGroups []UserGroup `json:"realm_user_groups,omitempty"`
+	RealmUserGroups []zulip.UserGroup `json:"realm_user_groups,omitempty"`
 	// Present if `realm_bot` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a bot that the current user can administer. If the current user is an organization administrator, this will include all bots in the organization. Otherwise, it will only include bots owned by the user (either because the user created the bot or an administrator transferred the bot's ownership to the user).
-	RealmBots []Bot `json:"realm_bots,omitempty"`
+	RealmBots []zulip.Bot `json:"realm_bots,omitempty"`
 	// Present if `realm_embedded_bots` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes an type of embedded bot that is available to be configured on this Zulip server.  Clients only need these data if they contain UI for creating or administering bots.
 	RealmEmbeddedBots []RealmEmbeddedBots `json:"realm_embedded_bots,omitempty"`
 	// Present if `realm_incoming_webhook_bots` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes a type of incoming webhook integration that is available to be configured on this Zulip server.  Clients only need these data if they contain UI for creating or administering bots.
@@ -170,28 +170,28 @@ type RegisterQueueResponse struct {
 	// Present if `navigation_views` is present in `fetch_event_types`. An array of dictionaries containing data on all of the current user's navigation views.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 390).
-	NavigationViews []NavigationView `json:"navigation_views,omitempty"`
+	NavigationViews []zulip.NavigationView `json:"navigation_views,omitempty"`
 	// Present if `saved_snippets` is present in `fetch_event_types`.  An array of dictionaries containing data on all of the current user's saved snippets.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 297).
-	SavedSnippets []SavedSnippet `json:"saved_snippets,omitempty"`
+	SavedSnippets []zulip.SavedSnippet `json:"saved_snippets,omitempty"`
 	// Present if `subscription` is present in `fetch_event_types`.  A array of dictionaries where each dictionary describes the properties of a channel the user is subscribed to (as well as that user's personal per-channel settings).
 	//
 	// **Changes**: Removed `email_address` field from the dictionary in Zulip 8.0 (feature level 226).  Removed `role` field from the dictionary in Zulip 6.0 (feature level 133).
-	Subscriptions []Subscription `json:"subscriptions,omitempty"`
+	Subscriptions []zulip.Subscription `json:"subscriptions,omitempty"`
 	// Present if `subscription` is present in `fetch_event_types`.  A array of dictionaries where each dictionary describes one of the channels the user has unsubscribed from but was previously subscribed to along with the subscription details.  Unlike `never_subscribed`, the user might have messages in their personal message history that were sent to these channels.
 	//
 	// **Changes**: Prior to Zulip 10.0 (feature level 349), if a user was in `can_administer_channel_group` of a channel that they had unsubscribed from, but not an organization administrator, the channel in question would not be part of this array.  Removed `email_address` field from the dictionary in Zulip 8.0 (feature level 226).  Removed `role` field from the dictionary in Zulip 6.0 (feature level 133).
-	Unsubscribed []Subscription `json:"unsubscribed,omitempty"`
+	Unsubscribed []zulip.Subscription `json:"unsubscribed,omitempty"`
 	// Present if `subscription` is present in `fetch_event_types`.  A array of dictionaries where each dictionary describes one of the channels that is visible to the user and the user has never been subscribed to.  Important for clients containing UI where one can browse channels to subscribe to.
 	//
 	// **Changes**: Before Zulip 10.0 (feature level 362), archived channels did not appear in this list, even if the `archived_channels` [client capability] was declared by the client.  Prior to Zulip 10.0 (feature level 349), if a user was in `can_administer_channel_group` of a channel that they never subscribed to, but not an organization administrator, the channel in question would not be part of this array.
-	NeverSubscribed []Channel `json:"never_subscribed,omitempty"`
+	NeverSubscribed []zulip.Channel `json:"never_subscribed,omitempty"`
 	// Present if `channel_folders` is present in `fetch_event_types`.  An array of dictionaries where each dictionary describes one of the channel folders in the organization.  Only channel folders with one or more public web channels are visible to spectators.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 389).
-	ChannelFolders []ChannelFolder `json:"channel_folders,omitempty"`
-	UnreadMsgs     *UnreadMsgs     `json:"unread_msgs,omitempty"`
+	ChannelFolders []zulip.ChannelFolder `json:"channel_folders,omitempty"`
+	UnreadMsgs     *UnreadMsgs           `json:"unread_msgs,omitempty"`
 	// Present if `starred_messages` is present in `fetch_event_types`.  Array containing the Ids of all messages which have been [starred] by the user.
 	//
 	// [starred]: https://zulip.com/help/star-a-message
@@ -199,7 +199,7 @@ type RegisterQueueResponse struct {
 	// Present if `stream` is present in `fetch_event_types`.  Array of dictionaries where each dictionary contains details about a single channel in the organization that is visible to the user.  For organization administrators, this will include all private channels in the organization.
 	//
 	// **Changes**: Before Zulip 11.0 (feature level 378), archived channels did not appear in this list, even if the `archived_channels` [client capability] was declared by the client.  As of Zulip 8.0 (feature level 205), this will include all web-public channels in the organization as well.
-	Channels []Channel `json:"streams,omitempty"`
+	Channels []zulip.Channel `json:"streams,omitempty"`
 	// Present if `default_streams` is present in `fetch_event_types`.  An array of Ids of all the [default channels] in the organization.
 	//
 	// **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
@@ -207,7 +207,7 @@ type RegisterQueueResponse struct {
 	// [default channels]: https://zulip.com/help/set-default-streams-for-new-users
 	RealmDefaultChannels []int64 `json:"realm_default_streams,omitempty"`
 	// Present if `default_stream_groups` is present in `fetch_event_types`.  An array of dictionaries where each dictionary contains details about a single default channel group configured for this Zulip organization.  Default channel groups are an experimental feature.
-	RealmDefaultChannelGroups []DefaultChannelGroup `json:"realm_default_stream_groups,omitempty"`
+	RealmDefaultChannelGroups []zulip.DefaultChannelGroup `json:"realm_default_stream_groups,omitempty"`
 	// Present if `stop_words` is present in `fetch_event_types`.  An array containing the stop words used by the Zulip server's full-text search implementation. Useful for showing helpful error messages when a search returns limited results because a stop word in the query was ignored.
 	StopWords []string `json:"stop_words,omitempty"`
 	// Present if `user_status` is present in `fetch_event_types`.  A dictionary which contains the [status] of all users in the Zulip organization who have set a status.
@@ -215,12 +215,12 @@ type RegisterQueueResponse struct {
 	// **Changes**: The emoji parameters are new in Zulip 5.0 (feature level 86). Previously, Zulip did not support emoji associated with statuses.
 	//
 	// [status]: https://zulip.com/help/status-and-availability
-	UserStatus   map[string]UserStatus `json:"user_status,omitempty"`
-	UserSettings *UserSettings         `json:"user_settings,omitempty"`
+	UserStatus   map[string]zulip.UserStatus `json:"user_status,omitempty"`
+	UserSettings *zulip.UserSettings         `json:"user_settings,omitempty"`
 	// Present if `user_topic` is present in `fetch_event_types`.
 	//
 	// **Changes**: New in Zulip 6.0 (feature level 134), deprecating and replacing the previous `muted_topics` structure.
-	UserTopics []UserTopic `json:"user_topics,omitempty"`
+	UserTopics []zulip.UserTopic `json:"user_topics,omitempty"`
 	// Present if `video_calls` is present in `fetch_event_types`.  A boolean which signifies whether the user has a Zoom token and has thus completed OAuth flow for the [Zoom integration]. Clients need to know whether initiating Zoom OAuth is required before creating a Zoom call.
 	//
 	// [Zoom integration]: https://zulip.com/help/configure-call-provider
@@ -254,7 +254,7 @@ type RegisterQueueResponse struct {
 	//
 	// [`client_capabilities`]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// [PATCH /settings]: https://zulip.com/api/update-settings
-	UpdateDisplaySettings *DisplaySettings `json:"update_display_settings,omitempty"`
+	UpdateDisplaySettings *zulip.DisplaySettings `json:"update_display_settings,omitempty"`
 
 	// Present if `realm_user` is present in `fetch_event_types`.
 	RealmUser *RealmUser
@@ -263,10 +263,10 @@ type RegisterQueueResponse struct {
 	// **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.
 	// Deprecated
 	// [`client_capabilities`]: https://zulip.com/api/register-queue#parameter-client_capabilities
-	GlobalNotifications *GlobalNotifications
+	GlobalNotifications *zulip.GlobalNotifications
 
 	// Present if `realm` is present in `fetch_event_types`.
-	Realm *Realm
+	Realm *zulip.Realm
 }
 
 // RealmIncomingWebhookBot Object containing details of the bot.
@@ -372,11 +372,11 @@ type RealmUser struct {
 	// A array of dictionaries where each entry describes a user whose account has not been deactivated. Note that unlike the usual User dictionary, this does not contain the `is_active` key, as all the users present in this array have active accounts.  If the current user is a guest whose access to users is limited by a `can_access_all_users_group` policy, and the event queue was registered with the `user_list_incomplete` client capability, then users that the current user cannot access will not be included in this array. If the current user's access to a user is restricted but the client lacks this capability, then that inaccessible user will appear in the users array as an "Unknown user" object with the usual format but placeholder data whose only variable content is the user Id.  See also `cross_realm_bots` and `realm_non_active_users`.
 	//
 	// **Changes**: Before Zulip 8.0 (feature level 232), the `user_list_incomplete` client capability did not exist, and so all clients whose access to a new user was prevented by `can_access_all_users_group` policy would receive a fake "Unknown user" event for such users.
-	RealmUsers []User `json:"realm_users,omitempty"`
+	RealmUsers []zulip.User `json:"realm_users,omitempty"`
 	// A array of dictionaries where each entry describes a user whose account has been deactivated. Note that unlike the usual User dictionary this does not contain the `is_active` key as all the users present in this array have deactivated accounts.
-	RealmNonActiveUsers []User `json:"realm_non_active_users,omitempty"`
+	RealmNonActiveUsers []zulip.User `json:"realm_non_active_users,omitempty"`
 
-	Avatar
+	zulip.Avatar
 
 	// Whether the current user is allowed to create at least one type of channel with the organization's [channel creation policy]. Its value will always equal `can_create_public_streams || can_create_private_streams`.
 	//
@@ -441,7 +441,7 @@ type RealmUser struct {
 	// The full name of the current user.
 	FullName string `json:"full_name,omitempty"`
 	// Array of dictionaries where each dictionary contains details of a single cross realm bot. Cross-realm bots are special system bot accounts like Notification Bot.  Most clients will want to combine this with `realm_users` in many contexts.
-	CrossRealmBots []User `json:"cross_realm_bots,omitempty"`
+	CrossRealmBots []zulip.User `json:"cross_realm_bots,omitempty"`
 }
 
 // CustomProfileFieldType `{FIELD_TYPE}`: Dictionary which contains the details of the field type with the field type as the name of the property itself. The current supported field types are as follows:  - `SHORT_TEXT` - `LONG_TEXT` - `DATE` for date-based fields. - `SELECT` for a list of options. - `URL` for links. - `EXTERNAL_ACCOUNT` for external accounts. - `USER` for selecting a user for the field. - `PRONOUNS` for a short text field with convenient typeahead for one's preferred pronouns.

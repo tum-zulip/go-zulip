@@ -19,9 +19,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/utils"
-	. "github.com/tum-zulip/go-zulip/zulip/models"
+
 	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
 )
 
@@ -53,9 +54,57 @@ type APIClient struct {
 	ApiVersion string
 }
 
+type Option func(*APIClient)
+
+func WithAPISuffix(suffix string) Option {
+	return func(c *APIClient) {
+		c.ApiSuffix = suffix
+	}
+}
+
+func WithAPIVersion(version string) Option {
+	return func(c *APIClient) {
+		c.ApiVersion = version
+	}
+}
+
+func WithLogger(logger *slog.Logger) Option {
+	return func(c *APIClient) {
+		if logger == nil {
+			c.Logger = slog.Default()
+			return
+		}
+		c.Logger = logger
+	}
+}
+
+func WithMaxRetries(maxRetries int) Option {
+	return func(c *APIClient) {
+		c.MaxRetries = maxRetries
+	}
+}
+
+func WithHTTPClient(httpClient *http.Client) Option {
+	return func(c *APIClient) {
+		c.HttpClient = httpClient
+	}
+}
+
+func WithClientName(name string) Option {
+	return func(c *APIClient) {
+		c.ClientName = name
+	}
+}
+
+func SkipWarnOnInsecureTLS() Option {
+	return func(c *APIClient) {
+		c.InsecureWarning = false
+	}
+}
+
 // NewSimpleClient creates a new API client. Requires a userAgent string describing your application.
 // optionally a custom http.Client to allow for advanced features such as caching.
-func NewAPIClient(zuliprc *zuliprc.ZulipRC) (*APIClient, error) {
+func NewAPIClient(zuliprc *zuliprc.ZulipRC, options ...Option) (*APIClient, error) {
 
 	client := &APIClient{
 		Cfg:             zuliprc,
@@ -67,9 +116,9 @@ func NewAPIClient(zuliprc *zuliprc.ZulipRC) (*APIClient, error) {
 		Logger:          slog.Default(),
 	}
 
-	// for _, option := range options {
-	// 	option(client)
-	// }
+	for _, option := range options {
+		option(client)
+	}
 
 	httpClient, userAgent, err := buildHTTPClient(zuliprc, client.Logger, client.InsecureWarning)
 	if err != nil {
@@ -82,7 +131,7 @@ func NewAPIClient(zuliprc *zuliprc.ZulipRC) (*APIClient, error) {
 	return client, nil
 }
 
-func (c *APIClient) ServerURL() (string, error) {
+func (c APIClient) ServerURL() (string, error) {
 	if c.Cfg.Site != "" {
 		return fmt.Sprintf("%s/%s/%s", c.Cfg.Site, c.ApiSuffix, c.ApiVersion), nil
 	}
@@ -188,14 +237,14 @@ func (c *APIClient) GetZulipRC() *zuliprc.ZulipRC {
 	return c.Cfg
 }
 
-func (c *APIClient) CallAPI(ctx context.Context, req *http.Request, responseModel ResponseModel) (httpResp *http.Response, err error) {
+func (c APIClient) CallAPI(ctx context.Context, req *http.Request, responseModel ResponseModel) (httpResp *http.Response, err error) {
 	retryForever := c.MaxRetries == retryIndefinitely
 
 	for i := 0; retryForever || i <= c.MaxRetries; i++ {
 		httpResp, err = c.doHTTPCallAndParseResponse(ctx, req, responseModel)
 		if httpResp != nil && httpResp.StatusCode == http.StatusTooManyRequests {
-			if apiErr, ok := err.(APIError); ok {
-				if rateLimitedError, ok := apiErr.Model().(RateLimitedError); ok {
+			if apiErr, ok := err.(zulip.APIError); ok {
+				if rateLimitedError, ok := apiErr.Model().(zulip.RateLimitedError); ok {
 					slog.DebugContext(ctx, "hit API rate-limit", "retry-after", rateLimitedError.RetryAfter)
 					time.Sleep(rateLimitedError.RetryAfter)
 					continue
@@ -206,6 +255,10 @@ func (c *APIClient) CallAPI(ctx context.Context, req *http.Request, responseMode
 	}
 	slog.DebugContext(ctx, "hit max retires", "max-retires", c.MaxRetries)
 	return httpResp, ErrMaxRetriesReached
+}
+
+func (c APIClient) GetUserAgent() string {
+	return c.UserAgent
 }
 
 func (c *APIClient) doHTTPCallAndParseResponse(ctx context.Context, req *http.Request, responseModel ResponseModel) (*http.Response, error) {
@@ -225,12 +278,12 @@ func (c *APIClient) doHTTPCallAndParseResponse(ctx context.Context, req *http.Re
 	}
 
 	if httpResp.StatusCode >= 300 {
-		return httpResp, c.handleErrorResponse(ctx, httpResp)
+		return httpResp, c.handleErrorResponse(ctx, httpResp.StatusCode, body)
 	}
 
 	err = c.decode(responseModel, body, httpResp.Header.Get("Content-Type"))
 	if err != nil {
-		return httpResp, NewAPIError(body, err.Error(), nil)
+		return httpResp, zulip.NewAPIError(body, err.Error(), nil)
 	}
 
 	c.handleUnsupportedParameters(ctx, responseModel.GetIgnoredParametersUnsupported())
@@ -316,71 +369,73 @@ func (c *APIClient) handleUnsupportedParameters(ctx context.Context, parameters 
 	}
 }
 
-func tryUnmarshalErrorModel[T any](data []byte) (*T, error) {
+func tryUnmarshalErrorModel[T any](data []byte) (T, error) {
 	var model T
 	dec := NewStrictDecoder(data)
 	err := dec.Decode(&model)
 	if err != nil {
-		return nil, err
+		return model, err
 	}
 	if reflect.ValueOf(model).IsZero() {
-		return nil, errors.New("no data")
+		return model, errors.New("no data")
 	}
-	return &model, nil
+	return model, nil
 }
 
-func (c *APIClient) handleErrorResponse(ctx context.Context, resp *http.Response) error {
+func (c *APIClient) handleErrorResponse(ctx context.Context, status int, body []byte) error {
 	var model interface{}
 	var err error
 
-	body, err := io.ReadAll(resp.Body)
+	contentType := http.DetectContentType(body)
+	if strings.HasPrefix(contentType, "text/html") {
+		return zulip.NewAPIError(body, fmt.Sprintf("status %d: %s", status, string(body)), nil)
+	}
+
+	model, err = tryUnmarshalErrorModel[zulip.CodedError](body)
 	if err != nil {
-		return NewAPIError(nil, fmt.Errorf("failed to read response body: %w", err).Error(), nil)
-	}
-
-	switch resp.StatusCode {
-	case http.StatusTooManyRequests:
-		model, err = tryUnmarshalErrorModel[RateLimitedError](body)
-	case http.StatusBadRequest:
-		model, err = tryUnmarshalErrorModel[BadEventQueueIdError](body)
-		if err == nil {
-			break
+		switch status {
+		case http.StatusTooManyRequests:
+			model, err = tryUnmarshalErrorModel[zulip.RateLimitedError](body)
+		case http.StatusBadRequest:
+			fallthrough
+		case http.StatusNotFound:
+			model, err = tryUnmarshalErrorModel[zulip.BadEventQueueIdError](body)
+			if err == nil {
+				break
+			}
+			model, err = tryUnmarshalErrorModel[zulip.BadNarrowError](body)
+			if err == nil {
+				break
+			}
+			model, err = tryUnmarshalErrorModel[zulip.IncompatibleParametersError](body)
+			if err == nil {
+				break
+			}
+			model, err = tryUnmarshalErrorModel[zulip.MissingArgumentError](body)
+			if err == nil {
+				break
+			}
+			model, err = tryUnmarshalErrorModel[zulip.NonExistingChannelIdError](body)
+			if err == nil {
+				break
+			}
+			model, err = tryUnmarshalErrorModel[zulip.InvitationFailedError](body)
+			if err == nil {
+				break
+			}
+			model, err = tryUnmarshalErrorModel[zulip.NonExistingChannelNameError](body)
+			if err == nil {
+				break
+			}
 		}
-
-		model, err = tryUnmarshalErrorModel[IncompatibleParametersError](body)
-		if err == nil {
-			break
-		}
-		model, err = tryUnmarshalErrorModel[MissingArgumentError](body)
-		if err == nil {
-			break
-		}
-	case http.StatusNotFound:
-		model, err = tryUnmarshalErrorModel[NonExistingChannelIdError](body)
-		if err == nil {
-			break
-		}
-
-		model, err = tryUnmarshalErrorModel[InvitationFailedError](body)
-		if err == nil {
-			break
-		}
-		model, err = tryUnmarshalErrorModel[NonExistingChannelNameError](body)
-		if err == nil {
-			break
-		}
-	}
-
-	if model == nil {
-		model, err = tryUnmarshalErrorModel[CodedError](body)
 	}
 
 	if err != nil {
-		slog.WarnContext(ctx, "API returned an unknown error response", "status", resp.StatusCode, "body", string(body), "model", model)
-		return NewAPIError(body, fmt.Sprintf("status %d: %s", resp.StatusCode, string(body)), nil)
+		slog.WarnContext(ctx, "API returned an unknown error response", "status", status, "body", string(body), "model", model)
+		return zulip.NewAPIError(body, fmt.Sprintf("status %d: %s", status, string(body)), nil)
 	}
+	return zulip.NewAPIError(body, fmt.Sprintf("status %d: %s", status, string(body)), model)
 
-	return NewAPIError(body, fmt.Sprintf("status %d: %s", resp.StatusCode, http.StatusText(resp.StatusCode)), model)
 }
 
 func normalizePath(pathStr string) (string, error) {

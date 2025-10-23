@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	. "github.com/tum-zulip/go-zulip/zulip/models"
 )
 
 type APINavigationViews interface {
@@ -26,7 +26,7 @@ type APINavigationViews interface {
 	AddNavigationView(ctx context.Context) AddNavigationViewRequest
 
 	// AddNavigationViewExecute executes the request
-	AddNavigationViewExecute(r AddNavigationViewRequest) (*Response, *http.Response, error)
+	AddNavigationViewExecute(r AddNavigationViewRequest) (*zulip.Response, *http.Response, error)
 
 	// EditNavigationView Update the navigation view
 	//
@@ -38,7 +38,7 @@ type APINavigationViews interface {
 	EditNavigationView(ctx context.Context, fragment string) EditNavigationViewRequest
 
 	// EditNavigationViewExecute executes the request
-	EditNavigationViewExecute(r EditNavigationViewRequest) (*Response, *http.Response, error)
+	EditNavigationViewExecute(r EditNavigationViewRequest) (*zulip.Response, *http.Response, error)
 
 	// GetNavigationViews Get all navigation views
 	//
@@ -60,11 +60,15 @@ type APINavigationViews interface {
 	RemoveNavigationView(ctx context.Context, fragment string) RemoveNavigationViewRequest
 
 	// RemoveNavigationViewExecute executes the request
-	RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*Response, *http.Response, error)
+	RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*zulip.Response, *http.Response, error)
 }
 
 type navigationViewsService struct {
 	client StructuredClient
+}
+
+func NewNavigationViewsService(client StructuredClient) *navigationViewsService {
+	return &navigationViewsService{client: client}
 }
 
 var _ APINavigationViews = (*navigationViewsService)(nil)
@@ -95,7 +99,7 @@ func (r AddNavigationViewRequest) Name(name string) AddNavigationViewRequest {
 	return r
 }
 
-func (r AddNavigationViewRequest) Execute() (*Response, *http.Response, error) {
+func (r AddNavigationViewRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.AddNavigationViewExecute(r)
 }
 
@@ -116,13 +120,13 @@ func (s *navigationViewsService) AddNavigationView(ctx context.Context) AddNavig
 }
 
 // Execute executes the request
-func (s *navigationViewsService) AddNavigationViewExecute(r AddNavigationViewRequest) (*Response, *http.Response, error) {
+func (s *navigationViewsService) AddNavigationViewExecute(r AddNavigationViewRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/navigation_views"
 	)
 	if r.fragment == nil {
@@ -167,7 +171,7 @@ func (r EditNavigationViewRequest) Name(name string) EditNavigationViewRequest {
 	return r
 }
 
-func (r EditNavigationViewRequest) Execute() (*Response, *http.Response, error) {
+func (r EditNavigationViewRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.EditNavigationViewExecute(r)
 }
 
@@ -186,13 +190,13 @@ func (s *navigationViewsService) EditNavigationView(ctx context.Context, fragmen
 }
 
 // Execute executes the request
-func (s *navigationViewsService) EditNavigationViewExecute(r EditNavigationViewRequest) (*Response, *http.Response, error) {
+func (s *navigationViewsService) EditNavigationViewExecute(r EditNavigationViewRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/navigation_views/{fragment}"
 	)
 
@@ -260,7 +264,7 @@ type RemoveNavigationViewRequest struct {
 	fragment   string
 }
 
-func (r RemoveNavigationViewRequest) Execute() (*Response, *http.Response, error) {
+func (r RemoveNavigationViewRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.RemoveNavigationViewExecute(r)
 }
 
@@ -278,13 +282,13 @@ func (s *navigationViewsService) RemoveNavigationView(ctx context.Context, fragm
 }
 
 // Execute executes the request
-func (s *navigationViewsService) RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*Response, *http.Response, error) {
+func (s *navigationViewsService) RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/navigation_views/{fragment}"
 	)
 

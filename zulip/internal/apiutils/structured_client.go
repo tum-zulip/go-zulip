@@ -12,5 +12,5 @@ type ResponseModel interface {
 type StructuredClient interface {
 	CallAPI(ctx context.Context, req *http.Request, responseModel ResponseModel) (httpResp *http.Response, err error)
 	ServerURL() (string, error)
-	UserAgent() string
+	GetUserAgent() string
 }

@@ -14,47 +14,49 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	z "github.com/tum-zulip/go-zulip/zulip"
+	"github.com/tum-zulip/go-zulip/zulip/client"
+	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
 func Test_ServerAndOrganizationsAPIService(t *testing.T) {
 	t.Parallel()
 
-	t.Run("GetServerSettings", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("GetServerSettings", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetServerSettings(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 		assert.NotEmpty(t, resp.RealmName)
 		assert.NotEmpty(t, resp.RealmUrl)
 	}))
 
-	t.Run("CodePlaygrounds", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("CodePlaygrounds", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		testCodePlaygroundLifecycle(t, ctx, apiClient)
 	}))
 
-	t.Run("Linkifiers", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("Linkifiers", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		testLinkifierLifecycle(t, ctx, apiClient)
 	}))
 
-	t.Run("CustomProfileFields", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("CustomProfileFields", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		testCustomProfileFieldManagement(t, ctx, apiClient)
 	}))
 
-	t.Run("Presence", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("Presence", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetPresence(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 
 		presences := resp.Presences
 		assert.NotEmpty(t, presences)
@@ -63,43 +65,43 @@ func Test_ServerAndOrganizationsAPIService(t *testing.T) {
 		}
 	}))
 
-	t.Run("RealmExports", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("RealmExports", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		testRealmExports(t, ctx, apiClient)
 	}))
 
-	t.Run("WelcomeBotPreview", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("WelcomeBotPreview", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.TestWelcomeBotCustomMessage(ctx).
-			WelcomeMessageCustomText(fmt.Sprintf("Welcome preview from automated test %s", uniqueName("welcome"))).
+			WelcomeMessageCustomText(fmt.Sprintf("Welcome preview from automated test %s", UniqueName("welcome"))).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 		assert.Greater(t, resp.MessageId, int64(0))
 	}))
 
-	t.Run("RealmUserSettingsDefaults", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("RealmUserSettingsDefaults", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.UpdateRealmUserSettingsDefaults(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 		assert.Equal(t, "success", resp.Result)
 	}))
 
-	t.Run("CustomEmojiLifecycle", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("CustomEmojiLifecycle", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		testCustomEmojiLifecycle(t, ctx, apiClient)
 	}))
 }
 
-func testCodePlaygroundLifecycle(t *testing.T, ctx context.Context, apiClient z.Client) {
-	name := fmt.Sprintf("Playground %s", uniqueName("code"))
+func testCodePlaygroundLifecycle(t *testing.T, ctx context.Context, apiClient client.Client) {
+	name := fmt.Sprintf("Playground %s", UniqueName("code"))
 	resp, httpRes, err := apiClient.AddCodePlayground(ctx).
 		Name(name).
 		PygmentsLanguage("python").
@@ -107,7 +109,7 @@ func testCodePlaygroundLifecycle(t *testing.T, ctx context.Context, apiClient z.
 		Execute()
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 
 	playgroundId := resp.Id
 	removed := false
@@ -124,13 +126,13 @@ func testCodePlaygroundLifecycle(t *testing.T, ctx context.Context, apiClient z.
 	removeResp, removeHTTP, err := apiClient.RemoveCodePlayground(ctx, playgroundId).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, removeResp)
-	requireStatusOK(t, removeHTTP)
+	RequireStatusOK(t, removeHTTP)
 	assert.Equal(t, "success", removeResp.Result)
 	removed = true
 }
 
-func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient z.Client) {
-	pattern := fmt.Sprintf("test-%s-(?P<id>[0-9]+)", uniqueName("linkifier"))
+func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient client.Client) {
+	pattern := fmt.Sprintf("test-%s-(?P<id>[0-9]+)", UniqueName("linkifier"))
 	urlTemplate := "https://z.example/issues/{id}"
 
 	addResp, httpRes, err := apiClient.AddLinkifier(ctx).
@@ -139,7 +141,7 @@ func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient z.Clien
 		Execute()
 	require.NoError(t, err)
 	require.NotNil(t, addResp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 
 	linkifierId := addResp.Id
 	removed := false
@@ -156,7 +158,7 @@ func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient z.Clien
 	listResp, httpRes, err := apiClient.GetLinkifiers(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, listResp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 
 	linkifiers := listResp.Linkifiers
 	require.NotEmpty(t, linkifiers)
@@ -169,13 +171,13 @@ func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient z.Clien
 		Execute()
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 	assert.Equal(t, "success", updateResp.Result)
 
 	updatedListResp, httpRes, err := apiClient.GetLinkifiers(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, updatedListResp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 	assert.True(t, linkifierExists(updatedListResp.Linkifiers, linkifierId, pattern, updatedTemplate), "updated linkifier missing or incorrect")
 
 	originalOrder := extractlinkifierIds(updatedListResp.Linkifiers)
@@ -186,7 +188,7 @@ func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient z.Clien
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, reorderResp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 		assert.Equal(t, "success", reorderResp.Result)
 
 		restoreResp, httpRes, err := apiClient.ReorderLinkifiers(ctx).
@@ -194,25 +196,25 @@ func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient z.Clien
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, restoreResp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 		assert.Equal(t, "success", restoreResp.Result)
 	}
 
 	removeResp, removeHTTP, err := apiClient.RemoveLinkifier(ctx, linkifierId).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, removeResp)
-	requireStatusOK(t, removeHTTP)
+	RequireStatusOK(t, removeHTTP)
 	assert.Equal(t, "success", removeResp.Result)
 	removed = true
 }
 
-func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClient z.Client) {
+func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClient client.Client) {
 	const fieldName = "API Test Profile Field"
 
 	listResp, httpRes, err := apiClient.GetCustomProfileFields(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, listResp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 
 	fields := listResp.CustomFields
 	var fieldId int64
@@ -233,13 +235,13 @@ func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClie
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, createResp)
-		requireStatusOK(t, createHTTP)
+		RequireStatusOK(t, createHTTP)
 		fieldId = createResp.Id
 
 		listResp, httpRes, err = apiClient.GetCustomProfileFields(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, listResp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 		fields = listResp.CustomFields
 	}
 
@@ -254,7 +256,7 @@ func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClie
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, reorderResp)
-		requireStatusOK(t, reorderHTTP)
+		RequireStatusOK(t, reorderHTTP)
 		assert.Equal(t, "success", reorderResp.Result)
 
 		restoreResp, restoreHTTP, err := apiClient.ReorderCustomProfileFields(ctx).
@@ -262,21 +264,21 @@ func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClie
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, restoreResp)
-		requireStatusOK(t, restoreHTTP)
+		RequireStatusOK(t, restoreHTTP)
 		assert.Equal(t, "success", restoreResp.Result)
 	}
 }
 
-func testRealmExports(t *testing.T, ctx context.Context, apiClient z.Client) {
+func testRealmExports(t *testing.T, ctx context.Context, apiClient client.Client) {
 	consentsResp, httpRes, err := apiClient.GetRealmExportConsents(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, consentsResp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 
 	exportsResp, httpRes, err := apiClient.GetRealmExports(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, exportsResp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 	assert.NotNil(t, exportsResp.Exports)
 
 	exportResp, httpRes, err := apiClient.ExportRealm(ctx).Execute()
@@ -287,11 +289,11 @@ func testRealmExports(t *testing.T, ctx context.Context, apiClient z.Client) {
 	}
 	require.NoError(t, err)
 	require.NotNil(t, exportResp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 }
 
-func testCustomEmojiLifecycle(t *testing.T, ctx context.Context, apiClient z.Client) {
-	emojiName := strings.ToLower(uniqueName("emoji"))
+func testCustomEmojiLifecycle(t *testing.T, ctx context.Context, apiClient client.Client) {
+	emojiName := strings.ToLower(UniqueName("emoji"))
 	emojiFile := newEmojiPNG(t)
 
 	uploadResp, httpRes, err := apiClient.UploadCustomEmoji(ctx, emojiName).
@@ -299,13 +301,13 @@ func testCustomEmojiLifecycle(t *testing.T, ctx context.Context, apiClient z.Cli
 		Execute()
 	require.NoError(t, err)
 	require.NotNil(t, uploadResp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 	assert.Equal(t, "success", uploadResp.Result)
 
 	listResp, httpRes, err := apiClient.GetCustomEmoji(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, listResp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 
 	currentEmoji := findEmojiByName(listResp.Emoji, emojiName)
 	require.NotNil(t, currentEmoji, "uploaded emoji not returned by GET /realm/emoji")
@@ -314,13 +316,13 @@ func testCustomEmojiLifecycle(t *testing.T, ctx context.Context, apiClient z.Cli
 	deactivateResp, deactivateHTTP, err := apiClient.DeactivateCustomEmoji(ctx, emojiName).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, deactivateResp)
-	requireStatusOK(t, deactivateHTTP)
+	RequireStatusOK(t, deactivateHTTP)
 	assert.Equal(t, "success", deactivateResp.Result)
 
 	afterResp, httpRes, err := apiClient.GetCustomEmoji(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, afterResp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 
 	deactivated := findEmojiByName(afterResp.Emoji, emojiName)
 	require.NotNil(t, deactivated, "deactivated emoji missing from listing")

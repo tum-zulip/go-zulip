@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	. "github.com/tum-zulip/go-zulip/zulip/models"
 )
 
 type APIReminders interface {
@@ -34,7 +34,7 @@ type APIReminders interface {
 	DeleteReminder(ctx context.Context, reminderId int64) DeleteReminderRequest
 
 	// DeleteReminderExecute executes the request
-	DeleteReminderExecute(r DeleteReminderRequest) (*Response, *http.Response, error)
+	DeleteReminderExecute(r DeleteReminderRequest) (*zulip.Response, *http.Response, error)
 
 	// GetReminders Get reminders
 	//
@@ -55,6 +55,10 @@ type APIReminders interface {
 
 type remindersService struct {
 	client StructuredClient
+}
+
+func NewRemindersService(client StructuredClient) *remindersService {
+	return &remindersService{client: client}
 }
 
 var _ APIReminders = (*remindersService)(nil)
@@ -135,7 +139,7 @@ type DeleteReminderRequest struct {
 	reminderId int64
 }
 
-func (r DeleteReminderRequest) Execute() (*Response, *http.Response, error) {
+func (r DeleteReminderRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.DeleteReminderExecute(r)
 }
 
@@ -155,13 +159,13 @@ func (s *remindersService) DeleteReminder(ctx context.Context, reminderId int64)
 }
 
 // Execute executes the request
-func (s *remindersService) DeleteReminderExecute(r DeleteReminderRequest) (*Response, *http.Response, error) {
+func (s *remindersService) DeleteReminderExecute(r DeleteReminderRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/reminders/{reminder_id}"
 	)
 

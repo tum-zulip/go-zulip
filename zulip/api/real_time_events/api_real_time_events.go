@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	. "github.com/tum-zulip/go-zulip/zulip/models"
 )
 
 type APIRealTimeEvents interface {
@@ -19,7 +19,7 @@ type APIRealTimeEvents interface {
 	DeleteQueue(ctx context.Context) DeleteQueueRequest
 
 	// DeleteQueueExecute executes the request
-	DeleteQueueExecute(r DeleteQueueRequest) (*Response, *http.Response, error)
+	DeleteQueueExecute(r DeleteQueueRequest) (*zulip.Response, *http.Response, error)
 
 	// GetEvents Get events from an event queue
 	//
@@ -116,6 +116,10 @@ type realTimeEventsService struct {
 	client StructuredClient
 }
 
+func NewRealTimeEventsService(client StructuredClient) *realTimeEventsService {
+	return &realTimeEventsService{client: client}
+}
+
 var _ APIRealTimeEvents = (*realTimeEventsService)(nil)
 
 type DeleteQueueRequest struct {
@@ -132,7 +136,7 @@ func (r DeleteQueueRequest) QueueId(queueId string) DeleteQueueRequest {
 	return r
 }
 
-func (r DeleteQueueRequest) Execute() (*Response, *http.Response, error) {
+func (r DeleteQueueRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.DeleteQueueExecute(r)
 }
 
@@ -147,13 +151,13 @@ func (s *realTimeEventsService) DeleteQueue(ctx context.Context) DeleteQueueRequ
 }
 
 // Execute executes the request
-func (s *realTimeEventsService) DeleteQueueExecute(r DeleteQueueRequest) (*Response, *http.Response, error) {
+func (s *realTimeEventsService) DeleteQueueExecute(r DeleteQueueRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/events"
 	)
 	if r.queueId == nil {
@@ -264,11 +268,11 @@ type RegisterQueueRequest struct {
 	includeSubscribers       *string
 	slimPresence             *bool
 	presenceHistoryLimitDays *int32
-	eventTypes               *[]EventType
+	eventTypes               *[]zulip.EventType
 	allPublicChannels        *bool
 	clientCapabilities       *map[string]interface{}
-	fetchEventTypes          *[]EventType
-	narrow                   *Narrow
+	fetchEventTypes          *[]zulip.EventType
+	narrow                   *zulip.Narrow
 }
 
 // Set to `true` if you would like the content to be rendered in HTML format (otherwise the API will return the raw text that the user entered)
@@ -314,7 +318,7 @@ func (r RegisterQueueRequest) PresenceHistoryLimitDays(presenceHistoryLimitDays 
 }
 
 // A JSON-encoded array indicating which types of events you're interested in. Values that you might find useful include:  - **message** (messages) - **subscription** (changes in your subscriptions) - **realm_user** (changes to users in the organization and   their properties, such as their name).  If you do not specify this parameter, you will receive all events, and have to filter out the events not relevant to your client in your client code. For most applications, one is only interested in messages, so one specifies: `"event_types": ["message"]`  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions.
-func (r RegisterQueueRequest) EventTypes(eventTypes []EventType) RegisterQueueRequest {
+func (r RegisterQueueRequest) EventTypes(eventTypes []zulip.EventType) RegisterQueueRequest {
 	r.eventTypes = &eventTypes
 	return r
 }
@@ -351,7 +355,7 @@ func (r RegisterQueueRequest) ClientCapabilities(clientCapabilities map[string]i
 }
 
 // Same as the `event_types` parameter except that the values in `fetch_event_types` are used to fetch initial data. If `fetch_event_types` is not provided, `event_types` is used and if `event_types` is not provided, this parameter defaults to `null`.  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions.
-func (r RegisterQueueRequest) FetchEventTypes(fetchEventTypes []EventType) RegisterQueueRequest {
+func (r RegisterQueueRequest) FetchEventTypes(fetchEventTypes []zulip.EventType) RegisterQueueRequest {
 	r.fetchEventTypes = &fetchEventTypes
 	return r
 }
@@ -364,7 +368,7 @@ func (r RegisterQueueRequest) FetchEventTypes(fetchEventTypes []EventType) Regis
 // [fetching messages]: https://zulip.com/api/get-messages
 // [subscribed]: https://zulip.com/api/subscribe
 // [changes section]: https://zulip.com/api/construct-narrow#changes
-func (r RegisterQueueRequest) Narrow(narrow *Narrow) RegisterQueueRequest {
+func (r RegisterQueueRequest) Narrow(narrow *zulip.Narrow) RegisterQueueRequest {
 	r.narrow = narrow
 	return r
 }

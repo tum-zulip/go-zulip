@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	. "github.com/tum-zulip/go-zulip/zulip/models"
 )
 
 type APIDrafts interface {
@@ -42,7 +42,7 @@ type APIDrafts interface {
 	DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequest
 
 	// DeleteDraftExecute executes the request
-	DeleteDraftExecute(r DeleteDraftRequest) (*Response, *http.Response, error)
+	DeleteDraftExecute(r DeleteDraftRequest) (*zulip.Response, *http.Response, error)
 
 	// DeleteSavedSnippet Delete a saved snippet
 	//
@@ -53,7 +53,7 @@ type APIDrafts interface {
 	DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) DeleteSavedSnippetRequest
 
 	// DeleteSavedSnippetExecute executes the request
-	DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*Response, *http.Response, error)
+	DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*zulip.Response, *http.Response, error)
 
 	// EditDraft Edit a draft
 	//
@@ -63,7 +63,7 @@ type APIDrafts interface {
 	EditDraft(ctx context.Context, draftId int64) EditDraftRequest
 
 	// EditDraftExecute executes the request
-	EditDraftExecute(r EditDraftRequest) (*Response, *http.Response, error)
+	EditDraftExecute(r EditDraftRequest) (*zulip.Response, *http.Response, error)
 
 	// EditSavedSnippet Edit a saved snippet
 	//
@@ -74,7 +74,7 @@ type APIDrafts interface {
 	EditSavedSnippet(ctx context.Context, savedSnippetId int64) EditSavedSnippetRequest
 
 	// EditSavedSnippetExecute executes the request
-	EditSavedSnippetExecute(r EditSavedSnippetRequest) (*Response, *http.Response, error)
+	EditSavedSnippetExecute(r EditSavedSnippetRequest) (*zulip.Response, *http.Response, error)
 
 	// GetDrafts Get drafts
 	//
@@ -101,16 +101,20 @@ type draftsService struct {
 	client StructuredClient
 }
 
+func NewDraftsService(client StructuredClient) *draftsService {
+	return &draftsService{client: client}
+}
+
 var _ APIDrafts = (*draftsService)(nil)
 
 type CreateDraftsRequest struct {
 	ctx        context.Context
 	apiService APIDrafts
-	drafts     *[]Draft
+	drafts     *[]zulip.Draft
 }
 
 // A JSON-encoded list of containing new draft objects.
-func (r CreateDraftsRequest) Drafts(drafts []Draft) CreateDraftsRequest {
+func (r CreateDraftsRequest) Drafts(drafts []zulip.Draft) CreateDraftsRequest {
 	r.drafts = &drafts
 	return r
 }
@@ -232,7 +236,7 @@ type DeleteDraftRequest struct {
 	draftId    int64
 }
 
-func (r DeleteDraftRequest) Execute() (*Response, *http.Response, error) {
+func (r DeleteDraftRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.DeleteDraftExecute(r)
 }
 
@@ -249,13 +253,13 @@ func (s *draftsService) DeleteDraft(ctx context.Context, draftId int64) DeleteDr
 }
 
 // Execute executes the request
-func (s *draftsService) DeleteDraftExecute(r DeleteDraftRequest) (*Response, *http.Response, error) {
+func (s *draftsService) DeleteDraftExecute(r DeleteDraftRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/drafts/{draft_id}"
 	)
 
@@ -277,7 +281,7 @@ type DeleteSavedSnippetRequest struct {
 	savedSnippetId int64
 }
 
-func (r DeleteSavedSnippetRequest) Execute() (*Response, *http.Response, error) {
+func (r DeleteSavedSnippetRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.DeleteSavedSnippetExecute(r)
 }
 
@@ -295,13 +299,13 @@ func (s *draftsService) DeleteSavedSnippet(ctx context.Context, savedSnippetId i
 }
 
 // Execute executes the request
-func (s *draftsService) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*Response, *http.Response, error) {
+func (s *draftsService) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/saved_snippets/{saved_snippet_id}"
 	)
 
@@ -321,16 +325,16 @@ type EditDraftRequest struct {
 	ctx        context.Context
 	apiService APIDrafts
 	draftId    int64
-	draft      *Draft
+	draft      *zulip.Draft
 }
 
 // A JSON-encoded object containing a replacement draft object for this Id.
-func (r EditDraftRequest) Draft(draft Draft) EditDraftRequest {
+func (r EditDraftRequest) Draft(draft zulip.Draft) EditDraftRequest {
 	r.draft = &draft
 	return r
 }
 
-func (r EditDraftRequest) Execute() (*Response, *http.Response, error) {
+func (r EditDraftRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.EditDraftExecute(r)
 }
 
@@ -347,13 +351,13 @@ func (s *draftsService) EditDraft(ctx context.Context, draftId int64) EditDraftR
 }
 
 // Execute executes the request
-func (s *draftsService) EditDraftExecute(r EditDraftRequest) (*Response, *http.Response, error) {
+func (s *draftsService) EditDraftExecute(r EditDraftRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/drafts/{draft_id}"
 	)
 
@@ -399,7 +403,7 @@ func (r EditSavedSnippetRequest) Content(content string) EditSavedSnippetRequest
 	return r
 }
 
-func (r EditSavedSnippetRequest) Execute() (*Response, *http.Response, error) {
+func (r EditSavedSnippetRequest) Execute() (*zulip.Response, *http.Response, error) {
 	return r.apiService.EditSavedSnippetExecute(r)
 }
 
@@ -417,13 +421,13 @@ func (s *draftsService) EditSavedSnippet(ctx context.Context, savedSnippetId int
 }
 
 // Execute executes the request
-func (s *draftsService) EditSavedSnippetExecute(r EditSavedSnippetRequest) (*Response, *http.Response, error) {
+func (s *draftsService) EditSavedSnippetExecute(r EditSavedSnippetRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &Response{}
+		response = &zulip.Response{}
 		endpoint = "/saved_snippets/{saved_snippet_id}"
 	)
 

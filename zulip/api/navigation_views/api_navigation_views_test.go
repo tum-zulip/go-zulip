@@ -8,12 +8,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	z "github.com/tum-zulip/go-zulip/zulip"
+	"github.com/tum-zulip/go-zulip/zulip/client"
+	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
 func Test_NavigationViewsAPIService(t *testing.T) {
 	t.Parallel()
 
-	t.Run("AddNavigationView", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("AddNavigationView", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		view := createTestNavigationView(t, apiClient, true)
 
 		ctx := context.Background()
@@ -21,7 +23,7 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, listResp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 
 		found := navigationViewByFragment(listResp.NavigationViews, view.fragment)
 		require.NotNil(t, found, "expected navigation view with fragment %s", view.fragment)
@@ -31,11 +33,11 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("EditNavigationView", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("EditNavigationView", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		view := createTestNavigationView(t, apiClient, true)
-		updatedName := fmt.Sprintf("Updated Navigation View %s", uniqueName("nav"))
+		updatedName := fmt.Sprintf("Updated Navigation View %s", UniqueName("nav"))
 
 		resp, httpRes, err := apiClient.EditNavigationView(ctx, view.fragment).
 			IsPinned(false).
@@ -44,12 +46,12 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 
 		listResp, listHTTPRes, err := apiClient.GetNavigationViews(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, listResp)
-		requireStatusOK(t, listHTTPRes)
+		RequireStatusOK(t, listHTTPRes)
 
 		updated := navigationViewByFragment(listResp.NavigationViews, view.fragment)
 		require.NotNil(t, updated, "expected navigation view with fragment %s", view.fragment)
@@ -59,7 +61,7 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 
 	}))
 
-	t.Run("GetNavigationViews", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("GetNavigationViews", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		view := createTestNavigationView(t, apiClient, false)
@@ -68,13 +70,13 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 
 		assert.NotNil(t, navigationViewByFragment(resp.NavigationViews, view.fragment))
 
 	}))
 
-	t.Run("RemoveNavigationView", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("RemoveNavigationView", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		view := createTestNavigationView(t, apiClient, true)
@@ -83,12 +85,12 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 
 		listResp, listHTTPRes, err := apiClient.GetNavigationViews(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, listResp)
-		requireStatusOK(t, listHTTPRes)
+		RequireStatusOK(t, listHTTPRes)
 
 		assert.Nil(t, navigationViewByFragment(listResp.NavigationViews, view.fragment))
 
@@ -101,12 +103,12 @@ type navigationViewState struct {
 	isPinned bool
 }
 
-func createTestNavigationView(t *testing.T, apiClient z.Client, isPinned bool) navigationViewState {
+func createTestNavigationView(t *testing.T, apiClient client.Client, isPinned bool) navigationViewState {
 	t.Helper()
 
 	ctx := context.Background()
-	fragment := fmt.Sprintf("narrow/test/%s", uniqueName("nav"))
-	name := fmt.Sprintf("Navigation View %s", uniqueName("nav"))
+	fragment := fmt.Sprintf("narrow/test/%s", UniqueName("nav"))
+	name := fmt.Sprintf("Navigation View %s", UniqueName("nav"))
 
 	resp, httpRes, err := apiClient.AddNavigationView(ctx).
 		Fragment(fragment).
@@ -116,7 +118,7 @@ func createTestNavigationView(t *testing.T, apiClient z.Client, isPinned bool) n
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 
 	return navigationViewState{fragment: fragment, name: name, isPinned: isPinned}
 }

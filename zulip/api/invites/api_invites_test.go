@@ -9,14 +9,16 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	z "github.com/tum-zulip/go-zulip/zulip"
+	"github.com/tum-zulip/go-zulip/zulip/client"
+	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
 func Test_InvitesAPIService(t *testing.T) {
 	t.Parallel()
 
-	t.Run("InviteLinkLifecycle", runForAdminAndOwnerClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("InviteLinkLifecycle", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		channelName, channelId := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
+		channelName, channelId := CreateRandomChannel(t, apiClient, GetUserId(t, apiClient))
 
 		baseline := inviteSnapshot(t, ctx, apiClient)
 
@@ -29,7 +31,7 @@ func Test_InvitesAPIService(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 		link := resp.InviteLink
 		assert.NotEmpty(t, link)
 
@@ -43,7 +45,7 @@ func Test_InvitesAPIService(t *testing.T) {
 		revokeResp, revokeHTTP, err := apiClient.RevokeInviteLink(ctx, newInvite.Id).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, revokeResp)
-		requireStatusOK(t, revokeHTTP)
+		RequireStatusOK(t, revokeHTTP)
 		assert.Equal(t, "success", revokeResp.Result)
 
 		remaining := loadInvites(t, ctx, apiClient)
@@ -52,10 +54,10 @@ func Test_InvitesAPIService(t *testing.T) {
 		}), "multiuse invite should be removed after revocation")
 	}))
 
-	t.Run("EmailInviteLifecycle", runForAllClients(t, func(t *testing.T, apiClient z.Client) {
+	t.Run("EmailInviteLifecycle", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		_, channelId := createRandomChannel(t, apiClient, getOwnUserId(t, apiClient))
-		invitee := fmt.Sprintf("%s@example.com", strings.ToLower(uniqueName("invitee")))
+		_, channelId := CreateRandomChannel(t, apiClient, GetUserId(t, apiClient))
+		invitee := fmt.Sprintf("%s@example.com", strings.ToLower(UniqueName("invitee")))
 
 		baseline := inviteSnapshot(t, ctx, apiClient)
 
@@ -68,7 +70,7 @@ func Test_InvitesAPIService(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		requireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpRes)
 		assert.Equal(t, "success", resp.Result)
 
 		invites := loadInvites(t, ctx, apiClient)
@@ -81,13 +83,13 @@ func Test_InvitesAPIService(t *testing.T) {
 		resendResp, resendHTTP, err := apiClient.ResendEmailInvite(ctx, emailInvite.Id).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resendResp)
-		requireStatusOK(t, resendHTTP)
+		RequireStatusOK(t, resendHTTP)
 		assert.Equal(t, "success", resendResp.Result)
 
 		revokeResp, revokeHTTP, err := apiClient.RevokeEmailInvite(ctx, emailInvite.Id).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, revokeResp)
-		requireStatusOK(t, revokeHTTP)
+		RequireStatusOK(t, revokeHTTP)
 		assert.Equal(t, "success", revokeResp.Result)
 
 		remaining := loadInvites(t, ctx, apiClient)
@@ -97,19 +99,19 @@ func Test_InvitesAPIService(t *testing.T) {
 	}))
 }
 
-func loadInvites(t *testing.T, ctx context.Context, apiClient z.Client) []z.Invite {
+func loadInvites(t *testing.T, ctx context.Context, apiClient client.Client) []z.Invite {
 	t.Helper()
 
 	resp, httpRes, err := apiClient.GetInvites(ctx).Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	requireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpRes)
 
 	return resp.Invites
 }
 
-func inviteSnapshot(t *testing.T, ctx context.Context, apiClient z.Client) map[string]struct{} {
+func inviteSnapshot(t *testing.T, ctx context.Context, apiClient client.Client) map[string]struct{} {
 	invites := loadInvites(t, ctx, apiClient)
 	snapshot := make(map[string]struct{}, len(invites))
 	for _, inv := range invites {
