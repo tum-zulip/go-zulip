@@ -61,7 +61,7 @@ type NavigationViewsAPI interface {
 
 type AddNavigationViewRequest struct {
 	ctx        context.Context
-	ApiService NavigationViewsAPI
+	apiService NavigationViewsAPI
 	fragment   *string
 	isPinned   *bool
 	name       *string
@@ -86,7 +86,7 @@ func (r AddNavigationViewRequest) Name(name string) AddNavigationViewRequest {
 }
 
 func (r AddNavigationViewRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.AddNavigationViewExecute(r)
+	return r.apiService.AddNavigationViewExecute(r)
 }
 
 // AddNavigationView Add a navigation view
@@ -100,7 +100,7 @@ func (r AddNavigationViewRequest) Execute() (*Response, *http.Response, error) {
 // *Changes**: New in Zulip 11.0 (feature level 390).
 func (c *simpleClient) AddNavigationView(ctx context.Context) AddNavigationViewRequest {
 	return AddNavigationViewRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -108,16 +108,13 @@ func (c *simpleClient) AddNavigationView(ctx context.Context) AddNavigationViewR
 // Execute executes the request
 func (c *simpleClient) AddNavigationViewExecute(r AddNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/navigation_views"
 	)
-
-	endpoint := "/navigation_views"
-
 	if r.fragment == nil {
 		return nil, nil, reportError("fragment is required and must be specified")
 	}
@@ -128,10 +125,10 @@ func (c *simpleClient) AddNavigationViewExecute(r AddNavigationViewRequest) (*Re
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "fragment", r.fragment, "", "")
-	addParam(formParams, "is_pinned", r.isPinned, "", "")
-	addOptionalParam(formParams, "name", r.name, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "fragment", r.fragment)
+	addParam(form, "is_pinned", r.isPinned)
+	addOptionalParam(form, "name", r.name)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -142,7 +139,7 @@ func (c *simpleClient) AddNavigationViewExecute(r AddNavigationViewRequest) (*Re
 
 type EditNavigationViewRequest struct {
 	ctx        context.Context
-	ApiService NavigationViewsAPI
+	apiService NavigationViewsAPI
 	fragment   string
 	isPinned   *bool
 	name       *string
@@ -161,7 +158,7 @@ func (r EditNavigationViewRequest) Name(name string) EditNavigationViewRequest {
 }
 
 func (r EditNavigationViewRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.EditNavigationViewExecute(r)
+	return r.apiService.EditNavigationViewExecute(r)
 }
 
 // EditNavigationView Update the navigation view
@@ -172,7 +169,7 @@ func (r EditNavigationViewRequest) Execute() (*Response, *http.Response, error) 
 // *Changes**: New in Zulip 11.0 (feature level 390).
 func (c *simpleClient) EditNavigationView(ctx context.Context, fragment string) EditNavigationViewRequest {
 	return EditNavigationViewRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		fragment:   fragment,
 	}
@@ -181,23 +178,22 @@ func (c *simpleClient) EditNavigationView(ctx context.Context, fragment string) 
 // Execute executes the request
 func (c *simpleClient) EditNavigationViewExecute(r EditNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/navigation_views/{fragment}"
 	)
 
-	endpoint := "/navigation_views/{fragment}"
-	endpoint = strings.Replace(endpoint, "{"+"fragment"+"}", url.PathEscape(r.fragment), -1)
+	endpoint = strings.Replace(endpoint, "{fragment}", url.PathEscape(r.fragment), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "is_pinned", r.isPinned, "", "")
-	addOptionalParam(formParams, "name", r.name, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "is_pinned", r.isPinned)
+	addOptionalParam(form, "name", r.name)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -208,11 +204,11 @@ func (c *simpleClient) EditNavigationViewExecute(r EditNavigationViewRequest) (*
 
 type GetNavigationViewsRequest struct {
 	ctx        context.Context
-	ApiService NavigationViewsAPI
+	apiService NavigationViewsAPI
 }
 
 func (r GetNavigationViewsRequest) Execute() (*GetNavigationViewsResponse, *http.Response, error) {
-	return r.ApiService.GetNavigationViewsExecute(r)
+	return r.apiService.GetNavigationViewsExecute(r)
 }
 
 // GetNavigationViews Get all navigation views
@@ -222,7 +218,7 @@ func (r GetNavigationViewsRequest) Execute() (*GetNavigationViewsResponse, *http
 // *Changes**: New in Zulip 11.0 (feature level 390).
 func (c *simpleClient) GetNavigationViews(ctx context.Context) GetNavigationViewsRequest {
 	return GetNavigationViewsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -230,20 +226,16 @@ func (c *simpleClient) GetNavigationViews(ctx context.Context) GetNavigationView
 // Execute executes the request
 func (c *simpleClient) GetNavigationViewsExecute(r GetNavigationViewsRequest) (*GetNavigationViewsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetNavigationViewsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetNavigationViewsResponse{}
+		endpoint = "/navigation_views"
 	)
 
-	endpoint := "/navigation_views"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -254,12 +246,12 @@ func (c *simpleClient) GetNavigationViewsExecute(r GetNavigationViewsRequest) (*
 
 type RemoveNavigationViewRequest struct {
 	ctx        context.Context
-	ApiService NavigationViewsAPI
+	apiService NavigationViewsAPI
 	fragment   string
 }
 
 func (r RemoveNavigationViewRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.RemoveNavigationViewExecute(r)
+	return r.apiService.RemoveNavigationViewExecute(r)
 }
 
 // RemoveNavigationView Remove a navigation view
@@ -269,7 +261,7 @@ func (r RemoveNavigationViewRequest) Execute() (*Response, *http.Response, error
 // *Changes**: New in Zulip 11.0 (feature level 390).
 func (c *simpleClient) RemoveNavigationView(ctx context.Context, fragment string) RemoveNavigationViewRequest {
 	return RemoveNavigationViewRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		fragment:   fragment,
 	}
@@ -278,21 +270,18 @@ func (c *simpleClient) RemoveNavigationView(ctx context.Context, fragment string
 // Execute executes the request
 func (c *simpleClient) RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/navigation_views/{fragment}"
 	)
 
-	endpoint := "/navigation_views/{fragment}"
-	endpoint = strings.Replace(endpoint, "{"+"fragment"+"}", url.PathEscape(r.fragment), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{fragment}", url.PathEscape(r.fragment), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

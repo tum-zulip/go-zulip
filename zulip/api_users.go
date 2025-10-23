@@ -715,7 +715,7 @@ type UsersAPI interface {
 
 type AddAlertWordsRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 	alertWords *[]string
 }
 
@@ -726,7 +726,7 @@ func (r AddAlertWordsRequest) AlertWords(alertWords []string) AddAlertWordsReque
 }
 
 func (r AddAlertWordsRequest) Execute() (*AlertWordsResponse, *http.Response, error) {
-	return r.ApiService.AddAlertWordsExecute(r)
+	return r.apiService.AddAlertWordsExecute(r)
 }
 
 // AddAlertWords Add alert words
@@ -736,7 +736,7 @@ func (r AddAlertWordsRequest) Execute() (*AlertWordsResponse, *http.Response, er
 // [alert words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 func (c *simpleClient) AddAlertWords(ctx context.Context) AddAlertWordsRequest {
 	return AddAlertWordsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -744,16 +744,13 @@ func (c *simpleClient) AddAlertWords(ctx context.Context) AddAlertWordsRequest {
 // Execute executes the request
 func (c *simpleClient) AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &AlertWordsResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &AlertWordsResponse{}
+		endpoint = "/users/me/alert_words"
 	)
-
-	endpoint := "/users/me/alert_words"
-
 	if r.alertWords == nil {
 		return nil, nil, reportError("alertWords is required and must be specified")
 	}
@@ -761,12 +758,10 @@ func (c *simpleClient) AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWords
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	paramJson, err := parameterToJson(r.alertWords)
-	if err != nil {
+	if err := addOptionalJSONParam(form, "alert_words", r.alertWords); err != nil {
 		return nil, nil, err
 	}
-	formParams.Add("alert_words", paramJson)
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -777,7 +772,7 @@ func (c *simpleClient) AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWords
 
 type AddApnsTokenRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 	token      *string
 	appid      *string
 }
@@ -797,7 +792,7 @@ func (r AddApnsTokenRequest) Appid(appid string) AddApnsTokenRequest {
 }
 
 func (r AddApnsTokenRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.AddApnsTokenExecute(r)
+	return r.apiService.AddApnsTokenExecute(r)
 }
 
 // AddApnsToken Add an APNs device token
@@ -805,7 +800,7 @@ func (r AddApnsTokenRequest) Execute() (*Response, *http.Response, error) {
 // This endpoint adds an APNs device token to register for iOS push notifications.
 func (c *simpleClient) AddApnsToken(ctx context.Context) AddApnsTokenRequest {
 	return AddApnsTokenRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -813,16 +808,13 @@ func (c *simpleClient) AddApnsToken(ctx context.Context) AddApnsTokenRequest {
 // Execute executes the request
 func (c *simpleClient) AddApnsTokenExecute(r AddApnsTokenRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/me/apns_device_token"
 	)
-
-	endpoint := "/users/me/apns_device_token"
-
 	if r.token == nil {
 		return nil, nil, reportError("token is required and must be specified")
 	}
@@ -833,9 +825,9 @@ func (c *simpleClient) AddApnsTokenExecute(r AddApnsTokenRequest) (*Response, *h
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "token", r.token, "", "")
-	addParam(formParams, "appid", r.appid, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "token", r.token)
+	addParam(form, "appid", r.appid)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -846,7 +838,7 @@ func (c *simpleClient) AddApnsTokenExecute(r AddApnsTokenRequest) (*Response, *h
 
 type AddFcmTokenRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 	token      *string
 }
 
@@ -857,7 +849,7 @@ func (r AddFcmTokenRequest) Token(token string) AddFcmTokenRequest {
 }
 
 func (r AddFcmTokenRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.AddFcmTokenExecute(r)
+	return r.apiService.AddFcmTokenExecute(r)
 }
 
 // AddFcmToken Add an FCM registration token
@@ -865,7 +857,7 @@ func (r AddFcmTokenRequest) Execute() (*Response, *http.Response, error) {
 // This endpoint adds an FCM registration token for push notifications.
 func (c *simpleClient) AddFcmToken(ctx context.Context) AddFcmTokenRequest {
 	return AddFcmTokenRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -873,16 +865,13 @@ func (c *simpleClient) AddFcmToken(ctx context.Context) AddFcmTokenRequest {
 // Execute executes the request
 func (c *simpleClient) AddFcmTokenExecute(r AddFcmTokenRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/me/android_gcm_reg_id"
 	)
-
-	endpoint := "/users/me/android_gcm_reg_id"
-
 	if r.token == nil {
 		return nil, nil, reportError("token is required and must be specified")
 	}
@@ -890,8 +879,8 @@ func (c *simpleClient) AddFcmTokenExecute(r AddFcmTokenRequest) (*Response, *htt
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "token", r.token, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "token", r.token)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -902,7 +891,7 @@ func (c *simpleClient) AddFcmTokenExecute(r AddFcmTokenRequest) (*Response, *htt
 
 type CreateUserRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 	email      *string
 	password   *string
 	fullName   *string
@@ -927,7 +916,7 @@ func (r CreateUserRequest) FullName(fullName string) CreateUserRequest {
 }
 
 func (r CreateUserRequest) Execute() (*CreateUserResponse, *http.Response, error) {
-	return r.ApiService.CreateUserExecute(r)
+	return r.apiService.CreateUserExecute(r)
 }
 
 // CreateUser Create a user
@@ -953,7 +942,7 @@ func (r CreateUserRequest) Execute() (*CreateUserResponse, *http.Response, error
 // [Zulip Cloud Standard]: https://zulip.com/plans/
 func (c *simpleClient) CreateUser(ctx context.Context) CreateUserRequest {
 	return CreateUserRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -961,16 +950,13 @@ func (c *simpleClient) CreateUser(ctx context.Context) CreateUserRequest {
 // Execute executes the request
 func (c *simpleClient) CreateUserExecute(r CreateUserRequest) (*CreateUserResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &CreateUserResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &CreateUserResponse{}
+		endpoint = "/users"
 	)
-
-	endpoint := "/users"
-
 	if r.email == nil {
 		return nil, nil, reportError("email is required and must be specified")
 	}
@@ -984,10 +970,10 @@ func (c *simpleClient) CreateUserExecute(r CreateUserRequest) (*CreateUserRespon
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "email", r.email, "", "")
-	addParam(formParams, "password", r.password, "", "")
-	addParam(formParams, "full_name", r.fullName, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "email", r.email)
+	addParam(form, "password", r.password)
+	addParam(form, "full_name", r.fullName)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -998,7 +984,7 @@ func (c *simpleClient) CreateUserExecute(r CreateUserRequest) (*CreateUserRespon
 
 type CreateUserGroupRequest struct {
 	ctx                   context.Context
-	ApiService            UsersAPI
+	apiService            UsersAPI
 	name                  *string
 	description           *string
 	members               *[]int64
@@ -1108,7 +1094,7 @@ func (r CreateUserGroupRequest) CanRemoveMembersGroup(canRemoveMembersGroup Grou
 }
 
 func (r CreateUserGroupRequest) Execute() (*CreateUserGroupResponse, *http.Response, error) {
-	return r.ApiService.CreateUserGroupExecute(r)
+	return r.apiService.CreateUserGroupExecute(r)
 }
 
 // CreateUserGroup Create a user group
@@ -1118,7 +1104,7 @@ func (r CreateUserGroupRequest) Execute() (*CreateUserGroupResponse, *http.Respo
 // [user group]: https://zulip.com/help/user-groups
 func (c *simpleClient) CreateUserGroup(ctx context.Context) CreateUserGroupRequest {
 	return CreateUserGroupRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1126,16 +1112,13 @@ func (c *simpleClient) CreateUserGroup(ctx context.Context) CreateUserGroupReque
 // Execute executes the request
 func (c *simpleClient) CreateUserGroupExecute(r CreateUserGroupRequest) (*CreateUserGroupResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &CreateUserGroupResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &CreateUserGroupResponse{}
+		endpoint = "/user_groups/create"
 	)
-
-	endpoint := "/user_groups/create"
-
 	if r.name == nil {
 		return nil, nil, reportError("name is required and must be specified")
 	}
@@ -1149,53 +1132,29 @@ func (c *simpleClient) CreateUserGroupExecute(r CreateUserGroupRequest) (*Create
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "name", r.name, "", "")
-	addParam(formParams, "description", r.description, "", "")
-	addParam(formParams, "members", r.members, "form", "multi")
-	addOptionalParam(formParams, "subgroups", r.subgroups, "form", "multi")
-	if r.canAddMembersGroup != nil {
-		paramJson, err := parameterToJson(*r.canAddMembersGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_add_members_group", paramJson)
+	addParam(form, "name", r.name)
+	addParam(form, "description", r.description)
+	addParam(form, "members", r.members)
+	addOptionalParam(form, "subgroups", r.subgroups)
+	if err := addOptionalJSONParam(form, "can_add_members_group", r.canAddMembersGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canJoinGroup != nil {
-		paramJson, err := parameterToJson(*r.canJoinGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_join_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_join_group", r.canJoinGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canLeaveGroup != nil {
-		paramJson, err := parameterToJson(*r.canLeaveGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_leave_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_leave_group", r.canLeaveGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canManageGroup != nil {
-		paramJson, err := parameterToJson(*r.canManageGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_manage_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_manage_group", r.canManageGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canMentionGroup != nil {
-		paramJson, err := parameterToJson(*r.canMentionGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_mention_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_mention_group", r.canMentionGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canRemoveMembersGroup != nil {
-		paramJson, err := parameterToJson(*r.canRemoveMembersGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_remove_members_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_remove_members_group", r.canRemoveMembersGroup); err != nil {
+		return nil, nil, err
 	}
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1206,11 +1165,11 @@ func (c *simpleClient) CreateUserGroupExecute(r CreateUserGroupRequest) (*Create
 
 type DeactivateOwnUserRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 }
 
 func (r DeactivateOwnUserRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.DeactivateOwnUserExecute(r)
+	return r.apiService.DeactivateOwnUserExecute(r)
 }
 
 // DeactivateOwnUser Deactivate own user
@@ -1223,7 +1182,7 @@ func (r DeactivateOwnUserRequest) Execute() (*Response, *http.Response, error) {
 // [deactivating another user]: https://zulip.com/api/deactivate-user
 func (c *simpleClient) DeactivateOwnUser(ctx context.Context) DeactivateOwnUserRequest {
 	return DeactivateOwnUserRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1231,20 +1190,16 @@ func (c *simpleClient) DeactivateOwnUser(ctx context.Context) DeactivateOwnUserR
 // Execute executes the request
 func (c *simpleClient) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/me"
 	)
 
-	endpoint := "/users/me"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1255,7 +1210,7 @@ func (c *simpleClient) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*Re
 
 type DeactivateUserRequest struct {
 	ctx                             context.Context
-	ApiService                      UsersAPI
+	apiService                      UsersAPI
 	userId                          int64
 	deactivationNotificationComment *string
 }
@@ -1269,7 +1224,7 @@ func (r DeactivateUserRequest) DeactivationNotificationComment(deactivationNotif
 }
 
 func (r DeactivateUserRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.DeactivateUserExecute(r)
+	return r.apiService.DeactivateUserExecute(r)
 }
 
 // DeactivateUser Deactivate a user
@@ -1280,7 +1235,7 @@ func (r DeactivateUserRequest) Execute() (*Response, *http.Response, error) {
 // [Deactivates a user]: https://zulip.com/help/deactivate-or-reactivate-a-user
 func (c *simpleClient) DeactivateUser(ctx context.Context, userId int64) DeactivateUserRequest {
 	return DeactivateUserRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		userId:     userId,
 	}
@@ -1289,22 +1244,21 @@ func (c *simpleClient) DeactivateUser(ctx context.Context, userId int64) Deactiv
 // Execute executes the request
 func (c *simpleClient) DeactivateUserExecute(r DeactivateUserRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/{user_id}"
 	)
 
-	endpoint := "/users/{user_id}"
-	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+	endpoint = strings.Replace(endpoint, "{user_id}", idToString(r.userId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "deactivation_notification_comment", r.deactivationNotificationComment, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "deactivation_notification_comment", r.deactivationNotificationComment)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1315,12 +1269,12 @@ func (c *simpleClient) DeactivateUserExecute(r DeactivateUserRequest) (*Response
 
 type DeactivateUserGroupRequest struct {
 	ctx         context.Context
-	ApiService  UsersAPI
+	apiService  UsersAPI
 	userGroupId int64
 }
 
 func (r DeactivateUserGroupRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.DeactivateUserGroupExecute(r)
+	return r.apiService.DeactivateUserGroupExecute(r)
 }
 
 // DeactivateUserGroup Deactivate a user group
@@ -1337,7 +1291,7 @@ func (r DeactivateUserGroupRequest) Execute() (*Response, *http.Response, error)
 // *Changes**: New in Zulip 10.0 (feature level 290).
 func (c *simpleClient) DeactivateUserGroup(ctx context.Context, userGroupId int64) DeactivateUserGroupRequest {
 	return DeactivateUserGroupRequest{
-		ApiService:  c,
+		apiService:  c,
 		ctx:         ctx,
 		userGroupId: userGroupId,
 	}
@@ -1346,21 +1300,18 @@ func (c *simpleClient) DeactivateUserGroup(ctx context.Context, userGroupId int6
 // Execute executes the request
 func (c *simpleClient) DeactivateUserGroupExecute(r DeactivateUserGroupRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/user_groups/{user_group_id}/deactivate"
 	)
 
-	endpoint := "/user_groups/{user_group_id}/deactivate"
-	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{user_group_id}", idToString(r.userGroupId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1371,11 +1322,11 @@ func (c *simpleClient) DeactivateUserGroupExecute(r DeactivateUserGroupRequest) 
 
 type GetAlertWordsRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 }
 
 func (r GetAlertWordsRequest) Execute() (*AlertWordsResponse, *http.Response, error) {
-	return r.ApiService.GetAlertWordsExecute(r)
+	return r.apiService.GetAlertWordsExecute(r)
 }
 
 // GetAlertWords Get all alert words
@@ -1385,7 +1336,7 @@ func (r GetAlertWordsRequest) Execute() (*AlertWordsResponse, *http.Response, er
 // [alert words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 func (c *simpleClient) GetAlertWords(ctx context.Context) GetAlertWordsRequest {
 	return GetAlertWordsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1393,20 +1344,16 @@ func (c *simpleClient) GetAlertWords(ctx context.Context) GetAlertWordsRequest {
 // Execute executes the request
 func (c *simpleClient) GetAlertWordsExecute(r GetAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &AlertWordsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &AlertWordsResponse{}
+		endpoint = "/users/me/alert_words"
 	)
 
-	endpoint := "/users/me/alert_words"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1417,11 +1364,11 @@ func (c *simpleClient) GetAlertWordsExecute(r GetAlertWordsRequest) (*AlertWords
 
 type GetAttachmentsRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 }
 
 func (r GetAttachmentsRequest) Execute() (*GetAttachmentsResponse, *http.Response, error) {
-	return r.ApiService.GetAttachmentsExecute(r)
+	return r.apiService.GetAttachmentsExecute(r)
 }
 
 // GetAttachments Get attachments
@@ -1429,7 +1376,7 @@ func (r GetAttachmentsRequest) Execute() (*GetAttachmentsResponse, *http.Respons
 // Fetch metadata on files uploaded by the requesting user.
 func (c *simpleClient) GetAttachments(ctx context.Context) GetAttachmentsRequest {
 	return GetAttachmentsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1437,20 +1384,16 @@ func (c *simpleClient) GetAttachments(ctx context.Context) GetAttachmentsRequest
 // Execute executes the request
 func (c *simpleClient) GetAttachmentsExecute(r GetAttachmentsRequest) (*GetAttachmentsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetAttachmentsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetAttachmentsResponse{}
+		endpoint = "/attachments"
 	)
 
-	endpoint := "/attachments"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1461,7 +1404,7 @@ func (c *simpleClient) GetAttachmentsExecute(r GetAttachmentsRequest) (*GetAttac
 
 type GetIsUserGroupMemberRequest struct {
 	ctx              context.Context
-	ApiService       UsersAPI
+	apiService       UsersAPI
 	userGroupId      int64
 	userId           int64
 	directMemberOnly *bool
@@ -1474,7 +1417,7 @@ func (r GetIsUserGroupMemberRequest) DirectMemberOnly(directMemberOnly bool) Get
 }
 
 func (r GetIsUserGroupMemberRequest) Execute() (*GetIsUserGroupMemberResponse, *http.Response, error) {
-	return r.ApiService.GetIsUserGroupMemberExecute(r)
+	return r.apiService.GetIsUserGroupMemberExecute(r)
 }
 
 // GetIsUserGroupMember Get user group membership status
@@ -1488,7 +1431,7 @@ func (r GetIsUserGroupMemberRequest) Execute() (*GetIsUserGroupMemberResponse, *
 // New in Zulip 6.0 (feature level 127).
 func (c *simpleClient) GetIsUserGroupMember(ctx context.Context, userGroupId int64, userId int64) GetIsUserGroupMemberRequest {
 	return GetIsUserGroupMemberRequest{
-		ApiService:  c,
+		apiService:  c,
 		ctx:         ctx,
 		userGroupId: userGroupId,
 		userId:      userId,
@@ -1498,23 +1441,21 @@ func (c *simpleClient) GetIsUserGroupMember(ctx context.Context, userGroupId int
 // Execute executes the request
 func (c *simpleClient) GetIsUserGroupMemberExecute(r GetIsUserGroupMemberRequest) (*GetIsUserGroupMemberResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetIsUserGroupMemberResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetIsUserGroupMemberResponse{}
+		endpoint = "/user_groups/{user_group_id}/members/{user_id}"
 	)
 
-	endpoint := "/user_groups/{user_group_id}/members/{user_id}"
-	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
-	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+	endpoint = strings.Replace(endpoint, "{user_group_id}", idToString(r.userGroupId), -1)
+	endpoint = strings.Replace(endpoint, "{user_id}", idToString(r.userId), -1)
 
-	addOptionalParam(queryParams, "direct_member_only", r.directMemberOnly, "form", "")
-	// no Content-Type header
+	addOptionalParam(query, "direct_member_only", r.directMemberOnly)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1525,11 +1466,11 @@ func (c *simpleClient) GetIsUserGroupMemberExecute(r GetIsUserGroupMemberRequest
 
 type GetOwnUserRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 }
 
 func (r GetOwnUserRequest) Execute() (*GetOwnUserResponse, *http.Response, error) {
-	return r.ApiService.GetOwnUserExecute(r)
+	return r.apiService.GetOwnUserExecute(r)
 }
 
 // GetOwnUser Get own user
@@ -1540,7 +1481,7 @@ func (r GetOwnUserRequest) Execute() (*GetOwnUserResponse, *http.Response, error
 // replaced by the `can_manage_billing_group` realm setting.
 func (c *simpleClient) GetOwnUser(ctx context.Context) GetOwnUserRequest {
 	return GetOwnUserRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1548,20 +1489,16 @@ func (c *simpleClient) GetOwnUser(ctx context.Context) GetOwnUserRequest {
 // Execute executes the request
 func (c *simpleClient) GetOwnUserExecute(r GetOwnUserRequest) (*GetOwnUserResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetOwnUserResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetOwnUserResponse{}
+		endpoint = "/users/me"
 	)
 
-	endpoint := "/users/me"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1572,7 +1509,7 @@ func (c *simpleClient) GetOwnUserExecute(r GetOwnUserRequest) (*GetOwnUserRespon
 
 type GetUserRequest struct {
 	ctx                        context.Context
-	ApiService                 UsersAPI
+	apiService                 UsersAPI
 	userId                     int64
 	clientGravatar             *bool
 	includeCustomProfileFields *bool
@@ -1597,7 +1534,7 @@ func (r GetUserRequest) IncludeCustomProfileFields(includeCustomProfileFields bo
 }
 
 func (r GetUserRequest) Execute() (*GetUserResponse, *http.Response, error) {
-	return r.ApiService.GetUserExecute(r)
+	return r.apiService.GetUserExecute(r)
 }
 
 // GetUser Get a user
@@ -1613,7 +1550,7 @@ func (r GetUserRequest) Execute() (*GetUserResponse, *http.Response, error) {
 // [by a user's Zulip API email]: https://zulip.com/api/get-user-by-email
 func (c *simpleClient) GetUser(ctx context.Context, userId int64) GetUserRequest {
 	return GetUserRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		userId:     userId,
 	}
@@ -1622,23 +1559,21 @@ func (c *simpleClient) GetUser(ctx context.Context, userId int64) GetUserRequest
 // Execute executes the request
 func (c *simpleClient) GetUserExecute(r GetUserRequest) (*GetUserResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetUserResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetUserResponse{}
+		endpoint = "/users/{user_id}"
 	)
 
-	endpoint := "/users/{user_id}"
-	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+	endpoint = strings.Replace(endpoint, "{user_id}", idToString(r.userId), -1)
 
-	addOptionalParam(queryParams, "client_gravatar", r.clientGravatar, "form", "")
-	addOptionalParam(queryParams, "include_custom_profile_fields", r.includeCustomProfileFields, "form", "")
-	// no Content-Type header
+	addOptionalParam(query, "client_gravatar", r.clientGravatar)
+	addOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1649,7 +1584,7 @@ func (c *simpleClient) GetUserExecute(r GetUserRequest) (*GetUserResponse, *http
 
 type GetUserByEmailRequest struct {
 	ctx                        context.Context
-	ApiService                 UsersAPI
+	apiService                 UsersAPI
 	email                      string
 	clientGravatar             *bool
 	includeCustomProfileFields *bool
@@ -1674,7 +1609,7 @@ func (r GetUserByEmailRequest) IncludeCustomProfileFields(includeCustomProfileFi
 }
 
 func (r GetUserByEmailRequest) Execute() (*GetUserResponse, *http.Response, error) {
-	return r.ApiService.GetUserByEmailExecute(r)
+	return r.apiService.GetUserByEmailExecute(r)
 }
 
 // GetUserByEmail Get a user by email
@@ -1706,7 +1641,7 @@ func (r GetUserByEmailRequest) Execute() (*GetUserResponse, *http.Response, erro
 // [email address visibility]: https://zulip.com/help/configure-email-visibility
 func (c *simpleClient) GetUserByEmail(ctx context.Context, email string) GetUserByEmailRequest {
 	return GetUserByEmailRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		email:      email,
 	}
@@ -1715,23 +1650,21 @@ func (c *simpleClient) GetUserByEmail(ctx context.Context, email string) GetUser
 // Execute executes the request
 func (c *simpleClient) GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetUserResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetUserResponse{}
+		endpoint = "/users/{email}"
 	)
 
-	endpoint := "/users/{email}"
-	endpoint = strings.Replace(endpoint, "{"+"email"+"}", url.PathEscape(r.email), -1)
+	endpoint = strings.Replace(endpoint, "{email}", url.PathEscape(r.email), -1)
 
-	addOptionalParam(queryParams, "client_gravatar", r.clientGravatar, "form", "")
-	addOptionalParam(queryParams, "include_custom_profile_fields", r.includeCustomProfileFields, "form", "")
-	// no Content-Type header
+	addOptionalParam(query, "client_gravatar", r.clientGravatar)
+	addOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1742,7 +1675,7 @@ func (c *simpleClient) GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserR
 
 type GetUserGroupMembersRequest struct {
 	ctx              context.Context
-	ApiService       UsersAPI
+	apiService       UsersAPI
 	userGroupId      int64
 	directMemberOnly *bool
 }
@@ -1754,7 +1687,7 @@ func (r GetUserGroupMembersRequest) DirectMemberOnly(directMemberOnly bool) GetU
 }
 
 func (r GetUserGroupMembersRequest) Execute() (*GetUserGroupMembersResponse, *http.Response, error) {
-	return r.ApiService.GetUserGroupMembersExecute(r)
+	return r.apiService.GetUserGroupMembersExecute(r)
 }
 
 // GetUserGroupMembers Get user group members
@@ -1766,7 +1699,7 @@ func (r GetUserGroupMembersRequest) Execute() (*GetUserGroupMembersResponse, *ht
 // [user group]: https://zulip.com/help/user-groups
 func (c *simpleClient) GetUserGroupMembers(ctx context.Context, userGroupId int64) GetUserGroupMembersRequest {
 	return GetUserGroupMembersRequest{
-		ApiService:  c,
+		apiService:  c,
 		ctx:         ctx,
 		userGroupId: userGroupId,
 	}
@@ -1775,22 +1708,19 @@ func (c *simpleClient) GetUserGroupMembers(ctx context.Context, userGroupId int6
 // Execute executes the request
 func (c *simpleClient) GetUserGroupMembersExecute(r GetUserGroupMembersRequest) (*GetUserGroupMembersResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetUserGroupMembersResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetUserGroupMembersResponse{}
+		endpoint = "/user_groups/{user_group_id}/members"
 	)
+	endpoint = strings.Replace(endpoint, "{user_group_id}", idToString(r.userGroupId), -1)
 
-	endpoint := "/user_groups/{user_group_id}/members"
-	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
-
-	addOptionalParam(queryParams, "direct_member_only", r.directMemberOnly, "form", "")
-	// no Content-Type header
+	addOptionalParam(query, "direct_member_only", r.directMemberOnly)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1801,7 +1731,7 @@ func (c *simpleClient) GetUserGroupMembersExecute(r GetUserGroupMembersRequest) 
 
 type GetUserGroupSubgroupsRequest struct {
 	ctx                context.Context
-	ApiService         UsersAPI
+	apiService         UsersAPI
 	userGroupId        int64
 	directSubgroupOnly *bool
 }
@@ -1813,7 +1743,7 @@ func (r GetUserGroupSubgroupsRequest) DirectSubgroupOnly(directSubgroupOnly bool
 }
 
 func (r GetUserGroupSubgroupsRequest) Execute() (*GetUserGroupSubgroupsResponse, *http.Response, error) {
-	return r.ApiService.GetUserGroupSubgroupsExecute(r)
+	return r.apiService.GetUserGroupSubgroupsExecute(r)
 }
 
 // GetUserGroupSubgroups Get subgroups of a user group
@@ -1825,7 +1755,7 @@ func (r GetUserGroupSubgroupsRequest) Execute() (*GetUserGroupSubgroupsResponse,
 // [user group]: https://zulip.com/help/user-groups
 func (c *simpleClient) GetUserGroupSubgroups(ctx context.Context, userGroupId int64) GetUserGroupSubgroupsRequest {
 	return GetUserGroupSubgroupsRequest{
-		ApiService:  c,
+		apiService:  c,
 		ctx:         ctx,
 		userGroupId: userGroupId,
 	}
@@ -1834,22 +1764,20 @@ func (c *simpleClient) GetUserGroupSubgroups(ctx context.Context, userGroupId in
 // Execute executes the request
 func (c *simpleClient) GetUserGroupSubgroupsExecute(r GetUserGroupSubgroupsRequest) (*GetUserGroupSubgroupsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetUserGroupSubgroupsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetUserGroupSubgroupsResponse{}
+		endpoint = "/user_groups/{user_group_id}/subgroups"
 	)
 
-	endpoint := "/user_groups/{user_group_id}/subgroups"
-	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
+	endpoint = strings.Replace(endpoint, "{user_group_id}", idToString(r.userGroupId), -1)
 
-	addOptionalParam(queryParams, "direct_subgroup_only", r.directSubgroupOnly, "form", "")
-	// no Content-Type header
+	addOptionalParam(query, "direct_subgroup_only", r.directSubgroupOnly)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1860,7 +1788,7 @@ func (c *simpleClient) GetUserGroupSubgroupsExecute(r GetUserGroupSubgroupsReque
 
 type GetUserGroupsRequest struct {
 	ctx                      context.Context
-	ApiService               UsersAPI
+	apiService               UsersAPI
 	includeDeactivatedGroups *bool
 }
 
@@ -1873,7 +1801,7 @@ func (r GetUserGroupsRequest) IncludeDeactivatedGroups(includeDeactivatedGroups 
 }
 
 func (r GetUserGroupsRequest) Execute() (*GetUserGroupsResponse, *http.Response, error) {
-	return r.ApiService.GetUserGroupsExecute(r)
+	return r.apiService.GetUserGroupsExecute(r)
 }
 
 // GetUserGroups Get user groups
@@ -1888,7 +1816,7 @@ func (r GetUserGroupsRequest) Execute() (*GetUserGroupsResponse, *http.Response,
 // [members and administrators]: https://zulip.com/help/user-roles
 func (c *simpleClient) GetUserGroups(ctx context.Context) GetUserGroupsRequest {
 	return GetUserGroupsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1896,21 +1824,18 @@ func (c *simpleClient) GetUserGroups(ctx context.Context) GetUserGroupsRequest {
 // Execute executes the request
 func (c *simpleClient) GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGroupsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetUserGroupsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetUserGroupsResponse{}
+		endpoint = "/user_groups"
 	)
-
-	endpoint := "/user_groups"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "include_deactivated_groups", r.includeDeactivatedGroups, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "include_deactivated_groups", r.includeDeactivatedGroups)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1921,12 +1846,12 @@ func (c *simpleClient) GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGro
 
 type GetUserPresenceRequest struct {
 	ctx           context.Context
-	ApiService    UsersAPI
+	apiService    UsersAPI
 	userIdOrEmail string
 }
 
 func (r GetUserPresenceRequest) Execute() (*GetUserPresenceResponse, *http.Response, error) {
-	return r.ApiService.GetUserPresenceExecute(r)
+	return r.apiService.GetUserPresenceExecute(r)
 }
 
 // GetUserPresence Get a user's presence
@@ -1941,7 +1866,7 @@ func (r GetUserPresenceRequest) Execute() (*GetUserPresenceResponse, *http.Respo
 // [main presence endpoint]: https://zulip.com/api/get-presence
 func (c *simpleClient) GetUserPresence(ctx context.Context, userIdOrEmail string) GetUserPresenceRequest {
 	return GetUserPresenceRequest{
-		ApiService:    c,
+		apiService:    c,
 		ctx:           ctx,
 		userIdOrEmail: userIdOrEmail,
 	}
@@ -1950,21 +1875,18 @@ func (c *simpleClient) GetUserPresence(ctx context.Context, userIdOrEmail string
 // Execute executes the request
 func (c *simpleClient) GetUserPresenceExecute(r GetUserPresenceRequest) (*GetUserPresenceResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetUserPresenceResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetUserPresenceResponse{}
+		endpoint = "/users/{user_id_or_email}/presence"
 	)
 
-	endpoint := "/users/{user_id_or_email}/presence"
-	endpoint = strings.Replace(endpoint, "{"+"user_id_or_email"+"}", url.PathEscape(r.userIdOrEmail), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{user_id_or_email}", url.PathEscape(r.userIdOrEmail), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1975,12 +1897,12 @@ func (c *simpleClient) GetUserPresenceExecute(r GetUserPresenceRequest) (*GetUse
 
 type GetUserStatusRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 	userId     int64
 }
 
 func (r GetUserStatusRequest) Execute() (*GetUserStatusResponse, *http.Response, error) {
-	return r.ApiService.GetUserStatusExecute(r)
+	return r.apiService.GetUserStatusExecute(r)
 }
 
 // GetUserStatus Get a user's status
@@ -1994,7 +1916,7 @@ func (r GetUserStatusRequest) Execute() (*GetUserStatusResponse, *http.Response,
 // [`POST /register`]: https://zulip.com/api/register-queue
 func (c *simpleClient) GetUserStatus(ctx context.Context, userId int64) GetUserStatusRequest {
 	return GetUserStatusRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		userId:     userId,
 	}
@@ -2003,21 +1925,18 @@ func (c *simpleClient) GetUserStatus(ctx context.Context, userId int64) GetUserS
 // Execute executes the request
 func (c *simpleClient) GetUserStatusExecute(r GetUserStatusRequest) (*GetUserStatusResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetUserStatusResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetUserStatusResponse{}
+		endpoint = "/users/{user_id}/status"
 	)
 
-	endpoint := "/users/{user_id}/status"
-	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{user_id}", idToString(r.userId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2028,7 +1947,7 @@ func (c *simpleClient) GetUserStatusExecute(r GetUserStatusRequest) (*GetUserSta
 
 type GetUsersRequest struct {
 	ctx                        context.Context
-	ApiService                 UsersAPI
+	apiService                 UsersAPI
 	clientGravatar             *bool
 	includeCustomProfileFields *bool
 	userIds                    *[]int64
@@ -2061,7 +1980,7 @@ func (r GetUsersRequest) UserIds(userIds []int64) GetUsersRequest {
 }
 
 func (r GetUsersRequest) Execute() (*GetUsersResponse, *http.Response, error) {
-	return r.ApiService.GetUsersExecute(r)
+	return r.apiService.GetUsersExecute(r)
 }
 
 // GetUsers Get users
@@ -2085,7 +2004,7 @@ func (r GetUsersRequest) Execute() (*GetUsersResponse, *http.Response, error) {
 // [public access option]: https://zulip.com/help/public-access-option
 func (c *simpleClient) GetUsers(ctx context.Context) GetUsersRequest {
 	return GetUsersRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2093,23 +2012,19 @@ func (c *simpleClient) GetUsers(ctx context.Context) GetUsersRequest {
 // Execute executes the request
 func (c *simpleClient) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetUsersResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetUsersResponse{}
+		endpoint = "/users"
 	)
-
-	endpoint := "/users"
-
-	addOptionalParam(queryParams, "client_gravatar", r.clientGravatar, "form", "")
-	addOptionalParam(queryParams, "include_custom_profile_fields", r.includeCustomProfileFields, "form", "")
-	addOptionalParam(queryParams, "user_ids", r.userIds, "", "csv")
-	// no Content-Type header
+	addOptionalParam(query, "client_gravatar", r.clientGravatar)
+	addOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
+	addOptionalCSVParam(query, "user_ids", r.userIds)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2120,12 +2035,12 @@ func (c *simpleClient) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *h
 
 type MuteUserRequest struct {
 	ctx         context.Context
-	ApiService  UsersAPI
+	apiService  UsersAPI
 	mutedUserId int64
 }
 
 func (r MuteUserRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.MuteUserExecute(r)
+	return r.apiService.MuteUserExecute(r)
 }
 
 // MuteUser Mute a user
@@ -2148,7 +2063,7 @@ func (r MuteUserRequest) Execute() (*Response, *http.Response, error) {
 // [Mute a user]: https://zulip.com/help/mute-a-user
 func (c *simpleClient) MuteUser(ctx context.Context, mutedUserId int64) MuteUserRequest {
 	return MuteUserRequest{
-		ApiService:  c,
+		apiService:  c,
 		ctx:         ctx,
 		mutedUserId: mutedUserId,
 	}
@@ -2157,21 +2072,18 @@ func (c *simpleClient) MuteUser(ctx context.Context, mutedUserId int64) MuteUser
 // Execute executes the request
 func (c *simpleClient) MuteUserExecute(r MuteUserRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/me/muted_users/{muted_user_id}"
 	)
 
-	endpoint := "/users/me/muted_users/{muted_user_id}"
-	endpoint = strings.Replace(endpoint, "{"+"muted_user_id"+"}", idToString(r.mutedUserId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{muted_user_id}", idToString(r.mutedUserId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2182,12 +2094,12 @@ func (c *simpleClient) MuteUserExecute(r MuteUserRequest) (*Response, *http.Resp
 
 type ReactivateUserRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 	userId     int64
 }
 
 func (r ReactivateUserRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.ReactivateUserExecute(r)
+	return r.apiService.ReactivateUserExecute(r)
 }
 
 // ReactivateUser Reactivate a user
@@ -2198,7 +2110,7 @@ func (r ReactivateUserRequest) Execute() (*Response, *http.Response, error) {
 // [Reactivates a user]: https://zulip.com/help/deactivate-or-reactivate-a-user
 func (c *simpleClient) ReactivateUser(ctx context.Context, userId int64) ReactivateUserRequest {
 	return ReactivateUserRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		userId:     userId,
 	}
@@ -2207,21 +2119,18 @@ func (c *simpleClient) ReactivateUser(ctx context.Context, userId int64) Reactiv
 // Execute executes the request
 func (c *simpleClient) ReactivateUserExecute(r ReactivateUserRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/{user_id}/reactivate"
 	)
 
-	endpoint := "/users/{user_id}/reactivate"
-	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{user_id}", idToString(r.userId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2232,7 +2141,7 @@ func (c *simpleClient) ReactivateUserExecute(r ReactivateUserRequest) (*Response
 
 type RemoveAlertWordsRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 	alertWords *[]string
 }
 
@@ -2243,7 +2152,7 @@ func (r RemoveAlertWordsRequest) AlertWords(alertWords []string) RemoveAlertWord
 }
 
 func (r RemoveAlertWordsRequest) Execute() (*AlertWordsResponse, *http.Response, error) {
-	return r.ApiService.RemoveAlertWordsExecute(r)
+	return r.apiService.RemoveAlertWordsExecute(r)
 }
 
 // RemoveAlertWords Remove alert words
@@ -2255,7 +2164,7 @@ func (r RemoveAlertWordsRequest) Execute() (*AlertWordsResponse, *http.Response,
 // [alert words]: https://zulip.com/help/dm-mention-alert-notifications#alert-words
 func (c *simpleClient) RemoveAlertWords(ctx context.Context) RemoveAlertWordsRequest {
 	return RemoveAlertWordsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2263,16 +2172,13 @@ func (c *simpleClient) RemoveAlertWords(ctx context.Context) RemoveAlertWordsReq
 // Execute executes the request
 func (c *simpleClient) RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &AlertWordsResponse{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &AlertWordsResponse{}
+		endpoint = "/users/me/alert_words"
 	)
-
-	endpoint := "/users/me/alert_words"
-
 	if r.alertWords == nil {
 		return nil, nil, reportError("alertWords is required and must be specified")
 	}
@@ -2280,8 +2186,8 @@ func (c *simpleClient) RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*Aler
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "alert_words", r.alertWords, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "alert_words", r.alertWords)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2292,7 +2198,7 @@ func (c *simpleClient) RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*Aler
 
 type RemoveApnsTokenRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 	token      *string
 }
 
@@ -2303,7 +2209,7 @@ func (r RemoveApnsTokenRequest) Token(token string) RemoveApnsTokenRequest {
 }
 
 func (r RemoveApnsTokenRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.RemoveApnsTokenExecute(r)
+	return r.apiService.RemoveApnsTokenExecute(r)
 }
 
 // RemoveApnsToken Remove an APNs device token
@@ -2311,7 +2217,7 @@ func (r RemoveApnsTokenRequest) Execute() (*Response, *http.Response, error) {
 // This endpoint removes an APNs device token for iOS push notifications.
 func (c *simpleClient) RemoveApnsToken(ctx context.Context) RemoveApnsTokenRequest {
 	return RemoveApnsTokenRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2319,16 +2225,13 @@ func (c *simpleClient) RemoveApnsToken(ctx context.Context) RemoveApnsTokenReque
 // Execute executes the request
 func (c *simpleClient) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/me/apns_device_token"
 	)
-
-	endpoint := "/users/me/apns_device_token"
-
 	if r.token == nil {
 		return nil, nil, reportError("token is required and must be specified")
 	}
@@ -2336,8 +2239,8 @@ func (c *simpleClient) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*Respon
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "token", r.token, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "token", r.token)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2348,12 +2251,12 @@ func (c *simpleClient) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*Respon
 
 type RemoveAttachmentRequest struct {
 	ctx          context.Context
-	ApiService   UsersAPI
+	apiService   UsersAPI
 	attachmentId int64
 }
 
 func (r RemoveAttachmentRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.RemoveAttachmentExecute(r)
+	return r.apiService.RemoveAttachmentExecute(r)
 }
 
 // RemoveAttachment Delete an attachment
@@ -2374,7 +2277,7 @@ func (r RemoveAttachmentRequest) Execute() (*Response, *http.Response, error) {
 // [GET /attachments]: https://zulip.com/api/get-attachments
 func (c *simpleClient) RemoveAttachment(ctx context.Context, attachmentId int64) RemoveAttachmentRequest {
 	return RemoveAttachmentRequest{
-		ApiService:   c,
+		apiService:   c,
 		ctx:          ctx,
 		attachmentId: attachmentId,
 	}
@@ -2383,21 +2286,18 @@ func (c *simpleClient) RemoveAttachment(ctx context.Context, attachmentId int64)
 // Execute executes the request
 func (c *simpleClient) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/attachments/{attachment_id}"
 	)
 
-	endpoint := "/attachments/{attachment_id}"
-	endpoint = strings.Replace(endpoint, "{"+"attachment_id"+"}", idToString(r.attachmentId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{attachment_id}", idToString(r.attachmentId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2408,7 +2308,7 @@ func (c *simpleClient) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*Resp
 
 type RemoveFcmTokenRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 	token      *string
 }
 
@@ -2419,7 +2319,7 @@ func (r RemoveFcmTokenRequest) Token(token string) RemoveFcmTokenRequest {
 }
 
 func (r RemoveFcmTokenRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.RemoveFcmTokenExecute(r)
+	return r.apiService.RemoveFcmTokenExecute(r)
 }
 
 // RemoveFcmToken Remove an FCM registration token
@@ -2427,7 +2327,7 @@ func (r RemoveFcmTokenRequest) Execute() (*Response, *http.Response, error) {
 // This endpoint removes an FCM registration token for push notifications.
 func (c *simpleClient) RemoveFcmToken(ctx context.Context) RemoveFcmTokenRequest {
 	return RemoveFcmTokenRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2435,16 +2335,13 @@ func (c *simpleClient) RemoveFcmToken(ctx context.Context) RemoveFcmTokenRequest
 // Execute executes the request
 func (c *simpleClient) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/me/android_gcm_reg_id"
 	)
-
-	endpoint := "/users/me/android_gcm_reg_id"
-
 	if r.token == nil {
 		return nil, nil, reportError("token is required and must be specified")
 	}
@@ -2452,8 +2349,8 @@ func (c *simpleClient) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "token", r.token, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "token", r.token)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2464,7 +2361,7 @@ func (c *simpleClient) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*Response
 
 type SetTypingStatusRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 	op         *TypingStatusOp
 	type_      *RecipientType
 	to         *Recipient
@@ -2513,7 +2410,7 @@ func (r SetTypingStatusRequest) Topic(topic string) SetTypingStatusRequest {
 }
 
 func (r SetTypingStatusRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.SetTypingStatusExecute(r)
+	return r.apiService.SetTypingStatusExecute(r)
 }
 
 // SetTypingStatus Set "typing" status
@@ -2556,7 +2453,7 @@ func (r SetTypingStatusRequest) Execute() (*Response, *http.Response, error) {
 // [`POST /register`]: https://zulip.com/api/register-queue
 func (c *simpleClient) SetTypingStatus(ctx context.Context) SetTypingStatusRequest {
 	return SetTypingStatusRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2564,16 +2461,13 @@ func (c *simpleClient) SetTypingStatus(ctx context.Context) SetTypingStatusReque
 // Execute executes the request
 func (c *simpleClient) SetTypingStatusExecute(r SetTypingStatusRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/typing"
 	)
-
-	endpoint := "/typing"
-
 	if r.op == nil {
 		return nil, nil, reportError("op is required and must be specified")
 	}
@@ -2581,18 +2475,14 @@ func (c *simpleClient) SetTypingStatusExecute(r SetTypingStatusRequest) (*Respon
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "type", r.type_, "", "")
-	addParam(formParams, "op", r.op, "", "")
-	if r.to != nil {
-		paramJson, err := parameterToJson(r.to.asArray())
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("to", paramJson)
+	addOptionalParam(form, "type", r.type_)
+	addParam(form, "op", r.op)
+	if err := addOptionalJSONParam(form, "to", *r.to); err != nil {
+		return nil, nil, err
 	}
-	addOptionalParam(formParams, "stream_id", r.channelId, "form", "")
-	addOptionalParam(formParams, "topic", r.topic, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "stream_id", r.channelId)
+	addOptionalParam(form, "topic", r.topic)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2603,7 +2493,7 @@ func (c *simpleClient) SetTypingStatusExecute(r SetTypingStatusRequest) (*Respon
 
 type SetTypingStatusForMessageEditRequest struct {
 	ctx        context.Context
-	ApiService UsersAPI
+	apiService UsersAPI
 	messageId  int64
 	op         *TypingStatusOp
 }
@@ -2615,7 +2505,7 @@ func (r SetTypingStatusForMessageEditRequest) Op(op TypingStatusOp) SetTypingSta
 }
 
 func (r SetTypingStatusForMessageEditRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.SetTypingStatusForMessageEditExecute(r)
+	return r.apiService.SetTypingStatusForMessageEditExecute(r)
 }
 
 // SetTypingStatusForMessageEdit Set "typing" status for message editing
@@ -2637,7 +2527,7 @@ func (r SetTypingStatusForMessageEditRequest) Execute() (*Response, *http.Respon
 // [set-typing-status]: https://zulip.com/api/set-typing-status
 func (c *simpleClient) SetTypingStatusForMessageEdit(ctx context.Context, messageId int64) SetTypingStatusForMessageEditRequest {
 	return SetTypingStatusForMessageEditRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
 	}
@@ -2646,16 +2536,15 @@ func (c *simpleClient) SetTypingStatusForMessageEdit(ctx context.Context, messag
 // Execute executes the request
 func (c *simpleClient) SetTypingStatusForMessageEditExecute(r SetTypingStatusForMessageEditRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/messages/{message_id}/typing"
 	)
 
-	endpoint := "/messages/{message_id}/typing"
-	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+	endpoint = strings.Replace(endpoint, "{message_id}", idToString(r.messageId), -1)
 
 	if r.op == nil {
 		return nil, nil, reportError("op is required and must be specified")
@@ -2664,8 +2553,8 @@ func (c *simpleClient) SetTypingStatusForMessageEditExecute(r SetTypingStatusFor
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "op", r.op, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "op", r.op)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2676,12 +2565,12 @@ func (c *simpleClient) SetTypingStatusForMessageEditExecute(r SetTypingStatusFor
 
 type UnmuteUserRequest struct {
 	ctx         context.Context
-	ApiService  UsersAPI
+	apiService  UsersAPI
 	mutedUserId int64
 }
 
 func (r UnmuteUserRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UnmuteUserExecute(r)
+	return r.apiService.UnmuteUserExecute(r)
 }
 
 // UnmuteUser Unmute a user
@@ -2694,7 +2583,7 @@ func (r UnmuteUserRequest) Execute() (*Response, *http.Response, error) {
 // [Unmute a user]: https://zulip.com/help/mute-a-user#see-your-list-of-muted-users
 func (c *simpleClient) UnmuteUser(ctx context.Context, mutedUserId int64) UnmuteUserRequest {
 	return UnmuteUserRequest{
-		ApiService:  c,
+		apiService:  c,
 		ctx:         ctx,
 		mutedUserId: mutedUserId,
 	}
@@ -2703,21 +2592,18 @@ func (c *simpleClient) UnmuteUser(ctx context.Context, mutedUserId int64) Unmute
 // Execute executes the request
 func (c *simpleClient) UnmuteUserExecute(r UnmuteUserRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/me/muted_users/{muted_user_id}"
 	)
 
-	endpoint := "/users/me/muted_users/{muted_user_id}"
-	endpoint = strings.Replace(endpoint, "{"+"muted_user_id"+"}", idToString(r.mutedUserId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{muted_user_id}", idToString(r.mutedUserId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2728,7 +2614,7 @@ func (c *simpleClient) UnmuteUserExecute(r UnmuteUserRequest) (*Response, *http.
 
 type UpdatePresenceRequest struct {
 	ctx              context.Context
-	ApiService       UsersAPI
+	apiService       UsersAPI
 	status           *PresenceStatus
 	lastUpdateId     *int64
 	historyLimitDays *int32
@@ -2791,7 +2677,7 @@ func (r UpdatePresenceRequest) SlimPresence(slimPresence bool) UpdatePresenceReq
 }
 
 func (r UpdatePresenceRequest) Execute() (*UpdatePresenceResponse, *http.Response, error) {
-	return r.ApiService.UpdatePresenceExecute(r)
+	return r.apiService.UpdatePresenceExecute(r)
 }
 
 // UpdatePresence Update your presence
@@ -2829,7 +2715,7 @@ func (r UpdatePresenceRequest) Execute() (*UpdatePresenceResponse, *http.Respons
 // [`last_update_id`]: https://zulip.com/api/update-presence#parameter-last_update_id
 func (c *simpleClient) UpdatePresence(ctx context.Context) UpdatePresenceRequest {
 	return UpdatePresenceRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2837,16 +2723,13 @@ func (c *simpleClient) UpdatePresence(ctx context.Context) UpdatePresenceRequest
 // Execute executes the request
 func (c *simpleClient) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePresenceResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &UpdatePresenceResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &UpdatePresenceResponse{}
+		endpoint = "/users/me/presence"
 	)
-
-	endpoint := "/users/me/presence"
-
 	if r.status == nil {
 		return nil, nil, reportError("status is required and must be specified")
 	}
@@ -2854,13 +2737,13 @@ func (c *simpleClient) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePr
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "last_update_id", r.lastUpdateId, "", "")
-	addOptionalParam(formParams, "history_limit_days", r.historyLimitDays, "", "")
-	addOptionalParam(formParams, "new_user_input", r.newUserInput, "", "")
-	addOptionalParam(formParams, "ping_only", r.pingOnly, "", "")
-	addOptionalParam(formParams, "slim_presence", r.slimPresence, "", "")
-	addParam(formParams, "status", r.status, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "last_update_id", r.lastUpdateId)
+	addOptionalParam(form, "history_limit_days", r.historyLimitDays)
+	addOptionalParam(form, "new_user_input", r.newUserInput)
+	addOptionalParam(form, "ping_only", r.pingOnly)
+	addOptionalParam(form, "slim_presence", r.slimPresence)
+	addParam(form, "status", r.status)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2871,7 +2754,7 @@ func (c *simpleClient) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePr
 
 type UpdateSettingsRequest struct {
 	ctx                                            context.Context
-	ApiService                                     UsersAPI
+	apiService                                     UsersAPI
 	fullName                                       *string
 	email                                          *string
 	oldPassword                                    *string
@@ -3562,7 +3445,7 @@ func (r UpdateSettingsRequest) WebNavigateToSentMessage(webNavigateToSentMessage
 }
 
 func (r UpdateSettingsRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateSettingsExecute(r)
+	return r.apiService.UpdateSettingsExecute(r)
 }
 
 // UpdateSettings Update settings
@@ -3606,7 +3489,7 @@ func (r UpdateSettingsRequest) Execute() (*Response, *http.Response, error) {
 // [`ignored_parameters_unsupported`]: https://zulip.com/api/rest-error-handling#ignored-parameters
 func (c *simpleClient) UpdateSettings(ctx context.Context) UpdateSettingsRequest {
 	return UpdateSettingsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -3614,87 +3497,84 @@ func (c *simpleClient) UpdateSettings(ctx context.Context) UpdateSettingsRequest
 // Execute executes the request
 func (c *simpleClient) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/settings"
 	)
-
-	endpoint := "/settings"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "full_name", r.fullName, "", "")
-	addOptionalParam(formParams, "email", r.email, "", "")
-	addOptionalParam(formParams, "old_password", r.oldPassword, "", "")
-	addOptionalParam(formParams, "new_password", r.newPassword, "", "")
-	addOptionalParam(formParams, "twenty_four_hour_time", r.twentyFourHourTime, "form", "")
-	addOptionalParam(formParams, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy, "form", "")
-	addOptionalParam(formParams, "web_channel_default_view", r.webChannelDefaultView, "form", "")
-	addOptionalParam(formParams, "starred_message_counts", r.starredMessageCounts, "form", "")
-	addOptionalParam(formParams, "receives_typing_notifications", r.receivesTypingNotifications, "form", "")
-	addOptionalParam(formParams, "web_suggest_update_timezone", r.webSuggestUpdateTimezone, "form", "")
-	addOptionalParam(formParams, "fluid_layout_width", r.fluidLayoutWidth, "form", "")
-	addOptionalParam(formParams, "high_contrast_mode", r.highContrastMode, "form", "")
-	addOptionalParam(formParams, "web_font_size_px", r.webFontSizePx, "form", "")
-	addOptionalParam(formParams, "web_line_height_percent", r.webLineHeightPercent, "form", "")
-	addOptionalParam(formParams, "color_scheme", r.colorScheme, "form", "")
-	addOptionalParam(formParams, "enable_drafts_synchronization", r.enableDraftsSynchronization, "form", "")
-	addOptionalParam(formParams, "translate_emoticons", r.translateEmoticons, "form", "")
-	addOptionalParam(formParams, "display_emoji_reaction_users", r.displayEmojiReactionUsers, "form", "")
-	addOptionalParam(formParams, "default_language", r.defaultLanguage, "", "")
-	addOptionalParam(formParams, "web_home_view", r.webHomeView, "", "")
-	addOptionalParam(formParams, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView, "form", "")
-	addOptionalParam(formParams, "left_side_userlist", r.leftSideUserlist, "form", "")
-	addOptionalParam(formParams, "emojiset", r.emojiset, "", "")
-	addOptionalParam(formParams, "demote_inactive_streams", r.demoteInactiveChannels, "form", "")
-	addOptionalParam(formParams, "user_list_style", r.userListStyle, "form", "")
-	addOptionalParam(formParams, "web_animate_image_previews", r.webAnimateImagePreviews, "", "")
-	addOptionalParam(formParams, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy, "form", "")
-	addOptionalParam(formParams, "hide_ai_features", r.hideAiFeatures, "form", "")
-	addOptionalParam(formParams, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders, "form", "")
-	addOptionalParam(formParams, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary, "form", "")
-	addOptionalParam(formParams, "timezone", r.timezone, "", "")
-	addOptionalParam(formParams, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications, "form", "")
-	addOptionalParam(formParams, "enable_stream_email_notifications", r.enableChannelEmailNotifications, "form", "")
-	addOptionalParam(formParams, "enable_stream_push_notifications", r.enableChannelPushNotifications, "form", "")
-	addOptionalParam(formParams, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications, "form", "")
-	addOptionalParam(formParams, "notification_sound", r.notificationSound, "", "")
-	addOptionalParam(formParams, "enable_desktop_notifications", r.enableDesktopNotifications, "form", "")
-	addOptionalParam(formParams, "enable_sounds", r.enableSounds, "form", "")
-	addOptionalParam(formParams, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds, "form", "")
-	addOptionalParam(formParams, "enable_offline_email_notifications", r.enableOfflineEmailNotifications, "form", "")
-	addOptionalParam(formParams, "enable_offline_push_notifications", r.enableOfflinePushNotifications, "form", "")
-	addOptionalParam(formParams, "enable_online_push_notifications", r.enableOnlinePushNotifications, "form", "")
-	addOptionalParam(formParams, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications, "form", "")
-	addOptionalParam(formParams, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications, "form", "")
-	addOptionalParam(formParams, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications, "form", "")
-	addOptionalParam(formParams, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications, "form", "")
-	addOptionalParam(formParams, "enable_digest_emails", r.enableDigestEmails, "form", "")
-	addOptionalParam(formParams, "enable_marketing_emails", r.enableMarketingEmails, "form", "")
-	addOptionalParam(formParams, "enable_login_emails", r.enableLoginEmails, "form", "")
-	addOptionalParam(formParams, "message_content_in_email_notifications", r.messageContentInEmailNotifications, "form", "")
-	addOptionalParam(formParams, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications, "form", "")
-	addOptionalParam(formParams, "wildcard_mentions_notify", r.wildcardMentionsNotify, "form", "")
-	addOptionalParam(formParams, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify, "form", "")
-	addOptionalParam(formParams, "desktop_icon_count_display", r.desktopIconCountDisplay, "form", "")
-	addOptionalParam(formParams, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy, "form", "")
-	addOptionalParam(formParams, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy, "form", "")
-	addOptionalParam(formParams, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy, "form", "")
-	addOptionalParam(formParams, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned, "form", "")
-	addOptionalParam(formParams, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy, "", "")
-	addOptionalParam(formParams, "presence_enabled", r.presenceEnabled, "form", "")
-	addOptionalParam(formParams, "enter_sends", r.enterSends, "form", "")
-	addOptionalParam(formParams, "send_private_typing_notifications", r.sendPrivateTypingNotifications, "form", "")
-	addOptionalParam(formParams, "send_stream_typing_notifications", r.sendChannelTypingNotifications, "form", "")
-	addOptionalParam(formParams, "send_read_receipts", r.sendReadReceipts, "form", "")
-	addOptionalParam(formParams, "allow_private_data_export", r.allowPrivateDataExport, "form", "")
-	addOptionalParam(formParams, "email_address_visibility", r.emailAddressVisibility, "form", "")
-	addOptionalParam(formParams, "web_navigate_to_sent_message", r.webNavigateToSentMessage, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "full_name", r.fullName)
+	addOptionalParam(form, "email", r.email)
+	addOptionalParam(form, "old_password", r.oldPassword)
+	addOptionalParam(form, "new_password", r.newPassword)
+	addOptionalParam(form, "twenty_four_hour_time", r.twentyFourHourTime)
+	addOptionalParam(form, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy)
+	addOptionalParam(form, "web_channel_default_view", r.webChannelDefaultView)
+	addOptionalParam(form, "starred_message_counts", r.starredMessageCounts)
+	addOptionalParam(form, "receives_typing_notifications", r.receivesTypingNotifications)
+	addOptionalParam(form, "web_suggest_update_timezone", r.webSuggestUpdateTimezone)
+	addOptionalParam(form, "fluid_layout_width", r.fluidLayoutWidth)
+	addOptionalParam(form, "high_contrast_mode", r.highContrastMode)
+	addOptionalParam(form, "web_font_size_px", r.webFontSizePx)
+	addOptionalParam(form, "web_line_height_percent", r.webLineHeightPercent)
+	addOptionalParam(form, "color_scheme", r.colorScheme)
+	addOptionalParam(form, "enable_drafts_synchronization", r.enableDraftsSynchronization)
+	addOptionalParam(form, "translate_emoticons", r.translateEmoticons)
+	addOptionalParam(form, "display_emoji_reaction_users", r.displayEmojiReactionUsers)
+	addOptionalParam(form, "default_language", r.defaultLanguage)
+	addOptionalParam(form, "web_home_view", r.webHomeView)
+	addOptionalParam(form, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView)
+	addOptionalParam(form, "left_side_userlist", r.leftSideUserlist)
+	addOptionalParam(form, "emojiset", r.emojiset)
+	addOptionalParam(form, "demote_inactive_streams", r.demoteInactiveChannels)
+	addOptionalParam(form, "user_list_style", r.userListStyle)
+	addOptionalParam(form, "web_animate_image_previews", r.webAnimateImagePreviews)
+	addOptionalParam(form, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy)
+	addOptionalParam(form, "hide_ai_features", r.hideAiFeatures)
+	addOptionalParam(form, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders)
+	addOptionalParam(form, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary)
+	addOptionalParam(form, "timezone", r.timezone)
+	addOptionalParam(form, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications)
+	addOptionalParam(form, "enable_stream_email_notifications", r.enableChannelEmailNotifications)
+	addOptionalParam(form, "enable_stream_push_notifications", r.enableChannelPushNotifications)
+	addOptionalParam(form, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications)
+	addOptionalParam(form, "notification_sound", r.notificationSound)
+	addOptionalParam(form, "enable_desktop_notifications", r.enableDesktopNotifications)
+	addOptionalParam(form, "enable_sounds", r.enableSounds)
+	addOptionalParam(form, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds)
+	addOptionalParam(form, "enable_offline_email_notifications", r.enableOfflineEmailNotifications)
+	addOptionalParam(form, "enable_offline_push_notifications", r.enableOfflinePushNotifications)
+	addOptionalParam(form, "enable_online_push_notifications", r.enableOnlinePushNotifications)
+	addOptionalParam(form, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications)
+	addOptionalParam(form, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications)
+	addOptionalParam(form, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications)
+	addOptionalParam(form, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications)
+	addOptionalParam(form, "enable_digest_emails", r.enableDigestEmails)
+	addOptionalParam(form, "enable_marketing_emails", r.enableMarketingEmails)
+	addOptionalParam(form, "enable_login_emails", r.enableLoginEmails)
+	addOptionalParam(form, "message_content_in_email_notifications", r.messageContentInEmailNotifications)
+	addOptionalParam(form, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications)
+	addOptionalParam(form, "wildcard_mentions_notify", r.wildcardMentionsNotify)
+	addOptionalParam(form, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify)
+	addOptionalParam(form, "desktop_icon_count_display", r.desktopIconCountDisplay)
+	addOptionalParam(form, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy)
+	addOptionalParam(form, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy)
+	addOptionalParam(form, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy)
+	addOptionalParam(form, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned)
+	addOptionalParam(form, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy)
+	addOptionalParam(form, "presence_enabled", r.presenceEnabled)
+	addOptionalParam(form, "enter_sends", r.enterSends)
+	addOptionalParam(form, "send_private_typing_notifications", r.sendPrivateTypingNotifications)
+	addOptionalParam(form, "send_stream_typing_notifications", r.sendChannelTypingNotifications)
+	addOptionalParam(form, "send_read_receipts", r.sendReadReceipts)
+	addOptionalParam(form, "allow_private_data_export", r.allowPrivateDataExport)
+	addOptionalParam(form, "email_address_visibility", r.emailAddressVisibility)
+	addOptionalParam(form, "web_navigate_to_sent_message", r.webNavigateToSentMessage)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -3705,7 +3585,7 @@ func (c *simpleClient) UpdateSettingsExecute(r UpdateSettingsRequest) (*Response
 
 type UpdateStatusRequest struct {
 	ctx          context.Context
-	ApiService   UsersAPI
+	apiService   UsersAPI
 	statusText   *string
 	away         *bool
 	emojiName    *string
@@ -3758,7 +3638,7 @@ func (r UpdateStatusRequest) ReactionType(reactionType ReactionType) UpdateStatu
 }
 
 func (r UpdateStatusRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateStatusExecute(r)
+	return r.apiService.UpdateStatusExecute(r)
 }
 
 // UpdateStatus Update your status
@@ -3778,7 +3658,7 @@ func (r UpdateStatusRequest) Execute() (*Response, *http.Response, error) {
 // [status]: https://zulip.com/help/status-and-availability
 func (c *simpleClient) UpdateStatus(ctx context.Context) UpdateStatusRequest {
 	return UpdateStatusRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -3786,25 +3666,22 @@ func (c *simpleClient) UpdateStatus(ctx context.Context) UpdateStatusRequest {
 // Execute executes the request
 func (c *simpleClient) UpdateStatusExecute(r UpdateStatusRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/me/status"
 	)
-
-	endpoint := "/users/me/status"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "status_text", r.statusText, "", "")
-	addOptionalParam(formParams, "away", r.away, "form", "")
-	addOptionalParam(formParams, "emoji_name", r.emojiName, "", "")
-	addOptionalParam(formParams, "emoji_code", r.emojiCode, "", "")
-	addOptionalParam(formParams, "reaction_type", r.reactionType, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "status_text", r.statusText)
+	addOptionalParam(form, "away", r.away)
+	addOptionalParam(form, "emoji_name", r.emojiName)
+	addOptionalParam(form, "emoji_code", r.emojiCode)
+	addOptionalParam(form, "reaction_type", r.reactionType)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -3815,7 +3692,7 @@ func (c *simpleClient) UpdateStatusExecute(r UpdateStatusRequest) (*Response, *h
 
 type UpdateStatusForUserRequest struct {
 	ctx          context.Context
-	ApiService   UsersAPI
+	apiService   UsersAPI
 	userId       int64
 	statusText   *string
 	emojiName    *string
@@ -3858,7 +3735,7 @@ func (r UpdateStatusForUserRequest) ReactionType(reactionType string) UpdateStat
 }
 
 func (r UpdateStatusForUserRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateStatusForUserExecute(r)
+	return r.apiService.UpdateStatusForUserExecute(r)
 }
 
 // UpdateStatusForUser Update user status
@@ -3871,7 +3748,7 @@ func (r UpdateStatusForUserRequest) Execute() (*Response, *http.Response, error)
 // [status]: https://zulip.com/help/status-and-availability
 func (c *simpleClient) UpdateStatusForUser(ctx context.Context, userId int64) UpdateStatusForUserRequest {
 	return UpdateStatusForUserRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		userId:     userId,
 	}
@@ -3880,25 +3757,24 @@ func (c *simpleClient) UpdateStatusForUser(ctx context.Context, userId int64) Up
 // Execute executes the request
 func (c *simpleClient) UpdateStatusForUserExecute(r UpdateStatusForUserRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/{user_id}/status"
 	)
 
-	endpoint := "/users/{user_id}/status"
-	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+	endpoint = strings.Replace(endpoint, "{user_id}", idToString(r.userId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "status_text", r.statusText, "", "")
-	addOptionalParam(formParams, "emoji_name", r.emojiName, "", "")
-	addOptionalParam(formParams, "emoji_code", r.emojiCode, "", "")
-	addOptionalParam(formParams, "reaction_type", r.reactionType, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "status_text", r.statusText)
+	addOptionalParam(form, "emoji_name", r.emojiName)
+	addOptionalParam(form, "emoji_code", r.emojiCode)
+	addOptionalParam(form, "reaction_type", r.reactionType)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -3909,7 +3785,7 @@ func (c *simpleClient) UpdateStatusForUserExecute(r UpdateStatusForUserRequest) 
 
 type UpdateUserRequest struct {
 	ctx         context.Context
-	ApiService  UsersAPI
+	apiService  UsersAPI
 	userId      int64
 	fullName    *string
 	role        *Role
@@ -3950,7 +3826,7 @@ func (r UpdateUserRequest) NewEmail(newEmail string) UpdateUserRequest {
 }
 
 func (r UpdateUserRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateUserExecute(r)
+	return r.apiService.UpdateUserExecute(r)
 }
 
 // UpdateUser Update a user
@@ -3965,7 +3841,7 @@ func (r UpdateUserRequest) Execute() (*Response, *http.Response, error) {
 // [custom profile fields]: https://zulip.com/help/custom-profile-fields
 func (c *simpleClient) UpdateUser(ctx context.Context, userId int64) UpdateUserRequest {
 	return UpdateUserRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		userId:     userId,
 	}
@@ -3974,25 +3850,24 @@ func (c *simpleClient) UpdateUser(ctx context.Context, userId int64) UpdateUserR
 // Execute executes the request
 func (c *simpleClient) UpdateUserExecute(r UpdateUserRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/{user_id}"
 	)
 
-	endpoint := "/users/{user_id}"
-	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
+	endpoint = strings.Replace(endpoint, "{user_id}", idToString(r.userId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "full_name", r.fullName, "", "")
-	addOptionalParam(formParams, "role", r.role, "form", "")
-	addOptionalParam(formParams, "profile_data", r.profileData, "form", "multi")
-	addOptionalParam(formParams, "new_email", r.newEmail, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "full_name", r.fullName)
+	addOptionalParam(form, "role", r.role)
+	addOptionalParam(form, "profile_data", r.profileData)
+	addOptionalParam(form, "new_email", r.newEmail)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -4003,7 +3878,7 @@ func (c *simpleClient) UpdateUserExecute(r UpdateUserRequest) (*Response, *http.
 
 type UpdateUserByEmailRequest struct {
 	ctx         context.Context
-	ApiService  UsersAPI
+	apiService  UsersAPI
 	email       string
 	fullName    *string
 	role        *int32
@@ -4044,7 +3919,7 @@ func (r UpdateUserByEmailRequest) NewEmail(newEmail string) UpdateUserByEmailReq
 }
 
 func (r UpdateUserByEmailRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateUserByEmailExecute(r)
+	return r.apiService.UpdateUserByEmailExecute(r)
 }
 
 // UpdateUserByEmail Update a user by email
@@ -4062,7 +3937,7 @@ func (r UpdateUserByEmailRequest) Execute() (*Response, *http.Response, error) {
 // [`PATCH /users/{user_id}`]: https://zulip.com/api/update-user
 func (c *simpleClient) UpdateUserByEmail(ctx context.Context, email string) UpdateUserByEmailRequest {
 	return UpdateUserByEmailRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		email:      email,
 	}
@@ -4071,25 +3946,24 @@ func (c *simpleClient) UpdateUserByEmail(ctx context.Context, email string) Upda
 // Execute executes the request
 func (c *simpleClient) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/{email}"
 	)
 
-	endpoint := "/users/{email}"
-	endpoint = strings.Replace(endpoint, "{"+"email"+"}", url.PathEscape(r.email), -1)
+	endpoint = strings.Replace(endpoint, "{email}", url.PathEscape(r.email), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "full_name", r.fullName, "", "")
-	addOptionalParam(formParams, "role", r.role, "form", "")
-	addOptionalParam(formParams, "profile_data", r.profileData, "form", "multi")
-	addOptionalParam(formParams, "new_email", r.newEmail, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "full_name", r.fullName)
+	addOptionalParam(form, "role", r.role)
+	addOptionalParam(form, "profile_data", r.profileData)
+	addOptionalParam(form, "new_email", r.newEmail)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -4100,7 +3974,7 @@ func (c *simpleClient) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*Re
 
 type UpdateUserGroupRequest struct {
 	ctx                   context.Context
-	ApiService            UsersAPI
+	apiService            UsersAPI
 	userGroupId           int64
 	name                  *string
 	description           *string
@@ -4213,7 +4087,7 @@ func (r UpdateUserGroupRequest) Deactivated(deactivated bool) UpdateUserGroupReq
 }
 
 func (r UpdateUserGroupRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateUserGroupExecute(r)
+	return r.apiService.UpdateUserGroupExecute(r)
 }
 
 // UpdateUserGroup Update a user group
@@ -4238,7 +4112,7 @@ func (r UpdateUserGroupRequest) Execute() (*Response, *http.Response, error) {
 // [user group]: https://zulip.com/help/user-groups
 func (c *simpleClient) UpdateUserGroup(ctx context.Context, userGroupId int64) UpdateUserGroupRequest {
 	return UpdateUserGroupRequest{
-		ApiService:  c,
+		apiService:  c,
 		ctx:         ctx,
 		userGroupId: userGroupId,
 	}
@@ -4247,66 +4121,41 @@ func (c *simpleClient) UpdateUserGroup(ctx context.Context, userGroupId int64) U
 // Execute executes the request
 func (c *simpleClient) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/user_groups/{user_group_id}"
 	)
 
-	endpoint := "/user_groups/{user_group_id}"
-	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
+	endpoint = strings.Replace(endpoint, "{user_group_id}", idToString(r.userGroupId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "name", r.name, "", "")
-	addOptionalParam(formParams, "description", r.description, "", "")
-	if r.canAddMembersGroup != nil {
-		paramJson, err := parameterToJson(*r.canAddMembersGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_add_members_group", paramJson)
+	addOptionalParam(form, "name", r.name)
+	addOptionalParam(form, "description", r.description)
+	if err := addOptionalJSONParam(form, "can_add_members_group", r.canAddMembersGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canJoinGroup != nil {
-		paramJson, err := parameterToJson(*r.canJoinGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_join_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_join_group", r.canJoinGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canLeaveGroup != nil {
-		paramJson, err := parameterToJson(*r.canLeaveGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_leave_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_leave_group", r.canLeaveGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canManageGroup != nil {
-		paramJson, err := parameterToJson(*r.canManageGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_manage_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_manage_group", r.canManageGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canMentionGroup != nil {
-		paramJson, err := parameterToJson(*r.canMentionGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_mention_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_mention_group", r.canMentionGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canRemoveMembersGroup != nil {
-		paramJson, err := parameterToJson(*r.canRemoveMembersGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_remove_members_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_remove_members_group", r.canRemoveMembersGroup); err != nil {
+		return nil, nil, err
 	}
-	addOptionalParam(formParams, "deactivated", r.deactivated, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "deactivated", r.deactivated)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -4317,7 +4166,7 @@ func (c *simpleClient) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*Respon
 
 type UpdateUserGroupMembersRequest struct {
 	ctx             context.Context
-	ApiService      UsersAPI
+	apiService      UsersAPI
 	userGroupId     int64
 	delete          *[]int64
 	add             *[]int64
@@ -4354,7 +4203,7 @@ func (r UpdateUserGroupMembersRequest) AddSubgroups(addSubgroups []int64) Update
 }
 
 func (r UpdateUserGroupMembersRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateUserGroupMembersExecute(r)
+	return r.apiService.UpdateUserGroupMembersExecute(r)
 }
 
 // UpdateUserGroupMembers Update user group members
@@ -4371,7 +4220,7 @@ func (r UpdateUserGroupMembersRequest) Execute() (*Response, *http.Response, err
 // [user group]: https://zulip.com/help/user-groups
 func (c *simpleClient) UpdateUserGroupMembers(ctx context.Context, userGroupId int64) UpdateUserGroupMembersRequest {
 	return UpdateUserGroupMembersRequest{
-		ApiService:  c,
+		apiService:  c,
 		ctx:         ctx,
 		userGroupId: userGroupId,
 	}
@@ -4380,25 +4229,24 @@ func (c *simpleClient) UpdateUserGroupMembers(ctx context.Context, userGroupId i
 // Execute executes the request
 func (c *simpleClient) UpdateUserGroupMembersExecute(r UpdateUserGroupMembersRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/user_groups/{user_group_id}/members"
 	)
 
-	endpoint := "/user_groups/{user_group_id}/members"
-	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
+	endpoint = strings.Replace(endpoint, "{user_group_id}", idToString(r.userGroupId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "delete", r.delete, "form", "multi")
-	addOptionalParam(formParams, "add", r.add, "form", "multi")
-	addOptionalParam(formParams, "delete_subgroups", r.deleteSubgroups, "form", "multi")
-	addOptionalParam(formParams, "add_subgroups", r.addSubgroups, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "delete", r.delete)
+	addOptionalParam(form, "add", r.add)
+	addOptionalParam(form, "delete_subgroups", r.deleteSubgroups)
+	addOptionalParam(form, "add_subgroups", r.addSubgroups)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -4409,7 +4257,7 @@ func (c *simpleClient) UpdateUserGroupMembersExecute(r UpdateUserGroupMembersReq
 
 type UpdateUserGroupSubgroupsRequest struct {
 	ctx         context.Context
-	ApiService  UsersAPI
+	apiService  UsersAPI
 	userGroupId int64
 	delete      *[]int64
 	add         *[]int64
@@ -4428,7 +4276,7 @@ func (r UpdateUserGroupSubgroupsRequest) Add(add []int64) UpdateUserGroupSubgrou
 }
 
 func (r UpdateUserGroupSubgroupsRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateUserGroupSubgroupsExecute(r)
+	return r.apiService.UpdateUserGroupSubgroupsExecute(r)
 }
 
 // UpdateUserGroupSubgroups Update subgroups of a user group
@@ -4443,7 +4291,7 @@ func (r UpdateUserGroupSubgroupsRequest) Execute() (*Response, *http.Response, e
 // [user group]: https://zulip.com/help/user-groups
 func (c *simpleClient) UpdateUserGroupSubgroups(ctx context.Context, userGroupId int64) UpdateUserGroupSubgroupsRequest {
 	return UpdateUserGroupSubgroupsRequest{
-		ApiService:  c,
+		apiService:  c,
 		ctx:         ctx,
 		userGroupId: userGroupId,
 	}
@@ -4452,23 +4300,22 @@ func (c *simpleClient) UpdateUserGroupSubgroups(ctx context.Context, userGroupId
 // Execute executes the request
 func (c *simpleClient) UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroupsRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/user_groups/{user_group_id}/subgroups"
 	)
 
-	endpoint := "/user_groups/{user_group_id}/subgroups"
-	endpoint = strings.Replace(endpoint, "{"+"user_group_id"+"}", idToString(r.userGroupId), -1)
+	endpoint = strings.Replace(endpoint, "{user_group_id}", idToString(r.userGroupId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "delete", r.delete, "form", "multi")
-	addOptionalParam(formParams, "add", r.add, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "delete", r.delete)
+	addOptionalParam(form, "add", r.add)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

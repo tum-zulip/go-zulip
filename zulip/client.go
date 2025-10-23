@@ -12,10 +12,10 @@ const (
 )
 
 var (
-	JsonCheck       = regexp.MustCompile(`(?i:(?:application|text)/(?:[^;]+\+)?json)`)
-	XmlCheck        = regexp.MustCompile(`(?i:(?:application|text)/(?:[^;]+\+)?xml)`)
-	queryParamSplit = regexp.MustCompile(`(^|&)([^&]+)`)
-	queryDescape    = strings.NewReplacer("%5B", "[", "%5D", "]")
+	JsonCheck    = regexp.MustCompile(`(?i:(?:application|text)/(?:[^;]+\+)?json)`)
+	XmlCheck     = regexp.MustCompile(`(?i:(?:application|text)/(?:[^;]+\+)?xml)`)
+	queryplit    = regexp.MustCompile(`(^|&)([^&]+)`)
+	queryDescape = strings.NewReplacer("%5B", "[", "%5D", "]")
 )
 
 type Client interface {

@@ -16,7 +16,7 @@ type ComplexGroupSettingValue struct {
 	DirectSubgroups []int64 `json:"direct_subgroups"`
 }
 
-// special json marshaller and unmarshaller for union GroupSettingValue
+// special json marshaler and unmarshaler for union GroupSettingValue
 func (o GroupSettingValue) MarshalJSON() ([]byte, error) {
 	return marshalUnionType(o)
 }

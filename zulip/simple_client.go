@@ -370,10 +370,9 @@ type formFile struct {
 func (c *simpleClient) prepareRequest(
 	ctx context.Context,
 	endpoint string, method string,
-	postBody interface{},
 	headerParams map[string]string,
-	queryParams url.Values,
-	formParams url.Values,
+	query url.Values,
+	form url.Values,
 	formFiles []formFile) (localVarRequest *http.Request, err error) {
 
 	basePath, err := c.ServerURL()
@@ -385,29 +384,12 @@ func (c *simpleClient) prepareRequest(
 
 	var body *bytes.Buffer
 
-	// Detect postBody type and post.
-	if postBody != nil {
-		contentType := headerParams["Content-Type"]
-		if contentType == "" {
-			contentType = detectContentType(postBody)
-			headerParams["Content-Type"] = contentType
-		}
-
-		body, err = setBody(postBody, contentType)
-		if err != nil {
-			return nil, err
-		}
-	}
-
 	// add form parameters and file if available.
-	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(formParams) > 0 || (len(formFiles) > 0) {
-		if body != nil {
-			return nil, errors.New("cannot specify postBody and multipart form at the same time")
-		}
+	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(form) > 0 || (len(formFiles) > 0) {
 		body = &bytes.Buffer{}
 		w := multipart.NewWriter(body)
 
-		for k, v := range formParams {
+		for k, v := range form {
 			for _, iv := range v {
 				if strings.HasPrefix(k, "@") { // file
 					err = addFile(w, k[1:], iv)
@@ -445,12 +427,12 @@ func (c *simpleClient) prepareRequest(
 		w.Close()
 	}
 
-	if strings.HasPrefix(headerParams["Content-Type"], "application/x-www-form-urlencoded") && len(formParams) > 0 {
+	if strings.HasPrefix(headerParams["Content-Type"], "application/x-www-form-urlencoded") && len(form) > 0 {
 		if body != nil {
 			return nil, errors.New("cannot specify postBody and x-www-form-urlencoded form at the same time")
 		}
 		body = &bytes.Buffer{}
-		body.WriteString(formParams.Encode())
+		body.WriteString(form.Encode())
 		// Set Content-Length
 		headerParams["Content-Length"] = fmt.Sprintf("%d", body.Len())
 	}
@@ -462,15 +444,15 @@ func (c *simpleClient) prepareRequest(
 	}
 
 	// Adding Query Param
-	query := url.Query()
-	for k, v := range queryParams {
+	q := url.Query()
+	for k, v := range query {
 		for _, iv := range v {
-			query.Add(k, iv)
+			q.Add(k, iv)
 		}
 	}
 
 	// Encode the parameters.
-	url.RawQuery = queryParamSplit.ReplaceAllStringFunc(query.Encode(), func(s string) string {
+	url.RawQuery = queryplit.ReplaceAllStringFunc(q.Encode(), func(s string) string {
 		pieces := strings.Split(s, "=")
 		pieces[0] = queryDescape.Replace(pieces[0])
 		return strings.Join(pieces, "=")

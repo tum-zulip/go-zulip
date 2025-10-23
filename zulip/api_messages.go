@@ -462,7 +462,7 @@ type MessagesAPI interface {
 
 type AddReactionRequest struct {
 	ctx          context.Context
-	ApiService   MessagesAPI
+	apiService   MessagesAPI
 	messageId    int64
 	emojiName    *string
 	emojiCode    *string
@@ -498,7 +498,7 @@ func (r AddReactionRequest) ReactionType(reactionType string) AddReactionRequest
 }
 
 func (r AddReactionRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.AddReactionExecute(r)
+	return r.apiService.AddReactionExecute(r)
 }
 
 // AddReaction Add an emoji reaction
@@ -508,7 +508,7 @@ func (r AddReactionRequest) Execute() (*Response, *http.Response, error) {
 // [emoji reaction]: https://zulip.com/help/emoji-reactions
 func (c *simpleClient) AddReaction(ctx context.Context, messageId int64) AddReactionRequest {
 	return AddReactionRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
 	}
@@ -517,16 +517,15 @@ func (c *simpleClient) AddReaction(ctx context.Context, messageId int64) AddReac
 // Execute executes the request
 func (c *simpleClient) AddReactionExecute(r AddReactionRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/messages/{message_id}/reactions"
 	)
 
-	endpoint := "/messages/{message_id}/reactions"
-	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+	endpoint = strings.Replace(endpoint, "{message_id}", idToString(r.messageId), -1)
 
 	if r.emojiName == nil {
 		return nil, nil, reportError("emojiName is required and must be specified")
@@ -535,10 +534,10 @@ func (c *simpleClient) AddReactionExecute(r AddReactionRequest) (*Response, *htt
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "emoji_name", r.emojiName, "", "")
-	addOptionalParam(formParams, "emoji_code", r.emojiCode, "", "")
-	addOptionalParam(formParams, "reaction_type", r.reactionType, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "emoji_name", r.emojiName)
+	addOptionalParam(form, "emoji_code", r.emojiCode)
+	addOptionalParam(form, "reaction_type", r.reactionType)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -549,7 +548,7 @@ func (c *simpleClient) AddReactionExecute(r AddReactionRequest) (*Response, *htt
 
 type CheckMessagesMatchNarrowRequest struct {
 	ctx        context.Context
-	ApiService MessagesAPI
+	apiService MessagesAPI
 	msgIds     *[]int64
 	narrow     *Narrow
 }
@@ -572,7 +571,7 @@ func (r CheckMessagesMatchNarrowRequest) Narrow(narrow *Narrow) CheckMessagesMat
 }
 
 func (r CheckMessagesMatchNarrowRequest) Execute() (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
-	return r.ApiService.CheckMessagesMatchNarrowExecute(r)
+	return r.apiService.CheckMessagesMatchNarrowExecute(r)
 }
 
 // CheckMessagesMatchNarrow Check if messages match a narrow
@@ -599,7 +598,7 @@ func (r CheckMessagesMatchNarrowRequest) Execute() (*CheckMessagesMatchNarrowRes
 // [`GET /events`]: https://zulip.com/api/get-events#message
 func (c *simpleClient) CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest {
 	return CheckMessagesMatchNarrowRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -607,16 +606,13 @@ func (c *simpleClient) CheckMessagesMatchNarrow(ctx context.Context) CheckMessag
 // Execute executes the request
 func (c *simpleClient) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &CheckMessagesMatchNarrowResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &CheckMessagesMatchNarrowResponse{}
+		endpoint = "/messages/matches_narrow"
 	)
-
-	endpoint := "/messages/matches_narrow"
-
 	if r.msgIds == nil {
 		return nil, nil, reportError("msgIds is required and must be specified")
 	}
@@ -624,12 +620,11 @@ func (c *simpleClient) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarro
 		return nil, nil, reportError("narrow is required and must be specified")
 	}
 
-	addParam(queryParams, "msg_ids", r.msgIds, "", "csv")
-	addParam(queryParams, "narrow", r.narrow, "", "csv")
-	// no Content-Type header
+	addCSVParam(query, "msg_ids", r.msgIds)
+	addCSVParam(query, "narrow", r.narrow)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -640,12 +635,12 @@ func (c *simpleClient) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarro
 
 type DeleteMessageRequest struct {
 	ctx        context.Context
-	ApiService MessagesAPI
+	apiService MessagesAPI
 	messageId  int64
 }
 
 func (r DeleteMessageRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.DeleteMessageExecute(r)
+	return r.apiService.DeleteMessageExecute(r)
 }
 
 // DeleteMessage Delete a message
@@ -659,7 +654,7 @@ func (r DeleteMessageRequest) Execute() (*Response, *http.Response, error) {
 // [delete a message completely]: https://zulip.com/help/delete-a-message#delete-a-message-completely
 func (c *simpleClient) DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest {
 	return DeleteMessageRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
 	}
@@ -668,21 +663,18 @@ func (c *simpleClient) DeleteMessage(ctx context.Context, messageId int64) Delet
 // Execute executes the request
 func (c *simpleClient) DeleteMessageExecute(r DeleteMessageRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/messages/{message_id}"
 	)
 
-	endpoint := "/messages/{message_id}"
-	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{message_id}", idToString(r.messageId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -693,13 +685,13 @@ func (c *simpleClient) DeleteMessageExecute(r DeleteMessageRequest) (*Response, 
 
 type GetFileTemporaryUrlRequest struct {
 	ctx        context.Context
-	ApiService MessagesAPI
+	apiService MessagesAPI
 	realmId    int64
 	filename   string
 }
 
 func (r GetFileTemporaryUrlRequest) Execute() (*GetFileTemporaryUrlResponse, *http.Response, error) {
-	return r.ApiService.GetFileTemporaryUrlExecute(r)
+	return r.apiService.GetFileTemporaryUrlExecute(r)
 }
 
 // GetFileTemporaryUrl Get public temporary URL
@@ -709,7 +701,7 @@ func (r GetFileTemporaryUrlRequest) Execute() (*GetFileTemporaryUrlResponse, *ht
 // *Changes**: New in Zulip 3.0 (feature level 1).
 func (c *simpleClient) GetFileTemporaryUrl(ctx context.Context, realmId int64, filename string) GetFileTemporaryUrlRequest {
 	return GetFileTemporaryUrlRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		realmId:    realmId,
 		filename:   filename,
@@ -719,22 +711,19 @@ func (c *simpleClient) GetFileTemporaryUrl(ctx context.Context, realmId int64, f
 // Execute executes the request
 func (c *simpleClient) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetFileTemporaryUrlResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetFileTemporaryUrlResponse{}
+		endpoint = "/user_uploads/{realm_id_str}/{filename}"
 	)
 
-	endpoint := "/user_uploads/{realm_id_str}/{filename}"
-	endpoint = strings.Replace(endpoint, "{"+"realm_id_str"+"}", idToString(r.realmId), -1)
-	endpoint = strings.Replace(endpoint, "{"+"filename"+"}", url.PathEscape(r.filename), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{realm_id_str}", idToString(r.realmId), -1)
+	endpoint = strings.Replace(endpoint, "{filename}", url.PathEscape(r.filename), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -745,7 +734,7 @@ func (c *simpleClient) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) 
 
 type GetMessageRequest struct {
 	ctx                 context.Context
-	ApiService          MessagesAPI
+	apiService          MessagesAPI
 	messageId           int64
 	applyMarkdown       *bool
 	allowEmptyTopicName *bool
@@ -772,7 +761,7 @@ func (r GetMessageRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMess
 }
 
 func (r GetMessageRequest) Execute() (*GetMessageResponse, *http.Response, error) {
-	return r.ApiService.GetMessageExecute(r)
+	return r.apiService.GetMessageExecute(r)
 }
 
 // GetMessage Fetch a single message
@@ -792,7 +781,7 @@ func (r GetMessageRequest) Execute() (*GetMessageResponse, *http.Response, error
 // [view source]: https://zulip.com/help/view-the-markdown-source-of-a-message
 func (c *simpleClient) GetMessage(ctx context.Context, messageId int64) GetMessageRequest {
 	return GetMessageRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
 	}
@@ -801,23 +790,21 @@ func (c *simpleClient) GetMessage(ctx context.Context, messageId int64) GetMessa
 // Execute executes the request
 func (c *simpleClient) GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetMessageResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetMessageResponse{}
+		endpoint = "/messages/{message_id}"
 	)
 
-	endpoint := "/messages/{message_id}"
-	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+	endpoint = strings.Replace(endpoint, "{message_id}", idToString(r.messageId), -1)
 
-	addOptionalParam(queryParams, "apply_markdown", r.applyMarkdown, "form", "")
-	addOptionalParam(queryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
-	// no Content-Type header
+	addOptionalParam(query, "apply_markdown", r.applyMarkdown)
+	addOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -828,7 +815,7 @@ func (c *simpleClient) GetMessageExecute(r GetMessageRequest) (*GetMessageRespon
 
 type GetMessageHistoryRequest struct {
 	ctx                 context.Context
-	ApiService          MessagesAPI
+	apiService          MessagesAPI
 	messageId           int64
 	allowEmptyTopicName *bool
 }
@@ -844,7 +831,7 @@ func (r GetMessageHistoryRequest) AllowEmptyTopicName(allowEmptyTopicName bool) 
 }
 
 func (r GetMessageHistoryRequest) Execute() (*GetMessageHistoryResponse, *http.Response, error) {
-	return r.ApiService.GetMessageHistoryExecute(r)
+	return r.apiService.GetMessageHistoryExecute(r)
 }
 
 // GetMessageHistory Get a message's edit history
@@ -857,7 +844,7 @@ func (r GetMessageHistoryRequest) Execute() (*GetMessageHistoryResponse, *http.R
 // [Zulip Help Center documentation on editing messages]: https://zulip.com/help/view-a-messages-edit-history
 func (c *simpleClient) GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest {
 	return GetMessageHistoryRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
 	}
@@ -866,22 +853,20 @@ func (c *simpleClient) GetMessageHistory(ctx context.Context, messageId int64) G
 // Execute executes the request
 func (c *simpleClient) GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetMessageHistoryResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetMessageHistoryResponse{}
+		endpoint = "/messages/{message_id}/history"
 	)
 
-	endpoint := "/messages/{message_id}/history"
-	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+	endpoint = strings.Replace(endpoint, "{message_id}", idToString(r.messageId), -1)
 
-	addOptionalParam(queryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
-	// no Content-Type header
+	addOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -892,7 +877,7 @@ func (c *simpleClient) GetMessageHistoryExecute(r GetMessageHistoryRequest) (*Ge
 
 type GetMessagesRequest struct {
 	ctx                  context.Context
-	ApiService           MessagesAPI
+	apiService           MessagesAPI
 	anchor               *string
 	includeAnchor        *bool
 	numBefore            *int32
@@ -990,7 +975,7 @@ func (r GetMessagesRequest) AllowEmptyTopicName(allowEmptyTopicName bool) GetMes
 }
 
 func (r GetMessagesRequest) Execute() (*GetMessagesResponse, *http.Response, error) {
-	return r.ApiService.GetMessagesExecute(r)
+	return r.apiService.GetMessagesExecute(r)
 }
 
 // GetMessages Get messages
@@ -1028,7 +1013,7 @@ func (r GetMessagesRequest) Execute() (*GetMessagesResponse, *http.Response, err
 // [search query]: https://zulip.com/help/search-for-messages
 func (c *simpleClient) GetMessages(ctx context.Context) GetMessagesRequest {
 	return GetMessagesRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1036,30 +1021,26 @@ func (c *simpleClient) GetMessages(ctx context.Context) GetMessagesRequest {
 // Execute executes the request
 func (c *simpleClient) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetMessagesResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetMessagesResponse{}
+		endpoint = "/messages"
 	)
-
-	endpoint := "/messages"
-
-	addOptionalParam(queryParams, "anchor", r.anchor, "form", "")
-	addOptionalParam(queryParams, "include_anchor", r.includeAnchor, "form", "")
-	addOptionalParam(queryParams, "num_before", r.numBefore, "form", "")
-	addOptionalParam(queryParams, "num_after", r.numAfter, "form", "")
-	addOptionalParam(queryParams, "narrow", r.narrow, "", "csv")
-	addOptionalParam(queryParams, "client_gravatar", r.clientGravatar, "form", "")
-	addOptionalParam(queryParams, "apply_markdown", r.applyMarkdown, "form", "")
-	addOptionalParam(queryParams, "use_first_unread_anchor", r.useFirstUnreadAnchor, "form", "")
-	addOptionalParam(queryParams, "message_ids", r.messageIds, "", "csv")
-	addOptionalParam(queryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
-	// no Content-Type header
+	addOptionalParam(query, "anchor", r.anchor)
+	addOptionalParam(query, "include_anchor", r.includeAnchor)
+	addOptionalParam(query, "num_before", r.numBefore)
+	addOptionalParam(query, "num_after", r.numAfter)
+	addOptionalCSVParam(query, "narrow", r.narrow)
+	addOptionalParam(query, "client_gravatar", r.clientGravatar)
+	addOptionalParam(query, "apply_markdown", r.applyMarkdown)
+	addOptionalParam(query, "use_first_unread_anchor", r.useFirstUnreadAnchor)
+	addOptionalCSVParam(query, "message_ids", r.messageIds)
+	addOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1070,12 +1051,12 @@ func (c *simpleClient) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesRes
 
 type GetReadReceiptsRequest struct {
 	ctx        context.Context
-	ApiService MessagesAPI
+	apiService MessagesAPI
 	messageId  int64
 }
 
 func (r GetReadReceiptsRequest) Execute() (*GetReadReceiptsResponse, *http.Response, error) {
-	return r.ApiService.GetReadReceiptsExecute(r)
+	return r.apiService.GetReadReceiptsExecute(r)
 }
 
 // GetReadReceipts Get a message's read receipts
@@ -1096,7 +1077,7 @@ func (r GetReadReceiptsRequest) Execute() (*GetReadReceiptsResponse, *http.Respo
 // *Changes**: New in Zulip 6.0 (feature level 137).
 func (c *simpleClient) GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest {
 	return GetReadReceiptsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
 	}
@@ -1105,21 +1086,18 @@ func (c *simpleClient) GetReadReceipts(ctx context.Context, messageId int64) Get
 // Execute executes the request
 func (c *simpleClient) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetReadReceiptsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetReadReceiptsResponse{}
+		endpoint = "/messages/{message_id}/read_receipts"
 	)
 
-	endpoint := "/messages/{message_id}/read_receipts"
-	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{message_id}", idToString(r.messageId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1130,11 +1108,11 @@ func (c *simpleClient) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetRea
 
 type MarkAllAsReadRequest struct {
 	ctx        context.Context
-	ApiService MessagesAPI
+	apiService MessagesAPI
 }
 
 func (r MarkAllAsReadRequest) Execute() (*MarkAllAsReadResponse, *http.Response, error) {
-	return r.ApiService.MarkAllAsReadExecute(r)
+	return r.apiService.MarkAllAsReadExecute(r)
 }
 
 // MarkAllAsRead Mark all messages as read
@@ -1171,7 +1149,7 @@ func (r MarkAllAsReadRequest) Execute() (*MarkAllAsReadResponse, *http.Response,
 // [update personal message flags for narrow]: https://zulip.com/api/update-message-flags-for-narrow
 func (c *simpleClient) MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest {
 	return MarkAllAsReadRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1181,20 +1159,16 @@ func (c *simpleClient) MarkAllAsRead(ctx context.Context) MarkAllAsReadRequest {
 // Deprecated
 func (c *simpleClient) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &MarkAllAsReadResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &MarkAllAsReadResponse{}
+		endpoint = "/mark_all_as_read"
 	)
 
-	endpoint := "/mark_all_as_read"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1205,7 +1179,7 @@ func (c *simpleClient) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsR
 
 type MarkChannelAsReadRequest struct {
 	ctx        context.Context
-	ApiService MessagesAPI
+	apiService MessagesAPI
 	channelId  *int64
 }
 
@@ -1216,7 +1190,7 @@ func (r MarkChannelAsReadRequest) ChannelId(channelId int64) MarkChannelAsReadRe
 }
 
 func (r MarkChannelAsReadRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.MarkChannelAsReadExecute(r)
+	return r.apiService.MarkChannelAsReadExecute(r)
 }
 
 // MarkChannelAsRead Mark messages in a channel as read
@@ -1231,7 +1205,7 @@ func (r MarkChannelAsReadRequest) Execute() (*Response, *http.Response, error) {
 // [update personal message flags for narrow]: https://zulip.com/api/update-message-flags-for-narrow
 func (c *simpleClient) MarkChannelAsRead(ctx context.Context) MarkChannelAsReadRequest {
 	return MarkChannelAsReadRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1241,16 +1215,13 @@ func (c *simpleClient) MarkChannelAsRead(ctx context.Context) MarkChannelAsReadR
 // Deprecated
 func (c *simpleClient) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/mark_stream_as_read"
 	)
-
-	endpoint := "/mark_stream_as_read"
-
 	if r.channelId == nil {
 		return nil, nil, reportError("channelId is required and must be specified")
 	}
@@ -1258,8 +1229,8 @@ func (c *simpleClient) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Re
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "stream_id", r.channelId, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "stream_id", r.channelId)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1270,7 +1241,7 @@ func (c *simpleClient) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*Re
 
 type MarkTopicAsReadRequest struct {
 	ctx        context.Context
-	ApiService MessagesAPI
+	apiService MessagesAPI
 	channelId  *int64
 	topicName  *string
 }
@@ -1292,7 +1263,7 @@ func (r MarkTopicAsReadRequest) TopicName(topicName string) MarkTopicAsReadReque
 }
 
 func (r MarkTopicAsReadRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.MarkTopicAsReadExecute(r)
+	return r.apiService.MarkTopicAsReadExecute(r)
 }
 
 // MarkTopicAsRead Mark messages in a topic as read
@@ -1307,7 +1278,7 @@ func (r MarkTopicAsReadRequest) Execute() (*Response, *http.Response, error) {
 // [update personal message flags for narrow]: https://zulip.com/api/update-message-flags-for-narrow
 func (c *simpleClient) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRequest {
 	return MarkTopicAsReadRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1317,16 +1288,13 @@ func (c *simpleClient) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadReque
 // Deprecated
 func (c *simpleClient) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/mark_topic_as_read"
 	)
-
-	endpoint := "/mark_topic_as_read"
-
 	if r.channelId == nil {
 		return nil, nil, reportError("channelId is required and must be specified")
 	}
@@ -1337,9 +1305,9 @@ func (c *simpleClient) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Respon
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "stream_id", r.channelId, "form", "")
-	addParam(formParams, "topic_name", r.topicName, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "stream_id", r.channelId)
+	addParam(form, "topic_name", r.topicName)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1350,7 +1318,7 @@ func (c *simpleClient) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*Respon
 
 type RemoveReactionRequest struct {
 	ctx          context.Context
-	ApiService   MessagesAPI
+	apiService   MessagesAPI
 	messageId    int64
 	emojiName    *string
 	emojiCode    *string
@@ -1386,7 +1354,7 @@ func (r RemoveReactionRequest) ReactionType(reactionType ReactionType) RemoveRea
 }
 
 func (r RemoveReactionRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.RemoveReactionExecute(r)
+	return r.apiService.RemoveReactionExecute(r)
 }
 
 // RemoveReaction Remove an emoji reaction
@@ -1396,7 +1364,7 @@ func (r RemoveReactionRequest) Execute() (*Response, *http.Response, error) {
 // [emoji reaction]: https://zulip.com/help/emoji-reactions
 func (c *simpleClient) RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest {
 	return RemoveReactionRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
 	}
@@ -1405,24 +1373,23 @@ func (c *simpleClient) RemoveReaction(ctx context.Context, messageId int64) Remo
 // Execute executes the request
 func (c *simpleClient) RemoveReactionExecute(r RemoveReactionRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/messages/{message_id}/reactions"
 	)
 
-	endpoint := "/messages/{message_id}/reactions"
-	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+	endpoint = strings.Replace(endpoint, "{message_id}", idToString(r.messageId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "emoji_name", r.emojiName, "", "")
-	addOptionalParam(formParams, "emoji_code", r.emojiCode, "", "")
-	addOptionalParam(formParams, "reaction_type", r.reactionType, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "emoji_name", r.emojiName)
+	addOptionalParam(form, "emoji_code", r.emojiCode)
+	addOptionalParam(form, "reaction_type", r.reactionType)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1433,7 +1400,7 @@ func (c *simpleClient) RemoveReactionExecute(r RemoveReactionRequest) (*Response
 
 type RenderMessageRequest struct {
 	ctx        context.Context
-	ApiService MessagesAPI
+	apiService MessagesAPI
 	content    *string
 }
 
@@ -1446,7 +1413,7 @@ func (r RenderMessageRequest) Content(content string) RenderMessageRequest {
 }
 
 func (r RenderMessageRequest) Execute() (*RenderMessageResponse, *http.Response, error) {
-	return r.ApiService.RenderMessageExecute(r)
+	return r.apiService.RenderMessageExecute(r)
 }
 
 // RenderMessage Render a message
@@ -1454,7 +1421,7 @@ func (r RenderMessageRequest) Execute() (*RenderMessageResponse, *http.Response,
 // Render a message to HTML.
 func (c *simpleClient) RenderMessage(ctx context.Context) RenderMessageRequest {
 	return RenderMessageRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1462,16 +1429,13 @@ func (c *simpleClient) RenderMessage(ctx context.Context) RenderMessageRequest {
 // Execute executes the request
 func (c *simpleClient) RenderMessageExecute(r RenderMessageRequest) (*RenderMessageResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &RenderMessageResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &RenderMessageResponse{}
+		endpoint = "/messages/render"
 	)
-
-	endpoint := "/messages/render"
-
 	if r.content == nil {
 		return nil, nil, reportError("content is required and must be specified")
 	}
@@ -1479,8 +1443,8 @@ func (c *simpleClient) RenderMessageExecute(r RenderMessageRequest) (*RenderMess
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "content", r.content, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "content", r.content)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1491,7 +1455,7 @@ func (c *simpleClient) RenderMessageExecute(r RenderMessageRequest) (*RenderMess
 
 type ReportMessageRequest struct {
 	ctx         context.Context
-	ApiService  MessagesAPI
+	apiService  MessagesAPI
 	messageId   int64
 	reportType  *string
 	description *string
@@ -1510,7 +1474,7 @@ func (r ReportMessageRequest) Description(description string) ReportMessageReque
 }
 
 func (r ReportMessageRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.ReportMessageExecute(r)
+	return r.apiService.ReportMessageExecute(r)
 }
 
 // ReportMessage Report a message
@@ -1531,7 +1495,7 @@ func (r ReportMessageRequest) Execute() (*Response, *http.Response, error) {
 // feature level 331.
 func (c *simpleClient) ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest {
 	return ReportMessageRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
 	}
@@ -1540,16 +1504,15 @@ func (c *simpleClient) ReportMessage(ctx context.Context, messageId int64) Repor
 // Execute executes the request
 func (c *simpleClient) ReportMessageExecute(r ReportMessageRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/messages/{message_id}/report"
 	)
 
-	endpoint := "/messages/{message_id}/report"
-	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+	endpoint = strings.Replace(endpoint, "{message_id}", idToString(r.messageId), -1)
 
 	if r.reportType == nil {
 		return nil, nil, reportError("reportType is required and must be specified")
@@ -1558,9 +1521,9 @@ func (c *simpleClient) ReportMessageExecute(r ReportMessageRequest) (*Response, 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "report_type", r.reportType, "", "")
-	addOptionalParam(formParams, "description", r.description, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "report_type", r.reportType)
+	addOptionalParam(form, "description", r.description)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1571,7 +1534,7 @@ func (c *simpleClient) ReportMessageExecute(r ReportMessageRequest) (*Response, 
 
 type SendMessageRequest struct {
 	ctx           context.Context
-	ApiService    MessagesAPI
+	apiService    MessagesAPI
 	recipientType *RecipientType
 	to            *Recipient
 	content       *string
@@ -1638,7 +1601,7 @@ func (r SendMessageRequest) ReadBySender(readBySender bool) SendMessageRequest {
 }
 
 func (r SendMessageRequest) Execute() (*SendMessageResponse, *http.Response, error) {
-	return r.ApiService.SendMessageExecute(r)
+	return r.apiService.SendMessageExecute(r)
 }
 
 // SendMessage Send a message
@@ -1650,7 +1613,7 @@ func (r SendMessageRequest) Execute() (*SendMessageResponse, *http.Response, err
 // [direct message]: https://zulip.com/help/direct-messages
 func (c *simpleClient) SendMessage(ctx context.Context) SendMessageRequest {
 	return SendMessageRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1658,16 +1621,13 @@ func (c *simpleClient) SendMessage(ctx context.Context) SendMessageRequest {
 // Execute executes the request
 func (c *simpleClient) SendMessageExecute(r SendMessageRequest) (*SendMessageResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &SendMessageResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &SendMessageResponse{}
+		endpoint = "/messages"
 	)
-
-	endpoint := "/messages"
-
 	if r.recipientType == nil {
 		return nil, nil, reportError("recipientType is required and must be specified")
 	}
@@ -1681,14 +1641,14 @@ func (c *simpleClient) SendMessageExecute(r SendMessageRequest) (*SendMessageRes
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "type", r.recipientType, "", "")
-	addParam(formParams, "to", r.to, "form", "")
-	addParam(formParams, "content", r.content, "", "")
-	addOptionalParam(formParams, "topic", r.topic, "", "")
-	addOptionalParam(formParams, "queue_id", r.queueId, "", "")
-	addOptionalParam(formParams, "local_id", r.localId, "", "")
-	addOptionalParam(formParams, "read_by_sender", r.readBySender, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "type", r.recipientType)
+	addParam(form, "to", r.to)
+	addParam(form, "content", r.content)
+	addOptionalParam(form, "topic", r.topic)
+	addOptionalParam(form, "queue_id", r.queueId)
+	addOptionalParam(form, "local_id", r.localId)
+	addOptionalParam(form, "read_by_sender", r.readBySender)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1699,7 +1659,7 @@ func (c *simpleClient) SendMessageExecute(r SendMessageRequest) (*SendMessageRes
 
 type UpdateMessageRequest struct {
 	ctx                         context.Context
-	ApiService                  MessagesAPI
+	apiService                  MessagesAPI
 	messageId                   int64
 	topic                       *string
 	propagateMode               *string
@@ -1771,7 +1731,7 @@ func (r UpdateMessageRequest) ChannelId(channelId int64) UpdateMessageRequest {
 }
 
 func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response, error) {
-	return r.ApiService.UpdateMessageExecute(r)
+	return r.apiService.UpdateMessageExecute(r)
 }
 
 // UpdateMessage Edit a message
@@ -1865,7 +1825,7 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 // [`realm op: update_dict`]: https://zulip.com/api/get-events#realm-update_dict
 func (c *simpleClient) UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest {
 	return UpdateMessageRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		messageId:  messageId,
 	}
@@ -1874,28 +1834,27 @@ func (c *simpleClient) UpdateMessage(ctx context.Context, messageId int64) Updat
 // Execute executes the request
 func (c *simpleClient) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &UpdateMessageResponse{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &UpdateMessageResponse{}
+		endpoint = "/messages/{message_id}"
 	)
 
-	endpoint := "/messages/{message_id}"
-	endpoint = strings.Replace(endpoint, "{"+"message_id"+"}", idToString(r.messageId), -1)
+	endpoint = strings.Replace(endpoint, "{message_id}", idToString(r.messageId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "topic", r.topic, "", "")
-	addOptionalParam(formParams, "propagate_mode", r.propagateMode, "", "")
-	addOptionalParam(formParams, "send_notification_to_old_thread", r.sendNotificationToOldThread, "form", "")
-	addOptionalParam(formParams, "send_notification_to_new_thread", r.sendNotificationToNewThread, "form", "")
-	addOptionalParam(formParams, "content", r.content, "", "")
-	addOptionalParam(formParams, "prev_content_sha256", r.prevContentSha256, "", "")
-	addOptionalParam(formParams, "stream_id", r.channelId, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "topic", r.topic)
+	addOptionalParam(form, "propagate_mode", r.propagateMode)
+	addOptionalParam(form, "send_notification_to_old_thread", r.sendNotificationToOldThread)
+	addOptionalParam(form, "send_notification_to_new_thread", r.sendNotificationToNewThread)
+	addOptionalParam(form, "content", r.content)
+	addOptionalParam(form, "prev_content_sha256", r.prevContentSha256)
+	addOptionalParam(form, "stream_id", r.channelId)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1906,7 +1865,7 @@ func (c *simpleClient) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMess
 
 type UpdateMessageFlagsRequest struct {
 	ctx        context.Context
-	ApiService MessagesAPI
+	apiService MessagesAPI
 	messages   *[]int64
 	op         *string
 	flag       *string
@@ -1931,7 +1890,7 @@ func (r UpdateMessageFlagsRequest) Flag(flag string) UpdateMessageFlagsRequest {
 }
 
 func (r UpdateMessageFlagsRequest) Execute() (*UpdateMessageFlagsResponse, *http.Response, error) {
-	return r.ApiService.UpdateMessageFlagsExecute(r)
+	return r.apiService.UpdateMessageFlagsExecute(r)
 }
 
 // UpdateMessageFlags Update personal message flags
@@ -1944,7 +1903,7 @@ func (r UpdateMessageFlagsRequest) Execute() (*UpdateMessageFlagsResponse, *http
 // [updating flags on a range of messages within a narrow]: https://zulip.com/api/update-message-flags-for-narrow
 func (c *simpleClient) UpdateMessageFlags(ctx context.Context) UpdateMessageFlagsRequest {
 	return UpdateMessageFlagsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1952,16 +1911,13 @@ func (c *simpleClient) UpdateMessageFlags(ctx context.Context) UpdateMessageFlag
 // Execute executes the request
 func (c *simpleClient) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*UpdateMessageFlagsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &UpdateMessageFlagsResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &UpdateMessageFlagsResponse{}
+		endpoint = "/messages/flags"
 	)
-
-	endpoint := "/messages/flags"
-
 	if r.messages == nil {
 		return nil, nil, reportError("messages is required and must be specified")
 	}
@@ -1975,10 +1931,10 @@ func (c *simpleClient) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "messages", r.messages, "form", "multi")
-	addParam(formParams, "op", r.op, "", "")
-	addParam(formParams, "flag", r.flag, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "messages", r.messages)
+	addParam(form, "op", r.op)
+	addParam(form, "flag", r.flag)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1989,7 +1945,7 @@ func (c *simpleClient) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*
 
 type UpdateMessageFlagsForNarrowRequest struct {
 	ctx           context.Context
-	ApiService    MessagesAPI
+	apiService    MessagesAPI
 	anchor        *string
 	numBefore     *int32
 	numAfter      *int32
@@ -2049,7 +2005,7 @@ func (r UpdateMessageFlagsForNarrowRequest) IncludeAnchor(includeAnchor bool) Up
 }
 
 func (r UpdateMessageFlagsForNarrowRequest) Execute() (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
-	return r.ApiService.UpdateMessageFlagsForNarrowExecute(r)
+	return r.apiService.UpdateMessageFlagsForNarrowExecute(r)
 }
 
 // UpdateMessageFlagsForNarrow Update personal message flags for narrow
@@ -2064,7 +2020,7 @@ func (r UpdateMessageFlagsForNarrowRequest) Execute() (*UpdateMessageFlagsForNar
 // [the endpoint for updating flags on specific message Ids]: https://zulip.com/api/update-message-flags
 func (c *simpleClient) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest {
 	return UpdateMessageFlagsForNarrowRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2072,16 +2028,13 @@ func (c *simpleClient) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMe
 // Execute executes the request
 func (c *simpleClient) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &UpdateMessageFlagsForNarrowResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &UpdateMessageFlagsForNarrowResponse{}
+		endpoint = "/messages/flags/narrow"
 	)
-
-	endpoint := "/messages/flags/narrow"
-
 	if r.anchor == nil {
 		return nil, nil, reportError("anchor is required and must be specified")
 	}
@@ -2110,14 +2063,14 @@ func (c *simpleClient) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsFo
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "anchor", r.anchor, "", "")
-	addOptionalParam(formParams, "include_anchor", r.includeAnchor, "form", "")
-	addParam(formParams, "num_before", r.numBefore, "form", "")
-	addParam(formParams, "num_after", r.numAfter, "form", "")
-	addParam(formParams, "narrow", r.narrow, "form", "multi")
-	addParam(formParams, "op", r.op, "", "")
-	addParam(formParams, "flag", r.flag, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "anchor", r.anchor)
+	addOptionalParam(form, "include_anchor", r.includeAnchor)
+	addParam(form, "num_before", r.numBefore)
+	addParam(form, "num_after", r.numAfter)
+	addParam(form, "narrow", r.narrow)
+	addParam(form, "op", r.op)
+	addParam(form, "flag", r.flag)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2128,7 +2081,7 @@ func (c *simpleClient) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsFo
 
 type UploadFileRequest struct {
 	ctx        context.Context
-	ApiService MessagesAPI
+	apiService MessagesAPI
 	filename   *os.File
 }
 
@@ -2138,7 +2091,7 @@ func (r UploadFileRequest) Filename(filename *os.File) UploadFileRequest {
 }
 
 func (r UploadFileRequest) Execute() (*UploadFileResponse, *http.Response, error) {
-	return r.ApiService.UploadFileExecute(r)
+	return r.apiService.UploadFileExecute(r)
 }
 
 // UploadFile Upload a file
@@ -2177,7 +2130,7 @@ func (r UploadFileRequest) Execute() (*UploadFileResponse, *http.Response, error
 // [uploaded-files]: https://zulip.com/help/manage-your-uploaded-files
 func (c *simpleClient) UploadFile(ctx context.Context) UploadFileRequest {
 	return UploadFileRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2185,17 +2138,14 @@ func (c *simpleClient) UploadFile(ctx context.Context) UploadFileRequest {
 // Execute executes the request
 func (c *simpleClient) UploadFileExecute(r UploadFileRequest) (*UploadFileResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		formFiles   []formFile
-		response    = &UploadFileResponse{}
+		method    = http.MethodPost
+		headers   = make(map[string]string)
+		query     = url.Values{}
+		form      = url.Values{}
+		formFiles []formFile
+		response  = &UploadFileResponse{}
+		endpoint  = "/user_uploads"
 	)
-
-	endpoint := "/user_uploads"
-
 	headers["Content-Type"] = "multipart/form-data"
 	headers["Accept"] = "application/json"
 
@@ -2214,7 +2164,7 @@ func (c *simpleClient) UploadFileExecute(r UploadFileRequest) (*UploadFileRespon
 		filenameLocalVarFile.Close()
 		formFiles = append(formFiles, formFile{fileBytes: filenameLocalVarFileBytes, fileName: filenameLocalVarFileName, formFileName: filenameLocalVarFormFileName})
 	}
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, formFiles)
 	if err != nil {
 		return nil, nil, err
 	}

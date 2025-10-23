@@ -52,7 +52,7 @@ type RemindersAPI interface {
 
 type CreateMessageReminderRequest struct {
 	ctx                        context.Context
-	ApiService                 RemindersAPI
+	apiService                 RemindersAPI
 	messageId                  *int64
 	scheduledDeliveryTimestamp *int64
 	note                       *string
@@ -80,7 +80,7 @@ func (r CreateMessageReminderRequest) Note(note string) CreateMessageReminderReq
 }
 
 func (r CreateMessageReminderRequest) Execute() (*CreateMessageReminderResponse, *http.Response, error) {
-	return r.ApiService.CreateMessageReminderExecute(r)
+	return r.apiService.CreateMessageReminderExecute(r)
 }
 
 // CreateMessageReminder Create a message reminder
@@ -90,7 +90,7 @@ func (r CreateMessageReminderRequest) Execute() (*CreateMessageReminderResponse,
 // *Changes**: New in Zulip 11.0 (feature level 381).
 func (c *simpleClient) CreateMessageReminder(ctx context.Context) CreateMessageReminderRequest {
 	return CreateMessageReminderRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -98,23 +98,20 @@ func (c *simpleClient) CreateMessageReminder(ctx context.Context) CreateMessageR
 // Execute executes the request
 func (c *simpleClient) CreateMessageReminderExecute(r CreateMessageReminderRequest) (*CreateMessageReminderResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &CreateMessageReminderResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &CreateMessageReminderResponse{}
+		endpoint = "/reminders"
 	)
-
-	endpoint := "/reminders"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "message_id", r.messageId, "", "")
-	addOptionalParam(formParams, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp, "", "")
-	addOptionalParam(formParams, "note", r.note, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "message_id", r.messageId)
+	addOptionalParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
+	addOptionalParam(form, "note", r.note)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -125,12 +122,12 @@ func (c *simpleClient) CreateMessageReminderExecute(r CreateMessageReminderReque
 
 type DeleteReminderRequest struct {
 	ctx        context.Context
-	ApiService RemindersAPI
+	apiService RemindersAPI
 	reminderId int64
 }
 
 func (r DeleteReminderRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.DeleteReminderExecute(r)
+	return r.apiService.DeleteReminderExecute(r)
 }
 
 // DeleteReminder Delete a reminder
@@ -142,7 +139,7 @@ func (r DeleteReminderRequest) Execute() (*Response, *http.Response, error) {
 // [scheduled reminder]: https://zulip.com/help/schedule-a-reminder
 func (c *simpleClient) DeleteReminder(ctx context.Context, reminderId int64) DeleteReminderRequest {
 	return DeleteReminderRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		reminderId: reminderId,
 	}
@@ -151,21 +148,18 @@ func (c *simpleClient) DeleteReminder(ctx context.Context, reminderId int64) Del
 // Execute executes the request
 func (c *simpleClient) DeleteReminderExecute(r DeleteReminderRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/reminders/{reminder_id}"
 	)
 
-	endpoint := "/reminders/{reminder_id}"
-	endpoint = strings.Replace(endpoint, "{"+"reminder_id"+"}", idToString(r.reminderId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{reminder_id}", idToString(r.reminderId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -176,11 +170,11 @@ func (c *simpleClient) DeleteReminderExecute(r DeleteReminderRequest) (*Response
 
 type GetRemindersRequest struct {
 	ctx        context.Context
-	ApiService RemindersAPI
+	apiService RemindersAPI
 }
 
 func (r GetRemindersRequest) Execute() (*GetRemindersResponse, *http.Response, error) {
-	return r.ApiService.GetRemindersExecute(r)
+	return r.apiService.GetRemindersExecute(r)
 }
 
 // GetReminders Get reminders
@@ -196,7 +190,7 @@ func (r GetRemindersRequest) Execute() (*GetRemindersResponse, *http.Response, e
 // [reminders]: https://zulip.com/help/schedule-a-reminder
 func (c *simpleClient) GetReminders(ctx context.Context) GetRemindersRequest {
 	return GetRemindersRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -204,20 +198,16 @@ func (c *simpleClient) GetReminders(ctx context.Context) GetRemindersRequest {
 // Execute executes the request
 func (c *simpleClient) GetRemindersExecute(r GetRemindersRequest) (*GetRemindersResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetRemindersResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetRemindersResponse{}
+		endpoint = "/reminders"
 	)
 
-	endpoint := "/reminders"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

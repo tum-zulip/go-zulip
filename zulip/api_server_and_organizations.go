@@ -324,7 +324,7 @@ type ServerAndOrganizationsAPI interface {
 
 type AddCodePlaygroundRequest struct {
 	ctx              context.Context
-	ApiService       ServerAndOrganizationsAPI
+	apiService       ServerAndOrganizationsAPI
 	name             *string
 	pygmentsLanguage *string
 	urlTemplate      *string
@@ -353,7 +353,7 @@ func (r AddCodePlaygroundRequest) UrlTemplate(urlTemplate string) AddCodePlaygro
 }
 
 func (r AddCodePlaygroundRequest) Execute() (*AddCodePlaygroundResponse, *http.Response, error) {
-	return r.ApiService.AddCodePlaygroundExecute(r)
+	return r.apiService.AddCodePlaygroundExecute(r)
 }
 
 // AddCodePlayground Add a code playground
@@ -366,7 +366,7 @@ func (r AddCodePlaygroundRequest) Execute() (*AddCodePlaygroundResponse, *http.R
 // [code playgrounds]: https://zulip.com/help/code-blocks#code-playgrounds
 func (c *simpleClient) AddCodePlayground(ctx context.Context) AddCodePlaygroundRequest {
 	return AddCodePlaygroundRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -374,16 +374,13 @@ func (c *simpleClient) AddCodePlayground(ctx context.Context) AddCodePlaygroundR
 // Execute executes the request
 func (c *simpleClient) AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*AddCodePlaygroundResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &AddCodePlaygroundResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &AddCodePlaygroundResponse{}
+		endpoint = "/realm/playgrounds"
 	)
-
-	endpoint := "/realm/playgrounds"
-
 	if r.name == nil {
 		return nil, nil, reportError("name is required and must be specified")
 	}
@@ -397,10 +394,10 @@ func (c *simpleClient) AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*Ad
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "name", r.name, "", "")
-	addParam(formParams, "pygments_language", r.pygmentsLanguage, "", "")
-	addParam(formParams, "url_template", r.urlTemplate, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "name", r.name)
+	addParam(form, "pygments_language", r.pygmentsLanguage)
+	addParam(form, "url_template", r.urlTemplate)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -411,7 +408,7 @@ func (c *simpleClient) AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*Ad
 
 type AddLinkifierRequest struct {
 	ctx         context.Context
-	ApiService  ServerAndOrganizationsAPI
+	apiService  ServerAndOrganizationsAPI
 	pattern     *string
 	urlTemplate *string
 }
@@ -435,7 +432,7 @@ func (r AddLinkifierRequest) UrlTemplate(urlTemplate string) AddLinkifierRequest
 }
 
 func (r AddLinkifierRequest) Execute() (*AddLinkifierResponse, *http.Response, error) {
-	return r.ApiService.AddLinkifierExecute(r)
+	return r.apiService.AddLinkifierExecute(r)
 }
 
 // AddLinkifier Add a linkifier
@@ -447,7 +444,7 @@ func (r AddLinkifierRequest) Execute() (*AddLinkifierResponse, *http.Response, e
 // [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
 func (c *simpleClient) AddLinkifier(ctx context.Context) AddLinkifierRequest {
 	return AddLinkifierRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -455,16 +452,13 @@ func (c *simpleClient) AddLinkifier(ctx context.Context) AddLinkifierRequest {
 // Execute executes the request
 func (c *simpleClient) AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifierResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &AddLinkifierResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &AddLinkifierResponse{}
+		endpoint = "/realm/filters"
 	)
-
-	endpoint := "/realm/filters"
-
 	if r.pattern == nil {
 		return nil, nil, reportError("pattern is required and must be specified")
 	}
@@ -475,9 +469,9 @@ func (c *simpleClient) AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifier
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "pattern", r.pattern, "", "")
-	addParam(formParams, "url_template", r.urlTemplate, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "pattern", r.pattern)
+	addParam(form, "url_template", r.urlTemplate)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -488,7 +482,7 @@ func (c *simpleClient) AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifier
 
 type CreateCustomProfileFieldRequest struct {
 	ctx                     context.Context
-	ApiService              ServerAndOrganizationsAPI
+	apiService              ServerAndOrganizationsAPI
 	fieldType               *int32
 	name                    *string
 	hint                    *string
@@ -549,7 +543,7 @@ func (r CreateCustomProfileFieldRequest) EditableByUser(editableByUser bool) Cre
 }
 
 func (r CreateCustomProfileFieldRequest) Execute() (*CreateCustomProfileFieldResponse, *http.Response, error) {
-	return r.ApiService.CreateCustomProfileFieldExecute(r)
+	return r.apiService.CreateCustomProfileFieldExecute(r)
 }
 
 // CreateCustomProfileField Create a custom profile field
@@ -559,7 +553,7 @@ func (r CreateCustomProfileFieldRequest) Execute() (*CreateCustomProfileFieldRes
 // [Create a custom profile field]: https://zulip.com/help/custom-profile-fields#add-a-custom-profile-field
 func (c *simpleClient) CreateCustomProfileField(ctx context.Context) CreateCustomProfileFieldRequest {
 	return CreateCustomProfileFieldRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -567,16 +561,13 @@ func (c *simpleClient) CreateCustomProfileField(ctx context.Context) CreateCusto
 // Execute executes the request
 func (c *simpleClient) CreateCustomProfileFieldExecute(r CreateCustomProfileFieldRequest) (*CreateCustomProfileFieldResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &CreateCustomProfileFieldResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &CreateCustomProfileFieldResponse{}
+		endpoint = "/realm/profile_fields"
 	)
-
-	endpoint := "/realm/profile_fields"
-
 	if r.fieldType == nil {
 		return nil, nil, reportError("fieldType is required and must be specified")
 	}
@@ -584,14 +575,14 @@ func (c *simpleClient) CreateCustomProfileFieldExecute(r CreateCustomProfileFiel
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "name", r.name, "", "")
-	addOptionalParam(formParams, "hint", r.hint, "", "")
-	addParam(formParams, "field_type", r.fieldType, "form", "")
-	addOptionalParam(formParams, "field_data", r.fieldData, "form", "")
-	addOptionalParam(formParams, "display_in_profile_summary", r.displayInProfileSummary, "form", "")
-	addOptionalParam(formParams, "required", r.required, "form", "")
-	addOptionalParam(formParams, "editable_by_user", r.editableByUser, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "name", r.name)
+	addOptionalParam(form, "hint", r.hint)
+	addParam(form, "field_type", r.fieldType)
+	addOptionalParam(form, "field_data", r.fieldData)
+	addOptionalParam(form, "display_in_profile_summary", r.displayInProfileSummary)
+	addOptionalParam(form, "required", r.required)
+	addOptionalParam(form, "editable_by_user", r.editableByUser)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -602,12 +593,12 @@ func (c *simpleClient) CreateCustomProfileFieldExecute(r CreateCustomProfileFiel
 
 type DeactivateCustomEmojiRequest struct {
 	ctx        context.Context
-	ApiService ServerAndOrganizationsAPI
+	apiService ServerAndOrganizationsAPI
 	emojiName  string
 }
 
 func (r DeactivateCustomEmojiRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.DeactivateCustomEmojiExecute(r)
+	return r.apiService.DeactivateCustomEmojiExecute(r)
 }
 
 // DeactivateCustomEmoji Deactivate custom emoji
@@ -627,7 +618,7 @@ func (r DeactivateCustomEmojiRequest) Execute() (*Response, *http.Response, erro
 // [Deactivate a custom emoji]: https://zulip.com/help/custom-emoji#deactivate-custom-emoji
 func (c *simpleClient) DeactivateCustomEmoji(ctx context.Context, emojiName string) DeactivateCustomEmojiRequest {
 	return DeactivateCustomEmojiRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		emojiName:  emojiName,
 	}
@@ -636,21 +627,18 @@ func (c *simpleClient) DeactivateCustomEmoji(ctx context.Context, emojiName stri
 // Execute executes the request
 func (c *simpleClient) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/realm/emoji/{emoji_name}"
 	)
 
-	endpoint := "/realm/emoji/{emoji_name}"
-	endpoint = strings.Replace(endpoint, "{"+"emoji_name"+"}", url.PathEscape(r.emojiName), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{emoji_name}", url.PathEscape(r.emojiName), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -661,7 +649,7 @@ func (c *simpleClient) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiReque
 
 type ExportRealmRequest struct {
 	ctx        context.Context
-	ApiService ServerAndOrganizationsAPI
+	apiService ServerAndOrganizationsAPI
 	exportType *ExportType
 }
 
@@ -678,7 +666,7 @@ func (r ExportRealmRequest) ExportType(exportType ExportType) ExportRealmRequest
 }
 
 func (r ExportRealmRequest) Execute() (*ExportRealmResponse, *http.Response, error) {
-	return r.ApiService.ExportRealmExecute(r)
+	return r.apiService.ExportRealmExecute(r)
 }
 
 // ExportRealm Create a data export
@@ -700,7 +688,7 @@ func (r ExportRealmRequest) Execute() (*ExportRealmResponse, *http.Response, err
 // [data export]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 func (c *simpleClient) ExportRealm(ctx context.Context) ExportRealmRequest {
 	return ExportRealmRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -708,21 +696,18 @@ func (c *simpleClient) ExportRealm(ctx context.Context) ExportRealmRequest {
 // Execute executes the request
 func (c *simpleClient) ExportRealmExecute(r ExportRealmRequest) (*ExportRealmResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &ExportRealmResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &ExportRealmResponse{}
+		endpoint = "/export/realm"
 	)
-
-	endpoint := "/export/realm"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "export_type", r.exportType, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "export_type", r.exportType)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -733,11 +718,11 @@ func (c *simpleClient) ExportRealmExecute(r ExportRealmRequest) (*ExportRealmRes
 
 type GetCustomEmojiRequest struct {
 	ctx        context.Context
-	ApiService ServerAndOrganizationsAPI
+	apiService ServerAndOrganizationsAPI
 }
 
 func (r GetCustomEmojiRequest) Execute() (*GetCustomEmojiResponse, *http.Response, error) {
-	return r.ApiService.GetCustomEmojiExecute(r)
+	return r.apiService.GetCustomEmojiExecute(r)
 }
 
 // GetCustomEmoji Get all custom emoji
@@ -745,7 +730,7 @@ func (r GetCustomEmojiRequest) Execute() (*GetCustomEmojiResponse, *http.Respons
 // Get all the custom emoji in the user's organization.
 func (c *simpleClient) GetCustomEmoji(ctx context.Context) GetCustomEmojiRequest {
 	return GetCustomEmojiRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -753,20 +738,16 @@ func (c *simpleClient) GetCustomEmoji(ctx context.Context) GetCustomEmojiRequest
 // Execute executes the request
 func (c *simpleClient) GetCustomEmojiExecute(r GetCustomEmojiRequest) (*GetCustomEmojiResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetCustomEmojiResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetCustomEmojiResponse{}
+		endpoint = "/realm/emoji"
 	)
 
-	endpoint := "/realm/emoji"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -777,11 +758,11 @@ func (c *simpleClient) GetCustomEmojiExecute(r GetCustomEmojiRequest) (*GetCusto
 
 type GetCustomProfileFieldsRequest struct {
 	ctx        context.Context
-	ApiService ServerAndOrganizationsAPI
+	apiService ServerAndOrganizationsAPI
 }
 
 func (r GetCustomProfileFieldsRequest) Execute() (*GetCustomProfileFieldsResponse, *http.Response, error) {
-	return r.ApiService.GetCustomProfileFieldsExecute(r)
+	return r.apiService.GetCustomProfileFieldsExecute(r)
 }
 
 // GetCustomProfileFields Get all custom profile fields
@@ -792,7 +773,7 @@ func (r GetCustomProfileFieldsRequest) Execute() (*GetCustomProfileFieldsRespons
 // [custom profile fields]: https://zulip.com/help/custom-profile-fields
 func (c *simpleClient) GetCustomProfileFields(ctx context.Context) GetCustomProfileFieldsRequest {
 	return GetCustomProfileFieldsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -800,20 +781,16 @@ func (c *simpleClient) GetCustomProfileFields(ctx context.Context) GetCustomProf
 // Execute executes the request
 func (c *simpleClient) GetCustomProfileFieldsExecute(r GetCustomProfileFieldsRequest) (*GetCustomProfileFieldsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetCustomProfileFieldsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetCustomProfileFieldsResponse{}
+		endpoint = "/realm/profile_fields"
 	)
 
-	endpoint := "/realm/profile_fields"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -824,11 +801,11 @@ func (c *simpleClient) GetCustomProfileFieldsExecute(r GetCustomProfileFieldsReq
 
 type GetLinkifiersRequest struct {
 	ctx        context.Context
-	ApiService ServerAndOrganizationsAPI
+	apiService ServerAndOrganizationsAPI
 }
 
 func (r GetLinkifiersRequest) Execute() (*GetLinkifiersResponse, *http.Response, error) {
-	return r.ApiService.GetLinkifiersExecute(r)
+	return r.apiService.GetLinkifiersExecute(r)
 }
 
 // GetLinkifiers Get linkifiers
@@ -845,7 +822,7 @@ func (r GetLinkifiersRequest) Execute() (*GetLinkifiersResponse, *http.Response,
 // [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
 func (c *simpleClient) GetLinkifiers(ctx context.Context) GetLinkifiersRequest {
 	return GetLinkifiersRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -853,20 +830,16 @@ func (c *simpleClient) GetLinkifiers(ctx context.Context) GetLinkifiersRequest {
 // Execute executes the request
 func (c *simpleClient) GetLinkifiersExecute(r GetLinkifiersRequest) (*GetLinkifiersResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetLinkifiersResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetLinkifiersResponse{}
+		endpoint = "/realm/linkifiers"
 	)
 
-	endpoint := "/realm/linkifiers"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -877,11 +850,11 @@ func (c *simpleClient) GetLinkifiersExecute(r GetLinkifiersRequest) (*GetLinkifi
 
 type GetPresenceRequest struct {
 	ctx        context.Context
-	ApiService ServerAndOrganizationsAPI
+	apiService ServerAndOrganizationsAPI
 }
 
 func (r GetPresenceRequest) Execute() (*GetPresenceResponse, *http.Response, error) {
-	return r.ApiService.GetPresenceExecute(r)
+	return r.apiService.GetPresenceExecute(r)
 }
 
 // GetPresence Get presence of all users
@@ -898,7 +871,7 @@ func (r GetPresenceRequest) Execute() (*GetPresenceResponse, *http.Response, err
 // [`POST /presence`]: https://zulip.com/api/update-presence
 func (c *simpleClient) GetPresence(ctx context.Context) GetPresenceRequest {
 	return GetPresenceRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -906,20 +879,16 @@ func (c *simpleClient) GetPresence(ctx context.Context) GetPresenceRequest {
 // Execute executes the request
 func (c *simpleClient) GetPresenceExecute(r GetPresenceRequest) (*GetPresenceResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetPresenceResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetPresenceResponse{}
+		endpoint = "/realm/presence"
 	)
 
-	endpoint := "/realm/presence"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -930,11 +899,11 @@ func (c *simpleClient) GetPresenceExecute(r GetPresenceRequest) (*GetPresenceRes
 
 type GetRealmExportConsentsRequest struct {
 	ctx        context.Context
-	ApiService ServerAndOrganizationsAPI
+	apiService ServerAndOrganizationsAPI
 }
 
 func (r GetRealmExportConsentsRequest) Execute() (*GetRealmExportConsentsResponse, *http.Response, error) {
-	return r.ApiService.GetRealmExportConsentsExecute(r)
+	return r.apiService.GetRealmExportConsentsExecute(r)
 }
 
 // GetRealmExportConsents Get data export consent state
@@ -947,7 +916,7 @@ func (r GetRealmExportConsentsRequest) Execute() (*GetRealmExportConsentsRespons
 // [consented]: https://zulip.com/help/export-your-organization#configure-whether-administrators-can-export-your-private-data
 func (c *simpleClient) GetRealmExportConsents(ctx context.Context) GetRealmExportConsentsRequest {
 	return GetRealmExportConsentsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -955,20 +924,16 @@ func (c *simpleClient) GetRealmExportConsents(ctx context.Context) GetRealmExpor
 // Execute executes the request
 func (c *simpleClient) GetRealmExportConsentsExecute(r GetRealmExportConsentsRequest) (*GetRealmExportConsentsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetRealmExportConsentsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetRealmExportConsentsResponse{}
+		endpoint = "/export/realm/consents"
 	)
 
-	endpoint := "/export/realm/consents"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -979,11 +944,11 @@ func (c *simpleClient) GetRealmExportConsentsExecute(r GetRealmExportConsentsReq
 
 type GetRealmExportsRequest struct {
 	ctx        context.Context
-	ApiService ServerAndOrganizationsAPI
+	apiService ServerAndOrganizationsAPI
 }
 
 func (r GetRealmExportsRequest) Execute() (*GetRealmExportsResponse, *http.Response, error) {
-	return r.ApiService.GetRealmExportsExecute(r)
+	return r.apiService.GetRealmExportsExecute(r)
 }
 
 // GetRealmExports Get all data exports
@@ -999,7 +964,7 @@ func (r GetRealmExportsRequest) Execute() (*GetRealmExportsResponse, *http.Respo
 // [data exports]: https://zulip.com/help/export-your-organization#export-for-migrating-to-zulip-cloud-or-a-self-hosted-server
 func (c *simpleClient) GetRealmExports(ctx context.Context) GetRealmExportsRequest {
 	return GetRealmExportsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1007,20 +972,16 @@ func (c *simpleClient) GetRealmExports(ctx context.Context) GetRealmExportsReque
 // Execute executes the request
 func (c *simpleClient) GetRealmExportsExecute(r GetRealmExportsRequest) (*GetRealmExportsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetRealmExportsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetRealmExportsResponse{}
+		endpoint = "/export/realm"
 	)
 
-	endpoint := "/export/realm"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1031,11 +992,11 @@ func (c *simpleClient) GetRealmExportsExecute(r GetRealmExportsRequest) (*GetRea
 
 type GetServerSettingsRequest struct {
 	ctx        context.Context
-	ApiService ServerAndOrganizationsAPI
+	apiService ServerAndOrganizationsAPI
 }
 
 func (r GetServerSettingsRequest) Execute() (*GetServerSettingsResponse, *http.Response, error) {
-	return r.ApiService.GetServerSettingsExecute(r)
+	return r.apiService.GetServerSettingsExecute(r)
 }
 
 // GetServerSettings Get server settings
@@ -1049,7 +1010,7 @@ func (r GetServerSettingsRequest) Execute() (*GetServerSettingsResponse, *http.R
 // [zulip-terminal]: https://github.com/zulip/zulip-terminal/
 func (c *simpleClient) GetServerSettings(ctx context.Context) GetServerSettingsRequest {
 	return GetServerSettingsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1057,20 +1018,16 @@ func (c *simpleClient) GetServerSettings(ctx context.Context) GetServerSettingsR
 // Execute executes the request
 func (c *simpleClient) GetServerSettingsExecute(r GetServerSettingsRequest) (*GetServerSettingsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetServerSettingsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetServerSettingsResponse{}
+		endpoint = "/server_settings"
 	)
 
-	endpoint := "/server_settings"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1081,12 +1038,12 @@ func (c *simpleClient) GetServerSettingsExecute(r GetServerSettingsRequest) (*Ge
 
 type RemoveCodePlaygroundRequest struct {
 	ctx          context.Context
-	ApiService   ServerAndOrganizationsAPI
+	apiService   ServerAndOrganizationsAPI
 	playgroundId int64
 }
 
 func (r RemoveCodePlaygroundRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.RemoveCodePlaygroundExecute(r)
+	return r.apiService.RemoveCodePlaygroundExecute(r)
 }
 
 // RemoveCodePlayground Remove a code playground
@@ -1099,7 +1056,7 @@ func (r RemoveCodePlaygroundRequest) Execute() (*Response, *http.Response, error
 // [code playground]: https://zulip.com/help/code-blocks#code-playgrounds
 func (c *simpleClient) RemoveCodePlayground(ctx context.Context, playgroundId int64) RemoveCodePlaygroundRequest {
 	return RemoveCodePlaygroundRequest{
-		ApiService:   c,
+		apiService:   c,
 		ctx:          ctx,
 		playgroundId: playgroundId,
 	}
@@ -1108,21 +1065,18 @@ func (c *simpleClient) RemoveCodePlayground(ctx context.Context, playgroundId in
 // Execute executes the request
 func (c *simpleClient) RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/realm/playgrounds/{playground_id}"
 	)
 
-	endpoint := "/realm/playgrounds/{playground_id}"
-	endpoint = strings.Replace(endpoint, "{"+"playground_id"+"}", idToString(r.playgroundId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{playground_id}", idToString(r.playgroundId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1133,12 +1087,12 @@ func (c *simpleClient) RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest
 
 type RemoveLinkifierRequest struct {
 	ctx        context.Context
-	ApiService ServerAndOrganizationsAPI
+	apiService ServerAndOrganizationsAPI
 	filterId   int64
 }
 
 func (r RemoveLinkifierRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.RemoveLinkifierExecute(r)
+	return r.apiService.RemoveLinkifierExecute(r)
 }
 
 // RemoveLinkifier Remove a linkifier
@@ -1150,7 +1104,7 @@ func (r RemoveLinkifierRequest) Execute() (*Response, *http.Response, error) {
 // [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
 func (c *simpleClient) RemoveLinkifier(ctx context.Context, filterId int64) RemoveLinkifierRequest {
 	return RemoveLinkifierRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		filterId:   filterId,
 	}
@@ -1159,21 +1113,18 @@ func (c *simpleClient) RemoveLinkifier(ctx context.Context, filterId int64) Remo
 // Execute executes the request
 func (c *simpleClient) RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/realm/filters/{filter_id}"
 	)
 
-	endpoint := "/realm/filters/{filter_id}"
-	endpoint = strings.Replace(endpoint, "{"+"filter_id"+"}", idToString(r.filterId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{filter_id}", idToString(r.filterId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1184,7 +1135,7 @@ func (c *simpleClient) RemoveLinkifierExecute(r RemoveLinkifierRequest) (*Respon
 
 type ReorderCustomProfileFieldsRequest struct {
 	ctx        context.Context
-	ApiService ServerAndOrganizationsAPI
+	apiService ServerAndOrganizationsAPI
 	order      *[]int64
 }
 
@@ -1195,7 +1146,7 @@ func (r ReorderCustomProfileFieldsRequest) Order(order []int64) ReorderCustomPro
 }
 
 func (r ReorderCustomProfileFieldsRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.ReorderCustomProfileFieldsExecute(r)
+	return r.apiService.ReorderCustomProfileFieldsExecute(r)
 }
 
 // ReorderCustomProfileFields Reorder custom profile fields
@@ -1211,7 +1162,7 @@ func (r ReorderCustomProfileFieldsRequest) Execute() (*Response, *http.Response,
 // [custom profile fields documentation]: https://zulip.com/help/custom-profile-fields
 func (c *simpleClient) ReorderCustomProfileFields(ctx context.Context) ReorderCustomProfileFieldsRequest {
 	return ReorderCustomProfileFieldsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1219,16 +1170,13 @@ func (c *simpleClient) ReorderCustomProfileFields(ctx context.Context) ReorderCu
 // Execute executes the request
 func (c *simpleClient) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileFieldsRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/realm/profile_fields"
 	)
-
-	endpoint := "/realm/profile_fields"
-
 	if r.order == nil {
 		return nil, nil, reportError("order is required and must be specified")
 	}
@@ -1236,8 +1184,8 @@ func (c *simpleClient) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileF
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "order", r.order, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "order", r.order)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1248,7 +1196,7 @@ func (c *simpleClient) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileF
 
 type ReorderLinkifiersRequest struct {
 	ctx                 context.Context
-	ApiService          ServerAndOrganizationsAPI
+	apiService          ServerAndOrganizationsAPI
 	orderedLinkifierIds *[]int64
 }
 
@@ -1259,7 +1207,7 @@ func (r ReorderLinkifiersRequest) OrderedLinkifierIds(orderedLinkifierIds []int6
 }
 
 func (r ReorderLinkifiersRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.ReorderLinkifiersExecute(r)
+	return r.apiService.ReorderLinkifiersExecute(r)
 }
 
 // ReorderLinkifiers Reorder linkifiers
@@ -1275,7 +1223,7 @@ func (r ReorderLinkifiersRequest) Execute() (*Response, *http.Response, error) {
 // [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
 func (c *simpleClient) ReorderLinkifiers(ctx context.Context) ReorderLinkifiersRequest {
 	return ReorderLinkifiersRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1283,16 +1231,13 @@ func (c *simpleClient) ReorderLinkifiers(ctx context.Context) ReorderLinkifiersR
 // Execute executes the request
 func (c *simpleClient) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/realm/linkifiers"
 	)
-
-	endpoint := "/realm/linkifiers"
-
 	if r.orderedLinkifierIds == nil {
 		return nil, nil, reportError("orderedLinkifierIds is required and must be specified")
 	}
@@ -1300,8 +1245,8 @@ func (c *simpleClient) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Re
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "ordered_linkifier_ids", r.orderedLinkifierIds, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "ordered_linkifier_ids", r.orderedLinkifierIds)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1312,7 +1257,7 @@ func (c *simpleClient) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*Re
 
 type TestWelcomeBotCustomMessageRequest struct {
 	ctx                      context.Context
-	ApiService               ServerAndOrganizationsAPI
+	apiService               ServerAndOrganizationsAPI
 	welcomeMessageCustomText *string
 }
 
@@ -1323,7 +1268,7 @@ func (r TestWelcomeBotCustomMessageRequest) WelcomeMessageCustomText(welcomeMess
 }
 
 func (r TestWelcomeBotCustomMessageRequest) Execute() (*TestWelcomeBotCustomMessageResponse, *http.Response, error) {
-	return r.ApiService.TestWelcomeBotCustomMessageExecute(r)
+	return r.apiService.TestWelcomeBotCustomMessageExecute(r)
 }
 
 // TestWelcomeBotCustomMessage Test welcome bot custom message
@@ -1335,7 +1280,7 @@ func (r TestWelcomeBotCustomMessageRequest) Execute() (*TestWelcomeBotCustomMess
 // *Changes**: New in Zulip 11.0 (feature level 416).
 func (c *simpleClient) TestWelcomeBotCustomMessage(ctx context.Context) TestWelcomeBotCustomMessageRequest {
 	return TestWelcomeBotCustomMessageRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1343,16 +1288,13 @@ func (c *simpleClient) TestWelcomeBotCustomMessage(ctx context.Context) TestWelc
 // Execute executes the request
 func (c *simpleClient) TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustomMessageRequest) (*TestWelcomeBotCustomMessageResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &TestWelcomeBotCustomMessageResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &TestWelcomeBotCustomMessageResponse{}
+		endpoint = "/realm/test_welcome_bot_custom_message"
 	)
-
-	endpoint := "/realm/test_welcome_bot_custom_message"
-
 	if r.welcomeMessageCustomText == nil {
 		return nil, nil, reportError("welcomeMessageCustomText is required and must be specified")
 	}
@@ -1363,8 +1305,8 @@ func (c *simpleClient) TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustom
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "welcome_message_custom_text", r.welcomeMessageCustomText, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "welcome_message_custom_text", r.welcomeMessageCustomText)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1375,7 +1317,7 @@ func (c *simpleClient) TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustom
 
 type UpdateLinkifierRequest struct {
 	ctx         context.Context
-	ApiService  ServerAndOrganizationsAPI
+	apiService  ServerAndOrganizationsAPI
 	filterId    int64
 	pattern     *string
 	urlTemplate *string
@@ -1400,7 +1342,7 @@ func (r UpdateLinkifierRequest) UrlTemplate(urlTemplate string) UpdateLinkifierR
 }
 
 func (r UpdateLinkifierRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateLinkifierExecute(r)
+	return r.apiService.UpdateLinkifierExecute(r)
 }
 
 // UpdateLinkifier Update a linkifier
@@ -1414,7 +1356,7 @@ func (r UpdateLinkifierRequest) Execute() (*Response, *http.Response, error) {
 // [linkifier]: https://zulip.com/help/add-a-custom-linkifier
 func (c *simpleClient) UpdateLinkifier(ctx context.Context, filterId int64) UpdateLinkifierRequest {
 	return UpdateLinkifierRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		filterId:   filterId,
 	}
@@ -1423,16 +1365,15 @@ func (c *simpleClient) UpdateLinkifier(ctx context.Context, filterId int64) Upda
 // Execute executes the request
 func (c *simpleClient) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/realm/filters/{filter_id}"
 	)
 
-	endpoint := "/realm/filters/{filter_id}"
-	endpoint = strings.Replace(endpoint, "{"+"filter_id"+"}", idToString(r.filterId), -1)
+	endpoint = strings.Replace(endpoint, "{filter_id}", idToString(r.filterId), -1)
 
 	if r.pattern == nil {
 		return nil, nil, reportError("pattern is required and must be specified")
@@ -1444,9 +1385,9 @@ func (c *simpleClient) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Respon
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "pattern", r.pattern, "", "")
-	addParam(formParams, "url_template", r.urlTemplate, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "pattern", r.pattern)
+	addParam(form, "url_template", r.urlTemplate)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1457,7 +1398,7 @@ func (c *simpleClient) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*Respon
 
 type UpdateRealmUserSettingsDefaultsRequest struct {
 	ctx                                            context.Context
-	ApiService                                     ServerAndOrganizationsAPI
+	apiService                                     ServerAndOrganizationsAPI
 	starredMessageCounts                           *bool
 	receivesTypingNotifications                    *bool
 	webSuggestUpdateTimezone                       *bool
@@ -2016,7 +1957,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebNavigateToSentMessage(webNavi
 }
 
 func (r UpdateRealmUserSettingsDefaultsRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateRealmUserSettingsDefaultsExecute(r)
+	return r.apiService.UpdateRealmUserSettingsDefaultsExecute(r)
 }
 
 // UpdateRealmUserSettingsDefaults Update realm-level defaults of user settings
@@ -2049,7 +1990,7 @@ func (r UpdateRealmUserSettingsDefaultsRequest) Execute() (*Response, *http.Resp
 // [personal preference settings]: https://zulip.com/api/update-settings
 func (c *simpleClient) UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest {
 	return UpdateRealmUserSettingsDefaultsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2057,78 +1998,75 @@ func (c *simpleClient) UpdateRealmUserSettingsDefaults(ctx context.Context) Upda
 // Execute executes the request
 func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/realm/user_settings_defaults"
 	)
-
-	endpoint := "/realm/user_settings_defaults"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "starred_message_counts", r.starredMessageCounts, "form", "")
-	addOptionalParam(formParams, "receives_typing_notifications", r.receivesTypingNotifications, "form", "")
-	addOptionalParam(formParams, "web_suggest_update_timezone", r.webSuggestUpdateTimezone, "form", "")
-	addOptionalParam(formParams, "fluid_layout_width", r.fluidLayoutWidth, "form", "")
-	addOptionalParam(formParams, "high_contrast_mode", r.highContrastMode, "form", "")
-	addOptionalParam(formParams, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy, "form", "")
-	addOptionalParam(formParams, "web_channel_default_view", r.webChannelDefaultView, "form", "")
-	addOptionalParam(formParams, "web_font_size_px", r.webFontSizePx, "form", "")
-	addOptionalParam(formParams, "web_line_height_percent", r.webLineHeightPercent, "form", "")
-	addOptionalParam(formParams, "color_scheme", r.colorScheme, "form", "")
-	addOptionalParam(formParams, "enable_drafts_synchronization", r.enableDraftsSynchronization, "form", "")
-	addOptionalParam(formParams, "translate_emoticons", r.translateEmoticons, "form", "")
-	addOptionalParam(formParams, "display_emoji_reaction_users", r.displayEmojiReactionUsers, "form", "")
-	addOptionalParam(formParams, "web_home_view", r.webHomeView, "", "")
-	addOptionalParam(formParams, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView, "form", "")
-	addOptionalParam(formParams, "left_side_userlist", r.leftSideUserlist, "form", "")
-	addOptionalParam(formParams, "emojiset", r.emojiset, "", "")
-	addOptionalParam(formParams, "demote_inactive_streams", r.demoteInactiveChannels, "form", "")
-	addOptionalParam(formParams, "user_list_style", r.userListStyle, "form", "")
-	addOptionalParam(formParams, "web_animate_image_previews", r.webAnimateImagePreviews, "", "")
-	addOptionalParam(formParams, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy, "form", "")
-	addOptionalParam(formParams, "hide_ai_features", r.hideAiFeatures, "form", "")
-	addOptionalParam(formParams, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders, "form", "")
-	addOptionalParam(formParams, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary, "form", "")
-	addOptionalParam(formParams, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications, "form", "")
-	addOptionalParam(formParams, "enable_stream_email_notifications", r.enableChannelEmailNotifications, "form", "")
-	addOptionalParam(formParams, "enable_stream_push_notifications", r.enableChannelPushNotifications, "form", "")
-	addOptionalParam(formParams, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications, "form", "")
-	addOptionalParam(formParams, "notification_sound", r.notificationSound, "", "")
-	addOptionalParam(formParams, "enable_desktop_notifications", r.enableDesktopNotifications, "form", "")
-	addOptionalParam(formParams, "enable_sounds", r.enableSounds, "form", "")
-	addOptionalParam(formParams, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications, "form", "")
-	addOptionalParam(formParams, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications, "form", "")
-	addOptionalParam(formParams, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications, "form", "")
-	addOptionalParam(formParams, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications, "form", "")
-	addOptionalParam(formParams, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds, "form", "")
-	addOptionalParam(formParams, "enable_offline_email_notifications", r.enableOfflineEmailNotifications, "form", "")
-	addOptionalParam(formParams, "enable_offline_push_notifications", r.enableOfflinePushNotifications, "form", "")
-	addOptionalParam(formParams, "enable_online_push_notifications", r.enableOnlinePushNotifications, "form", "")
-	addOptionalParam(formParams, "enable_digest_emails", r.enableDigestEmails, "form", "")
-	addOptionalParam(formParams, "message_content_in_email_notifications", r.messageContentInEmailNotifications, "form", "")
-	addOptionalParam(formParams, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications, "form", "")
-	addOptionalParam(formParams, "wildcard_mentions_notify", r.wildcardMentionsNotify, "form", "")
-	addOptionalParam(formParams, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify, "form", "")
-	addOptionalParam(formParams, "desktop_icon_count_display", r.desktopIconCountDisplay, "form", "")
-	addOptionalParam(formParams, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy, "form", "")
-	addOptionalParam(formParams, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy, "form", "")
-	addOptionalParam(formParams, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy, "form", "")
-	addOptionalParam(formParams, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned, "form", "")
-	addOptionalParam(formParams, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy, "", "")
-	addOptionalParam(formParams, "presence_enabled", r.presenceEnabled, "form", "")
-	addOptionalParam(formParams, "enter_sends", r.enterSends, "form", "")
-	addOptionalParam(formParams, "twenty_four_hour_time", r.twentyFourHourTime, "form", "")
-	addOptionalParam(formParams, "send_private_typing_notifications", r.sendPrivateTypingNotifications, "form", "")
-	addOptionalParam(formParams, "send_stream_typing_notifications", r.sendChannelTypingNotifications, "form", "")
-	addOptionalParam(formParams, "send_read_receipts", r.sendReadReceipts, "form", "")
-	addOptionalParam(formParams, "email_address_visibility", r.emailAddressVisibility, "form", "")
-	addOptionalParam(formParams, "web_navigate_to_sent_message", r.webNavigateToSentMessage, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "starred_message_counts", r.starredMessageCounts)
+	addOptionalParam(form, "receives_typing_notifications", r.receivesTypingNotifications)
+	addOptionalParam(form, "web_suggest_update_timezone", r.webSuggestUpdateTimezone)
+	addOptionalParam(form, "fluid_layout_width", r.fluidLayoutWidth)
+	addOptionalParam(form, "high_contrast_mode", r.highContrastMode)
+	addOptionalParam(form, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy)
+	addOptionalParam(form, "web_channel_default_view", r.webChannelDefaultView)
+	addOptionalParam(form, "web_font_size_px", r.webFontSizePx)
+	addOptionalParam(form, "web_line_height_percent", r.webLineHeightPercent)
+	addOptionalParam(form, "color_scheme", r.colorScheme)
+	addOptionalParam(form, "enable_drafts_synchronization", r.enableDraftsSynchronization)
+	addOptionalParam(form, "translate_emoticons", r.translateEmoticons)
+	addOptionalParam(form, "display_emoji_reaction_users", r.displayEmojiReactionUsers)
+	addOptionalParam(form, "web_home_view", r.webHomeView)
+	addOptionalParam(form, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView)
+	addOptionalParam(form, "left_side_userlist", r.leftSideUserlist)
+	addOptionalParam(form, "emojiset", r.emojiset)
+	addOptionalParam(form, "demote_inactive_streams", r.demoteInactiveChannels)
+	addOptionalParam(form, "user_list_style", r.userListStyle)
+	addOptionalParam(form, "web_animate_image_previews", r.webAnimateImagePreviews)
+	addOptionalParam(form, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy)
+	addOptionalParam(form, "hide_ai_features", r.hideAiFeatures)
+	addOptionalParam(form, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders)
+	addOptionalParam(form, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary)
+	addOptionalParam(form, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications)
+	addOptionalParam(form, "enable_stream_email_notifications", r.enableChannelEmailNotifications)
+	addOptionalParam(form, "enable_stream_push_notifications", r.enableChannelPushNotifications)
+	addOptionalParam(form, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications)
+	addOptionalParam(form, "notification_sound", r.notificationSound)
+	addOptionalParam(form, "enable_desktop_notifications", r.enableDesktopNotifications)
+	addOptionalParam(form, "enable_sounds", r.enableSounds)
+	addOptionalParam(form, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications)
+	addOptionalParam(form, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications)
+	addOptionalParam(form, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications)
+	addOptionalParam(form, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications)
+	addOptionalParam(form, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds)
+	addOptionalParam(form, "enable_offline_email_notifications", r.enableOfflineEmailNotifications)
+	addOptionalParam(form, "enable_offline_push_notifications", r.enableOfflinePushNotifications)
+	addOptionalParam(form, "enable_online_push_notifications", r.enableOnlinePushNotifications)
+	addOptionalParam(form, "enable_digest_emails", r.enableDigestEmails)
+	addOptionalParam(form, "message_content_in_email_notifications", r.messageContentInEmailNotifications)
+	addOptionalParam(form, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications)
+	addOptionalParam(form, "wildcard_mentions_notify", r.wildcardMentionsNotify)
+	addOptionalParam(form, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify)
+	addOptionalParam(form, "desktop_icon_count_display", r.desktopIconCountDisplay)
+	addOptionalParam(form, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy)
+	addOptionalParam(form, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy)
+	addOptionalParam(form, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy)
+	addOptionalParam(form, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned)
+	addOptionalParam(form, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy)
+	addOptionalParam(form, "presence_enabled", r.presenceEnabled)
+	addOptionalParam(form, "enter_sends", r.enterSends)
+	addOptionalParam(form, "twenty_four_hour_time", r.twentyFourHourTime)
+	addOptionalParam(form, "send_private_typing_notifications", r.sendPrivateTypingNotifications)
+	addOptionalParam(form, "send_stream_typing_notifications", r.sendChannelTypingNotifications)
+	addOptionalParam(form, "send_read_receipts", r.sendReadReceipts)
+	addOptionalParam(form, "email_address_visibility", r.emailAddressVisibility)
+	addOptionalParam(form, "web_navigate_to_sent_message", r.webNavigateToSentMessage)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2139,7 +2077,7 @@ func (c *simpleClient) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserS
 
 type UploadCustomEmojiRequest struct {
 	ctx        context.Context
-	ApiService ServerAndOrganizationsAPI
+	apiService ServerAndOrganizationsAPI
 	emojiName  string
 	filename   *os.File
 }
@@ -2150,7 +2088,7 @@ func (r UploadCustomEmojiRequest) Filename(filename *os.File) UploadCustomEmojiR
 }
 
 func (r UploadCustomEmojiRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UploadCustomEmojiExecute(r)
+	return r.apiService.UploadCustomEmojiExecute(r)
 }
 
 // UploadCustomEmoji Upload custom emoji
@@ -2162,7 +2100,7 @@ func (r UploadCustomEmojiRequest) Execute() (*Response, *http.Response, error) {
 // [organization's configuration]: https://zulip.com/help/custom-emoji#change-who-can-add-custom-emoji
 func (c *simpleClient) UploadCustomEmoji(ctx context.Context, emojiName string) UploadCustomEmojiRequest {
 	return UploadCustomEmojiRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		emojiName:  emojiName,
 	}
@@ -2171,17 +2109,16 @@ func (c *simpleClient) UploadCustomEmoji(ctx context.Context, emojiName string) 
 // Execute executes the request
 func (c *simpleClient) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		formFiles   []formFile
-		response    = &Response{}
+		method    = http.MethodPost
+		headers   = make(map[string]string)
+		query     = url.Values{}
+		form      = url.Values{}
+		formFiles []formFile
+		response  = &Response{}
+		endpoint  = "/realm/emoji/{emoji_name}"
 	)
 
-	endpoint := "/realm/emoji/{emoji_name}"
-	endpoint = strings.Replace(endpoint, "{"+"emoji_name"+"}", url.PathEscape(r.emojiName), -1)
+	endpoint = strings.Replace(endpoint, "{emoji_name}", url.PathEscape(r.emojiName), -1)
 
 	headers["Content-Type"] = "multipart/form-data"
 	headers["Accept"] = "application/json"
@@ -2201,7 +2138,7 @@ func (c *simpleClient) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*Re
 		filenameLocalVarFile.Close()
 		formFiles = append(formFiles, formFile{fileBytes: filenameLocalVarFileBytes, fileName: filenameLocalVarFileName, formFileName: filenameLocalVarFormFileName})
 	}
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, formFiles)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, formFiles)
 	if err != nil {
 		return nil, nil, err
 	}

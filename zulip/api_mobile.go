@@ -52,7 +52,7 @@ type MobileAPI interface {
 
 type E2eeTestNotifyRequest struct {
 	ctx           context.Context
-	ApiService    MobileAPI
+	apiService    MobileAPI
 	pushAccountId *int64
 }
 
@@ -65,7 +65,7 @@ func (r E2eeTestNotifyRequest) PushAccountId(pushAccountId int64) E2eeTestNotify
 }
 
 func (r E2eeTestNotifyRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.E2eeTestNotifyExecute(r)
+	return r.apiService.E2eeTestNotifyExecute(r)
 }
 
 // E2eeTestNotify Send an E2EE test notification to mobile device(s)
@@ -76,7 +76,7 @@ func (r E2eeTestNotifyRequest) Execute() (*Response, *http.Response, error) {
 // *Changes**: New in Zulip 11.0 (feature level 420).
 func (c *simpleClient) E2eeTestNotify(ctx context.Context) E2eeTestNotifyRequest {
 	return E2eeTestNotifyRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -84,21 +84,18 @@ func (c *simpleClient) E2eeTestNotify(ctx context.Context) E2eeTestNotifyRequest
 // Execute executes the request
 func (c *simpleClient) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/mobile_push/e2ee/test_notification"
 	)
-
-	endpoint := "/mobile_push/e2ee/test_notification"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "push_account_id", r.pushAccountId, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "push_account_id", r.pushAccountId)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -109,7 +106,7 @@ func (c *simpleClient) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*Response
 
 type RegisterPushDeviceRequest struct {
 	ctx                       context.Context
-	ApiService                MobileAPI
+	apiService                MobileAPI
 	tokenKind                 *string
 	pushAccountId             *int64
 	pushPublicKey             *string
@@ -148,7 +145,7 @@ func (r RegisterPushDeviceRequest) EncryptedPushRegistration(encryptedPushRegist
 }
 
 func (r RegisterPushDeviceRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.RegisterPushDeviceExecute(r)
+	return r.apiService.RegisterPushDeviceExecute(r)
 }
 
 // RegisterPushDevice Register E2EE push device
@@ -158,7 +155,7 @@ func (r RegisterPushDeviceRequest) Execute() (*Response, *http.Response, error) 
 // *Changes**: New in Zulip 11.0 (feature level 406).
 func (c *simpleClient) RegisterPushDevice(ctx context.Context) RegisterPushDeviceRequest {
 	return RegisterPushDeviceRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -166,16 +163,13 @@ func (c *simpleClient) RegisterPushDevice(ctx context.Context) RegisterPushDevic
 // Execute executes the request
 func (c *simpleClient) RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/mobile_push/register"
 	)
-
-	endpoint := "/mobile_push/register"
-
 	if r.tokenKind == nil {
 		return nil, nil, reportError("tokenKind is required and must be specified")
 	}
@@ -195,12 +189,12 @@ func (c *simpleClient) RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "token_kind", r.tokenKind, "", "")
-	addParam(formParams, "push_account_id", r.pushAccountId, "", "")
-	addParam(formParams, "push_public_key", r.pushPublicKey, "", "")
-	addParam(formParams, "bouncer_public_key", r.bouncerPublicKey, "", "")
-	addParam(formParams, "encrypted_push_registration", r.encryptedPushRegistration, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "token_kind", r.tokenKind)
+	addParam(form, "push_account_id", r.pushAccountId)
+	addParam(form, "push_public_key", r.pushPublicKey)
+	addParam(form, "bouncer_public_key", r.bouncerPublicKey)
+	addParam(form, "encrypted_push_registration", r.encryptedPushRegistration)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -211,7 +205,7 @@ func (c *simpleClient) RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (*
 
 type TestNotifyRequest struct {
 	ctx        context.Context
-	ApiService MobileAPI
+	apiService MobileAPI
 	token      *string
 }
 
@@ -222,7 +216,7 @@ func (r TestNotifyRequest) Token(token string) TestNotifyRequest {
 }
 
 func (r TestNotifyRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.TestNotifyExecute(r)
+	return r.apiService.TestNotifyExecute(r)
 }
 
 // TestNotify Send a test notification to mobile device(s)
@@ -239,7 +233,7 @@ func (r TestNotifyRequest) Execute() (*Response, *http.Response, error) {
 // New in Zulip 8.0 (feature level 217).
 func (c *simpleClient) TestNotify(ctx context.Context) TestNotifyRequest {
 	return TestNotifyRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -247,21 +241,18 @@ func (c *simpleClient) TestNotify(ctx context.Context) TestNotifyRequest {
 // Execute executes the request
 func (c *simpleClient) TestNotifyExecute(r TestNotifyRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/mobile_push/test_notification"
 	)
-
-	endpoint := "/mobile_push/test_notification"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "token", r.token, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "token", r.token)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

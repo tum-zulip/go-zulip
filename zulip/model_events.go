@@ -73,7 +73,7 @@ func (e EventCommonWithOp) GetOpOk() (*EventOp, bool) {
 	return &e.Op, true
 }
 
-type EventUnmarshallingError struct {
+type EventUnmarshalingError struct {
 	EventCommon
 
 	Type EventType
@@ -81,7 +81,7 @@ type EventUnmarshallingError struct {
 	Data []byte
 }
 
-func (e EventUnmarshallingError) Error() string {
+func (e EventUnmarshalingError) Error() string {
 	return e.Err.Error()
 }
 
@@ -106,7 +106,7 @@ type AlertWordsEvent struct {
 type MessageEvent struct {
 	EventCommon
 
-	Message *MessagesEventData `json:"message,omitempty"`
+	Message Message `json:"message,omitempty"`
 	// The user's [message flags] for the message.  Clients should inspect the flags field rather than assuming that new messages are unread; [muted users], messages sent by the current user, and more subtle scenarios can result in a new message that the server has already marked as read for the user.
 	//
 	// **Changes**: In Zulip 8.0 (feature level 224), the `wildcard_mentioned` flag was deprecated in favor of the `stream_wildcard_mentioned` and `topic_wildcard_mentioned` flags. The `wildcard_mentioned` flag exists for backwards compatibility with older clients and equals `stream_wildcard_mentioned || topic_wildcard_mentioned`. Clients supporting older server versions should treat this field as a previous name for the `stream_wildcard_mentioned` flag as topic wildcard mentions were not available prior to this feature level.
@@ -115,179 +115,6 @@ type MessageEvent struct {
 	//
 	// [muted users]: https://zulip.com/api/mute-user
 	Flags []string `json:"flags,omitempty"`
-}
-
-// MessagesEvent struct for MessagesEvent
-type MessagesEventData struct {
-	AvatarUrl interface{} `json:"avatar_url,omitempty"`
-	// A Zulip "client" string, describing what Zulip client sent the message.
-	Client *string `json:"client,omitempty"`
-	// The content/body of the message. When `apply_markdown` is set, it will be in HTML format.  See [Markdown message formatting] for details on Zulip's HTML format.
-	//
-	// [Markdown message formatting]: https://zulip.com/api/message-formatting
-	Content *string `json:"content,omitempty"`
-	// The HTTP `content_type` for the message content. This will be `text/html` or `text/x-markdown`, depending on whether `apply_markdown` was set.  See the help center article on [message formatting] for details on Zulip-flavored Markdown.
-	//
-	// [message formatting]: https://zulip.com/help/format-your-message-using-markdown
-	ContentType      *string           `json:"content_type,omitempty"`
-	DisplayRecipient *DisplayRecipient `json:"display_recipient,omitempty"`
-	// An array of objects, with each object documenting the changes in a previous edit made to the message, ordered chronologically from most recent to least recent edit.  Not present if the message has never been edited or moved, or if [viewing message edit history] is not allowed in the organization.  Every object will contain `user_id` and `timestamp`.  The other fields are optional, and will be present or not depending on whether the channel, topic, and/or message content were modified in the edit event. For example, if only the topic was edited, only `prev_topic` and `topic` will be present in addition to `user_id` and `timestamp`.
-	//
-	// **Changes**: In Zulip 10.0 (feature level 284), removed the `prev_rendered_content_version` field as it is an internal server implementation detail not used by any client.
-	//
-	// [viewing message edit history]: https://zulip.com/help/restrict-message-edit-history-access
-	EditHistory []EditHistory `json:"edit_history,omitempty"`
-	// The unique message Id. Messages should always be displayed sorted by Id.
-	Id int64 `json:"id,omitempty"`
-	// Whether the message is a [/me status message]
-	//
-	// [/me status message]: https://zulip.com/help/format-your-message-using-markdown#status-messages
-	IsMeMessage bool `json:"is_me_message,omitempty"`
-	// The UNIX timestamp for when the message's content was last edited, in UTC seconds.  Not present if the message's content has never been edited.  Clients should use this field, rather than parsing the `edit_history` array, to display an indicator that the message has been edited.
-	//
-	// **Changes**: Prior to Zulip 10.0 (feature level 365), this was the time when the message was last edited or moved.
-	LastEditTimestamp *time.Time `json:"last_edit_timestamp,omitempty"`
-	// The UNIX timestamp for when the message was last moved to a different channel or topic, in UTC seconds.  Not present if the message has never been moved, or if the only topic moves for the message are [resolving or unresolving] the message's topic.  Clients should use this field, rather than parsing the `edit_history` array, to display an indicator that the message has been moved.
-	//
-	// **Changes**: New in Zulip 10.0 (feature level 365). Previously, parsing the `edit_history` array was required in order to correctly display moved message indicators.
-	//
-	// [resolving or unresolving]: https://zulip.com/help/resolve-a-topic
-	LastMovedTimestamp *time.Time `json:"last_moved_timestamp,omitempty"`
-	// Data on any reactions to the message.
-	Reactions []EmojiReaction `json:"reactions,omitempty"`
-	// A unique Id for the set of users receiving the message (either a channel or group of users). Useful primarily for hashing.
-	//
-	// **Changes**: Before Zulip 10.0 (feature level 327), `recipient_id` was the same across all incoming 1:1 direct messages. Now, each incoming message uniquely shares a `recipient_id` with outgoing messages in the same conversation.
-	RecipientId int64 `json:"recipient_id,omitempty"`
-	// The Zulip API email address of the message's sender.
-	SenderEmail *string `json:"sender_email,omitempty"`
-	// The full name of the message's sender.
-	SenderFullName *string `json:"sender_full_name,omitempty"`
-	// The user Id of the message's sender.
-	SenderId int64 `json:"sender_id,omitempty"`
-	// A string identifier for the realm the sender is in. Unique only within the context of a given Zulip server.  E.g. on `example.zulip.com`, this will be `example`.
-	SenderRealmStr string `json:"sender_realm_str,omitempty"`
-	// Only present for channel messages; the Id of the channel.
-	ChannelId *int64 `json:"stream_id,omitempty"`
-	// The `topic` of the message. Currently always `""` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called "subjects" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register] response, for channel messages.
-	//
-	// **Changes**: Before Zulip 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.
-	//
-	// [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
-	//
-	// [POST /register]: https://zulip.com/api/register-queue
-	Subject string `json:"subject,omitempty"`
-	// Data used for certain experimental Zulip integrations.
-	Submessages []Submessage `json:"submessages,omitempty"`
-	// The UNIX timestamp for when the message was sent, in UTC seconds.
-	Timestamp time.Time `json:"timestamp,omitempty"`
-	// Data on any links to be included in the `topic` line (these are generated by [custom linkification filters] that match content in the message's topic.)
-	//
-	// **Changes**: This field contained a list of urls before Zulip 4.0 (feature level 46).  New in Zulip 3.0 (feature level 1). Previously, this field was called `subject_links`; clients are recommended to rename `subject_links` to `topic_links` if present for compatibility with older Zulip servers.
-	//
-	// [custom linkification filters]: https://zulip.com/help/add-a-custom-linkifier
-	TopicLinks []TopicLink `json:"topic_links,omitempty"`
-	// The type of the message: `"stream"` or `"private"`.
-	Type *string `json:"type,omitempty"`
-}
-
-type messagesEventDataJSON struct {
-	AvatarUrl          interface{}       `json:"avatar_url,omitempty"`
-	Client             *string           `json:"client,omitempty"`
-	Content            *string           `json:"content,omitempty"`
-	ContentType        *string           `json:"content_type,omitempty"`
-	DisplayRecipient   *DisplayRecipient `json:"display_recipient,omitempty"`
-	EditHistory        []EditHistory     `json:"edit_history,omitempty"`
-	Id                 int64             `json:"id,omitempty"`
-	IsMeMessage        bool              `json:"is_me_message,omitempty"`
-	LastEditTimestamp  *int64            `json:"last_edit_timestamp,omitempty"`
-	LastMovedTimestamp *int64            `json:"last_moved_timestamp,omitempty"`
-	Reactions          []EmojiReaction   `json:"reactions,omitempty"`
-	RecipientId        int64             `json:"recipient_id,omitempty"`
-	SenderEmail        *string           `json:"sender_email,omitempty"`
-	SenderFullName     *string           `json:"sender_full_name,omitempty"`
-	SenderId           int64             `json:"sender_id,omitempty"`
-	SenderRealmStr     string            `json:"sender_realm_str,omitempty"`
-	ChannelId          *int64            `json:"stream_id,omitempty"`
-	Subject            string            `json:"subject,omitempty"`
-	Submessages        []Submessage      `json:"submessages,omitempty"`
-	Timestamp          int64             `json:"timestamp,omitempty"`
-	TopicLinks         []TopicLink       `json:"topic_links,omitempty"`
-	Type               *string           `json:"type,omitempty"`
-}
-
-func (m *MessagesEventData) MarshalJSON() ([]byte, error) {
-	obj := messagesEventDataJSON{
-		AvatarUrl:        m.AvatarUrl,
-		Client:           m.Client,
-		Content:          m.Content,
-		ContentType:      m.ContentType,
-		DisplayRecipient: m.DisplayRecipient,
-		EditHistory:      m.EditHistory,
-		Id:               m.Id,
-		IsMeMessage:      m.IsMeMessage,
-		Reactions:        m.Reactions,
-		RecipientId:      m.RecipientId,
-		SenderEmail:      m.SenderEmail,
-		SenderFullName:   m.SenderFullName,
-		SenderId:         m.SenderId,
-		SenderRealmStr:   m.SenderRealmStr,
-		ChannelId:        m.ChannelId,
-		Subject:          m.Subject,
-		Submessages:      m.Submessages,
-		TopicLinks:       m.TopicLinks,
-		Type:             m.Type,
-		Timestamp:        m.Timestamp.Unix(),
-	}
-	if m.LastEditTimestamp != nil {
-		t := m.LastEditTimestamp.Unix()
-		obj.LastEditTimestamp = &t
-	}
-	if m.LastMovedTimestamp != nil {
-		t := m.LastMovedTimestamp.Unix()
-		obj.LastMovedTimestamp = &t
-	}
-	return json.Marshal(obj)
-}
-
-func (m *MessagesEventData) UnmarshalJSON(data []byte) error {
-	var obj messagesEventDataJSON
-	if err := json.Unmarshal(data, &obj); err != nil {
-		return err
-	}
-
-	m.AvatarUrl = obj.AvatarUrl
-	m.Client = obj.Client
-	m.Content = obj.Content
-	m.ContentType = obj.ContentType
-	m.DisplayRecipient = obj.DisplayRecipient
-	m.EditHistory = obj.EditHistory
-	m.Id = obj.Id
-	m.IsMeMessage = obj.IsMeMessage
-	m.Reactions = obj.Reactions
-	m.RecipientId = obj.RecipientId
-	m.SenderEmail = obj.SenderEmail
-	m.SenderFullName = obj.SenderFullName
-	m.SenderId = obj.SenderId
-	m.SenderRealmStr = obj.SenderRealmStr
-	m.ChannelId = obj.ChannelId
-	m.Subject = obj.Subject
-	m.Submessages = obj.Submessages
-	m.TopicLinks = obj.TopicLinks
-	m.Type = obj.Type
-	m.Timestamp = time.Unix(obj.Timestamp, 0)
-
-	if obj.LastEditTimestamp != nil {
-		t := time.Unix(*obj.LastEditTimestamp, 0)
-		m.LastEditTimestamp = &t
-	}
-
-	if obj.LastMovedTimestamp != nil {
-		t := time.Unix(*obj.LastMovedTimestamp, 0)
-		m.LastMovedTimestamp = &t
-	}
-
-	return nil
 }
 
 // UpdateDisplaySettingsEvent Event sent to clients that have requested the `update_display_settings` event type and did not include `user_settings_object` in their `client_capabilities` when registering the event queue.
@@ -469,20 +296,7 @@ type ReactionEvent struct {
 	// The Id of the message to which a reaction was added or removed.
 	MessageId int64 `json:"message_id,omitempty"`
 
-	// Name of the emoji.
-	EmojiName string `json:"emoji_name,omitempty"`
-	// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.
-	EmojiCode string `json:"emoji_code,omitempty"`
-	// A string indicating the type of emoji. Each emoji `reaction_type` has an independent namespace for values of `emoji_code`.
-	//	- ReactionTypeRealmEmoji
-	//	- ReactionTypeUnicodeEmoji
-	//	- ReactionTypeZulipExtraEmoji
-	// 	- ReactionTypeEmpty
-	ReactionType ReactionType `json:"reaction_type,omitempty"`
-	// The Id of the user who added the reaction.
-	//
-	// **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future.
-	UserId int64 `json:"user_id,omitempty"`
+	EmojiReaction
 
 	// Deprecated
 	User interface{} `json:"user,omitempty"`
@@ -856,6 +670,78 @@ type UpdateMessageEvent struct {
 	//
 	// [/me status message]: https://zulip.com/help/format-your-message-using-markdown#status-messages
 	IsMeMessage *bool `json:"is_me_message,omitempty"`
+}
+
+func (o *UpdateMessageEvent) MarshalJSON() ([]byte, error) {
+	v := updateMessageEventJSON{
+		UserId:              o.UserId,
+		RenderingOnly:       o.RenderingOnly,
+		MessageId:           o.MessageId,
+		MessageIds:          o.MessageIds,
+		Flags:               o.Flags,
+		EditTimestamp:       o.EditTimestamp.UnixMilli(),
+		ChannelName:         o.ChannelName,
+		ChannelId:           o.ChannelId,
+		NewChannelId:        o.NewChannelId,
+		PropagateMode:       o.PropagateMode,
+		OrigSubject:         o.OrigSubject,
+		Subject:             o.Subject,
+		TopicLinks:          o.TopicLinks,
+		OrigContent:         o.OrigContent,
+		OrigRenderedContent: o.OrigRenderedContent,
+		Content:             o.Content,
+		RenderedContent:     o.RenderedContent,
+		IsMeMessage:         o.IsMeMessage,
+	}
+	return json.Marshal(v)
+}
+
+func (o *UpdateMessageEvent) UnmarshalJSON(data []byte) error {
+	var v updateMessageEventJSON
+	err := json.Unmarshal(data, &v)
+	if err != nil {
+		return err
+	}
+	o.UserId = v.UserId
+	o.RenderingOnly = v.RenderingOnly
+	o.MessageId = v.MessageId
+	o.MessageIds = v.MessageIds
+	o.Flags = v.Flags
+	o.EditTimestamp = time.UnixMilli(v.EditTimestamp)
+	o.ChannelName = v.ChannelName
+	o.ChannelId = v.ChannelId
+	o.NewChannelId = v.NewChannelId
+	o.PropagateMode = v.PropagateMode
+	o.OrigSubject = v.OrigSubject
+	o.Subject = v.Subject
+	o.TopicLinks = v.TopicLinks
+	o.OrigContent = v.OrigContent
+	o.OrigRenderedContent = v.OrigRenderedContent
+	o.Content = v.Content
+	o.RenderedContent = v.RenderedContent
+	o.IsMeMessage = v.IsMeMessage
+	return nil
+}
+
+type updateMessageEventJSON struct {
+	UserId              *int64      `json:"user_id"`
+	RenderingOnly       bool        `json:"rendering_only"`
+	MessageId           int64       `json:"message_id"`
+	MessageIds          []int64     `json:"message_ids"`
+	Flags               []string    `json:"flags"`
+	EditTimestamp       int64       `json:"edit_timestamp"`
+	ChannelName         *string     `json:"stream_name,omitempty"`
+	ChannelId           *int64      `json:"stream_id,omitempty"`
+	NewChannelId        *int64      `json:"new_stream_id,omitempty"`
+	PropagateMode       *string     `json:"propagate_mode,omitempty"`
+	OrigSubject         *string     `json:"orig_subject,omitempty"`
+	Subject             *string     `json:"subject,omitempty"`
+	TopicLinks          []TopicLink `json:"topic_links,omitempty"`
+	OrigContent         *string     `json:"orig_content,omitempty"`
+	OrigRenderedContent *string     `json:"orig_rendered_content,omitempty"`
+	Content             *string     `json:"content,omitempty"`
+	RenderedContent     *string     `json:"rendered_content,omitempty"`
+	IsMeMessage         *bool       `json:"is_me_message,omitempty"`
 }
 
 // TypingStartEvent Event sent when a user starts typing a message.  Sent to all clients for users who would receive the message being typed, with the additional rule that typing notifications for channel messages are only sent to clients that included `stream_typing_notifications` in their [client capabilities] when registering the event queue.  See [POST /typing] endpoint for more details.

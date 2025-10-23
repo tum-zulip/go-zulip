@@ -1,6 +1,9 @@
 package zulip
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // Narrow represents a query constraint for filtering messages in the Zulip API.
 // It consists of one or more NarrowTerms that can be combined to create complex queries.
@@ -51,7 +54,7 @@ const (
 	NarrowOperatorIs NarrowOperator = "is"
 	// NarrowOperatorSearch filters messages using full-text search.
 	NarrowOperatorSearch NarrowOperator = "search"
-)
+) // TODO: move htis to an enum file
 
 var AllowedNarrowOperators = []NarrowOperator{
 	NarrowOperatorChannel,
@@ -72,17 +75,21 @@ func NewNarrow() *Narrow {
 	return &Narrow{}
 }
 
-// Where appends a positive narrow term to the query.
-func (n *Narrow) Where(term NarrowTerm) *Narrow {
+// And appends a positive narrow term to the query.
+func (n *Narrow) And(term NarrowTerm) *Narrow {
 	n.terms = append(n.terms, term)
 	return n
 }
 
-// WhereNot appends a negated narrow term to the query.
-func (n *Narrow) WhereNot(term NarrowTerm) *Narrow {
+// AndNot adds and negates a positive term to the query
+func (n *Narrow) AndNot(term NarrowTerm) *Narrow {
 	term.Negated = true
-	n.terms = append(n.terms, term)
-	return n
+	return n.And(term)
+}
+
+// Constructs a narrow with a single term
+func Where(term NarrowTerm) *Narrow {
+	return NewNarrow().And(term)
 }
 
 // ChannelNameIs returns a NarrowTerm that filters messages by channel name.
@@ -129,7 +136,7 @@ func SenderIs(userId int64) NarrowTerm {
 func HasReactions() NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorHas,
-		Operand:  NewNarrowStringOperand("reactions"),
+		Operand:  NewNarrowStringOperand("reactions"), // TODO: make this an enum
 	}
 }
 
@@ -141,8 +148,8 @@ func IsMuted() NarrowTerm {
 	}
 }
 
-// IsPrivateMessage returns a NarrowTerm that filters private messages.
-func IsPrivateMessage() NarrowTerm {
+// IsDirectMessage returns a NarrowTerm that filters private messages.
+func IsDirectMessage() NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorIs,
 		Operand:  NewNarrowStringOperand("private"),
@@ -307,4 +314,36 @@ func (o Narrow) MarshalJSON() ([]byte, error) {
 
 func (o *Narrow) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &o.terms)
+}
+
+func (n *Narrow) toArray() ([][]string, error) {
+	if n == nil {
+		return nil, nil
+	}
+	terms := make([][]string, len(n.terms))
+	for i, t := range n.terms {
+		if t.Negated {
+			return nil, fmt.Errorf("negated narrows not supported with this endpoint")
+		}
+		term := make([]string, 2)
+		term[0] = string(t.Operator)
+
+		if t.Operand.ListOfInt != nil {
+			return nil, fmt.Errorf("negated narrows not supported with this endpoint")
+		}
+		if t.Operand.Int != nil && t.Operand.String != nil {
+			return nil, fmt.Errorf("only one type of operand can be valid at a time")
+		}
+
+		if t.Operand.String != nil {
+			term[1] = *t.Operand.String
+		} else if t.Operand.Int != nil {
+			term[1] = fmt.Sprintf("\"%d\"", *t.Operand.Int)
+		} else {
+			return nil, fmt.Errorf("operand cannot me empty")
+		}
+		terms[i] = term
+
+	}
+	return terms, nil
 }

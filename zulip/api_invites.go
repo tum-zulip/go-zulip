@@ -117,7 +117,7 @@ type InvitesAPI interface {
 
 type CreateInviteLinkRequest struct {
 	ctx                              context.Context
-	ApiService                       InvitesAPI
+	apiService                       InvitesAPI
 	inviteExpiresInMinutes           *int32
 	inviteAs                         *Role
 	channelIds                       *[]int64
@@ -193,7 +193,7 @@ func (r CreateInviteLinkRequest) WelcomeMessageCustomText(welcomeMessageCustomTe
 }
 
 func (r CreateInviteLinkRequest) Execute() (*CreateInviteLinkResponse, *http.Response, error) {
-	return r.ApiService.CreateInviteLinkExecute(r)
+	return r.apiService.CreateInviteLinkExecute(r)
 }
 
 // CreateInviteLink Create a reusable invitation link
@@ -219,7 +219,7 @@ func (r CreateInviteLinkRequest) Execute() (*CreateInviteLinkResponse, *http.Res
 // [with permission]: https://zulip.com/help/restrict-account-creation#change-who-can-send-invitations
 func (c *simpleClient) CreateInviteLink(ctx context.Context) CreateInviteLinkRequest {
 	return CreateInviteLinkRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -227,26 +227,23 @@ func (c *simpleClient) CreateInviteLink(ctx context.Context) CreateInviteLinkReq
 // Execute executes the request
 func (c *simpleClient) CreateInviteLinkExecute(r CreateInviteLinkRequest) (*CreateInviteLinkResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &CreateInviteLinkResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &CreateInviteLinkResponse{}
+		endpoint = "/invites/multiuse"
 	)
-
-	endpoint := "/invites/multiuse"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "invite_expires_in_minutes", r.inviteExpiresInMinutes, "form", "")
-	addOptionalParam(formParams, "invite_as", r.inviteAs, "", "")
-	addOptionalParam(formParams, "stream_ids", r.channelIds, "form", "multi")
-	addOptionalParam(formParams, "group_ids", r.groupIds, "form", "multi")
-	addOptionalParam(formParams, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions, "", "")
-	addOptionalParam(formParams, "welcome_message_custom_text", r.welcomeMessageCustomText, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "invite_expires_in_minutes", r.inviteExpiresInMinutes)
+	addOptionalParam(form, "invite_as", r.inviteAs)
+	addOptionalParam(form, "stream_ids", r.channelIds)
+	addOptionalParam(form, "group_ids", r.groupIds)
+	addOptionalParam(form, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions)
+	addOptionalParam(form, "welcome_message_custom_text", r.welcomeMessageCustomText)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -257,11 +254,11 @@ func (c *simpleClient) CreateInviteLinkExecute(r CreateInviteLinkRequest) (*Crea
 
 type GetInvitesRequest struct {
 	ctx        context.Context
-	ApiService InvitesAPI
+	apiService InvitesAPI
 }
 
 func (r GetInvitesRequest) Execute() (*GetInvitesResponse, *http.Response, error) {
-	return r.ApiService.GetInvitesExecute(r)
+	return r.apiService.GetInvitesExecute(r)
 }
 
 // GetInvites Get all invitations
@@ -278,7 +275,7 @@ func (r GetInvitesRequest) Execute() (*GetInvitesResponse, *http.Response, error
 // [invitations]: https://zulip.com/help/invite-new-users
 func (c *simpleClient) GetInvites(ctx context.Context) GetInvitesRequest {
 	return GetInvitesRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -286,20 +283,16 @@ func (c *simpleClient) GetInvites(ctx context.Context) GetInvitesRequest {
 // Execute executes the request
 func (c *simpleClient) GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetInvitesResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetInvitesResponse{}
+		endpoint = "/invites"
 	)
 
-	endpoint := "/invites"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -310,12 +303,12 @@ func (c *simpleClient) GetInvitesExecute(r GetInvitesRequest) (*GetInvitesRespon
 
 type ResendEmailInviteRequest struct {
 	ctx        context.Context
-	ApiService InvitesAPI
+	apiService InvitesAPI
 	inviteId   int64
 }
 
 func (r ResendEmailInviteRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.ResendEmailInviteExecute(r)
+	return r.apiService.ResendEmailInviteExecute(r)
 }
 
 // ResendEmailInvite Resend an email invitation
@@ -328,7 +321,7 @@ func (r ResendEmailInviteRequest) Execute() (*Response, *http.Response, error) {
 // [invitations that they can manage]: https://zulip.com/help/invite-new-users#manage-pending-invitations
 func (c *simpleClient) ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest {
 	return ResendEmailInviteRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		inviteId:   inviteId,
 	}
@@ -337,21 +330,18 @@ func (c *simpleClient) ResendEmailInvite(ctx context.Context, inviteId int64) Re
 // Execute executes the request
 func (c *simpleClient) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/invites/{invite_id}/resend"
 	)
 
-	endpoint := "/invites/{invite_id}/resend"
-	endpoint = strings.Replace(endpoint, "{"+"invite_id"+"}", idToString(r.inviteId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{invite_id}", idToString(r.inviteId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -362,12 +352,12 @@ func (c *simpleClient) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*Re
 
 type RevokeEmailInviteRequest struct {
 	ctx        context.Context
-	ApiService InvitesAPI
+	apiService InvitesAPI
 	inviteId   int64
 }
 
 func (r RevokeEmailInviteRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.RevokeEmailInviteExecute(r)
+	return r.apiService.RevokeEmailInviteExecute(r)
 }
 
 // RevokeEmailInvite Revoke an email invitation
@@ -380,7 +370,7 @@ func (r RevokeEmailInviteRequest) Execute() (*Response, *http.Response, error) {
 // [invitations that they can manage]: https://zulip.com/help/invite-new-users#manage-pending-invitations
 func (c *simpleClient) RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest {
 	return RevokeEmailInviteRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		inviteId:   inviteId,
 	}
@@ -389,21 +379,18 @@ func (c *simpleClient) RevokeEmailInvite(ctx context.Context, inviteId int64) Re
 // Execute executes the request
 func (c *simpleClient) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/invites/{invite_id}"
 	)
 
-	endpoint := "/invites/{invite_id}"
-	endpoint = strings.Replace(endpoint, "{"+"invite_id"+"}", idToString(r.inviteId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{invite_id}", idToString(r.inviteId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -414,12 +401,12 @@ func (c *simpleClient) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*Re
 
 type RevokeInviteLinkRequest struct {
 	ctx        context.Context
-	ApiService InvitesAPI
+	apiService InvitesAPI
 	inviteId   int64
 }
 
 func (r RevokeInviteLinkRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.RevokeInviteLinkExecute(r)
+	return r.apiService.RevokeInviteLinkExecute(r)
 }
 
 // RevokeInviteLink Revoke a reusable invitation link
@@ -435,7 +422,7 @@ func (r RevokeInviteLinkRequest) Execute() (*Response, *http.Response, error) {
 // [invitations that they can manage]: https://zulip.com/help/invite-new-users#manage-pending-invitations
 func (c *simpleClient) RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInviteLinkRequest {
 	return RevokeInviteLinkRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		inviteId:   inviteId,
 	}
@@ -444,21 +431,18 @@ func (c *simpleClient) RevokeInviteLink(ctx context.Context, inviteId int64) Rev
 // Execute executes the request
 func (c *simpleClient) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/invites/multiuse/{invite_id}"
 	)
 
-	endpoint := "/invites/multiuse/{invite_id}"
-	endpoint = strings.Replace(endpoint, "{"+"invite_id"+"}", idToString(r.inviteId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{invite_id}", idToString(r.inviteId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -469,7 +453,7 @@ func (c *simpleClient) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*Resp
 
 type SendInvitesRequest struct {
 	ctx                              context.Context
-	ApiService                       InvitesAPI
+	apiService                       InvitesAPI
 	inviteeEmails                    *string
 	channelIds                       *[]int64
 	inviteExpiresInMinutes           *int32
@@ -563,7 +547,7 @@ func (r SendInvitesRequest) WelcomeMessageCustomText(welcomeMessageCustomText st
 }
 
 func (r SendInvitesRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.SendInvitesExecute(r)
+	return r.apiService.SendInvitesExecute(r)
 }
 
 // SendInvites Send invitations
@@ -583,7 +567,7 @@ func (r SendInvitesRequest) Execute() (*Response, *http.Response, error) {
 // [invitations]: https://zulip.com/help/invite-new-users
 func (c *simpleClient) SendInvites(ctx context.Context) SendInvitesRequest {
 	return SendInvitesRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -591,16 +575,13 @@ func (c *simpleClient) SendInvites(ctx context.Context) SendInvitesRequest {
 // Execute executes the request
 func (c *simpleClient) SendInvitesExecute(r SendInvitesRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/invites"
 	)
-
-	endpoint := "/invites"
-
 	if r.inviteeEmails == nil {
 		return nil, nil, reportError("inviteeEmails is required and must be specified")
 	}
@@ -611,15 +592,15 @@ func (c *simpleClient) SendInvitesExecute(r SendInvitesRequest) (*Response, *htt
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "invitee_emails", r.inviteeEmails, "", "")
-	addOptionalParam(formParams, "invite_expires_in_minutes", r.inviteExpiresInMinutes, "form", "")
-	addOptionalParam(formParams, "invite_as", r.inviteAs, "", "")
-	addParam(formParams, "stream_ids", r.channelIds, "form", "multi")
-	addOptionalParam(formParams, "group_ids", r.groupIds, "form", "multi")
-	addOptionalParam(formParams, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions, "", "")
-	addOptionalParam(formParams, "notify_referrer_on_join", r.notifyReferrerOnJoin, "", "")
-	addOptionalParam(formParams, "welcome_message_custom_text", r.welcomeMessageCustomText, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "invitee_emails", r.inviteeEmails)
+	addOptionalParam(form, "invite_expires_in_minutes", r.inviteExpiresInMinutes)
+	addOptionalParam(form, "invite_as", r.inviteAs)
+	addParam(form, "stream_ids", r.channelIds)
+	addOptionalParam(form, "group_ids", r.groupIds)
+	addOptionalParam(form, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions)
+	addOptionalParam(form, "notify_referrer_on_join", r.notifyReferrerOnJoin)
+	addOptionalParam(form, "welcome_message_custom_text", r.welcomeMessageCustomText)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

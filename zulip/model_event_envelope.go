@@ -289,7 +289,7 @@ func (e *eventEnvelope) UnmarshalJSON(data []byte) error {
 	}
 
 	if err != nil {
-		e.Event = &EventUnmarshallingError{
+		e.Event = &EventUnmarshalingError{
 			EventCommon: EventCommon{
 				Type: peeker.Type,
 				Id:   peeker.Id,
@@ -301,7 +301,7 @@ func (e *eventEnvelope) UnmarshalJSON(data []byte) error {
 	return nil
 
 unknownEventError:
-	e.Event = &EventUnmarshallingError{
+	e.Event = &EventUnmarshalingError{
 		EventCommon: EventCommon{
 			Type: peeker.Type,
 			Id:   peeker.Id,

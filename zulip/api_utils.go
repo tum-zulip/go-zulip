@@ -10,17 +10,49 @@ import (
 )
 
 // same as addParam, but does nothing if obj is nil
-func addOptionalParam(headerOrQueryParams interface{}, keyPrefix string, obj interface{}, style string, collectionType string) {
+func addOptionalParam(values url.Values, key string, obj interface{}) {
 	v := reflect.ValueOf(obj)
-	if v.Kind() == reflect.Pointer && v.IsNil() {
+	if v.IsNil() {
 		return
 	}
-	addParam(headerOrQueryParams, keyPrefix, obj, style, collectionType)
+	addParam(values, key, obj)
+}
+
+func addOptionalJSONParam(form url.Values, key string, value any) error {
+	v := reflect.ValueOf(value)
+	if v.IsNil() {
+		return nil
+	}
+
+	jsonBuf, err := json.Marshal(value)
+	if err != nil {
+		return err
+	}
+	form.Add(key, string(jsonBuf))
+	return nil
+}
+
+func addOptionalCSVParam(values url.Values, key string, obj interface{}) {
+	v := reflect.ValueOf(obj)
+	if v.IsNil() {
+		return
+	}
+	addParamImpl(values, key, obj, true)
 }
 
 // addParam adds the provided object to the request header or url query
 // supporting deep object syntax
-func addParam(headerOrQueryParams interface{}, keyPrefix string, obj interface{}, style string, collectionType string) {
+func addParam(values url.Values, key string, obj interface{}) {
+	addParamImpl(values, key, obj, false)
+}
+
+// addParam adds the provided object to the request header or url query
+// supporting deep object syntax
+func addCSVParam(values url.Values, key string, obj interface{}) {
+	addParamImpl(values, key, obj, true)
+}
+
+func addParamImpl(values url.Values, key string, obj interface{}, csv bool) {
 	var v = reflect.ValueOf(obj)
 	var value = ""
 	if v == reflect.ValueOf(nil) {
@@ -32,7 +64,7 @@ func addParam(headerOrQueryParams interface{}, keyPrefix string, obj interface{}
 
 		case reflect.Struct:
 			if t, ok := obj.(time.Time); ok {
-				addParam(headerOrQueryParams, keyPrefix, t.Format(time.RFC3339Nano), style, collectionType)
+				addParamImpl(values, key, t.Format(time.RFC3339Nano), csv)
 				return
 			}
 			if marshaler, ok := obj.(json.Marshaler); ok {
@@ -58,11 +90,7 @@ func addParam(headerOrQueryParams interface{}, keyPrefix string, obj interface{}
 			var lenIndValue = indValue.Len()
 			for i := 0; i < lenIndValue; i++ {
 				var arrayValue = indValue.Index(i)
-				var keyPrefixForCollectionType = keyPrefix
-				if style == "deepObject" {
-					keyPrefixForCollectionType = keyPrefix + "[" + strconv.Itoa(i) + "]"
-				}
-				addParam(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), style, collectionType)
+				addParamImpl(values, key, arrayValue.Interface(), csv)
 			}
 			return
 
@@ -78,14 +106,14 @@ func addParam(headerOrQueryParams interface{}, keyPrefix string, obj interface{}
 			iter := indValue.MapRange()
 			for iter.Next() {
 				k, v := iter.Key(), iter.Value()
-				addParam(headerOrQueryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface(), style, collectionType)
+				addParamImpl(values, fmt.Sprintf("%s[%s]", key, k.String()), v.Interface(), csv)
 			}
 			return
 
 		case reflect.Interface:
 			fallthrough
 		case reflect.Ptr:
-			addParam(headerOrQueryParams, keyPrefix, v.Elem().Interface(), style, collectionType)
+			addParamImpl(values, key, v.Elem().Interface(), csv)
 			return
 
 		case reflect.Int, reflect.Int8, reflect.Int16,
@@ -115,23 +143,9 @@ func addParam(headerOrQueryParams interface{}, keyPrefix string, obj interface{}
 		}
 	}
 
-	switch valuesMap := headerOrQueryParams.(type) {
-	case url.Values:
-		if collectionType == "csv" && valuesMap.Get(keyPrefix) != "" {
-			valuesMap.Set(keyPrefix, valuesMap.Get(keyPrefix)+","+value)
-		} else {
-			valuesMap.Add(keyPrefix, value)
-		}
-	case map[string]string:
-		valuesMap[keyPrefix] = value
+	if csv && values.Get(key) != "" {
+		values.Set(key, values.Get(key)+","+value)
+	} else {
+		values.Add(key, value)
 	}
-}
-
-// helper for converting interface{} parameters to json strings
-func parameterToJson(obj interface{}) (string, error) {
-	jsonBuf, err := json.Marshal(obj)
-	if err != nil {
-		return "", err
-	}
-	return string(jsonBuf), err
 }

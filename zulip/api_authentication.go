@@ -74,7 +74,7 @@ type AuthenticationAPI interface {
 
 type DevFetchApiKeyRequest struct {
 	ctx        context.Context
-	ApiService AuthenticationAPI
+	apiService AuthenticationAPI
 	username   *string
 }
 
@@ -85,7 +85,7 @@ func (r DevFetchApiKeyRequest) Username(username string) DevFetchApiKeyRequest {
 }
 
 func (r DevFetchApiKeyRequest) Execute() (*ApiKeyResponse, *http.Response, error) {
-	return r.ApiService.DevFetchApiKeyExecute(r)
+	return r.apiService.DevFetchApiKeyExecute(r)
 }
 
 // DevFetchApiKey Fetch an API key (development only)
@@ -106,7 +106,7 @@ func (r DevFetchApiKeyRequest) Execute() (*ApiKeyResponse, *http.Response, error
 // @return DevFetchApiKeyRequest
 func (c *simpleClient) DevFetchApiKey(ctx context.Context) DevFetchApiKeyRequest {
 	return DevFetchApiKeyRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -116,16 +116,13 @@ func (c *simpleClient) DevFetchApiKey(ctx context.Context) DevFetchApiKeyRequest
 //	@return ApiKeyResponse
 func (c *simpleClient) DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &ApiKeyResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &ApiKeyResponse{}
+		endpoint = "/dev_fetch_api_key"
 	)
-
-	endpoint := "/dev_fetch_api_key"
-
 	if r.username == nil {
 		return nil, nil, reportError("username is required and must be specified")
 	}
@@ -133,8 +130,8 @@ func (c *simpleClient) DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (*ApiKeyRe
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "username", r.username, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "username", r.username)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -145,7 +142,7 @@ func (c *simpleClient) DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (*ApiKeyRe
 
 type FetchApiKeyRequest struct {
 	ctx        context.Context
-	ApiService AuthenticationAPI
+	apiService AuthenticationAPI
 	username   *string
 	password   *string
 }
@@ -165,7 +162,7 @@ func (r FetchApiKeyRequest) Password(password string) FetchApiKeyRequest {
 }
 
 func (r FetchApiKeyRequest) Execute() (*ApiKeyResponse, *http.Response, error) {
-	return r.ApiService.FetchApiKeyExecute(r)
+	return r.apiService.FetchApiKeyExecute(r)
 }
 
 // FetchApiKey Fetch an API key (production)
@@ -203,7 +200,7 @@ func (r FetchApiKeyRequest) Execute() (*ApiKeyResponse, *http.Response, error) {
 // [the unauthenticated variant]: https://zulip.com/api/dev-fetch-api-key
 func (c *simpleClient) FetchApiKey(ctx context.Context) FetchApiKeyRequest {
 	return FetchApiKeyRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -213,16 +210,13 @@ func (c *simpleClient) FetchApiKey(ctx context.Context) FetchApiKeyRequest {
 //	@return ApiKeyResponse
 func (c *simpleClient) FetchApiKeyExecute(r FetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &ApiKeyResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &ApiKeyResponse{}
+		endpoint = "/fetch_api_key"
 	)
-
-	endpoint := "/fetch_api_key"
-
 	if r.username == nil {
 		return nil, nil, reportError("username is required and must be specified")
 	}
@@ -233,9 +227,9 @@ func (c *simpleClient) FetchApiKeyExecute(r FetchApiKeyRequest) (*ApiKeyResponse
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "username", r.username, "", "")
-	addParam(formParams, "password", r.password, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "username", r.username)
+	addParam(form, "password", r.password)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

@@ -71,7 +71,7 @@ type ScheduledMessagesAPI interface {
 
 type CreateScheduledMessageRequest struct {
 	ctx                        context.Context
-	ApiService                 ScheduledMessagesAPI
+	apiService                 ScheduledMessagesAPI
 	recipientType              *RecipientType
 	to                         *Recipient
 	content                    *string
@@ -130,7 +130,7 @@ func (r CreateScheduledMessageRequest) ReadBySender(readBySender bool) CreateSch
 }
 
 func (r CreateScheduledMessageRequest) Execute() (*CreateScheduledMessageResponse, *http.Response, error) {
-	return r.ApiService.CreateScheduledMessageExecute(r)
+	return r.apiService.CreateScheduledMessageExecute(r)
 }
 
 // CreateScheduledMessage Create a scheduled message
@@ -148,7 +148,7 @@ func (r CreateScheduledMessageRequest) Execute() (*CreateScheduledMessageRespons
 // [editing a scheduled message]: https://zulip.com/api/update-scheduled-message
 func (c *simpleClient) CreateScheduledMessage(ctx context.Context) CreateScheduledMessageRequest {
 	return CreateScheduledMessageRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -156,16 +156,13 @@ func (c *simpleClient) CreateScheduledMessage(ctx context.Context) CreateSchedul
 // Execute executes the request
 func (c *simpleClient) CreateScheduledMessageExecute(r CreateScheduledMessageRequest) (*CreateScheduledMessageResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &CreateScheduledMessageResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &CreateScheduledMessageResponse{}
+		endpoint = "/scheduled_messages"
 	)
-
-	endpoint := "/scheduled_messages"
-
 	if r.recipientType == nil {
 		return nil, nil, reportError("recipientType is required and must be specified")
 	}
@@ -182,13 +179,13 @@ func (c *simpleClient) CreateScheduledMessageExecute(r CreateScheduledMessageReq
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "type", r.recipientType, "", "")
-	addParam(formParams, "to", r.to, "form", "")
-	addParam(formParams, "content", r.content, "", "")
-	addOptionalParam(formParams, "topic", r.topic, "", "")
-	addParam(formParams, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp, "form", "")
-	addOptionalParam(formParams, "read_by_sender", r.readBySender, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "type", r.recipientType)
+	addParam(form, "to", r.to)
+	addParam(form, "content", r.content)
+	addOptionalParam(form, "topic", r.topic)
+	addParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
+	addOptionalParam(form, "read_by_sender", r.readBySender)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -199,12 +196,12 @@ func (c *simpleClient) CreateScheduledMessageExecute(r CreateScheduledMessageReq
 
 type DeleteScheduledMessageRequest struct {
 	ctx                context.Context
-	ApiService         ScheduledMessagesAPI
+	apiService         ScheduledMessagesAPI
 	scheduledMessageId int64
 }
 
 func (r DeleteScheduledMessageRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.DeleteScheduledMessageExecute(r)
+	return r.apiService.DeleteScheduledMessageExecute(r)
 }
 
 // DeleteScheduledMessage Delete a scheduled message
@@ -216,7 +213,7 @@ func (r DeleteScheduledMessageRequest) Execute() (*Response, *http.Response, err
 // [scheduled message]: https://zulip.com/help/schedule-a-message
 func (c *simpleClient) DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest {
 	return DeleteScheduledMessageRequest{
-		ApiService:         c,
+		apiService:         c,
 		ctx:                ctx,
 		scheduledMessageId: scheduledMessageId,
 	}
@@ -225,21 +222,18 @@ func (c *simpleClient) DeleteScheduledMessage(ctx context.Context, scheduledMess
 // Execute executes the request
 func (c *simpleClient) DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/scheduled_messages/{scheduled_message_id}"
 	)
 
-	endpoint := "/scheduled_messages/{scheduled_message_id}"
-	endpoint = strings.Replace(endpoint, "{"+"scheduled_message_id"+"}", idToString(r.scheduledMessageId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{scheduled_message_id}", idToString(r.scheduledMessageId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -250,11 +244,11 @@ func (c *simpleClient) DeleteScheduledMessageExecute(r DeleteScheduledMessageReq
 
 type GetScheduledMessagesRequest struct {
 	ctx        context.Context
-	ApiService ScheduledMessagesAPI
+	apiService ScheduledMessagesAPI
 }
 
 func (r GetScheduledMessagesRequest) Execute() (*GetScheduledMessagesResponse, *http.Response, error) {
-	return r.ApiService.GetScheduledMessagesExecute(r)
+	return r.apiService.GetScheduledMessagesExecute(r)
 }
 
 // GetScheduledMessages Get scheduled messages
@@ -270,7 +264,7 @@ func (r GetScheduledMessagesRequest) Execute() (*GetScheduledMessagesResponse, *
 // [scheduled messages]: https://zulip.com/help/schedule-a-message
 func (c *simpleClient) GetScheduledMessages(ctx context.Context) GetScheduledMessagesRequest {
 	return GetScheduledMessagesRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -278,20 +272,16 @@ func (c *simpleClient) GetScheduledMessages(ctx context.Context) GetScheduledMes
 // Execute executes the request
 func (c *simpleClient) GetScheduledMessagesExecute(r GetScheduledMessagesRequest) (*GetScheduledMessagesResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetScheduledMessagesResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetScheduledMessagesResponse{}
+		endpoint = "/scheduled_messages"
 	)
 
-	endpoint := "/scheduled_messages"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -302,7 +292,7 @@ func (c *simpleClient) GetScheduledMessagesExecute(r GetScheduledMessagesRequest
 
 type UpdateScheduledMessageRequest struct {
 	ctx                        context.Context
-	ApiService                 ScheduledMessagesAPI
+	apiService                 ScheduledMessagesAPI
 	scheduledMessageId         int64
 	recipientType              *string
 	to                         *Recipient
@@ -353,7 +343,7 @@ func (r UpdateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliv
 }
 
 func (r UpdateScheduledMessageRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateScheduledMessageExecute(r)
+	return r.apiService.UpdateScheduledMessageExecute(r)
 }
 
 // UpdateScheduledMessage Edit a scheduled message
@@ -365,7 +355,7 @@ func (r UpdateScheduledMessageRequest) Execute() (*Response, *http.Response, err
 // [scheduled message]: https://zulip.com/help/schedule-a-message
 func (c *simpleClient) UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest {
 	return UpdateScheduledMessageRequest{
-		ApiService:         c,
+		apiService:         c,
 		ctx:                ctx,
 		scheduledMessageId: scheduledMessageId,
 	}
@@ -374,32 +364,27 @@ func (c *simpleClient) UpdateScheduledMessage(ctx context.Context, scheduledMess
 // Execute executes the request
 func (c *simpleClient) UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/scheduled_messages/{scheduled_message_id}"
 	)
 
-	endpoint := "/scheduled_messages/{scheduled_message_id}"
-	endpoint = strings.Replace(endpoint, "{"+"scheduled_message_id"+"}", idToString(r.scheduledMessageId), -1)
+	endpoint = strings.Replace(endpoint, "{scheduled_message_id}", idToString(r.scheduledMessageId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "type", r.recipientType, "", "")
-	if r.to != nil {
-		paramJson, err := parameterToJson(*r.to)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("to", paramJson)
+	addOptionalParam(form, "type", r.recipientType)
+	if err := addOptionalJSONParam(form, "to", r.to); err != nil {
+		return nil, nil, err
 	}
-	addOptionalParam(formParams, "content", r.content, "", "")
-	addOptionalParam(formParams, "topic", r.topic, "", "")
-	addOptionalParam(formParams, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "content", r.content)
+	addOptionalParam(form, "topic", r.topic)
+	addOptionalParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

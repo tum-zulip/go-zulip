@@ -110,7 +110,7 @@ type RealTimeEventsAPI interface {
 
 type DeleteQueueRequest struct {
 	ctx        context.Context
-	ApiService RealTimeEventsAPI
+	apiService RealTimeEventsAPI
 	queueId    *string
 }
 
@@ -123,7 +123,7 @@ func (r DeleteQueueRequest) QueueId(queueId string) DeleteQueueRequest {
 }
 
 func (r DeleteQueueRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.DeleteQueueExecute(r)
+	return r.apiService.DeleteQueueExecute(r)
 }
 
 // DeleteQueue Delete an event queue
@@ -131,7 +131,7 @@ func (r DeleteQueueRequest) Execute() (*Response, *http.Response, error) {
 // Delete a previously registered queue.
 func (c *simpleClient) DeleteQueue(ctx context.Context) DeleteQueueRequest {
 	return DeleteQueueRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -139,16 +139,13 @@ func (c *simpleClient) DeleteQueue(ctx context.Context) DeleteQueueRequest {
 // Execute executes the request
 func (c *simpleClient) DeleteQueueExecute(r DeleteQueueRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/events"
 	)
-
-	endpoint := "/events"
-
 	if r.queueId == nil {
 		return nil, nil, reportError("queueId is required and must be specified")
 	}
@@ -156,8 +153,8 @@ func (c *simpleClient) DeleteQueueExecute(r DeleteQueueRequest) (*Response, *htt
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "queue_id", r.queueId, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "queue_id", r.queueId)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -168,7 +165,7 @@ func (c *simpleClient) DeleteQueueExecute(r DeleteQueueRequest) (*Response, *htt
 
 type GetEventsRequest struct {
 	ctx         context.Context
-	ApiService  RealTimeEventsAPI
+	apiService  RealTimeEventsAPI
 	queueId     *string
 	lastEventId *int64
 	dontBlock   *bool
@@ -198,7 +195,7 @@ func (r GetEventsRequest) DontBlock(dontBlock bool) GetEventsRequest {
 }
 
 func (r GetEventsRequest) Execute() (*GetEventsResponse, *http.Response, error) {
-	return r.ApiService.GetEventsExecute(r)
+	return r.apiService.GetEventsExecute(r)
 }
 
 // GetEvents Get events from an event queue
@@ -216,7 +213,7 @@ func (r GetEventsRequest) Execute() (*GetEventsResponse, *http.Response, error) 
 // [a registered event queue]: https://zulip.com/api/register-queue
 func (c *simpleClient) GetEvents(ctx context.Context) GetEventsRequest {
 	return GetEventsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -224,27 +221,23 @@ func (c *simpleClient) GetEvents(ctx context.Context) GetEventsRequest {
 // Execute executes the request
 func (c *simpleClient) GetEventsExecute(r GetEventsRequest) (*GetEventsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetEventsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetEventsResponse{}
+		endpoint = "/events"
 	)
-
-	endpoint := "/events"
-
 	if r.queueId == nil {
 		return nil, nil, reportError("queueId is required and must be specified")
 	}
 
-	addParam(queryParams, "queue_id", r.queueId, "form", "")
-	addOptionalParam(queryParams, "last_event_id", r.lastEventId, "form", "")
-	addOptionalParam(queryParams, "dont_block", r.dontBlock, "form", "")
-	// no Content-Type header
+	addParam(query, "queue_id", r.queueId)
+	addOptionalParam(query, "last_event_id", r.lastEventId)
+	addOptionalParam(query, "dont_block", r.dontBlock)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -255,16 +248,16 @@ func (c *simpleClient) GetEventsExecute(r GetEventsRequest) (*GetEventsResponse,
 
 type RegisterQueueRequest struct {
 	ctx                      context.Context
-	ApiService               RealTimeEventsAPI
+	apiService               RealTimeEventsAPI
 	applyMarkdown            *bool
 	clientGravatar           *bool
 	includeSubscribers       *string
 	slimPresence             *bool
 	presenceHistoryLimitDays *int32
-	eventTypes               *[]string
+	eventTypes               *[]EventType
 	allPublicChannels        *bool
 	clientCapabilities       *map[string]interface{}
-	fetchEventTypes          *[]string
+	fetchEventTypes          *[]EventType
 	narrow                   *Narrow
 }
 
@@ -311,7 +304,7 @@ func (r RegisterQueueRequest) PresenceHistoryLimitDays(presenceHistoryLimitDays 
 }
 
 // A JSON-encoded array indicating which types of events you're interested in. Values that you might find useful include:  - **message** (messages) - **subscription** (changes in your subscriptions) - **realm_user** (changes to users in the organization and   their properties, such as their name).  If you do not specify this parameter, you will receive all events, and have to filter out the events not relevant to your client in your client code. For most applications, one is only interested in messages, so one specifies: `"event_types": ["message"]`  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions.
-func (r RegisterQueueRequest) EventTypes(eventTypes []string) RegisterQueueRequest {
+func (r RegisterQueueRequest) EventTypes(eventTypes []EventType) RegisterQueueRequest {
 	r.eventTypes = &eventTypes
 	return r
 }
@@ -348,7 +341,7 @@ func (r RegisterQueueRequest) ClientCapabilities(clientCapabilities map[string]i
 }
 
 // Same as the `event_types` parameter except that the values in `fetch_event_types` are used to fetch initial data. If `fetch_event_types` is not provided, `event_types` is used and if `event_types` is not provided, this parameter defaults to `null`.  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions.
-func (r RegisterQueueRequest) FetchEventTypes(fetchEventTypes []string) RegisterQueueRequest {
+func (r RegisterQueueRequest) FetchEventTypes(fetchEventTypes []EventType) RegisterQueueRequest {
 	r.fetchEventTypes = &fetchEventTypes
 	return r
 }
@@ -367,7 +360,7 @@ func (r RegisterQueueRequest) Narrow(narrow *Narrow) RegisterQueueRequest {
 }
 
 func (r RegisterQueueRequest) Execute() (*RegisterQueueResponse, *http.Response, error) {
-	return r.ApiService.RegisterQueueExecute(r)
+	return r.apiService.RegisterQueueExecute(r)
 }
 
 // RegisterQueue Register an event queue
@@ -439,7 +432,7 @@ func (r RegisterQueueRequest) Execute() (*RegisterQueueResponse, *http.Response,
 // [user setting]: https://zulip.com/api/update-settings#parameter-email_address_visibility
 func (c *simpleClient) RegisterQueue(ctx context.Context) RegisterQueueRequest {
 	return RegisterQueueRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -447,30 +440,31 @@ func (c *simpleClient) RegisterQueue(ctx context.Context) RegisterQueueRequest {
 // Execute executes the request
 func (c *simpleClient) RegisterQueueExecute(r RegisterQueueRequest) (*RegisterQueueResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &RegisterQueueResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &RegisterQueueResponse{}
+		endpoint = "/register"
 	)
-
-	endpoint := "/register"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "apply_markdown", r.applyMarkdown, "form", "")
-	addOptionalParam(formParams, "client_gravatar", r.clientGravatar, "form", "")
-	addOptionalParam(formParams, "include_subscribers", r.includeSubscribers, "", "")
-	addOptionalParam(formParams, "slim_presence", r.slimPresence, "form", "")
-	addOptionalParam(formParams, "presence_history_limit_days", r.presenceHistoryLimitDays, "", "")
-	addOptionalParam(formParams, "event_types", r.eventTypes, "form", "multi")
-	addOptionalParam(formParams, "all_public_streams", r.allPublicChannels, "form", "")
-	addOptionalParam(formParams, "client_capabilities", r.clientCapabilities, "form", "")
-	addOptionalParam(formParams, "fetch_event_types", r.fetchEventTypes, "form", "multi")
-	addOptionalParam(formParams, "narrow", r.narrow, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "apply_markdown", r.applyMarkdown)
+	addOptionalParam(form, "client_gravatar", r.clientGravatar)
+	addOptionalParam(form, "include_subscribers", r.includeSubscribers)
+	addOptionalParam(form, "slim_presence", r.slimPresence)
+	addOptionalParam(form, "presence_history_limit_days", r.presenceHistoryLimitDays)
+	addOptionalParam(form, "event_types", r.eventTypes)
+	addOptionalParam(form, "all_public_streams", r.allPublicChannels)
+	addOptionalParam(form, "client_capabilities", r.clientCapabilities)
+	addOptionalParam(form, "fetch_event_types", r.fetchEventTypes)
+	simpleNarrow, err := r.narrow.toArray()
+	if err != nil {
+		return nil, nil, err
+	}
+	addOptionalParam(form, "narrow", simpleNarrow)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

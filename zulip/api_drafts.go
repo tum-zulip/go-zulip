@@ -95,7 +95,7 @@ type DraftsAPI interface {
 
 type CreateDraftsRequest struct {
 	ctx        context.Context
-	ApiService DraftsAPI
+	apiService DraftsAPI
 	drafts     *[]Draft
 }
 
@@ -106,7 +106,7 @@ func (r CreateDraftsRequest) Drafts(drafts []Draft) CreateDraftsRequest {
 }
 
 func (r CreateDraftsRequest) Execute() (*CreateDraftsResponse, *http.Response, error) {
-	return r.ApiService.CreateDraftsExecute(r)
+	return r.apiService.CreateDraftsExecute(r)
 }
 
 // CreateDrafts Create drafts
@@ -115,7 +115,7 @@ func (r CreateDraftsRequest) Execute() (*CreateDraftsResponse, *http.Response, e
 // synchronized to other clients via `drafts` events.
 func (c *simpleClient) CreateDrafts(ctx context.Context) CreateDraftsRequest {
 	return CreateDraftsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -123,16 +123,13 @@ func (c *simpleClient) CreateDrafts(ctx context.Context) CreateDraftsRequest {
 // Execute executes the request
 func (c *simpleClient) CreateDraftsExecute(r CreateDraftsRequest) (*CreateDraftsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &CreateDraftsResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &CreateDraftsResponse{}
+		endpoint = "/drafts"
 	)
-
-	endpoint := "/drafts"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
@@ -140,9 +137,9 @@ func (c *simpleClient) CreateDraftsExecute(r CreateDraftsRequest) (*CreateDrafts
 		for i := range *r.drafts {
 			(*r.drafts)[i].Type = (*r.drafts)[i].Type.ToLegacy()
 		}
-		addParam(formParams, "drafts", r.drafts, "form", "multi")
+		addParam(form, "drafts", r.drafts)
 	}
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -153,7 +150,7 @@ func (c *simpleClient) CreateDraftsExecute(r CreateDraftsRequest) (*CreateDrafts
 
 type CreateSavedSnippetRequest struct {
 	ctx        context.Context
-	ApiService DraftsAPI
+	apiService DraftsAPI
 	title      *string
 	content    *string
 }
@@ -173,7 +170,7 @@ func (r CreateSavedSnippetRequest) Content(content string) CreateSavedSnippetReq
 }
 
 func (r CreateSavedSnippetRequest) Execute() (*CreateSavedSnippetResponse, *http.Response, error) {
-	return r.ApiService.CreateSavedSnippetExecute(r)
+	return r.apiService.CreateSavedSnippetExecute(r)
 }
 
 // CreateSavedSnippet Create a saved snippet
@@ -183,7 +180,7 @@ func (r CreateSavedSnippetRequest) Execute() (*CreateSavedSnippetResponse, *http
 // *Changes**: New in Zulip 10.0 (feature level 297).
 func (c *simpleClient) CreateSavedSnippet(ctx context.Context) CreateSavedSnippetRequest {
 	return CreateSavedSnippetRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -191,16 +188,13 @@ func (c *simpleClient) CreateSavedSnippet(ctx context.Context) CreateSavedSnippe
 // Execute executes the request
 func (c *simpleClient) CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (*CreateSavedSnippetResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &CreateSavedSnippetResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &CreateSavedSnippetResponse{}
+		endpoint = "/saved_snippets"
 	)
-
-	endpoint := "/saved_snippets"
-
 	if r.title == nil {
 		return nil, nil, reportError("title is required and must be specified")
 	}
@@ -211,9 +205,9 @@ func (c *simpleClient) CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (*
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "title", r.title, "", "")
-	addParam(formParams, "content", r.content, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "title", r.title)
+	addParam(form, "content", r.content)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -224,12 +218,12 @@ func (c *simpleClient) CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (*
 
 type DeleteDraftRequest struct {
 	ctx        context.Context
-	ApiService DraftsAPI
+	apiService DraftsAPI
 	draftId    int64
 }
 
 func (r DeleteDraftRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.DeleteDraftExecute(r)
+	return r.apiService.DeleteDraftExecute(r)
 }
 
 // DeleteDraft Delete a draft
@@ -238,7 +232,7 @@ func (r DeleteDraftRequest) Execute() (*Response, *http.Response, error) {
 // synchronized to other clients via a `drafts` event.
 func (c *simpleClient) DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequest {
 	return DeleteDraftRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		draftId:    draftId,
 	}
@@ -247,21 +241,18 @@ func (c *simpleClient) DeleteDraft(ctx context.Context, draftId int64) DeleteDra
 // Execute executes the request
 func (c *simpleClient) DeleteDraftExecute(r DeleteDraftRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/drafts/{draft_id}"
 	)
 
-	endpoint := "/drafts/{draft_id}"
-	endpoint = strings.Replace(endpoint, "{"+"draft_id"+"}", idToString(r.draftId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{draft_id}", idToString(r.draftId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -272,12 +263,12 @@ func (c *simpleClient) DeleteDraftExecute(r DeleteDraftRequest) (*Response, *htt
 
 type DeleteSavedSnippetRequest struct {
 	ctx            context.Context
-	ApiService     DraftsAPI
+	apiService     DraftsAPI
 	savedSnippetId int64
 }
 
 func (r DeleteSavedSnippetRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.DeleteSavedSnippetExecute(r)
+	return r.apiService.DeleteSavedSnippetExecute(r)
 }
 
 // DeleteSavedSnippet Delete a saved snippet
@@ -287,7 +278,7 @@ func (r DeleteSavedSnippetRequest) Execute() (*Response, *http.Response, error) 
 // *Changes**: New in Zulip 10.0 (feature level 297).
 func (c *simpleClient) DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) DeleteSavedSnippetRequest {
 	return DeleteSavedSnippetRequest{
-		ApiService:     c,
+		apiService:     c,
 		ctx:            ctx,
 		savedSnippetId: savedSnippetId,
 	}
@@ -296,21 +287,18 @@ func (c *simpleClient) DeleteSavedSnippet(ctx context.Context, savedSnippetId in
 // Execute executes the request
 func (c *simpleClient) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/saved_snippets/{saved_snippet_id}"
 	)
 
-	endpoint := "/saved_snippets/{saved_snippet_id}"
-	endpoint = strings.Replace(endpoint, "{"+"saved_snippet_id"+"}", idToString(r.savedSnippetId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{saved_snippet_id}", idToString(r.savedSnippetId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -321,7 +309,7 @@ func (c *simpleClient) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*
 
 type EditDraftRequest struct {
 	ctx        context.Context
-	ApiService DraftsAPI
+	apiService DraftsAPI
 	draftId    int64
 	draft      *Draft
 }
@@ -333,7 +321,7 @@ func (r EditDraftRequest) Draft(draft Draft) EditDraftRequest {
 }
 
 func (r EditDraftRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.EditDraftExecute(r)
+	return r.apiService.EditDraftExecute(r)
 }
 
 // EditDraft Edit a draft
@@ -342,7 +330,7 @@ func (r EditDraftRequest) Execute() (*Response, *http.Response, error) {
 // synchronized to other clients via `drafts` events.
 func (c *simpleClient) EditDraft(ctx context.Context, draftId int64) EditDraftRequest {
 	return EditDraftRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		draftId:    draftId,
 	}
@@ -351,16 +339,15 @@ func (c *simpleClient) EditDraft(ctx context.Context, draftId int64) EditDraftRe
 // Execute executes the request
 func (c *simpleClient) EditDraftExecute(r EditDraftRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/drafts/{draft_id}"
 	)
 
-	endpoint := "/drafts/{draft_id}"
-	endpoint = strings.Replace(endpoint, "{"+"draft_id"+"}", idToString(r.draftId), -1)
+	endpoint = strings.Replace(endpoint, "{draft_id}", idToString(r.draftId), -1)
 
 	if r.draft == nil {
 		return nil, nil, reportError("draft is required and must be specified")
@@ -370,8 +357,8 @@ func (c *simpleClient) EditDraftExecute(r EditDraftRequest) (*Response, *http.Re
 	headers["Accept"] = "application/json"
 
 	r.draft.Type = r.draft.Type.ToLegacy()
-	addParam(formParams, "draft", r.draft, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "draft", r.draft)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -382,7 +369,7 @@ func (c *simpleClient) EditDraftExecute(r EditDraftRequest) (*Response, *http.Re
 
 type EditSavedSnippetRequest struct {
 	ctx            context.Context
-	ApiService     DraftsAPI
+	apiService     DraftsAPI
 	savedSnippetId int64
 	title          *string
 	content        *string
@@ -403,7 +390,7 @@ func (r EditSavedSnippetRequest) Content(content string) EditSavedSnippetRequest
 }
 
 func (r EditSavedSnippetRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.EditSavedSnippetExecute(r)
+	return r.apiService.EditSavedSnippetExecute(r)
 }
 
 // EditSavedSnippet Edit a saved snippet
@@ -413,7 +400,7 @@ func (r EditSavedSnippetRequest) Execute() (*Response, *http.Response, error) {
 // *Changes**: New in Zulip 10.0 (feature level 368).
 func (c *simpleClient) EditSavedSnippet(ctx context.Context, savedSnippetId int64) EditSavedSnippetRequest {
 	return EditSavedSnippetRequest{
-		ApiService:     c,
+		apiService:     c,
 		ctx:            ctx,
 		savedSnippetId: savedSnippetId,
 	}
@@ -422,23 +409,22 @@ func (c *simpleClient) EditSavedSnippet(ctx context.Context, savedSnippetId int6
 // Execute executes the request
 func (c *simpleClient) EditSavedSnippetExecute(r EditSavedSnippetRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/saved_snippets/{saved_snippet_id}"
 	)
 
-	endpoint := "/saved_snippets/{saved_snippet_id}"
-	endpoint = strings.Replace(endpoint, "{"+"saved_snippet_id"+"}", idToString(r.savedSnippetId), -1)
+	endpoint = strings.Replace(endpoint, "{saved_snippet_id}", idToString(r.savedSnippetId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "title", r.title, "", "")
-	addOptionalParam(formParams, "content", r.content, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "title", r.title)
+	addOptionalParam(form, "content", r.content)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -449,11 +435,11 @@ func (c *simpleClient) EditSavedSnippetExecute(r EditSavedSnippetRequest) (*Resp
 
 type GetDraftsRequest struct {
 	ctx        context.Context
-	ApiService DraftsAPI
+	apiService DraftsAPI
 }
 
 func (r GetDraftsRequest) Execute() (*GetDraftsResponse, *http.Response, error) {
-	return r.ApiService.GetDraftsExecute(r)
+	return r.apiService.GetDraftsExecute(r)
 }
 
 // GetDrafts Get drafts
@@ -461,7 +447,7 @@ func (r GetDraftsRequest) Execute() (*GetDraftsResponse, *http.Response, error) 
 // Fetch all drafts for the current user.
 func (c *simpleClient) GetDrafts(ctx context.Context) GetDraftsRequest {
 	return GetDraftsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -469,20 +455,16 @@ func (c *simpleClient) GetDrafts(ctx context.Context) GetDraftsRequest {
 // Execute executes the request
 func (c *simpleClient) GetDraftsExecute(r GetDraftsRequest) (*GetDraftsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetDraftsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetDraftsResponse{}
+		endpoint = "/drafts"
 	)
 
-	endpoint := "/drafts"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -493,11 +475,11 @@ func (c *simpleClient) GetDraftsExecute(r GetDraftsRequest) (*GetDraftsResponse,
 
 type GetSavedSnippetsRequest struct {
 	ctx        context.Context
-	ApiService DraftsAPI
+	apiService DraftsAPI
 }
 
 func (r GetSavedSnippetsRequest) Execute() (*GetSavedSnippetsResponse, *http.Response, error) {
-	return r.ApiService.GetSavedSnippetsExecute(r)
+	return r.apiService.GetSavedSnippetsExecute(r)
 }
 
 // GetSavedSnippets Get all saved snippets
@@ -507,7 +489,7 @@ func (r GetSavedSnippetsRequest) Execute() (*GetSavedSnippetsResponse, *http.Res
 // *Changes**: New in Zulip 10.0 (feature level 297).
 func (c *simpleClient) GetSavedSnippets(ctx context.Context) GetSavedSnippetsRequest {
 	return GetSavedSnippetsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -515,20 +497,16 @@ func (c *simpleClient) GetSavedSnippets(ctx context.Context) GetSavedSnippetsReq
 // Execute executes the request
 func (c *simpleClient) GetSavedSnippetsExecute(r GetSavedSnippetsRequest) (*GetSavedSnippetsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetSavedSnippetsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetSavedSnippetsResponse{}
+		endpoint = "/saved_snippets"
 	)
 
-	endpoint := "/saved_snippets"
-
-	// no Content-Type header
-
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

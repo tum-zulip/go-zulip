@@ -473,7 +473,7 @@ type ChannelsAPI interface {
 
 type AddDefaultChannelRequest struct {
 	ctx        context.Context
-	ApiService ChannelsAPI
+	apiService ChannelsAPI
 	channelId  *int64
 }
 
@@ -484,7 +484,7 @@ func (r AddDefaultChannelRequest) ChannelId(channelId int64) AddDefaultChannelRe
 }
 
 func (r AddDefaultChannelRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.AddDefaultChannelExecute(r)
+	return r.apiService.AddDefaultChannelExecute(r)
 }
 
 // AddDefaultChannel Add a default channel
@@ -495,7 +495,7 @@ func (r AddDefaultChannelRequest) Execute() (*Response, *http.Response, error) {
 // [default channels]: https://zulip.com/help/set-default-channels-for-new-users
 func (c *simpleClient) AddDefaultChannel(ctx context.Context) AddDefaultChannelRequest {
 	return AddDefaultChannelRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -503,16 +503,13 @@ func (c *simpleClient) AddDefaultChannel(ctx context.Context) AddDefaultChannelR
 // Execute executes the request
 func (c *simpleClient) AddDefaultChannelExecute(r AddDefaultChannelRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/default_streams"
 	)
-
-	endpoint := "/default_streams"
-
 	if r.channelId == nil {
 		return nil, nil, reportError("channelId is required and must be specified")
 	}
@@ -520,8 +517,8 @@ func (c *simpleClient) AddDefaultChannelExecute(r AddDefaultChannelRequest) (*Re
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "stream_id", r.channelId, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "stream_id", r.channelId)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -532,12 +529,12 @@ func (c *simpleClient) AddDefaultChannelExecute(r AddDefaultChannelRequest) (*Re
 
 type ArchiveChannelRequest struct {
 	ctx        context.Context
-	ApiService ChannelsAPI
+	apiService ChannelsAPI
 	channelId  int64
 }
 
 func (r ArchiveChannelRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.ArchiveChannelExecute(r)
+	return r.apiService.ArchiveChannelExecute(r)
 }
 
 // ArchiveChannel Archive a channel
@@ -547,7 +544,7 @@ func (r ArchiveChannelRequest) Execute() (*Response, *http.Response, error) {
 // [Archive the channel]: https://zulip.com/help/archive-a-channel
 func (c *simpleClient) ArchiveChannel(ctx context.Context, channelId int64) ArchiveChannelRequest {
 	return ArchiveChannelRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		channelId:  channelId,
 	}
@@ -556,21 +553,18 @@ func (c *simpleClient) ArchiveChannel(ctx context.Context, channelId int64) Arch
 // Execute executes the request
 func (c *simpleClient) ArchiveChannelExecute(r ArchiveChannelRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/streams/{stream_id}"
 	)
 
-	endpoint := "/streams/{stream_id}"
-	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{stream_id}", idToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -581,7 +575,7 @@ func (c *simpleClient) ArchiveChannelExecute(r ArchiveChannelRequest) (*Response
 
 type CreateBigBlueButtonVideoCallRequest struct {
 	ctx         context.Context
-	ApiService  ChannelsAPI
+	apiService  ChannelsAPI
 	meetingName *string
 	voiceOnly   *bool
 }
@@ -601,7 +595,7 @@ func (r CreateBigBlueButtonVideoCallRequest) VoiceOnly(voiceOnly bool) CreateBig
 }
 
 func (r CreateBigBlueButtonVideoCallRequest) Execute() (*CreateBigBlueButtonVideoCallResponse, *http.Response, error) {
-	return r.ApiService.CreateBigBlueButtonVideoCallExecute(r)
+	return r.apiService.CreateBigBlueButtonVideoCallExecute(r)
 }
 
 // CreateBigBlueButtonVideoCall Create BigBlueButton video call
@@ -619,7 +613,7 @@ func (r CreateBigBlueButtonVideoCallRequest) Execute() (*CreateBigBlueButtonVide
 // [BigBlueButton 2.4+]: /integrations/doc/big-blue-button
 func (c *simpleClient) CreateBigBlueButtonVideoCall(ctx context.Context) CreateBigBlueButtonVideoCallRequest {
 	return CreateBigBlueButtonVideoCallRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -627,26 +621,22 @@ func (c *simpleClient) CreateBigBlueButtonVideoCall(ctx context.Context) CreateB
 // Execute executes the request
 func (c *simpleClient) CreateBigBlueButtonVideoCallExecute(r CreateBigBlueButtonVideoCallRequest) (*CreateBigBlueButtonVideoCallResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &CreateBigBlueButtonVideoCallResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &CreateBigBlueButtonVideoCallResponse{}
+		endpoint = "/calls/bigbluebutton/create"
 	)
-
-	endpoint := "/calls/bigbluebutton/create"
-
 	if r.meetingName == nil {
 		return nil, nil, reportError("meetingName is required and must be specified")
 	}
 
-	addParam(queryParams, "meeting_name", r.meetingName, "form", "")
-	addOptionalParam(queryParams, "voice_only", r.voiceOnly, "form", "")
-	// no Content-Type header
+	addParam(query, "meeting_name", r.meetingName)
+	addOptionalParam(query, "voice_only", r.voiceOnly)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -657,7 +647,7 @@ func (c *simpleClient) CreateBigBlueButtonVideoCallExecute(r CreateBigBlueButton
 
 type CreateChannelRequest struct {
 	ctx                               context.Context
-	ApiService                        ChannelsAPI
+	apiService                        ChannelsAPI
 	name                              *string
 	subscribers                       *[]int64
 	description                       *string
@@ -824,7 +814,7 @@ func (r CreateChannelRequest) CanResolveTopicsGroup(canResolveTopicsGroup GroupS
 }
 
 func (r CreateChannelRequest) Execute() (*CreateChannelResponse, *http.Response, error) {
-	return r.ApiService.CreateChannelExecute(r)
+	return r.apiService.CreateChannelExecute(r)
 }
 
 // CreateChannel Create a channel
@@ -841,7 +831,7 @@ func (r CreateChannelRequest) Execute() (*CreateChannelResponse, *http.Response,
 // [`POST /api/subscribe`]: https://zulip.com/api/subscribe
 func (c *simpleClient) CreateChannel(ctx context.Context) CreateChannelRequest {
 	return CreateChannelRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -849,16 +839,13 @@ func (c *simpleClient) CreateChannel(ctx context.Context) CreateChannelRequest {
 // Execute executes the request
 func (c *simpleClient) CreateChannelExecute(r CreateChannelRequest) (*CreateChannelResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &CreateChannelResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &CreateChannelResponse{}
+		endpoint = "/channels/create"
 	)
-
-	endpoint := "/channels/create"
-
 	if r.name == nil {
 		return nil, nil, reportError("name is required and must be specified")
 	}
@@ -869,101 +856,53 @@ func (c *simpleClient) CreateChannelExecute(r CreateChannelRequest) (*CreateChan
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "name", r.name, "", "")
-	addOptionalParam(formParams, "description", r.description, "", "")
-	if r.subscribers != nil {
-		paramJsonSubscribers, err := parameterToJson(*r.subscribers)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("subscribers", paramJsonSubscribers)
+	addParam(form, "name", r.name)
+	addOptionalParam(form, "description", r.description)
+	if err := addOptionalJSONParam(form, "subscribers", *r.subscribers); err != nil {
+		return nil, nil, err
 	}
-	addOptionalParam(formParams, "announce", r.announce, "form", "")
-	addOptionalParam(formParams, "invite_only", r.inviteOnly, "form", "")
-	addOptionalParam(formParams, "is_web_public", r.isWebPublic, "form", "")
-	addOptionalParam(formParams, "is_default_stream", r.isDefaultChannel, "form", "")
-	addOptionalParam(formParams, "folder_id", r.folderId, "form", "")
-	addOptionalParam(formParams, "send_new_subscription_messages", r.sendNewSubscriptionMessages, "", "")
-	addOptionalParam(formParams, "topics_policy", r.topicsPolicy, "form", "")
-	addOptionalParam(formParams, "history_public_to_subscribers", r.historyPublicToSubscribers, "form", "")
-	if r.messageRetentionDays != nil {
-		paramJson, err := parameterToJson(*r.messageRetentionDays)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("message_retention_days", paramJson)
+	addOptionalParam(form, "announce", r.announce)
+	addOptionalParam(form, "invite_only", r.inviteOnly)
+	addOptionalParam(form, "is_web_public", r.isWebPublic)
+	addOptionalParam(form, "is_default_stream", r.isDefaultChannel)
+	addOptionalParam(form, "folder_id", r.folderId)
+	addOptionalParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
+	addOptionalParam(form, "topics_policy", r.topicsPolicy)
+	addOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
+	if err := addOptionalJSONParam(form, "message_retention_days", *r.messageRetentionDays); err != nil {
+		return nil, nil, err
 	}
-	if r.canAddSubscribersGroup != nil {
-		paramJson, err := parameterToJson(*r.canAddSubscribersGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_add_subscribers_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_add_subscribers_group", *r.canAddSubscribersGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canDeleteAnyMessageGroup != nil {
-		paramJson, err := parameterToJson(*r.canDeleteAnyMessageGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_delete_any_message_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_delete_any_message_group", *r.canDeleteAnyMessageGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canDeleteOwnMessageGroup != nil {
-		paramJson, err := parameterToJson(*r.canDeleteOwnMessageGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_delete_own_message_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_delete_own_message_group", *r.canDeleteOwnMessageGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canRemoveSubscribersGroup != nil {
-		paramJson, err := parameterToJson(*r.canRemoveSubscribersGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_remove_subscribers_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_remove_subscribers_group", *r.canRemoveSubscribersGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canAdministerChannelGroup != nil {
-		paramJson, err := parameterToJson(*r.canAdministerChannelGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_administer_channel_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_administer_channel_group", *r.canAdministerChannelGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canMoveMessagesOutOfChannelGroup != nil {
-		paramJson, err := parameterToJson(*r.canMoveMessagesOutOfChannelGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_move_messages_out_of_channel_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_move_messages_out_of_channel_group", *r.canMoveMessagesOutOfChannelGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canMoveMessagesWithinChannelGroup != nil {
-		paramJson, err := parameterToJson(*r.canMoveMessagesWithinChannelGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_move_messages_within_channel_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_move_messages_within_channel_group", *r.canMoveMessagesWithinChannelGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canSendMessageGroup != nil {
-		paramJson, err := parameterToJson(*r.canSendMessageGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_send_message_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_send_message_group", *r.canSendMessageGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canSubscribeGroup != nil {
-		paramJson, err := parameterToJson(*r.canSubscribeGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_subscribe_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_subscribe_group", *r.canSubscribeGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canResolveTopicsGroup != nil {
-		paramJson, err := parameterToJson(*r.canResolveTopicsGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_resolve_topics_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_resolve_topics_group", *r.canResolveTopicsGroup); err != nil {
+		return nil, nil, err
 	}
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -974,7 +913,7 @@ func (c *simpleClient) CreateChannelExecute(r CreateChannelRequest) (*CreateChan
 
 type CreateChannelFolderRequest struct {
 	ctx         context.Context
-	ApiService  ChannelsAPI
+	apiService  ChannelsAPI
 	name        *string
 	description *string
 }
@@ -996,7 +935,7 @@ func (r CreateChannelFolderRequest) Description(description string) CreateChanne
 }
 
 func (r CreateChannelFolderRequest) Execute() (*CreateChannelFolderResponse, *http.Response, error) {
-	return r.ApiService.CreateChannelFolderExecute(r)
+	return r.apiService.CreateChannelFolderExecute(r)
 }
 
 // CreateChannelFolder Create a channel folder
@@ -1010,7 +949,7 @@ func (r CreateChannelFolderRequest) Execute() (*CreateChannelFolderResponse, *ht
 // *Changes**: New in Zulip 11.0 (feature level 389).
 func (c *simpleClient) CreateChannelFolder(ctx context.Context) CreateChannelFolderRequest {
 	return CreateChannelFolderRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1018,22 +957,19 @@ func (c *simpleClient) CreateChannelFolder(ctx context.Context) CreateChannelFol
 // Execute executes the request
 func (c *simpleClient) CreateChannelFolderExecute(r CreateChannelFolderRequest) (*CreateChannelFolderResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &CreateChannelFolderResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &CreateChannelFolderResponse{}
+		endpoint = "/channel_folders/create"
 	)
-
-	endpoint := "/channel_folders/create"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "name", r.name, "", "")
-	addOptionalParam(formParams, "description", r.description, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "name", r.name)
+	addOptionalParam(form, "description", r.description)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1044,7 +980,7 @@ func (c *simpleClient) CreateChannelFolderExecute(r CreateChannelFolderRequest) 
 
 type DeleteTopicRequest struct {
 	ctx        context.Context
-	ApiService ChannelsAPI
+	apiService ChannelsAPI
 	channelId  int64
 	topicName  *string
 }
@@ -1060,7 +996,7 @@ func (r DeleteTopicRequest) TopicName(topicName string) DeleteTopicRequest {
 }
 
 func (r DeleteTopicRequest) Execute() (*MarkAllAsReadResponse, *http.Response, error) {
-	return r.ApiService.DeleteTopicExecute(r)
+	return r.apiService.DeleteTopicExecute(r)
 }
 
 // DeleteTopic Delete a topic
@@ -1104,7 +1040,7 @@ func (r DeleteTopicRequest) Execute() (*MarkAllAsReadResponse, *http.Response, e
 // [`stream` op: `update`]: https://zulip.com/api/get-events#stream-update
 func (c *simpleClient) DeleteTopic(ctx context.Context, channelId int64) DeleteTopicRequest {
 	return DeleteTopicRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		channelId:  channelId,
 	}
@@ -1113,16 +1049,15 @@ func (c *simpleClient) DeleteTopic(ctx context.Context, channelId int64) DeleteT
 // Execute executes the request
 func (c *simpleClient) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsReadResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &MarkAllAsReadResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &MarkAllAsReadResponse{}
+		endpoint = "/streams/{stream_id}/delete_topic"
 	)
 
-	endpoint := "/streams/{stream_id}/delete_topic"
-	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
+	endpoint = strings.Replace(endpoint, "{stream_id}", idToString(r.channelId), -1)
 
 	if r.topicName == nil {
 		return nil, nil, reportError("topicName is required and must be specified")
@@ -1131,8 +1066,8 @@ func (c *simpleClient) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsReadR
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "topic_name", r.topicName, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "topic_name", r.topicName)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1143,7 +1078,7 @@ func (c *simpleClient) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsReadR
 
 type GetChannelFoldersRequest struct {
 	ctx             context.Context
-	ApiService      ChannelsAPI
+	apiService      ChannelsAPI
 	includeArchived *bool
 }
 
@@ -1154,7 +1089,7 @@ func (r GetChannelFoldersRequest) IncludeArchived(includeArchived bool) GetChann
 }
 
 func (r GetChannelFoldersRequest) Execute() (*GetChannelFoldersResponse, *http.Response, error) {
-	return r.ApiService.GetChannelFoldersExecute(r)
+	return r.apiService.GetChannelFoldersExecute(r)
 }
 
 // GetChannelFolders Get channel folders
@@ -1168,7 +1103,7 @@ func (r GetChannelFoldersRequest) Execute() (*GetChannelFoldersResponse, *http.R
 // New in Zulip 11.0 (feature level 389).
 func (c *simpleClient) GetChannelFolders(ctx context.Context) GetChannelFoldersRequest {
 	return GetChannelFoldersRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1176,21 +1111,18 @@ func (c *simpleClient) GetChannelFolders(ctx context.Context) GetChannelFoldersR
 // Execute executes the request
 func (c *simpleClient) GetChannelFoldersExecute(r GetChannelFoldersRequest) (*GetChannelFoldersResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetChannelFoldersResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetChannelFoldersResponse{}
+		endpoint = "/channel_folders"
 	)
-
-	endpoint := "/channel_folders"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "include_archived", r.includeArchived, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "include_archived", r.includeArchived)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1201,12 +1133,12 @@ func (c *simpleClient) GetChannelFoldersExecute(r GetChannelFoldersRequest) (*Ge
 
 type GetChannelByIdRequest struct {
 	ctx        context.Context
-	ApiService ChannelsAPI
+	apiService ChannelsAPI
 	channelId  int64
 }
 
 func (r GetChannelByIdRequest) Execute() (*GetChannelResponse, *http.Response, error) {
-	return r.ApiService.GetChannelByIdExecute(r)
+	return r.apiService.GetChannelByIdExecute(r)
 }
 
 // GetChannelById Get a channel by Id
@@ -1216,7 +1148,7 @@ func (r GetChannelByIdRequest) Execute() (*GetChannelResponse, *http.Response, e
 // *Changes**: New in Zulip 6.0 (feature level 132).
 func (c *simpleClient) GetChannelById(ctx context.Context, channelId int64) GetChannelByIdRequest {
 	return GetChannelByIdRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		channelId:  channelId,
 	}
@@ -1225,21 +1157,18 @@ func (c *simpleClient) GetChannelById(ctx context.Context, channelId int64) GetC
 // Execute executes the request
 func (c *simpleClient) GetChannelByIdExecute(r GetChannelByIdRequest) (*GetChannelResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetChannelResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetChannelResponse{}
+		endpoint = "/streams/{stream_id}"
 	)
 
-	endpoint := "/streams/{stream_id}"
-	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{stream_id}", idToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1250,7 +1179,7 @@ func (c *simpleClient) GetChannelByIdExecute(r GetChannelByIdRequest) (*GetChann
 
 type GetChannelEmailAddressRequest struct {
 	ctx        context.Context
-	ApiService ChannelsAPI
+	apiService ChannelsAPI
 	channelId  int64
 	senderId   *int64
 }
@@ -1264,7 +1193,7 @@ func (r GetChannelEmailAddressRequest) SenderId(senderId int64) GetChannelEmailA
 }
 
 func (r GetChannelEmailAddressRequest) Execute() (*GetChannelEmailAddressResponse, *http.Response, error) {
-	return r.ApiService.GetChannelEmailAddressExecute(r)
+	return r.apiService.GetChannelEmailAddressExecute(r)
 }
 
 // GetChannelEmailAddress Get channel's email address
@@ -1274,7 +1203,7 @@ func (r GetChannelEmailAddressRequest) Execute() (*GetChannelEmailAddressRespons
 // *Changes**: New in Zulip 8.0 (feature level 226).
 func (c *simpleClient) GetChannelEmailAddress(ctx context.Context, channelId int64) GetChannelEmailAddressRequest {
 	return GetChannelEmailAddressRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		channelId:  channelId,
 	}
@@ -1283,22 +1212,20 @@ func (c *simpleClient) GetChannelEmailAddress(ctx context.Context, channelId int
 // Execute executes the request
 func (c *simpleClient) GetChannelEmailAddressExecute(r GetChannelEmailAddressRequest) (*GetChannelEmailAddressResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetChannelEmailAddressResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetChannelEmailAddressResponse{}
+		endpoint = "/streams/{stream_id}/email_address"
 	)
 
-	endpoint := "/streams/{stream_id}/email_address"
-	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
+	endpoint = strings.Replace(endpoint, "{stream_id}", idToString(r.channelId), -1)
 
-	addOptionalParam(queryParams, "sender_id", r.senderId, "form", "")
-	// no Content-Type header
+	addOptionalParam(query, "sender_id", r.senderId)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1309,7 +1236,7 @@ func (c *simpleClient) GetChannelEmailAddressExecute(r GetChannelEmailAddressReq
 
 type GetChannelIdRequest struct {
 	ctx        context.Context
-	ApiService ChannelsAPI
+	apiService ChannelsAPI
 	channel    *string
 }
 
@@ -1320,7 +1247,7 @@ func (r GetChannelIdRequest) Channel(channel string) GetChannelIdRequest {
 }
 
 func (r GetChannelIdRequest) Execute() (*GetChannelIdResponse, *http.Response, error) {
-	return r.ApiService.GetChannelIdExecute(r)
+	return r.apiService.GetChannelIdExecute(r)
 }
 
 // GetChannelId Get channel Id
@@ -1328,7 +1255,7 @@ func (r GetChannelIdRequest) Execute() (*GetChannelIdResponse, *http.Response, e
 // Get the unique Id of a given channel.
 func (c *simpleClient) GetChannelId(ctx context.Context) GetChannelIdRequest {
 	return GetChannelIdRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1336,25 +1263,21 @@ func (c *simpleClient) GetChannelId(ctx context.Context) GetChannelIdRequest {
 // Execute executes the request
 func (c *simpleClient) GetChannelIdExecute(r GetChannelIdRequest) (*GetChannelIdResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetChannelIdResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetChannelIdResponse{}
+		endpoint = "/get_stream_id"
 	)
-
-	endpoint := "/get_stream_id"
-
 	if r.channel == nil {
 		return nil, nil, reportError("channel is required and must be specified")
 	}
 
-	addParam(queryParams, "stream", r.channel, "form", "")
-	// no Content-Type header
+	addParam(query, "stream", r.channel)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1365,7 +1288,7 @@ func (c *simpleClient) GetChannelIdExecute(r GetChannelIdRequest) (*GetChannelId
 
 type GetChannelTopicsRequest struct {
 	ctx                 context.Context
-	ApiService          ChannelsAPI
+	apiService          ChannelsAPI
 	channelId           int64
 	allowEmptyTopicName *bool
 }
@@ -1381,7 +1304,7 @@ func (r GetChannelTopicsRequest) AllowEmptyTopicName(allowEmptyTopicName bool) G
 }
 
 func (r GetChannelTopicsRequest) Execute() (*GetChannelTopicsResponse, *http.Response, error) {
-	return r.ApiService.GetChannelTopicsExecute(r)
+	return r.apiService.GetChannelTopicsExecute(r)
 }
 
 // GetChannelTopics Get topics in a channel
@@ -1400,7 +1323,7 @@ func (r GetChannelTopicsRequest) Execute() (*GetChannelTopicsResponse, *http.Res
 // [private channels with protected history]: https://zulip.com/help/channel-permissions#private-channels
 func (c *simpleClient) GetChannelTopics(ctx context.Context, channelId int64) GetChannelTopicsRequest {
 	return GetChannelTopicsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		channelId:  channelId,
 	}
@@ -1409,22 +1332,20 @@ func (c *simpleClient) GetChannelTopics(ctx context.Context, channelId int64) Ge
 // Execute executes the request
 func (c *simpleClient) GetChannelTopicsExecute(r GetChannelTopicsRequest) (*GetChannelTopicsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetChannelTopicsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetChannelTopicsResponse{}
+		endpoint = "/users/me/{stream_id}/topics"
 	)
 
-	endpoint := "/users/me/{stream_id}/topics"
-	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
+	endpoint = strings.Replace(endpoint, "{stream_id}", idToString(r.channelId), -1)
 
-	addOptionalParam(queryParams, "allow_empty_topic_name", r.allowEmptyTopicName, "form", "")
-	// no Content-Type header
+	addOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1435,7 +1356,7 @@ func (c *simpleClient) GetChannelTopicsExecute(r GetChannelTopicsRequest) (*GetC
 
 type GetChannelsRequest struct {
 	ctx                     context.Context
-	ApiService              ChannelsAPI
+	apiService              ChannelsAPI
 	includePublic           *bool
 	includeWebPublic        *bool
 	includeSubscribed       *bool
@@ -1512,7 +1433,7 @@ func (r GetChannelsRequest) IncludeCanAccessContent(includeCanAccessContent bool
 }
 
 func (r GetChannelsRequest) Execute() (*GetChannelsResponse, *http.Response, error) {
-	return r.ApiService.GetChannelsExecute(r)
+	return r.apiService.GetChannelsExecute(r)
 }
 
 // GetChannels Get all channels
@@ -1522,7 +1443,7 @@ func (r GetChannelsRequest) Execute() (*GetChannelsResponse, *http.Response, err
 // [has access to]: https://zulip.com/help/channel-permissions
 func (c *simpleClient) GetChannels(ctx context.Context) GetChannelsRequest {
 	return GetChannelsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1530,29 +1451,25 @@ func (c *simpleClient) GetChannels(ctx context.Context) GetChannelsRequest {
 // Execute executes the request
 func (c *simpleClient) GetChannelsExecute(r GetChannelsRequest) (*GetChannelsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetChannelsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetChannelsResponse{}
+		endpoint = "/streams"
 	)
-
-	endpoint := "/streams"
-
-	addOptionalParam(queryParams, "include_public", r.includePublic, "form", "")
-	addOptionalParam(queryParams, "include_web_public", r.includeWebPublic, "form", "")
-	addOptionalParam(queryParams, "include_subscribed", r.includeSubscribed, "form", "")
-	addOptionalParam(queryParams, "exclude_archived", r.excludeArchived, "form", "")
-	addOptionalParam(queryParams, "include_all_active", r.includeAllActive, "form", "")
-	addOptionalParam(queryParams, "include_all", r.includeAll, "form", "")
-	addOptionalParam(queryParams, "include_default", r.includeDefault, "form", "")
-	addOptionalParam(queryParams, "include_owner_subscribed", r.includeOwnerSubscribed, "form", "")
-	addOptionalParam(queryParams, "include_can_access_content", r.includeCanAccessContent, "form", "")
-	// no Content-Type header
+	addOptionalParam(query, "include_public", r.includePublic)
+	addOptionalParam(query, "include_web_public", r.includeWebPublic)
+	addOptionalParam(query, "include_subscribed", r.includeSubscribed)
+	addOptionalParam(query, "exclude_archived", r.excludeArchived)
+	addOptionalParam(query, "include_all_active", r.includeAllActive)
+	addOptionalParam(query, "include_all", r.includeAll)
+	addOptionalParam(query, "include_default", r.includeDefault)
+	addOptionalParam(query, "include_owner_subscribed", r.includeOwnerSubscribed)
+	addOptionalParam(query, "include_can_access_content", r.includeCanAccessContent)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1563,12 +1480,12 @@ func (c *simpleClient) GetChannelsExecute(r GetChannelsRequest) (*GetChannelsRes
 
 type GetSubscribersRequest struct {
 	ctx        context.Context
-	ApiService ChannelsAPI
+	apiService ChannelsAPI
 	channelId  int64
 }
 
 func (r GetSubscribersRequest) Execute() (*GetSubscribersResponse, *http.Response, error) {
-	return r.ApiService.GetSubscribersExecute(r)
+	return r.apiService.GetSubscribersExecute(r)
 }
 
 // GetSubscribers Get channel subscribers
@@ -1576,7 +1493,7 @@ func (r GetSubscribersRequest) Execute() (*GetSubscribersResponse, *http.Respons
 // Get all users subscribed to a channel.
 func (c *simpleClient) GetSubscribers(ctx context.Context, channelId int64) GetSubscribersRequest {
 	return GetSubscribersRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		channelId:  channelId,
 	}
@@ -1585,21 +1502,18 @@ func (c *simpleClient) GetSubscribers(ctx context.Context, channelId int64) GetS
 // Execute executes the request
 func (c *simpleClient) GetSubscribersExecute(r GetSubscribersRequest) (*GetSubscribersResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetSubscribersResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetSubscribersResponse{}
+		endpoint = "/streams/{stream_id}/members"
 	)
 
-	endpoint := "/streams/{stream_id}/members"
-	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{stream_id}", idToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1610,13 +1524,13 @@ func (c *simpleClient) GetSubscribersExecute(r GetSubscribersRequest) (*GetSubsc
 
 type GetSubscriptionStatusRequest struct {
 	ctx        context.Context
-	ApiService ChannelsAPI
+	apiService ChannelsAPI
 	userId     int64
 	channelId  int64
 }
 
 func (r GetSubscriptionStatusRequest) Execute() (*GetSubscriptionStatusResponse, *http.Response, error) {
-	return r.ApiService.GetSubscriptionStatusExecute(r)
+	return r.apiService.GetSubscriptionStatusExecute(r)
 }
 
 // GetSubscriptionStatus Get subscription status
@@ -1626,7 +1540,7 @@ func (r GetSubscriptionStatusRequest) Execute() (*GetSubscriptionStatusResponse,
 // *Changes**: New in Zulip 3.0 (feature level 12).
 func (c *simpleClient) GetSubscriptionStatus(ctx context.Context, userId int64, channelId int64) GetSubscriptionStatusRequest {
 	return GetSubscriptionStatusRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		userId:     userId,
 		channelId:  channelId,
@@ -1636,22 +1550,19 @@ func (c *simpleClient) GetSubscriptionStatus(ctx context.Context, userId int64, 
 // Execute executes the request
 func (c *simpleClient) GetSubscriptionStatusExecute(r GetSubscriptionStatusRequest) (*GetSubscriptionStatusResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetSubscriptionStatusResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetSubscriptionStatusResponse{}
+		endpoint = "/users/{user_id}/subscriptions/{stream_id}"
 	)
 
-	endpoint := "/users/{user_id}/subscriptions/{stream_id}"
-	endpoint = strings.Replace(endpoint, "{"+"user_id"+"}", idToString(r.userId), -1)
-	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
-
-	// no Content-Type header
+	endpoint = strings.Replace(endpoint, "{user_id}", idToString(r.userId), -1)
+	endpoint = strings.Replace(endpoint, "{stream_id}", idToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1662,7 +1573,7 @@ func (c *simpleClient) GetSubscriptionStatusExecute(r GetSubscriptionStatusReque
 
 type GetSubscriptionsRequest struct {
 	ctx                context.Context
-	ApiService         ChannelsAPI
+	apiService         ChannelsAPI
 	includeSubscribers *string
 }
 
@@ -1675,7 +1586,7 @@ func (r GetSubscriptionsRequest) IncludeSubscribers(includeSubscribers string) G
 }
 
 func (r GetSubscriptionsRequest) Execute() (*GetSubscriptionsResponse, *http.Response, error) {
-	return r.ApiService.GetSubscriptionsExecute(r)
+	return r.apiService.GetSubscriptionsExecute(r)
 }
 
 // GetSubscriptions Get subscribed channels
@@ -1683,7 +1594,7 @@ func (r GetSubscriptionsRequest) Execute() (*GetSubscriptionsResponse, *http.Res
 // Get all channels that the user is subscribed to.
 func (c *simpleClient) GetSubscriptions(ctx context.Context) GetSubscriptionsRequest {
 	return GetSubscriptionsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1691,21 +1602,17 @@ func (c *simpleClient) GetSubscriptions(ctx context.Context) GetSubscriptionsReq
 // Execute executes the request
 func (c *simpleClient) GetSubscriptionsExecute(r GetSubscriptionsRequest) (*GetSubscriptionsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodGet
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &GetSubscriptionsResponse{}
+		method   = http.MethodGet
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &GetSubscriptionsResponse{}
+		endpoint = "/users/me/subscriptions"
 	)
-
-	endpoint := "/users/me/subscriptions"
-
-	addOptionalParam(queryParams, "include_subscribers", r.includeSubscribers, "form", "")
-	// no Content-Type header
+	addOptionalParam(query, "include_subscribers", r.includeSubscribers)
 
 	headers["Accept"] = "application/json"
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1716,7 +1623,7 @@ func (c *simpleClient) GetSubscriptionsExecute(r GetSubscriptionsRequest) (*GetS
 
 type MuteTopicRequest struct {
 	ctx        context.Context
-	ApiService ChannelsAPI
+	apiService ChannelsAPI
 	topic      *string
 	op         *string
 	channelId  *int64
@@ -1752,7 +1659,7 @@ func (r MuteTopicRequest) Channel(channel string) MuteTopicRequest {
 }
 
 func (r MuteTopicRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.MuteTopicExecute(r)
+	return r.apiService.MuteTopicExecute(r)
 }
 
 // MuteTopic Topic muting
@@ -1774,7 +1681,7 @@ func (r MuteTopicRequest) Execute() (*Response, *http.Response, error) {
 // [POST /user_topics]: https://zulip.com/api/update-user-topic
 func (c *simpleClient) MuteTopic(ctx context.Context) MuteTopicRequest {
 	return MuteTopicRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1784,16 +1691,13 @@ func (c *simpleClient) MuteTopic(ctx context.Context) MuteTopicRequest {
 // Deprecated
 func (c *simpleClient) MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/me/subscriptions/muted_topics"
 	)
-
-	endpoint := "/users/me/subscriptions/muted_topics"
-
 	if r.topic == nil {
 		return nil, nil, reportError("topic is required and must be specified")
 	}
@@ -1804,11 +1708,11 @@ func (c *simpleClient) MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Re
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "stream_id", r.channelId, "form", "")
-	addOptionalParam(formParams, "stream", r.channel, "", "")
-	addParam(formParams, "topic", r.topic, "", "")
-	addParam(formParams, "op", r.op, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "stream_id", r.channelId)
+	addOptionalParam(form, "stream", r.channel)
+	addParam(form, "topic", r.topic)
+	addParam(form, "op", r.op)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1819,7 +1723,7 @@ func (c *simpleClient) MuteTopicExecute(r MuteTopicRequest) (*Response, *http.Re
 
 type PatchChannelFoldersRequest struct {
 	ctx        context.Context
-	ApiService ChannelsAPI
+	apiService ChannelsAPI
 	order      *[]int64
 }
 
@@ -1830,7 +1734,7 @@ func (r PatchChannelFoldersRequest) Order(order []int64) PatchChannelFoldersRequ
 }
 
 func (r PatchChannelFoldersRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.PatchChannelFoldersExecute(r)
+	return r.apiService.PatchChannelFoldersExecute(r)
 }
 
 // PatchChannelFolders Reorder channel folders
@@ -1842,7 +1746,7 @@ func (r PatchChannelFoldersRequest) Execute() (*Response, *http.Response, error)
 // *Changes**: New in Zulip 11.0 (feature level 414).
 func (c *simpleClient) PatchChannelFolders(ctx context.Context) PatchChannelFoldersRequest {
 	return PatchChannelFoldersRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1850,21 +1754,18 @@ func (c *simpleClient) PatchChannelFolders(ctx context.Context) PatchChannelFold
 // Execute executes the request
 func (c *simpleClient) PatchChannelFoldersExecute(r PatchChannelFoldersRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/channel_folders"
 	)
-
-	endpoint := "/channel_folders"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "order", r.order, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "order", r.order)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1875,7 +1776,7 @@ func (c *simpleClient) PatchChannelFoldersExecute(r PatchChannelFoldersRequest) 
 
 type RemoveDefaultChannelRequest struct {
 	ctx        context.Context
-	ApiService ChannelsAPI
+	apiService ChannelsAPI
 	channelId  *int64
 }
 
@@ -1886,7 +1787,7 @@ func (r RemoveDefaultChannelRequest) ChannelId(channelId int64) RemoveDefaultCha
 }
 
 func (r RemoveDefaultChannelRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.RemoveDefaultChannelExecute(r)
+	return r.apiService.RemoveDefaultChannelExecute(r)
 }
 
 // RemoveDefaultChannel Remove a default channel
@@ -1897,7 +1798,7 @@ func (r RemoveDefaultChannelRequest) Execute() (*Response, *http.Response, error
 // [default channels]: https://zulip.com/help/set-default-channels-for-new-users
 func (c *simpleClient) RemoveDefaultChannel(ctx context.Context) RemoveDefaultChannelRequest {
 	return RemoveDefaultChannelRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -1905,16 +1806,13 @@ func (c *simpleClient) RemoveDefaultChannel(ctx context.Context) RemoveDefaultCh
 // Execute executes the request
 func (c *simpleClient) RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/default_streams"
 	)
-
-	endpoint := "/default_streams"
-
 	if r.channelId == nil {
 		return nil, nil, reportError("channelId is required and must be specified")
 	}
@@ -1922,8 +1820,8 @@ func (c *simpleClient) RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "stream_id", r.channelId, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "stream_id", r.channelId)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1934,7 +1832,7 @@ func (c *simpleClient) RemoveDefaultChannelExecute(r RemoveDefaultChannelRequest
 
 type SubscribeRequest struct {
 	ctx                               context.Context
-	ApiService                        ChannelsAPI
+	apiService                        ChannelsAPI
 	subscriptions                     *[]SubscriptionRequest
 	principals                        *Principals
 	authorizationErrorsFatal          *bool
@@ -1942,21 +1840,21 @@ type SubscribeRequest struct {
 	inviteOnly                        *bool
 	isWebPublic                       *bool
 	isDefaultChannel                  *bool
+	folderId                          *int64
+	sendNewSubscriptionMessages       *bool
+	topicsPolicy                      *TopicsPolicy
 	historyPublicToSubscribers        *bool
 	messageRetentionDays              *MessageRetentionDaysValue
-	topicsPolicy                      *TopicsPolicy
 	canAddSubscribersGroup            *GroupSettingValue
-	canRemoveSubscribersGroup         *GroupSettingValue
-	canAdministerChannelGroup         *GroupSettingValue
 	canDeleteAnyMessageGroup          *GroupSettingValue
 	canDeleteOwnMessageGroup          *GroupSettingValue
+	canRemoveSubscribersGroup         *GroupSettingValue
+	canAdministerChannelGroup         *GroupSettingValue
 	canMoveMessagesOutOfChannelGroup  *GroupSettingValue
 	canMoveMessagesWithinChannelGroup *GroupSettingValue
 	canSendMessageGroup               *GroupSettingValue
 	canSubscribeGroup                 *GroupSettingValue
 	canResolveTopicsGroup             *GroupSettingValue
-	folderId                          *int64
-	sendNewSubscriptionMessages       *bool
 }
 
 // SubscriptionRequest struct for SubscriptionRequest
@@ -2114,7 +2012,7 @@ func (r SubscribeRequest) SendNewSubscriptionMessages(sendNewSubscriptionMessage
 }
 
 func (r SubscribeRequest) Execute() (*SubscribeResponse, *http.Response, error) {
-	return r.ApiService.SubscribeExecute(r)
+	return r.apiService.SubscribeExecute(r)
 }
 
 // Subscribe Subscribe to a channel
@@ -2157,7 +2055,7 @@ func (r SubscribeRequest) Execute() (*SubscribeResponse, *http.Response, error) 
 // [channel settings]: https://zulip.com/api/update-stream
 func (c *simpleClient) Subscribe(ctx context.Context) SubscribeRequest {
 	return SubscribeRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2165,16 +2063,13 @@ func (c *simpleClient) Subscribe(ctx context.Context) SubscribeRequest {
 // Execute executes the request
 func (c *simpleClient) SubscribeExecute(r SubscribeRequest) (*SubscribeResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &SubscribeResponse{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &SubscribeResponse{}
+		endpoint = "/users/me/subscriptions"
 	)
-
-	endpoint := "/users/me/subscriptions"
-
 	if r.subscriptions == nil {
 		return nil, nil, reportError("subscriptions is required and must be specified")
 	}
@@ -2182,101 +2077,53 @@ func (c *simpleClient) SubscribeExecute(r SubscribeRequest) (*SubscribeResponse,
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "subscriptions", r.subscriptions, "form", "multi")
-	if r.principals != nil {
-		paramJson, err := parameterToJson(*r.principals)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("principals", paramJson)
+	addParam(form, "subscriptions", r.subscriptions)
+	if err := addOptionalJSONParam(form, "principals", r.principals); err != nil {
+		return nil, nil, err
 	}
-	addOptionalParam(formParams, "authorization_errors_fatal", r.authorizationErrorsFatal, "form", "")
-	addOptionalParam(formParams, "announce", r.announce, "form", "")
-	addOptionalParam(formParams, "invite_only", r.inviteOnly, "form", "")
-	addOptionalParam(formParams, "is_web_public", r.isWebPublic, "form", "")
-	addOptionalParam(formParams, "is_default_stream", r.isDefaultChannel, "form", "")
-	addOptionalParam(formParams, "history_public_to_subscribers", r.historyPublicToSubscribers, "form", "")
-	if r.messageRetentionDays != nil {
-		paramJson, err := parameterToJson(*r.messageRetentionDays)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("message_retention_days", paramJson)
+	addOptionalParam(form, "authorization_errors_fatal", r.authorizationErrorsFatal)
+	addOptionalParam(form, "announce", r.announce)
+	addOptionalParam(form, "invite_only", r.inviteOnly)
+	addOptionalParam(form, "is_web_public", r.isWebPublic)
+	addOptionalParam(form, "is_default_stream", r.isDefaultChannel)
+	addOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
+	if err := addOptionalJSONParam(form, "message_retention_days", r.messageRetentionDays); err != nil {
+		return nil, nil, err
 	}
-	addOptionalParam(formParams, "topics_policy", r.topicsPolicy, "form", "")
-	if r.canAddSubscribersGroup != nil {
-		paramJson, err := parameterToJson(*r.canAddSubscribersGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_add_subscribers_group", paramJson)
+	addOptionalParam(form, "topics_policy", r.topicsPolicy)
+	if err := addOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canRemoveSubscribersGroup != nil {
-		paramJson, err := parameterToJson(*r.canRemoveSubscribersGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_remove_subscribers_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_remove_subscribers_group", r.canRemoveSubscribersGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canAdministerChannelGroup != nil {
-		paramJson, err := parameterToJson(*r.canAdministerChannelGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_administer_channel_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_administer_channel_group", r.canAdministerChannelGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canDeleteAnyMessageGroup != nil {
-		paramJson, err := parameterToJson(*r.canDeleteAnyMessageGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_delete_any_message_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_delete_any_message_group", r.canDeleteAnyMessageGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canDeleteOwnMessageGroup != nil {
-		paramJson, err := parameterToJson(*r.canDeleteOwnMessageGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_delete_own_message_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_delete_own_message_group", r.canDeleteOwnMessageGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canMoveMessagesOutOfChannelGroup != nil {
-		paramJson, err := parameterToJson(*r.canMoveMessagesOutOfChannelGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_move_messages_out_of_channel_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_move_messages_out_of_channel_group", r.canMoveMessagesOutOfChannelGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canMoveMessagesWithinChannelGroup != nil {
-		paramJson, err := parameterToJson(*r.canMoveMessagesWithinChannelGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_move_messages_within_channel_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_move_messages_within_channel_group", r.canMoveMessagesWithinChannelGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canSendMessageGroup != nil {
-		paramJson, err := parameterToJson(*r.canSendMessageGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_send_message_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_send_message_group", r.canSendMessageGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canSubscribeGroup != nil {
-		paramJson, err := parameterToJson(*r.canSubscribeGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_subscribe_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_subscribe_group", r.canSubscribeGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canResolveTopicsGroup != nil {
-		paramJson, err := parameterToJson(*r.canResolveTopicsGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_resolve_topics_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_resolve_topics_group", r.canResolveTopicsGroup); err != nil {
+		return nil, nil, err
 	}
-	addOptionalParam(formParams, "folder_id", r.folderId, "form", "")
-	addOptionalParam(formParams, "send_new_subscription_messages", r.sendNewSubscriptionMessages, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "folder_id", r.folderId)
+	addOptionalParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2287,7 +2134,7 @@ func (c *simpleClient) SubscribeExecute(r SubscribeRequest) (*SubscribeResponse,
 
 type UnsubscribeRequest struct {
 	ctx           context.Context
-	ApiService    ChannelsAPI
+	apiService    ChannelsAPI
 	subscriptions *[]string
 	principals    *Principals
 }
@@ -2304,7 +2151,7 @@ func (r UnsubscribeRequest) Principals(principals Principals) UnsubscribeRequest
 }
 
 func (r UnsubscribeRequest) Execute() (*UnsubscribeResponse, *http.Response, error) {
-	return r.ApiService.UnsubscribeExecute(r)
+	return r.apiService.UnsubscribeExecute(r)
 }
 
 // Unsubscribe Unsubscribe from a channel
@@ -2348,7 +2195,7 @@ func (r UnsubscribeRequest) Execute() (*UnsubscribeResponse, *http.Response, err
 // [have access]: https://zulip.com/help/channel-permissions
 func (c *simpleClient) Unsubscribe(ctx context.Context) UnsubscribeRequest {
 	return UnsubscribeRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2356,16 +2203,13 @@ func (c *simpleClient) Unsubscribe(ctx context.Context) UnsubscribeRequest {
 // Execute executes the request
 func (c *simpleClient) UnsubscribeExecute(r UnsubscribeRequest) (*UnsubscribeResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodDelete
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &UnsubscribeResponse{}
+		method   = http.MethodDelete
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &UnsubscribeResponse{}
+		endpoint = "/users/me/subscriptions"
 	)
-
-	endpoint := "/users/me/subscriptions"
-
 	if r.subscriptions == nil {
 		return nil, nil, reportError("subscriptions is required and must be specified")
 	}
@@ -2373,15 +2217,11 @@ func (c *simpleClient) UnsubscribeExecute(r UnsubscribeRequest) (*UnsubscribeRes
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "subscriptions", r.subscriptions, "form", "multi")
-	if r.principals != nil {
-		paramJson, err := parameterToJson(*r.principals)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("principals", paramJson)
+	addParam(form, "subscriptions", r.subscriptions)
+	if err := addOptionalJSONParam(form, "principals", r.principals); err != nil {
+		return nil, nil, err
 	}
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2392,7 +2232,7 @@ func (c *simpleClient) UnsubscribeExecute(r UnsubscribeRequest) (*UnsubscribeRes
 
 type UpdateChannelFolderRequest struct {
 	ctx             context.Context
-	ApiService      ChannelsAPI
+	apiService      ChannelsAPI
 	channelFolderId int64
 	name            *string
 	description     *string
@@ -2422,7 +2262,7 @@ func (r UpdateChannelFolderRequest) IsArchived(isArchived bool) UpdateChannelFol
 }
 
 func (r UpdateChannelFolderRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateChannelFolderExecute(r)
+	return r.apiService.UpdateChannelFolderExecute(r)
 }
 
 // UpdateChannelFolder Update a channel folder
@@ -2438,7 +2278,7 @@ func (r UpdateChannelFolderRequest) Execute() (*Response, *http.Response, error)
 // *Changes**: New in Zulip 11.0 (feature level 389).
 func (c *simpleClient) UpdateChannelFolder(ctx context.Context, channelFolderId int64) UpdateChannelFolderRequest {
 	return UpdateChannelFolderRequest{
-		ApiService:      c,
+		apiService:      c,
 		ctx:             ctx,
 		channelFolderId: channelFolderId,
 	}
@@ -2447,24 +2287,23 @@ func (c *simpleClient) UpdateChannelFolder(ctx context.Context, channelFolderId 
 // Execute executes the request
 func (c *simpleClient) UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/channel_folders/{channel_folder_id}"
 	)
 
-	endpoint := "/channel_folders/{channel_folder_id}"
-	endpoint = strings.Replace(endpoint, "{"+"channel_folder_id"+"}", idToString(r.channelFolderId), -1)
+	endpoint = strings.Replace(endpoint, "{channel_folder_id}", idToString(r.channelFolderId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "name", r.name, "", "")
-	addOptionalParam(formParams, "description", r.description, "", "")
-	addOptionalParam(formParams, "is_archived", r.isArchived, "", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "name", r.name)
+	addOptionalParam(form, "description", r.description)
+	addOptionalParam(form, "is_archived", r.isArchived)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2475,7 +2314,7 @@ func (c *simpleClient) UpdateChannelFolderExecute(r UpdateChannelFolderRequest) 
 
 type UpdateChannelRequest struct {
 	ctx                               context.Context
-	ApiService                        ChannelsAPI
+	apiService                        ChannelsAPI
 	channelId                         int64
 	description                       *string
 	newName                           *string
@@ -2706,7 +2545,7 @@ func (r UpdateChannelRequest) CanResolveTopicsGroup(canResolveTopicsGroup GroupS
 }
 
 func (r UpdateChannelRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateChannelExecute(r)
+	return r.apiService.UpdateChannelExecute(r)
 }
 
 // UpdateChannel Update a channel
@@ -2739,7 +2578,7 @@ func (r UpdateChannelRequest) Execute() (*Response, *http.Response, error) {
 // [who can send]: https://zulip.com/help/channel-posting-policy
 func (c *simpleClient) UpdateChannel(ctx context.Context, channelId int64) UpdateChannelRequest {
 	return UpdateChannelRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 		channelId:  channelId,
 	}
@@ -2748,107 +2587,62 @@ func (c *simpleClient) UpdateChannel(ctx context.Context, channelId int64) Updat
 // Execute executes the request
 func (c *simpleClient) UpdateChannelExecute(r UpdateChannelRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/streams/{stream_id}"
 	)
 
-	endpoint := "/streams/{stream_id}"
-	endpoint = strings.Replace(endpoint, "{"+"stream_id"+"}", idToString(r.channelId), -1)
+	endpoint = strings.Replace(endpoint, "{stream_id}", idToString(r.channelId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "description", r.description, "", "")
-	addOptionalParam(formParams, "new_name", r.newName, "", "")
-	addOptionalParam(formParams, "is_private", r.isPrivate, "form", "")
-	addOptionalParam(formParams, "is_web_public", r.isWebPublic, "form", "")
-	addOptionalParam(formParams, "history_public_to_subscribers", r.historyPublicToSubscribers, "form", "")
-	addOptionalParam(formParams, "is_default_stream", r.isDefaultChannel, "form", "")
-	if r.messageRetentionDays != nil {
-		paramJson, err := parameterToJson(*r.messageRetentionDays)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("message_retention_days", paramJson)
+	addOptionalParam(form, "description", r.description)
+	addOptionalParam(form, "new_name", r.newName)
+	addOptionalParam(form, "is_private", r.isPrivate)
+	addOptionalParam(form, "is_web_public", r.isWebPublic)
+	addOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
+	addOptionalParam(form, "is_default_stream", r.isDefaultChannel)
+	if err := addOptionalJSONParam(form, "message_retention_days", r.messageRetentionDays); err != nil {
+		return nil, nil, err
 	}
-	addOptionalParam(formParams, "is_archived", r.isArchived, "", "")
-	addOptionalParam(formParams, "folder_id", r.folderId, "form", "")
-	addOptionalParam(formParams, "topics_policy", r.topicsPolicy, "", "")
-	if r.canAddSubscribersGroup != nil {
-		paramJson, err := parameterToJson(*r.canAddSubscribersGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_add_subscribers_group", paramJson)
+	addOptionalParam(form, "is_archived", r.isArchived)
+	addOptionalParam(form, "folder_id", r.folderId)
+	addOptionalParam(form, "topics_policy", r.topicsPolicy)
+	if err := addOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canRemoveSubscribersGroup != nil {
-		paramJson, err := parameterToJson(*r.canRemoveSubscribersGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_remove_subscribers_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_remove_subscribers_group", r.canRemoveSubscribersGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canAdministerChannelGroup != nil {
-		paramJson, err := parameterToJson(*r.canAdministerChannelGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_administer_channel_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_administer_channel_group", r.canAdministerChannelGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canDeleteAnyMessageGroup != nil {
-		paramJson, err := parameterToJson(*r.canDeleteAnyMessageGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_delete_any_message_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_delete_any_message_group", r.canDeleteAnyMessageGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canDeleteOwnMessageGroup != nil {
-		paramJson, err := parameterToJson(*r.canDeleteOwnMessageGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_delete_own_message_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_delete_own_message_group", r.canDeleteOwnMessageGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canMoveMessagesOutOfChannelGroup != nil {
-		paramJson, err := parameterToJson(*r.canMoveMessagesOutOfChannelGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_move_messages_out_of_channel_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_move_messages_out_of_channel_group", r.canMoveMessagesOutOfChannelGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canMoveMessagesWithinChannelGroup != nil {
-		paramJson, err := parameterToJson(*r.canMoveMessagesWithinChannelGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_move_messages_within_channel_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_move_messages_within_channel_group", r.canMoveMessagesWithinChannelGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canSendMessageGroup != nil {
-		paramJson, err := parameterToJson(*r.canSendMessageGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_send_message_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_send_message_group", r.canSendMessageGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canSubscribeGroup != nil {
-		paramJson, err := parameterToJson(*r.canSubscribeGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_subscribe_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_subscribe_group", r.canSubscribeGroup); err != nil {
+		return nil, nil, err
 	}
-	if r.canResolveTopicsGroup != nil {
-		paramJson, err := parameterToJson(*r.canResolveTopicsGroup)
-		if err != nil {
-			return nil, nil, err
-		}
-		formParams.Add("can_resolve_topics_group", paramJson)
+	if err := addOptionalJSONParam(form, "can_resolve_topics_group", r.canResolveTopicsGroup); err != nil {
+		return nil, nil, err
 	}
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2859,7 +2653,7 @@ func (c *simpleClient) UpdateChannelExecute(r UpdateChannelRequest) (*Response, 
 
 type UpdateSubscriptionSettingsRequest struct {
 	ctx              context.Context
-	ApiService       ChannelsAPI
+	apiService       ChannelsAPI
 	subscriptionData *[]SubscriptionData
 }
 
@@ -2870,7 +2664,7 @@ func (r UpdateSubscriptionSettingsRequest) SubscriptionData(subscriptionData []S
 }
 
 func (r UpdateSubscriptionSettingsRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateSubscriptionSettingsExecute(r)
+	return r.apiService.UpdateSubscriptionSettingsExecute(r)
 }
 
 // UpdateSubscriptionSettings Update subscription settings
@@ -2887,7 +2681,7 @@ func (r UpdateSubscriptionSettingsRequest) Execute() (*Response, *http.Response,
 // [`ignored_parameters_unsupported`]: https://zulip.com/api/rest-error-handling#ignored-parameters
 func (c *simpleClient) UpdateSubscriptionSettings(ctx context.Context) UpdateSubscriptionSettingsRequest {
 	return UpdateSubscriptionSettingsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2895,16 +2689,13 @@ func (c *simpleClient) UpdateSubscriptionSettings(ctx context.Context) UpdateSub
 // Execute executes the request
 func (c *simpleClient) UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSettingsRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/users/me/subscriptions/properties"
 	)
-
-	endpoint := "/users/me/subscriptions/properties"
-
 	if r.subscriptionData == nil {
 		return nil, nil, reportError("subscriptionData is required and must be specified")
 	}
@@ -2912,8 +2703,8 @@ func (c *simpleClient) UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSet
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "subscription_data", r.subscriptionData, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "subscription_data", r.subscriptionData)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2924,7 +2715,7 @@ func (c *simpleClient) UpdateSubscriptionSettingsExecute(r UpdateSubscriptionSet
 
 type UpdateSubscriptionsRequest struct {
 	ctx        context.Context
-	ApiService ChannelsAPI
+	apiService ChannelsAPI
 	delete     *[]string
 	add        *[]SubscriptionRequestWithColor
 }
@@ -2949,7 +2740,7 @@ func (r UpdateSubscriptionsRequest) Add(add []SubscriptionRequestWithColor) Upda
 }
 
 func (r UpdateSubscriptionsRequest) Execute() (*UpdateSubscriptionsResponse, *http.Response, error) {
-	return r.ApiService.UpdateSubscriptionsExecute(r)
+	return r.apiService.UpdateSubscriptionsExecute(r)
 }
 
 // UpdateSubscriptions Update subscriptions
@@ -2960,7 +2751,7 @@ func (r UpdateSubscriptionsRequest) Execute() (*UpdateSubscriptionsResponse, *ht
 // subscriptions in archived channels could not be modified.
 func (c *simpleClient) UpdateSubscriptions(ctx context.Context) UpdateSubscriptionsRequest {
 	return UpdateSubscriptionsRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -2968,22 +2759,19 @@ func (c *simpleClient) UpdateSubscriptions(ctx context.Context) UpdateSubscripti
 // Execute executes the request
 func (c *simpleClient) UpdateSubscriptionsExecute(r UpdateSubscriptionsRequest) (*UpdateSubscriptionsResponse, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPatch
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &UpdateSubscriptionsResponse{}
+		method   = http.MethodPatch
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &UpdateSubscriptionsResponse{}
+		endpoint = "/users/me/subscriptions"
 	)
-
-	endpoint := "/users/me/subscriptions"
-
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addOptionalParam(formParams, "delete", r.delete, "form", "multi")
-	addOptionalParam(formParams, "add", r.add, "form", "multi")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addOptionalParam(form, "delete", r.delete)
+	addOptionalParam(form, "add", r.add)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2994,7 +2782,7 @@ func (c *simpleClient) UpdateSubscriptionsExecute(r UpdateSubscriptionsRequest) 
 
 type UpdateUserTopicRequest struct {
 	ctx              context.Context
-	ApiService       ChannelsAPI
+	apiService       ChannelsAPI
 	channelId        *int64
 	topic            *string
 	visibilityPolicy *VisibilityPolicy
@@ -3031,7 +2819,7 @@ func (r UpdateUserTopicRequest) VisibilityPolicy(visibilityPolicy VisibilityPoli
 }
 
 func (r UpdateUserTopicRequest) Execute() (*Response, *http.Response, error) {
-	return r.ApiService.UpdateUserTopicExecute(r)
+	return r.apiService.UpdateUserTopicExecute(r)
 }
 
 // UpdateUserTopic Update personal preferences for a topic
@@ -3051,7 +2839,7 @@ func (r UpdateUserTopicRequest) Execute() (*Response, *http.Response, error) {
 // [PATCH /users/me/subscriptions/muted_topics]: https://zulip.com/api/mute-topic
 func (c *simpleClient) UpdateUserTopic(ctx context.Context) UpdateUserTopicRequest {
 	return UpdateUserTopicRequest{
-		ApiService: c,
+		apiService: c,
 		ctx:        ctx,
 	}
 }
@@ -3059,16 +2847,13 @@ func (c *simpleClient) UpdateUserTopic(ctx context.Context) UpdateUserTopicReque
 // Execute executes the request
 func (c *simpleClient) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Response, *http.Response, error) {
 	var (
-		httpMethod  = http.MethodPost
-		postBody    interface{}
-		headers     = make(map[string]string)
-		queryParams = url.Values{}
-		formParams  = url.Values{}
-		response    = &Response{}
+		method   = http.MethodPost
+		headers  = make(map[string]string)
+		query    = url.Values{}
+		form     = url.Values{}
+		response = &Response{}
+		endpoint = "/user_topics"
 	)
-
-	endpoint := "/user_topics"
-
 	if r.channelId == nil {
 		return nil, nil, reportError("channelId is required and must be specified")
 	}
@@ -3082,10 +2867,10 @@ func (c *simpleClient) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*Respon
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	addParam(formParams, "stream_id", r.channelId, "form", "")
-	addParam(formParams, "topic", r.topic, "", "")
-	addParam(formParams, "visibility_policy", r.visibilityPolicy, "form", "")
-	req, err := c.prepareRequest(r.ctx, endpoint, httpMethod, postBody, headers, queryParams, formParams, nil)
+	addParam(form, "stream_id", r.channelId)
+	addParam(form, "topic", r.topic)
+	addParam(form, "visibility_policy", r.visibilityPolicy)
+	req, err := c.prepareRequest(r.ctx, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
