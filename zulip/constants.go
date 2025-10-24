@@ -892,3 +892,34 @@ func (e *WebAnimateImagePreviews) UnmarshalJSON(data []byte) error {
 }
 
 var allowedWebAnimateImagePreviewsValues = []WebAnimateImagePreviews{WebAnimateImagePreviewsAlways, WebAnimateImagePreviewsOnHover, WebAnimateImagePreviewsNever}
+
+const (
+	// NarrowOperatorChannel filters messages by channel ID or name.
+	NarrowOperatorChannel NarrowOperator = "channel"
+	// NarrowOperatorTopic filters messages by topic name within a channel.
+	NarrowOperatorTopic NarrowOperator = "topic"
+	// NarrowOperatorStream is a legacy alias for NarrowOperatorChannel.
+	NarrowOperatorStream NarrowOperator = "stream"
+	// NarrowOperatorId filters messages by message ID.
+	NarrowOperatorId NarrowOperator = "id"
+	// NarrowOperatorDm filters direct messages between two users.
+	NarrowOperatorDm NarrowOperator = "dm"
+	// NarrowOperatorDmIncluding filters messages in a group DM including specific users.
+	NarrowOperatorDmIncluding NarrowOperator = "dm_including"
+	// NarrowOperatorSender filters messages sent by a user (by email or ID).
+	NarrowOperatorSender NarrowOperator = "sender"
+	// NarrowOperatorWith filters direct messages with a specific user.
+	NarrowOperatorWith NarrowOperator = "with"
+	// NarrowOperatorHas filters messages that have a specific property (e.g., "reactions").
+	NarrowOperatorHas NarrowOperator = "has"
+	// NarrowOperatorIs filters messages by status (e.g., "muted", "starred", "alerted").
+	NarrowOperatorIs NarrowOperator = "is"
+	// NarrowOperatorSearch filters messages using full-text search.
+	NarrowOperatorSearch NarrowOperator = "search"
+)
+
+func (e *NarrowOperator) UnmarshalJSON(data []byte) error {
+	return utils.UnmarshalStringEnum(data, e, allowedNarrowOperatorValues)
+}
+
+var allowedNarrowOperatorValues = []NarrowOperator{NarrowOperatorChannel, NarrowOperatorTopic, NarrowOperatorStream, NarrowOperatorId, NarrowOperatorDm, NarrowOperatorDmIncluding, NarrowOperatorSender, NarrowOperatorWith, NarrowOperatorHas, NarrowOperatorIs, NarrowOperatorSearch}

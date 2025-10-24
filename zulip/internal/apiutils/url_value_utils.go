@@ -40,48 +40,6 @@ func IdToString(id int64) string {
 	return strconv.FormatInt(id, 10)
 }
 
-/* TODO:
-
-
-
-// Set request body from an interface{}
-func setBody(body interface{}, contentType string) (bodyBuf *bytes.Buffer, err error) {
-	if bodyBuf == nil {
-		bodyBuf = &bytes.Buffer{}
-	}
-
-	if reader, ok := body.(io.Reader); ok {
-		_, err = bodyBuf.ReadFrom(reader)
-	} else if fp, ok := body.(*os.File); ok {
-		_, err = bodyBuf.ReadFrom(fp)
-	} else if b, ok := body.([]byte); ok {
-		_, err = bodyBuf.Write(b)
-	} else if s, ok := body.(string); ok {
-		_, err = bodyBuf.WriteString(s)
-	} else if s, ok := body.(*string); ok {
-		_, err = bodyBuf.WriteString(*s)
-	} else if JsonCheck.MatchString(contentType) {
-		err = json.NewEncoder(bodyBuf).Encode(body)
-	} else if XmlCheck.MatchString(contentType) {
-		var bs []byte
-		bs, err = xml.Marshal(body)
-		if err == nil {
-			bodyBuf.Write(bs)
-		}
-	}
-
-	if err != nil {
-		return nil, err
-	}
-
-	if bodyBuf.Len() == 0 {
-		err = fmt.Errorf("invalid body type %s", contentType)
-		return nil, err
-	}
-	return bodyBuf, nil
-}
-*/
-
 // prepareRequest build the request
 func PrepareRequest(
 	ctx context.Context,
