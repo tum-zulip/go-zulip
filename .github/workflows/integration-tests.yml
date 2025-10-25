@@ -108,7 +108,7 @@ jobs:
         run: |
           # Start the dev server using the helper script and capture logs/PID
           mkdir tmp
-          nohup bash -lc "TMPDIR=tmp ./scripts/run-dev-zerver.sh --ref '${{ matrix.zulip-branch }}'" >"${ZULIP_DEV_LOG}" 2>&1 &
+          nohup bash -lc "TMPDIR=$(pwd)/tmp ./scripts/run-dev-zerver.sh --ref '${{ matrix.zulip-branch }}'" >"${ZULIP_DEV_LOG}" 2>&1 &
           echo $! > /tmp/zulip-dev-${{ github.run_id }}.pid
 
       - name: Wait for Zulip dev server to become ready
