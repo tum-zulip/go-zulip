@@ -12,6 +12,7 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -49,8 +50,7 @@ var (
 // TODO(janez): Add guest client to tests
 
 var (
-	cache       sync.Map // map[string]client.Client - keyed by username
-	cleanupOnce sync.Map // map[string]*sync.Once - keyed by username
+	cache sync.Map // map[string]client.Client - keyed by username
 )
 
 type namedClient struct {
@@ -114,36 +114,36 @@ func RunForAdminAndOwnerClients(t *testing.T, fn func(*testing.T, client.Client)
 
 func GetTestClient(t *testing.T, username string) client.Client {
 	// Check if client already exists in cache
-	// if cachedClient, ok := cache.Load(username); ok {
-	// 	return cachedClient.(client.Client)
-	// }
+	if cachedClient, ok := cache.Load(username); ok {
+		return cachedClient.(client.Client)
+	}
 
 	// Create client if not in cache
 	newClient := getTestClient(t, username)
 
 	// Store in cache atomically
-	// actual, loaded := cache.LoadOrStore(username, newClient)
+	actual, loaded := cache.LoadOrStore(username, newClient)
 
-	// Register cleanup only once per username
-	once, _ := cleanupOnce.LoadOrStore(username, &sync.Once{})
-	once.(*sync.Once).Do(func() {
-		t.Cleanup(func() {
-			os.MkdirAll("/tmp/go-zulip-stats", 0755)
-			data, err := json.MarshalIndent(map[string]map[string]statistics.Statistic{
-				username: newClient.GetStatistics(),
-			}, "", "  ")
-			if err != nil {
-				t.Logf("Failed to marshal statistics for user %s: %v", username, err)
-				return
-			}
-			os.WriteFile(filepath.Join("/tmp/go-zulip-stats", fmt.Sprintf("stats_%s-%d-%d.json", username, os.Getpid(), time.Now().UnixNano())), data, 0644)
-		})
+	// Register cleanup for EVERY client instance, not just once per username
+	// This ensures statistics from all parallel tests are saved
+	t.Cleanup(func() {
+		os.MkdirAll("/tmp/go-zulip-stats", 0755)
+		data, err := json.MarshalIndent(map[string]map[string]statistics.Statistic{
+			username: newClient.GetStatistics(),
+		}, "", "  ")
+		if err != nil {
+			t.Logf("Failed to marshal statistics for user %s: %v", username, err)
+			return
+		}
+		// Use a unique filename that includes timestamp and a random component to avoid collisions
+		filename := fmt.Sprintf("stats_%s-%d-%d-%d.json", username, os.Getpid(), time.Now().UnixNano(), rand.Int63())
+		os.WriteFile(filepath.Join("/tmp/go-zulip-stats", filename), data, 0644)
 	})
 
-	// if loaded {
-	// 	// Another goroutine created the client first, use that one
-	// 	return actual.(client.Client)
-	// }
+	if loaded {
+		// Another goroutine created the client first, use that one
+		return actual.(client.Client)
+	}
 
 	return newClient
 }
@@ -226,11 +226,7 @@ func CreateRandomChannel(t *testing.T, apiClient client.Client, subscribers ...i
 
 	subs := append([]int64(nil), subscribers...)
 	if len(subs) == 0 {
-		resp, httpResp, err := apiClient.GetOwnUser(context.Background()).Execute()
-		require.NoError(t, err)
-		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
-		subs = []int64{resp.UserId}
+		subs = []int64{GetUserId(t, apiClient)}
 	}
 
 	name := UniqueName("test-channel")
@@ -306,20 +302,20 @@ func getOwnUser(t *testing.T, apiClient client.Client) *users.GetOwnUserResponse
 	return resp
 }
 
-// var idCache sync.Map
+var idCache sync.Map
 
 func GetUserId(t *testing.T, apiClient client.Client) int64 {
 	t.Helper()
 
-	// if id, ok := idCache.Load(apiClient); ok {
-	// 	return id.(int64)
-	// }
+	if id, ok := idCache.Load(apiClient); ok {
+		return id.(int64)
+	}
 
 	resp := getOwnUser(t, apiClient)
 
 	require.NotNil(t, resp)
 
-	// idCache.Store(apiClient, resp.UserId)
+	idCache.Store(apiClient, resp.UserId)
 
 	return resp.UserId
 }
@@ -351,7 +347,7 @@ func RequireStatusOK(t *testing.T, httpResp *http.Response) {
 	assert.Equal(t, 200, httpResp.StatusCode)
 }
 
-// var channelCahe atomic.Value
+var channelCahe atomic.Value
 
 func GetChannelWithAllClients(t *testing.T) (string, int64) {
 	t.Helper()
@@ -361,10 +357,10 @@ func GetChannelWithAllClients(t *testing.T) (string, int64) {
 		name string
 	}
 
-	// if v := channelCahe.Load(); v != nil {
-	// 	c := v.(channel)
-	// 	return c.name, c.id
-	// }
+	if v := channelCahe.Load(); v != nil {
+		c := v.(channel)
+		return c.name, c.id
+	}
 
 	clientFactories := []func(*testing.T) client.Client{
 		GetOwnerClient,
@@ -383,15 +379,13 @@ func GetChannelWithAllClients(t *testing.T) (string, int64) {
 
 	name, id := CreateRandomChannel(t, GetAdminClient(t), allClientIds...)
 
-	// if channelCahe.CompareAndSwap(nil, channel{id, name}) {
-	// 	return name, id
-	// }
-	//
-	// v := channelCahe.Load()
-	// c := v.(channel)
-	// return c.name, c.id
-	return name, id
+	if channelCahe.CompareAndSwap(nil, channel{id, name}) {
+		return name, id
+	}
 
+	v := channelCahe.Load()
+	c := v.(channel)
+	return c.name, c.id
 }
 
 func SendChannelMessage(t *testing.T, apiClient client.Client, channelId int64, topic, content string) int64 {

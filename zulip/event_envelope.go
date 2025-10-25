@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	. "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
 )
 
 // Todo: make not exported
@@ -20,7 +20,7 @@ type eventPeeker struct {
 
 func decodeAndWrap[T Event](event *EventEnvelope, data []byte) error {
 	var t T
-	err := NewStrictDecoder(data).Decode(&t)
+	err := utils.NewStrictDecoder(data).Decode(&t)
 	if err != nil {
 		return err
 	}

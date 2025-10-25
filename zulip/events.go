@@ -278,7 +278,7 @@ type ChannelUpdateEvent struct {
 type ChannelEventUpdateValue struct {
 	GroupSettingValue *GroupSettingValue
 	Bool              *bool
-	int64             *int64
+	Int64             *int64
 	String            *string
 }
 

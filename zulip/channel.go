@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	. "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
 )
 
 type Channel struct {
@@ -112,7 +112,7 @@ func (o Channel) MarshalJSON() ([]byte, error) {
 func (o *Channel) UnmarshalJSON(data []byte) error {
 	var err error
 	var channelJSON channelJSON
-	err = NewStrictDecoder(data).Decode(&channelJSON)
+	err = utils.NewStrictDecoder(data).Decode(&channelJSON)
 	if err != nil {
 		return err
 	}

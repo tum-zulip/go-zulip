@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	. "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
 )
 
 // UserGroup struct for UserGroup
@@ -95,7 +95,7 @@ func (o UserGroup) MarshalJSON() ([]byte, error) {
 
 func (o *UserGroup) UnmarshalJSON(data []byte) error {
 	var aux usergroupJSON
-	dec := NewStrictDecoder(data)
+	dec := utils.NewStrictDecoder(data)
 	if err := dec.Decode(&aux); err != nil {
 		return err
 	}

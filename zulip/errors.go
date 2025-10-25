@@ -58,7 +58,7 @@ type rateLimitErrorJSON struct {
 	RetryAfter float64 `json:"retry-after"`
 }
 
-func (o *RateLimitedError) MarshalJSON() ([]byte, error) {
+func (o RateLimitedError) MarshalJSON() ([]byte, error) {
 	model := rateLimitErrorJSON{
 		CodedError: o.CodedError,
 		RetryAfter: o.RetryAfter.Seconds(),

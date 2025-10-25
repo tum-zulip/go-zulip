@@ -41,8 +41,8 @@ func (m *stat[T]) increment(key string, value T) {
 	current := c.(T)
 
 	for !m.CompareAndSwap(key, current, current+value) {
-		value, _ := m.Load(key)
-		current = value.(T)
+		c, _ := m.Load(key)
+		current = c.(T)
 	}
 }
 

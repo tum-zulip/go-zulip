@@ -20,6 +20,7 @@ import (
 	"time"
 
 	"github.com/tum-zulip/go-zulip/zulip"
+
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
 )

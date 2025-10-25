@@ -987,6 +987,4 @@ func (r *Realm) fromJSONRealm(obj realmJSON) {
 	r.Billing = obj.Billing
 	r.EmptyTopicDisplayName = obj.EmptyTopicDisplayName
 	r.UserSettingsDefaults = obj.UserSettingsDefaults
-
-	return
 }

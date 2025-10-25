@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/utils"
 )
 
 // PresenceUpdateValue - Will be one of these two formats (modern or legacy) for user presence data:
@@ -37,7 +36,7 @@ func (o ModernPresenceFormat) MarshalJSON() ([]byte, error) {
 
 func (o *ModernPresenceFormat) UnmarshalJSON(data []byte) error {
 	var aux modernPresenceFormatJSON
-	dec := NewStrictDecoder(data)
+	dec := utils.NewStrictDecoder(data)
 	if err := dec.Decode(&aux); err != nil {
 		return err
 	}
