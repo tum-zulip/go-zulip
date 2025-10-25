@@ -780,7 +780,7 @@ func (s *usersService) AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWords
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -846,7 +846,7 @@ func (s *usersService) AddApnsTokenExecute(r AddApnsTokenRequest) (*zulip.Respon
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -899,7 +899,7 @@ func (s *usersService) AddFcmTokenExecute(r AddFcmTokenRequest) (*zulip.Response
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -992,7 +992,7 @@ func (s *usersService) CreateUserExecute(r CreateUserRequest) (*CreateUserRespon
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1173,7 +1173,7 @@ func (s *usersService) CreateUserGroupExecute(r CreateUserGroupRequest) (*Create
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1218,7 +1218,7 @@ func (s *usersService) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*zu
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1266,18 +1266,18 @@ func (s *usersService) DeactivateUserExecute(r DeactivateUserRequest) (*zulip.Re
 		endpoint = "/users/{user_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
 	AddOptionalParam(form, "deactivation_notification_comment", r.deactivationNotificationComment)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1322,15 +1322,15 @@ func (s *usersService) DeactivateUserGroupExecute(r DeactivateUserGroupRequest) 
 		endpoint = "/user_groups/{user_group_id}/deactivate"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1372,7 +1372,7 @@ func (s *usersService) GetAlertWordsExecute(r GetAlertWordsRequest) (*AlertWords
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1412,7 +1412,7 @@ func (s *usersService) GetAttachmentsExecute(r GetAttachmentsRequest) (*GetAttac
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1463,18 +1463,18 @@ func (s *usersService) GetIsUserGroupMemberExecute(r GetIsUserGroupMemberRequest
 		endpoint = "/user_groups/{user_group_id}/members/{user_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
-	endpoint = strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path = strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
 
 	AddOptionalParam(query, "direct_member_only", r.directMemberOnly)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1517,7 +1517,7 @@ func (s *usersService) GetOwnUserExecute(r GetOwnUserRequest) (*GetOwnUserRespon
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1581,18 +1581,18 @@ func (s *usersService) GetUserExecute(r GetUserRequest) (*GetUserResponse, *http
 		endpoint = "/users/{user_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
 
 	AddOptionalParam(query, "client_gravatar", r.clientGravatar)
 	AddOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1672,18 +1672,18 @@ func (s *usersService) GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserR
 		endpoint = "/users/{email}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{email}", url.PathEscape(r.email), -1)
+	path := strings.Replace(endpoint, "{email}", url.PathEscape(r.email), -1)
 
 	AddOptionalParam(query, "client_gravatar", r.clientGravatar)
 	AddOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1729,17 +1729,17 @@ func (s *usersService) GetUserGroupMembersExecute(r GetUserGroupMembersRequest) 
 		response = &GetUserGroupMembersResponse{}
 		endpoint = "/user_groups/{user_group_id}/members"
 	)
-	endpoint = strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
 
 	AddOptionalParam(query, "direct_member_only", r.directMemberOnly)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1786,17 +1786,17 @@ func (s *usersService) GetUserGroupSubgroupsExecute(r GetUserGroupSubgroupsReque
 		endpoint = "/user_groups/{user_group_id}/subgroups"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
 
 	AddOptionalParam(query, "direct_subgroup_only", r.directSubgroupOnly)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1854,7 +1854,7 @@ func (s *usersService) GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGro
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1897,15 +1897,15 @@ func (s *usersService) GetUserPresenceExecute(r GetUserPresenceRequest) (*GetUse
 		endpoint = "/users/{user_id_or_email}/presence"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_id_or_email}", url.PathEscape(r.userIdOrEmail), -1)
+	path := strings.Replace(endpoint, "{user_id_or_email}", url.PathEscape(r.userIdOrEmail), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1947,15 +1947,15 @@ func (s *usersService) GetUserStatusExecute(r GetUserStatusRequest) (*GetUserSta
 		endpoint = "/users/{user_id}/status"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2043,7 +2043,7 @@ func (s *usersService) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *h
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2094,15 +2094,15 @@ func (s *usersService) MuteUserExecute(r MuteUserRequest) (*zulip.Response, *htt
 		endpoint = "/users/me/muted_users/{muted_user_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{muted_user_id}", IdToString(r.mutedUserId), -1)
+	path := strings.Replace(endpoint, "{muted_user_id}", IdToString(r.mutedUserId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2141,15 +2141,15 @@ func (s *usersService) ReactivateUserExecute(r ReactivateUserRequest) (*zulip.Re
 		endpoint = "/users/{user_id}/reactivate"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2206,7 +2206,7 @@ func (s *usersService) RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*Aler
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2259,7 +2259,7 @@ func (s *usersService) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*zulip.
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2308,15 +2308,15 @@ func (s *usersService) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*zuli
 		endpoint = "/attachments/{attachment_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{attachment_id}", IdToString(r.attachmentId), -1)
+	path := strings.Replace(endpoint, "{attachment_id}", IdToString(r.attachmentId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2369,7 +2369,7 @@ func (s *usersService) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*zulip.Re
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2504,7 +2504,7 @@ func (s *usersService) SetTypingStatusExecute(r SetTypingStatusRequest) (*zulip.
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2561,7 +2561,7 @@ func (s *usersService) SetTypingStatusForMessageEditExecute(r SetTypingStatusFor
 		endpoint = "/messages/{message_id}/typing"
 	)
 
-	endpoint = strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
+	path := strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
 
 	if r.op == nil {
 		return nil, nil, fmt.Errorf("op is required and must be specified")
@@ -2571,12 +2571,12 @@ func (s *usersService) SetTypingStatusForMessageEditExecute(r SetTypingStatusFor
 	headers["Accept"] = "application/json"
 
 	AddParam(form, "op", r.op)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2617,15 +2617,15 @@ func (s *usersService) UnmuteUserExecute(r UnmuteUserRequest) (*zulip.Response, 
 		endpoint = "/users/me/muted_users/{muted_user_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{muted_user_id}", IdToString(r.mutedUserId), -1)
+	path := strings.Replace(endpoint, "{muted_user_id}", IdToString(r.mutedUserId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2765,7 +2765,7 @@ func (s *usersService) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePr
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -3596,7 +3596,7 @@ func (s *usersService) UpdateSettingsExecute(r UpdateSettingsRequest) (*zulip.Re
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -3703,7 +3703,7 @@ func (s *usersService) UpdateStatusExecute(r UpdateStatusRequest) (*zulip.Respon
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -3782,7 +3782,7 @@ func (s *usersService) UpdateStatusForUserExecute(r UpdateStatusForUserRequest) 
 		endpoint = "/users/{user_id}/status"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -3791,12 +3791,12 @@ func (s *usersService) UpdateStatusForUserExecute(r UpdateStatusForUserRequest) 
 	AddOptionalParam(form, "emoji_name", r.emojiName)
 	AddOptionalParam(form, "emoji_code", r.emojiCode)
 	AddOptionalParam(form, "reaction_type", r.reactionType)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -3875,7 +3875,7 @@ func (s *usersService) UpdateUserExecute(r UpdateUserRequest) (*zulip.Response, 
 		endpoint = "/users/{user_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -3884,12 +3884,12 @@ func (s *usersService) UpdateUserExecute(r UpdateUserRequest) (*zulip.Response, 
 	AddOptionalParam(form, "role", r.role)
 	AddOptionalParam(form, "profile_data", r.profileData)
 	AddOptionalParam(form, "new_email", r.newEmail)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -3971,7 +3971,7 @@ func (s *usersService) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*zu
 		endpoint = "/users/{email}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{email}", url.PathEscape(r.email), -1)
+	path := strings.Replace(endpoint, "{email}", url.PathEscape(r.email), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -3980,12 +3980,12 @@ func (s *usersService) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*zu
 	AddOptionalParam(form, "role", r.role)
 	AddOptionalParam(form, "profile_data", r.profileData)
 	AddOptionalParam(form, "new_email", r.newEmail)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -4146,7 +4146,7 @@ func (s *usersService) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*zulip.
 		endpoint = "/user_groups/{user_group_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -4172,12 +4172,12 @@ func (s *usersService) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*zulip.
 		return nil, nil, err
 	}
 	AddOptionalParam(form, "deactivated", r.deactivated)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -4254,7 +4254,7 @@ func (s *usersService) UpdateUserGroupMembersExecute(r UpdateUserGroupMembersReq
 		endpoint = "/user_groups/{user_group_id}/members"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -4263,12 +4263,12 @@ func (s *usersService) UpdateUserGroupMembersExecute(r UpdateUserGroupMembersReq
 	AddOptionalParam(form, "add", r.add)
 	AddOptionalParam(form, "delete_subgroups", r.deleteSubgroups)
 	AddOptionalParam(form, "add_subgroups", r.addSubgroups)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -4325,18 +4325,18 @@ func (s *usersService) UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroup
 		endpoint = "/user_groups/{user_group_id}/subgroups"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
 	AddOptionalParam(form, "delete", r.delete)
 	AddOptionalParam(form, "add", r.add)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }

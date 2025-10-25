@@ -33,11 +33,11 @@ func Test_DeleteScheduledMessage(t *testing.T) {
 
 		msg := createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserId))
 
-		resp, httpRes, err := apiClient.DeleteScheduledMessage(ctx, msg.ScheduledMessageId).Execute()
+		resp, httpResp, err := apiClient.DeleteScheduledMessage(ctx, msg.ScheduledMessageId).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		assert.Equal(t, 200, httpResp.StatusCode)
 
 	})
 }
@@ -52,16 +52,17 @@ func Test_GetScheduledMessages(t *testing.T) {
 
 		msg := createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserId))
 
-		resp, httpRes, err := apiClient.GetScheduledMessages(ctx).Execute()
+		resp, httpResp, err := apiClient.GetScheduledMessages(ctx).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		assert.Equal(t, 200, httpResp.StatusCode)
 		assert.GreaterOrEqual(t, len(resp.ScheduledMessages), 1)
 		found := false
 		for _, m := range resp.ScheduledMessages {
 			if m.ScheduledMessageId == msg.ScheduledMessageId {
 				found = true
+				require.WithinDuration(t, time.Now().Add(1*time.Hour), m.ScheduledDeliveryTimestamp, 3*time.Minute)
 				break
 			}
 		}
@@ -79,14 +80,14 @@ func Test_UpdateScheduledMessage(t *testing.T) {
 
 		msg := createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserId))
 
-		resp, httpRes, err := apiClient.
+		resp, httpResp, err := apiClient.
 			UpdateScheduledMessage(ctx, msg.ScheduledMessageId).
 			Content(UniqueName("Updated scheduled message")).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		assert.Equal(t, 200, httpResp.StatusCode)
 
 	})
 }
@@ -94,7 +95,7 @@ func Test_UpdateScheduledMessage(t *testing.T) {
 func createScheduledMessage(t *testing.T, apiClient client.Client, to z.Recipient) *scheduled_messages.CreateScheduledMessageResponse {
 	ctx := context.Background()
 
-	resp, httpRes, err := apiClient.CreateScheduledMessage(ctx).
+	resp, httpResp, err := apiClient.CreateScheduledMessage(ctx).
 		Content(UniqueName("This is a scheduled message")).
 		To(to).
 		ScheduledDeliveryTimestamp(time.Now().Add(1 * time.Hour)).
@@ -102,6 +103,6 @@ func createScheduledMessage(t *testing.T, apiClient client.Client, to z.Recipien
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	require.Equal(t, 200, httpRes.StatusCode)
+	require.Equal(t, 200, httpResp.StatusCode)
 	return resp
 }

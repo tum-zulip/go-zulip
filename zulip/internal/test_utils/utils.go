@@ -10,8 +10,8 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"sync"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -44,6 +44,11 @@ var (
 )
 
 // TODO(janez): Add guest client to tests
+
+var (
+	cache       sync.Map // map[string]client.Client - keyed by username
+	cleanupOnce sync.Map // map[string]*sync.Once - keyed by username
+)
 
 type namedClient struct {
 	name    string
@@ -86,28 +91,54 @@ func GetOtherNormalClient(t *testing.T) client.Client {
 	return GetTestClient(t, OtherNormalUsername)
 }
 
-func RunForClients(t *testing.T, clients []namedClient, fn func(*testing.T, client.Client)) func(*testing.T) {
-	return func(t *testing.T) {
-		for _, client := range clients {
-			t.Run(client.name, func(t *testing.T) {
-				t.Parallel()
+func RunForClients(t *testing.T, clients []namedClient, fn func(*testing.T, client.Client)) {
+	for _, client := range clients {
+		t.Run(client.name, func(t *testing.T) {
+			t.Parallel()
 
-				cl := client.factory(t)
-				fn(t, cl)
-			})
-		}
+			cl := client.factory(t)
+			fn(t, cl)
+		})
 	}
 }
 
-func RunForAllClients(t *testing.T, fn func(*testing.T, client.Client)) func(*testing.T) {
-	return RunForClients(t, AllClients, fn)
+func RunForAllClients(t *testing.T, fn func(*testing.T, client.Client)) {
+	RunForClients(t, AllClients, fn)
 }
 
-func RunForAdminAndOwnerClients(t *testing.T, fn func(*testing.T, client.Client)) func(*testing.T) {
-	return RunForClients(t, []namedClient{OwnerClient, AdminClient}, fn)
+func RunForAdminAndOwnerClients(t *testing.T, fn func(*testing.T, client.Client)) {
+	RunForClients(t, []namedClient{OwnerClient, AdminClient}, fn)
 }
 
 func GetTestClient(t *testing.T, username string) client.Client {
+	// Check if client already exists in cache
+	if cachedClient, ok := cache.Load(username); ok {
+		return cachedClient.(client.Client)
+	}
+
+	// Create client if not in cache
+	newClient := getTestClient(t, username)
+
+	// Store in cache atomically
+	actual, loaded := cache.LoadOrStore(username, newClient)
+
+	// Register cleanup only once per username
+	once, _ := cleanupOnce.LoadOrStore(username, &sync.Once{})
+	once.(*sync.Once).Do(func() {
+		t.Cleanup(func() {
+			log.Printf("Statistics for %s: %#v", username, newClient.GetStatistics())
+		})
+	})
+
+	if loaded {
+		// Another goroutine created the client first, use that one
+		return actual.(client.Client)
+	}
+
+	return newClient
+}
+
+func getTestClient(t *testing.T, username string) client.Client {
 	t.Helper()
 
 	for attempt := 0; attempt < 2; attempt++ {
@@ -135,6 +166,7 @@ func GetTestClient(t *testing.T, username string) client.Client {
 	}
 
 	t.Fatalf("Failed to fetch API key for user %s after reactivation attempt", username)
+
 	return nil
 }
 
@@ -167,7 +199,7 @@ func buildClientFromResponse(t *testing.T, username string, body []byte) client.
 
 	handler := slog.NewTextHandler(log.Default().Writer(), &slog.HandlerOptions{Level: slog.LevelInfo})
 
-	client, err := client.NewClient(rc, client.WithLogger(slog.New(handler)), client.SkipWarnOnInsecureTLS())
+	client, err := client.NewClient(rc, client.WithLogger(slog.New(handler)), client.SkipWarnOnInsecureTLS(), client.GatherStatistics())
 	if err != nil {
 		t.Fatalf("Failed to create z.client: %v", err)
 	}
@@ -180,22 +212,22 @@ func CreateRandomChannel(t *testing.T, apiClient client.Client, subscribers ...i
 
 	subs := append([]int64(nil), subscribers...)
 	if len(subs) == 0 {
-		resp, httpRes, err := apiClient.GetOwnUser(context.Background()).Execute()
+		resp, httpResp, err := apiClient.GetOwnUser(context.Background()).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		subs = []int64{resp.UserId}
 	}
 
 	name := UniqueName("test-channel")
-	resp, httpRes, err := apiClient.CreateChannel(context.Background()).
+	resp, httpResp, err := apiClient.CreateChannel(context.Background()).
 		Name(name).
 		Description("Created by channel API tests").
-		Subscribers(subs).
+		Subscribers(subs...).
 		Execute()
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 
 	return name, resp.Id
 }
@@ -248,22 +280,32 @@ func ensureUserActive(t *testing.T, username string) error {
 }
 
 func UniqueName(prefix string) string {
-	return fmt.Sprintf("%s%d%d", prefix, time.Now().UnixNano(), rand.Intn(100000))
+	return fmt.Sprintf("%s %d", prefix, rand.Intn(1000))
 }
 
 func getOwnUser(t *testing.T, apiClient client.Client) *users.GetOwnUserResponse {
-	resp, httpRes, err := apiClient.GetOwnUser(context.Background()).Execute()
+	resp, httpResp, err := apiClient.GetOwnUser(context.Background()).Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	assert.Equal(t, 200, httpRes.StatusCode)
+	assert.Equal(t, 200, httpResp.StatusCode)
 	return resp
 }
+
+var idCache sync.Map
 
 func GetUserId(t *testing.T, apiClient client.Client) int64 {
 	t.Helper()
 
+	if id, ok := idCache.Load(apiClient); ok {
+		return id.(int64)
+	}
+
 	resp := getOwnUser(t, apiClient)
+
+	require.NotNil(t, resp)
+
+	idCache.Store(apiClient, resp.UserId)
 
 	return resp.UserId
 }
@@ -281,18 +323,18 @@ func CreateRandomUserGroup(t *testing.T, apiClient client.Client, members ...int
 
 	groupId := rand.Intn(1000000)
 
-	resp, httpRes, err := apiClient.CreateUserGroup(context.Background()).Name(fmt.Sprintf("test-group-%d", groupId)).Description("Test Group").Members(members).Execute()
+	resp, httpResp, err := apiClient.CreateUserGroup(context.Background()).Name(fmt.Sprintf("test-group-%d", groupId)).Description("Test Group").Members(members).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	assert.Equal(t, 200, httpRes.StatusCode)
+	assert.Equal(t, 200, httpResp.StatusCode)
 
 	return resp.GroupId
 }
 
-func RequireStatusOK(t *testing.T, httpRes *http.Response) {
+func RequireStatusOK(t *testing.T, httpResp *http.Response) {
 	t.Helper()
-	require.NotNil(t, httpRes)
-	assert.Equal(t, 200, httpRes.StatusCode)
+	require.NotNil(t, httpResp)
+	assert.Equal(t, 200, httpResp.StatusCode)
 }
 
 func CreateChannelWithAllClients(t *testing.T) (string, int64) {
@@ -357,14 +399,14 @@ func CreateDirectMessage(t *testing.T, apiClient client.Client, to int64) int64 
 	t.Helper()
 
 	content := UniqueName("content")
-	resp, httpRes, err := apiClient.SendMessage(context.Background()).
+	resp, httpResp, err := apiClient.SendMessage(context.Background()).
 		To(z.UserAsRecipient(to)).
 		Content(content).
 		Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 	require.Greater(t, resp.Id, int64(0))
 
 	return resp.Id
@@ -385,13 +427,13 @@ func UploadFileForTest(t *testing.T, ctx context.Context, apiClient client.Clien
 	_, err = tmp.Seek(0, 0)
 	require.NoError(t, err)
 
-	resp, httpRes, err := apiClient.UploadFile(ctx).
+	resp, httpResp, err := apiClient.UploadFile(ctx).
 		Filename(tmp).
 		Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 
 	return resp
 }

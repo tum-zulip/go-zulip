@@ -30,11 +30,11 @@ func Test_DeleteReminder(t *testing.T) {
 		ctx := context.Background()
 		reminderId := createMessageReminder(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.DeleteReminder(ctx, reminderId).Execute()
+		resp, httpResp, err := apiClient.DeleteReminder(ctx, reminderId).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		assert.Equal(t, 200, httpResp.StatusCode)
 
 	})
 }
@@ -48,15 +48,16 @@ func Test_GetReminders(t *testing.T) {
 		ctx := context.Background()
 		reminderId := createMessageReminder(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.GetReminders(ctx).Execute()
+		resp, httpResp, err := apiClient.GetReminders(ctx).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		assert.Equal(t, 200, httpResp.StatusCode)
 		assert.GreaterOrEqual(t, len(resp.Reminders), 1)
 		found := false
 		for _, r := range resp.Reminders {
 			if r.ReminderId == reminderId {
+				require.WithinDuration(t, time.Now().Add(1*time.Hour), r.ScheduledDeliveryTimestamp, 3*time.Minute)
 				found = true
 			}
 		}
@@ -69,7 +70,7 @@ func createMessageReminder(t *testing.T, apiClient client.Client, channelId int6
 
 	note := "This is a reminder note"
 
-	resp, httpRes, err := apiClient.CreateMessageReminder(context.Background()).
+	resp, httpResp, err := apiClient.CreateMessageReminder(context.Background()).
 		MessageId(msg.MessageId).
 		Note(UniqueName(note)).
 		ScheduledDeliveryTimestamp(time.Now().Add(1 * time.Hour)).
@@ -77,7 +78,7 @@ func createMessageReminder(t *testing.T, apiClient client.Client, channelId int6
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	assert.Equal(t, 200, httpRes.StatusCode)
+	assert.Equal(t, 200, httpResp.StatusCode)
 
 	return resp.ReminderId
 }

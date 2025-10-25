@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -26,13 +27,13 @@ func Test_AddReaction(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.AddReaction(ctx, msg.MessageId).
+		resp, httpResp, err := apiClient.AddReaction(ctx, msg.MessageId).
 			EmojiName("smile").
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -46,7 +47,7 @@ func Test_CheckMessagesMatchNarrow(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.CheckMessagesMatchNarrow(ctx).
+		resp, httpResp, err := apiClient.CheckMessagesMatchNarrow(ctx).
 			MsgIds([]int64{msg.MessageId}).
 			Narrow(
 				z.Where(z.ChannelNameIs(channelName)).
@@ -55,7 +56,7 @@ func Test_CheckMessagesMatchNarrow(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 
 		key := strconv.Itoa(int(msg.MessageId))
 		assert.Contains(t, resp.Messages, key)
@@ -72,11 +73,11 @@ func Test_DeleteMessage(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.DeleteMessage(ctx, msg.MessageId).Execute()
+		resp, httpResp, err := apiClient.DeleteMessage(ctx, msg.MessageId).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -90,11 +91,11 @@ func Test_GetFileTemporaryUrl(t *testing.T) {
 
 		realmId, filename := parseUploadedFilePath(t, upload.Url)
 
-		resp, httpRes, err := apiClient.GetFileTemporaryUrl(ctx, realmId, filename).Execute()
+		resp, httpResp, err := apiClient.GetFileTemporaryUrl(ctx, realmId, filename).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.NotEmpty(t, resp.Url)
 	})
 }
@@ -109,12 +110,16 @@ func Test_GetMessage(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.GetMessage(ctx, msg.MessageId).Execute()
+		resp, httpResp, err := apiClient.GetMessage(ctx, msg.MessageId).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.Equal(t, msg.MessageId, resp.Message.Id)
+		require.WithinDuration(t, time.Now(), resp.Message.Timestamp, 3*time.Minute)
+		require.WithinDuration(t, time.Now(), resp.Message.LastEditTimestamp, 3*time.Minute)
+		require.WithinDuration(t, time.Now(), resp.Message.LastMovedTimestamp, 3*time.Minute)
+
 	})
 }
 
@@ -134,11 +139,11 @@ func Test_GetMessageHistory(t *testing.T) {
 			Execute()
 		require.NoError(t, err)
 
-		resp, httpRes, err := apiClient.GetMessageHistory(ctx, msg.MessageId).Execute()
+		resp, httpResp, err := apiClient.GetMessageHistory(ctx, msg.MessageId).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.NotEmpty(t, resp.MessageHistory)
 	})
 }
@@ -153,7 +158,7 @@ func Test_GetMessages(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.GetMessages(ctx).
+		resp, httpResp, err := apiClient.GetMessages(ctx).
 			Anchor(strconv.Itoa(int(msg.MessageId))).
 			IncludeAnchor(true).
 			NumBefore(0).
@@ -164,7 +169,7 @@ func Test_GetMessages(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.NotEmpty(t, resp.Messages)
 	})
 }
@@ -179,11 +184,11 @@ func Test_GetReadReceipts(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.GetReadReceipts(ctx, msg.MessageId).Execute()
+		resp, httpResp, err := apiClient.GetReadReceipts(ctx, msg.MessageId).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -193,11 +198,11 @@ func Test_MarkAllAsRead(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp, httpRes, err := apiClient.MarkAllAsRead(ctx).Execute()
+		resp, httpResp, err := apiClient.MarkAllAsRead(ctx).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -211,13 +216,13 @@ func Test_MarkChannelAsRead(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.MarkChannelAsRead(ctx).
+		resp, httpResp, err := apiClient.MarkChannelAsRead(ctx).
 			ChannelId(msg.ChannelId).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -234,14 +239,14 @@ func Test_MarkTopicAsRead(t *testing.T) {
 
 		// mark the topic as read using the same client that created the message,
 		// since the topic may not be visible to other clients immediately.
-		resp, httpRes, err := otherClient.MarkTopicAsRead(ctx).
+		resp, httpResp, err := otherClient.MarkTopicAsRead(ctx).
 			ChannelId(msg.ChannelId).
 			TopicName(msg.Topic).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -260,13 +265,13 @@ func Test_RemoveReaction(t *testing.T) {
 			Execute()
 		require.NoError(t, err)
 
-		resp, httpRes, err := apiClient.RemoveReaction(ctx, msg.MessageId).
+		resp, httpResp, err := apiClient.RemoveReaction(ctx, msg.MessageId).
 			EmojiName("smile").
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -277,13 +282,13 @@ func Test_RenderMessage(t *testing.T) {
 		ctx := context.Background()
 
 		content := "**bold** _italic_"
-		resp, httpRes, err := apiClient.RenderMessage(ctx).
+		resp, httpResp, err := apiClient.RenderMessage(ctx).
 			Content(content).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.Contains(t, resp.Rendered, "<strong>bold</strong>")
 	})
 }
@@ -298,7 +303,7 @@ func Test_ReportMessage(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.ReportMessage(ctx, msg.MessageId).
+		resp, httpResp, err := apiClient.ReportMessage(ctx, msg.MessageId).
 			ReportType("spam").
 			Description("reported by automated tests").
 			Execute()
@@ -318,7 +323,7 @@ func Test_ReportMessage(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -333,7 +338,7 @@ func Test_SendMessage(t *testing.T) {
 		topic := UniqueName("topic")
 		content := fmt.Sprintf("message sent via client %s", UniqueName("content"))
 
-		resp, httpRes, err := apiClient.SendMessage(ctx).
+		resp, httpResp, err := apiClient.SendMessage(ctx).
 			To(z.ChannelAsRecipient(channelId)).
 			Topic(topic).
 			Content(content).
@@ -341,7 +346,7 @@ func Test_SendMessage(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.Greater(t, resp.Id, int64(0))
 	})
 }
@@ -357,13 +362,13 @@ func Test_UpdateMessage(t *testing.T) {
 		msg := CreateChannelMessage(t, apiClient, channelId)
 		newContent := fmt.Sprintf("edited %s", UniqueName("content"))
 
-		resp, httpRes, err := apiClient.UpdateMessage(ctx, msg.MessageId).
+		resp, httpResp, err := apiClient.UpdateMessage(ctx, msg.MessageId).
 			Content(newContent).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -377,7 +382,7 @@ func Test_UpdateMessageFlags(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.UpdateMessageFlags(ctx).
+		resp, httpResp, err := apiClient.UpdateMessageFlags(ctx).
 			Messages([]int64{msg.MessageId}).
 			Op("add").
 			Flag("starred").
@@ -385,7 +390,7 @@ func Test_UpdateMessageFlags(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.Contains(t, resp.Messages, msg.MessageId)
 	})
 }
@@ -400,7 +405,7 @@ func Test_UpdateMessageFlagsForNarrow(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
 
-		resp, httpRes, err := apiClient.UpdateMessageFlagsForNarrow(ctx).
+		resp, httpResp, err := apiClient.UpdateMessageFlagsForNarrow(ctx).
 			Anchor(strconv.Itoa(int(msg.MessageId))).
 			NumBefore(0).
 			NumAfter(0).
@@ -414,7 +419,7 @@ func Test_UpdateMessageFlagsForNarrow(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.GreaterOrEqual(t, resp.ProcessedCount, int64(1))
 	})
 }
@@ -557,11 +562,11 @@ func Test_GetMessageHistory_Invalid_Input(t *testing.T) {
 
 		// Test with a fresh message (one without edit history)
 		msg := CreateChannelMessage(t, apiClient, channelId)
-		resp, httpRes, err := apiClient.GetMessageHistory(ctx, msg.MessageId).Execute()
+		resp, httpResp, err := apiClient.GetMessageHistory(ctx, msg.MessageId).Execute()
 		// Should succeed but have minimal history
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -616,16 +621,16 @@ func Test_MarkAllAsRead_Invalid_Input(t *testing.T) {
 		ctx := context.Background()
 
 		// MarkAllAsRead should generally succeed even if no messages to mark
-		resp, httpRes, err := apiClient.MarkAllAsRead(ctx).Execute()
+		resp, httpResp, err := apiClient.MarkAllAsRead(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 
 		// Calling it again should also succeed (idempotency test)
-		resp, httpRes, err = apiClient.MarkAllAsRead(ctx).Execute()
+		resp, httpResp, err = apiClient.MarkAllAsRead(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -728,12 +733,12 @@ func Test_RenderMessage_Invalid_Input(t *testing.T) {
 		// Result depends on server, don't assert error
 
 		// Test with valid markdown content
-		resp, httpRes, err := apiClient.RenderMessage(ctx).
+		resp, httpResp, err := apiClient.RenderMessage(ctx).
 			Content("**bold** _italic_ `code`").
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.NotEmpty(t, resp.Rendered)
 	})
 }
@@ -831,12 +836,12 @@ func Test_UpdateMessage_Invalid_Input(t *testing.T) {
 		// Create another message for valid update test
 		msg2 := CreateChannelMessage(t, apiClient, channelId)
 		newContent := fmt.Sprintf("successfully updated %s", UniqueName("msg"))
-		resp, httpRes, err := apiClient.UpdateMessage(ctx, msg2.MessageId).
+		resp, httpResp, err := apiClient.UpdateMessage(ctx, msg2.MessageId).
 			Content(newContent).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 	})
 }
 

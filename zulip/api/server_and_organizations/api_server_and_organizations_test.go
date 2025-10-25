@@ -24,10 +24,10 @@ func Test_GetServerSettings(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp, httpRes, err := apiClient.GetServerSettings(ctx).Execute()
+		resp, httpResp, err := apiClient.GetServerSettings(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.NotEmpty(t, resp.RealmName)
 		assert.NotEmpty(t, resp.RealmUrl)
 	})
@@ -69,10 +69,10 @@ func Test_Presence(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp, httpRes, err := apiClient.GetPresence(ctx).Execute()
+		resp, httpResp, err := apiClient.GetPresence(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 
 		presences := resp.Presences
 		assert.NotEmpty(t, presences)
@@ -98,12 +98,12 @@ func Test_WelcomeBotPreview(t *testing.T) {
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp, httpRes, err := apiClient.TestWelcomeBotCustomMessage(ctx).
+		resp, httpResp, err := apiClient.TestWelcomeBotCustomMessage(ctx).
 			WelcomeMessageCustomText(fmt.Sprintf("Welcome preview from automated test %s", UniqueName("welcome"))).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.Greater(t, resp.MessageId, int64(0))
 	})
 }
@@ -114,10 +114,10 @@ func Test_RealmUserSettingsDefaults(t *testing.T) {
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp, httpRes, err := apiClient.UpdateRealmUserSettingsDefaults(ctx).Execute()
+		resp, httpResp, err := apiClient.UpdateRealmUserSettingsDefaults(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.Equal(t, "success", resp.Result)
 	})
 }
@@ -134,14 +134,14 @@ func Test_CustomEmojiLifecycle(t *testing.T) {
 
 func testCodePlaygroundLifecycle(t *testing.T, ctx context.Context, apiClient client.Client) {
 	name := fmt.Sprintf("Playground %s", UniqueName("code"))
-	resp, httpRes, err := apiClient.AddCodePlayground(ctx).
+	resp, httpResp, err := apiClient.AddCodePlayground(ctx).
 		Name(name).
 		PygmentsLanguage("python").
 		UrlTemplate("https://play.z.example/run?code={code}").
 		Execute()
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 
 	playgroundId := resp.Id
 	removed := false
@@ -167,13 +167,13 @@ func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient client.
 	pattern := fmt.Sprintf("test-%s-(?P<id>[0-9]+)", UniqueName("linkifier"))
 	urlTemplate := "https://z.example/issues/{id}"
 
-	addResp, httpRes, err := apiClient.AddLinkifier(ctx).
+	addResp, httpResp, err := apiClient.AddLinkifier(ctx).
 		Pattern(pattern).
 		UrlTemplate(urlTemplate).
 		Execute()
 	require.NoError(t, err)
 	require.NotNil(t, addResp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 
 	linkifierId := addResp.Id
 	removed := false
@@ -187,48 +187,48 @@ func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient client.
 		}
 	}()
 
-	listResp, httpRes, err := apiClient.GetLinkifiers(ctx).Execute()
+	listResp, httpResp, err := apiClient.GetLinkifiers(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, listResp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 
 	linkifiers := listResp.Linkifiers
 	require.NotEmpty(t, linkifiers)
 	require.True(t, linkifierExists(linkifiers, linkifierId, pattern, urlTemplate), "created linkifier missing from listing")
 
 	updatedTemplate := urlTemplate + "?source=api-test"
-	updateResp, httpRes, err := apiClient.UpdateLinkifier(ctx, linkifierId).
+	updateResp, httpResp, err := apiClient.UpdateLinkifier(ctx, linkifierId).
 		Pattern(pattern).
 		UrlTemplate(updatedTemplate).
 		Execute()
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 	assert.Equal(t, "success", updateResp.Result)
 
-	updatedListResp, httpRes, err := apiClient.GetLinkifiers(ctx).Execute()
+	updatedListResp, httpResp, err := apiClient.GetLinkifiers(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, updatedListResp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 	assert.True(t, linkifierExists(updatedListResp.Linkifiers, linkifierId, pattern, updatedTemplate), "updated linkifier missing or incorrect")
 
 	originalOrder := extractlinkifierIds(updatedListResp.Linkifiers)
 	movedOrder := moveIdToFront(originalOrder, linkifierId)
 	if !int64SlicesEqual(originalOrder, movedOrder) {
-		reorderResp, httpRes, err := apiClient.ReorderLinkifiers(ctx).
+		reorderResp, httpResp, err := apiClient.ReorderLinkifiers(ctx).
 			OrderedLinkifierIds(movedOrder).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, reorderResp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.Equal(t, "success", reorderResp.Result)
 
-		restoreResp, httpRes, err := apiClient.ReorderLinkifiers(ctx).
+		restoreResp, httpResp, err := apiClient.ReorderLinkifiers(ctx).
 			OrderedLinkifierIds(originalOrder).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, restoreResp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.Equal(t, "success", restoreResp.Result)
 	}
 
@@ -243,10 +243,10 @@ func testLinkifierLifecycle(t *testing.T, ctx context.Context, apiClient client.
 func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClient client.Client) {
 	const fieldName = "API Test Profile Field"
 
-	listResp, httpRes, err := apiClient.GetCustomProfileFields(ctx).Execute()
+	listResp, httpResp, err := apiClient.GetCustomProfileFields(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, listResp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 
 	fields := listResp.CustomFields
 	var fieldId int64
@@ -270,10 +270,10 @@ func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClie
 		RequireStatusOK(t, createHTTP)
 		fieldId = createResp.Id
 
-		listResp, httpRes, err = apiClient.GetCustomProfileFields(ctx).Execute()
+		listResp, httpResp, err = apiClient.GetCustomProfileFields(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, listResp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		fields = listResp.CustomFields
 	}
 
@@ -302,18 +302,18 @@ func testCustomProfileFieldManagement(t *testing.T, ctx context.Context, apiClie
 }
 
 func testRealmExports(t *testing.T, ctx context.Context, apiClient client.Client) {
-	consentsResp, httpRes, err := apiClient.GetRealmExportConsents(ctx).Execute()
+	consentsResp, httpResp, err := apiClient.GetRealmExportConsents(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, consentsResp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 
-	exportsResp, httpRes, err := apiClient.GetRealmExports(ctx).Execute()
+	exportsResp, httpResp, err := apiClient.GetRealmExports(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, exportsResp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 	assert.NotNil(t, exportsResp.Exports)
 
-	exportResp, httpRes, err := apiClient.ExportRealm(ctx).Execute()
+	exportResp, httpResp, err := apiClient.ExportRealm(ctx).Execute()
 	if err != nil {
 		if handledRateLimit(t, err) {
 			return
@@ -321,25 +321,25 @@ func testRealmExports(t *testing.T, ctx context.Context, apiClient client.Client
 	}
 	require.NoError(t, err)
 	require.NotNil(t, exportResp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 }
 
 func testCustomEmojiLifecycle(t *testing.T, ctx context.Context, apiClient client.Client) {
 	emojiName := strings.ToLower(UniqueName("emoji"))
 	emojiFile := newEmojiPNG(t)
 
-	uploadResp, httpRes, err := apiClient.UploadCustomEmoji(ctx, emojiName).
+	uploadResp, httpResp, err := apiClient.UploadCustomEmoji(ctx, emojiName).
 		Filename(emojiFile).
 		Execute()
 	require.NoError(t, err)
 	require.NotNil(t, uploadResp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 	assert.Equal(t, "success", uploadResp.Result)
 
-	listResp, httpRes, err := apiClient.GetCustomEmoji(ctx).Execute()
+	listResp, httpResp, err := apiClient.GetCustomEmoji(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, listResp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 
 	currentEmoji := findEmojiByName(listResp.Emoji, emojiName)
 	require.NotNil(t, currentEmoji, "uploaded emoji not returned by GET /realm/emoji")
@@ -351,10 +351,10 @@ func testCustomEmojiLifecycle(t *testing.T, ctx context.Context, apiClient clien
 	RequireStatusOK(t, deactivateHTTP)
 	assert.Equal(t, "success", deactivateResp.Result)
 
-	afterResp, httpRes, err := apiClient.GetCustomEmoji(ctx).Execute()
+	afterResp, httpResp, err := apiClient.GetCustomEmoji(ctx).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, afterResp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 
 	deactivated := findEmojiByName(afterResp.Emoji, emojiName)
 	require.NotNil(t, deactivated, "deactivated emoji missing from listing")

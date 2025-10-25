@@ -149,7 +149,7 @@ func (s *authenticationService) DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -247,6 +247,6 @@ func (s *authenticationService) FetchApiKeyExecute(r FetchApiKeyRequest) (*ApiKe
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }

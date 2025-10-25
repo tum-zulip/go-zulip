@@ -129,7 +129,7 @@ func (s *remindersService) CreateMessageReminderExecute(r CreateMessageReminderR
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -169,15 +169,15 @@ func (s *remindersService) DeleteReminderExecute(r DeleteReminderRequest) (*zuli
 		endpoint = "/reminders/{reminder_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{reminder_id}", IdToString(r.reminderId), -1)
+	path := strings.Replace(endpoint, "{reminder_id}", IdToString(r.reminderId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -225,6 +225,6 @@ func (s *remindersService) GetRemindersExecute(r GetRemindersRequest) (*GetRemin
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }

@@ -173,7 +173,7 @@ func (s *realTimeEventsService) DeleteQueueExecute(r DeleteQueueRequest) (*zulip
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -256,7 +256,7 @@ func (s *realTimeEventsService) GetEventsExecute(r GetEventsRequest) (*GetEvents
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -483,6 +483,6 @@ func (s *realTimeEventsService) RegisterQueueExecute(r RegisterQueueRequest) (*R
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }

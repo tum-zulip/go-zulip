@@ -539,7 +539,7 @@ func (s *messagesService) AddReactionExecute(r AddReactionRequest) (*zulip.Respo
 		endpoint = "/messages/{message_id}/reactions"
 	)
 
-	endpoint = strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
+	path := strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
 
 	if r.emojiName == nil {
 		return nil, nil, fmt.Errorf("emojiName is required and must be specified")
@@ -551,12 +551,12 @@ func (s *messagesService) AddReactionExecute(r AddReactionRequest) (*zulip.Respo
 	AddParam(form, "emoji_name", r.emojiName)
 	AddOptionalParam(form, "emoji_code", r.emojiCode)
 	AddOptionalParam(form, "reaction_type", r.reactionType)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -643,7 +643,7 @@ func (s *messagesService) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNa
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -685,15 +685,15 @@ func (s *messagesService) DeleteMessageExecute(r DeleteMessageRequest) (*zulip.R
 		endpoint = "/messages/{message_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
+	path := strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -733,16 +733,16 @@ func (s *messagesService) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlReques
 		endpoint = "/user_uploads/{realm_id_str}/{filename}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{realm_id_str}", IdToString(r.realmId), -1)
-	endpoint = strings.Replace(endpoint, "{filename}", url.PathEscape(r.filename), -1)
+	path := strings.Replace(endpoint, "{realm_id_str}", IdToString(r.realmId), -1)
+	path = strings.Replace(endpoint, "{filename}", url.PathEscape(r.filename), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -812,18 +812,18 @@ func (s *messagesService) GetMessageExecute(r GetMessageRequest) (*GetMessageRes
 		endpoint = "/messages/{message_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
+	path := strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
 
 	AddOptionalParam(query, "apply_markdown", r.applyMarkdown)
 	AddOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -875,17 +875,17 @@ func (s *messagesService) GetMessageHistoryExecute(r GetMessageHistoryRequest) (
 		endpoint = "/messages/{message_id}/history"
 	)
 
-	endpoint = strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
+	path := strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
 
 	AddOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1059,7 +1059,7 @@ func (s *messagesService) GetMessagesExecute(r GetMessagesRequest) (*GetMessages
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1108,15 +1108,15 @@ func (s *messagesService) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*Get
 		endpoint = "/messages/{message_id}/read_receipts"
 	)
 
-	endpoint = strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
+	path := strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1187,7 +1187,7 @@ func (s *messagesService) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAll
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1249,7 +1249,7 @@ func (s *messagesService) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1326,7 +1326,7 @@ func (s *messagesService) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*zul
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1395,7 +1395,7 @@ func (s *messagesService) RemoveReactionExecute(r RemoveReactionRequest) (*zulip
 		endpoint = "/messages/{message_id}/reactions"
 	)
 
-	endpoint = strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
+	path := strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -1403,12 +1403,12 @@ func (s *messagesService) RemoveReactionExecute(r RemoveReactionRequest) (*zulip
 	AddOptionalParam(form, "emoji_name", r.emojiName)
 	AddOptionalParam(form, "emoji_code", r.emojiCode)
 	AddOptionalParam(form, "reaction_type", r.reactionType)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1463,7 +1463,7 @@ func (s *messagesService) RenderMessageExecute(r RenderMessageRequest) (*RenderM
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1526,7 +1526,7 @@ func (s *messagesService) ReportMessageExecute(r ReportMessageRequest) (*zulip.R
 		endpoint = "/messages/{message_id}/report"
 	)
 
-	endpoint = strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
+	path := strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
 
 	if r.reportType == nil {
 		return nil, nil, fmt.Errorf("reportType is required and must be specified")
@@ -1537,12 +1537,12 @@ func (s *messagesService) ReportMessageExecute(r ReportMessageRequest) (*zulip.R
 
 	AddParam(form, "report_type", r.reportType)
 	AddOptionalParam(form, "description", r.description)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1670,7 +1670,7 @@ func (s *messagesService) SendMessageExecute(r SendMessageRequest) (*SendMessage
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1859,7 +1859,7 @@ func (s *messagesService) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateM
 		endpoint = "/messages/{message_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
+	path := strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -1871,12 +1871,12 @@ func (s *messagesService) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateM
 	AddOptionalParam(form, "content", r.content)
 	AddOptionalParam(form, "prev_content_sha256", r.prevContentSha256)
 	AddOptionalParam(form, "stream_id", r.channelId)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1956,7 +1956,7 @@ func (s *messagesService) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest)
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2092,7 +2092,7 @@ func (s *messagesService) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlag
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2186,6 +2186,6 @@ func (s *messagesService) UploadFileExecute(r UploadFileRequest) (*UploadFileRes
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }

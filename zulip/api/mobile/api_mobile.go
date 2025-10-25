@@ -114,7 +114,7 @@ func (s *mobileService) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*zulip.R
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -213,7 +213,7 @@ func (s *mobileService) RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -271,6 +271,6 @@ func (s *mobileService) TestNotifyExecute(r TestNotifyRequest) (*zulip.Response,
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }

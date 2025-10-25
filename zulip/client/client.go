@@ -3,6 +3,7 @@ package client
 import (
 	"log/slog"
 	"net/http"
+	"time"
 
 	"github.com/tum-zulip/go-zulip/zulip/api/authentication"
 	"github.com/tum-zulip/go-zulip/zulip/api/channels"
@@ -33,6 +34,8 @@ type Client interface {
 	scheduled_messages.APIScheduledMessages
 	server_and_organizations.APIServerAndOrganizations
 	users.APIUsers
+
+	GetStatistics() map[string]time.Duration
 }
 
 var _ Client = (*client)(nil)
@@ -81,6 +84,10 @@ func NewClient(zuliprc *zuliprc.ZulipRC, options ...Option) (*client, error) {
 	return c, nil
 }
 
+func (c *client) GetStatistics() map[string]time.Duration {
+	return c.apiClient.Stats.GetStatistics()
+}
+
 func WithAPISuffix(suffix string) Option {
 	return api_client.WithAPISuffix(suffix)
 }
@@ -110,4 +117,8 @@ func WithClientName(name string) Option {
 
 func SkipWarnOnInsecureTLS() Option {
 	return api_client.SkipWarnOnInsecureTLS()
+}
+
+func GatherStatistics() Option {
+	return api_client.GatherStatistics()
 }

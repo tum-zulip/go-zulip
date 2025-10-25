@@ -147,7 +147,7 @@ func (s *navigationViewsService) AddNavigationViewExecute(r AddNavigationViewReq
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -200,19 +200,19 @@ func (s *navigationViewsService) EditNavigationViewExecute(r EditNavigationViewR
 		endpoint = "/navigation_views/{fragment}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{fragment}", url.PathEscape(r.fragment), -1)
+	path := strings.Replace(endpoint, "{fragment}", url.PathEscape(r.fragment), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
 	AddOptionalParam(form, "is_pinned", r.isPinned)
 	AddOptionalParam(form, "name", r.name)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -254,7 +254,7 @@ func (s *navigationViewsService) GetNavigationViewsExecute(r GetNavigationViewsR
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -292,14 +292,14 @@ func (s *navigationViewsService) RemoveNavigationViewExecute(r RemoveNavigationV
 		endpoint = "/navigation_views/{fragment}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{fragment}", url.PathEscape(r.fragment), -1)
+	path := strings.Replace(endpoint, "{fragment}", url.PathEscape(r.fragment), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }

@@ -207,7 +207,7 @@ func (s *scheduledMessagesService) CreateScheduledMessageExecute(r CreateSchedul
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -247,15 +247,15 @@ func (s *scheduledMessagesService) DeleteScheduledMessageExecute(r DeleteSchedul
 		endpoint = "/scheduled_messages/{scheduled_message_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{scheduled_message_id}", IdToString(r.scheduledMessageId), -1)
+	path := strings.Replace(endpoint, "{scheduled_message_id}", IdToString(r.scheduledMessageId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -303,7 +303,7 @@ func (s *scheduledMessagesService) GetScheduledMessagesExecute(r GetScheduledMes
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -392,7 +392,7 @@ func (s *scheduledMessagesService) UpdateScheduledMessageExecute(r UpdateSchedul
 		endpoint = "/scheduled_messages/{scheduled_message_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{scheduled_message_id}", IdToString(r.scheduledMessageId), -1)
+	path := strings.Replace(endpoint, "{scheduled_message_id}", IdToString(r.scheduledMessageId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -404,11 +404,11 @@ func (s *scheduledMessagesService) UpdateScheduledMessageExecute(r UpdateSchedul
 	AddOptionalParam(form, "content", r.content)
 	AddOptionalParam(form, "topic", r.topic)
 	AddOptionalParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }

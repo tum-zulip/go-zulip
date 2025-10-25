@@ -537,7 +537,7 @@ func (s *channelsService) AddDefaultChannelExecute(r AddDefaultChannelRequest) (
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -575,15 +575,15 @@ func (s *channelsService) ArchiveChannelExecute(r ArchiveChannelRequest) (*zulip
 		endpoint = "/streams/{stream_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -655,7 +655,7 @@ func (s *channelsService) CreateBigBlueButtonVideoCallExecute(r CreateBigBlueBut
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -695,7 +695,7 @@ func (r CreateChannelRequest) Name(name string) CreateChannelRequest {
 }
 
 // A list of user Ids of the users to be subscribed to the new channel.
-func (r CreateChannelRequest) Subscribers(subscribers []int64) CreateChannelRequest {
+func (r CreateChannelRequest) Subscribers(subscribers ...int64) CreateChannelRequest {
 	r.subscribers = &subscribers
 	return r
 }
@@ -921,7 +921,7 @@ func (s *channelsService) CreateChannelExecute(r CreateChannelRequest) (*CreateC
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -988,7 +988,7 @@ func (s *channelsService) CreateChannelFolderExecute(r CreateChannelFolderReques
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1071,7 +1071,7 @@ func (s *channelsService) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsRe
 		endpoint = "/streams/{stream_id}/delete_topic"
 	)
 
-	endpoint = strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
 
 	if r.topicName == nil {
 		return nil, nil, fmt.Errorf("topicName is required and must be specified")
@@ -1081,12 +1081,12 @@ func (s *channelsService) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsRe
 	headers["Accept"] = "application/json"
 
 	AddParam(form, "topic_name", r.topicName)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1141,7 +1141,7 @@ func (s *channelsService) GetChannelFoldersExecute(r GetChannelFoldersRequest) (
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1179,15 +1179,15 @@ func (s *channelsService) GetChannelByIdExecute(r GetChannelByIdRequest) (*GetCh
 		endpoint = "/streams/{stream_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1234,17 +1234,17 @@ func (s *channelsService) GetChannelEmailAddressExecute(r GetChannelEmailAddress
 		endpoint = "/streams/{stream_id}/email_address"
 	)
 
-	endpoint = strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
 
 	AddOptionalParam(query, "sender_id", r.senderId)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1296,7 +1296,7 @@ func (s *channelsService) GetChannelIdExecute(r GetChannelIdRequest) (*GetChanne
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1354,17 +1354,17 @@ func (s *channelsService) GetChannelTopicsExecute(r GetChannelTopicsRequest) (*G
 		endpoint = "/users/me/{stream_id}/topics"
 	)
 
-	endpoint = strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
 
 	AddOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1488,7 +1488,7 @@ func (s *channelsService) GetChannelsExecute(r GetChannelsRequest) (*GetChannels
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1524,15 +1524,15 @@ func (s *channelsService) GetSubscribersExecute(r GetSubscribersRequest) (*GetSu
 		endpoint = "/streams/{stream_id}/members"
 	)
 
-	endpoint = strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1572,16 +1572,16 @@ func (s *channelsService) GetSubscriptionStatusExecute(r GetSubscriptionStatusRe
 		endpoint = "/users/{user_id}/subscriptions/{stream_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
-	endpoint = strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path = strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1631,7 +1631,7 @@ func (s *channelsService) GetSubscriptionsExecute(r GetSubscriptionsRequest) (*G
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1731,7 +1731,7 @@ func (s *channelsService) MuteTopicExecute(r MuteTopicRequest) (*zulip.Response,
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1784,7 +1784,7 @@ func (s *channelsService) PatchChannelFoldersExecute(r PatchChannelFoldersReques
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1840,7 +1840,7 @@ func (s *channelsService) RemoveDefaultChannelExecute(r RemoveDefaultChannelRequ
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2142,7 +2142,7 @@ func (s *channelsService) SubscribeExecute(r SubscribeRequest) (*SubscribeRespon
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2240,7 +2240,7 @@ func (s *channelsService) UnsubscribeExecute(r UnsubscribeRequest) (*Unsubscribe
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2309,7 +2309,7 @@ func (s *channelsService) UpdateChannelFolderExecute(r UpdateChannelFolderReques
 		endpoint = "/channel_folders/{channel_folder_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{channel_folder_id}", IdToString(r.channelFolderId), -1)
+	path := strings.Replace(endpoint, "{channel_folder_id}", IdToString(r.channelFolderId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -2317,12 +2317,12 @@ func (s *channelsService) UpdateChannelFolderExecute(r UpdateChannelFolderReques
 	AddOptionalParam(form, "name", r.name)
 	AddOptionalParam(form, "description", r.description)
 	AddOptionalParam(form, "is_archived", r.isArchived)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2603,7 +2603,7 @@ func (s *channelsService) UpdateChannelExecute(r UpdateChannelRequest) (*zulip.R
 		endpoint = "/streams/{stream_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -2650,12 +2650,12 @@ func (s *channelsService) UpdateChannelExecute(r UpdateChannelRequest) (*zulip.R
 	if err := AddOptionalJSONParam(form, "can_resolve_topics_group", r.canResolveTopicsGroup); err != nil {
 		return nil, nil, err
 	}
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2717,7 +2717,7 @@ func (s *channelsService) UpdateSubscriptionSettingsExecute(r UpdateSubscription
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2784,7 +2784,7 @@ func (s *channelsService) UpdateSubscriptionsExecute(r UpdateSubscriptionsReques
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2883,6 +2883,6 @@ func (s *channelsService) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*zul
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }

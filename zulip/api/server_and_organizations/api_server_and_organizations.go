@@ -417,7 +417,7 @@ func (s *serverAndOrganizationsService) AddCodePlaygroundExecute(r AddCodePlaygr
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -491,7 +491,7 @@ func (s *serverAndOrganizationsService) AddLinkifierExecute(r AddLinkifierReques
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -602,7 +602,7 @@ func (s *serverAndOrganizationsService) CreateCustomProfileFieldExecute(r Create
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -650,15 +650,15 @@ func (s *serverAndOrganizationsService) DeactivateCustomEmojiExecute(r Deactivat
 		endpoint = "/realm/emoji/{emoji_name}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{emoji_name}", url.PathEscape(r.emojiName), -1)
+	path := strings.Replace(endpoint, "{emoji_name}", url.PathEscape(r.emojiName), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -727,7 +727,7 @@ func (s *serverAndOrganizationsService) ExportRealmExecute(r ExportRealmRequest)
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -767,7 +767,7 @@ func (s *serverAndOrganizationsService) GetCustomEmojiExecute(r GetCustomEmojiRe
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -810,7 +810,7 @@ func (s *serverAndOrganizationsService) GetCustomProfileFieldsExecute(r GetCusto
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -859,7 +859,7 @@ func (s *serverAndOrganizationsService) GetLinkifiersExecute(r GetLinkifiersRequ
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -908,7 +908,7 @@ func (s *serverAndOrganizationsService) GetPresenceExecute(r GetPresenceRequest)
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -953,7 +953,7 @@ func (s *serverAndOrganizationsService) GetRealmExportConsentsExecute(r GetRealm
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1001,7 +1001,7 @@ func (s *serverAndOrganizationsService) GetRealmExportsExecute(r GetRealmExports
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1047,7 +1047,7 @@ func (s *serverAndOrganizationsService) GetServerSettingsExecute(r GetServerSett
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1088,15 +1088,15 @@ func (s *serverAndOrganizationsService) RemoveCodePlaygroundExecute(r RemoveCode
 		endpoint = "/realm/playgrounds/{playground_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{playground_id}", IdToString(r.playgroundId), -1)
+	path := strings.Replace(endpoint, "{playground_id}", IdToString(r.playgroundId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1136,15 +1136,15 @@ func (s *serverAndOrganizationsService) RemoveLinkifierExecute(r RemoveLinkifier
 		endpoint = "/realm/filters/{filter_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{filter_id}", IdToString(r.filterId), -1)
+	path := strings.Replace(endpoint, "{filter_id}", IdToString(r.filterId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1205,7 +1205,7 @@ func (s *serverAndOrganizationsService) ReorderCustomProfileFieldsExecute(r Reor
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1266,7 +1266,7 @@ func (s *serverAndOrganizationsService) ReorderLinkifiersExecute(r ReorderLinkif
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1326,7 +1326,7 @@ func (s *serverAndOrganizationsService) TestWelcomeBotCustomMessageExecute(r Tes
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -1388,7 +1388,7 @@ func (s *serverAndOrganizationsService) UpdateLinkifierExecute(r UpdateLinkifier
 		endpoint = "/realm/filters/{filter_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{filter_id}", IdToString(r.filterId), -1)
+	path := strings.Replace(endpoint, "{filter_id}", IdToString(r.filterId), -1)
 
 	if r.pattern == nil {
 		return nil, nil, fmt.Errorf("pattern is required and must be specified")
@@ -1402,12 +1402,12 @@ func (s *serverAndOrganizationsService) UpdateLinkifierExecute(r UpdateLinkifier
 
 	AddParam(form, "pattern", r.pattern)
 	AddParam(form, "url_template", r.urlTemplate)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2086,7 +2086,7 @@ func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaultsExecute(r
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -2133,7 +2133,7 @@ func (s *serverAndOrganizationsService) UploadCustomEmojiExecute(r UploadCustomE
 		endpoint  = "/realm/emoji/{emoji_name}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{emoji_name}", url.PathEscape(r.emojiName), -1)
+	path := strings.Replace(endpoint, "{emoji_name}", url.PathEscape(r.emojiName), -1)
 
 	headers["Content-Type"] = "multipart/form-data"
 	headers["Accept"] = "application/json"
@@ -2153,11 +2153,11 @@ func (s *serverAndOrganizationsService) UploadCustomEmojiExecute(r UploadCustomE
 		filenameLocalVarFile.Close()
 		formFiles = append(formFiles, FormFile{FileBytes: filenameLocalVarFileBytes, FileName: filenameLocalVarFileName, FormFileName: filenameLocalVarFormFileName})
 	}
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, formFiles)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, formFiles)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }

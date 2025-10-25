@@ -3,7 +3,6 @@ package zulip
 import (
 	"encoding/json"
 	"fmt"
-	"math"
 	"time"
 )
 
@@ -26,8 +25,8 @@ type APIError struct {
 	model interface{}
 }
 
-func NewAPIError(body []byte, err string, model interface{}) *APIError {
-	return &APIError{
+func NewAPIError(body []byte, err string, model interface{}) APIError {
+	return APIError{
 		body:  body,
 		err:   err,
 		model: model,
@@ -56,17 +55,13 @@ type RateLimitedError struct {
 
 type rateLimitErrorJSON struct {
 	CodedError
-	RetryAfter int64 `json:"retry-after"`
+	RetryAfter float64 `json:"retry-after"`
 }
 
 func (o *RateLimitedError) MarshalJSON() ([]byte, error) {
-	secs := math.Ceil(o.RetryAfter.Seconds())
-	if secs < 0 {
-		return nil, fmt.Errorf("retry-after cannot be negative")
-	}
 	model := rateLimitErrorJSON{
 		CodedError: o.CodedError,
-		RetryAfter: int64(secs),
+		RetryAfter: o.RetryAfter.Seconds(),
 	}
 
 	return json.Marshal(model)
@@ -81,7 +76,7 @@ func (o *RateLimitedError) UnmarshalJSON(data []byte) error {
 	}
 
 	o.CodedError = model.CodedError
-	o.RetryAfter = time.Duration(model.RetryAfter) * time.Second
+	o.RetryAfter = time.Duration(model.RetryAfter * float64(time.Second))
 	return nil
 }
 

@@ -262,7 +262,7 @@ func (s *invitesService) CreateInviteLinkExecute(r CreateInviteLinkRequest) (*Cr
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -311,7 +311,7 @@ func (s *invitesService) GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResp
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -352,15 +352,15 @@ func (s *invitesService) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*
 		endpoint = "/invites/{invite_id}/resend"
 	)
 
-	endpoint = strings.Replace(endpoint, "{invite_id}", IdToString(r.inviteId), -1)
+	path := strings.Replace(endpoint, "{invite_id}", IdToString(r.inviteId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -401,15 +401,15 @@ func (s *invitesService) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*
 		endpoint = "/invites/{invite_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{invite_id}", IdToString(r.inviteId), -1)
+	path := strings.Replace(endpoint, "{invite_id}", IdToString(r.inviteId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -453,15 +453,15 @@ func (s *invitesService) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*zu
 		endpoint = "/invites/multiuse/{invite_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{invite_id}", IdToString(r.inviteId), -1)
+	path := strings.Replace(endpoint, "{invite_id}", IdToString(r.inviteId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -619,6 +619,6 @@ func (s *invitesService) SendInvitesExecute(r SendInvitesRequest) (*zulip.Respon
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }

@@ -50,6 +50,9 @@ type APIClient struct {
 
 	ClientName string
 
+	GatherStats bool
+	Stats       Statistics
+
 	ApiSuffix  string
 	ApiVersion string
 }
@@ -102,6 +105,12 @@ func SkipWarnOnInsecureTLS() Option {
 	}
 }
 
+func GatherStatistics() Option {
+	return func(c *APIClient) {
+		c.GatherStats = true
+	}
+}
+
 // NewSimpleClient creates a new API client. Requires a userAgent string describing your application.
 // optionally a custom http.Client to allow for advanced features such as caching.
 func NewAPIClient(zuliprc *zuliprc.ZulipRC, options ...Option) (*APIClient, error) {
@@ -111,6 +120,7 @@ func NewAPIClient(zuliprc *zuliprc.ZulipRC, options ...Option) (*APIClient, erro
 		ClientName:      defaultClientName,
 		MaxRetries:      retryIndefinitely,
 		InsecureWarning: true,
+		GatherStats:     false,
 		ApiSuffix:       defaultAPISuffix,
 		ApiVersion:      defaultAPIVersion,
 		Logger:          slog.Default(),
@@ -131,7 +141,7 @@ func NewAPIClient(zuliprc *zuliprc.ZulipRC, options ...Option) (*APIClient, erro
 	return client, nil
 }
 
-func (c APIClient) ServerURL() (string, error) {
+func (c *APIClient) ServerURL() (string, error) {
 	if c.Cfg.Site != "" {
 		return fmt.Sprintf("%s/%s/%s", c.Cfg.Site, c.ApiSuffix, c.ApiVersion), nil
 	}
@@ -237,16 +247,17 @@ func (c *APIClient) GetZulipRC() *zuliprc.ZulipRC {
 	return c.Cfg
 }
 
-func (c APIClient) CallAPI(ctx context.Context, req *http.Request, responseModel ResponseModel) (httpResp *http.Response, err error) {
+func (c *APIClient) CallAPI(ctx context.Context, endpoint string, req *http.Request, responseModel ResponseModel) (httpResp *http.Response, err error) {
 	retryForever := c.MaxRetries == retryIndefinitely
 
 	for i := 0; retryForever || i <= c.MaxRetries; i++ {
-		httpResp, err = c.doHTTPCallAndParseResponse(ctx, req, responseModel)
+		httpResp, err = c.doHTTPCallAndParseResponse(ctx, endpoint, req, responseModel)
 		if httpResp != nil && httpResp.StatusCode == http.StatusTooManyRequests {
 			if apiErr, ok := err.(zulip.APIError); ok {
 				if rateLimitedError, ok := apiErr.Model().(zulip.RateLimitedError); ok {
 					slog.DebugContext(ctx, "hit API rate-limit", "retry-after", rateLimitedError.RetryAfter)
 					time.Sleep(rateLimitedError.RetryAfter)
+					c.Stats.Increment("rate-limit-timeout", rateLimitedError.RetryAfter)
 					continue
 				}
 			}
@@ -257,15 +268,15 @@ func (c APIClient) CallAPI(ctx context.Context, req *http.Request, responseModel
 	return httpResp, ErrMaxRetriesReached
 }
 
-func (c APIClient) GetUserAgent() string {
+func (c *APIClient) GetUserAgent() string {
 	return c.UserAgent
 }
 
-func (c *APIClient) doHTTPCallAndParseResponse(ctx context.Context, req *http.Request, responseModel ResponseModel) (*http.Response, error) {
+func (c *APIClient) doHTTPCallAndParseResponse(ctx context.Context, endpoint string, req *http.Request, responseModel ResponseModel) (*http.Response, error) {
 	if responseModel == nil {
 		return nil, fmt.Errorf("response model cannot be nil")
 	}
-	httpResp, err := c.doHTTPCall(ctx, req)
+	httpResp, err := c.doHTTPCall(ctx, endpoint, req)
 	if err != nil || httpResp == nil {
 		return httpResp, err
 	}
@@ -292,7 +303,7 @@ func (c *APIClient) doHTTPCallAndParseResponse(ctx context.Context, req *http.Re
 }
 
 // callAPI do the request.
-func (c *APIClient) doHTTPCall(ctx context.Context, request *http.Request) (*http.Response, error) {
+func (c *APIClient) doHTTPCall(ctx context.Context, endpoint string, request *http.Request) (*http.Response, error) {
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -307,8 +318,14 @@ func (c *APIClient) doHTTPCall(ctx context.Context, request *http.Request) (*htt
 		c.Logger.DebugContext(ctx, "HTTP Request", "dump", string(dump))
 	}
 
-	time.Sleep(100 * time.Millisecond)
+	begin := time.Now()
 	resp, err := c.HttpClient.Do(request)
+	end := time.Now()
+
+	if c.GatherStats {
+		duration := end.Sub(begin)
+		c.Stats.Increment(endpoint, duration)
+	}
 
 	if debug && resp != nil {
 		dump, err := httputil.DumpResponse(resp, true)

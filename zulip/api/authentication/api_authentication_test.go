@@ -16,11 +16,11 @@ func Test_DevFetchApiKey(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp, httpRes, err := apiClient.DevFetchApiKey(ctx).Username(TestAdminUsername).Execute()
+		resp, httpResp, err := apiClient.DevFetchApiKey(ctx).Username(TestAdminUsername).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
+		assert.Equal(t, 200, httpResp.StatusCode)
 
 	})
 }

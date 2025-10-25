@@ -20,7 +20,7 @@ func Test_InviteLinkLifecycle(t *testing.T) {
 
 		baseline := inviteSnapshot(t, ctx, apiClient)
 
-		resp, httpRes, err := apiClient.CreateInviteLink(ctx).
+		resp, httpResp, err := apiClient.CreateInviteLink(ctx).
 			ChannelIds([]int64{channelId}).
 			IncludeRealmDefaultSubscriptions(true).
 			InviteExpiresInMinutes(60).
@@ -29,7 +29,7 @@ func Test_InviteLinkLifecycle(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		link := resp.InviteLink
 		assert.NotEmpty(t, link)
 
@@ -63,7 +63,7 @@ func Test_EmailInviteLifecycle(t *testing.T) {
 
 		baseline := inviteSnapshot(t, ctx, apiClient)
 
-		resp, httpRes, err := apiClient.SendInvites(ctx).
+		resp, httpResp, err := apiClient.SendInvites(ctx).
 			InviteeEmails(invitee).
 			ChannelIds([]int64{channelId}).
 			InviteExpiresInMinutes(60).
@@ -72,7 +72,7 @@ func Test_EmailInviteLifecycle(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
+		RequireStatusOK(t, httpResp)
 		assert.Equal(t, "success", resp.Result)
 
 		invites := loadInvites(t, ctx, apiClient)
@@ -104,11 +104,11 @@ func Test_EmailInviteLifecycle(t *testing.T) {
 func loadInvites(t *testing.T, ctx context.Context, apiClient client.Client) []z.Invite {
 	t.Helper()
 
-	resp, httpRes, err := apiClient.GetInvites(ctx).Execute()
+	resp, httpResp, err := apiClient.GetInvites(ctx).Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpRes)
+	RequireStatusOK(t, httpResp)
 
 	return resp.Invites
 }

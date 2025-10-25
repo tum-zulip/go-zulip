@@ -158,7 +158,7 @@ func (s *draftsService) CreateDraftsExecute(r CreateDraftsRequest) (*CreateDraft
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -226,7 +226,7 @@ func (s *draftsService) CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -263,15 +263,15 @@ func (s *draftsService) DeleteDraftExecute(r DeleteDraftRequest) (*zulip.Respons
 		endpoint = "/drafts/{draft_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{draft_id}", IdToString(r.draftId), -1)
+	path := strings.Replace(endpoint, "{draft_id}", IdToString(r.draftId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -309,15 +309,15 @@ func (s *draftsService) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (
 		endpoint = "/saved_snippets/{saved_snippet_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{saved_snippet_id}", IdToString(r.savedSnippetId), -1)
+	path := strings.Replace(endpoint, "{saved_snippet_id}", IdToString(r.savedSnippetId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -361,7 +361,7 @@ func (s *draftsService) EditDraftExecute(r EditDraftRequest) (*zulip.Response, *
 		endpoint = "/drafts/{draft_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{draft_id}", IdToString(r.draftId), -1)
+	path := strings.Replace(endpoint, "{draft_id}", IdToString(r.draftId), -1)
 
 	if r.draft == nil {
 		return nil, nil, fmt.Errorf("draft is required and must be specified")
@@ -372,12 +372,12 @@ func (s *draftsService) EditDraftExecute(r EditDraftRequest) (*zulip.Response, *
 
 	r.draft.Type = r.draft.Type.ToLegacy()
 	AddParam(form, "draft", r.draft)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -431,19 +431,19 @@ func (s *draftsService) EditSavedSnippetExecute(r EditSavedSnippetRequest) (*zul
 		endpoint = "/saved_snippets/{saved_snippet_id}"
 	)
 
-	endpoint = strings.Replace(endpoint, "{saved_snippet_id}", IdToString(r.savedSnippetId), -1)
+	path := strings.Replace(endpoint, "{saved_snippet_id}", IdToString(r.savedSnippetId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
 	AddOptionalParam(form, "title", r.title)
 	AddOptionalParam(form, "content", r.content)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -483,7 +483,7 @@ func (s *draftsService) GetDraftsExecute(r GetDraftsRequest) (*GetDraftsResponse
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
 
@@ -525,6 +525,6 @@ func (s *draftsService) GetSavedSnippetsExecute(r GetSavedSnippetsRequest) (*Get
 		return nil, nil, err
 	}
 
-	httpResp, err := s.client.CallAPI(r.ctx, req, response)
+	httpResp, err := s.client.CallAPI(r.ctx, endpoint, req, response)
 	return response, httpResp, err
 }
