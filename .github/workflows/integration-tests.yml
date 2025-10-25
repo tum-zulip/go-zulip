@@ -20,6 +20,9 @@ jobs:
       matrix:
         zulip-branch:
           - main
+          - 11.x
+          - 10.x
+          - 9.x
     env:
       GO111MODULE: "on"
       GOFLAGS: "-trimpath"
@@ -128,7 +131,7 @@ jobs:
       - name: Run go test suite with coverage
         env:
           ZULIP_TEST_SITE: http://127.0.0.1:9991
-        run: go test ./zulip -covermode=atomic -coverprofile=coverage.out -timeout 60m
+        run: go test ./... -covermode=atomic -coverprofile=coverage.out -timeout 60m
 
       - name: Upload coverage to Codecov
         if: success()
