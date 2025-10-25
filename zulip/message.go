@@ -33,7 +33,7 @@ type Message struct {
 	// **Changes**: In Zulip 10.0 (feature level 284), removed the `prev_rendered_content_version` field as it is an internal server implementation detail not used by any client.
 	//
 	// [viewing message edit history]: https://zulip.com/help/restrict-message-edit-history-access
-	EditHistory []EditHistory `json:"edit_history,omitempty"`
+	EditHistory []Snapshot `json:"edit_history,omitempty"`
 	// Whether the message is a [/me status message]
 	//
 	// [/me status message]: https://zulip.com/help/format-your-message-using-markdown#status-messages
@@ -100,7 +100,7 @@ type messageJSON struct {
 	RenderedContent    *string          `json:"rendered_content,omitempty"`
 	ContentType        string           `json:"content_type,omitempty"`
 	DisplayRecipient   DisplayRecipient `json:"display_recipient,omitempty"`
-	EditHistory        []EditHistory    `json:"edit_history,omitempty"`
+	EditHistory        []Snapshot       `json:"edit_history,omitempty"`
 	IsMeMessage        bool             `json:"is_me_message,omitempty"`
 	LastEditTimestamp  int64            `json:"last_edit_timestamp,omitempty"`
 	LastMovedTimestamp int64            `json:"last_moved_timestamp,omitempty"`

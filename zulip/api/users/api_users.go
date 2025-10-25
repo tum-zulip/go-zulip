@@ -2374,13 +2374,13 @@ func (s *usersService) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*zulip.Re
 }
 
 type SetTypingStatusRequest struct {
-	ctx        context.Context
-	apiService APIUsers
-	op         *zulip.TypingStatusOp
-	type_      *zulip.RecipientType
-	to         *zulip.Recipient
-	channelId  *int64
-	topic      *string
+	ctx           context.Context
+	apiService    APIUsers
+	op            *zulip.TypingStatusOp
+	recipientType *zulip.RecipientType
+	to            *zulip.Recipient
+	channelId     *int64
+	topic         *string
 }
 
 // Whether the user has started (`TypingStatusOpStart`) or stopped (`TypingStatusOpStop`) typing.
@@ -2392,8 +2392,8 @@ func (r SetTypingStatusRequest) Op(op zulip.TypingStatusOp) SetTypingStatusReque
 // Type of the message being composed.
 //
 // **Changes**: In Zulip 9.0 (feature level 248), `RecipientTypeChannel` was added as an additional value for this parameter to indicate a channel message is being composed.  In Zulip 8.0 (feature level 215), stopped supporting `RecipientTypePrivate` as a valid value for this parameter.  In Zulip 7.0 (feature level 174), `RecipientTypeDirect` was added as the preferred way to indicate a direct message is being composed, becoming the default value for this parameter and deprecating the original `RecipientTypePrivate`.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
-func (r SetTypingStatusRequest) Type_(type_ zulip.RecipientType) SetTypingStatusRequest {
-	r.type_ = &type_
+func (r SetTypingStatusRequest) RecipientType(recipientType zulip.RecipientType) SetTypingStatusRequest {
+	r.recipientType = &recipientType
 	return r
 }
 
@@ -2402,6 +2402,9 @@ func (r SetTypingStatusRequest) Type_(type_ zulip.RecipientType) SetTypingStatus
 // **Changes**: In Zulip 8.0 (feature level 215), stopped using this parameter for the `"stream"` type. Previously, in the case of the `"stream"` type, it accepted a single-element list containing the Id of the channel. A new parameter, `stream_id`, is now used for this. Note that the `"channel"` type did not exist at this feature level.  Support for typing notifications for channel' messages is new in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  Before Zulip 2.0.0, this parameter accepted only a JSON-encoded list of email addresses. Support for the email address-based format was removed in Zulip 3.0 (feature level 11).
 func (r SetTypingStatusRequest) To(to zulip.Recipient) SetTypingStatusRequest {
 	r.to = &to
+	if r.recipientType == nil {
+		r.recipientType = to.RecipientType()
+	}
 	return r
 }
 
@@ -2489,7 +2492,7 @@ func (s *usersService) SetTypingStatusExecute(r SetTypingStatusRequest) (*zulip.
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "type", r.type_)
+	AddOptionalParam(form, "type", r.recipientType)
 	AddParam(form, "op", r.op)
 	if err := AddOptionalJSONParam(form, "to", r.to); err != nil {
 		return nil, nil, err

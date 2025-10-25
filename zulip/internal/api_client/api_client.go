@@ -307,6 +307,7 @@ func (c *APIClient) doHTTPCall(ctx context.Context, request *http.Request) (*htt
 		c.Logger.DebugContext(ctx, "HTTP Request", "dump", string(dump))
 	}
 
+	time.Sleep(100 * time.Millisecond)
 	resp, err := c.HttpClient.Do(request)
 
 	if debug && resp != nil {

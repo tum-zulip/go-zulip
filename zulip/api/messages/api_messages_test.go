@@ -258,7 +258,6 @@ func Test_MessagesAPIService(t *testing.T) {
 		content := fmt.Sprintf("message sent via client %s", UniqueName("content"))
 
 		resp, httpRes, err := apiClient.SendMessage(ctx).
-			RecipientType(z.RecipientTypeChannel).
 			To(z.ChannelAsRecipient(channelId)).
 			Topic(topic).
 			Content(content).
@@ -610,7 +609,6 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 
 		// Test with non-existent userId
 		_, _, err := apiClient.SendMessage(ctx).
-			RecipientType(z.RecipientTypePrivate).
 			To(z.UserAsRecipient(99999999)).
 			Content("test message").
 			Execute()
@@ -623,7 +621,6 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 
 		// Test with non-existent channelId
 		_, _, err = apiClient.SendMessage(ctx).
-			RecipientType(z.RecipientTypeChannel).
 			To(z.ChannelAsRecipient(99999999)).
 			Topic("test-topic").
 			Content("test message").
@@ -636,7 +633,6 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 
 		// Test with empty content
 		_, _, err = apiClient.SendMessage(ctx).
-			RecipientType(z.RecipientTypeChannel).
 			To(z.ChannelAsRecipient(channelId)).
 			Topic("test-topic").
 			Content("").

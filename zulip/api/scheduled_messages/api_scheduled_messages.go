@@ -106,6 +106,9 @@ func (r CreateScheduledMessageRequest) RecipientType(recipientType zulip.Recipie
 
 func (r CreateScheduledMessageRequest) To(to zulip.Recipient) CreateScheduledMessageRequest {
 	r.to = &to
+	if r.recipientType == nil {
+		r.recipientType = to.RecipientType()
+	}
 	return r
 }
 
@@ -308,7 +311,7 @@ type UpdateScheduledMessageRequest struct {
 	ctx                        context.Context
 	apiService                 APIScheduledMessages
 	scheduledMessageId         int64
-	recipientType              *string
+	recipientType              *zulip.RecipientType
 	to                         *zulip.Recipient
 	content                    *string
 	topic                      *string
@@ -318,13 +321,16 @@ type UpdateScheduledMessageRequest struct {
 // The type of scheduled message to be sent. `"direct"` for a direct message and `"stream"` or `"channel"` for a channel message.  When updating the type of the scheduled message, the `to` parameter is required. And, if updating the type of the scheduled message to `"stream"`/`"channel"`, then the `topic` parameter is also required.  Note that, while `"private"` is supported for scheduling direct messages, clients are encouraged to use to the modern convention of `"direct"` to indicate this message type, because support for `"private"` may eventually be removed.
 //
 // **Changes**: In Zulip 9.0 (feature level 248), `"channel"` was added as an additional value for this parameter to indicate the type of a channel message.
-func (r UpdateScheduledMessageRequest) RecipientType(recipientType string) UpdateScheduledMessageRequest {
+func (r UpdateScheduledMessageRequest) RecipientType(recipientType zulip.RecipientType) UpdateScheduledMessageRequest {
 	r.recipientType = &recipientType
 	return r
 }
 
 func (r UpdateScheduledMessageRequest) To(to zulip.Recipient) UpdateScheduledMessageRequest {
 	r.to = &to
+	if r.recipientType == nil {
+		r.recipientType = to.RecipientType()
+	}
 	return r
 }
 

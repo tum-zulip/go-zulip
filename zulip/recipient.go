@@ -19,6 +19,21 @@ func (o Recipient) asArray() []int64 {
 	return nil
 }
 
+// Get the RecipientType for the recipient. Either RecipientTypeChannel or RecipientTypeDirect or nil if the recipient is invalid
+func (r Recipient) RecipientType() *RecipientType {
+	if r.Users == nil && r.Channel == nil {
+		return nil
+	}
+	if r.Users != nil && r.Channel != nil {
+		return nil
+	}
+	t := RecipientTypeChannel
+	if r.Users != nil {
+		t = RecipientTypeDirect
+	}
+	return &t
+}
+
 // UsersAsRecipient is a convenience function that returns a list of UserIds wrapped in Recipient
 func UsersAsRecipient(v []int64) Recipient {
 	return Recipient{

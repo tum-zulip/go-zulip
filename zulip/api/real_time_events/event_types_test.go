@@ -274,7 +274,6 @@ func sendDirectMessage(t *testing.T, apiClient client.Client, toUserId int64, co
 
 	ctx := context.Background()
 	resp, _, err := apiClient.SendMessage(ctx).
-		RecipientType(z.RecipientTypeDirect).
 		To(z.UserAsRecipient(toUserId)).
 		Content(content).
 		Execute()

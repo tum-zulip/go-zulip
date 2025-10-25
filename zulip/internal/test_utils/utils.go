@@ -318,7 +318,6 @@ func SendChannelMessage(t *testing.T, apiClient client.Client, channelId int64, 
 	t.Helper()
 
 	resp, httpResp, err := apiClient.SendMessage(context.Background()).
-		RecipientType(z.RecipientTypeChannel).
 		To(z.ChannelAsRecipient(channelId)).
 		Topic(topic).
 		Content(content).
@@ -357,7 +356,6 @@ func CreateDirectMessage(t *testing.T, apiClient client.Client, to int64) int64 
 
 	content := UniqueName("content")
 	resp, httpRes, err := apiClient.SendMessage(context.Background()).
-		RecipientType(z.RecipientTypePrivate).
 		To(z.UserAsRecipient(to)).
 		Content(content).
 		Execute()

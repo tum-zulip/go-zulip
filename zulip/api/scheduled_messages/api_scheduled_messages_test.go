@@ -80,7 +80,6 @@ func createScheduledMessage(t *testing.T, apiClient client.Client, to []int64) *
 		Content(UniqueName("This is a scheduled message")).
 		To(z.UsersAsRecipient(to)).
 		ScheduledDeliveryTimestamp(time.Now().Add(1 * time.Hour)).
-		RecipientType(z.RecipientTypeDirect).
 		Execute()
 
 	require.NoError(t, err)

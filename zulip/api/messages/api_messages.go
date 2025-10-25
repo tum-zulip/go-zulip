@@ -1568,6 +1568,9 @@ func (r SendMessageRequest) RecipientType(recipientType zulip.RecipientType) Sen
 
 func (r SendMessageRequest) To(to zulip.Recipient) SendMessageRequest {
 	r.to = &to
+	if r.recipientType == nil {
+		r.recipientType = to.RecipientType()
+	}
 	return r
 }
 
