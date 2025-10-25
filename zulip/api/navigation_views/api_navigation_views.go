@@ -8,7 +8,8 @@ import (
 	"strings"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+
+	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
@@ -140,10 +141,10 @@ func (s *navigationViewsService) AddNavigationViewExecute(r AddNavigationViewReq
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "fragment", r.fragment)
-	AddParam(form, "is_pinned", r.isPinned)
-	AddOptionalParam(form, "name", r.name)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "fragment", r.fragment)
+	apiutils.AddParam(form, "is_pinned", r.isPinned)
+	apiutils.AddOptionalParam(form, "name", r.name)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -206,9 +207,9 @@ func (s *navigationViewsService) EditNavigationViewExecute(r EditNavigationViewR
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "is_pinned", r.isPinned)
-	AddOptionalParam(form, "name", r.name)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "is_pinned", r.isPinned)
+	apiutils.AddOptionalParam(form, "name", r.name)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -250,7 +251,7 @@ func (s *navigationViewsService) GetNavigationViewsExecute(r GetNavigationViewsR
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -296,7 +297,7 @@ func (s *navigationViewsService) RemoveNavigationViewExecute(r RemoveNavigationV
 	path := strings.Replace(endpoint, "{fragment}", url.PathEscape(r.fragment), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

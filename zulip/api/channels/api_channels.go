@@ -8,7 +8,8 @@ import (
 	"strings"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+
+	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
@@ -532,8 +533,8 @@ func (s *channelsService) AddDefaultChannelExecute(r AddDefaultChannelRequest) (
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "stream_id", r.channelId)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "stream_id", r.channelId)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -576,10 +577,10 @@ func (s *channelsService) ArchiveChannelExecute(r ArchiveChannelRequest) (*zulip
 		endpoint = "/streams/{stream_id}"
 	)
 
-	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", apiutils.IdToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -647,11 +648,11 @@ func (s *channelsService) CreateBigBlueButtonVideoCallExecute(r CreateBigBlueBut
 		return nil, nil, fmt.Errorf("meetingName is required and must be specified")
 	}
 
-	AddParam(query, "meeting_name", r.meetingName)
-	AddOptionalParam(query, "voice_only", r.voiceOnly)
+	apiutils.AddParam(query, "meeting_name", r.meetingName)
+	apiutils.AddOptionalParam(query, "voice_only", r.voiceOnly)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -871,53 +872,53 @@ func (s *channelsService) CreateChannelExecute(r CreateChannelRequest) (*CreateC
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "name", r.name)
-	AddOptionalParam(form, "description", r.description)
-	if err := AddOptionalJSONParam(form, "subscribers", *r.subscribers); err != nil {
+	apiutils.AddParam(form, "name", r.name)
+	apiutils.AddOptionalParam(form, "description", r.description)
+	if err := apiutils.AddOptionalJSONParam(form, "subscribers", *r.subscribers); err != nil {
 		return nil, nil, err
 	}
-	AddOptionalParam(form, "announce", r.announce)
-	AddOptionalParam(form, "invite_only", r.inviteOnly)
-	AddOptionalParam(form, "is_web_public", r.isWebPublic)
-	AddOptionalParam(form, "is_default_stream", r.isDefaultChannel)
-	AddOptionalParam(form, "folder_id", r.folderId)
-	AddOptionalParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
-	AddOptionalParam(form, "topics_policy", r.topicsPolicy)
-	AddOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
-	if err := AddOptionalJSONParam(form, "message_retention_days", r.messageRetentionDays); err != nil {
+	apiutils.AddOptionalParam(form, "announce", r.announce)
+	apiutils.AddOptionalParam(form, "invite_only", r.inviteOnly)
+	apiutils.AddOptionalParam(form, "is_web_public", r.isWebPublic)
+	apiutils.AddOptionalParam(form, "is_default_stream", r.isDefaultChannel)
+	apiutils.AddOptionalParam(form, "folder_id", r.folderId)
+	apiutils.AddOptionalParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
+	apiutils.AddOptionalParam(form, "topics_policy", r.topicsPolicy)
+	apiutils.AddOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
+	if err := apiutils.AddOptionalJSONParam(form, "message_retention_days", r.messageRetentionDays); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_delete_any_message_group", r.canDeleteAnyMessageGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_delete_any_message_group", r.canDeleteAnyMessageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_delete_own_message_group", r.canDeleteOwnMessageGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_delete_own_message_group", r.canDeleteOwnMessageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_remove_subscribers_group", r.canRemoveSubscribersGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_remove_subscribers_group", r.canRemoveSubscribersGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_administer_channel_group", r.canAdministerChannelGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_administer_channel_group", r.canAdministerChannelGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_move_messages_out_of_channel_group", r.canMoveMessagesOutOfChannelGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_move_messages_out_of_channel_group", r.canMoveMessagesOutOfChannelGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_move_messages_within_channel_group", r.canMoveMessagesWithinChannelGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_move_messages_within_channel_group", r.canMoveMessagesWithinChannelGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_send_message_group", r.canSendMessageGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_send_message_group", r.canSendMessageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_subscribe_group", r.canSubscribeGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_subscribe_group", r.canSubscribeGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_resolve_topics_group", r.canResolveTopicsGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_resolve_topics_group", r.canResolveTopicsGroup); err != nil {
 		return nil, nil, err
 	}
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -982,9 +983,9 @@ func (s *channelsService) CreateChannelFolderExecute(r CreateChannelFolderReques
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "name", r.name)
-	AddOptionalParam(form, "description", r.description)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "name", r.name)
+	apiutils.AddOptionalParam(form, "description", r.description)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1072,7 +1073,7 @@ func (s *channelsService) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsRe
 		endpoint = "/streams/{stream_id}/delete_topic"
 	)
 
-	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", apiutils.IdToString(r.channelId), -1)
 
 	if r.topicName == nil {
 		return nil, nil, fmt.Errorf("topicName is required and must be specified")
@@ -1081,8 +1082,8 @@ func (s *channelsService) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsRe
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "topic_name", r.topicName)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddParam(form, "topic_name", r.topicName)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1136,8 +1137,8 @@ func (s *channelsService) GetChannelFoldersExecute(r GetChannelFoldersRequest) (
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "include_archived", r.includeArchived)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "include_archived", r.includeArchived)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1180,10 +1181,10 @@ func (s *channelsService) GetChannelByIdExecute(r GetChannelByIdRequest) (*GetCh
 		endpoint = "/streams/{stream_id}"
 	)
 
-	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", apiutils.IdToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1235,12 +1236,12 @@ func (s *channelsService) GetChannelEmailAddressExecute(r GetChannelEmailAddress
 		endpoint = "/streams/{stream_id}/email_address"
 	)
 
-	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", apiutils.IdToString(r.channelId), -1)
 
-	AddOptionalParam(query, "sender_id", r.senderId)
+	apiutils.AddOptionalParam(query, "sender_id", r.senderId)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1289,10 +1290,10 @@ func (s *channelsService) GetChannelIdExecute(r GetChannelIdRequest) (*GetChanne
 		return nil, nil, fmt.Errorf("channel is required and must be specified")
 	}
 
-	AddParam(query, "stream", r.channel)
+	apiutils.AddParam(query, "stream", r.channel)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1355,12 +1356,12 @@ func (s *channelsService) GetChannelTopicsExecute(r GetChannelTopicsRequest) (*G
 		endpoint = "/users/me/{stream_id}/topics"
 	)
 
-	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", apiutils.IdToString(r.channelId), -1)
 
-	AddOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
+	apiutils.AddOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1473,18 +1474,18 @@ func (s *channelsService) GetChannelsExecute(r GetChannelsRequest) (*GetChannels
 		response = &GetChannelsResponse{}
 		endpoint = "/streams"
 	)
-	AddOptionalParam(query, "include_public", r.includePublic)
-	AddOptionalParam(query, "include_web_public", r.includeWebPublic)
-	AddOptionalParam(query, "include_subscribed", r.includeSubscribed)
-	AddOptionalParam(query, "exclude_archived", r.excludeArchived)
-	AddOptionalParam(query, "include_all_active", r.includeAllActive)
-	AddOptionalParam(query, "include_all", r.includeAll)
-	AddOptionalParam(query, "include_default", r.includeDefault)
-	AddOptionalParam(query, "include_owner_subscribed", r.includeOwnerSubscribed)
-	AddOptionalParam(query, "include_can_access_content", r.includeCanAccessContent)
+	apiutils.AddOptionalParam(query, "include_public", r.includePublic)
+	apiutils.AddOptionalParam(query, "include_web_public", r.includeWebPublic)
+	apiutils.AddOptionalParam(query, "include_subscribed", r.includeSubscribed)
+	apiutils.AddOptionalParam(query, "exclude_archived", r.excludeArchived)
+	apiutils.AddOptionalParam(query, "include_all_active", r.includeAllActive)
+	apiutils.AddOptionalParam(query, "include_all", r.includeAll)
+	apiutils.AddOptionalParam(query, "include_default", r.includeDefault)
+	apiutils.AddOptionalParam(query, "include_owner_subscribed", r.includeOwnerSubscribed)
+	apiutils.AddOptionalParam(query, "include_can_access_content", r.includeCanAccessContent)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1525,10 +1526,10 @@ func (s *channelsService) GetSubscribersExecute(r GetSubscribersRequest) (*GetSu
 		endpoint = "/streams/{stream_id}/members"
 	)
 
-	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", apiutils.IdToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1573,11 +1574,11 @@ func (s *channelsService) GetSubscriptionStatusExecute(r GetSubscriptionStatusRe
 		endpoint = "/users/{user_id}/subscriptions/{stream_id}"
 	)
 
-	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
-	path = strings.Replace(path, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{user_id}", apiutils.IdToString(r.userId), -1)
+	path = strings.Replace(path, "{stream_id}", apiutils.IdToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1624,10 +1625,10 @@ func (s *channelsService) GetSubscriptionsExecute(r GetSubscriptionsRequest) (*G
 		response = &GetSubscriptionsResponse{}
 		endpoint = "/users/me/subscriptions"
 	)
-	AddOptionalParam(query, "include_subscribers", r.includeSubscribers)
+	apiutils.AddOptionalParam(query, "include_subscribers", r.includeSubscribers)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1723,11 +1724,11 @@ func (s *channelsService) MuteTopicExecute(r MuteTopicRequest) (*zulip.Response,
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "stream_id", r.channelId)
-	AddOptionalParam(form, "stream", r.channel)
-	AddParam(form, "topic", r.topic)
-	AddParam(form, "op", r.op)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "stream_id", r.channelId)
+	apiutils.AddOptionalParam(form, "stream", r.channel)
+	apiutils.AddParam(form, "topic", r.topic)
+	apiutils.AddParam(form, "op", r.op)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1779,8 +1780,8 @@ func (s *channelsService) PatchChannelFoldersExecute(r PatchChannelFoldersReques
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "order", r.order)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "order", r.order)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1835,8 +1836,8 @@ func (s *channelsService) RemoveDefaultChannelExecute(r RemoveDefaultChannelRequ
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "stream_id", r.channelId)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "stream_id", r.channelId)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2092,53 +2093,53 @@ func (s *channelsService) SubscribeExecute(r SubscribeRequest) (*SubscribeRespon
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "subscriptions", r.subscriptions)
-	if err := AddOptionalJSONParam(form, "principals", r.principals); err != nil {
+	apiutils.AddParam(form, "subscriptions", r.subscriptions)
+	if err := apiutils.AddOptionalJSONParam(form, "principals", r.principals); err != nil {
 		return nil, nil, err
 	}
-	AddOptionalParam(form, "authorization_errors_fatal", r.authorizationErrorsFatal)
-	AddOptionalParam(form, "announce", r.announce)
-	AddOptionalParam(form, "invite_only", r.inviteOnly)
-	AddOptionalParam(form, "is_web_public", r.isWebPublic)
-	AddOptionalParam(form, "is_default_stream", r.isDefaultChannel)
-	AddOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
-	if err := AddOptionalJSONParam(form, "message_retention_days", r.messageRetentionDays); err != nil {
+	apiutils.AddOptionalParam(form, "authorization_errors_fatal", r.authorizationErrorsFatal)
+	apiutils.AddOptionalParam(form, "announce", r.announce)
+	apiutils.AddOptionalParam(form, "invite_only", r.inviteOnly)
+	apiutils.AddOptionalParam(form, "is_web_public", r.isWebPublic)
+	apiutils.AddOptionalParam(form, "is_default_stream", r.isDefaultChannel)
+	apiutils.AddOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
+	if err := apiutils.AddOptionalJSONParam(form, "message_retention_days", r.messageRetentionDays); err != nil {
 		return nil, nil, err
 	}
-	AddOptionalParam(form, "topics_policy", r.topicsPolicy)
-	if err := AddOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
+	apiutils.AddOptionalParam(form, "topics_policy", r.topicsPolicy)
+	if err := apiutils.AddOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_remove_subscribers_group", r.canRemoveSubscribersGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_remove_subscribers_group", r.canRemoveSubscribersGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_administer_channel_group", r.canAdministerChannelGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_administer_channel_group", r.canAdministerChannelGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_delete_any_message_group", r.canDeleteAnyMessageGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_delete_any_message_group", r.canDeleteAnyMessageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_delete_own_message_group", r.canDeleteOwnMessageGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_delete_own_message_group", r.canDeleteOwnMessageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_move_messages_out_of_channel_group", r.canMoveMessagesOutOfChannelGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_move_messages_out_of_channel_group", r.canMoveMessagesOutOfChannelGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_move_messages_within_channel_group", r.canMoveMessagesWithinChannelGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_move_messages_within_channel_group", r.canMoveMessagesWithinChannelGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_send_message_group", r.canSendMessageGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_send_message_group", r.canSendMessageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_subscribe_group", r.canSubscribeGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_subscribe_group", r.canSubscribeGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_resolve_topics_group", r.canResolveTopicsGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_resolve_topics_group", r.canResolveTopicsGroup); err != nil {
 		return nil, nil, err
 	}
-	AddOptionalParam(form, "folder_id", r.folderId)
-	AddOptionalParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "folder_id", r.folderId)
+	apiutils.AddOptionalParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2232,11 +2233,11 @@ func (s *channelsService) UnsubscribeExecute(r UnsubscribeRequest) (*Unsubscribe
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "subscriptions", r.subscriptions)
-	if err := AddOptionalJSONParam(form, "principals", r.principals); err != nil {
+	apiutils.AddParam(form, "subscriptions", r.subscriptions)
+	if err := apiutils.AddOptionalJSONParam(form, "principals", r.principals); err != nil {
 		return nil, nil, err
 	}
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2310,15 +2311,15 @@ func (s *channelsService) UpdateChannelFolderExecute(r UpdateChannelFolderReques
 		endpoint = "/channel_folders/{channel_folder_id}"
 	)
 
-	path := strings.Replace(endpoint, "{channel_folder_id}", IdToString(r.channelFolderId), -1)
+	path := strings.Replace(endpoint, "{channel_folder_id}", apiutils.IdToString(r.channelFolderId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "name", r.name)
-	AddOptionalParam(form, "description", r.description)
-	AddOptionalParam(form, "is_archived", r.isArchived)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "name", r.name)
+	apiutils.AddOptionalParam(form, "description", r.description)
+	apiutils.AddOptionalParam(form, "is_archived", r.isArchived)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2604,54 +2605,54 @@ func (s *channelsService) UpdateChannelExecute(r UpdateChannelRequest) (*zulip.R
 		endpoint = "/streams/{stream_id}"
 	)
 
-	path := strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path := strings.Replace(endpoint, "{stream_id}", apiutils.IdToString(r.channelId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "description", r.description)
-	AddOptionalParam(form, "new_name", r.newName)
-	AddOptionalParam(form, "is_private", r.isPrivate)
-	AddOptionalParam(form, "is_web_public", r.isWebPublic)
-	AddOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
-	AddOptionalParam(form, "is_default_stream", r.isDefaultChannel)
-	if err := AddOptionalJSONParam(form, "message_retention_days", r.messageRetentionDays); err != nil {
+	apiutils.AddOptionalParam(form, "description", r.description)
+	apiutils.AddOptionalParam(form, "new_name", r.newName)
+	apiutils.AddOptionalParam(form, "is_private", r.isPrivate)
+	apiutils.AddOptionalParam(form, "is_web_public", r.isWebPublic)
+	apiutils.AddOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
+	apiutils.AddOptionalParam(form, "is_default_stream", r.isDefaultChannel)
+	if err := apiutils.AddOptionalJSONParam(form, "message_retention_days", r.messageRetentionDays); err != nil {
 		return nil, nil, err
 	}
-	AddOptionalParam(form, "is_archived", r.isArchived)
-	AddOptionalParam(form, "folder_id", r.folderId)
-	AddOptionalParam(form, "topics_policy", r.topicsPolicy)
-	if err := AddOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
+	apiutils.AddOptionalParam(form, "is_archived", r.isArchived)
+	apiutils.AddOptionalParam(form, "folder_id", r.folderId)
+	apiutils.AddOptionalParam(form, "topics_policy", r.topicsPolicy)
+	if err := apiutils.AddOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_remove_subscribers_group", r.canRemoveSubscribersGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_remove_subscribers_group", r.canRemoveSubscribersGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_administer_channel_group", r.canAdministerChannelGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_administer_channel_group", r.canAdministerChannelGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_delete_any_message_group", r.canDeleteAnyMessageGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_delete_any_message_group", r.canDeleteAnyMessageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_delete_own_message_group", r.canDeleteOwnMessageGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_delete_own_message_group", r.canDeleteOwnMessageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_move_messages_out_of_channel_group", r.canMoveMessagesOutOfChannelGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_move_messages_out_of_channel_group", r.canMoveMessagesOutOfChannelGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_move_messages_within_channel_group", r.canMoveMessagesWithinChannelGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_move_messages_within_channel_group", r.canMoveMessagesWithinChannelGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_send_message_group", r.canSendMessageGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_send_message_group", r.canSendMessageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_subscribe_group", r.canSubscribeGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_subscribe_group", r.canSubscribeGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_resolve_topics_group", r.canResolveTopicsGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_resolve_topics_group", r.canResolveTopicsGroup); err != nil {
 		return nil, nil, err
 	}
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2712,8 +2713,8 @@ func (s *channelsService) UpdateSubscriptionSettingsExecute(r UpdateSubscription
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "subscription_data", r.subscriptionData)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "subscription_data", r.subscriptionData)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2778,9 +2779,9 @@ func (s *channelsService) UpdateSubscriptionsExecute(r UpdateSubscriptionsReques
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "delete", r.delete)
-	AddOptionalParam(form, "add", r.add)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "delete", r.delete)
+	apiutils.AddOptionalParam(form, "add", r.add)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2876,10 +2877,10 @@ func (s *channelsService) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*zul
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "stream_id", r.channelId)
-	AddParam(form, "topic", r.topic)
-	AddParam(form, "visibility_policy", r.visibilityPolicy)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "stream_id", r.channelId)
+	apiutils.AddParam(form, "topic", r.topic)
+	apiutils.AddParam(form, "visibility_policy", r.visibilityPolicy)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

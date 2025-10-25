@@ -7,7 +7,8 @@ import (
 	"net/url"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+
+	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
@@ -109,8 +110,8 @@ func (s *mobileService) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*zulip.R
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "push_account_id", r.pushAccountId)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "push_account_id", r.pushAccountId)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -204,12 +205,12 @@ func (s *mobileService) RegisterPushDeviceExecute(r RegisterPushDeviceRequest) (
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "token_kind", r.tokenKind)
-	AddParam(form, "push_account_id", r.pushAccountId)
-	AddParam(form, "push_public_key", r.pushPublicKey)
-	AddParam(form, "bouncer_public_key", r.bouncerPublicKey)
-	AddParam(form, "encrypted_push_registration", r.encryptedPushRegistration)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "token_kind", r.tokenKind)
+	apiutils.AddParam(form, "push_account_id", r.pushAccountId)
+	apiutils.AddParam(form, "push_public_key", r.pushPublicKey)
+	apiutils.AddParam(form, "bouncer_public_key", r.bouncerPublicKey)
+	apiutils.AddParam(form, "encrypted_push_registration", r.encryptedPushRegistration)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -266,8 +267,8 @@ func (s *mobileService) TestNotifyExecute(r TestNotifyRequest) (*zulip.Response,
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "token", r.token)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "token", r.token)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

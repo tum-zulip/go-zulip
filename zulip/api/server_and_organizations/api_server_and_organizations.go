@@ -10,9 +10,10 @@ import (
 	"strings"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+
+	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
 )
 
 type APIServerAndOrganizations interface {
@@ -410,10 +411,10 @@ func (s *serverAndOrganizationsService) AddCodePlaygroundExecute(r AddCodePlaygr
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "name", r.name)
-	AddParam(form, "pygments_language", r.pygmentsLanguage)
-	AddParam(form, "url_template", r.urlTemplate)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "name", r.name)
+	apiutils.AddParam(form, "pygments_language", r.pygmentsLanguage)
+	apiutils.AddParam(form, "url_template", r.urlTemplate)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -485,9 +486,9 @@ func (s *serverAndOrganizationsService) AddLinkifierExecute(r AddLinkifierReques
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "pattern", r.pattern)
-	AddParam(form, "url_template", r.urlTemplate)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "pattern", r.pattern)
+	apiutils.AddParam(form, "url_template", r.urlTemplate)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -591,14 +592,14 @@ func (s *serverAndOrganizationsService) CreateCustomProfileFieldExecute(r Create
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "name", r.name)
-	AddOptionalParam(form, "hint", r.hint)
-	AddParam(form, "field_type", r.fieldType)
-	AddOptionalParam(form, "field_data", r.fieldData)
-	AddOptionalParam(form, "display_in_profile_summary", r.displayInProfileSummary)
-	AddOptionalParam(form, "required", r.required)
-	AddOptionalParam(form, "editable_by_user", r.editableByUser)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "name", r.name)
+	apiutils.AddOptionalParam(form, "hint", r.hint)
+	apiutils.AddParam(form, "field_type", r.fieldType)
+	apiutils.AddOptionalParam(form, "field_data", r.fieldData)
+	apiutils.AddOptionalParam(form, "display_in_profile_summary", r.displayInProfileSummary)
+	apiutils.AddOptionalParam(form, "required", r.required)
+	apiutils.AddOptionalParam(form, "editable_by_user", r.editableByUser)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -654,7 +655,7 @@ func (s *serverAndOrganizationsService) DeactivateCustomEmojiExecute(r Deactivat
 	path := strings.Replace(endpoint, "{emoji_name}", url.PathEscape(r.emojiName), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -722,8 +723,8 @@ func (s *serverAndOrganizationsService) ExportRealmExecute(r ExportRealmRequest)
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "export_type", r.exportType)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "export_type", r.exportType)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -763,7 +764,7 @@ func (s *serverAndOrganizationsService) GetCustomEmojiExecute(r GetCustomEmojiRe
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -806,7 +807,7 @@ func (s *serverAndOrganizationsService) GetCustomProfileFieldsExecute(r GetCusto
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -855,7 +856,7 @@ func (s *serverAndOrganizationsService) GetLinkifiersExecute(r GetLinkifiersRequ
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -904,7 +905,7 @@ func (s *serverAndOrganizationsService) GetPresenceExecute(r GetPresenceRequest)
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -949,7 +950,7 @@ func (s *serverAndOrganizationsService) GetRealmExportConsentsExecute(r GetRealm
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -997,7 +998,7 @@ func (s *serverAndOrganizationsService) GetRealmExportsExecute(r GetRealmExports
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1043,7 +1044,7 @@ func (s *serverAndOrganizationsService) GetServerSettingsExecute(r GetServerSett
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1089,10 +1090,10 @@ func (s *serverAndOrganizationsService) RemoveCodePlaygroundExecute(r RemoveCode
 		endpoint = "/realm/playgrounds/{playground_id}"
 	)
 
-	path := strings.Replace(endpoint, "{playground_id}", IdToString(r.playgroundId), -1)
+	path := strings.Replace(endpoint, "{playground_id}", apiutils.IdToString(r.playgroundId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1137,10 +1138,10 @@ func (s *serverAndOrganizationsService) RemoveLinkifierExecute(r RemoveLinkifier
 		endpoint = "/realm/filters/{filter_id}"
 	)
 
-	path := strings.Replace(endpoint, "{filter_id}", IdToString(r.filterId), -1)
+	path := strings.Replace(endpoint, "{filter_id}", apiutils.IdToString(r.filterId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1200,8 +1201,8 @@ func (s *serverAndOrganizationsService) ReorderCustomProfileFieldsExecute(r Reor
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "order", r.order)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "order", r.order)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1261,8 +1262,8 @@ func (s *serverAndOrganizationsService) ReorderLinkifiersExecute(r ReorderLinkif
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "ordered_linkifier_ids", r.orderedLinkifierIds)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "ordered_linkifier_ids", r.orderedLinkifierIds)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1314,15 +1315,15 @@ func (s *serverAndOrganizationsService) TestWelcomeBotCustomMessageExecute(r Tes
 	if r.welcomeMessageCustomText == nil {
 		return nil, nil, fmt.Errorf("welcomeMessageCustomText is required and must be specified")
 	}
-	if Strlen(*r.welcomeMessageCustomText) > 8000 {
+	if utils.Strlen(*r.welcomeMessageCustomText) > 8000 {
 		return nil, nil, fmt.Errorf("welcomeMessageCustomText must have less than 8000 elements")
 	}
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "welcome_message_custom_text", r.welcomeMessageCustomText)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "welcome_message_custom_text", r.welcomeMessageCustomText)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1389,7 +1390,7 @@ func (s *serverAndOrganizationsService) UpdateLinkifierExecute(r UpdateLinkifier
 		endpoint = "/realm/filters/{filter_id}"
 	)
 
-	path := strings.Replace(endpoint, "{filter_id}", IdToString(r.filterId), -1)
+	path := strings.Replace(endpoint, "{filter_id}", apiutils.IdToString(r.filterId), -1)
 
 	if r.pattern == nil {
 		return nil, nil, fmt.Errorf("pattern is required and must be specified")
@@ -1401,9 +1402,9 @@ func (s *serverAndOrganizationsService) UpdateLinkifierExecute(r UpdateLinkifier
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "pattern", r.pattern)
-	AddParam(form, "url_template", r.urlTemplate)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddParam(form, "pattern", r.pattern)
+	apiutils.AddParam(form, "url_template", r.urlTemplate)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2024,65 +2025,65 @@ func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaultsExecute(r
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "starred_message_counts", r.starredMessageCounts)
-	AddOptionalParam(form, "receives_typing_notifications", r.receivesTypingNotifications)
-	AddOptionalParam(form, "web_suggest_update_timezone", r.webSuggestUpdateTimezone)
-	AddOptionalParam(form, "fluid_layout_width", r.fluidLayoutWidth)
-	AddOptionalParam(form, "high_contrast_mode", r.highContrastMode)
-	AddOptionalParam(form, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy)
-	AddOptionalParam(form, "web_channel_default_view", r.webChannelDefaultView)
-	AddOptionalParam(form, "web_font_size_px", r.webFontSizePx)
-	AddOptionalParam(form, "web_line_height_percent", r.webLineHeightPercent)
-	AddOptionalParam(form, "color_scheme", r.colorScheme)
-	AddOptionalParam(form, "enable_drafts_synchronization", r.enableDraftsSynchronization)
-	AddOptionalParam(form, "translate_emoticons", r.translateEmoticons)
-	AddOptionalParam(form, "display_emoji_reaction_users", r.displayEmojiReactionUsers)
-	AddOptionalParam(form, "web_home_view", r.webHomeView)
-	AddOptionalParam(form, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView)
-	AddOptionalParam(form, "left_side_userlist", r.leftSideUserlist)
-	AddOptionalParam(form, "emojiset", r.emojiset)
-	AddOptionalParam(form, "demote_inactive_streams", r.demoteInactiveChannels)
-	AddOptionalParam(form, "user_list_style", r.userListStyle)
-	AddOptionalParam(form, "web_animate_image_previews", r.webAnimateImagePreviews)
-	AddOptionalParam(form, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy)
-	AddOptionalParam(form, "hide_ai_features", r.hideAiFeatures)
-	AddOptionalParam(form, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders)
-	AddOptionalParam(form, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary)
-	AddOptionalParam(form, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications)
-	AddOptionalParam(form, "enable_stream_email_notifications", r.enableChannelEmailNotifications)
-	AddOptionalParam(form, "enable_stream_push_notifications", r.enableChannelPushNotifications)
-	AddOptionalParam(form, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications)
-	AddOptionalParam(form, "notification_sound", r.notificationSound)
-	AddOptionalParam(form, "enable_desktop_notifications", r.enableDesktopNotifications)
-	AddOptionalParam(form, "enable_sounds", r.enableSounds)
-	AddOptionalParam(form, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications)
-	AddOptionalParam(form, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications)
-	AddOptionalParam(form, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications)
-	AddOptionalParam(form, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications)
-	AddOptionalParam(form, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds)
-	AddOptionalParam(form, "enable_offline_email_notifications", r.enableOfflineEmailNotifications)
-	AddOptionalParam(form, "enable_offline_push_notifications", r.enableOfflinePushNotifications)
-	AddOptionalParam(form, "enable_online_push_notifications", r.enableOnlinePushNotifications)
-	AddOptionalParam(form, "enable_digest_emails", r.enableDigestEmails)
-	AddOptionalParam(form, "message_content_in_email_notifications", r.messageContentInEmailNotifications)
-	AddOptionalParam(form, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications)
-	AddOptionalParam(form, "wildcard_mentions_notify", r.wildcardMentionsNotify)
-	AddOptionalParam(form, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify)
-	AddOptionalParam(form, "desktop_icon_count_display", r.desktopIconCountDisplay)
-	AddOptionalParam(form, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy)
-	AddOptionalParam(form, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy)
-	AddOptionalParam(form, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy)
-	AddOptionalParam(form, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned)
-	AddOptionalParam(form, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy)
-	AddOptionalParam(form, "presence_enabled", r.presenceEnabled)
-	AddOptionalParam(form, "enter_sends", r.enterSends)
-	AddOptionalParam(form, "twenty_four_hour_time", r.twentyFourHourTime)
-	AddOptionalParam(form, "send_private_typing_notifications", r.sendPrivateTypingNotifications)
-	AddOptionalParam(form, "send_stream_typing_notifications", r.sendChannelTypingNotifications)
-	AddOptionalParam(form, "send_read_receipts", r.sendReadReceipts)
-	AddOptionalParam(form, "email_address_visibility", r.emailAddressVisibility)
-	AddOptionalParam(form, "web_navigate_to_sent_message", r.webNavigateToSentMessage)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "starred_message_counts", r.starredMessageCounts)
+	apiutils.AddOptionalParam(form, "receives_typing_notifications", r.receivesTypingNotifications)
+	apiutils.AddOptionalParam(form, "web_suggest_update_timezone", r.webSuggestUpdateTimezone)
+	apiutils.AddOptionalParam(form, "fluid_layout_width", r.fluidLayoutWidth)
+	apiutils.AddOptionalParam(form, "high_contrast_mode", r.highContrastMode)
+	apiutils.AddOptionalParam(form, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy)
+	apiutils.AddOptionalParam(form, "web_channel_default_view", r.webChannelDefaultView)
+	apiutils.AddOptionalParam(form, "web_font_size_px", r.webFontSizePx)
+	apiutils.AddOptionalParam(form, "web_line_height_percent", r.webLineHeightPercent)
+	apiutils.AddOptionalParam(form, "color_scheme", r.colorScheme)
+	apiutils.AddOptionalParam(form, "enable_drafts_synchronization", r.enableDraftsSynchronization)
+	apiutils.AddOptionalParam(form, "translate_emoticons", r.translateEmoticons)
+	apiutils.AddOptionalParam(form, "display_emoji_reaction_users", r.displayEmojiReactionUsers)
+	apiutils.AddOptionalParam(form, "web_home_view", r.webHomeView)
+	apiutils.AddOptionalParam(form, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView)
+	apiutils.AddOptionalParam(form, "left_side_userlist", r.leftSideUserlist)
+	apiutils.AddOptionalParam(form, "emojiset", r.emojiset)
+	apiutils.AddOptionalParam(form, "demote_inactive_streams", r.demoteInactiveChannels)
+	apiutils.AddOptionalParam(form, "user_list_style", r.userListStyle)
+	apiutils.AddOptionalParam(form, "web_animate_image_previews", r.webAnimateImagePreviews)
+	apiutils.AddOptionalParam(form, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy)
+	apiutils.AddOptionalParam(form, "hide_ai_features", r.hideAiFeatures)
+	apiutils.AddOptionalParam(form, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders)
+	apiutils.AddOptionalParam(form, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary)
+	apiutils.AddOptionalParam(form, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications)
+	apiutils.AddOptionalParam(form, "enable_stream_email_notifications", r.enableChannelEmailNotifications)
+	apiutils.AddOptionalParam(form, "enable_stream_push_notifications", r.enableChannelPushNotifications)
+	apiutils.AddOptionalParam(form, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications)
+	apiutils.AddOptionalParam(form, "notification_sound", r.notificationSound)
+	apiutils.AddOptionalParam(form, "enable_desktop_notifications", r.enableDesktopNotifications)
+	apiutils.AddOptionalParam(form, "enable_sounds", r.enableSounds)
+	apiutils.AddOptionalParam(form, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications)
+	apiutils.AddOptionalParam(form, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications)
+	apiutils.AddOptionalParam(form, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications)
+	apiutils.AddOptionalParam(form, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications)
+	apiutils.AddOptionalParam(form, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds)
+	apiutils.AddOptionalParam(form, "enable_offline_email_notifications", r.enableOfflineEmailNotifications)
+	apiutils.AddOptionalParam(form, "enable_offline_push_notifications", r.enableOfflinePushNotifications)
+	apiutils.AddOptionalParam(form, "enable_online_push_notifications", r.enableOnlinePushNotifications)
+	apiutils.AddOptionalParam(form, "enable_digest_emails", r.enableDigestEmails)
+	apiutils.AddOptionalParam(form, "message_content_in_email_notifications", r.messageContentInEmailNotifications)
+	apiutils.AddOptionalParam(form, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications)
+	apiutils.AddOptionalParam(form, "wildcard_mentions_notify", r.wildcardMentionsNotify)
+	apiutils.AddOptionalParam(form, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify)
+	apiutils.AddOptionalParam(form, "desktop_icon_count_display", r.desktopIconCountDisplay)
+	apiutils.AddOptionalParam(form, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy)
+	apiutils.AddOptionalParam(form, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy)
+	apiutils.AddOptionalParam(form, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy)
+	apiutils.AddOptionalParam(form, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned)
+	apiutils.AddOptionalParam(form, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy)
+	apiutils.AddOptionalParam(form, "presence_enabled", r.presenceEnabled)
+	apiutils.AddOptionalParam(form, "enter_sends", r.enterSends)
+	apiutils.AddOptionalParam(form, "twenty_four_hour_time", r.twentyFourHourTime)
+	apiutils.AddOptionalParam(form, "send_private_typing_notifications", r.sendPrivateTypingNotifications)
+	apiutils.AddOptionalParam(form, "send_stream_typing_notifications", r.sendChannelTypingNotifications)
+	apiutils.AddOptionalParam(form, "send_read_receipts", r.sendReadReceipts)
+	apiutils.AddOptionalParam(form, "email_address_visibility", r.emailAddressVisibility)
+	apiutils.AddOptionalParam(form, "web_navigate_to_sent_message", r.webNavigateToSentMessage)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2129,7 +2130,7 @@ func (s *serverAndOrganizationsService) UploadCustomEmojiExecute(r UploadCustomE
 		headers   = make(map[string]string)
 		query     = url.Values{}
 		form      = url.Values{}
-		formFiles []FormFile
+		formFiles []apiutils.FormFile
 		response  = &zulip.Response{}
 		endpoint  = "/realm/emoji/{emoji_name}"
 	)
@@ -2152,9 +2153,9 @@ func (s *serverAndOrganizationsService) UploadCustomEmojiExecute(r UploadCustomE
 		filenameLocalVarFileBytes = fbs
 		filenameLocalVarFileName = filenameLocalVarFile.Name()
 		filenameLocalVarFile.Close()
-		formFiles = append(formFiles, FormFile{FileBytes: filenameLocalVarFileBytes, FileName: filenameLocalVarFileName, FormFileName: filenameLocalVarFormFileName})
+		formFiles = append(formFiles, apiutils.FormFile{FileBytes: filenameLocalVarFileBytes, FileName: filenameLocalVarFileName, FormFileName: filenameLocalVarFormFileName})
 	}
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, formFiles)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, formFiles)
 	if err != nil {
 		return nil, nil, err
 	}

@@ -8,7 +8,8 @@ import (
 	"strings"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+
+	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
@@ -152,9 +153,9 @@ func (s *draftsService) CreateDraftsExecute(r CreateDraftsRequest) (*CreateDraft
 		for i := range *r.drafts {
 			(*r.drafts)[i].Type = (*r.drafts)[i].Type.ToLegacy()
 		}
-		AddParam(form, "drafts", r.drafts)
+		apiutils.AddParam(form, "drafts", r.drafts)
 	}
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -220,9 +221,9 @@ func (s *draftsService) CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "title", r.title)
-	AddParam(form, "content", r.content)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "title", r.title)
+	apiutils.AddParam(form, "content", r.content)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -264,10 +265,10 @@ func (s *draftsService) DeleteDraftExecute(r DeleteDraftRequest) (*zulip.Respons
 		endpoint = "/drafts/{draft_id}"
 	)
 
-	path := strings.Replace(endpoint, "{draft_id}", IdToString(r.draftId), -1)
+	path := strings.Replace(endpoint, "{draft_id}", apiutils.IdToString(r.draftId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -310,10 +311,10 @@ func (s *draftsService) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (
 		endpoint = "/saved_snippets/{saved_snippet_id}"
 	)
 
-	path := strings.Replace(endpoint, "{saved_snippet_id}", IdToString(r.savedSnippetId), -1)
+	path := strings.Replace(endpoint, "{saved_snippet_id}", apiutils.IdToString(r.savedSnippetId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -362,7 +363,7 @@ func (s *draftsService) EditDraftExecute(r EditDraftRequest) (*zulip.Response, *
 		endpoint = "/drafts/{draft_id}"
 	)
 
-	path := strings.Replace(endpoint, "{draft_id}", IdToString(r.draftId), -1)
+	path := strings.Replace(endpoint, "{draft_id}", apiutils.IdToString(r.draftId), -1)
 
 	if r.draft == nil {
 		return nil, nil, fmt.Errorf("draft is required and must be specified")
@@ -372,8 +373,8 @@ func (s *draftsService) EditDraftExecute(r EditDraftRequest) (*zulip.Response, *
 	headers["Accept"] = "application/json"
 
 	r.draft.Type = r.draft.Type.ToLegacy()
-	AddParam(form, "draft", r.draft)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddParam(form, "draft", r.draft)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -432,14 +433,14 @@ func (s *draftsService) EditSavedSnippetExecute(r EditSavedSnippetRequest) (*zul
 		endpoint = "/saved_snippets/{saved_snippet_id}"
 	)
 
-	path := strings.Replace(endpoint, "{saved_snippet_id}", IdToString(r.savedSnippetId), -1)
+	path := strings.Replace(endpoint, "{saved_snippet_id}", apiutils.IdToString(r.savedSnippetId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "title", r.title)
-	AddOptionalParam(form, "content", r.content)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "title", r.title)
+	apiutils.AddOptionalParam(form, "content", r.content)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -479,7 +480,7 @@ func (s *draftsService) GetDraftsExecute(r GetDraftsRequest) (*GetDraftsResponse
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -521,7 +522,7 @@ func (s *draftsService) GetSavedSnippetsExecute(r GetSavedSnippetsRequest) (*Get
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

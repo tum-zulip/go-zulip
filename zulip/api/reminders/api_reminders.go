@@ -8,7 +8,8 @@ import (
 	"time"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+
+	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
@@ -122,10 +123,10 @@ func (s *remindersService) CreateMessageReminderExecute(r CreateMessageReminderR
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "message_id", r.messageId)
-	AddOptionalParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
-	AddOptionalParam(form, "note", r.note)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "message_id", r.messageId)
+	apiutils.AddOptionalParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
+	apiutils.AddOptionalParam(form, "note", r.note)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -170,10 +171,10 @@ func (s *remindersService) DeleteReminderExecute(r DeleteReminderRequest) (*zuli
 		endpoint = "/reminders/{reminder_id}"
 	)
 
-	path := strings.Replace(endpoint, "{reminder_id}", IdToString(r.reminderId), -1)
+	path := strings.Replace(endpoint, "{reminder_id}", apiutils.IdToString(r.reminderId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -221,7 +222,7 @@ func (s *remindersService) GetRemindersExecute(r GetRemindersRequest) (*GetRemin
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

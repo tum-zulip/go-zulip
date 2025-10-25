@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"net/url"
 
-	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
@@ -144,8 +144,8 @@ func (s *authenticationService) DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "username", r.username)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "username", r.username)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -241,9 +241,9 @@ func (s *authenticationService) FetchApiKeyExecute(r FetchApiKeyRequest) (*ApiKe
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "username", r.username)
-	AddParam(form, "password", r.password)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "username", r.username)
+	apiutils.AddParam(form, "password", r.password)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

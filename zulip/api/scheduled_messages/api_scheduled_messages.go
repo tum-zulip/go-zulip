@@ -9,7 +9,8 @@ import (
 	"time"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+
+	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
@@ -197,13 +198,13 @@ func (s *scheduledMessagesService) CreateScheduledMessageExecute(r CreateSchedul
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "type", r.recipientType)
-	AddParam(form, "to", r.to)
-	AddParam(form, "content", r.content)
-	AddOptionalParam(form, "topic", r.topic)
-	AddParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
-	AddOptionalParam(form, "read_by_sender", r.readBySender)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "type", r.recipientType)
+	apiutils.AddParam(form, "to", r.to)
+	apiutils.AddParam(form, "content", r.content)
+	apiutils.AddOptionalParam(form, "topic", r.topic)
+	apiutils.AddParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
+	apiutils.AddOptionalParam(form, "read_by_sender", r.readBySender)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -248,10 +249,10 @@ func (s *scheduledMessagesService) DeleteScheduledMessageExecute(r DeleteSchedul
 		endpoint = "/scheduled_messages/{scheduled_message_id}"
 	)
 
-	path := strings.Replace(endpoint, "{scheduled_message_id}", IdToString(r.scheduledMessageId), -1)
+	path := strings.Replace(endpoint, "{scheduled_message_id}", apiutils.IdToString(r.scheduledMessageId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -299,7 +300,7 @@ func (s *scheduledMessagesService) GetScheduledMessagesExecute(r GetScheduledMes
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -393,19 +394,19 @@ func (s *scheduledMessagesService) UpdateScheduledMessageExecute(r UpdateSchedul
 		endpoint = "/scheduled_messages/{scheduled_message_id}"
 	)
 
-	path := strings.Replace(endpoint, "{scheduled_message_id}", IdToString(r.scheduledMessageId), -1)
+	path := strings.Replace(endpoint, "{scheduled_message_id}", apiutils.IdToString(r.scheduledMessageId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "type", r.recipientType)
-	if err := AddOptionalJSONParam(form, "to", r.to); err != nil {
+	apiutils.AddOptionalParam(form, "type", r.recipientType)
+	if err := apiutils.AddOptionalJSONParam(form, "to", r.to); err != nil {
 		return nil, nil, err
 	}
-	AddOptionalParam(form, "content", r.content)
-	AddOptionalParam(form, "topic", r.topic)
-	AddOptionalParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "content", r.content)
+	apiutils.AddOptionalParam(form, "topic", r.topic)
+	apiutils.AddOptionalParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

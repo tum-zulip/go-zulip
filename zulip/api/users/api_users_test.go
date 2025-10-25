@@ -340,7 +340,6 @@ func Test_GetUsers(t *testing.T) {
 }
 
 func Test_MuteUser(t *testing.T) {
-	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 	otherUserId := GetUserId(t, otherClient)
@@ -420,7 +419,6 @@ func Test_SetTypingStatusForMessageEdit(t *testing.T) {
 }
 
 func Test_UnmuteUser(t *testing.T) {
-	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 	otherUserId := GetUserId(t, otherClient)

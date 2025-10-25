@@ -8,7 +8,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
 	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/api/drafts"
 	"github.com/tum-zulip/go-zulip/zulip/client"
@@ -229,7 +228,7 @@ func createDraft(t *testing.T, ctx context.Context, apiClient client.Client) *z.
 	return draft
 }
 
-func deleteDraft(t *testing.T, ctx context.Context, apiClient client.Client, draftId int64) *zulip.Response {
+func deleteDraft(t *testing.T, ctx context.Context, apiClient client.Client, draftId int64) *z.Response {
 	t.Helper()
 
 	resp, httpResp, err := apiClient.DeleteDraft(ctx, draftId).Execute()
@@ -259,7 +258,7 @@ func createSavedSnippet(t *testing.T, ctx context.Context, apiClient client.Clie
 	return resp
 }
 
-func deleteSavedSnippet(t *testing.T, ctx context.Context, apiClient client.Client, savedSnippetId int64) *zulip.Response {
+func deleteSavedSnippet(t *testing.T, ctx context.Context, apiClient client.Client, savedSnippetId int64) *z.Response {
 	t.Helper()
 
 	resp, httpResp, err := apiClient.DeleteSavedSnippet(ctx, savedSnippetId).Execute()

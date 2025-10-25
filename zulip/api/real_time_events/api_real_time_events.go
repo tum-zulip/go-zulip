@@ -7,7 +7,8 @@ import (
 	"net/url"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+
+	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
@@ -168,8 +169,8 @@ func (s *realTimeEventsService) DeleteQueueExecute(r DeleteQueueRequest) (*zulip
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "queue_id", r.queueId)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "queue_id", r.queueId)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -247,12 +248,12 @@ func (s *realTimeEventsService) GetEventsExecute(r GetEventsRequest) (*GetEvents
 		return nil, nil, fmt.Errorf("queueId is required and must be specified")
 	}
 
-	AddParam(query, "queue_id", r.queueId)
-	AddOptionalParam(query, "last_event_id", r.lastEventId)
-	AddOptionalParam(query, "dont_block", r.dontBlock)
+	apiutils.AddParam(query, "queue_id", r.queueId)
+	apiutils.AddOptionalParam(query, "last_event_id", r.lastEventId)
+	apiutils.AddOptionalParam(query, "dont_block", r.dontBlock)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -465,21 +466,21 @@ func (s *realTimeEventsService) RegisterQueueExecute(r RegisterQueueRequest) (*R
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "apply_markdown", r.applyMarkdown)
-	AddOptionalParam(form, "client_gravatar", r.clientGravatar)
-	AddOptionalParam(form, "include_subscribers", r.includeSubscribers)
-	AddOptionalParam(form, "slim_presence", r.slimPresence)
-	AddOptionalParam(form, "presence_history_limit_days", r.presenceHistoryLimitDays)
-	AddOptionalParam(form, "event_types", r.eventTypes)
-	AddOptionalParam(form, "all_public_streams", r.allPublicChannels)
-	AddOptionalParam(form, "client_capabilities", r.clientCapabilities)
-	AddOptionalParam(form, "fetch_event_types", r.fetchEventTypes)
+	apiutils.AddOptionalParam(form, "apply_markdown", r.applyMarkdown)
+	apiutils.AddOptionalParam(form, "client_gravatar", r.clientGravatar)
+	apiutils.AddOptionalParam(form, "include_subscribers", r.includeSubscribers)
+	apiutils.AddOptionalParam(form, "slim_presence", r.slimPresence)
+	apiutils.AddOptionalParam(form, "presence_history_limit_days", r.presenceHistoryLimitDays)
+	apiutils.AddOptionalParam(form, "event_types", r.eventTypes)
+	apiutils.AddOptionalParam(form, "all_public_streams", r.allPublicChannels)
+	apiutils.AddOptionalParam(form, "client_capabilities", r.clientCapabilities)
+	apiutils.AddOptionalParam(form, "fetch_event_types", r.fetchEventTypes)
 	simpleNarrow, err := r.narrow.ToArray()
 	if err != nil {
 		return nil, nil, err
 	}
-	AddOptionalParam(form, "narrow", simpleNarrow)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "narrow", simpleNarrow)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}

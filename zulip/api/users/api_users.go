@@ -8,7 +8,8 @@ import (
 	"strings"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+
+	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
@@ -773,10 +774,10 @@ func (s *usersService) AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWords
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	if err := AddOptionalJSONParam(form, "alert_words", r.alertWords); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "alert_words", r.alertWords); err != nil {
 		return nil, nil, err
 	}
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -840,9 +841,9 @@ func (s *usersService) AddApnsTokenExecute(r AddApnsTokenRequest) (*zulip.Respon
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "token", r.token)
-	AddParam(form, "appid", r.appid)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "token", r.token)
+	apiutils.AddParam(form, "appid", r.appid)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -894,8 +895,8 @@ func (s *usersService) AddFcmTokenExecute(r AddFcmTokenRequest) (*zulip.Response
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "token", r.token)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "token", r.token)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -985,10 +986,10 @@ func (s *usersService) CreateUserExecute(r CreateUserRequest) (*CreateUserRespon
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "email", r.email)
-	AddParam(form, "password", r.password)
-	AddParam(form, "full_name", r.fullName)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "email", r.email)
+	apiutils.AddParam(form, "password", r.password)
+	apiutils.AddParam(form, "full_name", r.fullName)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1147,29 +1148,29 @@ func (s *usersService) CreateUserGroupExecute(r CreateUserGroupRequest) (*Create
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "name", r.name)
-	AddParam(form, "description", r.description)
-	AddParam(form, "members", r.members)
-	AddOptionalParam(form, "subgroups", r.subgroups)
-	if err := AddOptionalJSONParam(form, "can_add_members_group", r.canAddMembersGroup); err != nil {
+	apiutils.AddParam(form, "name", r.name)
+	apiutils.AddParam(form, "description", r.description)
+	apiutils.AddParam(form, "members", r.members)
+	apiutils.AddOptionalParam(form, "subgroups", r.subgroups)
+	if err := apiutils.AddOptionalJSONParam(form, "can_add_members_group", r.canAddMembersGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_join_group", r.canJoinGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_join_group", r.canJoinGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_leave_group", r.canLeaveGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_leave_group", r.canLeaveGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_manage_group", r.canManageGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_manage_group", r.canManageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_mention_group", r.canMentionGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_mention_group", r.canMentionGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_remove_members_group", r.canRemoveMembersGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_remove_members_group", r.canRemoveMembersGroup); err != nil {
 		return nil, nil, err
 	}
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1214,7 +1215,7 @@ func (s *usersService) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*zu
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1267,13 +1268,13 @@ func (s *usersService) DeactivateUserExecute(r DeactivateUserRequest) (*zulip.Re
 		endpoint = "/users/{user_id}"
 	)
 
-	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_id}", apiutils.IdToString(r.userId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "deactivation_notification_comment", r.deactivationNotificationComment)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "deactivation_notification_comment", r.deactivationNotificationComment)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1323,10 +1324,10 @@ func (s *usersService) DeactivateUserGroupExecute(r DeactivateUserGroupRequest) 
 		endpoint = "/user_groups/{user_group_id}/deactivate"
 	)
 
-	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1368,7 +1369,7 @@ func (s *usersService) GetAlertWordsExecute(r GetAlertWordsRequest) (*AlertWords
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1408,7 +1409,7 @@ func (s *usersService) GetAttachmentsExecute(r GetAttachmentsRequest) (*GetAttac
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1464,13 +1465,13 @@ func (s *usersService) GetIsUserGroupMemberExecute(r GetIsUserGroupMemberRequest
 		endpoint = "/user_groups/{user_group_id}/members/{user_id}"
 	)
 
-	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
-	path = strings.Replace(path, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupId), -1)
+	path = strings.Replace(path, "{user_id}", apiutils.IdToString(r.userId), -1)
 
-	AddOptionalParam(query, "direct_member_only", r.directMemberOnly)
+	apiutils.AddOptionalParam(query, "direct_member_only", r.directMemberOnly)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1513,7 +1514,7 @@ func (s *usersService) GetOwnUserExecute(r GetOwnUserRequest) (*GetOwnUserRespon
 	)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1582,13 +1583,13 @@ func (s *usersService) GetUserExecute(r GetUserRequest) (*GetUserResponse, *http
 		endpoint = "/users/{user_id}"
 	)
 
-	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_id}", apiutils.IdToString(r.userId), -1)
 
-	AddOptionalParam(query, "client_gravatar", r.clientGravatar)
-	AddOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
+	apiutils.AddOptionalParam(query, "client_gravatar", r.clientGravatar)
+	apiutils.AddOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1675,11 +1676,11 @@ func (s *usersService) GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserR
 
 	path := strings.Replace(endpoint, "{email}", url.PathEscape(r.email), -1)
 
-	AddOptionalParam(query, "client_gravatar", r.clientGravatar)
-	AddOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
+	apiutils.AddOptionalParam(query, "client_gravatar", r.clientGravatar)
+	apiutils.AddOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1730,12 +1731,12 @@ func (s *usersService) GetUserGroupMembersExecute(r GetUserGroupMembersRequest) 
 		response = &GetUserGroupMembersResponse{}
 		endpoint = "/user_groups/{user_group_id}/members"
 	)
-	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupId), -1)
 
-	AddOptionalParam(query, "direct_member_only", r.directMemberOnly)
+	apiutils.AddOptionalParam(query, "direct_member_only", r.directMemberOnly)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1787,12 +1788,12 @@ func (s *usersService) GetUserGroupSubgroupsExecute(r GetUserGroupSubgroupsReque
 		endpoint = "/user_groups/{user_group_id}/subgroups"
 	)
 
-	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupId), -1)
 
-	AddOptionalParam(query, "direct_subgroup_only", r.directSubgroupOnly)
+	apiutils.AddOptionalParam(query, "direct_subgroup_only", r.directSubgroupOnly)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1849,8 +1850,8 @@ func (s *usersService) GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGro
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "include_deactivated_groups", r.includeDeactivatedGroups)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "include_deactivated_groups", r.includeDeactivatedGroups)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1901,7 +1902,7 @@ func (s *usersService) GetUserPresenceExecute(r GetUserPresenceRequest) (*GetUse
 	path := strings.Replace(endpoint, "{user_id_or_email}", url.PathEscape(r.userIdOrEmail), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1948,10 +1949,10 @@ func (s *usersService) GetUserStatusExecute(r GetUserStatusRequest) (*GetUserSta
 		endpoint = "/users/{user_id}/status"
 	)
 
-	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_id}", apiutils.IdToString(r.userId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2034,12 +2035,12 @@ func (s *usersService) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *h
 		response = &GetUsersResponse{}
 		endpoint = "/users"
 	)
-	AddOptionalParam(query, "client_gravatar", r.clientGravatar)
-	AddOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
-	AddOptionalCSVParam(query, "user_ids", r.userIds)
+	apiutils.AddOptionalParam(query, "client_gravatar", r.clientGravatar)
+	apiutils.AddOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
+	apiutils.AddOptionalCSVParam(query, "user_ids", r.userIds)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2095,10 +2096,10 @@ func (s *usersService) MuteUserExecute(r MuteUserRequest) (*zulip.Response, *htt
 		endpoint = "/users/me/muted_users/{muted_user_id}"
 	)
 
-	path := strings.Replace(endpoint, "{muted_user_id}", IdToString(r.mutedUserId), -1)
+	path := strings.Replace(endpoint, "{muted_user_id}", apiutils.IdToString(r.mutedUserId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2142,10 +2143,10 @@ func (s *usersService) ReactivateUserExecute(r ReactivateUserRequest) (*zulip.Re
 		endpoint = "/users/{user_id}/reactivate"
 	)
 
-	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_id}", apiutils.IdToString(r.userId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2201,8 +2202,8 @@ func (s *usersService) RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*Aler
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "alert_words", r.alertWords)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "alert_words", r.alertWords)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2254,8 +2255,8 @@ func (s *usersService) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*zulip.
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "token", r.token)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "token", r.token)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2309,10 +2310,10 @@ func (s *usersService) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*zuli
 		endpoint = "/attachments/{attachment_id}"
 	)
 
-	path := strings.Replace(endpoint, "{attachment_id}", IdToString(r.attachmentId), -1)
+	path := strings.Replace(endpoint, "{attachment_id}", apiutils.IdToString(r.attachmentId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2364,8 +2365,8 @@ func (s *usersService) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*zulip.Re
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "token", r.token)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddParam(form, "token", r.token)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2493,14 +2494,14 @@ func (s *usersService) SetTypingStatusExecute(r SetTypingStatusRequest) (*zulip.
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "type", r.recipientType)
-	AddParam(form, "op", r.op)
-	if err := AddOptionalJSONParam(form, "to", r.to); err != nil {
+	apiutils.AddOptionalParam(form, "type", r.recipientType)
+	apiutils.AddParam(form, "op", r.op)
+	if err := apiutils.AddOptionalJSONParam(form, "to", r.to); err != nil {
 		return nil, nil, err
 	}
-	AddOptionalParam(form, "stream_id", r.channelId)
-	AddOptionalParam(form, "topic", r.topic)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "stream_id", r.channelId)
+	apiutils.AddOptionalParam(form, "topic", r.topic)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2562,7 +2563,7 @@ func (s *usersService) SetTypingStatusForMessageEditExecute(r SetTypingStatusFor
 		endpoint = "/messages/{message_id}/typing"
 	)
 
-	path := strings.Replace(endpoint, "{message_id}", IdToString(r.messageId), -1)
+	path := strings.Replace(endpoint, "{message_id}", apiutils.IdToString(r.messageId), -1)
 
 	if r.op == nil {
 		return nil, nil, fmt.Errorf("op is required and must be specified")
@@ -2571,8 +2572,8 @@ func (s *usersService) SetTypingStatusForMessageEditExecute(r SetTypingStatusFor
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddParam(form, "op", r.op)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddParam(form, "op", r.op)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2618,10 +2619,10 @@ func (s *usersService) UnmuteUserExecute(r UnmuteUserRequest) (*zulip.Response, 
 		endpoint = "/users/me/muted_users/{muted_user_id}"
 	)
 
-	path := strings.Replace(endpoint, "{muted_user_id}", IdToString(r.mutedUserId), -1)
+	path := strings.Replace(endpoint, "{muted_user_id}", apiutils.IdToString(r.mutedUserId), -1)
 
 	headers["Accept"] = "application/json"
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2755,13 +2756,13 @@ func (s *usersService) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePr
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "last_update_id", r.lastUpdateId)
-	AddOptionalParam(form, "history_limit_days", r.historyLimitDays)
-	AddOptionalParam(form, "new_user_input", r.newUserInput)
-	AddOptionalParam(form, "ping_only", r.pingOnly)
-	AddOptionalParam(form, "slim_presence", r.slimPresence)
-	AddParam(form, "status", r.status)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "last_update_id", r.lastUpdateId)
+	apiutils.AddOptionalParam(form, "history_limit_days", r.historyLimitDays)
+	apiutils.AddOptionalParam(form, "new_user_input", r.newUserInput)
+	apiutils.AddOptionalParam(form, "ping_only", r.pingOnly)
+	apiutils.AddOptionalParam(form, "slim_presence", r.slimPresence)
+	apiutils.AddParam(form, "status", r.status)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -3525,74 +3526,74 @@ func (s *usersService) UpdateSettingsExecute(r UpdateSettingsRequest) (*zulip.Re
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "full_name", r.fullName)
-	AddOptionalParam(form, "email", r.email)
-	AddOptionalParam(form, "old_password", r.oldPassword)
-	AddOptionalParam(form, "new_password", r.newPassword)
-	AddOptionalParam(form, "twenty_four_hour_time", r.twentyFourHourTime)
-	AddOptionalParam(form, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy)
-	AddOptionalParam(form, "web_channel_default_view", r.webChannelDefaultView)
-	AddOptionalParam(form, "starred_message_counts", r.starredMessageCounts)
-	AddOptionalParam(form, "receives_typing_notifications", r.receivesTypingNotifications)
-	AddOptionalParam(form, "web_suggest_update_timezone", r.webSuggestUpdateTimezone)
-	AddOptionalParam(form, "fluid_layout_width", r.fluidLayoutWidth)
-	AddOptionalParam(form, "high_contrast_mode", r.highContrastMode)
-	AddOptionalParam(form, "web_font_size_px", r.webFontSizePx)
-	AddOptionalParam(form, "web_line_height_percent", r.webLineHeightPercent)
-	AddOptionalParam(form, "color_scheme", r.colorScheme)
-	AddOptionalParam(form, "enable_drafts_synchronization", r.enableDraftsSynchronization)
-	AddOptionalParam(form, "translate_emoticons", r.translateEmoticons)
-	AddOptionalParam(form, "display_emoji_reaction_users", r.displayEmojiReactionUsers)
-	AddOptionalParam(form, "default_language", r.defaultLanguage)
-	AddOptionalParam(form, "web_home_view", r.webHomeView)
-	AddOptionalParam(form, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView)
-	AddOptionalParam(form, "left_side_userlist", r.leftSideUserlist)
-	AddOptionalParam(form, "emojiset", r.emojiset)
-	AddOptionalParam(form, "demote_inactive_streams", r.demoteInactiveChannels)
-	AddOptionalParam(form, "user_list_style", r.userListStyle)
-	AddOptionalParam(form, "web_animate_image_previews", r.webAnimateImagePreviews)
-	AddOptionalParam(form, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy)
-	AddOptionalParam(form, "hide_ai_features", r.hideAiFeatures)
-	AddOptionalParam(form, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders)
-	AddOptionalParam(form, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary)
-	AddOptionalParam(form, "timezone", r.timezone)
-	AddOptionalParam(form, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications)
-	AddOptionalParam(form, "enable_stream_email_notifications", r.enableChannelEmailNotifications)
-	AddOptionalParam(form, "enable_stream_push_notifications", r.enableChannelPushNotifications)
-	AddOptionalParam(form, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications)
-	AddOptionalParam(form, "notification_sound", r.notificationSound)
-	AddOptionalParam(form, "enable_desktop_notifications", r.enableDesktopNotifications)
-	AddOptionalParam(form, "enable_sounds", r.enableSounds)
-	AddOptionalParam(form, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds)
-	AddOptionalParam(form, "enable_offline_email_notifications", r.enableOfflineEmailNotifications)
-	AddOptionalParam(form, "enable_offline_push_notifications", r.enableOfflinePushNotifications)
-	AddOptionalParam(form, "enable_online_push_notifications", r.enableOnlinePushNotifications)
-	AddOptionalParam(form, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications)
-	AddOptionalParam(form, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications)
-	AddOptionalParam(form, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications)
-	AddOptionalParam(form, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications)
-	AddOptionalParam(form, "enable_digest_emails", r.enableDigestEmails)
-	AddOptionalParam(form, "enable_marketing_emails", r.enableMarketingEmails)
-	AddOptionalParam(form, "enable_login_emails", r.enableLoginEmails)
-	AddOptionalParam(form, "message_content_in_email_notifications", r.messageContentInEmailNotifications)
-	AddOptionalParam(form, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications)
-	AddOptionalParam(form, "wildcard_mentions_notify", r.wildcardMentionsNotify)
-	AddOptionalParam(form, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify)
-	AddOptionalParam(form, "desktop_icon_count_display", r.desktopIconCountDisplay)
-	AddOptionalParam(form, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy)
-	AddOptionalParam(form, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy)
-	AddOptionalParam(form, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy)
-	AddOptionalParam(form, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned)
-	AddOptionalParam(form, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy)
-	AddOptionalParam(form, "presence_enabled", r.presenceEnabled)
-	AddOptionalParam(form, "enter_sends", r.enterSends)
-	AddOptionalParam(form, "send_private_typing_notifications", r.sendPrivateTypingNotifications)
-	AddOptionalParam(form, "send_stream_typing_notifications", r.sendChannelTypingNotifications)
-	AddOptionalParam(form, "send_read_receipts", r.sendReadReceipts)
-	AddOptionalParam(form, "allow_private_data_export", r.allowPrivateDataExport)
-	AddOptionalParam(form, "email_address_visibility", r.emailAddressVisibility)
-	AddOptionalParam(form, "web_navigate_to_sent_message", r.webNavigateToSentMessage)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "full_name", r.fullName)
+	apiutils.AddOptionalParam(form, "email", r.email)
+	apiutils.AddOptionalParam(form, "old_password", r.oldPassword)
+	apiutils.AddOptionalParam(form, "new_password", r.newPassword)
+	apiutils.AddOptionalParam(form, "twenty_four_hour_time", r.twentyFourHourTime)
+	apiutils.AddOptionalParam(form, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy)
+	apiutils.AddOptionalParam(form, "web_channel_default_view", r.webChannelDefaultView)
+	apiutils.AddOptionalParam(form, "starred_message_counts", r.starredMessageCounts)
+	apiutils.AddOptionalParam(form, "receives_typing_notifications", r.receivesTypingNotifications)
+	apiutils.AddOptionalParam(form, "web_suggest_update_timezone", r.webSuggestUpdateTimezone)
+	apiutils.AddOptionalParam(form, "fluid_layout_width", r.fluidLayoutWidth)
+	apiutils.AddOptionalParam(form, "high_contrast_mode", r.highContrastMode)
+	apiutils.AddOptionalParam(form, "web_font_size_px", r.webFontSizePx)
+	apiutils.AddOptionalParam(form, "web_line_height_percent", r.webLineHeightPercent)
+	apiutils.AddOptionalParam(form, "color_scheme", r.colorScheme)
+	apiutils.AddOptionalParam(form, "enable_drafts_synchronization", r.enableDraftsSynchronization)
+	apiutils.AddOptionalParam(form, "translate_emoticons", r.translateEmoticons)
+	apiutils.AddOptionalParam(form, "display_emoji_reaction_users", r.displayEmojiReactionUsers)
+	apiutils.AddOptionalParam(form, "default_language", r.defaultLanguage)
+	apiutils.AddOptionalParam(form, "web_home_view", r.webHomeView)
+	apiutils.AddOptionalParam(form, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView)
+	apiutils.AddOptionalParam(form, "left_side_userlist", r.leftSideUserlist)
+	apiutils.AddOptionalParam(form, "emojiset", r.emojiset)
+	apiutils.AddOptionalParam(form, "demote_inactive_streams", r.demoteInactiveChannels)
+	apiutils.AddOptionalParam(form, "user_list_style", r.userListStyle)
+	apiutils.AddOptionalParam(form, "web_animate_image_previews", r.webAnimateImagePreviews)
+	apiutils.AddOptionalParam(form, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy)
+	apiutils.AddOptionalParam(form, "hide_ai_features", r.hideAiFeatures)
+	apiutils.AddOptionalParam(form, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders)
+	apiutils.AddOptionalParam(form, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary)
+	apiutils.AddOptionalParam(form, "timezone", r.timezone)
+	apiutils.AddOptionalParam(form, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications)
+	apiutils.AddOptionalParam(form, "enable_stream_email_notifications", r.enableChannelEmailNotifications)
+	apiutils.AddOptionalParam(form, "enable_stream_push_notifications", r.enableChannelPushNotifications)
+	apiutils.AddOptionalParam(form, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications)
+	apiutils.AddOptionalParam(form, "notification_sound", r.notificationSound)
+	apiutils.AddOptionalParam(form, "enable_desktop_notifications", r.enableDesktopNotifications)
+	apiutils.AddOptionalParam(form, "enable_sounds", r.enableSounds)
+	apiutils.AddOptionalParam(form, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds)
+	apiutils.AddOptionalParam(form, "enable_offline_email_notifications", r.enableOfflineEmailNotifications)
+	apiutils.AddOptionalParam(form, "enable_offline_push_notifications", r.enableOfflinePushNotifications)
+	apiutils.AddOptionalParam(form, "enable_online_push_notifications", r.enableOnlinePushNotifications)
+	apiutils.AddOptionalParam(form, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications)
+	apiutils.AddOptionalParam(form, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications)
+	apiutils.AddOptionalParam(form, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications)
+	apiutils.AddOptionalParam(form, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications)
+	apiutils.AddOptionalParam(form, "enable_digest_emails", r.enableDigestEmails)
+	apiutils.AddOptionalParam(form, "enable_marketing_emails", r.enableMarketingEmails)
+	apiutils.AddOptionalParam(form, "enable_login_emails", r.enableLoginEmails)
+	apiutils.AddOptionalParam(form, "message_content_in_email_notifications", r.messageContentInEmailNotifications)
+	apiutils.AddOptionalParam(form, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications)
+	apiutils.AddOptionalParam(form, "wildcard_mentions_notify", r.wildcardMentionsNotify)
+	apiutils.AddOptionalParam(form, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify)
+	apiutils.AddOptionalParam(form, "desktop_icon_count_display", r.desktopIconCountDisplay)
+	apiutils.AddOptionalParam(form, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy)
+	apiutils.AddOptionalParam(form, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy)
+	apiutils.AddOptionalParam(form, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy)
+	apiutils.AddOptionalParam(form, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned)
+	apiutils.AddOptionalParam(form, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy)
+	apiutils.AddOptionalParam(form, "presence_enabled", r.presenceEnabled)
+	apiutils.AddOptionalParam(form, "enter_sends", r.enterSends)
+	apiutils.AddOptionalParam(form, "send_private_typing_notifications", r.sendPrivateTypingNotifications)
+	apiutils.AddOptionalParam(form, "send_stream_typing_notifications", r.sendChannelTypingNotifications)
+	apiutils.AddOptionalParam(form, "send_read_receipts", r.sendReadReceipts)
+	apiutils.AddOptionalParam(form, "allow_private_data_export", r.allowPrivateDataExport)
+	apiutils.AddOptionalParam(form, "email_address_visibility", r.emailAddressVisibility)
+	apiutils.AddOptionalParam(form, "web_navigate_to_sent_message", r.webNavigateToSentMessage)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -3694,12 +3695,12 @@ func (s *usersService) UpdateStatusExecute(r UpdateStatusRequest) (*zulip.Respon
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "status_text", r.statusText)
-	AddOptionalParam(form, "away", r.away)
-	AddOptionalParam(form, "emoji_name", r.emojiName)
-	AddOptionalParam(form, "emoji_code", r.emojiCode)
-	AddOptionalParam(form, "reaction_type", r.reactionType)
-	req, err := PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "status_text", r.statusText)
+	apiutils.AddOptionalParam(form, "away", r.away)
+	apiutils.AddOptionalParam(form, "emoji_name", r.emojiName)
+	apiutils.AddOptionalParam(form, "emoji_code", r.emojiCode)
+	apiutils.AddOptionalParam(form, "reaction_type", r.reactionType)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -3783,16 +3784,16 @@ func (s *usersService) UpdateStatusForUserExecute(r UpdateStatusForUserRequest) 
 		endpoint = "/users/{user_id}/status"
 	)
 
-	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_id}", apiutils.IdToString(r.userId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "status_text", r.statusText)
-	AddOptionalParam(form, "emoji_name", r.emojiName)
-	AddOptionalParam(form, "emoji_code", r.emojiCode)
-	AddOptionalParam(form, "reaction_type", r.reactionType)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "status_text", r.statusText)
+	apiutils.AddOptionalParam(form, "emoji_name", r.emojiName)
+	apiutils.AddOptionalParam(form, "emoji_code", r.emojiCode)
+	apiutils.AddOptionalParam(form, "reaction_type", r.reactionType)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -3876,16 +3877,16 @@ func (s *usersService) UpdateUserExecute(r UpdateUserRequest) (*zulip.Response, 
 		endpoint = "/users/{user_id}"
 	)
 
-	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path := strings.Replace(endpoint, "{user_id}", apiutils.IdToString(r.userId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "full_name", r.fullName)
-	AddOptionalParam(form, "role", r.role)
-	AddOptionalParam(form, "profile_data", r.profileData)
-	AddOptionalParam(form, "new_email", r.newEmail)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "full_name", r.fullName)
+	apiutils.AddOptionalParam(form, "role", r.role)
+	apiutils.AddOptionalParam(form, "profile_data", r.profileData)
+	apiutils.AddOptionalParam(form, "new_email", r.newEmail)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -3977,11 +3978,11 @@ func (s *usersService) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*zu
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "full_name", r.fullName)
-	AddOptionalParam(form, "role", r.role)
-	AddOptionalParam(form, "profile_data", r.profileData)
-	AddOptionalParam(form, "new_email", r.newEmail)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "full_name", r.fullName)
+	apiutils.AddOptionalParam(form, "role", r.role)
+	apiutils.AddOptionalParam(form, "profile_data", r.profileData)
+	apiutils.AddOptionalParam(form, "new_email", r.newEmail)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -4147,33 +4148,33 @@ func (s *usersService) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*zulip.
 		endpoint = "/user_groups/{user_group_id}"
 	)
 
-	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "name", r.name)
-	AddOptionalParam(form, "description", r.description)
-	if err := AddOptionalJSONParam(form, "can_add_members_group", r.canAddMembersGroup); err != nil {
+	apiutils.AddOptionalParam(form, "name", r.name)
+	apiutils.AddOptionalParam(form, "description", r.description)
+	if err := apiutils.AddOptionalJSONParam(form, "can_add_members_group", r.canAddMembersGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_join_group", r.canJoinGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_join_group", r.canJoinGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_leave_group", r.canLeaveGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_leave_group", r.canLeaveGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_manage_group", r.canManageGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_manage_group", r.canManageGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_mention_group", r.canMentionGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_mention_group", r.canMentionGroup); err != nil {
 		return nil, nil, err
 	}
-	if err := AddOptionalJSONParam(form, "can_remove_members_group", r.canRemoveMembersGroup); err != nil {
+	if err := apiutils.AddOptionalJSONParam(form, "can_remove_members_group", r.canRemoveMembersGroup); err != nil {
 		return nil, nil, err
 	}
-	AddOptionalParam(form, "deactivated", r.deactivated)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "deactivated", r.deactivated)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -4255,16 +4256,16 @@ func (s *usersService) UpdateUserGroupMembersExecute(r UpdateUserGroupMembersReq
 		endpoint = "/user_groups/{user_group_id}/members"
 	)
 
-	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "delete", r.delete)
-	AddOptionalParam(form, "add", r.add)
-	AddOptionalParam(form, "delete_subgroups", r.deleteSubgroups)
-	AddOptionalParam(form, "add_subgroups", r.addSubgroups)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "delete", r.delete)
+	apiutils.AddOptionalParam(form, "add", r.add)
+	apiutils.AddOptionalParam(form, "delete_subgroups", r.deleteSubgroups)
+	apiutils.AddOptionalParam(form, "add_subgroups", r.addSubgroups)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -4326,14 +4327,14 @@ func (s *usersService) UpdateUserGroupSubgroupsExecute(r UpdateUserGroupSubgroup
 		endpoint = "/user_groups/{user_group_id}/subgroups"
 	)
 
-	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
+	path := strings.Replace(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupId), -1)
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	AddOptionalParam(form, "delete", r.delete)
-	AddOptionalParam(form, "add", r.add)
-	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
+	apiutils.AddOptionalParam(form, "delete", r.delete)
+	apiutils.AddOptionalParam(form, "add", r.add)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
