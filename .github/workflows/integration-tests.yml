@@ -25,7 +25,6 @@ jobs:
       GOFLAGS: "-trimpath"
       ZULIP_TEST_SITE: http://localhost:9991
       ZULIP_DEV_LOG: ${{ github.workspace }}/zulip-dev.log
-      ZULIP_SERVER_PATH: /tmp/zulip-server-${{ github.run_id }}
     steps:
       - name: Checkout go-zulip
         uses: actions/checkout@v4
@@ -98,19 +97,11 @@ jobs:
             exit 1
           fi
 
-      - name: Checkout Zulip server ${{ matrix.zulip-branch }}
-        run: git clone --depth 1 --branch "${{ matrix.zulip-branch }}" https://github.com/zulip/zulip.git "$ZULIP_SERVER_PATH"
-
-      - name: Provision Zulip dev server
-        working-directory: ${{ env.ZULIP_SERVER_PATH }}
+      - name: Start Zulip dev server via script
         run: |
-          ./tools/provision
-
-      - name: Start Zulip dev server
-        working-directory: ${{ env.ZULIP_SERVER_PATH }}
-        run: |
-          source  .venv/bin/activate
-          nohup ./tools/run-dev >"${ZULIP_DEV_LOG}" 2>&1 &
+          # Start the dev server using the helper script and capture logs/PID
+          chmod +x ./scripts/run-dev-zerver.sh
+          nohup bash -lc "./scripts/run-dev-zerver.sh --ref '${{ matrix.zulip-branch }}'" >"${ZULIP_DEV_LOG}" 2>&1 &
           echo $! > /tmp/zulip-dev-${{ github.run_id }}.pid
 
       - name: Wait for Zulip dev server to become ready
@@ -164,7 +155,8 @@ jobs:
           if [ -f /tmp/zulip-dev-${{ github.run_id }}.pid ]; then
             sudo kill "$(cat /tmp/zulip-dev-${{ github.run_id }}.pid)" || true
           fi
-          sudo pkill -f run-dev.sh || true
+          # Fallback in case the PID file isn't sufficient
+          sudo pkill -f "tools/run-dev" || true
 
   godoc:
     name: Generate godoc HTML
