@@ -13,7 +13,6 @@ import (
 )
 
 func Test_AddNavigationView(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		view := createTestNavigationView(t, apiClient, true)
@@ -35,7 +34,6 @@ func Test_AddNavigationView(t *testing.T) {
 }
 
 func Test_EditNavigationView(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -67,7 +65,6 @@ func Test_EditNavigationView(t *testing.T) {
 }
 
 func Test_GetNavigationViews(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -86,7 +83,6 @@ func Test_GetNavigationViews(t *testing.T) {
 }
 
 func Test_RemoveNavigationView(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()

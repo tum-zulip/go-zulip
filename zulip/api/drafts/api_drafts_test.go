@@ -16,7 +16,6 @@ import (
 )
 
 func Test_CreateDrafts(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -26,7 +25,6 @@ func Test_CreateDrafts(t *testing.T) {
 }
 
 func Test_CreateSavedSnippet(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -36,7 +34,6 @@ func Test_CreateSavedSnippet(t *testing.T) {
 }
 
 func Test_DeleteDraft(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -59,7 +56,6 @@ func Test_DeleteDraft(t *testing.T) {
 }
 
 func Test_DeleteSavedSnippet(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -79,7 +75,6 @@ func Test_DeleteSavedSnippet(t *testing.T) {
 }
 
 func Test_EditDraft(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -117,7 +112,6 @@ func Test_EditDraft(t *testing.T) {
 }
 
 func Test_EditSavedSnippet(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -153,7 +147,6 @@ func Test_EditSavedSnippet(t *testing.T) {
 }
 
 func Test_GetDrafts(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -182,7 +175,6 @@ func Test_GetDrafts(t *testing.T) {
 }
 
 func Test_GetSavedSnippets(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()

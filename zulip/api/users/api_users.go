@@ -1465,7 +1465,7 @@ func (s *usersService) GetIsUserGroupMemberExecute(r GetIsUserGroupMemberRequest
 	)
 
 	path := strings.Replace(endpoint, "{user_group_id}", IdToString(r.userGroupId), -1)
-	path = strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
+	path = strings.Replace(path, "{user_id}", IdToString(r.userId), -1)
 
 	AddOptionalParam(query, "direct_member_only", r.directMemberOnly)
 

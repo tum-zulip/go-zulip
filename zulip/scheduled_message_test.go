@@ -11,7 +11,6 @@ import (
 )
 
 func TestScheduledMessageMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	ts := time.Unix(1700000000, 456000000).UTC()
 	topic := "project"
@@ -41,7 +40,6 @@ func TestScheduledMessageMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 }
 
 func TestScheduledMessageUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	raw := []byte(`{"scheduled_message_id":99,"type":"channel","to":[1,2,3],"topic":"project","content":"Reminder","rendered_content":"<p>Reminder</p>","scheduled_delivery_timestamp":1700000000,"failed":false}`)
 

@@ -14,7 +14,6 @@ import (
 )
 
 func Test_CreateScheduledMessage(t *testing.T) {
-	t.Parallel()
 
 	otherUserId := GetUserId(t, GetOtherNormalClient(t))
 
@@ -24,7 +23,6 @@ func Test_CreateScheduledMessage(t *testing.T) {
 }
 
 func Test_DeleteScheduledMessage(t *testing.T) {
-	t.Parallel()
 
 	otherUserId := GetUserId(t, GetOtherNormalClient(t))
 
@@ -43,7 +41,6 @@ func Test_DeleteScheduledMessage(t *testing.T) {
 }
 
 func Test_GetScheduledMessages(t *testing.T) {
-	t.Parallel()
 
 	otherUserId := GetUserId(t, GetOtherNormalClient(t))
 
@@ -71,7 +68,6 @@ func Test_GetScheduledMessages(t *testing.T) {
 }
 
 func Test_UpdateScheduledMessage(t *testing.T) {
-	t.Parallel()
 
 	otherUserId := GetUserId(t, GetOtherNormalClient(t))
 

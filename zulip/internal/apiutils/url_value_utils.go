@@ -20,14 +20,13 @@ import (
 	"time"
 
 	"github.com/tum-zulip/go-zulip/zulip"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
 )
 
 var (
-	JsonCheck    = regexp.MustCompile(`(?i:(?:application|text)/(?:[^;]+\+)?json)`)
-	XmlCheck     = regexp.MustCompile(`(?i:(?:application|text)/(?:[^;]+\+)?xml)`)
-	Queryplit    = regexp.MustCompile(`(^|&)([^&]+)`)
-	QueryDescape = strings.NewReplacer("%5B", "[", "%5D", "]")
+	queryplit    = regexp.MustCompile(`(^|&)([^&]+)`)
+	queryDescape = strings.NewReplacer("%5B", "[", "%5D", "]")
 )
 
 type FormFile struct {
@@ -43,7 +42,7 @@ func IdToString(id int64) string {
 // prepareRequest build the request
 func PrepareRequest(
 	ctx context.Context,
-	c StructuredClient,
+	c clients.Client,
 	endpoint string, method string,
 	headerParams map[string]string,
 	query url.Values,
@@ -127,9 +126,9 @@ func PrepareRequest(
 	}
 
 	// Encode the parameters.
-	url.RawQuery = Queryplit.ReplaceAllStringFunc(q.Encode(), func(s string) string {
+	url.RawQuery = queryplit.ReplaceAllStringFunc(q.Encode(), func(s string) string {
 		pieces := strings.Split(s, "=")
-		pieces[0] = QueryDescape.Replace(pieces[0])
+		pieces[0] = queryDescape.Replace(pieces[0])
 		return strings.Join(pieces, "=")
 	})
 

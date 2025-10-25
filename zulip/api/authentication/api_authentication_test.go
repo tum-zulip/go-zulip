@@ -11,7 +11,6 @@ import (
 )
 
 func Test_DevFetchApiKey(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -26,7 +25,6 @@ func Test_DevFetchApiKey(t *testing.T) {
 }
 
 func Test_FetchApiKey(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		// More complex authentication flow not trivial to test here

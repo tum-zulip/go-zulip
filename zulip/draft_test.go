@@ -11,7 +11,6 @@ import (
 )
 
 func TestDraftMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	ts := time.Unix(1700000000, 123000000).UTC()
 	id := int64(42)
@@ -37,7 +36,6 @@ func TestDraftMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 }
 
 func TestDraftUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	raw := []byte(`{"id":42,"type":"direct","to":[1,2],"topic":"topic","content":"hello","timestamp":1700000000}`)
 

@@ -25,8 +25,8 @@ type APIError struct {
 	model interface{}
 }
 
-func NewAPIError(body []byte, err string, model interface{}) APIError {
-	return APIError{
+func NewAPIError(body []byte, err string, model interface{}) *APIError {
+	return &APIError{
 		body:  body,
 		err:   err,
 		model: model,
@@ -151,16 +151,21 @@ type DeactivateOwnUserError struct {
 }
 
 // Error returns non-empty string if there was an error.
-func (e APIError) Error() string {
-	return fmt.Sprintf("%s: %s (%s)", e.err, e.model, string(e.body))
+func (e *APIError) Error() string {
+	if e.model != nil {
+		if err, ok := e.model.(error); ok {
+			return err.Error()
+		}
+	}
+	return e.err
 }
 
 // Body returns the raw bytes of the response
-func (e APIError) Body() []byte {
+func (e *APIError) Body() []byte {
 	return e.body
 }
 
 // Model returns the unpacked model of the error
-func (e APIError) Model() interface{} {
+func (e *APIError) Model() interface{} {
 	return e.model
 }

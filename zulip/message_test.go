@@ -11,7 +11,6 @@ import (
 )
 
 func TestMessageMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	timestamp := time.Unix(1700000000, 0).UTC()
 	lastEdit := time.Unix(1700000100, 0).UTC()
@@ -51,7 +50,6 @@ func TestMessageMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 }
 
 func TestMessageUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	raw := []byte(`{
         "id": 42,

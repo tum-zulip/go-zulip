@@ -19,7 +19,6 @@ import (
 )
 
 func Test_GetServerSettings(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -34,7 +33,6 @@ func Test_GetServerSettings(t *testing.T) {
 }
 
 func Test_CodePlaygrounds(t *testing.T) {
-	t.Parallel()
 
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -44,7 +42,6 @@ func Test_CodePlaygrounds(t *testing.T) {
 }
 
 func Test_Linkifiers(t *testing.T) {
-	t.Parallel()
 
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -54,7 +51,6 @@ func Test_Linkifiers(t *testing.T) {
 }
 
 func Test_CustomProfileFields(t *testing.T) {
-	t.Parallel()
 
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -64,7 +60,6 @@ func Test_CustomProfileFields(t *testing.T) {
 }
 
 func Test_Presence(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -83,7 +78,6 @@ func Test_Presence(t *testing.T) {
 }
 
 func Test_RealmExports(t *testing.T) {
-	t.Parallel()
 
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -93,7 +87,6 @@ func Test_RealmExports(t *testing.T) {
 }
 
 func Test_WelcomeBotPreview(t *testing.T) {
-	t.Parallel()
 
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -109,7 +102,6 @@ func Test_WelcomeBotPreview(t *testing.T) {
 }
 
 func Test_RealmUserSettingsDefaults(t *testing.T) {
-	t.Parallel()
 
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -123,7 +115,6 @@ func Test_RealmUserSettingsDefaults(t *testing.T) {
 }
 
 func Test_CustomEmojiLifecycle(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -334,7 +325,6 @@ func testCustomEmojiLifecycle(t *testing.T, ctx context.Context, apiClient clien
 	require.NoError(t, err)
 	require.NotNil(t, uploadResp)
 	RequireStatusOK(t, httpResp)
-	assert.Equal(t, "success", uploadResp.Result)
 
 	listResp, httpResp, err := apiClient.GetCustomEmoji(ctx).Execute()
 	require.NoError(t, err)

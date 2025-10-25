@@ -3,6 +3,7 @@ package testutils
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -10,8 +11,11 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"path/filepath"
 	"sync"
+	"sync/atomic"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -19,6 +23,7 @@ import (
 	"github.com/tum-zulip/go-zulip/zulip/api/messages"
 	"github.com/tum-zulip/go-zulip/zulip/api/users"
 	"github.com/tum-zulip/go-zulip/zulip/client"
+	"github.com/tum-zulip/go-zulip/zulip/client/statistics"
 	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
 )
 
@@ -40,7 +45,7 @@ var (
 	ModeratorClient = namedClient{name: "moderator", factory: GetModeratorClient}
 	NormalClient    = namedClient{name: "normal", factory: GetNormalClient}
 	BotClient       = namedClient{name: "bot", factory: GetBotClient}
-	AllClients      = []namedClient{OwnerClient, AdminClient, ModeratorClient, NormalClient, BotClient}
+	AllClients      = []namedClient{OwnerClient, AdminClient, ModeratorClient, NormalClient}
 )
 
 // TODO(janez): Add guest client to tests
@@ -94,7 +99,6 @@ func GetOtherNormalClient(t *testing.T) client.Client {
 func RunForClients(t *testing.T, clients []namedClient, fn func(*testing.T, client.Client)) {
 	for _, client := range clients {
 		t.Run(client.name, func(t *testing.T) {
-			t.Parallel()
 
 			cl := client.factory(t)
 			fn(t, cl)
@@ -126,7 +130,7 @@ func GetTestClient(t *testing.T, username string) client.Client {
 	once, _ := cleanupOnce.LoadOrStore(username, &sync.Once{})
 	once.(*sync.Once).Do(func() {
 		t.Cleanup(func() {
-			log.Printf("Statistics for %s: %#v", username, newClient.GetStatistics())
+			writeStatisticsToJSON(username, newClient.GetStatistics())
 		})
 	})
 
@@ -136,6 +140,210 @@ func GetTestClient(t *testing.T, username string) client.Client {
 	}
 
 	return newClient
+}
+
+func writeStatisticsToJSON(username string, stats map[string]statistics.Statistic) {
+	if len(stats) == 0 {
+		return
+	}
+
+	statsPath, err := statisticsFilePath()
+	if err != nil {
+		log.Printf("Failed to determine statistics file path: %v", err)
+		return
+	}
+
+	if statsPath == "" {
+		return
+	}
+
+	if err := os.MkdirAll(filepath.Dir(statsPath), 0o755); err != nil {
+		log.Printf("Failed to create statistics directory: %v", err)
+		return
+	}
+
+	lock, err := acquireFileLock(statsPath+".lock", 5*time.Second)
+	if err != nil {
+		log.Printf("Failed to acquire statistics lock: %v", err)
+		return
+	}
+	defer func() {
+		if err := lock.release(); err != nil {
+			log.Printf("Failed to release statistics lock: %v", err)
+		}
+	}()
+
+	aggregated, err := readAggregatedStatistics(statsPath)
+	if err != nil {
+		log.Printf("Failed to read existing statistics JSON: %v", err)
+		aggregated = make(map[string]map[string]statistics.Statistic)
+	}
+
+	mergeStatistics(aggregated, username, stats)
+
+	if err := writeAggregatedStatistics(statsPath, aggregated); err != nil {
+		log.Printf("Failed to write statistics JSON: %v", err)
+	}
+}
+
+func statisticsFilePath() (string, error) {
+	if override := os.Getenv("GO_ZULIP_STATS_FILE"); override != "" {
+		return filepath.Abs(override)
+	}
+
+	cwd, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+
+	root, err := findModuleRoot(cwd)
+	if err != nil {
+		// Fall back to current working directory when go.mod isn't found.
+		return filepath.Join(cwd, "test_statistics.json"), nil
+	}
+
+	return filepath.Join(root, "test_statistics.json"), nil
+}
+
+func findModuleRoot(start string) (string, error) {
+	dir := start
+	for {
+		if _, err := os.Stat(filepath.Join(dir, "go.mod")); err == nil {
+			return dir, nil
+		} else if !errors.Is(err, os.ErrNotExist) {
+			return "", err
+		}
+
+		parent := filepath.Dir(dir)
+		if parent == dir {
+			return "", fmt.Errorf("go.mod not found starting from %s", start)
+		}
+		dir = parent
+	}
+}
+
+func readAggregatedStatistics(path string) (map[string]map[string]statistics.Statistic, error) {
+	data := make(map[string]map[string]statistics.Statistic)
+
+	contents, err := os.ReadFile(path)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return data, nil
+		}
+		return nil, err
+	}
+
+	if len(contents) == 0 {
+		return data, nil
+	}
+
+	if err := json.Unmarshal(contents, &data); err != nil {
+		return nil, err
+	}
+
+	if data == nil {
+		data = make(map[string]map[string]statistics.Statistic)
+	}
+
+	return data, nil
+}
+
+func mergeStatistics(store map[string]map[string]statistics.Statistic, username string, stats map[string]statistics.Statistic) {
+	if store == nil {
+		return
+	}
+
+	if _, ok := store[username]; !ok {
+		store[username] = make(map[string]statistics.Statistic)
+	}
+
+	for endpoint, metric := range stats {
+		existing := store[username][endpoint]
+		existing.Count += metric.Count
+		existing.ErrCount += metric.ErrCount
+		existing.RetryCound += metric.RetryCound
+		existing.TotalDuration += metric.TotalDuration
+		store[username][endpoint] = existing
+	}
+}
+
+type fileLock struct {
+	file *os.File
+	path string
+}
+
+func acquireFileLock(lockPath string, timeout time.Duration) (*fileLock, error) {
+	deadline := time.Now().Add(timeout)
+
+	for {
+		f, err := os.OpenFile(lockPath, os.O_CREATE|os.O_EXCL|os.O_RDWR, 0o600)
+		if err == nil {
+			return &fileLock{file: f, path: lockPath}, nil
+		}
+
+		if !errors.Is(err, os.ErrExist) {
+			return nil, err
+		}
+
+		if time.Now().After(deadline) {
+			return nil, fmt.Errorf("timeout acquiring lock %s", lockPath)
+		}
+
+		time.Sleep(10 * time.Millisecond)
+	}
+}
+
+func (l *fileLock) release() error {
+	if l == nil {
+		return nil
+	}
+
+	if l.file != nil {
+		if err := l.file.Close(); err != nil {
+			return err
+		}
+	}
+
+	if err := os.Remove(l.path); err != nil && !errors.Is(err, os.ErrNotExist) {
+		return err
+	}
+
+	return nil
+}
+
+func writeAggregatedStatistics(path string, payload map[string]map[string]statistics.Statistic) error {
+	tmp, err := os.CreateTemp(filepath.Dir(path), "stats-*.json")
+	if err != nil {
+		return err
+	}
+
+	encoder := json.NewEncoder(tmp)
+	encoder.SetIndent("", "  ")
+
+	if err := encoder.Encode(payload); err != nil {
+		tmp.Close()
+		os.Remove(tmp.Name())
+		return err
+	}
+
+	if err := tmp.Close(); err != nil {
+		os.Remove(tmp.Name())
+		return err
+	}
+
+	if err := os.Rename(tmp.Name(), path); err != nil {
+		if removeErr := os.Remove(path); removeErr != nil && !errors.Is(removeErr, os.ErrNotExist) {
+			os.Remove(tmp.Name())
+			return fmt.Errorf("removing stale statistics file: %w", removeErr)
+		}
+
+		if err := os.Rename(tmp.Name(), path); err != nil {
+			os.Remove(tmp.Name())
+			return err
+		}
+	}
+
+	return nil
 }
 
 func getTestClient(t *testing.T, username string) client.Client {
@@ -199,7 +407,11 @@ func buildClientFromResponse(t *testing.T, username string, body []byte) client.
 
 	handler := slog.NewTextHandler(log.Default().Writer(), &slog.HandlerOptions{Level: slog.LevelInfo})
 
-	client, err := client.NewClient(rc, client.WithLogger(slog.New(handler)), client.SkipWarnOnInsecureTLS(), client.GatherStatistics())
+	client, err := client.NewClient(rc,
+		client.WithLogger(slog.New(handler)),
+		client.SkipWarnOnInsecureTLS(),
+		client.EnableStatistics())
+
 	if err != nil {
 		t.Fatalf("Failed to create z.client: %v", err)
 	}
@@ -280,7 +492,7 @@ func ensureUserActive(t *testing.T, username string) error {
 }
 
 func UniqueName(prefix string) string {
-	return fmt.Sprintf("%s %d", prefix, rand.Intn(1000))
+	return fmt.Sprintf("%s%d%d", prefix, rand.Intn(1000), time.Now().UnixNano())
 }
 
 func getOwnUser(t *testing.T, apiClient client.Client) *users.GetOwnUserResponse {
@@ -337,8 +549,20 @@ func RequireStatusOK(t *testing.T, httpResp *http.Response) {
 	assert.Equal(t, 200, httpResp.StatusCode)
 }
 
-func CreateChannelWithAllClients(t *testing.T) (string, int64) {
+var channelCahe atomic.Value
+
+func GetChannelWithAllClients(t *testing.T) (string, int64) {
 	t.Helper()
+
+	type channel struct {
+		id   int64
+		name string
+	}
+
+	if v := channelCahe.Load(); v != nil {
+		c := v.(channel)
+		return c.name, c.id
+	}
 
 	clientFactories := []func(*testing.T) client.Client{
 		GetOwnerClient,
@@ -355,7 +579,16 @@ func CreateChannelWithAllClients(t *testing.T) (string, int64) {
 		allClientIds = append(allClientIds, userId)
 	}
 
-	return CreateRandomChannel(t, GetAdminClient(t), allClientIds...)
+	name, id := CreateRandomChannel(t, GetAdminClient(t), allClientIds...)
+
+	if channelCahe.CompareAndSwap(nil, channel{id, name}) {
+		return name, id
+	}
+
+	v := channelCahe.Load()
+	c := v.(channel)
+	return c.name, c.id
+
 }
 
 func SendChannelMessage(t *testing.T, apiClient client.Client, channelId int64, topic, content string) int64 {

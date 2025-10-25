@@ -12,9 +12,8 @@ import (
 )
 
 func Test_CreateMessageReminder(t *testing.T) {
-	t.Parallel()
 
-	_, channelId := CreateChannelWithAllClients(t)
+	_, channelId := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		createMessageReminder(t, apiClient, channelId)
@@ -22,9 +21,8 @@ func Test_CreateMessageReminder(t *testing.T) {
 }
 
 func Test_DeleteReminder(t *testing.T) {
-	t.Parallel()
 
-	_, channelId := CreateChannelWithAllClients(t)
+	_, channelId := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -40,9 +38,8 @@ func Test_DeleteReminder(t *testing.T) {
 }
 
 func Test_GetReminders(t *testing.T) {
-	t.Parallel()
 
-	_, channelId := CreateChannelWithAllClients(t)
+	_, channelId := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()

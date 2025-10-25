@@ -11,7 +11,6 @@ import (
 )
 
 func TestSnapshotMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	ts := time.Unix(1700000000, 250*int64(time.Millisecond)).UTC()
 	channel := int64(5)
@@ -43,7 +42,6 @@ func TestSnapshotMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 }
 
 func TestSnapshotUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	raw := []byte(`{"topic":"new","timestamp":1700000000}`)
 

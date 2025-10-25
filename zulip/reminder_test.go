@@ -11,7 +11,6 @@ import (
 )
 
 func TestReminderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	ts := time.Unix(1700000000, 789000000).UTC()
 
@@ -39,7 +38,6 @@ func TestReminderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 }
 
 func TestReminderUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	raw := []byte(`{"reminder_id":123,"type":"private","to":[1,2,3],"content":"Don't forget","rendered_content":"<p>Don't forget</p>","scheduled_delivery_timestamp":1700000000,"failed":true,"reminder_target_message_id":456}`)
 

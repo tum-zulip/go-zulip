@@ -1,6 +1,9 @@
 package zulip
 
-import "time"
+import (
+	"encoding/json"
+	"time"
+)
 
 type Realm struct {
 	// The UNIX timestamp (UTC) for when the organization was created.
@@ -278,6 +281,20 @@ type Realm struct {
 	// [capabilities]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// [sending on pressing Enter]: https://zulip.com/help/configure-send-message-keys
 	UserSettingsDefaults *UserSettings `json:"realm_user_settings_defaults,omitempty"`
+}
+
+func (r Realm) MarshalJSON() ([]byte, error) {
+	obj := r.toJSONRealm()
+	return json.Marshal(obj)
+}
+
+func (r *Realm) UnmarshalJSON(data []byte) error {
+	var obj realmJSON
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return err
+	}
+	r.fromJSONRealm(obj)
+	return nil
 }
 
 // ServerThumbnailFormat struct for ServerThumbnailFormat
@@ -791,4 +808,185 @@ type RealmPermissions struct {
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
 	DirectMessagePermissionGroup GroupSettingValue `json:"realm_direct_message_permission_group,omitempty"`
+}
+
+type realmJSON struct {
+	RealmConfiguration
+	DateCreated                                 int64                                   `json:"realm_date_created,omitempty"`
+	MaxChannelNameLength                        int64                                   `json:"max_stream_name_length,omitempty"`
+	MaxStreamDescriptionLength                  int64                                   `json:"max_stream_description_length,omitempty"`
+	MaxChannelFolderNameLength                  int64                                   `json:"max_channel_folder_name_length,omitempty"`
+	MaxChannelFolderDescriptionLength           int64                                   `json:"max_channel_folder_description_length,omitempty"`
+	MaxTopicLength                              int64                                   `json:"max_topic_length,omitempty"`
+	MaxMessageLength                            int64                                   `json:"max_message_length,omitempty"`
+	ServerMinDeactivatedRealmDeletionDays       int64                                   `json:"server_min_deactivated_realm_deletion_days,omitempty"`
+	ServerMaxDeactivatedRealmDeletionDays       int64                                   `json:"server_max_deactivated_realm_deletion_days,omitempty"`
+	ServerPresencePingIntervalSeconds           int64                                   `json:"server_presence_ping_interval_seconds,omitempty"`
+	ServerPresenceOfflineThresholdSeconds       int64                                   `json:"server_presence_offline_threshold_seconds,omitempty"`
+	ServerTypingStartedExpiryPeriodMilliseconds int64                                   `json:"server_typing_started_expiry_period_milliseconds,omitempty"`
+	ServerTypingStoppedWaitPeriodMilliseconds   int64                                   `json:"server_typing_stopped_wait_period_milliseconds,omitempty"`
+	ServerTypingStartedWaitPeriodMilliseconds   int64                                   `json:"server_typing_started_wait_period_milliseconds,omitempty"`
+	CreatePublicStreamPolicy                    int32                                   `json:"realm_create_public_stream_policy,omitempty"`
+	CreateWebPublicStreamPolicy                 int32                                   `json:"realm_create_web_public_stream_policy,omitempty"`
+	WildcardMentionPolicy                       int32                                   `json:"realm_wildcard_mention_policy,omitempty"`
+	AllowEditHistory                            bool                                    `json:"realm_allow_edit_history,omitempty"`
+	MessageRetentionDays                        int64                                   `json:"realm_message_retention_days,omitempty"`
+	AvatarChangesDisabled                       bool                                    `json:"realm_avatar_changes_disabled,omitempty"`
+	MaxIconFileSizeMib                          int64                                   `json:"max_icon_file_size_mib,omitempty"`
+	MaxLogoFileSizeMib                          int64                                   `json:"max_logo_file_size_mib,omitempty"`
+	BotDomain                                   string                                  `json:"realm_bot_domain,omitempty"`
+	Uri                                         string                                  `json:"realm_uri,omitempty"`
+	Url                                         string                                  `json:"realm_url,omitempty"`
+	AvailableVideoChatProviders                 map[string]VideoChatProviderInfo        `json:"realm_available_video_chat_providers,omitempty"`
+	SettingsSendDigestEmails                    bool                                    `json:"settings_send_digest_emails,omitempty"`
+	IsZephyrMirrorRealm                         bool                                    `json:"realm_is_zephyr_mirror_realm,omitempty"`
+	EmailAuthEnabled                            bool                                    `json:"realm_email_auth_enabled,omitempty"`
+	PasswordAuthEnabled                         bool                                    `json:"realm_password_auth_enabled,omitempty"`
+	ZulipPlanIsNotLimited                       bool                                    `json:"zulip_plan_is_not_limited,omitempty"`
+	UpgradeTextForWideOrganizationLogo          string                                  `json:"upgrade_text_for_wide_organization_logo,omitempty"`
+	DefaultExternalAccounts                     map[string]RealmDefaultExternalAccounts `json:"realm_default_external_accounts,omitempty"`
+	JitsiServerUrlDeprecated                    string                                  `json:"jitsi_server_url,omitempty"`
+	DevelopmentEnvironment                      bool                                    `json:"development_environment,omitempty"`
+	ServerGeneration                            int64                                   `json:"server_generation,omitempty"`
+	PasswordMinLength                           int64                                   `json:"password_min_length,omitempty"`
+	PasswordMaxLength                           int64                                   `json:"password_max_length,omitempty"`
+	PasswordMinGuesses                          int64                                   `json:"password_min_guesses,omitempty"`
+	GiphyRatingOptions                          map[string]GiphyRatingOptionsValue      `json:"giphy_rating_options,omitempty"`
+	MaxAvatarFileSizeMib                        int64                                   `json:"max_avatar_file_size_mib,omitempty"`
+	ServerInlineImagePreview                    bool                                    `json:"server_inline_image_preview,omitempty"`
+	ServerInlineUrlEmbedPreview                 bool                                    `json:"server_inline_url_embed_preview,omitempty"`
+	ServerThumbnailFormats                      []ServerThumbnailFormat                 `json:"server_thumbnail_formats,omitempty"`
+	ServerAvatarChangesDisabled                 bool                                    `json:"server_avatar_changes_disabled,omitempty"`
+	ServerNameChangesDisabled                   bool                                    `json:"server_name_changes_disabled,omitempty"`
+	ServerNeedsUpgrade                          bool                                    `json:"server_needs_upgrade,omitempty"`
+	ServerWebPublicStreamsEnabled               bool                                    `json:"server_web_public_streams_enabled,omitempty"`
+	ServerEmojiDataUrl                          string                                  `json:"server_emoji_data_url,omitempty"`
+	ServerJitsiServerUrl                        *string                                 `json:"server_jitsi_server_url,omitempty"`
+	ServerCanSummarizeTopics                    bool                                    `json:"server_can_summarize_topics,omitempty"`
+	EventQueueLongpollTimeoutSeconds            int64                                   `json:"event_queue_longpoll_timeout_seconds,omitempty"`
+	Billing                                     RealmBilling                            `json:"realm_billing,omitempty"`
+	EmptyTopicDisplayName                       string                                  `json:"realm_empty_topic_display_name,omitempty"`
+	UserSettingsDefaults                        *UserSettings                           `json:"realm_user_settings_defaults,omitempty"`
+}
+
+func (r *Realm) toJSONRealm() (obj realmJSON) {
+	obj.RealmConfiguration = r.RealmConfiguration
+	obj.DateCreated = r.DateCreated.Unix()
+	obj.MaxChannelNameLength = r.MaxChannelNameLength
+	obj.MaxStreamDescriptionLength = r.MaxStreamDescriptionLength
+	obj.MaxChannelFolderNameLength = r.MaxChannelFolderNameLength
+	obj.MaxChannelFolderDescriptionLength = r.MaxChannelFolderDescriptionLength
+	obj.MaxTopicLength = r.MaxTopicLength
+	obj.MaxMessageLength = r.MaxMessageLength
+	obj.ServerMinDeactivatedRealmDeletionDays = r.ServerMinDeactivatedRealmDeletionDays
+	obj.ServerMaxDeactivatedRealmDeletionDays = r.ServerMaxDeactivatedRealmDeletionDays
+	obj.ServerPresencePingIntervalSeconds = r.ServerPresencePingIntervalSeconds
+	obj.ServerPresenceOfflineThresholdSeconds = r.ServerPresenceOfflineThresholdSeconds
+	obj.ServerTypingStartedExpiryPeriodMilliseconds = r.ServerTypingStartedExpiryPeriodMilliseconds
+	obj.ServerTypingStoppedWaitPeriodMilliseconds = r.ServerTypingStoppedWaitPeriodMilliseconds
+	obj.ServerTypingStartedWaitPeriodMilliseconds = r.ServerTypingStartedWaitPeriodMilliseconds
+	obj.CreatePublicStreamPolicy = r.CreatePublicStreamPolicy
+	obj.CreateWebPublicStreamPolicy = r.CreateWebPublicStreamPolicy
+	obj.WildcardMentionPolicy = r.WildcardMentionPolicy
+	obj.AllowEditHistory = r.AllowEditHistory
+	obj.MessageRetentionDays = r.MessageRetentionDays
+	obj.AvatarChangesDisabled = r.AvatarChangesDisabled
+	obj.MaxIconFileSizeMib = r.MaxIconFileSizeMib
+	obj.MaxLogoFileSizeMib = r.MaxLogoFileSizeMib
+	obj.BotDomain = r.BotDomain
+	obj.Uri = r.Uri
+	obj.Url = r.Url
+	obj.AvailableVideoChatProviders = r.AvailableVideoChatProviders
+	obj.SettingsSendDigestEmails = r.SettingsSendDigestEmails
+	obj.IsZephyrMirrorRealm = r.IsZephyrMirrorRealm
+	obj.EmailAuthEnabled = r.EmailAuthEnabled
+	obj.PasswordAuthEnabled = r.PasswordAuthEnabled
+	obj.ZulipPlanIsNotLimited = r.ZulipPlanIsNotLimited
+	obj.UpgradeTextForWideOrganizationLogo = r.UpgradeTextForWideOrganizationLogo
+	obj.DefaultExternalAccounts = r.DefaultExternalAccounts
+	obj.JitsiServerUrlDeprecated = r.JitsiServerUrlDeprecated
+	obj.DevelopmentEnvironment = r.DevelopmentEnvironment
+	obj.ServerGeneration = r.ServerGeneration.Unix()
+	obj.PasswordMinLength = r.PasswordMinLength
+	obj.PasswordMaxLength = r.PasswordMaxLength
+	obj.PasswordMinGuesses = r.PasswordMinGuesses
+	obj.GiphyRatingOptions = r.GiphyRatingOptions
+	obj.MaxAvatarFileSizeMib = r.MaxAvatarFileSizeMib
+	obj.ServerInlineImagePreview = r.ServerInlineImagePreview
+	obj.ServerInlineUrlEmbedPreview = r.ServerInlineUrlEmbedPreview
+	obj.ServerThumbnailFormats = r.ServerThumbnailFormats
+	obj.ServerAvatarChangesDisabled = r.ServerAvatarChangesDisabled
+	obj.ServerNameChangesDisabled = r.ServerNameChangesDisabled
+	obj.ServerNeedsUpgrade = r.ServerNeedsUpgrade
+	obj.ServerWebPublicStreamsEnabled = r.ServerWebPublicStreamsEnabled
+	obj.ServerEmojiDataUrl = r.ServerEmojiDataUrl
+	obj.ServerJitsiServerUrl = r.ServerJitsiServerUrl
+	obj.ServerCanSummarizeTopics = r.ServerCanSummarizeTopics
+	obj.EventQueueLongpollTimeoutSeconds = r.EventQueueLongpollTimeoutSeconds
+	obj.Billing = r.Billing
+	obj.EmptyTopicDisplayName = r.EmptyTopicDisplayName
+	obj.UserSettingsDefaults = r.UserSettingsDefaults
+
+	return
+}
+
+func (r *Realm) fromJSONRealm(obj realmJSON) {
+	r.RealmConfiguration = obj.RealmConfiguration
+	r.DateCreated = time.Unix(obj.DateCreated, 0)
+	r.MaxChannelNameLength = obj.MaxChannelNameLength
+	r.MaxStreamDescriptionLength = obj.MaxStreamDescriptionLength
+	r.MaxChannelFolderNameLength = obj.MaxChannelFolderNameLength
+	r.MaxChannelFolderDescriptionLength = obj.MaxChannelFolderDescriptionLength
+	r.MaxTopicLength = obj.MaxTopicLength
+	r.MaxMessageLength = obj.MaxMessageLength
+	r.ServerMinDeactivatedRealmDeletionDays = obj.ServerMinDeactivatedRealmDeletionDays
+	r.ServerMaxDeactivatedRealmDeletionDays = obj.ServerMaxDeactivatedRealmDeletionDays
+	r.ServerPresencePingIntervalSeconds = obj.ServerPresencePingIntervalSeconds
+	r.ServerPresenceOfflineThresholdSeconds = obj.ServerPresenceOfflineThresholdSeconds
+	r.ServerTypingStartedExpiryPeriodMilliseconds = obj.ServerTypingStartedExpiryPeriodMilliseconds
+	r.ServerTypingStoppedWaitPeriodMilliseconds = obj.ServerTypingStoppedWaitPeriodMilliseconds
+	r.ServerTypingStartedWaitPeriodMilliseconds = obj.ServerTypingStartedWaitPeriodMilliseconds
+	r.CreatePublicStreamPolicy = obj.CreatePublicStreamPolicy
+	r.CreateWebPublicStreamPolicy = obj.CreateWebPublicStreamPolicy
+	r.WildcardMentionPolicy = obj.WildcardMentionPolicy
+	r.AllowEditHistory = obj.AllowEditHistory
+	r.MessageRetentionDays = obj.MessageRetentionDays
+	r.AvatarChangesDisabled = obj.AvatarChangesDisabled
+	r.MaxIconFileSizeMib = obj.MaxIconFileSizeMib
+	r.MaxLogoFileSizeMib = obj.MaxLogoFileSizeMib
+	r.BotDomain = obj.BotDomain
+	r.Uri = obj.Uri
+	r.Url = obj.Url
+	r.AvailableVideoChatProviders = obj.AvailableVideoChatProviders
+	r.SettingsSendDigestEmails = obj.SettingsSendDigestEmails
+	r.IsZephyrMirrorRealm = obj.IsZephyrMirrorRealm
+	r.EmailAuthEnabled = obj.EmailAuthEnabled
+	r.PasswordAuthEnabled = obj.PasswordAuthEnabled
+	r.ZulipPlanIsNotLimited = obj.ZulipPlanIsNotLimited
+	r.UpgradeTextForWideOrganizationLogo = obj.UpgradeTextForWideOrganizationLogo
+	r.DefaultExternalAccounts = obj.DefaultExternalAccounts
+	r.JitsiServerUrlDeprecated = obj.JitsiServerUrlDeprecated
+	r.DevelopmentEnvironment = obj.DevelopmentEnvironment
+	r.ServerGeneration = time.Unix(obj.ServerGeneration, 0)
+	r.PasswordMinLength = obj.PasswordMinLength
+	r.PasswordMaxLength = obj.PasswordMaxLength
+	r.PasswordMinGuesses = obj.PasswordMinGuesses
+	r.GiphyRatingOptions = obj.GiphyRatingOptions
+	r.MaxAvatarFileSizeMib = obj.MaxAvatarFileSizeMib
+	r.ServerInlineImagePreview = obj.ServerInlineImagePreview
+	r.ServerInlineUrlEmbedPreview = obj.ServerInlineUrlEmbedPreview
+	r.ServerThumbnailFormats = obj.ServerThumbnailFormats
+	r.ServerAvatarChangesDisabled = obj.ServerAvatarChangesDisabled
+	r.ServerNameChangesDisabled = obj.ServerNameChangesDisabled
+	r.ServerNeedsUpgrade = obj.ServerNeedsUpgrade
+	r.ServerWebPublicStreamsEnabled = obj.ServerWebPublicStreamsEnabled
+	r.ServerEmojiDataUrl = obj.ServerEmojiDataUrl
+	r.ServerJitsiServerUrl = obj.ServerJitsiServerUrl
+	r.ServerCanSummarizeTopics = obj.ServerCanSummarizeTopics
+	r.EventQueueLongpollTimeoutSeconds = obj.EventQueueLongpollTimeoutSeconds
+	r.Billing = obj.Billing
+	r.EmptyTopicDisplayName = obj.EmptyTopicDisplayName
+	r.UserSettingsDefaults = obj.UserSettingsDefaults
+
+	return
 }

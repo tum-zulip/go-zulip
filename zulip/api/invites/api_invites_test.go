@@ -54,18 +54,17 @@ func Test_InviteLinkLifecycle(t *testing.T) {
 }
 
 func Test_EmailInviteLifecycle(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		_, channelId := CreateRandomChannel(t, apiClient, GetUserId(t, apiClient))
-		invitee := fmt.Sprintf("%s@example.com", strings.ToLower(UniqueName("invitee")))
+		invitee := fmt.Sprintf("%s@zulip.com", strings.ToLower(UniqueName("invitee")))
 
 		baseline := inviteSnapshot(t, ctx, apiClient)
 
 		resp, httpResp, err := apiClient.SendInvites(ctx).
 			InviteeEmails(invitee).
-			ChannelIds([]int64{channelId}).
+			ChannelIds(channelId).
 			InviteExpiresInMinutes(60).
 			NotifyReferrerOnJoin(true).
 			Execute()

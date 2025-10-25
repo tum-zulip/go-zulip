@@ -11,7 +11,6 @@ import (
 )
 
 func TestChannelFolderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	ts := time.Unix(1700000000, 0).UTC()
 	creator := int64(42)
@@ -38,7 +37,6 @@ func TestChannelFolderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 }
 
 func TestChannelFolderUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	raw := []byte(`{"name":"general","date_created":1700000000}`)
 

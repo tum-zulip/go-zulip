@@ -11,7 +11,6 @@ import (
 )
 
 func TestChannelMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	creatorId := int64(7)
 	date := time.Unix(1700000000, 500*int64(time.Millisecond)).UTC()
@@ -37,7 +36,6 @@ func TestChannelMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 }
 
 func TestChannelUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	raw := []byte(`{"stream_id":123,"name":"general","date_created":1700000000}`)
 

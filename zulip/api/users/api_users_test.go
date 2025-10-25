@@ -14,7 +14,6 @@ import (
 )
 
 func Test_DeactivateUser(t *testing.T) {
-	t.Parallel()
 
 	deactivateUserClient := GetTestClient(t, DeactivateTestUser)
 	deactivateUserId := GetUserId(t, deactivateUserClient)
@@ -33,7 +32,6 @@ func Test_DeactivateUser(t *testing.T) {
 }
 
 func Test_ReactivateUser(t *testing.T) {
-	t.Parallel()
 
 	deactivateUserClient := GetTestClient(t, DeactivateTestUser)
 	deactivateUserId := GetUserId(t, deactivateUserClient)
@@ -53,7 +51,7 @@ func Test_ReactivateUser(t *testing.T) {
 }
 
 func Test_DeactivateOwnUser(t *testing.T) {
-	t.Parallel()
+
 	t.Skip("TODO: This test deactivates the user running the tests, so it should be the last test and the client should be recreated after this.")
 	ctx := context.Background()
 
@@ -82,7 +80,6 @@ func Test_CreateUser(t *testing.T) {
 }
 
 func Test_AddAlertWords(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -97,7 +94,6 @@ func Test_AddAlertWords(t *testing.T) {
 }
 
 func Test_CreateUserGroup(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -112,7 +108,6 @@ func Test_CreateUserGroup(t *testing.T) {
 }
 
 func Test_DeactivateUserGroup(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -128,7 +123,6 @@ func Test_DeactivateUserGroup(t *testing.T) {
 }
 
 func Test_GetAlertWords(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -143,7 +137,6 @@ func Test_GetAlertWords(t *testing.T) {
 }
 
 func Test_GetAttachments(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -158,7 +151,6 @@ func Test_GetAttachments(t *testing.T) {
 }
 
 func Test_GetIsUserGroupMember(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -176,7 +168,6 @@ func Test_GetIsUserGroupMember(t *testing.T) {
 }
 
 func Test_GetOwnUser(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -191,7 +182,6 @@ func Test_GetOwnUser(t *testing.T) {
 }
 
 func Test_GetUser(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -206,7 +196,6 @@ func Test_GetUser(t *testing.T) {
 }
 
 func Test_GetUserByEmail(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -223,7 +212,6 @@ func Test_GetUserByEmail(t *testing.T) {
 }
 
 func Test_GetUserGroupMembers(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -240,7 +228,6 @@ func Test_GetUserGroupMembers(t *testing.T) {
 }
 
 func Test_GetUserGroupSubgroups(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -262,7 +249,6 @@ func Test_GetUserGroupSubgroups(t *testing.T) {
 }
 
 func Test_GetUserGroups(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -289,7 +275,6 @@ func Test_GetUserGroups(t *testing.T) {
 }
 
 func Test_GetUserPresence(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -306,7 +291,6 @@ func Test_GetUserPresence(t *testing.T) {
 }
 
 func Test_GetUserStatus(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -323,7 +307,6 @@ func Test_GetUserStatus(t *testing.T) {
 }
 
 func Test_GetUsers(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -338,7 +321,6 @@ func Test_GetUsers(t *testing.T) {
 }
 
 func Test_MuteUser(t *testing.T) {
-	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 	otherUserId := GetUserId(t, otherClient)
@@ -359,7 +341,6 @@ func Test_MuteUser(t *testing.T) {
 }
 
 func Test_RemoveAlertWords(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -378,7 +359,6 @@ func Test_RemoveAlertWords(t *testing.T) {
 }
 
 func Test_SetTypingStatus(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -396,7 +376,6 @@ func Test_SetTypingStatus(t *testing.T) {
 }
 
 func Test_SetTypingStatusForMessageEdit(t *testing.T) {
-	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 	otherUserId := GetUserId(t, otherClient)
@@ -418,7 +397,6 @@ func Test_SetTypingStatusForMessageEdit(t *testing.T) {
 }
 
 func Test_UnmuteUser(t *testing.T) {
-	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 	otherUserId := GetUserId(t, otherClient)
@@ -439,7 +417,6 @@ func Test_UnmuteUser(t *testing.T) {
 }
 
 func Test_UpdatePresence(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -466,7 +443,6 @@ func Test_UpdatePresence(t *testing.T) {
 }
 
 func Test_UpdateSettings(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -481,7 +457,6 @@ func Test_UpdateSettings(t *testing.T) {
 }
 
 func Test_UpdateStatus(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -496,7 +471,6 @@ func Test_UpdateStatus(t *testing.T) {
 }
 
 func Test_UpdateStatusForUser(t *testing.T) {
-	t.Parallel()
 
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -511,7 +485,6 @@ func Test_UpdateStatusForUser(t *testing.T) {
 }
 
 func Test_UpdateUser(t *testing.T) {
-	t.Parallel()
 
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -526,7 +499,6 @@ func Test_UpdateUser(t *testing.T) {
 }
 
 func Test_UpdateUserByEmail(t *testing.T) {
-	t.Parallel()
 
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -543,7 +515,6 @@ func Test_UpdateUserByEmail(t *testing.T) {
 }
 
 func Test_UpdateUserGroup(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -559,7 +530,6 @@ func Test_UpdateUserGroup(t *testing.T) {
 }
 
 func Test_UpdateUserGroupMembers(t *testing.T) {
-	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 	otherUserId := GetUserId(t, otherClient)
@@ -578,7 +548,6 @@ func Test_UpdateUserGroupMembers(t *testing.T) {
 }
 
 func Test_UpdateUserGroupSubgroups(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -597,7 +566,6 @@ func Test_UpdateUserGroupSubgroups(t *testing.T) {
 }
 
 func Test_AddApnsToken(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		t.Skip("TODO: Not implemented")
@@ -614,7 +582,6 @@ func Test_AddApnsToken(t *testing.T) {
 }
 
 func Test_AddFcmToken(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		t.Skip("TODO: Not implemented")
@@ -631,7 +598,6 @@ func Test_AddFcmToken(t *testing.T) {
 }
 
 func Test_RemoveApnsToken(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		t.Skip("TODO: Not implemented")
@@ -648,7 +614,6 @@ func Test_RemoveApnsToken(t *testing.T) {
 }
 
 func Test_RemoveAttachment(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -681,7 +646,6 @@ func Test_RemoveAttachment(t *testing.T) {
 }
 
 func Test_RemoveFcmToken(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		t.Skip("TODO: Not implemented")

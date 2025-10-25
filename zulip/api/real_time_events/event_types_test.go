@@ -13,7 +13,6 @@ import (
 )
 
 func Test_MessageEvent(t *testing.T) {
-	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 
@@ -55,7 +54,6 @@ func Test_MessageEvent(t *testing.T) {
 }
 
 func Test_ReactionEvent(t *testing.T) {
-	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 
@@ -103,7 +101,6 @@ func Test_ReactionEvent(t *testing.T) {
 }
 
 func Test_UpdateMessageEvent(t *testing.T) {
-	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 
@@ -151,7 +148,6 @@ func Test_UpdateMessageEvent(t *testing.T) {
 }
 
 func Test_DeleteMessageEvent(t *testing.T) {
-	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 
@@ -198,7 +194,6 @@ func Test_DeleteMessageEvent(t *testing.T) {
 }
 
 func Test_TypingEvent(t *testing.T) {
-	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 
@@ -240,7 +235,6 @@ func Test_TypingEvent(t *testing.T) {
 }
 
 func Test_UpdateMessageFlagsEvent(t *testing.T) {
-	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 

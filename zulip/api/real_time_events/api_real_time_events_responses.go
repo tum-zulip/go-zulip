@@ -266,7 +266,7 @@ type RegisterQueueResponse struct {
 	GlobalNotifications *zulip.GlobalNotifications
 
 	// Present if `realm` is present in `fetch_event_types`.
-	Realm *zulip.Realm
+	// TODO: (jr) *zulip.Realm
 }
 
 // RealmIncomingWebhookBot Object containing details of the bot.

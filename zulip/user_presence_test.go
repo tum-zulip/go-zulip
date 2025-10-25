@@ -11,7 +11,6 @@ import (
 )
 
 func TestUserPresenceMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	ts := time.Unix(1700000000, 123000000)
 	presence := z.UserPresence{
@@ -33,7 +32,6 @@ func TestUserPresenceMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 }
 
 func TestUserPresenceUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	raw := []byte(`{"timestamp":1700000000,"status":"idle"}`)
 

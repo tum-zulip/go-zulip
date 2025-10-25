@@ -3,7 +3,6 @@ package client
 import (
 	"log/slog"
 	"net/http"
-	"time"
 
 	"github.com/tum-zulip/go-zulip/zulip/api/authentication"
 	"github.com/tum-zulip/go-zulip/zulip/api/channels"
@@ -17,7 +16,9 @@ import (
 	"github.com/tum-zulip/go-zulip/zulip/api/scheduled_messages"
 	"github.com/tum-zulip/go-zulip/zulip/api/server_and_organizations"
 	"github.com/tum-zulip/go-zulip/zulip/api/users"
-	"github.com/tum-zulip/go-zulip/zulip/internal/api_client"
+	"github.com/tum-zulip/go-zulip/zulip/client/statistics"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
+
 	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
 )
 
@@ -35,13 +36,13 @@ type Client interface {
 	server_and_organizations.APIServerAndOrganizations
 	users.APIUsers
 
-	GetStatistics() map[string]time.Duration
+	GetStatistics() map[string]statistics.Statistic
 }
 
 var _ Client = (*client)(nil)
 
 type client struct {
-	apiClient *api_client.APIClient
+	apiClient clients.RetryClient
 
 	authentication.APIAuthentication
 	channels.APIChannels
@@ -57,17 +58,78 @@ type client struct {
 	users.APIUsers
 }
 
-type Option = api_client.Option
+func NewClient(zuliprc *zuliprc.ZulipRC, opts ...clients.Option) (*client, error) {
 
-func NewClient(zuliprc *zuliprc.ZulipRC, options ...Option) (*client, error) {
-	apiClient, err := api_client.NewAPIClient(zuliprc, options...)
-
+	cfg, err := clients.NewConfig(zuliprc, opts...)
 	if err != nil {
 		return nil, err
 	}
 
-	c := &client{apiClient: apiClient}
+	c := &client{
+		apiClient: clients.NewRetryClient(cfg),
+	}
+	c.initializeFromClient(&c.apiClient)
 
+	return c, nil
+}
+
+func (c *client) GetStatistics() map[string]statistics.Statistic {
+	return c.apiClient.Stats.GetStatistics()
+}
+
+func WithAPISuffix(suffix string) clients.Option {
+	return func(cfg *clients.Config) {
+		cfg.ApiSuffix = suffix
+	}
+}
+
+func WithAPIVersion(version string) clients.Option {
+	return func(cfg *clients.Config) {
+		cfg.ApiVersion = version
+	}
+}
+
+func WithLogger(logger *slog.Logger) clients.Option {
+	return func(cfg *clients.Config) {
+		if logger == nil {
+			cfg.Logger = slog.Default()
+			return
+		}
+		cfg.Logger = logger
+	}
+}
+
+func WithHTTPClient(httpClient *http.Client) clients.Option {
+	return func(cfg *clients.Config) {
+		cfg.HttpClient = httpClient
+	}
+}
+
+func WithClientName(name string) clients.Option {
+	return func(cfg *clients.Config) {
+		cfg.ClientName = name
+	}
+}
+
+func SkipWarnOnInsecureTLS() clients.Option {
+	return func(cfg *clients.Config) {
+		cfg.InsecureWarning = false
+	}
+}
+
+func EnableStatistics() clients.Option {
+	return func(cfg *clients.Config) {
+		cfg.GatherStats = true
+	}
+}
+
+func WithMaxRetries(maxRetries int) clients.Option {
+	return func(cfg *clients.Config) {
+		cfg.MaxRetries = maxRetries
+	}
+}
+
+func (c *client) initializeFromClient(apiClient clients.Client) {
 	c.APIAuthentication = authentication.NewAuthenticationService(apiClient)
 	c.APIChannels = channels.NewChannelsService(apiClient)
 	c.APIDrafts = drafts.NewDraftsService(apiClient)
@@ -80,45 +142,4 @@ func NewClient(zuliprc *zuliprc.ZulipRC, options ...Option) (*client, error) {
 	c.APIScheduledMessages = scheduled_messages.NewScheduledMessagesService(apiClient)
 	c.APIServerAndOrganizations = server_and_organizations.NewServerAndOrganizationsService(apiClient)
 	c.APIUsers = users.NewUsersService(apiClient)
-
-	return c, nil
-}
-
-func (c *client) GetStatistics() map[string]time.Duration {
-	return c.apiClient.Stats.GetStatistics()
-}
-
-func WithAPISuffix(suffix string) Option {
-	return api_client.WithAPISuffix(suffix)
-}
-
-func WithAPIVersion(version string) Option {
-	return api_client.WithAPIVersion(version)
-
-}
-
-func WithLogger(logger *slog.Logger) Option {
-	return api_client.WithLogger(logger)
-}
-
-func WithMaxRetries(maxRetries int) Option {
-	return api_client.WithMaxRetries(maxRetries)
-}
-
-func WithHTTPClient(httpClient *http.Client) Option {
-	return api_client.WithHTTPClient(httpClient)
-
-}
-
-func WithClientName(name string) Option {
-	return api_client.WithClientName(name)
-
-}
-
-func SkipWarnOnInsecureTLS() Option {
-	return api_client.SkipWarnOnInsecureTLS()
-}
-
-func GatherStatistics() Option {
-	return api_client.GatherStatistics()
 }

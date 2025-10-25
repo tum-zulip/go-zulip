@@ -11,7 +11,6 @@ import (
 )
 
 func TestAttachmentMarshalJSON_UsesUnixMillis(t *testing.T) {
-	t.Parallel()
 
 	timestamp := time.UnixMilli(1700000000123)
 	attachment := z.Attachment{
@@ -31,7 +30,6 @@ func TestAttachmentMarshalJSON_UsesUnixMillis(t *testing.T) {
 }
 
 func TestAttachmentUnmarshalJSON_ParsesUnixMillis(t *testing.T) {
-	t.Parallel()
 
 	raw := []byte(`{"create_time":1700000000123}`)
 
@@ -44,7 +42,6 @@ func TestAttachmentUnmarshalJSON_ParsesUnixMillis(t *testing.T) {
 }
 
 func TestAttachmentMessagesMarshalJSON_UsesUnixMillis(t *testing.T) {
-	t.Parallel()
 
 	timestamp := time.UnixMilli(1700000000456)
 	message := z.AttachmentMessages{
@@ -64,7 +61,6 @@ func TestAttachmentMessagesMarshalJSON_UsesUnixMillis(t *testing.T) {
 }
 
 func TestAttachmentMessagesUnmarshalJSON_ParsesUnixMillis(t *testing.T) {
-	t.Parallel()
 
 	raw := []byte(`{"date_sent":1700000000456}`)
 

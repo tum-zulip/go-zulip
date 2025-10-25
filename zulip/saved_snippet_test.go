@@ -11,7 +11,6 @@ import (
 )
 
 func TestSavedSnippetMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	created := time.Unix(1700000000, 500*int64(time.Millisecond)).UTC()
 	snippet := z.SavedSnippet{
@@ -34,7 +33,6 @@ func TestSavedSnippetMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 }
 
 func TestSavedSnippetUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-	t.Parallel()
 
 	raw := []byte(`{"id":11,"title":"Snippet","content":"**bold**","date_created":1700000000}`)
 

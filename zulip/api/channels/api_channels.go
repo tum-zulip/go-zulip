@@ -1574,7 +1574,7 @@ func (s *channelsService) GetSubscriptionStatusExecute(r GetSubscriptionStatusRe
 	)
 
 	path := strings.Replace(endpoint, "{user_id}", IdToString(r.userId), -1)
-	path = strings.Replace(endpoint, "{stream_id}", IdToString(r.channelId), -1)
+	path = strings.Replace(path, "{stream_id}", IdToString(r.channelId), -1)
 
 	headers["Accept"] = "application/json"
 	req, err := PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)

@@ -13,7 +13,6 @@ import (
 )
 
 func Test_ConnectRequiresQueueID(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		q := real_time_events.NewEventQueue(apiClient, nil)
@@ -25,7 +24,6 @@ func Test_ConnectRequiresQueueID(t *testing.T) {
 }
 
 func Test_PollsEventsAndUpdatesState(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -70,7 +68,6 @@ func Test_PollsEventsAndUpdatesState(t *testing.T) {
 }
 
 func Test_CloseWithoutConnect(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		q := real_time_events.NewEventQueue(apiClient, nil)

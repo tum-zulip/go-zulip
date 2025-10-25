@@ -10,7 +10,7 @@ import (
 )
 
 func Test_Unmarshal_HeartbeatEvent(t *testing.T) {
-	t.Parallel()
+
 	data := []byte(`{"result": "success", "msg": "", "events": [{"type":"heartbeat","id":0}]}`)
 
 	var resp real_time_events.GetEventsResponse
