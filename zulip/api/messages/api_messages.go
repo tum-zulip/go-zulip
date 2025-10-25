@@ -11,6 +11,7 @@ import (
 
 	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIMessages interface {
@@ -465,10 +466,10 @@ type APIMessages interface {
 }
 
 type messagesService struct {
-	client StructuredClient
+	client clients.Client
 }
 
-func NewMessagesService(client StructuredClient) *messagesService {
+func NewMessagesService(client clients.Client) *messagesService {
 	return &messagesService{client: client}
 }
 

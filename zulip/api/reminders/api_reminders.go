@@ -9,6 +9,7 @@ import (
 
 	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIReminders interface {
@@ -54,10 +55,10 @@ type APIReminders interface {
 }
 
 type remindersService struct {
-	client StructuredClient
+	client clients.Client
 }
 
-func NewRemindersService(client StructuredClient) *remindersService {
+func NewRemindersService(client clients.Client) *remindersService {
 	return &remindersService{client: client}
 }
 

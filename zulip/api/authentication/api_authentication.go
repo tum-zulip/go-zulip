@@ -7,6 +7,7 @@ import (
 	"net/url"
 
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIAuthentication interface {
@@ -76,10 +77,10 @@ type APIAuthentication interface {
 }
 
 type authenticationService struct {
-	client StructuredClient
+	client clients.Client
 }
 
-func NewAuthenticationService(client StructuredClient) *authenticationService {
+func NewAuthenticationService(client clients.Client) *authenticationService {
 	return &authenticationService{client: client}
 }
 

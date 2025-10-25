@@ -9,6 +9,7 @@ import (
 
 	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIChannels interface {
@@ -476,10 +477,10 @@ type APIChannels interface {
 }
 
 type channelsService struct {
-	client StructuredClient
+	client clients.Client
 }
 
-func NewChannelsService(client StructuredClient) *channelsService {
+func NewChannelsService(client clients.Client) *channelsService {
 	return &channelsService{client: client}
 }
 

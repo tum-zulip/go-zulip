@@ -9,6 +9,7 @@ import (
 
 	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIDrafts interface {
@@ -98,10 +99,10 @@ type APIDrafts interface {
 }
 
 type draftsService struct {
-	client StructuredClient
+	client clients.Client
 }
 
-func NewDraftsService(client StructuredClient) *draftsService {
+func NewDraftsService(client clients.Client) *draftsService {
 	return &draftsService{client: client}
 }
 

@@ -9,6 +9,7 @@ import (
 
 	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIInvites interface {
@@ -131,10 +132,10 @@ type CreateInviteLinkRequest struct {
 }
 
 type invitesService struct {
-	client StructuredClient
+	client clients.Client
 }
 
-func NewInvitesService(client StructuredClient) *invitesService {
+func NewInvitesService(client clients.Client) *invitesService {
 	return &invitesService{client: client}
 }
 

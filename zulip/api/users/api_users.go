@@ -9,6 +9,7 @@ import (
 
 	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIUsers interface {
@@ -718,10 +719,10 @@ type APIUsers interface {
 }
 
 type usersService struct {
-	client StructuredClient
+	client clients.Client
 }
 
-func NewUsersService(client StructuredClient) *usersService {
+func NewUsersService(client clients.Client) *usersService {
 	return &usersService{client: client}
 }
 

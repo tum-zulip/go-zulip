@@ -9,6 +9,7 @@ import (
 
 	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APINavigationViews interface {
@@ -64,10 +65,10 @@ type APINavigationViews interface {
 }
 
 type navigationViewsService struct {
-	client StructuredClient
+	client clients.Client
 }
 
-func NewNavigationViewsService(client StructuredClient) *navigationViewsService {
+func NewNavigationViewsService(client clients.Client) *navigationViewsService {
 	return &navigationViewsService{client: client}
 }
 

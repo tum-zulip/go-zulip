@@ -8,6 +8,7 @@ import (
 
 	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIMobile interface {
@@ -55,10 +56,10 @@ type APIMobile interface {
 }
 
 type mobileService struct {
-	client StructuredClient
+	client clients.Client
 }
 
-func NewMobileService(client StructuredClient) *mobileService {
+func NewMobileService(client clients.Client) *mobileService {
 	return &mobileService{client: client}
 }
 

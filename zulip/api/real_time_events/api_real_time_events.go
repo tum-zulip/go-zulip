@@ -8,6 +8,7 @@ import (
 
 	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIRealTimeEvents interface {
@@ -113,10 +114,10 @@ type APIRealTimeEvents interface {
 }
 
 type realTimeEventsService struct {
-	client StructuredClient
+	client clients.Client
 }
 
-func NewRealTimeEventsService(client StructuredClient) *realTimeEventsService {
+func NewRealTimeEventsService(client clients.Client) *realTimeEventsService {
 	return &realTimeEventsService{client: client}
 }
 

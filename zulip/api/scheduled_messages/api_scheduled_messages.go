@@ -10,6 +10,7 @@ import (
 
 	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIScheduledMessages interface {
@@ -74,10 +75,10 @@ type APIScheduledMessages interface {
 }
 
 type scheduledMessagesService struct {
-	client StructuredClient
+	client clients.Client
 }
 
-func NewScheduledMessagesService(client StructuredClient) *scheduledMessagesService {
+func NewScheduledMessagesService(client clients.Client) *scheduledMessagesService {
 	return &scheduledMessagesService{client: client}
 }
 

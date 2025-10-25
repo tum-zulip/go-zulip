@@ -11,6 +11,7 @@ import (
 
 	"github.com/tum-zulip/go-zulip/zulip"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/utils"
 )
 
@@ -328,10 +329,10 @@ type APIServerAndOrganizations interface {
 }
 
 type serverAndOrganizationsService struct {
-	client StructuredClient
+	client clients.Client
 }
 
-func NewServerAndOrganizationsService(client StructuredClient) *serverAndOrganizationsService {
+func NewServerAndOrganizationsService(client clients.Client) *serverAndOrganizationsService {
 	return &serverAndOrganizationsService{client: client}
 }
 
