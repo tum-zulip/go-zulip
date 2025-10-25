@@ -100,14 +100,14 @@ jobs:
       - name: Start Zulip dev server via script
         run: |
           # Start the dev server using the helper script and capture logs/PID
-          chmod +x ./scripts/run-dev-zerver.sh
-          nohup bash -lc "./scripts/run-dev-zerver.sh --ref '${{ matrix.zulip-branch }}'" >"${ZULIP_DEV_LOG}" 2>&1 &
+          mkdir tmp
+          nohup bash -lc "TMPDIR=tmp ./scripts/run-dev-zerver.sh --ref '${{ matrix.zulip-branch }}'" >"${ZULIP_DEV_LOG}" 2>&1 &
           echo $! > /tmp/zulip-dev-${{ github.run_id }}.pid
 
       - name: Wait for Zulip dev server to become ready
         run: |
           echo "Waiting for Zulip server at ${ZULIP_TEST_SITE}"
-          for attempt in {1..60}; do
+          for attempt in {1..30}; do
             if curl --get --silent --show-error --fail "${ZULIP_TEST_SITE}/api/v1/server_settings" >/dev/null; then
               echo "Zulip is up"
               exit 0
@@ -161,7 +161,7 @@ jobs:
   godoc:
     name: Generate godoc HTML
     runs-on: self-hosted
-    
+
     steps:
       - name: Checkout go-zulip
         uses: actions/checkout@v4
