@@ -3,7 +3,6 @@ package testutils
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -13,7 +12,6 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
-	"sync/atomic"
 	"testing"
 	"time"
 
@@ -116,234 +114,38 @@ func RunForAdminAndOwnerClients(t *testing.T, fn func(*testing.T, client.Client)
 
 func GetTestClient(t *testing.T, username string) client.Client {
 	// Check if client already exists in cache
-	if cachedClient, ok := cache.Load(username); ok {
-		return cachedClient.(client.Client)
-	}
+	// if cachedClient, ok := cache.Load(username); ok {
+	// 	return cachedClient.(client.Client)
+	// }
 
 	// Create client if not in cache
 	newClient := getTestClient(t, username)
 
 	// Store in cache atomically
-	actual, loaded := cache.LoadOrStore(username, newClient)
+	// actual, loaded := cache.LoadOrStore(username, newClient)
 
 	// Register cleanup only once per username
 	once, _ := cleanupOnce.LoadOrStore(username, &sync.Once{})
 	once.(*sync.Once).Do(func() {
 		t.Cleanup(func() {
-			writeStatisticsToJSON(username, newClient.GetStatistics())
+			os.MkdirAll("/tmp/go-zulip-stats", 0755)
+			data, err := json.MarshalIndent(map[string]map[string]statistics.Statistic{
+				username: newClient.GetStatistics(),
+			}, "", "  ")
+			if err != nil {
+				t.Logf("Failed to marshal statistics for user %s: %v", username, err)
+				return
+			}
+			os.WriteFile(filepath.Join("/tmp/go-zulip-stats", fmt.Sprintf("stats_%s-%d-%d.json", username, os.Getpid(), time.Now().UnixNano())), data, 0644)
 		})
 	})
 
-	if loaded {
-		// Another goroutine created the client first, use that one
-		return actual.(client.Client)
-	}
+	// if loaded {
+	// 	// Another goroutine created the client first, use that one
+	// 	return actual.(client.Client)
+	// }
 
 	return newClient
-}
-
-func writeStatisticsToJSON(username string, stats map[string]statistics.Statistic) {
-	if len(stats) == 0 {
-		return
-	}
-
-	statsPath, err := statisticsFilePath()
-	if err != nil {
-		log.Printf("Failed to determine statistics file path: %v", err)
-		return
-	}
-
-	if statsPath == "" {
-		return
-	}
-
-	if err := os.MkdirAll(filepath.Dir(statsPath), 0o755); err != nil {
-		log.Printf("Failed to create statistics directory: %v", err)
-		return
-	}
-
-	lock, err := acquireFileLock(statsPath+".lock", 5*time.Second)
-	if err != nil {
-		log.Printf("Failed to acquire statistics lock: %v", err)
-		return
-	}
-	defer func() {
-		if err := lock.release(); err != nil {
-			log.Printf("Failed to release statistics lock: %v", err)
-		}
-	}()
-
-	aggregated, err := readAggregatedStatistics(statsPath)
-	if err != nil {
-		log.Printf("Failed to read existing statistics JSON: %v", err)
-		aggregated = make(map[string]map[string]statistics.Statistic)
-	}
-
-	mergeStatistics(aggregated, username, stats)
-
-	if err := writeAggregatedStatistics(statsPath, aggregated); err != nil {
-		log.Printf("Failed to write statistics JSON: %v", err)
-	}
-}
-
-func statisticsFilePath() (string, error) {
-	if override := os.Getenv("GO_ZULIP_STATS_FILE"); override != "" {
-		return filepath.Abs(override)
-	}
-
-	cwd, err := os.Getwd()
-	if err != nil {
-		return "", err
-	}
-
-	root, err := findModuleRoot(cwd)
-	if err != nil {
-		// Fall back to current working directory when go.mod isn't found.
-		return filepath.Join(cwd, "test_statistics.json"), nil
-	}
-
-	return filepath.Join(root, "test_statistics.json"), nil
-}
-
-func findModuleRoot(start string) (string, error) {
-	dir := start
-	for {
-		if _, err := os.Stat(filepath.Join(dir, "go.mod")); err == nil {
-			return dir, nil
-		} else if !errors.Is(err, os.ErrNotExist) {
-			return "", err
-		}
-
-		parent := filepath.Dir(dir)
-		if parent == dir {
-			return "", fmt.Errorf("go.mod not found starting from %s", start)
-		}
-		dir = parent
-	}
-}
-
-func readAggregatedStatistics(path string) (map[string]map[string]statistics.Statistic, error) {
-	data := make(map[string]map[string]statistics.Statistic)
-
-	contents, err := os.ReadFile(path)
-	if err != nil {
-		if errors.Is(err, os.ErrNotExist) {
-			return data, nil
-		}
-		return nil, err
-	}
-
-	if len(contents) == 0 {
-		return data, nil
-	}
-
-	if err := json.Unmarshal(contents, &data); err != nil {
-		return nil, err
-	}
-
-	if data == nil {
-		data = make(map[string]map[string]statistics.Statistic)
-	}
-
-	return data, nil
-}
-
-func mergeStatistics(store map[string]map[string]statistics.Statistic, username string, stats map[string]statistics.Statistic) {
-	if store == nil {
-		return
-	}
-
-	if _, ok := store[username]; !ok {
-		store[username] = make(map[string]statistics.Statistic)
-	}
-
-	for endpoint, metric := range stats {
-		existing := store[username][endpoint]
-		existing.Count += metric.Count
-		existing.ErrCount += metric.ErrCount
-		existing.RetryCound += metric.RetryCound
-		existing.TotalDuration += metric.TotalDuration
-		store[username][endpoint] = existing
-	}
-}
-
-type fileLock struct {
-	file *os.File
-	path string
-}
-
-func acquireFileLock(lockPath string, timeout time.Duration) (*fileLock, error) {
-	deadline := time.Now().Add(timeout)
-
-	for {
-		f, err := os.OpenFile(lockPath, os.O_CREATE|os.O_EXCL|os.O_RDWR, 0o600)
-		if err == nil {
-			return &fileLock{file: f, path: lockPath}, nil
-		}
-
-		if !errors.Is(err, os.ErrExist) {
-			return nil, err
-		}
-
-		if time.Now().After(deadline) {
-			return nil, fmt.Errorf("timeout acquiring lock %s", lockPath)
-		}
-
-		time.Sleep(10 * time.Millisecond)
-	}
-}
-
-func (l *fileLock) release() error {
-	if l == nil {
-		return nil
-	}
-
-	if l.file != nil {
-		if err := l.file.Close(); err != nil {
-			return err
-		}
-	}
-
-	if err := os.Remove(l.path); err != nil && !errors.Is(err, os.ErrNotExist) {
-		return err
-	}
-
-	return nil
-}
-
-func writeAggregatedStatistics(path string, payload map[string]map[string]statistics.Statistic) error {
-	tmp, err := os.CreateTemp(filepath.Dir(path), "stats-*.json")
-	if err != nil {
-		return err
-	}
-
-	encoder := json.NewEncoder(tmp)
-	encoder.SetIndent("", "  ")
-
-	if err := encoder.Encode(payload); err != nil {
-		tmp.Close()
-		os.Remove(tmp.Name())
-		return err
-	}
-
-	if err := tmp.Close(); err != nil {
-		os.Remove(tmp.Name())
-		return err
-	}
-
-	if err := os.Rename(tmp.Name(), path); err != nil {
-		if removeErr := os.Remove(path); removeErr != nil && !errors.Is(removeErr, os.ErrNotExist) {
-			os.Remove(tmp.Name())
-			return fmt.Errorf("removing stale statistics file: %w", removeErr)
-		}
-
-		if err := os.Rename(tmp.Name(), path); err != nil {
-			os.Remove(tmp.Name())
-			return err
-		}
-	}
-
-	return nil
 }
 
 func getTestClient(t *testing.T, username string) client.Client {
@@ -504,20 +306,20 @@ func getOwnUser(t *testing.T, apiClient client.Client) *users.GetOwnUserResponse
 	return resp
 }
 
-var idCache sync.Map
+// var idCache sync.Map
 
 func GetUserId(t *testing.T, apiClient client.Client) int64 {
 	t.Helper()
 
-	if id, ok := idCache.Load(apiClient); ok {
-		return id.(int64)
-	}
+	// if id, ok := idCache.Load(apiClient); ok {
+	// 	return id.(int64)
+	// }
 
 	resp := getOwnUser(t, apiClient)
 
 	require.NotNil(t, resp)
 
-	idCache.Store(apiClient, resp.UserId)
+	// idCache.Store(apiClient, resp.UserId)
 
 	return resp.UserId
 }
@@ -549,7 +351,7 @@ func RequireStatusOK(t *testing.T, httpResp *http.Response) {
 	assert.Equal(t, 200, httpResp.StatusCode)
 }
 
-var channelCahe atomic.Value
+// var channelCahe atomic.Value
 
 func GetChannelWithAllClients(t *testing.T) (string, int64) {
 	t.Helper()
@@ -559,10 +361,10 @@ func GetChannelWithAllClients(t *testing.T) (string, int64) {
 		name string
 	}
 
-	if v := channelCahe.Load(); v != nil {
-		c := v.(channel)
-		return c.name, c.id
-	}
+	// if v := channelCahe.Load(); v != nil {
+	// 	c := v.(channel)
+	// 	return c.name, c.id
+	// }
 
 	clientFactories := []func(*testing.T) client.Client{
 		GetOwnerClient,
@@ -581,13 +383,14 @@ func GetChannelWithAllClients(t *testing.T) (string, int64) {
 
 	name, id := CreateRandomChannel(t, GetAdminClient(t), allClientIds...)
 
-	if channelCahe.CompareAndSwap(nil, channel{id, name}) {
-		return name, id
-	}
-
-	v := channelCahe.Load()
-	c := v.(channel)
-	return c.name, c.id
+	// if channelCahe.CompareAndSwap(nil, channel{id, name}) {
+	// 	return name, id
+	// }
+	//
+	// v := channelCahe.Load()
+	// c := v.(channel)
+	// return c.name, c.id
+	return name, id
 
 }
 

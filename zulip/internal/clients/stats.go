@@ -10,7 +10,7 @@ import (
 type stats struct {
 	count         stat[uint64]
 	errCount      stat[uint64]
-	retryCound    stat[uint64]
+	retryCount    stat[uint64]
 	totalDuration stat[time.Duration]
 }
 
@@ -23,7 +23,7 @@ func (s *stats) Error(key string) {
 }
 
 func (s *stats) Retry(key string) {
-	s.retryCound.increment(key, 1)
+	s.retryCount.increment(key, 1)
 }
 
 func (s *stats) Duration(key string, duration time.Duration) {
@@ -73,7 +73,7 @@ func (s *stats) GetStatistics() map[string]statistics.Statistic {
 			TotalDuration: duration,
 			Count:         s.count.get(endpoint),
 			ErrCount:      s.errCount.get(endpoint),
-			RetryCound:    s.retryCound.get(endpoint),
+			RetryCount:    s.retryCount.get(endpoint),
 		}
 		return true
 	})
