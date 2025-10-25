@@ -13,10 +13,8 @@ import (
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
-func Test_InvitesAPIService(t *testing.T) {
-	t.Parallel()
-
-	t.Run("InviteLinkLifecycle", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_InviteLinkLifecycle(t *testing.T) {
+	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		channelName, channelId := CreateRandomChannel(t, apiClient, GetUserId(t, apiClient))
 
@@ -52,9 +50,13 @@ func Test_InvitesAPIService(t *testing.T) {
 		assert.Nil(t, findNewInvite(baseline, remaining, func(inv z.Invite) bool {
 			return inv.IsMultiuse && inv.Id == newInvite.Id
 		}), "multiuse invite should be removed after revocation")
-	}))
+	})
+}
 
-	t.Run("EmailInviteLifecycle", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_EmailInviteLifecycle(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		_, channelId := CreateRandomChannel(t, apiClient, GetUserId(t, apiClient))
 		invitee := fmt.Sprintf("%s@example.com", strings.ToLower(UniqueName("invitee")))
@@ -96,7 +98,7 @@ func Test_InvitesAPIService(t *testing.T) {
 		assert.Nil(t, findNewInvite(baseline, remaining, func(inv z.Invite) bool {
 			return !inv.IsMultiuse && inv.Id == emailInvite.Id
 		}), "email invitation should be removed after revocation")
-	}))
+	})
 }
 
 func loadInvites(t *testing.T, ctx context.Context, apiClient client.Client) []z.Invite {

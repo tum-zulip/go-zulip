@@ -12,10 +12,10 @@ import (
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
-func Test_NavigationViewsAPIService(t *testing.T) {
+func Test_AddNavigationView(t *testing.T) {
 	t.Parallel()
 
-	t.Run("AddNavigationView", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		view := createTestNavigationView(t, apiClient, true)
 
 		ctx := context.Background()
@@ -31,9 +31,13 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 		assert.Equal(t, view.name, *found.Name)
 		assert.Equal(t, view.isPinned, found.IsPinned)
 
-	}))
+	})
+}
 
-	t.Run("EditNavigationView", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_EditNavigationView(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		view := createTestNavigationView(t, apiClient, true)
@@ -59,9 +63,13 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 		assert.Equal(t, updatedName, *updated.Name)
 		assert.False(t, updated.IsPinned)
 
-	}))
+	})
+}
 
-	t.Run("GetNavigationViews", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetNavigationViews(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		view := createTestNavigationView(t, apiClient, false)
@@ -74,9 +82,13 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 
 		assert.NotNil(t, navigationViewByFragment(resp.NavigationViews, view.fragment))
 
-	}))
+	})
+}
 
-	t.Run("RemoveNavigationView", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_RemoveNavigationView(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		view := createTestNavigationView(t, apiClient, true)
@@ -94,7 +106,7 @@ func Test_NavigationViewsAPIService(t *testing.T) {
 
 		assert.Nil(t, navigationViewByFragment(listResp.NavigationViews, view.fragment))
 
-	}))
+	})
 }
 
 type navigationViewState struct {

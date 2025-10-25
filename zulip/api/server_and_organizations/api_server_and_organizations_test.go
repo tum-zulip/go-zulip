@@ -18,10 +18,10 @@ import (
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
-func Test_ServerAndOrganizationsAPIService(t *testing.T) {
+func Test_GetServerSettings(t *testing.T) {
 	t.Parallel()
 
-	t.Run("GetServerSettings", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetServerSettings(ctx).Execute()
@@ -30,27 +30,43 @@ func Test_ServerAndOrganizationsAPIService(t *testing.T) {
 		RequireStatusOK(t, httpRes)
 		assert.NotEmpty(t, resp.RealmName)
 		assert.NotEmpty(t, resp.RealmUrl)
-	}))
+	})
+}
 
-	t.Run("CodePlaygrounds", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_CodePlaygrounds(t *testing.T) {
+	t.Parallel()
+
+	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		testCodePlaygroundLifecycle(t, ctx, apiClient)
-	}))
+	})
+}
 
-	t.Run("Linkifiers", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_Linkifiers(t *testing.T) {
+	t.Parallel()
+
+	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		testLinkifierLifecycle(t, ctx, apiClient)
-	}))
+	})
+}
 
-	t.Run("CustomProfileFields", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_CustomProfileFields(t *testing.T) {
+	t.Parallel()
+
+	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		testCustomProfileFieldManagement(t, ctx, apiClient)
-	}))
+	})
+}
 
-	t.Run("Presence", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_Presence(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetPresence(ctx).Execute()
@@ -63,15 +79,23 @@ func Test_ServerAndOrganizationsAPIService(t *testing.T) {
 		for email, details := range presences {
 			assert.NotEmpty(t, details, "presence data missing for %s", email)
 		}
-	}))
+	})
+}
 
-	t.Run("RealmExports", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_RealmExports(t *testing.T) {
+	t.Parallel()
+
+	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		testRealmExports(t, ctx, apiClient)
-	}))
+	})
+}
 
-	t.Run("WelcomeBotPreview", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_WelcomeBotPreview(t *testing.T) {
+	t.Parallel()
+
+	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.TestWelcomeBotCustomMessage(ctx).
@@ -81,9 +105,13 @@ func Test_ServerAndOrganizationsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.Greater(t, resp.MessageId, int64(0))
-	}))
+	})
+}
 
-	t.Run("RealmUserSettingsDefaults", RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_RealmUserSettingsDefaults(t *testing.T) {
+	t.Parallel()
+
+	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.UpdateRealmUserSettingsDefaults(ctx).Execute()
@@ -91,13 +119,17 @@ func Test_ServerAndOrganizationsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.Equal(t, "success", resp.Result)
-	}))
+	})
+}
 
-	t.Run("CustomEmojiLifecycle", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_CustomEmojiLifecycle(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		testCustomEmojiLifecycle(t, ctx, apiClient)
-	}))
+	})
 }
 
 func testCodePlaygroundLifecycle(t *testing.T, ctx context.Context, apiClient client.Client) {

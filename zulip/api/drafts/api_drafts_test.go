@@ -15,22 +15,30 @@ import (
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
-func Test_DraftsAPIService(t *testing.T) {
+func Test_CreateDrafts(t *testing.T) {
 	t.Parallel()
 
-	t.Run("CreateDrafts", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		draft := createDraft(t, ctx, apiClient)
 		assert.NotZero(t, draft.Id)
-	}))
+	})
+}
 
-	t.Run("CreateSavedSnippet", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_CreateSavedSnippet(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(t, ctx, apiClient)
 		assert.NotZero(t, snippet.SavedSnippetId)
-	}))
+	})
+}
 
-	t.Run("DeleteDraft", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_DeleteDraft(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		draft := createDraft(t, ctx, apiClient)
 
@@ -47,9 +55,13 @@ func Test_DraftsAPIService(t *testing.T) {
 			require.NotNil(t, inner.Id)
 			require.NotEqual(t, inner.Id, draft.Id, "Deleted draft still present")
 		}
-	}))
+	})
+}
 
-	t.Run("DeleteSavedSnippet", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_DeleteSavedSnippet(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(t, ctx, apiClient)
 
@@ -63,9 +75,13 @@ func Test_DraftsAPIService(t *testing.T) {
 		for _, s := range snippetsResp.SavedSnippets {
 			require.NotEqual(t, snippet.SavedSnippetId, s.Id, "Deleted snippet still present")
 		}
-	}))
+	})
+}
 
-	t.Run("EditDraft", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_EditDraft(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		draft := createDraft(t, ctx, apiClient)
 
@@ -97,9 +113,13 @@ func Test_DraftsAPIService(t *testing.T) {
 			}
 		}
 		assert.True(t, found, "Updated draft not found in draft list")
-	}))
+	})
+}
 
-	t.Run("EditSavedSnippet", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_EditSavedSnippet(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(t, ctx, apiClient)
 
@@ -129,9 +149,13 @@ func Test_DraftsAPIService(t *testing.T) {
 			}
 		}
 		assert.True(t, found, "Updated saved snippet not found in list")
-	}))
+	})
+}
 
-	t.Run("GetDrafts", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetDrafts(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		draft := createDraft(t, ctx, apiClient)
 
@@ -152,9 +176,13 @@ func Test_DraftsAPIService(t *testing.T) {
 			}
 		}
 		assert.True(t, found, "Created draft not found in list of drafts")
-	}))
+	})
+}
 
-	t.Run("GetSavedSnippets", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetSavedSnippets(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(t, ctx, apiClient)
 
@@ -172,7 +200,7 @@ func Test_DraftsAPIService(t *testing.T) {
 			}
 		}
 		assert.True(t, found, "Created saved snippet not found in list")
-	}))
+	})
 }
 
 func createDraft(t *testing.T, ctx context.Context, apiClient client.Client) *z.Draft {

@@ -9,22 +9,21 @@ import (
 	"github.com/tum-zulip/go-zulip/zulip/api/real_time_events"
 )
 
-func Test_EventEnvelope_UnmarshalJSON(t *testing.T) {
-	t.Run("Decodes HeartbeatEvent", func(t *testing.T) {
-		data := []byte(`{"result": "success", "msg": "", "events": [{"type":"heartbeat","id":0}]}`)
+func Test_Unmarshal_HeartbeatEvent(t *testing.T) {
+	t.Parallel()
+	data := []byte(`{"result": "success", "msg": "", "events": [{"type":"heartbeat","id":0}]}`)
 
-		var resp real_time_events.GetEventsResponse
-		err := json.Unmarshal(data, &resp)
+	var resp real_time_events.GetEventsResponse
+	err := json.Unmarshal(data, &resp)
 
-		require.NoError(t, err)
-		require.Len(t, resp.Events, 1)
+	require.NoError(t, err)
+	require.Len(t, resp.Events, 1)
 
-		event := resp.Events[0]
+	event := resp.Events[0]
 
-		_, ok := event.(z.HeartbeatEvent)
-		require.True(t, ok, "expected HeartbeatEvent, got %T", event)
-		require.Equal(t, int64(0), event.GetId())
-		require.Equal(t, z.EventTypeHeartbeat, event.GetType())
-	})
+	_, ok := event.(z.HeartbeatEvent)
+	require.True(t, ok, "expected HeartbeatEvent, got %T", event)
+	require.Equal(t, int64(0), event.GetId())
+	require.Equal(t, z.EventTypeHeartbeat, event.GetType())
 
 }

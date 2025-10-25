@@ -11,16 +11,22 @@ import (
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
-func Test_RemindersAPIService(t *testing.T) {
-	_, channelId := CreateChannelWithAllClients(t)
-
+func Test_CreateMessageReminder(t *testing.T) {
 	t.Parallel()
 
-	t.Run("CreateMessageReminder", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
-		createMessageReminder(t, apiClient, channelId)
-	}))
+	_, channelId := CreateChannelWithAllClients(t)
 
-	t.Run("DeleteReminder", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+		createMessageReminder(t, apiClient, channelId)
+	})
+}
+
+func Test_DeleteReminder(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		reminderId := createMessageReminder(t, apiClient, channelId)
 
@@ -30,9 +36,15 @@ func Test_RemindersAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
-	}))
+	})
+}
 
-	t.Run("GetReminders", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetReminders(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		reminderId := createMessageReminder(t, apiClient, channelId)
 
@@ -49,7 +61,7 @@ func Test_RemindersAPIService(t *testing.T) {
 			}
 		}
 		assert.True(t, found, "Created reminder not found in list of reminders")
-	}))
+	})
 }
 
 func createMessageReminder(t *testing.T, apiClient client.Client, channelId int64) int64 {

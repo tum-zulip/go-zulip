@@ -12,16 +12,22 @@ import (
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
-func TestEventQueue(t *testing.T) {
-	t.Run("Connect requires queue ID", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_ConnectRequiresQueueID(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		q := real_time_events.NewEventQueue(apiClient, nil)
 
 		events, err := q.Connect(context.Background(), "", 0)
 		require.Error(t, err)
 		require.Nil(t, events)
-	}))
+	})
+}
 
-	t.Run("Polls events and updates state", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_PollsEventsAndUpdatesState(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpResp, err := apiClient.RegisterQueue(ctx).Execute()
@@ -43,7 +49,6 @@ func TestEventQueue(t *testing.T) {
 			for i := 0; i < 2; i++ {
 				time.Sleep(200 * time.Millisecond)
 				apiClient.SetTypingStatus(ctx).
-					Type_(z.RecipientTypeDirect).
 					To(z.UserAsRecipient(GetUserId(t, apiClient))).
 					Op(z.TypingStatusOpStart).
 					Execute()
@@ -61,11 +66,15 @@ func TestEventQueue(t *testing.T) {
 		require.NoError(t, q.Close())
 		for range events {
 		}
-	}))
+	})
+}
 
-	t.Run("Close without Connect", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_CloseWithoutConnect(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		q := real_time_events.NewEventQueue(apiClient, nil)
 
 		require.Error(t, q.Close())
-	}))
+	})
 }

@@ -13,19 +13,25 @@ import (
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
-func Test_ScheduledMessagesAPIService(t *testing.T) {
+func Test_CreateScheduledMessage(t *testing.T) {
 	t.Parallel()
 
 	otherUserId := GetUserId(t, GetOtherNormalClient(t))
 
-	t.Run("CreateScheduledMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
-		createScheduledMessage(t, apiClient, []int64{otherUserId})
-	}))
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+		createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserId))
+	})
+}
 
-	t.Run("DeleteScheduledMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_DeleteScheduledMessage(t *testing.T) {
+	t.Parallel()
+
+	otherUserId := GetUserId(t, GetOtherNormalClient(t))
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := createScheduledMessage(t, apiClient, []int64{otherUserId})
+		msg := createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserId))
 
 		resp, httpRes, err := apiClient.DeleteScheduledMessage(ctx, msg.ScheduledMessageId).Execute()
 
@@ -33,12 +39,18 @@ func Test_ScheduledMessagesAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
-	}))
+	})
+}
 
-	t.Run("GetScheduledMessages", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetScheduledMessages(t *testing.T) {
+	t.Parallel()
+
+	otherUserId := GetUserId(t, GetOtherNormalClient(t))
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := createScheduledMessage(t, apiClient, []int64{otherUserId})
+		msg := createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserId))
 
 		resp, httpRes, err := apiClient.GetScheduledMessages(ctx).Execute()
 
@@ -54,12 +66,18 @@ func Test_ScheduledMessagesAPIService(t *testing.T) {
 			}
 		}
 		assert.True(t, found, "created scheduled message not found in list")
-	}))
+	})
+}
 
-	t.Run("UpdateScheduledMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UpdateScheduledMessage(t *testing.T) {
+	t.Parallel()
+
+	otherUserId := GetUserId(t, GetOtherNormalClient(t))
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := createScheduledMessage(t, apiClient, []int64{otherUserId})
+		msg := createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserId))
 
 		resp, httpRes, err := apiClient.
 			UpdateScheduledMessage(ctx, msg.ScheduledMessageId).
@@ -70,15 +88,15 @@ func Test_ScheduledMessagesAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
-	}))
+	})
 }
 
-func createScheduledMessage(t *testing.T, apiClient client.Client, to []int64) *scheduled_messages.CreateScheduledMessageResponse {
+func createScheduledMessage(t *testing.T, apiClient client.Client, to z.Recipient) *scheduled_messages.CreateScheduledMessageResponse {
 	ctx := context.Background()
 
 	resp, httpRes, err := apiClient.CreateScheduledMessage(ctx).
 		Content(UniqueName("This is a scheduled message")).
-		To(z.UsersAsRecipient(to)).
+		To(to).
 		ScheduledDeliveryTimestamp(time.Now().Add(1 * time.Hour)).
 		Execute()
 

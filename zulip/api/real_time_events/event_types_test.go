@@ -12,14 +12,12 @@ import (
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
-// TestEventTypes creates comprehensive tests for all event types
-// Each test registers an event queue, triggers the event in a goroutine,
-// and validates the event data is correct
-func TestEventTypes(t *testing.T) {
+func Test_MessageEvent(t *testing.T) {
+	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
 
-	t.Run("MessageEvent", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		content := "Test message content"
 
@@ -53,9 +51,15 @@ func TestEventTypes(t *testing.T) {
 
 		// Cleanup
 		_, _, _ = apiClient.DeleteQueue(ctx).QueueId(*queueResp.QueueId).Execute()
-	}))
+	})
+}
 
-	t.Run("ReactionEvent", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_ReactionEvent(t *testing.T) {
+	t.Parallel()
+
+	otherClient := GetOtherNormalClient(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Setup: Send a direct message first
@@ -95,11 +99,15 @@ func TestEventTypes(t *testing.T) {
 		assert.Equal(t, emojiName, reactionEvent.EmojiName)
 		assert.Equal(t, z.EventOpAdd, reactionEvent.Op)
 
-		// Cleanup
-		_, _, _ = apiClient.DeleteQueue(ctx).QueueId(*queueResp.QueueId).Execute()
-	}))
+	})
+}
 
-	t.Run("UpdateMessageEvent", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UpdateMessageEvent(t *testing.T) {
+	t.Parallel()
+
+	otherClient := GetOtherNormalClient(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Setup: Send a direct message first
@@ -139,11 +147,15 @@ func TestEventTypes(t *testing.T) {
 		assert.NotNil(t, updateEvent.Content)
 		assert.Contains(t, *updateEvent.Content, newContent)
 
-		// Cleanup
-		_, _, _ = apiClient.DeleteQueue(ctx).QueueId(*queueResp.QueueId).Execute()
-	}))
+	})
+}
 
-	t.Run("DeleteMessageEvent", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_DeleteMessageEvent(t *testing.T) {
+	t.Parallel()
+
+	otherClient := GetOtherNormalClient(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Setup: Send a direct message first
@@ -182,11 +194,15 @@ func TestEventTypes(t *testing.T) {
 			assert.Equal(t, messageId, *deleteEvent.MessageId)
 		}
 
-		// Cleanup
-		_, _, _ = apiClient.DeleteQueue(ctx).QueueId(*queueResp.QueueId).Execute()
-	}))
+	})
+}
 
-	t.Run("TypingEvent", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_TypingEvent(t *testing.T) {
+	t.Parallel()
+
+	otherClient := GetOtherNormalClient(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Register queue for typing events with narrow to direct messages
@@ -220,11 +236,15 @@ func TestEventTypes(t *testing.T) {
 		typingEvent := event.(z.TypingEvent)
 		assert.Equal(t, z.EventOpStart, typingEvent.Op)
 
-		// Cleanup
-		_, _, _ = apiClient.DeleteQueue(ctx).QueueId(*queueResp.QueueId).Execute()
-	}))
+	})
+}
 
-	t.Run("UpdateMessageFlagsEvent", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UpdateMessageFlagsEvent(t *testing.T) {
+	t.Parallel()
+
+	otherClient := GetOtherNormalClient(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Setup: Send a direct message first
@@ -262,10 +282,7 @@ func TestEventTypes(t *testing.T) {
 		assert.Equal(t, z.EventOpAdd, flagEvent.Op)
 		assert.Equal(t, "starred", flagEvent.Flag)
 		assert.Contains(t, flagEvent.Messages, messageId)
-
-		// Cleanup
-		_, _, _ = apiClient.DeleteQueue(ctx).QueueId(*queueResp.QueueId).Execute()
-	}))
+	})
 }
 
 // Helper function to send a direct message and return message ID

@@ -16,15 +16,12 @@ import (
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
-func Test_MessagesAPIService(t *testing.T) {
-
-	otherClient := GetOtherNormalClient(t)
-
-	channelName, channelId := CreateChannelWithAllClients(t)
-
+func Test_AddReaction(t *testing.T) {
 	t.Parallel()
 
-	t.Run("AddReaction", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -36,9 +33,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("CheckMessagesMatchNarrow", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_CheckMessagesMatchNarrow(t *testing.T) {
+	t.Parallel()
+
+	channelName, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -56,9 +59,15 @@ func Test_MessagesAPIService(t *testing.T) {
 
 		key := strconv.Itoa(int(msg.MessageId))
 		assert.Contains(t, resp.Messages, key)
-	}))
+	})
+}
 
-	t.Run("DeleteMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_DeleteMessage(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -68,9 +77,13 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("GetFileTemporaryUrl", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetFileTemporaryUrl(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		upload := UploadFileForTest(t, ctx, apiClient)
@@ -83,9 +96,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.NotEmpty(t, resp.Url)
-	}))
+	})
+}
 
-	t.Run("GetMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetMessage(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -96,9 +115,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.Equal(t, msg.MessageId, resp.Message.Id)
-	}))
+	})
+}
 
-	t.Run("GetMessageHistory", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetMessageHistory(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -115,9 +140,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.NotEmpty(t, resp.MessageHistory)
-	}))
+	})
+}
 
-	t.Run("GetMessages", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetMessages(t *testing.T) {
+	t.Parallel()
+
+	channelName, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -135,9 +166,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.NotEmpty(t, resp.Messages)
-	}))
+	})
+}
 
-	t.Run("GetReadReceipts", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetReadReceipts(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -147,9 +184,13 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("MarkAllAsRead", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_MarkAllAsRead(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.MarkAllAsRead(ctx).Execute()
@@ -157,9 +198,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("MarkChannelAsRead", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_MarkChannelAsRead(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -171,9 +218,16 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("MarkTopicAsRead", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_MarkTopicAsRead(t *testing.T) {
+	t.Parallel()
+
+	otherClient := GetOtherNormalClient(t)
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, otherClient, channelId)
@@ -188,9 +242,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("RemoveReaction", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_RemoveReaction(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -207,9 +267,13 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("RenderMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_RenderMessage(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		content := "**bold** _italic_"
@@ -221,9 +285,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.Contains(t, resp.Rendered, "<strong>bold</strong>")
-	}))
+	})
+}
 
-	t.Run("ReportMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_ReportMessage(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -249,9 +319,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("SendMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_SendMessage(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		topic := UniqueName("topic")
@@ -267,9 +343,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.Greater(t, resp.Id, int64(0))
-	}))
+	})
+}
 
-	t.Run("UpdateMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UpdateMessage(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -282,9 +364,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("UpdateMessageFlags", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UpdateMessageFlags(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -299,9 +387,15 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.Contains(t, resp.Messages, msg.MessageId)
-	}))
+	})
+}
 
-	t.Run("UpdateMessageFlagsForNarrow", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UpdateMessageFlagsForNarrow(t *testing.T) {
+	t.Parallel()
+
+	channelName, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelId)
@@ -322,23 +416,27 @@ func Test_MessagesAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.GreaterOrEqual(t, resp.ProcessedCount, int64(1))
-	}))
+	})
+}
 
-	t.Run("UploadFile", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UploadFile(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp := UploadFileForTest(t, ctx, apiClient)
 		assert.NotEmpty(t, resp.Url)
 		assert.NotEmpty(t, resp.Filename)
-	}))
+	})
 }
 
-func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
-	channelName, channelId := CreateChannelWithAllClients(t)
-
+func Test_AddReaction_Invalid_Input(t *testing.T) {
 	t.Parallel()
 
-	t.Run("AddReaction", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent messageId
@@ -362,9 +460,13 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 			require.NotNil(t, apiErr.Model())
 			assert.IsType(t, z.CodedError{}, apiErr.Model())
 		}
-	}))
+	})
+}
 
-	t.Run("CheckMessagesMatchNarrow", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_CheckMessagesMatchNarrow_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with empty msgIds list - should fail
@@ -380,9 +482,13 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 			assert.IsType(t, z.BadNarrowError{}, apiErr.Model())
 		}
 
-	}))
+	})
+}
 
-	t.Run("DeleteMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_DeleteMessage_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent messageId
@@ -397,9 +503,13 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 		// Test with negative messageId
 		_, _, err = apiClient.DeleteMessage(ctx, -1).Execute()
 		require.Error(t, err)
-	}))
+	})
+}
 
-	t.Run("GetFileTemporaryUrl", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetFileTemporaryUrl_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent realmId and invalid filename
@@ -409,9 +519,13 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 		// Test with negative realmId
 		_, _, err = apiClient.GetFileTemporaryUrl(ctx, -1, "file.txt").Execute()
 		require.Error(t, err)
-	}))
+	})
+}
 
-	t.Run("GetMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetMessage_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent messageId
@@ -426,9 +540,15 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 		// Test with negative messageId
 		_, _, err = apiClient.GetMessage(ctx, -1).Execute()
 		require.Error(t, err)
-	}))
+	})
+}
 
-	t.Run("GetMessageHistory", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetMessageHistory_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent messageId
@@ -442,9 +562,13 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("GetMessages", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetMessages_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent anchor messageId
@@ -461,9 +585,13 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 			NumAfter(-5).
 			Execute()
 		require.Error(t, err)
-	}))
+	})
+}
 
-	t.Run("GetReadReceipts", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetReadReceipts_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent messageId
@@ -478,9 +606,13 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 		// Test with negative messageId
 		_, _, err = apiClient.GetReadReceipts(ctx, -1).Execute()
 		require.Error(t, err)
-	}))
+	})
+}
 
-	t.Run("MarkAllAsRead", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_MarkAllAsRead_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// MarkAllAsRead should generally succeed even if no messages to mark
@@ -494,9 +626,13 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("MarkChannelAsRead", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_MarkChannelAsRead_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent channelId
@@ -519,9 +655,15 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 			require.NotNil(t, apiErr.Model())
 			assert.IsType(t, z.CodedError{}, apiErr.Model())
 		}
-	}))
+	})
+}
 
-	t.Run("MarkTopicAsRead", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_MarkTopicAsRead_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent channelId
@@ -538,9 +680,15 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 			Execute()
 		// May succeed or fail depending on server behavior
 		_ = err
-	}))
+	})
+}
 
-	t.Run("RemoveReaction", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_RemoveReaction_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent messageId
@@ -564,9 +712,13 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 			require.NotNil(t, apiErr.Model())
 			assert.IsType(t, z.CodedError{}, apiErr.Model())
 		}
-	}))
+	})
+}
 
-	t.Run("RenderMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_RenderMessage_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with empty content - may be allowed or fail
@@ -583,9 +735,15 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.NotEmpty(t, resp.Rendered)
-	}))
+	})
+}
 
-	t.Run("ReportMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_ReportMessage_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent messageId
@@ -602,9 +760,15 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 			Description("test report").
 			Execute()
 		require.Error(t, err)
-	}))
+	})
+}
 
-	t.Run("SendMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_SendMessage_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent userId
@@ -642,9 +806,15 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 			require.NotNil(t, apiErr.Model())
 			assert.IsType(t, z.CodedError{}, apiErr.Model())
 		}
-	}))
+	})
+}
 
-	t.Run("UpdateMessage", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UpdateMessage_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent messageId
@@ -667,9 +837,15 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("UpdateMessageFlags", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UpdateMessageFlags_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	_, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with non-existent messageId
@@ -711,9 +887,15 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 			require.NotNil(t, apiErr.Model())
 			assert.IsType(t, z.CodedError{}, apiErr.Model())
 		}
-	}))
+	})
+}
 
-	t.Run("UpdateMessageFlagsForNarrow", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UpdateMessageFlagsForNarrow_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	channelName, channelId := CreateChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with invalid negative numBefore/numAfter
@@ -763,9 +945,13 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 			require.NotNil(t, apiErr.Model())
 			assert.IsType(t, z.CodedError{}, apiErr.Model())
 		}
-	}))
+	})
+}
 
-	t.Run("UploadFile", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UploadFile_Invalid_Input(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		// Test with file that doesn't exist - try to open a non-existent file
@@ -782,7 +968,7 @@ func Test_MessagesAPIService_Invalid_Inputs(t *testing.T) {
 		resp := UploadFileForTest(t, ctx, apiClient)
 		assert.NotEmpty(t, resp.Url)
 		assert.NotEmpty(t, resp.Filename)
-	}))
+	})
 }
 
 func parseUploadedFilePath(t *testing.T, uploadPath string) (int64, string) {

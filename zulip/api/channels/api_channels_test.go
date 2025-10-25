@@ -15,125 +15,151 @@ import (
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
-func Test_ChannelsAPIService(t *testing.T) {
+func Test_AddDefaultChannel(t *testing.T) {
 	t.Parallel()
 
+	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
 	ownerId := GetUserId(t, ownerClient)
 
-	t.Run("AddDefaultChannel", func(t *testing.T) {
-		ctx := context.Background()
+	_, channelId := CreateRandomChannel(t, ownerClient, ownerId)
 
-		_, channelId := CreateRandomChannel(t, ownerClient, ownerId)
+	resp, httpRes, err := ownerClient.AddDefaultChannel(ctx).ChannelId(channelId).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	RequireStatusOK(t, httpRes)
+}
 
-		resp, httpRes, err := ownerClient.AddDefaultChannel(ctx).ChannelId(channelId).Execute()
-		require.NoError(t, err)
-		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
-	})
+func Test_ArchiveChannel(t *testing.T) {
+	t.Parallel()
 
-	t.Run("ArchiveChannel", func(t *testing.T) {
-		ctx := context.Background()
+	ctx := context.Background()
+	ownerClient := GetOwnerClient(t)
+	ownerId := GetUserId(t, ownerClient)
 
-		_, channelId := CreateRandomChannel(t, ownerClient, ownerId)
+	_, channelId := CreateRandomChannel(t, ownerClient, ownerId)
 
-		resp, httpRes, err := ownerClient.ArchiveChannel(ctx, channelId).Execute()
-		require.NoError(t, err)
-		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
-	})
+	resp, httpRes, err := ownerClient.ArchiveChannel(ctx, channelId).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	RequireStatusOK(t, httpRes)
+}
 
-	t.Run("CreateChannelFolder", func(t *testing.T) {
-		ctx := context.Background()
+func Test_CreateChannelFolder(t *testing.T) {
+	t.Parallel()
 
-		resp, httpRes, err := ownerClient.CreateChannelFolder(ctx).
-			Name(UniqueName("test-folder")).
-			Description("Created during Channels API tests").
-			Execute()
-		require.NoError(t, err)
-		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
-		assert.Greater(t, resp.ChannelFolderId, int64(0))
-	})
+	ctx := context.Background()
+	ownerClient := GetOwnerClient(t)
 
-	t.Run("DeleteTopic", func(t *testing.T) {
-		ctx := context.Background()
+	resp, httpRes, err := ownerClient.CreateChannelFolder(ctx).
+		Name(UniqueName("test-folder")).
+		Description("Created during Channels API tests").
+		Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	RequireStatusOK(t, httpRes)
+	assert.Greater(t, resp.ChannelFolderId, int64(0))
+}
 
-		_, channelId := CreateRandomChannel(t, ownerClient, ownerId)
-		topic := createTopicWithMessage(t, ownerClient, channelId)
+func Test_DeleteTopic(t *testing.T) {
+	t.Parallel()
 
-		resp, httpRes, err := ownerClient.DeleteTopic(ctx, channelId).
-			TopicName(topic).
-			Execute()
-		require.NoError(t, err)
-		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
-		assert.True(t, resp.Complete)
-	})
+	ctx := context.Background()
+	ownerClient := GetOwnerClient(t)
+	ownerId := GetUserId(t, ownerClient)
 
-	t.Run("PatchChannelFolders", func(t *testing.T) {
-		ctx := context.Background()
+	_, channelId := CreateRandomChannel(t, ownerClient, ownerId)
+	topic := createTopicWithMessage(t, ownerClient, channelId)
 
-		createChannelFolder(t, ownerClient, UniqueName("patch-folder"), "first test folder")
-		createChannelFolder(t, ownerClient, UniqueName("patch-folder"), "second test folder")
+	resp, httpRes, err := ownerClient.DeleteTopic(ctx, channelId).
+		TopicName(topic).
+		Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	RequireStatusOK(t, httpRes)
+	assert.True(t, resp.Complete)
+}
 
-		originalOrder := getChannelFolderIds(t, ownerClient)
-		if len(originalOrder) < 2 {
-			t.Skip("need at least two channel folders to reorder")
-		}
+func Test_PatchChannelFolders(t *testing.T) {
+	t.Parallel()
 
-		reordered := append([]int64(nil), originalOrder...)
-		reverseSlice(reordered)
+	ctx := context.Background()
+	ownerClient := GetOwnerClient(t)
 
-		resp, httpRes, err := ownerClient.PatchChannelFolders(ctx).
-			Order(reordered).
-			Execute()
-		require.NoError(t, err)
-		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
-	})
+	createChannelFolder(t, ownerClient, UniqueName("patch-folder"), "first test folder")
+	createChannelFolder(t, ownerClient, UniqueName("patch-folder"), "second test folder")
 
-	t.Run("RemoveDefaultChannel", func(t *testing.T) {
-		ctx := context.Background()
+	originalOrder := getChannelFolderIds(t, ownerClient)
+	if len(originalOrder) < 2 {
+		t.Skip("need at least two channel folders to reorder")
+	}
 
-		_, channelId := CreateRandomChannel(t, ownerClient, ownerId)
-		reqResp, _, err := ownerClient.AddDefaultChannel(ctx).ChannelId(channelId).Execute()
-		require.NoError(t, err)
-		require.NotNil(t, reqResp)
+	reordered := append([]int64(nil), originalOrder...)
+	reverseSlice(reordered)
 
-		resp, httpRes, err := ownerClient.RemoveDefaultChannel(ctx).ChannelId(channelId).Execute()
-		require.NoError(t, err)
-		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
-	})
+	resp, httpRes, err := ownerClient.PatchChannelFolders(ctx).
+		Order(reordered).
+		Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	RequireStatusOK(t, httpRes)
+}
 
-	t.Run("UpdateChannelFolder", func(t *testing.T) {
-		ctx := context.Background()
+func Test_RemoveDefaultChannel(t *testing.T) {
+	t.Parallel()
 
-		folderId := createChannelFolder(t, ownerClient, UniqueName("update-folder"), "initial description")
+	ctx := context.Background()
+	ownerClient := GetOwnerClient(t)
+	ownerId := GetUserId(t, ownerClient)
 
-		resp, httpRes, err := ownerClient.UpdateChannelFolder(ctx, folderId).
-			Description("updated folder description").
-			Execute()
-		require.NoError(t, err)
-		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
-	})
+	_, channelId := CreateRandomChannel(t, ownerClient, ownerId)
+	reqResp, _, err := ownerClient.AddDefaultChannel(ctx).ChannelId(channelId).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, reqResp)
 
-	t.Run("UpdateChannel", func(t *testing.T) {
-		ctx := context.Background()
+	resp, httpRes, err := ownerClient.RemoveDefaultChannel(ctx).ChannelId(channelId).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	RequireStatusOK(t, httpRes)
+}
 
-		_, channelId := CreateRandomChannel(t, ownerClient, ownerId)
+func Test_UpdateChannelFolder(t *testing.T) {
+	t.Parallel()
 
-		resp, httpRes, err := ownerClient.UpdateChannel(ctx, channelId).
-			Description("updated by test").
-			Execute()
-		require.NoError(t, err)
-		require.NotNil(t, resp)
-		RequireStatusOK(t, httpRes)
-	})
+	ctx := context.Background()
+	ownerClient := GetOwnerClient(t)
 
-	t.Run("CreateBigBlueButtonVideoCall", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+	folderId := createChannelFolder(t, ownerClient, UniqueName("update-folder"), "initial description")
+
+	resp, httpRes, err := ownerClient.UpdateChannelFolder(ctx, folderId).
+		Description("updated folder description").
+		Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	RequireStatusOK(t, httpRes)
+}
+
+func Test_UpdateChannel(t *testing.T) {
+	t.Parallel()
+
+	ctx := context.Background()
+	ownerClient := GetOwnerClient(t)
+	ownerId := GetUserId(t, ownerClient)
+
+	_, channelId := CreateRandomChannel(t, ownerClient, ownerId)
+
+	resp, httpRes, err := ownerClient.UpdateChannel(ctx, channelId).
+		Description("updated by test").
+		Execute()
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	RequireStatusOK(t, httpRes)
+}
+
+func Test_CreateBigBlueButtonVideoCall(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.CreateBigBlueButtonVideoCall(ctx).
@@ -146,24 +172,36 @@ func Test_ChannelsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.NotEmpty(t, resp.Url)
-	}))
+	})
+}
 
-	t.Run("CreateChannel", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_CreateChannel(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		userId := GetUserId(t, apiClient)
 
 		CreateRandomChannel(t, apiClient, userId)
-	}))
+	})
+}
 
-	t.Run("GetChannelFolders", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetChannelFolders(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetChannelFolders(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("GetChannelById", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetChannelById(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		userId := GetUserId(t, apiClient)
 
@@ -174,9 +212,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.Equal(t, channelId, resp.Channel.ChannelId)
-	}))
+	})
+}
 
-	t.Run("GetChannelEmailAddress", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetChannelEmailAddress(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		userId := GetUserId(t, apiClient)
 
@@ -187,9 +229,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.NotEmpty(t, resp.Email)
-	}))
+	})
+}
 
-	t.Run("GetChannelId", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetChannelId(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		userId := GetUserId(t, apiClient)
 
@@ -202,9 +248,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.Equal(t, channelId, resp.ChannelId)
-	}))
+	})
+}
 
-	t.Run("GetChannelTopics", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetChannelTopics(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		userId := GetUserId(t, apiClient)
 
@@ -224,9 +274,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 			}
 		}
 		assert.True(t, found, "expected topic %q in list", topic)
-	}))
+	})
+}
 
-	t.Run("GetChannels", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetChannels(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetChannels(ctx).Execute()
@@ -234,9 +288,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.NotEmpty(t, resp.Channels)
-	}))
+	})
+}
 
-	t.Run("GetSubscribers", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetSubscribers(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		userId := GetUserId(t, apiClient)
 
@@ -249,9 +307,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 
 		subscribers := resp.Subscribers
 		assert.Contains(t, subscribers, userId)
-	}))
+	})
+}
 
-	t.Run("GetSubscriptionStatus", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetSubscriptionStatus(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		userId := GetUserId(t, apiClient)
 
@@ -262,9 +324,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.True(t, resp.IsSubscribed)
-	}))
+	})
+}
 
-	t.Run("GetSubscriptions", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetSubscriptions(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.GetSubscriptions(ctx).Execute()
@@ -272,9 +338,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.NotEmpty(t, resp.Subscriptions)
-	}))
+	})
+}
 
-	t.Run("MuteTopic", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_MuteTopic(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		userId := GetUserId(t, apiClient)
 
@@ -289,9 +359,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("Subscribe", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_Subscribe(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		desc := "Subscribed by test"
@@ -306,9 +380,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.Equal(t, "success", resp.Result)
-	}))
+	})
+}
 
-	t.Run("Unsubscribe", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_Unsubscribe(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		userId := GetUserId(t, apiClient)
 
@@ -324,9 +402,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 		if len(resp.Removed) > 0 {
 			assert.Contains(t, resp.Removed, channelName)
 		}
-	}))
+	})
+}
 
-	t.Run("UpdateSubscriptionSettings", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UpdateSubscriptionSettings(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		userId := GetUserId(t, apiClient)
 
@@ -343,9 +425,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
+}
 
-	t.Run("UpdateSubscriptions", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UpdateSubscriptions(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		channelName := UniqueName("update-subscriptions")
@@ -362,9 +448,13 @@ func Test_ChannelsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
 		assert.Equal(t, "success", resp.Result)
-	}))
+	})
+}
 
-	t.Run("UpdateUserTopic", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_UpdateUserTopic(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		userId := GetUserId(t, apiClient)
 
@@ -379,7 +469,7 @@ func Test_ChannelsAPIService(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpRes)
-	}))
+	})
 }
 
 func createTopicWithMessage(t *testing.T, apiClient client.Client, channelId int64) string {

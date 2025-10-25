@@ -90,6 +90,8 @@ func RunForClients(t *testing.T, clients []namedClient, fn func(*testing.T, clie
 	return func(t *testing.T) {
 		for _, client := range clients {
 			t.Run(client.name, func(t *testing.T) {
+				t.Parallel()
+
 				cl := client.factory(t)
 				fn(t, cl)
 			})

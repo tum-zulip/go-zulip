@@ -12,9 +12,10 @@ import (
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
-func Test_RealTimeEventsAPIService(t *testing.T) {
+func Test_DeleteQueue(t *testing.T) {
+	t.Parallel()
 
-	t.Run("DeleteQueue", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		queueId, _ := registerMessageEventQueue(t, apiClient)
@@ -27,9 +28,13 @@ func Test_RealTimeEventsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
-	}))
+	})
+}
 
-	t.Run("GetEvents", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_GetEvents(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		queueId, lastEventId := registerMessageEventQueue(t, apiClient)
@@ -52,11 +57,15 @@ func Test_RealTimeEventsAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
-	}))
+	})
+}
 
-	t.Run("RegisterQueue", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_RegisterQueue(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		registerMessageEventQueue(t, apiClient)
-	}))
+	})
 
 }
 

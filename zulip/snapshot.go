@@ -59,7 +59,7 @@ func (o Snapshot) MarshalJSON() ([]byte, error) {
 		PrevRenderedContent: o.PrevRenderedContent,
 		UserId:              o.UserId,
 		ContentHtmlDiff:     o.ContentHtmlDiff,
-		Timestamp:           o.Timestamp.UnixMilli(),
+		Timestamp:           o.Timestamp.Unix(),
 	}
 	return json.Marshal(&snapshotJSON)
 }
@@ -81,7 +81,7 @@ func (o *Snapshot) UnmarshalJSON(data []byte) error {
 	o.PrevRenderedContent = j.PrevRenderedContent
 	o.UserId = j.UserId
 	o.ContentHtmlDiff = j.ContentHtmlDiff
-	o.Timestamp = time.UnixMilli(j.Timestamp)
+	o.Timestamp = time.Unix(j.Timestamp, int64(0))
 	return nil
 }
 

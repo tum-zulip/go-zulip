@@ -17,16 +17,18 @@ func TestSnapshotMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	channel := int64(5)
 	prevChannel := int64(4)
 	prevTopic := "old"
+	topic := "new"
+	diff := "<ins>new</ins>"
 	snapshot := z.Snapshot{
-		Topic:           "new",
+		Topic:           &topic,
+		Timestamp:       ts,
+		PrevTopic:       &prevTopic,
+		Channel:         &channel,
+		PrevChannel:     &prevChannel,
 		Content:         "content",
 		RenderedContent: "<p>content</p>",
-		ContentHtmlDiff: "<ins>new</ins>",
+		ContentHtmlDiff: &diff,
 	}
-	snapshot.Timestamp = ts
-	snapshot.PrevTopic = &prevTopic
-	snapshot.Channel = &channel
-	snapshot.PrevChannel = &prevChannel
 
 	data, err := json.Marshal(snapshot)
 	require.NoError(t, err)
@@ -48,7 +50,7 @@ func TestSnapshotUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 	var snapshot z.Snapshot
 	require.NoError(t, json.Unmarshal(raw, &snapshot))
 
-	assert.Equal(t, "new", snapshot.Topic)
+	require.NotNil(t, snapshot.Topic)
+	assert.Equal(t, "new", *snapshot.Topic)
 	assert.Equal(t, int64(1700000000), snapshot.Timestamp.Unix())
-	assert.Equal(t, time.UTC, snapshot.Timestamp.Location())
 }

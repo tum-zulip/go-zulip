@@ -10,10 +10,10 @@ import (
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
-func Test_AuthenticationAPIService(t *testing.T) {
+func Test_DevFetchApiKey(t *testing.T) {
 	t.Parallel()
 
-	t.Run("DevFetchApiKey", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		resp, httpRes, err := apiClient.DevFetchApiKey(ctx).Username(TestAdminUsername).Execute()
@@ -22,12 +22,16 @@ func Test_AuthenticationAPIService(t *testing.T) {
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
-	}))
+	})
+}
 
-	t.Run("FetchApiKey", RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+func Test_FetchApiKey(t *testing.T) {
+	t.Parallel()
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		// More complex authentication flow not trivial to test here
 		t.Skip("Not implemented yet")
 		ctx := context.Background()
 		apiClient.FetchApiKey(ctx).Execute()
-	}))
+	})
 }
