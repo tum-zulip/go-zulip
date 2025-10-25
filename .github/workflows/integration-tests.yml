@@ -26,6 +26,12 @@ jobs:
       ZULIP_TEST_SITE: http://localhost:9991
       ZULIP_DEV_LOG: ${{ github.workspace }}/zulip-dev.log
     steps:
+      - name: Cleanup corrupted cache (self-hosted)
+        if: runner.os == 'Linux'
+        run: |
+          rm -rf ~/.cache/go-build || true
+          rm -rf ~/go/pkg/mod || true
+
       - name: Checkout go-zulip
         uses: actions/checkout@v4
 
@@ -43,6 +49,7 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
+        continue-on-error: true
 
       - name: Check gofmt formatting
         run: |
@@ -107,13 +114,13 @@ jobs:
       - name: Wait for Zulip dev server to become ready
         run: |
           echo "Waiting for Zulip server at ${ZULIP_TEST_SITE}"
-          for attempt in {1..30}; do
+          for attempt in {1..32}; do
             if curl --get --silent --show-error --fail "${ZULIP_TEST_SITE}/api/v1/server_settings" >/dev/null; then
               echo "Zulip is up"
               exit 0
             fi
             echo "Attempt ${attempt}: Zulip not ready yet"
-            sleep 2
+            sleep 10
           done
           echo "Zulip server failed to start" >&2
           exit 1
@@ -166,6 +173,12 @@ jobs:
       - name: Checkout go-zulip
         uses: actions/checkout@v4
 
+      - name: Cleanup corrupted cache (self-hosted)
+        if: runner.os == 'Linux'
+        run: |
+          rm -rf ~/.cache/go-build || true
+          rm -rf ~/go/pkg/mod || true
+        
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
