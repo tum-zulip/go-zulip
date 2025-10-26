@@ -7,15 +7,10 @@ on:
   pull_request:
   workflow_dispatch:
 
-concurrency:
-  group: integration-${{ github.ref }}
-  cancel-in-progress: false
-
-
 jobs:
   integration:
     name: Go tests against Zulip ${{ matrix.zulip-branch }}
-    runs-on: [arc-runner-set-tum-zulip, arc-runner-set-go-zulip]
+    runs-on: arc-runner-set
     strategy:
       matrix:
         zulip-branch:
@@ -164,7 +159,7 @@ jobs:
 
   godoc:
     name: Generate godoc HTML
-    runs-on: [arc-runner-set-tum-zulip, arc-runner-set-go-zulip]
+    runs-on: arc-runner-set
 
     steps:
       - name: Checkout go-zulip
