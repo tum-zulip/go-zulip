@@ -87,6 +87,7 @@ func Test_RealmExports(t *testing.T) {
 }
 
 func Test_WelcomeBotPreview(t *testing.T) {
+	RequireFeatureLevel(t, 416)
 
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()

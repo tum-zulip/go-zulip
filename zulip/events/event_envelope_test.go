@@ -1,12 +1,12 @@
-package zulip_test
+package events_test
 
 import (
 	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/api/real_time_events"
+	"github.com/tum-zulip/go-zulip/zulip/events"
 )
 
 func Test_Unmarshal_HeartbeatEvent(t *testing.T) {
@@ -21,9 +21,9 @@ func Test_Unmarshal_HeartbeatEvent(t *testing.T) {
 
 	event := resp.Events[0]
 
-	_, ok := event.(z.HeartbeatEvent)
+	_, ok := event.(events.HeartbeatEvent)
 	require.True(t, ok, "expected HeartbeatEvent, got %T", event)
 	require.Equal(t, int64(0), event.GetId())
-	require.Equal(t, z.EventTypeHeartbeat, event.GetType())
+	require.Equal(t, events.EventTypeHeartbeat, event.GetType())
 
 }

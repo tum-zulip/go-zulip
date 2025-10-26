@@ -12,6 +12,7 @@ import (
 )
 
 func Test_CreateMessageReminder(t *testing.T) {
+	RequireFeatureLevel(t, 381)
 
 	_, channelId := GetChannelWithAllClients(t)
 
@@ -21,6 +22,7 @@ func Test_CreateMessageReminder(t *testing.T) {
 }
 
 func Test_DeleteReminder(t *testing.T) {
+	RequireFeatureLevel(t, 399)
 
 	_, channelId := GetChannelWithAllClients(t)
 
@@ -38,6 +40,7 @@ func Test_DeleteReminder(t *testing.T) {
 }
 
 func Test_GetReminders(t *testing.T) {
+	RequireFeatureLevel(t, 399)
 
 	_, channelId := GetChannelWithAllClients(t)
 

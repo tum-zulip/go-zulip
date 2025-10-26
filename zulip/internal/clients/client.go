@@ -37,8 +37,9 @@ type Config struct {
 
 	MaxRetries int
 
-	ApiSuffix  string
-	ApiVersion string
+	ApiSuffix    string
+	ApiVersion   string
+	FeatureLevel int
 }
 
 func NewConfig(rc *zuliprc.ZulipRC, opts ...Option) (Config, error) {

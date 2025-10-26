@@ -1,8 +1,10 @@
-package zulip
+package events
 
 import (
 	"encoding/json"
 	"time"
+
+	"github.com/tum-zulip/go-zulip/zulip"
 )
 
 type Realm struct {
@@ -311,18 +313,6 @@ type ServerThumbnailFormat struct {
 	Animated bool `json:"animated,omitempty"`
 }
 
-type Avatar struct {
-	// The URL of the new avatar for the user.
-	AvatarUrl string `json:"avatar_url,omitempty"`
-	// The new avatar data source type for the user.
-	// Value values are:
-	//   - AvatarSourceGravatar = Gravatar avatar
-	//   - AvatarSourceUploaded = Uploaded by user
-	AvatarSource AvatarSource `json:"avatar_source,omitempty"`
-	// The new medium-size avatar URL for user.
-	AvatarUrlMedium string `json:"avatar_url_medium,omitempty"`
-}
-
 // VideoChatProviderInfo `{provider_name}`: Dictionary containing the details of the video call provider with the name of the chat provider as the key.
 type VideoChatProviderInfo struct {
 	// The name of the video call provider.
@@ -417,7 +407,7 @@ type RealmConfiguration struct {
 	// **Changes**: New in Zulip 11.0 (feature level 392). Previously, this was controlled by the boolean realm `mandatory_topics` setting, which is now deprecated.
 	//
 	// [empty "general chat" topic]: https://zulip.com/help/general-chat-topic
-	TopicsPolicy TopicsPolicy `json:"topics_policy,omitempty"`
+	TopicsPolicy zulip.TopicsPolicy `json:"topics_policy,omitempty"`
 	// Whether [topics are required] for messages in this organization.
 	//
 	// **Changes**: Deprecated in Zulip 11.0 (feature level 392). This is now controlled by the realm `topics_policy` setting.
@@ -662,79 +652,79 @@ type RealmPermissions struct {
 	// **Changes**: New in Zulip 10.0 (feature level 307). Previously, this permission was controlled by the enum `add_custom_emoji_policy`. Values were 1=Members, 2=Admins, 3=Full members, 4=Moderators.  Before Zulip 5.0 (feature level 85), the `realm_add_emoji_by_admins_only` boolean setting controlled this permission; `true` corresponded to `Admins`, and `false` to `Everyone`.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanAddCustomEmojiGroup GroupSettingValue `json:"realm_can_add_custom_emoji_group,omitempty"`
+	CanAddCustomEmojiGroup zulip.GroupSettingValue `json:"realm_can_add_custom_emoji_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to add subscribers to channels in the organization.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 341). Previously, this permission was controlled by the enum `invite_to_stream_policy`. Values were 1=Members, 2=Admins, 3=Full members, 4=Moderators.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanAddSubscribersGroup GroupSettingValue `json:"realm_can_add_subscribers_group,omitempty"`
+	CanAddSubscribersGroup zulip.GroupSettingValue `json:"realm_can_add_subscribers_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to delete any message in the organization.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 281). Previously, this permission was limited to administrators only and was uneditable.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanDeleteAnyMessageGroup GroupSettingValue `json:"realm_can_delete_any_message_group,omitempty"`
+	CanDeleteAnyMessageGroup zulip.GroupSettingValue `json:"realm_can_delete_any_message_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to delete messages that they have sent in the organization.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 291). Previously, this permission was controlled by the enum `delete_own_message_policy`. Values were 1=Members, 2=Admins, 3=Full members, 4=Moderators, 5=Everyone.  Before Zulip 5.0 (feature level 101), the `allow_message_deleting` boolean setting controlled this permission; `true` corresponded to `Everyone`, and `false` to `Admins`.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanDeleteOwnMessageGroup GroupSettingValue `json:"realm_can_delete_own_message_group,omitempty"`
+	CanDeleteOwnMessageGroup zulip.GroupSettingValue `json:"realm_can_delete_own_message_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to change per-channel `can_delete_any_message_group` and `can_delete_own_message_group` permission settings. Note that the user must be a member of both this group and the `can_administer_channel_group` of the channel whose message delete settings they want to change.  Organization administrators can always change these settings of every channel.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 407).
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanSetDeleteMessagePolicyGroup GroupSettingValue `json:"realm_can_set_delete_message_policy_group,omitempty"`
+	CanSetDeleteMessagePolicyGroup zulip.GroupSettingValue `json:"realm_can_set_delete_message_policy_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to change per-channel `topics_policy` setting. Note that the user must be a member of both this group and the `can_administer_channel_group` of the channel whose `topics_policy` they want to change.  Organization administrators can always change the `topics_policy` setting of every channel.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 392).
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanSetTopicsPolicyGroup GroupSettingValue `json:"realm_can_set_topics_policy_group,omitempty"`
+	CanSetTopicsPolicyGroup zulip.GroupSettingValue `json:"realm_can_set_topics_policy_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to send email invitations for inviting other users to the organization.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 321). Previously, this permission was controlled by the enum `invite_to_realm_policy`. Values were 1=Members, 2=Admins, 3=Full members, 4=Moderators, 6=Nobody.  Before Zulip 4.0 (feature level 50), the `invite_by_admins_only` boolean setting controlled this permission; `true` corresponded to `Admins`, and `false` to `Members`.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanInviteUsersGroup GroupSettingValue `json:"realm_can_invite_users_group,omitempty"`
+	CanInviteUsersGroup zulip.GroupSettingValue `json:"realm_can_invite_users_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to use wildcard mentions in large channels.  All users will receive a warning/reminder when using mentions in large channels, even when permitted to do so.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 352). Previously, this permission was controlled by the enum `wildcard_mention_policy`.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanMentionManyUsersGroup GroupSettingValue `json:"realm_can_mention_many_users_group,omitempty"`
+	CanMentionManyUsersGroup zulip.GroupSettingValue `json:"realm_can_mention_many_users_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to move messages from one channel to another in the organization.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 310). Previously, this permission was controlled by the enum `move_messages_between_streams_policy`. Values were 1=Members, 2=Admins, 3=Full members, 4=Moderators, 6=Nobody.  In Zulip 7.0 (feature level 159), `Nobody` was added as an option to `move_messages_between_streams_policy` enum.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanMoveMessagesBetweenChannelsGroup GroupSettingValue `json:"realm_can_move_messages_between_channels_group,omitempty"`
+	CanMoveMessagesBetweenChannelsGroup zulip.GroupSettingValue `json:"realm_can_move_messages_between_channels_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to move messages from one topic to another within a channel in the organization.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 316). Previously, this permission was controlled by the enum `edit_topic_policy`. Values were 1=Members, 2=Admins, 3=Full members, 4=Moderators, 5=Everyone, 6=Nobody.  In Zulip 7.0 (feature level 159), `Nobody` was added as an option to `edit_topic_policy` enum.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanMoveMessagesBetweenTopicsGroup GroupSettingValue `json:"realm_can_move_messages_between_topics_group,omitempty"`
+	CanMoveMessagesBetweenTopicsGroup zulip.GroupSettingValue `json:"realm_can_move_messages_between_topics_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to create user groups in this organization.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 299). Previously `realm_user_group_edit_policy` field used to control the permission to create user groups.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanCreateGroups GroupSettingValue `json:"realm_can_create_groups,omitempty"`
+	CanCreateGroups zulip.GroupSettingValue `json:"realm_can_create_groups,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to create all types of bot users in the organization. See also `can_create_write_only_bots_group`.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 344). Previously, this permission was controlled by the enum `bot_creation_policy`. Values were 1=Members, 2=Generic bots limited to administrators, 3=Administrators.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanCreateBotsGroup GroupSettingValue `json:"realm_can_create_bots_group,omitempty"`
+	CanCreateBotsGroup zulip.GroupSettingValue `json:"realm_can_create_bots_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to create bot users that can only send messages in the organization, i.e. incoming webhooks, in addition to the users who are present in `can_create_bots_group`.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 344). Previously, this permission was controlled by the enum `bot_creation_policy`. Values were 1=Members, 2=Generic bots limited to administrators, 3=Administrators.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanCreateWriteOnlyBotsGroup GroupSettingValue `json:"realm_can_create_write_only_bots_group,omitempty"`
+	CanCreateWriteOnlyBotsGroup zulip.GroupSettingValue `json:"realm_can_create_write_only_bots_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to administer all existing groups in this organization.
 	//
 	// **Changes**: Prior to Zulip 10.0 (feature level 305), only users who were a member of the group or had the moderator role or above could exercise the permission on a given group.  New in Zulip 10.0 (feature level 299). Previously the `user_group_edit_policy` field controlled the permission to manage user groups. Valid values were as follows:
@@ -745,69 +735,69 @@ type RealmPermissions struct {
 	//
 	// [full members]: https://zulip.com/api/roles-and-permissions#determining-if-a-user-is-a-full-member
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanManageAllGroups GroupSettingValue `json:"realm_can_manage_all_groups,omitempty"`
+	CanManageAllGroups zulip.GroupSettingValue `json:"realm_can_manage_all_groups,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to manage plans and billing in the organization.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 363). Previously, only owners and users with `is_billing_admin` property set to `true` were allowed to manage plans and billing.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanManageBillingGroup GroupSettingValue `json:"realm_can_manage_billing_group,omitempty"`
+	CanManageBillingGroup zulip.GroupSettingValue `json:"realm_can_manage_billing_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to create public channels in this organization.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 264). Previously `realm_create_public_stream_policy` field used to control the permission to create public channels.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanCreatePublicChannelGroup GroupSettingValue `json:"realm_can_create_public_channel_group,omitempty"`
+	CanCreatePublicChannelGroup zulip.GroupSettingValue `json:"realm_can_create_public_channel_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to create private channels in this organization.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 266). Previously `realm_create_private_stream_policy` field used to control the permission to create private channels.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanCreatePrivateChannelGroup GroupSettingValue `json:"realm_can_create_private_channel_group,omitempty"`
+	CanCreatePrivateChannelGroup zulip.GroupSettingValue `json:"realm_can_create_private_channel_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to create web-public channels in this organization.  Has no effect and should not be displayed in settings UI unless the Zulip server has the `WEB_PUBLIC_STREAMS_ENABLED` server-level setting enabled and the organization has enabled the `enable_spectator_access` realm setting.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 280). Previously `realm_create_web_public_stream_policy` field used to control the permission to create web-public channels.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanCreateWebPublicChannelGroup GroupSettingValue `json:"realm_can_create_web_public_channel_group,omitempty"`
+	CanCreateWebPublicChannelGroup zulip.GroupSettingValue `json:"realm_can_create_web_public_channel_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to [resolve topics] in the organization.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 367). Previously, permission to resolve topics was controlled by the more general `can_move_messages_between_topics_group permission for moving messages`.
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
 	// [resolve topics]: https://zulip.com/help/resolve-a-topic
-	CanResolveTopicsGroup GroupSettingValue `json:"realm_can_resolve_topics_group,omitempty"`
+	CanResolveTopicsGroup zulip.GroupSettingValue `json:"realm_can_resolve_topics_group,omitempty"`
 	// A [group-setting value] defining the set of users who are allowed to create [reusable invitation links] to the organization.
 	//
 	// **Changes**: Prior to Zulip 10.0 (feature level 314), this value used to be of type integer and did not accept anonymous user groups.  New in Zulip 8.0 (feature level 209).
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
 	// [reusable invitation links]: https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link
-	CreateMultiuseInviteGroup GroupSettingValue `json:"realm_create_multiuse_invite_group,omitempty"`
+	CreateMultiuseInviteGroup zulip.GroupSettingValue `json:"realm_create_multiuse_invite_group,omitempty"`
 	// A [group-setting value] defining the set of users who are allowed to access all users in the organization.
 	//
 	// **Changes**: Prior to Zulip 10.0 (feature level 314), this value used to be of type integer and did not accept anonymous user groups.  New in Zulip 8.0 (feature level 225).
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanAccessAllUsersGroup GroupSettingValue `json:"realm_can_access_all_users_group,omitempty"`
+	CanAccessAllUsersGroup zulip.GroupSettingValue `json:"realm_can_access_all_users_group,omitempty"`
 	// A [group-setting value] defining the set of users who are allowed to use AI summarization.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 350).
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	CanSummarizeTopicsGroup GroupSettingValue `json:"realm_can_summarize_topics_group,omitempty"`
+	CanSummarizeTopicsGroup zulip.GroupSettingValue `json:"realm_can_summarize_topics_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to start a new direct message conversation involving other non-bot users. Users who are outside this group and attempt to send the first direct message to a given collection of recipient users will receive an error, unless all other recipients are bots or the sender.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 270).  Previously, access to send direct messages was controlled by the `private_message_policy` realm setting, which supported values of 1 (enabled) and 2 (disabled).
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	DirectMessageInitiatorGroup GroupSettingValue `json:"realm_direct_message_initiator_group,omitempty"`
+	DirectMessageInitiatorGroup zulip.GroupSettingValue `json:"realm_direct_message_initiator_group,omitempty"`
 	// A [group-setting value] defining the set of users who have permission to fully use direct messages. Users outside this group can only send direct messages to conversations where all the recipients are in this group, are bots, or are the sender, ensuring that every direct message conversation will be visible to at least one user in this group.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 270).  Previously, access to send direct messages was controlled by the `private_message_policy` realm setting, which supported values of 1 (enabled) and 2 (disabled).
 	//
 	// [group-setting value]: https://zulip.com/api/group-setting-values
-	DirectMessagePermissionGroup GroupSettingValue `json:"realm_direct_message_permission_group,omitempty"`
+	DirectMessagePermissionGroup zulip.GroupSettingValue `json:"realm_direct_message_permission_group,omitempty"`
 }
 
 type realmJSON struct {

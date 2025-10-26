@@ -47,6 +47,7 @@ func Test_ArchiveChannel(t *testing.T) {
 }
 
 func Test_CreateChannelFolder(t *testing.T) {
+	RequireFeatureLevel(t, 389)
 	t.Parallel()
 
 	ctx := context.Background()
@@ -81,6 +82,7 @@ func Test_DeleteTopic(t *testing.T) {
 }
 
 func Test_PatchChannelFolders(t *testing.T) {
+	RequireFeatureLevel(t, 414)
 
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
@@ -124,6 +126,7 @@ func Test_RemoveDefaultChannel(t *testing.T) {
 }
 
 func Test_UpdateChannelFolder(t *testing.T) {
+	RequireFeatureLevel(t, 389)
 	t.Parallel()
 
 	ctx := context.Background()
@@ -176,16 +179,28 @@ func Test_CreateBigBlueButtonVideoCall(t *testing.T) {
 }
 
 func Test_CreateChannel(t *testing.T) {
+	RequireFeatureLevel(t, 417)
+
 	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+
 		userId := GetUserId(t, apiClient)
 
-		CreateRandomChannel(t, apiClient, userId)
+		resp, httpResp, err := apiClient.CreateChannel(context.Background()).
+			Name(UniqueName("test-channel")).
+			Description("Created by channel API tests").
+			Subscribers(userId).
+			Execute()
+
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		RequireStatusOK(t, httpResp)
 	})
 }
 
 func Test_GetChannelFolders(t *testing.T) {
+	RequireFeatureLevel(t, 389)
 	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
@@ -369,10 +384,9 @@ func Test_Subscribe(t *testing.T) {
 
 		desc := "Subscribed by test"
 		resp, httpResp, err := apiClient.Subscribe(ctx).
-			Subscriptions([]channels.SubscriptionRequest{{
+			Subscriptions(channels.SubscriptionRequest{
 				Name:        UniqueName("subscribe-channel"),
 				Description: &desc,
-			},
 			}).
 			Execute()
 		require.NoError(t, err)

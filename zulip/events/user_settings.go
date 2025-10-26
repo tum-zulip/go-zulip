@@ -1,4 +1,6 @@
-package zulip
+package events
+
+import "github.com/tum-zulip/go-zulip/zulip"
 
 type UserSettings struct {
 	DisplaySettings
@@ -18,7 +20,7 @@ type UserSettings struct {
 	//   - ChannelDefaultViewTopUnreadTopicInChannel
 	//
 	// **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  The "List of topics" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
-	WebChannelDefaultView ChannelDefaultView `json:"web_channel_default_view,omitempty"`
+	WebChannelDefaultView zulip.ChannelDefaultView `json:"web_channel_default_view,omitempty"`
 	// Whether the user is configured to receive typing notifications from other users. The server will only deliver typing notifications events to users who for whom this is enabled.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications.
@@ -53,21 +55,21 @@ type UserSettings struct {
 	//   - UserListStyleWithAvatarAndStatus
 	//
 	// **Changes**: New in Zulip 6.0 (feature level 141).
-	UserListStyle UserListStyle `json:"user_list_style,omitempty"`
+	UserListStyle zulip.UserListStyle `json:"user_list_style,omitempty"`
 	// Controls how animated images should be played in the message feed in the web/desktop application.
 	//  - "always" = Always play the animated images in the message feed.
 	//  - "on_hover" = Play the animated images on hover over them in the message feed.
 	//  - "never" = Never play animated images in the message feed.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 275).
-	WebAnimateImagePreviews WebAnimateImagePreviews `json:"web_animate_image_previews,omitempty"`
+	WebAnimateImagePreviews zulip.WebAnimateImagePreviews `json:"web_animate_image_previews,omitempty"`
 	// Configuration for which channels should be displayed with a numeric unread count in the left sidebar. Channels that do not have an unread count will have a simple dot indicator for whether there are any unread messages.
 	//   - UnreadsCountDisplayAllChannels
 	//   - UnreadsCountDisplayUnmutedChannelsAndTopics
 	//   - UnreadsCountDisplayNoChannels
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 210).
-	WebChannelUnreadsCountDisplayPolicy UnreadsCountDisplay `json:"web_stream_unreads_count_display_policy,omitempty"`
+	WebChannelUnreadsCountDisplayPolicy zulip.UnreadsCountDisplay `json:"web_stream_unreads_count_display_policy,omitempty"`
 	// Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 350).
@@ -109,7 +111,7 @@ type UserSettings struct {
 	// **Changes**: New in Zulip 8.0 (feature level 214).
 	//
 	// [topics to follow automatically]: https://zulip.com/help/mute-a-topic
-	AutomaticallyFollowTopicsPolicy TopicInteraction `json:"automatically_follow_topics_policy,omitempty"`
+	AutomaticallyFollowTopicsPolicy zulip.TopicInteraction `json:"automatically_follow_topics_policy,omitempty"`
 	// Which [topics to unmute automatically in muted channels].
 	//   - TopicInteractionTopicsTheUserParticipatesIn
 	//   - TopicInteractionTopicsTheUserSendsAMessageTo
@@ -119,7 +121,7 @@ type UserSettings struct {
 	// **Changes**: New in Zulip 8.0 (feature level 214).
 	//
 	// [topics to unmute automatically in muted channels]: https://zulip.com/help/mute-a-topic
-	AutomaticallyUnmuteTopicsInMutedChannelsPolicy TopicInteraction `json:"automatically_unmute_topics_in_muted_streams_policy,omitempty"`
+	AutomaticallyUnmuteTopicsInMutedChannelsPolicy zulip.TopicInteraction `json:"automatically_unmute_topics_in_muted_streams_policy,omitempty"`
 	// Whether the server will automatically mark the user as following topics where the user is mentioned.
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 235).
@@ -130,7 +132,7 @@ type UserSettings struct {
 	//  - ResolvedTopicNoticeAutoReadPolicyNever
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 385).
-	ResolvedTopicNoticeAutoReadPolicy ResolvedTopicNoticeAutoReadPolicy `json:"resolved_topic_notice_auto_read_policy,omitempty"`
+	ResolvedTopicNoticeAutoReadPolicy zulip.ResolvedTopicNoticeAutoReadPolicy `json:"resolved_topic_notice_auto_read_policy,omitempty"`
 	// Whether the user has chosen to send [typing notifications] when composing direct messages. The client should send typing notifications for direct messages if and only if this setting is enabled.
 	//
 	// **Changes**: New in Zulip 5.0 (feature level 105).
@@ -162,7 +164,7 @@ type UserSettings struct {
 	//
 	// [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
 	// [which other users]: https://zulip.com/help/configure-email-visibility
-	EmailAddressVisibility EmailVisibility `json:"email_address_visibility,omitempty"`
+	EmailAddressVisibility zulip.EmailVisibility `json:"email_address_visibility,omitempty"`
 	// Web/desktop app setting for whether the user's view should automatically go to the conversation where they sent a message.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
@@ -209,7 +211,7 @@ type GlobalNotifications struct {
 	//   - BadgeCountNone
 	//
 	// **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
-	DesktopIconCountDisplay BadgeCount `json:"desktop_icon_count_display,omitempty"`
+	DesktopIconCountDisplay zulip.BadgeCount `json:"desktop_icon_count_display,omitempty"`
 	// Whether to [include organization name in subject of message notification emails].
 	//   - NameInEmailNotificationsPolicyAutomatic
 	//   - NameInEmailNotificationsPolicyAlways
@@ -256,7 +258,7 @@ type DisplaySettings struct {
 	// Automatic detection is implementing using the standard `prefers-color-scheme` media query.
 	//
 	// [color theme]: https://zulip.com/help/dark-theme
-	ColorScheme ColorScheme `json:"color_scheme,omitempty"`
+	ColorScheme zulip.ColorScheme `json:"color_scheme,omitempty"`
 	// Whether to [translate emoticons to emoji] in messages the user sends.
 	//
 	// [translate emoticons to emoji]: https://zulip.com/help/configure-emoticon-translations
@@ -273,7 +275,7 @@ type DisplaySettings struct {
 	// **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
 	//
 	// [home view]: https://zulip.com/help/configure-home-view
-	WebHomeView HomeView `json:"web_home_view,omitempty"`
+	WebHomeView zulip.HomeView `json:"web_home_view,omitempty"`
 	// Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.
 	LeftSideUserlist bool `json:"left_side_userlist,omitempty"`
 	// The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.
@@ -283,14 +285,14 @@ type DisplaySettings struct {
 	//   - EmojisetText = Plain text
 	//
 	// [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
-	Emojiset Emojiset `json:"emojiset,omitempty"`
+	Emojiset zulip.Emojiset `json:"emojiset,omitempty"`
 	// Whether to [hide inactive channels] in the left sidebar.
 	//   - DemoteInactiveChannelsAutomatic
 	//   - DemoteInactiveChannelsAlways
 	//   - DemoteInactiveChannelsNever
 	//
 	// [hide inactive channels]: https://zulip.com/help/manage-inactive-channels
-	DemoteInactiveChannels DemoteInactiveChannels `json:"demote_inactive_streams,omitempty"`
+	DemoteInactiveChannels zulip.DemoteInactiveChannels `json:"demote_inactive_streams,omitempty"`
 	// Whether the user setting for [sending on pressing Enter] in the compose box is enabled.
 	//
 	// [sending on pressing Enter]: https://zulip.com/help/configure-send-message-keys

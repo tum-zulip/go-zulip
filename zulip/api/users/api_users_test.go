@@ -14,7 +14,6 @@ import (
 )
 
 func Test_DeactivateUser(t *testing.T) {
-	t.Parallel()
 
 	deactivateUserClient := GetTestClient(t, DeactivateTestUser)
 	deactivateUserId := GetUserId(t, deactivateUserClient)
@@ -33,7 +32,6 @@ func Test_DeactivateUser(t *testing.T) {
 }
 
 func Test_ReactivateUser(t *testing.T) {
-	t.Parallel()
 
 	deactivateUserClient := GetTestClient(t, DeactivateTestUser)
 	deactivateUserId := GetUserId(t, deactivateUserClient)
@@ -53,7 +51,6 @@ func Test_ReactivateUser(t *testing.T) {
 }
 
 func Test_DeactivateOwnUser(t *testing.T) {
-	t.Parallel()
 
 	t.Skip("TODO: This test deactivates the user running the tests, so it should be the last test and the client should be recreated after this.")
 	ctx := context.Background()
@@ -496,6 +493,7 @@ func Test_UpdateStatus(t *testing.T) {
 }
 
 func Test_UpdateStatusForUser(t *testing.T) {
+	RequireFeatureLevel(t, 407)
 	t.Parallel()
 
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {

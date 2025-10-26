@@ -1888,7 +1888,7 @@ type SubscriptionRequest struct {
 }
 
 // A list of dictionaries containing the key `name` and value specifying the name of the channel to subscribe. If the channel does not exist a new channel is created. The description of the channel created can be specified by setting the dictionary key `description` with an appropriate value.
-func (r SubscribeRequest) Subscriptions(subscriptions []SubscriptionRequest) SubscribeRequest {
+func (r SubscribeRequest) Subscriptions(subscriptions ...SubscriptionRequest) SubscribeRequest {
 	r.subscriptions = &subscriptions
 	return r
 }

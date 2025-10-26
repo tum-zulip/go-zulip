@@ -19,6 +19,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	z "github.com/tum-zulip/go-zulip/zulip"
+	"github.com/tum-zulip/go-zulip/zulip/api/channels"
 	"github.com/tum-zulip/go-zulip/zulip/api/messages"
 	"github.com/tum-zulip/go-zulip/zulip/api/users"
 	"github.com/tum-zulip/go-zulip/zulip/client"
@@ -224,22 +225,30 @@ func buildClientFromResponse(t *testing.T, username string, body []byte) client.
 func CreateRandomChannel(t *testing.T, apiClient client.Client, subscribers ...int64) (string, int64) {
 	t.Helper()
 
-	subs := append([]int64(nil), subscribers...)
-	if len(subs) == 0 {
-		subs = []int64{GetUserId(t, apiClient)}
+	name := UniqueName("test-channel")
+	{
+
+		subs := append([]int64(nil), subscribers...)
+		if len(subs) == 0 {
+			subs = []int64{GetUserId(t, apiClient)}
+		}
+
+		resp, httpResp, err := apiClient.Subscribe(context.Background()).
+			Subscriptions(channels.SubscriptionRequest{Name: name}).
+			Principals(z.UserIdsAsPrincipals(subs...)).
+			Execute()
+
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		RequireStatusOK(t, httpResp)
 	}
 
-	name := UniqueName("test-channel")
-	resp, httpResp, err := apiClient.CreateChannel(context.Background()).
-		Name(name).
-		Description("Created by channel API tests").
-		Subscribers(subs...).
-		Execute()
+	resp, httpResp, err := apiClient.GetChannelId(context.Background()).Channel(name).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	RequireStatusOK(t, httpResp)
 
-	return name, resp.Id
+	return name, resp.ChannelId
 }
 
 func tryReactivateUser(t *testing.T, username string, body []byte) bool {
@@ -402,6 +411,20 @@ func SendChannelMessage(t *testing.T, apiClient client.Client, channelId int64, 
 	RequireStatusOK(t, httpResp)
 
 	return resp.Id
+}
+
+func RequireFeatureLevel(t *testing.T, minLevel int) {
+	t.Helper()
+
+	client := GetOwnerClient(t)
+
+	featureLevel, _, err := client.GetServerSettings(context.Background()).Execute()
+	require.NoError(t, err)
+	require.NotNil(t, featureLevel)
+
+	if featureLevel.ZulipFeatureLevel < minLevel {
+		t.Skipf("Skipping test: requires feature level %d, server has %d", minLevel, featureLevel.ZulipFeatureLevel)
+	}
 }
 
 type ChannelMessage struct {

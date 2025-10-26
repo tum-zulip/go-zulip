@@ -1,4 +1,4 @@
-package zulip
+package events
 
 import (
 	"encoding/json"
@@ -184,7 +184,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 	case EventTypeRealmUserSettingsDefaults:
 		switch op {
 		case EventOpUpdate:
-			err = decodeAndWrap[RealmUserSettingsDefaultsUpdateEvent](e, data)
+			err = decodeAndWrap[RealmUserSettingsDefaultsEvent](e, data)
 		default:
 			goto unknownEventError
 		}
@@ -293,7 +293,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 
 	if err != nil {
 		e.Event = &EventUnmarshalingError{
-			EventCommon: EventCommon{
+			event: event{
 				Type: peeker.Type,
 				Id:   peeker.Id,
 			},
@@ -305,7 +305,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 
 unknownEventError:
 	e.Event = &EventUnmarshalingError{
-		EventCommon: EventCommon{
+		event: event{
 			Type: peeker.Type,
 			Id:   peeker.Id,
 		},

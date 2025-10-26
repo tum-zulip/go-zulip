@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/client"
+	"github.com/tum-zulip/go-zulip/zulip/events"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
@@ -22,7 +23,7 @@ func Test_MessageEvent(t *testing.T) {
 
 		// Register queue for message events with narrow to direct messages
 		queueResp, _, err := apiClient.RegisterQueue(ctx).
-			EventTypes([]z.EventType{z.EventTypeMessage}).
+			EventTypes([]events.EventType{events.EventTypeMessage}).
 			Narrow(z.Where(z.IsDirectMessage())).
 			Execute()
 
@@ -44,8 +45,8 @@ func Test_MessageEvent(t *testing.T) {
 		require.Len(t, resp.Events, 1)
 
 		event := resp.Events[0]
-		require.IsType(t, z.MessageEvent{}, event)
-		msgEvent := event.(z.MessageEvent)
+		require.IsType(t, events.MessageEvent{}, event)
+		msgEvent := event.(events.MessageEvent)
 		assert.Contains(t, msgEvent.Message.Content, content)
 
 		// Cleanup
@@ -65,7 +66,7 @@ func Test_ReactionEvent(t *testing.T) {
 
 		// Register queue for reaction events with narrow to this specific message
 		queueResp, _, err := apiClient.RegisterQueue(ctx).
-			EventTypes([]z.EventType{z.EventTypeReaction}).
+			EventTypes([]events.EventType{events.EventTypeReaction}).
 			Narrow(z.Where(z.IsDirectMessage())).
 			Execute()
 		require.NoError(t, err)
@@ -91,11 +92,11 @@ func Test_ReactionEvent(t *testing.T) {
 		require.Len(t, resp.Events, 1)
 
 		event := resp.Events[0]
-		require.IsType(t, z.ReactionEvent{}, event)
-		reactionEvent := event.(z.ReactionEvent)
+		require.IsType(t, events.ReactionEvent{}, event)
+		reactionEvent := event.(events.ReactionEvent)
 		assert.Equal(t, messageId, reactionEvent.MessageId)
 		assert.Equal(t, emojiName, reactionEvent.EmojiName)
-		assert.Equal(t, z.EventOpAdd, reactionEvent.Op)
+		assert.Equal(t, events.EventOpAdd, reactionEvent.Op)
 
 	})
 }
@@ -112,7 +113,7 @@ func Test_UpdateMessageEvent(t *testing.T) {
 
 		// Register queue for update_message events with narrow
 		queueResp, _, err := apiClient.RegisterQueue(ctx).
-			EventTypes([]z.EventType{z.EventTypeUpdateMessage}).
+			EventTypes([]events.EventType{events.EventTypeUpdateMessage}).
 			Narrow(z.Where(z.IsDirectMessage())).
 			Execute()
 		require.NoError(t, err)
@@ -138,8 +139,8 @@ func Test_UpdateMessageEvent(t *testing.T) {
 		require.Len(t, resp.Events, 1)
 
 		event := resp.Events[0]
-		require.IsType(t, z.UpdateMessageEvent{}, event)
-		updateEvent := event.(z.UpdateMessageEvent)
+		require.IsType(t, events.UpdateMessageEvent{}, event)
+		updateEvent := event.(events.UpdateMessageEvent)
 		assert.Equal(t, messageId, updateEvent.MessageId)
 		assert.NotNil(t, updateEvent.Content)
 		assert.Contains(t, *updateEvent.Content, newContent)
@@ -159,7 +160,7 @@ func Test_DeleteMessageEvent(t *testing.T) {
 
 		// Register queue for delete_message events with narrow to direct messages
 		queueResp, _, err := apiClient.RegisterQueue(ctx).
-			EventTypes([]z.EventType{z.EventTypeDeleteMessage}).
+			EventTypes([]events.EventType{events.EventTypeDeleteMessage}).
 			Narrow(z.Where(z.IsDirectMessage())).
 			Execute()
 		require.NoError(t, err)
@@ -181,8 +182,8 @@ func Test_DeleteMessageEvent(t *testing.T) {
 		require.Len(t, resp.Events, 1)
 
 		event := resp.Events[0]
-		require.IsType(t, z.DeleteMessageEvent{}, event)
-		deleteEvent := event.(z.DeleteMessageEvent)
+		require.IsType(t, events.DeleteMessageEvent{}, event)
+		deleteEvent := event.(events.DeleteMessageEvent)
 		// Check if message ID is in the list
 		if deleteEvent.MessageIds != nil {
 			assert.Contains(t, deleteEvent.MessageIds, messageId)
@@ -202,7 +203,7 @@ func Test_TypingEvent(t *testing.T) {
 
 		// Register queue for typing events with narrow to direct messages
 		queueResp, _, err := apiClient.RegisterQueue(ctx).
-			EventTypes([]z.EventType{z.EventTypeTyping}).
+			EventTypes([]events.EventType{events.EventTypeTyping}).
 			Narrow(z.Where(z.IsDirectMessage())).
 			Execute()
 		require.NoError(t, err)
@@ -227,9 +228,9 @@ func Test_TypingEvent(t *testing.T) {
 		require.Len(t, resp.Events, 1)
 
 		event := resp.Events[0]
-		require.IsType(t, z.TypingEvent{}, event)
-		typingEvent := event.(z.TypingEvent)
-		assert.Equal(t, z.EventOpStart, typingEvent.Op)
+		require.IsType(t, events.TypingEvent{}, event)
+		typingEvent := event.(events.TypingEvent)
+		assert.Equal(t, events.EventOpStart, typingEvent.Op)
 
 	})
 }
@@ -246,7 +247,7 @@ func Test_UpdateMessageFlagsEvent(t *testing.T) {
 
 		// Register queue for update_message_flags events
 		queueResp, _, err := apiClient.RegisterQueue(ctx).
-			EventTypes([]z.EventType{z.EventTypeUpdateMessageFlags}).
+			EventTypes([]events.EventType{events.EventTypeUpdateMessageFlags}).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, queueResp.QueueId)
@@ -271,9 +272,9 @@ func Test_UpdateMessageFlagsEvent(t *testing.T) {
 		require.Len(t, resp.Events, 1)
 
 		event := resp.Events[0]
-		require.IsType(t, z.UpdateMessageFlagsAddEvent{}, event)
-		flagEvent := event.(z.UpdateMessageFlagsAddEvent)
-		assert.Equal(t, z.EventOpAdd, flagEvent.Op)
+		require.IsType(t, events.UpdateMessageFlagsAddEvent{}, event)
+		flagEvent := event.(events.UpdateMessageFlagsAddEvent)
+		assert.Equal(t, events.EventOpAdd, flagEvent.Op)
 		assert.Equal(t, "starred", flagEvent.Flag)
 		assert.Contains(t, flagEvent.Messages, messageId)
 	})

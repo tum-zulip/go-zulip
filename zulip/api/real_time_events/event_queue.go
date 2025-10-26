@@ -11,7 +11,7 @@ import (
 	"sync/atomic"
 	"syscall"
 
-	"github.com/tum-zulip/go-zulip/zulip"
+	"github.com/tum-zulip/go-zulip/zulip/events"
 )
 
 // EventQueueErrorHandler receives asynchronous errors produced while polling events.
@@ -31,7 +31,7 @@ type EventQueue interface {
 	// queueId must reference an already-registered Zulip event queue. The helper
 	// does not register queues automatically. lastEventId is the highest event ID
 	// the caller has processed so far; pass -1 to start with the server default.
-	Connect(ctx context.Context, queueId string, lastEventId int64) (<-chan zulip.Event, error)
+	Connect(ctx context.Context, queueId string, lastEventId int64) (<-chan events.Event, error)
 	// Close stops the polling goroutine. It does not delete the queue from the
 	// server. Calling Close before Connect returns an error.
 	Close() error
@@ -103,7 +103,7 @@ func (q *eventQueue) LastEventId() int64 {
 	return q.lastEventId.Load()
 }
 
-func (q *eventQueue) Connect(ctx context.Context, queueId string, lastEventId int64) (<-chan zulip.Event, error) {
+func (q *eventQueue) Connect(ctx context.Context, queueId string, lastEventId int64) (<-chan events.Event, error) {
 	// Create cancellable context for the polling goroutine
 	ctx, q.cancel = context.WithCancel(ctx)
 
@@ -121,7 +121,7 @@ func (q *eventQueue) Connect(ctx context.Context, queueId string, lastEventId in
 		return nil, err
 	}
 
-	events := make(chan zulip.Event, 32) // default buffer size
+	events := make(chan events.Event, 32) // default buffer size
 
 	// Start polling in background goroutine
 	go q.pollEvents(ctx, events)
@@ -137,7 +137,7 @@ func (q *eventQueue) Close() error {
 	return nil
 }
 
-func (q *eventQueue) pollEvents(ctx context.Context, events chan<- zulip.Event) {
+func (q *eventQueue) pollEvents(ctx context.Context, events chan<- events.Event) {
 	defer close(events)
 
 	running := true
@@ -182,7 +182,7 @@ func (q *eventQueue) pollEvents(ctx context.Context, events chan<- zulip.Event) 
 	}
 }
 
-func (q *eventQueue) processEvents(ctx context.Context, resp *GetEventsResponse, events chan<- zulip.Event) bool {
+func (q *eventQueue) processEvents(ctx context.Context, resp *GetEventsResponse, events chan<- events.Event) bool {
 	// Process events from response
 	lastId, valid := int64(0), false
 

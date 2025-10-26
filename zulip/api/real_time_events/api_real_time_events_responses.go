@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/tum-zulip/go-zulip/zulip"
+	"github.com/tum-zulip/go-zulip/zulip/events"
 )
 
 // GetEventsResponse struct for GetEventsResponse
@@ -11,15 +12,15 @@ type GetEventsResponse struct {
 	zulip.Response
 
 	// An array of `event` objects (possibly zero-length if `dont_block` is set) with Ids newer than `last_event_id`. Event Ids are guaranteed to be increasing, but they are not guaranteed to be consecutive.
-	Events []zulip.Event `json:"events,omitempty"`
+	Events []events.Event `json:"events,omitempty"`
 	// The Id of the registered queue.
 	QueueId string `json:"queue_id,omitempty"`
 }
 
 type getEventsResponseJSON struct {
 	zulip.Response
-	Events  []zulip.EventEnvelope `json:"events,omitempty"`
-	QueueId string                `json:"queue_id,omitempty"`
+	Events  []events.EventEnvelope `json:"events,omitempty"`
+	QueueId string                 `json:"queue_id,omitempty"`
 }
 
 func (r *GetEventsResponse) UnmarshalJSON(data []byte) error {
@@ -29,7 +30,7 @@ func (r *GetEventsResponse) UnmarshalJSON(data []byte) error {
 	}
 	r.Response = temp.Response
 	r.QueueId = temp.QueueId
-	r.Events = make([]zulip.Event, len(temp.Events))
+	r.Events = make([]events.Event, len(temp.Events))
 	for i := range temp.Events {
 		r.Events[i] = temp.Events[i].Event
 	}
@@ -82,7 +83,7 @@ type RegisterQueueResponse struct {
 	// Present if `onboarding_steps` is present in `fetch_event_types`.  An array of dictionaries, where each dictionary contains details about a single onboarding step that should be shown to the user.  We expect that only official Zulip clients will interact with this data.
 	//
 	// **Changes**: Before Zulip 8.0 (feature level 233), this array was named `hotspots`. Prior to this feature level, one-time notice onboarding steps were not supported, and the `type` field in these objects did not exist as all onboarding steps were implicitly hotspots.
-	OnboardingSteps []zulip.OnboardingStep `json:"onboarding_steps,omitempty"`
+	OnboardingSteps []events.OnboardingStep `json:"onboarding_steps,omitempty"`
 	// Present if `onboarding_steps` is present in `fetch_event_types`.  URL of the navigation tour video to display to new users during onboarding. If `null`, the onboarding video experience is disabled.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 369).
@@ -207,7 +208,7 @@ type RegisterQueueResponse struct {
 	// [default channels]: https://zulip.com/help/set-default-streams-for-new-users
 	RealmDefaultChannels []int64 `json:"realm_default_streams,omitempty"`
 	// Present if `default_stream_groups` is present in `fetch_event_types`.  An array of dictionaries where each dictionary contains details about a single default channel group configured for this Zulip organization.  Default channel groups are an experimental feature.
-	RealmDefaultChannelGroups []zulip.DefaultChannelGroup `json:"realm_default_stream_groups,omitempty"`
+	RealmDefaultChannelGroups []events.DefaultChannelGroup `json:"realm_default_stream_groups,omitempty"`
 	// Present if `stop_words` is present in `fetch_event_types`.  An array containing the stop words used by the Zulip server's full-text search implementation. Useful for showing helpful error messages when a search returns limited results because a stop word in the query was ignored.
 	StopWords []string `json:"stop_words,omitempty"`
 	// Present if `user_status` is present in `fetch_event_types`.  A dictionary which contains the [status] of all users in the Zulip organization who have set a status.
@@ -216,11 +217,11 @@ type RegisterQueueResponse struct {
 	//
 	// [status]: https://zulip.com/help/status-and-availability
 	UserStatus   map[string]zulip.UserStatus `json:"user_status,omitempty"`
-	UserSettings *zulip.UserSettings         `json:"user_settings,omitempty"`
+	UserSettings *events.UserSettings        `json:"user_settings,omitempty"`
 	// Present if `user_topic` is present in `fetch_event_types`.
 	//
 	// **Changes**: New in Zulip 6.0 (feature level 134), deprecating and replacing the previous `muted_topics` structure.
-	UserTopics []zulip.UserTopic `json:"user_topics,omitempty"`
+	UserTopics []events.UserTopic `json:"user_topics,omitempty"`
 	// Present if `video_calls` is present in `fetch_event_types`.  A boolean which signifies whether the user has a Zoom token and has thus completed OAuth flow for the [Zoom integration]. Clients need to know whether initiating Zoom OAuth is required before creating a Zoom call.
 	//
 	// [Zoom integration]: https://zulip.com/help/configure-call-provider
@@ -254,7 +255,7 @@ type RegisterQueueResponse struct {
 	//
 	// [`client_capabilities`]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	// [PATCH /settings]: https://zulip.com/api/update-settings
-	UpdateDisplaySettings *zulip.DisplaySettings `json:"update_display_settings,omitempty"`
+	UpdateDisplaySettings *events.DisplaySettings `json:"update_display_settings,omitempty"`
 
 	// Present if `realm_user` is present in `fetch_event_types`.
 	RealmUser *RealmUser
@@ -263,7 +264,7 @@ type RegisterQueueResponse struct {
 	// **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and access the `user_settings` object instead.
 	// Deprecated
 	// [`client_capabilities`]: https://zulip.com/api/register-queue#parameter-client_capabilities
-	GlobalNotifications *zulip.GlobalNotifications
+	GlobalNotifications *events.GlobalNotifications
 
 	// Present if `realm` is present in `fetch_event_types`.
 	// TODO: (jr) *zulip.Realm

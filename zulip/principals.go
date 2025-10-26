@@ -11,14 +11,14 @@ type Principals struct {
 }
 
 // []UserIdsAsPrincipals is a convenience function that returns []int64 wrapped in Principals
-func UserIdsAsPrincipals(v []int64) Principals {
+func UserIdsAsPrincipals(v ...int64) Principals {
 	return Principals{
 		UserIds: &v,
 	}
 }
 
 // []UserEmailsAsPrincipals is a convenience function that returns []string wrapped in Principals
-func UserEmailsAsPrincipals(v []string) Principals {
+func UserEmailsAsPrincipals(v ...string) Principals {
 	return Principals{
 		UserEmails: &v,
 	}

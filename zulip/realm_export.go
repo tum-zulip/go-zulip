@@ -25,3 +25,11 @@ type RealmExport struct {
 	// **Changes**: New in Zulip 10.0 (feature level 304). Previously, the export type was not included in these objects because only public data exports could be created or listed via the API or UI.
 	ExportType ExportType `json:"export_type,omitempty"`
 }
+
+// ExportConsent struct for ExportConsent
+type ExportConsent struct {
+	// The user Id.
+	UserId int64 `json:"user_id,omitempty"`
+	// Whether the user has consented for their private data export.
+	Consented bool `json:"consented,omitempty"`
+}

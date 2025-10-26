@@ -1,6 +1,8 @@
 package navigation_views
 
-import "github.com/tum-zulip/go-zulip/zulip"
+import (
+	"github.com/tum-zulip/go-zulip/zulip"
+)
 
 // GetNavigationViewsResponse struct for GetNavigationViewsResponse
 type GetNavigationViewsResponse struct {
