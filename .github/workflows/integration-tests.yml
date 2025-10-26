@@ -29,12 +29,6 @@ jobs:
       ZULIP_TEST_SITE: http://localhost:9991
       ZULIP_DEV_LOG: ${{ github.workspace }}/zulip-dev.log
     steps:
-      - name: Cleanup corrupted cache (self-hosted)
-        if: runner.os == 'Linux'
-        run: |
-          rm -rf ~/.cache/go-build || true
-          rm -rf ~/go/pkg/mod || true
-
       - name: Checkout go-zulip
         uses: actions/checkout@v4
 
@@ -42,17 +36,6 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: "1.25.2"
-
-      - name: Cache Go build and modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/go/pkg/mod
-            ~/.cache/go-build
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
-        continue-on-error: true
 
       - name: Check gofmt formatting
         run: |
@@ -134,7 +117,7 @@ jobs:
         run: go test ./... -covermode=atomic -coverprofile=coverage.out -timeout 60m
 
       - name: Upload coverage to Codecov
-        if: success()
+        if: success() && github.ref == 'refs/heads/main'
         uses: codecov/codecov-action@v4
         with:
           files: ./coverage.out
@@ -175,12 +158,6 @@ jobs:
     steps:
       - name: Checkout go-zulip
         uses: actions/checkout@v4
-
-      - name: Cleanup corrupted cache (self-hosted)
-        if: runner.os == 'Linux'
-        run: |
-          rm -rf ~/.cache/go-build || true
-          rm -rf ~/go/pkg/mod || true
         
       - name: Set up Go
         uses: actions/setup-go@v5
