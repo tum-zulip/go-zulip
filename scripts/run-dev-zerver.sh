@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
+set -m  # Enable job control
 
 usage() {
   cat <<'EOF'
@@ -76,31 +78,10 @@ log "Provisioning Zulip (this may take several minutes)"
 cd $REPO_DIR && ./tools/provision
 cd $REPO_DIR && ./tools/rebuild-dev-database
 
-clients=(desdemona@zulip.com iago@zulip.com shiva@zulip.com polonius@zulip.com AARON@zulip.com hamlet@zulip.com cordelia@zulip.com)
-
-# Function to continuously unblock clients
-unblock_clients_loop() {
-  cd "$REPO_DIR"
-  while true; do
-    for client in "${clients[@]}"; do
-      python3 manage.py rate_limit unblock -e "$client" 2>/dev/null || true
-    done
-    sleep 1
-  done
-}
-
-# Start unblocking loop in background
-unblock_clients_loop &
-UNBLOCK_PID=$!
-log "Started rate limit unblocking loop (PID: $UNBLOCK_PID)"
-
-# Cleanup function to kill unblock loop when script exits
-cleanup() {
-  log "Stopping rate limit unblocking loop"
-  kill $UNBLOCK_PID 2>/dev/null || true
-}
-trap cleanup EXIT
-
 log "Starting Zulip dev server"
 
-PATH="$REPO_DIR/.venv/bin:$PATH" exec "$REPO_DIR/tools/run-dev"
+cd $REPO_DIR
+source /srv/zulip-py3-venv/bin/activate || true # legacy Zulip uses a global venv
+source .venv/bin/activate || true # modern Zulip uses a local venv
+
+./tools/run-dev
