@@ -64,7 +64,7 @@ func Test_EmailInviteLifecycle(t *testing.T) {
 
 		resp, httpResp, err := apiClient.SendInvites(ctx).
 			InviteeEmails(invitee).
-			ChannelIds(channelId).
+			ChannelIds([]int64{channelId}).
 			InviteExpiresInMinutes(60).
 			NotifyReferrerOnJoin(true).
 			Execute()

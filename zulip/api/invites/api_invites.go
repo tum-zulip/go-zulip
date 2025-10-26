@@ -492,7 +492,7 @@ func (r SendInvitesRequest) InviteeEmails(inviteeEmails string) SendInvitesReque
 //
 // [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
 // [Ids of the channels]: https://zulip.com/api/get-stream-id
-func (r SendInvitesRequest) ChannelIds(channelIds ...int64) SendInvitesRequest {
+func (r SendInvitesRequest) ChannelIds(channelIds []int64) SendInvitesRequest {
 	r.channelIds = &channelIds
 	return r
 }

@@ -4200,7 +4200,7 @@ func (r UpdateUserGroupMembersRequest) Delete(delete []int64) UpdateUserGroupMem
 }
 
 // The list of user Ids to be added to the user group.
-func (r UpdateUserGroupMembersRequest) Add(add ...int64) UpdateUserGroupMembersRequest {
+func (r UpdateUserGroupMembersRequest) Add(add []int64) UpdateUserGroupMembersRequest {
 	r.add = &add
 	return r
 }

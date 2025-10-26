@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 	"testing"
@@ -402,8 +401,14 @@ func Test_UploadFile(t *testing.T) {
 		ctx := context.Background()
 
 		resp := UploadFileForTest(t, ctx, apiClient)
-		assert.NotEmpty(t, resp.Url)
-		assert.NotEmpty(t, resp.Filename)
+
+		assert.NotEmpty(t, resp.Uri)
+		if GetFeatureLevel(t) >= 272 {
+			assert.NotEmpty(t, resp.Url)
+		}
+		if GetFeatureLevel(t) >= 285 {
+			assert.NotEmpty(t, resp.Filename)
+		}
 	})
 }
 
@@ -903,28 +908,6 @@ func Test_UpdateMessageFlagsForNarrow_Invalid_Input(t *testing.T) {
 			require.NotNil(t, apiErr.Model())
 			assert.IsType(t, z.CodedError{}, apiErr.Model())
 		}
-	})
-}
-
-func Test_UploadFile_Invalid_Input(t *testing.T) {
-
-	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
-		ctx := context.Background()
-
-		// Test with file that doesn't exist - try to open a non-existent file
-		nonExistentFile, err := os.Open("nonexistent-file-that-does-not-exist-xyz123.txt")
-		if err == nil {
-			defer nonExistentFile.Close()
-		}
-		if err != nil {
-			// Expected error when file doesn't exist
-			require.Error(t, err)
-		}
-
-		// Test with a valid file for success case
-		resp := UploadFileForTest(t, ctx, apiClient)
-		assert.NotEmpty(t, resp.Url)
-		assert.NotEmpty(t, resp.Filename)
 	})
 }
 

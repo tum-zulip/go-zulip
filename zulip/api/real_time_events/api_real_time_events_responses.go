@@ -206,7 +206,7 @@ type RegisterQueueResponse struct {
 	// **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
 	//
 	// [default channels]: https://zulip.com/help/set-default-streams-for-new-users
-	RealmDefaultChannels []int64 `json:"realm_default_streams,omitempty"`
+	RealmDefaultChannels []interface{} `json:"realm_default_streams,omitempty"`
 	// Present if `default_stream_groups` is present in `fetch_event_types`.  An array of dictionaries where each dictionary contains details about a single default channel group configured for this Zulip organization.  Default channel groups are an experimental feature.
 	RealmDefaultChannelGroups []events.DefaultChannelGroup `json:"realm_default_stream_groups,omitempty"`
 	// Present if `stop_words` is present in `fetch_event_types`.  An array containing the stop words used by the Zulip server's full-text search implementation. Useful for showing helpful error messages when a search returns limited results because a stop word in the query was ignored.

@@ -24,6 +24,7 @@ func Test_CreateDrafts(t *testing.T) {
 }
 
 func Test_CreateSavedSnippet(t *testing.T) {
+	RequireFeatureLevel(t, 297)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -55,6 +56,7 @@ func Test_DeleteDraft(t *testing.T) {
 }
 
 func Test_DeleteSavedSnippet(t *testing.T) {
+	RequireFeatureLevel(t, 297)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -111,6 +113,7 @@ func Test_EditDraft(t *testing.T) {
 }
 
 func Test_EditSavedSnippet(t *testing.T) {
+	RequireFeatureLevel(t, 368)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -174,6 +177,7 @@ func Test_GetDrafts(t *testing.T) {
 }
 
 func Test_GetSavedSnippets(t *testing.T) {
+	RequireFeatureLevel(t, 297)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()

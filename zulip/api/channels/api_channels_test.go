@@ -190,7 +190,7 @@ func Test_CreateChannel(t *testing.T) {
 		resp, httpResp, err := apiClient.CreateChannel(context.Background()).
 			Name(UniqueName("test-channel")).
 			Description("Created by channel API tests").
-			Subscribers(userId).
+			Subscribers([]int64{userId}).
 			Execute()
 
 		require.NoError(t, err)
@@ -383,10 +383,10 @@ func Test_Subscribe(t *testing.T) {
 
 		desc := "Subscribed by test"
 		resp, httpResp, err := apiClient.Subscribe(ctx).
-			Subscriptions(channels.SubscriptionRequest{
+			Subscriptions([]channels.SubscriptionRequest{{
 				Name:        UniqueName("subscribe-channel"),
 				Description: &desc,
-			}).
+			}}).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)

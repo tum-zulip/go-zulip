@@ -111,6 +111,7 @@ func Test_CreateUserGroup(t *testing.T) {
 }
 
 func Test_DeactivateUserGroup(t *testing.T) {
+	RequireFeatureLevel(t, 290)
 	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
@@ -157,7 +158,6 @@ func Test_GetAttachments(t *testing.T) {
 }
 
 func Test_GetIsUserGroupMember(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -222,7 +222,6 @@ func Test_GetUserByEmail(t *testing.T) {
 }
 
 func Test_GetUserGroupMembers(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -239,14 +238,17 @@ func Test_GetUserGroupMembers(t *testing.T) {
 }
 
 func Test_GetUserGroupSubgroups(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		userGroupId := CreateRandomUserGroup(t, apiClient, GetUserId(t, apiClient))
 		subGroupId := CreateRandomUserGroup(t, apiClient, GetUserId(t, apiClient))
-		sgResp, sgHttpResp, err := apiClient.UpdateUserGroupSubgroups(ctx, userGroupId).Add([]int64{subGroupId}).Execute()
+
+		sgResp, sgHttpResp, err := apiClient.UpdateUserGroupSubgroups(ctx, userGroupId).
+			Add([]int64{subGroupId}).
+			Execute()
+
 		require.NoError(t, err)
 		require.NotNil(t, sgResp)
 		assert.Equal(t, 200, sgHttpResp.StatusCode)
@@ -261,7 +263,6 @@ func Test_GetUserGroupSubgroups(t *testing.T) {
 }
 
 func Test_GetUserGroups(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -278,11 +279,14 @@ func Test_GetUserGroups(t *testing.T) {
 		for _, g := range resp.UserGroups {
 			if g.Id == userGroupId {
 				found = true
-				require.NotNil(t, g.DateCreated)
-				require.WithinDuration(t, time.Now(), *g.DateCreated, 3*time.Minute)
+
+				if GetFeatureLevel(t) >= 292 {
+					require.NotNil(t, g.DateCreated)
+					require.WithinDuration(t, time.Now(), *g.DateCreated, 3*time.Minute)
+				}
 			}
 		}
-		require.True(t, found)
+		require.True(t, found, "Created user group not found in list")
 
 	})
 }
@@ -394,6 +398,7 @@ func Test_SetTypingStatus(t *testing.T) {
 }
 
 func Test_SetTypingStatusForMessageEdit(t *testing.T) {
+	RequireFeatureLevel(t, 361)
 	t.Parallel()
 
 	otherClient := GetOtherNormalClient(t)
@@ -524,7 +529,7 @@ func Test_UpdateUser(t *testing.T) {
 }
 
 func Test_UpdateUserByEmail(t *testing.T) {
-	t.Parallel()
+	RequireFeatureLevel(t, 313)
 
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -541,7 +546,6 @@ func Test_UpdateUserByEmail(t *testing.T) {
 }
 
 func Test_UpdateUserGroup(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -566,7 +570,9 @@ func Test_UpdateUserGroupMembers(t *testing.T) {
 		ctx := context.Background()
 
 		userGroupId := CreateRandomUserGroup(t, apiClient, GetUserId(t, apiClient))
-		resp, httpResp, err := apiClient.UpdateUserGroupMembers(ctx, userGroupId).Add(otherUserId).Execute()
+		resp, httpResp, err := apiClient.UpdateUserGroupMembers(ctx, userGroupId).
+			Add([]int64{otherUserId}).
+			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -576,7 +582,6 @@ func Test_UpdateUserGroupMembers(t *testing.T) {
 }
 
 func Test_UpdateUserGroupSubgroups(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -585,7 +590,9 @@ func Test_UpdateUserGroupSubgroups(t *testing.T) {
 		userGroupId := CreateRandomUserGroup(t, apiClient, userId)
 		subGroupId := CreateRandomUserGroup(t, apiClient, userId)
 
-		resp, httpResp, err := apiClient.UpdateUserGroupSubgroups(ctx, userGroupId).Add([]int64{subGroupId}).Execute()
+		resp, httpResp, err := apiClient.UpdateUserGroupSubgroups(ctx, userGroupId).
+			Add([]int64{subGroupId}).
+			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -646,6 +653,7 @@ func Test_RemoveApnsToken(t *testing.T) {
 }
 
 func Test_RemoveAttachment(t *testing.T) {
+	RequireFeatureLevel(t, 285)
 	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {

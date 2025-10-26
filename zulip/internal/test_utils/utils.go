@@ -152,59 +152,15 @@ func GetTestClient(t *testing.T, username string) client.Client {
 func getTestClient(t *testing.T, username string) client.Client {
 	t.Helper()
 
-	for attempt := 0; attempt < 2; attempt++ {
-		url := fmt.Sprintf("%s/api/v1/dev_fetch_api_key?username=%s", TestSite, username)
-		resp, err := http.DefaultClient.Post(url, "application/json", nil)
-		if err != nil {
-			t.Fatalf("Failed to fetch API key for user %s: %v", username, err)
-		}
-
-		body, readErr := io.ReadAll(resp.Body)
-		resp.Body.Close()
-		if readErr != nil {
-			t.Fatalf("Failed to read API key response for user %s: %v", username, readErr)
-		}
-
-		if resp.StatusCode == http.StatusOK {
-			return buildClientFromResponse(t, username, body)
-		}
-
-		if resp.StatusCode == http.StatusUnauthorized && attempt == 0 && tryReactivateUser(t, username, body) {
-			continue
-		}
-
-		t.Fatalf("Failed to fetch API key for user %s: status code %d, response: %s", username, resp.StatusCode, string(body))
-	}
-
-	t.Fatalf("Failed to fetch API key for user %s after reactivation attempt", username)
-
-	return nil
-}
-
-func buildClientFromResponse(t *testing.T, username string, body []byte) client.Client {
 	t.Helper()
 
-	var result struct {
-		APIKey string `json:"api_key"`
-		EMail  string `json:"email"`
-		UserId int    `json:"user_id"`
-	}
-
-	if err := json.Unmarshal(body, &result); err != nil {
-		t.Fatalf("Failed to decode API key response for user %s: %v", username, err)
-	}
-	if result.APIKey == "" {
-		t.Fatalf("Empty API key received for user %s", username)
-	}
-	if result.EMail != username {
-		t.Fatalf("Unexpected email in API key response: got %s, want %s", result.EMail, username)
-	}
+	info := fetchUserInfo(t, username)
 
 	insecure := true
 	rc := &zuliprc.ZulipRC{
 		Site:     TestSite,
-		Email:    username,
-		APIKey:   result.APIKey,
+		Email:    info.EMail,
+		APIKey:   info.APIKey,
 		Insecure: &insecure,
 	}
 
@@ -222,6 +178,68 @@ func buildClientFromResponse(t *testing.T, username string, body []byte) client.
 	return client
 }
 
+type UserInfo struct {
+	APIKey string `json:"api_key"`
+	EMail  string `json:"email"`
+	UserId int    `json:"user_id"`
+}
+
+func fetchUserInfo(t *testing.T, username string) UserInfo {
+	t.Helper()
+
+	for attempt := 0; attempt < 2; attempt++ {
+		url := fmt.Sprintf("%s/api/v1/dev_fetch_api_key?username=%s", TestSite, username)
+		resp, err := http.DefaultClient.Post(url, "application/json", nil)
+		if err != nil {
+			t.Fatalf("Failed to fetch API key for user %s: %v", username, err)
+		}
+
+		body, readErr := io.ReadAll(resp.Body)
+		resp.Body.Close()
+		if readErr != nil {
+			t.Fatalf("Failed to read API key response for user %s: %v", username, readErr)
+		}
+
+		if resp.StatusCode == http.StatusOK {
+			var result UserInfo
+
+			if err := json.Unmarshal(body, &result); err != nil {
+				t.Fatalf("Failed to decode API key response for user %s: %v", username, err)
+			}
+			if result.APIKey == "" {
+				t.Fatalf("Empty API key received for user %s", username)
+			}
+			if result.EMail != username {
+				t.Fatalf("Unexpected email in API key response: got %s, want %s", result.EMail, username)
+			}
+			return result
+
+		}
+
+		if resp.StatusCode == http.StatusUnauthorized && attempt == 0 && tryReactivateUser(t, username, body) {
+			continue
+		}
+
+		t.Fatalf("Failed to fetch API key for user %s: status code %d, response: %s", username, resp.StatusCode, string(body))
+	}
+	t.Fatalf("Failed to fetch API key for user %s after reactivation attempt", username)
+	return UserInfo{}
+}
+
+func CreateIntegrationTestRC(t *testing.T, username string) string {
+	t.Helper()
+
+	tmpFile, err := os.CreateTemp("", "zuliprc-*.rc")
+	require.NoError(t, err)
+
+	info := fetchUserInfo(t, username)
+
+	_, err = tmpFile.WriteString(fmt.Sprintf("[api]\nemail=%s\nkey=%s\ninsecure=true\nsite=%s\n", info.EMail, info.APIKey, TestSite))
+	require.NoError(t, err)
+
+	return tmpFile.Name()
+}
+
 func CreateRandomChannel(t *testing.T, apiClient client.Client, subscribers ...int64) (string, int64) {
 	t.Helper()
 
@@ -234,7 +252,7 @@ func CreateRandomChannel(t *testing.T, apiClient client.Client, subscribers ...i
 		}
 
 		resp, httpResp, err := apiClient.Subscribe(context.Background()).
-			Subscriptions(channels.SubscriptionRequest{Name: name}).
+			Subscriptions([]channels.SubscriptionRequest{{Name: name}}).
 			Principals(z.UserIdsAsPrincipals(subs...)).
 			Execute()
 
@@ -345,7 +363,21 @@ func CreateRandomUserGroup(t *testing.T, apiClient client.Client, members ...int
 	resp, httpResp, err := apiClient.CreateUserGroup(context.Background()).Name(fmt.Sprintf("test-group-%d", groupId)).Description("Test Group").Members(members).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	assert.Equal(t, 200, httpResp.StatusCode)
+	RequireStatusOK(t, httpResp)
+
+	if resp.GroupId == 0 {
+		// older Zulip versions did not return GroupId in response
+		resp, httpResp, err := apiClient.GetUserGroups(context.Background()).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		RequireStatusOK(t, httpResp)
+		for _, g := range resp.UserGroups {
+			if g.Name == fmt.Sprintf("test-group-%d", groupId) {
+				return g.Id
+			}
+		}
+		t.Fatalf("Created user group not found in list")
+	}
 
 	return resp.GroupId
 }
@@ -415,14 +447,9 @@ func SendChannelMessage(t *testing.T, apiClient client.Client, channelId int64, 
 
 var serverFeatureLevel atomic.Int64
 
-func RequireFeatureLevel(t *testing.T, minLevel int) {
-	t.Helper()
-
+func GetFeatureLevel(t *testing.T) int {
 	if level := serverFeatureLevel.Load(); level != 0 {
-		if level < int64(minLevel) {
-			t.Skipf("Skipping test: requires feature level %d, server has %d", minLevel, level)
-		}
-		return
+		return int(level)
 	}
 
 	client := GetOwnerClient(t)
@@ -432,8 +459,16 @@ func RequireFeatureLevel(t *testing.T, minLevel int) {
 	require.NotNil(t, featureLevel)
 	serverFeatureLevel.Store(int64(featureLevel.ZulipFeatureLevel))
 
-	// Re-check after fetching
-	RequireFeatureLevel(t, minLevel)
+	return int(featureLevel.ZulipFeatureLevel)
+}
+
+func RequireFeatureLevel(t *testing.T, minLevel int) {
+	t.Helper()
+
+	currentLevel := GetFeatureLevel(t)
+	if currentLevel < minLevel {
+		t.Skipf("Skipping test: requires feature level %d, server has %d", minLevel, currentLevel)
+	}
 }
 
 type ChannelMessage struct {
