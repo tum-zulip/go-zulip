@@ -17,7 +17,6 @@ import (
 )
 
 func Test_AddDefaultChannel(t *testing.T) {
-	t.Parallel()
 
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
@@ -32,7 +31,6 @@ func Test_AddDefaultChannel(t *testing.T) {
 }
 
 func Test_ArchiveChannel(t *testing.T) {
-	t.Parallel()
 
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
@@ -48,7 +46,6 @@ func Test_ArchiveChannel(t *testing.T) {
 
 func Test_CreateChannelFolder(t *testing.T) {
 	RequireFeatureLevel(t, 389)
-	t.Parallel()
 
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
@@ -108,7 +105,6 @@ func Test_PatchChannelFolders(t *testing.T) {
 }
 
 func Test_RemoveDefaultChannel(t *testing.T) {
-	t.Parallel()
 
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
@@ -127,7 +123,6 @@ func Test_RemoveDefaultChannel(t *testing.T) {
 
 func Test_UpdateChannelFolder(t *testing.T) {
 	RequireFeatureLevel(t, 389)
-	t.Parallel()
 
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
@@ -143,7 +138,6 @@ func Test_UpdateChannelFolder(t *testing.T) {
 }
 
 func Test_UpdateChannel(t *testing.T) {
-	t.Parallel()
 
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
@@ -160,7 +154,6 @@ func Test_UpdateChannel(t *testing.T) {
 }
 
 func Test_CreateBigBlueButtonVideoCall(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -181,8 +174,6 @@ func Test_CreateBigBlueButtonVideoCall(t *testing.T) {
 func Test_CreateChannel(t *testing.T) {
 	RequireFeatureLevel(t, 417)
 
-	t.Parallel()
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 
 		userId := GetUserId(t, apiClient)
@@ -201,7 +192,6 @@ func Test_CreateChannel(t *testing.T) {
 
 func Test_GetChannelFolders(t *testing.T) {
 	RequireFeatureLevel(t, 389)
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -214,7 +204,6 @@ func Test_GetChannelFolders(t *testing.T) {
 }
 
 func Test_GetChannelById(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -232,7 +221,6 @@ func Test_GetChannelById(t *testing.T) {
 }
 
 func Test_GetChannelEmailAddress(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -249,7 +237,6 @@ func Test_GetChannelEmailAddress(t *testing.T) {
 }
 
 func Test_GetChannelId(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -293,7 +280,6 @@ func Test_GetChannelTopics(t *testing.T) {
 }
 
 func Test_GetChannels(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -307,7 +293,6 @@ func Test_GetChannels(t *testing.T) {
 }
 
 func Test_GetSubscribers(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -326,7 +311,6 @@ func Test_GetSubscribers(t *testing.T) {
 }
 
 func Test_GetSubscriptionStatus(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -376,7 +360,6 @@ func Test_MuteTopic(t *testing.T) {
 }
 
 func Test_Subscribe(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -396,7 +379,6 @@ func Test_Subscribe(t *testing.T) {
 }
 
 func Test_Unsubscribe(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -418,7 +400,6 @@ func Test_Unsubscribe(t *testing.T) {
 }
 
 func Test_UpdateSubscriptionSettings(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -441,7 +422,6 @@ func Test_UpdateSubscriptionSettings(t *testing.T) {
 }
 
 func Test_UpdateSubscriptions(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()

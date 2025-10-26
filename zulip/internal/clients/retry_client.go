@@ -3,7 +3,6 @@ package clients
 import (
 	"context"
 	"errors"
-	"log/slog"
 	"net/http"
 	"time"
 
@@ -33,8 +32,7 @@ func (c *RetryClient) CallAPI(ctx context.Context, endpoint string, req *http.Re
 		httpResp, err = c.SimpleClient.CallAPI(ctx, endpoint, req, model)
 
 		if retryAfter, ok := getRateLimit(httpResp, err); ok {
-
-			c.Logger.WarnContext(ctx, "hit API rate-limit", "retry-after", retryAfter)
+			c.Logger.WarnContext(ctx, "hit API rate-limit", "retry-after", retryAfter, "attempt", i+1)
 			time.Sleep(retryAfter)
 
 			if c.GatherStats {
@@ -46,7 +44,7 @@ func (c *RetryClient) CallAPI(ctx context.Context, endpoint string, req *http.Re
 
 		return
 	}
-	slog.DebugContext(ctx, "hit max retires", "max-retires", c.MaxRetries)
+	c.Logger.DebugContext(ctx, "hit max retires", "max-retires", c.MaxRetries)
 	return httpResp, ErrMaxRetriesReached
 }
 

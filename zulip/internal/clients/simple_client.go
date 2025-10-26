@@ -64,8 +64,11 @@ func (c *SimpleClient) CallAPI(ctx context.Context, endpoint string, req *http.R
 	}
 
 	httpResp, err = c.doHTTPCall(ctx, endpoint, req)
-
 	if err != nil || httpResp == nil {
+		if c.GatherStats {
+			c.Stats.Error(endpoint)
+		}
+
 		return httpResp, err
 	}
 
@@ -73,6 +76,10 @@ func (c *SimpleClient) CallAPI(ctx context.Context, endpoint string, req *http.R
 	httpResp.Body.Close()
 	httpResp.Body = io.NopCloser(bytes.NewBuffer(body))
 	if err != nil {
+		if c.GatherStats {
+			c.Stats.Error(endpoint)
+		}
+
 		return httpResp, err
 	}
 
@@ -81,7 +88,7 @@ func (c *SimpleClient) CallAPI(ctx context.Context, endpoint string, req *http.R
 			c.Stats.Error(endpoint)
 		}
 
-		return httpResp, unmarshallAPIError(ctx, httpResp.StatusCode, body)
+		return httpResp, unmarshallAPIError(ctx, c.Logger, httpResp.StatusCode, body)
 	}
 
 	err = decode(model, body, httpResp.Header.Get("Content-Type"))

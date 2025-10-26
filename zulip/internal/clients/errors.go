@@ -26,7 +26,7 @@ func tryUnmarshalErrorModel[T any](data []byte) (T, error) {
 	return model, nil
 }
 
-func unmarshallAPIError(ctx context.Context, status int, body []byte) error {
+func unmarshallAPIError(ctx context.Context, logger *slog.Logger, status int, body []byte) error {
 	var model interface{}
 	var err error
 
@@ -75,7 +75,7 @@ func unmarshallAPIError(ctx context.Context, status int, body []byte) error {
 	}
 
 	if err != nil {
-		slog.WarnContext(ctx, "API returned an unknown error response", "status", status, "body", string(body), "model", model)
+		logger.WarnContext(ctx, "API returned an unknown error response", "status", status, "body", string(body), "model", model)
 		return zulip.NewAPIError(body, fmt.Sprintf("status %d: %s", status, string(body)), nil)
 	}
 	return zulip.NewAPIError(body, fmt.Sprintf("status %d: %s", status, string(body)), model)
