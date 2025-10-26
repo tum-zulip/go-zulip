@@ -1,15 +1,25 @@
-package zulip_test
+# Go API client for go-zulip
 
+> **WARNING** This is still under active development and the go-api is not stable (yet)
+
+## Getting Started
+To use the go-zulip client in your Go project, you can install it via:
+
+```bash
+go get github.com/tum-zulip/go-zulip/zulip
+```
+
+Then, you can create a new client and start making API calls:
+
+```go
 import (
-	"context"
-
-	z "github.com/tum-zulip/go-zulip/zulip"
-	"github.com/tum-zulip/go-zulip/zulip/client"
+    "context"
+    z "github.com/tum-zulip/go-zulip/zulip"
 )
 
-func Example() {
+func main() {
 	// Load configuration from zuliprc file and create a client
-	rc, _ := z.NewZulipRCFromFile("~/.zuliprc")
+	rc, _ := z.NewZulipRCFromFile(".zuliprc")
 	client, _ := client.NewClient(rc)
 
 	ctx := context.Background()
@@ -33,3 +43,4 @@ func Example() {
 		Content("Hello Zulip community! 👋").
 		Execute()
 }
+```
