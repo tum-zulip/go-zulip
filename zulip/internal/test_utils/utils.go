@@ -18,7 +18,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tum-zulip/go-zulip/zulip"
 	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/api/channels"
 	"github.com/tum-zulip/go-zulip/zulip/api/messages"
@@ -157,7 +156,7 @@ func getTestClient(t *testing.T, username string) client.Client {
 	info := fetchUserInfo(t, username)
 
 	insecure := true
-	rc := &zulip.ZulipRC{
+	rc := &z.ZulipRC{
 		Site:     TestSite,
 		Email:    info.EMail,
 		APIKey:   info.APIKey,
