@@ -413,18 +413,27 @@ func SendChannelMessage(t *testing.T, apiClient client.Client, channelId int64, 
 	return resp.Id
 }
 
+var serverFeatureLevel atomic.Int64
+
 func RequireFeatureLevel(t *testing.T, minLevel int) {
 	t.Helper()
+
+	if level := serverFeatureLevel.Load(); level != 0 {
+		if level < int64(minLevel) {
+			t.Skipf("Skipping test: requires feature level %d, server has %d", minLevel, level)
+		}
+		return
+	}
 
 	client := GetOwnerClient(t)
 
 	featureLevel, _, err := client.GetServerSettings(context.Background()).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, featureLevel)
+	serverFeatureLevel.Store(int64(featureLevel.ZulipFeatureLevel))
 
-	if featureLevel.ZulipFeatureLevel < minLevel {
-		t.Skipf("Skipping test: requires feature level %d, server has %d", minLevel, featureLevel.ZulipFeatureLevel)
-	}
+	// Re-check after fetching
+	RequireFeatureLevel(t, minLevel)
 }
 
 type ChannelMessage struct {

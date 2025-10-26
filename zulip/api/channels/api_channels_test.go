@@ -343,7 +343,6 @@ func Test_GetSubscriptionStatus(t *testing.T) {
 }
 
 func Test_GetSubscriptions(t *testing.T) {
-	t.Parallel()
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()

@@ -7,14 +7,8 @@ type Event interface {
 	GetType() EventType
 	// GetId returns the unique ID of this event. Events appear in increasing order but may not be consecutive.
 	GetId() int64
-	// HasOp returns true if this event includes an operation type field (Op).
-	HasOp() bool
-	// GetOp returns the operation type for this event (e.g., EventOpAdd, EventOpRemove, EventOpUpdate).
-	// Only meaningful if HasOp() returns true; otherwise returns empty string.
-	GetOp() EventOp
-	// GetOpOk returns the operation type and a boolean indicating if an operation exists.
-	// Useful for safely checking if an operation is present.
-	GetOpOk() (EventOp, bool)
+	// GetOp returns the operation type and a boolean indicating if an operation exists.
+	GetOp() (EventOp, bool)
 }
 
 type event struct {
@@ -34,18 +28,8 @@ func (e event) GetId() int64 {
 	return e.Id
 }
 
-// HasOp implements Event.HasOp for event by returning false (no operation field).
-func (e event) HasOp() bool {
-	return false
-}
-
-// GetOp implements Event.GetOp for event by returning empty string (no operation).
-func (e event) GetOp() EventOp {
-	return e.Op
-}
-
-// GetOpOk implements Event.GetOpOk for event by returning (nil, false) (no operation).
-func (e event) GetOpOk() (EventOp, bool) {
+// GetOp implements Event.GetOp for event by returning ("", false) (no operation).
+func (e event) GetOp() (EventOp, bool) {
 	return e.Op, e.Op != ""
 }
 
