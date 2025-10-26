@@ -1,3 +1,5 @@
+// Package drafts provides API methods for managing Zulip message drafts,
+// including creation, retrieval, editing, and deletion of draft messages.
 package drafts
 
 import (

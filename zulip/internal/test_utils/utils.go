@@ -18,13 +18,13 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/tum-zulip/go-zulip/zulip"
 	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/api/channels"
 	"github.com/tum-zulip/go-zulip/zulip/api/messages"
 	"github.com/tum-zulip/go-zulip/zulip/api/users"
 	"github.com/tum-zulip/go-zulip/zulip/client"
 	"github.com/tum-zulip/go-zulip/zulip/client/statistics"
-	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
 )
 
 const (
@@ -157,7 +157,7 @@ func getTestClient(t *testing.T, username string) client.Client {
 	info := fetchUserInfo(t, username)
 
 	insecure := true
-	rc := &zuliprc.ZulipRC{
+	rc := &zulip.ZulipRC{
 		Site:     TestSite,
 		Email:    info.EMail,
 		APIKey:   info.APIKey,
@@ -224,20 +224,6 @@ func fetchUserInfo(t *testing.T, username string) UserInfo {
 	}
 	t.Fatalf("Failed to fetch API key for user %s after reactivation attempt", username)
 	return UserInfo{}
-}
-
-func CreateIntegrationTestRC(t *testing.T, username string) string {
-	t.Helper()
-
-	tmpFile, err := os.CreateTemp("", "zuliprc-*.rc")
-	require.NoError(t, err)
-
-	info := fetchUserInfo(t, username)
-
-	_, err = tmpFile.WriteString(fmt.Sprintf("[api]\nemail=%s\nkey=%s\ninsecure=true\nsite=%s\n", info.EMail, info.APIKey, TestSite))
-	require.NoError(t, err)
-
-	return tmpFile.Name()
 }
 
 func CreateRandomChannel(t *testing.T, apiClient client.Client, subscribers ...int64) (string, int64) {

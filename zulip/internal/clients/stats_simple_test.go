@@ -11,7 +11,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/tum-zulip/go-zulip/zulip"
-	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
 )
 
 // TestRateLimitRetrySimple tests a simple rate limit retry scenario
@@ -55,7 +54,7 @@ func TestRateLimitRetrySimple(t *testing.T) {
 	}))
 	defer server.Close()
 
-	rc := &zuliprc.ZulipRC{
+	rc := &zulip.ZulipRC{
 		Site:   server.URL,
 		Email:  "test@example.com",
 		APIKey: "test-key",

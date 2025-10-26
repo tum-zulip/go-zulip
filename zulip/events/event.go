@@ -1,3 +1,4 @@
+// Package events provides types and interfaces for Zulip real-time events.
 package events
 
 // Event is the interface that all Zulip events implement.

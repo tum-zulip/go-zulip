@@ -1,3 +1,5 @@
+// Package server_and_organizations provides API methods for managing Zulip server
+// and organization settings, including configuration, user management, and administrative operations.
 package server_and_organizations
 
 import (

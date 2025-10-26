@@ -12,8 +12,6 @@ import (
 	"time"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-
-	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
 )
 
 const (
@@ -52,7 +50,7 @@ func (c *SimpleClient) ServerURL() (string, error) {
 
 // Allow modification of underlying config for alternate implementations and testing
 // Caution: modifying the configuration while live can cause data races and potentially unwanted behavior
-func (c *SimpleClient) GetZulipRC() *zuliprc.ZulipRC {
+func (c *SimpleClient) GetZulipRC() *zulip.ZulipRC {
 	return c.RC
 }
 

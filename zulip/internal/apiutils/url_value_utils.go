@@ -22,7 +22,6 @@ import (
 	"github.com/tum-zulip/go-zulip/zulip"
 
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
-	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
 )
 
 var (
@@ -162,7 +161,7 @@ func PrepareRequest(
 		// Walk through any authentication.
 
 		// Basic HTTP Authentication
-		if auth, ok := ctx.Value(zuliprc.ContextBasicAuth).(zuliprc.BasicAuth); ok {
+		if auth, ok := ctx.Value(zulip.ContextBasicAuth).(zulip.BasicAuth); ok {
 			localVarRequest.SetBasicAuth(auth.UserName, auth.Password)
 		}
 

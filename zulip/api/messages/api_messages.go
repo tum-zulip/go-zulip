@@ -1,3 +1,5 @@
+// Package messages provides API methods for managing Zulip messages,
+// including sending, retrieving, editing, deleting, and reacting to messages.
 package messages
 
 import (

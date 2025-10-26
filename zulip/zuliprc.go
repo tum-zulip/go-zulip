@@ -1,4 +1,4 @@
-package zuliprc
+package zulip
 
 import (
 	"errors"

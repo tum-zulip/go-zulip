@@ -1,3 +1,5 @@
+// Package channels provides API methods for managing Zulip channels (streams),
+// including creation, subscription management, and channel configuration.
 package channels
 
 import (

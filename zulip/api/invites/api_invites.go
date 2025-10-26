@@ -1,3 +1,5 @@
+// Package invites provides API methods for managing Zulip organization invites,
+// including sending invitations, resending invites, and revoking pending invitations.
 package invites
 
 import (

@@ -5,8 +5,7 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
-	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
+	"github.com/tum-zulip/go-zulip/zulip"
 )
 
 const retryIndefinitely = -1
@@ -24,7 +23,7 @@ type Client interface {
 type Option func(*Config)
 
 type Config struct {
-	RC *zuliprc.ZulipRC
+	RC *zulip.ZulipRC
 
 	UserAgent       string
 	HttpClient      *http.Client
@@ -42,7 +41,7 @@ type Config struct {
 	FeatureLevel int
 }
 
-func NewConfig(rc *zuliprc.ZulipRC, opts ...Option) (Config, error) {
+func NewConfig(rc *zulip.ZulipRC, opts ...Option) (Config, error) {
 	cfg := Config{
 		RC:              rc,
 		ClientName:      defaultClientName,
@@ -58,7 +57,7 @@ func NewConfig(rc *zuliprc.ZulipRC, opts ...Option) (Config, error) {
 		option(&cfg)
 	}
 
-	httpClient, userAgent, err := utils.BuildHTTPClient(rc, cfg.ClientName, cfg.Logger, cfg.InsecureWarning)
+	httpClient, userAgent, err := buildHTTPClient(rc, cfg.ClientName, cfg.Logger, cfg.InsecureWarning)
 	if err != nil {
 		return cfg, err
 	}

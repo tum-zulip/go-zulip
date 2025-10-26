@@ -1,3 +1,5 @@
+// Package real_time_events provides API methods for managing Zulip real-time events,
+// including event queue registration, event polling, and event processing.
 package real_time_events
 
 import (

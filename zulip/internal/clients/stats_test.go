@@ -16,7 +16,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/tum-zulip/go-zulip/zulip"
-	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
 )
 
 // TestStatsConcurrent tests that statistics are correctly gathered
@@ -85,7 +84,7 @@ func TestStatsConcurrent(t *testing.T) {
 	defer server.Close()
 
 	// Create client with retry support and stats gathering
-	rc := &zuliprc.ZulipRC{
+	rc := &zulip.ZulipRC{
 		Site:   server.URL,
 		Email:  "test@example.com",
 		APIKey: "test-key",

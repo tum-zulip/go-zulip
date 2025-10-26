@@ -1,3 +1,5 @@
+// Package mobile provides API methods for mobile push notification management
+// in Zulip, including device registration and notification preferences.
 package mobile
 
 import (

@@ -1,3 +1,5 @@
+// Package users provides API methods for managing Zulip users,
+// including user profiles, presence, status, and user-related operations.
 package users
 
 import (

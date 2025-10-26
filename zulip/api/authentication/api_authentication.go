@@ -1,3 +1,5 @@
+// Package authentication provides API methods for Zulip authentication,
+// including API key management and authentication-related operations.
 package authentication
 
 import (

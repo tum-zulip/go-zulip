@@ -1,3 +1,15 @@
+// Package zulip is the root of the Go client for the Zulip group chat platform.
+//
+// This package provides:
+//   - Strongly-typed data models for all Zulip API objects (users, channels, messages, reactions, etc.)
+//   - Comprehensive enums and constants for all API fields, options, and feature levels
+//   - Core types and helpers for message filtering (narrowing), presence, user groups, and more
+//   - JSON marshaling/unmarshaling logic for all Zulip API types, including union/discriminated types
+//   - Error types and helpers for API error handling (including rate limits, coded errors, etc.)
+//   - Timestamp and string parsing utilities for Zulip's API conventions
+//
+// The zulip package is used by all API domain services (see subpackages under api/),
+// and is the foundation for the main client interface in client.Client.
 package zulip
 
 import "github.com/tum-zulip/go-zulip/zulip/internal/utils"

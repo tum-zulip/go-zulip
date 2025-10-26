@@ -1,3 +1,5 @@
+// Package navigation_views provides API methods for managing Zulip navigation views,
+// including home view settings and navigation state management.
 package navigation_views
 
 import (

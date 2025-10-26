@@ -1,9 +1,12 @@
+// Package client provides the main Zulip API client interface and implementation,
+// aggregating all API domain services for the Zulip platform.
 package client
 
 import (
 	"log/slog"
 	"net/http"
 
+	"github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/api/authentication"
 	"github.com/tum-zulip/go-zulip/zulip/api/channels"
 	"github.com/tum-zulip/go-zulip/zulip/api/drafts"
@@ -18,8 +21,6 @@ import (
 	"github.com/tum-zulip/go-zulip/zulip/api/users"
 	"github.com/tum-zulip/go-zulip/zulip/client/statistics"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
-
-	"github.com/tum-zulip/go-zulip/zulip/zuliprc"
 )
 
 type Client interface {
@@ -58,7 +59,7 @@ type client struct {
 	users.APIUsers
 }
 
-func NewClient(zuliprc *zuliprc.ZulipRC, opts ...clients.Option) (*client, error) {
+func NewClient(zuliprc *zulip.ZulipRC, opts ...clients.Option) (*client, error) {
 
 	cfg, err := clients.NewConfig(zuliprc, opts...)
 	if err != nil {

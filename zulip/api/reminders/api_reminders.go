@@ -1,3 +1,5 @@
+// Package reminders provides API methods for managing Zulip scheduled reminders,
+// including creating, retrieving, and deleting reminder notifications.
 package reminders
 
 import (
