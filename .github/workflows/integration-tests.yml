@@ -15,7 +15,7 @@ concurrency:
 jobs:
   integration:
     name: Go tests against Zulip ${{ matrix.zulip-branch }}
-    runs-on: arc-runner-set-tum-zulip
+    runs-on: [arc-runner-set-tum-zulip, arc-runner-set-go-zulip]
     strategy:
       matrix:
         zulip-branch:
@@ -164,7 +164,7 @@ jobs:
 
   godoc:
     name: Generate godoc HTML
-    runs-on: arc-runner-set-tum-zulip
+    runs-on: [arc-runner-set-tum-zulip, arc-runner-set-go-zulip]
 
     steps:
       - name: Checkout go-zulip
