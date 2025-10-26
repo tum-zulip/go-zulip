@@ -36,6 +36,16 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: "1.25.2"
+          # On self-hosted runners, GOMODCACHE and GOCACHE persist across jobs.
+          # Disable setup-go's dependency cache restore to avoid slow tar extraction
+          # and "Cannot open: File exists" messages when files already exist.
+          cache: false
+
+      - name: Install Go tools (goimports, staticcheck)
+        run: |
+          set -euo pipefail
+          go install golang.org/x/tools/cmd/goimports@v0.24.0
+          go install honnef.co/go/tools/cmd/staticcheck@2025.1.1
 
       - name: Check gofmt formatting
         run: |
@@ -58,7 +68,7 @@ jobs:
           if [ -z "$files" ]; then
             exit 0
           fi
-          diff=$(go run golang.org/x/tools/cmd/goimports@latest -d $files)
+          diff=$("$(go env GOPATH)"/bin/goimports -d $files)
           if [ -n "$diff" ]; then
             echo "$diff"
             echo "Go files require goimports formatting" >&2
@@ -69,7 +79,8 @@ jobs:
         run: go vet ./...
 
       - name: Run staticcheck
-        run: go run honnef.co/go/tools/cmd/staticcheck@2025.1.1 ./...
+        run: |
+          "$(go env GOPATH)"/bin/staticcheck ./...
 
       - name: Run fast model/unit tests
         run: ./scripts/run-model-tests.sh
@@ -163,6 +174,7 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: "1.25.2"
+          cache: false
 
       - name: Generate godoc
         run: |
