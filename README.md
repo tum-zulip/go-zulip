@@ -24,21 +24,21 @@ func main() {
 
 	ctx := context.Background()
 
-	// Get own user id
+	// Get own user ID
 	userResp, _, _ := client.GetOwnUser(ctx).Execute()
-	userId := userResp.UserId
+	userID := userResp.UserID
 
 	// Create a channel
 	// Older versions need to use the more verbose Subscribe() endpoint
 	channelResp, _, _ := client.CreateChannel(ctx).
 		Name("zulip-community").
 		Description("A channel to greet the Zulip community").
-		Subscribers([]int64{userId}).
+		Subscribers([]int64{userID}).
 		Execute()
 
 	// Send a message greeting the Zulip community
 	client.SendMessage(ctx).
-		To(z.ChannelAsRecipient(channelResp.Id)).
+		To(z.ChannelAsRecipient(channelResp.ID)).
 		Topic("introductions").
 		Content("Hello Zulip community! 👋").
 		Execute()

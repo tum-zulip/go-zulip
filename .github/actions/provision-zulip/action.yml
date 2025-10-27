@@ -14,10 +14,10 @@ inputs:
 outputs:
   site_url:
     description: "URL to the running Zulip server"
-    value: ${{ jobs.provision.outputs.site_url }}
+    value: ${{ steps.outputs-step.outputs.site_url }}
   log_path:
     description: "Path of the Zulip log file on runner"
-    value: ${{ jobs.provision.outputs.log_path }}
+    value: ${{ steps.outputs-step.outputs.log_path }}
 
 runs:
   using: "composite"
@@ -88,7 +88,7 @@ runs:
       run: |
         set -euo pipefail
         echo "Waiting for Zulip at ${ZULIP_URL}"
-        deadline=$(( $(date +%s) + ${{ inputs.wait_timeout_seconds }} ))
+        deadline=$(( $(date +%s) + ${{ inputs.wait_timeout }} ))
         until curl --get --silent --fail "${ZULIP_URL}/api/v1/server_settings" >/dev/null; do
           if [ "$(date +%s)" -gt "$deadline" ]; then
             echo "Zulip did not become ready within timeout." >&2
