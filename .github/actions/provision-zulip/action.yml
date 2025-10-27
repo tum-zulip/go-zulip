@@ -13,7 +13,7 @@ inputs:
   wait_timeout:
     description: Seconds to wait for Zulip to come up
     required: false
-    default: '900'
+    default: '30'
   cache_epoch_pnpm:
     description: Cache epoch for pnpm
     required: false
@@ -49,7 +49,7 @@ runs:
           echo "ZULIP_DEV_LOG=$RUNNER_TEMP/zulip-dev.log"
           echo "ZULIP_RUN_PID=$RUNNER_TEMP/zulip-dev.pid"
           # Default dev URL (caller can override via env in the workflow)
-          echo "ZULIP_URL=${ZULIP_URL:-http://127.0.0.1:9991}"
+          echo "ZULIP_URL=${ZULIP_URL:-http://localhost:9991}"
         } >> "$GITHUB_ENV"
 
     - name: Checkout Zulip (ref ${{ inputs.zulip_ref }})
