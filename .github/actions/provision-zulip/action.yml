@@ -140,7 +140,7 @@ runs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: zulip-log-${{ inputs.zulip_ref }}
+        name: zulip-log-${{ inputs.zulip_ref }}-${{ github.job }}-${{ github.run_attempt }}
         path: ${{ env.ZULIP_DEV_LOG }}
         if-no-files-found: ignore
         retention-days: 7
