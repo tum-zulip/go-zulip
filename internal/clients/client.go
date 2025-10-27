@@ -5,6 +5,7 @@ package clients
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"net/http"
 
@@ -29,7 +30,7 @@ type Client interface {
 		req *http.Request,
 		model ResponseModel,
 	) (httpResp *http.Response, err error)
-	ServerURL() (string, error)
+	ServerURL() string
 	GetUserAgent() string
 
 	GetStatistics() statistics.Statistics
@@ -63,6 +64,10 @@ type Config struct {
 // It builds the underlying HTTP client and sets the user agent. Returns an error if
 // HTTP client initialization fails.
 func NewConfig(rc *zulip.RC, opts ...Option) (Config, error) {
+	if rc == nil {
+		return Config{}, errors.New("invalid configuration: zulip.RC is nil")
+	}
+
 	cfg := Config{
 		RC:              rc,
 		ClientName:      defaultClientName,

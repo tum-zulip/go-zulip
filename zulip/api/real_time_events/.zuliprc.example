@@ -1,0 +1,5 @@
+[api]
+site=http:localhost:9991
+email=example@zulip.com
+key=DEADBEEF
+insecure=true

@@ -52,12 +52,7 @@ func PrepareRequest(
 	form url.Values,
 	formFiles []FormFile,
 ) (*http.Request, error) {
-	basePath, err := c.ServerURL()
-	if err != nil {
-		return nil, zulip.NewAPIError(nil, err)
-	}
-
-	path := basePath + endpoint
+	path := c.ServerURL() + endpoint
 
 	var body *bytes.Buffer
 
@@ -65,7 +60,7 @@ func PrepareRequest(
 	if strings.HasPrefix(headerParams["Content-Type"], ContentTypeMultipartFormData) && len(form) > 0 ||
 		(len(formFiles) > 0) {
 		body = &bytes.Buffer{}
-		err = addURLFormValuesAndFiles(body, form, formFiles, headerParams)
+		err := addURLFormValuesAndFiles(body, form, formFiles, headerParams)
 		if err != nil {
 			return nil, err
 		}

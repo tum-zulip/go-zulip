@@ -46,11 +46,8 @@ func (c *SimpleClient) GetStatistics() statistics.Statistics {
 	return c.Stats.GetStatistics()
 }
 
-func (c *SimpleClient) ServerURL() (string, error) {
-	if c.RC.Site != "" {
-		return fmt.Sprintf("%s/%s/%s", c.RC.Site, c.APISuffix, c.APIVersion), nil
-	}
-	return "", errors.New("base URL is not set")
+func (c *SimpleClient) ServerURL() string {
+	return fmt.Sprintf("%s/%s/%s", c.RC.Site, c.APISuffix, c.APIVersion)
 }
 
 // Allow modification of underlying config for alternate implementations and testing

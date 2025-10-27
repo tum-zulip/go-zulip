@@ -89,7 +89,7 @@ func NewTestClient(zuliprc *zulip.RC, opts ...clients.Option) (Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	apiClient := clients.NewRetryClient(cfg)
+	apiClient := clients.NewTestClient(cfg)
 	return &client{
 		APIAuthentication:         authentication.NewAuthenticationService(apiClient),
 		APIChannels:               channels.NewChannelsService(apiClient),

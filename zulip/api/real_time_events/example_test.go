@@ -20,7 +20,7 @@ import (
 //  3. Listen for message events in a goroutine.
 //  4. Respond to each message by echoing it back.
 func Example() {
-	rc, _ := z.NewZulipRCFromFile("~/.zuliprc")
+	rc, _ := z.NewZulipRCFromFile(".zuliprc.example")
 	client, _ := client.NewClient(rc)
 
 	ctx := context.Background()
@@ -43,10 +43,7 @@ func Example() {
 	queue := realtimeevents.NewEventQueue(client, nil)
 
 	// Connect to the event queue
-	channel, err := queue.Connect(ctx, queueID, lastEventID)
-	if err != nil {
-		panic("failed to connect to event queue")
-	}
+	channel, _ := queue.Connect(ctx, queueID, lastEventID)
 	defer queue.Close()
 
 	// Process events

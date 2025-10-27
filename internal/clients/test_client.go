@@ -25,7 +25,7 @@ func (c *TestClient) CallAPI(
 	model ResponseModel,
 ) (*http.Response, error) {
 	const maxRetries = 5
-	const waitDuration = time.Second
+	const waitDuration = 100 * time.Millisecond
 
 	var httpResp *http.Response
 	var err error
@@ -39,5 +39,5 @@ func (c *TestClient) CallAPI(
 		c.RetryClient.SimpleClient.Stats.Retry(endpoint)
 		c.RetryClient.SimpleClient.Stats.Duration("test-retry-timeout", waitDuration)
 	}
-	return httpResp, ErrMaxRetriesReached
+	return httpResp, err
 }
