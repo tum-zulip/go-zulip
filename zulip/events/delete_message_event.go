@@ -10,6 +10,7 @@ import "github.com/tum-zulip/go-zulip/zulip"
 // [have permission to access]: https://zulip.com/help/channel-permissions
 type DeleteMessageEvent struct {
 	event
+
 	// Only present for clients that support the `bulk_message_deletion` [client capability].  A sorted list containing the IDs of the newly deleted messages.
 	//
 	// **Changes**: Before Zulip 11.0 (feature level 393), this list was not guaranteed to be sorted.
@@ -27,7 +28,7 @@ type DeleteMessageEvent struct {
 	MessageType zulip.RecipientType `json:"message_type,omitempty"`
 	// Only present if `message_type` is `"stream"`.  The ID of the channel to which the message was sent.
 	ChannelID *int64 `json:"stream_id,omitempty"`
-	// Only present if `message_type` is `"stream"`.  The topic to which the message was sent.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name was empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
+	// Only present if `message_type` is `"stream"`.  The topic to which the message was sent.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name was empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] Response.
 	//
 	// **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.
 	//

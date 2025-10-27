@@ -7,6 +7,7 @@ package events
 // [notification settings]: https://zulip.com/api/update-settings
 type UpdateGlobalNotificationsEvent struct {
 	event
+
 	// The Zulip API email of the user.
 	User string `json:"user,omitempty"`
 	// Name of the changed notification setting.

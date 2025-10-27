@@ -1,22 +1,20 @@
-// Package navigation_views provides API methods for managing Zulip navigation views,
+// Package navigationviews provides API methods for managing Zulip navigation views,
 // including home view settings and navigation state management.
-package navigation_views
+package navigationviews
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	"net/http"
 	"net/url"
 	"strings"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-
 	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APINavigationViews interface {
-
 	// AddNavigationView Add a navigation view
 	//
 	// Adds a new custom left sidebar navigation view configuration
@@ -71,7 +69,7 @@ type navigationViewsService struct {
 	client clients.Client
 }
 
-func NewNavigationViewsService(client clients.Client) *navigationViewsService {
+func NewNavigationViewsService(client clients.Client) APINavigationViews {
 	return &navigationViewsService{client: client}
 }
 
@@ -123,8 +121,10 @@ func (s *navigationViewsService) AddNavigationView(ctx context.Context) AddNavig
 	}
 }
 
-// Execute executes the request
-func (s *navigationViewsService) AddNavigationViewExecute(r AddNavigationViewRequest) (*zulip.Response, *http.Response, error) {
+// Execute executes the request.
+func (s *navigationViewsService) AddNavigationViewExecute(
+	r AddNavigationViewRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -134,18 +134,18 @@ func (s *navigationViewsService) AddNavigationViewExecute(r AddNavigationViewReq
 		endpoint = "/navigation_views"
 	)
 	if r.fragment == nil {
-		return nil, nil, fmt.Errorf("fragment is required and must be specified")
+		return nil, nil, errors.New("fragment is required and must be specified")
 	}
 	if r.isPinned == nil {
-		return nil, nil, fmt.Errorf("isPinned is required and must be specified")
+		return nil, nil, errors.New("isPinned is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "fragment", r.fragment)
 	apiutils.AddParam(form, "is_pinned", r.isPinned)
-	apiutils.AddOptionalParam(form, "name", r.name)
+	apiutils.AddOptParam(form, "name", r.name)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -193,8 +193,10 @@ func (s *navigationViewsService) EditNavigationView(ctx context.Context, fragmen
 	}
 }
 
-// Execute executes the request
-func (s *navigationViewsService) EditNavigationViewExecute(r EditNavigationViewRequest) (*zulip.Response, *http.Response, error) {
+// Execute executes the request.
+func (s *navigationViewsService) EditNavigationViewExecute(
+	r EditNavigationViewRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
@@ -206,11 +208,11 @@ func (s *navigationViewsService) EditNavigationViewExecute(r EditNavigationViewR
 
 	path := strings.Replace(endpoint, "{fragment}", url.PathEscape(r.fragment), -1)
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "is_pinned", r.isPinned)
-	apiutils.AddOptionalParam(form, "name", r.name)
+	apiutils.AddOptParam(form, "is_pinned", r.isPinned)
+	apiutils.AddOptParam(form, "name", r.name)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -241,8 +243,10 @@ func (s *navigationViewsService) GetNavigationViews(ctx context.Context) GetNavi
 	}
 }
 
-// Execute executes the request
-func (s *navigationViewsService) GetNavigationViewsExecute(r GetNavigationViewsRequest) (*GetNavigationViewsResponse, *http.Response, error) {
+// Execute executes the request.
+func (s *navigationViewsService) GetNavigationViewsExecute(
+	r GetNavigationViewsRequest,
+) (*GetNavigationViewsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -252,7 +256,7 @@ func (s *navigationViewsService) GetNavigationViewsExecute(r GetNavigationViewsR
 		endpoint = "/navigation_views"
 	)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -277,7 +281,10 @@ func (r RemoveNavigationViewRequest) Execute() (*zulip.Response, *http.Response,
 // Remove a navigation view.
 //
 // *Changes**: New in Zulip 11.0 (feature level 390).
-func (s *navigationViewsService) RemoveNavigationView(ctx context.Context, fragment string) RemoveNavigationViewRequest {
+func (s *navigationViewsService) RemoveNavigationView(
+	ctx context.Context,
+	fragment string,
+) RemoveNavigationViewRequest {
 	return RemoveNavigationViewRequest{
 		apiService: s,
 		ctx:        ctx,
@@ -285,8 +292,10 @@ func (s *navigationViewsService) RemoveNavigationView(ctx context.Context, fragm
 	}
 }
 
-// Execute executes the request
-func (s *navigationViewsService) RemoveNavigationViewExecute(r RemoveNavigationViewRequest) (*zulip.Response, *http.Response, error) {
+// Execute executes the request.
+func (s *navigationViewsService) RemoveNavigationViewExecute(
+	r RemoveNavigationViewRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
@@ -298,7 +307,7 @@ func (s *navigationViewsService) RemoveNavigationViewExecute(r RemoveNavigationV
 
 	path := strings.Replace(endpoint, "{fragment}", url.PathEscape(r.fragment), -1)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err

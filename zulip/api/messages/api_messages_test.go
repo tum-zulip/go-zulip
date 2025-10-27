@@ -2,7 +2,6 @@ package messages_test
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -11,6 +10,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/client"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
@@ -24,13 +24,12 @@ func Test_AddReaction(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.AddReaction(ctx, msg.MessageID).
+		resp, _, err := apiClient.AddReaction(ctx, msg.MessageID).
 			EmojiName("smile").
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -42,7 +41,7 @@ func Test_CheckMessagesMatchNarrow(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.CheckMessagesMatchNarrow(ctx).
+		resp, _, err := apiClient.CheckMessagesMatchNarrow(ctx).
 			MsgIDs([]int64{msg.MessageID}).
 			Narrow(
 				z.Where(z.ChannelNameIs(channelName)).
@@ -51,7 +50,6 @@ func Test_CheckMessagesMatchNarrow(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 
 		key := strconv.Itoa(int(msg.MessageID))
 		assert.Contains(t, resp.Messages, key)
@@ -66,11 +64,10 @@ func Test_DeleteMessage(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.DeleteMessage(ctx, msg.MessageID).Execute()
+		resp, _, err := apiClient.DeleteMessage(ctx, msg.MessageID).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -78,16 +75,15 @@ func Test_GetFileTemporaryURL(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		upload := UploadFileForTest(t, ctx, apiClient)
+		upload := UploadFileForTest(ctx, t, apiClient)
 
-		realmID, filename := parseUploadedFilePath(t, upload.Url)
+		realmID, filename := parseUploadedFilePath(t, upload.URL)
 
-		resp, httpResp, err := apiClient.GetFileTemporaryURL(ctx, realmID, filename).Execute()
+		resp, _, err := apiClient.GetFileTemporaryURL(ctx, realmID, filename).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
-		assert.NotEmpty(t, resp.Url)
+		assert.NotEmpty(t, resp.URL)
 	})
 }
 
@@ -99,11 +95,10 @@ func Test_GetMessage(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.GetMessage(ctx, msg.MessageID).Execute()
+		resp, _, err := apiClient.GetMessage(ctx, msg.MessageID).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.Equal(t, msg.MessageID, resp.Message.ID)
 		require.WithinDuration(t, time.Now(), resp.Message.Timestamp, 3*time.Minute)
 		// TODO: require.WithinDuration(t, time.Now(), resp.Message.LastEditTimestamp, 3*time.Minute)
@@ -125,11 +120,10 @@ func Test_GetMessageHistory(t *testing.T) {
 			Execute()
 		require.NoError(t, err)
 
-		resp, httpResp, err := apiClient.GetMessageHistory(ctx, msg.MessageID).Execute()
+		resp, _, err := apiClient.GetMessageHistory(ctx, msg.MessageID).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.NotEmpty(t, resp.MessageHistory)
 	})
 }
@@ -142,7 +136,7 @@ func Test_GetMessages(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.GetMessages(ctx).
+		resp, _, err := apiClient.GetMessages(ctx).
 			Anchor(strconv.Itoa(int(msg.MessageID))).
 			IncludeAnchor(true).
 			NumBefore(0).
@@ -153,7 +147,6 @@ func Test_GetMessages(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.NotEmpty(t, resp.Messages)
 	})
 }
@@ -166,11 +159,10 @@ func Test_GetReadReceipts(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.GetReadReceipts(ctx, msg.MessageID).Execute()
+		resp, _, err := apiClient.GetReadReceipts(ctx, msg.MessageID).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -178,11 +170,10 @@ func Test_MarkAllAsRead(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp, httpResp, err := apiClient.MarkAllAsRead(ctx).Execute()
+		resp, _, err := apiClient.MarkAllAsRead(ctx).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -194,13 +185,12 @@ func Test_MarkChannelAsRead(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.MarkChannelAsRead(ctx).
+		resp, _, err := apiClient.MarkChannelAsRead(ctx).
 			ChannelID(msg.ChannelID).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -215,14 +205,13 @@ func Test_MarkTopicAsRead(t *testing.T) {
 
 		// mark the topic as read using the same client that created the message,
 		// since the topic may not be visible to other clients immediately.
-		resp, httpResp, err := otherClient.MarkTopicAsRead(ctx).
+		resp, _, err := apiClient.MarkTopicAsRead(ctx).
 			ChannelID(msg.ChannelID).
 			TopicName(msg.Topic).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -239,13 +228,12 @@ func Test_RemoveReaction(t *testing.T) {
 			Execute()
 		require.NoError(t, err)
 
-		resp, httpResp, err := apiClient.RemoveReaction(ctx, msg.MessageID).
+		resp, _, err := apiClient.RemoveReaction(ctx, msg.MessageID).
 			EmojiName("smile").
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -254,13 +242,12 @@ func Test_RenderMessage(t *testing.T) {
 		ctx := context.Background()
 
 		content := "**bold** normal _italic_"
-		resp, httpResp, err := apiClient.RenderMessage(ctx).
+		resp, _, err := apiClient.RenderMessage(ctx).
 			Content(content).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.Contains(t, resp.Rendered, "<strong>bold</strong>")
 	})
 }
@@ -276,14 +263,13 @@ func Test_ReportMessage(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.ReportMessage(ctx, msg.MessageID).
+		resp, _, err := apiClient.ReportMessage(ctx, msg.MessageID).
 			ReportType("spam").
 			Description("reported by automated tests").
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -296,7 +282,7 @@ func Test_SendMessage(t *testing.T) {
 		topic := UniqueName("topic")
 		content := fmt.Sprintf("message sent via client %s", UniqueName("content"))
 
-		resp, httpResp, err := apiClient.SendMessage(ctx).
+		resp, _, err := apiClient.SendMessage(ctx).
 			To(z.ChannelAsRecipient(channelID)).
 			Topic(topic).
 			Content(content).
@@ -304,7 +290,6 @@ func Test_SendMessage(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.Positive(t, resp.ID)
 	})
 }
@@ -318,13 +303,12 @@ func Test_UpdateMessage(t *testing.T) {
 		msg := CreateChannelMessage(t, apiClient, channelID)
 		newContent := fmt.Sprintf("edited %s", UniqueName("content"))
 
-		resp, httpResp, err := apiClient.UpdateMessage(ctx, msg.MessageID).
+		resp, _, err := apiClient.UpdateMessage(ctx, msg.MessageID).
 			Content(newContent).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -336,7 +320,7 @@ func Test_UpdateMessageFlags(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.UpdateMessageFlags(ctx).
+		resp, _, err := apiClient.UpdateMessageFlags(ctx).
 			Messages([]int64{msg.MessageID}).
 			Op("add").
 			Flag("starred").
@@ -344,7 +328,6 @@ func Test_UpdateMessageFlags(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.Contains(t, resp.Messages, msg.MessageID)
 	})
 }
@@ -357,7 +340,7 @@ func Test_UpdateMessageFlagsForNarrow(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.UpdateMessageFlagsForNarrow(ctx).
+		resp, _, err := apiClient.UpdateMessageFlagsForNarrow(ctx).
 			Anchor(strconv.Itoa(int(msg.MessageID))).
 			NumBefore(0).
 			NumAfter(0).
@@ -371,7 +354,6 @@ func Test_UpdateMessageFlagsForNarrow(t *testing.T) {
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.GreaterOrEqual(t, resp.ProcessedCount, int64(1))
 	})
 }
@@ -380,11 +362,11 @@ func Test_UploadFile(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp := UploadFileForTest(t, ctx, apiClient)
+		resp := UploadFileForTest(ctx, t, apiClient)
 
-		assert.NotEmpty(t, resp.Uri)
+		assert.NotEmpty(t, resp.URI)
 		if GetFeatureLevel(t) >= 272 {
-			assert.NotEmpty(t, resp.Url)
+			assert.NotEmpty(t, resp.URL)
 		}
 		if GetFeatureLevel(t) >= 285 {
 			assert.NotEmpty(t, resp.Filename)
@@ -402,23 +384,15 @@ func Test_AddReaction_Invalid_Input(t *testing.T) {
 		_, _, err := apiClient.AddReaction(ctx, 99999999).
 			EmojiName("smile").
 			Execute()
-		require.Error(t, err)
-		var apiErr *z.APIError
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.CodedError{})
 
 		// Test with valid message but non-existent emoji
 		msg := CreateChannelMessage(t, apiClient, channelID)
 		_, _, err = apiClient.AddReaction(ctx, msg.MessageID).
 			EmojiName("nonexistentemoji1234567890").
 			Execute()
-		require.Error(t, err)
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+
+		require.ErrorAs(t, err, &z.CodedError{})
 	})
 }
 
@@ -431,13 +405,8 @@ func Test_CheckMessagesMatchNarrow_Invalid_Input(t *testing.T) {
 			MsgIDs([]int64{}).
 			Narrow(z.Where(z.ChannelNameIs("nonexistent-channel"))).
 			Execute()
-		require.Error(t, err)
 
-		var apiErr *z.APIError
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.BadNarrowError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.BadNarrowError{})
 	})
 }
 
@@ -447,12 +416,7 @@ func Test_DeleteMessage_Invalid_Input(t *testing.T) {
 
 		// Test with non-existent messageID
 		_, _, err := apiClient.DeleteMessage(ctx, 99999999).Execute()
-		require.Error(t, err)
-		var apiErr *z.APIError
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.CodedError{})
 
 		// Test with negative messageID
 		_, _, err = apiClient.DeleteMessage(ctx, -1).Execute()
@@ -480,12 +444,7 @@ func Test_GetMessage_Invalid_Input(t *testing.T) {
 
 		// Test with non-existent messageID
 		_, _, err := apiClient.GetMessage(ctx, 99999999).Execute()
-		require.Error(t, err)
-		var apiErr *z.APIError
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.CodedError{})
 
 		// Test with negative messageID
 		_, _, err = apiClient.GetMessage(ctx, -1).Execute()
@@ -505,11 +464,10 @@ func Test_GetMessageHistory_Invalid_Input(t *testing.T) {
 
 		// Test with a fresh message (one without edit history)
 		msg := CreateChannelMessage(t, apiClient, channelID)
-		resp, httpResp, err := apiClient.GetMessageHistory(ctx, msg.MessageID).Execute()
+		resp, _, err := apiClient.GetMessageHistory(ctx, msg.MessageID).Execute()
 		// Should succeed but have minimal history
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -540,12 +498,7 @@ func Test_GetReadReceipts_Invalid_Input(t *testing.T) {
 
 		// Test with non-existent messageID
 		_, _, err := apiClient.GetReadReceipts(ctx, 99999999).Execute()
-		require.Error(t, err)
-		var apiErr *z.APIError
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.CodedError{})
 
 		// Test with negative messageID
 		_, _, err = apiClient.GetReadReceipts(ctx, -1).Execute()
@@ -558,16 +511,14 @@ func Test_MarkAllAsRead_Invalid_Input(t *testing.T) {
 		ctx := context.Background()
 
 		// MarkAllAsRead should generally succeed even if no messages to mark
-		resp, httpResp, err := apiClient.MarkAllAsRead(ctx).Execute()
+		resp, _, err := apiClient.MarkAllAsRead(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 
 		// Calling it again should also succeed (idempotency test)
-		resp, httpResp, err = apiClient.MarkAllAsRead(ctx).Execute()
+		resp, _, err = apiClient.MarkAllAsRead(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -579,22 +530,14 @@ func Test_MarkChannelAsRead_Invalid_Input(t *testing.T) {
 		_, _, err := apiClient.MarkChannelAsRead(ctx).
 			ChannelID(99999999).
 			Execute()
-		require.Error(t, err)
-		var apiErr *z.APIError
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+
+		require.ErrorAs(t, err, &z.CodedError{})
 
 		// Test with negative channelID
 		_, _, err = apiClient.MarkChannelAsRead(ctx).
 			ChannelID(-1).
 			Execute()
-		require.Error(t, err)
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.CodedError{})
 	})
 }
 
@@ -631,23 +574,14 @@ func Test_RemoveReaction_Invalid_Input(t *testing.T) {
 		_, _, err := apiClient.RemoveReaction(ctx, 99999999).
 			EmojiName("smile").
 			Execute()
-		require.Error(t, err)
-		var apiErr *z.APIError
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.CodedError{})
 
 		// Test removing non-existent reaction from a real message
 		msg := CreateChannelMessage(t, apiClient, channelID)
 		_, _, err = apiClient.RemoveReaction(ctx, msg.MessageID).
 			EmojiName("nonexistentemoji1234567890").
 			Execute()
-		require.Error(t, err)
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.CodedError{})
 	})
 }
 
@@ -662,12 +596,11 @@ func Test_RenderMessage_Invalid_Input(t *testing.T) {
 		// Result depends on server, don't assert error
 
 		// Test with valid markdown content
-		resp, httpResp, err := apiClient.RenderMessage(ctx).
+		resp, _, err := apiClient.RenderMessage(ctx).
 			Content("**bold** _italic_ `code`").
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.NotEmpty(t, resp.Rendered)
 	})
 }
@@ -706,12 +639,7 @@ func Test_SendMessage_Invalid_Input(t *testing.T) {
 			To(z.UserAsRecipient(99999999)).
 			Content("test message").
 			Execute()
-		require.Error(t, err)
-		var apiErr *z.APIError
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.CodedError{})
 
 		// Test with non-existent channelID
 		_, _, err = apiClient.SendMessage(ctx).
@@ -719,11 +647,7 @@ func Test_SendMessage_Invalid_Input(t *testing.T) {
 			Topic("test-topic").
 			Content("test message").
 			Execute()
-		require.Error(t, err)
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.NonExistingChannelIdError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.NonExistingChannelIDError{})
 
 		// Test with empty content
 		_, _, err = apiClient.SendMessage(ctx).
@@ -731,11 +655,7 @@ func Test_SendMessage_Invalid_Input(t *testing.T) {
 			Topic("test-topic").
 			Content("").
 			Execute()
-		require.Error(t, err)
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.CodedError{})
 	})
 }
 
@@ -749,22 +669,16 @@ func Test_UpdateMessage_Invalid_Input(t *testing.T) {
 		_, _, err := apiClient.UpdateMessage(ctx, 99999999).
 			Content("updated content").
 			Execute()
-		require.Error(t, err)
-		var apiErr *z.APIError
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.CodedError{})
 
 		// Create another message for valid update test
 		msg2 := CreateChannelMessage(t, apiClient, channelID)
 		newContent := fmt.Sprintf("successfully updated %s", UniqueName("msg"))
-		resp, httpResp, err := apiClient.UpdateMessage(ctx, msg2.MessageID).
+		resp, _, err := apiClient.UpdateMessage(ctx, msg2.MessageID).
 			Content(newContent).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -781,13 +695,7 @@ func Test_UpdateMessageFlags_Invalid_Input(t *testing.T) {
 			Flag("starred").
 			Execute()
 
-		require.Error(t, err)
-
-		var apiErr *z.APIError
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.CodedError{})
 
 		// Test with invalid op value
 		msg := CreateChannelMessage(t, apiClient, channelID)
@@ -796,11 +704,8 @@ func Test_UpdateMessageFlags_Invalid_Input(t *testing.T) {
 			Op("invalid-op").
 			Flag("starred").
 			Execute()
-		require.Error(t, err)
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+
+		require.ErrorAs(t, err, &z.CodedError{})
 
 		// Test with invalid flag value
 		_, _, err = apiClient.UpdateMessageFlags(ctx).
@@ -808,11 +713,8 @@ func Test_UpdateMessageFlags_Invalid_Input(t *testing.T) {
 			Op("add").
 			Flag("invalid-flag-xyz").
 			Execute()
-		require.Error(t, err)
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+
+		require.ErrorAs(t, err, &z.CodedError{})
 	})
 }
 
@@ -830,12 +732,7 @@ func Test_UpdateMessageFlagsForNarrow_Invalid_Input(t *testing.T) {
 			Op("add").
 			Flag("starred").
 			Execute()
-		require.Error(t, err)
-		var apiErr *z.APIError
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+		require.ErrorAs(t, err, &z.CodedError{})
 
 		// Test with invalid op value
 		msg := CreateChannelMessage(t, apiClient, channelID)
@@ -848,11 +745,8 @@ func Test_UpdateMessageFlagsForNarrow_Invalid_Input(t *testing.T) {
 			Op("invalid-op").
 			Flag("starred").
 			Execute()
-		require.Error(t, err)
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+
+		require.ErrorAs(t, err, &z.CodedError{})
 
 		// Test with invalid flag value
 		_, _, err = apiClient.UpdateMessageFlagsForNarrow(ctx).
@@ -864,11 +758,8 @@ func Test_UpdateMessageFlagsForNarrow_Invalid_Input(t *testing.T) {
 			Op("add").
 			Flag("invalid-flag-xyz").
 			Execute()
-		require.Error(t, err)
-		if errors.As(err, &apiErr) {
-			require.NotNil(t, apiErr.Model())
-			assert.IsType(t, z.CodedError{}, apiErr.Model())
-		}
+
+		require.ErrorAs(t, err, &z.CodedError{})
 	})
 }
 

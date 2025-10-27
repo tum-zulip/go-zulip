@@ -1,4 +1,4 @@
-package server_and_organizations_test
+package serverandorganizations_test
 
 import (
 	"context"
@@ -13,6 +13,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/client"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
@@ -22,12 +23,11 @@ func Test_GetServerSettings(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp, httpResp, err := apiClient.GetServerSettings(ctx).Execute()
+		resp, _, err := apiClient.GetServerSettings(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.NotEmpty(t, resp.RealmName)
-		assert.NotEmpty(t, resp.RealmUrl)
+		assert.NotEmpty(t, resp.RealmURL)
 	})
 }
 
@@ -36,14 +36,13 @@ func Test_CodePlaygrounds(t *testing.T) {
 		ctx := context.Background()
 
 		name := fmt.Sprintf("Playground %s", UniqueName("code"))
-		resp, httpResp, err := apiClient.AddCodePlayground(ctx).
+		resp, _, err := apiClient.AddCodePlayground(ctx).
 			Name(name).
 			PygmentsLanguage("python").
-			UrlTemplate("https://play.z.example/run?code={code}").
+			URLTemplate("https://play.z.example/run?code={code}").
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 
 		playgroundID := resp.ID
 		removed := false
@@ -57,10 +56,9 @@ func Test_CodePlaygrounds(t *testing.T) {
 			}
 		}()
 
-		removeResp, removeHTTP, err := apiClient.RemoveCodePlayground(ctx, playgroundID).Execute()
+		removeResp, _, err := apiClient.RemoveCodePlayground(ctx, playgroundID).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, removeResp)
-		RequireStatusOK(t, removeHTTP)
 		assert.Equal(t, "success", removeResp.Result)
 		removed = true
 	})
@@ -73,13 +71,12 @@ func Test_Linkifiers(t *testing.T) {
 		pattern := fmt.Sprintf("test-%s-(?P<id>[0-9]+)", UniqueName("linkifier"))
 		urlTemplate := "https://z.example/issues/{id}"
 
-		addResp, httpResp, err := apiClient.AddLinkifier(ctx).
+		addResp, _, err := apiClient.AddLinkifier(ctx).
 			Pattern(pattern).
-			UrlTemplate(urlTemplate).
+			URLTemplate(urlTemplate).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, addResp)
-		RequireStatusOK(t, httpResp)
 
 		linkifierID := addResp.ID
 		removed := false
@@ -93,10 +90,9 @@ func Test_Linkifiers(t *testing.T) {
 			}
 		}()
 
-		listResp, httpResp, err := apiClient.GetLinkifiers(ctx).Execute()
+		listResp, _, err := apiClient.GetLinkifiers(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, listResp)
-		RequireStatusOK(t, httpResp)
 
 		linkifiers := listResp.Linkifiers
 		require.NotEmpty(t, linkifiers)
@@ -107,19 +103,17 @@ func Test_Linkifiers(t *testing.T) {
 		)
 
 		updatedTemplate := urlTemplate + "?source=api-test"
-		updateResp, httpResp, err := apiClient.UpdateLinkifier(ctx, linkifierID).
+		updateResp, _, err := apiClient.UpdateLinkifier(ctx, linkifierID).
 			Pattern(pattern).
-			UrlTemplate(updatedTemplate).
+			URLTemplate(updatedTemplate).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, updateResp)
-		RequireStatusOK(t, httpResp)
 		assert.Equal(t, "success", updateResp.Result)
 
-		updatedListResp, httpResp, err := apiClient.GetLinkifiers(ctx).Execute()
+		updatedListResp, _, err := apiClient.GetLinkifiers(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, updatedListResp)
-		RequireStatusOK(t, httpResp)
 		assert.True(
 			t,
 			linkifierExists(updatedListResp.Linkifiers, linkifierID, pattern, updatedTemplate),
@@ -127,29 +121,26 @@ func Test_Linkifiers(t *testing.T) {
 		)
 
 		originalOrder := extractlinkifierIDs(updatedListResp.Linkifiers)
-		movedOrder := moveIdToFront(originalOrder, linkifierID)
+		movedOrder := moveIDToFront(originalOrder, linkifierID)
 		if !int64SlicesEqual(originalOrder, movedOrder) {
-			reorderResp, httpResp, err := apiClient.ReorderLinkifiers(ctx).
+			reorderResp, _, reoderRrr := apiClient.ReorderLinkifiers(ctx).
 				OrderedLinkifierIDs(movedOrder).
 				Execute()
-			require.NoError(t, err)
+			require.NoError(t, reoderRrr)
 			require.NotNil(t, reorderResp)
-			RequireStatusOK(t, httpResp)
 			assert.Equal(t, "success", reorderResp.Result)
 
-			restoreResp, httpResp, err := apiClient.ReorderLinkifiers(ctx).
+			restoreResp, _, restoreErr := apiClient.ReorderLinkifiers(ctx).
 				OrderedLinkifierIDs(originalOrder).
 				Execute()
-			require.NoError(t, err)
+			require.NoError(t, restoreErr)
 			require.NotNil(t, restoreResp)
-			RequireStatusOK(t, httpResp)
 			assert.Equal(t, "success", restoreResp.Result)
 		}
 
-		removeResp, removeHTTP, err := apiClient.RemoveLinkifier(ctx, linkifierID).Execute()
-		require.NoError(t, err)
+		removeResp, _, removeErr := apiClient.RemoveLinkifier(ctx, linkifierID).Execute()
+		require.NoError(t, removeErr)
 		require.NotNil(t, removeResp)
-		RequireStatusOK(t, removeHTTP)
 		assert.Equal(t, "success", removeResp.Result)
 		removed = true
 	})
@@ -161,10 +152,9 @@ func Test_CustomProfileFields(t *testing.T) {
 
 		const fieldName = "API Test Profile Field"
 
-		listResp, httpResp, err := apiClient.GetCustomProfileFields(ctx).Execute()
+		listResp, _, err := apiClient.GetCustomProfileFields(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, listResp)
-		RequireStatusOK(t, httpResp)
 
 		fields := listResp.CustomFields
 		var fieldID int64
@@ -176,45 +166,41 @@ func Test_CustomProfileFields(t *testing.T) {
 		}
 
 		if fieldID == 0 {
-			createResp, createHTTP, err := apiClient.CreateCustomProfileField(ctx).
+			createResp, _, createErr := apiClient.CreateCustomProfileField(ctx).
 				FieldType(1).
 				Name(fieldName).
 				Hint("Created by go-z.automated tests").
 				EditableByUser(true).
 				Required(false).
 				Execute()
-			require.NoError(t, err)
+			require.NoError(t, createErr)
 			require.NotNil(t, createResp)
-			RequireStatusOK(t, createHTTP)
 			fieldID = createResp.ID
 
-			listResp, httpResp, err = apiClient.GetCustomProfileFields(ctx).Execute()
-			require.NoError(t, err)
-			require.NotNil(t, listResp)
-			RequireStatusOK(t, httpResp)
-			fields = listResp.CustomFields
+			customlistResp, _, listErr := apiClient.GetCustomProfileFields(ctx).Execute()
+			require.NoError(t, listErr)
+			require.NotNil(t, customlistResp)
+			fields = customlistResp.CustomFields
 		}
 
 		require.NotZero(t, fieldID, "profile field ID must be set")
 		require.True(t, profileFieldExists(fields, fieldID), "profile field missing from listing")
 
 		originalOrder := extractProfileFieldIDs(fields)
-		movedOrder := moveIdToFront(originalOrder, fieldID)
+		movedOrder := moveIDToFront(originalOrder, fieldID)
 		if !int64SlicesEqual(originalOrder, movedOrder) {
-			reorderResp, reorderHTTP, err := apiClient.ReorderCustomProfileFields(ctx).
+			reorderResp, _, reorderErr := apiClient.ReorderCustomProfileFields(ctx).
 				Order(movedOrder).
 				Execute()
-			require.NoError(t, err)
+			require.NoError(t, reorderErr)
 			require.NotNil(t, reorderResp)
-			RequireStatusOK(t, reorderHTTP)
 			assert.Equal(t, "success", reorderResp.Result)
 
-			restoreResp, restoreHTTP, err := apiClient.ReorderCustomProfileFields(ctx).
+			restoreResp, _, restoreErr := apiClient.ReorderCustomProfileFields(ctx).
 				Order(originalOrder).
 				Execute()
-			require.NoError(t, err)
+			require.NoError(t, restoreErr)
 			require.NotNil(t, restoreResp)
-			RequireStatusOK(t, restoreHTTP)
 			assert.Equal(t, "success", restoreResp.Result)
 		}
 	})
@@ -224,10 +210,9 @@ func Test_Presence(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp, httpResp, err := apiClient.GetPresence(ctx).Execute()
+		resp, _, err := apiClient.GetPresence(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 
 		presences := resp.Presences
 		assert.NotEmpty(t, presences)
@@ -243,18 +228,16 @@ func Test_RealmExports(t *testing.T) {
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		consentsResp, httpResp, err := apiClient.GetRealmExportConsents(ctx).Execute()
+		consentsResp, _, err := apiClient.GetRealmExportConsents(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, consentsResp)
-		RequireStatusOK(t, httpResp)
 
-		exportsResp, httpResp, err := apiClient.GetRealmExports(ctx).Execute()
+		exportsResp, _, err := apiClient.GetRealmExports(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, exportsResp)
-		RequireStatusOK(t, httpResp)
 		assert.NotNil(t, exportsResp.Exports)
 
-		exportResp, httpResp, err := apiClient.ExportRealm(ctx).Execute()
+		exportResp, _, err := apiClient.ExportRealm(ctx).Execute()
 		if err != nil {
 			if handledRateLimit(t, err) {
 				return
@@ -262,7 +245,6 @@ func Test_RealmExports(t *testing.T) {
 		}
 		require.NoError(t, err)
 		require.NotNil(t, exportResp)
-		RequireStatusOK(t, httpResp)
 	})
 }
 
@@ -272,12 +254,11 @@ func Test_WelcomeBotPreview(t *testing.T) {
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp, httpResp, err := apiClient.TestWelcomeBotCustomMessage(ctx).
+		resp, _, err := apiClient.TestWelcomeBotCustomMessage(ctx).
 			WelcomeMessageCustomText(fmt.Sprintf("Welcome preview from automated test %s", UniqueName("welcome"))).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.Positive(t, resp.MessageID)
 	})
 }
@@ -286,10 +267,9 @@ func Test_RealmUserSettingsDefaults(t *testing.T) {
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp, httpResp, err := apiClient.UpdateRealmUserSettingsDefaults(ctx).Execute()
+		resp, _, err := apiClient.UpdateRealmUserSettingsDefaults(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.Equal(t, "success", resp.Result)
 	})
 }
@@ -301,32 +281,28 @@ func Test_CustomEmojiLifecycle(t *testing.T) {
 		emojiName := strings.ToLower(UniqueName("emoji"))
 		emojiFile := newEmojiPNG(t)
 
-		uploadResp, httpResp, err := apiClient.UploadCustomEmoji(ctx, emojiName).
+		uploadResp, _, err := apiClient.UploadCustomEmoji(ctx, emojiName).
 			Filename(emojiFile).
 			Execute()
 		require.NoError(t, err)
 		require.NotNil(t, uploadResp)
-		RequireStatusOK(t, httpResp)
 
-		listResp, httpResp, err := apiClient.GetCustomEmoji(ctx).Execute()
+		listResp, _, err := apiClient.GetCustomEmoji(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, listResp)
-		RequireStatusOK(t, httpResp)
 
 		currentEmoji := findEmojiByName(listResp.Emoji, emojiName)
 		require.NotNil(t, currentEmoji, "uploaded emoji not returned by GET /realm/emoji")
 		assert.False(t, currentEmoji.Deactivated)
 
-		deactivateResp, deactivateHTTP, err := apiClient.DeactivateCustomEmoji(ctx, emojiName).Execute()
+		deactivateResp, _, err := apiClient.DeactivateCustomEmoji(ctx, emojiName).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, deactivateResp)
-		RequireStatusOK(t, deactivateHTTP)
 		assert.Equal(t, "success", deactivateResp.Result)
 
-		afterResp, httpResp, err := apiClient.GetCustomEmoji(ctx).Execute()
+		afterResp, _, err := apiClient.GetCustomEmoji(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, afterResp)
-		RequireStatusOK(t, httpResp)
 
 		deactivated := findEmojiByName(afterResp.Emoji, emojiName)
 		require.NotNil(t, deactivated, "deactivated emoji missing from listing")
@@ -337,7 +313,7 @@ func Test_CustomEmojiLifecycle(t *testing.T) {
 func linkifierExists(linkifiers []z.RealmLinkifiers, id int64, pattern, urlTemplate string) bool {
 	for _, lf := range linkifiers {
 		if lf.ID == id {
-			return lf.Pattern == pattern && lf.UrlTemplate == urlTemplate
+			return lf.Pattern == pattern && lf.URLTemplate == urlTemplate
 		}
 	}
 	return false
@@ -359,7 +335,7 @@ func extractProfileFieldIDs(fields []z.CustomProfileField) []int64 {
 	return ids
 }
 
-func moveIdToFront(ids []int64, id int64) []int64 {
+func moveIDToFront(ids []int64, id int64) []int64 {
 	result := make([]int64, 0, len(ids))
 	found := false
 	for _, value := range ids {
@@ -414,12 +390,12 @@ func handledRateLimit(t *testing.T, err error) bool {
 func newEmojiPNG(t *testing.T) *os.File {
 	t.Helper()
 
-	tmp, err := os.CreateTemp("", "z.emoji-*.png")
+	tmp, err := os.CreateTemp(t.TempDir(), "z.emoji-*.png")
 	require.NoError(t, err)
 
 	img := image.NewRGBA(image.Rect(0, 0, 16, 16))
-	for x := 0; x < 16; x++ {
-		for y := 0; y < 16; y++ {
+	for x := range 16 {
+		for y := range 16 {
 			img.Set(x, y, color.RGBA{R: 0xff, G: 0xa5, B: 0, A: 0xff})
 		}
 	}

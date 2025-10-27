@@ -25,14 +25,14 @@ func decode(v interface{}, b []byte, contentType string) (err error) {
 	if f, ok := v.(**os.File); ok {
 		*f, err = os.CreateTemp("", "HttpClientFile")
 		if err != nil {
-			return
+			return err
 		}
 		_, err = (*f).Write(b)
 		if err != nil {
-			return
+			return err
 		}
 		_, err = (*f).Seek(0, io.SeekStart)
-		return
+		return err
 	}
 	if xmlCheck.MatchString(contentType) {
 		if err = xml.Unmarshal(b, v); err != nil {
@@ -54,5 +54,5 @@ func decode(v interface{}, b []byte, contentType string) (err error) {
 		}
 		return nil
 	}
-	return errors.New("undefined response type")
+	return errors.New("undefined Response type")
 }

@@ -11,7 +11,6 @@ formatters:
   enable:
     - goimports # checks if the code and import statements are formatted according to the 'goimports' command
     - golines # checks if code is formatted, and fixes long lines
-    - gci # checks if code and import statements are formatted, with additional rules
     - gofmt # checks if the code is formatted according to 'gofmt' command
     - gofumpt # enforces a stricter format than 'gofmt', while being backwards compatible
 
@@ -177,16 +176,6 @@ linters:
       # Default: true
       struct-method: false
 
-    funlen:
-      # Checks the number of lines in a function.
-      # If lower than 0, disable the check.
-      # Default: 60
-      lines: 100
-      # Checks the number of statements in a function.
-      # If lower than 0, disable the check.
-      # Default: 40
-      statements: 66
-
     gochecksumtype:
       # Presence of `default` case in switch statements satisfies exhaustiveness, if all members are not listed.
       # Default: true
@@ -346,14 +335,20 @@ linters:
         rules: 'global logger should not be used'
         linters:
           - sloglint
+      - path: '_test\.go'
+        rules: 'dot-imports'
+        text: 'should not use dot imports'
+        linters:
+          - revive
       # TODO: enable after fixing all issues
-      - text: 'exported: exported (type|method|function|const) .*? should have comment or be unexported'
+      - text: 'exported: exported (type|method|function|const) .*? should have comment (\(or a comment on this block\) )?or be unexported'
         linters:
           - revive
       # TODO: enable after fixing all issues
       - text: comment on exported (type|method|function|const) .*? should be of the form ".*?"
         linters:
           - revive
+          - staticcheck
       # TODO: enable after fixing all issues
       - text: 'godoc should start with symbol name'
         linters:

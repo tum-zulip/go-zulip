@@ -59,10 +59,10 @@ func (m *stat[T]) get(key string) T {
 	return t
 }
 
-func (s *stats) GetStatistics() map[string]statistics.Statistic {
+func (s *stats) GetStatistics() statistics.Statistics {
 	stats := make(map[string]statistics.Statistic)
 	if s == nil {
-		return stats
+		return statistics.Statistics{Stats: stats}
 	}
 
 	s.totalDuration.Range(func(k any, v any) bool {
@@ -77,5 +77,5 @@ func (s *stats) GetStatistics() map[string]statistics.Statistic {
 		}
 		return true
 	})
-	return stats
+	return statistics.Statistics{Stats: stats}
 }

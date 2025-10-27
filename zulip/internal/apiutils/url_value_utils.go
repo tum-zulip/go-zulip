@@ -1,3 +1,4 @@
+// Package apiutils provides utility functions for building API requests and handling URL values.
 package apiutils
 
 import (
@@ -20,13 +21,13 @@ import (
 	"time"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
-var (
-	queryplit    = regexp.MustCompile(`(^|&)([^&]+)`)
-	queryDescape = strings.NewReplacer("%5B", "[", "%5D", "]")
+const (
+	ContentTypeJSON              = "application/json"
+	ContentTypeFormURLEncoded    = "application/x-www-form-urlencoded"
+	ContentTypeMultipartFormData = "multipart/form-data"
 )
 
 type FormFile struct {
@@ -35,11 +36,11 @@ type FormFile struct {
 	FormFileName string
 }
 
-func IdToString(id int64) string {
+func IDToString(id int64) string {
 	return strconv.FormatInt(id, 10)
 }
 
-// prepareRequest build the request
+// prepareRequest build the request.
 func PrepareRequest(
 	ctx context.Context,
 	c clients.Client,
@@ -47,11 +48,14 @@ func PrepareRequest(
 	headerParams map[string]string,
 	query url.Values,
 	form url.Values,
-	formFiles []FormFile) (localVarRequest *http.Request, err error) {
+	formFiles []FormFile,
+) (localVarRequest *http.Request, err error) {
+	queryplit := regexp.MustCompile(`(^|&)([^&]+)`)
+	queryDescape := strings.NewReplacer("%5B", "[", "%5D", "]")
 
 	basePath, err := c.ServerURL()
 	if err != nil {
-		return nil, zulip.NewAPIError(nil, err.Error(), nil)
+		return nil, zulip.NewAPIError(nil, err)
 	}
 
 	path := basePath + endpoint
@@ -59,56 +63,23 @@ func PrepareRequest(
 	var body *bytes.Buffer
 
 	// add form parameters and file if available.
-	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(form) > 0 || (len(formFiles) > 0) {
+	if strings.HasPrefix(headerParams["Content-Type"], ContentTypeMultipartFormData) && len(form) > 0 ||
+		(len(formFiles) > 0) {
 		body = &bytes.Buffer{}
-		w := multipart.NewWriter(body)
-
-		for k, v := range form {
-			for _, iv := range v {
-				if strings.HasPrefix(k, "@") { // file
-					err = AddFile(w, k[1:], iv)
-					if err != nil {
-						return nil, err
-					}
-				} else { // form value
-					w.WriteField(k, iv)
-				}
-			}
+		err = addURLFormValuesAndFiles(body, form, formFiles, headerParams)
+		if err != nil {
+			return nil, err
 		}
-		for _, formFile := range formFiles {
-			if len(formFile.FileBytes) > 0 && formFile.FileName != "" {
-				headers := make(textproto.MIMEHeader)
-				headers.Set("Content-Disposition", fmt.Sprintf(`form-data; name="%s"; filename="%s"`, formFile.FormFileName, filepath.Base(formFile.FileName)))
-				if detected := http.DetectContentType(formFile.FileBytes); detected != "" {
-					headers.Set("Content-Type", detected)
-				}
-
-				part, err := w.CreatePart(headers)
-				if err != nil {
-					return nil, err
-				}
-				if _, err = part.Write(formFile.FileBytes); err != nil {
-					return nil, err
-				}
-			}
-		}
-
-		// Set the Boundary in the Content-Type
-		headerParams["Content-Type"] = w.FormDataContentType()
-
-		// Set Content-Length
-		headerParams["Content-Length"] = fmt.Sprintf("%d", body.Len())
-		w.Close()
 	}
 
-	if strings.HasPrefix(headerParams["Content-Type"], "application/x-www-form-urlencoded") && len(form) > 0 {
+	if strings.HasPrefix(headerParams["Content-Type"], ContentTypeFormURLEncoded) && len(form) > 0 {
 		if body != nil {
 			return nil, errors.New("cannot specify postBody and x-www-form-urlencoded form at the same time")
 		}
 		body = &bytes.Buffer{}
 		body.WriteString(form.Encode())
 		// Set Content-Length
-		headerParams["Content-Length"] = fmt.Sprintf("%d", body.Len())
+		headerParams["Content-Length"] = strconv.Itoa(body.Len())
 	}
 
 	// Setup path and query parameters
@@ -133,11 +104,7 @@ func PrepareRequest(
 	})
 
 	// Generate a new request
-	if body != nil {
-		localVarRequest, err = http.NewRequest(method, url.String(), body)
-	} else {
-		localVarRequest, err = http.NewRequest(method, url.String(), nil)
-	}
+	localVarRequest, err = http.NewRequestWithContext(ctx, method, url.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -164,15 +131,77 @@ func PrepareRequest(
 		if auth, ok := ctx.Value(zulip.ContextBasicAuth).(zulip.BasicAuth); ok {
 			localVarRequest.SetBasicAuth(auth.UserName, auth.Password)
 		}
-
 	}
 
 	return localVarRequest, nil
 }
 
-// AddOptionalParam adds the provided object to url.Values, but does nothing if obj is nil.
+func addURLFormValuesAndFiles(
+	body *bytes.Buffer,
+	form url.Values,
+	formFiles []FormFile,
+	headerParams map[string]string,
+) error {
+	w := multipart.NewWriter(body)
+
+	for k, v := range form {
+		if err := addFormValueToRequest(w, k, v); err != nil {
+			return err
+		}
+	}
+	for _, formFile := range formFiles {
+		if len(formFile.FileBytes) > 0 && formFile.FileName != "" {
+			headers := make(textproto.MIMEHeader)
+			headers.Set(
+				"Content-Disposition",
+				fmt.Sprintf(
+					`form-data; name="%s"; filename="%s"`,
+					formFile.FormFileName,
+					filepath.Base(formFile.FileName),
+				),
+			)
+			if detected := http.DetectContentType(formFile.FileBytes); detected != "" {
+				headers.Set("Content-Type", detected)
+			}
+
+			part, err := w.CreatePart(headers)
+			if err != nil {
+				return err
+			}
+			if _, err = part.Write(formFile.FileBytes); err != nil {
+				return err
+			}
+		}
+	}
+
+	// Set the Boundary in the Content-Type
+	headerParams["Content-Type"] = w.FormDataContentType()
+
+	// Set Content-Length
+	headerParams["Content-Length"] = strconv.Itoa(body.Len())
+
+	return w.Close()
+}
+
+func addFormValueToRequest(w *multipart.Writer, k string, vs []string) error {
+	for _, iv := range vs {
+		if strings.HasPrefix(k, "@") { // file
+			err := AddFile(w, k[1:], iv)
+			if err != nil {
+				return err
+			}
+		} else { // form value
+			if err := w.WriteField(k, iv); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+// AddOptParam adds the provided object to url.Values, but does nothing if obj is nil.
 // This is an internal helper for API request builders.
-func AddOptionalParam(values url.Values, key string, obj interface{}) {
+func AddOptParam(values url.Values, key string, obj interface{}) {
 	v := reflect.ValueOf(obj)
 	if v.IsNil() {
 		return
@@ -220,7 +249,7 @@ func AddCSVParam(values url.Values, key string, obj interface{}) {
 	addParamImpl(values, key, obj, true)
 }
 
-// Add a file to the multipart request
+// Add a file to the multipart request.
 func AddFile(w *multipart.Writer, fieldName, path string) error {
 	file, err := os.Open(filepath.Clean(path))
 	if err != nil {
@@ -241,11 +270,12 @@ func AddFile(w *multipart.Writer, fieldName, path string) error {
 }
 
 func addParamImpl(values url.Values, key string, obj interface{}, csv bool) {
-	var v = reflect.ValueOf(obj)
+	v := reflect.ValueOf(obj)
 	var value string
 	if v == reflect.ValueOf(nil) {
 		value = "null"
 	} else {
+		//nolint:exhaustive // in the default case we handle via json.Marshal
 		switch v.Kind() {
 		case reflect.Invalid:
 			value = "invalid"
@@ -271,13 +301,13 @@ func addParamImpl(values url.Values, key string, obj interface{}, csv bool) {
 				value = string(data)
 				break
 			}
-			var indValue = reflect.ValueOf(obj)
+			indValue := reflect.ValueOf(obj)
 			if indValue == reflect.ValueOf(nil) {
 				return
 			}
-			var lenIndValue = indValue.Len()
-			for i := 0; i < lenIndValue; i++ {
-				var arrayValue = indValue.Index(i)
+			lenIndValue := indValue.Len()
+			for i := range lenIndValue {
+				arrayValue := indValue.Index(i)
 				addParamImpl(values, key, arrayValue.Interface(), csv)
 			}
 			return
@@ -287,7 +317,7 @@ func addParamImpl(values url.Values, key string, obj interface{}, csv bool) {
 				value = string(data)
 				break
 			}
-			var indValue = reflect.ValueOf(obj)
+			indValue := reflect.ValueOf(obj)
 			if indValue == reflect.ValueOf(nil) {
 				return
 			}

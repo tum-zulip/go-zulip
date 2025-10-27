@@ -10,6 +10,7 @@ import "github.com/tum-zulip/go-zulip/zulip"
 // [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities, these events will include the `presences` field, which provides the modified user's presence data in the modern format. Clients are strongly encouraged to implement this client capability, as legacy format support will be removed in a future release.  If the `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level setting is set to `true`, then the event is only sent to users who can access the user who came back online.
 type PresenceEvent struct {
 	event
+
 	// Only present for clients that support the `simplified_presence_events` [client capability] for the modified user(s). Clients should support updating multiple users in a single event.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 419).

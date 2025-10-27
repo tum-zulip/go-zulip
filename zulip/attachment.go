@@ -25,7 +25,7 @@ type Attachment struct {
 	Messages []AttachmentMessages `json:"messages,omitempty"`
 }
 
-// AttachmentMessages struct for AttachmentMessages
+// AttachmentMessages struct for AttachmentMessages.
 type AttachmentMessages struct {
 	// Time when the message was sent as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).
 	//

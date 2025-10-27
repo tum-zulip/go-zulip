@@ -1,11 +1,11 @@
-package real_time_events_test
+package realtimeevents_test
 
 import (
 	"context"
 	"fmt"
 
 	z "github.com/tum-zulip/go-zulip/zulip"
-	"github.com/tum-zulip/go-zulip/zulip/api/real_time_events"
+	realtimeevents "github.com/tum-zulip/go-zulip/zulip/api/real_time_events"
 	"github.com/tum-zulip/go-zulip/zulip/client"
 	"github.com/tum-zulip/go-zulip/zulip/events"
 )
@@ -15,10 +15,10 @@ import (
 // This test serves as documentation for event-driven bot usage.
 //
 // The core bot logic shows how to:
-// 1. Register an event queue for message events
-// 2. Connect to the event queue
-// 3. Listen for message events in a goroutine
-// 4. Respond to each message by echoing it back
+//  1. Register an event queue for message events.
+//  2. Connect to the event queue.
+//  3. Listen for message events in a goroutine.
+//  4. Respond to each message by echoing it back.
 func Example() {
 	rc, _ := z.NewZulipRCFromFile("~/.zuliprc")
 	client, _ := client.NewClient(rc)
@@ -27,7 +27,7 @@ func Example() {
 
 	// Register an event queue to listen for message events
 	// Use filtering to only receive direct messages to the bot and reduce server and client load
-	registerResp, _, err := client.RegisterQueue(ctx).
+	registerResp, _, _ := client.RegisterQueue(ctx).
 		// only request minimal initial data
 		FetchEventTypes([]events.EventType{events.EventTypeMessage}).
 		// // only subscribe to message events
@@ -40,7 +40,7 @@ func Example() {
 	lastEventID := registerResp.LastEventID
 
 	// Create an event queue handler for processing events
-	queue := real_time_events.NewEventQueue(client, nil)
+	queue := realtimeevents.NewEventQueue(client, nil)
 
 	// Connect to the event queue
 	channel, err := queue.Connect(ctx, queueID, lastEventID)
@@ -63,4 +63,5 @@ func Example() {
 			Content(fmt.Sprintf("Echo: %s", msgEvent.Message.Content)).
 			Execute()
 	}
+	// Output:
 }

@@ -1,6 +1,8 @@
 package zulip
 
-import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+import (
+	"github.com/tum-zulip/go-zulip/zulip/internal/union"
+)
 
 // MessageRetentionDaysValue - Number of days that messages sent to this channel will be stored before being automatically deleted by the [message retention policy]. Two special string format values are supported:  - `"realm_default"`: Return to the organization-level setting. - `"unlimited"`: Retain messages forever.
 //
@@ -12,12 +14,12 @@ type MessageRetentionDaysValue struct {
 	RetentionDays *MessageRetentionDays
 }
 
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *MessageRetentionDaysValue) UnmarshalJSON(data []byte) error {
-	return utils.UnmarshalUnionType(data, dst)
+// Unmarshal JSON data into one of the pointers in the struct.
+func (m *MessageRetentionDaysValue) UnmarshalJSON(data []byte) error {
+	return union.Unmarshal(data, m)
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src MessageRetentionDaysValue) MarshalJSON() ([]byte, error) {
-	return utils.MarshalUnionType(src)
+// Marshal data from the first non-nil pointers in the struct to JSON.
+func (m MessageRetentionDaysValue) MarshalJSON() ([]byte, error) {
+	return union.Marshal(m)
 }

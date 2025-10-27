@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
+	strictdecoder "github.com/tum-zulip/go-zulip/zulip/internal/strict_decoder"
 )
 
-// Snapshot struct for Snapshot
+// Snapshot struct for Snapshot.
 type Snapshot struct {
 	// Only present if message's topic was edited.  The topic of the message immediately after this edit event.
 	//
@@ -42,7 +42,7 @@ type Snapshot struct {
 	// The ID of the user that made the edit.  Will be `null` only for edit history events predating March 2017.  Clients can display edit history events where this is `null` as modified by either the sender (for content edits) or an unknown user (for topic edits).
 	UserID *int64 `json:"user_id,omitempty"`
 	// Only present if message's content was edited.  An HTML diff between this version of the message and the previous one.
-	ContentHtmlDiff *string `json:"content_html_diff,omitempty"`
+	ContentHTMLDiff *string `json:"content_html_diff,omitempty"`
 	// The UNIX timestamp for this edit.
 	Timestamp time.Time `json:"timestamp,omitempty"`
 }
@@ -58,7 +58,7 @@ func (o Snapshot) MarshalJSON() ([]byte, error) {
 		PrevContent:         o.PrevContent,
 		PrevRenderedContent: o.PrevRenderedContent,
 		UserID:              o.UserID,
-		ContentHtmlDiff:     o.ContentHtmlDiff,
+		ContentHTMLDiff:     o.ContentHTMLDiff,
 		Timestamp:           o.Timestamp.Unix(),
 	}
 	return json.Marshal(&snapshotJSON)
@@ -66,7 +66,7 @@ func (o Snapshot) MarshalJSON() ([]byte, error) {
 
 func (o *Snapshot) UnmarshalJSON(data []byte) error {
 	var j snapshotJSON
-	dec := utils.NewStrictDecoder(data)
+	dec := strictdecoder.New(data)
 	if err := dec.Decode(&j); err != nil {
 		return err
 	}
@@ -80,7 +80,7 @@ func (o *Snapshot) UnmarshalJSON(data []byte) error {
 	o.PrevContent = j.PrevContent
 	o.PrevRenderedContent = j.PrevRenderedContent
 	o.UserID = j.UserID
-	o.ContentHtmlDiff = j.ContentHtmlDiff
+	o.ContentHTMLDiff = j.ContentHTMLDiff
 	o.Timestamp = time.Unix(j.Timestamp, int64(0))
 	return nil
 }
@@ -95,6 +95,6 @@ type snapshotJSON struct {
 	PrevContent         *string `json:"prev_content,omitempty"`
 	PrevRenderedContent *string `json:"prev_rendered_content,omitempty"`
 	UserID              *int64  `json:"user_id,omitempty"`
-	ContentHtmlDiff     *string `json:"content_html_diff,omitempty"`
+	ContentHTMLDiff     *string `json:"content_html_diff,omitempty"`
 	Timestamp           int64   `json:"timestamp,omitempty"`
 }

@@ -2,7 +2,7 @@ package events
 
 import (
 	"github.com/tum-zulip/go-zulip/zulip"
-	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/union"
 )
 
 // ChannelCreateEvent Event sent when a new channel is created to users who can see the new channel exists (for private channels, only subscribers and organization administrators will receive this event).  This event is also sent when a user gains access to a channel they previously [could not access], such as when their [role] changes, a private channel is made public, or a guest user is subscribed to a public (or private) channel.  This event is also sent when a channel is unarchived but only to clients that did not declare the `archived_channels` [client capability].  Note that organization administrators who are not subscribed will not be able to see content on the channel; just that it exists.
@@ -13,6 +13,7 @@ import (
 // [role]: https://zulip.com/help/user-roles
 type ChannelCreateEvent struct {
 	event
+
 	// Array of objects, each containing details about the newly added channel(s).
 	Channels []zulip.Channel `json:"streams,omitempty"`
 }
@@ -39,21 +40,22 @@ type ChannelDeleteEvent struct {
 	ChannelIDs []int64 `json:"stream_ids,omitempty"`
 }
 
-// ChannelUpdateEvent Event sent to all users who can see that a channel exists when a property of that channel changes. See [GET /streams] response for details on the various properties of a channel.  This event is also sent when archiving or unarchiving a channel to all the users who can see that channel exists but only to the clients that declared the `archived_channels` [client capability].
+// ChannelUpdateEvent Event sent to all users who can see that a channel exists when a property of that channel changes. See [GET /streams] Response for details on the various properties of a channel.  This event is also sent when archiving or unarchiving a channel to all the users who can see that channel exists but only to the clients that declared the `archived_channels` [client capability].
 //
 // **Changes**: Prior to Zulip 11.0 (feature level 378), this event was never sent when archiving or unarchiving a channel.  Before Zulip 9.0 (feature level 256), this event was never sent when the `first_message_id` property of a channel was updated because the oldest message that had been sent to it changed.
 //
 // [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
-// [GET /streams]: https://zulip.com/api/get-streams#response
+// [GET /streams]: https://zulip.com/api/get-streams#Response
 type ChannelUpdateEvent struct {
 	event
+
 	// The ID of the channel whose details have changed.
 	ChannelID int64 `json:"stream_id,omitempty"`
 	// The name of the channel whose details have changed.
 	Name string `json:"name,omitempty"`
-	// The property of the channel which has changed. See [GET /streams] response for details on the various properties of a channel.  Clients should handle an "unknown" property received here without crashing, since that can happen when connecting to a server running a newer version of Zulip with new features.
+	// The property of the channel which has changed. See [GET /streams] Response for details on the various properties of a channel.  Clients should handle an "unknown" property received here without crashing, since that can happen when connecting to a server running a newer version of Zulip with new features.
 	//
-	// [GET /streams]: https://zulip.com/api/get-streams#response
+	// [GET /streams]: https://zulip.com/api/get-streams#Response
 	Property string `json:"property,omitempty"`
 	// ChannelEventUpdateValue - The new value of the changed property.
 	//
@@ -80,12 +82,12 @@ type ChannelEventUpdateValue struct {
 	String            *string
 }
 
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *ChannelEventUpdateValue) UnmarshalJSON(data []byte) error {
-	return utils.UnmarshalUnionType(data, dst)
+// Unmarshal JSON data into one of the pointers in the struct.
+func (c *ChannelEventUpdateValue) UnmarshalJSON(data []byte) error {
+	return union.Unmarshal(data, c)
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src ChannelEventUpdateValue) MarshalJSON() ([]byte, error) {
-	return utils.MarshalUnionType(src)
+// Marshal data from the first non-nil pointers in the struct to JSON.
+func (c ChannelEventUpdateValue) MarshalJSON() ([]byte, error) {
+	return union.Marshal(c)
 }

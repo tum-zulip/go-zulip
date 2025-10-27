@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// ScheduledMessage struct for ScheduledMessage
+// ScheduledMessage struct for ScheduledMessage.
 type ScheduledMessage struct {
 	// The unique ID of the scheduled message, which can be used to modify or delete the scheduled message.  This is different from the unique ID that the message will have after it is sent.
 	ScheduledMessageID int64 `json:"scheduled_message_id"`

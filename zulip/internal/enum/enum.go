@@ -1,24 +1,12 @@
-package utils
+// Package enum provides utilities for unmarshaling enum-like types in Go.
+package enum
 
 import (
-	"bytes"
 	"encoding/json"
 	"reflect"
-	"unicode/utf8"
 )
 
-func Strlen(s string) int {
-	return utf8.RuneCountInString(s)
-}
-
-// A wrapper for strict JSON decoding
-func NewStrictDecoder(data []byte) *json.Decoder {
-	dec := json.NewDecoder(bytes.NewBuffer(data))
-	dec.DisallowUnknownFields()
-	return dec
-}
-
-func UnmarshalStringEnum[T ~string](data []byte, obj *T, allowed []T) error {
+func UnmarshalString[T ~string](data []byte, obj *T, allowed []T) error {
 	var u string
 	if err := json.Unmarshal(data, &u); err != nil {
 		return err
@@ -36,7 +24,7 @@ func UnmarshalStringEnum[T ~string](data []byte, obj *T, allowed []T) error {
 	}
 }
 
-func UnmarshalIntEnum[T ~int](data []byte, obj *T, allowed []T) error {
+func UnmarshalInt[T ~int](data []byte, obj *T, allowed []T) error {
 	var u int
 	if err := json.Unmarshal(data, &u); err != nil {
 		return err

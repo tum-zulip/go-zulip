@@ -10,6 +10,7 @@ import "github.com/tum-zulip/go-zulip/zulip"
 // [`POST /register`]: https://zulip.com/api/register-queue#parameter-client_capabilities for how client capabilities can be specified.
 type RealmLinkifiersEvent struct {
 	event
+
 	// An ordered array of dictionaries where each dictionary contains details about a single linkifier.  Clients should always process linkifiers in the order given; this is important if the realm has linkifiers with overlapping patterns. The order can be modified using [`PATCH /realm/linkifiers`].
 	//
 	// [`PATCH /realm/linkifiers`]: https://zulip.com/api/reorder-linkifiers

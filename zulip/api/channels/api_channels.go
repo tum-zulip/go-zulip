@@ -5,7 +5,6 @@ package channels
 import (
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -99,10 +98,10 @@ type APIChannels interface {
 	//
 	// Because this endpoint deletes messages in batches, it is possible for
 	// the request to time out after only deleting some messages in the topic.
-	// When this happens, the `complete` boolean field in the success response
+	// When this happens, the `complete` boolean field in the success Response
 	// will be `false`. Clients should repeat the request when handling such a
-	// response. If all messages in the topic were deleted, then the success
-	// response will return `"complete": true`.
+	// Response. If all messages in the topic were deleted, then the success
+	// Response will return `"complete": true`.
 	//
 	// *Changes**: Before Zulip 9.0 (feature level 256), the server never sent
 	// [`stream` op: `update`] events with an updated `first_message_id` for a channel when the oldest message that
@@ -111,13 +110,13 @@ type APIChannels interface {
 	// Before Zulip 8.0 (feature level 211), if the server's
 	// processing was interrupted by a timeout, but some messages in the topic
 	// were deleted, then it would return `"result": "partially_completed"`,
-	// along with a `code` field for an error string, in the success response
+	// along with a `code` field for an error string, in the success Response
 	// to indicate that there was a timeout and that the client should repeat
 	// the request.
 	//
 	// As of Zulip 6.0 (feature level 154), instead of returning an error
-	// response when a request times out after successfully deleting some of
-	// the messages in the topic, a success response is returned with
+	// Response when a request times out after successfully deleting some of
+	// the messages in the topic, a success Response is returned with
 	// `"result": "partially_completed"` to indicate that some messages were
 	// deleted.
 	//
@@ -154,10 +153,10 @@ type APIChannels interface {
 	//
 	// *Changes**: New in Zulip 6.0 (feature level 132).
 	//
-	GetChannelByID(ctx context.Context, channelID int64) GetChannelByIdRequest
+	GetChannelByID(ctx context.Context, channelID int64) GetChannelByIDRequest
 
-	// GetChannelByIdExecute executes the request
-	GetChannelByIdExecute(r GetChannelByIdRequest) (*GetChannelResponse, *http.Response, error)
+	// GetChannelByIDExecute executes the request
+	GetChannelByIDExecute(r GetChannelByIDRequest) (*GetChannelResponse, *http.Response, error)
 
 	// GetChannelEmailAddress Get channel's email address
 	//
@@ -176,10 +175,10 @@ type APIChannels interface {
 	//
 	// Get the unique ID of a given channel.
 	//
-	GetChannelID(ctx context.Context) GetChannelIdRequest
+	GetChannelID(ctx context.Context) GetChannelIDRequest
 
-	// GetChannelIdExecute executes the request
-	GetChannelIdExecute(r GetChannelIdRequest) (*GetChannelIdResponse, *http.Response, error)
+	// GetChannelIDExecute executes the request
+	GetChannelIDExecute(r GetChannelIDRequest) (*GetChannelIDResponse, *http.Response, error)
 
 	// GetChannelTopics Get topics in a channel
 	//
@@ -319,9 +318,9 @@ type APIChannels interface {
 	// Before Zulip 8.0 (feature level 208), if a user specified by the
 	// [`principals`] parameter was a deactivated user,
 	// or did not exist, then an HTTP status code of 403 was returned with
-	// `code: "UNAUTHORIZED_PRINCIPAL"` in the error response. As of this
+	// `code: "UNAUTHORIZED_PRINCIPAL"` in the error Response. As of this
 	// feature level, an HTTP status code of 400 is returned with
-	// `code: "BAD_REQUEST"` in the error response for these cases.
+	// `code: "BAD_REQUEST"` in the error Response for these cases.
 	//
 	// [channel's permissions settings]: https://zulip.com/help/channel-permissions
 	// [`principals`]: https://zulip.com/api/subscribe#parameter-principals
@@ -356,9 +355,9 @@ type APIChannels interface {
 	// the [`principals`] parameter was a
 	// deactivated user, or did not exist, then an HTTP status code
 	// of 403 was returned with `code: "UNAUTHORIZED_PRINCIPAL"` in
-	// the error response. As of this feature level, an HTTP status
+	// the error Response. As of this feature level, an HTTP status
 	// code of 400 is returned with `code: "BAD_REQUEST"` in the
-	// error response for these cases.
+	// error Response for these cases.
 	//
 	// Before Zulip 8.0 (feature level 197),
 	// the `can_remove_subscribers_group` setting
@@ -437,7 +436,7 @@ type APIChannels interface {
 	// channels they are subscribed to, including muting, color, pinning, and
 	// per-channel notification settings.
 	//
-	// *Changes**: Prior to Zulip 5.0 (feature level 111), response
+	// *Changes**: Prior to Zulip 5.0 (feature level 111), Response
 	// object included the `subscription_data` in the
 	// request. The endpoint now returns the more ergonomic
 	// [`ignored_parameters_unsupported`] array instead.
@@ -486,7 +485,7 @@ type channelsService struct {
 	client clients.Client
 }
 
-func NewChannelsService(client clients.Client) *channelsService {
+func NewChannelsService(client clients.Client) APIChannels {
 	return &channelsService{client: client}
 }
 
@@ -521,7 +520,7 @@ func (s *channelsService) AddDefaultChannel(ctx context.Context) AddDefaultChann
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) AddDefaultChannelExecute(
 	r AddDefaultChannelRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -537,8 +536,8 @@ func (s *channelsService) AddDefaultChannelExecute(
 		return nil, nil, errors.New("channelID is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "stream_id", r.channelID)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -573,7 +572,7 @@ func (s *channelsService) ArchiveChannel(ctx context.Context, channelID int64) A
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) ArchiveChannelExecute(r ArchiveChannelRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -584,9 +583,9 @@ func (s *channelsService) ArchiveChannelExecute(r ArchiveChannelRequest) (*zulip
 		endpoint = "/streams/{stream_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IdToString(r.channelID))
+	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IDToString(r.channelID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -624,7 +623,7 @@ func (r CreateBigBlueButtonVideoCallRequest) Execute() (*CreateBigBlueButtonVide
 // CreateBigBlueButtonVideoCall Create BigBlueButton video call
 //
 // Create a video call URL for a BigBlueButton video call.
-// Requires [BigBlueButton 2.4+]
+// Requires [BigBlueButton] 2.4+
 // to be configured on the Zulip server.
 //
 // The acting user will be given the moderator role on the call.
@@ -633,7 +632,7 @@ func (r CreateBigBlueButtonVideoCallRequest) Execute() (*CreateBigBlueButtonVide
 // user was given the moderator role on BigBlueButton calls, via
 // encoding a moderator password in the generated URLs.
 //
-// [BigBlueButton 2.4+]: /integrations/doc/big-blue-button
+// [BigBlueButton]: http://zulip.com/integrations/doc/big-blue-button
 func (s *channelsService) CreateBigBlueButtonVideoCall(ctx context.Context) CreateBigBlueButtonVideoCallRequest {
 	return CreateBigBlueButtonVideoCallRequest{
 		apiService: s,
@@ -641,7 +640,7 @@ func (s *channelsService) CreateBigBlueButtonVideoCall(ctx context.Context) Crea
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) CreateBigBlueButtonVideoCallExecute(
 	r CreateBigBlueButtonVideoCallRequest,
 ) (*CreateBigBlueButtonVideoCallResponse, *http.Response, error) {
@@ -654,13 +653,13 @@ func (s *channelsService) CreateBigBlueButtonVideoCallExecute(
 		endpoint = "/calls/bigbluebutton/create"
 	)
 	if r.meetingName == nil {
-		return nil, nil, fmt.Errorf("meetingName is required and must be specified")
+		return nil, nil, errors.New("meetingName is required and must be specified")
 	}
 
 	apiutils.AddParam(query, "meeting_name", r.meetingName)
-	apiutils.AddOptionalParam(query, "voice_only", r.voiceOnly)
+	apiutils.AddOptParam(query, "voice_only", r.voiceOnly)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -760,7 +759,7 @@ func (r CreateChannelRequest) FolderID(folderID int64) CreateChannelRequest {
 	return r
 }
 
-// Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than `max_bulk_new_subscription_messages` (available in the [`POST /register`] response) users were subscribed in this request.
+// Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than `max_bulk_new_subscription_messages` (available in the [`POST /register`] Response) users were subscribed in this request.
 //
 // **Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel.
 //
@@ -879,7 +878,9 @@ func (s *channelsService) CreateChannel(ctx context.Context) CreateChannelReques
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
+//
+
 func (s *channelsService) CreateChannelExecute(r CreateChannelRequest) (*CreateChannelResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -890,28 +891,28 @@ func (s *channelsService) CreateChannelExecute(r CreateChannelRequest) (*CreateC
 		endpoint = "/channels/create"
 	)
 	if r.name == nil {
-		return nil, nil, fmt.Errorf("name is required and must be specified")
+		return nil, nil, errors.New("name is required and must be specified")
 	}
 	if r.subscribers == nil {
-		return nil, nil, fmt.Errorf("subscribers is required and must be specified")
+		return nil, nil, errors.New("subscribers is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "name", r.name)
-	apiutils.AddOptionalParam(form, "description", r.description)
+	apiutils.AddOptParam(form, "description", r.description)
 	if err := apiutils.AddOptionalJSONParam(form, "subscribers", *r.subscribers); err != nil {
 		return nil, nil, err
 	}
-	apiutils.AddOptionalParam(form, "announce", r.announce)
-	apiutils.AddOptionalParam(form, "invite_only", r.inviteOnly)
-	apiutils.AddOptionalParam(form, "is_web_public", r.isWebPublic)
-	apiutils.AddOptionalParam(form, "is_default_stream", r.isDefaultChannel)
-	apiutils.AddOptionalParam(form, "folder_id", r.folderID)
-	apiutils.AddOptionalParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
-	apiutils.AddOptionalParam(form, "topics_policy", r.topicsPolicy)
-	apiutils.AddOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
+	apiutils.AddOptParam(form, "announce", r.announce)
+	apiutils.AddOptParam(form, "invite_only", r.inviteOnly)
+	apiutils.AddOptParam(form, "is_web_public", r.isWebPublic)
+	apiutils.AddOptParam(form, "is_default_stream", r.isDefaultChannel)
+	apiutils.AddOptParam(form, "folder_id", r.folderID)
+	apiutils.AddOptParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
+	apiutils.AddOptParam(form, "topics_policy", r.topicsPolicy)
+	apiutils.AddOptParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
 	if err := apiutils.AddOptionalJSONParam(form, "message_retention_days", r.messageRetentionDays); err != nil {
 		return nil, nil, err
 	}
@@ -997,7 +998,7 @@ func (s *channelsService) CreateChannelFolder(ctx context.Context) CreateChannel
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) CreateChannelFolderExecute(
 	r CreateChannelFolderRequest,
 ) (*CreateChannelFolderResponse, *http.Response, error) {
@@ -1009,11 +1010,11 @@ func (s *channelsService) CreateChannelFolderExecute(
 		response = &CreateChannelFolderResponse{}
 		endpoint = "/channel_folders/create"
 	)
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "name", r.name)
-	apiutils.AddOptionalParam(form, "description", r.description)
+	apiutils.AddOptParam(form, "name", r.name)
+	apiutils.AddOptParam(form, "description", r.description)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1030,7 +1031,7 @@ type DeleteTopicRequest struct {
 	topicName  *string
 }
 
-// The name of the topic to delete.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.
+// The name of the topic to delete.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] Response is used for this parameter, it is interpreted as an empty string.
 //
 // **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 //
@@ -1053,10 +1054,10 @@ func (r DeleteTopicRequest) Execute() (*MarkAllAsReadResponse, *http.Response, e
 //
 // Because this endpoint deletes messages in batches, it is possible for
 // the request to time out after only deleting some messages in the topic.
-// When this happens, the `complete` boolean field in the success response
+// When this happens, the `complete` boolean field in the success Response
 // will be `false`. Clients should repeat the request when handling such a
-// response. If all messages in the topic were deleted, then the success
-// response will return `"complete": true`.
+// Response. If all messages in the topic were deleted, then the success
+// Response will return `"complete": true`.
 //
 // *Changes**: Before Zulip 9.0 (feature level 256), the server never sent
 // [`stream` op: `update`] events with an
@@ -1066,13 +1067,13 @@ func (r DeleteTopicRequest) Execute() (*MarkAllAsReadResponse, *http.Response, e
 // Before Zulip 8.0 (feature level 211), if the server's
 // processing was interrupted by a timeout, but some messages in the topic
 // were deleted, then it would return `"result": "partially_completed"`,
-// along with a `code` field for an error string, in the success response
+// along with a `code` field for an error string, in the success Response
 // to indicate that there was a timeout and that the client should repeat
 // the request.
 //
 // As of Zulip 6.0 (feature level 154), instead of returning an error
-// response when a request times out after successfully deleting some of
-// the messages in the topic, a success response is returned with
+// Response when a request times out after successfully deleting some of
+// the messages in the topic, a success Response is returned with
 // `"result": "partially_completed"` to indicate that some messages were
 // deleted.
 //
@@ -1091,7 +1092,7 @@ func (s *channelsService) DeleteTopic(ctx context.Context, channelID int64) Dele
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsReadResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -1102,14 +1103,14 @@ func (s *channelsService) DeleteTopicExecute(r DeleteTopicRequest) (*MarkAllAsRe
 		endpoint = "/streams/{stream_id}/delete_topic"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IdToString(r.channelID))
+	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IDToString(r.channelID))
 
 	if r.topicName == nil {
-		return nil, nil, fmt.Errorf("topicName is required and must be specified")
+		return nil, nil, errors.New("topicName is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "topic_name", r.topicName)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -1127,7 +1128,7 @@ type GetChannelFoldersRequest struct {
 	includeArchived *bool
 }
 
-// Whether to include archived channel folders in the response.
+// Whether to include archived channel folders in the Response.
 func (r GetChannelFoldersRequest) IncludeArchived(includeArchived bool) GetChannelFoldersRequest {
 	r.includeArchived = &includeArchived
 	return r
@@ -1153,7 +1154,7 @@ func (s *channelsService) GetChannelFolders(ctx context.Context) GetChannelFolde
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) GetChannelFoldersExecute(
 	r GetChannelFoldersRequest,
 ) (*GetChannelFoldersResponse, *http.Response, error) {
@@ -1165,10 +1166,10 @@ func (s *channelsService) GetChannelFoldersExecute(
 		response = &GetChannelFoldersResponse{}
 		endpoint = "/channel_folders"
 	)
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "include_archived", r.includeArchived)
+	apiutils.AddOptParam(form, "include_archived", r.includeArchived)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1178,14 +1179,14 @@ func (s *channelsService) GetChannelFoldersExecute(
 	return response, httpResp, err
 }
 
-type GetChannelByIdRequest struct {
+type GetChannelByIDRequest struct {
 	ctx        context.Context
 	apiService APIChannels
 	channelID  int64
 }
 
-func (r GetChannelByIdRequest) Execute() (*GetChannelResponse, *http.Response, error) {
-	return r.apiService.GetChannelByIdExecute(r)
+func (r GetChannelByIDRequest) Execute() (*GetChannelResponse, *http.Response, error) {
+	return r.apiService.GetChannelByIDExecute(r)
 }
 
 // GetChannelByID Get a channel by ID
@@ -1193,16 +1194,16 @@ func (r GetChannelByIdRequest) Execute() (*GetChannelResponse, *http.Response, e
 // Fetch details for the channel with the ID `channelID`.
 //
 // *Changes**: New in Zulip 6.0 (feature level 132).
-func (s *channelsService) GetChannelByID(ctx context.Context, channelID int64) GetChannelByIdRequest {
-	return GetChannelByIdRequest{
+func (s *channelsService) GetChannelByID(ctx context.Context, channelID int64) GetChannelByIDRequest {
+	return GetChannelByIDRequest{
 		apiService: s,
 		ctx:        ctx,
 		channelID:  channelID,
 	}
 }
 
-// Execute executes the request
-func (s *channelsService) GetChannelByIdExecute(r GetChannelByIdRequest) (*GetChannelResponse, *http.Response, error) {
+// Execute executes the request.
+func (s *channelsService) GetChannelByIDExecute(r GetChannelByIDRequest) (*GetChannelResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -1212,9 +1213,9 @@ func (s *channelsService) GetChannelByIdExecute(r GetChannelByIdRequest) (*GetCh
 		endpoint = "/streams/{stream_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IdToString(r.channelID))
+	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IDToString(r.channelID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1256,7 +1257,7 @@ func (s *channelsService) GetChannelEmailAddress(ctx context.Context, channelID 
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) GetChannelEmailAddressExecute(
 	r GetChannelEmailAddressRequest,
 ) (*GetChannelEmailAddressResponse, *http.Response, error) {
@@ -1269,11 +1270,11 @@ func (s *channelsService) GetChannelEmailAddressExecute(
 		endpoint = "/streams/{stream_id}/email_address"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IdToString(r.channelID))
+	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IDToString(r.channelID))
 
-	apiutils.AddOptionalParam(query, "sender_id", r.senderID)
+	apiutils.AddOptParam(query, "sender_id", r.senderID)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1283,49 +1284,49 @@ func (s *channelsService) GetChannelEmailAddressExecute(
 	return response, httpResp, err
 }
 
-type GetChannelIdRequest struct {
+type GetChannelIDRequest struct {
 	ctx        context.Context
 	apiService APIChannels
 	channel    *string
 }
 
 // The name of the channel to access.
-func (r GetChannelIdRequest) Channel(channel string) GetChannelIdRequest {
+func (r GetChannelIDRequest) Channel(channel string) GetChannelIDRequest {
 	r.channel = &channel
 	return r
 }
 
-func (r GetChannelIdRequest) Execute() (*GetChannelIdResponse, *http.Response, error) {
-	return r.apiService.GetChannelIdExecute(r)
+func (r GetChannelIDRequest) Execute() (*GetChannelIDResponse, *http.Response, error) {
+	return r.apiService.GetChannelIDExecute(r)
 }
 
 // GetChannelID Get channel ID
 //
 // Get the unique ID of a given channel.
-func (s *channelsService) GetChannelID(ctx context.Context) GetChannelIdRequest {
-	return GetChannelIdRequest{
+func (s *channelsService) GetChannelID(ctx context.Context) GetChannelIDRequest {
+	return GetChannelIDRequest{
 		apiService: s,
 		ctx:        ctx,
 	}
 }
 
-// Execute executes the request
-func (s *channelsService) GetChannelIdExecute(r GetChannelIdRequest) (*GetChannelIdResponse, *http.Response, error) {
+// Execute executes the request.
+func (s *channelsService) GetChannelIDExecute(r GetChannelIDRequest) (*GetChannelIDResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &GetChannelIdResponse{}
+		response = &GetChannelIDResponse{}
 		endpoint = "/get_stream_id"
 	)
 	if r.channel == nil {
-		return nil, nil, fmt.Errorf("channel is required and must be specified")
+		return nil, nil, errors.New("channel is required and must be specified")
 	}
 
 	apiutils.AddParam(query, "stream", r.channel)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1342,7 +1343,7 @@ type GetChannelTopicsRequest struct {
 	allowEmptyTopicName *bool
 }
 
-// Whether the client supports processing the empty string as a topic name in the returned data.  If `false`, the value of `realm_empty_topic_display_name` found in the [`POST /register`] response is returned replacing the empty string as the topic name.
+// Whether the client supports processing the empty string as a topic name in the returned data.  If `false`, the value of `realm_empty_topic_display_name` found in the [`POST /register`] Response is returned replacing the empty string as the topic name.
 //
 // **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
 //
@@ -1378,7 +1379,7 @@ func (s *channelsService) GetChannelTopics(ctx context.Context, channelID int64)
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) GetChannelTopicsExecute(
 	r GetChannelTopicsRequest,
 ) (*GetChannelTopicsResponse, *http.Response, error) {
@@ -1391,11 +1392,11 @@ func (s *channelsService) GetChannelTopicsExecute(
 		endpoint = "/users/me/{stream_id}/topics"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IdToString(r.channelID))
+	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IDToString(r.channelID))
 
-	apiutils.AddOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
+	apiutils.AddOptParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1445,11 +1446,9 @@ func (r GetChannelsRequest) ExcludeArchived(excludeArchived bool) GetChannelsReq
 	return r
 }
 
-// Deprecated parameter to include all channels. The user must have administrative privileges to use this parameter.
+// Deprecated: Parameter to include all channels. The user must have administrative privileges to use this parameter.
 //
-// **Changes**: Deprecated in Zulip 10.0 (feature level 356). Clients interacting with newer servers should use the equivalent `include_all` parameter, which does not incorrectly hint that this parameter, and not `exclude_archived`, controls whether archived channels appear in the response.
-//
-// Deprecated
+// **Changes**: Deprecated in Zulip 10.0 (feature level 356). Clients interacting with newer servers should use the equivalent `include_all` parameter, which does not incorrectly hint that this parameter, and not `exclude_archived`, controls whether archived channels appear in the Response.
 func (r GetChannelsRequest) IncludeAllActive(includeAllActive bool) GetChannelsRequest {
 	r.includeAllActive = &includeAllActive
 	return r
@@ -1499,7 +1498,7 @@ func (s *channelsService) GetChannels(ctx context.Context) GetChannelsRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) GetChannelsExecute(r GetChannelsRequest) (*GetChannelsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -1509,17 +1508,17 @@ func (s *channelsService) GetChannelsExecute(r GetChannelsRequest) (*GetChannels
 		response = &GetChannelsResponse{}
 		endpoint = "/streams"
 	)
-	apiutils.AddOptionalParam(query, "include_public", r.includePublic)
-	apiutils.AddOptionalParam(query, "include_web_public", r.includeWebPublic)
-	apiutils.AddOptionalParam(query, "include_subscribed", r.includeSubscribed)
-	apiutils.AddOptionalParam(query, "exclude_archived", r.excludeArchived)
-	apiutils.AddOptionalParam(query, "include_all_active", r.includeAllActive)
-	apiutils.AddOptionalParam(query, "include_all", r.includeAll)
-	apiutils.AddOptionalParam(query, "include_default", r.includeDefault)
-	apiutils.AddOptionalParam(query, "include_owner_subscribed", r.includeOwnerSubscribed)
-	apiutils.AddOptionalParam(query, "include_can_access_content", r.includeCanAccessContent)
+	apiutils.AddOptParam(query, "include_public", r.includePublic)
+	apiutils.AddOptParam(query, "include_web_public", r.includeWebPublic)
+	apiutils.AddOptParam(query, "include_subscribed", r.includeSubscribed)
+	apiutils.AddOptParam(query, "exclude_archived", r.excludeArchived)
+	apiutils.AddOptParam(query, "include_all_active", r.includeAllActive)
+	apiutils.AddOptParam(query, "include_all", r.includeAll)
+	apiutils.AddOptParam(query, "include_default", r.includeDefault)
+	apiutils.AddOptParam(query, "include_owner_subscribed", r.includeOwnerSubscribed)
+	apiutils.AddOptParam(query, "include_can_access_content", r.includeCanAccessContent)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1550,7 +1549,7 @@ func (s *channelsService) GetSubscribers(ctx context.Context, channelID int64) G
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) GetSubscribersExecute(
 	r GetSubscribersRequest,
 ) (*GetSubscribersResponse, *http.Response, error) {
@@ -1563,9 +1562,9 @@ func (s *channelsService) GetSubscribersExecute(
 		endpoint = "/streams/{stream_id}/members"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IdToString(r.channelID))
+	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IDToString(r.channelID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1604,7 +1603,7 @@ func (s *channelsService) GetSubscriptionStatus(
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) GetSubscriptionStatusExecute(
 	r GetSubscriptionStatusRequest,
 ) (*GetSubscriptionStatusResponse, *http.Response, error) {
@@ -1617,10 +1616,10 @@ func (s *channelsService) GetSubscriptionStatusExecute(
 		endpoint = "/users/{user_id}/subscriptions/{stream_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IdToString(r.userID))
-	path = strings.ReplaceAll(path, "{stream_id}", apiutils.IdToString(r.channelID))
+	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IDToString(r.userID))
+	path = strings.ReplaceAll(path, "{stream_id}", apiutils.IDToString(r.channelID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1658,7 +1657,7 @@ func (s *channelsService) GetSubscriptions(ctx context.Context) GetSubscriptions
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) GetSubscriptionsExecute(
 	r GetSubscriptionsRequest,
 ) (*GetSubscriptionsResponse, *http.Response, error) {
@@ -1670,9 +1669,9 @@ func (s *channelsService) GetSubscriptionsExecute(
 		response = &GetSubscriptionsResponse{}
 		endpoint = "/users/me/subscriptions"
 	)
-	apiutils.AddOptionalParam(query, "include_subscribers", r.includeSubscribers)
+	apiutils.AddOptParam(query, "include_subscribers", r.includeSubscribers)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1747,9 +1746,8 @@ func (s *channelsService) MuteTopic(ctx context.Context) MuteTopicRequest {
 	}
 }
 
-// Execute executes the request
-//
-// Deprecated
+// Deprecated: This API endpoint is deprecated.
+// Execute executes the request.
 func (s *channelsService) MuteTopicExecute(r MuteTopicRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
@@ -1760,17 +1758,17 @@ func (s *channelsService) MuteTopicExecute(r MuteTopicRequest) (*zulip.Response,
 		endpoint = "/users/me/subscriptions/muted_topics"
 	)
 	if r.topic == nil {
-		return nil, nil, fmt.Errorf("topic is required and must be specified")
+		return nil, nil, errors.New("topic is required and must be specified")
 	}
 	if r.op == nil {
-		return nil, nil, fmt.Errorf("op is required and must be specified")
+		return nil, nil, errors.New("op is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "stream_id", r.channelID)
-	apiutils.AddOptionalParam(form, "stream", r.channel)
+	apiutils.AddOptParam(form, "stream_id", r.channelID)
+	apiutils.AddOptParam(form, "stream", r.channel)
 	apiutils.AddParam(form, "topic", r.topic)
 	apiutils.AddParam(form, "op", r.op)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -1812,7 +1810,7 @@ func (s *channelsService) PatchChannelFolders(ctx context.Context) PatchChannelF
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) PatchChannelFoldersExecute(
 	r PatchChannelFoldersRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -1824,10 +1822,10 @@ func (s *channelsService) PatchChannelFoldersExecute(
 		response = &zulip.Response{}
 		endpoint = "/channel_folders"
 	)
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "order", r.order)
+	apiutils.AddOptParam(form, "order", r.order)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1866,7 +1864,7 @@ func (s *channelsService) RemoveDefaultChannel(ctx context.Context) RemoveDefaul
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) RemoveDefaultChannelExecute(
 	r RemoveDefaultChannelRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -1882,8 +1880,8 @@ func (s *channelsService) RemoveDefaultChannelExecute(
 		return nil, nil, errors.New("channelID is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "stream_id", r.channelID)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -1922,7 +1920,7 @@ type SubscribeRequest struct {
 	canResolveTopicsGroup             *zulip.GroupSettingValue
 }
 
-// SubscriptionRequest struct for SubscriptionRequest
+// SubscriptionRequest struct for SubscriptionRequest.
 type SubscriptionRequest struct {
 	// The name of the channel.  Clients should use the `max_stream_name_length` returned by the [`POST /register`] endpoint to determine the maximum channel name length.
 	//
@@ -1947,7 +1945,7 @@ func (r SubscribeRequest) Principals(principals zulip.Principals) SubscribeReque
 	return r
 }
 
-// A boolean specifying whether authorization errors (such as when the requesting user is not authorized to access a private channel) should be considered fatal or not. When `true`, an authorization error is reported as such. When set to `false`, the response will be a 200 and any channels where the request encountered an authorization error will be listed in the `unauthorized` key.
+// A boolean specifying whether authorization errors (such as when the requesting user is not authorized to access a private channel) should be considered fatal or not. When `true`, an authorization error is reported as such. When set to `false`, the Response will be a 200 and any channels where the request encountered an authorization error will be listed in the `unauthorized` key.
 func (r SubscribeRequest) AuthorizationErrorsFatal(authorizationErrorsFatal bool) SubscribeRequest {
 	r.authorizationErrorsFatal = &authorizationErrorsFatal
 	return r
@@ -2074,7 +2072,7 @@ func (r SubscribeRequest) FolderID(folderID int64) SubscribeRequest {
 	return r
 }
 
-// Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than `max_bulk_new_subscription_messages` (available in the [`POST /register`] response) users were subscribed in this request.
+// Whether any other users newly subscribed via this request should be sent a Notification Bot DM notifying them about their new subscription.  The server will never send Notification Bot DMs if more than `max_bulk_new_subscription_messages` (available in the [`POST /register`] Response) users were subscribed in this request.
 //
 // **Changes**: Before Zulip 11.0 (feature level 397), new subscribers were always sent a Notification Bot DM, which was unduly expensive when bulk-subscribing thousands of users to a channel.
 //
@@ -2119,9 +2117,9 @@ func (r SubscribeRequest) Execute() (*SubscribeResponse, *http.Response, error) 
 // Before Zulip 8.0 (feature level 208), if a user specified by the
 // [`principals`] parameter was a deactivated user,
 // or did not exist, then an HTTP status code of 403 was returned with
-// `code: "UNAUTHORIZED_PRINCIPAL"` in the error response. As of this
+// `code: "UNAUTHORIZED_PRINCIPAL"` in the error Response. As of this
 // feature level, an HTTP status code of 400 is returned with
-// `code: "BAD_REQUEST"` in the error response for these cases.
+// `code: "BAD_REQUEST"` in the error Response for these cases.
 //
 // [channel's permissions settings]: https://zulip.com/help/channel-permissions
 // [`principals`]: https://zulip.com/api/subscribe#parameter-principals
@@ -2133,7 +2131,9 @@ func (s *channelsService) Subscribe(ctx context.Context) SubscribeRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
+//
+
 func (s *channelsService) SubscribeExecute(r SubscribeRequest) (*SubscribeResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -2144,26 +2144,26 @@ func (s *channelsService) SubscribeExecute(r SubscribeRequest) (*SubscribeRespon
 		endpoint = "/users/me/subscriptions"
 	)
 	if r.subscriptions == nil {
-		return nil, nil, fmt.Errorf("subscriptions is required and must be specified")
+		return nil, nil, errors.New("subscriptions is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "subscriptions", r.subscriptions)
 	if err := apiutils.AddOptionalJSONParam(form, "principals", r.principals); err != nil {
 		return nil, nil, err
 	}
-	apiutils.AddOptionalParam(form, "authorization_errors_fatal", r.authorizationErrorsFatal)
-	apiutils.AddOptionalParam(form, "announce", r.announce)
-	apiutils.AddOptionalParam(form, "invite_only", r.inviteOnly)
-	apiutils.AddOptionalParam(form, "is_web_public", r.isWebPublic)
-	apiutils.AddOptionalParam(form, "is_default_stream", r.isDefaultChannel)
-	apiutils.AddOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
+	apiutils.AddOptParam(form, "authorization_errors_fatal", r.authorizationErrorsFatal)
+	apiutils.AddOptParam(form, "announce", r.announce)
+	apiutils.AddOptParam(form, "invite_only", r.inviteOnly)
+	apiutils.AddOptParam(form, "is_web_public", r.isWebPublic)
+	apiutils.AddOptParam(form, "is_default_stream", r.isDefaultChannel)
+	apiutils.AddOptParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
 	if err := apiutils.AddOptionalJSONParam(form, "message_retention_days", r.messageRetentionDays); err != nil {
 		return nil, nil, err
 	}
-	apiutils.AddOptionalParam(form, "topics_policy", r.topicsPolicy)
+	apiutils.AddOptParam(form, "topics_policy", r.topicsPolicy)
 	if err := apiutils.AddOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
 		return nil, nil, err
 	}
@@ -2194,8 +2194,8 @@ func (s *channelsService) SubscribeExecute(r SubscribeRequest) (*SubscribeRespon
 	if err := apiutils.AddOptionalJSONParam(form, "can_resolve_topics_group", r.canResolveTopicsGroup); err != nil {
 		return nil, nil, err
 	}
-	apiutils.AddOptionalParam(form, "folder_id", r.folderID)
-	apiutils.AddOptionalParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
+	apiutils.AddOptParam(form, "folder_id", r.folderID)
+	apiutils.AddOptParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -2246,9 +2246,9 @@ func (r UnsubscribeRequest) Execute() (*UnsubscribeResponse, *http.Response, err
 // the [`principals`] parameter was a
 // deactivated user, or did not exist, then an HTTP status code
 // of 403 was returned with `code: "UNAUTHORIZED_PRINCIPAL"` in
-// the error response. As of this feature level, an HTTP status
+// the error Response. As of this feature level, an HTTP status
 // code of 400 is returned with `code: "BAD_REQUEST"` in the
-// error response for these cases.
+// error Response for these cases.
 //
 // Before Zulip 8.0 (feature level 197),
 // the `can_remove_subscribers_group` setting
@@ -2273,7 +2273,7 @@ func (s *channelsService) Unsubscribe(ctx context.Context) UnsubscribeRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) UnsubscribeExecute(r UnsubscribeRequest) (*UnsubscribeResponse, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -2284,11 +2284,11 @@ func (s *channelsService) UnsubscribeExecute(r UnsubscribeRequest) (*Unsubscribe
 		endpoint = "/users/me/subscriptions"
 	)
 	if r.subscriptions == nil {
-		return nil, nil, fmt.Errorf("subscriptions is required and must be specified")
+		return nil, nil, errors.New("subscriptions is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "subscriptions", r.subscriptions)
 	if err := apiutils.AddOptionalJSONParam(form, "principals", r.principals); err != nil {
@@ -2357,7 +2357,7 @@ func (s *channelsService) UpdateChannelFolder(ctx context.Context, channelFolder
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) UpdateChannelFolderExecute(
 	r UpdateChannelFolderRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -2370,14 +2370,14 @@ func (s *channelsService) UpdateChannelFolderExecute(
 		endpoint = "/channel_folders/{channel_folder_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{channel_folder_id}", apiutils.IdToString(r.channelFolderID))
+	path := strings.ReplaceAll(endpoint, "{channel_folder_id}", apiutils.IDToString(r.channelFolderID))
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "name", r.name)
-	apiutils.AddOptionalParam(form, "description", r.description)
-	apiutils.AddOptionalParam(form, "is_archived", r.isArchived)
+	apiutils.AddOptParam(form, "name", r.name)
+	apiutils.AddOptParam(form, "description", r.description)
+	apiutils.AddOptParam(form, "is_archived", r.isArchived)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -2504,10 +2504,10 @@ func (r UpdateChannelRequest) TopicsPolicy(topicsPolicy zulip.TopicsPolicy) Upda
 
 // The set of users who have permission to add subscribers to this channel expressed as an [update to a group-setting value].
 //
+// Users who can administer the channel or have similar realm-level permissions can add subscribers to a public channel regardless of the value of this setting.  Users in this group need not be subscribed to a private channel to add subscribers to it.  Note that a user must [have content access] to a channel and permission to administer the channel in order to modify this setting.
 // **Changes**: New in Zulip 10.0 (feature level 342). Previously, there was no channel-level setting for this permission.
 //
-// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Users who can administer the channel or have similar realm-level permissions can add subscribers to a public channel regardless of the value of this setting.  Users in this group need not be subscribed to a private channel to add subscribers to it.  Note that a user must [have content access] to a channel and permission to administer the channel in order to modify this setting.
-//
+// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 // [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanAddSubscribersGroup(
 	canAddSubscribersGroup zulip.GroupSettingValueUpdate,
@@ -2543,10 +2543,10 @@ func (r UpdateChannelRequest) CanAdministerChannelGroup(
 
 // The set of users who have permission to delete any message in the channel expressed as an [update to a group-setting value].
 //
+// Note that a user must [have content access] to a channel in order to delete any message in the channel.  Users present in the organization-level `can_delete_any_message_group` setting can always delete any message in the channel if they [have content access] to that channel.
 // **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in `can_delete_any_message_group` were able delete any message in the organization.
 //
-// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to delete any message in the channel.  Users present in the organization-level `can_delete_any_message_group` setting can always delete any message in the channel if they [have content access] to that channel.
-//
+// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 // [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanDeleteAnyMessageGroup(
 	canDeleteAnyMessageGroup zulip.GroupSettingValueUpdate,
@@ -2557,10 +2557,10 @@ func (r UpdateChannelRequest) CanDeleteAnyMessageGroup(
 
 // The set of users who have permission to delete the messages that they have sent in the channel expressed as an [update to a group-setting value].
 //
+// Note that a user must [have content access] to a channel in order to delete their own message in the channel.  Users with permission to delete any message in the channel and users present in the organization-level `can_delete_own_message_group` setting can always delete their own messages in the channel if they [have content access] to that channel.
 // **Changes**: New in Zulip 11.0 (feature level 407). Prior to this change, only the users in the organization-level `can_delete_any_message_group` and `can_delete_own_message_group` settings were able delete their own messages in the organization.
 //
-// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to delete their own message in the channel.  Users with permission to delete any message in the channel and users present in the organization-level `can_delete_own_message_group` setting can always delete their own messages in the channel if they [have content access] to that channel.
-//
+// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 // [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanDeleteOwnMessageGroup(
 	canDeleteOwnMessageGroup zulip.GroupSettingValueUpdate,
@@ -2571,10 +2571,10 @@ func (r UpdateChannelRequest) CanDeleteOwnMessageGroup(
 
 // The set of users who have permission to move messages out of this channel expressed as an [update to a group-setting value].
 //
+// Note that a user must [have content access] to a channel in order to move messages out of the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_channels_group` setting can always move messages out of the channel if they [have content access] to the channel.
 // **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in `can_move_messages_between_channels_group` were able move messages between channels.
 //
-// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to move messages out of the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_channels_group` setting can always move messages out of the channel if they [have content access] to the channel.
-//
+// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 // [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanMoveMessagesOutOfChannelGroup(
 	canMoveMessagesOutOfChannelGroup zulip.GroupSettingValueUpdate,
@@ -2585,10 +2585,10 @@ func (r UpdateChannelRequest) CanMoveMessagesOutOfChannelGroup(
 
 // The set of users who have permission to move messages within this channel expressed as an [update to a group-setting value].
 //
+// Note that a user must [have content access] to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_topics_group` setting can always move messages within the channel if they [have content access] to the channel.
 // **Changes**: New in Zulip 11.0 (feature level 396). Prior to this change, only the users in `can_move_messages_between_topics_group` were able move messages between topics of a channel.
 //
-// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Note that a user must [have content access] to a channel in order to move messages within the channel.  Channel administrators and users present in the organization-level `can_move_messages_between_topics_group` setting can always move messages within the channel if they [have content access] to the channel.
-//
+// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 // [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanMoveMessagesWithinChannelGroup(
 	canMoveMessagesWithinChannelGroup zulip.GroupSettingValueUpdate,
@@ -2611,10 +2611,10 @@ func (r UpdateChannelRequest) CanSendMessageGroup(
 
 // The set of users who have permission to subscribe themselves to this channel expressed as an [update to a group-setting value].
 //
+// Everyone, excluding guests, can subscribe to any public channel irrespective of this setting.  Users in this group can subscribe to a private channel as well.  Note that a user must [have content access] to a channel and permission to administer the channel in order to modify this setting.
 // **Changes**: New in Zulip 10.0 (feature level 357).
 //
-// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Everyone, excluding guests, can subscribe to any public channel irrespective of this setting.  Users in this group can subscribe to a private channel as well.  Note that a user must [have content access] to a channel and permission to administer the channel in order to modify this setting.
-//
+// [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
 // [have content access]: https://zulip.com/help/channel-permissions
 func (r UpdateChannelRequest) CanSubscribeGroup(canSubscribeGroup zulip.GroupSettingValueUpdate) UpdateChannelRequest {
 	r.canSubscribeGroup = &canSubscribeGroup
@@ -2673,7 +2673,9 @@ func (s *channelsService) UpdateChannel(ctx context.Context, channelID int64) Up
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
+//
+
 func (s *channelsService) UpdateChannelExecute(r UpdateChannelRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
@@ -2684,23 +2686,23 @@ func (s *channelsService) UpdateChannelExecute(r UpdateChannelRequest) (*zulip.R
 		endpoint = "/streams/{stream_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IdToString(r.channelID))
+	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IDToString(r.channelID))
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "description", r.description)
-	apiutils.AddOptionalParam(form, "new_name", r.newName)
-	apiutils.AddOptionalParam(form, "is_private", r.isPrivate)
-	apiutils.AddOptionalParam(form, "is_web_public", r.isWebPublic)
-	apiutils.AddOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
-	apiutils.AddOptionalParam(form, "is_default_stream", r.isDefaultChannel)
+	apiutils.AddOptParam(form, "description", r.description)
+	apiutils.AddOptParam(form, "new_name", r.newName)
+	apiutils.AddOptParam(form, "is_private", r.isPrivate)
+	apiutils.AddOptParam(form, "is_web_public", r.isWebPublic)
+	apiutils.AddOptParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
+	apiutils.AddOptParam(form, "is_default_stream", r.isDefaultChannel)
 	if err := apiutils.AddOptionalJSONParam(form, "message_retention_days", r.messageRetentionDays); err != nil {
 		return nil, nil, err
 	}
-	apiutils.AddOptionalParam(form, "is_archived", r.isArchived)
-	apiutils.AddOptionalParam(form, "folder_id", r.folderID)
-	apiutils.AddOptionalParam(form, "topics_policy", r.topicsPolicy)
+	apiutils.AddOptParam(form, "is_archived", r.isArchived)
+	apiutils.AddOptParam(form, "folder_id", r.folderID)
+	apiutils.AddOptParam(form, "topics_policy", r.topicsPolicy)
 	if err := apiutils.AddOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
 		return nil, nil, err
 	}
@@ -2764,7 +2766,7 @@ func (r UpdateSubscriptionSettingsRequest) Execute() (*zulip.Response, *http.Res
 // channels they are subscribed to, including muting, color, pinning, and
 // per-channel notification settings.
 //
-// *Changes**: Prior to Zulip 5.0 (feature level 111), response
+// *Changes**: Prior to Zulip 5.0 (feature level 111), Response
 // object included the `subscription_data` in the
 // request. The endpoint now returns the more ergonomic
 // [`ignored_parameters_unsupported`] array instead.
@@ -2777,7 +2779,7 @@ func (s *channelsService) UpdateSubscriptionSettings(ctx context.Context) Update
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) UpdateSubscriptionSettingsExecute(
 	r UpdateSubscriptionSettingsRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -2790,11 +2792,11 @@ func (s *channelsService) UpdateSubscriptionSettingsExecute(
 		endpoint = "/users/me/subscriptions/properties"
 	)
 	if r.subscriptionData == nil {
-		return nil, nil, fmt.Errorf("subscriptionData is required and must be specified")
+		return nil, nil, errors.New("subscriptionData is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "subscription_data", r.subscriptionData)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -2813,7 +2815,7 @@ type UpdateSubscriptionsRequest struct {
 	add        *[]SubscriptionRequestWithColor
 }
 
-// SubscriptionRequestWithColor struct for SubscriptionRequestWithColor
+// SubscriptionRequestWithColor struct for SubscriptionRequestWithColor.
 type SubscriptionRequestWithColor struct {
 	Name        *string `json:"name,omitempty"`
 	Color       *string `json:"color,omitempty"`
@@ -2849,7 +2851,7 @@ func (s *channelsService) UpdateSubscriptions(ctx context.Context) UpdateSubscri
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) UpdateSubscriptionsExecute(
 	r UpdateSubscriptionsRequest,
 ) (*UpdateSubscriptionsResponse, *http.Response, error) {
@@ -2861,11 +2863,11 @@ func (s *channelsService) UpdateSubscriptionsExecute(
 		response = &UpdateSubscriptionsResponse{}
 		endpoint = "/users/me/subscriptions"
 	)
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "delete", r.delete)
-	apiutils.AddOptionalParam(form, "add", r.add)
+	apiutils.AddOptParam(form, "delete", r.delete)
+	apiutils.AddOptParam(form, "add", r.add)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -2889,7 +2891,7 @@ func (r UpdateUserTopicRequest) ChannelID(channelID int64) UpdateUserTopicReques
 	return r
 }
 
-// The topic for which the personal preferences needs to be updated. Note that the request will succeed regardless of whether any messages have been sent to the specified topic.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.
+// The topic for which the personal preferences needs to be updated. Note that the request will succeed regardless of whether any messages have been sent to the specified topic.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] Response is used for this parameter, it is interpreted as an empty string.
 //
 // **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 //
@@ -2939,7 +2941,7 @@ func (s *channelsService) UpdateUserTopic(ctx context.Context) UpdateUserTopicRe
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *channelsService) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -2953,14 +2955,14 @@ func (s *channelsService) UpdateUserTopicExecute(r UpdateUserTopicRequest) (*zul
 		return nil, nil, errors.New("channelID is required and must be specified")
 	}
 	if r.topic == nil {
-		return nil, nil, fmt.Errorf("topic is required and must be specified")
+		return nil, nil, errors.New("topic is required and must be specified")
 	}
 	if r.visibilityPolicy == nil {
-		return nil, nil, fmt.Errorf("visibilityPolicy is required and must be specified")
+		return nil, nil, errors.New("visibilityPolicy is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "stream_id", r.channelID)
 	apiutils.AddParam(form, "topic", r.topic)

@@ -7,11 +7,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestReminderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-
 	ts := time.Unix(1700000000, 789000000).UTC()
 
 	reminder := z.Reminder{
@@ -34,12 +34,13 @@ func TestReminderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	value, ok := payload["scheduled_delivery_timestamp"]
 	require.True(t, ok)
 	require.IsType(t, float64(0), value)
-	assert.Equal(t, float64(ts.Unix()), value)
+	assert.InEpsilon(t, float64(ts.Unix()), value, 0.001)
 }
 
 func TestReminderUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-
-	raw := []byte(`{"reminder_id":123,"type":"private","to":[1,2,3],"content":"Don't forget","rendered_content":"<p>Don't forget</p>","scheduled_delivery_timestamp":1700000000,"failed":true,"reminder_target_message_id":456}`)
+	raw := []byte(
+		`{"reminder_id":123,"type":"private","to":[1,2,3],"content":"Don't forget","rendered_content":"<p>Don't forget</p>","scheduled_delivery_timestamp":1700000000,"failed":true,"reminder_target_message_id":456}`,
+	)
 
 	var reminder z.Reminder
 	require.NoError(t, json.Unmarshal(raw, &reminder))

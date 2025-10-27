@@ -9,6 +9,7 @@ import "github.com/tum-zulip/go-zulip/zulip"
 // [code playgrounds]: https://zulip.com/help/code-blocks#code-playgrounds
 type RealmPlaygroundsEvent struct {
 	event
+
 	// An array of dictionaries where each dictionary contains data about a single playground entry.
 	RealmPlaygrounds []zulip.RealmPlayground `json:"realm_playgrounds,omitempty"`
 }

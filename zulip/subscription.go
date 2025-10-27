@@ -2,7 +2,7 @@ package zulip
 
 import "encoding/json"
 
-// Subscription struct for Subscription
+// Subscription struct for Subscription.
 type Subscription struct {
 	Channel
 
@@ -40,41 +40,41 @@ type Subscription struct {
 }
 
 func (o Subscription) MarshalJSON() ([]byte, error) {
-	var channelJSON channelJSON
-	channelJSON.fromChannel(o.Channel)
-	channelJSON.Subscribers = o.Subscribers
-	channelJSON.PartialSubscribers = o.PartialSubscribers
-	channelJSON.DesktopNotifications = o.DesktopNotifications
-	channelJSON.EmailNotifications = o.EmailNotifications
-	channelJSON.WildcardMentionsNotify = o.WildcardMentionsNotify
-	channelJSON.PushNotifications = o.PushNotifications
-	channelJSON.AudibleNotifications = o.AudibleNotifications
-	channelJSON.PinToTop = o.PinToTop
-	channelJSON.IsMuted = o.IsMuted
-	channelJSON.InHomeView = o.InHomeView
-	channelJSON.Color = o.Color
+	var obj channelJSON
+	obj.fromChannel(o.Channel)
+	obj.Subscribers = o.Subscribers
+	obj.PartialSubscribers = o.PartialSubscribers
+	obj.DesktopNotifications = o.DesktopNotifications
+	obj.EmailNotifications = o.EmailNotifications
+	obj.WildcardMentionsNotify = o.WildcardMentionsNotify
+	obj.PushNotifications = o.PushNotifications
+	obj.AudibleNotifications = o.AudibleNotifications
+	obj.PinToTop = o.PinToTop
+	obj.IsMuted = o.IsMuted
+	obj.InHomeView = o.InHomeView
+	obj.Color = o.Color
 
-	return json.Marshal(channelJSON)
+	return json.Marshal(obj)
 }
 
 func (o *Subscription) UnmarshalJSON(data []byte) error {
-	var channelJSON channelJSON
-	if err := json.Unmarshal(data, &channelJSON); err != nil {
+	var obj channelJSON
+	if err := json.Unmarshal(data, &obj); err != nil {
 		return err
 	}
-	o.Channel.fromChannelJSON(channelJSON)
+	o.Channel.fromChannelJSON(obj)
 
-	o.Subscribers = channelJSON.Subscribers
-	o.PartialSubscribers = channelJSON.PartialSubscribers
-	o.DesktopNotifications = channelJSON.DesktopNotifications
-	o.EmailNotifications = channelJSON.EmailNotifications
-	o.WildcardMentionsNotify = channelJSON.WildcardMentionsNotify
-	o.PushNotifications = channelJSON.PushNotifications
-	o.AudibleNotifications = channelJSON.AudibleNotifications
-	o.PinToTop = channelJSON.PinToTop
-	o.IsMuted = channelJSON.IsMuted
-	o.InHomeView = channelJSON.InHomeView
-	o.Color = channelJSON.Color
+	o.Subscribers = obj.Subscribers
+	o.PartialSubscribers = obj.PartialSubscribers
+	o.DesktopNotifications = obj.DesktopNotifications
+	o.EmailNotifications = obj.EmailNotifications
+	o.WildcardMentionsNotify = obj.WildcardMentionsNotify
+	o.PushNotifications = obj.PushNotifications
+	o.AudibleNotifications = obj.AudibleNotifications
+	o.PinToTop = obj.PinToTop
+	o.IsMuted = obj.IsMuted
+	o.InHomeView = obj.InHomeView
+	o.Color = obj.Color
 
 	return nil
 }

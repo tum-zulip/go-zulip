@@ -8,6 +8,8 @@ import (
 )
 
 type Realm struct {
+	RealmConfiguration
+
 	// The UNIX timestamp (UTC) for when the organization was created.
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 203).
@@ -138,8 +140,6 @@ type Realm struct {
 	// [message edit history]: https://zulip.com/help/view-a-messages-edit-history
 	AllowEditHistory bool `json:"realm_allow_edit_history,omitempty"`
 
-	RealmConfiguration
-
 	// The default [message retention policy] for this organization. It can have one special value:  - `-1` denoting that the messages will be retained forever for this realm, by default.
 	//
 	// **Changes**: Prior to Zulip 3.0 (feature level 22), no limit was encoded as `null` instead of `-1`. Clients can correctly handle all server versions by treating both `-1` and `null` as indicating unlimited message retention.
@@ -168,11 +168,11 @@ type Realm struct {
 	// Deprecated
 	//
 	// [web standards]: https://url.spec.whatwg.org/#goals
-	Uri string `json:"realm_uri,omitempty"`
+	URI string `json:"realm_uri,omitempty"`
 	// The URL for the organization.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 257), replacing the deprecated `realm_uri`.
-	Url string `json:"realm_url,omitempty"`
+	URL string `json:"realm_url,omitempty"`
 	// Dictionary where each entry describes a supported [video call provider] that is configured on this server and could be selected by an organization administrator.  Useful for administrative settings UI that allows changing the realm setting `video_chat_provider`.
 	//
 	// [video call provider]: https://zulip.com/help/configure-call-provider
@@ -203,7 +203,7 @@ type Realm struct {
 	//
 	// **Changes**: Deprecated in Zulip 8.0 (feature level 212) and will eventually be removed. Previously, the Jitsi server to use was not configurable on a per-realm basis, and this field contained the server's configured Jitsi server. (Which is now provided as `server_jitsi_server_url`). Clients supporting older versions should fall back to this field when creating calls: using `realm_jitsi_server_url || server_jitsi_server_url` with newer servers and using `jitsi_server_url` with servers below feature level 212.
 	// Deprecated
-	JitsiServerUrlDeprecated string `json:"jitsi_server_url,omitempty"`
+	JitsiServerURLDeprecated string `json:"jitsi_server_url,omitempty"`
 	// Whether this Zulip server is a development environment. Used to control certain features or UI (such as error popups) that should only apply when connected to a Zulip development environment.
 	DevelopmentEnvironment bool `json:"development_environment,omitempty"`
 	// A timestamp indicating when the process hosting this event queue was started. Clients will likely only find this value useful for inclusion in detailed error reports.
@@ -223,7 +223,7 @@ type Realm struct {
 	// Whether the server is configured with support for inline image previews. Clients containing administrative UI for changing `realm_inline_image_preview` should consult this field before offering that feature.
 	ServerInlineImagePreview bool `json:"server_inline_image_preview,omitempty"`
 	// Whether the server is configured with support for inline URL previews. Clients containing administrative UI for changing `realm_inline_url_embed_preview` should consult this field before offering that feature.
-	ServerInlineUrlEmbedPreview bool `json:"server_inline_url_embed_preview,omitempty"`
+	ServerInlineURLEmbedPreview bool `json:"server_inline_url_embed_preview,omitempty"`
 	// A list describing the image formats that uploaded images will be thumbnailed into. Any image with a source starting with `/user_uploads/thumbnail/` can have its last path component replaced with any of the names contained in this list, to obtain the desired thumbnail size.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 273).
@@ -246,16 +246,16 @@ type Realm struct {
 	ServerWebPublicStreamsEnabled bool `json:"server_web_public_streams_enabled,omitempty"`
 	// The URL to a JSON file that describes which emoji names map to which emoji codes, for all Unicode emoji this Zulip server accepts.  The data at the given URL is a JSON object with one property, `code_to_names`. The value of that property is a JSON object where each key is an [emoji code].
 	//
-	// [emoji code]: https://zulip.com/api/add-reaction#parameter-emoji_code for an available Unicode emoji, and each value is the corresponding [emoji names] for this emoji, with the canonical name for the emoji always appearing first.  The HTTP response at that URL will have appropriate HTTP caching headers, such any HTTP implementation should get a cached version if emoji haven't changed since the last request.
+	// [emoji code]: https://zulip.com/api/add-reaction#parameter-emoji_code for an available Unicode emoji, and each value is the corresponding [emoji names] for this emoji, with the canonical name for the emoji always appearing first.  The HTTP Response at that URL will have appropriate HTTP caching headers, such any HTTP implementation should get a cached version if emoji haven't changed since the last request.
 	//
 	// **Changes**: New in Zulip 6.0 (feature level 140
 	//
 	// [emoji names]: https://zulip.com/api/add-reaction#parameter-emoji_name
-	ServerEmojiDataUrl string `json:"server_emoji_data_url,omitempty"`
+	ServerEmojiDataURL string `json:"server_emoji_data_url,omitempty"`
 	// The URL of the Jitsi server that the Zulip server is configured to use by default; the organization-level setting `realm_jitsi_server_url` takes precedence over this setting when both are set.
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 212). Previously, this value was available as the now-deprecated `jitsi_server_url`.
-	ServerJitsiServerUrl *string `json:"server_jitsi_server_url,omitempty"`
+	ServerJitsiServerURL *string `json:"server_jitsi_server_url,omitempty"`
 	// Present if `realm` is present in `fetch_event_types`  Whether topic summarization is enabled in the server or not depending upon whether `TOPIC_SUMMARIZATION_MODEL` is set or not.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 350).
@@ -276,7 +276,7 @@ type Realm struct {
 	//
 	//
 	// **Changes**: New in Zulip 5.0 (feature level 95).
-	// Prior to Zulip 5.0 (feature level 84), this field was present in response if `realm_user` was present in `fetch_event_types`, not `update_display_settings`.
+	// Prior to Zulip 5.0 (feature level 84), this field was present in Response if `realm_user` was present in `fetch_event_types`, not `update_display_settings`.
 	// **Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients connecting to newer servers should declare the `user_settings_object` client capability and process the `user_settings` event type instead.
 	// Deprecated
 	//
@@ -299,7 +299,7 @@ func (r *Realm) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// ServerThumbnailFormat struct for ServerThumbnailFormat
+// ServerThumbnailFormat struct for ServerThumbnailFormat.
 type ServerThumbnailFormat struct {
 	// The file path component of the thumbnail format.
 	Name string `json:"name,omitempty"`
@@ -348,7 +348,7 @@ type RealmDefaultExternalAccounts struct {
 	// The help text to be displayed for the custom profile field in user-facing settings UI for configuring custom profile fields for this account.
 	Hint string `json:"hint,omitempty"`
 	// The regex pattern of the URL of a profile page on the external site.
-	UrlPattern string `json:"url_pattern,omitempty"`
+	URLPattern string `json:"url_pattern,omitempty"`
 }
 
 type RealmConfiguration struct {
@@ -398,7 +398,7 @@ type RealmConfiguration struct {
 	// The URL of the custom Jitsi Meet server configured in this organization's settings.  `null`, the default, means that the organization is using the should use the server-level configuration, `server_jitsi_server_url`.
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 212). Previously, this was only available as a server-level configuration, and required a server restart to change.
-	JitsiServerUrl *string `json:"jitsi_server_url,omitempty"`
+	JitsiServerURL *string `json:"jitsi_server_url,omitempty"`
 
 	// The organization's default policy for sending channel messages to the [empty "general chat" topic].
 	//   - TopicsPolicyAllowEmptyTopic: Channel messages can be sent to the empty topic.
@@ -569,7 +569,7 @@ type RealmPresentation struct {
 	// The URL of the organization's wide logo configured in the [organization profile].
 	//
 	// [organization profile]: https://zulip.com/help/create-your-organization-profile
-	LogoUrl string `json:"logo_url,omitempty"`
+	LogoURL string `json:"logo_url,omitempty"`
 	// String indicating whether the organization's dark theme [profile wide logo] was uploaded by a user or is the default. Useful for UI allowing editing the organization's wide logo.  - "D" means the logo is the default Zulip logo. - "U" means uploaded by an organization administrator.
 	//
 	// [profile wide logo]: https://zulip.com/help/create-your-organization-profile
@@ -577,7 +577,7 @@ type RealmPresentation struct {
 	// The URL of the organization's dark theme wide-format logo configured in the [organization profile].
 	//
 	// [organization profile]: https://zulip.com/help/create-your-organization-profile
-	NightLogoUrl string `json:"night_logo_url,omitempty"`
+	NightLogoURL string `json:"night_logo_url,omitempty"`
 	// Maximum rating of the GIFs that will be retrieved from GIPHY.
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 55).
@@ -589,7 +589,7 @@ type RealmPresentation struct {
 	// The URL of the organization's [profile icon].
 	//
 	// [profile icon]: https://zulip.com/help/create-your-organization-profile
-	IconUrl string `json:"icon_url,omitempty"`
+	IconURL string `json:"icon_url,omitempty"`
 	// Whether this organization has been configured to enable [previews of linked images].
 	//
 	// [previews of linked images]: https://zulip.com/help/image-video-and-website-previews
@@ -597,13 +597,13 @@ type RealmPresentation struct {
 	// Whether this organization has been configured to enable [previews of linked websites].
 	//
 	// [previews of linked websites]: https://zulip.com/help/image-video-and-website-previews
-	InlineUrlEmbedPreview bool `json:"inline_url_embed_preview,omitempty"`
+	InlineURLEmbedPreview bool `json:"inline_url_embed_preview,omitempty"`
 }
 
 type RealmLocalization struct {
 	// The default pygments language code to be used for code blocks in this organization. If an empty string, no default has been set.
 	//
-	// **Changes**: Prior to Zulip 8.0 (feature level 195), a server bug meant that both `null` and an empty string could represent that no default was set for this realm setting in the [`POST /register`] response. The documentation for both that endpoint and this event incorrectly stated that the only representation for no default language was `null`. This event in fact uses the empty string to indicate that no default has been set in all server versions.
+	// **Changes**: Prior to Zulip 8.0 (feature level 195), a server bug meant that both `null` and an empty string could represent that no default was set for this realm setting in the [`POST /register`] Response. The documentation for both that endpoint and this event incorrectly stated that the only representation for no default language was `null`. This event in fact uses the empty string to indicate that no default has been set in all server versions.
 	//
 	// [`POST /register`]: https://zulip.com/api/register-queue
 	DefaultCodeBlockLanguage string `json:"default_code_block_language,omitempty"`
@@ -802,6 +802,7 @@ type RealmPermissions struct {
 
 type realmJSON struct {
 	RealmConfiguration
+
 	DateCreated                                 int64                                   `json:"realm_date_created,omitempty"`
 	MaxChannelNameLength                        int64                                   `json:"max_stream_name_length,omitempty"`
 	MaxStreamDescriptionLength                  int64                                   `json:"max_stream_description_length,omitempty"`
@@ -825,8 +826,8 @@ type realmJSON struct {
 	MaxIconFileSizeMib                          int64                                   `json:"max_icon_file_size_mib,omitempty"`
 	MaxLogoFileSizeMib                          int64                                   `json:"max_logo_file_size_mib,omitempty"`
 	BotDomain                                   string                                  `json:"realm_bot_domain,omitempty"`
-	Uri                                         string                                  `json:"realm_uri,omitempty"`
-	Url                                         string                                  `json:"realm_url,omitempty"`
+	URI                                         string                                  `json:"realm_uri,omitempty"`
+	URL                                         string                                  `json:"realm_url,omitempty"`
 	AvailableVideoChatProviders                 map[string]VideoChatProviderInfo        `json:"realm_available_video_chat_providers,omitempty"`
 	SettingsSendDigestEmails                    bool                                    `json:"settings_send_digest_emails,omitempty"`
 	IsZephyrMirrorRealm                         bool                                    `json:"realm_is_zephyr_mirror_realm,omitempty"`
@@ -835,7 +836,7 @@ type realmJSON struct {
 	ZulipPlanIsNotLimited                       bool                                    `json:"zulip_plan_is_not_limited,omitempty"`
 	UpgradeTextForWideOrganizationLogo          string                                  `json:"upgrade_text_for_wide_organization_logo,omitempty"`
 	DefaultExternalAccounts                     map[string]RealmDefaultExternalAccounts `json:"realm_default_external_accounts,omitempty"`
-	JitsiServerUrlDeprecated                    string                                  `json:"jitsi_server_url,omitempty"`
+	JitsiServerURLDeprecated                    string                                  `json:"jitsi_server_url,omitempty"`
 	DevelopmentEnvironment                      bool                                    `json:"development_environment,omitempty"`
 	ServerGeneration                            int64                                   `json:"server_generation,omitempty"`
 	PasswordMinLength                           int64                                   `json:"password_min_length,omitempty"`
@@ -844,14 +845,14 @@ type realmJSON struct {
 	GiphyRatingOptions                          map[string]GiphyRatingOptionsValue      `json:"giphy_rating_options,omitempty"`
 	MaxAvatarFileSizeMib                        int64                                   `json:"max_avatar_file_size_mib,omitempty"`
 	ServerInlineImagePreview                    bool                                    `json:"server_inline_image_preview,omitempty"`
-	ServerInlineUrlEmbedPreview                 bool                                    `json:"server_inline_url_embed_preview,omitempty"`
+	ServerInlineURLEmbedPreview                 bool                                    `json:"server_inline_url_embed_preview,omitempty"`
 	ServerThumbnailFormats                      []ServerThumbnailFormat                 `json:"server_thumbnail_formats,omitempty"`
 	ServerAvatarChangesDisabled                 bool                                    `json:"server_avatar_changes_disabled,omitempty"`
 	ServerNameChangesDisabled                   bool                                    `json:"server_name_changes_disabled,omitempty"`
 	ServerNeedsUpgrade                          bool                                    `json:"server_needs_upgrade,omitempty"`
 	ServerWebPublicStreamsEnabled               bool                                    `json:"server_web_public_streams_enabled,omitempty"`
-	ServerEmojiDataUrl                          string                                  `json:"server_emoji_data_url,omitempty"`
-	ServerJitsiServerUrl                        *string                                 `json:"server_jitsi_server_url,omitempty"`
+	ServerEmojiDataURL                          string                                  `json:"server_emoji_data_url,omitempty"`
+	ServerJitsiServerURL                        *string                                 `json:"server_jitsi_server_url,omitempty"`
 	ServerCanSummarizeTopics                    bool                                    `json:"server_can_summarize_topics,omitempty"`
 	EventQueueLongpollTimeoutSeconds            int64                                   `json:"event_queue_longpoll_timeout_seconds,omitempty"`
 	Billing                                     RealmBilling                            `json:"realm_billing,omitempty"`
@@ -859,65 +860,65 @@ type realmJSON struct {
 	UserSettingsDefaults                        *UserSettings                           `json:"realm_user_settings_defaults,omitempty"`
 }
 
-func (r *Realm) toJSONRealm() (obj realmJSON) {
-	obj.RealmConfiguration = r.RealmConfiguration
-	obj.DateCreated = r.DateCreated.Unix()
-	obj.MaxChannelNameLength = r.MaxChannelNameLength
-	obj.MaxStreamDescriptionLength = r.MaxStreamDescriptionLength
-	obj.MaxChannelFolderNameLength = r.MaxChannelFolderNameLength
-	obj.MaxChannelFolderDescriptionLength = r.MaxChannelFolderDescriptionLength
-	obj.MaxTopicLength = r.MaxTopicLength
-	obj.MaxMessageLength = r.MaxMessageLength
-	obj.ServerMinDeactivatedRealmDeletionDays = r.ServerMinDeactivatedRealmDeletionDays
-	obj.ServerMaxDeactivatedRealmDeletionDays = r.ServerMaxDeactivatedRealmDeletionDays
-	obj.ServerPresencePingIntervalSeconds = r.ServerPresencePingIntervalSeconds
-	obj.ServerPresenceOfflineThresholdSeconds = r.ServerPresenceOfflineThresholdSeconds
-	obj.ServerTypingStartedExpiryPeriodMilliseconds = r.ServerTypingStartedExpiryPeriodMilliseconds
-	obj.ServerTypingStoppedWaitPeriodMilliseconds = r.ServerTypingStoppedWaitPeriodMilliseconds
-	obj.ServerTypingStartedWaitPeriodMilliseconds = r.ServerTypingStartedWaitPeriodMilliseconds
-	obj.CreatePublicStreamPolicy = r.CreatePublicStreamPolicy
-	obj.CreateWebPublicStreamPolicy = r.CreateWebPublicStreamPolicy
-	obj.WildcardMentionPolicy = r.WildcardMentionPolicy
-	obj.AllowEditHistory = r.AllowEditHistory
-	obj.MessageRetentionDays = r.MessageRetentionDays
-	obj.AvatarChangesDisabled = r.AvatarChangesDisabled
-	obj.MaxIconFileSizeMib = r.MaxIconFileSizeMib
-	obj.MaxLogoFileSizeMib = r.MaxLogoFileSizeMib
-	obj.BotDomain = r.BotDomain
-	obj.Uri = r.Uri
-	obj.Url = r.Url
-	obj.AvailableVideoChatProviders = r.AvailableVideoChatProviders
-	obj.SettingsSendDigestEmails = r.SettingsSendDigestEmails
-	obj.IsZephyrMirrorRealm = r.IsZephyrMirrorRealm
-	obj.EmailAuthEnabled = r.EmailAuthEnabled
-	obj.PasswordAuthEnabled = r.PasswordAuthEnabled
-	obj.ZulipPlanIsNotLimited = r.ZulipPlanIsNotLimited
-	obj.UpgradeTextForWideOrganizationLogo = r.UpgradeTextForWideOrganizationLogo
-	obj.DefaultExternalAccounts = r.DefaultExternalAccounts
-	obj.JitsiServerUrlDeprecated = r.JitsiServerUrlDeprecated
-	obj.DevelopmentEnvironment = r.DevelopmentEnvironment
-	obj.ServerGeneration = r.ServerGeneration.Unix()
-	obj.PasswordMinLength = r.PasswordMinLength
-	obj.PasswordMaxLength = r.PasswordMaxLength
-	obj.PasswordMinGuesses = r.PasswordMinGuesses
-	obj.GiphyRatingOptions = r.GiphyRatingOptions
-	obj.MaxAvatarFileSizeMib = r.MaxAvatarFileSizeMib
-	obj.ServerInlineImagePreview = r.ServerInlineImagePreview
-	obj.ServerInlineUrlEmbedPreview = r.ServerInlineUrlEmbedPreview
-	obj.ServerThumbnailFormats = r.ServerThumbnailFormats
-	obj.ServerAvatarChangesDisabled = r.ServerAvatarChangesDisabled
-	obj.ServerNameChangesDisabled = r.ServerNameChangesDisabled
-	obj.ServerNeedsUpgrade = r.ServerNeedsUpgrade
-	obj.ServerWebPublicStreamsEnabled = r.ServerWebPublicStreamsEnabled
-	obj.ServerEmojiDataUrl = r.ServerEmojiDataUrl
-	obj.ServerJitsiServerUrl = r.ServerJitsiServerUrl
-	obj.ServerCanSummarizeTopics = r.ServerCanSummarizeTopics
-	obj.EventQueueLongpollTimeoutSeconds = r.EventQueueLongpollTimeoutSeconds
-	obj.Billing = r.Billing
-	obj.EmptyTopicDisplayName = r.EmptyTopicDisplayName
-	obj.UserSettingsDefaults = r.UserSettingsDefaults
-
-	return
+func (r *Realm) toJSONRealm() realmJSON {
+	return realmJSON{
+		RealmConfiguration:                          r.RealmConfiguration,
+		DateCreated:                                 r.DateCreated.Unix(),
+		MaxChannelNameLength:                        r.MaxChannelNameLength,
+		MaxStreamDescriptionLength:                  r.MaxStreamDescriptionLength,
+		MaxChannelFolderNameLength:                  r.MaxChannelFolderNameLength,
+		MaxChannelFolderDescriptionLength:           r.MaxChannelFolderDescriptionLength,
+		MaxTopicLength:                              r.MaxTopicLength,
+		MaxMessageLength:                            r.MaxMessageLength,
+		ServerMinDeactivatedRealmDeletionDays:       r.ServerMinDeactivatedRealmDeletionDays,
+		ServerMaxDeactivatedRealmDeletionDays:       r.ServerMaxDeactivatedRealmDeletionDays,
+		ServerPresencePingIntervalSeconds:           r.ServerPresencePingIntervalSeconds,
+		ServerPresenceOfflineThresholdSeconds:       r.ServerPresenceOfflineThresholdSeconds,
+		ServerTypingStartedExpiryPeriodMilliseconds: r.ServerTypingStartedExpiryPeriodMilliseconds,
+		ServerTypingStoppedWaitPeriodMilliseconds:   r.ServerTypingStoppedWaitPeriodMilliseconds,
+		ServerTypingStartedWaitPeriodMilliseconds:   r.ServerTypingStartedWaitPeriodMilliseconds,
+		CreatePublicStreamPolicy:                    r.CreatePublicStreamPolicy,
+		CreateWebPublicStreamPolicy:                 r.CreateWebPublicStreamPolicy,
+		WildcardMentionPolicy:                       r.WildcardMentionPolicy,
+		AllowEditHistory:                            r.AllowEditHistory,
+		MessageRetentionDays:                        r.MessageRetentionDays,
+		AvatarChangesDisabled:                       r.AvatarChangesDisabled,
+		MaxIconFileSizeMib:                          r.MaxIconFileSizeMib,
+		MaxLogoFileSizeMib:                          r.MaxLogoFileSizeMib,
+		BotDomain:                                   r.BotDomain,
+		URI:                                         r.URI,
+		URL:                                         r.URL,
+		AvailableVideoChatProviders:                 r.AvailableVideoChatProviders,
+		SettingsSendDigestEmails:                    r.SettingsSendDigestEmails,
+		IsZephyrMirrorRealm:                         r.IsZephyrMirrorRealm,
+		EmailAuthEnabled:                            r.EmailAuthEnabled,
+		PasswordAuthEnabled:                         r.PasswordAuthEnabled,
+		ZulipPlanIsNotLimited:                       r.ZulipPlanIsNotLimited,
+		UpgradeTextForWideOrganizationLogo:          r.UpgradeTextForWideOrganizationLogo,
+		DefaultExternalAccounts:                     r.DefaultExternalAccounts,
+		JitsiServerURLDeprecated:                    r.JitsiServerURLDeprecated,
+		DevelopmentEnvironment:                      r.DevelopmentEnvironment,
+		ServerGeneration:                            r.ServerGeneration.Unix(),
+		PasswordMinLength:                           r.PasswordMinLength,
+		PasswordMaxLength:                           r.PasswordMaxLength,
+		PasswordMinGuesses:                          r.PasswordMinGuesses,
+		GiphyRatingOptions:                          r.GiphyRatingOptions,
+		MaxAvatarFileSizeMib:                        r.MaxAvatarFileSizeMib,
+		ServerInlineImagePreview:                    r.ServerInlineImagePreview,
+		ServerInlineURLEmbedPreview:                 r.ServerInlineURLEmbedPreview,
+		ServerThumbnailFormats:                      r.ServerThumbnailFormats,
+		ServerAvatarChangesDisabled:                 r.ServerAvatarChangesDisabled,
+		ServerNameChangesDisabled:                   r.ServerNameChangesDisabled,
+		ServerNeedsUpgrade:                          r.ServerNeedsUpgrade,
+		ServerWebPublicStreamsEnabled:               r.ServerWebPublicStreamsEnabled,
+		ServerEmojiDataURL:                          r.ServerEmojiDataURL,
+		ServerJitsiServerURL:                        r.ServerJitsiServerURL,
+		ServerCanSummarizeTopics:                    r.ServerCanSummarizeTopics,
+		EventQueueLongpollTimeoutSeconds:            r.EventQueueLongpollTimeoutSeconds,
+		Billing:                                     r.Billing,
+		EmptyTopicDisplayName:                       r.EmptyTopicDisplayName,
+		UserSettingsDefaults:                        r.UserSettingsDefaults,
+	}
 }
 
 func (r *Realm) fromJSONRealm(obj realmJSON) {
@@ -945,8 +946,8 @@ func (r *Realm) fromJSONRealm(obj realmJSON) {
 	r.MaxIconFileSizeMib = obj.MaxIconFileSizeMib
 	r.MaxLogoFileSizeMib = obj.MaxLogoFileSizeMib
 	r.BotDomain = obj.BotDomain
-	r.Uri = obj.Uri
-	r.Url = obj.Url
+	r.URI = obj.URI
+	r.URL = obj.URL
 	r.AvailableVideoChatProviders = obj.AvailableVideoChatProviders
 	r.SettingsSendDigestEmails = obj.SettingsSendDigestEmails
 	r.IsZephyrMirrorRealm = obj.IsZephyrMirrorRealm
@@ -955,7 +956,7 @@ func (r *Realm) fromJSONRealm(obj realmJSON) {
 	r.ZulipPlanIsNotLimited = obj.ZulipPlanIsNotLimited
 	r.UpgradeTextForWideOrganizationLogo = obj.UpgradeTextForWideOrganizationLogo
 	r.DefaultExternalAccounts = obj.DefaultExternalAccounts
-	r.JitsiServerUrlDeprecated = obj.JitsiServerUrlDeprecated
+	r.JitsiServerURLDeprecated = obj.JitsiServerURLDeprecated
 	r.DevelopmentEnvironment = obj.DevelopmentEnvironment
 	r.ServerGeneration = time.Unix(obj.ServerGeneration, 0)
 	r.PasswordMinLength = obj.PasswordMinLength
@@ -964,14 +965,14 @@ func (r *Realm) fromJSONRealm(obj realmJSON) {
 	r.GiphyRatingOptions = obj.GiphyRatingOptions
 	r.MaxAvatarFileSizeMib = obj.MaxAvatarFileSizeMib
 	r.ServerInlineImagePreview = obj.ServerInlineImagePreview
-	r.ServerInlineUrlEmbedPreview = obj.ServerInlineUrlEmbedPreview
+	r.ServerInlineURLEmbedPreview = obj.ServerInlineURLEmbedPreview
 	r.ServerThumbnailFormats = obj.ServerThumbnailFormats
 	r.ServerAvatarChangesDisabled = obj.ServerAvatarChangesDisabled
 	r.ServerNameChangesDisabled = obj.ServerNameChangesDisabled
 	r.ServerNeedsUpgrade = obj.ServerNeedsUpgrade
 	r.ServerWebPublicStreamsEnabled = obj.ServerWebPublicStreamsEnabled
-	r.ServerEmojiDataUrl = obj.ServerEmojiDataUrl
-	r.ServerJitsiServerUrl = obj.ServerJitsiServerUrl
+	r.ServerEmojiDataURL = obj.ServerEmojiDataURL
+	r.ServerJitsiServerURL = obj.ServerJitsiServerURL
 	r.ServerCanSummarizeTopics = obj.ServerCanSummarizeTopics
 	r.EventQueueLongpollTimeoutSeconds = obj.EventQueueLongpollTimeoutSeconds
 	r.Billing = obj.Billing

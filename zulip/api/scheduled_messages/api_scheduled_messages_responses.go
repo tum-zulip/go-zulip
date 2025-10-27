@@ -1,8 +1,8 @@
-package scheduled_messages
+package scheduledmessages
 
 import "github.com/tum-zulip/go-zulip/zulip"
 
-// CreateScheduledMessageResponse struct for CreateScheduledMessageResponse
+// CreateScheduledMessageResponse struct for CreateScheduledMessageResponse.
 type CreateScheduledMessageResponse struct {
 	zulip.Response
 
@@ -10,7 +10,7 @@ type CreateScheduledMessageResponse struct {
 	ScheduledMessageID int64 `json:"scheduled_message_id,omitempty"`
 }
 
-// GetScheduledMessagesResponse struct for GetScheduledMessagesResponse
+// GetScheduledMessagesResponse struct for GetScheduledMessagesResponse.
 type GetScheduledMessagesResponse struct {
 	zulip.Response
 

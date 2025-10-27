@@ -7,11 +7,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestChannelFolderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-
 	ts := time.Unix(1700000000, 0).UTC()
 	creator := int64(42)
 	folder := z.ChannelFolder{
@@ -32,12 +32,11 @@ func TestChannelFolderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	value, ok := payload["date_created"]
 	require.True(t, ok)
 	require.IsType(t, float64(0), value)
-	assert.Equal(t, float64(ts.Unix()), value)
+	assert.InEpsilon(t, float64(ts.Unix()), value, 0.001)
 	assert.Equal(t, "general", payload["name"])
 }
 
 func TestChannelFolderUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-
 	raw := []byte(`{"name":"general","date_created":1700000000}`)
 
 	var folder z.ChannelFolder

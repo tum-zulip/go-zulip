@@ -1,4 +1,4 @@
-package real_time_events
+package realtimeevents
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 	"github.com/tum-zulip/go-zulip/zulip/events"
 )
 
-// GetEventsResponse struct for GetEventsResponse
+// GetEventsResponse struct for GetEventsResponse.
 type GetEventsResponse struct {
 	zulip.Response
 
@@ -19,6 +19,7 @@ type GetEventsResponse struct {
 
 type getEventsResponseJSON struct {
 	zulip.Response
+
 	Events  []events.EventEnvelope `json:"events,omitempty"`
 	QueueID string                 `json:"queue_id,omitempty"`
 }
@@ -37,7 +38,7 @@ func (r *GetEventsResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// RegisterQueueResponse struct for RegisterQueueResponse
+// RegisterQueueResponse struct for RegisterQueueResponse.
 type RegisterQueueResponse struct {
 	zulip.Response
 
@@ -49,13 +50,13 @@ type RegisterQueueResponse struct {
 	LastEventID int64 `json:"last_event_id,omitempty"`
 	// The server's current [Zulip feature level].
 	//
-	// **Changes**: As of Zulip 3.0 (feature level 3), this is always present in the endpoint's response. Previously, it was only present if `event_types` included `zulip_version`.  New in Zulip 3.0 (feature level 1).
+	// **Changes**: As of Zulip 3.0 (feature level 3), this is always present in the endpoint's Response. Previously, it was only present if `event_types` included `zulip_version`.  New in Zulip 3.0 (feature level 1).
 	//
 	// [Zulip feature level]: https://zulip.com/api/changelog
 	ZulipFeatureLevel int64 `json:"zulip_feature_level,omitempty"`
 	// The server's version number. This is often a release version number, like `2.1.7`. But for a server running a [version from Git], it will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.
 	//
-	// **Changes**: As of Zulip 3.0 (feature level 3), this is always present in the endpoint's response. Previously, it was only present if `event_types` included `zulip_version`.
+	// **Changes**: As of Zulip 3.0 (feature level 3), this is always present in the endpoint's Response. Previously, it was only present if `event_types` included `zulip_version`.
 	//
 	// [version from Git]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions
 	ZulipVersion string `json:"zulip_version,omitempty"`
@@ -87,7 +88,7 @@ type RegisterQueueResponse struct {
 	// Present if `onboarding_steps` is present in `fetch_event_types`.  URL of the navigation tour video to display to new users during onboarding. If `null`, the onboarding video experience is disabled.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 369).
-	NavigationTourVideoUrl *string `json:"navigation_tour_video_url,omitempty"`
+	NavigationTourVideoURL *string `json:"navigation_tour_video_url,omitempty"`
 	// Present if `message` is present in `fetch_event_types`.  The highest message ID among all messages the user has received as of the moment of this request.  **Deprecated**: This field may be removed in future versions as it no longer has a clear purpose. Clients wishing to fetch the latest messages should pass `"anchor": "latest"` to `GET /messages`.
 	// Deprecated
 	MaxMessageID *int64 `json:"max_message_id,omitempty"`
@@ -106,7 +107,7 @@ type RegisterQueueResponse struct {
 	Reminders []zulip.ScheduledMessage `json:"reminders,omitempty"`
 	// Present if `muted_topics` is present in `fetch_event_types`.  Array of tuples, where each tuple describes a muted topic. The first element of the tuple is the channel name in which the topic has to be muted, the second element is the topic name to be muted and the third element is an integer UNIX timestamp representing when the topic was muted.
 	//
-	// **Changes**: Deprecated in Zulip 6.0 (feature level 134). Starting with this version, `muted_topics` will only be present in the response if the `user_topic` object, which generalizes and replaces this field, is not explicitly requested via `fetch_event_types`.  Before Zulip 3.0 (feature level 1), the `muted_topics` array objects were 2-item tuples and did not include the timestamp information for when the topic was muted.
+	// **Changes**: Deprecated in Zulip 6.0 (feature level 134). Starting with this version, `muted_topics` will only be present in the Response if the `user_topic` object, which generalizes and replaces this field, is not explicitly requested via `fetch_event_types`.  Before Zulip 3.0 (feature level 1), the `muted_topics` array objects were 2-item tuples and did not include the timestamp information for when the topic was muted.
 	// Deprecated
 	MutedTopics [][]interface{} `json:"muted_topics,omitempty"`
 	// Present if `muted_users` is present in `fetch_event_types`.  A list of dictionaries where each dictionary describes a [muted user].
@@ -119,13 +120,13 @@ type RegisterQueueResponse struct {
 	//
 	// [`slim_presence`]: https://zulip.com/api/register-queue#parameter-slim_presence
 	Presences map[string]zulip.PresenceUpdateValue `json:"presences,omitempty"`
-	// Present if `presence` is present in `fetch_event_types`.  Provides the `last_update_id` value of the latest presence data fetched by the server and included in the response in `presences`. This can be used as the value of the `presence_last_update_id` parameter when polling for presence data at the [/users/me/presence] endpoint to tell the server to only fetch the relevant newer data in order to skip redundant already-known presence information.
+	// Present if `presence` is present in `fetch_event_types`.  Provides the `last_update_id` value of the latest presence data fetched by the server and included in the Response in `presences`. This can be used as the value of the `presence_last_update_id` parameter when polling for presence data at the [/users/me/presence] endpoint to tell the server to only fetch the relevant newer data in order to skip redundant already-known presence information.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 263).
 	//
 	// [/users/me/presence]: https://zulip.com/api/update-presence
 	PresenceLastUpdateID *int64 `json:"presence_last_update_id,omitempty"`
-	// Present if `presence` is present in `fetch_event_types`.  The time when the server fetched the `presences` data included in the response. Matches the similar field in presence responses.
+	// Present if `presence` is present in `fetch_event_types`.  The time when the server fetched the `presences` data included in the Response. Matches the similar field in presence Responses.
 	//
 	// **Changes**: New in Zulip 5.0 (feature level 70).
 	ServerTimestamp *float32 `json:"server_timestamp,omitempty"`
@@ -231,7 +232,7 @@ type RegisterQueueResponse struct {
 	// **Changes**: Added in Zulip 4.0 (feature level 47).
 	//
 	// [GIPHY API TOS]: https://support.giphy.com/hc/en-us/articles/360028134111-GIPHY-API-Terms-of-Service-
-	GiphyApiKey *string `json:"giphy_api_key,omitempty"`
+	GiphyAPIKey *string `json:"giphy_api_key,omitempty"`
 	// Present if `push_device` is present in `fetch_event_types`.  Dictionary where each entry describes the user's push device's registration status and error code (if registration failed).
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 406).
@@ -291,10 +292,10 @@ type RealmIncomingWebhookBot struct {
 	// **Changes**: New in Zulip 11.0 (feature level 403). Previously, these optional URL parameter options were included in the `config_options` object.
 	//
 	// [generating a URL for an integration]: https://zulip.com/help/generate-integration-url
-	UrlOptions []WebhookOption `json:"url_options,omitempty"`
+	URLOptions []WebhookOption `json:"url_options,omitempty"`
 }
 
-// WebhookConfigOptionInner struct for WebhookConfigOptionInner
+// WebhookConfigOptionInner struct for WebhookConfigOptionInne.
 type WebhookOption struct {
 	// A key for the configuration option.
 	Key string `json:"key,omitempty"`
@@ -370,14 +371,14 @@ type RealmEmbeddedBots struct {
 }
 
 type RealmUser struct {
+	zulip.Avatar
+
 	// A array of dictionaries where each entry describes a user whose account has not been deactivated. Note that unlike the usual User dictionary, this does not contain the `is_active` key, as all the users present in this array have active accounts.  If the current user is a guest whose access to users is limited by a `can_access_all_users_group` policy, and the event queue was registered with the `user_list_incomplete` client capability, then users that the current user cannot access will not be included in this array. If the current user's access to a user is restricted but the client lacks this capability, then that inaccessible user will appear in the users array as an "Unknown user" object with the usual format but placeholder data whose only variable content is the user ID.  See also `cross_realm_bots` and `realm_non_active_users`.
 	//
 	// **Changes**: Before Zulip 8.0 (feature level 232), the `user_list_incomplete` client capability did not exist, and so all clients whose access to a new user was prevented by `can_access_all_users_group` policy would receive a fake "Unknown user" event for such users.
 	RealmUsers []zulip.User `json:"realm_users,omitempty"`
 	// A array of dictionaries where each entry describes a user whose account has been deactivated. Note that unlike the usual User dictionary this does not contain the `is_active` key as all the users present in this array have deactivated accounts.
 	RealmNonActiveUsers []zulip.User `json:"realm_non_active_users,omitempty"`
-
-	zulip.Avatar
 
 	// Whether the current user is allowed to create at least one type of channel with the organization's [channel creation policy]. Its value will always equal `can_create_public_streams || can_create_private_streams`.
 	//
@@ -477,13 +478,13 @@ type UnreadMsgs struct {
 	//
 	// [non-muted]: https://zulip.com/help/mute-a-topic
 	Mentions []int64 `json:"mentions,omitempty"`
-	// Whether this data set was truncated because the user has too many unread messages. When truncation occurs, only the most recent `MAX_UNREAD_MESSAGES` (currently 50000) messages will be considered when forming this response. When `true`, we recommend that clients display a warning, as they are likely to produce erroneous results until reloaded with the user having fewer than `MAX_UNREAD_MESSAGES` unread messages.
+	// Whether this data set was truncated because the user has too many unread messages. When truncation occurs, only the most recent `MAX_UNREAD_MESSAGES` (currently 50000) messages will be considered when forming this Response. When `true`, we recommend that clients display a warning, as they are likely to produce erroneous results until reloaded with the user having fewer than `MAX_UNREAD_MESSAGES` unread messages.
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 44).
 	OldUnreadsMissing *bool `json:"old_unreads_missing,omitempty"`
 }
 
-// UnreadMsgsPms struct for UnreadMsgsPms
+// UnreadMsgsPms struct for UnreadMsgsPms.
 type UnreadMsgsPms struct {
 	// The user ID of the other participant in this one-on-one direct message conversation. Will be the current user's ID for messages that they sent in a one-on-one direct message conversation with themself.
 	//
@@ -498,9 +499,9 @@ type UnreadMsgsPms struct {
 	UnreadMessageIDs []int64 `json:"unread_message_ids,omitempty"`
 }
 
-// UnreadMsgsChannels struct for UnreadMsgsChannels
+// UnreadMsgsChannels struct for UnreadMsgsChannel.
 type UnreadMsgsChannels struct {
-	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`] response depending on the value of the `empty_topic_name` [client capability].
+	// The topic under which the messages were sent.  Note that the empty string topic may have been rewritten by the server to the value of `realm_empty_topic_display_name` found in the [`POST /register`] Response depending on the value of the `empty_topic_name` [client capability].
 	//
 	// **Changes**: The `empty_topic_name` client capability is new in Zulip 10.0 (feature level 334).
 	//
@@ -514,10 +515,10 @@ type UnreadMsgsChannels struct {
 	UnreadMessageIDs []int64 `json:"unread_message_ids,omitempty"`
 }
 
-// UnreadMsgsHuddles struct for UnreadMsgsHuddles
+// UnreadMsgsHuddles struct for UnreadMsgsHuddles.
 type UnreadMsgsHuddles struct {
 	// A string containing the IDs of all users in the group direct message conversation, including the current user, separated by commas and sorted numerically; for example: `"1,2,3"`.
-	UserIdsString string `json:"user_ids_string,omitempty"`
+	UserIDsString string `json:"user_ids_string,omitempty"`
 	// The message IDs of the recent unread messages which have been sent in this group direct message conversation, sorted in ascending order.
 	UnreadMessageIDs []int64 `json:"unread_message_ids,omitempty"`
 }

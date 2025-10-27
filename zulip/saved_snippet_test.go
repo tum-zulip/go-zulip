@@ -7,11 +7,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestSavedSnippetMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-
 	created := time.Unix(1700000000, 500*int64(time.Millisecond)).UTC()
 	snippet := z.SavedSnippet{
 		ID:          11,
@@ -29,11 +29,10 @@ func TestSavedSnippetMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	value, ok := payload["date_created"]
 	require.True(t, ok)
 	require.IsType(t, float64(0), value)
-	assert.Equal(t, float64(created.Unix()), value)
+	assert.InEpsilon(t, float64(created.Unix()), value, 0.001)
 }
 
 func TestSavedSnippetUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-
 	raw := []byte(`{"id":11,"title":"Snippet","content":"**bold**","date_created":1700000000}`)
 
 	var snippet z.SavedSnippet

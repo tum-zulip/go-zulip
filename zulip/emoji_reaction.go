@@ -1,6 +1,6 @@
 package zulip
 
-// EmojiReaction struct for EmojiReaction
+// EmojiReaction struct for EmojiReaction.
 type EmojiReaction struct {
 	// Name of the emoji.
 	EmojiName string `json:"emoji_name,omitempty"`

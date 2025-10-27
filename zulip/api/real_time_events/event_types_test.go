@@ -1,4 +1,4 @@
-package real_time_events_test
+package realtimeevents_test
 
 import (
 	"context"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/client"
 	"github.com/tum-zulip/go-zulip/zulip/events"
@@ -14,7 +15,6 @@ import (
 )
 
 func Test_MessageEvent(t *testing.T) {
-
 	otherClient := GetOtherNormalClient(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
@@ -55,8 +55,9 @@ func Test_MessageEvent(t *testing.T) {
 		require.Len(t, resp.Events, 1)
 
 		event := resp.Events[0]
-		require.IsType(t, events.MessageEvent{}, event)
-		msgEvent := event.(events.MessageEvent)
+		msgEvent, ok := event.(events.MessageEvent)
+		require.True(t, ok, "event is not of type MessageEvent")
+		assert.Equal(t, userID, msgEvent.Message.SenderID)
 		assert.Contains(t, msgEvent.Message.Content, content)
 
 		<-wait
@@ -65,7 +66,6 @@ func Test_MessageEvent(t *testing.T) {
 }
 
 func Test_ReactionEvent(t *testing.T) {
-
 	otherClient := GetOtherNormalClient(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
@@ -105,8 +105,10 @@ func Test_ReactionEvent(t *testing.T) {
 		require.Len(t, resp.Events, 1)
 
 		event := resp.Events[0]
-		require.IsType(t, events.ReactionEvent{}, event)
-		reactionEvent := event.(events.ReactionEvent)
+
+		reactionEvent, ok := event.(events.ReactionEvent)
+		require.True(t, ok, "event is not of type ReactionEvent")
+
 		assert.Equal(t, messageID, reactionEvent.MessageID)
 		assert.Equal(t, emojiName, reactionEvent.EmojiName)
 		assert.Equal(t, events.EventOpAdd, reactionEvent.Op)
@@ -117,7 +119,6 @@ func Test_ReactionEvent(t *testing.T) {
 }
 
 func Test_UpdateMessageEvent(t *testing.T) {
-
 	otherClient := GetOtherNormalClient(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
@@ -168,7 +169,6 @@ func Test_UpdateMessageEvent(t *testing.T) {
 }
 
 func Test_DeleteMessageEvent(t *testing.T) {
-
 	otherClient := GetOtherNormalClient(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
@@ -204,8 +204,9 @@ func Test_DeleteMessageEvent(t *testing.T) {
 		require.Len(t, resp.Events, 1)
 
 		event := resp.Events[0]
-		require.IsType(t, events.DeleteMessageEvent{}, event)
-		deleteEvent := event.(events.DeleteMessageEvent)
+		deleteEvent, ok := event.(events.DeleteMessageEvent)
+		require.True(t, ok, "event is not of type DeleteMessageEvent")
+
 		// Check if message ID is in the list
 		if deleteEvent.MessageIDs != nil {
 			assert.Contains(t, deleteEvent.MessageIDs, messageID)
@@ -219,7 +220,6 @@ func Test_DeleteMessageEvent(t *testing.T) {
 }
 
 func Test_TypingEvent(t *testing.T) {
-
 	otherClient := GetOtherNormalClient(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
@@ -234,13 +234,16 @@ func Test_TypingEvent(t *testing.T) {
 		require.NotNil(t, queueResp.QueueID)
 
 		// Trigger typing event in goroutine
+		var typingErr error
+		wait := make(chan struct{})
+
 		go func() {
 			time.Sleep(200 * time.Millisecond)
-			_, _, err := otherClient.SetTypingStatus(ctx).
+			_, _, typingErr = otherClient.SetTypingStatus(ctx).
 				Op(z.TypingStatusOpStart).
 				To(z.UserAsRecipient(GetUserID(t, apiClient))).
 				Execute()
-			require.NoError(t, err)
+			close(wait)
 		}()
 
 		// Get events
@@ -252,15 +255,16 @@ func Test_TypingEvent(t *testing.T) {
 		require.Len(t, resp.Events, 1)
 
 		event := resp.Events[0]
-		require.IsType(t, events.TypingEvent{}, event)
-		typingEvent := event.(events.TypingEvent)
+		typingEvent, ok := event.(events.TypingEvent)
+		require.True(t, ok, "event is not of type TypingEvent")
 		assert.Equal(t, events.EventOpStart, typingEvent.Op)
 
+		<-wait
+		require.NoError(t, typingErr)
 	})
 }
 
 func Test_UpdateMessageFlagsEvent(t *testing.T) {
-
 	otherClient := GetOtherNormalClient(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
@@ -276,15 +280,17 @@ func Test_UpdateMessageFlagsEvent(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, queueResp.QueueID)
 
+		var starErr error
+		wait := make(chan struct{})
+
 		// Trigger flag update event in goroutine
 		go func() {
 			time.Sleep(200 * time.Millisecond)
-			_, _, err := apiClient.UpdateMessageFlags(ctx).
+			_, _, starErr = apiClient.UpdateMessageFlags(ctx).
 				Messages([]int64{messageID}).
 				Op("add").
 				Flag("starred").
 				Execute()
-			require.NoError(t, err)
 		}()
 
 		// Get events
@@ -301,10 +307,13 @@ func Test_UpdateMessageFlagsEvent(t *testing.T) {
 		assert.Equal(t, events.EventOpAdd, flagEvent.Op)
 		assert.Equal(t, "starred", flagEvent.Flag)
 		assert.Contains(t, flagEvent.Messages, messageID)
+
+		<-wait
+		require.NoError(t, starErr)
 	})
 }
 
-// Helper function to send a direct message and return message ID
+// Helper function to send a direct message and return message ID.
 func sendDirectMessage(t *testing.T, apiClient client.Client, toUserID int64, content string) int64 {
 	t.Helper()
 

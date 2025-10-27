@@ -2,7 +2,7 @@ package events
 
 import "github.com/tum-zulip/go-zulip/zulip"
 
-// TypingEditMessageStartEvent Event sent when a user starts editing a message. Event sent when a user starts typing in a textarea to edit the content of a message. See the [edit message typing notifications endpoint].  Clients requesting `typing_edit_message` event type that have `receives_typing_notifications` enabled will receive this event if they would have been notified if the message's content edit were to be saved (E.g., because they were a direct message recipient or are a subscribe to the channel).
+// TypingEditMessageEvent Event sent when a user starts or stopts editing a message. Event sent when a user starts typing in a textarea to edit the content of a message. See the [edit message typing notifications endpoint].  Clients requesting `typing_edit_message` event type that have `receives_typing_notifications` enabled will receive this event if they would have been notified if the message's content edit were to be saved (E.g., because they were a direct message recipient or are a subscribe to the channel).
 //
 // **Changes**: New in Zulip 10.0 (feature level 351). Previously, typing notifications were not available when editing messages.
 //

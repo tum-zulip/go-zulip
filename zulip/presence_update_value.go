@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
+	strictdecoder "github.com/tum-zulip/go-zulip/zulip/internal/strict_decoder"
+	"github.com/tum-zulip/go-zulip/zulip/internal/union"
 )
 
 // PresenceUpdateValue - Will be one of these two formats (modern or legacy) for user presence data:
@@ -36,7 +37,7 @@ func (o ModernPresenceFormat) MarshalJSON() ([]byte, error) {
 
 func (o *ModernPresenceFormat) UnmarshalJSON(data []byte) error {
 	var aux modernPresenceFormatJSON
-	dec := utils.NewStrictDecoder(data)
+	dec := strictdecoder.New(data)
 	if err := dec.Decode(&aux); err != nil {
 		return err
 	}
@@ -62,26 +63,19 @@ type LegacyPresenceFormat struct {
 	Pushable bool `json:"pushable,omitempty"`
 }
 
-// ModernPresenceFormatAsPresenceUpdateValue is a convenience function that returns ModernPresenceFormat wrapped in PresenceUpdateValue
+// ModernPresenceFormatAsPresenceUpdateValue is a convenience function that returns ModernPresenceFormat wrapped in PresenceUpdateValue.
 func ModernPresenceFormatAsPresenceUpdateValue(v ModernPresenceFormat) PresenceUpdateValue {
 	return PresenceUpdateValue{
 		ModernPresenceFormat: &v,
 	}
 }
 
-// LegacyPresenceMapAsPresenceUpdateValue is a convenience function that returns map[string]LegacyPresenceFormat wrapped in PresenceUpdateValue
-func LegacyPresenceMapAsPresenceUpdateValue(v map[string]LegacyPresenceFormat) PresenceUpdateValue {
-	return PresenceUpdateValue{
-		LegacyPresenceMap: v,
-	}
+// Unmarshal JSON data into one of the pointers in the struct.
+func (p *PresenceUpdateValue) UnmarshalJSON(data []byte) error {
+	return union.Unmarshal(data, p)
 }
 
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *PresenceUpdateValue) UnmarshalJSON(data []byte) error {
-	return utils.UnmarshalUnionType(data, dst)
-}
-
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src PresenceUpdateValue) MarshalJSON() ([]byte, error) {
-	return utils.MarshalUnionType(src)
+// Marshal data from the first non-nil pointers in the struct to JSON.
+func (p PresenceUpdateValue) MarshalJSON() ([]byte, error) {
+	return union.Marshal(p)
 }

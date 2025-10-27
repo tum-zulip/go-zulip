@@ -9,6 +9,7 @@ import "github.com/tum-zulip/go-zulip/zulip"
 // [muted users]: https://zulip.com/api/mute-user
 type MutedUsersEvent struct {
 	event
+
 	// A list of dictionaries where each dictionary describes a muted user.
 	MutedUsers []zulip.MutedUser `json:"muted_users,omitempty"`
 }

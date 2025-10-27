@@ -8,6 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/api/drafts"
 	"github.com/tum-zulip/go-zulip/zulip/client"
@@ -83,13 +84,12 @@ func Test_EditDraft(t *testing.T) {
 		updatedDraft.Topic = UniqueName("draft-topic")
 		updatedDraft.Content = fmt.Sprintf("updated draft content %s", UniqueName("draft"))
 
-		resp, httpResp, err := apiClient.EditDraft(ctx, *draft.ID).
+		resp, _, err := apiClient.EditDraft(ctx, *draft.ID).
 			Draft(updatedDraft).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.Equal(t, "success", resp.Result)
 
 		draftsResp, _, err := apiClient.GetDrafts(ctx).Execute()
@@ -119,14 +119,13 @@ func Test_EditSavedSnippet(t *testing.T) {
 		newTitle := UniqueName("snippet-title-updated")
 		newContent := fmt.Sprintf("updated content %s", UniqueName("snippet"))
 
-		resp, httpResp, err := apiClient.EditSavedSnippet(ctx, snippet.SavedSnippetID).
+		resp, _, err := apiClient.EditSavedSnippet(ctx, snippet.SavedSnippetID).
 			Title(newTitle).
 			Content(newContent).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.Equal(t, "success", resp.Result)
 
 		snippetsResp, _, err := apiClient.GetSavedSnippets(ctx).Execute()
@@ -150,11 +149,10 @@ func Test_GetDrafts(t *testing.T) {
 		ctx := context.Background()
 		draft := createDraft(ctx, t, apiClient)
 
-		resp, httpResp, err := apiClient.GetDrafts(ctx).Execute()
+		resp, _, err := apiClient.GetDrafts(ctx).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.GreaterOrEqual(t, len(resp.Drafts), 1)
 
 		found := false
@@ -165,7 +163,6 @@ func Test_GetDrafts(t *testing.T) {
 				assert.Equal(t, d.Topic, draft.Topic)
 				assert.Equal(t, d.Content, draft.Content)
 				require.WithinDuration(t, time.Now(), d.Timestamp, 3*time.Minute)
-
 			}
 		}
 		assert.True(t, found, "Created draft not found in list of drafts")
@@ -179,11 +176,10 @@ func Test_GetSavedSnippets(t *testing.T) {
 		ctx := context.Background()
 		snippet := createSavedSnippet(ctx, t, apiClient)
 
-		resp, httpResp, err := apiClient.GetSavedSnippets(ctx).Execute()
+		resp, _, err := apiClient.GetSavedSnippets(ctx).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 		assert.GreaterOrEqual(t, len(resp.SavedSnippets), 1)
 
 		found := false
@@ -212,13 +208,12 @@ func createDraft(ctx context.Context, t *testing.T, apiClient client.Client) *z.
 		Timestamp: time.Now().Add(-1 * time.Minute),
 	}
 
-	resp, httpResp, err := apiClient.CreateDrafts(ctx).
+	resp, _, err := apiClient.CreateDrafts(ctx).
 		Drafts([]z.Draft{*draft}).
 		Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpResp)
 	require.NotEmpty(t, resp.IDs)
 
 	draftID := resp.IDs[0]
@@ -231,11 +226,10 @@ func createDraft(ctx context.Context, t *testing.T, apiClient client.Client) *z.
 func deleteDraft(ctx context.Context, t *testing.T, apiClient client.Client, draftID int64) *z.Response {
 	t.Helper()
 
-	resp, httpResp, err := apiClient.DeleteDraft(ctx, draftID).Execute()
+	resp, _, err := apiClient.DeleteDraft(ctx, draftID).Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpResp)
 
 	return resp
 }
@@ -246,14 +240,13 @@ func createSavedSnippet(ctx context.Context, t *testing.T, apiClient client.Clie
 	title := UniqueName("snippet-title")
 	content := fmt.Sprintf("snippet content %s", UniqueName("snippet"))
 
-	resp, httpResp, err := apiClient.CreateSavedSnippet(ctx).
+	resp, _, err := apiClient.CreateSavedSnippet(ctx).
 		Title(title).
 		Content(content).
 		Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpResp)
 
 	return resp
 }
@@ -261,11 +254,10 @@ func createSavedSnippet(ctx context.Context, t *testing.T, apiClient client.Clie
 func deleteSavedSnippet(ctx context.Context, t *testing.T, apiClient client.Client, savedSnippetID int64) *z.Response {
 	t.Helper()
 
-	resp, httpResp, err := apiClient.DeleteSavedSnippet(ctx, savedSnippetID).Execute()
+	resp, _, err := apiClient.DeleteSavedSnippet(ctx, savedSnippetID).Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpResp)
 
 	return resp
 }

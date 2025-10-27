@@ -6,34 +6,30 @@ import (
 	"time"
 )
 
-type ErrInvalidEnumValue struct {
+type InvalidEnumValueError struct {
 	Value   interface{}
 	Enum    interface{}
 	VarName string
 }
 
-func (e *ErrInvalidEnumValue) Error() string {
+func (e *InvalidEnumValueError) Error() string {
 	return fmt.Sprintf("invalid value '%v' for '%v', valid values are %v", e.Value, e.VarName, e.Enum)
 }
 
 // APIError Provides access to the body, error and model on returned errors.
 type APIError struct {
 	body []byte
-	err  string
-
-	// the model error returned by the API
-	model interface{}
+	err  error
 }
 
-func NewAPIError(body []byte, err string, model interface{}) *APIError {
+func NewAPIError(body []byte, err error) *APIError {
 	return &APIError{
-		body:  body,
-		err:   err,
-		model: model,
+		body: body,
+		err:  err,
 	}
 }
 
-// CodedError struct for CodedError
+// CodedError struct for CodedError.
 type CodedError struct {
 	Response
 
@@ -45,7 +41,7 @@ func (e CodedError) Error() string {
 	return fmt.Sprintf("%s: %s (%s)", e.Result, e.Msg, e.Code)
 }
 
-// RateLimitedError struct for RateLimitedError
+// RateLimitedError struct for RateLimitedError.
 type RateLimitedError struct {
 	CodedError
 
@@ -53,13 +49,14 @@ type RateLimitedError struct {
 	RetryAfter time.Duration `json:"retry-after"`
 }
 
-type rateLimitErrorJSON struct {
+type rateLimitJSONError struct {
 	CodedError
+
 	RetryAfter float64 `json:"retry-after"`
 }
 
 func (o RateLimitedError) MarshalJSON() ([]byte, error) {
-	model := rateLimitErrorJSON{
+	model := rateLimitJSONError{
 		CodedError: o.CodedError,
 		RetryAfter: o.RetryAfter.Seconds(),
 	}
@@ -68,7 +65,7 @@ func (o RateLimitedError) MarshalJSON() ([]byte, error) {
 }
 
 func (o *RateLimitedError) UnmarshalJSON(data []byte) error {
-	var model rateLimitErrorJSON
+	var model rateLimitJSONError
 
 	err := json.Unmarshal(data, &model)
 	if err != nil {
@@ -80,8 +77,8 @@ func (o *RateLimitedError) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// BadEventQueueIdError struct for BadEventQueueIdError
-type BadEventQueueIdError struct {
+// BadEventQueueIDError struct for BadEventQueueIDError.
+type BadEventQueueIDError struct {
 	CodedError
 
 	// The string that identifies the invalid event queue.
@@ -94,15 +91,15 @@ type BadNarrowError struct {
 	Description string `json:"desc"`
 }
 
-// NonExistingChannelIdError struct for NonExistingChannelIdError
-type NonExistingChannelIdError struct {
+// NonExistingChannelIDError struct for NonExistingChannelIDError.
+type NonExistingChannelIDError struct {
 	CodedError
 
 	// The channel ID that could not be found.
 	ChannelID int64 `json:"stream_id"`
 }
 
-// InvitationFailedError struct for InvitationFailedError
+// InvitationFailedError struct for InvitationFailedError.
 type InvitationFailedError struct {
 	CodedError
 
@@ -116,7 +113,7 @@ type InvitationFailedError struct {
 	LicenseLimitReached bool `json:"license_limit_reached"`
 }
 
-// NonExistingChannelNameError struct for NonExistingChannelNameError
+// NonExistingChannelNameError struct for NonExistingChannelNameError.
 type NonExistingChannelNameError struct {
 	CodedError
 
@@ -124,7 +121,7 @@ type NonExistingChannelNameError struct {
 	Channel string `json:"stream"`
 }
 
-// IncompatibleParametersError struct for IncompatibleParametersError
+// IncompatibleParametersError struct for IncompatibleParametersError.
 type IncompatibleParametersError struct {
 	CodedError
 
@@ -132,7 +129,7 @@ type IncompatibleParametersError struct {
 	Parameters string `json:"parameters"`
 }
 
-// MissingArgumentError struct for MissingArgumentError
+// MissingArgumentError struct for MissingArgumentError.
 type MissingArgumentError struct {
 	CodedError
 
@@ -140,7 +137,7 @@ type MissingArgumentError struct {
 	VarName string `json:"var_name"`
 }
 
-// DeactivateOwnUserError struct for DeactivateOwnUserError
+// DeactivateOwnUserError struct for DeactivateOwnUserError.
 type DeactivateOwnUserError struct {
 	CodedError
 
@@ -151,21 +148,19 @@ type DeactivateOwnUserError struct {
 }
 
 // Error returns non-empty string if there was an error.
-func (e *APIError) Error() string {
-	if e.model != nil {
-		if err, ok := e.model.(error); ok {
-			return err.Error()
-		}
+func (e APIError) Error() string {
+	return e.err.Error()
+}
+
+// Unwrap returns the underlying error so errors.Unwrap and errors.Is/As work.
+func (e *APIError) Unwrap() error {
+	if e == nil {
+		return nil
 	}
 	return e.err
 }
 
-// Body returns the raw bytes of the response
-func (e *APIError) Body() []byte {
+// Body returns the raw bytes of the Response.
+func (e APIError) Body() []byte {
 	return e.body
-}
-
-// Model returns the unpacked model of the error
-func (e *APIError) Model() interface{} {
-	return e.model
 }

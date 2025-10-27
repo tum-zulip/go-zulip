@@ -1,3 +1,4 @@
+// Package testutils provides utility functions for testing Zulip API clients.
 package testutils
 
 import (
@@ -19,16 +20,16 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/api/channels"
 	"github.com/tum-zulip/go-zulip/zulip/api/messages"
 	"github.com/tum-zulip/go-zulip/zulip/api/users"
 	"github.com/tum-zulip/go-zulip/zulip/client"
-	"github.com/tum-zulip/go-zulip/zulip/client/statistics"
 )
 
+// Constants for test users.
 const (
-	// usernames
 	TestSite              = "http://localhost:9991"
 	TestOwnerUsername     = "desdemona@zulip.com"
 	TestAdminUsername     = "iago@zulip.com"
@@ -41,6 +42,7 @@ const (
 
 // TODO: Add guest client to tests.
 
+// named clients for testing.
 var (
 	OwnerClient     = namedClient{name: "owner", factory: GetOwnerClient}
 	AdminClient     = namedClient{name: "admin", factory: GetAdminClient}
@@ -120,9 +122,9 @@ func RunForAdminAndOwnerClients(t *testing.T, fn func(*testing.T, client.Client)
 
 var valueCache sync.Map
 
-func GetTestClient(t *testing.T, username string) (*z.ZulipRC, client.Client) {
+func GetTestClient(t *testing.T, username string) (*z.RC, client.Client) {
 	type cachevalue struct {
-		rc     *z.ZulipRC
+		rc     *z.RC
 		client client.Client
 	}
 
@@ -146,9 +148,7 @@ func GetTestClient(t *testing.T, username string) (*z.ZulipRC, client.Client) {
 	t.Cleanup(func() {
 		require.NoError(t, os.MkdirAll("/tmp/go-zulip-stats", 0o750))
 
-		data, err := json.MarshalIndent(map[string]map[string]statistics.Statistic{
-			username: newClient.GetStatistics(),
-		}, "", "  ")
+		data, err := json.MarshalIndent(newClient.GetStatistics(), "", "  ")
 		if err != nil {
 			t.Logf("Failed to marshal statistics for user %s: %v", username, err)
 			return
@@ -176,13 +176,13 @@ func GetTestClient(t *testing.T, username string) (*z.ZulipRC, client.Client) {
 	return newRC, newClient
 }
 
-func getTestClient(t *testing.T, username string) (*z.ZulipRC, client.Client) {
+func getTestClient(t *testing.T, username string) (*z.RC, client.Client) {
 	t.Helper()
 
 	info := fetchUserInfo(t, username)
 
 	insecure := true
-	rc := &z.ZulipRC{
+	rc := &z.RC{
 		Site:     TestSite,
 		Email:    info.EMail,
 		APIKey:   info.APIKey,
@@ -208,9 +208,15 @@ type UserInfo struct {
 func fetchUserInfo(t *testing.T, username string) UserInfo {
 	t.Helper()
 
-	for attempt := 0; attempt < 2; attempt++ {
+	const numAttempts = 2
+
+	for attempt := range numAttempts {
 		url := fmt.Sprintf("%s/api/v1/dev_fetch_api_key?username=%s", TestSite, username)
-		resp, err := http.DefaultClient.Post(url, "application/json", nil)
+
+		req, reqErr := http.NewRequestWithContext(context.Background(), http.MethodPost, url, nil)
+		require.NoError(t, reqErr)
+
+		resp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			t.Fatalf("Failed to fetch API key for user %s: %v", username, err)
 		}
@@ -218,23 +224,22 @@ func fetchUserInfo(t *testing.T, username string) UserInfo {
 		body, readErr := io.ReadAll(resp.Body)
 		resp.Body.Close()
 		if readErr != nil {
-			t.Fatalf("Failed to read API key response for user %s: %v", username, readErr)
+			t.Fatalf("Failed to read API key Response for user %s: %v", username, readErr)
 		}
 
 		if resp.StatusCode == http.StatusOK {
 			var result UserInfo
 
 			if err := json.Unmarshal(body, &result); err != nil {
-				t.Fatalf("Failed to decode API key response for user %s: %v", username, err)
+				t.Fatalf("Failed to decode API key Response for user %s: %v", username, err)
 			}
 			if result.APIKey == "" {
 				t.Fatalf("Empty API key received for user %s", username)
 			}
 			if result.EMail != username {
-				t.Fatalf("Unexpected email in API key response: got %s, want %s", result.EMail, username)
+				t.Fatalf("Unexpected email in API key Response: got %s, want %s", result.EMail, username)
 			}
 			return result
-
 		}
 
 		if resp.StatusCode == http.StatusUnauthorized && attempt == 0 && tryReactivateUser(t, username, body) {
@@ -242,7 +247,7 @@ func fetchUserInfo(t *testing.T, username string) UserInfo {
 		}
 
 		t.Fatalf(
-			"Failed to fetch API key for user %s: status code %d, response: %s",
+			"Failed to fetch API key for user %s: status code %d, Response: %s",
 			username,
 			resp.StatusCode,
 			string(body),
@@ -257,26 +262,23 @@ func CreateRandomChannel(t *testing.T, apiClient client.Client, subscribers ...i
 
 	name := UniqueName("test-channel")
 	{
-
 		subs := append([]int64(nil), subscribers...)
 		if len(subs) == 0 {
 			subs = []int64{GetUserID(t, apiClient)}
 		}
 
-		resp, httpResp, err := apiClient.Subscribe(context.Background()).
+		resp, _, err := apiClient.Subscribe(context.Background()).
 			Subscriptions([]channels.SubscriptionRequest{{Name: name}}).
-			Principals(z.UserIdsAsPrincipals(subs...)).
+			Principals(z.UserIDsAsPrincipals(subs...)).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 	}
 
-	resp, httpResp, err := apiClient.GetChannelID(context.Background()).Channel(name).Execute()
+	resp, _, err := apiClient.GetChannelID(context.Background()).Channel(name).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpResp)
 
 	return name, resp.ChannelID
 }
@@ -333,15 +335,14 @@ func UniqueName(prefix string) string {
 }
 
 func getOwnUser(t *testing.T, apiClient client.Client) *users.GetOwnUserResponse {
-	resp, httpResp, err := apiClient.GetOwnUser(context.Background()).Execute()
+	resp, _, err := apiClient.GetOwnUser(context.Background()).Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	assert.Equal(t, 200, httpResp.StatusCode)
 	return resp
 }
 
-func createBot(t *testing.T, botName string) *z.ZulipRC {
+func createBot(t *testing.T, botName string) *z.RC {
 	t.Helper()
 
 	rc, _ := GetTestClient(t, TestOwnerUsername)
@@ -392,7 +393,7 @@ func createBot(t *testing.T, botName string) *z.ZulipRC {
 	require.NotEmpty(t, botResp.APIKey)
 
 	insecure := true
-	return &z.ZulipRC{
+	return &z.RC{
 		Site:     TestSite,
 		Email:    fmt.Sprintf("%s-bot@zulip.com", botName),
 		APIKey:   botResp.APIKey,
@@ -441,12 +442,11 @@ func CreateRandomUserGroup(t *testing.T, apiClient client.Client, members ...int
 	require.NotNil(t, resp)
 
 	if resp.GroupID == 0 {
-		// older Zulip versions did not return GroupID in response
-		resp, httpResp, err := apiClient.GetUserGroups(context.Background()).Execute()
-		require.NoError(t, err)
-		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
-		for _, g := range resp.UserGroups {
+		// older Zulip versions did not return GroupID in Response
+		groupResp, _, groupsErr := apiClient.GetUserGroups(context.Background()).Execute()
+		require.NoError(t, groupsErr)
+		require.NotNil(t, groupResp)
+		for _, g := range groupResp.UserGroups {
 			if g.Name == name {
 				return g.ID
 			}
@@ -455,12 +455,6 @@ func CreateRandomUserGroup(t *testing.T, apiClient client.Client, members ...int
 	}
 
 	return resp.GroupID
-}
-
-func RequireStatusOK(t *testing.T, httpResp *http.Response) {
-	t.Helper()
-	require.NotNil(t, httpResp)
-	assert.Equal(t, 200, httpResp.StatusCode)
 }
 
 var channelCahe atomic.Value
@@ -507,7 +501,7 @@ func GetChannelWithAllClients(t *testing.T) (string, int64) {
 func SendChannelMessage(t *testing.T, apiClient client.Client, channelID int64, topic, content string) int64 {
 	t.Helper()
 
-	resp, httpResp, err := apiClient.SendMessage(context.Background()).
+	resp, _, err := apiClient.SendMessage(context.Background()).
 		To(z.ChannelAsRecipient(channelID)).
 		Topic(topic).
 		Content(content).
@@ -515,7 +509,6 @@ func SendChannelMessage(t *testing.T, apiClient client.Client, channelID int64, 
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpResp)
 
 	return resp.ID
 }
@@ -534,7 +527,7 @@ func GetFeatureLevel(t *testing.T) int {
 	require.NotNil(t, featureLevel)
 	serverFeatureLevel.Store(int64(featureLevel.ZulipFeatureLevel))
 
-	return int(featureLevel.ZulipFeatureLevel)
+	return featureLevel.ZulipFeatureLevel
 }
 
 func RequireFeatureLevel(t *testing.T, minLevel int) {
@@ -571,27 +564,25 @@ func CreateDirectMessage(t *testing.T, apiClient client.Client, to int64) int64 
 	t.Helper()
 
 	content := UniqueName("content")
-	resp, httpResp, err := apiClient.SendMessage(context.Background()).
+	resp, _, err := apiClient.SendMessage(context.Background()).
 		To(z.UserAsRecipient(to)).
 		Content(content).
 		Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpResp)
 	require.Positive(t, resp.ID)
 
 	return resp.ID
 }
 
-func UploadFileForTest(t *testing.T, ctx context.Context, apiClient client.Client) *messages.UploadFileResponse {
+func UploadFileForTest(ctx context.Context, t *testing.T, apiClient client.Client) *messages.UploadFileResponse {
 	t.Helper()
 
-	tmp, err := os.CreateTemp("", "z.upload-*.txt")
+	tmp, err := os.CreateTemp(t.TempDir(), "z.upload-*.txt")
 	require.NoError(t, err)
 	defer func() {
 		tmp.Close()
-		os.Remove(tmp.Name())
 	}()
 
 	_, err = tmp.WriteString("uploaded from automated test")
@@ -599,13 +590,12 @@ func UploadFileForTest(t *testing.T, ctx context.Context, apiClient client.Clien
 	_, err = tmp.Seek(0, 0)
 	require.NoError(t, err)
 
-	resp, httpResp, err := apiClient.UploadFile(ctx).
+	resp, _, err := apiClient.UploadFile(ctx).
 		Filename(tmp).
 		Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpResp)
 
 	return resp
 }

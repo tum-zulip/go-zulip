@@ -32,7 +32,7 @@ type UserGroupUpdateEvent struct {
 	Data    UserGroupUpdateData `json:"data,omitempty"`
 }
 
-// UserGroupAddMembersEvent Event sent to all users when users have been added to a user group.  This event is also sent when reactivating a user for all the user groups the reactivated user was a member of before being deactivated.
+// UserGroupMembersEvent Event sent to all users when users have been added or removed from a user group.  This event is also sent when reactivating a user for all the user groups the reactivated user was a member of before being deactivated.
 //
 // **Changes**: Starting with Zulip 10.0 (feature level 303), this event can also be sent when reactivating a user.
 type UserGroupMembersEvent struct {
@@ -58,7 +58,7 @@ type UserGroupSubgroupsEvent struct {
 	DirectSubgroupIDs []int64 `json:"direct_subgroup_ids,omitempty"`
 }
 
-// UserGroupUpdate Dictionary containing the changed details of the user group.
+// UserGroupUpdateData containing the changed details of the user group.
 type UserGroupUpdateData struct {
 	// The new name of the user group. Only present if the group's name changed.
 	Name *string `json:"name,omitempty"`

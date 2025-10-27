@@ -3,6 +3,7 @@ package events
 // DefaultChannelGroupsEvent Event sent to all users in a Zulip organization when an organization administrator changes the organization's configured default channel groups.  Default channel groups are an **experimental** feature that is not yet stabilized.
 type DefaultChannelGroupsEvent struct {
 	event
+
 	// An array of dictionaries where each dictionary contains details about a single default channel group.
 	DefaultChannelGroups []DefaultChannelGroup `json:"default_stream_groups,omitempty"`
 }

@@ -3,6 +3,7 @@ package events
 // SubmessageEvent Event sent when a submessage is added to a message.  Submessages are an **experimental** API used for widgets such as the `/poll` widget in Zulip.
 type SubmessageEvent struct {
 	event
+
 	// The type of the message.
 	MsgType string `json:"msg_type,omitempty"`
 	// The new content of the submessage.

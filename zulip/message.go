@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/union"
 )
 
 // Message An object containing details of the message.
@@ -14,7 +14,7 @@ type Message struct {
 	// The unique message ID. Messages should always be displayed sorted by ID.
 	ID int64 `json:"id,omitempty"`
 
-	AvatarUrl *string `json:"avatar_url,omitempty"`
+	AvatarURL *string `json:"avatar_url,omitempty"`
 	// A Zulip "client" string, describing what Zulip client sent the message.
 	Client string `json:"client,omitempty"`
 	// The content/body of the message. When `apply_markdown` is set, it will be in HTML format.  See [Markdown message formatting] for details on Zulip's HTML format.
@@ -64,7 +64,7 @@ type Message struct {
 	SenderRealmStr string `json:"sender_realm_str,omitempty"`
 	// Only present for channel messages; the ID of the channel.
 	ChannelID *int64 `json:"stream_id,omitempty"`
-	// The `topic` of the message. Currently always `""` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called "subjects" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register] response, for channel messages.
+	// The `topic` of the message. Currently always `""` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called "subjects" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register] Response, for channel messages.
 	//
 	// **Changes**: Before Zulip 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.
 	//
@@ -94,7 +94,7 @@ type Message struct {
 
 type messageJSON struct {
 	ID                 int64            `json:"id,omitempty"`
-	AvatarUrl          *string          `json:"avatar_url,omitempty"`
+	AvatarURL          *string          `json:"avatar_url,omitempty"`
 	Client             string           `json:"client,omitempty"`
 	Content            string           `json:"content,omitempty"`
 	RenderedContent    *string          `json:"rendered_content,omitempty"`
@@ -122,7 +122,7 @@ type messageJSON struct {
 func (o Message) MarshalJSON() ([]byte, error) {
 	aux := messageJSON{
 		ID:               o.ID,
-		AvatarUrl:        o.AvatarUrl,
+		AvatarURL:        o.AvatarURL,
 		Client:           o.Client,
 		Content:          o.Content,
 		RenderedContent:  o.RenderedContent,
@@ -166,7 +166,7 @@ func (o *Message) UnmarshalJSON(data []byte) error {
 	}
 
 	o.ID = aux.ID
-	o.AvatarUrl = aux.AvatarUrl
+	o.AvatarURL = aux.AvatarURL
 	o.Client = aux.Client
 	o.Content = aux.Content
 	o.RenderedContent = aux.RenderedContent
@@ -211,7 +211,7 @@ type DisplayRecipient struct {
 	Name          *string
 }
 
-// UserRecipent struct for UserRecipent
+// UserRecipent struct for UserRecipent.
 type UserRecipent struct {
 	// ID of the user.
 	ID *int64 `json:"id,omitempty"`
@@ -223,7 +223,7 @@ type UserRecipent struct {
 	IsMirrorDummy *bool `json:"is_mirror_dummy,omitempty"`
 }
 
-// Submessage struct for Submessage
+// Submessage struct for Submessags.
 type Submessage struct {
 	// The type of the message.
 	MsgType string `json:"msg_type,omitempty"`
@@ -237,12 +237,12 @@ type Submessage struct {
 	ID int64 `json:"id,omitempty"`
 }
 
-// TopicLink struct for TopicLink
+// TopicLink struct for TopicLink.
 type TopicLink struct {
 	// The original link text present in the topic.
 	Text string `json:"text,omitempty"`
 	// The expanded target url which the link points to.
-	Url string `json:"url,omitempty"`
+	URL string `json:"url,omitempty"`
 }
 
 type MessageWithOptMatch struct {
@@ -254,26 +254,26 @@ type MessageWithOptMatch struct {
 	MatchSubject *string `json:"match_subject,omitempty"`
 }
 
-// []DisplayRecipientFromUserRecipentArray is a convenience function that returns []UserRecipent wrapped in DisplayRecipient
+// []DisplayRecipientFromUserRecipentArray is a convenience function that returns []UserRecipent wrapped in DisplayRecipient.
 func DisplayRecipientFromUserRecipentArray(v []UserRecipent) DisplayRecipient {
 	return DisplayRecipient{
 		UserRecipents: &v,
 	}
 }
 
-// ChannelNameAsDisplayRecipient is a convenience function that returns string wrapped in DisplayRecipient
+// ChannelNameAsDisplayRecipient is a convenience function that returns string wrapped in DisplayRecipient.
 func ChannelNameAsDisplayRecipient(v *string) DisplayRecipient {
 	return DisplayRecipient{
 		Name: v,
 	}
 }
 
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *DisplayRecipient) UnmarshalJSON(data []byte) error {
-	return utils.UnmarshalUnionType(data, dst)
+// Unmarshal JSON data into one of the pointers in the struct.
+func (d *DisplayRecipient) UnmarshalJSON(data []byte) error {
+	return union.Unmarshal(data, d)
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src DisplayRecipient) MarshalJSON() ([]byte, error) {
-	return utils.MarshalUnionType(src)
+// Marshal data from the first non-nil pointers in the struct to JSON.
+func (d DisplayRecipient) MarshalJSON() ([]byte, error) {
+	return union.Marshal(d)
 }

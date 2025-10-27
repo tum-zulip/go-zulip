@@ -2,14 +2,15 @@ package drafts
 
 import "github.com/tum-zulip/go-zulip/zulip"
 
-// CreateDraftsResponse struct for CreateDraftsResponse
+// CreateDraftsResponse struct for CreateDraftsResponse.
 type CreateDraftsResponse struct {
 	zulip.Response
+
 	// An array of the IDs for the drafts that were just created in the same order as they were submitted.
 	IDs []int64 `json:"ids,omitempty"`
 }
 
-// CreateSavedSnippetResponse struct for CreateSavedSnippetResponse
+// CreateSavedSnippetResponse struct for CreateSavedSnippetResponse.
 type CreateSavedSnippetResponse struct {
 	zulip.Response
 
@@ -17,7 +18,7 @@ type CreateSavedSnippetResponse struct {
 	SavedSnippetID int64 `json:"saved_snippet_id,omitempty"`
 }
 
-// GetSavedSnippetsResponse struct for GetSavedSnippetsResponse
+// GetSavedSnippetsResponse struct for GetSavedSnippetsResponse.
 type GetSavedSnippetsResponse struct {
 	zulip.Response
 
@@ -25,7 +26,7 @@ type GetSavedSnippetsResponse struct {
 	SavedSnippets []zulip.SavedSnippet `json:"saved_snippets,omitempty"`
 }
 
-// GetDraftsResponse struct for GetDraftsResponse
+// GetDraftsResponse struct for GetDraftsResponse.
 type GetDraftsResponse struct {
 	zulip.Response
 

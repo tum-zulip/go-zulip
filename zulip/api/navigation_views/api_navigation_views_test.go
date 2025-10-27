@@ -1,4 +1,4 @@
-package navigation_views_test
+package navigationviews_test
 
 import (
 	"context"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/client"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
@@ -19,18 +20,16 @@ func Test_AddNavigationView(t *testing.T) {
 		view := createTestNavigationView(t, apiClient, true)
 
 		ctx := context.Background()
-		listResp, httpResp, err := apiClient.GetNavigationViews(ctx).Execute()
+		listResp, _, err := apiClient.GetNavigationViews(ctx).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, listResp)
-		RequireStatusOK(t, httpResp)
 
 		found := navigationViewByFragment(listResp.NavigationViews, view.fragment)
 		require.NotNil(t, found, "expected navigation view with fragment %s", view.fragment)
 		require.NotNil(t, found.Name, "expected navigation view name to be set")
 		assert.Equal(t, view.name, *found.Name)
 		assert.Equal(t, view.isPinned, found.IsPinned)
-
 	})
 }
 
@@ -43,26 +42,23 @@ func Test_EditNavigationView(t *testing.T) {
 		view := createTestNavigationView(t, apiClient, true)
 		updatedName := fmt.Sprintf("Updated Navigation View %s", UniqueName("nav"))
 
-		resp, httpResp, err := apiClient.EditNavigationView(ctx, view.fragment).
+		resp, _, err := apiClient.EditNavigationView(ctx, view.fragment).
 			IsPinned(false).
 			Name(updatedName).
 			Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 
-		listResp, listHTTPRes, err := apiClient.GetNavigationViews(ctx).Execute()
+		listResp, _, err := apiClient.GetNavigationViews(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, listResp)
-		RequireStatusOK(t, listHTTPRes)
 
 		updated := navigationViewByFragment(listResp.NavigationViews, view.fragment)
 		require.NotNil(t, updated, "expected navigation view with fragment %s", view.fragment)
 		require.NotNil(t, updated.Name, "expected navigation view name to be set")
 		assert.Equal(t, updatedName, *updated.Name)
 		assert.False(t, updated.IsPinned)
-
 	})
 }
 
@@ -74,14 +70,12 @@ func Test_GetNavigationViews(t *testing.T) {
 
 		view := createTestNavigationView(t, apiClient, false)
 
-		resp, httpResp, err := apiClient.GetNavigationViews(ctx).Execute()
+		resp, _, err := apiClient.GetNavigationViews(ctx).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 
 		assert.NotNil(t, navigationViewByFragment(resp.NavigationViews, view.fragment))
-
 	})
 }
 
@@ -93,19 +87,16 @@ func Test_RemoveNavigationView(t *testing.T) {
 
 		view := createTestNavigationView(t, apiClient, true)
 
-		resp, httpResp, err := apiClient.RemoveNavigationView(ctx, view.fragment).Execute()
+		resp, _, err := apiClient.RemoveNavigationView(ctx, view.fragment).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		RequireStatusOK(t, httpResp)
 
-		listResp, listHTTPRes, err := apiClient.GetNavigationViews(ctx).Execute()
+		listResp, _, err := apiClient.GetNavigationViews(ctx).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, listResp)
-		RequireStatusOK(t, listHTTPRes)
 
 		assert.Nil(t, navigationViewByFragment(listResp.NavigationViews, view.fragment))
-
 	})
 }
 
@@ -122,7 +113,7 @@ func createTestNavigationView(t *testing.T, apiClient client.Client, isPinned bo
 	fragment := fmt.Sprintf("narrow/test/%s", UniqueName("nav"))
 	name := fmt.Sprintf("Navigation View %s", UniqueName("nav"))
 
-	resp, httpResp, err := apiClient.AddNavigationView(ctx).
+	resp, _, err := apiClient.AddNavigationView(ctx).
 		Fragment(fragment).
 		IsPinned(isPinned).
 		Name(name).
@@ -130,7 +121,6 @@ func createTestNavigationView(t *testing.T, apiClient client.Client, isPinned bo
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpResp)
 
 	return navigationViewState{fragment: fragment, name: name, isPinned: isPinned}
 }

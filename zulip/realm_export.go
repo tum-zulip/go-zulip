@@ -15,7 +15,7 @@ type RealmExport struct {
 	// The UNIX timestamp of when the data export failed.  Will be `null` if the data export succeeded, or if it's still being generated.
 	FailedTimestamp *float32 `json:"failed_timestamp,omitempty"`
 	// The URL to download the generated data export.  Will be `null` if the data export failed, or if it's still being generated.
-	ExportUrl *string `json:"export_url,omitempty"`
+	ExportURL *string `json:"export_url,omitempty"`
 	// Whether the data export is pending, which indicates it is still being generated, or if it succeeded, failed or was deleted before being generated.  Depending on the size of the organization, it can take anywhere from seconds to an hour to generate the data export.
 	Pending bool `json:"pending,omitempty"`
 	// Whether the data export is a public or a standard data export.
@@ -26,7 +26,7 @@ type RealmExport struct {
 	ExportType ExportType `json:"export_type,omitempty"`
 }
 
-// ExportConsent struct for ExportConsent
+// ExportConsent struct for ExportConsent.
 type ExportConsent struct {
 	// The user ID.
 	UserID int64 `json:"user_id,omitempty"`

@@ -1,6 +1,8 @@
 package events
 
-import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+import (
+	"github.com/tum-zulip/go-zulip/zulip/internal/enum"
+)
 
 // EventOp represents the type of operation that occurred in a model event.
 //   - EventOpAdd
@@ -66,7 +68,7 @@ func (e *EventOp) UnmarshalJSON(data []byte) error {
 		EventOpRemoveSubgroups,
 	}
 
-	return utils.UnmarshalStringEnum(data, e, allowedEventOpValues)
+	return enum.UnmarshalString(data, e, allowedEventOpValues)
 }
 
 // EventType represents the type of event that occurred in a model event.
@@ -169,7 +171,7 @@ const (
 	EventTypeUserStatus                EventType = "user_status"
 	EventTypeUserTopic                 EventType = "user_topic"
 	EventTypeWebReloadClient           EventType = "web_reload_client"
-	// Special non-zulip event types used for error handling
+	// Special non-zulip event types used for error handling.
 
 	EventTypeUnknown EventType = "unknown" // used when utils.Unmarshaling an unknown event type
 	EventTypeInvalid EventType = "invalid" // used when an invalid value is supplied
@@ -229,7 +231,7 @@ func (e *EventType) UnmarshalJSON(data []byte) error {
 		EventTypeInvalid,
 	}
 
-	return utils.UnmarshalStringEnum(data, e, allowedEventTypeValues)
+	return enum.UnmarshalString(data, e, allowedEventTypeValues)
 }
 
 // The [organization type] for the realm.
@@ -285,7 +287,7 @@ func (e *OrgType) UnmarshalJSON(data []byte) error {
 		OrgTypeOther,
 	}
 
-	return utils.UnmarshalIntEnum(data, e, allowedOrgTypeValues)
+	return enum.UnmarshalInt(data, e, allowedOrgTypeValues)
 }
 
 // The plan type of the organization.
@@ -305,7 +307,7 @@ const (
 func (e *PlanType) UnmarshalJSON(data []byte) error {
 	allowedPlanTypeValues := []PlanType{PlanTypeSelfHosted, PlanTypeLimited, PlanTypeStandard, PlanTypeStandardFree}
 
-	return utils.UnmarshalIntEnum(data, e, allowedPlanTypeValues)
+	return enum.UnmarshalInt(data, e, allowedPlanTypeValues)
 }
 
 // Whether to [include organization name in subject of message notification emails].
@@ -331,7 +333,7 @@ func (e *NameInEmailNotificationsPolicy) UnmarshalJSON(data []byte) error {
 		NameInEmailNotificationsPolicyNever,
 	}
 
-	return utils.UnmarshalIntEnum(data, e, allowedNameInEmailNotificationsPolicyValues)
+	return enum.UnmarshalInt(data, e, allowedNameInEmailNotificationsPolicyValues)
 }
 
 // Whether or not to mark messages as read when the user scrolls through their feed.
@@ -355,7 +357,7 @@ func (e *MarkReadOnScrollPolicy) UnmarshalJSON(data []byte) error {
 		MarkReadOnScrollPolicyNever,
 	}
 
-	return utils.UnmarshalIntEnum(data, e, allowedMarkReadOnScrollPolicyValues)
+	return enum.UnmarshalInt(data, e, allowedMarkReadOnScrollPolicyValues)
 }
 
 // The configured [video call provider] for the organization.
@@ -389,5 +391,5 @@ func (e *VideoChatProvider) UnmarshalJSON(data []byte) error {
 		VideoChatProviderZoomServerToServerOAuth,
 	}
 
-	return utils.UnmarshalIntEnum(data, e, allowedVideoChatProviderValues)
+	return enum.UnmarshalInt(data, e, allowedVideoChatProviderValues)
 }

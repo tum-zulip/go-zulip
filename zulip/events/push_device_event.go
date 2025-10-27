@@ -1,12 +1,13 @@
 package events
 
-// PushDeviceEvent Event sent to a user's clients when the metadata in the `push_devices` dictionary for the user changes.  Helps clients to live-update the `push_devices` dictionary returned in [`POST /register`] response.
+// PushDeviceEvent Event sent to a user's clients when the metadata in the `push_devices` dictionary for the user changes.  Helps clients to live-update the `push_devices` dictionary returned in [`POST /register`] Response.
 //
 // **Changes**: New in Zulip 11.0 (feature level 406).
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
 type PushDeviceEvent struct {
 	event
+
 	// The push account ID for this client registration.  See [`POST /mobile_push/register`] for details on push account IDs.
 	//
 	// [`POST /mobile_push/register`]: https://zulip.com/api/register-push-device

@@ -1,8 +1,10 @@
 package zulip
 
-import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+import (
+	"github.com/tum-zulip/go-zulip/zulip/internal/union"
+)
 
-// Recipients - A message's tentative target audience.
+// Recipient - A message's tentative target audience.
 // For channel messages, the integer ID of the channel.
 // For direct messages, a list containing integer user IDs.
 type Recipient struct {
@@ -10,16 +12,16 @@ type Recipient struct {
 	Channel *int64
 }
 
-func (o Recipient) asArray() []int64 {
-	if o.Users != nil {
-		return o.Users
-	} else if o.Channel != nil {
-		return []int64{*o.Channel}
+func (r Recipient) asArray() []int64 {
+	if r.Users != nil {
+		return r.Users
+	} else if r.Channel != nil {
+		return []int64{*r.Channel}
 	}
 	return nil
 }
 
-// Get the RecipientType for the recipient. Either RecipientTypeChannel or RecipientTypeDirect or nil if the recipient is invalid
+// Get the RecipientType for the recipient. Either RecipientTypeChannel or RecipientTypeDirect or nil if the recipient is invalid.
 func (r Recipient) RecipientType() *RecipientType {
 	if r.Users == nil && r.Channel == nil {
 		return nil
@@ -38,14 +40,6 @@ func (r Recipient) RecipientType() *RecipientType {
 func UsersAsRecipient(v []int64) Recipient {
 	return Recipient{
 		Users: v,
-	}
-}
-
-// UsersEmailsAsRecipient is a convenience function that returns a list of UserEmails wrapped in Recipient
-func UsersEmailsAsRecipient(v []string) Recipient {
-	return Recipient{
-		Users:   nil,
-		Channel: nil,
 	}
 }
 
@@ -90,12 +84,12 @@ func (r Recipient) Equals(other Recipient) bool {
 	return true
 }
 
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *Recipient) UnmarshalJSON(data []byte) error {
-	return utils.UnmarshalUnionType(data, dst)
+// Unmarshal JSON data into one of the pointers in the struct.
+func (r *Recipient) UnmarshalJSON(data []byte) error {
+	return union.Unmarshal(data, r)
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src Recipient) MarshalJSON() ([]byte, error) {
-	return utils.MarshalUnionType(src)
+// Marshal data from the first non-nil pointers in the struct to JSON.
+func (r Recipient) MarshalJSON() ([]byte, error) {
+	return union.Marshal(r)
 }

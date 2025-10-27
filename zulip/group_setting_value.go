@@ -1,20 +1,22 @@
 package zulip
 
-import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+import (
+	"github.com/tum-zulip/go-zulip/zulip/internal/union"
+)
 
-// GroupSettingValue - struct for GroupSettingValue
+// GroupSettingValue - struct for GroupSettingValue.
 type GroupSettingValue struct {
 	ComplexGroupSettingValue *ComplexGroupSettingValue
 	GroupID                  *int64
 }
 
-// GroupSettingValueUpdate struct for GroupSettingValueUpdate
+// GroupSettingValueUpdate struct for GroupSettingValueUpdate.
 type GroupSettingValueUpdate struct {
 	New GroupSettingValue  `json:"new"`
 	Old *GroupSettingValue `json:"old,omitempty"`
 }
 
-// GroupSettingValueOneOf An object with these fields:
+// ComplexGroupSettingValue struct for ComplexGroupSettingValue.
 type ComplexGroupSettingValue struct {
 	// The list of IDs of individual users in the collection of users with this permission.
 	//
@@ -24,12 +26,12 @@ type ComplexGroupSettingValue struct {
 	DirectSubgroups []int64 `json:"direct_subgroups"`
 }
 
-// special json marshaler and unmarshaler for union GroupSettingValue
+// Marshal data from the first non-nil pointers in the struct to JSON.
 func (o GroupSettingValue) MarshalJSON() ([]byte, error) {
-	return utils.MarshalUnionType(o)
+	return union.Marshal(o)
 }
 
-// Unmarshal JSON data into one of the pointers in the struct
+// Unmarshal JSON data into one of the pointers in the struct.
 func (o *GroupSettingValue) UnmarshalJSON(data []byte) error {
-	return utils.UnmarshalUnionType(data, o)
+	return union.Unmarshal(data, o)
 }

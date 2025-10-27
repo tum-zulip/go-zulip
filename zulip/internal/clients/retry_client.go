@@ -24,11 +24,17 @@ func NewRetryClient(cfg Config) RetryClient {
 	}
 }
 
-func (c *RetryClient) CallAPI(ctx context.Context, endpoint string, req *http.Request, model ResponseModel) (httpResp *http.Response, err error) {
+func (c *RetryClient) CallAPI(
+	ctx context.Context,
+	endpoint string,
+	req *http.Request,
+	model ResponseModel,
+) (*http.Response, error) {
 	retryForever := c.MaxRetries == retryIndefinitely
 
+	var httpResp *http.Response
+	var err error
 	for i := 0; retryForever || i <= c.MaxRetries; i++ {
-
 		httpResp, err = c.SimpleClient.CallAPI(ctx, endpoint, req, model)
 
 		if retryAfter, ok := getRateLimit(httpResp, err); ok {
@@ -42,7 +48,7 @@ func (c *RetryClient) CallAPI(ctx context.Context, endpoint string, req *http.Re
 			continue
 		}
 
-		return
+		return httpResp, err
 	}
 	c.Logger.DebugContext(ctx, "hit max retires", "max-retires", c.MaxRetries)
 	return httpResp, ErrMaxRetriesReached
@@ -50,10 +56,9 @@ func (c *RetryClient) CallAPI(ctx context.Context, endpoint string, req *http.Re
 
 func getRateLimit(resp *http.Response, err error) (time.Duration, bool) {
 	if resp != nil && resp.StatusCode == http.StatusTooManyRequests {
-		if apiErr, ok := err.(*zulip.APIError); ok {
-			if rateLimitedError, ok := apiErr.Model().(zulip.RateLimitedError); ok {
-				return rateLimitedError.RetryAfter, true
-			}
+		var rateLimitedError zulip.RateLimitedError
+		if errors.As(err, &rateLimitedError) {
+			return rateLimitedError.RetryAfter, true
 		}
 	}
 	return 0, false

@@ -14,6 +14,7 @@ import (
 // [inline URL preview]: https://zulip.readthedocs.io/en/latest/subsystems/sending-messages.html#inline-url-previews
 type UpdateMessageEvent struct {
 	event
+
 	// The ID of the user who sent the message.  Is `null` when event is for a rendering update of the original message, such as for an [inline URL preview].
 	//
 	// **Changes**: As of Zulip 5.0 (feature level 114), this field is present for all `update_message` events. Previously, this field was omitted for [inline URL preview] updates.
@@ -46,9 +47,9 @@ type UpdateMessageEvent struct {
 	ChannelID *int64 `json:"stream_id,omitempty"`
 	// Only present if message(s) were moved to a different channel.  The post-edit channel for all of the messages with IDs in `message_ids`.
 	NewChannelID *int64 `json:"new_stream_id,omitempty"`
-	// Only present if this event moved messages to a different topic and/or channel.  The choice the editing user made about which messages should be affected by a channel/topic edit:  - `"change_one"`: Just change the one indicated in `message_id`. - `"change_later"`: Change messages in the same topic that had   been sent after this one. - `"change_all"`: Change all messages in that topic.  This parameter should be used to decide whether to change navigation and compose box state in response to the edit. For example, if the user was previously in topic narrow, and the topic was edited with `"change_later"` or `"change_all"`, the Zulip web app will automatically navigate to the new topic narrow. Similarly, a message being composed to the old topic should have its recipient changed to the new topic.  This navigation makes it much more convenient to move content between topics without disruption or messages continuing to be sent to the pre-edit topic by accident.
+	// Only present if this event moved messages to a different topic and/or channel.  The choice the editing user made about which messages should be affected by a channel/topic edit:  - `"change_one"`: Just change the one indicated in `message_id`. - `"change_later"`: Change messages in the same topic that had   been sent after this one. - `"change_all"`: Change all messages in that topic.  This parameter should be used to decide whether to change navigation and compose box state in Response to the edit. For example, if the user was previously in topic narrow, and the topic was edited with `"change_later"` or `"change_all"`, the Zulip web app will automatically navigate to the new topic narrow. Similarly, a message being composed to the old topic should have its recipient changed to the new topic.  This navigation makes it much more convenient to move content between topics without disruption or messages continuing to be sent to the pre-edit topic by accident.
 	PropagateMode *string `json:"propagate_mode,omitempty"`
-	// Only present if this event moved messages to a different topic and/or channel.  The pre-edit topic for all of the messages with IDs in `message_ids`.  For clients that don't support the `empty_topic_name` [client capability], if the actual pre-edit topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
+	// Only present if this event moved messages to a different topic and/or channel.  The pre-edit topic for all of the messages with IDs in `message_ids`.  For clients that don't support the `empty_topic_name` [client capability], if the actual pre-edit topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] Response.
 	//
 	// **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.
 	//
@@ -56,7 +57,7 @@ type UpdateMessageEvent struct {
 	//
 	// [`POST /register`]: https://zulip.com/api/register-queue
 	OrigSubject *string `json:"orig_subject,omitempty"`
-	// Only present if this event moved messages to a different topic; this field will not be present when moving messages to the same topic name in a different channel.  The post-edit topic for all of the messages with IDs in `message_ids`.  For clients that don't support the `empty_topic_name` [client capability], if the actual post-edit topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
+	// Only present if this event moved messages to a different topic; this field will not be present when moving messages to the same topic name in a different channel.  The post-edit topic for all of the messages with IDs in `message_ids`.  For clients that don't support the `empty_topic_name` [client capability], if the actual post-edit topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] Response.
 	//
 	// **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.
 	//

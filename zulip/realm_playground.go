@@ -15,5 +15,5 @@ type RealmPlayground struct {
 	// **Changes**: New in Zulip 8.0 (feature level 196). This replaced the `url_prefix` parameter, which was used to construct URLs by just concatenating url_prefix and code.
 	//
 	// [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
-	UrlTemplate string `json:"url_template,omitempty"`
+	URLTemplate string `json:"url_template,omitempty"`
 }

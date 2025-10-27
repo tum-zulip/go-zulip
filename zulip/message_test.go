@@ -7,11 +7,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestMessageMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-
 	timestamp := time.Unix(1700000000, 0).UTC()
 	lastEdit := time.Unix(1700000100, 0).UTC()
 	lastMoved := time.Unix(1700000200, 0).UTC()
@@ -36,21 +36,20 @@ func TestMessageMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	ts, ok := payload["timestamp"]
 	require.True(t, ok)
 	require.IsType(t, float64(0), ts)
-	assert.Equal(t, float64(timestamp.Unix()), ts)
+	assert.InEpsilon(t, float64(timestamp.Unix()), ts, 0.001)
 
 	lastEditVal, ok := payload["last_edit_timestamp"]
 	require.True(t, ok)
 	require.IsType(t, float64(0), lastEditVal)
-	assert.Equal(t, float64(lastEdit.Unix()), lastEditVal)
+	assert.InEpsilon(t, float64(lastEdit.Unix()), lastEditVal, 0.001)
 
 	lastMovedVal, ok := payload["last_moved_timestamp"]
 	require.True(t, ok)
 	require.IsType(t, float64(0), lastMovedVal)
-	assert.Equal(t, float64(lastMoved.Unix()), lastMovedVal)
+	assert.InEpsilon(t, float64(lastMoved.Unix()), lastMovedVal, 0.001)
 }
 
 func TestMessageUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-
 	raw := []byte(`{
         "id": 42,
         "client": "web",

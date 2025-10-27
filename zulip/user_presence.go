@@ -18,7 +18,6 @@ type userPresenceJSON struct {
 }
 
 func (o UserPresence) MarshalJSON() ([]byte, error) {
-
 	aux := userPresenceJSON{
 		Status:    o.Status,
 		Timestamp: o.Timestamp.Unix(),

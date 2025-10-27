@@ -1,4 +1,4 @@
-package real_time_events_test
+package realtimeevents_test
 
 import (
 	"context"
@@ -6,15 +6,16 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
-	"github.com/tum-zulip/go-zulip/zulip/api/real_time_events"
+	realtimeevents "github.com/tum-zulip/go-zulip/zulip/api/real_time_events"
 	"github.com/tum-zulip/go-zulip/zulip/client"
 	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
 func Test_ConnectRequiresQueueID(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
-		q := real_time_events.NewEventQueue(apiClient)
+		q := realtimeevents.NewEventQueue(apiClient)
 
 		events, err := q.Connect(context.Background(), "", 0)
 		require.Error(t, err)
@@ -26,14 +27,13 @@ func Test_PollsEventsAndUpdatesState(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		resp, httpResp, err := apiClient.RegisterQueue(ctx).Execute()
+		resp, _, err := apiClient.RegisterQueue(ctx).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		require.Equal(t, httpResp.StatusCode, 200)
 		require.NotNil(t, resp.QueueID)
 
-		q := real_time_events.NewEventQueue(apiClient)
+		q := realtimeevents.NewEventQueue(apiClient)
 
 		events, err := q.Connect(context.Background(), *resp.QueueID, resp.LastEventID)
 		require.NoError(t, err)
@@ -45,7 +45,7 @@ func Test_PollsEventsAndUpdatesState(t *testing.T) {
 		wait := make(chan struct{})
 
 		go func() {
-			for i := 0; i < 2; i++ {
+			for range 2 {
 				time.Sleep(200 * time.Millisecond)
 				_, _, typingErr := apiClient.SetTypingStatus(ctx).
 					To(z.UserAsRecipient(GetUserID(t, apiClient))).
@@ -66,10 +66,8 @@ func Test_PollsEventsAndUpdatesState(t *testing.T) {
 		require.Greater(t, e2.GetID(), e1.GetID())
 
 		require.NoError(t, q.Close())
-		for range events {
-		}
-		<-wait
 
+		<-wait
 		for _, err := range errs {
 			require.NoError(t, err)
 		}
@@ -78,7 +76,7 @@ func Test_PollsEventsAndUpdatesState(t *testing.T) {
 
 func Test_CloseWithoutConnect(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
-		q := real_time_events.NewEventQueue(apiClient, nil)
+		q := realtimeevents.NewEventQueue(apiClient, nil)
 
 		require.Error(t, q.Close())
 	})

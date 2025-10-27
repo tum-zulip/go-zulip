@@ -2,7 +2,7 @@ package messages
 
 import "github.com/tum-zulip/go-zulip/zulip"
 
-// CheckMessagesMatchNarrowResponse struct for CheckMessagesMatchNarrowResponse
+// CheckMessagesMatchNarrowResponse struct for CheckMessagesMatchNarrowResponse.
 type CheckMessagesMatchNarrowResponse struct {
 	zulip.Response
 
@@ -23,16 +23,17 @@ type GetFileTemporaryURLResponse struct {
 	zulip.Response
 
 	// A temporary URL that can be used to access the uploaded file without Zulip's normal API authentication.
-	Url string `json:"url,omitempty"`
+	URL string `json:"url,omitempty"`
 }
 
 type MarkAllAsReadResponse struct {
 	zulip.Response
+
 	// Whether all unread messages were marked as read.  Will be `false` if the request successfully marked some, but not all, messages as read.
 	Complete bool `json:"complete"`
 }
 
-// GetMessageResponse struct for GetMessageResponse
+// GetMessageResponse struct for GetMessageResponse.
 type GetMessageResponse struct {
 	zulip.Response
 
@@ -44,7 +45,7 @@ type GetMessageResponse struct {
 	Message    zulip.Message `json:"message,omitempty"`
 }
 
-// GetMessageHistoryResponse struct for GetMessageHistoryResponse
+// GetMessageHistoryResponse struct for GetMessageHistoryResponse.
 type GetMessageHistoryResponse struct {
 	zulip.Response
 
@@ -52,7 +53,7 @@ type GetMessageHistoryResponse struct {
 	MessageHistory []zulip.Snapshot `json:"message_history,omitempty"`
 }
 
-// GetMessagesResponse struct for GetMessagesResponse
+// GetMessagesResponse struct for GetMessagesResponse.
 type GetMessagesResponse struct {
 	zulip.Response
 
@@ -62,7 +63,7 @@ type GetMessagesResponse struct {
 	FoundNewest bool `json:"found_newest,omitempty"`
 	// Whether the server promises that the `messages` list includes the very oldest messages matching the narrow (used by clients that paginate their requests to decide whether there may be more messages to fetch).
 	FoundOldest bool `json:"found_oldest,omitempty"`
-	// Whether the anchor message is included in the response. If the message with the ID specified in the request does not exist, did not match the narrow, or was excluded via `"include_anchor": false`, this will be false.
+	// Whether the anchor message is included in the Response. If the message with the ID specified in the request does not exist, did not match the narrow, or was excluded via `"include_anchor": false`, this will be false.
 	FoundAnchor bool `json:"found_anchor,omitempty"`
 	// Whether the message history was limited due to plan restrictions. This flag is set to `true` only when the oldest messages(`found_oldest`) matching the narrow is fetched.
 	HistoryLimited bool `json:"history_limited,omitempty"`
@@ -72,17 +73,17 @@ type GetMessagesResponse struct {
 	Messages []zulip.MessageWithOptMatch `json:"messages"`
 }
 
-// GetReadReceiptsResponse struct for GetReadReceiptsResponse
+// GetReadReceiptsResponse struct for GetReadReceiptsResponse.
 type GetReadReceiptsResponse struct {
 	zulip.Response
 
-	// An array of IDs of users who have marked the target message as read and whose read status is available to the current user.  The IDs of users who have disabled sending read receipts (`"send_read_receipts": false`) will never appear in the response, nor will the message's sender. Additionally, the IDs of any users who have been muted by the current user or who have muted the current user will not be included in the response.  The current user's ID will appear if they have marked the target message as read.
+	// An array of IDs of users who have marked the target message as read and whose read status is available to the current user.  The IDs of users who have disabled sending read receipts (`"send_read_receipts": false`) will never appear in the Response, nor will the message's sender. Additionally, the IDs of any users who have been muted by the current user or who have muted the current user will not be included in the Response.  The current user's ID will appear if they have marked the target message as read.
 	//
-	// **Changes**: Prior to Zulip 6.0 (feature level 143), the IDs of users who have been muted by or have muted the current user were included in the response.
+	// **Changes**: Prior to Zulip 6.0 (feature level 143), the IDs of users who have been muted by or have muted the current user were included in the Response.
 	UserIDs []int64 `json:"user_ids,omitempty"`
 }
 
-// RenderMessageResponse struct for RenderMessageResponse
+// RenderMessageResponse struct for RenderMessageResponse.
 type RenderMessageResponse struct {
 	zulip.Response
 
@@ -90,7 +91,7 @@ type RenderMessageResponse struct {
 	Rendered string `json:"rendered,omitempty"`
 }
 
-// SendMessageResponse struct for SendMessageResponse
+// SendMessageResponse struct for SendMessageResponse.
 type SendMessageResponse struct {
 	zulip.Response
 
@@ -105,17 +106,17 @@ type SendMessageResponse struct {
 	AutomaticNewVisibilityPolicy *zulip.VisibilityPolicy `json:"automatic_new_visibility_policy,omitempty"`
 }
 
-// UpdateMessageResponse struct for UpdateMessageResponse
+// UpdateMessageResponse struct for UpdateMessageResponse.
 type UpdateMessageResponse struct {
 	zulip.Response
 
-	// Details on all files uploaded by the acting user whose only references were removed when editing this message. Clients should ask the acting user if they wish to delete the uploaded files returned in this response, which might otherwise remain visible only in message edit history.  Note that [access to message edit history] is configurable; this detail may be important in presenting the question clearly to users.  New in Zulip 10.0 (feature level 285).
+	// Details on all files uploaded by the acting user whose only references were removed when editing this message. Clients should ask the acting user if they wish to delete the uploaded files returned in this Response, which might otherwise remain visible only in message edit history.  Note that [access to message edit history] is configurable; this detail may be important in presenting the question clearly to users.  New in Zulip 10.0 (feature level 285).
 	//
 	// [access to message edit history]: https://zulip.com/help/restrict-message-edit-history-access
 	DetachedUploads []zulip.Attachment `json:"detached_uploads,omitempty"`
 }
 
-// UpdateMessageFlagsResponse struct for UpdateMessageFlagsResponse
+// UpdateMessageFlagsResponse struct for UpdateMessageFlagsResponse.
 type UpdateMessageFlagsResponse struct {
 	zulip.Response
 
@@ -127,7 +128,7 @@ type UpdateMessageFlagsResponse struct {
 	IgnoredBecauseNotSubscribedChannels []int64 `json:"ignored_because_not_subscribed_channels,omitempty"`
 }
 
-// UpdateMessageFlagsForNarrowResponse struct for UpdateMessageFlagsForNarrowResponse
+// UpdateMessageFlagsForNarrowResponse struct for UpdateMessageFlagsForNarrowResponse.
 type UpdateMessageFlagsForNarrowResponse struct {
 	zulip.Response
 
@@ -149,7 +150,7 @@ type UpdateMessageFlagsForNarrowResponse struct {
 	IgnoredBecauseNotSubscribedChannels []int64 `json:"ignored_because_not_subscribed_channels,omitempty"`
 }
 
-// UploadFileResponse struct for UploadFileResponse
+// UploadFileResponse struct for UploadFileResponse.
 type UploadFileResponse struct {
 	zulip.Response
 
@@ -159,12 +160,12 @@ type UploadFileResponse struct {
 	// Deprecated
 	//
 	// [web standards]: https://url.spec.whatwg.org/#goals
-	Uri string `json:"uri,omitempty"`
+	URI string `json:"uri,omitempty"`
 	// The URL of the uploaded file.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 272). Previously, this property was only available under the legacy `uri` name.
-	Url string `json:"url,omitempty"`
-	// The filename that Zulip stored the upload as. This usually differs from the basename of the URL when HTML escaping is required to generate a valid URL.  Clients generating a Markdown link to a newly uploaded file should do so by combining the `url` and `filename` fields in the response as follows: `[{filename}]({url})`, with care taken to clean `filename` of `[` and `]` characters that might break Markdown rendering.
+	URL string `json:"url,omitempty"`
+	// The filename that Zulip stored the upload as. This usually differs from the basename of the URL when HTML escaping is required to generate a valid URL.  Clients generating a Markdown link to a newly uploaded file should do so by combining the `url` and `filename` fields in the Response as follows: `[{filename}]({url})`, with care taken to clean `filename` of `[` and `]` characters that might break Markdown rendering.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 285).
 	Filename string `json:"filename,omitempty"`

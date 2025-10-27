@@ -5,7 +5,6 @@ package messages
 import (
 	"context"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -48,7 +47,7 @@ type APIMessages interface {
 	// request for the current narrow would have returned the message.
 	//
 	// [narrow]: https://zulip.com/api/construct-narrow
-	// [`GET /messages`]: https://zulip.com/api/get-messages#response
+	// [`GET /messages`]: https://zulip.com/api/get-messages#Response
 	// [`GET /events`]: https://zulip.com/api/get-events#message
 	CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest
 
@@ -145,7 +144,7 @@ type APIMessages interface {
 	// bot users are not usually subscribed to any channels.
 	//
 	// We recommend requesting at most 1000 messages in a batch, to avoid generating very
-	// large HTTP responses. A maximum of 5000 messages can be obtained per request;
+	// large HTTP Responses. A maximum of 5000 messages can be obtained per request;
 	// attempting to exceed this will result in an error.
 	//
 	// *Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
@@ -187,9 +186,9 @@ type APIMessages interface {
 	//
 	// Because this endpoint marks messages as read in batches, it is possible
 	// for the request to time out after only marking some messages as read.
-	// When this happens, the `complete` boolean field in the success response
+	// When this happens, the `complete` boolean field in the success Response
 	// will be `false`. Clients should repeat the request when handling such a
-	// response. If all messages were marked as read, then the success response
+	// Response. If all messages were marked as read, then the success Response
 	// will return `"complete": true`.
 	//
 	// *Changes**: Deprecated; clients should use the [update personal message flags for narrow] endpoint instead
@@ -198,7 +197,7 @@ type APIMessages interface {
 	// Before Zulip 8.0 (feature level 211), if the server's
 	// processing was interrupted by a timeout, but some messages were marked
 	// as read, then it would return `"result": "partially_completed"`, along
-	// with a `code` field for an error string, in the success response to
+	// with a `code` field for an error string, in the success Response to
 	// indicate that there was a timeout and that the client should repeat the
 	// request.
 	//
@@ -208,7 +207,7 @@ type APIMessages interface {
 	// batches, starting with the newest messages, so that progress is made
 	// even if the request times out. And, instead of returning an error when
 	// the request times out and some messages have been marked as read, a
-	// success response with `"result": "partially_completed"` is returned.
+	// success Response with `"result": "partially_completed"` is returned.
 	//
 	//
 	// Deprecated
@@ -334,7 +333,7 @@ type APIMessages interface {
 	//   - `move_messages_between_streams_limit_seconds`
 	//
 	// More details about these realm settings can be found in the
-	// [`POST /register`] response or in the documentation
+	// [`POST /register`] Response or in the documentation
 	// of the [`realm op: update_dict`] event in [`GET /events`].
 	//
 	// *Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
@@ -395,7 +394,7 @@ type APIMessages interface {
 	// [`POST /register`]: https://zulip.com/api/register-queue
 	// [`GET /events`]: https://zulip.com/api/get-events
 	// [topic editing permissions]: https://zulip.com/help/restrict-moving-messages
-	// [return an error]: https://zulip.com/api/update-message#response
+	// [return an error]: https://zulip.com/api/update-message#Response
 	UpdateMessage(ctx context.Context, messageID int64) UpdateMessageRequest
 
 	// UpdateMessageExecute executes the request
@@ -442,7 +441,7 @@ type APIMessages interface {
 	// containing the link.
 	//
 	// The maximum allowed file size is available in the `max_file_upload_size_mib`
-	// field in the [`POST /register`] response. Note that
+	// field in the [`POST /register`] Response. Note that
 	// large files (25MB+) may fail to upload using this API endpoint due to
 	// network-layer timeouts, depending on the quality of your connection to the
 	// Zulip server.
@@ -475,7 +474,7 @@ type messagesService struct {
 	client clients.Client
 }
 
-func NewMessagesService(client clients.Client) *messagesService {
+func NewMessagesService(client clients.Client) APIMessages {
 	return &messagesService{client: client}
 }
 
@@ -535,7 +534,7 @@ func (s *messagesService) AddReaction(ctx context.Context, messageID int64) AddR
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) AddReactionExecute(r AddReactionRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -546,18 +545,18 @@ func (s *messagesService) AddReactionExecute(r AddReactionRequest) (*zulip.Respo
 		endpoint = "/messages/{message_id}/reactions"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IDToString(r.messageID))
 
 	if r.emojiName == nil {
-		return nil, nil, fmt.Errorf("emojiName is required and must be specified")
+		return nil, nil, errors.New("emojiName is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "emoji_name", r.emojiName)
-	apiutils.AddOptionalParam(form, "emoji_code", r.emojiCode)
-	apiutils.AddOptionalParam(form, "reaction_type", r.reactionType)
+	apiutils.AddOptParam(form, "emoji_code", r.emojiCode)
+	apiutils.AddOptParam(form, "reaction_type", r.reactionType)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -615,7 +614,7 @@ func (r CheckMessagesMatchNarrowRequest) Execute() (*CheckMessagesMatchNarrowRes
 // request for the current narrow would have returned the message.
 //
 // [narrow]: https://zulip.com/api/construct-narrow
-// [`GET /messages`]: https://zulip.com/api/get-messages#response
+// [`GET /messages`]: https://zulip.com/api/get-messages#Response
 // [`GET /events`]: https://zulip.com/api/get-events#message
 func (s *messagesService) CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest {
 	return CheckMessagesMatchNarrowRequest{
@@ -624,7 +623,7 @@ func (s *messagesService) CheckMessagesMatchNarrow(ctx context.Context) CheckMes
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) CheckMessagesMatchNarrowExecute(
 	r CheckMessagesMatchNarrowRequest,
 ) (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
@@ -640,13 +639,13 @@ func (s *messagesService) CheckMessagesMatchNarrowExecute(
 		return nil, nil, errors.New("msgIDs is required and must be specified")
 	}
 	if r.narrow == nil {
-		return nil, nil, fmt.Errorf("narrow is required and must be specified")
+		return nil, nil, errors.New("narrow is required and must be specified")
 	}
 
 	apiutils.AddCSVParam(query, "msg_ids", r.msgIDs)
 	apiutils.AddCSVParam(query, "narrow", r.narrow)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -683,7 +682,7 @@ func (s *messagesService) DeleteMessage(ctx context.Context, messageID int64) De
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) DeleteMessageExecute(r DeleteMessageRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -694,9 +693,9 @@ func (s *messagesService) DeleteMessageExecute(r DeleteMessageRequest) (*zulip.R
 		endpoint = "/messages/{message_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IDToString(r.messageID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -735,7 +734,7 @@ func (s *messagesService) GetFileTemporaryURL(
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) GetFileTemporaryURLExecute(
 	r GetFileTemporaryURLRequest,
 ) (*GetFileTemporaryURLResponse, *http.Response, error) {
@@ -748,10 +747,10 @@ func (s *messagesService) GetFileTemporaryURLExecute(
 		endpoint = "/user_uploads/{realm_id_str}/{filename}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{realm_id_str}", apiutils.IdToString(r.realmID))
+	path := strings.ReplaceAll(endpoint, "{realm_id_str}", apiutils.IDToString(r.realmID))
 	path = strings.Replace(path, "{filename}", url.PathEscape(r.filename), -1)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -779,7 +778,7 @@ func (r GetMessageRequest) ApplyMarkdown(applyMarkdown bool) GetMessageRequest {
 	return r
 }
 
-// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If `false`, the server will use the value of `realm_empty_topic_display_name` found in the [`POST /register`] response instead of empty string to represent the empty string topic in its response.
+// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If `false`, the server will use the value of `realm_empty_topic_display_name` found in the [`POST /register`] Response instead of empty string to represent the empty string topic in its Response.
 //
 // **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
 //
@@ -816,7 +815,7 @@ func (s *messagesService) GetMessage(ctx context.Context, messageID int64) GetMe
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -827,12 +826,12 @@ func (s *messagesService) GetMessageExecute(r GetMessageRequest) (*GetMessageRes
 		endpoint = "/messages/{message_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IDToString(r.messageID))
 
-	apiutils.AddOptionalParam(query, "apply_markdown", r.applyMarkdown)
-	apiutils.AddOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
+	apiutils.AddOptParam(query, "apply_markdown", r.applyMarkdown)
+	apiutils.AddOptParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -849,7 +848,7 @@ type GetMessageHistoryRequest struct {
 	allowEmptyTopicName *bool
 }
 
-// Whether the topic names i.e. `topic` and `prev_topic` fields in the `message_history` objects returned can be empty string.  If `false`, the value of `realm_empty_topic_display_name` found in the [`POST /register`] response is returned replacing the empty string as the topic name.
+// Whether the topic names i.e. `topic` and `prev_topic` fields in the `message_history` objects returned can be empty string.  If `false`, the value of `realm_empty_topic_display_name` found in the [`POST /register`] Response is returned replacing the empty string as the topic name.
 //
 // **Changes**: New in Zulip 10.0 (feature level 334).
 //
@@ -879,7 +878,7 @@ func (s *messagesService) GetMessageHistory(ctx context.Context, messageID int64
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) GetMessageHistoryExecute(
 	r GetMessageHistoryRequest,
 ) (*GetMessageHistoryResponse, *http.Response, error) {
@@ -892,11 +891,11 @@ func (s *messagesService) GetMessageHistoryExecute(
 		endpoint = "/messages/{message_id}/history"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IDToString(r.messageID))
 
-	apiutils.AddOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
+	apiutils.AddOptParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -961,7 +960,7 @@ func (r GetMessagesRequest) Narrow(narrow *zulip.Narrow) GetMessagesRequest {
 	return r
 }
 
-// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
+// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the Response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
 //
 // **Changes**: The default value of this parameter was `false` prior to Zulip 5.0 (feature level 92).
 func (r GetMessagesRequest) ClientGravatar(clientGravatar bool) GetMessagesRequest {
@@ -977,11 +976,9 @@ func (r GetMessagesRequest) ApplyMarkdown(applyMarkdown bool) GetMessagesRequest
 	return r
 }
 
-// Legacy way to specify `"anchor": "first_unread"` in Zulip 2.1.x and older.  Whether to use the (computed by the server) first unread message matching the narrow as the `anchor`. Mutually exclusive with `anchor`.
+// Deprecated: Legacy way to specify `"anchor": "first_unread"` in Zulip 2.1.x and older.  Whether to use the (computed by the server) first unread message matching the narrow as the `anchor`. Mutually exclusive with `anchor`.
 //
 // **Changes**: Deprecated in Zulip 3.0 (feature level 1) and replaced by `"anchor": "first_unread"`.
-//
-// Deprecated
 func (r GetMessagesRequest) UseFirstUnreadAnchor(useFirstUnreadAnchor bool) GetMessagesRequest {
 	r.useFirstUnreadAnchor = &useFirstUnreadAnchor
 	return r
@@ -995,7 +992,7 @@ func (r GetMessagesRequest) MessageIDs(messageIDs []int64) GetMessagesRequest {
 	return r
 }
 
-// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If `false`, the server will use the value of `realm_empty_topic_display_name` found in the [`POST /register`] response instead of empty string to represent the empty string topic in its response.
+// Whether the client supports processing the empty string as a topic in the topic name fields in the returned data, including in returned edit_history data.  If `false`, the server will use the value of `realm_empty_topic_display_name` found in the [`POST /register`] Response instead of empty string to represent the empty string topic in its Response.
 //
 // **Changes**: New in Zulip 10.0 (feature level 334). Previously, the empty string was not a valid topic.
 //
@@ -1033,7 +1030,7 @@ func (r GetMessagesRequest) Execute() (*GetMessagesResponse, *http.Response, err
 // bot users are not usually subscribed to any channels.
 //
 // We recommend requesting at most 1000 messages in a batch, to avoid generating very
-// large HTTP responses. A maximum of 5000 messages can be obtained per request;
+// large HTTP Responses. A maximum of 5000 messages can be obtained per request;
 // attempting to exceed this will result in an error.
 //
 // *Changes**: The `message_ids` option is new in Zulip 10.0 (feature level 300).
@@ -1049,7 +1046,7 @@ func (s *messagesService) GetMessages(ctx context.Context) GetMessagesRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) GetMessagesExecute(r GetMessagesRequest) (*GetMessagesResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -1059,18 +1056,18 @@ func (s *messagesService) GetMessagesExecute(r GetMessagesRequest) (*GetMessages
 		response = &GetMessagesResponse{}
 		endpoint = "/messages"
 	)
-	apiutils.AddOptionalParam(query, "anchor", r.anchor)
-	apiutils.AddOptionalParam(query, "include_anchor", r.includeAnchor)
-	apiutils.AddOptionalParam(query, "num_before", r.numBefore)
-	apiutils.AddOptionalParam(query, "num_after", r.numAfter)
+	apiutils.AddOptParam(query, "anchor", r.anchor)
+	apiutils.AddOptParam(query, "include_anchor", r.includeAnchor)
+	apiutils.AddOptParam(query, "num_before", r.numBefore)
+	apiutils.AddOptParam(query, "num_after", r.numAfter)
 	apiutils.AddOptionalCSVParam(query, "narrow", r.narrow)
-	apiutils.AddOptionalParam(query, "client_gravatar", r.clientGravatar)
-	apiutils.AddOptionalParam(query, "apply_markdown", r.applyMarkdown)
-	apiutils.AddOptionalParam(query, "use_first_unread_anchor", r.useFirstUnreadAnchor)
+	apiutils.AddOptParam(query, "client_gravatar", r.clientGravatar)
+	apiutils.AddOptParam(query, "apply_markdown", r.applyMarkdown)
+	apiutils.AddOptParam(query, "use_first_unread_anchor", r.useFirstUnreadAnchor)
 	apiutils.AddOptionalCSVParam(query, "message_ids", r.messageIDs)
-	apiutils.AddOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
+	apiutils.AddOptParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1114,7 +1111,7 @@ func (s *messagesService) GetReadReceipts(ctx context.Context, messageID int64) 
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) GetReadReceiptsExecute(
 	r GetReadReceiptsRequest,
 ) (*GetReadReceiptsResponse, *http.Response, error) {
@@ -1127,9 +1124,9 @@ func (s *messagesService) GetReadReceiptsExecute(
 		endpoint = "/messages/{message_id}/read_receipts"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IDToString(r.messageID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1154,9 +1151,9 @@ func (r MarkAllAsReadRequest) Execute() (*MarkAllAsReadResponse, *http.Response,
 //
 // Because this endpoint marks messages as read in batches, it is possible
 // for the request to time out after only marking some messages as read.
-// When this happens, the `complete` boolean field in the success response
+// When this happens, the `complete` boolean field in the success Response
 // will be `false`. Clients should repeat the request when handling such a
-// response. If all messages were marked as read, then the success response
+// Response. If all messages were marked as read, then the success Response
 // will return `"complete": true`.
 //
 // *Changes**: Deprecated; clients should use the [update personal message flags for narrow] endpoint instead
@@ -1165,7 +1162,7 @@ func (r MarkAllAsReadRequest) Execute() (*MarkAllAsReadResponse, *http.Response,
 // Before Zulip 8.0 (feature level 211), if the server's
 // processing was interrupted by a timeout, but some messages were marked
 // as read, then it would return `"result": "partially_completed"`, along
-// with a `code` field for an error string, in the success response to
+// with a `code` field for an error string, in the success Response to
 // indicate that there was a timeout and that the client should repeat the
 // request.
 //
@@ -1175,7 +1172,7 @@ func (r MarkAllAsReadRequest) Execute() (*MarkAllAsReadResponse, *http.Response,
 // batches, starting with the newest messages, so that progress is made
 // even if the request times out. And, instead of returning an error when
 // the request times out and some messages have been marked as read, a
-// success response with `"result": "partially_completed"` is returned.
+// success Response with `"result": "partially_completed"` is returned.
 //
 // # Deprecated
 //
@@ -1187,9 +1184,8 @@ func (s *messagesService) MarkAllAsRead(ctx context.Context) MarkAllAsReadReques
 	}
 }
 
-// Execute executes the request
-//
 // Deprecated
+// Execute executes the request.
 func (s *messagesService) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAllAsReadResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -1200,7 +1196,7 @@ func (s *messagesService) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAll
 		endpoint = "/mark_all_as_read"
 	)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1243,9 +1239,8 @@ func (s *messagesService) MarkChannelAsRead(ctx context.Context) MarkChannelAsRe
 	}
 }
 
-// Execute executes the request
-//
-// Deprecated
+// Deprecated: This API endpoint is deprecated.
+// Execute executes the request.
 func (s *messagesService) MarkChannelAsReadExecute(
 	r MarkChannelAsReadRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -1261,8 +1256,8 @@ func (s *messagesService) MarkChannelAsReadExecute(
 		return nil, nil, errors.New("channelID is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "stream_id", r.channelID)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -1287,7 +1282,7 @@ func (r MarkTopicAsReadRequest) ChannelID(channelID int64) MarkTopicAsReadReques
 	return r
 }
 
-// The name of the topic whose messages should be marked as read.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.
+// The name of the topic whose messages should be marked as read.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] Response is used for this parameter, it is interpreted as an empty string.
 //
 // **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 //
@@ -1318,9 +1313,8 @@ func (s *messagesService) MarkTopicAsRead(ctx context.Context) MarkTopicAsReadRe
 	}
 }
 
-// Execute executes the request
-//
-// Deprecated
+// Deprecated: This API endpoint is deprecated.
+// Execute executes the request.
 func (s *messagesService) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -1334,11 +1328,11 @@ func (s *messagesService) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*zul
 		return nil, nil, errors.New("channelID is required and must be specified")
 	}
 	if r.topicName == nil {
-		return nil, nil, fmt.Errorf("topicName is required and must be specified")
+		return nil, nil, errors.New("topicName is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "stream_id", r.channelID)
 	apiutils.AddParam(form, "topic_name", r.topicName)
@@ -1405,7 +1399,7 @@ func (s *messagesService) RemoveReaction(ctx context.Context, messageID int64) R
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) RemoveReactionExecute(r RemoveReactionRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -1416,14 +1410,14 @@ func (s *messagesService) RemoveReactionExecute(r RemoveReactionRequest) (*zulip
 		endpoint = "/messages/{message_id}/reactions"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IDToString(r.messageID))
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "emoji_name", r.emojiName)
-	apiutils.AddOptionalParam(form, "emoji_code", r.emojiCode)
-	apiutils.AddOptionalParam(form, "reaction_type", r.reactionType)
+	apiutils.AddOptParam(form, "emoji_name", r.emojiName)
+	apiutils.AddOptParam(form, "emoji_code", r.emojiCode)
+	apiutils.AddOptParam(form, "reaction_type", r.reactionType)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1461,7 +1455,7 @@ func (s *messagesService) RenderMessage(ctx context.Context) RenderMessageReques
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) RenderMessageExecute(r RenderMessageRequest) (*RenderMessageResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -1472,11 +1466,11 @@ func (s *messagesService) RenderMessageExecute(r RenderMessageRequest) (*RenderM
 		endpoint = "/messages/render"
 	)
 	if r.content == nil {
-		return nil, nil, fmt.Errorf("content is required and must be specified")
+		return nil, nil, errors.New("content is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "content", r.content)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -1536,7 +1530,7 @@ func (s *messagesService) ReportMessage(ctx context.Context, messageID int64) Re
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) ReportMessageExecute(r ReportMessageRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -1547,17 +1541,17 @@ func (s *messagesService) ReportMessageExecute(r ReportMessageRequest) (*zulip.R
 		endpoint = "/messages/{message_id}/report"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IDToString(r.messageID))
 
 	if r.reportType == nil {
-		return nil, nil, fmt.Errorf("reportType is required and must be specified")
+		return nil, nil, errors.New("reportType is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "report_type", r.reportType)
-	apiutils.AddOptionalParam(form, "description", r.description)
+	apiutils.AddOptParam(form, "description", r.description)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1603,7 +1597,7 @@ func (r SendMessageRequest) Content(content string) SendMessageRequest {
 	return r
 }
 
-// The topic of the message. Only required for channel messages (`"type": "stream"` or `"type": "channel"`), ignored otherwise.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.
+// The topic of the message. Only required for channel messages (`"type": "stream"` or `"type": "channel"`), ignored otherwise.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] Response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.
 //
 // **Changes**: Before Zulip 10.0 (feature level 370), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as `subject`, which is currently a deprecated alias.
 //
@@ -1656,7 +1650,7 @@ func (s *messagesService) SendMessage(ctx context.Context) SendMessageRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) SendMessageExecute(r SendMessageRequest) (*SendMessageResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -1667,25 +1661,25 @@ func (s *messagesService) SendMessageExecute(r SendMessageRequest) (*SendMessage
 		endpoint = "/messages"
 	)
 	if r.recipientType == nil {
-		return nil, nil, fmt.Errorf("recipientType is required and must be specified")
+		return nil, nil, errors.New("recipientType is required and must be specified")
 	}
 	if r.to == nil {
-		return nil, nil, fmt.Errorf("to is required and must be specified")
+		return nil, nil, errors.New("to is required and must be specified")
 	}
 	if r.content == nil {
-		return nil, nil, fmt.Errorf("content is required and must be specified")
+		return nil, nil, errors.New("content is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "type", r.recipientType)
 	apiutils.AddParam(form, "to", r.to)
 	apiutils.AddParam(form, "content", r.content)
-	apiutils.AddOptionalParam(form, "topic", r.topic)
-	apiutils.AddOptionalParam(form, "queue_id", r.queueID)
-	apiutils.AddOptionalParam(form, "local_id", r.localID)
-	apiutils.AddOptionalParam(form, "read_by_sender", r.readBySender)
+	apiutils.AddOptParam(form, "topic", r.topic)
+	apiutils.AddOptParam(form, "queue_id", r.queueID)
+	apiutils.AddOptParam(form, "local_id", r.localID)
+	apiutils.AddOptParam(form, "read_by_sender", r.readBySender)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1708,7 +1702,7 @@ type UpdateMessageRequest struct {
 	channelID                   *int64
 }
 
-// The topic to move the message(s) to, to request changing the topic.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length  Should only be sent when changing the topic, and will throw an error if the target message is not a channel message.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.  You can [resolve topics] by editing the topic to `✔ {original_topic}` with the `propagate_mode` parameter set to `"change_all"`. The empty string topic cannot be marked as resolved.
+// The topic to move the message(s) to, to request changing the topic.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length  Should only be sent when changing the topic, and will throw an error if the target message is not a channel message.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] Response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.  You can [resolve topics] by editing the topic to `✔ {original_topic}` with the `propagate_mode` parameter set to `"change_all"`. The empty string topic cannot be marked as resolved.
 //
 // **Changes**: Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 2.0.0. Previous Zulip releases encoded this as `subject`, which is currently a deprecated alias.
 //
@@ -1799,7 +1793,7 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 //   - `move_messages_between_streams_limit_seconds`
 //
 // More details about these realm settings can be found in the
-// [`POST /register`] response or in the documentation
+// [`POST /register`] Response or in the documentation
 // of the [`realm op: update_dict`] event in [`GET /events`].
 //
 // *Changes**: Prior to Zulip 10.0 (feature level 367), the permission for
@@ -1859,7 +1853,7 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 // [`POST /register`]: https://zulip.com/api/register-queue
 // [`GET /events`]: https://zulip.com/api/get-events
 // [topic editing permissions]: https://zulip.com/help/restrict-moving-messages
-// [return an error]: https://zulip.com/api/update-message#response
+// [return an error]: https://zulip.com/api/update-message#Response
 // [`realm op: update_dict`]: https://zulip.com/api/get-events#realm-update_dict
 func (s *messagesService) UpdateMessage(ctx context.Context, messageID int64) UpdateMessageRequest {
 	return UpdateMessageRequest{
@@ -1869,7 +1863,7 @@ func (s *messagesService) UpdateMessage(ctx context.Context, messageID int64) Up
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
@@ -1880,18 +1874,18 @@ func (s *messagesService) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateM
 		endpoint = "/messages/{message_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IDToString(r.messageID))
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "topic", r.topic)
-	apiutils.AddOptionalParam(form, "propagate_mode", r.propagateMode)
-	apiutils.AddOptionalParam(form, "send_notification_to_old_thread", r.sendNotificationToOldThread)
-	apiutils.AddOptionalParam(form, "send_notification_to_new_thread", r.sendNotificationToNewThread)
-	apiutils.AddOptionalParam(form, "content", r.content)
-	apiutils.AddOptionalParam(form, "prev_content_sha256", r.prevContentSha256)
-	apiutils.AddOptionalParam(form, "stream_id", r.channelID)
+	apiutils.AddOptParam(form, "topic", r.topic)
+	apiutils.AddOptParam(form, "propagate_mode", r.propagateMode)
+	apiutils.AddOptParam(form, "send_notification_to_old_thread", r.sendNotificationToOldThread)
+	apiutils.AddOptParam(form, "send_notification_to_new_thread", r.sendNotificationToNewThread)
+	apiutils.AddOptParam(form, "content", r.content)
+	apiutils.AddOptParam(form, "prev_content_sha256", r.prevContentSha256)
+	apiutils.AddOptParam(form, "stream_id", r.channelID)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1946,7 +1940,7 @@ func (s *messagesService) UpdateMessageFlags(ctx context.Context) UpdateMessageF
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) UpdateMessageFlagsExecute(
 	r UpdateMessageFlagsRequest,
 ) (*UpdateMessageFlagsResponse, *http.Response, error) {
@@ -1959,17 +1953,17 @@ func (s *messagesService) UpdateMessageFlagsExecute(
 		endpoint = "/messages/flags"
 	)
 	if r.messages == nil {
-		return nil, nil, fmt.Errorf("messages is required and must be specified")
+		return nil, nil, errors.New("messages is required and must be specified")
 	}
 	if r.op == nil {
-		return nil, nil, fmt.Errorf("op is required and must be specified")
+		return nil, nil, errors.New("op is required and must be specified")
 	}
 	if r.flag == nil {
-		return nil, nil, fmt.Errorf("flag is required and must be specified")
+		return nil, nil, errors.New("flag is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "messages", r.messages)
 	apiutils.AddParam(form, "op", r.op)
@@ -2065,7 +2059,7 @@ func (s *messagesService) UpdateMessageFlagsForNarrow(ctx context.Context) Updat
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) UpdateMessageFlagsForNarrowExecute(
 	r UpdateMessageFlagsForNarrowRequest,
 ) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
@@ -2078,35 +2072,35 @@ func (s *messagesService) UpdateMessageFlagsForNarrowExecute(
 		endpoint = "/messages/flags/narrow"
 	)
 	if r.anchor == nil {
-		return nil, nil, fmt.Errorf("anchor is required and must be specified")
+		return nil, nil, errors.New("anchor is required and must be specified")
 	}
 	if r.numBefore == nil {
-		return nil, nil, fmt.Errorf("numBefore is required and must be specified")
+		return nil, nil, errors.New("numBefore is required and must be specified")
 	}
 	if *r.numBefore < 0 {
-		return nil, nil, fmt.Errorf("numBefore must be greater than 0")
+		return nil, nil, errors.New("numBefore must be greater than 0")
 	}
 	if r.numAfter == nil {
-		return nil, nil, fmt.Errorf("numAfter is required and must be specified")
+		return nil, nil, errors.New("numAfter is required and must be specified")
 	}
 	if *r.numAfter < 0 {
-		return nil, nil, fmt.Errorf("numAfter must be greater than 0")
+		return nil, nil, errors.New("numAfter must be greater than 0")
 	}
 	if r.narrow == nil {
-		return nil, nil, fmt.Errorf("narrow is required and must be specified")
+		return nil, nil, errors.New("narrow is required and must be specified")
 	}
 	if r.op == nil {
-		return nil, nil, fmt.Errorf("op is required and must be specified")
+		return nil, nil, errors.New("op is required and must be specified")
 	}
 	if r.flag == nil {
-		return nil, nil, fmt.Errorf("flag is required and must be specified")
+		return nil, nil, errors.New("flag is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "anchor", r.anchor)
-	apiutils.AddOptionalParam(form, "include_anchor", r.includeAnchor)
+	apiutils.AddOptParam(form, "include_anchor", r.includeAnchor)
 	apiutils.AddParam(form, "num_before", r.numBefore)
 	apiutils.AddParam(form, "num_after", r.numAfter)
 	apiutils.AddParam(form, "narrow", r.narrow)
@@ -2147,13 +2141,12 @@ func (r UploadFileRequest) Execute() (*UploadFileResponse, *http.Response, error
 // containing the link.
 //
 // The maximum allowed file size is available in the `max_file_upload_size_mib`
-// field in the [`POST /register`] response. Note that
+// field in the [`POST /register`] Response. Note that
 // large files (25MB+) may fail to upload using this API endpoint due to
 // network-layer timeouts, depending on the quality of your connection to the
 // Zulip server.
 //
-// For uploading larger files, `/api/v1/tus` is an endpoint implementing the
-// [`tus` resumable upload protocol],
+// For uploading larger files, `/api/v1/tus` is an endpoint implementing the [`tus` resumable upload protocol],
 // which supports uploading arbitrarily large files limited only by the server's
 // `max_file_upload_size_mib` (Configured via `MAX_FILE_UPLOAD_SIZE` in
 // `/etc/zulip/settings.py`). Clients which send authenticated credentials
@@ -2168,8 +2161,6 @@ func (r UploadFileRequest) Execute() (*UploadFileResponse, *http.Response, error
 // [Upload]: https://zulip.com/help/share-and-upload-files
 // [`POST /register`]: https://zulip.com/api/register-queue
 // [`tus` resumable upload protocol]: https://tus.io/protocols/resumable-upload
-//
-// [uploaded-files]: https://zulip.com/help/manage-your-uploaded-files
 func (s *messagesService) UploadFile(ctx context.Context) UploadFileRequest {
 	return UploadFileRequest{
 		apiService: s,
@@ -2177,7 +2168,7 @@ func (s *messagesService) UploadFile(ctx context.Context) UploadFileRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *messagesService) UploadFileExecute(r UploadFileRequest) (*UploadFileResponse, *http.Response, error) {
 	var (
 		method    = http.MethodPost
@@ -2188,8 +2179,8 @@ func (s *messagesService) UploadFileExecute(r UploadFileRequest) (*UploadFileRes
 		response  = &UploadFileResponse{}
 		endpoint  = "/user_uploads"
 	)
-	headers["Content-Type"] = "multipart/form-data"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeMultipartFormData
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	var fileName string
 	var fileBytes []byte

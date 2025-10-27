@@ -1,17 +1,20 @@
-package utils
+// Package union provides utilities for marshaling and unmarshaling union-like types in Go.
+package union
 
 import (
 	"encoding/json"
 	"reflect"
 
 	"gopkg.in/validator.v2"
+
+	strictdecoder "github.com/tum-zulip/go-zulip/zulip/internal/strict_decoder"
 )
 
 type Union interface {
 	// Union is a marker interface
 }
 
-func MarshalUnionType[T Union](v T) ([]byte, error) {
+func Marshal[T Union](v T) ([]byte, error) {
 	typ := reflect.TypeOf(v)
 	if typ.Kind() != reflect.Struct {
 		return nil, &json.UnsupportedTypeError{Type: typ}
@@ -20,9 +23,10 @@ func MarshalUnionType[T Union](v T) ([]byte, error) {
 	val := reflect.ValueOf(v)
 	match := 0
 	fieldIndex := 0
-	for i := 0; i < val.NumField(); i++ {
+	for i := range val.NumField() {
 		field := val.Field(i)
-		if field.Type().Kind() != reflect.Pointer && field.Type().Kind() != reflect.Slice && field.Type().Kind() != reflect.Map {
+		if field.Type().Kind() != reflect.Pointer && field.Type().Kind() != reflect.Slice &&
+			field.Type().Kind() != reflect.Map {
 			return nil, &json.UnsupportedTypeError{Type: typ}
 		}
 		if !field.IsNil() {
@@ -39,18 +43,19 @@ func MarshalUnionType[T Union](v T) ([]byte, error) {
 	return []byte("{}"), nil
 }
 
-func UnmarshalUnionType[T Union](data []byte, dst *T) error {
+func Unmarshal[T Union](data []byte, dst *T) error {
 	var err error
 	match := 0
 	val := reflect.ValueOf(dst).Elem()
 	typ := val.Type()
 	// try to unmarshal data into each pointer in the struct
-	for i := 0; i < val.NumField(); i++ {
+	for i := range val.NumField() {
 		field := val.Field(i)
-		if field.Type().Kind() != reflect.Pointer && field.Type().Kind() != reflect.Slice && field.Type().Kind() != reflect.Map {
+		if field.Type().Kind() != reflect.Pointer && field.Type().Kind() != reflect.Slice &&
+			field.Type().Kind() != reflect.Map {
 			return &json.UnsupportedTypeError{Type: typ}
 		}
-		err = NewStrictDecoder(data).Decode(field.Addr().Interface())
+		err = strictdecoder.New(data).Decode(field.Addr().Interface())
 		if err == nil {
 			jsonField, _ := json.Marshal(field.Interface())
 			if string(jsonField) != "{}" { // at least one field is set
@@ -67,7 +72,7 @@ func UnmarshalUnionType[T Union](data []byte, dst *T) error {
 		return nil
 	}
 
-	for i := 0; i < val.NumField(); i++ {
+	for i := range val.NumField() {
 		field := val.Field(i)
 		field.Set(reflect.Zero(field.Type()))
 	}

@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
+	strictdecoder "github.com/tum-zulip/go-zulip/zulip/internal/strict_decoder"
 )
 
-// Todo: make not exported
+// TODO(janez): make not exported.
 type EventEnvelope struct {
 	Event Event `json:"event"`
 }
@@ -20,7 +20,7 @@ type eventPeeker struct {
 
 func decodeAndWrap[T Event](event *EventEnvelope, data []byte) error {
 	var t T
-	err := utils.NewStrictDecoder(data).Decode(&t)
+	err := strictdecoder.New(data).Decode(&t)
 	if err != nil {
 		return err
 	}
@@ -43,6 +43,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 	case EventTypeAlertWords:
 		err = decodeAndWrap[AlertWordsEvent](e, data)
 	case EventTypeAttachment:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpAdd:
 			err = decodeAndWrap[AttachmentAddEvent](e, data)
@@ -52,6 +53,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 			goto unknownEventError
 		}
 	case EventTypeChannelFolder:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpAdd:
 			err = decodeAndWrap[ChannelFolderAddEvent](e, data)
@@ -71,6 +73,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 	case EventTypeDeleteMessage:
 		err = decodeAndWrap[DeleteMessageEvent](e, data)
 	case EventTypeDrafts:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpAdd:
 			err = decodeAndWrap[DraftsAddEvent](e, data)
@@ -94,6 +97,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 	case EventTypeMutedUsers:
 		err = decodeAndWrap[MutedUsersEvent](e, data)
 	case EventTypeNavigationView:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpAdd:
 			err = decodeAndWrap[NavigationViewAddEvent](e, data)
@@ -113,6 +117,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 	case EventTypeReaction:
 		err = decodeAndWrap[ReactionEvent](e, data)
 	case EventTypeRealm:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpUpdate:
 			err = decodeAndWrap[RealmUpdateEvent](e, data)
@@ -120,9 +125,9 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 			err = decodeAndWrap[RealmDeactivatedEvent](e, data)
 		default:
 			goto unknownEventError
-
 		}
 	case EventTypeRealmBot:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpAdd:
 			err = decodeAndWrap[RealmBotAddEvent](e, data)
@@ -139,6 +144,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 			goto unknownEventError
 		}
 	case EventTypeRealmDomains:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpAdd:
 			err = decodeAndWrap[RealmDomainsAddEvent](e, data)
@@ -154,6 +160,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 			goto unknownEventError
 		}
 	case EventTypeRealmEmoji:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpUpdate:
 			err = decodeAndWrap[RealmEmojiUpdateEvent](e, data)
@@ -171,6 +178,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 	case EventTypeRealmPlaygrounds:
 		err = decodeAndWrap[RealmPlaygroundsEvent](e, data)
 	case EventTypeRealmUser:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpAdd:
 			err = decodeAndWrap[RealmUserAddEvent](e, data)
@@ -182,6 +190,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 			goto unknownEventError
 		}
 	case EventTypeRealmUserSettingsDefaults:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpUpdate:
 			err = decodeAndWrap[RealmUserSettingsDefaultsEvent](e, data)
@@ -189,6 +198,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 			goto unknownEventError
 		}
 	case EventTypeReminders:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpAdd:
 			err = decodeAndWrap[RemindersAddEvent](e, data)
@@ -202,6 +212,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 	case EventTypeSavedSnippets:
 		err = decodeAndWrap[SavedSnippetsEvent](e, data)
 	case EventTypeScheduledMessages:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpAdd:
 			err = decodeAndWrap[ScheduledMessagesAddEvent](e, data)
@@ -213,6 +224,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 			goto unknownEventError
 		}
 	case EventTypeChannel:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpCreate:
 			err = decodeAndWrap[ChannelCreateEvent](e, data)
@@ -226,6 +238,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 	case EventTypeSubmessage:
 		err = decodeAndWrap[SubmessageEvent](e, data)
 	case EventTypeSubscription:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpAdd:
 			err = decodeAndWrap[SubscriptionAddEvent](e, data)
@@ -251,6 +264,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 	case EventTypeUpdateMessage:
 		err = decodeAndWrap[UpdateMessageEvent](e, data)
 	case EventTypeUpdateMessageFlags:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpAdd:
 			err = decodeAndWrap[UpdateMessageFlagsAddEvent](e, data)
@@ -260,6 +274,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 			goto unknownEventError
 		}
 	case EventTypeUserGroup:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpAdd:
 			err = decodeAndWrap[UserGroupAddEvent](e, data)
@@ -275,6 +290,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 			goto unknownEventError
 		}
 	case EventTypeUserSettings:
+		//nolint:exhaustive,nolintlint
 		switch op {
 		case EventOpUpdate:
 			err = decodeAndWrap[UserSettingsUpdateEvent](e, data)
@@ -287,6 +303,8 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 		err = decodeAndWrap[UserTopicEvent](e, data)
 	case EventTypeWebReloadClient:
 		err = decodeAndWrap[WebReloadClientEvent](e, data)
+	case EventTypeUnknown, EventTypeInvalid: // these should never appear and we can treat them as unknown
+		fallthrough
 	default:
 		goto unknownEventError
 	}

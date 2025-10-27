@@ -17,6 +17,7 @@ type AttachmentUpdateEvent struct{ AttachmentAddEvent }
 // AttachmentRemoveEvent Event sent to a user's clients when the user deletes a file they had uploaded. Useful primarily for UI showing all the files the current user has uploaded.
 type AttachmentRemoveEvent struct {
 	event
+
 	Attachment AttachmentID `json:"attachment,omitempty"`
 	// The total size of all files uploaded by in the organization, in bytes.
 	UploadSpaceUsed int64 `json:"upload_space_used,omitempty"`

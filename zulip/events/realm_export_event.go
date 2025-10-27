@@ -7,6 +7,7 @@ import "github.com/tum-zulip/go-zulip/zulip"
 // [data export]: https://zulip.com/help/export-your-organization
 type RealmExportEvent struct {
 	event
+
 	// An array of dictionaries where each dictionary contains details about a data export of the organization.
 	//
 	// **Changes**: Prior to Zulip 10.0 (feature level 304), `export_type` parameter was not present as only public data export was supported via API.

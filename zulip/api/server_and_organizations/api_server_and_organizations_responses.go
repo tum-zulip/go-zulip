@@ -1,8 +1,8 @@
-package server_and_organizations
+package serverandorganizations
 
 import "github.com/tum-zulip/go-zulip/zulip"
 
-// AddCodePlaygroundResponse struct for AddCodePlaygroundResponse
+// AddCodePlaygroundResponse struct for AddCodePlaygroundResponse.
 type AddCodePlaygroundResponse struct {
 	zulip.Response
 
@@ -10,7 +10,7 @@ type AddCodePlaygroundResponse struct {
 	ID int64 `json:"id,omitempty"`
 }
 
-// AddLinkifierResponse struct for AddLinkifierResponse
+// AddLinkifierResponse struct for AddLinkifierResponse.
 type AddLinkifierResponse struct {
 	zulip.Response
 
@@ -18,7 +18,7 @@ type AddLinkifierResponse struct {
 	ID int64 `json:"id,omitempty"`
 }
 
-// CreateCustomProfileFieldResponse struct for CreateCustomProfileFieldResponse
+// CreateCustomProfileFieldResponse struct for CreateCustomProfileFieldResponse.
 type CreateCustomProfileFieldResponse struct {
 	zulip.Response
 
@@ -26,7 +26,7 @@ type CreateCustomProfileFieldResponse struct {
 	ID int64 `json:"id,omitempty"`
 }
 
-// ExportRealmResponse struct for ExportRealmResponse
+// ExportRealmResponse struct for ExportRealmResponse.
 type ExportRealmResponse struct {
 	zulip.Response
 
@@ -36,7 +36,7 @@ type ExportRealmResponse struct {
 	ID int64 `json:"id,omitempty"`
 }
 
-// GetCustomEmojiResponse struct for GetCustomEmojiResponse
+// GetCustomEmojiResponse struct for GetCustomEmojiResponse.
 type GetCustomEmojiResponse struct {
 	zulip.Response
 
@@ -44,7 +44,7 @@ type GetCustomEmojiResponse struct {
 	Emoji map[string]zulip.RealmEmoji `json:"emoji,omitempty"`
 }
 
-// GetCustomProfileFieldsResponse struct for GetCustomProfileFieldsResponse
+// GetCustomProfileFieldsResponse struct for GetCustomProfileFieldsResponse.
 type GetCustomProfileFieldsResponse struct {
 	zulip.Response
 
@@ -52,7 +52,7 @@ type GetCustomProfileFieldsResponse struct {
 	CustomFields []zulip.CustomProfileField `json:"custom_fields,omitempty"`
 }
 
-// GetLinkifiersResponse struct for GetLinkifiersResponse
+// GetLinkifiersResponse struct for GetLinkifiersResponse.
 type GetLinkifiersResponse struct {
 	zulip.Response
 
@@ -62,17 +62,17 @@ type GetLinkifiersResponse struct {
 	Linkifiers []zulip.RealmLinkifiers `json:"linkifiers,omitempty"`
 }
 
-// GetPresenceResponse struct for GetPresenceResponse
+// GetPresenceResponse struct for GetPresenceResponse.
 type GetPresenceResponse struct {
 	zulip.Response
 
-	// The time when the server fetched the `presences` data included in the response.
+	// The time when the server fetched the `presences` data included in the Response.
 	ServerTimestamp float32 `json:"server_timestamp,omitempty"`
 	// A dictionary where each entry describes the presence details of a user in the Zulip organization.
 	Presences map[string]map[string]zulip.LegacyPresenceFormat `json:"presences,omitempty"`
 }
 
-// GetRealmExportConsentsResponse struct for GetRealmExportConsentsResponse
+// GetRealmExportConsentsResponse struct for GetRealmExportConsentsResponse.
 type GetRealmExportConsentsResponse struct {
 	zulip.Response
 
@@ -80,7 +80,7 @@ type GetRealmExportConsentsResponse struct {
 	ExportConsents []zulip.ExportConsent `json:"export_consents,omitempty"`
 }
 
-// GetRealmExportsResponse struct for GetRealmExportsResponse
+// GetRealmExportsResponse struct for GetRealmExportsResponse.
 type GetRealmExportsResponse struct {
 	zulip.Response
 
@@ -88,7 +88,7 @@ type GetRealmExportsResponse struct {
 	Exports []zulip.RealmExport `json:"exports,omitempty"`
 }
 
-// TestWelcomeBotCustomMessageResponse struct for TestWelcomeBotCustomMessageResponse
+// TestWelcomeBotCustomMessageResponse struct for TestWelcomeBotCustomMessageResponse.
 type TestWelcomeBotCustomMessageResponse struct {
 	zulip.Response
 
@@ -96,7 +96,7 @@ type TestWelcomeBotCustomMessageResponse struct {
 	MessageID int64 `json:"message_id,omitempty"`
 }
 
-// GetServerSettingsResponse struct for GetServerSettingsResponse
+// GetServerSettingsResponse struct for GetServerSettingsResponse.
 type GetServerSettingsResponse struct {
 	zulip.Response
 
@@ -137,11 +137,11 @@ type GetServerSettingsResponse struct {
 	// Deprecated
 	//
 	// [web standards]: https://url.spec.whatwg.org/#goals
-	RealmUri *string `json:"realm_uri,omitempty"`
+	RealmURI *string `json:"realm_uri,omitempty"`
 	// The organization's canonical URL.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 257), replacing the deprecated `realm_uri`.
-	RealmUrl string `json:"realm_url,omitempty"`
+	RealmURL string `json:"realm_url,omitempty"`
 	// The organization's name (for display purposes).
 	RealmName string `json:"realm_name,omitempty"`
 	// The URL for the organization's logo formatted as a square image, used for identifying the organization in small locations in the mobile and desktop apps.
@@ -190,7 +190,7 @@ type AuthMethods struct {
 	OpenidConnect bool `json:"openid connect,omitempty"`
 }
 
-// ExternalAuthMethod struct for ExternalAuthMethod
+// ExternalAuthMethod struct for ExternalAuthMethod.
 type ExternalAuthMethod struct {
 	// A unique, table, machine-readable name for the authentication method, intended to be used by clients with special behavior for specific authentication methods to correctly identify the method.
 	Name string `json:"name,omitempty"`
@@ -199,7 +199,7 @@ type ExternalAuthMethod struct {
 	// URL for an image to be displayed as an icon in all buttons for the external authentication method.  When `null`, no icon should be displayed.
 	DisplayIcon *string `json:"display_icon,omitempty"`
 	// URL to be used to initiate authentication using this method.
-	LoginUrl string `json:"login_url,omitempty"`
+	LoginURL string `json:"login_url,omitempty"`
 	// URL to be used to initiate account registration using this method.
-	SignupUrl string `json:"signup_url,omitempty"`
+	SignupURL string `json:"signup_url,omitempty"`
 }

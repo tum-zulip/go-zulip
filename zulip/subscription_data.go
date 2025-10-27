@@ -1,8 +1,10 @@
 package zulip
 
-import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+import (
+	"github.com/tum-zulip/go-zulip/zulip/internal/union"
+)
 
-// SubscriptionData struct for SubscriptionData
+// SubscriptionData struct for SubscriptionData.
 type SubscriptionData struct {
 	// The unique ID of a channel.
 	ChannelID int64 `json:"stream_id"`
@@ -26,12 +28,12 @@ type SubscriptionDataValue struct {
 	String *string
 }
 
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *SubscriptionDataValue) UnmarshalJSON(data []byte) error {
-	return utils.UnmarshalUnionType(data, dst)
+// Unmarshal JSON data into one of the pointers in the struct.
+func (s *SubscriptionDataValue) UnmarshalJSON(data []byte) error {
+	return union.Unmarshal(data, s)
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src SubscriptionDataValue) MarshalJSON() ([]byte, error) {
-	return utils.MarshalUnionType(src)
+// Marshal data from the first non-nil pointers in the struct to JSON.
+func (s SubscriptionDataValue) MarshalJSON() ([]byte, error) {
+	return union.Marshal(s)
 }

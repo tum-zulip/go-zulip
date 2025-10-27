@@ -39,7 +39,7 @@ type Invite struct {
 	// [notification bot]: https://zulip.com/help/configure-automated-notices
 	NotifyReferrerOnJoin bool `json:"notify_referrer_on_join,omitempty"`
 	// The URL of the reusable invitation link. This will not be present when `is_multiuse` is `false` (i.e. the invitation is an email invitation).
-	LinkUrl string `json:"link_url,omitempty"`
+	LinkURL string `json:"link_url,omitempty"`
 	// A boolean specifying whether the [invitation] is a reusable invitation link or an email invitation.
 	//
 	// [invitation]: https://zulip.com/help/invite-new-users
@@ -54,7 +54,7 @@ type inviteJSON struct {
 	InvitedAs            Role   `json:"invited_as,omitempty"`
 	Email                string `json:"email,omitempty"`
 	NotifyReferrerOnJoin bool   `json:"notify_referrer_on_join,omitempty"`
-	LinkUrl              string `json:"link_url,omitempty"`
+	LinkURL              string `json:"link_url,omitempty"`
 	IsMultiuse           bool   `json:"is_multiuse,omitempty"`
 }
 
@@ -66,7 +66,7 @@ func (o Invite) MarshalJSON() ([]byte, error) {
 		InvitedAs:            o.InvitedAs,
 		Email:                o.Email,
 		NotifyReferrerOnJoin: o.NotifyReferrerOnJoin,
-		LinkUrl:              o.LinkUrl,
+		LinkURL:              o.LinkURL,
 		IsMultiuse:           o.IsMultiuse,
 	}
 
@@ -96,7 +96,7 @@ func (o *Invite) UnmarshalJSON(data []byte) error {
 	o.InvitedAs = aux.InvitedAs
 	o.Email = aux.Email
 	o.NotifyReferrerOnJoin = aux.NotifyReferrerOnJoin
-	o.LinkUrl = aux.LinkUrl
+	o.LinkURL = aux.LinkURL
 	o.IsMultiuse = aux.IsMultiuse
 
 	return nil

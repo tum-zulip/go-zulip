@@ -59,7 +59,7 @@ type remindersService struct {
 	client clients.Client
 }
 
-func NewRemindersService(client clients.Client) *remindersService {
+func NewRemindersService(client clients.Client) APIReminders {
 	return &remindersService{client: client}
 }
 
@@ -112,7 +112,7 @@ func (s *remindersService) CreateMessageReminder(ctx context.Context) CreateMess
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *remindersService) CreateMessageReminderExecute(
 	r CreateMessageReminderRequest,
 ) (*CreateMessageReminderResponse, *http.Response, error) {
@@ -124,12 +124,12 @@ func (s *remindersService) CreateMessageReminderExecute(
 		response = &CreateMessageReminderResponse{}
 		endpoint = "/reminders"
 	)
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "message_id", r.messageID)
-	apiutils.AddOptionalParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
-	apiutils.AddOptionalParam(form, "note", r.note)
+	apiutils.AddOptParam(form, "message_id", r.messageID)
+	apiutils.AddOptParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
+	apiutils.AddOptParam(form, "note", r.note)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -164,7 +164,7 @@ func (s *remindersService) DeleteReminder(ctx context.Context, reminderID int64)
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *remindersService) DeleteReminderExecute(r DeleteReminderRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -175,9 +175,9 @@ func (s *remindersService) DeleteReminderExecute(r DeleteReminderRequest) (*zuli
 		endpoint = "/reminders/{reminder_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{reminder_id}", apiutils.IdToString(r.reminderID))
+	path := strings.ReplaceAll(endpoint, "{reminder_id}", apiutils.IDToString(r.reminderID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -214,7 +214,7 @@ func (s *remindersService) GetReminders(ctx context.Context) GetRemindersRequest
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *remindersService) GetRemindersExecute(r GetRemindersRequest) (*GetRemindersResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -225,7 +225,7 @@ func (s *remindersService) GetRemindersExecute(r GetRemindersRequest) (*GetRemin
 		endpoint = "/reminders"
 	)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err

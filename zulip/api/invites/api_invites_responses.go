@@ -2,7 +2,7 @@ package invites
 
 import "github.com/tum-zulip/go-zulip/zulip"
 
-// CreateInviteLinkResponse struct for CreateInviteLinkResponse
+// CreateInviteLinkResponse struct for CreateInviteLinkResponse.
 type CreateInviteLinkResponse struct {
 	zulip.Response
 
@@ -12,7 +12,7 @@ type CreateInviteLinkResponse struct {
 	InviteLink string `json:"invite_link,omitempty"`
 }
 
-// GetInvitesResponse struct for GetInvitesResponse
+// GetInvitesResponse struct for GetInvitesResponse.
 type GetInvitesResponse struct {
 	zulip.Response
 

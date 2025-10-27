@@ -1,6 +1,6 @@
 package zulip
 
-// RealmLinkifiers struct for RealmLinkifiers
+// RealmLinkifiers struct for RealmLinkifiers.
 type RealmLinkifiers struct {
 	// The [Python regular expression] pattern which represents the pattern that should be linkified on matching.
 	//
@@ -11,7 +11,7 @@ type RealmLinkifiers struct {
 	// **Changes**: New in Zulip 7.0 (feature level 176). This replaced `url_format`, which contained a URL format string.
 	//
 	// [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
-	UrlTemplate string `json:"url_template,omitempty"`
+	URLTemplate string `json:"url_template,omitempty"`
 	// The ID of the linkifier.
 	ID int64 `json:"id,omitempty"`
 }

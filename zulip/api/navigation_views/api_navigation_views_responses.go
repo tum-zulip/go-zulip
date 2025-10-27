@@ -1,10 +1,10 @@
-package navigation_views
+package navigationviews
 
 import (
 	"github.com/tum-zulip/go-zulip/zulip"
 )
 
-// GetNavigationViewsResponse struct for GetNavigationViewsResponse
+// GetNavigationViewsResponse struct for GetNavigationViewsResponse.
 type GetNavigationViewsResponse struct {
 	zulip.Response
 

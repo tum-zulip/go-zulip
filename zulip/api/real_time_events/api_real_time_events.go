@@ -1,6 +1,6 @@
-// Package real_time_events provides API methods for managing Zulip real-time events,
+// Package realtimeevents provides API methods for managing Zulip real-time events,
 // including event queue registration, event polling, and event processing.
-package real_time_events
+package realtimeevents
 
 import (
 	"context"
@@ -92,7 +92,7 @@ type APIRealTimeEvents interface {
 	//
 	// Before Zulip 7.0 (feature level 183), the
 	// `realm_community_topic_editing_limit_seconds` property
-	// was returned by the response. It was removed because it
+	// was returned by the Response. It was removed because it
 	// had not been in use since the realm setting
 	// `move_messages_within_stream_limit_seconds` was introduced
 	// in feature level 162.
@@ -119,7 +119,7 @@ type realTimeEventsService struct {
 	client clients.Client
 }
 
-func NewRealTimeEventsService(client clients.Client) *realTimeEventsService {
+func NewRealTimeEventsService(client clients.Client) APIRealTimeEvents {
 	return &realTimeEventsService{client: client}
 }
 
@@ -153,7 +153,7 @@ func (s *realTimeEventsService) DeleteQueue(ctx context.Context) DeleteQueueRequ
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *realTimeEventsService) DeleteQueueExecute(r DeleteQueueRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -167,8 +167,8 @@ func (s *realTimeEventsService) DeleteQueueExecute(r DeleteQueueRequest) (*zulip
 		return nil, nil, errors.New("queueID is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "queue_id", r.queueID)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -235,7 +235,7 @@ func (s *realTimeEventsService) GetEvents(ctx context.Context) GetEventsRequest 
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *realTimeEventsService) GetEventsExecute(r GetEventsRequest) (*GetEventsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -250,10 +250,10 @@ func (s *realTimeEventsService) GetEventsExecute(r GetEventsRequest) (*GetEvents
 	}
 
 	apiutils.AddParam(query, "queue_id", r.queueID)
-	apiutils.AddOptionalParam(query, "last_event_id", r.lastEventID)
-	apiutils.AddOptionalParam(query, "dont_block", r.dontBlock)
+	apiutils.AddOptParam(query, "last_event_id", r.lastEventID)
+	apiutils.AddOptParam(query, "dont_block", r.dontBlock)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -278,13 +278,13 @@ type RegisterQueueRequest struct {
 	narrow                   *zulip.Narrow
 }
 
-// Set to `true` if you would like the content to be rendered in HTML format (otherwise the API will return the raw text that the user entered)
+// Set to `true` if you would like the content to be rendered in HTML format (otherwise the API will return the raw text that the user entered).
 func (r RegisterQueueRequest) ApplyMarkdown(applyMarkdown bool) RegisterQueueRequest {
 	r.applyMarkdown = &applyMarkdown
 	return r
 }
 
-// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.  The default value is `true` for authenticated requests and `false` for [unauthenticated requests]. Passing `true` in an unauthenticated request is an error.
+// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the Response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.  The default value is `true` for authenticated requests and `false` for [unauthenticated requests]. Passing `true` in an unauthenticated request is an error.
 //
 // **Changes**: Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.
 //
@@ -304,7 +304,7 @@ func (r RegisterQueueRequest) IncludeSubscribers(includeSubscribers string) Regi
 	return r
 }
 
-// If `true`, the `presences` object returned in the response will be keyed by user ID and the entry for each user's presence data will be in the modern format.
+// If `true`, the `presences` object returned in the Response will be keyed by user ID and the entry for each user's presence data will be in the modern format.
 //
 // **Changes**: New in Zulip 3.0 (no feature level; API unstable).
 func (r RegisterQueueRequest) SlimPresence(slimPresence bool) RegisterQueueRequest {
@@ -332,17 +332,17 @@ func (r RegisterQueueRequest) AllPublicChannels(allPublicChannels bool) Register
 	return r
 }
 
-// Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  - `notification_settings_null`: Boolean for whether the   client can handle the current API with `null` values for   channel-level notification settings (which means the channel   is not customized and should inherit the user's global   notification settings for channel messages).
+// Dictionary containing details on features the client supports that are relevant to the format of Responses sent by the server.  - `notification_settings_null`: Boolean for whether the   client can handle the current API with `null` values for   channel-level notification settings (which means the channel   is not customized and should inherit the user's global   notification settings for channel messages).
 //
 // **Changes**: New in Zulip 2.1.0. In earlier Zulip releases,   channel-level notification settings were simple booleans.  - `bulk_message_deletion`: Boolean for whether the client's   handler for the `delete_message` event type has been   updated to process the new bulk format (with a   `message_ids`, rather than a singleton `message_id`).   Otherwise, the server will send `delete_message` events   in a loop.
 // **Changes**: New in Zulip 3.0 (feature level 13). This   capability is for backwards-compatibility; it will be   required in a future server release.  - `user_avatar_url_field_optional`: Boolean for whether the   client required avatar URLs for all users, or supports   using `GET /avatar/{user_id}` to access user avatars. If the   client has this capability, the server may skip sending a   `avatar_url` field in the `realm_user` at its sole discretion   to optimize network performance. This is an important optimization   in organizations with 10,000s of users.
 // **Changes**: New in Zulip 3.0 (feature level 18).  - `stream_typing_notifications`: Boolean for whether the client   supports channel typing notifications.
 // **Changes**: New in Zulip 4.0 (feature level 58). This capability is   for backwards-compatibility; it will be required in a   future server release.  - `user_settings_object`: Boolean for whether the client supports the modern   `user_settings` event type. If false, the server will additionally send the   legacy `update_global_notifications` and `update_display_settings` event   types.
-// **Changes**: New in Zulip 5.0 (feature level 89). This capability is for   backwards-compatibility; it will be removed in a future server release.   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and also request all three   event types (`user_settings`, `update_display_settings`,   `update_global_notifications`), and get exactly one copy of settings data on   any server version. Clients can then use the `zulip_feature_level` in the   `/register` response or the presence/absence of a `user_settings` key to   determine where to look for the data.  - `linkifier_url_template`: Boolean for whether the client accepts   [linkifiers] that use [RFC 6570] compliant   URL templates for linkifying matches. If false or unset, then the   `realm_linkifiers` array in the `/register` response will be empty   if present, and no `realm_linkifiers` [events] will be sent to the client.
-// **Changes**: New in Zulip 7.0 (feature level 176). This capability   is for backwards-compatibility.  - `user_list_incomplete`: Boolean for whether the client supports not having an   incomplete user database. If true, then the `realm_users` array in the `register`   response will not include data for inaccessible users and clients of guest users will   not receive `realm_user op:add` events for newly created users that are not accessible   to the current user.
-// **Changes**: New in Zulip 8.0 (feature level 232). This   capability is for backwards-compatibility.  - `include_deactivated_groups`: Boolean for whether the client can handle   deactivated user groups by themselves. If false, then the `realm_user_groups`   array in the `/register` response will only include active groups, clients   will receive a `remove` event instead of `update` event when a group is   deactivated and no `update` event will be sent to the client if a deactivated   user group is renamed.
-// **Changes**: New in Zulip 10.0 (feature level 294). This   capability is for backwards-compatibility.  - `archived_channels`: Boolean for whether the client supports processing   [archived channels] in the `stream` and   `subscription` event types. If `false`, the server will not include data   related to archived channels in the `register` response or in events.
-// **Changes**: New in Zulip 10.0 (feature level 315). This allows clients to   access archived channels, without breaking backwards-compatibility for   existing clients.  - `empty_topic_name`: Boolean for whether the client supports processing   the empty string as a topic name. Clients not declaring this capability   will be sent the value of `realm_empty_topic_display_name` found in the   [POST /register] response instead of the empty string   wherever topic names appear in the register response or events involving   topic names.
+// **Changes**: New in Zulip 5.0 (feature level 89). This capability is for   backwards-compatibility; it will be removed in a future server release.   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and also request all three   event types (`user_settings`, `update_display_settings`,   `update_global_notifications`), and get exactly one copy of settings data on   any server version. Clients can then use the `zulip_feature_level` in the   `/register` Response or the presence/absence of a `user_settings` key to   determine where to look for the data.  - `linkifier_url_template`: Boolean for whether the client accepts   [linkifiers] that use [RFC 6570] compliant   URL templates for linkifying matches. If false or unset, then the   `realm_linkifiers` array in the `/register` Response will be empty   if present, and no `realm_linkifiers` [events] will be sent to the client.
+// **Changes**: New in Zulip 7.0 (feature level 176). This capability   is for backwards-compatibility.  - `user_list_incomplete`: Boolean for whether the client supports not having an   incomplete user database. If true, then the `realm_users` array in the `register`   Response will not include data for inaccessible users and clients of guest users will   not receive `realm_user op:add` events for newly created users that are not accessible   to the current user.
+// **Changes**: New in Zulip 8.0 (feature level 232). This   capability is for backwards-compatibility.  - `include_deactivated_groups`: Boolean for whether the client can handle   deactivated user groups by themselves. If false, then the `realm_user_groups`   array in the `/register` Response will only include active groups, clients   will receive a `remove` event instead of `update` event when a group is   deactivated and no `update` event will be sent to the client if a deactivated   user group is renamed.
+// **Changes**: New in Zulip 10.0 (feature level 294). This   capability is for backwards-compatibility.  - `archived_channels`: Boolean for whether the client supports processing   [archived channels] in the `stream` and   `subscription` event types. If `false`, the server will not include data   related to archived channels in the `register` Response or in events.
+// **Changes**: New in Zulip 10.0 (feature level 315). This allows clients to   access archived channels, without breaking backwards-compatibility for   existing clients.  - `empty_topic_name`: Boolean for whether the client supports processing   the empty string as a topic name. Clients not declaring this capability   will be sent the value of `realm_empty_topic_display_name` found in the   [POST /register] Response instead of the empty string   wherever topic names appear in the register Response or events involving   topic names.
 // **Changes**: New in Zulip 10.0 (feature level 334). Previously,   the empty string was not a valid topic name.  - `simplified_presence_events`: Boolean for whether the client supports   receiving the [`presence` event type] with   user presence data in the modern format. If true, the server will   send these events with the `presences` field that has the user presence   data in the modern format. Otherwise, these event will contain fields   with legacy format user presence data.
 // **Changes**: New in Zulip 11.0 (feature level 419).
 //
@@ -430,7 +430,7 @@ func (r RegisterQueueRequest) Execute() (*RegisterQueueResponse, *http.Response,
 //
 // Before Zulip 7.0 (feature level 183), the
 // `realm_community_topic_editing_limit_seconds` property
-// was returned by the response. It was removed because it
+// was returned by the Response. It was removed because it
 // had not been in use since the realm setting
 // `move_messages_within_stream_limit_seconds` was introduced
 // in feature level 162.
@@ -454,7 +454,7 @@ func (s *realTimeEventsService) RegisterQueue(ctx context.Context) RegisterQueue
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *realTimeEventsService) RegisterQueueExecute(
 	r RegisterQueueRequest,
 ) (*RegisterQueueResponse, *http.Response, error) {
@@ -466,23 +466,23 @@ func (s *realTimeEventsService) RegisterQueueExecute(
 		response = &RegisterQueueResponse{}
 		endpoint = "/register"
 	)
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "apply_markdown", r.applyMarkdown)
-	apiutils.AddOptionalParam(form, "client_gravatar", r.clientGravatar)
-	apiutils.AddOptionalParam(form, "include_subscribers", r.includeSubscribers)
-	apiutils.AddOptionalParam(form, "slim_presence", r.slimPresence)
-	apiutils.AddOptionalParam(form, "presence_history_limit_days", r.presenceHistoryLimitDays)
-	apiutils.AddOptionalParam(form, "event_types", r.eventTypes)
-	apiutils.AddOptionalParam(form, "all_public_streams", r.allPublicChannels)
-	apiutils.AddOptionalParam(form, "client_capabilities", r.clientCapabilities)
-	apiutils.AddOptionalParam(form, "fetch_event_types", r.fetchEventTypes)
+	apiutils.AddOptParam(form, "apply_markdown", r.applyMarkdown)
+	apiutils.AddOptParam(form, "client_gravatar", r.clientGravatar)
+	apiutils.AddOptParam(form, "include_subscribers", r.includeSubscribers)
+	apiutils.AddOptParam(form, "slim_presence", r.slimPresence)
+	apiutils.AddOptParam(form, "presence_history_limit_days", r.presenceHistoryLimitDays)
+	apiutils.AddOptParam(form, "event_types", r.eventTypes)
+	apiutils.AddOptParam(form, "all_public_streams", r.allPublicChannels)
+	apiutils.AddOptParam(form, "client_capabilities", r.clientCapabilities)
+	apiutils.AddOptParam(form, "fetch_event_types", r.fetchEventTypes)
 	simpleNarrow, err := r.narrow.ToArray()
 	if err != nil {
 		return nil, nil, err
 	}
-	apiutils.AddOptionalParam(form, "narrow", simpleNarrow)
+	apiutils.AddOptParam(form, "narrow", simpleNarrow)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err

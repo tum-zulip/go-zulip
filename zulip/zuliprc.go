@@ -15,16 +15,15 @@ import (
 
 type contextKey string
 
+// ContextBasicAuth takes BasicAuth as authentication for the request.
+const ContextBasicAuth = contextKey("basic")
+
 func (c contextKey) String() string {
 	return "auth " + string(c)
 }
 
-var (
-	// ContextBasicAuth takes BasicAuth as authentication for the request.
-	ContextBasicAuth = contextKey("basic")
-
-	ErrMissingURLError = errors.New("missing Zulip server URL; specify via --site or ~/.zuliprc")
-)
+// ErrMissingURLError is returned when no Zulip server URL is provided.
+var ErrMissingURLError = errors.New("missing Zulip server URL; specify via --site or ~/.zuliprc")
 
 type ConfigMissingError struct {
 	message string
@@ -32,20 +31,20 @@ type ConfigMissingError struct {
 
 func (e ConfigMissingError) Error() string { return e.message }
 
-// BasicAuth provides basic http authentication to a request passed via context using ContextBasicAuth
+// BasicAuth provides basic http authentication to a request passed via context using ContextBasicAuth.
 type BasicAuth struct {
 	UserName string `json:"userName,omitempty"`
 	Password string `json:"password,omitempty"`
 }
 
-// APIKey provides API key based authentication to a request passed via context using ContextAPIKey
+// APIKey provides API key based authentication to a request passed via context using ContextAPIKey.
 type APIKey struct {
 	Key    string
 	Prefix string
 }
 
-// Configuration stores the configuration of the API client
-type ZulipRC struct {
+// Configuration stores the configuration of the API client.
+type RC struct {
 	Email         string `json:"email,omitempty"`
 	APIKey        string `json:"apiKey,omitempty"`
 	Site          string `json:"site,omitempty"`
@@ -56,7 +55,7 @@ type ZulipRC struct {
 	ConfigFile    string `json:"configFile,omitempty"`
 }
 
-func NewZulipRCFromFile(zuliprc string) (*ZulipRC, error) {
+func NewZulipRCFromFile(zuliprc string) (*RC, error) {
 	info, err := os.Stat(zuliprc)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -78,7 +77,7 @@ func NewZulipRCFromFile(zuliprc string) (*ZulipRC, error) {
 		return nil, fmt.Errorf("missing [api] section in config file %s", zuliprc)
 	}
 
-	rc := &ZulipRC{
+	rc := &RC{
 		APIKey:        section.Key("key").String(),
 		Email:         section.Key("email").String(),
 		Site:          section.Key("site").String(),
@@ -91,7 +90,11 @@ func NewZulipRCFromFile(zuliprc string) (*ZulipRC, error) {
 	if insecureSetting := section.Key("insecure").String(); insecureSetting != "" {
 		parsed, err := parseStrictBool(insecureSetting)
 		if err != nil {
-			return nil, fmt.Errorf("insecure is set to '%s', it must be 'true' or 'false' if it is used in %s", insecureSetting, zuliprc)
+			return nil, fmt.Errorf(
+				"insecure is set to '%s', it must be 'true' or 'false' if it is used in %s",
+				insecureSetting,
+				zuliprc,
+			)
 		}
 		rc.Insecure = &parsed
 	}
@@ -106,8 +109,8 @@ func NewZulipRCFromFile(zuliprc string) (*ZulipRC, error) {
 	return rc, nil
 }
 
-func NewZulipRC() (*ZulipRC, error) {
-	rc := &ZulipRC{}
+func NewZulipRC() (*RC, error) {
+	rc := &RC{}
 
 	err := populateFromEnv(rc)
 	if err != nil {
@@ -120,12 +123,15 @@ func NewZulipRC() (*ZulipRC, error) {
 	return rc, nil
 }
 
-func populateFromEnv(rc *ZulipRC) error {
+func populateFromEnv(rc *RC) error {
 	if rc.Insecure == nil {
 		if insecureSetting := os.Getenv("ZULIP_ALLOW_INSECURE"); insecureSetting != "" {
 			parsed, err := parseStrictBool(insecureSetting)
 			if err != nil {
-				return fmt.Errorf("the ZULIP_ALLOW_INSECURE environment variable is set to %q, it must be 'true' or 'false'", insecureSetting)
+				return fmt.Errorf(
+					"the ZULIP_ALLOW_INSECURE environment variable is set to %q, it must be 'true' or 'false'",
+					insecureSetting,
+				)
 			}
 			rc.Insecure = &parsed
 		}
@@ -152,7 +158,7 @@ func populateFromEnv(rc *ZulipRC) error {
 	return nil
 }
 
-func (rc *ZulipRC) Validate() error {
+func (rc *RC) Validate() error {
 	if rc == nil {
 		return errors.New("invalid configuration: nil")
 	}
@@ -170,7 +176,12 @@ func (rc *ZulipRC) Validate() error {
 	}
 
 	if rc.ClientCert == "" && rc.ClientCertKey != "" {
-		return ConfigMissingError{message: fmt.Sprintf("client cert key '%s' specified, but no client cert public part provided", rc.ClientCertKey)}
+		return ConfigMissingError{
+			message: fmt.Sprintf(
+				"client cert key '%s' specified, but no client cert public part provided",
+				rc.ClientCertKey,
+			),
+		}
 	}
 
 	if rc.ClientCert != "" {

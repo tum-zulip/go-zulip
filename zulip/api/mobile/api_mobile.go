@@ -5,7 +5,6 @@ package mobile
 import (
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 
@@ -61,7 +60,7 @@ type mobileService struct {
 	client clients.Client
 }
 
-func NewMobileService(client clients.Client) *mobileService {
+func NewMobileService(client clients.Client) APIMobile {
 	return &mobileService{client: client}
 }
 
@@ -98,7 +97,7 @@ func (s *mobileService) E2eeTestNotify(ctx context.Context) E2eeTestNotifyReques
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *mobileService) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -108,10 +107,10 @@ func (s *mobileService) E2eeTestNotifyExecute(r E2eeTestNotifyRequest) (*zulip.R
 		response = &zulip.Response{}
 		endpoint = "/mobile_push/e2ee/test_notification"
 	)
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "push_account_id", r.pushAccountID)
+	apiutils.AddOptParam(form, "push_account_id", r.pushAccountID)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -179,7 +178,7 @@ func (s *mobileService) RegisterPushDevice(ctx context.Context) RegisterPushDevi
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *mobileService) RegisterPushDeviceExecute(
 	r RegisterPushDeviceRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -192,23 +191,23 @@ func (s *mobileService) RegisterPushDeviceExecute(
 		endpoint = "/mobile_push/register"
 	)
 	if r.tokenKind == nil {
-		return nil, nil, fmt.Errorf("tokenKind is required and must be specified")
+		return nil, nil, errors.New("tokenKind is required and must be specified")
 	}
 	if r.pushAccountID == nil {
 		return nil, nil, errors.New("pushAccountID is required and must be specified")
 	}
 	if r.pushPublicKey == nil {
-		return nil, nil, fmt.Errorf("pushPublicKey is required and must be specified")
+		return nil, nil, errors.New("pushPublicKey is required and must be specified")
 	}
 	if r.bouncerPublicKey == nil {
-		return nil, nil, fmt.Errorf("bouncerPublicKey is required and must be specified")
+		return nil, nil, errors.New("bouncerPublicKey is required and must be specified")
 	}
 	if r.encryptedPushRegistration == nil {
-		return nil, nil, fmt.Errorf("encryptedPushRegistration is required and must be specified")
+		return nil, nil, errors.New("encryptedPushRegistration is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "token_kind", r.tokenKind)
 	apiutils.AddParam(form, "push_account_id", r.pushAccountID)
@@ -259,7 +258,7 @@ func (s *mobileService) TestNotify(ctx context.Context) TestNotifyRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *mobileService) TestNotifyExecute(r TestNotifyRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -269,10 +268,10 @@ func (s *mobileService) TestNotifyExecute(r TestNotifyRequest) (*zulip.Response,
 		response = &zulip.Response{}
 		endpoint = "/mobile_push/test_notification"
 	)
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "token", r.token)
+	apiutils.AddOptParam(form, "token", r.token)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err

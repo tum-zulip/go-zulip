@@ -1,6 +1,6 @@
 package zulip
 
-// User struct for User
+// User struct for User.
 type User struct {
 	// The unique ID of the user.
 	UserID        int64   `json:"user_id,omitempty"`
@@ -39,7 +39,7 @@ type User struct {
 	//
 	// [profile time zone]: https://zulip.com/help/change-your-timezone
 	Timezone  string  `json:"timezone,omitempty"`
-	AvatarUrl *string `json:"avatar_url,omitempty"`
+	AvatarURL *string `json:"avatar_url,omitempty"`
 	// Version for the user's avatar. Used for cache-busting requests for the user's avatar. Clients generally shouldn't need to use this; most avatar URLs sent by Zulip will already end with `?v={avatar_version}`.
 	AvatarVersion int32 `json:"avatar_version,omitempty"`
 	// Only present if `is_bot` is false; bots can't have custom profile fields.  A dictionary containing custom profile field data for the user. Each entry maps the integer ID of a custom profile field in the organization to a dictionary containing the user's data for that field. Generally the data includes just a single `value` key; for those custom profile fields supporting Markdown, a `rendered_value` key will also be present.

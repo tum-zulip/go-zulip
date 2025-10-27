@@ -5,7 +5,6 @@ package invites
 import (
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -50,7 +49,7 @@ type APIInvites interface {
 	// Note that administrators can manage invitations that were created by other users.
 	//
 	// *Changes**: Prior to Zulip 8.0 (feature level 209), non-admin users could
-	// only create email invitations, and therefore the response would never include
+	// only create email invitations, and therefore the Response would never include
 	// reusable invitation links for these users.
 	//
 	// [invitations]: https://zulip.com/help/invite-new-users
@@ -137,7 +136,7 @@ type invitesService struct {
 	client clients.Client
 }
 
-func NewInvitesService(client clients.Client) *invitesService {
+func NewInvitesService(client clients.Client) APIInvites {
 	return &invitesService{client: client}
 }
 
@@ -243,7 +242,7 @@ func (s *invitesService) CreateInviteLink(ctx context.Context) CreateInviteLinkR
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *invitesService) CreateInviteLinkExecute(
 	r CreateInviteLinkRequest,
 ) (*CreateInviteLinkResponse, *http.Response, error) {
@@ -255,15 +254,15 @@ func (s *invitesService) CreateInviteLinkExecute(
 		response = &CreateInviteLinkResponse{}
 		endpoint = "/invites/multiuse"
 	)
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "invite_expires_in_minutes", r.inviteExpiresInMinutes)
-	apiutils.AddOptionalParam(form, "invite_as", r.inviteAs)
-	apiutils.AddOptionalParam(form, "stream_ids", r.channelIDs)
-	apiutils.AddOptionalParam(form, "group_ids", r.groupIDs)
-	apiutils.AddOptionalParam(form, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions)
-	apiutils.AddOptionalParam(form, "welcome_message_custom_text", r.welcomeMessageCustomText)
+	apiutils.AddOptParam(form, "invite_expires_in_minutes", r.inviteExpiresInMinutes)
+	apiutils.AddOptParam(form, "invite_as", r.inviteAs)
+	apiutils.AddOptParam(form, "stream_ids", r.channelIDs)
+	apiutils.AddOptParam(form, "group_ids", r.groupIDs)
+	apiutils.AddOptParam(form, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions)
+	apiutils.AddOptParam(form, "welcome_message_custom_text", r.welcomeMessageCustomText)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -290,7 +289,7 @@ func (r GetInvitesRequest) Execute() (*GetInvitesResponse, *http.Response, error
 // Note that administrators can manage invitations that were created by other users.
 //
 // *Changes**: Prior to Zulip 8.0 (feature level 209), non-admin users could
-// only create email invitations, and therefore the response would never include
+// only create email invitations, and therefore the Response would never include
 // reusable invitation links for these users.
 //
 // [invitations]: https://zulip.com/help/invite-new-users
@@ -301,7 +300,7 @@ func (s *invitesService) GetInvites(ctx context.Context) GetInvitesRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *invitesService) GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -312,7 +311,7 @@ func (s *invitesService) GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResp
 		endpoint = "/invites"
 	)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -348,7 +347,7 @@ func (s *invitesService) ResendEmailInvite(ctx context.Context, inviteID int64) 
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *invitesService) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -359,9 +358,9 @@ func (s *invitesService) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*
 		endpoint = "/invites/{invite_id}/resend"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{invite_id}", apiutils.IdToString(r.inviteID))
+	path := strings.ReplaceAll(endpoint, "{invite_id}", apiutils.IDToString(r.inviteID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -397,7 +396,7 @@ func (s *invitesService) RevokeEmailInvite(ctx context.Context, inviteID int64) 
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *invitesService) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -408,9 +407,9 @@ func (s *invitesService) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*
 		endpoint = "/invites/{invite_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{invite_id}", apiutils.IdToString(r.inviteID))
+	path := strings.ReplaceAll(endpoint, "{invite_id}", apiutils.IDToString(r.inviteID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -449,7 +448,7 @@ func (s *invitesService) RevokeInviteLink(ctx context.Context, inviteID int64) R
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *invitesService) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -460,9 +459,9 @@ func (s *invitesService) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*zu
 		endpoint = "/invites/multiuse/{invite_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{invite_id}", apiutils.IdToString(r.inviteID))
+	path := strings.ReplaceAll(endpoint, "{invite_id}", apiutils.IDToString(r.inviteID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -593,7 +592,7 @@ func (s *invitesService) SendInvites(ctx context.Context) SendInvitesRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *invitesService) SendInvitesExecute(r SendInvitesRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -604,23 +603,23 @@ func (s *invitesService) SendInvitesExecute(r SendInvitesRequest) (*zulip.Respon
 		endpoint = "/invites"
 	)
 	if r.inviteeEmails == nil {
-		return nil, nil, fmt.Errorf("inviteeEmails is required and must be specified")
+		return nil, nil, errors.New("inviteeEmails is required and must be specified")
 	}
 	if r.channelIDs == nil {
 		return nil, nil, errors.New("channelIDs is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "invitee_emails", r.inviteeEmails)
-	apiutils.AddOptionalParam(form, "invite_expires_in_minutes", r.inviteExpiresInMinutes)
-	apiutils.AddOptionalParam(form, "invite_as", r.inviteAs)
+	apiutils.AddOptParam(form, "invite_expires_in_minutes", r.inviteExpiresInMinutes)
+	apiutils.AddOptParam(form, "invite_as", r.inviteAs)
 	apiutils.AddParam(form, "stream_ids", r.channelIDs)
-	apiutils.AddOptionalParam(form, "group_ids", r.groupIDs)
-	apiutils.AddOptionalParam(form, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions)
-	apiutils.AddOptionalParam(form, "notify_referrer_on_join", r.notifyReferrerOnJoin)
-	apiutils.AddOptionalParam(form, "welcome_message_custom_text", r.welcomeMessageCustomText)
+	apiutils.AddOptParam(form, "group_ids", r.groupIDs)
+	apiutils.AddOptParam(form, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions)
+	apiutils.AddOptParam(form, "notify_referrer_on_join", r.notifyReferrerOnJoin)
+	apiutils.AddOptParam(form, "welcome_message_custom_text", r.welcomeMessageCustomText)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err

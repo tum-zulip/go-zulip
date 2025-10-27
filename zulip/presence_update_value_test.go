@@ -7,6 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
@@ -53,7 +54,11 @@ func TestPresenceUpdateValue_MarshalUnmarshal_Legacy(t *testing.T) {
 	b, err := json.Marshal(expected)
 	require.NoError(t, err)
 
-	assert.Equal(t, `{"aggregated":{"client":"website","status":"active","timestamp":1760534744},"website":{"client":"website","status":"active","timestamp":1760534744}}`, string(b))
+	assert.JSONEq(
+		t,
+		`{"aggregated":{"client":"website","status":"active","timestamp":1760534744},"website":{"client":"website","status":"active","timestamp":1760534744}}`,
+		string(b),
+	)
 
 	// unmarshal produced bytes back into a map and compare
 	var got z.PresenceUpdateValue

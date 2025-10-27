@@ -4,7 +4,7 @@ package users
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	"net/http"
 	"net/url"
 	"strings"
@@ -427,12 +427,12 @@ type APIUsers interface {
 	// the compose UI (e.g. interacting with the compose box emoji picker),
 	// send regular `"op": "start"` requests to this endpoint, using
 	// `server_typing_started_wait_period_milliseconds` in the
-	// [`POST /register`] response as the time interval
+	// [`POST /register`] Response as the time interval
 	// between each request.
 	//   - Send a request to this endpoint with `"op": "stop"` when a user
 	// has stopped using the compose UI for the time period indicated by
 	// `server_typing_stopped_wait_period_milliseconds` in the
-	// [`POST /register`] response or when a user
+	// [`POST /register`] Response or when a user
 	// cancels the compose action (if it had previously sent a "start"
 	// notification for that compose action).
 	//   - Start displaying a visual typing indicator for a given conversation
@@ -442,7 +442,7 @@ type APIUsers interface {
 	// until a [`typing op:stop`] event is received
 	// from the server or the time period indicated by
 	// `server_typing_started_expiry_period_milliseconds` in the
-	// [`POST /register`] response has passed without
+	// [`POST /register`] Response has passed without
 	// a new `typing "op": "start"` event for the conversation.
 	//
 	// This protocol is designed to allow the server-side typing notifications
@@ -531,7 +531,7 @@ type APIUsers interface {
 	// Client apps implementing presence are recommended to also consume [`presence` events], in order to learn about newly online users
 	// immediately.
 	//
-	// The Zulip server is responsible for implementing [invisible mode],
+	// The Zulip server is Responseble for implementing [invisible mode],
 	// which disables sharing a user's presence data. Nonetheless, clients
 	// should check the `presence_enabled` field in user objects in order to
 	// display the current user as online or offline based on whether they are
@@ -539,7 +539,7 @@ type APIUsers interface {
 	//
 	// *Changes**: As of Zulip 8.0 (feature level 228), if the
 	// `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level setting is
-	// `true`, then user presence data in the response is [limited to users the current user can see/access].
+	// `true`, then user presence data in the Response is [limited to users the current user can see/access].
 	//
 	// [`presence` events]: https://zulip.com/api/get-events#presence
 	// [limited to users the current user can see/access]: https://zulip.com/help/guest-users#configure-whether-guests-can-see-all-other-users
@@ -577,7 +577,7 @@ type APIUsers interface {
 	// once clients have migrated to use this endpoint.
 	//
 	// Prior to Zulip 5.0 (feature level 78), this endpoint indicated
-	// which parameters it had processed by including in the response
+	// which parameters it had processed by including in the Response
 	// object `"key": value` entries for values successfully changed by
 	// the request. That was replaced by the more ergonomic
 	// [`ignored_parameters_unsupported`] array.
@@ -725,7 +725,7 @@ type usersService struct {
 	client clients.Client
 }
 
-func NewUsersService(client clients.Client) *usersService {
+func NewUsersService(client clients.Client) APIUsers {
 	return &usersService{client: client}
 }
 
@@ -759,7 +759,7 @@ func (s *usersService) AddAlertWords(ctx context.Context) AddAlertWordsRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -770,11 +770,11 @@ func (s *usersService) AddAlertWordsExecute(r AddAlertWordsRequest) (*AlertWords
 		endpoint = "/users/me/alert_words"
 	)
 	if r.alertWords == nil {
-		return nil, nil, fmt.Errorf("alertWords is required and must be specified")
+		return nil, nil, errors.New("alertWords is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	if err := apiutils.AddOptionalJSONParam(form, "alert_words", r.alertWords); err != nil {
 		return nil, nil, err
@@ -823,7 +823,7 @@ func (s *usersService) AddApnsToken(ctx context.Context) AddApnsTokenRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) AddApnsTokenExecute(r AddApnsTokenRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -834,14 +834,14 @@ func (s *usersService) AddApnsTokenExecute(r AddApnsTokenRequest) (*zulip.Respon
 		endpoint = "/users/me/apns_device_token"
 	)
 	if r.token == nil {
-		return nil, nil, fmt.Errorf("token is required and must be specified")
+		return nil, nil, errors.New("token is required and must be specified")
 	}
 	if r.appid == nil {
-		return nil, nil, fmt.Errorf("appid is required and must be specified")
+		return nil, nil, errors.New("appid is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "token", r.token)
 	apiutils.AddParam(form, "appid", r.appid)
@@ -880,7 +880,7 @@ func (s *usersService) AddFcmToken(ctx context.Context) AddFcmTokenRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) AddFcmTokenExecute(r AddFcmTokenRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -891,11 +891,11 @@ func (s *usersService) AddFcmTokenExecute(r AddFcmTokenRequest) (*zulip.Response
 		endpoint = "/users/me/android_gcm_reg_id"
 	)
 	if r.token == nil {
-		return nil, nil, fmt.Errorf("token is required and must be specified")
+		return nil, nil, errors.New("token is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "token", r.token)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -965,7 +965,7 @@ func (s *usersService) CreateUser(ctx context.Context) CreateUserRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) CreateUserExecute(r CreateUserRequest) (*CreateUserResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -976,17 +976,17 @@ func (s *usersService) CreateUserExecute(r CreateUserRequest) (*CreateUserRespon
 		endpoint = "/users"
 	)
 	if r.email == nil {
-		return nil, nil, fmt.Errorf("email is required and must be specified")
+		return nil, nil, errors.New("email is required and must be specified")
 	}
 	if r.password == nil {
-		return nil, nil, fmt.Errorf("password is required and must be specified")
+		return nil, nil, errors.New("password is required and must be specified")
 	}
 	if r.fullName == nil {
-		return nil, nil, fmt.Errorf("fullName is required and must be specified")
+		return nil, nil, errors.New("fullName is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "email", r.email)
 	apiutils.AddParam(form, "password", r.password)
@@ -1046,8 +1046,6 @@ func (r CreateUserGroupRequest) Subgroups(subgroups []int64) CreateUserGroupRequ
 // **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.
 //
 // [group-setting value]: https://zulip.com/api/group-setting-values
-//
-// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup zulip.GroupSettingValue) CreateUserGroupRequest {
 	r.canAddMembersGroup = &canAddMembersGroup
 	return r
@@ -1058,8 +1056,6 @@ func (r CreateUserGroupRequest) CanAddMembersGroup(canAddMembersGroup zulip.Grou
 // **Changes**: New in Zulip 10.0 (feature level 301).
 //
 // [group-setting value]: https://zulip.com/api/group-setting-values
-//
-// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanJoinGroup(canJoinGroup zulip.GroupSettingValue) CreateUserGroupRequest {
 	r.canJoinGroup = &canJoinGroup
 	return r
@@ -1070,8 +1066,6 @@ func (r CreateUserGroupRequest) CanJoinGroup(canJoinGroup zulip.GroupSettingValu
 // **Changes**: New in Zulip 10.0 (feature level 308).
 //
 // [group-setting value]: https://zulip.com/api/group-setting-values
-//
-// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanLeaveGroup(canLeaveGroup zulip.GroupSettingValue) CreateUserGroupRequest {
 	r.canLeaveGroup = &canLeaveGroup
 	return r
@@ -1104,8 +1098,6 @@ func (r CreateUserGroupRequest) CanMentionGroup(canMentionGroup zulip.GroupSetti
 // **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.
 //
 // [group-setting value]: https://zulip.com/api/group-setting-values
-//
-// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r CreateUserGroupRequest) CanRemoveMembersGroup(
 	canRemoveMembersGroup zulip.GroupSettingValue,
 ) CreateUserGroupRequest {
@@ -1129,7 +1121,7 @@ func (s *usersService) CreateUserGroup(ctx context.Context) CreateUserGroupReque
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) CreateUserGroupExecute(
 	r CreateUserGroupRequest,
 ) (*CreateUserGroupResponse, *http.Response, error) {
@@ -1142,22 +1134,22 @@ func (s *usersService) CreateUserGroupExecute(
 		endpoint = "/user_groups/create"
 	)
 	if r.name == nil {
-		return nil, nil, fmt.Errorf("name is required and must be specified")
+		return nil, nil, errors.New("name is required and must be specified")
 	}
 	if r.description == nil {
-		return nil, nil, fmt.Errorf("description is required and must be specified")
+		return nil, nil, errors.New("description is required and must be specified")
 	}
 	if r.members == nil {
-		return nil, nil, fmt.Errorf("members is required and must be specified")
+		return nil, nil, errors.New("members is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "name", r.name)
 	apiutils.AddParam(form, "description", r.description)
 	apiutils.AddParam(form, "members", r.members)
-	apiutils.AddOptionalParam(form, "subgroups", r.subgroups)
+	apiutils.AddOptParam(form, "subgroups", r.subgroups)
 	if err := apiutils.AddOptionalJSONParam(form, "can_add_members_group", r.canAddMembersGroup); err != nil {
 		return nil, nil, err
 	}
@@ -1209,7 +1201,7 @@ func (s *usersService) DeactivateOwnUser(ctx context.Context) DeactivateOwnUserR
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -1220,7 +1212,7 @@ func (s *usersService) DeactivateOwnUserExecute(r DeactivateOwnUserRequest) (*zu
 		endpoint = "/users/me"
 	)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1265,7 +1257,7 @@ func (s *usersService) DeactivateUser(ctx context.Context, userID int64) Deactiv
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) DeactivateUserExecute(r DeactivateUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -1276,12 +1268,12 @@ func (s *usersService) DeactivateUserExecute(r DeactivateUserRequest) (*zulip.Re
 		endpoint = "/users/{user_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IdToString(r.userID))
+	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IDToString(r.userID))
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "deactivation_notification_comment", r.deactivationNotificationComment)
+	apiutils.AddOptParam(form, "deactivation_notification_comment", r.deactivationNotificationComment)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1321,7 +1313,7 @@ func (s *usersService) DeactivateUserGroup(ctx context.Context, userGroupID int6
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) DeactivateUserGroupExecute(
 	r DeactivateUserGroupRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -1334,9 +1326,9 @@ func (s *usersService) DeactivateUserGroupExecute(
 		endpoint = "/user_groups/{user_group_id}/deactivate"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupID))
+	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IDToString(r.userGroupID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1367,7 +1359,7 @@ func (s *usersService) GetAlertWords(ctx context.Context) GetAlertWordsRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) GetAlertWordsExecute(r GetAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -1378,7 +1370,7 @@ func (s *usersService) GetAlertWordsExecute(r GetAlertWordsRequest) (*AlertWords
 		endpoint = "/users/me/alert_words"
 	)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1407,7 +1399,7 @@ func (s *usersService) GetAttachments(ctx context.Context) GetAttachmentsRequest
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) GetAttachmentsExecute(r GetAttachmentsRequest) (*GetAttachmentsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -1418,7 +1410,7 @@ func (s *usersService) GetAttachmentsExecute(r GetAttachmentsRequest) (*GetAttac
 		endpoint = "/attachments"
 	)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1468,7 +1460,7 @@ func (s *usersService) GetIsUserGroupMember(
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) GetIsUserGroupMemberExecute(
 	r GetIsUserGroupMemberRequest,
 ) (*GetIsUserGroupMemberResponse, *http.Response, error) {
@@ -1481,12 +1473,12 @@ func (s *usersService) GetIsUserGroupMemberExecute(
 		endpoint = "/user_groups/{user_group_id}/members/{user_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupID))
-	path = strings.ReplaceAll(path, "{user_id}", apiutils.IdToString(r.userID))
+	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IDToString(r.userGroupID))
+	path = strings.ReplaceAll(path, "{user_id}", apiutils.IDToString(r.userID))
 
-	apiutils.AddOptionalParam(query, "direct_member_only", r.directMemberOnly)
+	apiutils.AddOptParam(query, "direct_member_only", r.directMemberOnly)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1518,7 +1510,7 @@ func (s *usersService) GetOwnUser(ctx context.Context) GetOwnUserRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) GetOwnUserExecute(r GetOwnUserRequest) (*GetOwnUserResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -1529,7 +1521,7 @@ func (s *usersService) GetOwnUserExecute(r GetOwnUserRequest) (*GetOwnUserRespon
 		endpoint = "/users/me"
 	)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1547,7 +1539,7 @@ type GetUserRequest struct {
 	includeCustomProfileFields *bool
 }
 
-// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
+// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the Response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
 //
 // **Changes**: The default value of this parameter was `false` prior to Zulip 5.0 (feature level 92).
 func (r GetUserRequest) ClientGravatar(clientGravatar bool) GetUserRequest {
@@ -1555,7 +1547,7 @@ func (r GetUserRequest) ClientGravatar(clientGravatar bool) GetUserRequest {
 	return r
 }
 
-// Whether the client wants [custom profile field] data to be included in the response.
+// Whether the client wants [custom profile field] data to be included in the Response.
 //
 // **Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
 //
@@ -1588,7 +1580,7 @@ func (s *usersService) GetUser(ctx context.Context, userID int64) GetUserRequest
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) GetUserExecute(r GetUserRequest) (*GetUserResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -1599,12 +1591,12 @@ func (s *usersService) GetUserExecute(r GetUserRequest) (*GetUserResponse, *http
 		endpoint = "/users/{user_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IdToString(r.userID))
+	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IDToString(r.userID))
 
-	apiutils.AddOptionalParam(query, "client_gravatar", r.clientGravatar)
-	apiutils.AddOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
+	apiutils.AddOptParam(query, "client_gravatar", r.clientGravatar)
+	apiutils.AddOptParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1622,7 +1614,7 @@ type GetUserByEmailRequest struct {
 	includeCustomProfileFields *bool
 }
 
-// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
+// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the Response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
 //
 // **Changes**: The default value of this parameter was `false` prior to Zulip 5.0 (feature level 92).
 func (r GetUserByEmailRequest) ClientGravatar(clientGravatar bool) GetUserByEmailRequest {
@@ -1630,7 +1622,7 @@ func (r GetUserByEmailRequest) ClientGravatar(clientGravatar bool) GetUserByEmai
 	return r
 }
 
-// Whether the client wants [custom profile field] data to be included in the response.
+// Whether the client wants [custom profile field] data to be included in the Response.
 //
 // **Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
 //
@@ -1679,7 +1671,7 @@ func (s *usersService) GetUserByEmail(ctx context.Context, email string) GetUser
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -1692,10 +1684,10 @@ func (s *usersService) GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserR
 
 	path := strings.Replace(endpoint, "{email}", url.PathEscape(r.email), -1)
 
-	apiutils.AddOptionalParam(query, "client_gravatar", r.clientGravatar)
-	apiutils.AddOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
+	apiutils.AddOptParam(query, "client_gravatar", r.clientGravatar)
+	apiutils.AddOptParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1737,7 +1729,7 @@ func (s *usersService) GetUserGroupMembers(ctx context.Context, userGroupID int6
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) GetUserGroupMembersExecute(
 	r GetUserGroupMembersRequest,
 ) (*GetUserGroupMembersResponse, *http.Response, error) {
@@ -1749,11 +1741,11 @@ func (s *usersService) GetUserGroupMembersExecute(
 		response = &GetUserGroupMembersResponse{}
 		endpoint = "/user_groups/{user_group_id}/members"
 	)
-	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupID))
+	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IDToString(r.userGroupID))
 
-	apiutils.AddOptionalParam(query, "direct_member_only", r.directMemberOnly)
+	apiutils.AddOptParam(query, "direct_member_only", r.directMemberOnly)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1795,7 +1787,7 @@ func (s *usersService) GetUserGroupSubgroups(ctx context.Context, userGroupID in
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) GetUserGroupSubgroupsExecute(
 	r GetUserGroupSubgroupsRequest,
 ) (*GetUserGroupSubgroupsResponse, *http.Response, error) {
@@ -1808,11 +1800,11 @@ func (s *usersService) GetUserGroupSubgroupsExecute(
 		endpoint = "/user_groups/{user_group_id}/subgroups"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupID))
+	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IDToString(r.userGroupID))
 
-	apiutils.AddOptionalParam(query, "direct_subgroup_only", r.directSubgroupOnly)
+	apiutils.AddOptParam(query, "direct_subgroup_only", r.directSubgroupOnly)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1828,9 +1820,9 @@ type GetUserGroupsRequest struct {
 	includeDeactivatedGroups *bool
 }
 
-// Whether to include deactivated user groups in the response.
+// Whether to include deactivated user groups in the Response.
 //
-// **Changes**: In Zulip 10.0 (feature level 294), renamed `allow_deactivated` to `include_deactivated_groups`.  New in Zulip 10.0 (feature level 290). Previously, deactivated user groups did not exist and thus would never be included in the response.
+// **Changes**: In Zulip 10.0 (feature level 294), renamed `allow_deactivated` to `include_deactivated_groups`.  New in Zulip 10.0 (feature level 290). Previously, deactivated user groups did not exist and thus would never be included in the Response.
 func (r GetUserGroupsRequest) IncludeDeactivatedGroups(includeDeactivatedGroups bool) GetUserGroupsRequest {
 	r.includeDeactivatedGroups = &includeDeactivatedGroups
 	return r
@@ -1857,7 +1849,7 @@ func (s *usersService) GetUserGroups(ctx context.Context) GetUserGroupsRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGroupsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -1867,10 +1859,10 @@ func (s *usersService) GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGro
 		response = &GetUserGroupsResponse{}
 		endpoint = "/user_groups"
 	)
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "include_deactivated_groups", r.includeDeactivatedGroups)
+	apiutils.AddOptParam(form, "include_deactivated_groups", r.includeDeactivatedGroups)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1908,7 +1900,7 @@ func (s *usersService) GetUserPresence(ctx context.Context, userIDOrEmail string
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) GetUserPresenceExecute(
 	r GetUserPresenceRequest,
 ) (*GetUserPresenceResponse, *http.Response, error) {
@@ -1923,7 +1915,7 @@ func (s *usersService) GetUserPresenceExecute(
 
 	path := strings.ReplaceAll(endpoint, "{user_id_or_email}", url.PathEscape(r.userIDOrEmail))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1960,7 +1952,7 @@ func (s *usersService) GetUserStatus(ctx context.Context, userID int64) GetUserS
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) GetUserStatusExecute(r GetUserStatusRequest) (*GetUserStatusResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -1971,9 +1963,9 @@ func (s *usersService) GetUserStatusExecute(r GetUserStatusRequest) (*GetUserSta
 		endpoint = "/users/{user_id}/status"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IdToString(r.userID))
+	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IDToString(r.userID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1991,7 +1983,7 @@ type GetUsersRequest struct {
 	userIDs                    *[]int64
 }
 
-// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
+// Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the Response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
 //
 // **Changes**: The default value of this parameter was `false` prior to Zulip 5.0 (feature level 92).
 func (r GetUsersRequest) ClientGravatar(clientGravatar bool) GetUsersRequest {
@@ -1999,7 +1991,7 @@ func (r GetUsersRequest) ClientGravatar(clientGravatar bool) GetUsersRequest {
 	return r
 }
 
-// Whether the client wants [custom profile field] data to be included in the response.
+// Whether the client wants [custom profile field] data to be included in the Response.
 //
 // **Changes**: New in Zulip 2.1.0. Previous versions do not offer these data via the API.
 //
@@ -2047,7 +2039,7 @@ func (s *usersService) GetUsers(ctx context.Context) GetUsersRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
@@ -2057,11 +2049,11 @@ func (s *usersService) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *h
 		response = &GetUsersResponse{}
 		endpoint = "/users"
 	)
-	apiutils.AddOptionalParam(query, "client_gravatar", r.clientGravatar)
-	apiutils.AddOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
+	apiutils.AddOptParam(query, "client_gravatar", r.clientGravatar)
+	apiutils.AddOptParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
 	apiutils.AddOptionalCSVParam(query, "user_ids", r.userIDs)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -2107,7 +2099,7 @@ func (s *usersService) MuteUser(ctx context.Context, mutedUserID int64) MuteUser
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) MuteUserExecute(r MuteUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -2118,9 +2110,9 @@ func (s *usersService) MuteUserExecute(r MuteUserRequest) (*zulip.Response, *htt
 		endpoint = "/users/me/muted_users/{muted_user_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{muted_user_id}", apiutils.IdToString(r.mutedUserID))
+	path := strings.ReplaceAll(endpoint, "{muted_user_id}", apiutils.IDToString(r.mutedUserID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -2154,7 +2146,7 @@ func (s *usersService) ReactivateUser(ctx context.Context, userID int64) Reactiv
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) ReactivateUserExecute(r ReactivateUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -2165,9 +2157,9 @@ func (s *usersService) ReactivateUserExecute(r ReactivateUserRequest) (*zulip.Re
 		endpoint = "/users/{user_id}/reactivate"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IdToString(r.userID))
+	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IDToString(r.userID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -2207,7 +2199,7 @@ func (s *usersService) RemoveAlertWords(ctx context.Context) RemoveAlertWordsReq
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*AlertWordsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -2218,11 +2210,11 @@ func (s *usersService) RemoveAlertWordsExecute(r RemoveAlertWordsRequest) (*Aler
 		endpoint = "/users/me/alert_words"
 	)
 	if r.alertWords == nil {
-		return nil, nil, fmt.Errorf("alertWords is required and must be specified")
+		return nil, nil, errors.New("alertWords is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "alert_words", r.alertWords)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -2260,7 +2252,7 @@ func (s *usersService) RemoveApnsToken(ctx context.Context) RemoveApnsTokenReque
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -2271,11 +2263,11 @@ func (s *usersService) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*zulip.
 		endpoint = "/users/me/apns_device_token"
 	)
 	if r.token == nil {
-		return nil, nil, fmt.Errorf("token is required and must be specified")
+		return nil, nil, errors.New("token is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "token", r.token)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -2321,7 +2313,7 @@ func (s *usersService) RemoveAttachment(ctx context.Context, attachmentID int64)
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -2332,9 +2324,9 @@ func (s *usersService) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*zuli
 		endpoint = "/attachments/{attachment_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{attachment_id}", apiutils.IdToString(r.attachmentID))
+	path := strings.ReplaceAll(endpoint, "{attachment_id}", apiutils.IDToString(r.attachmentID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -2370,7 +2362,7 @@ func (s *usersService) RemoveFcmToken(ctx context.Context) RemoveFcmTokenRequest
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -2381,11 +2373,11 @@ func (s *usersService) RemoveFcmTokenExecute(r RemoveFcmTokenRequest) (*zulip.Re
 		endpoint = "/users/me/android_gcm_reg_id"
 	)
 	if r.token == nil {
-		return nil, nil, fmt.Errorf("token is required and must be specified")
+		return nil, nil, errors.New("token is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "token", r.token)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -2440,7 +2432,7 @@ func (r SetTypingStatusRequest) ChannelID(channelID int64) SetTypingStatusReques
 	return r
 }
 
-// Topic to which message is being typed. Required for the `"stream"` or `"channel"` type. Ignored in the case of `"direct"` type.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.
+// Topic to which message is being typed. Required for the `"stream"` or `"channel"` type. Ignored in the case of `"direct"` type.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] Response is used for this parameter, it is interpreted as an empty string.
 //
 // **Changes**: Before Zulip 10.0 (feature level 372), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 //
@@ -2463,10 +2455,10 @@ func (r SetTypingStatusRequest) Execute() (*zulip.Response, *http.Response, erro
 // protocol should work as follows:
 //
 //   - Send a request to this endpoint with `"op": "start"` when a user starts composing a message.
-//   - While the user continues to actively type or otherwise interact with the compose UI (e.g. interacting with the compose box emoji picker), send regular `"op": "start"` requests to this endpoint, using `server_typing_started_wait_period_milliseconds` in the [`POST /register`] response as the time interval between each request.
-//   - Send a request to this endpoint with `"op": "stop"` when a user has stopped using the compose UI for the time period indicated by `server_typing_stopped_wait_period_milliseconds` in the [`POST /register`] response or when a user cancels the compose action (if it had previously sent a "start" notification for that compose action).
+//   - While the user continues to actively type or otherwise interact with the compose UI (e.g. interacting with the compose box emoji picker), send regular `"op": "start"` requests to this endpoint, using `server_typing_started_wait_period_milliseconds` in the [`POST /register`] Response as the time interval between each request.
+//   - Send a request to this endpoint with `"op": "stop"` when a user has stopped using the compose UI for the time period indicated by `server_typing_stopped_wait_period_milliseconds` in the [`POST /register`] Response or when a user cancels the compose action (if it had previously sent a "start" notification for that compose action).
 //   - Start displaying a visual typing indicator for a given conversation when a [`typing op:start`] event is received from the server.
-//   - Continue displaying a visual typing indicator for the conversation until a [`typing op:stop`] event is received from the server or the time period indicated by `server_typing_started_expiry_period_milliseconds` in the [`POST /register`] response has passed without a new `typing "op": "start"` event for the conversation.
+//   - Continue displaying a visual typing indicator for the conversation until a [`typing op:stop`] event is received from the server or the time period indicated by `server_typing_started_expiry_period_milliseconds` in the [`POST /register`] Response has passed without a new `typing "op": "start"` event for the conversation.
 //
 // This protocol is designed to allow the server-side typing notifications
 // implementation to be stateless while being resilient as network failures
@@ -2499,7 +2491,7 @@ func (s *usersService) SetTypingStatus(ctx context.Context) SetTypingStatusReque
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) SetTypingStatusExecute(r SetTypingStatusRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -2510,19 +2502,19 @@ func (s *usersService) SetTypingStatusExecute(r SetTypingStatusRequest) (*zulip.
 		endpoint = "/typing"
 	)
 	if r.op == nil {
-		return nil, nil, fmt.Errorf("op is required and must be specified")
+		return nil, nil, errors.New("op is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "type", r.recipientType)
+	apiutils.AddOptParam(form, "type", r.recipientType)
 	apiutils.AddParam(form, "op", r.op)
 	if err := apiutils.AddOptionalJSONParam(form, "to", r.to); err != nil {
 		return nil, nil, err
 	}
-	apiutils.AddOptionalParam(form, "stream_id", r.channelID)
-	apiutils.AddOptionalParam(form, "topic", r.topic)
+	apiutils.AddOptParam(form, "stream_id", r.channelID)
+	apiutils.AddOptParam(form, "topic", r.topic)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -2577,7 +2569,7 @@ func (s *usersService) SetTypingStatusForMessageEdit(
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) SetTypingStatusForMessageEditExecute(
 	r SetTypingStatusForMessageEditRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -2590,14 +2582,14 @@ func (s *usersService) SetTypingStatusForMessageEditExecute(
 		endpoint = "/messages/{message_id}/typing"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IDToString(r.messageID))
 
 	if r.op == nil {
-		return nil, nil, fmt.Errorf("op is required and must be specified")
+		return nil, nil, errors.New("op is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "op", r.op)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -2635,7 +2627,7 @@ func (s *usersService) UnmuteUser(ctx context.Context, mutedUserID int64) Unmute
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) UnmuteUserExecute(r UnmuteUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
@@ -2646,9 +2638,9 @@ func (s *usersService) UnmuteUserExecute(r UnmuteUserRequest) (*zulip.Response, 
 		endpoint = "/users/me/muted_users/{muted_user_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{muted_user_id}", apiutils.IdToString(r.mutedUserID))
+	path := strings.ReplaceAll(endpoint, "{muted_user_id}", apiutils.IDToString(r.mutedUserID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -2678,7 +2670,7 @@ func (r UpdatePresenceRequest) Status(status zulip.PresenceStatus) UpdatePresenc
 	return r
 }
 
-// The identifier that specifies what presence data the client already has received, which allows the server to only return more recent user presence data.  This should be set to `-1` during initialization of the client in order to fetch all user presence data, unless the client is obtaining initial user presence metadata from the [`POST /register`] endpoint.  In subsequent queries to this endpoint, this value should be set to the most recent value of `presence_last_update_id` returned by the server in this endpoint's response, which implements incremental fetching of user presence data.  When this parameter is passed, the user presence data in the response will always be in the modern format.
+// The identifier that specifies what presence data the client already has received, which allows the server to only return more recent user presence data.  This should be set to `-1` during initialization of the client in order to fetch all user presence data, unless the client is obtaining initial user presence metadata from the [`POST /register`] endpoint.  In subsequent queries to this endpoint, this value should be set to the most recent value of `presence_last_update_id` returned by the server in this endpoint's Response, which implements incremental fetching of user presence data.  When this parameter is passed, the user presence data in the Response will always be in the modern format.
 //
 // **Changes**: New in Zulip 9.0 (feature level 263). Previously, the server sent user presence data for all users who had been active in the last two weeks unconditionally.
 //
@@ -2744,7 +2736,7 @@ func (r UpdatePresenceRequest) Execute() (*UpdatePresenceResponse, *http.Respons
 // Client apps implementing presence are recommended to also consume [`presence` events], in order to learn about newly online users
 // immediately.
 //
-// The Zulip server is responsible for implementing [invisible mode],
+// The Zulip server is Responseble for implementing [invisible mode],
 // which disables sharing a user's presence data. Nonetheless, clients
 // should check the `presence_enabled` field in user objects in order to
 // display the current user as online or offline based on whether they are
@@ -2752,7 +2744,7 @@ func (r UpdatePresenceRequest) Execute() (*UpdatePresenceResponse, *http.Respons
 //
 // *Changes**: As of Zulip 8.0 (feature level 228), if the
 // `CAN_ACCESS_ALL_USERS_GROUP_LIMITS_PRESENCE` server-level setting is
-// `true`, then user presence data in the response is [limited to users the current user can see/access].
+// `true`, then user presence data in the Response is [limited to users the current user can see/access].
 //
 // [limited to users the current user can see/access]: https://zulip.com/help/guest-users#configure-whether-guests-can-see-all-other-users
 // [invisible mode]: https://zulip.com/help/status-and-availability#invisible-mode
@@ -2766,7 +2758,7 @@ func (s *usersService) UpdatePresence(ctx context.Context) UpdatePresenceRequest
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePresenceResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -2777,17 +2769,17 @@ func (s *usersService) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePr
 		endpoint = "/users/me/presence"
 	)
 	if r.status == nil {
-		return nil, nil, fmt.Errorf("status is required and must be specified")
+		return nil, nil, errors.New("status is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "last_update_id", r.lastUpdateID)
-	apiutils.AddOptionalParam(form, "history_limit_days", r.historyLimitDays)
-	apiutils.AddOptionalParam(form, "new_user_input", r.newUserInput)
-	apiutils.AddOptionalParam(form, "ping_only", r.pingOnly)
-	apiutils.AddOptionalParam(form, "slim_presence", r.slimPresence)
+	apiutils.AddOptParam(form, "last_update_id", r.lastUpdateID)
+	apiutils.AddOptParam(form, "history_limit_days", r.historyLimitDays)
+	apiutils.AddOptParam(form, "new_user_input", r.newUserInput)
+	apiutils.AddOptParam(form, "ping_only", r.pingOnly)
+	apiutils.AddOptParam(form, "slim_presence", r.slimPresence)
 	apiutils.AddParam(form, "status", r.status)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
@@ -3244,7 +3236,7 @@ func (r UpdateSettingsRequest) EnableSounds(enableSounds bool) UpdateSettingsReq
 
 // The duration (in seconds) for which the server should wait to batch email notifications before sending them.
 //
-// **Changes**: New in Zulip 5.0 (feature level 82)
+// **Changes**: New in Zulip 5.0 (feature level 82).
 func (r UpdateSettingsRequest) EmailNotificationsBatchingPeriodSeconds(
 	emailNotificationsBatchingPeriodSeconds int32,
 ) UpdateSettingsRequest {
@@ -3575,7 +3567,7 @@ func (r UpdateSettingsRequest) Execute() (*zulip.Response, *http.Response, error
 // once clients have migrated to use this endpoint.
 //
 // Prior to Zulip 5.0 (feature level 78), this endpoint indicated
-// which parameters it had processed by including in the response
+// which parameters it had processed by including in the Response
 // object `"key": value` entries for values successfully changed by
 // the request. That was replaced by the more ergonomic
 // [`ignored_parameters_unsupported`] array.
@@ -3596,7 +3588,9 @@ func (s *usersService) UpdateSettings(ctx context.Context) UpdateSettingsRequest
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
+//
+//nolint:funlen
 func (s *usersService) UpdateSettingsExecute(r UpdateSettingsRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
@@ -3606,104 +3600,104 @@ func (s *usersService) UpdateSettingsExecute(r UpdateSettingsRequest) (*zulip.Re
 		response = &zulip.Response{}
 		endpoint = "/settings"
 	)
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "full_name", r.fullName)
-	apiutils.AddOptionalParam(form, "email", r.email)
-	apiutils.AddOptionalParam(form, "old_password", r.oldPassword)
-	apiutils.AddOptionalParam(form, "new_password", r.newPassword)
-	apiutils.AddOptionalParam(form, "twenty_four_hour_time", r.twentyFourHourTime)
-	apiutils.AddOptionalParam(form, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy)
-	apiutils.AddOptionalParam(form, "web_channel_default_view", r.webChannelDefaultView)
-	apiutils.AddOptionalParam(form, "starred_message_counts", r.starredMessageCounts)
-	apiutils.AddOptionalParam(form, "receives_typing_notifications", r.receivesTypingNotifications)
-	apiutils.AddOptionalParam(form, "web_suggest_update_timezone", r.webSuggestUpdateTimezone)
-	apiutils.AddOptionalParam(form, "fluid_layout_width", r.fluidLayoutWidth)
-	apiutils.AddOptionalParam(form, "high_contrast_mode", r.highContrastMode)
-	apiutils.AddOptionalParam(form, "web_font_size_px", r.webFontSizePx)
-	apiutils.AddOptionalParam(form, "web_line_height_percent", r.webLineHeightPercent)
-	apiutils.AddOptionalParam(form, "color_scheme", r.colorScheme)
-	apiutils.AddOptionalParam(form, "enable_drafts_synchronization", r.enableDraftsSynchronization)
-	apiutils.AddOptionalParam(form, "translate_emoticons", r.translateEmoticons)
-	apiutils.AddOptionalParam(form, "display_emoji_reaction_users", r.displayEmojiReactionUsers)
-	apiutils.AddOptionalParam(form, "default_language", r.defaultLanguage)
-	apiutils.AddOptionalParam(form, "web_home_view", r.webHomeView)
-	apiutils.AddOptionalParam(form, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView)
-	apiutils.AddOptionalParam(form, "left_side_userlist", r.leftSideUserlist)
-	apiutils.AddOptionalParam(form, "emojiset", r.emojiset)
-	apiutils.AddOptionalParam(form, "demote_inactive_streams", r.demoteInactiveChannels)
-	apiutils.AddOptionalParam(form, "user_list_style", r.userListStyle)
-	apiutils.AddOptionalParam(form, "web_animate_image_previews", r.webAnimateImagePreviews)
-	apiutils.AddOptionalParam(form, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy)
-	apiutils.AddOptionalParam(form, "hide_ai_features", r.hideAiFeatures)
-	apiutils.AddOptionalParam(form, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders)
-	apiutils.AddOptionalParam(form, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary)
-	apiutils.AddOptionalParam(form, "timezone", r.timezone)
-	apiutils.AddOptionalParam(form, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications)
-	apiutils.AddOptionalParam(form, "enable_stream_email_notifications", r.enableChannelEmailNotifications)
-	apiutils.AddOptionalParam(form, "enable_stream_push_notifications", r.enableChannelPushNotifications)
-	apiutils.AddOptionalParam(form, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications)
-	apiutils.AddOptionalParam(form, "notification_sound", r.notificationSound)
-	apiutils.AddOptionalParam(form, "enable_desktop_notifications", r.enableDesktopNotifications)
-	apiutils.AddOptionalParam(form, "enable_sounds", r.enableSounds)
-	apiutils.AddOptionalParam(
+	apiutils.AddOptParam(form, "full_name", r.fullName)
+	apiutils.AddOptParam(form, "email", r.email)
+	apiutils.AddOptParam(form, "old_password", r.oldPassword)
+	apiutils.AddOptParam(form, "new_password", r.newPassword)
+	apiutils.AddOptParam(form, "twenty_four_hour_time", r.twentyFourHourTime)
+	apiutils.AddOptParam(form, "web_mark_read_on_scroll_policy", r.webMarkReadOnScrollPolicy)
+	apiutils.AddOptParam(form, "web_channel_default_view", r.webChannelDefaultView)
+	apiutils.AddOptParam(form, "starred_message_counts", r.starredMessageCounts)
+	apiutils.AddOptParam(form, "receives_typing_notifications", r.receivesTypingNotifications)
+	apiutils.AddOptParam(form, "web_suggest_update_timezone", r.webSuggestUpdateTimezone)
+	apiutils.AddOptParam(form, "fluid_layout_width", r.fluidLayoutWidth)
+	apiutils.AddOptParam(form, "high_contrast_mode", r.highContrastMode)
+	apiutils.AddOptParam(form, "web_font_size_px", r.webFontSizePx)
+	apiutils.AddOptParam(form, "web_line_height_percent", r.webLineHeightPercent)
+	apiutils.AddOptParam(form, "color_scheme", r.colorScheme)
+	apiutils.AddOptParam(form, "enable_drafts_synchronization", r.enableDraftsSynchronization)
+	apiutils.AddOptParam(form, "translate_emoticons", r.translateEmoticons)
+	apiutils.AddOptParam(form, "display_emoji_reaction_users", r.displayEmojiReactionUsers)
+	apiutils.AddOptParam(form, "default_language", r.defaultLanguage)
+	apiutils.AddOptParam(form, "web_home_view", r.webHomeView)
+	apiutils.AddOptParam(form, "web_escape_navigates_to_home_view", r.webEscapeNavigatesToHomeView)
+	apiutils.AddOptParam(form, "left_side_userlist", r.leftSideUserlist)
+	apiutils.AddOptParam(form, "emojiset", r.emojiset)
+	apiutils.AddOptParam(form, "demote_inactive_streams", r.demoteInactiveChannels)
+	apiutils.AddOptParam(form, "user_list_style", r.userListStyle)
+	apiutils.AddOptParam(form, "web_animate_image_previews", r.webAnimateImagePreviews)
+	apiutils.AddOptParam(form, "web_stream_unreads_count_display_policy", r.webChannelUnreadsCountDisplayPolicy)
+	apiutils.AddOptParam(form, "hide_ai_features", r.hideAiFeatures)
+	apiutils.AddOptParam(form, "web_left_sidebar_show_channel_folders", r.webLeftSidebarShowChannelFolders)
+	apiutils.AddOptParam(form, "web_left_sidebar_unreads_count_summary", r.webLeftSidebarUnreadsCountSummary)
+	apiutils.AddOptParam(form, "timezone", r.timezone)
+	apiutils.AddOptParam(form, "enable_stream_desktop_notifications", r.enableChannelDesktopNotifications)
+	apiutils.AddOptParam(form, "enable_stream_email_notifications", r.enableChannelEmailNotifications)
+	apiutils.AddOptParam(form, "enable_stream_push_notifications", r.enableChannelPushNotifications)
+	apiutils.AddOptParam(form, "enable_stream_audible_notifications", r.enableChannelAudibleNotifications)
+	apiutils.AddOptParam(form, "notification_sound", r.notificationSound)
+	apiutils.AddOptParam(form, "enable_desktop_notifications", r.enableDesktopNotifications)
+	apiutils.AddOptParam(form, "enable_sounds", r.enableSounds)
+	apiutils.AddOptParam(
 		form,
 		"email_notifications_batching_period_seconds",
 		r.emailNotificationsBatchingPeriodSeconds,
 	)
-	apiutils.AddOptionalParam(form, "enable_offline_email_notifications", r.enableOfflineEmailNotifications)
-	apiutils.AddOptionalParam(form, "enable_offline_push_notifications", r.enableOfflinePushNotifications)
-	apiutils.AddOptionalParam(form, "enable_online_push_notifications", r.enableOnlinePushNotifications)
-	apiutils.AddOptionalParam(
+	apiutils.AddOptParam(form, "enable_offline_email_notifications", r.enableOfflineEmailNotifications)
+	apiutils.AddOptParam(form, "enable_offline_push_notifications", r.enableOfflinePushNotifications)
+	apiutils.AddOptParam(form, "enable_online_push_notifications", r.enableOnlinePushNotifications)
+	apiutils.AddOptParam(
 		form,
 		"enable_followed_topic_desktop_notifications",
 		r.enableFollowedTopicDesktopNotifications,
 	)
-	apiutils.AddOptionalParam(
+	apiutils.AddOptParam(
 		form,
 		"enable_followed_topic_email_notifications",
 		r.enableFollowedTopicEmailNotifications,
 	)
-	apiutils.AddOptionalParam(form, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications)
-	apiutils.AddOptionalParam(
+	apiutils.AddOptParam(form, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications)
+	apiutils.AddOptParam(
 		form,
 		"enable_followed_topic_audible_notifications",
 		r.enableFollowedTopicAudibleNotifications,
 	)
-	apiutils.AddOptionalParam(form, "enable_digest_emails", r.enableDigestEmails)
-	apiutils.AddOptionalParam(form, "enable_marketing_emails", r.enableMarketingEmails)
-	apiutils.AddOptionalParam(form, "enable_login_emails", r.enableLoginEmails)
-	apiutils.AddOptionalParam(form, "message_content_in_email_notifications", r.messageContentInEmailNotifications)
-	apiutils.AddOptionalParam(form, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications)
-	apiutils.AddOptionalParam(form, "wildcard_mentions_notify", r.wildcardMentionsNotify)
-	apiutils.AddOptionalParam(
+	apiutils.AddOptParam(form, "enable_digest_emails", r.enableDigestEmails)
+	apiutils.AddOptParam(form, "enable_marketing_emails", r.enableMarketingEmails)
+	apiutils.AddOptParam(form, "enable_login_emails", r.enableLoginEmails)
+	apiutils.AddOptParam(form, "message_content_in_email_notifications", r.messageContentInEmailNotifications)
+	apiutils.AddOptParam(form, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications)
+	apiutils.AddOptParam(form, "wildcard_mentions_notify", r.wildcardMentionsNotify)
+	apiutils.AddOptParam(
 		form,
 		"enable_followed_topic_wildcard_mentions_notify",
 		r.enableFollowedTopicWildcardMentionsNotify,
 	)
-	apiutils.AddOptionalParam(form, "desktop_icon_count_display", r.desktopIconCountDisplay)
-	apiutils.AddOptionalParam(form, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy)
-	apiutils.AddOptionalParam(form, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy)
-	apiutils.AddOptionalParam(
+	apiutils.AddOptParam(form, "desktop_icon_count_display", r.desktopIconCountDisplay)
+	apiutils.AddOptParam(form, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy)
+	apiutils.AddOptParam(form, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy)
+	apiutils.AddOptParam(
 		form,
 		"automatically_unmute_topics_in_muted_streams_policy",
 		r.automaticallyUnmuteTopicsInMutedChannelsPolicy,
 	)
-	apiutils.AddOptionalParam(
+	apiutils.AddOptParam(
 		form,
 		"automatically_follow_topics_where_mentioned",
 		r.automaticallyFollowTopicsWhereMentioned,
 	)
-	apiutils.AddOptionalParam(form, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy)
-	apiutils.AddOptionalParam(form, "presence_enabled", r.presenceEnabled)
-	apiutils.AddOptionalParam(form, "enter_sends", r.enterSends)
-	apiutils.AddOptionalParam(form, "send_private_typing_notifications", r.sendPrivateTypingNotifications)
-	apiutils.AddOptionalParam(form, "send_stream_typing_notifications", r.sendChannelTypingNotifications)
-	apiutils.AddOptionalParam(form, "send_read_receipts", r.sendReadReceipts)
-	apiutils.AddOptionalParam(form, "allow_private_data_export", r.allowPrivateDataExport)
-	apiutils.AddOptionalParam(form, "email_address_visibility", r.emailAddressVisibility)
-	apiutils.AddOptionalParam(form, "web_navigate_to_sent_message", r.webNavigateToSentMessage)
+	apiutils.AddOptParam(form, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy)
+	apiutils.AddOptParam(form, "presence_enabled", r.presenceEnabled)
+	apiutils.AddOptParam(form, "enter_sends", r.enterSends)
+	apiutils.AddOptParam(form, "send_private_typing_notifications", r.sendPrivateTypingNotifications)
+	apiutils.AddOptParam(form, "send_stream_typing_notifications", r.sendChannelTypingNotifications)
+	apiutils.AddOptParam(form, "send_read_receipts", r.sendReadReceipts)
+	apiutils.AddOptParam(form, "allow_private_data_export", r.allowPrivateDataExport)
+	apiutils.AddOptParam(form, "email_address_visibility", r.emailAddressVisibility)
+	apiutils.AddOptParam(form, "web_navigate_to_sent_message", r.webNavigateToSentMessage)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -3793,7 +3787,7 @@ func (s *usersService) UpdateStatus(ctx context.Context) UpdateStatusRequest {
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) UpdateStatusExecute(r UpdateStatusRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -3803,14 +3797,14 @@ func (s *usersService) UpdateStatusExecute(r UpdateStatusRequest) (*zulip.Respon
 		response = &zulip.Response{}
 		endpoint = "/users/me/status"
 	)
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "status_text", r.statusText)
-	apiutils.AddOptionalParam(form, "away", r.away)
-	apiutils.AddOptionalParam(form, "emoji_name", r.emojiName)
-	apiutils.AddOptionalParam(form, "emoji_code", r.emojiCode)
-	apiutils.AddOptionalParam(form, "reaction_type", r.reactionType)
+	apiutils.AddOptParam(form, "status_text", r.statusText)
+	apiutils.AddOptParam(form, "away", r.away)
+	apiutils.AddOptParam(form, "emoji_name", r.emojiName)
+	apiutils.AddOptParam(form, "emoji_code", r.emojiCode)
+	apiutils.AddOptParam(form, "reaction_type", r.reactionType)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -3884,7 +3878,7 @@ func (s *usersService) UpdateStatusForUser(ctx context.Context, userID int64) Up
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) UpdateStatusForUserExecute(
 	r UpdateStatusForUserRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -3897,15 +3891,15 @@ func (s *usersService) UpdateStatusForUserExecute(
 		endpoint = "/users/{user_id}/status"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IdToString(r.userID))
+	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IDToString(r.userID))
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "status_text", r.statusText)
-	apiutils.AddOptionalParam(form, "emoji_name", r.emojiName)
-	apiutils.AddOptionalParam(form, "emoji_code", r.emojiCode)
-	apiutils.AddOptionalParam(form, "reaction_type", r.reactionType)
+	apiutils.AddOptParam(form, "status_text", r.statusText)
+	apiutils.AddOptParam(form, "emoji_name", r.emojiName)
+	apiutils.AddOptParam(form, "emoji_code", r.emojiCode)
+	apiutils.AddOptParam(form, "reaction_type", r.reactionType)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -3979,7 +3973,7 @@ func (s *usersService) UpdateUser(ctx context.Context, userID int64) UpdateUserR
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) UpdateUserExecute(r UpdateUserRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
@@ -3990,15 +3984,15 @@ func (s *usersService) UpdateUserExecute(r UpdateUserRequest) (*zulip.Response, 
 		endpoint = "/users/{user_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IdToString(r.userID))
+	path := strings.ReplaceAll(endpoint, "{user_id}", apiutils.IDToString(r.userID))
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "full_name", r.fullName)
-	apiutils.AddOptionalParam(form, "role", r.role)
-	apiutils.AddOptionalParam(form, "profile_data", r.profileData)
-	apiutils.AddOptionalParam(form, "new_email", r.newEmail)
+	apiutils.AddOptParam(form, "full_name", r.fullName)
+	apiutils.AddOptParam(form, "role", r.role)
+	apiutils.AddOptParam(form, "profile_data", r.profileData)
+	apiutils.AddOptParam(form, "new_email", r.newEmail)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -4075,7 +4069,7 @@ func (s *usersService) UpdateUserByEmail(ctx context.Context, email string) Upda
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
@@ -4088,13 +4082,13 @@ func (s *usersService) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*zu
 
 	path := strings.Replace(endpoint, "{email}", url.PathEscape(r.email), -1)
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "full_name", r.fullName)
-	apiutils.AddOptionalParam(form, "role", r.role)
-	apiutils.AddOptionalParam(form, "profile_data", r.profileData)
-	apiutils.AddOptionalParam(form, "new_email", r.newEmail)
+	apiutils.AddOptParam(form, "full_name", r.fullName)
+	apiutils.AddOptParam(form, "role", r.role)
+	apiutils.AddOptParam(form, "profile_data", r.profileData)
+	apiutils.AddOptParam(form, "new_email", r.newEmail)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -4140,8 +4134,6 @@ func (r UpdateUserGroupRequest) Description(description string) UpdateUserGroupR
 // **Changes**: New in Zulip 10.0 (feature level 305). Previously, this permission was controlled by the `can_manage_group` setting.
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
-//
-// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanAddMembersGroup(
 	canAddMembersGroup zulip.GroupSettingValueUpdate,
 ) UpdateUserGroupRequest {
@@ -4154,8 +4146,6 @@ func (r UpdateUserGroupRequest) CanAddMembersGroup(
 // **Changes**: New in Zulip 10.0 (feature level 301).
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
-//
-// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanJoinGroup(canJoinGroup zulip.GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canJoinGroup = &canJoinGroup
 	return r
@@ -4166,8 +4156,6 @@ func (r UpdateUserGroupRequest) CanJoinGroup(canJoinGroup zulip.GroupSettingValu
 // **Changes**: New in Zulip 10.0 (feature level 308).
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
-//
-// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanLeaveGroup(canLeaveGroup zulip.GroupSettingValueUpdate) UpdateUserGroupRequest {
 	r.canLeaveGroup = &canLeaveGroup
 	return r
@@ -4203,8 +4191,6 @@ func (r UpdateUserGroupRequest) CanMentionGroup(canMentionGroup zulip.GroupSetti
 // **Changes**: New in Zulip 10.0 (feature level 324). Previously, this permission was controlled by the `can_manage_group` setting.
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values
-//
-// [system groups]: https://zulip.com/api/group-setting-values#system-groups
 func (r UpdateUserGroupRequest) CanRemoveMembersGroup(
 	canRemoveMembersGroup zulip.GroupSettingValueUpdate,
 ) UpdateUserGroupRequest {
@@ -4212,11 +4198,13 @@ func (r UpdateUserGroupRequest) CanRemoveMembersGroup(
 	return r
 }
 
-// A deactivated user group can be reactivated by passing this parameter as `false`.  Passing `true` does nothing as user group is deactivated using [`POST /user_groups/{user_group_id}/deactivate`] endpoint.
+// A deactivated user group can be reactivated by passing this parameter as `false`.
+//
+// Passing `true` does nothing as user group is deactivated using [`POST /user_groups/{user_group_id}/deactivate`] endpoint.
 //
 // **Changes**: New in Zulip 11.0 (feature level 386).
 //
-// [`POST /user_groups/{user_group_id}/deactivate`]: deactivate-user-group
+// [`POST /user_groups/{user_group_id}/deactivate`]: https://zulip.com/api/deactivate-user-group
 func (r UpdateUserGroupRequest) Deactivated(deactivated bool) UpdateUserGroupRequest {
 	r.deactivated = &deactivated
 	return r
@@ -4254,7 +4242,7 @@ func (s *usersService) UpdateUserGroup(ctx context.Context, userGroupID int64) U
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
@@ -4265,13 +4253,13 @@ func (s *usersService) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*zulip.
 		endpoint = "/user_groups/{user_group_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupID))
+	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IDToString(r.userGroupID))
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "name", r.name)
-	apiutils.AddOptionalParam(form, "description", r.description)
+	apiutils.AddOptParam(form, "name", r.name)
+	apiutils.AddOptParam(form, "description", r.description)
 	if err := apiutils.AddOptionalJSONParam(form, "can_add_members_group", r.canAddMembersGroup); err != nil {
 		return nil, nil, err
 	}
@@ -4290,7 +4278,7 @@ func (s *usersService) UpdateUserGroupExecute(r UpdateUserGroupRequest) (*zulip.
 	if err := apiutils.AddOptionalJSONParam(form, "can_remove_members_group", r.canRemoveMembersGroup); err != nil {
 		return nil, nil, err
 	}
-	apiutils.AddOptionalParam(form, "deactivated", r.deactivated)
+	apiutils.AddOptParam(form, "deactivated", r.deactivated)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -4311,8 +4299,8 @@ type UpdateUserGroupMembersRequest struct {
 }
 
 // The list of user IDs to be removed from the user group.
-func (r UpdateUserGroupMembersRequest) Delete(delete []int64) UpdateUserGroupMembersRequest {
-	r.delete = &delete
+func (r UpdateUserGroupMembersRequest) Delete(del []int64) UpdateUserGroupMembersRequest {
+	r.delete = &del
 	return r
 }
 
@@ -4362,7 +4350,7 @@ func (s *usersService) UpdateUserGroupMembers(ctx context.Context, userGroupID i
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) UpdateUserGroupMembersExecute(
 	r UpdateUserGroupMembersRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -4374,15 +4362,15 @@ func (s *usersService) UpdateUserGroupMembersExecute(
 		endpoint = "/user_groups/{user_group_id}/members"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupID))
+	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IDToString(r.userGroupID))
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "delete", r.delete)
-	apiutils.AddOptionalParam(form, "add", r.add)
-	apiutils.AddOptionalParam(form, "delete_subgroups", r.deleteSubgroups)
-	apiutils.AddOptionalParam(form, "add_subgroups", r.addSubgroups)
+	apiutils.AddOptParam(form, "delete", r.delete)
+	apiutils.AddOptParam(form, "add", r.add)
+	apiutils.AddOptParam(form, "delete_subgroups", r.deleteSubgroups)
+	apiutils.AddOptParam(form, "add_subgroups", r.addSubgroups)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, nil, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -4401,8 +4389,8 @@ type UpdateUserGroupSubgroupsRequest struct {
 }
 
 // The list of user group IDs to be removed from the user group.
-func (r UpdateUserGroupSubgroupsRequest) Delete(delete []int64) UpdateUserGroupSubgroupsRequest {
-	r.delete = &delete
+func (r UpdateUserGroupSubgroupsRequest) Delete(del []int64) UpdateUserGroupSubgroupsRequest {
+	r.delete = &del
 	return r
 }
 
@@ -4437,7 +4425,7 @@ func (s *usersService) UpdateUserGroupSubgroups(
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *usersService) UpdateUserGroupSubgroupsExecute(
 	r UpdateUserGroupSubgroupsRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -4450,13 +4438,13 @@ func (s *usersService) UpdateUserGroupSubgroupsExecute(
 		endpoint = "/user_groups/{user_group_id}/subgroups"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IdToString(r.userGroupID))
+	path := strings.ReplaceAll(endpoint, "{user_group_id}", apiutils.IDToString(r.userGroupID))
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "delete", r.delete)
-	apiutils.AddOptionalParam(form, "add", r.add)
+	apiutils.AddOptParam(form, "delete", r.delete)
+	apiutils.AddOptParam(form, "add", r.add)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err

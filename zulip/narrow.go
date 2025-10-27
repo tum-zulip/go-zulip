@@ -2,9 +2,10 @@ package zulip
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
+	"strconv"
 
-	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
+	"github.com/tum-zulip/go-zulip/zulip/internal/union"
 )
 
 // Narrow represents a query constraint for filtering messages in the Zulip API.
@@ -44,13 +45,13 @@ func (n *Narrow) And(term NarrowTerm) *Narrow {
 	return n
 }
 
-// AndNot adds and negates a positive term to the query
+// AndNot adds and negates a positive term to the query.
 func (n *Narrow) AndNot(term NarrowTerm) *Narrow {
 	term.Negated = true
 	return n.And(term)
 }
 
-// Constructs a narrow with a single term
+// Constructs a narrow with a single term.
 func Where(term NarrowTerm) *Narrow {
 	return NewNarrow().And(term)
 }
@@ -223,14 +224,6 @@ func HasEmbeds() NarrowTerm {
 	}
 }
 
-func (o NarrowOperand) MarshalJSON() ([]byte, error) {
-	return utils.MarshalUnionType(o)
-}
-
-func (o *NarrowOperand) UnmarshalJSON(data []byte) error {
-	return utils.UnmarshalUnionType(data, o)
-}
-
 // NewNarrowStringOperand creates a NarrowOperand with a string value.
 func NewNarrowStringOperand(value string) NarrowOperand {
 	return NarrowOperand{
@@ -252,43 +245,51 @@ func NewNarrowListOfIntOperand(value []int64) NarrowOperand {
 	}
 }
 
-func (o Narrow) MarshalJSON() ([]byte, error) {
-	return json.Marshal(o.terms)
-}
-
-func (o *Narrow) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, &o.terms)
-}
-
-// TODO: make not exported
+// ToArray converts the Narrow into the array format expected by some Zulip API endpoints (e.g., real-time events).
 func (n *Narrow) ToArray() ([][]string, error) {
+	const numNarrowTerms = 2 // operator and operand
+
 	if n == nil {
 		return nil, nil
 	}
-	terms := make([][]string, len(n.terms))
-	for i, t := range n.terms {
+	terms := make([][]string, 0, len(n.terms))
+	for _, t := range n.terms {
 		if t.Negated {
-			return nil, fmt.Errorf("negated narrows not supported with this endpoint")
+			return nil, errors.New("negated narrows not supported with this endpoint")
 		}
-		term := make([]string, 2)
+		term := make([]string, numNarrowTerms)
 		term[0] = string(t.Operator)
 
-		if t.Operand.ListOfInt != nil {
-			return nil, fmt.Errorf("negated narrows not supported with this endpoint")
-		}
 		if t.Operand.Int != nil && t.Operand.String != nil {
-			return nil, fmt.Errorf("only one type of operand can be valid at a time")
+			return nil, errors.New("only one type of operand can be valid at a time")
 		}
 
-		if t.Operand.String != nil {
+		switch {
+		case t.Operand.ListOfInt != nil:
+			return nil, errors.New("list of int operands not supported with this endpoint")
+		case t.Operand.String != nil:
 			term[1] = *t.Operand.String
-		} else if t.Operand.Int != nil {
-			term[1] = fmt.Sprintf("%d", *t.Operand.Int)
-		} else {
-			return nil, fmt.Errorf("operand cannot me empty")
+		case t.Operand.Int != nil:
+			term[1] = strconv.FormatInt(*t.Operand.Int, 10)
+		default:
+			return nil, errors.New("operand cannot be empty")
 		}
-		terms[i] = term
-
 	}
 	return terms, nil
+}
+
+func (n Narrow) MarshalJSON() ([]byte, error) {
+	return json.Marshal(n.terms)
+}
+
+func (n *Narrow) UnmarshalJSON(data []byte) error {
+	return json.Unmarshal(data, &n.terms)
+}
+
+func (o NarrowOperand) MarshalJSON() ([]byte, error) {
+	return union.Marshal(o)
+}
+
+func (o *NarrowOperand) UnmarshalJSON(data []byte) error {
+	return union.Unmarshal(data, o)
 }

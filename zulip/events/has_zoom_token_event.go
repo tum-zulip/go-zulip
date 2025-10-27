@@ -5,6 +5,7 @@ package events
 // [Zoom integration]: https://zulip.com/help/configure-call-provider
 type HasZoomTokenEvent struct {
 	event
+
 	// A boolean specifying whether the user has zoom token or not.
 	Value bool `json:"value,omitempty"`
 }

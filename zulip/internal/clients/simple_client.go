@@ -43,27 +43,32 @@ func NewSimpleClient(cfg Config) *SimpleClient {
 
 func (c *SimpleClient) ServerURL() (string, error) {
 	if c.RC.Site != "" {
-		return fmt.Sprintf("%s/%s/%s", c.RC.Site, c.ApiSuffix, c.ApiVersion), nil
+		return fmt.Sprintf("%s/%s/%s", c.RC.Site, c.APISuffix, c.APIVersion), nil
 	}
 	return "", errors.New("base URL is not set")
 }
 
 // Allow modification of underlying config for alternate implementations and testing
-// Caution: modifying the configuration while live can cause data races and potentially unwanted behavior
-func (c *SimpleClient) GetZulipRC() *zulip.ZulipRC {
+// Caution: modifying the configuration while live can cause data races and potentially unwanted behavior.
+func (c *SimpleClient) GetZulipRC() *zulip.RC {
 	return c.RC
 }
 
-func (c *SimpleClient) CallAPI(ctx context.Context, endpoint string, req *http.Request, model ResponseModel) (httpResp *http.Response, err error) {
+func (c *SimpleClient) CallAPI(
+	ctx context.Context,
+	endpoint string,
+	req *http.Request,
+	model ResponseModel,
+) (*http.Response, error) {
 	if ctx == nil {
 		ctx = context.Background()
 	}
 
 	if model == nil {
-		return nil, fmt.Errorf("response model cannot be nil")
+		return nil, errors.New("response model cannot be nil")
 	}
 
-	httpResp, err = c.doHTTPCall(ctx, endpoint, req)
+	httpResp, err := c.doHTTPCall(ctx, endpoint, req)
 	if err != nil || httpResp == nil {
 		if c.GatherStats {
 			c.Stats.Error(endpoint)
@@ -73,7 +78,11 @@ func (c *SimpleClient) CallAPI(ctx context.Context, endpoint string, req *http.R
 	}
 
 	body, err := io.ReadAll(httpResp.Body)
-	httpResp.Body.Close()
+	closeErr := httpResp.Body.Close()
+	if closeErr != nil {
+		c.Logger.ErrorContext(ctx, "failed to close Response body", "error", closeErr)
+		return httpResp, closeErr
+	}
 	httpResp.Body = io.NopCloser(bytes.NewBuffer(body))
 	if err != nil {
 		if c.GatherStats {
@@ -83,7 +92,7 @@ func (c *SimpleClient) CallAPI(ctx context.Context, endpoint string, req *http.R
 		return httpResp, err
 	}
 
-	if httpResp.StatusCode >= 300 {
+	if httpResp.StatusCode >= http.StatusMultipleChoices { // 300+
 		if c.GatherStats {
 			c.Stats.Error(endpoint)
 		}
@@ -96,7 +105,7 @@ func (c *SimpleClient) CallAPI(ctx context.Context, endpoint string, req *http.R
 		if c.GatherStats {
 			c.Stats.Error(endpoint)
 		}
-		return httpResp, zulip.NewAPIError(body, err.Error(), nil)
+		return httpResp, zulip.NewAPIError(body, err)
 	}
 
 	c.handleUnsupportedParameters(ctx, model.GetIgnoredParametersUnsupported())
@@ -120,7 +129,7 @@ func (c *SimpleClient) doHTTPCall(ctx context.Context, endpoint string, request 
 	}
 
 	begin := time.Now()
-	resp, err := c.HttpClient.Do(request)
+	resp, err := c.HTTPClient.Do(request)
 	end := time.Now()
 
 	if c.GatherStats {
@@ -132,7 +141,7 @@ func (c *SimpleClient) doHTTPCall(ctx context.Context, endpoint string, request 
 	if debug && resp != nil {
 		dump, err := httputil.DumpResponse(resp, true)
 		if err != nil {
-			c.Logger.ErrorContext(ctx, "failed to dump http response to string", "error", err)
+			c.Logger.ErrorContext(ctx, "failed to dump http Response to string", "error", err)
 		}
 		c.Logger.DebugContext(ctx, "HTTP Response", "dump", string(dump))
 	}

@@ -5,6 +5,7 @@ package events
 // **Changes**: Before Zulip 8.0 (feature level 233), this event was named `hotspots`. Prior to this feature level, one-time notice onboarding steps were not supported.
 type OnboardingStepsEvent struct {
 	event
+
 	// An array of dictionaries where each dictionary contains details about a single onboarding step.
 	//
 	// **Changes**: Before Zulip 8.0 (feature level 233), this array was named `hotspots`. Prior to this feature level, one-time notice onboarding steps were not supported, and the `type` field in these objects did not exist as all onboarding steps were implicitly hotspots.

@@ -1,3 +1,6 @@
+// Package clients provides HTTP client abstractions and configurations for the Zulip API.
+// It defines the core Client interface for making API calls, Response models, and configuration
+// options for customizing client behavior including retry policies, logging, and user agents.
 package clients
 
 import (
@@ -10,23 +13,35 @@ import (
 
 const retryIndefinitely = -1
 
+// ResponseModel defines the interface that API Response models must implement.
+// It provides information about parameters that were ignored during unmarshaling.
 type ResponseModel interface {
 	GetIgnoredParametersUnsupported() []string
 }
 
+// Client defines the interface for making authenticated API calls to the Zulip server.
+// Implementations handle request execution, retry logic, and HTTP communication.
 type Client interface {
-	CallAPI(ctx context.Context, endpoint string, req *http.Request, model ResponseModel) (httpResp *http.Response, err error)
+	CallAPI(
+		ctx context.Context,
+		endpoint string,
+		req *http.Request,
+		model ResponseModel,
+	) (httpResp *http.Response, err error)
 	ServerURL() (string, error)
 	GetUserAgent() string
 }
 
+// Option is a functional option for configuring a Client.
 type Option func(*Config)
 
+// Config holds the configuration for a Zulip API client.
+// It includes server credentials, HTTP client settings, logging configuration, and API version information.
 type Config struct {
-	RC *zulip.ZulipRC
+	RC *zulip.RC
 
 	UserAgent       string
-	HttpClient      *http.Client
+	HTTPClient      *http.Client
 	Logger          *slog.Logger
 	InsecureWarning bool
 
@@ -36,20 +51,23 @@ type Config struct {
 
 	MaxRetries int
 
-	ApiSuffix    string
-	ApiVersion   string
+	APISuffix    string
+	APIVersion   string
 	FeatureLevel int
 }
 
-func NewConfig(rc *zulip.ZulipRC, opts ...Option) (Config, error) {
+// NewConfig creates and returns a new Config with default values and applied options.
+// It builds the underlying HTTP client and sets the user agent. Returns an error if
+// HTTP client initialization fails.
+func NewConfig(rc *zulip.RC, opts ...Option) (Config, error) {
 	cfg := Config{
 		RC:              rc,
 		ClientName:      defaultClientName,
 		MaxRetries:      retryIndefinitely,
 		InsecureWarning: true,
 		GatherStats:     false,
-		ApiSuffix:       defaultAPISuffix,
-		ApiVersion:      defaultAPIVersion,
+		APISuffix:       defaultAPISuffix,
+		APIVersion:      defaultAPIVersion,
 		Logger:          slog.Default(),
 	}
 
@@ -62,7 +80,7 @@ func NewConfig(rc *zulip.ZulipRC, opts ...Option) (Config, error) {
 		return cfg, err
 	}
 
-	cfg.HttpClient = httpClient
+	cfg.HTTPClient = httpClient
 	cfg.UserAgent = userAgent
 	return cfg, nil
 }

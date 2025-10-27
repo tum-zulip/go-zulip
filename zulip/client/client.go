@@ -13,11 +13,11 @@ import (
 	"github.com/tum-zulip/go-zulip/zulip/api/invites"
 	"github.com/tum-zulip/go-zulip/zulip/api/messages"
 	"github.com/tum-zulip/go-zulip/zulip/api/mobile"
-	"github.com/tum-zulip/go-zulip/zulip/api/navigation_views"
-	"github.com/tum-zulip/go-zulip/zulip/api/real_time_events"
+	navigationviews "github.com/tum-zulip/go-zulip/zulip/api/navigation_views"
+	realtimeevents "github.com/tum-zulip/go-zulip/zulip/api/real_time_events"
 	"github.com/tum-zulip/go-zulip/zulip/api/reminders"
-	"github.com/tum-zulip/go-zulip/zulip/api/scheduled_messages"
-	"github.com/tum-zulip/go-zulip/zulip/api/server_and_organizations"
+	scheduledmessages "github.com/tum-zulip/go-zulip/zulip/api/scheduled_messages"
+	serverandorganizations "github.com/tum-zulip/go-zulip/zulip/api/server_and_organizations"
 	"github.com/tum-zulip/go-zulip/zulip/api/users"
 	"github.com/tum-zulip/go-zulip/zulip/client/statistics"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
@@ -30,37 +30,36 @@ type Client interface {
 	invites.APIInvites
 	messages.APIMessages
 	mobile.APIMobile
-	navigation_views.APINavigationViews
-	real_time_events.APIRealTimeEvents
+	navigationviews.APINavigationViews
+	realtimeevents.APIRealTimeEvents
 	reminders.APIReminders
-	scheduled_messages.APIScheduledMessages
-	server_and_organizations.APIServerAndOrganizations
+	scheduledmessages.APIScheduledMessages
+	serverandorganizations.APIServerAndOrganizations
 	users.APIUsers
 
-	GetStatistics() map[string]statistics.Statistic
+	GetStatistics() statistics.Statistics
 }
 
 var _ Client = (*client)(nil)
 
 type client struct {
-	apiClient clients.RetryClient
-
 	authentication.APIAuthentication
 	channels.APIChannels
 	drafts.APIDrafts
 	invites.APIInvites
 	messages.APIMessages
 	mobile.APIMobile
-	navigation_views.APINavigationViews
-	real_time_events.APIRealTimeEvents
+	navigationviews.APINavigationViews
+	realtimeevents.APIRealTimeEvents
 	reminders.APIReminders
-	scheduled_messages.APIScheduledMessages
-	server_and_organizations.APIServerAndOrganizations
+	scheduledmessages.APIScheduledMessages
+	serverandorganizations.APIServerAndOrganizations
 	users.APIUsers
+
+	apiClient clients.RetryClient
 }
 
-func NewClient(zuliprc *zulip.ZulipRC, opts ...clients.Option) (*client, error) {
-
+func NewClient(zuliprc *zulip.RC, opts ...clients.Option) (Client, error) {
 	cfg, err := clients.NewConfig(zuliprc, opts...)
 	if err != nil {
 		return nil, err
@@ -74,19 +73,19 @@ func NewClient(zuliprc *zulip.ZulipRC, opts ...clients.Option) (*client, error) 
 	return c, nil
 }
 
-func (c *client) GetStatistics() map[string]statistics.Statistic {
+func (c *client) GetStatistics() statistics.Statistics {
 	return c.apiClient.Stats.GetStatistics()
 }
 
 func WithAPISuffix(suffix string) clients.Option {
 	return func(cfg *clients.Config) {
-		cfg.ApiSuffix = suffix
+		cfg.APISuffix = suffix
 	}
 }
 
 func WithAPIVersion(version string) clients.Option {
 	return func(cfg *clients.Config) {
-		cfg.ApiVersion = version
+		cfg.APIVersion = version
 	}
 }
 
@@ -102,7 +101,7 @@ func WithLogger(logger *slog.Logger) clients.Option {
 
 func WithHTTPClient(httpClient *http.Client) clients.Option {
 	return func(cfg *clients.Config) {
-		cfg.HttpClient = httpClient
+		cfg.HTTPClient = httpClient
 	}
 }
 
@@ -137,10 +136,10 @@ func (c *client) initializeFromClient(apiClient clients.Client) {
 	c.APIInvites = invites.NewInvitesService(apiClient)
 	c.APIMessages = messages.NewMessagesService(apiClient)
 	c.APIMobile = mobile.NewMobileService(apiClient)
-	c.APINavigationViews = navigation_views.NewNavigationViewsService(apiClient)
-	c.APIRealTimeEvents = real_time_events.NewRealTimeEventsService(apiClient)
+	c.APINavigationViews = navigationviews.NewNavigationViewsService(apiClient)
+	c.APIRealTimeEvents = realtimeevents.NewRealTimeEventsService(apiClient)
 	c.APIReminders = reminders.NewRemindersService(apiClient)
-	c.APIScheduledMessages = scheduled_messages.NewScheduledMessagesService(apiClient)
-	c.APIServerAndOrganizations = server_and_organizations.NewServerAndOrganizationsService(apiClient)
+	c.APIScheduledMessages = scheduledmessages.NewScheduledMessagesService(apiClient)
+	c.APIServerAndOrganizations = serverandorganizations.NewServerAndOrganizationsService(apiClient)
 	c.APIUsers = users.NewUsersService(apiClient)
 }

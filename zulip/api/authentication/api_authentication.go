@@ -4,7 +4,7 @@ package authentication
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	"net/http"
 	"net/url"
 
@@ -13,8 +13,7 @@ import (
 )
 
 type APIAuthentication interface {
-
-	// DevFetchApiKey Fetch an API key (development only)
+	// DevFetchAPIKey Fetch an API key (development only)
 	//
 	// For easy testing of mobile apps and other clients and against Zulip
 	// development servers, we support fetching a Zulip API key for any user
@@ -27,17 +26,12 @@ type APIAuthentication interface {
 	// *Note:** This endpoint is only available on Zulip development
 	// servers; for obvious security reasons it will always return an error
 	// in a Zulip production server.
-	//
-	//
-	// @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	// @return DevFetchApiKeyRequest
-	DevFetchApiKey(ctx context.Context) DevFetchApiKeyRequest
+	DevFetchAPIKey(ctx context.Context) DevFetchAPIKeyRequest
 
-	// DevFetchApiKeyExecute executes the request
-	//  @return ApiKeyResponse
-	DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error)
+	// DevFetchAPIKeyExecute executes the request
+	DevFetchAPIKeyExecute(r DevFetchAPIKeyRequest) (*APIKeyResponse, *http.Response, error)
 
-	// FetchApiKey Fetch an API key (production)
+	// FetchAPIKey Fetch an API key (production)
 	//
 	// This API endpoint is used by clients such as the Zulip mobile and
 	// terminal apps to implement password-based authentication. Given the
@@ -63,48 +57,43 @@ type APIAuthentication interface {
 	//
 	// In a [Zulip development environment], see also [the unauthenticated variant].
 	//
-	//
-	// @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	// @return FetchApiKeyRequest
-	//
 	// [reset your password]: https://zulip.com/help/change-your-password
 	// [API keys]: https://zulip.com/api/api-keys
 	// [Zulip development environment]: https://zulip.readthedocs.io/en/latest/development/overview.html
 	// [the unauthenticated variant]: https://zulip.com/api/dev-fetch-api-key
-	FetchApiKey(ctx context.Context) FetchApiKeyRequest
+	FetchAPIKey(ctx context.Context) FetchAPIKeyRequest
 
-	// FetchApiKeyExecute executes the request
-	//  @return ApiKeyResponse
-	FetchApiKeyExecute(r FetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error)
+	// FetchAPIKeyExecute executes the request
+	FetchAPIKeyExecute(r FetchAPIKeyRequest) (*APIKeyResponse, *http.Response, error)
 }
 
 type authenticationService struct {
 	client clients.Client
 }
 
-func NewAuthenticationService(client clients.Client) *authenticationService {
+func NewAuthenticationService(client clients.Client) APIAuthentication {
 	return &authenticationService{client: client}
 }
 
 var _ APIAuthentication = (*authenticationService)(nil)
 
-type DevFetchApiKeyRequest struct {
+type DevFetchAPIKeyRequest struct {
 	ctx        context.Context
 	apiService APIAuthentication
 	username   *string
 }
 
 // The email address for the user that owns the API key.
-func (r DevFetchApiKeyRequest) Username(username string) DevFetchApiKeyRequest {
+func (r DevFetchAPIKeyRequest) Username(username string) DevFetchAPIKeyRequest {
 	r.username = &username
 	return r
 }
 
-func (r DevFetchApiKeyRequest) Execute() (*ApiKeyResponse, *http.Response, error) {
-	return r.apiService.DevFetchApiKeyExecute(r)
+func (r DevFetchAPIKeyRequest) Execute() (*APIKeyResponse, *http.Response, error) {
+	return r.apiService.DevFetchAPIKeyExecute(r)
 }
 
-// DevFetchApiKey Fetch an API key (development only)
+// DevFetchAPIKey Fetch an API key (development only)
 //
 // For easy testing of mobile apps and other clients and against Zulip
 // development servers, we support fetching a Zulip API key for any user
@@ -117,34 +106,31 @@ func (r DevFetchApiKeyRequest) Execute() (*ApiKeyResponse, *http.Response, error
 // *Note:** This endpoint is only available on Zulip development
 // servers; for obvious security reasons it will always return an error
 // in a Zulip production server.
-//
-// @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-// @return DevFetchApiKeyRequest
-func (s *authenticationService) DevFetchApiKey(ctx context.Context) DevFetchApiKeyRequest {
-	return DevFetchApiKeyRequest{
+func (s *authenticationService) DevFetchAPIKey(ctx context.Context) DevFetchAPIKeyRequest {
+	return DevFetchAPIKeyRequest{
 		apiService: s,
 		ctx:        ctx,
 	}
 }
 
-// Execute executes the request
-//
-//	@return ApiKeyResponse
-func (s *authenticationService) DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error) {
+// Execute executes the request.
+func (s *authenticationService) DevFetchAPIKeyExecute(
+	r DevFetchAPIKeyRequest,
+) (*APIKeyResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &ApiKeyResponse{}
+		response = &APIKeyResponse{}
 		endpoint = "/dev_fetch_api_key"
 	)
 	if r.username == nil {
-		return nil, nil, fmt.Errorf("username is required and must be specified")
+		return nil, nil, errors.New("username is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "username", r.username)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -156,7 +142,7 @@ func (s *authenticationService) DevFetchApiKeyExecute(r DevFetchApiKeyRequest) (
 	return response, httpResp, err
 }
 
-type FetchApiKeyRequest struct {
+type FetchAPIKeyRequest struct {
 	ctx        context.Context
 	apiService APIAuthentication
 	username   *string
@@ -166,22 +152,22 @@ type FetchApiKeyRequest struct {
 // The username to be used for authentication (typically, the email address, but depending on configuration, it could be an LDAP username).  See the `require_email_format_usernames` parameter documented in [GET /server_settings] for details.
 //
 // [GET /server_settings]: https://zulip.com/api/get-server-settings
-func (r FetchApiKeyRequest) Username(username string) FetchApiKeyRequest {
+func (r FetchAPIKeyRequest) Username(username string) FetchAPIKeyRequest {
 	r.username = &username
 	return r
 }
 
 // The user's Zulip password (or LDAP password, if LDAP authentication is in use).
-func (r FetchApiKeyRequest) Password(password string) FetchApiKeyRequest {
+func (r FetchAPIKeyRequest) Password(password string) FetchAPIKeyRequest {
 	r.password = &password
 	return r
 }
 
-func (r FetchApiKeyRequest) Execute() (*ApiKeyResponse, *http.Response, error) {
-	return r.apiService.FetchApiKeyExecute(r)
+func (r FetchAPIKeyRequest) Execute() (*APIKeyResponse, *http.Response, error) {
+	return r.apiService.FetchAPIKeyExecute(r)
 }
 
-// FetchApiKey Fetch an API key (production)
+// FetchAPIKey Fetch an API key (production)
 //
 // This API endpoint is used by clients such as the Zulip mobile and
 // terminal apps to implement password-based authentication. Given the
@@ -207,41 +193,36 @@ func (r FetchApiKeyRequest) Execute() (*ApiKeyResponse, *http.Response, error) {
 //
 // In a [Zulip development environment], see also [the unauthenticated variant].
 //
-// @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-// @return FetchApiKeyRequest
-//
 // [reset your password]: https://zulip.com/help/change-your-password
 // [API keys]: https://zulip.com/api/api-keys
 // [Zulip development environment]: https://zulip.readthedocs.io/en/latest/development/overview.html
 // [the unauthenticated variant]: https://zulip.com/api/dev-fetch-api-key
-func (s *authenticationService) FetchApiKey(ctx context.Context) FetchApiKeyRequest {
-	return FetchApiKeyRequest{
+func (s *authenticationService) FetchAPIKey(ctx context.Context) FetchAPIKeyRequest {
+	return FetchAPIKeyRequest{
 		apiService: s,
 		ctx:        ctx,
 	}
 }
 
-// Execute executes the request
-//
-//	@return ApiKeyResponse
-func (s *authenticationService) FetchApiKeyExecute(r FetchApiKeyRequest) (*ApiKeyResponse, *http.Response, error) {
+// Execute executes the request.
+func (s *authenticationService) FetchAPIKeyExecute(r FetchAPIKeyRequest) (*APIKeyResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &ApiKeyResponse{}
+		response = &APIKeyResponse{}
 		endpoint = "/fetch_api_key"
 	)
 	if r.username == nil {
-		return nil, nil, fmt.Errorf("username is required and must be specified")
+		return nil, nil, errors.New("username is required and must be specified")
 	}
 	if r.password == nil {
-		return nil, nil, fmt.Errorf("password is required and must be specified")
+		return nil, nil, errors.New("password is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "username", r.username)
 	apiutils.AddParam(form, "password", r.password)

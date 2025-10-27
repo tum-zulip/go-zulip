@@ -40,4 +40,5 @@ func Example() {
 	if err != nil {
 		slog.Error("failed to send message", "error", err)
 	}
+	// Output:
 }

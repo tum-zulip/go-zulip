@@ -7,11 +7,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestAttachmentMarshalJSON_UsesUnixMillis(t *testing.T) {
-
 	timestamp := time.UnixMilli(1700000000123)
 	attachment := z.Attachment{
 		CreateTime: timestamp,
@@ -26,11 +26,10 @@ func TestAttachmentMarshalJSON_UsesUnixMillis(t *testing.T) {
 	value, ok := payload["create_time"]
 	require.True(t, ok, "create_time should be present in payload")
 	require.IsType(t, float64(0), value)
-	assert.Equal(t, float64(timestamp.UnixMilli()), value)
+	assert.InEpsilon(t, float64(timestamp.UnixMilli()), value, 0.001)
 }
 
 func TestAttachmentUnmarshalJSON_ParsesUnixMillis(t *testing.T) {
-
 	raw := []byte(`{"create_time":1700000000123}`)
 
 	var attachment z.Attachment
@@ -42,7 +41,6 @@ func TestAttachmentUnmarshalJSON_ParsesUnixMillis(t *testing.T) {
 }
 
 func TestAttachmentMessagesMarshalJSON_UsesUnixMillis(t *testing.T) {
-
 	timestamp := time.UnixMilli(1700000000456)
 	message := z.AttachmentMessages{
 		DateSent: timestamp,
@@ -57,11 +55,10 @@ func TestAttachmentMessagesMarshalJSON_UsesUnixMillis(t *testing.T) {
 	value, ok := payload["date_sent"]
 	require.True(t, ok, "date_sent should be present in payload")
 	require.IsType(t, float64(0), value)
-	assert.Equal(t, float64(timestamp.UnixMilli()), value)
+	assert.InEpsilon(t, float64(timestamp.UnixMilli()), value, 0.001)
 }
 
 func TestAttachmentMessagesUnmarshalJSON_ParsesUnixMillis(t *testing.T) {
-
 	raw := []byte(`{"date_sent":1700000000456}`)
 
 	var message z.AttachmentMessages

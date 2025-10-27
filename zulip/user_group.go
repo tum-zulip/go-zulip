@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
+	strictdecoder "github.com/tum-zulip/go-zulip/zulip/internal/strict_decoder"
 )
 
-// UserGroup struct for UserGroup
+// UserGroup struct for UserGroup.
 type UserGroup struct {
 	// The human-readable description of the user group.
 	Description string `json:"description,omitempty"`
@@ -95,7 +95,7 @@ func (o UserGroup) MarshalJSON() ([]byte, error) {
 
 func (o *UserGroup) UnmarshalJSON(data []byte) error {
 	var aux usergroupJSON
-	dec := utils.NewStrictDecoder(data)
+	dec := strictdecoder.New(data)
 	if err := dec.Decode(&aux); err != nil {
 		return err
 	}

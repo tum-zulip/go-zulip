@@ -1,9 +1,8 @@
-package real_time_events
+package realtimeevents
 
 import (
 	"context"
 	"errors"
-	"fmt"
 	"io"
 	"log/slog"
 	"net"
@@ -42,28 +41,26 @@ type EventQueue interface {
 	LastEventID() int64
 }
 
-type loggingErrorHandler struct{}
-
-func (h *loggingErrorHandler) Handle(ctx context.Context, resp *http.Response, err error) {
-	slog.ErrorContext(ctx, "event queue error", "error", err)
-}
-
-// WithEventQueueLoggingErrorHandler returns an EventQueueErrorHandler that logs
+// WithLogger returns an EventQueueErrorHandler that logs
 // polling errors using slog at the error level.
-func WithEventQueueLoggingErrorHandler() EventQueueOption {
+func WithLogger(logger *slog.Logger) EventQueueOption {
+	if logger == nil {
+		panic("logger cannot be nil")
+	}
 	return func(q *eventQueue) {
-		q.errorHandler = &loggingErrorHandler{}
+		q.logger = logger
 	}
 }
 
 type channelErrorHandler struct {
-	errs chan error
+	logger *slog.Logger
+	errs   chan error
 }
 
-func (h *channelErrorHandler) Handle(ctx context.Context, resp *http.Response, err error) {
+func (h *channelErrorHandler) Handle(ctx context.Context, _ *http.Response, err error) {
 	select {
 	case <-ctx.Done():
-		slog.ErrorContext(ctx, "event queue context cancelled while handling error")
+		h.logger.ErrorContext(ctx, "event queue context cancelled while handling error")
 		return
 	case h.errs <- err:
 		// Error sent
@@ -72,9 +69,15 @@ func (h *channelErrorHandler) Handle(ctx context.Context, resp *http.Response, e
 
 // NewEventQueueChannelErrorHandler returns an EventQueueErrorHandler that
 // forwards polling errors to the supplied channel until the context is cancelled.
-func WithEventQueueChannelErrorHandler(errs chan error) EventQueueOption {
+func WithEventQueueChannelErrorHandler(logger *slog.Logger, errs chan error) EventQueueOption {
+	if logger == nil {
+		panic("logger cannot be nil")
+	}
+	if errs == nil {
+		panic("errs channel cannot be nil")
+	}
 	return func(q *eventQueue) {
-		q.errorHandler = &channelErrorHandler{errs: errs}
+		q.errorHandler = &channelErrorHandler{logger: logger, errs: errs}
 	}
 }
 
@@ -89,6 +92,7 @@ type EventQueueOption func(*eventQueue)
 
 type eventQueue struct {
 	client       APIRealTimeEvents
+	logger       *slog.Logger
 	lastEventID  atomic.Int64
 	queueID      string
 	bufferSize   int
@@ -104,6 +108,7 @@ var _ EventQueue = (*eventQueue)(nil)
 func NewEventQueue(client APIRealTimeEvents, opts ...EventQueueOption) EventQueue {
 	q := &eventQueue{
 		client:      client,
+		logger:      slog.Default(),
 		lastEventID: atomic.Int64{},
 	}
 
@@ -150,7 +155,7 @@ func (q *eventQueue) Connect(ctx context.Context, queueID string, lastEventID in
 
 func (q *eventQueue) Close() error {
 	if q.cancel == nil {
-		return fmt.Errorf("event queue not connected")
+		return errors.New("event queue not connected")
 	}
 	close(q.cancel)
 	return nil
@@ -164,8 +169,7 @@ func (q *eventQueue) pollEvents(ctx context.Context, events chan<- events.Event)
 	for running {
 		select {
 		case <-ctx.Done():
-			slog.DebugContext(ctx, "event queue context cancelled, stopping poll loop")
-			running = false
+			q.logger.DebugContext(ctx, "event queue context cancelled, stopping poll loop")
 			return
 		default:
 		}
@@ -176,24 +180,24 @@ func (q *eventQueue) pollEvents(ctx context.Context, events chan<- events.Event)
 			Execute()
 		if err != nil {
 			if errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
-				slog.DebugContext(ctx, "event queue stopping after context cancellation", "error", err)
+				q.logger.DebugContext(ctx, "event queue stopping after context cancellation", "error", err)
 			} else {
 				if q.errorHandler != nil {
 					q.errorHandler.Handle(ctx, httpResp, err)
 				}
 
 				if shouldStopPolling(err) {
-					slog.WarnContext(ctx, "event queue stopping due to polling error", "error", err)
+					q.logger.WarnContext(ctx, "event queue stopping due to polling error", "error", err)
 					return
 				} else if q.errorHandler == nil {
-					slog.ErrorContext(ctx, "event queue polling error", "error", err)
+					q.logger.ErrorContext(ctx, "event queue polling error", "error", err)
 				}
 			}
 			continue
 		}
 
 		if resp == nil {
-			slog.WarnContext(ctx, "no events received from server, but also no error")
+			q.logger.WarnContext(ctx, "no events received from server, but also no error")
 			continue
 		}
 		running = q.processEvents(ctx, resp, events)
@@ -201,7 +205,7 @@ func (q *eventQueue) pollEvents(ctx context.Context, events chan<- events.Event)
 }
 
 func (q *eventQueue) processEvents(ctx context.Context, resp *GetEventsResponse, events chan<- events.Event) bool {
-	// Process events from response
+	// Process events from Response
 	lastID, valid := int64(0), false
 
 	defer func() {
@@ -210,17 +214,17 @@ func (q *eventQueue) processEvents(ctx context.Context, resp *GetEventsResponse,
 			q.lastEventID.Store(lastID)
 		}
 
-		slog.DebugContext(ctx, "polled events", "count", len(resp.Events), "last_event_id", lastID)
+		q.logger.DebugContext(ctx, "polled events", "count", len(resp.Events), "last_event_id", lastID)
 	}()
 
 	for _, event := range resp.Events {
 		if event == nil {
-			slog.WarnContext(ctx, "received nil event from server")
+			q.logger.WarnContext(ctx, "received nil event from server")
 			continue
 		}
 		select {
 		case <-ctx.Done():
-			slog.DebugContext(ctx, "event queue context cancelled while processing events")
+			q.logger.DebugContext(ctx, "event queue context cancelled while processing events")
 			return false
 		case events <- event:
 			lastID = event.GetID()
@@ -263,7 +267,8 @@ func shouldStopPolling(err error) bool {
 		return true
 	}
 
-	if netErr, ok := err.(net.Error); ok {
+	var netErr net.Error
+	if errors.As(err, &netErr) {
 		return !netErr.Timeout()
 	}
 

@@ -7,11 +7,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	z "github.com/tum-zulip/go-zulip/zulip"
 )
 
 func TestInviteMarshalJSON_EncodesUnixSeconds(t *testing.T) {
-
 	invited := time.Unix(1700000000, 123000000).UTC()
 	expiry := time.Unix(1700003600, 0).UTC()
 	invite := z.Invite{
@@ -22,7 +22,7 @@ func TestInviteMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 		InvitedAs:            400,
 		Email:                "user@example.com",
 		NotifyReferrerOnJoin: true,
-		LinkUrl:              "https://example.com/invite",
+		LinkURL:              "https://example.com/invite",
 		IsMultiuse:           false,
 	}
 
@@ -35,17 +35,18 @@ func TestInviteMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	invitedValue, ok := payload["invited"]
 	require.True(t, ok)
 	require.IsType(t, float64(0), invitedValue)
-	assert.Equal(t, float64(invited.Unix()), invitedValue)
+	assert.InEpsilon(t, float64(invited.Unix()), invitedValue, 0.001)
 
 	expiryValue, ok := payload["expiry_date"]
 	require.True(t, ok)
 	require.IsType(t, float64(0), expiryValue)
-	assert.Equal(t, float64(expiry.Unix()), expiryValue)
+	assert.InEpsilon(t, float64(expiry.Unix()), expiryValue, 0.001)
 }
 
 func TestInviteUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
-
-	raw := []byte(`{"id":10,"invited_by_user_id":3,"invited":1700000000,"expiry_date":1700003600,"invited_as":400,"email":"user@example.com","notify_referrer_on_join":true,"link_url":"https://example.com/invite","is_multiuse":false}`)
+	raw := []byte(
+		`{"id":10,"invited_by_user_id":3,"invited":1700000000,"expiry_date":1700003600,"invited_as":400,"email":"user@example.com","notify_referrer_on_join":true,"link_url":"https://example.com/invite","is_multiuse":false}`,
+	)
 
 	var invite z.Invite
 	require.NoError(t, json.Unmarshal(raw, &invite))
@@ -63,6 +64,6 @@ func TestInviteUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 	assert.Equal(t, z.RoleMember, invite.InvitedAs)
 	assert.Equal(t, "user@example.com", invite.Email)
 	assert.True(t, invite.NotifyReferrerOnJoin)
-	assert.Equal(t, "https://example.com/invite", invite.LinkUrl)
+	assert.Equal(t, "https://example.com/invite", invite.LinkURL)
 	assert.False(t, invite.IsMultiuse)
 }

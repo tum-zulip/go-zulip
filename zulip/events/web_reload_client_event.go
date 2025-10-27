@@ -5,6 +5,7 @@ package events
 // **Changes**: New in Zulip 9.0 (feature level 240).
 type WebReloadClientEvent struct {
 	event
+
 	// Whether the client should fetch a new event queue immediately, rather than using a backoff strategy to avoid thundering herds. A Zulip development server uses this parameter to reload clients immediately.
 	Immediate bool `json:"immediate,omitempty"`
 }

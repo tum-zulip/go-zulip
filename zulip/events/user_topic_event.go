@@ -19,7 +19,7 @@ type UserTopicEvent struct {
 type UserTopic struct {
 	// The ID of the channel to which the topic belongs.
 	ChannelID int64 `json:"stream_id,omitempty"`
-	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
+	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] Response.
 	//
 	// **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.
 	//

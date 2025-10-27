@@ -1,10 +1,10 @@
 // Package scheduled_messages provides API methods for managing Zulip scheduled messages,
 // including creating, editing, and deleting messages scheduled for future delivery.
-package scheduled_messages
+package scheduledmessages
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	"net/http"
 	"net/url"
 	"strings"
@@ -81,7 +81,7 @@ type scheduledMessagesService struct {
 	client clients.Client
 }
 
-func NewScheduledMessagesService(client clients.Client) *scheduledMessagesService {
+func NewScheduledMessagesService(client clients.Client) APIScheduledMessages {
 	return &scheduledMessagesService{client: client}
 }
 
@@ -133,7 +133,7 @@ func (r CreateScheduledMessageRequest) ScheduledDeliveryTimestamp(
 	return r
 }
 
-// The topic of the message. Only required for channel messages (`"type": "stream"` or `"type": "channel"`), ignored otherwise.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.
+// The topic of the message. Only required for channel messages (`"type": "stream"` or `"type": "channel"`), ignored otherwise.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] Response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.
 //
 // **Changes**: Before Zulip 10.0 (feature level 370), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 //
@@ -176,7 +176,7 @@ func (s *scheduledMessagesService) CreateScheduledMessage(ctx context.Context) C
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *scheduledMessagesService) CreateScheduledMessageExecute(
 	r CreateScheduledMessageRequest,
 ) (*CreateScheduledMessageResponse, *http.Response, error) {
@@ -189,27 +189,27 @@ func (s *scheduledMessagesService) CreateScheduledMessageExecute(
 		endpoint = "/scheduled_messages"
 	)
 	if r.recipientType == nil {
-		return nil, nil, fmt.Errorf("recipientType is required and must be specified")
+		return nil, nil, errors.New("recipientType is required and must be specified")
 	}
 	if r.to == nil {
-		return nil, nil, fmt.Errorf("to is required and must be specified")
+		return nil, nil, errors.New("to is required and must be specified")
 	}
 	if r.content == nil {
-		return nil, nil, fmt.Errorf("content is required and must be specified")
+		return nil, nil, errors.New("content is required and must be specified")
 	}
 	if r.scheduledDeliveryTimestamp == nil {
-		return nil, nil, fmt.Errorf("scheduledDeliveryTimestamp is required and must be specified")
+		return nil, nil, errors.New("scheduledDeliveryTimestamp is required and must be specified")
 	}
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
 	apiutils.AddParam(form, "type", r.recipientType)
 	apiutils.AddParam(form, "to", r.to)
 	apiutils.AddParam(form, "content", r.content)
-	apiutils.AddOptionalParam(form, "topic", r.topic)
+	apiutils.AddOptParam(form, "topic", r.topic)
 	apiutils.AddParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
-	apiutils.AddOptionalParam(form, "read_by_sender", r.readBySender)
+	apiutils.AddOptParam(form, "read_by_sender", r.readBySender)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -247,7 +247,7 @@ func (s *scheduledMessagesService) DeleteScheduledMessage(
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *scheduledMessagesService) DeleteScheduledMessageExecute(
 	r DeleteScheduledMessageRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -260,9 +260,9 @@ func (s *scheduledMessagesService) DeleteScheduledMessageExecute(
 		endpoint = "/scheduled_messages/{scheduled_message_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{scheduled_message_id}", apiutils.IdToString(r.scheduledMessageID))
+	path := strings.ReplaceAll(endpoint, "{scheduled_message_id}", apiutils.IDToString(r.scheduledMessageID))
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -299,7 +299,7 @@ func (s *scheduledMessagesService) GetScheduledMessages(ctx context.Context) Get
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *scheduledMessagesService) GetScheduledMessagesExecute(
 	r GetScheduledMessagesRequest,
 ) (*GetScheduledMessagesResponse, *http.Response, error) {
@@ -312,7 +312,7 @@ func (s *scheduledMessagesService) GetScheduledMessagesExecute(
 		endpoint = "/scheduled_messages"
 	)
 
-	headers["Accept"] = "application/json"
+	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -357,7 +357,7 @@ func (r UpdateScheduledMessageRequest) Content(content string) UpdateScheduledMe
 	return r
 }
 
-// The updated topic of the scheduled message.  Required when updating the `type` of the scheduled message to `"stream"` or `"channel"`. Ignored when the existing or updated `type` of the scheduled message is `"direct"` (or `"private"`).  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.
+// The updated topic of the scheduled message.  Required when updating the `type` of the scheduled message to `"stream"` or `"channel"`. Ignored when the existing or updated `type` of the scheduled message is `"direct"` (or `"private"`).  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length.  Note: When `"(no topic)"` or the value of `realm_empty_topic_display_name` found in the [POST /register] Response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.
 //
 // **Changes**: Before Zulip 10.0 (feature level 370), `"(no topic)"` was not interpreted as an empty string.  Before Zulip 10.0 (feature level 334), empty string was not a valid topic name for channel messages.
 //
@@ -368,9 +368,9 @@ func (r UpdateScheduledMessageRequest) Topic(topic string) UpdateScheduledMessag
 	return r
 }
 
-// The UNIX timestamp for when the message will be sent, in UTC seconds.  Required when updating a scheduled message that the server has already tried and failed to send. This state is indicated with `"failed": true` in `scheduled_messages` objects; see response description at [`GET /scheduled_messages`].
+// The UNIX timestamp for when the message will be sent, in UTC seconds.  Required when updating a scheduled message that the server has already tried and failed to send. This state is indicated with `"failed": true` in `scheduled_messages` objects; see Response description at [`GET /scheduled_messages`].
 //
-// [`GET /scheduled_messages`]: https://zulip.com/api/get-scheduled-messages#response
+// [`GET /scheduled_messages`]: https://zulip.com/api/get-scheduled-messages#Response
 func (r UpdateScheduledMessageRequest) ScheduledDeliveryTimestamp(
 	scheduledDeliveryTimestamp time.Time,
 ) UpdateScheduledMessageRequest {
@@ -401,7 +401,7 @@ func (s *scheduledMessagesService) UpdateScheduledMessage(
 	}
 }
 
-// Execute executes the request
+// Execute executes the request.
 func (s *scheduledMessagesService) UpdateScheduledMessageExecute(
 	r UpdateScheduledMessageRequest,
 ) (*zulip.Response, *http.Response, error) {
@@ -414,18 +414,18 @@ func (s *scheduledMessagesService) UpdateScheduledMessageExecute(
 		endpoint = "/scheduled_messages/{scheduled_message_id}"
 	)
 
-	path := strings.ReplaceAll(endpoint, "{scheduled_message_id}", apiutils.IdToString(r.scheduledMessageID))
+	path := strings.ReplaceAll(endpoint, "{scheduled_message_id}", apiutils.IDToString(r.scheduledMessageID))
 
-	headers["Content-Type"] = "application/x-www-form-urlencoded"
-	headers["Accept"] = "application/json"
+	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
+	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptionalParam(form, "type", r.recipientType)
+	apiutils.AddOptParam(form, "type", r.recipientType)
 	if err := apiutils.AddOptionalJSONParam(form, "to", r.to); err != nil {
 		return nil, nil, err
 	}
-	apiutils.AddOptionalParam(form, "content", r.content)
-	apiutils.AddOptionalParam(form, "topic", r.topic)
-	apiutils.AddOptionalParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
+	apiutils.AddOptParam(form, "content", r.content)
+	apiutils.AddOptParam(form, "topic", r.topic)
+	apiutils.AddOptParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err

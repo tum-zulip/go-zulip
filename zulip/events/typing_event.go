@@ -2,7 +2,7 @@ package events
 
 import "github.com/tum-zulip/go-zulip/zulip"
 
-// TypingStartEvent Event sent when a user starts typing a message.  Sent to all clients for users who would receive the message being typed, with the additional rule that typing notifications for channel messages are only sent to clients that included `stream_typing_notifications` in their [client capabilities] when registering the event queue.  See [POST /typing] endpoint for more details.
+// TypingEvent Event sent when a user starts or stops typing a message.  Sent to all clients for users who would receive the message being typed, with the additional rule that typing notifications for channel messages are only sent to clients that included `stream_typing_notifications` in their [client capabilities] when registering the event queue.  See [POST /typing] endpoint for more details.
 //
 // **Changes**: Typing notifications for channel messages are new in Zulip 4.0 (feature level 58).
 //
@@ -10,6 +10,7 @@ import "github.com/tum-zulip/go-zulip/zulip"
 // [POST /typing]: https://zulip.com/api/set-typing-status
 type TypingEvent struct {
 	event
+
 	// Type of message being composed. Must be `RecipientTypeStream` or `RecipientTypeDirect`.
 	//
 	// **Changes**: In Zulip 8.0 (feature level 215), replaced the value `RecipientTypePrivate` with `RecipientTypeDirect`.  New in Zulip 4.0 (feature level 58). Previously, all typing notifications were implicitly direct messages.
@@ -21,7 +22,7 @@ type TypingEvent struct {
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 	ChannelID *int64 `json:"stream_id,omitempty"`
-	// Only present if `message_type` is `RecipientTypeStream`.  Topic within the channel where the message is being typed.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
+	// Only present if `message_type` is `RecipientTypeStream`.  Topic within the channel where the message is being typed.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] Response.
 	//
 	// **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 	//

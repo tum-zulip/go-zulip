@@ -5,6 +5,7 @@ package events
 // **Changes**: New in Zulip 5.0 (feature level 89), replacing the previous `update_display_settings` and `update_global_notifications` event types, which are still present for backwards compatibility reasons.
 type UserSettingsUpdateEvent struct {
 	event
+
 	// Name of the changed setting.
 	Property string      `json:"property,omitempty"`
 	Value    UpdateValue `json:"value,omitempty"`

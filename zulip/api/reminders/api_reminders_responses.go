@@ -2,7 +2,7 @@ package reminders
 
 import "github.com/tum-zulip/go-zulip/zulip"
 
-// CreateMessageReminderResponse struct for CreateMessageReminderResponse
+// CreateMessageReminderResponse struct for CreateMessageReminderResponse.
 type CreateMessageReminderResponse struct {
 	zulip.Response
 
@@ -10,7 +10,7 @@ type CreateMessageReminderResponse struct {
 	ReminderID int64 `json:"reminder_id,omitempty"`
 }
 
-// GetRemindersResponse struct for GetRemindersResponse
+// GetRemindersResponse struct for GetRemindersResponse.
 type GetRemindersResponse struct {
 	zulip.Response
 

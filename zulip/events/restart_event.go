@@ -11,14 +11,14 @@ import (
 type RestartEvent struct {
 	event
 
-	// The Zulip version number, in the format where this appears in the [server_settings] and [register] responses.
+	// The Zulip version number, in the format where this appears in the [server_settings] and [register] Responses.
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 59).
 	//
 	// [server_settings]: https://zulip.com/api/get-server-settings
 	// [register]: https://zulip.com/api/register-queue
 	ZulipVersion string `json:"zulip_version,omitempty"`
-	// The Zulip merge base number, in the format where this appears in the [server_settings] and [register] responses.
+	// The Zulip merge base number, in the format where this appears in the [server_settings] and [register] Responses.
 	//
 	// **Changes**: New in Zulip 5.0 (feature level 88).
 	//

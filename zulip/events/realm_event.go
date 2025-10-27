@@ -1,6 +1,8 @@
 package events
 
-import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
+import (
+	"github.com/tum-zulip/go-zulip/zulip/internal/union"
+)
 
 // RealmUpdateEvent The simpler of two possible event types sent to all users in a Zulip organization when the configuration of the organization (realm) has changed.  Often individual settings are migrated from this format to the [realm/update_dict] event format when additional realm settings are added whose values are coupled to each other in some way. The specific values supported by this event type are documented in the [realm/update_dict] documentation.  A correct client implementation should convert these events into the corresponding [realm/update_dict] event and then process that.
 //
@@ -46,12 +48,12 @@ type UpdateValue struct {
 	String *string
 }
 
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *UpdateValue) UnmarshalJSON(data []byte) error {
-	return utils.UnmarshalUnionType(data, dst)
+// Unmarshal JSON data into one of the pointers in the struct.
+func (u *UpdateValue) UnmarshalJSON(data []byte) error {
+	return union.Unmarshal(data, u)
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src UpdateValue) MarshalJSON() ([]byte, error) {
-	return utils.MarshalUnionType(src)
+// Marshal data from the first non-nil pointers in the struct to JSON.
+func (u UpdateValue) MarshalJSON() ([]byte, error) {
+	return union.Marshal(u)
 }
