@@ -1,0 +1,133 @@
+name: Provision Zulip
+description: "Provision and start a Zulip dev or prod-like instance"
+inputs:
+  zulip_ref:
+    description: "Zulip git ref (branch/tag/commit)"
+    default: "main"
+  zulip_repo:
+    description: "Repository to clone Zulip from"
+    default: "https://github.com/zulip/zulip.git"
+  wait_timeout:
+    description: "Seconds to wait for Zulip to come up"
+    default: "900"
+
+outputs:
+  site_url:
+    description: "URL to the running Zulip server"
+    value: ${{ jobs.provision.outputs.site_url }}
+  log_path:
+    description: "Path of the Zulip log file on runner"
+    value: ${{ jobs.provision.outputs.log_path }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout Zulip (ref ${{ inputs.zulip_ref }})
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ inputs.zulip_repo }}
+        ref: ${{ inputs.zulip_ref }}
+        path: zulip
+
+    - name: Create cache directories
+      shell: bash
+      run: |
+        sudo mkdir -p "${EMOJI_CACHE_DIR}"
+        sudo chown -R $USER "${EMOJI_CACHE_DIR}"
+        mkdir -p "${PNPM_STORE_PATH}"
+
+    - name: Restore pnpm store cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.PNPM_STORE_PATH }}
+        key: ${{ inputs.cache_epoch_pnpm }}-pnpm-${{ inputs.zulip_ref }}-${{ hashFiles('zulip/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ inputs.cache_epoch_pnpm }}-pnpm-${{ inputs.zulip_ref }}-
+          ${{ inputs.cache_epoch_pnpm }}-pnpm-
+
+    - name: Restore uv cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.UV_CACHE_DIR }}
+        key: ${{ inputs.cache_epoch_uv }}-uv-${{ inputs.zulip_ref }}-${{ hashFiles('zulip/uv.lock') }}
+        restore-keys: |
+          ${{ inputs.cache_epoch_uv }}-uv-${{ inputs.zulip_ref }}-
+          ${{ inputs.cache_epoch_uv }}-uv-
+
+    - name: Restore emoji cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.EMOJI_CACHE_DIR }}
+        key: ${{ inputs.cache_epoch_emoji }}-emoji-${{ inputs.zulip_ref }}-${{ hashFiles('zulip/tools/setup/emoji/emoji_map.json', 'zulip/tools/setup/emoji/build_emoji', 'zulip/tools/setup/emoji/emoji_setup_utils.py', 'zulip/tools/setup/emoji/emoji_names.py', 'zulip/package.json') }}
+        restore-keys: |
+          ${{ inputs.cache_epoch_emoji }}-emoji-${{ inputs.zulip_ref }}-
+          ${{ inputs.cache_epoch_emoji }}-emoji-
+
+    - name: Provision
+      shell: bash
+      working-directory: zulip
+      run: |
+        set -euxo pipefail
+        # Ensure pnpm store path the same as in Zulip CI
+        export PNPM_HOME="${PNPM_STORE_PATH}"
+        # Provision installs OS deps (via sudo), node, uv env, etc.
+        ./tools/provision
+
+    - name: Start Zulip
+      shell: bash
+      working-directory: zulip
+      run: |
+        set -euxo pipefail
+        source ./tools/ci/activate-venv
+        # Start in background and capture PID
+        nohup ./tools/run-dev >"${ZULIP_DEV_LOG}" 2>&1 &
+        echo $! > "${ZULIP_RUN_PID}"
+
+    - name: Wait for Zulip to be ready
+      shell: bash
+      run: |
+        set -euo pipefail
+        echo "Waiting for Zulip at ${ZULIP_URL}"
+        deadline=$(( $(date +%s) + ${{ inputs.wait_timeout_seconds }} ))
+        until curl --get --silent --fail "${ZULIP_URL}/api/v1/server_settings" >/dev/null; do
+          if [ "$(date +%s)" -gt "$deadline" ]; then
+            echo "Zulip did not become ready within timeout." >&2
+            echo "=== Tail of log ===" >&2
+            tail -n 200 "${ZULIP_DEV_LOG}" || true
+            exit 1
+          fi
+          sleep 2
+        done
+        echo "Zulip is up."
+
+    - name: Export outputs
+      shell: bash
+      id: outputs-step
+      run: |
+        echo "site_url=${ZULIP_URL}" >> "$GITHUB_OUTPUT"
+        echo "log_path=${ZULIP_DEV_LOG}" >> "$GITHUB_OUTPUT"
+
+    - name: Upload Zulip log
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: zulip-log-${{ inputs.mode }}-${{ inputs.zulip_ref }}
+        path: ${{ env.ZULIP_DEV_LOG }}
+        if-no-files-found: ignore
+        retention-days: 7
+
+    - name: Show log on failure
+      shell: bash
+      if: failure()
+      run: |
+        echo "===== zulip-dev.log ====="
+        tail -n +1 "${ZULIP_DEV_LOG}" || true
+
+    - name: Stop Zulip
+      shell: bash
+      if: always()
+      run: |
+        if [ -f "${ZULIP_RUN_PID}" ]; then
+          kill "$(cat "${ZULIP_RUN_PID}")" || true
+        fi
+        pkill -f "tools/run-dev" || true

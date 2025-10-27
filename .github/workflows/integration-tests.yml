@@ -11,6 +11,7 @@ jobs:
   integration:
     name: Go tests against Zulip ${{ matrix.zulip-branch }}
     runs-on: arc-runner-set
+    container: zulip/ci:jammy
     strategy:
       matrix:
         zulip-branch:
@@ -31,91 +32,14 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: "1.25.2"
-          # On self-hosted runners, GOMODCACHE and GOCACHE persist across jobs.
-          # Disable setup-go's dependency cache restore to avoid slow tar extraction
-          # and "Cannot open: File exists" messages when files already exist.
-          cache: false
 
-      - name: Install Go tools (goimports, staticcheck)
-        run: |
-          set -euo pipefail
-          go install golang.org/x/tools/cmd/goimports@v0.24.0
-          go install honnef.co/go/tools/cmd/staticcheck@2025.1.1
+      - name: Lint
+        uses: golangci/golangci-lint-action@v8
 
-      - name: Check gofmt formatting
-        run: |
-          set -euo pipefail
-          files=$(git ls-files '*.go')
-          if [ -z "$files" ]; then
-            exit 0
-          fi
-          out=$(gofmt -l $files)
-          if [ -n "$out" ]; then
-            echo "The following files need gofmt -w -s:" >&2
-            echo "$out" >&2
-            exit 1
-          fi
-
-      - name: Check goimports formatting
-        run: |
-          set -euo pipefail
-          files=$(git ls-files '*.go')
-          if [ -z "$files" ]; then
-            exit 0
-          fi
-          diff=$("$(go env GOPATH)"/bin/goimports -d $files)
-          if [ -n "$diff" ]; then
-            echo "$diff"
-            echo "Go files require goimports formatting" >&2
-            exit 1
-          fi
-
-      - name: Run go vet
-        run: go vet ./...
-
-      - name: Run staticcheck
-        run: |
-          "$(go env GOPATH)"/bin/staticcheck ./...
-
-      - name: Run fast model/unit tests
-        run: ./scripts/run-model-tests.sh
-
-      - name: Build go-zulip
-        run: go build ./...
-
-      - name: Check Python version
-        run: |
-          python3_version=$(python3 --version | awk '{print $2}')
-          major_minor=$(echo $python3_version | cut -d. -f1-2)
-          required_version="3.10"
-
-          if [ "$(printf '%s\n' "$required_version" "$major_minor" | sort -V | head -n1)" = "$required_version" ]; then
-            echo "✓ Python version $python3_version is >= 3.10"
-          else
-            echo "✗ Python version $python3_version is < 3.10 (required: >= 3.10)"
-            exit 1
-          fi
-
-      - name: Start Zulip dev server via script
-        run: |
-          # Start the dev server using the helper script and capture logs/PID
-          mkdir tmp
-          nohup bash -lc "TMPDIR=$(pwd)/tmp ./scripts/run-dev-zerver.sh --ref '${{ matrix.zulip-branch }}'" >"${ZULIP_DEV_LOG}" 2>&1 &
-          echo $! > /tmp/zulip-dev-${{ github.run_id }}.pid
-
-      - name: Wait for Zulip dev server to become ready
-        run: |
-          echo "Waiting for Zulip server at ${ZULIP_TEST_SITE}"
-          for attempt in {1..60}; do
-            if curl --get --silent --show-error --fail "${ZULIP_TEST_SITE}/api/v1/server_settings" >/dev/null; then
-              echo "Zulip is up"
-              exit 0
-            fi
-            echo "Attempt ${attempt}: Zulip not ready yet"
-            sleep 25
-          done
-          echo "Zulip server failed to start" >&2
-          exit 1
+      - name: Start Zulip
+        uses:  ./.github/actions/provision-zulip
+        with:
+          zulip_ref: ${{ matrix.zulip_ref }}
 
       - name: Run go test suite with coverage
         env:
@@ -134,29 +58,6 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           ZULIP_BRANCH: ${{ matrix.zulip-branch }}
 
-      - name: Show Zulip server logs on failure
-        if: failure()
-        run: |
-          echo "===== zulip-dev.log ====="
-          cat "${ZULIP_DEV_LOG}" || true
-
-      - name: Upload Zulip server log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: zulip-dev-log-${{ matrix.zulip-branch }}
-          path: ${{ env.ZULIP_DEV_LOG }}
-          if-no-files-found: ignore
-
-      - name: Stop Zulip dev server
-        if: always()
-        run: |
-          if [ -f /tmp/zulip-dev-${{ github.run_id }}.pid ]; then
-            sudo kill "$(cat /tmp/zulip-dev-${{ github.run_id }}.pid)" || true
-          fi
-          # Fallback in case the PID file isn't sufficient
-          sudo pkill -f "tools/run-dev" || true
-
   godoc:
     name: Generate godoc HTML
     runs-on: arc-runner-set
@@ -169,7 +70,6 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: "1.25.2"
-          cache: false
 
       - name: Generate godoc
         run: |
