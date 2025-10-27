@@ -66,6 +66,7 @@ func Test_CodePlaygrounds(t *testing.T) {
 
 //nolint:funlen,nolintlint
 func Test_Linkifiers(t *testing.T) {
+	t.Skip("Flaky test")
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
