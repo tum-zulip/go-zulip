@@ -1,27 +1,57 @@
 name: Provision Zulip
-description: "Provision and start a Zulip dev or prod-like instance"
+description: Provision and start a Zulip dev or prod-like instance
+
 inputs:
   zulip_ref:
-    description: "Zulip git ref (branch/tag/commit)"
-    default: "main"
+    description: Zulip git ref (branch/tag/commit)
+    required: false
+    default: main
   zulip_repo:
-    description: "Repository to clone Zulip from (in owner/repo format)"
-    default: "zulip/zulip"
+    description: Repository to clone Zulip from (in owner/repo format)
+    required: false
+    default: zulip/zulip
   wait_timeout:
-    description: "Seconds to wait for Zulip to come up"
-    default: "900"
+    description: Seconds to wait for Zulip to come up
+    required: false
+    default: '900'
+  cache_epoch_pnpm:
+    description: Cache epoch for pnpm
+    required: false
+    default: '1'
+  cache_epoch_uv:
+    description: Cache epoch for uv
+    required: false
+    default: '1'
+  cache_epoch_emoji:
+    description: Cache epoch for emoji
+    required: false
+    default: '1'
 
 outputs:
   site_url:
-    description: "URL to the running Zulip server"
+    description: URL to the running Zulip server
     value: ${{ steps.outputs-step.outputs.site_url }}
   log_path:
-    description: "Path of the Zulip log file on runner"
+    description: Path of the Zulip log file on runner
     value: ${{ steps.outputs-step.outputs.log_path }}
 
 runs:
-  using: "composite"
+  using: composite
   steps:
+    - name: Setup environment
+      shell: bash
+      run: |
+        set -euo pipefail
+        {
+          echo "PNPM_STORE_PATH=/home/runner/.pnpm-store"
+          echo "UV_CACHE_DIR=/home/runner/.cache/uv"
+          echo "EMOJI_CACHE_DIR=/home/runner/.cache/zulip-emoji"
+          echo "ZULIP_DEV_LOG=$RUNNER_TEMP/zulip-dev.log"
+          echo "ZULIP_RUN_PID=$RUNNER_TEMP/zulip-dev.pid"
+          # Default dev URL (caller can override via env in the workflow)
+          echo "ZULIP_URL=${ZULIP_URL:-http://127.0.0.1:9991}"
+        } >> "$GITHUB_ENV"
+
     - name: Checkout Zulip (ref ${{ inputs.zulip_ref }})
       uses: actions/checkout@v4
       with:
@@ -32,9 +62,11 @@ runs:
     - name: Create cache directories
       shell: bash
       run: |
+        set -euo pipefail
         sudo mkdir -p "${EMOJI_CACHE_DIR}"
-        sudo chown -R $USER "${EMOJI_CACHE_DIR}"
+        sudo chown -R "$USER" "${EMOJI_CACHE_DIR}"
         mkdir -p "${PNPM_STORE_PATH}"
+        mkdir -p "${UV_CACHE_DIR}"
 
     - name: Restore pnpm store cache
       uses: actions/cache@v4
@@ -66,11 +98,12 @@ runs:
     - name: Provision
       shell: bash
       working-directory: zulip
+      env:
+        PNPM_STORE_PATH: ${{ env.PNPM_STORE_PATH }}
       run: |
         set -euxo pipefail
-        # Ensure pnpm store path the same as in Zulip CI
-        export PNPM_HOME="${PNPM_STORE_PATH}"
-        # Provision installs OS deps (via sudo), node, uv env, etc.
+        # Ensure pnpm uses the cached store path
+        export PNPM_STORE_PATH="${PNPM_STORE_PATH}"
         ./tools/provision
 
     - name: Start Zulip
@@ -79,7 +112,6 @@ runs:
       run: |
         set -euxo pipefail
         source ./tools/ci/activate-venv
-        # Start in background and capture PID
         nohup ./tools/run-dev >"${ZULIP_DEV_LOG}" 2>&1 &
         echo $! > "${ZULIP_RUN_PID}"
 
@@ -92,8 +124,6 @@ runs:
         until curl --get --silent --fail "${ZULIP_URL}/api/v1/server_settings" >/dev/null; do
           if [ "$(date +%s)" -gt "$deadline" ]; then
             echo "Zulip did not become ready within timeout." >&2
-            echo "=== Tail of log ===" >&2
-            tail -n 200 "${ZULIP_DEV_LOG}" || true
             exit 1
           fi
           sleep 2
@@ -101,8 +131,8 @@ runs:
         echo "Zulip is up."
 
     - name: Export outputs
-      shell: bash
       id: outputs-step
+      shell: bash
       run: |
         echo "site_url=${ZULIP_URL}" >> "$GITHUB_OUTPUT"
         echo "log_path=${ZULIP_DEV_LOG}" >> "$GITHUB_OUTPUT"
@@ -111,21 +141,21 @@ runs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: zulip-log-${{ inputs.mode }}-${{ inputs.zulip_ref }}
+        name: zulip-log-${{ inputs.zulip_ref }}
         path: ${{ env.ZULIP_DEV_LOG }}
         if-no-files-found: ignore
         retention-days: 7
 
     - name: Show log on failure
-      shell: bash
       if: failure()
+      shell: bash
       run: |
         echo "===== zulip-dev.log ====="
         tail -n +1 "${ZULIP_DEV_LOG}" || true
 
     - name: Stop Zulip
-      shell: bash
       if: always()
+      shell: bash
       run: |
         if [ -f "${ZULIP_RUN_PID}" ]; then
           kill "$(cat "${ZULIP_RUN_PID}")" || true
