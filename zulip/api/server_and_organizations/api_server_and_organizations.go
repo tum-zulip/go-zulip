@@ -675,7 +675,7 @@ func (s *serverAndOrganizationsService) DeactivateCustomEmojiExecute(
 		endpoint = "/realm/emoji/{emoji_name}"
 	)
 
-	path := strings.Replace(endpoint, "{emoji_name}", url.PathEscape(r.emojiName), -1)
+	path := strings.ReplaceAll(endpoint, "{emoji_name}", url.PathEscape(r.emojiName))
 
 	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -2327,7 +2327,7 @@ func (s *serverAndOrganizationsService) UploadCustomEmojiExecute(
 		endpoint  = "/realm/emoji/{emoji_name}"
 	)
 
-	path := strings.Replace(endpoint, "{emoji_name}", url.PathEscape(r.emojiName), -1)
+	path := strings.ReplaceAll(endpoint, "{emoji_name}", url.PathEscape(r.emojiName))
 
 	headers["Content-Type"] = apiutils.ContentTypeMultipartFormData
 	headers["Accept"] = apiutils.ContentTypeJSON

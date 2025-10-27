@@ -9,7 +9,7 @@ import (
 	"github.com/tum-zulip/go-zulip/zulip"
 )
 
-// Will not be returned if max-retires is set to zero
+// ErrMaxRetriesReached is returned when the maximum number of retries is reached.
 var ErrMaxRetriesReached = errors.New("hit max retires")
 
 type RetryClient struct {

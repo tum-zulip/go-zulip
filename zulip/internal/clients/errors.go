@@ -25,6 +25,7 @@ func tryUnmarshalErrorModel[T any](data []byte) (T, error) {
 	return model, nil
 }
 
+//nolint:funlen,nolintlint
 func unmarshallAPIError(ctx context.Context, logger *slog.Logger, status int, body []byte) error {
 	var model error
 	var err error

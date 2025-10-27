@@ -315,7 +315,8 @@ func Test_RemoveAlertWords(t *testing.T) {
 
 		alterWord := UniqueName("word")
 		// ensure the alert word is added before removing
-		apiClient.AddAlertWords(ctx).AlertWords([]string{alterWord}).Execute()
+		_, _, addErr := apiClient.AddAlertWords(ctx).AlertWords([]string{alterWord}).Execute()
+		require.NoError(t, addErr)
 
 		resp, _, err := apiClient.RemoveAlertWords(ctx).AlertWords([]string{alterWord}).Execute()
 

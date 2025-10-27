@@ -206,7 +206,7 @@ func (s *navigationViewsService) EditNavigationViewExecute(
 		endpoint = "/navigation_views/{fragment}"
 	)
 
-	path := strings.Replace(endpoint, "{fragment}", url.PathEscape(r.fragment), -1)
+	path := strings.ReplaceAll(endpoint, "{fragment}", url.PathEscape(r.fragment))
 
 	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
 	headers["Accept"] = apiutils.ContentTypeJSON
@@ -305,7 +305,7 @@ func (s *navigationViewsService) RemoveNavigationViewExecute(
 		endpoint = "/navigation_views/{fragment}"
 	)
 
-	path := strings.Replace(endpoint, "{fragment}", url.PathEscape(r.fragment), -1)
+	path := strings.ReplaceAll(endpoint, "{fragment}", url.PathEscape(r.fragment))
 
 	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)

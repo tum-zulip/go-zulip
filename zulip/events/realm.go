@@ -921,6 +921,7 @@ func (r *Realm) toJSONRealm() realmJSON {
 	}
 }
 
+//nolint:funlen,nolintlint
 func (r *Realm) fromJSONRealm(obj realmJSON) {
 	r.RealmConfiguration = obj.RealmConfiguration
 	r.DateCreated = time.Unix(obj.DateCreated, 0)

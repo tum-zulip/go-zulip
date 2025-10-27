@@ -1,4 +1,4 @@
-// Package scheduled_messages provides API methods for managing Zulip scheduled messages,
+// Package scheduledmessages provides API methods for managing Zulip scheduled messages,
 // including creating, editing, and deleting messages scheduled for future delivery.
 package scheduledmessages
 

@@ -7,6 +7,8 @@ import (
 // Recipient - A message's tentative target audience.
 // For channel messages, the integer ID of the channel.
 // For direct messages, a list containing integer user IDs.
+//
+//nolint:recvcheck // UnmarshalJSON requires pointer receiver, but for all other methods value receiver makes more sense
 type Recipient struct {
 	Users   []int64
 	Channel *int64

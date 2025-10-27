@@ -222,7 +222,7 @@ func fetchUserInfo(t *testing.T, username string) UserInfo {
 		}
 
 		body, readErr := io.ReadAll(resp.Body)
-		resp.Body.Close()
+		require.NoError(t, resp.Body.Close())
 		if readErr != nil {
 			t.Fatalf("Failed to read API key Response for user %s: %v", username, readErr)
 		}
@@ -230,8 +230,8 @@ func fetchUserInfo(t *testing.T, username string) UserInfo {
 		if resp.StatusCode == http.StatusOK {
 			var result UserInfo
 
-			if err := json.Unmarshal(body, &result); err != nil {
-				t.Fatalf("Failed to decode API key Response for user %s: %v", username, err)
+			if unMarshalErr := json.Unmarshal(body, &result); unMarshalErr != nil {
+				t.Fatalf("Failed to decode API key Response for user %s: %v", username, unMarshalErr)
 			}
 			if result.APIKey == "" {
 				t.Fatalf("Empty API key received for user %s", username)
@@ -406,8 +406,10 @@ var idCache sync.Map
 func GetUserID(t *testing.T, apiClient client.Client) int64 {
 	t.Helper()
 
-	if id, ok := idCache.Load(apiClient); ok {
-		return id.(int64)
+	if id, hit := idCache.Load(apiClient); hit {
+		value, ok := id.(int64)
+		require.True(t, ok)
+		return value
 	}
 
 	resp := getOwnUser(t, apiClient)
@@ -468,7 +470,9 @@ func GetChannelWithAllClients(t *testing.T) (string, int64) {
 	}
 
 	if v := channelCahe.Load(); v != nil {
-		c := v.(channel)
+		c, ok := v.(channel)
+		require.True(t, ok)
+
 		return c.name, c.id
 	}
 
@@ -494,7 +498,9 @@ func GetChannelWithAllClients(t *testing.T) (string, int64) {
 	}
 
 	v := channelCahe.Load()
-	c := v.(channel)
+	c, ok := v.(channel)
+	require.True(t, ok)
+
 	return c.name, c.id
 }
 
@@ -581,9 +587,7 @@ func UploadFileForTest(ctx context.Context, t *testing.T, apiClient client.Clien
 
 	tmp, err := os.CreateTemp(t.TempDir(), "z.upload-*.txt")
 	require.NoError(t, err)
-	defer func() {
-		tmp.Close()
-	}()
+	defer require.NoError(t, tmp.Close())
 
 	_, err = tmp.WriteString("uploaded from automated test")
 	require.NoError(t, err)

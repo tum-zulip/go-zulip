@@ -29,6 +29,7 @@ func decodeAndWrap[T Event](event *EventEnvelope, data []byte) error {
 	return nil
 }
 
+//nolint:funlen,nolintlint,gocognit,gocyclo,cyclop
 func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 	var peeker eventPeeker
 	if err := json.Unmarshal(data, &peeker); err != nil {

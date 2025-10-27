@@ -355,19 +355,28 @@ const (
 	RecipientTypeStream  RecipientType = "stream"  //  Legacy value, maps to RecipientTypeChannel.
 )
 
-func (r RecipientType) IsDirectMessage() bool {
-	return r == RecipientTypeDirect || r == RecipientTypePrivate
+func (r *RecipientType) IsDirectMessage() bool {
+	if r == nil {
+		return false
+	}
+	return *r == RecipientTypeDirect || *r == RecipientTypePrivate
 }
 
-func (r RecipientType) IsChannelMessage() bool {
-	return r == RecipientTypeChannel || r == RecipientTypeStream
+func (r *RecipientType) IsChannelMessage() bool {
+	if r == nil {
+		return false
+	}
+	return *r == RecipientTypeChannel || *r == RecipientTypeStream
 }
 
-func (r RecipientType) ToLegacy() RecipientType {
-	if r == RecipientTypeChannel {
+func (r *RecipientType) ToLegacy() RecipientType {
+	if r == nil {
+		return RecipientTypeEmpty
+	}
+	if *r == RecipientTypeChannel {
 		return RecipientTypeStream
 	}
-	return r
+	return *r
 }
 
 func (r *RecipientType) UnmarshalJSON(data []byte) error {

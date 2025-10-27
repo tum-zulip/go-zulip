@@ -41,7 +41,9 @@ func buildHTTPClient(
 	}
 
 	if transport.TLSClientConfig == nil {
-		transport.TLSClientConfig = &tls.Config{}
+		transport.TLSClientConfig = &tls.Config{
+			MinVersion: tls.VersionTLS12,
+		}
 	} else {
 		transport.TLSClientConfig = transport.TLSClientConfig.Clone()
 	}

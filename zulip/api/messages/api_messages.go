@@ -748,7 +748,7 @@ func (s *messagesService) GetFileTemporaryURLExecute(
 	)
 
 	path := strings.ReplaceAll(endpoint, "{realm_id_str}", apiutils.IDToString(r.realmID))
-	path = strings.Replace(path, "{filename}", url.PathEscape(r.filename), -1)
+	path = strings.ReplaceAll(path, "{filename}", url.PathEscape(r.filename))
 
 	headers["Accept"] = apiutils.ContentTypeJSON
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)

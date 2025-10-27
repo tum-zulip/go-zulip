@@ -49,10 +49,7 @@ func PrepareRequest(
 	query url.Values,
 	form url.Values,
 	formFiles []FormFile,
-) (localVarRequest *http.Request, err error) {
-	queryplit := regexp.MustCompile(`(^|&)([^&]+)`)
-	queryDescape := strings.NewReplacer("%5B", "[", "%5D", "]")
-
+) (*http.Request, error) {
 	basePath, err := c.ServerURL()
 	if err != nil {
 		return nil, zulip.NewAPIError(nil, err)
@@ -82,6 +79,53 @@ func PrepareRequest(
 		headerParams["Content-Length"] = strconv.Itoa(body.Len())
 	}
 
+	url, err := setupURL(path, query)
+	if err != nil {
+		return nil, err
+	}
+
+	// Generate a new request
+	req, err := http.NewRequestWithContext(ctx, method, url.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	// add header parameters, if any
+	if len(headerParams) > 0 {
+		headers := http.Header{}
+		for h, v := range headerParams {
+			headers[h] = []string{v}
+		}
+		req.Header = headers
+	}
+
+	// Add the user agent to the request.
+	req.Header.Add("User-Agent", c.GetUserAgent())
+
+	req = addContextToRequest(ctx, req)
+
+	return req, nil
+}
+
+func addContextToRequest(ctx context.Context, req *http.Request) *http.Request {
+	if ctx != nil {
+		// add context to the request
+		req = req.WithContext(ctx)
+
+		// Walk through any authentication.
+
+		// Basic HTTP Authentication
+		if auth, ok := ctx.Value(zulip.ContextBasicAuth).(zulip.BasicAuth); ok {
+			req.SetBasicAuth(auth.UserName, auth.Password)
+		}
+	}
+	return req
+}
+
+func setupURL(path string, query url.Values) (*url.URL, error) {
+	queryplit := regexp.MustCompile(`(^|&)([^&]+)`)
+	queryDescape := strings.NewReplacer("%5B", "[", "%5D", "]")
+
 	// Setup path and query parameters
 	url, err := url.Parse(path)
 	if err != nil {
@@ -102,38 +146,7 @@ func PrepareRequest(
 		pieces[0] = queryDescape.Replace(pieces[0])
 		return strings.Join(pieces, "=")
 	})
-
-	// Generate a new request
-	localVarRequest, err = http.NewRequestWithContext(ctx, method, url.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	// add header parameters, if any
-	if len(headerParams) > 0 {
-		headers := http.Header{}
-		for h, v := range headerParams {
-			headers[h] = []string{v}
-		}
-		localVarRequest.Header = headers
-	}
-
-	// Add the user agent to the request.
-	localVarRequest.Header.Add("User-Agent", c.GetUserAgent())
-
-	if ctx != nil {
-		// add context to the request
-		localVarRequest = localVarRequest.WithContext(ctx)
-
-		// Walk through any authentication.
-
-		// Basic HTTP Authentication
-		if auth, ok := ctx.Value(zulip.ContextBasicAuth).(zulip.BasicAuth); ok {
-			localVarRequest.SetBasicAuth(auth.UserName, auth.Password)
-		}
-	}
-
-	return localVarRequest, nil
+	return url, nil
 }
 
 func addURLFormValuesAndFiles(
@@ -269,96 +282,89 @@ func AddFile(w *multipart.Writer, fieldName, path string) error {
 	return err
 }
 
+//nolint:gocognit,nolintlint,funlen
 func addParamImpl(values url.Values, key string, obj interface{}, csv bool) {
 	v := reflect.ValueOf(obj)
 	var value string
-	if v == reflect.ValueOf(nil) {
-		value = "null"
-	} else {
-		//nolint:exhaustive // in the default case we handle via json.Marshal
-		switch v.Kind() {
-		case reflect.Invalid:
-			value = "invalid"
 
-		case reflect.Struct:
-			if t, ok := obj.(time.Time); ok {
-				addParamImpl(values, key, t.Format(time.RFC3339Nano), csv)
-				return
-			}
-			if marshaler, ok := obj.(json.Marshaler); ok {
-				if data, err := marshaler.MarshalJSON(); err == nil {
-					value = string(data)
-					break
-				}
-			}
-			value = v.Type().String() + " value"
-		case reflect.Slice:
-			if v.Type().Elem().Kind() == reflect.Uint8 {
-				value = string(v.Bytes())
-				break
-			}
-			if data, err := json.Marshal(obj); err == nil {
+	//nolint:exhaustive // in the default case we handle via json.Marshal
+	switch v.Kind() {
+	case reflect.Invalid:
+		value = "invalid"
+
+	case reflect.Struct:
+		if t, ok := obj.(time.Time); ok {
+			addParamImpl(values, key, t.Format(time.RFC3339Nano), csv)
+			return
+		}
+		if marshaler, ok := obj.(json.Marshaler); ok {
+			if data, err := marshaler.MarshalJSON(); err == nil {
 				value = string(data)
 				break
 			}
-			indValue := reflect.ValueOf(obj)
-			if indValue == reflect.ValueOf(nil) {
-				return
-			}
-			lenIndValue := indValue.Len()
-			for i := range lenIndValue {
-				arrayValue := indValue.Index(i)
-				addParamImpl(values, key, arrayValue.Interface(), csv)
-			}
-			return
+		}
+		value = v.Type().String() + " value"
+	case reflect.Slice:
+		if v.Type().Elem().Kind() == reflect.Uint8 {
+			value = string(v.Bytes())
+			break
+		}
+		if data, err := json.Marshal(obj); err == nil {
+			value = string(data)
+			break
+		}
+		for i := range v.Len() {
+			arrayValue := v.Index(i)
+			addParamImpl(values, key, arrayValue.Interface(), csv)
+		}
+		return
 
-		case reflect.Map:
-			if data, err := json.Marshal(obj); err == nil {
-				value = string(data)
-				break
-			}
-			indValue := reflect.ValueOf(obj)
-			if indValue == reflect.ValueOf(nil) {
-				return
-			}
-			iter := indValue.MapRange()
-			for iter.Next() {
-				k, v := iter.Key(), iter.Value()
-				addParamImpl(values, fmt.Sprintf("%s[%s]", key, k.String()), v.Interface(), csv)
-			}
-			return
+	case reflect.Map:
+		if data, err := json.Marshal(obj); err == nil {
+			value = string(data)
+			break
+		}
 
-		case reflect.Interface:
-			fallthrough
-		case reflect.Ptr:
+		iter := v.MapRange()
+		for iter.Next() {
+			k, val := iter.Key(), iter.Value()
+			addParamImpl(values, fmt.Sprintf("%s[%s]", key, k.String()), val.Interface(), csv)
+		}
+		return
+
+	case reflect.Interface:
+		fallthrough
+	case reflect.Ptr:
+		if v.IsNil() {
+			value = "null"
+		} else {
 			addParamImpl(values, key, v.Elem().Interface(), csv)
 			return
-
-		case reflect.Int, reflect.Int8, reflect.Int16,
-			reflect.Int32, reflect.Int64:
-			value = strconv.FormatInt(v.Int(), 10)
-		case reflect.Uint, reflect.Uint8, reflect.Uint16,
-			reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-			value = strconv.FormatUint(v.Uint(), 10)
-		case reflect.Float32, reflect.Float64:
-			value = strconv.FormatFloat(v.Float(), 'g', -1, 32)
-		case reflect.Bool:
-			value = strconv.FormatBool(v.Bool())
-		case reflect.String:
-			value = v.String()
-		default:
-			if marshaler, ok := obj.(json.Marshaler); ok {
-				if data, err := marshaler.MarshalJSON(); err == nil {
-					value = string(data)
-					break
-				}
-			}
-			if data, err := json.Marshal(obj); err == nil {
+		}
+	case reflect.Int, reflect.Int8, reflect.Int16,
+		reflect.Int32, reflect.Int64:
+		value = strconv.FormatInt(v.Int(), 10)
+	case reflect.Uint, reflect.Uint8, reflect.Uint16,
+		reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+		value = strconv.FormatUint(v.Uint(), 10)
+	case reflect.Float32, reflect.Float64:
+		value = strconv.FormatFloat(v.Float(), 'g', -1, 32)
+	case reflect.Bool:
+		value = strconv.FormatBool(v.Bool())
+	case reflect.String:
+		value = v.String()
+	default:
+		if marshaler, ok := obj.(json.Marshaler); ok {
+			if data, err := marshaler.MarshalJSON(); err == nil {
 				value = string(data)
 				break
 			}
-			value = v.Type().String() + " value"
 		}
+		if data, err := json.Marshal(obj); err == nil {
+			value = string(data)
+			break
+		}
+		value = v.Type().String() + " value"
 	}
 
 	if csv && values.Get(key) != "" {

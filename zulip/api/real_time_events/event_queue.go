@@ -179,19 +179,10 @@ func (q *eventQueue) pollEvents(ctx context.Context, events chan<- events.Event)
 			LastEventID(q.LastEventID()).
 			Execute()
 		if err != nil {
-			if errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
-				q.logger.DebugContext(ctx, "event queue stopping after context cancellation", "error", err)
-			} else {
-				if q.errorHandler != nil {
-					q.errorHandler.Handle(ctx, httpResp, err)
-				}
-
-				if shouldStopPolling(err) {
-					q.logger.WarnContext(ctx, "event queue stopping due to polling error", "error", err)
-					return
-				} else if q.errorHandler == nil {
-					q.logger.ErrorContext(ctx, "event queue polling error", "error", err)
-				}
+			q.handleHTTPError(ctx, httpResp, err)
+			if shouldStopPolling(err) {
+				q.logger.WarnContext(ctx, "event queue stopping due to polling error", "error", err)
+				return
 			}
 			continue
 		}
@@ -201,6 +192,18 @@ func (q *eventQueue) pollEvents(ctx context.Context, events chan<- events.Event)
 			continue
 		}
 		running = q.processEvents(ctx, resp, events)
+	}
+}
+
+func (q *eventQueue) handleHTTPError(ctx context.Context, httpResp *http.Response, err error) {
+	if errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
+		q.logger.DebugContext(ctx, "event queue stopping after context cancellation", "error", err)
+	} else {
+		if q.errorHandler != nil {
+			q.errorHandler.Handle(ctx, httpResp, err)
+		} else if q.errorHandler == nil {
+			q.logger.ErrorContext(ctx, "event queue polling error", "error", err)
+		}
 	}
 }
 

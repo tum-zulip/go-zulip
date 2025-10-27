@@ -88,8 +88,8 @@ func NewZulipRCFromFile(zuliprc string) (*RC, error) {
 	}
 
 	if insecureSetting := section.Key("insecure").String(); insecureSetting != "" {
-		parsed, err := parseStrictBool(insecureSetting)
-		if err != nil {
+		parsed, parseErr := parseStrictBool(insecureSetting)
+		if parseErr != nil {
 			return nil, fmt.Errorf(
 				"insecure is set to '%s', it must be 'true' or 'false' if it is used in %s",
 				insecureSetting,
@@ -99,7 +99,9 @@ func NewZulipRCFromFile(zuliprc string) (*RC, error) {
 		rc.Insecure = &parsed
 	}
 
-	populateFromEnv(rc)
+	if err = populateFromEnv(rc); err != nil {
+		return nil, fmt.Errorf("unable to populate config from environment: %w", err)
+	}
 
 	err = rc.Validate()
 	if err != nil {

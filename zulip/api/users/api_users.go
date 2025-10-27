@@ -1682,7 +1682,7 @@ func (s *usersService) GetUserByEmailExecute(r GetUserByEmailRequest) (*GetUserR
 		endpoint = "/users/{email}"
 	)
 
-	path := strings.Replace(endpoint, "{email}", url.PathEscape(r.email), -1)
+	path := strings.ReplaceAll(endpoint, "{email}", url.PathEscape(r.email))
 
 	apiutils.AddOptParam(query, "client_gravatar", r.clientGravatar)
 	apiutils.AddOptParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
@@ -4080,7 +4080,7 @@ func (s *usersService) UpdateUserByEmailExecute(r UpdateUserByEmailRequest) (*zu
 		endpoint = "/users/{email}"
 	)
 
-	path := strings.Replace(endpoint, "{email}", url.PathEscape(r.email), -1)
+	path := strings.ReplaceAll(endpoint, "{email}", url.PathEscape(r.email))
 
 	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
 	headers["Accept"] = apiutils.ContentTypeJSON

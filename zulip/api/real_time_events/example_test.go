@@ -58,7 +58,7 @@ func Example() {
 		}
 
 		// Echo the message back
-		client.SendMessage(ctx).
+		_, _, _ = client.SendMessage(ctx).
 			To(z.UserAsRecipient(msgEvent.Message.SenderID)).
 			Content(fmt.Sprintf("Echo: %s", msgEvent.Message.Content)).
 			Execute()

@@ -353,10 +353,6 @@ linters:
       - text: 'godoc should start with symbol name'
         linters:
           - godoclint
-      # TODO: enable after fixing all issues
-      - text: ST1020
-        linters:
-          - staticcheck
 
       - text: 'lines are duplicate of'
         path: 'api_users.go|_test.go'

@@ -64,6 +64,7 @@ func Test_CodePlaygrounds(t *testing.T) {
 	})
 }
 
+//nolint:funlen,nolintlint
 func Test_Linkifiers(t *testing.T) {
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()

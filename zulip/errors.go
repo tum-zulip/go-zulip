@@ -148,7 +148,7 @@ type DeactivateOwnUserError struct {
 }
 
 // Error returns non-empty string if there was an error.
-func (e APIError) Error() string {
+func (e *APIError) Error() string {
 	return e.err.Error()
 }
 
@@ -161,6 +161,6 @@ func (e *APIError) Unwrap() error {
 }
 
 // Body returns the raw bytes of the Response.
-func (e APIError) Body() []byte {
+func (e *APIError) Body() []byte {
 	return e.body
 }

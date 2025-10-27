@@ -121,9 +121,9 @@ func (c *SimpleClient) doHTTPCall(ctx context.Context, endpoint string, request 
 	debug := c.Logger.Enabled(ctx, slog.LevelDebug)
 
 	if debug {
-		dump, err := httputil.DumpRequestOut(request, true)
-		if err != nil {
-			return nil, err
+		dump, dumpErr := httputil.DumpRequestOut(request, true)
+		if dumpErr != nil {
+			c.Logger.ErrorContext(ctx, "failed to dump http Request to string", "error", dumpErr)
 		}
 		c.Logger.DebugContext(ctx, "HTTP Request", "dump", string(dump))
 	}
@@ -139,9 +139,9 @@ func (c *SimpleClient) doHTTPCall(ctx context.Context, endpoint string, request 
 	}
 
 	if debug && resp != nil {
-		dump, err := httputil.DumpResponse(resp, true)
-		if err != nil {
-			c.Logger.ErrorContext(ctx, "failed to dump http Response to string", "error", err)
+		dump, dumpErr := httputil.DumpResponse(resp, true)
+		if dumpErr != nil {
+			c.Logger.ErrorContext(ctx, "failed to dump http Response to string", "error", dumpErr)
 		}
 		c.Logger.DebugContext(ctx, "HTTP Response", "dump", string(dump))
 	}

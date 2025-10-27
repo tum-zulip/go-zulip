@@ -158,7 +158,9 @@ func Test_UpdateMessageEvent(t *testing.T) {
 
 		event := resp.Events[0]
 		require.IsType(t, events.UpdateMessageEvent{}, event)
-		updateEvent := event.(events.UpdateMessageEvent)
+		updateEvent, ok := event.(events.UpdateMessageEvent)
+		require.True(t, ok, "event is not of type UpdateMessageEvent")
+
 		assert.Equal(t, messageID, updateEvent.MessageID)
 		assert.NotNil(t, updateEvent.Content)
 		assert.Contains(t, *updateEvent.Content, newContent)
@@ -303,7 +305,8 @@ func Test_UpdateMessageFlagsEvent(t *testing.T) {
 
 		event := resp.Events[0]
 		require.IsType(t, events.UpdateMessageFlagsAddEvent{}, event)
-		flagEvent := event.(events.UpdateMessageFlagsAddEvent)
+		flagEvent, eventOk := event.(events.UpdateMessageFlagsAddEvent)
+		require.True(t, eventOk, "event is not of type UpdateMessageFlagsAddEvent")
 		assert.Equal(t, events.EventOpAdd, flagEvent.Op)
 		assert.Equal(t, "starred", flagEvent.Flag)
 		assert.Contains(t, flagEvent.Messages, messageID)

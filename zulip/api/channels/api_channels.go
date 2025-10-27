@@ -880,7 +880,7 @@ func (s *channelsService) CreateChannel(ctx context.Context) CreateChannelReques
 
 // Execute executes the request.
 //
-
+//nolint:funlen,nolintlint
 func (s *channelsService) CreateChannelExecute(r CreateChannelRequest) (*CreateChannelResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -2133,7 +2133,7 @@ func (s *channelsService) Subscribe(ctx context.Context) SubscribeRequest {
 
 // Execute executes the request.
 //
-
+//nolint:funlen,nolintlint
 func (s *channelsService) SubscribeExecute(r SubscribeRequest) (*SubscribeResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
@@ -2675,7 +2675,7 @@ func (s *channelsService) UpdateChannel(ctx context.Context, channelID int64) Up
 
 // Execute executes the request.
 //
-
+//nolint:funlen,nolintlint
 func (s *channelsService) UpdateChannelExecute(r UpdateChannelRequest) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
@@ -2823,8 +2823,8 @@ type SubscriptionRequestWithColor struct {
 }
 
 // A list of channel names to unsubscribe from.
-func (r UpdateSubscriptionsRequest) Delete(delete []string) UpdateSubscriptionsRequest {
-	r.delete = &delete
+func (r UpdateSubscriptionsRequest) Delete(del []string) UpdateSubscriptionsRequest {
+	r.delete = &del
 	return r
 }
 

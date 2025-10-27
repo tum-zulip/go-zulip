@@ -38,11 +38,17 @@ type stat[T integer] struct {
 
 func (m *stat[T]) increment(key string, value T) {
 	c, _ := m.LoadOrStore(key, T(0))
-	current := c.(T)
+	current, ok := c.(T)
+	if !ok {
+		panic("unexpected type in map")
+	}
 
 	for !m.CompareAndSwap(key, current, current+value) {
-		c, _ := m.Load(key)
-		current = c.(T)
+		loaded, _ := m.Load(key)
+		current, ok = loaded.(T)
+		if !ok {
+			panic("unexpected type in map")
+		}
 	}
 }
 
@@ -66,8 +72,14 @@ func (s *stats) GetStatistics() statistics.Statistics {
 	}
 
 	s.totalDuration.Range(func(k any, v any) bool {
-		endpoint := k.(string)
-		duration := v.(time.Duration)
+		endpoint, endpointOk := k.(string)
+		if !endpointOk {
+			panic("unexpected type in map")
+		}
+		duration, durationOk := v.(time.Duration)
+		if !durationOk {
+			panic("unexpected type in map")
+		}
 
 		stats[endpoint] = statistics.Statistic{
 			TotalDuration: duration,
