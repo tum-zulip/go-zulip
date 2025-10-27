@@ -43,9 +43,9 @@ runs:
       run: |
         set -euo pipefail
         {
-          echo "PNPM_STORE_PATH=/home/runner/.pnpm-store"
-          echo "UV_CACHE_DIR=/home/runner/.cache/uv"
-          echo "EMOJI_CACHE_DIR=/home/runner/.cache/zulip-emoji"
+          echo "PNPM_STORE_PATH=${HOME}/.pnpm-store"
+          echo "UV_CACHE_DIR=${HOME}/.cache/uv"
+          echo "EMOJI_CACHE_DIR=${HOME}/.cache/zulip-emoji"
           echo "ZULIP_DEV_LOG=$RUNNER_TEMP/zulip-dev.log"
           echo "ZULIP_RUN_PID=$RUNNER_TEMP/zulip-dev.pid"
           # Default dev URL (caller can override via env in the workflow)
