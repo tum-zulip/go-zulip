@@ -8,6 +8,9 @@ import (
 	"github.com/tum-zulip/go-zulip/zulip/client"
 )
 
+// Example demonstrates how to create a channel and send a message using the Zulip API client.
+//
+//nolint:testableexamples // .zuliprc is required for this example to work
 func Example() {
 	// Load configuration from zuliprc file and create a client
 	rc, _ := z.NewZulipRCFromFile("~/.zuliprc")
@@ -40,5 +43,4 @@ func Example() {
 	if err != nil {
 		slog.Error("failed to send message", "error", err)
 	}
-	// Output:
 }

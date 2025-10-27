@@ -41,6 +41,8 @@ func IDToString(id int64) string {
 }
 
 // prepareRequest build the request.
+//
+//nolint:funlen,nolintlint
 func PrepareRequest(
 	ctx context.Context,
 	c clients.Client,
@@ -84,8 +86,15 @@ func PrepareRequest(
 		return nil, err
 	}
 
+	// Avoid passing a typed nil (*bytes.Buffer)(nil) because the net/http package may call methods
+	// on the interface which will panic when the concrete value is a typed nil.
+	var reqBody io.Reader
+	if body != nil {
+		reqBody = body
+	}
+
 	// Generate a new request
-	req, err := http.NewRequestWithContext(ctx, method, url.String(), body)
+	req, err := http.NewRequestWithContext(ctx, method, url.String(), reqBody)
 	if err != nil {
 		return nil, err
 	}

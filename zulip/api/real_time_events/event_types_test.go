@@ -31,6 +31,7 @@ func Test_MessageEvent(t *testing.T) {
 		require.NotNil(t, queueResp.QueueID)
 
 		userID := GetUserID(t, apiClient)
+		senderID := GetUserID(t, otherClient)
 
 		var sendErr error
 		wait := make(chan struct{})
@@ -57,7 +58,7 @@ func Test_MessageEvent(t *testing.T) {
 		event := resp.Events[0]
 		msgEvent, ok := event.(events.MessageEvent)
 		require.True(t, ok, "event is not of type MessageEvent")
-		assert.Equal(t, userID, msgEvent.Message.SenderID)
+		assert.Equal(t, senderID, msgEvent.Message.SenderID)
 		assert.Contains(t, msgEvent.Message.Content, content)
 
 		<-wait

@@ -161,10 +161,10 @@ func MessageID(id int64) NarrowTerm {
 }
 
 // DirectMessage returns a NarrowTerm that filters direct messages between two specific user IDs.
-func DirectMessage(userIDs []int64) NarrowTerm {
+func DirectMessage(userID1, userID2 int64) NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorDm,
-		Operand:  NewNarrowListOfIntOperand(userIDs),
+		Operand:  NewNarrowListOfIntOperand([]int64{userID1, userID2}),
 	}
 }
 
