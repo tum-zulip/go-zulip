@@ -1,0 +1,36 @@
+name: Stop Zulip
+description: Collect logs and shut down a Zulip dev server
+
+inputs:
+  zulip_ref:
+    description: Zulip git ref (branch/tag/commit)
+    required: false
+    default: main
+
+runs:
+  using: composite
+  steps:
+    - name: Upload Zulip log
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: zulip-log-${{ inputs.zulip_ref }}-${{ github.job }}-${{ github.run_attempt }}
+        path: ${{ env.ZULIP_DEV_LOG }}
+        if-no-files-found: ignore
+        retention-days: 7
+
+    - name: Show log on failure
+      if: failure()
+      shell: bash
+      run: |
+        echo "===== zulip-dev.log ====="
+        tail -n +1 "${ZULIP_DEV_LOG}" || true
+
+    - name: Stop Zulip
+      if: always()
+      shell: bash
+      run: |
+        if [ -f "${ZULIP_RUN_PID}" ]; then
+          kill "$(cat "${ZULIP_RUN_PID}")" || true
+        fi
+        pkill -f "tools/run-dev" || true

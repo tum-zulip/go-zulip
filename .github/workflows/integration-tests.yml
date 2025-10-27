@@ -56,12 +56,6 @@ jobs:
         with:
           zulip_ref: ${{ matrix.zulip_ref }}
 
-      - name: Give Zulip some time to settle
-        shell: bash
-        run: |
-          echo "Waiting 30 seconds for Zulip to settle..."
-          sleep 30
-
       - name: Run go test suite with coverage
         run: go test ./... -covermode=atomic -coverprofile=coverage.out -timeout 60m
 
@@ -76,6 +70,12 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           ZULIP_BRANCH: ${{ matrix.zulip_ref }}
+
+      - name: Stop Zulip
+        if: always()
+        uses: ./.github/actions/stop-zulip
+        with:
+          zulip_ref: ${{ matrix.zulip_ref }}
 
   godoc:
     name: Godoc

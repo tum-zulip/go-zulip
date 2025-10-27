@@ -9,7 +9,6 @@ import (
 	"io"
 	"math/rand/v2"
 	"mime/multipart"
-	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -86,7 +85,6 @@ func GetBotClient(t *testing.T) client.Client {
 	t.Helper()
 	rc := createBot(t, "test-bot")
 	client, err := client.NewClient(rc,
-		client.WithHTTPClient(newHTTPClientForTestSite()),
 		client.SkipWarnOnInsecureTLS(),
 		client.EnableStatistics())
 	require.NoError(t, err)
@@ -193,47 +191,12 @@ func getTestClient(t *testing.T, username string) (*z.RC, client.Client) {
 
 	apiClient, err := client.NewTestClient(rc,
 		client.SkipWarnOnInsecureTLS(),
-		client.EnableStatistics(),
-		client.WithHTTPClient(newHTTPClientForTestSite()))
+		client.EnableStatistics())
 	if err != nil {
 		t.Fatalf("Failed to create z.client: %v", err)
 	}
 
 	return rc, apiClient
-}
-
-func newHTTPClientForTestSite() *http.Client {
-	const timeout = 30 * time.Second
-	const keepAlive = 30 * time.Second
-
-	baseTransport, ok := http.DefaultTransport.(*http.Transport)
-	if !ok {
-		panic("default transport is not an *http.Transport")
-	}
-
-	transport := baseTransport.Clone()
-	dialer := &net.Dialer{
-		Timeout:   timeout,
-		KeepAlive: keepAlive,
-	}
-
-	transport.DialContext = func(ctx context.Context, network, address string) (net.Conn, error) {
-		host, port, err := net.SplitHostPort(address)
-		if err != nil {
-			return nil, err
-		}
-		if host == "localhost" || host == "::1" {
-			host = "127.0.0.1"
-		}
-		return dialer.DialContext(ctx, network, net.JoinHostPort(host, port))
-	}
-
-	return &http.Client{
-		Transport:     transport,
-		Timeout:       http.DefaultClient.Timeout,
-		CheckRedirect: http.DefaultClient.CheckRedirect,
-		Jar:           http.DefaultClient.Jar,
-	}
 }
 
 type UserInfo struct {
@@ -251,10 +214,7 @@ func fetchUserInfo(t *testing.T, username string) UserInfo {
 		attemptDelay = 3 * time.Second
 	)
 
-	httpClient := newHTTPClientForTestSite()
-	if httpClient == nil {
-		httpClient = http.DefaultClient
-	}
+	httpClient := http.DefaultClient
 
 	for attempt := range numAttempts {
 		info, done := getUserInfo(t, httpClient, username, attempt)
@@ -303,7 +263,7 @@ func getUserInfo(t *testing.T, client *http.Client, username string, attempt int
 			t.Fatalf("Empty API key received for user %s", username)
 		}
 		if result.EMail != username {
-			t.Fatalf("Unexpected email in API key Response: got %s, want %s", result.EMail, username)
+			t.Fatalf("Unexpected email in API key response: got %s, want %s", result.EMail, username)
 		}
 		return result, true
 	}
@@ -436,9 +396,7 @@ func createBot(t *testing.T, botName string) *z.RC {
 	req.SetBasicAuth(rc.Email, rc.APIKey)
 	req.Header.Set("Content-Type", w.FormDataContentType())
 
-	httpClient := newHTTPClientForTestSite()
-
-	resp, err := httpClient.Do(req)
+	resp, err := http.DefaultClient.Do(req)
 	require.NoError(t, err)
 	defer resp.Body.Close()
 
