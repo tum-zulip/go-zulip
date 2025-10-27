@@ -35,6 +35,7 @@ jobs:
           - 11.x
           - 10.x
           - 9.x
+      fail-fast: false
     env:
       GO111MODULE: "on"
       GOFLAGS: "-trimpath"
@@ -54,6 +55,12 @@ jobs:
         uses:  ./.github/actions/provision-zulip
         with:
           zulip_ref: ${{ matrix.zulip_ref }}
+
+      - name: Give Zulip some time to settle
+        shell: bash
+        run: |
+          echo "Waiting 15 seconds for Zulip to settle..."
+          sleep 15
 
       - name: Run go test suite with coverage
         env:
