@@ -147,6 +147,7 @@ func Test_UpdateMessageEvent(t *testing.T) {
 			_, _, updateErr = apiClient.UpdateMessage(ctx, messageID).
 				Content(newContent).
 				Execute()
+			close(wait)
 		}()
 
 		// Get events
@@ -294,6 +295,7 @@ func Test_UpdateMessageFlagsEvent(t *testing.T) {
 				Op("add").
 				Flag("starred").
 				Execute()
+			close(wait)
 		}()
 
 		// Get events

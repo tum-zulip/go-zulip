@@ -36,29 +36,34 @@ func Example() {
 		Narrow(z.Where(z.IsDirectMessage())).
 		Execute()
 
-	queueID := *registerResp.QueueID
+	var queueID string
+	if registerResp.QueueID != nil {
+		queueID = *registerResp.QueueID
+	}
 	lastEventID := registerResp.LastEventID
 
 	// Create an event queue handler for processing events
-	queue := realtimeevents.NewEventQueue(client, nil)
+	queue := realtimeevents.NewEventQueue(client)
 
 	// Connect to the event queue
 	channel, _ := queue.Connect(ctx, queueID, lastEventID)
 	defer queue.Close()
 
-	// Process events
-	for event := range channel {
-		// Check if this is a message event
-		msgEvent, ok := event.(events.MessageEvent)
-		if !ok {
-			continue
-		}
+	if channel != nil {
+		// Process events
+		for event := range channel {
+			// Check if this is a message event
+			msgEvent, ok := event.(events.MessageEvent)
+			if !ok {
+				continue
+			}
 
-		// Echo the message back
-		_, _, _ = client.SendMessage(ctx).
-			To(z.UserAsRecipient(msgEvent.Message.SenderID)).
-			Content(fmt.Sprintf("Echo: %s", msgEvent.Message.Content)).
-			Execute()
+			// Echo the message back
+			_, _, _ = client.SendMessage(ctx).
+				To(z.UserAsRecipient(msgEvent.Message.SenderID)).
+				Content(fmt.Sprintf("Echo: %s", msgEvent.Message.Content)).
+				Execute()
+		}
 	}
 	// Output:
 }
