@@ -357,3 +357,7 @@ linters:
       - path: 'zulip/internal/test_utils/utils.go'
         linters:
           - gochecknoglobals
+      - path: 'zulip/internal/test_utils/utils.go'
+        rules: 'G404'
+        linters:
+          - gosec

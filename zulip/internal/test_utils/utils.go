@@ -6,9 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
-	"log/slog"
-	"math/rand"
+	"math/rand/v2"
 	"mime/multipart"
 	"net/http"
 	"net/url"
@@ -191,10 +189,7 @@ func getTestClient(t *testing.T, username string) (*z.ZulipRC, client.Client) {
 		Insecure: &insecure,
 	}
 
-	handler := slog.NewTextHandler(log.Default().Writer(), &slog.HandlerOptions{Level: slog.LevelInfo})
-
 	client, err := client.NewClient(rc,
-		client.WithLogger(slog.New(handler)),
 		client.SkipWarnOnInsecureTLS(),
 		client.EnableStatistics())
 	if err != nil {
@@ -334,7 +329,7 @@ func ensureUserActive(t *testing.T, username string) error {
 }
 
 func UniqueName(prefix string) string {
-	return fmt.Sprintf("%s%d%d", prefix, rand.Intn(1000), time.Now().UnixNano())
+	return fmt.Sprintf("%s%d%d", prefix, rand.Int(), time.Now().UnixNano())
 }
 
 func getOwnUser(t *testing.T, apiClient client.Client) *users.GetOwnUserResponse {
@@ -434,10 +429,10 @@ func GetUserEmail(t *testing.T, apiClient client.Client) string {
 func CreateRandomUserGroup(t *testing.T, apiClient client.Client, members ...int64) int64 {
 	t.Helper()
 
-	groupId := rand.Intn(1000000)
+	name := UniqueName("test-group-")
 
 	resp, _, err := apiClient.CreateUserGroup(context.Background()).
-		Name(fmt.Sprintf("test-group-%d", groupId)).
+		Name(name).
 		Description("Test Group").
 		Members(members).
 		Execute()
@@ -452,7 +447,7 @@ func CreateRandomUserGroup(t *testing.T, apiClient client.Client, members ...int
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpResp)
 		for _, g := range resp.UserGroups {
-			if g.Name == fmt.Sprintf("test-group-%d", groupId) {
+			if g.Name == name {
 				return g.Id
 			}
 		}
