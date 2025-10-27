@@ -34,7 +34,7 @@ func (c *TestClient) CallAPI(
 		if err == nil && httpResp != nil && httpResp.StatusCode < http.StatusOK {
 			return httpResp, nil
 		}
-		c.Logger.WarnContext(ctx, "API call failed, retrying...", "endpoint", endpoint, "error", err)
+
 		time.Sleep(waitDuration)
 		c.RetryClient.SimpleClient.Stats.Retry(endpoint)
 		c.RetryClient.SimpleClient.Stats.Duration("test-retry-timeout", waitDuration)

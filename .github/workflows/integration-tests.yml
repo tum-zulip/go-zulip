@@ -63,8 +63,6 @@ jobs:
           sleep 15
 
       - name: Run go test suite with coverage
-        env:
-          ZULIP_TEST_SITE: http://127.0.0.1:9991
         run: go test ./... -covermode=atomic -coverprofile=coverage.out -timeout 60m
 
       - name: Upload coverage to Codecov

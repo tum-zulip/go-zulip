@@ -83,7 +83,13 @@ func NewConfig(rc *zulip.RC, opts ...Option) (Config, error) {
 		option(&cfg)
 	}
 
-	httpClient, userAgent, err := buildHTTPClient(rc, cfg.ClientName, cfg.Logger, cfg.InsecureWarning)
+	httpClient, userAgent, err := buildHTTPClient(
+		cfg.HTTPClient,
+		rc,
+		cfg.ClientName,
+		cfg.Logger,
+		cfg.InsecureWarning,
+	)
 	if err != nil {
 		return cfg, err
 	}

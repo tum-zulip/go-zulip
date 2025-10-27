@@ -18,6 +18,7 @@ import (
 
 //nolint:funlen
 func buildHTTPClient(
+	baseClient *http.Client,
 	params *zulip.RC,
 	clientName string,
 	logger *slog.Logger,
@@ -31,21 +32,56 @@ func buildHTTPClient(
 		logger = slog.Default()
 	}
 
-	userAgent := buildUserAgent(clientName)
-
-	var transport *http.Transport
-	if def, ok := http.DefaultTransport.(*http.Transport); ok {
-		transport = def.Clone()
-	} else {
-		transport = &http.Transport{}
+	if baseClient == nil {
+		baseClient = http.DefaultClient
 	}
 
+	userAgent := buildUserAgent(clientName)
+
+	transport := http.DefaultTransport
+	if baseClient.Transport != nil {
+		transport = http.DefaultTransport
+	}
+
+	if t, ok := transport.(*http.Transport); ok {
+		cp := t.Clone()
+		configureTransportTLS(cp, params, logger, warnOnInsecureTLS)
+		transport = cp
+	} else {
+		if params.CertBundle != "" || params.ClientCert != "" {
+			logger.Warn(
+				"custom HTTP transport does not support TLS customization; certificate options are ignored",
+			)
+		}
+		if params.Insecure != nil && *params.Insecure && warnOnInsecureTLS {
+			logger.Warn(
+				"custom HTTP transport does not support TLS customization; insecure option may be ignored",
+			)
+		}
+	}
+
+	clientCopy := *baseClient
+	clientCopy.Transport = &basicAuthRoundTripper{
+		email:     params.Email,
+		apiKey:    params.APIKey,
+		userAgent: userAgent,
+		base:      transport,
+	}
+
+	return &clientCopy, userAgent, nil
+}
+
+func configureTransportTLS(transport *http.Transport, params *zulip.RC, logger *slog.Logger, warnOnInsecureTLS bool) error {
 	if transport.TLSClientConfig == nil {
 		transport.TLSClientConfig = &tls.Config{
 			MinVersion: tls.VersionTLS12,
 		}
 	} else {
-		transport.TLSClientConfig = transport.TLSClientConfig.Clone()
+		cfgCopy := transport.TLSClientConfig.Clone()
+		if cfgCopy.MinVersion == 0 {
+			cfgCopy.MinVersion = tls.VersionTLS12
+		}
+		transport.TLSClientConfig = cfgCopy
 	}
 
 	if params.Insecure != nil && *params.Insecure {
@@ -59,30 +95,16 @@ func buildHTTPClient(
 
 	if params.CertBundle != "" {
 		if err := addCertBundleToTransport(transport, params.CertBundle); err != nil {
-			return nil, "", fmt.Errorf("failed to add certificate bundle: %w", err)
+			return fmt.Errorf("failed to add certificate bundle: %w", err)
 		}
 	}
 
 	if params.ClientCert != "" {
 		if err := addClientCertToTransport(transport, params.ClientCert, params.ClientCertKey); err != nil {
-			return nil, "", fmt.Errorf("failed to add client certificate: %w", err)
+			return fmt.Errorf("failed to add client certificate: %w", err)
 		}
 	}
-
-	baseClient := http.DefaultClient
-	client := &http.Client{
-		Timeout: baseClient.Timeout,
-		Transport: &basicAuthRoundTripper{
-			email:     params.Email,
-			apiKey:    params.APIKey,
-			userAgent: userAgent,
-			base:      transport,
-		},
-		CheckRedirect: baseClient.CheckRedirect,
-		Jar:           baseClient.Jar,
-	}
-
-	return client, userAgent, nil
+	return nil
 }
 
 func addCertBundleToTransport(transport *http.Transport, bundlePath string) error {
@@ -140,7 +162,6 @@ func buildUserAgent(clientName string) string {
 	vendor, version := detectPlatform()
 	return fmt.Sprintf("%s (%s; %s)", clientName, vendor, version)
 }
-
 func normalizePath(pathStr string) (string, error) {
 	expanded := os.ExpandEnv(pathStr)
 	if strings.HasPrefix(expanded, "~") {
