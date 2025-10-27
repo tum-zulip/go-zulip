@@ -57,7 +57,7 @@ jobs:
           zulip_ref: ${{ matrix.zulip_ref }}
 
       - name: Run go test suite with coverage
-        run: go test ./... -covermode=atomic -coverprofile=coverage.out -timeout 60m
+        run: go test ./... -covermode=atomic -coverprofile=coverage.out -timeout 10m
 
       - name: Upload coverage to Codecov
         if: success() && github.ref == 'refs/heads/main'
