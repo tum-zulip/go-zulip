@@ -9,6 +9,7 @@ import (
 	"net/http"
 
 	"github.com/tum-zulip/go-zulip/zulip"
+	"github.com/tum-zulip/go-zulip/zulip/client/statistics"
 )
 
 const retryIndefinitely = -1
@@ -30,6 +31,8 @@ type Client interface {
 	) (httpResp *http.Response, err error)
 	ServerURL() (string, error)
 	GetUserAgent() string
+
+	GetStatistics() statistics.Statistics
 }
 
 // Option is a functional option for configuring a Client.

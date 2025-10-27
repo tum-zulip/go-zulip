@@ -18,8 +18,8 @@ type RetryClient struct {
 
 var _ Client = (*RetryClient)(nil)
 
-func NewRetryClient(cfg Config) RetryClient {
-	return RetryClient{
+func NewRetryClient(cfg Config) *RetryClient {
+	return &RetryClient{
 		SimpleClient: SimpleClient{Config: cfg},
 	}
 }

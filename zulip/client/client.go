@@ -56,25 +56,59 @@ type client struct {
 	serverandorganizations.APIServerAndOrganizations
 	users.APIUsers
 
-	apiClient clients.RetryClient
+	apiClient clients.Client
 }
 
+// NewClient creates a new Zulip API client with the provided ZulipRC and options.
 func NewClient(zuliprc *zulip.RC, opts ...clients.Option) (Client, error) {
 	cfg, err := clients.NewConfig(zuliprc, opts...)
 	if err != nil {
 		return nil, err
 	}
+	apiClient := clients.NewRetryClient(cfg)
+	return &client{
+		APIAuthentication:         authentication.NewAuthenticationService(apiClient),
+		APIChannels:               channels.NewChannelsService(apiClient),
+		APIDrafts:                 drafts.NewDraftsService(apiClient),
+		APIInvites:                invites.NewInvitesService(apiClient),
+		APIMessages:               messages.NewMessagesService(apiClient),
+		APIMobile:                 mobile.NewMobileService(apiClient),
+		APINavigationViews:        navigationviews.NewNavigationViewsService(apiClient),
+		APIRealTimeEvents:         realtimeevents.NewRealTimeEventsService(apiClient),
+		APIReminders:              reminders.NewRemindersService(apiClient),
+		APIScheduledMessages:      scheduledmessages.NewScheduledMessagesService(apiClient),
+		APIServerAndOrganizations: serverandorganizations.NewServerAndOrganizationsService(apiClient),
+		APIUsers:                  users.NewUsersService(apiClient),
+		apiClient:                 apiClient,
+	}, nil
+}
 
-	c := &client{
-		apiClient: clients.NewRetryClient(cfg),
+// NewTestClient creates a new Client intended for testing purposes. It retries multiple times on failure.
+func NewTestClient(zuliprc *zulip.RC, opts ...clients.Option) (Client, error) {
+	cfg, err := clients.NewConfig(zuliprc, opts...)
+	if err != nil {
+		return nil, err
 	}
-	c.initializeFromClient(&c.apiClient)
-
-	return c, nil
+	apiClient := clients.NewRetryClient(cfg)
+	return &client{
+		APIAuthentication:         authentication.NewAuthenticationService(apiClient),
+		APIChannels:               channels.NewChannelsService(apiClient),
+		APIDrafts:                 drafts.NewDraftsService(apiClient),
+		APIInvites:                invites.NewInvitesService(apiClient),
+		APIMessages:               messages.NewMessagesService(apiClient),
+		APIMobile:                 mobile.NewMobileService(apiClient),
+		APINavigationViews:        navigationviews.NewNavigationViewsService(apiClient),
+		APIRealTimeEvents:         realtimeevents.NewRealTimeEventsService(apiClient),
+		APIReminders:              reminders.NewRemindersService(apiClient),
+		APIScheduledMessages:      scheduledmessages.NewScheduledMessagesService(apiClient),
+		APIServerAndOrganizations: serverandorganizations.NewServerAndOrganizationsService(apiClient),
+		APIUsers:                  users.NewUsersService(apiClient),
+		apiClient:                 apiClient,
+	}, nil
 }
 
 func (c *client) GetStatistics() statistics.Statistics {
-	return c.apiClient.Stats.GetStatistics()
+	return c.apiClient.GetStatistics()
 }
 
 func WithAPISuffix(suffix string) clients.Option {
@@ -127,19 +161,4 @@ func WithMaxRetries(maxRetries int) clients.Option {
 	return func(cfg *clients.Config) {
 		cfg.MaxRetries = maxRetries
 	}
-}
-
-func (c *client) initializeFromClient(apiClient clients.Client) {
-	c.APIAuthentication = authentication.NewAuthenticationService(apiClient)
-	c.APIChannels = channels.NewChannelsService(apiClient)
-	c.APIDrafts = drafts.NewDraftsService(apiClient)
-	c.APIInvites = invites.NewInvitesService(apiClient)
-	c.APIMessages = messages.NewMessagesService(apiClient)
-	c.APIMobile = mobile.NewMobileService(apiClient)
-	c.APINavigationViews = navigationviews.NewNavigationViewsService(apiClient)
-	c.APIRealTimeEvents = realtimeevents.NewRealTimeEventsService(apiClient)
-	c.APIReminders = reminders.NewRemindersService(apiClient)
-	c.APIScheduledMessages = scheduledmessages.NewScheduledMessagesService(apiClient)
-	c.APIServerAndOrganizations = serverandorganizations.NewServerAndOrganizationsService(apiClient)
-	c.APIUsers = users.NewUsersService(apiClient)
 }

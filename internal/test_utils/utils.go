@@ -189,7 +189,7 @@ func getTestClient(t *testing.T, username string) (*z.RC, client.Client) {
 		Insecure: &insecure,
 	}
 
-	client, err := client.NewClient(rc,
+	client, err := client.NewTestClient(rc,
 		client.SkipWarnOnInsecureTLS(),
 		client.EnableStatistics())
 	if err != nil {

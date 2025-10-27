@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/tum-zulip/go-zulip/zulip"
+	"github.com/tum-zulip/go-zulip/zulip/client/statistics"
 )
 
 const (
@@ -39,6 +40,10 @@ func NewSimpleClient(cfg Config) *SimpleClient {
 	return &SimpleClient{
 		Config: cfg,
 	}
+}
+
+func (c *SimpleClient) GetStatistics() statistics.Statistics {
+	return c.Stats.GetStatistics()
 }
 
 func (c *SimpleClient) ServerURL() (string, error) {
