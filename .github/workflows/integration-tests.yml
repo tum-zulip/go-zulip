@@ -59,8 +59,8 @@ jobs:
       - name: Give Zulip some time to settle
         shell: bash
         run: |
-          echo "Waiting 15 seconds for Zulip to settle..."
-          sleep 15
+          echo "Waiting 30 seconds for Zulip to settle..."
+          sleep 30
 
       - name: Run go test suite with coverage
         run: go test ./... -covermode=atomic -coverprofile=coverage.out -timeout 60m
