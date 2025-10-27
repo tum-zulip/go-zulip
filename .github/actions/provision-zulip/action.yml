@@ -57,7 +57,7 @@ runs:
       with:
         repository: ${{ inputs.zulip_repo }}
         ref: ${{ inputs.zulip_ref }}
-        path: zulip
+        path: zulip-server
 
     - name: Create cache directories
       shell: bash
@@ -71,7 +71,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: ${{ env.PNPM_STORE_PATH }}
-        key: ${{ inputs.cache_epoch_pnpm }}-pnpm-${{ inputs.zulip_ref }}-${{ hashFiles('zulip/pnpm-lock.yaml') }}
+        key: ${{ inputs.cache_epoch_pnpm }}-pnpm-${{ inputs.zulip_ref }}-${{ hashFiles('zulip-server/pnpm-lock.yaml') }}
         restore-keys: |
           ${{ inputs.cache_epoch_pnpm }}-pnpm-${{ inputs.zulip_ref }}-
           ${{ inputs.cache_epoch_pnpm }}-pnpm-
@@ -80,7 +80,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: ${{ env.UV_CACHE_DIR }}
-        key: ${{ inputs.cache_epoch_uv }}-uv-${{ inputs.zulip_ref }}-${{ hashFiles('zulip/uv.lock') }}
+        key: ${{ inputs.cache_epoch_uv }}-uv-${{ inputs.zulip_ref }}-${{ hashFiles('zulip-server/uv.lock') }}
         restore-keys: |
           ${{ inputs.cache_epoch_uv }}-uv-${{ inputs.zulip_ref }}-
           ${{ inputs.cache_epoch_uv }}-uv-
@@ -89,14 +89,14 @@ runs:
       uses: actions/cache@v4
       with:
         path: ${{ env.EMOJI_CACHE_DIR }}
-        key: ${{ inputs.cache_epoch_emoji }}-emoji-${{ inputs.zulip_ref }}-${{ hashFiles('zulip/tools/setup/emoji/emoji_map.json', 'zulip/tools/setup/emoji/build_emoji', 'zulip/tools/setup/emoji/emoji_setup_utils.py', 'zulip/tools/setup/emoji/emoji_names.py', 'zulip/package.json') }}
+        key: ${{ inputs.cache_epoch_emoji }}-emoji-${{ inputs.zulip_ref }}-${{ hashFiles('zulip-server/tools/setup/emoji/emoji_map.json', 'zulip-server/tools/setup/emoji/build_emoji', 'zulip-server/tools/setup/emoji/emoji_setup_utils.py', 'zulip-server/tools/setup/emoji/emoji_names.py', 'zulip-server/package.json') }}
         restore-keys: |
           ${{ inputs.cache_epoch_emoji }}-emoji-${{ inputs.zulip_ref }}-
           ${{ inputs.cache_epoch_emoji }}-emoji-
 
     - name: Provision
       shell: bash
-      working-directory: zulip
+      working-directory: zulip-server
       env:
         PNPM_STORE_PATH: ${{ env.PNPM_STORE_PATH }}
       run: |
@@ -107,7 +107,7 @@ runs:
 
     - name: Start Zulip
       shell: bash
-      working-directory: zulip
+      working-directory: zulip-server
       run: |
         set -euxo pipefail
         source ./tools/ci/activate-venv

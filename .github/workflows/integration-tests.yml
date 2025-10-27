@@ -1,4 +1,4 @@
-name: Zulip Client Integration
+name: Go-Zulip Tests
 
 on:
   push:
@@ -53,7 +53,7 @@ jobs:
       - name: Start Zulip
         uses:  ./.github/actions/provision-zulip
         with:
-          zulip_ref: ${{ matrix.zulip_ref }}
+          zulip_ref: ${{ matrix["zulip-branch"] }}
 
       - name: Run go test suite with coverage
         env:
