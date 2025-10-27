@@ -8,8 +8,24 @@ on:
   workflow_dispatch:
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: arc-runner-set
+
+    steps:
+      - name: Checkout go-zulip
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.2"
+
+      - name: Lint
+        uses: golangci/golangci-lint-action@v8
+
   integration:
-    name: Go tests against Zulip ${{ matrix.zulip-branch }}
+    name: Test (Zulip ${{ matrix.zulip-branch }})
     runs-on: arc-runner-set
     container: zulip/ci:jammy
     strategy:
@@ -24,6 +40,7 @@ jobs:
       GOFLAGS: "-trimpath"
       ZULIP_TEST_SITE: http://localhost:9991
       ZULIP_DEV_LOG: ${{ github.workspace }}/zulip-dev.log
+    needs: lint
     steps:
       - name: Checkout go-zulip
         uses: actions/checkout@v4
@@ -32,9 +49,6 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: "1.25.2"
-
-      - name: Lint
-        uses: golangci/golangci-lint-action@v8
 
       - name: Start Zulip
         uses:  ./.github/actions/provision-zulip
@@ -59,7 +73,7 @@ jobs:
           ZULIP_BRANCH: ${{ matrix.zulip-branch }}
 
   godoc:
-    name: Generate godoc HTML
+    name: Godoc
     runs-on: arc-runner-set
 
     steps:

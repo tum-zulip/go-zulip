@@ -351,7 +351,7 @@ linters:
         linters:
           - revive
       - text: 'lines are duplicate of'
-        path: 'api_users.go'
+        path: 'api_users.go|_test.go'
         linters:
           - dupl
       - path: 'zulip/internal/test_utils/utils.go'
