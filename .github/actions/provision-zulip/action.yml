@@ -5,8 +5,8 @@ inputs:
     description: "Zulip git ref (branch/tag/commit)"
     default: "main"
   zulip_repo:
-    description: "Repository to clone Zulip from"
-    default: "https://github.com/zulip/zulip.git"
+    description: "Repository to clone Zulip from (in owner/repo format)"
+    default: "zulip/zulip"
   wait_timeout:
     description: "Seconds to wait for Zulip to come up"
     default: "900"
