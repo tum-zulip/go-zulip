@@ -246,58 +246,74 @@ type UserInfo struct {
 func fetchUserInfo(t *testing.T, username string) UserInfo {
 	t.Helper()
 
-	const numAttempts = 2
+	const (
+		numAttempts  = 10
+		attemptDelay = 3 * time.Second
+	)
+
+	httpClient := newHTTPClientForTestSite()
+	if httpClient == nil {
+		httpClient = http.DefaultClient
+	}
 
 	for attempt := range numAttempts {
-		url := fmt.Sprintf("%s/api/v1/dev_fetch_api_key?username=%s", TestSite, username)
-
-		req, reqErr := http.NewRequestWithContext(context.Background(), http.MethodPost, url, nil)
-		require.NoError(t, reqErr)
-
-		httpClient := newHTTPClientForTestSite()
-		if httpClient == nil {
-			httpClient = http.DefaultClient
+		info, done := getUserInfo(t, httpClient, username, attempt)
+		if done {
+			return info
 		}
-
-		resp, err := httpClient.Do(req)
-		if err != nil {
-			t.Fatalf("Failed to fetch API key for user %s: %v", username, err)
-		}
-
-		body, readErr := io.ReadAll(resp.Body)
-		require.NoError(t, resp.Body.Close())
-		if readErr != nil {
-			t.Fatalf("Failed to read API key Response for user %s: %v", username, readErr)
-		}
-
-		if resp.StatusCode == http.StatusOK {
-			var result UserInfo
-
-			if unMarshalErr := json.Unmarshal(body, &result); unMarshalErr != nil {
-				t.Fatalf("Failed to decode API key Response for user %s: %v", username, unMarshalErr)
-			}
-			if result.APIKey == "" {
-				t.Fatalf("Empty API key received for user %s", username)
-			}
-			if result.EMail != username {
-				t.Fatalf("Unexpected email in API key Response: got %s, want %s", result.EMail, username)
-			}
-			return result
-		}
-
-		if resp.StatusCode == http.StatusUnauthorized && attempt == 0 && tryReactivateUser(t, username, body) {
-			continue
-		}
-
-		t.Fatalf(
-			"Failed to fetch API key for user %s: status code %d, Response: %s",
-			username,
-			resp.StatusCode,
-			string(body),
-		)
+		time.Sleep(attemptDelay)
 	}
-	t.Fatalf("Failed to fetch API key for user %s after reactivation attempt", username)
+
+	t.Fatalf("Failed to fetch API key for user %s", username)
 	return UserInfo{}
+}
+
+func getUserInfo(t *testing.T, client *http.Client, username string, attempt int) (UserInfo, bool) {
+	url := fmt.Sprintf("%s/api/v1/dev_fetch_api_key?username=%s", TestSite, username)
+
+	req, reqErr := http.NewRequestWithContext(context.Background(), http.MethodPost, url, nil)
+	require.NoError(t, reqErr)
+
+	resp, err := client.Do(req)
+	if err != nil {
+		t.Logf("Failed to fetch API key for user %s (attempt %d): %v", username, attempt+1, err)
+		return UserInfo{}, false
+	}
+
+	body, readErr := io.ReadAll(resp.Body)
+	require.NoError(t, resp.Body.Close())
+	if readErr != nil {
+		t.Logf("Failed to read API key response for user %s (attempt %d): %v", username, attempt+1, readErr)
+		return UserInfo{}, false
+	}
+
+	if resp.StatusCode == http.StatusOK {
+		var result UserInfo
+
+		if unMarshalErr := json.Unmarshal(body, &result); unMarshalErr != nil {
+			t.Logf(
+				"Failed to unmarshal API key response for user %s (attempt %d): %v",
+				username,
+				attempt+1,
+				unMarshalErr,
+			)
+			return UserInfo{}, false
+		}
+		if result.APIKey == "" {
+			t.Fatalf("Empty API key received for user %s", username)
+		}
+		if result.EMail != username {
+			t.Fatalf("Unexpected email in API key Response: got %s, want %s", result.EMail, username)
+		}
+		return result, true
+	}
+	if resp.StatusCode == http.StatusUnauthorized && attempt == 0 {
+		if !tryReactivateUser(t, username, body) {
+			t.Logf("Failed to reactivate user %s (attempt %d)", username, attempt+1)
+		}
+	}
+
+	return UserInfo{}, false
 }
 
 func CreateRandomChannel(t *testing.T, apiClient client.Client, subscribers ...int64) (string, int64) {
