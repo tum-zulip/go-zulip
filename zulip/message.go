@@ -11,8 +11,8 @@ import (
 //
 // **Changes**: New in Zulip 5.0 (feature level 120).
 type Message struct {
-	// The unique message Id. Messages should always be displayed sorted by Id.
-	Id int64 `json:"id,omitempty"`
+	// The unique message ID. Messages should always be displayed sorted by ID.
+	ID int64 `json:"id,omitempty"`
 
 	AvatarUrl *string `json:"avatar_url,omitempty"`
 	// A Zulip "client" string, describing what Zulip client sent the message.
@@ -50,19 +50,19 @@ type Message struct {
 	LastMovedTimestamp time.Time `json:"last_moved_timestamp,omitempty"`
 	// Data on any reactions to the message.
 	Reactions []EmojiReaction `json:"reactions,omitempty"`
-	// A unique Id for the set of users receiving the message (either a channel or group of users). Useful primarily for hashing.
+	// A unique ID for the set of users receiving the message (either a channel or group of users). Useful primarily for hashing.
 	//
 	// **Changes**: Before Zulip 10.0 (feature level 327), `recipient_id` was the same across all incoming 1:1 direct messages. Now, each incoming message uniquely shares a `recipient_id` with outgoing messages in the same conversation.
-	RecipientId int64 `json:"recipient_id,omitempty"`
+	RecipientID int64 `json:"recipient_id,omitempty"`
 	// The Zulip API email address of the message's sender.
 	SenderEmail string `json:"sender_email,omitempty"`
 	// The full name of the message's sender.
 	SenderFullName string `json:"sender_full_name,omitempty"`
-	// The user Id of the message's sender.
-	SenderId int64 `json:"sender_id,omitempty"`
+	// The user ID of the message's sender.
+	SenderID int64 `json:"sender_id,omitempty"`
 	// A string identifier for the realm the sender is in. Unique only within the context of a given Zulip server.  E.g. on `example.zulip.com`, this will be `example`.
 	SenderRealmStr string `json:"sender_realm_str,omitempty"`
-	// Only present for channel messages; the Id of the channel.
+	// Only present for channel messages; the ID of the channel.
 	ChannelID *int64 `json:"stream_id,omitempty"`
 	// The `topic` of the message. Currently always `""` for direct messages, though this could change if Zulip adds support for topics in direct message conversations.  The field name is a legacy holdover from when topics were called "subjects" and will eventually change.  For clients that don't support the `empty_topic_name` [client capability], the empty string value is replaced with the value of `realm_empty_topic_display_name` found in the [POST /register] response, for channel messages.
 	//
@@ -93,7 +93,7 @@ type Message struct {
 }
 
 type messageJSON struct {
-	Id                 int64            `json:"id,omitempty"`
+	ID                 int64            `json:"id,omitempty"`
 	AvatarUrl          *string          `json:"avatar_url,omitempty"`
 	Client             string           `json:"client,omitempty"`
 	Content            string           `json:"content,omitempty"`
@@ -105,10 +105,10 @@ type messageJSON struct {
 	LastEditTimestamp  int64            `json:"last_edit_timestamp,omitempty"`
 	LastMovedTimestamp int64            `json:"last_moved_timestamp,omitempty"`
 	Reactions          []EmojiReaction  `json:"reactions,omitempty"`
-	RecipientId        int64            `json:"recipient_id,omitempty"`
+	RecipientID        int64            `json:"recipient_id,omitempty"`
 	SenderEmail        string           `json:"sender_email,omitempty"`
 	SenderFullName     string           `json:"sender_full_name,omitempty"`
-	SenderId           int64            `json:"sender_id,omitempty"`
+	SenderID           int64            `json:"sender_id,omitempty"`
 	SenderRealmStr     string           `json:"sender_realm_str,omitempty"`
 	ChannelID          *int64           `json:"stream_id,omitempty"`
 	Subject            string           `json:"subject,omitempty"`
@@ -121,7 +121,7 @@ type messageJSON struct {
 
 func (o Message) MarshalJSON() ([]byte, error) {
 	aux := messageJSON{
-		Id:               o.Id,
+		ID:               o.ID,
 		AvatarUrl:        o.AvatarUrl,
 		Client:           o.Client,
 		Content:          o.Content,
@@ -131,10 +131,10 @@ func (o Message) MarshalJSON() ([]byte, error) {
 		EditHistory:      o.EditHistory,
 		IsMeMessage:      o.IsMeMessage,
 		Reactions:        o.Reactions,
-		RecipientId:      o.RecipientId,
+		RecipientID:      o.RecipientID,
 		SenderEmail:      o.SenderEmail,
 		SenderFullName:   o.SenderFullName,
-		SenderId:         o.SenderId,
+		SenderID:         o.SenderID,
 		SenderRealmStr:   o.SenderRealmStr,
 		ChannelID:        o.ChannelID,
 		Subject:          o.Subject,
@@ -165,7 +165,7 @@ func (o *Message) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	o.Id = aux.Id
+	o.ID = aux.ID
 	o.AvatarUrl = aux.AvatarUrl
 	o.Client = aux.Client
 	o.Content = aux.Content
@@ -185,10 +185,10 @@ func (o *Message) UnmarshalJSON(data []byte) error {
 		o.LastMovedTimestamp = time.Time{}
 	}
 	o.Reactions = aux.Reactions
-	o.RecipientId = aux.RecipientId
+	o.RecipientID = aux.RecipientID
 	o.SenderEmail = aux.SenderEmail
 	o.SenderFullName = aux.SenderFullName
-	o.SenderId = aux.SenderId
+	o.SenderID = aux.SenderID
 	o.SenderRealmStr = aux.SenderRealmStr
 	o.ChannelID = aux.ChannelID
 	o.Subject = aux.Subject
@@ -213,8 +213,8 @@ type DisplayRecipient struct {
 
 // UserRecipent struct for UserRecipent
 type UserRecipent struct {
-	// Id of the user.
-	Id *int64 `json:"id,omitempty"`
+	// ID of the user.
+	ID *int64 `json:"id,omitempty"`
 	// Zulip API email of the user.
 	Email *string `json:"email,omitempty"`
 	// Full name of the user.
@@ -229,12 +229,12 @@ type Submessage struct {
 	MsgType string `json:"msg_type,omitempty"`
 	// The new content of the submessage.
 	Content string `json:"content,omitempty"`
-	// The Id of the message to which the submessage has been added.
+	// The ID of the message to which the submessage has been added.
 	MessageID int64 `json:"message_id,omitempty"`
-	// The Id of the user who sent the message.
-	SenderId int64 `json:"sender_id,omitempty"`
-	// The Id of the submessage.
-	Id int64 `json:"id,omitempty"`
+	// The ID of the user who sent the message.
+	SenderID int64 `json:"sender_id,omitempty"`
+	// The ID of the submessage.
+	ID int64 `json:"id,omitempty"`
 }
 
 // TopicLink struct for TopicLink

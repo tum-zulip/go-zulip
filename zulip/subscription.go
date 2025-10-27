@@ -6,7 +6,7 @@ import "encoding/json"
 type Subscription struct {
 	Channel
 
-	// A list of user Ids of users who are also subscribed to a given channel. Included only if `include_subscribers` is `true`.
+	// A list of user IDs of users who are also subscribed to a given channel. Included only if `include_subscribers` is `true`.
 	Subscribers []int64 `json:"subscribers,omitempty"`
 	// If [`include_subscribers="partial"`].
 	//

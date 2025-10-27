@@ -11,16 +11,16 @@ import (
 type GetEventsResponse struct {
 	zulip.Response
 
-	// An array of `event` objects (possibly zero-length if `dont_block` is set) with Ids newer than `last_event_id`. Event Ids are guaranteed to be increasing, but they are not guaranteed to be consecutive.
+	// An array of `event` objects (possibly zero-length if `dont_block` is set) with IDs newer than `last_event_id`. Event IDs are guaranteed to be increasing, but they are not guaranteed to be consecutive.
 	Events []events.Event `json:"events,omitempty"`
-	// The Id of the registered queue.
-	QueueId string `json:"queue_id,omitempty"`
+	// The ID of the registered queue.
+	QueueID string `json:"queue_id,omitempty"`
 }
 
 type getEventsResponseJSON struct {
 	zulip.Response
 	Events  []events.EventEnvelope `json:"events,omitempty"`
-	QueueId string                 `json:"queue_id,omitempty"`
+	QueueID string                 `json:"queue_id,omitempty"`
 }
 
 func (r *GetEventsResponse) UnmarshalJSON(data []byte) error {
@@ -29,7 +29,7 @@ func (r *GetEventsResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	r.Response = temp.Response
-	r.QueueId = temp.QueueId
+	r.QueueID = temp.QueueID
 	r.Events = make([]events.Event, len(temp.Events))
 	for i := range temp.Events {
 		r.Events[i] = temp.Events[i].Event
@@ -41,12 +41,12 @@ func (r *GetEventsResponse) UnmarshalJSON(data []byte) error {
 type RegisterQueueResponse struct {
 	zulip.Response
 
-	// The Id of the queue that has been allocated for your client.  Will be `null` only for unauthenticated access in realms that have enabled the [public access option].
+	// The ID of the queue that has been allocated for your client.  Will be `null` only for unauthenticated access in realms that have enabled the [public access option].
 	//
 	// [public access option]: https://zulip.com/help/public-access-option
-	QueueId *string `json:"queue_id,omitempty"`
+	QueueID *string `json:"queue_id,omitempty"`
 	// The initial value of `last_event_id` to pass to `GET /api/v1/events`.
-	LastEventId int64 `json:"last_event_id,omitempty"`
+	LastEventID int64 `json:"last_event_id,omitempty"`
 	// The server's current [Zulip feature level].
 	//
 	// **Changes**: As of Zulip 3.0 (feature level 3), this is always present in the endpoint's response. Previously, it was only present if `event_types` included `zulip_version`.  New in Zulip 3.0 (feature level 1).
@@ -71,7 +71,7 @@ type RegisterQueueResponse struct {
 	AlertWords []string `json:"alert_words,omitempty"`
 	// Present if `custom_profile_fields` is present in `fetch_event_types`.  An array of dictionaries where each dictionary contains the details of a single custom profile field that is available to users in this Zulip organization. This must be combined with the custom profile field values on individual user objects to display users' profiles.
 	CustomProfileFields []zulip.CustomProfileField `json:"custom_profile_fields,omitempty"`
-	// Present if `custom_profile_fields` is present in `fetch_event_types`.  An array of objects; each object describes a type of custom profile field that could be configured on this Zulip server. Each custom profile type has an Id and the `type` property of a custom profile field is equal to one of these Ids.  This attribute is only useful for clients containing UI for changing the set of configured custom profile fields in a Zulip organization.
+	// Present if `custom_profile_fields` is present in `fetch_event_types`.  An array of objects; each object describes a type of custom profile field that could be configured on this Zulip server. Each custom profile type has an ID and the `type` property of a custom profile field is equal to one of these IDs.  This attribute is only useful for clients containing UI for changing the set of configured custom profile fields in a Zulip organization.
 	CustomProfileFieldTypes map[string]CustomProfileFieldType `json:"custom_profile_field_types,omitempty"`
 
 	// Present if `realm` is present in `fetch_event_types`, and the realm is a demo organization.  The UNIX timestamp (UTC) when the demo organization will be automatically deleted. Clients should use this to display a prominent warning to the user that the organization will be deleted at the indicated time.
@@ -88,9 +88,9 @@ type RegisterQueueResponse struct {
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 369).
 	NavigationTourVideoUrl *string `json:"navigation_tour_video_url,omitempty"`
-	// Present if `message` is present in `fetch_event_types`.  The highest message Id among all messages the user has received as of the moment of this request.  **Deprecated**: This field may be removed in future versions as it no longer has a clear purpose. Clients wishing to fetch the latest messages should pass `"anchor": "latest"` to `GET /messages`.
+	// Present if `message` is present in `fetch_event_types`.  The highest message ID among all messages the user has received as of the moment of this request.  **Deprecated**: This field may be removed in future versions as it no longer has a clear purpose. Clients wishing to fetch the latest messages should pass `"anchor": "latest"` to `GET /messages`.
 	// Deprecated
-	MaxMessageId *int64 `json:"max_message_id,omitempty"`
+	MaxMessageID *int64 `json:"max_message_id,omitempty"`
 	// The maximum allowed length for a reminder note.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 415).
@@ -124,7 +124,7 @@ type RegisterQueueResponse struct {
 	// **Changes**: New in Zulip 9.0 (feature level 263).
 	//
 	// [/users/me/presence]: https://zulip.com/api/update-presence
-	PresenceLastUpdateId *int64 `json:"presence_last_update_id,omitempty"`
+	PresenceLastUpdateID *int64 `json:"presence_last_update_id,omitempty"`
 	// Present if `presence` is present in `fetch_event_types`.  The time when the server fetched the `presences` data included in the response. Matches the similar field in presence responses.
 	//
 	// **Changes**: New in Zulip 5.0 (feature level 70).
@@ -143,7 +143,7 @@ type RegisterQueueResponse struct {
 	RealmLinkifiers []zulip.RealmLinkifiers `json:"realm_linkifiers,omitempty"`
 	// Legacy property for [linkifiers]. Present if `realm_filters` is present in `fetch_event_types`.  When present, this is always an empty array.
 	//
-	// **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `"#(?P<id>[123])"`. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be `"https://realm.com/my_realm_filter/%(id)s"`. And the third element was the Id of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the `realm_linkifiers` key.
+	// **Changes**: Prior to Zulip 7.0 (feature level 176), this was an array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `"#(?P<id>[123])"`. The second element was a URL format string that the pattern should be linkified with. A URL format string for the above example would be `"https://realm.com/my_realm_filter/%(id)s"`. And the third element was the ID of the realm filter.  **Deprecated** in Zulip 4.0 (feature level 54), replaced by the `realm_linkifiers` key.
 	// Deprecated
 	//
 	// [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
@@ -193,7 +193,7 @@ type RegisterQueueResponse struct {
 	// **Changes**: New in Zulip 11.0 (feature level 389).
 	ChannelFolders []zulip.ChannelFolder `json:"channel_folders,omitempty"`
 	UnreadMsgs     *UnreadMsgs           `json:"unread_msgs,omitempty"`
-	// Present if `starred_messages` is present in `fetch_event_types`.  Array containing the Ids of all messages which have been [starred] by the user.
+	// Present if `starred_messages` is present in `fetch_event_types`.  Array containing the IDs of all messages which have been [starred] by the user.
 	//
 	// [starred]: https://zulip.com/help/star-a-message
 	StarredMessages []int64 `json:"starred_messages,omitempty"`
@@ -201,7 +201,7 @@ type RegisterQueueResponse struct {
 	//
 	// **Changes**: Before Zulip 11.0 (feature level 378), archived channels did not appear in this list, even if the `archived_channels` [client capability] was declared by the client.  As of Zulip 8.0 (feature level 205), this will include all web-public channels in the organization as well.
 	Channels []zulip.Channel `json:"streams,omitempty"`
-	// Present if `default_streams` is present in `fetch_event_types`.  An array of Ids of all the [default channels] in the organization.
+	// Present if `default_streams` is present in `fetch_event_types`.  An array of IDs of all the [default channels] in the organization.
 	//
 	// **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single default stream for the Zulip organization.
 	//
@@ -306,10 +306,10 @@ type WebhookOption struct {
 
 // RecentPrivateConversation Object describing a single recent direct conversation in the user's history.
 type RecentPrivateConversation struct {
-	// The highest message Id of the conversation, intended to support sorting the conversations by recency.
-	MaxMessageId int64 `json:"max_message_id,omitempty"`
+	// The highest message ID of the conversation, intended to support sorting the conversations by recency.
+	MaxMessageID int64 `json:"max_message_id,omitempty"`
 	// The list of users other than the current user in the direct message conversation. This will be an empty list for direct messages sent to oneself.
-	UserIds []int64 `json:"user_ids,omitempty"`
+	UserIDs []int64 `json:"user_ids,omitempty"`
 }
 
 // ServerSupportedPermissionSettings Present if `realm` is present in `fetch_event_types`.  Metadata detailing the valid values for permission settings that use [group-setting values]. Clients should use these data as explained in the [main documentation] to determine what values to present as possible values for these settings in UI components.  This part of the Zulip API is unstable and may change significantly in future versions.
@@ -351,7 +351,7 @@ type GroupPermissionSetting struct {
 	AllowedSystemGroups []string `json:"allowed_system_groups,omitempty"`
 }
 
-// PushDevicesValue `{push_account_id}`: Dictionary containing the details of a push device with the push account Id as the key.
+// PushDevicesValue `{push_account_id}`: Dictionary containing the details of a push device with the push account ID as the key.
 type PushDevicesValue struct {
 	// The push account's registration status. Either `"active"`, `"pending"`, or `"failed"`.
 	Status string `json:"status,omitempty"`
@@ -370,7 +370,7 @@ type RealmEmbeddedBots struct {
 }
 
 type RealmUser struct {
-	// A array of dictionaries where each entry describes a user whose account has not been deactivated. Note that unlike the usual User dictionary, this does not contain the `is_active` key, as all the users present in this array have active accounts.  If the current user is a guest whose access to users is limited by a `can_access_all_users_group` policy, and the event queue was registered with the `user_list_incomplete` client capability, then users that the current user cannot access will not be included in this array. If the current user's access to a user is restricted but the client lacks this capability, then that inaccessible user will appear in the users array as an "Unknown user" object with the usual format but placeholder data whose only variable content is the user Id.  See also `cross_realm_bots` and `realm_non_active_users`.
+	// A array of dictionaries where each entry describes a user whose account has not been deactivated. Note that unlike the usual User dictionary, this does not contain the `is_active` key, as all the users present in this array have active accounts.  If the current user is a guest whose access to users is limited by a `can_access_all_users_group` policy, and the event queue was registered with the `user_list_incomplete` client capability, then users that the current user cannot access will not be included in this array. If the current user's access to a user is restricted but the client lacks this capability, then that inaccessible user will appear in the users array as an "Unknown user" object with the usual format but placeholder data whose only variable content is the user ID.  See also `cross_realm_bots` and `realm_non_active_users`.
 	//
 	// **Changes**: Before Zulip 8.0 (feature level 232), the `user_list_incomplete` client capability did not exist, and so all clients whose access to a new user was prevented by `can_access_all_users_group` policy would receive a fake "Unknown user" event for such users.
 	RealmUsers []zulip.User `json:"realm_users,omitempty"`
@@ -433,7 +433,7 @@ type RealmUser struct {
 	//
 	// [guest user]: https://zulip.com/api/roles-and-permissions
 	IsGuest bool `json:"is_guest,omitempty"`
-	// The unique Id for the current user.
+	// The unique ID for the current user.
 	UserID int64 `json:"user_id,omitempty"`
 	// The Zulip API email address for the current user. See also `delivery_email`; these may be the same or different depending on the user's `email_address_visibility` policy.
 	Email string `json:"email,omitempty"`
@@ -449,8 +449,8 @@ type RealmUser struct {
 //
 // **Changes**:`PRONOUNS` type added in Zulip 6.0 (feature level 151).
 type CustomProfileFieldType struct {
-	// The Id of the custom profile field type.
-	Id int64 `json:"id,omitempty"`
+	// The ID of the custom profile field type.
+	ID int64 `json:"id,omitempty"`
 	// The name of the custom profile field type.
 	Name string `json:"name,omitempty"`
 }
@@ -467,11 +467,11 @@ type UnreadMsgs struct {
 	Pms []UnreadMsgsPms `json:"pms,omitempty"`
 	// An array of dictionaries where each dictionary contains details of all unread messages of a single subscribed channel. This includes muted channels and muted topics, even though those messages are excluded from `count`.
 	//
-	// **Changes**: Prior to Zulip 5.0 (feature level 90), these objects included a `sender_ids` property, which listed the set of Ids of users who had sent the unread messages.
+	// **Changes**: Prior to Zulip 5.0 (feature level 90), these objects included a `sender_ids` property, which listed the set of IDs of users who had sent the unread messages.
 	Channels []UnreadMsgsChannels `json:"streams,omitempty"`
 	// An array of objects where each object contains details of unread group direct messages with a specific group of users.
 	Huddles []UnreadMsgsHuddles `json:"huddles,omitempty"`
-	// Array containing the Ids of all unread messages in which the user was mentioned directly, and unread [non-muted] messages in which the user was mentioned through a wildcard.
+	// Array containing the IDs of all unread messages in which the user was mentioned directly, and unread [non-muted] messages in which the user was mentioned through a wildcard.
 	//
 	// **Changes**: Before Zulip 8.0 (feature level 213), the unmute and follow topic features were not handled correctly in calculating this field.
 	//
@@ -485,17 +485,17 @@ type UnreadMsgs struct {
 
 // UnreadMsgsPms struct for UnreadMsgsPms
 type UnreadMsgsPms struct {
-	// The user Id of the other participant in this one-on-one direct message conversation. Will be the current user's Id for messages that they sent in a one-on-one direct message conversation with themself.
+	// The user ID of the other participant in this one-on-one direct message conversation. Will be the current user's ID for messages that they sent in a one-on-one direct message conversation with themself.
 	//
 	// **Changes**: New in Zulip 5.0 (feature level 119), replacing the less clearly named `sender_id` field.
-	OtherUserId int64 `json:"other_user_id,omitempty"`
+	OtherUserID int64 `json:"other_user_id,omitempty"`
 	// Old name for the `other_user_id` field. Clients should access this field in Zulip server versions that do not yet support `other_user_id`.
 	//
 	// **Changes**: Deprecated in Zulip 5.0 (feature level 119). We expect to provide a next version of the full `unread_msgs` API before removing this legacy name.
 	// Deprecated
-	SenderId int64 `json:"sender_id,omitempty"`
-	// The message Ids of the recent unread direct messages sent by either user in this one-on-one direct message conversation, sorted in ascending order.
-	UnreadMessageIds []int64 `json:"unread_message_ids,omitempty"`
+	SenderID int64 `json:"sender_id,omitempty"`
+	// The message IDs of the recent unread direct messages sent by either user in this one-on-one direct message conversation, sorted in ascending order.
+	UnreadMessageIDs []int64 `json:"unread_message_ids,omitempty"`
 }
 
 // UnreadMsgsChannels struct for UnreadMsgsChannels
@@ -508,16 +508,16 @@ type UnreadMsgsChannels struct {
 	//
 	// [`POST /register`]: https://zulip.com/api/register-queue
 	Topic string `json:"topic,omitempty"`
-	// The Id of the channel to which the messages were sent.
+	// The ID of the channel to which the messages were sent.
 	ChannelID int64 `json:"stream_id,omitempty"`
-	// The message Ids of the recent unread messages sent in this channel, sorted in ascending order.
-	UnreadMessageIds []int64 `json:"unread_message_ids,omitempty"`
+	// The message IDs of the recent unread messages sent in this channel, sorted in ascending order.
+	UnreadMessageIDs []int64 `json:"unread_message_ids,omitempty"`
 }
 
 // UnreadMsgsHuddles struct for UnreadMsgsHuddles
 type UnreadMsgsHuddles struct {
-	// A string containing the Ids of all users in the group direct message conversation, including the current user, separated by commas and sorted numerically; for example: `"1,2,3"`.
+	// A string containing the IDs of all users in the group direct message conversation, including the current user, separated by commas and sorted numerically; for example: `"1,2,3"`.
 	UserIdsString string `json:"user_ids_string,omitempty"`
-	// The message Ids of the recent unread messages which have been sent in this group direct message conversation, sorted in ascending order.
-	UnreadMessageIds []int64 `json:"unread_message_ids,omitempty"`
+	// The message IDs of the recent unread messages which have been sent in this group direct message conversation, sorted in ascending order.
+	UnreadMessageIDs []int64 `json:"unread_message_ids,omitempty"`
 }

@@ -14,7 +14,7 @@ type EventEnvelope struct {
 
 type eventPeeker struct {
 	Type EventType `json:"type"`
-	Id   int64     `json:"id"`
+	ID   int64     `json:"id"`
 	Op   *EventOp  `json:"op,omitempty"`
 }
 
@@ -295,7 +295,7 @@ func (e *EventEnvelope) UnmarshalJSON(data []byte) error {
 		e.Event = &EventUnmarshalingError{
 			event: event{
 				Type: peeker.Type,
-				Id:   peeker.Id,
+				ID:   peeker.ID,
 			},
 			Data: data,
 			Err:  err,
@@ -307,7 +307,7 @@ unknownEventError:
 	e.Event = &EventUnmarshalingError{
 		event: event{
 			Type: peeker.Type,
-			Id:   peeker.Id,
+			ID:   peeker.ID,
 		},
 		Data: data,
 		Err:  fmt.Errorf("unknown event type %s with op %v", peeker.Type, peeker.Op),

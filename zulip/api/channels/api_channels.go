@@ -30,7 +30,7 @@ type APIChannels interface {
 
 	// ArchiveChannel Archive a channel
 	//
-	// [Archive the channel] with the Id `channelID`.
+	// [Archive the channel] with the ID `channelID`.
 	//
 	// [Archive the channel]: https://zulip.com/help/archive-a-channel
 	ArchiveChannel(ctx context.Context, channelID int64) ArchiveChannelRequest
@@ -139,7 +139,7 @@ type APIChannels interface {
 	// The folders are sorted by the `order` field.
 	//
 	// *Changes**: Before Zulip 11.0 (feature level 414),
-	// these were sorted by Id. (The `order` field didn't exist).
+	// these were sorted by ID. (The `order` field didn't exist).
 	//
 	// New in Zulip 11.0 (feature level 389).
 	//
@@ -148,9 +148,9 @@ type APIChannels interface {
 	// GetChannelFoldersExecute executes the request
 	GetChannelFoldersExecute(r GetChannelFoldersRequest) (*GetChannelFoldersResponse, *http.Response, error)
 
-	// GetChannelByID Get a channel by Id
+	// GetChannelByID Get a channel by ID
 	//
-	// Fetch details for the channel with the Id `channelID`.
+	// Fetch details for the channel with the ID `channelID`.
 	//
 	// *Changes**: New in Zulip 6.0 (feature level 132).
 	//
@@ -172,11 +172,11 @@ type APIChannels interface {
 		r GetChannelEmailAddressRequest,
 	) (*GetChannelEmailAddressResponse, *http.Response, error)
 
-	// GetChannelId Get channel Id
+	// GetChannelID Get channel ID
 	//
-	// Get the unique Id of a given channel.
+	// Get the unique ID of a given channel.
 	//
-	GetChannelId(ctx context.Context) GetChannelIdRequest
+	GetChannelID(ctx context.Context) GetChannelIdRequest
 
 	// GetChannelIdExecute executes the request
 	GetChannelIdExecute(r GetChannelIdRequest) (*GetChannelIdResponse, *http.Response, error)
@@ -265,9 +265,9 @@ type APIChannels interface {
 
 	// PatchChannelFolders Reorder channel folders
 	//
-	// Given an array of channel folder Ids, this method will set the `order`
+	// Given an array of channel folder IDs, this method will set the `order`
 	// property of all of the channel folders in the organization according to
-	// the order of the channel folder Ids specified in the request.
+	// the order of the channel folder IDs specified in the request.
 	//
 	// *Changes**: New in Zulip 11.0 (feature level 414).
 	//
@@ -394,14 +394,14 @@ type APIChannels interface {
 	//
 	// *Changes**: New in Zulip 11.0 (feature level 389).
 	//
-	UpdateChannelFolder(ctx context.Context, channelFolderId int64) UpdateChannelFolderRequest
+	UpdateChannelFolder(ctx context.Context, channelFolderID int64) UpdateChannelFolderRequest
 
 	// UpdateChannelFolderExecute executes the request
 	UpdateChannelFolderExecute(r UpdateChannelFolderRequest) (*zulip.Response, *http.Response, error)
 
 	// UpdateChannel Update a channel
 	//
-	// Configure the channel with the Id `channelID`. This endpoint supports
+	// Configure the channel with the ID `channelID`. This endpoint supports
 	// an organization administrator editing any property of a channel,
 	// including:
 	//
@@ -498,7 +498,7 @@ type AddDefaultChannelRequest struct {
 	channelID  *int64
 }
 
-// The Id of the target channel.
+// The ID of the target channel.
 func (r AddDefaultChannelRequest) ChannelID(channelID int64) AddDefaultChannelRequest {
 	r.channelID = &channelID
 	return r
@@ -562,7 +562,7 @@ func (r ArchiveChannelRequest) Execute() (*zulip.Response, *http.Response, error
 
 // ArchiveChannel Archive a channel
 //
-// [Archive the channel] with the Id `channelID`.
+// [Archive the channel] with the ID `channelID`.
 //
 // [Archive the channel]: https://zulip.com/help/archive-a-channel
 func (s *channelsService) ArchiveChannel(ctx context.Context, channelID int64) ArchiveChannelRequest {
@@ -680,7 +680,7 @@ type CreateChannelRequest struct {
 	inviteOnly                        *bool
 	isWebPublic                       *bool
 	isDefaultChannel                  *bool
-	folderId                          *int64
+	folderID                          *int64
 	sendNewSubscriptionMessages       *bool
 	topicsPolicy                      *zulip.TopicsPolicy
 	historyPublicToSubscribers        *bool
@@ -705,7 +705,7 @@ func (r CreateChannelRequest) Name(name string) CreateChannelRequest {
 	return r
 }
 
-// A list of user Ids of the users to be subscribed to the new channel.
+// A list of user IDs of the users to be subscribed to the new channel.
 func (r CreateChannelRequest) Subscribers(subscribers []int64) CreateChannelRequest {
 	r.subscribers = &subscribers
 	return r
@@ -752,11 +752,11 @@ func (r CreateChannelRequest) IsDefaultChannel(isDefaultChannel bool) CreateChan
 	return r
 }
 
-// The Id of the folder to which the channel belongs.  Is `null` if channel does not belong to any folder.
+// The ID of the folder to which the channel belongs.  Is `null` if channel does not belong to any folder.
 //
 // **Changes**: New in Zulip 11.0 (feature level 389).
-func (r CreateChannelRequest) FolderId(folderId int64) CreateChannelRequest {
-	r.folderId = &folderId
+func (r CreateChannelRequest) FolderID(folderID int64) CreateChannelRequest {
+	r.folderID = &folderID
 	return r
 }
 
@@ -908,7 +908,7 @@ func (s *channelsService) CreateChannelExecute(r CreateChannelRequest) (*CreateC
 	apiutils.AddOptionalParam(form, "invite_only", r.inviteOnly)
 	apiutils.AddOptionalParam(form, "is_web_public", r.isWebPublic)
 	apiutils.AddOptionalParam(form, "is_default_stream", r.isDefaultChannel)
-	apiutils.AddOptionalParam(form, "folder_id", r.folderId)
+	apiutils.AddOptionalParam(form, "folder_id", r.folderID)
 	apiutils.AddOptionalParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
 	apiutils.AddOptionalParam(form, "topics_policy", r.topicsPolicy)
 	apiutils.AddOptionalParam(form, "history_public_to_subscribers", r.historyPublicToSubscribers)
@@ -1143,7 +1143,7 @@ func (r GetChannelFoldersRequest) Execute() (*GetChannelFoldersResponse, *http.R
 // The folders are sorted by the `order` field.
 //
 // *Changes**: Before Zulip 11.0 (feature level 414),
-// these were sorted by Id. (The `order` field didn't exist).
+// these were sorted by ID. (The `order` field didn't exist).
 //
 // New in Zulip 11.0 (feature level 389).
 func (s *channelsService) GetChannelFolders(ctx context.Context) GetChannelFoldersRequest {
@@ -1188,9 +1188,9 @@ func (r GetChannelByIdRequest) Execute() (*GetChannelResponse, *http.Response, e
 	return r.apiService.GetChannelByIdExecute(r)
 }
 
-// GetChannelByID Get a channel by Id
+// GetChannelByID Get a channel by ID
 //
-// Fetch details for the channel with the Id `channelID`.
+// Fetch details for the channel with the ID `channelID`.
 //
 // *Changes**: New in Zulip 6.0 (feature level 132).
 func (s *channelsService) GetChannelByID(ctx context.Context, channelID int64) GetChannelByIdRequest {
@@ -1228,14 +1228,14 @@ type GetChannelEmailAddressRequest struct {
 	ctx        context.Context
 	apiService APIChannels
 	channelID  int64
-	senderId   *int64
+	senderID   *int64
 }
 
-// The Id of a user or bot which should appear as the sender when messages are sent to the channel using the returned channel email address.  `sender_id` can be:  - Id of the current user. - Id of the Email gateway bot. (Default value) - Id of a bot owned by the current user.
+// The ID of a user or bot which should appear as the sender when messages are sent to the channel using the returned channel email address.  `sender_id` can be:  - ID of the current user. - ID of the Email gateway bot. (Default value) - ID of a bot owned by the current user.
 //
 // **Changes**: New in Zulip 10.0 (feature level 335).  Previously, the sender was always Email gateway bot.
-func (r GetChannelEmailAddressRequest) SenderId(senderId int64) GetChannelEmailAddressRequest {
-	r.senderId = &senderId
+func (r GetChannelEmailAddressRequest) SenderID(senderID int64) GetChannelEmailAddressRequest {
+	r.senderID = &senderID
 	return r
 }
 
@@ -1271,7 +1271,7 @@ func (s *channelsService) GetChannelEmailAddressExecute(
 
 	path := strings.ReplaceAll(endpoint, "{stream_id}", apiutils.IdToString(r.channelID))
 
-	apiutils.AddOptionalParam(query, "sender_id", r.senderId)
+	apiutils.AddOptionalParam(query, "sender_id", r.senderID)
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -1299,10 +1299,10 @@ func (r GetChannelIdRequest) Execute() (*GetChannelIdResponse, *http.Response, e
 	return r.apiService.GetChannelIdExecute(r)
 }
 
-// GetChannelId Get channel Id
+// GetChannelID Get channel ID
 //
-// Get the unique Id of a given channel.
-func (s *channelsService) GetChannelId(ctx context.Context) GetChannelIdRequest {
+// Get the unique ID of a given channel.
+func (s *channelsService) GetChannelID(ctx context.Context) GetChannelIdRequest {
 	return GetChannelIdRequest{
 		apiService: s,
 		ctx:        ctx,
@@ -1636,7 +1636,7 @@ type GetSubscriptionsRequest struct {
 	includeSubscribers *string
 }
 
-// Whether each returned channel object should include a `subscribers` field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel's subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.
+// Whether each returned channel object should include a `subscribers` field containing a list of the user IDs of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel's subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.
 //
 // **Changes**: The `partial` value is new in Zulip 11.0 (feature level 412).  New in Zulip 2.1.0.
 func (r GetSubscriptionsRequest) IncludeSubscribers(includeSubscribers string) GetSubscriptionsRequest {
@@ -1705,7 +1705,7 @@ func (r MuteTopicRequest) Op(op string) MuteTopicRequest {
 	return r
 }
 
-// The Id of the channel to access.  Clients must provide either `stream` or `stream_id` as a parameter to this endpoint, but not both.
+// The ID of the channel to access.  Clients must provide either `stream` or `stream_id` as a parameter to this endpoint, but not both.
 //
 // **Changes**: New in Zulip 2.0.0.
 func (r MuteTopicRequest) ChannelID(channelID int64) MuteTopicRequest {
@@ -1788,7 +1788,7 @@ type PatchChannelFoldersRequest struct {
 	order      *[]int64
 }
 
-// A list of channel folder Ids representing the new order.  This list must include the Ids of all the organization's channel folders, including archived folders.
+// A list of channel folder IDs representing the new order.  This list must include the IDs of all the organization's channel folders, including archived folders.
 func (r PatchChannelFoldersRequest) Order(order []int64) PatchChannelFoldersRequest {
 	r.order = &order
 	return r
@@ -1800,9 +1800,9 @@ func (r PatchChannelFoldersRequest) Execute() (*zulip.Response, *http.Response, 
 
 // PatchChannelFolders Reorder channel folders
 //
-// Given an array of channel folder Ids, this method will set the `order`
+// Given an array of channel folder IDs, this method will set the `order`
 // property of all of the channel folders in the organization according to
-// the order of the channel folder Ids specified in the request.
+// the order of the channel folder IDs specified in the request.
 //
 // *Changes**: New in Zulip 11.0 (feature level 414).
 func (s *channelsService) PatchChannelFolders(ctx context.Context) PatchChannelFoldersRequest {
@@ -1843,7 +1843,7 @@ type RemoveDefaultChannelRequest struct {
 	channelID  *int64
 }
 
-// The Id of the target channel.
+// The ID of the target channel.
 func (r RemoveDefaultChannelRequest) ChannelID(channelID int64) RemoveDefaultChannelRequest {
 	r.channelID = &channelID
 	return r
@@ -1905,7 +1905,7 @@ type SubscribeRequest struct {
 	inviteOnly                        *bool
 	isWebPublic                       *bool
 	isDefaultChannel                  *bool
-	folderId                          *int64
+	folderID                          *int64
 	sendNewSubscriptionMessages       *bool
 	topicsPolicy                      *zulip.TopicsPolicy
 	historyPublicToSubscribers        *bool
@@ -2069,8 +2069,8 @@ func (r SubscribeRequest) CanResolveTopicsGroup(canResolveTopicsGroup zulip.Grou
 // This parameter determines the folder to which the newly created channel will be added.  If the value is `None`, the channel will not be added to any folder.
 //
 // **Changes**: New in Zulip 11.0 (feature level 389).
-func (r SubscribeRequest) FolderId(folderId int64) SubscribeRequest {
-	r.folderId = &folderId
+func (r SubscribeRequest) FolderID(folderID int64) SubscribeRequest {
+	r.folderID = &folderID
 	return r
 }
 
@@ -2194,7 +2194,7 @@ func (s *channelsService) SubscribeExecute(r SubscribeRequest) (*SubscribeRespon
 	if err := apiutils.AddOptionalJSONParam(form, "can_resolve_topics_group", r.canResolveTopicsGroup); err != nil {
 		return nil, nil, err
 	}
-	apiutils.AddOptionalParam(form, "folder_id", r.folderId)
+	apiutils.AddOptionalParam(form, "folder_id", r.folderID)
 	apiutils.AddOptionalParam(form, "send_new_subscription_messages", r.sendNewSubscriptionMessages)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
@@ -2306,7 +2306,7 @@ func (s *channelsService) UnsubscribeExecute(r UnsubscribeRequest) (*Unsubscribe
 type UpdateChannelFolderRequest struct {
 	ctx             context.Context
 	apiService      APIChannels
-	channelFolderId int64
+	channelFolderID int64
 	name            *string
 	description     *string
 	isArchived      *bool
@@ -2349,11 +2349,11 @@ func (r UpdateChannelFolderRequest) Execute() (*zulip.Response, *http.Response, 
 // channel folder.
 //
 // *Changes**: New in Zulip 11.0 (feature level 389).
-func (s *channelsService) UpdateChannelFolder(ctx context.Context, channelFolderId int64) UpdateChannelFolderRequest {
+func (s *channelsService) UpdateChannelFolder(ctx context.Context, channelFolderID int64) UpdateChannelFolderRequest {
 	return UpdateChannelFolderRequest{
 		apiService:      s,
 		ctx:             ctx,
-		channelFolderId: channelFolderId,
+		channelFolderID: channelFolderID,
 	}
 }
 
@@ -2370,7 +2370,7 @@ func (s *channelsService) UpdateChannelFolderExecute(
 		endpoint = "/channel_folders/{channel_folder_id}"
 	)
 
-	path := strings.Replace(endpoint, "{channel_folder_id}", apiutils.IdToString(r.channelFolderId), -1)
+	path := strings.ReplaceAll(endpoint, "{channel_folder_id}", apiutils.IdToString(r.channelFolderID))
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -2399,7 +2399,7 @@ type UpdateChannelRequest struct {
 	isDefaultChannel                  *bool
 	messageRetentionDays              *zulip.MessageRetentionDaysValue
 	isArchived                        *bool
-	folderId                          *int64
+	folderID                          *int64
 	topicsPolicy                      *zulip.TopicsPolicy
 	canAddSubscribersGroup            *zulip.GroupSettingValueUpdate
 	canRemoveSubscribersGroup         *zulip.GroupSettingValueUpdate
@@ -2489,11 +2489,11 @@ func (r UpdateChannelRequest) IsArchived(isArchived bool) UpdateChannelRequest {
 	return r
 }
 
-// Id of the new folder to which the channel should belong.  It can be `None` if the user wants to just remove the channel from its existing folder.
+// ID of the new folder to which the channel should belong.  It can be `None` if the user wants to just remove the channel from its existing folder.
 //
 // **Changes**: New in Zulip 11.0 (feature level 389).
-func (r UpdateChannelRequest) FolderId(folderId int64) UpdateChannelRequest {
-	r.folderId = &folderId
+func (r UpdateChannelRequest) FolderID(folderID int64) UpdateChannelRequest {
+	r.folderID = &folderID
 	return r
 }
 
@@ -2518,7 +2518,7 @@ func (r UpdateChannelRequest) CanAddSubscribersGroup(
 
 // The set of users who have permission to unsubscribe others from this channel expressed as an [update to a group-setting value].
 //
-// **Changes**: Prior to Zulip 10.0 (feature level 349), channel administrators could not unsubscribe other users if they were not an organization administrator or part of `can_remove_subscribers_group`. Realm administrators were not allowed to unsubscribe other users from a private channel if they were not subscribed to that channel.  Prior to Zulip 10.0 (feature level 320), this value was always the integer Id of a system group.  Before Zulip 8.0 (feature level 197), the `can_remove_subscribers_group` setting was named `can_remove_subscribers_group_id`.  New in Zulip 7.0 (feature level 161).
+// **Changes**: Prior to Zulip 10.0 (feature level 349), channel administrators could not unsubscribe other users if they were not an organization administrator or part of `can_remove_subscribers_group`. Realm administrators were not allowed to unsubscribe other users from a private channel if they were not subscribed to that channel.  Prior to Zulip 10.0 (feature level 320), this value was always the integer ID of a system group.  Before Zulip 8.0 (feature level 197), the `can_remove_subscribers_group` setting was named `can_remove_subscribers_group_id`.  New in Zulip 7.0 (feature level 161).
 //
 // [update to a group-setting value]: https://zulip.com/api/group-setting-values#updating-group-setting-values  Organization administrators can unsubscribe others from a channel as though they were in this group without being explicitly listed here.  Note that a user must have metadata access to a channel and permission to administer the channel in order to modify this setting.
 func (r UpdateChannelRequest) CanRemoveSubscribersGroup(
@@ -2639,7 +2639,7 @@ func (r UpdateChannelRequest) Execute() (*zulip.Response, *http.Response, error)
 
 // UpdateChannel Update a channel
 //
-// Configure the channel with the Id `channelID`. This endpoint supports
+// Configure the channel with the ID `channelID`. This endpoint supports
 // an organization administrator editing any property of a channel,
 // including:
 //
@@ -2699,7 +2699,7 @@ func (s *channelsService) UpdateChannelExecute(r UpdateChannelRequest) (*zulip.R
 		return nil, nil, err
 	}
 	apiutils.AddOptionalParam(form, "is_archived", r.isArchived)
-	apiutils.AddOptionalParam(form, "folder_id", r.folderId)
+	apiutils.AddOptionalParam(form, "folder_id", r.folderID)
 	apiutils.AddOptionalParam(form, "topics_policy", r.topicsPolicy)
 	if err := apiutils.AddOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
 		return nil, nil, err
@@ -2883,7 +2883,7 @@ type UpdateUserTopicRequest struct {
 	visibilityPolicy *zulip.VisibilityPolicy
 }
 
-// The Id of the channel to access.
+// The ID of the channel to access.
 func (r UpdateUserTopicRequest) ChannelID(channelID int64) UpdateUserTopicRequest {
 	r.channelID = &channelID
 	return r

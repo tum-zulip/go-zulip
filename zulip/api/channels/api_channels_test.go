@@ -19,9 +19,9 @@ import (
 func Test_AddDefaultChannel(t *testing.T) {
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
-	ownerId := GetUserId(t, ownerClient)
+	ownerID := GetUserID(t, ownerClient)
 
-	_, channelID := CreateRandomChannel(t, ownerClient, ownerId)
+	_, channelID := CreateRandomChannel(t, ownerClient, ownerID)
 
 	resp, httpResp, err := ownerClient.AddDefaultChannel(ctx).ChannelID(channelID).Execute()
 	require.NoError(t, err)
@@ -32,9 +32,9 @@ func Test_AddDefaultChannel(t *testing.T) {
 func Test_ArchiveChannel(t *testing.T) {
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
-	ownerId := GetUserId(t, ownerClient)
+	ownerID := GetUserID(t, ownerClient)
 
-	_, channelID := CreateRandomChannel(t, ownerClient, ownerId)
+	_, channelID := CreateRandomChannel(t, ownerClient, ownerID)
 
 	resp, httpResp, err := ownerClient.ArchiveChannel(ctx, channelID).Execute()
 	require.NoError(t, err)
@@ -55,15 +55,15 @@ func Test_CreateChannelFolder(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	RequireStatusOK(t, httpResp)
-	assert.Greater(t, resp.ChannelFolderId, int64(0))
+	assert.Positive(t, resp.ChannelFolderID)
 }
 
 func Test_DeleteTopic(t *testing.T) {
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
-	ownerId := GetUserId(t, ownerClient)
+	ownerID := GetUserID(t, ownerClient)
 
-	_, channelID := CreateRandomChannel(t, ownerClient, ownerId)
+	_, channelID := CreateRandomChannel(t, ownerClient, ownerID)
 	topic := createTopicWithMessage(t, ownerClient, channelID)
 
 	resp, httpResp, err := ownerClient.DeleteTopic(ctx, channelID).
@@ -84,7 +84,7 @@ func Test_PatchChannelFolders(t *testing.T) {
 	createChannelFolder(t, ownerClient, UniqueName("patch-folder"), "first test folder")
 	createChannelFolder(t, ownerClient, UniqueName("patch-folder"), "second test folder")
 
-	originalOrder := getChannelFolderIds(t, ownerClient)
+	originalOrder := getChannelFolderIDs(t, ownerClient)
 	if len(originalOrder) < 2 {
 		t.Skip("need at least two channel folders to reorder")
 	}
@@ -104,9 +104,9 @@ func Test_PatchChannelFolders(t *testing.T) {
 func Test_RemoveDefaultChannel(t *testing.T) {
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
-	ownerId := GetUserId(t, ownerClient)
+	ownerID := GetUserID(t, ownerClient)
 
-	_, channelID := CreateRandomChannel(t, ownerClient, ownerId)
+	_, channelID := CreateRandomChannel(t, ownerClient, ownerID)
 	reqResp, _, err := ownerClient.AddDefaultChannel(ctx).ChannelID(channelID).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, reqResp)
@@ -123,9 +123,9 @@ func Test_UpdateChannelFolder(t *testing.T) {
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
 
-	folderId := createChannelFolder(t, ownerClient, UniqueName("update-folder"), "initial description")
+	folderID := createChannelFolder(t, ownerClient, UniqueName("update-folder"), "initial description")
 
-	resp, httpResp, err := ownerClient.UpdateChannelFolder(ctx, folderId).
+	resp, httpResp, err := ownerClient.UpdateChannelFolder(ctx, folderID).
 		Description("updated folder description").
 		Execute()
 	require.NoError(t, err)
@@ -136,9 +136,9 @@ func Test_UpdateChannelFolder(t *testing.T) {
 func Test_UpdateChannel(t *testing.T) {
 	ctx := context.Background()
 	ownerClient := GetOwnerClient(t)
-	ownerId := GetUserId(t, ownerClient)
+	ownerID := GetUserID(t, ownerClient)
 
-	_, channelID := CreateRandomChannel(t, ownerClient, ownerId)
+	_, channelID := CreateRandomChannel(t, ownerClient, ownerID)
 
 	resp, httpResp, err := ownerClient.UpdateChannel(ctx, channelID).
 		Description("updated by test").
@@ -169,7 +169,7 @@ func Test_CreateChannel(t *testing.T) {
 	RequireFeatureLevel(t, 417)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
-		userID := GetUserId(t, apiClient)
+		userID := GetUserID(t, apiClient)
 
 		resp, httpResp, err := apiClient.CreateChannel(context.Background()).
 			Name(UniqueName("test-channel")).
@@ -196,10 +196,10 @@ func Test_GetChannelFolders(t *testing.T) {
 	})
 }
 
-func Test_GetChannelById(t *testing.T) {
+func Test_GetChannelByID(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		userID := GetUserId(t, apiClient)
+		userID := GetUserID(t, apiClient)
 
 		_, channelID := CreateRandomChannel(t, apiClient, userID)
 
@@ -215,7 +215,7 @@ func Test_GetChannelById(t *testing.T) {
 func Test_GetChannelEmailAddress(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		userID := GetUserId(t, apiClient)
+		userID := GetUserID(t, apiClient)
 
 		_, channelID := CreateRandomChannel(t, apiClient, userID)
 
@@ -227,14 +227,14 @@ func Test_GetChannelEmailAddress(t *testing.T) {
 	})
 }
 
-func Test_GetChannelId(t *testing.T) {
+func Test_GetChannelID(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		userID := GetUserId(t, apiClient)
+		userID := GetUserID(t, apiClient)
 
 		channelName, channelID := CreateRandomChannel(t, apiClient, userID)
 
-		resp, httpResp, err := apiClient.GetChannelId(ctx).
+		resp, httpResp, err := apiClient.GetChannelID(ctx).
 			Channel(channelName).
 			Execute()
 		require.NoError(t, err)
@@ -247,7 +247,7 @@ func Test_GetChannelId(t *testing.T) {
 func Test_GetChannelTopics(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		userID := GetUserId(t, apiClient)
+		userID := GetUserID(t, apiClient)
 
 		_, channelID := CreateRandomChannel(t, apiClient, userID)
 		topic := createTopicWithMessage(t, apiClient, channelID)
@@ -283,7 +283,7 @@ func Test_GetChannels(t *testing.T) {
 func Test_GetSubscribers(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		userID := GetUserId(t, apiClient)
+		userID := GetUserID(t, apiClient)
 
 		_, channelID := CreateRandomChannel(t, apiClient, userID)
 
@@ -300,7 +300,7 @@ func Test_GetSubscribers(t *testing.T) {
 func Test_GetSubscriptionStatus(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		userID := GetUserId(t, apiClient)
+		userID := GetUserID(t, apiClient)
 
 		_, channelID := CreateRandomChannel(t, apiClient, userID)
 
@@ -327,7 +327,7 @@ func Test_GetSubscriptions(t *testing.T) {
 func Test_MuteTopic(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		userID := GetUserId(t, apiClient)
+		userID := GetUserID(t, apiClient)
 
 		_, channelID := CreateRandomChannel(t, apiClient, userID)
 		topic := createTopicWithMessage(t, apiClient, channelID)
@@ -364,7 +364,7 @@ func Test_Subscribe(t *testing.T) {
 func Test_Unsubscribe(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		userID := GetUserId(t, apiClient)
+		userID := GetUserID(t, apiClient)
 
 		channelName, _ := CreateRandomChannel(t, apiClient, userID)
 
@@ -384,7 +384,7 @@ func Test_Unsubscribe(t *testing.T) {
 func Test_UpdateSubscriptionSettings(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		userID := GetUserId(t, apiClient)
+		userID := GetUserID(t, apiClient)
 
 		_, channelID := CreateRandomChannel(t, apiClient, userID)
 		mute := true
@@ -426,7 +426,7 @@ func Test_UpdateSubscriptions(t *testing.T) {
 func Test_UpdateUserTopic(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		userID := GetUserId(t, apiClient)
+		userID := GetUserID(t, apiClient)
 
 		_, channelID := CreateRandomChannel(t, apiClient, userID)
 		topic := createTopicWithMessage(t, apiClient, channelID)
@@ -462,10 +462,10 @@ func createChannelFolder(t *testing.T, apiClient client.Client, name, descriptio
 	require.NotNil(t, resp)
 	RequireStatusOK(t, httpResp)
 
-	return resp.ChannelFolderId
+	return resp.ChannelFolderID
 }
 
-func getChannelFolderIds(t *testing.T, apiClient client.Client) []int64 {
+func getChannelFolderIDs(t *testing.T, apiClient client.Client) []int64 {
 	t.Helper()
 
 	resp, httpResp, err := apiClient.GetChannelFolders(context.Background()).Execute()
@@ -475,7 +475,7 @@ func getChannelFolderIds(t *testing.T, apiClient client.Client) []int64 {
 
 	var ids []int64
 	for _, folder := range resp.ChannelFolders {
-		ids = append(ids, folder.Id)
+		ids = append(ids, folder.ID)
 	}
 	return ids
 }

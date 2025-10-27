@@ -317,8 +317,8 @@ type ServerThumbnailFormat struct {
 type VideoChatProviderInfo struct {
 	// The name of the video call provider.
 	Name string `json:"name,omitempty"`
-	// The Id of the video call provider.
-	Id int64 `json:"id,omitempty"`
+	// The ID of the video call provider.
+	ID int64 `json:"id,omitempty"`
 }
 
 // RealmBilling Present if `realm_billing` is present in `fetch_event_types`.  A dictionary containing billing information of the organization.
@@ -333,8 +333,8 @@ type RealmBilling struct {
 
 // GiphyRatingOptionsValue `{rating_name}`: Dictionary containing the details of the rating with the name of the rating as the key.
 type GiphyRatingOptionsValue struct {
-	// The Id of the rating option.
-	Id int64 `json:"id,omitempty"`
+	// The ID of the rating option.
+	ID int64 `json:"id,omitempty"`
 	// The description of the rating option.
 	Name string `json:"name,omitempty"`
 }
@@ -470,7 +470,7 @@ type RealmConfiguration struct {
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 231).
 	PushNotificationsEnabledEndTimestamp *time.Time `json:"push_notifications_enabled_end_timestamp,omitempty"`
-	// Whether this realm is configured to disallow sending mobile push notifications with message content through the legacy mobile push notifications APIs. The new API uses end-to-end encryption to protect message content and metadata from being accessible to the push bouncer service, APNs, and FCM. Clients that support the new E2EE API will use it automatically regardless of this setting.  If `true`, mobile push notifications sent to clients that lack support for E2EE push notifications will always have "New message" as their content. Note that these legacy mobile notifications will still contain metadata, which may include the message's Id, the sender's name, email address, and avatar.  In a future release, once the official mobile apps have implemented fully validated their E2EE protocol support, this setting will become strict, and disable the legacy protocol entirely.
+	// Whether this realm is configured to disallow sending mobile push notifications with message content through the legacy mobile push notifications APIs. The new API uses end-to-end encryption to protect message content and metadata from being accessible to the push bouncer service, APNs, and FCM. Clients that support the new E2EE API will use it automatically regardless of this setting.  If `true`, mobile push notifications sent to clients that lack support for E2EE push notifications will always have "New message" as their content. Note that these legacy mobile notifications will still contain metadata, which may include the message's ID, the sender's name, email address, and avatar.  In a future release, once the official mobile apps have implemented fully validated their E2EE protocol support, this setting will become strict, and disable the legacy protocol entirely.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 409). Previously, this behavior was available only via the `PUSH_NOTIFICATION_REDACT_CONTENT` global server setting.
 	RequireE2eePushNotifications bool `json:"require_e2ee_push_notifications,omitempty"`
@@ -612,26 +612,26 @@ type RealmLocalization struct {
 }
 
 type SpecialChannels struct {
-	// The Id of the private channel to which messages flagged by users for moderation are sent. Moderators can use this channel to review and act on reported content.  Will be `-1` if moderation requests are disabled.  Clients should check whether moderation requests are disabled to determine whether to present a "report message" feature in their UI within a given organization.
+	// The ID of the private channel to which messages flagged by users for moderation are sent. Moderators can use this channel to review and act on reported content.  Will be `-1` if moderation requests are disabled.  Clients should check whether moderation requests are disabled to determine whether to present a "report message" feature in their UI within a given organization.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 331). Previously, no "report message" feature existed in Zulip.
-	ModerationRequestChannelId int64 `json:"realm_moderation_request_channel_id,omitempty"`
-	// The Id of the channel to which automated messages announcing the [creation of new channels] are sent.  Will be `-1` if such automated messages are disabled.  Since these automated messages are sent by the server, this field is primarily relevant to clients containing UI for changing it.
+	ModerationRequestChannelID int64 `json:"realm_moderation_request_channel_id,omitempty"`
+	// The ID of the channel to which automated messages announcing the [creation of new channels] are sent.  Will be `-1` if such automated messages are disabled.  Since these automated messages are sent by the server, this field is primarily relevant to clients containing UI for changing it.
 	//
 	// **Changes**: In Zulip 9.0 (feature level 241), renamed 'realm_notifications_stream_id' to `realm_new_stream_announcements_stream_id`.
 	//
 	// [creation of new channels]: https://zulip.com/help/configure-automated-notices#new-channel-announcements
-	NewStreamAnnouncementsChannelId int64 `json:"realm_new_stream_announcements_stream_id,omitempty"`
-	// The Id of the channel to which automated messages announcing that [new users have joined the organization] are sent.  Will be `-1` if such automated messages are disabled.  Since these automated messages are sent by the server, this field is primarily relevant to clients containing UI for changing it.
+	NewStreamAnnouncementsChannelID int64 `json:"realm_new_stream_announcements_stream_id,omitempty"`
+	// The ID of the channel to which automated messages announcing that [new users have joined the organization] are sent.  Will be `-1` if such automated messages are disabled.  Since these automated messages are sent by the server, this field is primarily relevant to clients containing UI for changing it.
 	//
 	// **Changes**: In Zulip 9.0 (feature level 241), renamed 'realm_signup_notifications_stream_id' to `realm_signup_announcements_stream_id`.
 	//
 	// [new users have joined the organization]: https://zulip.com/help/configure-automated-notices#new-user-announcements
-	SignupAnnouncementsChannelId int64 `json:"realm_signup_announcements_stream_id,omitempty"`
-	// The Id of the channel to which automated messages announcing new features or other end-user updates about the Zulip software are sent.  Will be `-1` if such automated messages are disabled.  Since these automated messages are sent by the server, this field is primarily relevant to clients containing UI for changing it.
+	SignupAnnouncementsChannelID int64 `json:"realm_signup_announcements_stream_id,omitempty"`
+	// The ID of the channel to which automated messages announcing new features or other end-user updates about the Zulip software are sent.  Will be `-1` if such automated messages are disabled.  Since these automated messages are sent by the server, this field is primarily relevant to clients containing UI for changing it.
 	//
 	// **Changes**: New in Zulip 9.0 (feature level 242).
-	ZulipUpdateAnnouncementsChannelId int64 `json:"realm_zulip_update_announcements_stream_id,omitempty"`
+	ZulipUpdateAnnouncementsChannelID int64 `json:"realm_zulip_update_announcements_stream_id,omitempty"`
 }
 
 type RealmPermissions struct {

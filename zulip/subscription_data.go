@@ -4,7 +4,7 @@ import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
 
 // SubscriptionData struct for SubscriptionData
 type SubscriptionData struct {
-	// The unique Id of a channel.
+	// The unique ID of a channel.
 	ChannelID int64 `json:"stream_id"`
 	// One of the channel properties described below.
 	//  - SubscriptionPropertyColor

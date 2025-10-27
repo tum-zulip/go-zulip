@@ -6,8 +6,8 @@ import "github.com/tum-zulip/go-zulip/zulip"
 type CreateScheduledMessageResponse struct {
 	zulip.Response
 
-	// The unique Id of the scheduled message.  This is different from the unique Id that the message will have after it is sent.
-	ScheduledMessageId int64 `json:"scheduled_message_id,omitempty"`
+	// The unique ID of the scheduled message.  This is different from the unique ID that the message will have after it is sent.
+	ScheduledMessageID int64 `json:"scheduled_message_id,omitempty"`
 }
 
 // GetScheduledMessagesResponse struct for GetScheduledMessagesResponse

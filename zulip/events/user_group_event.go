@@ -17,8 +17,8 @@ type UserGroupAddEvent struct {
 type UserGroupRemoveEvent struct {
 	event
 
-	// The Id of the group which has been deleted.
-	GroupId int64 `json:"group_id,omitempty"`
+	// The ID of the group which has been deleted.
+	GroupID int64 `json:"group_id,omitempty"`
 }
 
 // UserGroupUpdateEvent Event sent to all users in a Zulip organization when a property of a user group is changed.  For group deactivation, this event is only sent if `include_deactivated_groups` client capability is set to `true`.  This event is also sent when deactivating or reactivating a user for settings set to anonymous user groups which the user is direct member of. When deactivating the user, event is only sent to users who cannot access the deactivated user.
@@ -27,8 +27,8 @@ type UserGroupRemoveEvent struct {
 type UserGroupUpdateEvent struct {
 	event
 
-	// The Id of the user group whose details have changed.
-	GroupId int64               `json:"group_id,omitempty"`
+	// The ID of the user group whose details have changed.
+	GroupID int64               `json:"group_id,omitempty"`
 	Data    UserGroupUpdateData `json:"data,omitempty"`
 }
 
@@ -38,10 +38,10 @@ type UserGroupUpdateEvent struct {
 type UserGroupMembersEvent struct {
 	event
 
-	// The Id of the user group with added/removed members.
-	GroupId int64 `json:"group_id,omitempty"`
-	// Array containing the Ids of the users who have been added/removed to the user group.
-	UserIds []int64 `json:"user_ids,omitempty"`
+	// The ID of the user group with added/removed members.
+	GroupID int64 `json:"group_id,omitempty"`
+	// Array containing the IDs of the users who have been added/removed to the user group.
+	UserIDs []int64 `json:"user_ids,omitempty"`
 }
 
 // UserGroupAddSubgroupsEvent Event sent to all users when subgroups have been added to a user group.
@@ -50,12 +50,12 @@ type UserGroupMembersEvent struct {
 type UserGroupSubgroupsEvent struct {
 	event
 
-	// The Id of the user group whose details have changed.
-	GroupId int64 `json:"group_id,omitempty"`
-	// Array containing the Ids of the subgroups that have been added/removed to the user group.
+	// The ID of the user group whose details have changed.
+	GroupID int64 `json:"group_id,omitempty"`
+	// Array containing the IDs of the subgroups that have been added/removed to the user group.
 	//
 	// **Changes**: New in Zulip 6.0 (feature level 131). Previously, this was called `subgroup_ids`, but clients can ignore older events as this feature level predates subgroups being fully implemented.
-	DirectSubgroupIds []int64 `json:"direct_subgroup_ids,omitempty"`
+	DirectSubgroupIDs []int64 `json:"direct_subgroup_ids,omitempty"`
 }
 
 // UserGroupUpdate Dictionary containing the changed details of the user group.

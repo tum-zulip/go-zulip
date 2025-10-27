@@ -28,18 +28,18 @@ type EventQueue interface {
 	// returns a channel that receives events as they arrive. The goroutine runs
 	// until the provided context is cancelled or Close is invoked.
 	//
-	// queueId must reference an already-registered Zulip event queue. The helper
-	// does not register queues automatically. lastEventId is the highest event ID
+	// queueID must reference an already-registered Zulip event queue. The helper
+	// does not register queues automatically. lastEventID is the highest event ID
 	// the caller has processed so far; pass -1 to start with the server default.
-	Connect(ctx context.Context, queueId string, lastEventId int64) (<-chan events.Event, error)
+	Connect(ctx context.Context, queueID string, lastEventID int64) (<-chan events.Event, error)
 	// Close stops the polling goroutine. It does not delete the queue from the
 	// server. Calling Close before Connect returns an error.
 	Close() error
-	// QueueId reports the identifier of the queue currently being consumed.
-	QueueId() string
-	// LastEventId reports the highest event ID delivered through this queue. If
+	// QueueID reports the identifier of the queue currently being consumed.
+	QueueID() string
+	// LastEventID reports the highest event ID delivered through this queue. If
 	// no events have been received, it returns the value supplied to Connect.
-	LastEventId() int64
+	LastEventID() int64
 }
 
 type loggingErrorHandler struct{}
@@ -89,8 +89,8 @@ type EventQueueOption func(*eventQueue)
 
 type eventQueue struct {
 	client       APIRealTimeEvents
-	lastEventId  atomic.Int64
-	queueId      string
+	lastEventID  atomic.Int64
+	queueID      string
 	bufferSize   int
 	cancel       chan struct{}
 	errorHandler EventQueueErrorHandler
@@ -104,7 +104,7 @@ var _ EventQueue = (*eventQueue)(nil)
 func NewEventQueue(client APIRealTimeEvents, opts ...EventQueueOption) EventQueue {
 	q := &eventQueue{
 		client:      client,
-		lastEventId: atomic.Int64{},
+		lastEventID: atomic.Int64{},
 	}
 
 	for _, opt := range opts {
@@ -116,21 +116,21 @@ func NewEventQueue(client APIRealTimeEvents, opts ...EventQueueOption) EventQueu
 	return q
 }
 
-func (q *eventQueue) QueueId() string {
-	return q.queueId
+func (q *eventQueue) QueueID() string {
+	return q.queueID
 }
 
-func (q *eventQueue) LastEventId() int64 {
-	return q.lastEventId.Load()
+func (q *eventQueue) LastEventID() int64 {
+	return q.lastEventID.Load()
 }
 
-func (q *eventQueue) Connect(ctx context.Context, queueId string, lastEventId int64) (<-chan events.Event, error) {
-	if queueId == "" {
-		return nil, fmt.Errorf("queueId cannot be empty")
+func (q *eventQueue) Connect(ctx context.Context, queueID string, lastEventID int64) (<-chan events.Event, error) {
+	if queueID == "" {
+		return nil, errors.New("queueID cannot be empty")
 	}
 
-	q.queueId = queueId
-	q.lastEventId.Store(lastEventId)
+	q.queueID = queueID
+	q.lastEventID.Store(lastEventID)
 
 	// Verify that the queue exists using the caller's context before
 	// installing signal handling. This avoids creating cancellers that
@@ -171,8 +171,8 @@ func (q *eventQueue) pollEvents(ctx context.Context, events chan<- events.Event)
 		}
 
 		resp, httpResp, err := q.client.GetEvents(ctx).
-			QueueId(q.QueueId()).
-			LastEventId(q.LastEventId()).
+			QueueID(q.QueueID()).
+			LastEventID(q.LastEventID()).
 			Execute()
 		if err != nil {
 			if errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
@@ -202,15 +202,15 @@ func (q *eventQueue) pollEvents(ctx context.Context, events chan<- events.Event)
 
 func (q *eventQueue) processEvents(ctx context.Context, resp *GetEventsResponse, events chan<- events.Event) bool {
 	// Process events from response
-	lastId, valid := int64(0), false
+	lastID, valid := int64(0), false
 
 	defer func() {
 		// Update last event ID if we processed any events
 		if valid {
-			q.lastEventId.Store(lastId)
+			q.lastEventID.Store(lastID)
 		}
 
-		slog.DebugContext(ctx, "polled events", "count", len(resp.Events), "last_event_id", lastId)
+		slog.DebugContext(ctx, "polled events", "count", len(resp.Events), "last_event_id", lastID)
 	}()
 
 	for _, event := range resp.Events {
@@ -223,7 +223,7 @@ func (q *eventQueue) processEvents(ctx context.Context, resp *GetEventsResponse,
 			slog.DebugContext(ctx, "event queue context cancelled while processing events")
 			return false
 		case events <- event:
-			lastId = event.GetId()
+			lastID = event.GetID()
 			valid = true
 		}
 	}
@@ -232,8 +232,8 @@ func (q *eventQueue) processEvents(ctx context.Context, resp *GetEventsResponse,
 
 func (q *eventQueue) checkQueueExists(ctx context.Context) error {
 	_, _, err := q.client.GetEvents(ctx).
-		QueueId(q.QueueId()).
-		LastEventId(q.LastEventId()).
+		QueueID(q.QueueID()).
+		LastEventID(q.LastEventID()).
 		DontBlock(true).
 		Execute()
 	if err != nil {

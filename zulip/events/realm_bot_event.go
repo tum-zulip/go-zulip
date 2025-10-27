@@ -13,7 +13,7 @@ type RealmBotAddEvent struct {
 type RealmBotUpdateEvent struct {
 	event
 
-	// Object containing details about the changed bot. It contains two properties: the user Id of the bot and the property to be changed. The changed property is one of the remaining properties listed below.
+	// Object containing details about the changed bot. It contains two properties: the user ID of the bot and the property to be changed. The changed property is one of the remaining properties listed below.
 	Bot zulip.Bot `json:"bot,omitempty"`
 }
 

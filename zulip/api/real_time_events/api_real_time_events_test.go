@@ -17,10 +17,10 @@ func Test_DeleteQueue(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		queueId, _ := registerMessageEventQueue(t, apiClient)
+		queueID, _ := registerMessageEventQueue(t, apiClient)
 
 		resp, httpResp, err := apiClient.DeleteQueue(ctx).
-			QueueId(queueId).
+			QueueID(queueID).
 			Execute()
 
 		require.NoError(t, err)
@@ -35,20 +35,20 @@ func Test_GetEvents(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		queueId, lastEventId := registerMessageEventQueue(t, apiClient)
+		queueID, lastEventID := registerMessageEventQueue(t, apiClient)
 		go func() {
 			time.Sleep(200 * time.Millisecond)
 			_, _, err := apiClient.SetTypingStatus(ctx).
 				Op(z.TypingStatusOpStart).
-				To(z.UserAsRecipient(GetUserId(t, apiClient))).
+				To(z.UserAsRecipient(GetUserID(t, apiClient))).
 				Execute()
 
 			require.NoError(t, err)
 		}()
 
 		resp, httpResp, err := apiClient.GetEvents(ctx).
-			QueueId(queueId).
-			LastEventId(lastEventId).
+			QueueID(queueID).
+			LastEventID(lastEventID).
 			Execute()
 
 		require.NoError(t, err)
@@ -77,12 +77,12 @@ func registerMessageEventQueue(t *testing.T, apiClient client.Client) (string, i
 	require.NotNil(t, resp)
 	assert.Equal(t, 200, httpResp.StatusCode)
 
-	require.NotEmpty(t, resp.QueueId)
+	require.NotEmpty(t, resp.QueueID)
 	// TODO: janez require.NotNil(t, resp.Realm)
 
 	// TODO: require.WithinDuration(t, time.Now(), resp.Realm.DateCreated, 59*time.Minute)
 	// TODO: require.WithinDuration(t, time.Now(), resp.Realm.ServerGeneration, 59*time.Minute)
 	// TODO: also test resp.Realm.PushNotificationsEndabledEndTimestamp
 
-	return *resp.QueueId, resp.LastEventId
+	return *resp.QueueID, resp.LastEventID
 }

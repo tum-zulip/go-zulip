@@ -6,8 +6,8 @@ import "github.com/tum-zulip/go-zulip/zulip"
 type CreateMessageReminderResponse struct {
 	zulip.Response
 
-	// Unique Id of the scheduled message reminder.
-	ReminderId int64 `json:"reminder_id,omitempty"`
+	// Unique ID of the scheduled message reminder.
+	ReminderID int64 `json:"reminder_id,omitempty"`
 }
 
 // GetRemindersResponse struct for GetRemindersResponse

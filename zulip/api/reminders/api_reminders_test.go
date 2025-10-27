@@ -56,7 +56,7 @@ func Test_GetReminders(t *testing.T) {
 		assert.GreaterOrEqual(t, len(resp.Reminders), 1)
 		found := false
 		for _, r := range resp.Reminders {
-			if r.ReminderId == reminderID {
+			if r.ReminderID == reminderID {
 				require.WithinDuration(t, time.Now().Add(1*time.Hour), r.ScheduledDeliveryTimestamp, 3*time.Minute)
 				found = true
 			}
@@ -80,5 +80,5 @@ func createMessageReminder(t *testing.T, apiClient client.Client, channelID int6
 	require.NotNil(t, resp)
 	assert.Equal(t, 200, httpResp.StatusCode)
 
-	return resp.ReminderId
+	return resp.ReminderID
 }

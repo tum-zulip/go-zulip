@@ -33,7 +33,7 @@ func Example() {
 
 	// Send a message greeting the Zulip community
 	_, _, err = client.SendMessage(ctx).
-		To(z.ChannelAsRecipient(channelResp.Id)).
+		To(z.ChannelAsRecipient(channelResp.ID)).
 		Topic("introductions").
 		Content("Hello Zulip community! 👋").
 		Execute()

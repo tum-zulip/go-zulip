@@ -8,7 +8,7 @@ import (
 )
 
 // PresenceUpdateValue - Will be one of these two formats (modern or legacy) for user presence data:
-// ModernPresenceFormat `{user_id}`: Presence data (modern format) for the user with the specified Id.
+// ModernPresenceFormat `{user_id}`: Presence data (modern format) for the user with the specified ID.
 type PresenceUpdateValue struct {
 	ModernPresenceFormat *ModernPresenceFormat
 	LegacyPresenceMap    map[string]LegacyPresenceFormat

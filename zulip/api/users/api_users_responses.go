@@ -14,7 +14,7 @@ type AlertWordsResponse struct {
 type CreateUserResponse struct {
 	zulip.Response
 
-	// The Id assigned to the newly created user.
+	// The ID assigned to the newly created user.
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 30).
 	UserID int64 `json:"user_id,omitempty"`
@@ -60,7 +60,7 @@ type GetUserGroupSubgroupsResponse struct {
 
 type GetUserGroupMembersResponse struct {
 	zulip.Response
-	// A list containing the user Ids of members of the user group.
+	// A list containing the user IDs of members of the user group.
 	Members []int64 `json:"members,omitempty"`
 }
 
@@ -86,8 +86,8 @@ type GetAttachmentsResponse struct {
 // CreateUserGroupResponse struct for CreateUserGroupResponse
 type CreateUserGroupResponse struct {
 	zulip.Response
-	// The unique Id of the created user group.
-	GroupId int64 `json:"group_id"`
+	// The unique ID of the created user group.
+	GroupID int64 `json:"group_id"`
 }
 
 // UpdatePresenceResponse struct for UpdatePresenceResponse
@@ -98,7 +98,7 @@ type UpdatePresenceResponse struct {
 	// **Changes**: New in Zulip 9.0 (feature level 263).
 	//
 	// [`last_update_id`]: https://zulip.com/api/update-presence#parameter-last_update_id
-	PresenceLastUpdateId int64 `json:"presence_last_update_id,omitempty"`
+	PresenceLastUpdateID int64 `json:"presence_last_update_id,omitempty"`
 	// Only present if `ping_only` is `false`.  The time when the server fetched the `presences` data included in the response.
 	ServerTimestamp *float32 `json:"server_timestamp,omitempty"`
 	// Only present if `ping_only` is `false`.  A dictionary where each entry describes the presence details of a user in the Zulip organization. Entries can be in either the modern presence format or the legacy presence format.  These entries will be the modern presence format when the `last_updated_id` parameter is passed, or when the deprecated `slim_presence` parameter is `true`.  If the deprecated `slim_presence` parameter is `false` and the `last_updated_id` parameter is omitted, the entries will be in the legacy presence API format.  **Note**: The legacy presence format should only be used when interacting with old servers. It will be removed as soon as doing so is practical.
@@ -114,7 +114,7 @@ type GetOwnUserResponse struct {
 
 	zulip.User
 
-	// The integer Id of the last message received by the requesting user's account.  **Deprecated**. We plan to remove this in favor of recommending using `GET /messages` with `"anchor": "newest"`.
+	// The integer ID of the last message received by the requesting user's account.  **Deprecated**. We plan to remove this in favor of recommending using `GET /messages` with `"anchor": "newest"`.
 	// Deprecated
-	MaxMessageId *int64 `json:"max_message_id,omitempty"`
+	MaxMessageID *int64 `json:"max_message_id,omitempty"`
 }

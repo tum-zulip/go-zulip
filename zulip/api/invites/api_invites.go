@@ -4,19 +4,18 @@ package invites
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-
 	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIInvites interface {
-
 	// CreateInviteLink Create a reusable invitation link
 	//
 	// Create a [reusable invitation link]
@@ -68,7 +67,7 @@ type APIInvites interface {
 	//
 	// [email invitation]: https://zulip.com/help/invite-new-users#send-email-invitations
 	// [invitations that they can manage]: https://zulip.com/help/invite-new-users#manage-pending-invitations
-	ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest
+	ResendEmailInvite(ctx context.Context, inviteID int64) ResendEmailInviteRequest
 
 	// ResendEmailInviteExecute executes the request
 	ResendEmailInviteExecute(r ResendEmailInviteRequest) (*zulip.Response, *http.Response, error)
@@ -81,7 +80,7 @@ type APIInvites interface {
 	//
 	// [email invitation]: https://zulip.com/help/invite-new-users#send-email-invitations
 	// [invitations that they can manage]: https://zulip.com/help/invite-new-users#manage-pending-invitations
-	RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest
+	RevokeEmailInvite(ctx context.Context, inviteID int64) RevokeEmailInviteRequest
 
 	// RevokeEmailInviteExecute executes the request
 	RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*zulip.Response, *http.Response, error)
@@ -97,7 +96,7 @@ type APIInvites interface {
 	//
 	// [reusable invitation link]: https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link
 	// [invitations that they can manage]: https://zulip.com/help/invite-new-users#manage-pending-invitations
-	RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInviteLinkRequest
+	RevokeInviteLink(ctx context.Context, inviteID int64) RevokeInviteLinkRequest
 
 	// RevokeInviteLinkExecute executes the request
 	RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*zulip.Response, *http.Response, error)
@@ -128,8 +127,8 @@ type CreateInviteLinkRequest struct {
 	apiService                       APIInvites
 	inviteExpiresInMinutes           *int32
 	inviteAs                         *zulip.Role
-	channelIds                       *[]int64
-	groupIds                         *[]int64
+	channelIDs                       *[]int64
+	groupIDs                         *[]int64
 	includeRealmDefaultSubscriptions *bool
 	welcomeMessageCustomText         *string
 }
@@ -170,24 +169,24 @@ func (r CreateInviteLinkRequest) InviteAs(inviteAs zulip.Role) CreateInviteLinkR
 	return r
 }
 
-// A list containing the [Ids of the channels] that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the `include_realm_default_subscriptions` parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels].
+// A list containing the [IDs of the channels] that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the `include_realm_default_subscriptions` parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to create reusable invitation links while lacking permission to [subscribe other users to channels].
 //
 // **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.
 //
 // [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
-// [Ids of the channels]: https://zulip.com/api/get-stream-id
-func (r CreateInviteLinkRequest) ChannelIds(channelIds []int64) CreateInviteLinkRequest {
-	r.channelIds = &channelIds
+// [IDs of the channels]: https://zulip.com/api/get-stream-id
+func (r CreateInviteLinkRequest) ChannelIDs(channelIDs []int64) CreateInviteLinkRequest {
+	r.channelIDs = &channelIDs
 	return r
 }
 
-// A list containing the [Ids of the user groups] that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.
+// A list containing the [IDs of the user groups] that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.
 //
 // **Changes**: New in Zulip 10.0 (feature level 322).
 //
-// [Ids of the user groups]: https://zulip.com/api/get-user-groups
-func (r CreateInviteLinkRequest) GroupIds(groupIds []int64) CreateInviteLinkRequest {
-	r.groupIds = &groupIds
+// [IDs of the user groups]: https://zulip.com/api/get-user-groups
+func (r CreateInviteLinkRequest) GroupIDs(groupIDs []int64) CreateInviteLinkRequest {
+	r.groupIDs = &groupIDs
 	return r
 }
 
@@ -197,7 +196,9 @@ func (r CreateInviteLinkRequest) GroupIds(groupIds []int64) CreateInviteLinkRequ
 //
 // [default channels]: https://zulip.com/help/set-default-channels-for-new-users
 // [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
-func (r CreateInviteLinkRequest) IncludeRealmDefaultSubscriptions(includeRealmDefaultSubscriptions bool) CreateInviteLinkRequest {
+func (r CreateInviteLinkRequest) IncludeRealmDefaultSubscriptions(
+	includeRealmDefaultSubscriptions bool,
+) CreateInviteLinkRequest {
 	r.includeRealmDefaultSubscriptions = &includeRealmDefaultSubscriptions
 	return r
 }
@@ -243,7 +244,9 @@ func (s *invitesService) CreateInviteLink(ctx context.Context) CreateInviteLinkR
 }
 
 // Execute executes the request
-func (s *invitesService) CreateInviteLinkExecute(r CreateInviteLinkRequest) (*CreateInviteLinkResponse, *http.Response, error) {
+func (s *invitesService) CreateInviteLinkExecute(
+	r CreateInviteLinkRequest,
+) (*CreateInviteLinkResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -257,8 +260,8 @@ func (s *invitesService) CreateInviteLinkExecute(r CreateInviteLinkRequest) (*Cr
 
 	apiutils.AddOptionalParam(form, "invite_expires_in_minutes", r.inviteExpiresInMinutes)
 	apiutils.AddOptionalParam(form, "invite_as", r.inviteAs)
-	apiutils.AddOptionalParam(form, "stream_ids", r.channelIds)
-	apiutils.AddOptionalParam(form, "group_ids", r.groupIds)
+	apiutils.AddOptionalParam(form, "stream_ids", r.channelIDs)
+	apiutils.AddOptionalParam(form, "group_ids", r.groupIDs)
 	apiutils.AddOptionalParam(form, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions)
 	apiutils.AddOptionalParam(form, "welcome_message_custom_text", r.welcomeMessageCustomText)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -322,7 +325,7 @@ func (s *invitesService) GetInvitesExecute(r GetInvitesRequest) (*GetInvitesResp
 type ResendEmailInviteRequest struct {
 	ctx        context.Context
 	apiService APIInvites
-	inviteId   int64
+	inviteID   int64
 }
 
 func (r ResendEmailInviteRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -337,11 +340,11 @@ func (r ResendEmailInviteRequest) Execute() (*zulip.Response, *http.Response, er
 //
 // [email invitation]: https://zulip.com/help/invite-new-users#send-email-invitations
 // [invitations that they can manage]: https://zulip.com/help/invite-new-users#manage-pending-invitations
-func (s *invitesService) ResendEmailInvite(ctx context.Context, inviteId int64) ResendEmailInviteRequest {
+func (s *invitesService) ResendEmailInvite(ctx context.Context, inviteID int64) ResendEmailInviteRequest {
 	return ResendEmailInviteRequest{
 		apiService: s,
 		ctx:        ctx,
-		inviteId:   inviteId,
+		inviteID:   inviteID,
 	}
 }
 
@@ -356,7 +359,7 @@ func (s *invitesService) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*
 		endpoint = "/invites/{invite_id}/resend"
 	)
 
-	path := strings.Replace(endpoint, "{invite_id}", apiutils.IdToString(r.inviteId), -1)
+	path := strings.ReplaceAll(endpoint, "{invite_id}", apiutils.IdToString(r.inviteID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -371,7 +374,7 @@ func (s *invitesService) ResendEmailInviteExecute(r ResendEmailInviteRequest) (*
 type RevokeEmailInviteRequest struct {
 	ctx        context.Context
 	apiService APIInvites
-	inviteId   int64
+	inviteID   int64
 }
 
 func (r RevokeEmailInviteRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -386,11 +389,11 @@ func (r RevokeEmailInviteRequest) Execute() (*zulip.Response, *http.Response, er
 //
 // [email invitation]: https://zulip.com/help/invite-new-users#send-email-invitations
 // [invitations that they can manage]: https://zulip.com/help/invite-new-users#manage-pending-invitations
-func (s *invitesService) RevokeEmailInvite(ctx context.Context, inviteId int64) RevokeEmailInviteRequest {
+func (s *invitesService) RevokeEmailInvite(ctx context.Context, inviteID int64) RevokeEmailInviteRequest {
 	return RevokeEmailInviteRequest{
 		apiService: s,
 		ctx:        ctx,
-		inviteId:   inviteId,
+		inviteID:   inviteID,
 	}
 }
 
@@ -405,7 +408,7 @@ func (s *invitesService) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*
 		endpoint = "/invites/{invite_id}"
 	)
 
-	path := strings.Replace(endpoint, "{invite_id}", apiutils.IdToString(r.inviteId), -1)
+	path := strings.ReplaceAll(endpoint, "{invite_id}", apiutils.IdToString(r.inviteID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -420,7 +423,7 @@ func (s *invitesService) RevokeEmailInviteExecute(r RevokeEmailInviteRequest) (*
 type RevokeInviteLinkRequest struct {
 	ctx        context.Context
 	apiService APIInvites
-	inviteId   int64
+	inviteID   int64
 }
 
 func (r RevokeInviteLinkRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -438,11 +441,11 @@ func (r RevokeInviteLinkRequest) Execute() (*zulip.Response, *http.Response, err
 //
 // [reusable invitation link]: https://zulip.com/help/invite-new-users#create-a-reusable-invitation-link
 // [invitations that they can manage]: https://zulip.com/help/invite-new-users#manage-pending-invitations
-func (s *invitesService) RevokeInviteLink(ctx context.Context, inviteId int64) RevokeInviteLinkRequest {
+func (s *invitesService) RevokeInviteLink(ctx context.Context, inviteID int64) RevokeInviteLinkRequest {
 	return RevokeInviteLinkRequest{
 		apiService: s,
 		ctx:        ctx,
-		inviteId:   inviteId,
+		inviteID:   inviteID,
 	}
 }
 
@@ -457,7 +460,7 @@ func (s *invitesService) RevokeInviteLinkExecute(r RevokeInviteLinkRequest) (*zu
 		endpoint = "/invites/multiuse/{invite_id}"
 	)
 
-	path := strings.Replace(endpoint, "{invite_id}", apiutils.IdToString(r.inviteId), -1)
+	path := strings.ReplaceAll(endpoint, "{invite_id}", apiutils.IdToString(r.inviteID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -473,10 +476,10 @@ type SendInvitesRequest struct {
 	ctx                              context.Context
 	apiService                       APIInvites
 	inviteeEmails                    *string
-	channelIds                       *[]int64
+	channelIDs                       *[]int64
 	inviteExpiresInMinutes           *int32
 	inviteAs                         *zulip.Role
-	groupIds                         *[]int64
+	groupIDs                         *[]int64
 	includeRealmDefaultSubscriptions *bool
 	notifyReferrerOnJoin             *bool
 	welcomeMessageCustomText         *string
@@ -488,14 +491,14 @@ func (r SendInvitesRequest) InviteeEmails(inviteeEmails string) SendInvitesReque
 	return r
 }
 
-// A list containing the [Ids of the channels] that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the `include_realm_default_subscriptions` parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels].
+// A list containing the [IDs of the channels] that the newly created user will be automatically subscribed to if the invitation is accepted, in addition to any default channels that the new user may be subscribed to based on the `include_realm_default_subscriptions` parameter.  Requested channels must either be default channels for the organization, or ones the acting user has permission to add subscribers to.  This list must be empty if the current user has the unlikely configuration of being able to send invitations while lacking permission to [subscribe other users to channels].
 //
 // **Changes**: Prior to Zulip 10.0 (feature level 342), default channels that the acting user did not directly have permission to add subscribers to would be rejected.  Before Zulip 7.0 (feature level 180), specifying `stream_ids` as an empty list resulted in an error.
 //
 // [subscribe other users to channels]: https://zulip.com/help/configure-who-can-invite-to-channels
-// [Ids of the channels]: https://zulip.com/api/get-stream-id
-func (r SendInvitesRequest) ChannelIds(channelIds []int64) SendInvitesRequest {
-	r.channelIds = &channelIds
+// [IDs of the channels]: https://zulip.com/api/get-stream-id
+func (r SendInvitesRequest) ChannelIDs(channelIDs []int64) SendInvitesRequest {
+	r.channelIDs = &channelIDs
 	return r
 }
 
@@ -525,13 +528,13 @@ func (r SendInvitesRequest) InviteAs(inviteAs zulip.Role) SendInvitesRequest {
 	return r
 }
 
-// A list containing the [Ids of the user groups] that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.
+// A list containing the [IDs of the user groups] that the newly created user will be automatically added to if the invitation is accepted. If the list is empty, then the new user will not be added to any user groups. The acting user must have permission to add users to the groups listed in this request.
 //
 // **Changes**: New in Zulip 10.0 (feature level 322).
 //
-// [Ids of the user groups]: https://zulip.com/api/get-user-groups
-func (r SendInvitesRequest) GroupIds(groupIds []int64) SendInvitesRequest {
-	r.groupIds = &groupIds
+// [IDs of the user groups]: https://zulip.com/api/get-user-groups
+func (r SendInvitesRequest) GroupIDs(groupIDs []int64) SendInvitesRequest {
+	r.groupIDs = &groupIDs
 	return r
 }
 
@@ -603,8 +606,8 @@ func (s *invitesService) SendInvitesExecute(r SendInvitesRequest) (*zulip.Respon
 	if r.inviteeEmails == nil {
 		return nil, nil, fmt.Errorf("inviteeEmails is required and must be specified")
 	}
-	if r.channelIds == nil {
-		return nil, nil, fmt.Errorf("channelIds is required and must be specified")
+	if r.channelIDs == nil {
+		return nil, nil, errors.New("channelIDs is required and must be specified")
 	}
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
@@ -613,8 +616,8 @@ func (s *invitesService) SendInvitesExecute(r SendInvitesRequest) (*zulip.Respon
 	apiutils.AddParam(form, "invitee_emails", r.inviteeEmails)
 	apiutils.AddOptionalParam(form, "invite_expires_in_minutes", r.inviteExpiresInMinutes)
 	apiutils.AddOptionalParam(form, "invite_as", r.inviteAs)
-	apiutils.AddParam(form, "stream_ids", r.channelIds)
-	apiutils.AddOptionalParam(form, "group_ids", r.groupIds)
+	apiutils.AddParam(form, "stream_ids", r.channelIDs)
+	apiutils.AddOptionalParam(form, "group_ids", r.groupIDs)
 	apiutils.AddOptionalParam(form, "include_realm_default_subscriptions", r.includeRealmDefaultSubscriptions)
 	apiutils.AddOptionalParam(form, "notify_referrer_on_join", r.notifyReferrerOnJoin)
 	apiutils.AddOptionalParam(form, "welcome_message_custom_text", r.welcomeMessageCustomText)

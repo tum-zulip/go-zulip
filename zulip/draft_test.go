@@ -15,7 +15,7 @@ func TestDraftMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	ts := time.Unix(1700000000, 123000000).UTC()
 	id := int64(42)
 	draft := z.Draft{
-		Id:        &id,
+		ID:        &id,
 		Type:      z.RecipientTypeDirect,
 		To:        z.UsersAsRecipient([]int64{1, 2}),
 		Topic:     "topic",
@@ -42,7 +42,7 @@ func TestDraftUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 	var draft z.Draft
 	require.NoError(t, json.Unmarshal(raw, &draft))
 
-	assert.Equal(t, int64(42), *draft.Id)
+	assert.Equal(t, int64(42), *draft.ID)
 	assert.Equal(t, z.RecipientTypeDirect, draft.Type)
 	expectedTo := z.UsersAsRecipient([]int64{1, 2})
 	if !expectedTo.Equals(draft.To) {

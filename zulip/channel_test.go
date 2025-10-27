@@ -12,13 +12,13 @@ import (
 
 func TestChannelMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 
-	creatorId := int64(7)
+	creatorID := int64(7)
 	date := time.Unix(1700000000, 500*int64(time.Millisecond)).UTC()
 	channel := z.Channel{
 		ChannelID:            123,
 		Name:                 "general",
 		DateCreated:          date,
-		CreatorId:            &creatorId,
+		CreatorID:            &creatorID,
 		ChannelPostPolicy:    2,
 		ChannelWeeklyTraffic: ptrTo[int](10),
 	}

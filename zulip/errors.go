@@ -85,7 +85,7 @@ type BadEventQueueIdError struct {
 	CodedError
 
 	// The string that identifies the invalid event queue.
-	QueueId string `json:"queue_id"`
+	QueueID string `json:"queue_id"`
 }
 
 type BadNarrowError struct {
@@ -98,7 +98,7 @@ type BadNarrowError struct {
 type NonExistingChannelIdError struct {
 	CodedError
 
-	// The channel Id that could not be found.
+	// The channel ID that could not be found.
 	ChannelID int64 `json:"stream_id"`
 }
 

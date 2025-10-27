@@ -45,10 +45,29 @@ const (
 )
 
 func (e *EventOp) UnmarshalJSON(data []byte) error {
+	allowedEventOpValues := []EventOp{
+		EventOpAdd,
+		EventOpRemove,
+		EventOpUpdate,
+		EventOpOnboardingSteps,
+		EventOpDeactivated,
+		EventOpCreate,
+		EventOpDelete,
+		EventOpChange,
+		EventOpReorder,
+		EventOpStart,
+		EventOpStop,
+		EventOpUpdateDict,
+		EventOpPeerAdd,
+		EventOpPeerRemove,
+		EventOpAddMembers,
+		EventOpAddSubgroups,
+		EventOpRemoveMembers,
+		EventOpRemoveSubgroups,
+	}
+
 	return utils.UnmarshalStringEnum(data, e, allowedEventOpValues)
 }
-
-var allowedEventOpValues = []EventOp{EventOpAdd, EventOpRemove, EventOpUpdate, EventOpOnboardingSteps, EventOpDeactivated, EventOpCreate, EventOpDelete, EventOpChange, EventOpReorder, EventOpStart, EventOpStop, EventOpUpdateDict, EventOpPeerAdd, EventOpPeerRemove, EventOpAddMembers, EventOpAddSubgroups, EventOpRemoveMembers, EventOpRemoveSubgroups}
 
 // EventType represents the type of event that occurred in a model event.
 //   - EventTypeAlertWords
@@ -157,10 +176,61 @@ const (
 )
 
 func (e *EventType) UnmarshalJSON(data []byte) error {
+	allowedEventTypeValues := []EventType{
+		EventTypeAlertWords,
+		EventTypeAttachment,
+		EventTypeChannelFolder,
+		EventTypeCustomProfileFields,
+		EventTypeDefaultChannelGroups,
+		EventTypeDefaultChannels,
+		EventTypeDeleteMessage,
+		EventTypeDrafts,
+		EventTypeHasZoomToken,
+		EventTypeHeartbeat,
+		EventTypeInvitesChanged,
+		EventTypeMessage,
+		EventTypeMutedTopics,
+		EventTypeMutedUsers,
+		EventTypeNavigationView,
+		EventTypeOnboardingSteps,
+		EventTypePresence,
+		EventTypePushDevice,
+		EventTypeReaction,
+		EventTypeRealm,
+		EventTypeRealmBot,
+		EventTypeRealmDomains,
+		EventTypeRealmEmoji,
+		EventTypeRealmExport,
+		EventTypeRealmExportConsent,
+		EventTypeRealmFilters,
+		EventTypeRealmLinkifiers,
+		EventTypeRealmPlaygrounds,
+		EventTypeRealmUser,
+		EventTypeRealmUserSettingsDefaults,
+		EventTypeReminders,
+		EventTypeRestart,
+		EventTypeSavedSnippets,
+		EventTypeScheduledMessages,
+		EventTypeChannel,
+		EventTypeSubmessage,
+		EventTypeSubscription,
+		EventTypeTyping,
+		EventTypeTypingEditMessage,
+		EventTypeUpdateDisplaySettings,
+		EventTypeUpdateGlobalNotifications,
+		EventTypeUpdateMessage,
+		EventTypeUpdateMessageFlags,
+		EventTypeUserGroup,
+		EventTypeUserSettings,
+		EventTypeUserStatus,
+		EventTypeUserTopic,
+		EventTypeWebReloadClient,
+		EventTypeUnknown,
+		EventTypeInvalid,
+	}
+
 	return utils.UnmarshalStringEnum(data, e, allowedEventTypeValues)
 }
-
-var allowedEventTypeValues = []EventType{EventTypeAlertWords, EventTypeAttachment, EventTypeChannelFolder, EventTypeCustomProfileFields, EventTypeDefaultChannelGroups, EventTypeDefaultChannels, EventTypeDeleteMessage, EventTypeDrafts, EventTypeHasZoomToken, EventTypeHeartbeat, EventTypeInvitesChanged, EventTypeMessage, EventTypeMutedTopics, EventTypeMutedUsers, EventTypeNavigationView, EventTypeOnboardingSteps, EventTypePresence, EventTypePushDevice, EventTypeReaction, EventTypeRealm, EventTypeRealmBot, EventTypeRealmDomains, EventTypeRealmEmoji, EventTypeRealmExport, EventTypeRealmExportConsent, EventTypeRealmFilters, EventTypeRealmLinkifiers, EventTypeRealmPlaygrounds, EventTypeRealmUser, EventTypeRealmUserSettingsDefaults, EventTypeReminders, EventTypeRestart, EventTypeSavedSnippets, EventTypeScheduledMessages, EventTypeChannel, EventTypeSubmessage, EventTypeSubscription, EventTypeTyping, EventTypeTypingEditMessage, EventTypeUpdateDisplaySettings, EventTypeUpdateGlobalNotifications, EventTypeUpdateMessage, EventTypeUpdateMessageFlags, EventTypeUserGroup, EventTypeUserSettings, EventTypeUserStatus, EventTypeUserTopic, EventTypeWebReloadClient, EventTypeUnknown, EventTypeInvalid}
 
 // The [organization type] for the realm.
 //   - OrgTypeUnspecified = Unspecified
@@ -199,10 +269,24 @@ const (
 )
 
 func (e *OrgType) UnmarshalJSON(data []byte) error {
+	allowedOrgTypeValues := []OrgType{
+		OrgTypeUnspecified,
+		OrgTypeBusiness,
+		OrgTypeOpenSource,
+		OrgTypeEducationNonProfit,
+		OrgTypeEducationForProfit,
+		OrgTypeResearch,
+		OrgTypeEventOrConference,
+		OrgTypeNonProfitRegistered,
+		OrgTypeGovernment,
+		OrgTypePoliticalGroup,
+		OrgTypeCommunity,
+		OrgTypePersonal,
+		OrgTypeOther,
+	}
+
 	return utils.UnmarshalIntEnum(data, e, allowedOrgTypeValues)
 }
-
-var allowedOrgTypeValues = []OrgType{OrgTypeUnspecified, OrgTypeBusiness, OrgTypeOpenSource, OrgTypeEducationNonProfit, OrgTypeEducationForProfit, OrgTypeResearch, OrgTypeEventOrConference, OrgTypeNonProfitRegistered, OrgTypeGovernment, OrgTypePoliticalGroup, OrgTypeCommunity, OrgTypePersonal, OrgTypeOther}
 
 // The plan type of the organization.
 //   - PlanTypeSelfHosted = Self-hosted organization (SELF_HOSTED)
@@ -219,10 +303,10 @@ const (
 )
 
 func (e *PlanType) UnmarshalJSON(data []byte) error {
+	allowedPlanTypeValues := []PlanType{PlanTypeSelfHosted, PlanTypeLimited, PlanTypeStandard, PlanTypeStandardFree}
+
 	return utils.UnmarshalIntEnum(data, e, allowedPlanTypeValues)
 }
-
-var allowedPlanTypeValues = []PlanType{PlanTypeSelfHosted, PlanTypeLimited, PlanTypeStandard, PlanTypeStandardFree}
 
 // Whether to [include organization name in subject of message notification emails].
 //   - NameInEmailNotificationsPolicyAutomatic
@@ -241,10 +325,14 @@ const (
 )
 
 func (e *NameInEmailNotificationsPolicy) UnmarshalJSON(data []byte) error {
+	allowedNameInEmailNotificationsPolicyValues := []NameInEmailNotificationsPolicy{
+		NameInEmailNotificationsPolicyAutomatic,
+		NameInEmailNotificationsPolicyAlways,
+		NameInEmailNotificationsPolicyNever,
+	}
+
 	return utils.UnmarshalIntEnum(data, e, allowedNameInEmailNotificationsPolicyValues)
 }
-
-var allowedNameInEmailNotificationsPolicyValues = []NameInEmailNotificationsPolicy{NameInEmailNotificationsPolicyAutomatic, NameInEmailNotificationsPolicyAlways, NameInEmailNotificationsPolicyNever}
 
 // Whether or not to mark messages as read when the user scrolls through their feed.
 //   - MarkReadOnScrollPolicyAlways = Always
@@ -261,10 +349,14 @@ const (
 )
 
 func (e *MarkReadOnScrollPolicy) UnmarshalJSON(data []byte) error {
+	allowedMarkReadOnScrollPolicyValues := []MarkReadOnScrollPolicy{
+		MarkReadOnScrollPolicyAlways,
+		MarkReadOnScrollPolicyOnlyInConversationViews,
+		MarkReadOnScrollPolicyNever,
+	}
+
 	return utils.UnmarshalIntEnum(data, e, allowedMarkReadOnScrollPolicyValues)
 }
-
-var allowedMarkReadOnScrollPolicyValues = []MarkReadOnScrollPolicy{MarkReadOnScrollPolicyAlways, MarkReadOnScrollPolicyOnlyInConversationViews, MarkReadOnScrollPolicyNever}
 
 // The configured [video call provider] for the organization.
 //   - VideoChatProviderNone = None
@@ -289,7 +381,13 @@ const (
 )
 
 func (e *VideoChatProvider) UnmarshalJSON(data []byte) error {
+	allowedVideoChatProviderValues := []VideoChatProvider{
+		VideoChatProviderNone,
+		VideoChatProviderJitsiMeet,
+		VideoChatProviderZoomUserOAuthIntegration,
+		VideoChatProviderBigBlueButton,
+		VideoChatProviderZoomServerToServerOAuth,
+	}
+
 	return utils.UnmarshalIntEnum(data, e, allowedVideoChatProviderValues)
 }
-
-var allowedVideoChatProviderValues = []VideoChatProvider{VideoChatProviderNone, VideoChatProviderJitsiMeet, VideoChatProviderZoomUserOAuthIntegration, VideoChatProviderBigBlueButton, VideoChatProviderZoomServerToServerOAuth}

@@ -18,6 +18,6 @@ type RemindersAddEvent struct {
 type RemindersRemoveEvent struct {
 	event
 
-	// The Id of the reminder that was deleted.
-	ReminderId int64 `json:"reminder_id,omitempty"`
+	// The ID of the reminder that was deleted.
+	ReminderID int64 `json:"reminder_id,omitempty"`
 }

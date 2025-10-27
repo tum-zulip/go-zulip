@@ -10,22 +10,22 @@ import "github.com/tum-zulip/go-zulip/zulip"
 // [have permission to access]: https://zulip.com/help/channel-permissions
 type DeleteMessageEvent struct {
 	event
-	// Only present for clients that support the `bulk_message_deletion` [client capability].  A sorted list containing the Ids of the newly deleted messages.
+	// Only present for clients that support the `bulk_message_deletion` [client capability].  A sorted list containing the IDs of the newly deleted messages.
 	//
 	// **Changes**: Before Zulip 11.0 (feature level 393), this list was not guaranteed to be sorted.
 	//
 	// [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
-	MessageIds []int64 `json:"message_ids,omitempty"`
+	MessageIDs []int64 `json:"message_ids,omitempty"`
 	// Only present for clients that do not support the `bulk_message_deletion`
 	//
-	// [client capability].  The Id of the newly deleted message.
+	// [client capability].  The ID of the newly deleted message.
 	//
 	// [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
 	MessageID *int64 `json:"message_id,omitempty"`
 
 	// The type of message. Either `RecipientTypeStream` or `RecipientTypePrivate`.
 	MessageType zulip.RecipientType `json:"message_type,omitempty"`
-	// Only present if `message_type` is `"stream"`.  The Id of the channel to which the message was sent.
+	// Only present if `message_type` is `"stream"`.  The ID of the channel to which the message was sent.
 	ChannelID *int64 `json:"stream_id,omitempty"`
 	// Only present if `message_type` is `"stream"`.  The topic to which the message was sent.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name was empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
 	//

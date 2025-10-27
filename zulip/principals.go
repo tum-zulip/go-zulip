@@ -2,18 +2,18 @@ package zulip
 
 import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
 
-// Principals - A list of user Ids (preferred) or Zulip API email addresses of the users to be subscribed to or unsubscribed from the channels specified in the `subscriptions` parameter. If not provided, then the requesting user/bot is subscribed.
+// Principals - A list of user IDs (preferred) or Zulip API email addresses of the users to be subscribed to or unsubscribed from the channels specified in the `subscriptions` parameter. If not provided, then the requesting user/bot is subscribed.
 //
 // **Changes**: The integer format is new in Zulip 3.0 (feature level 9).
 type Principals struct {
-	UserIds    *[]int64
+	UserIDs    *[]int64
 	UserEmails *[]string
 }
 
 // []UserIdsAsPrincipals is a convenience function that returns []int64 wrapped in Principals
 func UserIdsAsPrincipals(v ...int64) Principals {
 	return Principals{
-		UserIds: &v,
+		UserIDs: &v,
 	}
 }
 

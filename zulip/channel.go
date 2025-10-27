@@ -8,7 +8,7 @@ import (
 )
 
 type Channel struct {
-	// The unique Id of the channel.
+	// The unique ID of the channel.
 	ChannelID int64 `json:"stream_id"`
 	// The name of the channel.
 	Name string `json:"name"`
@@ -27,7 +27,7 @@ type Channel struct {
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 30).
 	DateCreated time.Time `json:"date_created"`
-	CreatorId   *int64    `json:"creator_id"`
+	CreatorID   *int64    `json:"creator_id"`
 	// Specifies whether the channel is private or not. Only people who have been invited can access a private channel.
 	InviteOnly bool `json:"invite_only"`
 	// The short description of the channel rendered as HTML, intended to be used when displaying the channel description in a UI.  One should use the standard Zulip rendered_markdown CSS when displaying this content so that emoji, LaTeX, and other syntax work correctly. And any client-side security logic for user-generated message content should be applied when displaying this HTML as though it were the body of a Zulip message.
@@ -51,12 +51,12 @@ type Channel struct {
 	// Whether the history of the channel is public to its subscribers.  Currently always true for public channels (i.e. `"invite_only": false` implies `"history_public_to_subscribers": true`), but clients should not make that assumption, as we may change that behavior in the future.
 	HistoryPublicToSubscribers bool         `json:"history_public_to_subscribers"`
 	TopicsPolicy               TopicsPolicy `json:"topics_policy,omitempty"`
-	// The Id of the first message in the channel.  Intended to help clients determine whether they need to display UI like the "show all topics" widget that would suggest the channel has older history that can be accessed.  Is `null` for channels with no message history.
-	FirstMessageId *int64 `json:"first_message_id"`
-	// The Id of the folder to which the channel belongs.  Is `null` if channel does not belong to any folder.
+	// The ID of the first message in the channel.  Intended to help clients determine whether they need to display UI like the "show all topics" widget that would suggest the channel has older history that can be accessed.  Is `null` for channels with no message history.
+	FirstMessageID *int64 `json:"first_message_id"`
+	// The ID of the folder to which the channel belongs.  Is `null` if channel does not belong to any folder.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 389).
-	FolderId *int64 `json:"folder_id"`
+	FolderID *int64 `json:"folder_id"`
 	// Whether the channel has recent message activity. Clients should use this to implement [hide inactive channels] if `demote_inactive_streams` is enabled.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 323). Previously, clients implemented the demote_inactive_streams from local message history, resulting in a choppy loading experience.
@@ -93,7 +93,7 @@ type Channel struct {
 	// [default channel]: https://zulip.com/help/set-default-channels-for-new-users
 	IsDefault *bool `json:"is_default,omitempty"`
 
-	// A list of user Ids of users who are subscribed to the channel. Included only if `include_subscribers` is `true`.  If a user is not allowed to know the subscribers for a channel, we will send an empty array. API authors should use other data to determine whether users like guest users are forbidden to know the subscribers.
+	// A list of user IDs of users who are subscribed to the channel. Included only if `include_subscribers` is `true`.  If a user is not allowed to know the subscribers for a channel, we will send an empty array. API authors should use other data to determine whether users like guest users are forbidden to know the subscribers.
 	Subscribers []int64 `json:"subscribers,omitempty"`
 	// If [`include_subscribers="partial"`].
 	//
@@ -126,7 +126,7 @@ func (o *channelJSON) fromChannel(cb Channel) {
 	o.IsArchived = cb.IsArchived
 	o.Description = cb.Description
 	o.DateCreated = cb.DateCreated.Unix()
-	o.CreatorId = cb.CreatorId
+	o.CreatorID = cb.CreatorID
 	o.InviteOnly = cb.InviteOnly
 	o.RenderedDescription = cb.RenderedDescription
 	o.IsWebPublic = cb.IsWebPublic
@@ -134,8 +134,8 @@ func (o *channelJSON) fromChannel(cb Channel) {
 	o.MessageRetentionDays = cb.MessageRetentionDays
 	o.HistoryPublicToSubscribers = cb.HistoryPublicToSubscribers
 	o.TopicsPolicy = cb.TopicsPolicy
-	o.FirstMessageId = cb.FirstMessageId
-	o.FolderId = cb.FolderId
+	o.FirstMessageID = cb.FirstMessageID
+	o.FolderID = cb.FolderID
 	o.IsRecentlyActive = cb.IsRecentlyActive
 	o.IsAnnouncementOnly = cb.IsAnnouncementOnly
 	o.CanAddSubscribersGroup = cb.CanAddSubscribersGroup
@@ -158,7 +158,7 @@ func (o *Channel) fromChannelJSON(cb channelJSON) {
 	o.IsArchived = cb.IsArchived
 	o.Description = cb.Description
 	o.DateCreated = time.Unix(cb.DateCreated, 0)
-	o.CreatorId = cb.CreatorId
+	o.CreatorID = cb.CreatorID
 	o.InviteOnly = cb.InviteOnly
 	o.RenderedDescription = cb.RenderedDescription
 	o.IsWebPublic = cb.IsWebPublic
@@ -166,8 +166,8 @@ func (o *Channel) fromChannelJSON(cb channelJSON) {
 	o.MessageRetentionDays = cb.MessageRetentionDays
 	o.HistoryPublicToSubscribers = cb.HistoryPublicToSubscribers
 	o.TopicsPolicy = cb.TopicsPolicy
-	o.FirstMessageId = cb.FirstMessageId
-	o.FolderId = cb.FolderId
+	o.FirstMessageID = cb.FirstMessageID
+	o.FolderID = cb.FolderID
 	o.IsRecentlyActive = cb.IsRecentlyActive
 	o.IsAnnouncementOnly = cb.IsAnnouncementOnly
 	o.CanAddSubscribersGroup = cb.CanAddSubscribersGroup
@@ -190,7 +190,7 @@ type channelJSON struct {
 	IsArchived                        bool              `json:"is_archived"`
 	Description                       string            `json:"description"`
 	DateCreated                       int64             `json:"date_created"`
-	CreatorId                         *int64            `json:"creator_id"`
+	CreatorID                         *int64            `json:"creator_id"`
 	InviteOnly                        bool              `json:"invite_only"`
 	RenderedDescription               string            `json:"rendered_description"`
 	IsWebPublic                       bool              `json:"is_web_public"`
@@ -198,8 +198,8 @@ type channelJSON struct {
 	MessageRetentionDays              *int              `json:"message_retention_days"`
 	HistoryPublicToSubscribers        bool              `json:"history_public_to_subscribers"`
 	TopicsPolicy                      TopicsPolicy      `json:"topics_policy,omitempty"`
-	FirstMessageId                    *int64            `json:"first_message_id"`
-	FolderId                          *int64            `json:"folder_id"`
+	FirstMessageID                    *int64            `json:"first_message_id"`
+	FolderID                          *int64            `json:"folder_id"`
 	IsRecentlyActive                  bool              `json:"is_recently_active"`
 	IsAnnouncementOnly                bool              `json:"is_announcement_only"`
 	CanAddSubscribersGroup            GroupSettingValue `json:"can_add_subscribers_group,omitempty"`

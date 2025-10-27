@@ -2,8 +2,8 @@ package zulip
 
 // CustomProfileField Dictionary containing the details of a custom profile field configured for this organization.
 type CustomProfileField struct {
-	// The Id of the custom profile field. This will be referenced in the custom profile fields section of user objects.
-	Id int64 `json:"id"`
+	// The ID of the custom profile field. This will be referenced in the custom profile fields section of user objects.
+	ID int64 `json:"id"`
 	// An integer indicating the type of the custom profile field, which determines how it is configured and displayed to users.  See the [Custom profile fields] article for details on what each type means.
 	//   - CustomFieldTypeShortText
 	//   - CustomFieldTypeLongText

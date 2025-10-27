@@ -17,7 +17,7 @@ func TestMessageMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	lastMoved := time.Unix(1700000200, 0).UTC()
 
 	message := z.Message{
-		Id:                 42,
+		ID:                 42,
 		Client:             "web",
 		Content:            "hello",
 		ContentType:        "text/html",
@@ -66,7 +66,7 @@ func TestMessageUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 	var message z.Message
 	require.NoError(t, json.Unmarshal(raw, &message))
 
-	assert.Equal(t, int64(42), message.Id)
+	assert.Equal(t, int64(42), message.ID)
 	assert.Equal(t, "web", message.Client)
 	assert.Equal(t, "hello", message.Content)
 	assert.Equal(t, "text/html", message.ContentType)

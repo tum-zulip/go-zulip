@@ -7,8 +7,8 @@ import (
 
 // ScheduledMessage struct for ScheduledMessage
 type ScheduledMessage struct {
-	// The unique Id of the scheduled message, which can be used to modify or delete the scheduled message.  This is different from the unique Id that the message will have after it is sent.
-	ScheduledMessageId int64 `json:"scheduled_message_id"`
+	// The unique ID of the scheduled message, which can be used to modify or delete the scheduled message.  This is different from the unique ID that the message will have after it is sent.
+	ScheduledMessageID int64 `json:"scheduled_message_id"`
 	// The type of the scheduled message. Either `RecipientTypeStream` or `RecipientTypePrivate`.
 	Type RecipientType `json:"type"`
 	To   Recipient     `json:"to"`
@@ -30,7 +30,7 @@ type ScheduledMessage struct {
 }
 
 type scheduledMessageJSON struct {
-	ScheduledMessageId         int64         `json:"scheduled_message_id"`
+	ScheduledMessageID         int64         `json:"scheduled_message_id"`
 	Type                       RecipientType `json:"type"`
 	To                         Recipient     `json:"to"`
 	Topic                      *string       `json:"topic,omitempty"`
@@ -42,7 +42,7 @@ type scheduledMessageJSON struct {
 
 func (o ScheduledMessage) MarshalJSON() ([]byte, error) {
 	aux := scheduledMessageJSON{
-		ScheduledMessageId:         o.ScheduledMessageId,
+		ScheduledMessageID:         o.ScheduledMessageID,
 		Type:                       o.Type,
 		To:                         o.To,
 		Topic:                      o.Topic,
@@ -61,7 +61,7 @@ func (o *ScheduledMessage) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	o.ScheduledMessageId = aux.ScheduledMessageId
+	o.ScheduledMessageID = aux.ScheduledMessageID
 	o.Type = aux.Type
 	o.To = aux.To
 	o.Topic = aux.Topic

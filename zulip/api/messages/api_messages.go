@@ -85,7 +85,7 @@ type APIMessages interface {
 
 	// GetMessage Fetch a single message
 	//
-	// Given a message Id, return the message object.
+	// Given a message ID, return the message object.
 	//
 	// Additionally, a `raw_content` field is included. This field is
 	// useful for clients that primarily work with HTML-rendered
@@ -128,14 +128,14 @@ type APIMessages interface {
 	// corresponding to the user's [combined feed]. There are two
 	// ways to specify which messages matching the narrow filter to fetch:
 	//
-	//   - A range of messages, described by an `anchor` message Id (or a string-format
+	//   - A range of messages, described by an `anchor` message ID (or a string-format
 	// specification of how the server should computer an anchor to use) and a maximum
 	// number of messages in each direction from that anchor.
 	//
-	//   - A rarely used variant (`message_ids`) where the client specifies the message Ids
+	//   - A rarely used variant (`message_ids`) where the client specifies the message IDs
 	// to fetch.
 	//
-	// The server returns the matching messages, sorted by message Id, as well as some
+	// The server returns the matching messages, sorted by message ID, as well as some
 	// metadata that makes it easy for a client to determine whether there are more
 	// messages matching the query that were not returned due to the `num_before` and
 	// `num_after` limits.
@@ -161,11 +161,11 @@ type APIMessages interface {
 
 	// GetReadReceipts Get a message's read receipts
 	//
-	// Returns a list containing the Ids for all users who have
+	// Returns a list containing the IDs for all users who have
 	// marked the message as read (and whose privacy settings allow
 	// sharing that information).
 	//
-	// The list of users Ids will include any bots who have marked
+	// The list of users IDs will include any bots who have marked
 	// the message as read via the API (providing a way for bots to
 	// indicate whether they have processed a message successfully in
 	// a way that can be easily inspected in a Zulip client). Bots
@@ -310,7 +310,7 @@ type APIMessages interface {
 	// UpdateMessage Edit a message
 	//
 	// Update the content, topic, or channel of the message with the specified
-	// Id.
+	// ID.
 	//
 	// You can [resolve topics] by editing the topic to
 	// `✔ {original_topic}` with the `propagate_mode` parameter set to
@@ -404,7 +404,7 @@ type APIMessages interface {
 	// UpdateMessageFlags Update personal message flags
 	//
 	// Add or remove personal message flags like `read` and `starred`
-	// on a collection of message Ids.
+	// on a collection of message IDs.
 	//
 	// See also the endpoint for [updating flags on a range of messages within a narrow].
 	//
@@ -419,11 +419,11 @@ type APIMessages interface {
 	// Add or remove personal message flags like `read` and `starred`
 	// on a range of messages within a narrow.
 	//
-	// See also [the endpoint for updating flags on specific message Ids].
+	// See also [the endpoint for updating flags on specific message IDs].
 	//
 	// *Changes**: New in Zulip 6.0 (feature level 155).
 	//
-	// [the endpoint for updating flags on specific message Ids]: https://zulip.com/api/update-message-flags
+	// [the endpoint for updating flags on specific message IDs]: https://zulip.com/api/update-message-flags
 	UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest
 
 	// UpdateMessageFlagsForNarrowExecute executes the request
@@ -570,13 +570,13 @@ func (s *messagesService) AddReactionExecute(r AddReactionRequest) (*zulip.Respo
 type CheckMessagesMatchNarrowRequest struct {
 	ctx        context.Context
 	apiService APIMessages
-	msgIds     *[]int64
+	msgIDs     *[]int64
 	narrow     *zulip.Narrow
 }
 
-// List of Ids for the messages to check.
-func (r CheckMessagesMatchNarrowRequest) MsgIds(msgIds []int64) CheckMessagesMatchNarrowRequest {
-	r.msgIds = &msgIds
+// List of IDs for the messages to check.
+func (r CheckMessagesMatchNarrowRequest) MsgIDs(msgIDs []int64) CheckMessagesMatchNarrowRequest {
+	r.msgIDs = &msgIDs
 	return r
 }
 
@@ -636,14 +636,14 @@ func (s *messagesService) CheckMessagesMatchNarrowExecute(
 		response = &CheckMessagesMatchNarrowResponse{}
 		endpoint = "/messages/matches_narrow"
 	)
-	if r.msgIds == nil {
-		return nil, nil, fmt.Errorf("msgIds is required and must be specified")
+	if r.msgIDs == nil {
+		return nil, nil, errors.New("msgIDs is required and must be specified")
 	}
 	if r.narrow == nil {
 		return nil, nil, fmt.Errorf("narrow is required and must be specified")
 	}
 
-	apiutils.AddCSVParam(query, "msg_ids", r.msgIds)
+	apiutils.AddCSVParam(query, "msg_ids", r.msgIDs)
 	apiutils.AddCSVParam(query, "narrow", r.narrow)
 
 	headers["Accept"] = "application/json"
@@ -795,7 +795,7 @@ func (r GetMessageRequest) Execute() (*GetMessageResponse, *http.Response, error
 
 // GetMessage Fetch a single message
 //
-// Given a message Id, return the message object.
+// Given a message ID, return the message object.
 //
 // Additionally, a `raw_content` field is included. This field is
 // useful for clients that primarily work with HTML-rendered
@@ -917,11 +917,11 @@ type GetMessagesRequest struct {
 	clientGravatar       *bool
 	applyMarkdown        *bool
 	useFirstUnreadAnchor *bool
-	messageIds           *[]int64
+	messageIDs           *[]int64
 	allowEmptyTopicName  *bool
 }
 
-// Integer message Id to anchor fetching of new messages. Supports special string values for when the client wants the server to compute the anchor to use:  - `newest`: The most recent message. - `oldest`: The oldest message. - `first_unread`: The oldest unread message matching the   query, if any; otherwise, the most recent message.
+// Integer message ID to anchor fetching of new messages. Supports special string values for when the client wants the server to compute the anchor to use:  - `newest`: The most recent message. - `oldest`: The oldest message. - `first_unread`: The oldest unread message matching the   query, if any; otherwise, the most recent message.
 //
 // **Changes**: String values are new in Zulip 3.0 (feature level 1). The `first_unread` functionality was supported in Zulip 2.1.x and older by not sending `anchor` and using `use_first_unread_anchor`.  In Zulip 2.1.x and older, `oldest` can be emulated with `"anchor": 0`, and `newest` with `"anchor": 10000000000000000` (that specific large value works around a bug in Zulip 2.1.x and older in the `found_newest` return value).
 func (r GetMessagesRequest) Anchor(anchor string) GetMessagesRequest {
@@ -929,7 +929,7 @@ func (r GetMessagesRequest) Anchor(anchor string) GetMessagesRequest {
 	return r
 }
 
-// Whether a message with the specified Id matching the narrow should be included.
+// Whether a message with the specified ID matching the narrow should be included.
 //
 // **Changes**: New in Zulip 6.0 (feature level 155).
 func (r GetMessagesRequest) IncludeAnchor(includeAnchor bool) GetMessagesRequest {
@@ -937,13 +937,13 @@ func (r GetMessagesRequest) IncludeAnchor(includeAnchor bool) GetMessagesRequest
 	return r
 }
 
-// The number of messages with Ids less than the anchor to retrieve. Required if `message_ids` is not provided.
+// The number of messages with IDs less than the anchor to retrieve. Required if `message_ids` is not provided.
 func (r GetMessagesRequest) NumBefore(numBefore int32) GetMessagesRequest {
 	r.numBefore = &numBefore
 	return r
 }
 
-// The number of messages with Ids greater than the anchor to retrieve. Required if `message_ids` is not provided.
+// The number of messages with IDs greater than the anchor to retrieve. Required if `message_ids` is not provided.
 func (r GetMessagesRequest) NumAfter(numAfter int32) GetMessagesRequest {
 	r.numAfter = &numAfter
 	return r
@@ -987,11 +987,11 @@ func (r GetMessagesRequest) UseFirstUnreadAnchor(useFirstUnreadAnchor bool) GetM
 	return r
 }
 
-// A list of message Ids to fetch. The server will return messages corresponding to the subset of the requested message Ids that exist and the current user has access to, potentially filtered by the narrow (if that parameter is provided).  It is an error to pass this parameter as well as any of the parameters involved in specifying a range of messages: `anchor`, `include_anchor`, `use_first_unread_anchor`, `num_before`, and `num_after`.
+// A list of message IDs to fetch. The server will return messages corresponding to the subset of the requested message IDs that exist and the current user has access to, potentially filtered by the narrow (if that parameter is provided).  It is an error to pass this parameter as well as any of the parameters involved in specifying a range of messages: `anchor`, `include_anchor`, `use_first_unread_anchor`, `num_before`, and `num_after`.
 //
-// **Changes**: New in Zulip 10.0 (feature level 300). Previously, there was no way to request a specific set of messages Ids.
-func (r GetMessagesRequest) MessageIds(messageIds []int64) GetMessagesRequest {
-	r.messageIds = &messageIds
+// **Changes**: New in Zulip 10.0 (feature level 300). Previously, there was no way to request a specific set of messages IDs.
+func (r GetMessagesRequest) MessageIDs(messageIDs []int64) GetMessagesRequest {
+	r.messageIDs = &messageIDs
 	return r
 }
 
@@ -1020,10 +1020,10 @@ func (r GetMessagesRequest) Execute() (*GetMessagesResponse, *http.Response, err
 // corresponding to the user's [combined feed]. There are two
 // ways to specify which messages matching the narrow filter to fetch:
 //
-//   - A range of messages, described by an `anchor` message Id (or a string-format specification of how the server should computer an anchor to use) and a maximum number of messages in each direction from that anchor.
-//   - A rarely used variant (`message_ids`) where the client specifies the message Ids to fetch.
+//   - A range of messages, described by an `anchor` message ID (or a string-format specification of how the server should computer an anchor to use) and a maximum number of messages in each direction from that anchor.
+//   - A rarely used variant (`message_ids`) where the client specifies the message IDs to fetch.
 //
-// The server returns the matching messages, sorted by message Id, as well as some
+// The server returns the matching messages, sorted by message ID, as well as some
 // metadata that makes it easy for a client to determine whether there are more
 // messages matching the query that were not returned due to the `num_before` and
 // `num_after` limits.
@@ -1067,7 +1067,7 @@ func (s *messagesService) GetMessagesExecute(r GetMessagesRequest) (*GetMessages
 	apiutils.AddOptionalParam(query, "client_gravatar", r.clientGravatar)
 	apiutils.AddOptionalParam(query, "apply_markdown", r.applyMarkdown)
 	apiutils.AddOptionalParam(query, "use_first_unread_anchor", r.useFirstUnreadAnchor)
-	apiutils.AddOptionalCSVParam(query, "message_ids", r.messageIds)
+	apiutils.AddOptionalCSVParam(query, "message_ids", r.messageIDs)
 	apiutils.AddOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
 	headers["Accept"] = "application/json"
@@ -1092,11 +1092,11 @@ func (r GetReadReceiptsRequest) Execute() (*GetReadReceiptsResponse, *http.Respo
 
 // GetReadReceipts Get a message's read receipts
 //
-// Returns a list containing the Ids for all users who have
+// Returns a list containing the IDs for all users who have
 // marked the message as read (and whose privacy settings allow
 // sharing that information).
 //
-// The list of users Ids will include any bots who have marked
+// The list of users IDs will include any bots who have marked
 // the message as read via the API (providing a way for bots to
 // indicate whether they have processed a message successfully in
 // a way that can be easily inspected in a Zulip client). Bots
@@ -1216,7 +1216,7 @@ type MarkChannelAsReadRequest struct {
 	channelID  *int64
 }
 
-// The Id of the channel to access.
+// The ID of the channel to access.
 func (r MarkChannelAsReadRequest) ChannelID(channelID int64) MarkChannelAsReadRequest {
 	r.channelID = &channelID
 	return r
@@ -1281,7 +1281,7 @@ type MarkTopicAsReadRequest struct {
 	topicName  *string
 }
 
-// The Id of the channel to access.
+// The ID of the channel to access.
 func (r MarkTopicAsReadRequest) ChannelID(channelID int64) MarkTopicAsReadRequest {
 	r.channelID = &channelID
 	return r
@@ -1574,8 +1574,8 @@ type SendMessageRequest struct {
 	to            *zulip.Recipient
 	content       *string
 	topic         *string
-	queueId       *string
-	localId       *string
+	queueID       *string
+	localID       *string
 	readBySender  *bool
 }
 
@@ -1614,19 +1614,19 @@ func (r SendMessageRequest) Topic(topic string) SendMessageRequest {
 	return r
 }
 
-// For clients supporting [local echo], the [event queue] Id for the client. If passed, `local_id` is required. If the message is successfully sent, the server will include `local_id` in the `message` event that the client with this `queue_id` will receive notifying it of the new message via [`GET /events`]. This lets the client know unambiguously that it should replace the locally echoed message, rather than adding this new message (which would be correct if the user had sent the new message from another device).
+// For clients supporting [local echo], the [event queue] ID for the client. If passed, `local_id` is required. If the message is successfully sent, the server will include `local_id` in the `message` event that the client with this `queue_id` will receive notifying it of the new message via [`GET /events`]. This lets the client know unambiguously that it should replace the locally echoed message, rather than adding this new message (which would be correct if the user had sent the new message from another device).
 //
 // [local echo]: https://zulip.readthedocs.io/en/latest/subsystems/sending-messages.html#local-echo
 // [event queue]: https://zulip.com/api/register-queue
 // [`GET /events`]: https://zulip.com/api/get-events
-func (r SendMessageRequest) QueueId(queueId string) SendMessageRequest {
-	r.queueId = &queueId
+func (r SendMessageRequest) QueueID(queueID string) SendMessageRequest {
+	r.queueID = &queueID
 	return r
 }
 
 // For clients supporting local echo, a unique string-format identifier chosen freely by the client; the server will pass it back to the client without inspecting it, as described in the `queue_id` description.
-func (r SendMessageRequest) LocalId(localId string) SendMessageRequest {
-	r.localId = &localId
+func (r SendMessageRequest) LocalID(localID string) SendMessageRequest {
+	r.localID = &localID
 	return r
 }
 
@@ -1683,8 +1683,8 @@ func (s *messagesService) SendMessageExecute(r SendMessageRequest) (*SendMessage
 	apiutils.AddParam(form, "to", r.to)
 	apiutils.AddParam(form, "content", r.content)
 	apiutils.AddOptionalParam(form, "topic", r.topic)
-	apiutils.AddOptionalParam(form, "queue_id", r.queueId)
-	apiutils.AddOptionalParam(form, "local_id", r.localId)
+	apiutils.AddOptionalParam(form, "queue_id", r.queueID)
+	apiutils.AddOptionalParam(form, "local_id", r.localID)
 	apiutils.AddOptionalParam(form, "read_by_sender", r.readBySender)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
@@ -1760,7 +1760,7 @@ func (r UpdateMessageRequest) PrevContentSha256(prevContentSha256 string) Update
 	return r
 }
 
-// The channel Id to move the message(s) to, to request moving messages to another channel.  Should only be sent when changing the channel, and will throw an error if the target message is not a channel message.  Note that a message's content and channel cannot be changed at the same time, so sending both `content` and `stream_id` parameters will throw an error.
+// The channel ID to move the message(s) to, to request moving messages to another channel.  Should only be sent when changing the channel, and will throw an error if the target message is not a channel message.  Note that a message's content and channel cannot be changed at the same time, so sending both `content` and `stream_id` parameters will throw an error.
 //
 // **Changes**: New in Zulip 3.0 (feature level 1).
 func (r UpdateMessageRequest) ChannelID(channelID int64) UpdateMessageRequest {
@@ -1775,7 +1775,7 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 // UpdateMessage Edit a message
 //
 // Update the content, topic, or channel of the message with the specified
-// Id.
+// ID.
 //
 // You can [resolve topics] by editing the topic to
 // `✔ {original_topic}` with the `propagate_mode` parameter set to
@@ -1909,7 +1909,7 @@ type UpdateMessageFlagsRequest struct {
 	flag       *string
 }
 
-// An array containing the Ids of the target messages.
+// An array containing the IDs of the target messages.
 func (r UpdateMessageFlagsRequest) Messages(messages []int64) UpdateMessageFlagsRequest {
 	r.messages = &messages
 	return r
@@ -1934,7 +1934,7 @@ func (r UpdateMessageFlagsRequest) Execute() (*UpdateMessageFlagsResponse, *http
 // UpdateMessageFlags Update personal message flags
 //
 // Add or remove personal message flags like `read` and `starred`
-// on a collection of message Ids.
+// on a collection of message IDs.
 //
 // See also the endpoint for [updating flags on a range of messages within a narrow].
 //
@@ -1995,7 +1995,7 @@ type UpdateMessageFlagsForNarrowRequest struct {
 	includeAnchor *bool
 }
 
-// Integer message Id to anchor updating of flags. Supports special string values for when the client wants the server to compute the anchor to use:  - `newest`: The most recent message. - `oldest`: The oldest message. - `first_unread`: The oldest unread message matching the   query, if any; otherwise, the most recent message.
+// Integer message ID to anchor updating of flags. Supports special string values for when the client wants the server to compute the anchor to use:  - `newest`: The most recent message. - `oldest`: The oldest message. - `first_unread`: The oldest unread message matching the   query, if any; otherwise, the most recent message.
 func (r UpdateMessageFlagsForNarrowRequest) Anchor(anchor string) UpdateMessageFlagsForNarrowRequest {
 	r.anchor = &anchor
 	return r
@@ -2038,7 +2038,7 @@ func (r UpdateMessageFlagsForNarrowRequest) Flag(flag string) UpdateMessageFlags
 	return r
 }
 
-// Whether a message with the specified Id matching the narrow should be included in the update range.
+// Whether a message with the specified ID matching the narrow should be included in the update range.
 func (r UpdateMessageFlagsForNarrowRequest) IncludeAnchor(includeAnchor bool) UpdateMessageFlagsForNarrowRequest {
 	r.includeAnchor = &includeAnchor
 	return r
@@ -2053,11 +2053,11 @@ func (r UpdateMessageFlagsForNarrowRequest) Execute() (*UpdateMessageFlagsForNar
 // Add or remove personal message flags like `read` and `starred`
 // on a range of messages within a narrow.
 //
-// See also [the endpoint for updating flags on specific message Ids].
+// See also [the endpoint for updating flags on specific message IDs].
 //
 // *Changes**: New in Zulip 6.0 (feature level 155).
 //
-// [the endpoint for updating flags on specific message Ids]: https://zulip.com/api/update-message-flags
+// [the endpoint for updating flags on specific message IDs]: https://zulip.com/api/update-message-flags
 func (s *messagesService) UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest {
 	return UpdateMessageFlagsForNarrowRequest{
 		apiService: s,

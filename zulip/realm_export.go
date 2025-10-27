@@ -4,10 +4,10 @@ package zulip
 //
 // [data export]: https://zulip.com/help/export-your-organization
 type RealmExport struct {
-	// The Id of the data export.
-	Id int64 `json:"id,omitempty"`
-	// The Id of the user who created the data export.
-	ActingUserId int64 `json:"acting_user_id,omitempty"`
+	// The ID of the data export.
+	ID int64 `json:"id,omitempty"`
+	// The ID of the user who created the data export.
+	ActingUserID int64 `json:"acting_user_id,omitempty"`
 	// The UNIX timestamp of when the data export was started.
 	ExportTime float32 `json:"export_time,omitempty"`
 	// The UNIX timestamp of when the data export was deleted.  Will be `null` if the data export has not been deleted.
@@ -28,7 +28,7 @@ type RealmExport struct {
 
 // ExportConsent struct for ExportConsent
 type ExportConsent struct {
-	// The user Id.
+	// The user ID.
 	UserID int64 `json:"user_id,omitempty"`
 	// Whether the user has consented for their private data export.
 	Consented bool `json:"consented,omitempty"`

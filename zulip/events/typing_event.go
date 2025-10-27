@@ -17,7 +17,7 @@ type TypingEvent struct {
 	Sender      UserIdentifier      `json:"sender,omitempty"`
 	// Only present if `message_type` is `RecipientTypeDirect`.  Array of dictionaries describing the set of users who would be recipients of the message being typed. Each dictionary contains details about one of the recipients. The sending user is guaranteed to appear among the recipients.
 	Recipients []UserIdentifier `json:"recipients,omitempty"`
-	// Only present if `message_type` is `RecipientTypeStream`.  The unique Id of the channel to which message is being typed.
+	// Only present if `message_type` is `RecipientTypeStream`.  The unique ID of the channel to which message is being typed.
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
 	ChannelID *int64 `json:"stream_id,omitempty"`
@@ -31,9 +31,9 @@ type TypingEvent struct {
 	Topic *string `json:"topic,omitempty"`
 }
 
-// UserSettingsUpdateEvent7RecipientsInner Object containing the user Id and Zulip API email of a recipient.
+// UserIdentifier Object containing the user ID and Zulip API email of a recipient.
 type UserIdentifier struct {
-	// The Id of the user.
+	// The ID of the user.
 	UserID int64 `json:"user_id,omitempty"`
 	// The Zulip API email address for the user.
 	Email string `json:"email,omitempty"`

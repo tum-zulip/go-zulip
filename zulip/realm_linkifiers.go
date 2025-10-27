@@ -12,6 +12,6 @@ type RealmLinkifiers struct {
 	//
 	// [RFC 6570]: https://www.rfc-editor.org/rfc/rfc6570.html
 	UrlTemplate string `json:"url_template,omitempty"`
-	// The Id of the linkifier.
-	Id int64 `json:"id,omitempty"`
+	// The ID of the linkifier.
+	ID int64 `json:"id,omitempty"`
 }

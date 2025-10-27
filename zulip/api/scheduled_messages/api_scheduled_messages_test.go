@@ -15,23 +15,23 @@ import (
 
 func Test_CreateScheduledMessage(t *testing.T) {
 
-	otherUserId := GetUserId(t, GetOtherNormalClient(t))
+	otherUserID := GetUserID(t, GetOtherNormalClient(t))
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
-		createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserId))
+		createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserID))
 	})
 }
 
 func Test_DeleteScheduledMessage(t *testing.T) {
 
-	otherUserId := GetUserId(t, GetOtherNormalClient(t))
+	otherUserID := GetUserID(t, GetOtherNormalClient(t))
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserId))
+		msg := createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserID))
 
-		resp, httpResp, err := apiClient.DeleteScheduledMessage(ctx, msg.ScheduledMessageId).Execute()
+		resp, httpResp, err := apiClient.DeleteScheduledMessage(ctx, msg.ScheduledMessageID).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -42,12 +42,12 @@ func Test_DeleteScheduledMessage(t *testing.T) {
 
 func Test_GetScheduledMessages(t *testing.T) {
 
-	otherUserId := GetUserId(t, GetOtherNormalClient(t))
+	otherUserID := GetUserID(t, GetOtherNormalClient(t))
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserId))
+		msg := createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserID))
 
 		resp, httpResp, err := apiClient.GetScheduledMessages(ctx).Execute()
 
@@ -57,7 +57,7 @@ func Test_GetScheduledMessages(t *testing.T) {
 		assert.GreaterOrEqual(t, len(resp.ScheduledMessages), 1)
 		found := false
 		for _, m := range resp.ScheduledMessages {
-			if m.ScheduledMessageId == msg.ScheduledMessageId {
+			if m.ScheduledMessageID == msg.ScheduledMessageID {
 				found = true
 				require.WithinDuration(t, time.Now().Add(1*time.Hour), m.ScheduledDeliveryTimestamp, 3*time.Minute)
 				break
@@ -69,15 +69,15 @@ func Test_GetScheduledMessages(t *testing.T) {
 
 func Test_UpdateScheduledMessage(t *testing.T) {
 
-	otherUserId := GetUserId(t, GetOtherNormalClient(t))
+	otherUserID := GetUserID(t, GetOtherNormalClient(t))
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserId))
+		msg := createScheduledMessage(t, apiClient, z.UserAsRecipient(otherUserID))
 
 		resp, httpResp, err := apiClient.
-			UpdateScheduledMessage(ctx, msg.ScheduledMessageId).
+			UpdateScheduledMessage(ctx, msg.ScheduledMessageID).
 			Content(UniqueName("Updated scheduled message")).
 			Execute()
 

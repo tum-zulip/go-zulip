@@ -9,14 +9,14 @@ import (
 //
 // [invitation]: https://zulip.com/help/invite-new-users
 type Invite struct {
-	// The Id of the invitation.  Note that email invitations and reusable invitation links are stored in different database tables on the server, so each Id is guaranteed to be unique in combination with the boolean value of `is_multiuse`, e.g. there can only be one invitation with `id: 1` and `is_multiuse: true`.
-	Id int64 `json:"id,omitempty"`
-	// The [user Id] of the user who created the invitation.
+	// The ID of the invitation.  Note that email invitations and reusable invitation links are stored in different database tables on the server, so each ID is guaranteed to be unique in combination with the boolean value of `is_multiuse`, e.g. there can only be one invitation with `id: 1` and `is_multiuse: true`.
+	ID int64 `json:"id,omitempty"`
+	// The [user ID] of the user who created the invitation.
 	//
 	// **Changes**: New in Zulip 3.0 (feature level 22), replacing the `ref` field which contained the Zulip display email address of the user who created the invitation.
 	//
-	// [user Id]: https://zulip.com/api/get-user
-	InvitedByUserId int64 `json:"invited_by_user_id,omitempty"`
+	// [user ID]: https://zulip.com/api/get-user
+	InvitedByUserID int64 `json:"invited_by_user_id,omitempty"`
 	// The UNIX timestamp for when the invitation was created, in UTC seconds.
 	Invited time.Time `json:"invited,omitempty"`
 	// The UNIX timestamp for when the invitation will expire, in UTC seconds. If `null`, the invitation never expires.
@@ -47,8 +47,8 @@ type Invite struct {
 }
 
 type inviteJSON struct {
-	Id                   int64  `json:"id,omitempty"`
-	InvitedByUserId      int64  `json:"invited_by_user_id,omitempty"`
+	ID                   int64  `json:"id,omitempty"`
+	InvitedByUserID      int64  `json:"invited_by_user_id,omitempty"`
 	Invited              int64  `json:"invited,omitempty"`
 	ExpiryDate           *int64 `json:"expiry_date,omitempty"`
 	InvitedAs            Role   `json:"invited_as,omitempty"`
@@ -60,8 +60,8 @@ type inviteJSON struct {
 
 func (o Invite) MarshalJSON() ([]byte, error) {
 	aux := inviteJSON{
-		Id:                   o.Id,
-		InvitedByUserId:      o.InvitedByUserId,
+		ID:                   o.ID,
+		InvitedByUserID:      o.InvitedByUserID,
 		Invited:              o.Invited.Unix(),
 		InvitedAs:            o.InvitedAs,
 		Email:                o.Email,
@@ -84,8 +84,8 @@ func (o *Invite) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	o.Id = aux.Id
-	o.InvitedByUserId = aux.InvitedByUserId
+	o.ID = aux.ID
+	o.InvitedByUserID = aux.InvitedByUserID
 	o.Invited = time.Unix(aux.Invited, 0).UTC()
 	if aux.ExpiryDate != nil {
 		t := time.Unix(*aux.ExpiryDate, 0).UTC()

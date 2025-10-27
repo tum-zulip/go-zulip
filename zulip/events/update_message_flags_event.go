@@ -20,7 +20,7 @@ type UpdateMessageFlagsAddEvent struct {
 	//
 	// [flag]: https://zulip.com/api/update-message-flags#available-flags
 	Flag string `json:"flag,omitempty"`
-	// Array containing the Ids of all messages to which the flag was added/removed.
+	// Array containing the IDs of all messages to which the flag was added/removed.
 	Messages []int64 `json:"messages,omitempty"`
 	// Whether the specified flag was added to all messages. This field is only relevant for the `"read"` flag, and will be `false` for all other flags.  When `true` for the `"read"` flag, then the `messages` array will be empty.
 	All bool `json:"all,omitempty"`
@@ -39,7 +39,7 @@ type UpdateMessageFlagsRemoveEvent struct {
 	//
 	// [flag]: https://zulip.com/api/update-message-flags#available-flags
 	Flag string `json:"flag,omitempty"`
-	// Array containing the Ids of the messages from which the flag was removed.
+	// Array containing the IDs of the messages from which the flag was removed.
 	Messages []int64 `json:"messages,omitempty"`
 	// Will be `false` for all specified flags.  **Deprecated** and will be removed in a future release.
 	// Deprecated
@@ -51,15 +51,15 @@ type UpdateMessageFlagsRemoveEvent struct {
 	MessageDetails map[string]MessageDetail `json:"message_details,omitempty"`
 }
 
-// UpdateMessageFlagsRemoveEventMessageDetailsValue `{message_id}`: Object containing details about the message with the specified Id.
+// MessageDetail `{message_id}`: Object containing details about the message with the specified ID.
 type MessageDetail struct {
 	// The type of this message. Either `RecipientTypeStream` or `RecipientTypePrivate`.
 	Type zulip.RecipientType `json:"type"`
 	// A flag which indicates whether the message contains a mention of the user.  Present only if the message mentions the current user.
 	Mentioned *bool `json:"mentioned,omitempty"`
-	// Present only if `type` is `RecipientTypePrivate`.  The user Ids of every recipient of this direct message, excluding yourself. Will be the empty list for a message you had sent to only yourself.
-	UserIds []int64 `json:"user_ids,omitempty"`
-	// Present only if `type` is `RecipientTypeStream`.  The Id of the channel where the message was sent.
+	// Present only if `type` is `RecipientTypePrivate`.  The user IDs of every recipient of this direct message, excluding yourself. Will be the empty list for a message you had sent to only yourself.
+	UserIDs []int64 `json:"user_ids,omitempty"`
+	// Present only if `type` is `RecipientTypeStream`.  The ID of the channel where the message was sent.
 	ChannelID *int64 `json:"stream_id,omitempty"`
 	// Present only if `type` is `RecipientTypeStream`.  Name of the topic where the message was sent.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
 	//

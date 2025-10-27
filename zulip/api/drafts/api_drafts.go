@@ -10,13 +10,11 @@ import (
 	"strings"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-
 	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIDrafts interface {
-
 	// CreateDrafts Create drafts
 	//
 	// Create one or more drafts on the server. These drafts will be automatically
@@ -43,7 +41,7 @@ type APIDrafts interface {
 	// Delete a single draft from the server. The deletion will be automatically
 	// synchronized to other clients via a `drafts` event.
 	//
-	DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequest
+	DeleteDraft(ctx context.Context, draftID int64) DeleteDraftRequest
 
 	// DeleteDraftExecute executes the request
 	DeleteDraftExecute(r DeleteDraftRequest) (*zulip.Response, *http.Response, error)
@@ -54,7 +52,7 @@ type APIDrafts interface {
 	//
 	// *Changes**: New in Zulip 10.0 (feature level 297).
 	//
-	DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) DeleteSavedSnippetRequest
+	DeleteSavedSnippet(ctx context.Context, savedSnippetID int64) DeleteSavedSnippetRequest
 
 	// DeleteSavedSnippetExecute executes the request
 	DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*zulip.Response, *http.Response, error)
@@ -64,7 +62,7 @@ type APIDrafts interface {
 	// Edit a draft on the server. The edit will be automatically
 	// synchronized to other clients via `drafts` events.
 	//
-	EditDraft(ctx context.Context, draftId int64) EditDraftRequest
+	EditDraft(ctx context.Context, draftID int64) EditDraftRequest
 
 	// EditDraftExecute executes the request
 	EditDraftExecute(r EditDraftRequest) (*zulip.Response, *http.Response, error)
@@ -75,7 +73,7 @@ type APIDrafts interface {
 	//
 	// *Changes**: New in Zulip 10.0 (feature level 368).
 	//
-	EditSavedSnippet(ctx context.Context, savedSnippetId int64) EditSavedSnippetRequest
+	EditSavedSnippet(ctx context.Context, savedSnippetID int64) EditSavedSnippetRequest
 
 	// EditSavedSnippetExecute executes the request
 	EditSavedSnippetExecute(r EditSavedSnippetRequest) (*zulip.Response, *http.Response, error)
@@ -204,7 +202,9 @@ func (s *draftsService) CreateSavedSnippet(ctx context.Context) CreateSavedSnipp
 }
 
 // Execute executes the request
-func (s *draftsService) CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (*CreateSavedSnippetResponse, *http.Response, error) {
+func (s *draftsService) CreateSavedSnippetExecute(
+	r CreateSavedSnippetRequest,
+) (*CreateSavedSnippetResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -237,7 +237,7 @@ func (s *draftsService) CreateSavedSnippetExecute(r CreateSavedSnippetRequest) (
 type DeleteDraftRequest struct {
 	ctx        context.Context
 	apiService APIDrafts
-	draftId    int64
+	draftID    int64
 }
 
 func (r DeleteDraftRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -248,11 +248,11 @@ func (r DeleteDraftRequest) Execute() (*zulip.Response, *http.Response, error) {
 //
 // Delete a single draft from the server. The deletion will be automatically
 // synchronized to other clients via a `drafts` event.
-func (s *draftsService) DeleteDraft(ctx context.Context, draftId int64) DeleteDraftRequest {
+func (s *draftsService) DeleteDraft(ctx context.Context, draftID int64) DeleteDraftRequest {
 	return DeleteDraftRequest{
 		apiService: s,
 		ctx:        ctx,
-		draftId:    draftId,
+		draftID:    draftID,
 	}
 }
 
@@ -267,7 +267,7 @@ func (s *draftsService) DeleteDraftExecute(r DeleteDraftRequest) (*zulip.Respons
 		endpoint = "/drafts/{draft_id}"
 	)
 
-	path := strings.Replace(endpoint, "{draft_id}", apiutils.IdToString(r.draftId), -1)
+	path := strings.ReplaceAll(endpoint, "{draft_id}", apiutils.IdToString(r.draftID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -282,7 +282,7 @@ func (s *draftsService) DeleteDraftExecute(r DeleteDraftRequest) (*zulip.Respons
 type DeleteSavedSnippetRequest struct {
 	ctx            context.Context
 	apiService     APIDrafts
-	savedSnippetId int64
+	savedSnippetID int64
 }
 
 func (r DeleteSavedSnippetRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -294,16 +294,18 @@ func (r DeleteSavedSnippetRequest) Execute() (*zulip.Response, *http.Response, e
 // Delete a saved snippet.
 //
 // *Changes**: New in Zulip 10.0 (feature level 297).
-func (s *draftsService) DeleteSavedSnippet(ctx context.Context, savedSnippetId int64) DeleteSavedSnippetRequest {
+func (s *draftsService) DeleteSavedSnippet(ctx context.Context, savedSnippetID int64) DeleteSavedSnippetRequest {
 	return DeleteSavedSnippetRequest{
 		apiService:     s,
 		ctx:            ctx,
-		savedSnippetId: savedSnippetId,
+		savedSnippetID: savedSnippetID,
 	}
 }
 
 // Execute executes the request
-func (s *draftsService) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (*zulip.Response, *http.Response, error) {
+func (s *draftsService) DeleteSavedSnippetExecute(
+	r DeleteSavedSnippetRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
@@ -313,7 +315,7 @@ func (s *draftsService) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (
 		endpoint = "/saved_snippets/{saved_snippet_id}"
 	)
 
-	path := strings.Replace(endpoint, "{saved_snippet_id}", apiutils.IdToString(r.savedSnippetId), -1)
+	path := strings.ReplaceAll(endpoint, "{saved_snippet_id}", apiutils.IdToString(r.savedSnippetID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -328,11 +330,11 @@ func (s *draftsService) DeleteSavedSnippetExecute(r DeleteSavedSnippetRequest) (
 type EditDraftRequest struct {
 	ctx        context.Context
 	apiService APIDrafts
-	draftId    int64
+	draftID    int64
 	draft      *zulip.Draft
 }
 
-// A JSON-encoded object containing a replacement draft object for this Id.
+// A JSON-encoded object containing a replacement draft object for this ID.
 func (r EditDraftRequest) Draft(draft zulip.Draft) EditDraftRequest {
 	r.draft = &draft
 	return r
@@ -346,11 +348,11 @@ func (r EditDraftRequest) Execute() (*zulip.Response, *http.Response, error) {
 //
 // Edit a draft on the server. The edit will be automatically
 // synchronized to other clients via `drafts` events.
-func (s *draftsService) EditDraft(ctx context.Context, draftId int64) EditDraftRequest {
+func (s *draftsService) EditDraft(ctx context.Context, draftID int64) EditDraftRequest {
 	return EditDraftRequest{
 		apiService: s,
 		ctx:        ctx,
-		draftId:    draftId,
+		draftID:    draftID,
 	}
 }
 
@@ -365,7 +367,7 @@ func (s *draftsService) EditDraftExecute(r EditDraftRequest) (*zulip.Response, *
 		endpoint = "/drafts/{draft_id}"
 	)
 
-	path := strings.Replace(endpoint, "{draft_id}", apiutils.IdToString(r.draftId), -1)
+	path := strings.ReplaceAll(endpoint, "{draft_id}", apiutils.IdToString(r.draftID))
 
 	if r.draft == nil {
 		return nil, nil, fmt.Errorf("draft is required and must be specified")
@@ -388,7 +390,7 @@ func (s *draftsService) EditDraftExecute(r EditDraftRequest) (*zulip.Response, *
 type EditSavedSnippetRequest struct {
 	ctx            context.Context
 	apiService     APIDrafts
-	savedSnippetId int64
+	savedSnippetID int64
 	title          *string
 	content        *string
 }
@@ -416,11 +418,11 @@ func (r EditSavedSnippetRequest) Execute() (*zulip.Response, *http.Response, err
 // Edit a saved snippet for the current user.
 //
 // *Changes**: New in Zulip 10.0 (feature level 368).
-func (s *draftsService) EditSavedSnippet(ctx context.Context, savedSnippetId int64) EditSavedSnippetRequest {
+func (s *draftsService) EditSavedSnippet(ctx context.Context, savedSnippetID int64) EditSavedSnippetRequest {
 	return EditSavedSnippetRequest{
 		apiService:     s,
 		ctx:            ctx,
-		savedSnippetId: savedSnippetId,
+		savedSnippetID: savedSnippetID,
 	}
 }
 
@@ -435,7 +437,7 @@ func (s *draftsService) EditSavedSnippetExecute(r EditSavedSnippetRequest) (*zul
 		endpoint = "/saved_snippets/{saved_snippet_id}"
 	)
 
-	path := strings.Replace(endpoint, "{saved_snippet_id}", apiutils.IdToString(r.savedSnippetId), -1)
+	path := strings.ReplaceAll(endpoint, "{saved_snippet_id}", apiutils.IdToString(r.savedSnippetID))
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -513,7 +515,9 @@ func (s *draftsService) GetSavedSnippets(ctx context.Context) GetSavedSnippetsRe
 }
 
 // Execute executes the request
-func (s *draftsService) GetSavedSnippetsExecute(r GetSavedSnippetsRequest) (*GetSavedSnippetsResponse, *http.Response, error) {
+func (s *draftsService) GetSavedSnippetsExecute(
+	r GetSavedSnippetsRequest,
+) (*GetSavedSnippetsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)

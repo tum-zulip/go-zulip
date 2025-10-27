@@ -15,8 +15,8 @@ func TestInviteMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	invited := time.Unix(1700000000, 123000000).UTC()
 	expiry := time.Unix(1700003600, 0).UTC()
 	invite := z.Invite{
-		Id:                   10,
-		InvitedByUserId:      3,
+		ID:                   10,
+		InvitedByUserID:      3,
 		Invited:              invited,
 		ExpiryDate:           &expiry,
 		InvitedAs:            400,
@@ -50,8 +50,8 @@ func TestInviteUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 	var invite z.Invite
 	require.NoError(t, json.Unmarshal(raw, &invite))
 
-	assert.Equal(t, int64(10), invite.Id)
-	assert.Equal(t, int64(3), invite.InvitedByUserId)
+	assert.Equal(t, int64(10), invite.ID)
+	assert.Equal(t, int64(3), invite.InvitedByUserID)
 	assert.Equal(t, int64(1700000000), invite.Invited.Unix())
 	assert.Equal(t, time.UTC, invite.Invited.Location())
 

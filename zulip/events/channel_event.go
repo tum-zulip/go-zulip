@@ -27,16 +27,16 @@ type ChannelCreateEvent struct {
 type ChannelDeleteEvent struct {
 	event
 
-	// Array of objects, each containing Id of the channel that was deleted.
+	// Array of objects, each containing ID of the channel that was deleted.
 	//
 	// **Changes**:**Deprecated** in Zulip 10.0 (feature level 343) and will be removed in a future release. Previously, these objects additionally contained all the standard fields for a channel object.
 	// Deprecated
 	Channels []interface{} `json:"streams,omitempty"`
 
-	// Array containing the Ids of the channels that were deleted.
+	// Array containing the IDs of the channels that were deleted.
 	//
-	// **Changes**: New in Zulip 10.0 (feature level 343). Previously, these Ids were available only via the legacy `streams` array.
-	ChannelIds []int64 `json:"stream_ids,omitempty"`
+	// **Changes**: New in Zulip 10.0 (feature level 343). Previously, these IDs were available only via the legacy `streams` array.
+	ChannelIDs []int64 `json:"stream_ids,omitempty"`
 }
 
 // ChannelUpdateEvent Event sent to all users who can see that a channel exists when a property of that channel changes. See [GET /streams] response for details on the various properties of a channel.  This event is also sent when archiving or unarchiving a channel to all the users who can see that channel exists but only to the clients that declared the `archived_channels` [client capability].
@@ -47,7 +47,7 @@ type ChannelDeleteEvent struct {
 // [GET /streams]: https://zulip.com/api/get-streams#response
 type ChannelUpdateEvent struct {
 	event
-	// The Id of the channel whose details have changed.
+	// The ID of the channel whose details have changed.
 	ChannelID int64 `json:"stream_id,omitempty"`
 	// The name of the channel whose details have changed.
 	Name string `json:"name,omitempty"`

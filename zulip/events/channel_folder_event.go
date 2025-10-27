@@ -17,8 +17,8 @@ type ChannelFolderAddEvent struct {
 type ChannelFolderUpdateEvent struct {
 	event
 
-	// Id of the updated channel folder.
-	ChannelFolderId int64            `json:"channel_folder_id,omitempty"`
+	// ID of the updated channel folder.
+	ChannelFolderID int64            `json:"channel_folder_id,omitempty"`
 	Data            FolderUpdateData `json:"data,omitempty"`
 }
 
@@ -42,6 +42,6 @@ type FolderUpdateData struct {
 type ChannelFolderReorderEvent struct {
 	event
 
-	// A list of channel folder Ids representing the new order.
+	// A list of channel folder IDs representing the new order.
 	Order []int64 `json:"order,omitempty"`
 }

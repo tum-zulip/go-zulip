@@ -6,11 +6,11 @@ import "github.com/tum-zulip/go-zulip/zulip"
 type CheckMessagesMatchNarrowResponse struct {
 	zulip.Response
 
-	// A dictionary with a key for each queried message that matches the narrow, with message Ids as keys and search rendering data as values.
+	// A dictionary with a key for each queried message that matches the narrow, with message IDs as keys and search rendering data as values.
 	Messages map[string]NarrowMatch `json:"messages,omitempty"`
 }
 
-// NarrowMatch `message_id`: The Id of the message that matches the narrow. No record will be returned for queried messages that do not match the narrow.
+// NarrowMatch `message_id`: The ID of the message that matches the narrow. No record will be returned for queried messages that do not match the narrow.
 type NarrowMatch struct {
 	// HTML content of a queried message that matches the narrow. If the narrow is a search narrow, `<span class="highlight">` elements will be included, wrapping the matches for the search keywords.
 	MatchContent *string `json:"match_content,omitempty"`
@@ -62,7 +62,7 @@ type GetMessagesResponse struct {
 	FoundNewest bool `json:"found_newest,omitempty"`
 	// Whether the server promises that the `messages` list includes the very oldest messages matching the narrow (used by clients that paginate their requests to decide whether there may be more messages to fetch).
 	FoundOldest bool `json:"found_oldest,omitempty"`
-	// Whether the anchor message is included in the response. If the message with the Id specified in the request does not exist, did not match the narrow, or was excluded via `"include_anchor": false`, this will be false.
+	// Whether the anchor message is included in the response. If the message with the ID specified in the request does not exist, did not match the narrow, or was excluded via `"include_anchor": false`, this will be false.
 	FoundAnchor bool `json:"found_anchor,omitempty"`
 	// Whether the message history was limited due to plan restrictions. This flag is set to `true` only when the oldest messages(`found_oldest`) matching the narrow is fetched.
 	HistoryLimited bool `json:"history_limited,omitempty"`
@@ -76,10 +76,10 @@ type GetMessagesResponse struct {
 type GetReadReceiptsResponse struct {
 	zulip.Response
 
-	// An array of Ids of users who have marked the target message as read and whose read status is available to the current user.  The Ids of users who have disabled sending read receipts (`"send_read_receipts": false`) will never appear in the response, nor will the message's sender. Additionally, the Ids of any users who have been muted by the current user or who have muted the current user will not be included in the response.  The current user's Id will appear if they have marked the target message as read.
+	// An array of IDs of users who have marked the target message as read and whose read status is available to the current user.  The IDs of users who have disabled sending read receipts (`"send_read_receipts": false`) will never appear in the response, nor will the message's sender. Additionally, the IDs of any users who have been muted by the current user or who have muted the current user will not be included in the response.  The current user's ID will appear if they have marked the target message as read.
 	//
-	// **Changes**: Prior to Zulip 6.0 (feature level 143), the Ids of users who have been muted by or have muted the current user were included in the response.
-	UserIds []int64 `json:"user_ids,omitempty"`
+	// **Changes**: Prior to Zulip 6.0 (feature level 143), the IDs of users who have been muted by or have muted the current user were included in the response.
+	UserIDs []int64 `json:"user_ids,omitempty"`
 }
 
 // RenderMessageResponse struct for RenderMessageResponse
@@ -94,8 +94,8 @@ type RenderMessageResponse struct {
 type SendMessageResponse struct {
 	zulip.Response
 
-	// The unique Id assigned to the sent message.
-	Id int64 `json:"id"`
+	// The unique ID assigned to the sent message.
+	ID int64 `json:"id"`
 	// If the message's sender had configured their [visibility policy settings] to potentially automatically follow or unmute topics when sending messages, and one of these policies did in fact change the user's visibility policy for the topic where this message was sent, the new value for that user's visibility policy for the recipient topic.  Only present if the sender's visibility was in fact changed.  The value can be either [unmuted or followed].  Clients will also be notified about the change in policy via a `user_topic` event as usual. This field is intended to be used by clients to explicitly inform the user when a topic's visibility policy was changed automatically due to sending a message.  For example, the Zulip web application uses this field to decide whether to display a warning or notice suggesting to unmute the topic after sending a message to a muted channel. Such a notice would be confusing in the event that the act of sending the message had already resulted in the user automatically unmuting or following the topic in question.
 	//
 	// **Changes**: New in Zulip 8.0 (feature level 218).
@@ -119,7 +119,7 @@ type UpdateMessageResponse struct {
 type UpdateMessageFlagsResponse struct {
 	zulip.Response
 
-	// An array with the Ids of the modified messages.
+	// An array with the IDs of the modified messages.
 	Messages []int64 `json:"messages,omitempty"`
 	// Only present if the flag is `read` and the operation is `remove`.  Zulip has an invariant that all unread messages must be in channels the user is subscribed to. This field will contain a list of the channels whose messages were skipped to mark as unread because the user is not subscribed to them.
 	//
@@ -135,10 +135,10 @@ type UpdateMessageFlagsForNarrowResponse struct {
 	ProcessedCount int64 `json:"processed_count"`
 	// The number of messages where the flag's value was changed (at most `processed_count`).
 	UpdatedCount int64 `json:"updated_count"`
-	// The Id of the oldest message within the update range, or `null` if the range was empty.
-	FirstProcessedId *int64 `json:"first_processed_id"`
-	// The Id of the newest message within the update range, or `null` if the range was empty.
-	LastProcessedId *int64 `json:"last_processed_id"`
+	// The ID of the oldest message within the update range, or `null` if the range was empty.
+	FirstProcessedID *int64 `json:"first_processed_id"`
+	// The ID of the newest message within the update range, or `null` if the range was empty.
+	LastProcessedID *int64 `json:"last_processed_id"`
 	// Whether the update range reached backward far enough to include very oldest message matching the narrow (used by clients doing a bulk update to decide whether to issue another request anchored at `first_processed_id`).
 	FoundOldest bool `json:"found_oldest"`
 	// Whether the update range reached forward far enough to include very oldest message matching the narrow (used by clients doing a bulk update to decide whether to issue another request anchored at `last_processed_id`).

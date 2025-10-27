@@ -11,28 +11,28 @@ import (
 type UserGroup struct {
 	// The human-readable description of the user group.
 	Description string `json:"description,omitempty"`
-	// The user group's integer Id.
-	Id int64 `json:"id,omitempty"`
+	// The user group's integer ID.
+	ID int64 `json:"id,omitempty"`
 	// The UNIX timestamp for when the user group was created, in UTC seconds.  A `null` value means the user group has no recorded date, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command].
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 292).
 	//
 	// [management command]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
 	DateCreated *time.Time `json:"date_created,omitempty"`
-	// The Id of the user who created this user group.  A `null` value means the user group has no recorded creator, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command].
+	// The ID of the user who created this user group.  A `null` value means the user group has no recorded creator, which is often because the group predates the metadata being tracked starting in Zulip 8.0, or because it was created via a data import tool or [management command].
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 292).
 	//
 	// [management command]: https://zulip.readthedocs.io/en/latest/production/management-commands.html
-	CreatorId *int64 `json:"creator_id,omitempty"`
-	// The integer user Ids of the user group's members, which are guaranteed to be non-deactivated users in the organization.
+	CreatorID *int64 `json:"creator_id,omitempty"`
+	// The integer user IDs of the user group's members, which are guaranteed to be non-deactivated users in the organization.
 	//
 	// **Changes**: Prior to Zulip 10.0 (feature level 303), this list also included deactivated users who were members of the user group before being deactivated.
 	Members []int64 `json:"members,omitempty"`
-	// The integer user group Ids of the direct subgroups.
+	// The integer user group IDs of the direct subgroups.
 	//
 	// **Changes**: New in Zulip 6.0 (feature level 131). Introduced in feature level 127 as `subgroups`, but clients can ignore older events as this feature level predates subgroups being fully implemented.
-	DirectSubgroupIds []int64 `json:"direct_subgroup_ids,omitempty"`
+	DirectSubgroupIDs []int64 `json:"direct_subgroup_ids,omitempty"`
 	// User group name.
 	Name string `json:"name,omitempty"`
 	// Whether the user group is a system group which cannot be modified by users.
@@ -53,11 +53,11 @@ type UserGroup struct {
 
 type usergroupJSON struct {
 	Description           string            `json:"description,omitempty"`
-	Id                    int64             `json:"id,omitempty"`
+	ID                    int64             `json:"id,omitempty"`
 	DateCreated           *int64            `json:"date_created,omitempty"`
-	CreatorId             *int64            `json:"creator_id,omitempty"`
+	CreatorID             *int64            `json:"creator_id,omitempty"`
 	Members               []int64           `json:"members,omitempty"`
-	DirectSubgroupIds     []int64           `json:"direct_subgroup_ids,omitempty"`
+	DirectSubgroupIDs     []int64           `json:"direct_subgroup_ids,omitempty"`
 	Name                  string            `json:"name,omitempty"`
 	IsSystemGroup         bool              `json:"is_system_group,omitempty"`
 	CanAddMembersGroup    GroupSettingValue `json:"can_add_members_group,omitempty"`
@@ -72,14 +72,14 @@ type usergroupJSON struct {
 func (o UserGroup) MarshalJSON() ([]byte, error) {
 	var aux usergroupJSON
 	aux.Description = o.Description
-	aux.Id = o.Id
+	aux.ID = o.ID
 	if o.DateCreated != nil {
 		t := o.DateCreated.Unix()
 		aux.DateCreated = &t
 	}
-	aux.CreatorId = o.CreatorId
+	aux.CreatorID = o.CreatorID
 	aux.Members = o.Members
-	aux.DirectSubgroupIds = o.DirectSubgroupIds
+	aux.DirectSubgroupIDs = o.DirectSubgroupIDs
 	aux.Name = o.Name
 	aux.IsSystemGroup = o.IsSystemGroup
 	aux.CanAddMembersGroup = o.CanAddMembersGroup
@@ -101,16 +101,16 @@ func (o *UserGroup) UnmarshalJSON(data []byte) error {
 	}
 
 	o.Description = aux.Description
-	o.Id = aux.Id
+	o.ID = aux.ID
 	if aux.DateCreated != nil {
 		t := time.Unix(*aux.DateCreated, 0).UTC()
 		o.DateCreated = &t
 	} else {
 		o.DateCreated = nil
 	}
-	o.CreatorId = aux.CreatorId
+	o.CreatorID = aux.CreatorID
 	o.Members = aux.Members
-	o.DirectSubgroupIds = aux.DirectSubgroupIds
+	o.DirectSubgroupIDs = aux.DirectSubgroupIDs
 	o.Name = aux.Name
 	o.IsSystemGroup = aux.IsSystemGroup
 	o.CanAddMembersGroup = aux.CanAddMembersGroup

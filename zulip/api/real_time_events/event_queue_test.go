@@ -31,15 +31,15 @@ func Test_PollsEventsAndUpdatesState(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		require.Equal(t, httpResp.StatusCode, 200)
-		require.NotNil(t, resp.QueueId)
+		require.NotNil(t, resp.QueueID)
 
 		q := real_time_events.NewEventQueue(apiClient)
 
-		events, err := q.Connect(context.Background(), *resp.QueueId, resp.LastEventId)
+		events, err := q.Connect(context.Background(), *resp.QueueID, resp.LastEventID)
 		require.NoError(t, err)
 		require.NotNil(t, events)
-		require.Equal(t, *resp.QueueId, q.QueueId())
-		require.Equal(t, resp.LastEventId, q.LastEventId())
+		require.Equal(t, *resp.QueueID, q.QueueID())
+		require.Equal(t, resp.LastEventID, q.LastEventID())
 
 		errs := make([]error, 0)
 		wait := make(chan struct{})
@@ -48,7 +48,7 @@ func Test_PollsEventsAndUpdatesState(t *testing.T) {
 			for i := 0; i < 2; i++ {
 				time.Sleep(200 * time.Millisecond)
 				_, _, typingErr := apiClient.SetTypingStatus(ctx).
-					To(z.UserAsRecipient(GetUserId(t, apiClient))).
+					To(z.UserAsRecipient(GetUserID(t, apiClient))).
 					Op(z.TypingStatusOpStart).
 					Execute()
 
@@ -63,7 +63,7 @@ func Test_PollsEventsAndUpdatesState(t *testing.T) {
 		e2 := <-events
 		require.NotNil(t, e2)
 
-		require.Greater(t, e2.GetId(), e1.GetId())
+		require.Greater(t, e2.GetID(), e1.GetID())
 
 		require.NoError(t, q.Close())
 		for range events {

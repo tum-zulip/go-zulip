@@ -175,7 +175,7 @@ func readOSRelease() (string, string, error) {
 		if strings.HasPrefix(line, "NAME=") && name == "" {
 			name = trimOSReleaseValue(line[5:])
 		}
-		if strings.HasPrefix(line, "VERSION_Id=") && version == "" {
+		if strings.HasPrefix(line, "VERSION_ID=") && version == "" {
 			version = trimOSReleaseValue(line[11:])
 		}
 	}

@@ -5,22 +5,22 @@ import (
 	"time"
 )
 
-// UserSettingsUpdateEvent3MutedUsersInner Object containing the user Id and timestamp of a muted user.
+// MutedUser Object containing the user ID and timestamp of a muted user.
 type MutedUser struct {
-	// The Id of the muted user.
-	Id int64 `json:"id,omitempty"`
+	// The ID of the muted user.
+	ID int64 `json:"id,omitempty"`
 	// An integer UNIX timestamp representing when the user was muted.
 	Timestamp time.Time `json:"timestamp,omitempty"`
 }
 
 type mutedUserJSON struct {
-	Id        int64 `json:"id,omitempty"`
+	ID        int64 `json:"id,omitempty"`
 	Timestamp int64 `json:"timestamp,omitempty"`
 }
 
 func (m *MutedUser) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&mutedUserJSON{
-		Id:        m.Id,
+		ID:        m.ID,
 		Timestamp: m.Timestamp.Unix(),
 	})
 }
@@ -31,7 +31,7 @@ func (m *MutedUser) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	m.Id = r.Id
+	m.ID = r.ID
 	m.Timestamp = time.Unix(r.Timestamp, 0)
 	return nil
 }

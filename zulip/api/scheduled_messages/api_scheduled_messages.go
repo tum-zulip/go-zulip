@@ -11,13 +11,11 @@ import (
 	"time"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-
 	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIScheduledMessages interface {
-
 	// CreateScheduledMessage Create a scheduled message
 	//
 	// Create a new [scheduled message].
@@ -34,7 +32,9 @@ type APIScheduledMessages interface {
 	CreateScheduledMessage(ctx context.Context) CreateScheduledMessageRequest
 
 	// CreateScheduledMessageExecute executes the request
-	CreateScheduledMessageExecute(r CreateScheduledMessageRequest) (*CreateScheduledMessageResponse, *http.Response, error)
+	CreateScheduledMessageExecute(
+		r CreateScheduledMessageRequest,
+	) (*CreateScheduledMessageResponse, *http.Response, error)
 
 	// DeleteScheduledMessage Delete a scheduled message
 	//
@@ -43,7 +43,7 @@ type APIScheduledMessages interface {
 	// *Changes**: New in Zulip 7.0 (feature level 173).
 	//
 	// [scheduled message]: https://zulip.com/help/schedule-a-message
-	DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest
+	DeleteScheduledMessage(ctx context.Context, scheduledMessageID int64) DeleteScheduledMessageRequest
 
 	// DeleteScheduledMessageExecute executes the request
 	DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*zulip.Response, *http.Response, error)
@@ -71,7 +71,7 @@ type APIScheduledMessages interface {
 	// *Changes**: New in Zulip 7.0 (feature level 184).
 	//
 	// [scheduled message]: https://zulip.com/help/schedule-a-message
-	UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest
+	UpdateScheduledMessage(ctx context.Context, scheduledMessageID int64) UpdateScheduledMessageRequest
 
 	// UpdateScheduledMessageExecute executes the request
 	UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*zulip.Response, *http.Response, error)
@@ -125,7 +125,9 @@ func (r CreateScheduledMessageRequest) Content(content string) CreateScheduledMe
 }
 
 // The UNIX timestamp for when the message will be sent, in UTC seconds.
-func (r CreateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliveryTimestamp time.Time) CreateScheduledMessageRequest {
+func (r CreateScheduledMessageRequest) ScheduledDeliveryTimestamp(
+	scheduledDeliveryTimestamp time.Time,
+) CreateScheduledMessageRequest {
 	timestamp := scheduledDeliveryTimestamp.Unix()
 	r.scheduledDeliveryTimestamp = &timestamp
 	return r
@@ -175,7 +177,9 @@ func (s *scheduledMessagesService) CreateScheduledMessage(ctx context.Context) C
 }
 
 // Execute executes the request
-func (s *scheduledMessagesService) CreateScheduledMessageExecute(r CreateScheduledMessageRequest) (*CreateScheduledMessageResponse, *http.Response, error) {
+func (s *scheduledMessagesService) CreateScheduledMessageExecute(
+	r CreateScheduledMessageRequest,
+) (*CreateScheduledMessageResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -218,7 +222,7 @@ func (s *scheduledMessagesService) CreateScheduledMessageExecute(r CreateSchedul
 type DeleteScheduledMessageRequest struct {
 	ctx                context.Context
 	apiService         APIScheduledMessages
-	scheduledMessageId int64
+	scheduledMessageID int64
 }
 
 func (r DeleteScheduledMessageRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -232,16 +236,21 @@ func (r DeleteScheduledMessageRequest) Execute() (*zulip.Response, *http.Respons
 // *Changes**: New in Zulip 7.0 (feature level 173).
 //
 // [scheduled message]: https://zulip.com/help/schedule-a-message
-func (s *scheduledMessagesService) DeleteScheduledMessage(ctx context.Context, scheduledMessageId int64) DeleteScheduledMessageRequest {
+func (s *scheduledMessagesService) DeleteScheduledMessage(
+	ctx context.Context,
+	scheduledMessageID int64,
+) DeleteScheduledMessageRequest {
 	return DeleteScheduledMessageRequest{
 		apiService:         s,
 		ctx:                ctx,
-		scheduledMessageId: scheduledMessageId,
+		scheduledMessageID: scheduledMessageID,
 	}
 }
 
 // Execute executes the request
-func (s *scheduledMessagesService) DeleteScheduledMessageExecute(r DeleteScheduledMessageRequest) (*zulip.Response, *http.Response, error) {
+func (s *scheduledMessagesService) DeleteScheduledMessageExecute(
+	r DeleteScheduledMessageRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
@@ -251,7 +260,7 @@ func (s *scheduledMessagesService) DeleteScheduledMessageExecute(r DeleteSchedul
 		endpoint = "/scheduled_messages/{scheduled_message_id}"
 	)
 
-	path := strings.Replace(endpoint, "{scheduled_message_id}", apiutils.IdToString(r.scheduledMessageId), -1)
+	path := strings.ReplaceAll(endpoint, "{scheduled_message_id}", apiutils.IdToString(r.scheduledMessageID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -291,7 +300,9 @@ func (s *scheduledMessagesService) GetScheduledMessages(ctx context.Context) Get
 }
 
 // Execute executes the request
-func (s *scheduledMessagesService) GetScheduledMessagesExecute(r GetScheduledMessagesRequest) (*GetScheduledMessagesResponse, *http.Response, error) {
+func (s *scheduledMessagesService) GetScheduledMessagesExecute(
+	r GetScheduledMessagesRequest,
+) (*GetScheduledMessagesResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -314,7 +325,7 @@ func (s *scheduledMessagesService) GetScheduledMessagesExecute(r GetScheduledMes
 type UpdateScheduledMessageRequest struct {
 	ctx                        context.Context
 	apiService                 APIScheduledMessages
-	scheduledMessageId         int64
+	scheduledMessageID         int64
 	recipientType              *zulip.RecipientType
 	to                         *zulip.Recipient
 	content                    *string
@@ -360,7 +371,9 @@ func (r UpdateScheduledMessageRequest) Topic(topic string) UpdateScheduledMessag
 // The UNIX timestamp for when the message will be sent, in UTC seconds.  Required when updating a scheduled message that the server has already tried and failed to send. This state is indicated with `"failed": true` in `scheduled_messages` objects; see response description at [`GET /scheduled_messages`].
 //
 // [`GET /scheduled_messages`]: https://zulip.com/api/get-scheduled-messages#response
-func (r UpdateScheduledMessageRequest) ScheduledDeliveryTimestamp(scheduledDeliveryTimestamp time.Time) UpdateScheduledMessageRequest {
+func (r UpdateScheduledMessageRequest) ScheduledDeliveryTimestamp(
+	scheduledDeliveryTimestamp time.Time,
+) UpdateScheduledMessageRequest {
 	timestamp := scheduledDeliveryTimestamp.Unix()
 	r.scheduledDeliveryTimestamp = &timestamp
 	return r
@@ -377,16 +390,21 @@ func (r UpdateScheduledMessageRequest) Execute() (*zulip.Response, *http.Respons
 // *Changes**: New in Zulip 7.0 (feature level 184).
 //
 // [scheduled message]: https://zulip.com/help/schedule-a-message
-func (s *scheduledMessagesService) UpdateScheduledMessage(ctx context.Context, scheduledMessageId int64) UpdateScheduledMessageRequest {
+func (s *scheduledMessagesService) UpdateScheduledMessage(
+	ctx context.Context,
+	scheduledMessageID int64,
+) UpdateScheduledMessageRequest {
 	return UpdateScheduledMessageRequest{
 		apiService:         s,
 		ctx:                ctx,
-		scheduledMessageId: scheduledMessageId,
+		scheduledMessageID: scheduledMessageID,
 	}
 }
 
 // Execute executes the request
-func (s *scheduledMessagesService) UpdateScheduledMessageExecute(r UpdateScheduledMessageRequest) (*zulip.Response, *http.Response, error) {
+func (s *scheduledMessagesService) UpdateScheduledMessageExecute(
+	r UpdateScheduledMessageRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
@@ -396,7 +414,7 @@ func (s *scheduledMessagesService) UpdateScheduledMessageExecute(r UpdateSchedul
 		endpoint = "/scheduled_messages/{scheduled_message_id}"
 	)
 
-	path := strings.Replace(endpoint, "{scheduled_message_id}", apiutils.IdToString(r.scheduledMessageId), -1)
+	path := strings.ReplaceAll(endpoint, "{scheduled_message_id}", apiutils.IdToString(r.scheduledMessageID))
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"

@@ -260,7 +260,7 @@ func CreateRandomChannel(t *testing.T, apiClient client.Client, subscribers ...i
 
 		subs := append([]int64(nil), subscribers...)
 		if len(subs) == 0 {
-			subs = []int64{GetUserId(t, apiClient)}
+			subs = []int64{GetUserID(t, apiClient)}
 		}
 
 		resp, httpResp, err := apiClient.Subscribe(context.Background()).
@@ -273,7 +273,7 @@ func CreateRandomChannel(t *testing.T, apiClient client.Client, subscribers ...i
 		RequireStatusOK(t, httpResp)
 	}
 
-	resp, httpResp, err := apiClient.GetChannelId(context.Background()).Channel(name).Execute()
+	resp, httpResp, err := apiClient.GetChannelID(context.Background()).Channel(name).Execute()
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	RequireStatusOK(t, httpResp)
@@ -402,7 +402,7 @@ func createBot(t *testing.T, botName string) *z.ZulipRC {
 
 var idCache sync.Map
 
-func GetUserId(t *testing.T, apiClient client.Client) int64 {
+func GetUserID(t *testing.T, apiClient client.Client) int64 {
 	t.Helper()
 
 	if id, ok := idCache.Load(apiClient); ok {
@@ -440,21 +440,21 @@ func CreateRandomUserGroup(t *testing.T, apiClient client.Client, members ...int
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 
-	if resp.GroupId == 0 {
-		// older Zulip versions did not return GroupId in response
+	if resp.GroupID == 0 {
+		// older Zulip versions did not return GroupID in response
 		resp, httpResp, err := apiClient.GetUserGroups(context.Background()).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpResp)
 		for _, g := range resp.UserGroups {
 			if g.Name == name {
-				return g.Id
+				return g.ID
 			}
 		}
 		t.Fatalf("Created user group not found in list")
 	}
 
-	return resp.GroupId
+	return resp.GroupID
 }
 
 func RequireStatusOK(t *testing.T, httpResp *http.Response) {
@@ -486,14 +486,14 @@ func GetChannelWithAllClients(t *testing.T) (string, int64) {
 		GetOtherNormalClient,
 	}
 
-	allClientIds := make([]int64, 0, len(clientFactories))
+	allClientIDs := make([]int64, 0, len(clientFactories))
 	for _, factory := range clientFactories {
 		apiClient := factory(t)
-		userID := GetUserId(t, apiClient)
-		allClientIds = append(allClientIds, userID)
+		userID := GetUserID(t, apiClient)
+		allClientIDs = append(allClientIDs, userID)
 	}
 
-	name, id := CreateRandomChannel(t, GetAdminClient(t), allClientIds...)
+	name, id := CreateRandomChannel(t, GetAdminClient(t), allClientIDs...)
 
 	if channelCahe.CompareAndSwap(nil, channel{id, name}) {
 		return name, id
@@ -517,7 +517,7 @@ func SendChannelMessage(t *testing.T, apiClient client.Client, channelID int64, 
 	require.NotNil(t, resp)
 	RequireStatusOK(t, httpResp)
 
-	return resp.Id
+	return resp.ID
 }
 
 var serverFeatureLevel atomic.Int64
@@ -579,9 +579,9 @@ func CreateDirectMessage(t *testing.T, apiClient client.Client, to int64) int64 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	RequireStatusOK(t, httpResp)
-	require.Greater(t, resp.Id, int64(0))
+	require.Positive(t, resp.ID)
 
-	return resp.Id
+	return resp.ID
 }
 
 func UploadFileForTest(t *testing.T, ctx context.Context, apiClient client.Client) *messages.UploadFileResponse {

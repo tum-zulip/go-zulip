@@ -27,6 +27,6 @@ type ScheduledMessagesUpdateEvent struct {
 type ScheduledMessagesRemoveEvent struct {
 	event
 
-	// The Id of the scheduled message that was deleted.
-	ScheduledMessageId int64 `json:"scheduled_message_id,omitempty"`
+	// The ID of the scheduled message that was deleted.
+	ScheduledMessageID int64 `json:"scheduled_message_id,omitempty"`
 }

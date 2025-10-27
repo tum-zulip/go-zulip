@@ -31,10 +31,15 @@ const (
 )
 
 func (e *BadgeCount) UnmarshalJSON(data []byte) error {
+	allowedBadgeCountValues := []BadgeCount{
+		BadgeCountAllUnreadMessages,
+		BadgeCountDMsMentionsAndFollowedTopics,
+		BadgeCountDMsAndMentions,
+		BadgeCountNone,
+	}
+
 	return utils.UnmarshalIntEnum(data, e, allowedBadgeCountValues)
 }
-
-var allowedBadgeCountValues = []BadgeCount{BadgeCountAllUnreadMessages, BadgeCountDMsMentionsAndFollowedTopics, BadgeCountDMsAndMentions, BadgeCountNone}
 
 // BotType types Zulip supports
 //   - BotTypeGeneric = Generic bot
@@ -53,10 +58,10 @@ const (
 )
 
 func (e *BotType) UnmarshalJSON(data []byte) error {
+	allowedBotTypeValues := []BotType{BotTypeGeneric, BotTypeIncomingWebhook, BotTypeOutgoingWebhook, BotTypeEmbedded}
+
 	return utils.UnmarshalIntEnum(data, e, allowedBotTypeValues)
 }
-
-var allowedBotTypeValues = []BotType{BotTypeGeneric, BotTypeIncomingWebhook, BotTypeOutgoingWebhook, BotTypeEmbedded}
 
 // Web/desktop app setting controlling the default navigation behavior when clicking on a channel link.
 //   - ChannelDefaultViewTopTopicInChannel = Top topic in the channel
@@ -75,10 +80,15 @@ const (
 )
 
 func (e *ChannelDefaultView) UnmarshalJSON(data []byte) error {
+	allowedChannelDefaultViewValues := []ChannelDefaultView{
+		ChannelDefaultViewTopTopicInChannel,
+		ChannelDefaultViewChannelFeed,
+		ChannelDefaultViewListOfTopics,
+		ChannelDefaultViewTopUnreadTopicInChannel,
+	}
+
 	return utils.UnmarshalIntEnum(data, e, allowedChannelDefaultViewValues)
 }
-
-var allowedChannelDefaultViewValues = []ChannelDefaultView{ChannelDefaultViewTopTopicInChannel, ChannelDefaultViewChannelFeed, ChannelDefaultViewListOfTopics, ChannelDefaultViewTopUnreadTopicInChannel}
 
 // Controls which [color theme] to use.
 //   - ColorSchemeAutomatic = Automatic
@@ -97,10 +107,10 @@ const (
 )
 
 func (e *ColorScheme) UnmarshalJSON(data []byte) error {
+	allowedColorSchemeValues := []ColorScheme{ColorSchemeAutomatic, ColorSchemeDark, ColorSchemeLight}
+
 	return utils.UnmarshalIntEnum(data, e, allowedColorSchemeValues)
 }
-
-var allowedColorSchemeValues = []ColorScheme{ColorSchemeAutomatic, ColorSchemeDark, ColorSchemeLight}
 
 // See the [Custom profile fields] article for details on what each type means.
 //   - CustomFieldTypeShortText = Short text
@@ -125,10 +135,19 @@ const (
 )
 
 func (e *CustomFieldType) UnmarshalJSON(data []byte) error {
+	allowedCustomFieldTypeValues := []CustomFieldType{
+		CustomFieldTypeShortText,
+		CustomFieldTypeLongText,
+		CustomFieldTypeListOfOptions,
+		CustomFieldTypeDatePicker,
+		CustomFieldTypeLink,
+		CustomFieldTypePersonPicker,
+		CustomFieldTypeExternalAccount,
+		CustomFieldTypePronouns,
+	}
+
 	return utils.UnmarshalIntEnum(data, e, allowedCustomFieldTypeValues)
 }
-
-var allowedCustomFieldTypeValues = []CustomFieldType{CustomFieldTypeShortText, CustomFieldTypeLongText, CustomFieldTypeListOfOptions, CustomFieldTypeDatePicker, CustomFieldTypeLink, CustomFieldTypePersonPicker, CustomFieldTypeExternalAccount, CustomFieldTypePronouns}
 
 // Whether to [hide inactive channels] in the left sidebar.
 //   - DemoteInactiveChannelsAutomatic = Automatic
@@ -145,10 +164,14 @@ const (
 )
 
 func (e *DemoteInactiveChannels) UnmarshalJSON(data []byte) error {
+	allowedDemoteInactiveChannelsValues := []DemoteInactiveChannels{
+		DemoteInactiveChannelsAutomatic,
+		DemoteInactiveChannelsAlways,
+		DemoteInactiveChannelsNever,
+	}
+
 	return utils.UnmarshalIntEnum(data, e, allowedDemoteInactiveChannelsValues)
 }
-
-var allowedDemoteInactiveChannelsValues = []DemoteInactiveChannels{DemoteInactiveChannelsAutomatic, DemoteInactiveChannelsAlways, DemoteInactiveChannelsNever}
 
 // The [policy] for [which other users] in this organization can see the user's real email address.
 //   - EmailVisibilityEveryone = Everyone
@@ -163,10 +186,6 @@ var allowedDemoteInactiveChannelsValues = []DemoteInactiveChannels{DemoteInactiv
 // [which other users]: https://zulip.com/help/configure-email-visibility
 type EmailVisibility int
 
-func (e *EmailVisibility) UnmarshalJSON(data []byte) error {
-	return utils.UnmarshalIntEnum(data, e, allowedEmailVisibilityValues)
-}
-
 const (
 	EmailVisibilityEveryone           EmailVisibility = 1
 	EmailVisibilityMembersOnly        EmailVisibility = 2
@@ -175,7 +194,17 @@ const (
 	EmailVisibilityModeratorsOnly     EmailVisibility = 5
 )
 
-var allowedEmailVisibilityValues = []EmailVisibility{EmailVisibilityEveryone, EmailVisibilityMembersOnly, EmailVisibilityAdministratorsOnly, EmailVisibilityNobody, EmailVisibilityModeratorsOnly}
+func (e *EmailVisibility) UnmarshalJSON(data []byte) error {
+	allowedEmailVisibilityValues := []EmailVisibility{
+		EmailVisibilityEveryone,
+		EmailVisibilityMembersOnly,
+		EmailVisibilityAdministratorsOnly,
+		EmailVisibilityNobody,
+		EmailVisibilityModeratorsOnly,
+	}
+
+	return utils.UnmarshalIntEnum(data, e, allowedEmailVisibilityValues)
+}
 
 // The user's configured [emoji set], used to display emoji to the user everywhere they appear in the UI.
 //   - EmojisetGoogle = Google modern
@@ -194,10 +223,10 @@ const (
 )
 
 func (e *Emojiset) UnmarshalJSON(data []byte) error {
+	allowedEmojisetValues := []Emojiset{EmojisetGoogle, EmojisetGoogleBlob, EmojisetTwitter, EmojisetText}
+
 	return utils.UnmarshalStringEnum(data, e, allowedEmojisetValues)
 }
-
-var allowedEmojisetValues = []Emojiset{EmojisetGoogle, EmojisetGoogleBlob, EmojisetTwitter, EmojisetText}
 
 // Whether the data export is a public or a standard data export.
 //   - ExportTypePublicData = Public data export.
@@ -213,10 +242,10 @@ const (
 )
 
 func (e *ExportType) UnmarshalJSON(data []byte) error {
+	allowedExportTypeValues := []ExportType{ExportTypePublicData, ExportTypeStandardData}
+
 	return utils.UnmarshalIntEnum(data, e, allowedExportTypeValues)
 }
-
-var allowedExportTypeValues = []ExportType{ExportTypePublicData, ExportTypeStandardData}
 
 // The [home view] used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.
 //   - HomeViewRecentTopics = Recent conversations view
@@ -235,10 +264,10 @@ const (
 )
 
 func (e *HomeView) UnmarshalJSON(data []byte) error {
+	allowedHomeViewValues := []HomeView{HomeViewRecentTopics, HomeViewInbox, HomeViewAllMessages}
+
 	return utils.UnmarshalStringEnum(data, e, allowedHomeViewValues)
 }
-
-var allowedHomeViewValues = []HomeView{HomeViewRecentTopics, HomeViewInbox, HomeViewAllMessages}
 
 type MessageRetentionDays string
 
@@ -249,10 +278,14 @@ const (
 )
 
 func (e *MessageRetentionDays) UnmarshalJSON(data []byte) error {
+	allowedMessageRetentionDaysValues := []MessageRetentionDays{
+		MessageRetentionDaysRealmDefault,
+		MessageRetentionDaysUnlimited,
+		MessageRetentionDaysForever,
+	}
+
 	return utils.UnmarshalStringEnum(data, e, allowedMessageRetentionDaysValues)
 }
-
-var allowedMessageRetentionDaysValues = []MessageRetentionDays{MessageRetentionDaysRealmDefault, MessageRetentionDaysUnlimited, MessageRetentionDaysForever}
 
 // PresenceStatus types Zulip supports
 //   - PresenceStatusActive = active
@@ -267,10 +300,10 @@ const (
 )
 
 func (e *PresenceStatus) UnmarshalJSON(data []byte) error {
+	allowedPresenceStatusValues := []PresenceStatus{PresenceStatusActive, PresenceStatusIdle}
+
 	return utils.UnmarshalStringEnum(data, e, allowedPresenceStatusValues)
 }
-
-var allowedPresenceStatusValues = []PresenceStatus{PresenceStatusActive, PresenceStatusIdle}
 
 // A string indicating the type of emoji.
 //
@@ -282,7 +315,7 @@ var allowedPresenceStatusValues = []PresenceStatus{PresenceStatusActive, Presenc
 type ReactionType string
 
 const (
-	// In this namespace, `emoji_code` will be the Id of the uploaded [custom emoji].
+	// In this namespace, `emoji_code` will be the ID of the uploaded [custom emoji].
 	//
 	// [custom emoji]: https://zulip.com/help/custom-emoji
 	ReactionTypeRealmEmoji      ReactionType = "realm_emoji"
@@ -292,10 +325,15 @@ const (
 )
 
 func (e *ReactionType) UnmarshalJSON(data []byte) error {
+	allowedReactionTypeValues := []ReactionType{
+		ReactionTypeUnicodeEmoji,
+		ReactionTypeRealmEmoji,
+		ReactionTypeZulipExtraEmoji,
+		ReactionTypeEmpty,
+	}
+
 	return utils.UnmarshalStringEnum(data, e, allowedReactionTypeValues)
 }
-
-var allowedReactionTypeValues = []ReactionType{ReactionTypeUnicodeEmoji, ReactionTypeRealmEmoji, ReactionTypeZulipExtraEmoji, ReactionTypeEmpty}
 
 // RecipientType - Enum for RecipientType
 //   - RecipientTypeEmpty = An unaddressed draft.
@@ -331,6 +369,14 @@ func (v RecipientType) ToLegacy() RecipientType {
 }
 
 func (e *RecipientType) UnmarshalJSON(data []byte) error {
+	allowedRecipientTypeValues := []RecipientType{
+		RecipientTypeEmpty,
+		RecipientTypeDirect,
+		RecipientTypePrivate,
+		RecipientTypeChannel,
+		RecipientTypeStream,
+	}
+
 	err := utils.UnmarshalStringEnum(data, e, allowedRecipientTypeValues)
 	if err != nil {
 		return err
@@ -343,8 +389,6 @@ func (e *RecipientType) UnmarshalJSON(data []byte) error {
 	}
 	return nil
 }
-
-var allowedRecipientTypeValues = []RecipientType{RecipientTypeEmpty, RecipientTypeDirect, RecipientTypePrivate, RecipientTypeChannel, RecipientTypeStream}
 
 // Controls whether the resolved-topic notices are marked as read.
 //   - ResolvedTopicNoticeAutoReadPolicyAlways = Always mark resolved-topic notices as read.
@@ -361,10 +405,14 @@ const (
 )
 
 func (e *ResolvedTopicNoticeAutoReadPolicy) UnmarshalJSON(data []byte) error {
+	allowedResolvedTopicNoticeAutoReadPolicyValues := []ResolvedTopicNoticeAutoReadPolicy{
+		ResolvedTopicNoticeAutoReadPolicyAlways,
+		ResolvedTopicNoticeAutoReadPolicyExceptFollowed,
+		ResolvedTopicNoticeAutoReadPolicyNever,
+	}
+
 	return utils.UnmarshalStringEnum(data, e, allowedResolvedTopicNoticeAutoReadPolicyValues)
 }
-
-var allowedResolvedTopicNoticeAutoReadPolicyValues = []ResolvedTopicNoticeAutoReadPolicy{ResolvedTopicNoticeAutoReadPolicyAlways, ResolvedTopicNoticeAutoReadPolicyExceptFollowed, ResolvedTopicNoticeAutoReadPolicyNever}
 
 // [Organization-level role] of the user. Possible values are:
 //   - RoleOwner = Organization owner
@@ -397,10 +445,10 @@ const (
 )
 
 func (e *Role) UnmarshalJSON(data []byte) error {
+	allowedRoleValues := []Role{RoleMember, RoleGuest, RoleModerator, RoleAdmin, RoleOwner}
+
 	return utils.UnmarshalIntEnum(data, e, allowedRoleValues)
 }
-
-var allowedRoleValues = []Role{RoleMember, RoleGuest, RoleModerator, RoleAdmin, RoleOwner}
 
 // One of the channel properties described below:
 //   - SubscriptionPropertyColor
@@ -436,10 +484,20 @@ const (
 )
 
 func (e *SubscriptionProperty) UnmarshalJSON(data []byte) error {
+	allowedSubscriptionPropertyValues := []SubscriptionProperty{
+		SubscriptionPropertyColor,
+		SubscriptionPropertyIsMuted,
+		SubscriptionPropertyPinToTop,
+		SubscriptionPropertyDesktopNotifications,
+		SubscriptionPropertyAudibleNotifications,
+		SubscriptionPropertyPushNotifications,
+		SubscriptionPropertyEmailNotifications,
+		SubscriptionPropertyWildcardMentionsNotify,
+		SubscriptionPropertyInHomeView,
+	}
+
 	return utils.UnmarshalStringEnum(data, e, allowedSubscriptionPropertyValues)
 }
-
-var allowedSubscriptionPropertyValues = []SubscriptionProperty{SubscriptionPropertyColor, SubscriptionPropertyIsMuted, SubscriptionPropertyPinToTop, SubscriptionPropertyDesktopNotifications, SubscriptionPropertyAudibleNotifications, SubscriptionPropertyPushNotifications, SubscriptionPropertyEmailNotifications, SubscriptionPropertyWildcardMentionsNotify, SubscriptionPropertyInHomeView}
 
 // Topic interaction types Zulip supports
 //   - TopicInteractionyTopicsTheUserParticipatesIn = Topics the user participates in
@@ -458,10 +516,15 @@ const (
 )
 
 func (e *TopicInteraction) UnmarshalJSON(data []byte) error {
+	allowedTopicInteractionValues := []TopicInteraction{
+		TopicInteractionyTopicsTheUserParticipatesIn,
+		TopicInteractionyTopicsTheUserSendsAMessageTo,
+		TopicInteractionyTopicsTheUserStarts,
+		TopicInteractionyNever,
+	}
+
 	return utils.UnmarshalIntEnum(data, e, allowedTopicInteractionValues)
 }
-
-var allowedTopicInteractionValues = []TopicInteraction{TopicInteractionyTopicsTheUserParticipatesIn, TopicInteractionyTopicsTheUserSendsAMessageTo, TopicInteractionyTopicsTheUserStarts, TopicInteractionyNever}
 
 // Whether [named topics] and the empty topic (i.e., ["general chat" topic] are enabled in this channel.
 //   - TopicsPolicyInherit
@@ -493,10 +556,15 @@ const (
 )
 
 func (e *TopicsPolicy) UnmarshalJSON(data []byte) error {
+	allowedTopicsPolicyValues := []TopicsPolicy{
+		TopicsPolicyAllowEmptyTopic,
+		TopicsPolicyDisableEmptyTopic,
+		TopicsPolicyEmptyTopicOnly,
+		TopicsPolicyInherit,
+	}
+
 	return utils.UnmarshalStringEnum(data, e, allowedTopicsPolicyValues)
 }
-
-var allowedTopicsPolicyValues = []TopicsPolicy{TopicsPolicyAllowEmptyTopic, TopicsPolicyDisableEmptyTopic, TopicsPolicyEmptyTopicOnly, TopicsPolicyInherit}
 
 // TypingStatusOp represents whether the user has started or stopped typing.
 //   - TypingStatusOpStart = start
@@ -529,10 +597,14 @@ const (
 )
 
 func (e *UnreadsCountDisplay) UnmarshalJSON(data []byte) error {
+	allowedUnreadsCountDisplayValues := []UnreadsCountDisplay{
+		UnreadsCountDisplayAllChannels,
+		UnreadsCountDisplayUnmutedChannelsAndTopics,
+		UnreadsCountDisplayNoChannels,
+	}
+
 	return utils.UnmarshalIntEnum(data, e, allowedUnreadsCountDisplayValues)
 }
-
-var allowedUnreadsCountDisplayValues = []UnreadsCountDisplay{UnreadsCountDisplayAllChannels, UnreadsCountDisplayUnmutedChannelsAndTopics, UnreadsCountDisplayNoChannels}
 
 // The style selected by the user for the right sidebar user list.
 //   - UserListStyleCompact = Compact
@@ -549,10 +621,14 @@ const (
 )
 
 func (e *UserListStyle) UnmarshalJSON(data []byte) error {
+	allowedUserListStyleValues := []UserListStyle{
+		UserListStyleCompact,
+		UserListStyleWithStatus,
+		UserListStyleWithAvatarAndStatus,
+	}
+
 	return utils.UnmarshalIntEnum(data, e, allowedUserListStyleValues)
 }
-
-var allowedUserListStyleValues = []UserListStyle{UserListStyleCompact, UserListStyleWithStatus, UserListStyleWithAvatarAndStatus}
 
 // Controls visibility policy
 //   - VisibilityPolicyNone = None. Removes the visibility policy previously set for the topic.
@@ -572,10 +648,15 @@ const (
 )
 
 func (e *VisibilityPolicy) UnmarshalJSON(data []byte) error {
+	allowedVisibilityPolicyValues := []VisibilityPolicy{
+		VisibilityPolicyNone,
+		VisibilityPolicyMuted,
+		VisibilityPolicyUnmuted,
+		VisibilityPolicyFollowed,
+	}
+
 	return utils.UnmarshalIntEnum(data, e, allowedVisibilityPolicyValues)
 }
-
-var allowedVisibilityPolicyValues = []VisibilityPolicy{VisibilityPolicyNone, VisibilityPolicyMuted, VisibilityPolicyUnmuted, VisibilityPolicyFollowed}
 
 // Controls how animated images should be played in the message feed in the web/desktop application.
 //   - WebAnimateImagePreviewsAlways = Always play the animated images in the message feed.
@@ -592,10 +673,14 @@ const (
 )
 
 func (e *WebAnimateImagePreviews) UnmarshalJSON(data []byte) error {
+	allowedWebAnimateImagePreviewsValues := []WebAnimateImagePreviews{
+		WebAnimateImagePreviewsAlways,
+		WebAnimateImagePreviewsOnHover,
+		WebAnimateImagePreviewsNever,
+	}
+
 	return utils.UnmarshalStringEnum(data, e, allowedWebAnimateImagePreviewsValues)
 }
-
-var allowedWebAnimateImagePreviewsValues = []WebAnimateImagePreviews{WebAnimateImagePreviewsAlways, WebAnimateImagePreviewsOnHover, WebAnimateImagePreviewsNever}
 
 const (
 	// NarrowOperatorChannel filters messages by channel ID or name.
@@ -604,8 +689,8 @@ const (
 	NarrowOperatorTopic NarrowOperator = "topic"
 	// NarrowOperatorStream is a legacy alias for NarrowOperatorChannel.
 	NarrowOperatorStream NarrowOperator = "stream"
-	// NarrowOperatorId filters messages by message ID.
-	NarrowOperatorId NarrowOperator = "id"
+	// NarrowOperatorID filters messages by message ID.
+	NarrowOperatorID NarrowOperator = "id"
 	// NarrowOperatorDm filters direct messages between two users.
 	NarrowOperatorDm NarrowOperator = "dm"
 	// NarrowOperatorDmIncluding filters messages in a group DM including specific users.
@@ -623,10 +708,22 @@ const (
 )
 
 func (e *NarrowOperator) UnmarshalJSON(data []byte) error {
+	allowedNarrowOperatorValues := []NarrowOperator{
+		NarrowOperatorChannel,
+		NarrowOperatorTopic,
+		NarrowOperatorStream,
+		NarrowOperatorID,
+		NarrowOperatorDm,
+		NarrowOperatorDmIncluding,
+		NarrowOperatorSender,
+		NarrowOperatorWith,
+		NarrowOperatorHas,
+		NarrowOperatorIs,
+		NarrowOperatorSearch,
+	}
+
 	return utils.UnmarshalStringEnum(data, e, allowedNarrowOperatorValues)
 }
-
-var allowedNarrowOperatorValues = []NarrowOperator{NarrowOperatorChannel, NarrowOperatorTopic, NarrowOperatorStream, NarrowOperatorId, NarrowOperatorDm, NarrowOperatorDmIncluding, NarrowOperatorSender, NarrowOperatorWith, NarrowOperatorHas, NarrowOperatorIs, NarrowOperatorSearch}
 
 // The avatar data source type for the current user.
 //   - AvatarSourceGravatar = Gravatar
@@ -639,7 +736,7 @@ const (
 )
 
 func (e *AvatarSource) UnmarshalJSON(data []byte) error {
+	allowedAvatarSourceValues := []AvatarSource{AvatarSourceGravatar, AvatarSourceUploaded}
+
 	return utils.UnmarshalStringEnum(data, e, allowedAvatarSourceValues)
 }
-
-var allowedAvatarSourceValues = []AvatarSource{AvatarSourceGravatar, AvatarSourceUploaded}

@@ -36,8 +36,8 @@ func Example() {
 		Narrow(z.Where(z.IsDirectMessage())).
 		Execute()
 
-	queueID := *registerResp.QueueId
-	lastEventID := registerResp.LastEventId
+	queueID := *registerResp.QueueID
+	lastEventID := registerResp.LastEventID
 
 	// Create an event queue handler for processing events
 	queue := real_time_events.NewEventQueue(client, nil)
@@ -59,7 +59,7 @@ func Example() {
 
 		// Echo the message back
 		client.SendMessage(ctx).
-			To(z.UserAsRecipient(msgEvent.Message.SenderId)).
+			To(z.UserAsRecipient(msgEvent.Message.SenderID)).
 			Content(fmt.Sprintf("Echo: %s", msgEvent.Message.Content)).
 			Execute()
 	}

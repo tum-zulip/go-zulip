@@ -4,14 +4,14 @@ import "github.com/tum-zulip/go-zulip/zulip"
 
 type CreateChannelResponse struct {
 	zulip.Response
-	// The Id of the newly created channel.
-	Id int64 `json:"id,omitempty"`
+	// The ID of the newly created channel.
+	ID int64 `json:"id,omitempty"`
 }
 
 type CreateChannelFolderResponse struct {
 	zulip.Response
-	// The unique Id of the created channel folder.
-	ChannelFolderId int64 `json:"channel_folder_id"`
+	// The unique ID of the created channel folder.
+	ChannelFolderID int64 `json:"channel_folder_id"`
 }
 
 type MarkAllAsReadResponse struct {
@@ -47,7 +47,7 @@ type GetChannelEmailAddressResponse struct {
 // GetChannelIdResponse struct for GetChannelIdResponse
 type GetChannelIdResponse struct {
 	zulip.Response
-	// The Id of the given channel.
+	// The ID of the given channel.
 	ChannelID int64 `json:"stream_id,omitempty"`
 }
 
@@ -60,8 +60,8 @@ type GetChannelTopicsResponse struct {
 
 // Topic struct for Topic
 type Topic struct {
-	// The message Id of the last message sent to this topic.
-	MaxId int64 `json:"max_id,omitempty"`
+	// The message ID of the last message sent to this topic.
+	MaxID int64 `json:"max_id,omitempty"`
 	// The name of the topic.
 	Name string `json:"name,omitempty"`
 }
@@ -69,7 +69,7 @@ type Topic struct {
 // GetSubscribersResponse struct for GetSubscribersResponse
 type GetSubscribersResponse struct {
 	zulip.Response
-	// A list containing the Ids of all active users who are subscribed to the channel.
+	// A list containing the IDs of all active users who are subscribed to the channel.
 	Subscribers []int64 `json:"subscribers,omitempty"`
 }
 
@@ -93,13 +93,13 @@ type GetSubscriptionsResponse struct {
 type SubscribeResponse struct {
 	zulip.Response
 
-	// A dictionary where the key is the Id of the user and the value is a list of the names of the channels that user was subscribed to as a result of the request.
+	// A dictionary where the key is the ID of the user and the value is a list of the names of the channels that user was subscribed to as a result of the request.
 	//
-	// **Changes**: Before Zulip 10.0 (feature level 289), the user keys were Zulip API email addresses, not user Id.
+	// **Changes**: Before Zulip 10.0 (feature level 289), the user keys were Zulip API email addresses, not user ID.
 	Subscribed map[string][]string `json:"subscribed,omitempty"`
-	// A dictionary where the key is the Id of the user and the value is a list of the names of the channels that where the user was not added as a subscriber in this request, because they were already a subscriber.
+	// A dictionary where the key is the ID of the user and the value is a list of the names of the channels that where the user was not added as a subscriber in this request, because they were already a subscriber.
 	//
-	// **Changes**: Before Zulip 10.0 (feature level 289), the user keys were Zulip API email addresses, not user Ids.
+	// **Changes**: Before Zulip 10.0 (feature level 289), the user keys were Zulip API email addresses, not user IDs.
 	AlreadySubscribed map[string][]string `json:"already_subscribed,omitempty"`
 	// A list of names of channels that the requesting user/bot was not authorized to subscribe to. Only present if `"authorization_errors_fatal": false`.
 	Unauthorized []string `json:"unauthorized,omitempty"`

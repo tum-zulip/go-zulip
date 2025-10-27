@@ -6,41 +6,41 @@ import "github.com/tum-zulip/go-zulip/zulip"
 type AddCodePlaygroundResponse struct {
 	zulip.Response
 
-	// The numeric Id assigned to this playground.
-	Id int64 `json:"id,omitempty"`
+	// The numeric ID assigned to this playground.
+	ID int64 `json:"id,omitempty"`
 }
 
 // AddLinkifierResponse struct for AddLinkifierResponse
 type AddLinkifierResponse struct {
 	zulip.Response
 
-	// The numeric Id assigned to this filter.
-	Id int64 `json:"id,omitempty"`
+	// The numeric ID assigned to this filter.
+	ID int64 `json:"id,omitempty"`
 }
 
 // CreateCustomProfileFieldResponse struct for CreateCustomProfileFieldResponse
 type CreateCustomProfileFieldResponse struct {
 	zulip.Response
 
-	// The Id for the custom profile field.
-	Id int64 `json:"id,omitempty"`
+	// The ID for the custom profile field.
+	ID int64 `json:"id,omitempty"`
 }
 
 // ExportRealmResponse struct for ExportRealmResponse
 type ExportRealmResponse struct {
 	zulip.Response
 
-	// The Id of the data export created.
+	// The ID of the data export created.
 	//
 	// **Changes**: New in Zulip 7.0 (feature level 182).
-	Id int64 `json:"id,omitempty"`
+	ID int64 `json:"id,omitempty"`
 }
 
 // GetCustomEmojiResponse struct for GetCustomEmojiResponse
 type GetCustomEmojiResponse struct {
 	zulip.Response
 
-	// An object that contains `emoji` objects, each identified with their emoji Id as the key.
+	// An object that contains `emoji` objects, each identified with their emoji ID as the key.
 	Emoji map[string]zulip.RealmEmoji `json:"emoji,omitempty"`
 }
 
@@ -76,7 +76,7 @@ type GetPresenceResponse struct {
 type GetRealmExportConsentsResponse struct {
 	zulip.Response
 
-	// An array of objects where each object contains a user Id and whether the user has consented for their private data to be exported.
+	// An array of objects where each object contains a user ID and whether the user has consented for their private data to be exported.
 	ExportConsents []zulip.ExportConsent `json:"export_consents,omitempty"`
 }
 
@@ -174,7 +174,7 @@ type AuthMethods struct {
 	Remoteuser bool `json:"remoteuser,omitempty"`
 	// Whether the user can authenticate using their GitHub account.
 	Github bool `json:"github,omitempty"`
-	// Whether the user can authenticate using their Microsoft Entra Id account.
+	// Whether the user can authenticate using their Microsoft Entra ID account.
 	Azuread bool `json:"azuread,omitempty"`
 	// Whether the user can authenticate using their GitLab account.
 	//
@@ -186,7 +186,7 @@ type AuthMethods struct {
 	Google bool `json:"google,omitempty"`
 	// Whether the user can authenticate using SAML.
 	Saml bool `json:"saml,omitempty"`
-	// Whether the user can authenticate using OpenId Connect.
+	// Whether the user can authenticate using OpenID Connect.
 	OpenidConnect bool `json:"openid connect,omitempty"`
 }
 

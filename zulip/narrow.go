@@ -154,24 +154,24 @@ func StreamIs(name string) NarrowTerm {
 // MessageID returns a NarrowTerm that filters a specific message by its ID.
 func MessageID(id int64) NarrowTerm {
 	return NarrowTerm{
-		Operator: NarrowOperatorId,
+		Operator: NarrowOperatorID,
 		Operand:  NewNarrowIntOperand(id),
 	}
 }
 
 // DirectMessage returns a NarrowTerm that filters direct messages between two specific user IDs.
-func DirectMessage(userIds []int64) NarrowTerm {
+func DirectMessage(userIDs []int64) NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorDm,
-		Operand:  NewNarrowListOfIntOperand(userIds),
+		Operand:  NewNarrowListOfIntOperand(userIDs),
 	}
 }
 
 // DirectMessageIncluding returns a NarrowTerm that filters group direct messages including specific user IDs.
-func DirectMessageIncluding(userIds []int64) NarrowTerm {
+func DirectMessageIncluding(userIDs []int64) NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorDmIncluding,
-		Operand:  NewNarrowListOfIntOperand(userIds),
+		Operand:  NewNarrowListOfIntOperand(userIDs),
 	}
 }
 

@@ -13,9 +13,9 @@ type DefaultChannelGroup struct {
 	Name string `json:"name,omitempty"`
 	// Description of the default channel group.
 	Description string `json:"description,omitempty"`
-	// The Id of the default channel group.
-	Id int64 `json:"id,omitempty"`
-	// An array of Ids of all the channels in the default stream group.
+	// The ID of the default channel group.
+	ID int64 `json:"id,omitempty"`
+	// An array of IDs of all the channels in the default stream group.
 	//
 	// **Changes**: Before Zulip 10.0 (feature level 330), we sent array of dictionaries where each dictionary contained details about a single stream in the default stream group.
 	Channels []int64 `json:"streams,omitempty"`

@@ -7,10 +7,10 @@ package events
 // [`POST /register`]: https://zulip.com/api/register-queue
 type PushDeviceEvent struct {
 	event
-	// The push account Id for this client registration.  See [`POST /mobile_push/register`] for details on push account Ids.
+	// The push account ID for this client registration.  See [`POST /mobile_push/register`] for details on push account IDs.
 	//
 	// [`POST /mobile_push/register`]: https://zulip.com/api/register-push-device
-	PushAccountId string `json:"push_account_id,omitempty"`
+	PushAccountID string `json:"push_account_id,omitempty"`
 	// The updated registration status. Will be `"active"`, `"failed"`, or `"pending"`.
 	Status string `json:"status,omitempty"`
 	// If the status is `"failed"`, a [Zulip API error code] indicating the type of failure that occurred.  The following error codes have recommended client behavior:  - `"INVALId_BOUNCER_PUBLIC_KEY"` - Inform the user to update app. - `"REQUEST_EXPIRED` - Retry with a fresh payload.   If the status is "failed", an error code explaining the failure.

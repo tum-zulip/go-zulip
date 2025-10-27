@@ -28,18 +28,28 @@ func Test_MessageEvent(t *testing.T) {
 			Execute()
 
 		require.NoError(t, err)
-		require.NotNil(t, queueResp.QueueId)
+		require.NotNil(t, queueResp.QueueID)
+
+		userID := GetUserID(t, apiClient)
+
+		var sendErr error
+		wait := make(chan struct{})
 
 		// Trigger message event in goroutine
 		go func() {
 			time.Sleep(200 * time.Millisecond)
-			sendDirectMessage(t, otherClient, GetUserId(t, apiClient), content)
+
+			_, _, sendErr = otherClient.SendMessage(context.Background()).
+				To(z.UserAsRecipient(userID)).
+				Content(content).
+				Execute()
+			close(wait)
 		}()
 
 		// Get events
 		resp, _, err := apiClient.GetEvents(ctx).
-			QueueId(*queueResp.QueueId).
-			LastEventId(queueResp.LastEventId).
+			QueueID(*queueResp.QueueID).
+			LastEventID(queueResp.LastEventID).
 			Execute()
 		require.NoError(t, err)
 		require.Len(t, resp.Events, 1)
@@ -49,8 +59,8 @@ func Test_MessageEvent(t *testing.T) {
 		msgEvent := event.(events.MessageEvent)
 		assert.Contains(t, msgEvent.Message.Content, content)
 
-		// Cleanup
-		_, _, _ = apiClient.DeleteQueue(ctx).QueueId(*queueResp.QueueId).Execute()
+		<-wait
+		require.NoError(t, sendErr)
 	})
 }
 
@@ -62,7 +72,7 @@ func Test_ReactionEvent(t *testing.T) {
 		ctx := context.Background()
 
 		// Setup: Send a direct message first
-		messageID := sendDirectMessage(t, otherClient, GetUserId(t, apiClient), "Message to react to")
+		messageID := sendDirectMessage(t, otherClient, GetUserID(t, apiClient), "Message to react to")
 
 		// Register queue for reaction events with narrow to this specific message
 		queueResp, _, err := apiClient.RegisterQueue(ctx).
@@ -70,7 +80,7 @@ func Test_ReactionEvent(t *testing.T) {
 			Narrow(z.Where(z.IsDirectMessage())).
 			Execute()
 		require.NoError(t, err)
-		require.NotNil(t, queueResp.QueueId)
+		require.NotNil(t, queueResp.QueueID)
 
 		emojiName := "smile"
 
@@ -88,8 +98,8 @@ func Test_ReactionEvent(t *testing.T) {
 
 		// Get events
 		resp, _, err := apiClient.GetEvents(ctx).
-			QueueId(*queueResp.QueueId).
-			LastEventId(queueResp.LastEventId).
+			QueueID(*queueResp.QueueID).
+			LastEventID(queueResp.LastEventID).
 			Execute()
 		require.NoError(t, err)
 		require.Len(t, resp.Events, 1)
@@ -114,7 +124,7 @@ func Test_UpdateMessageEvent(t *testing.T) {
 		ctx := context.Background()
 
 		// Setup: Send a direct message first
-		messageID := sendDirectMessage(t, apiClient, GetUserId(t, otherClient), "Original content")
+		messageID := sendDirectMessage(t, apiClient, GetUserID(t, otherClient), "Original content")
 
 		// Register queue for update_message events with narrow
 		queueResp, _, err := apiClient.RegisterQueue(ctx).
@@ -122,7 +132,7 @@ func Test_UpdateMessageEvent(t *testing.T) {
 			Narrow(z.Where(z.IsDirectMessage())).
 			Execute()
 		require.NoError(t, err)
-		require.NotNil(t, queueResp.QueueId)
+		require.NotNil(t, queueResp.QueueID)
 
 		newContent := "Updated content"
 
@@ -139,8 +149,8 @@ func Test_UpdateMessageEvent(t *testing.T) {
 
 		// Get events
 		resp, _, err := apiClient.GetEvents(ctx).
-			QueueId(*queueResp.QueueId).
-			LastEventId(queueResp.LastEventId).
+			QueueID(*queueResp.QueueID).
+			LastEventID(queueResp.LastEventID).
 			Execute()
 		require.NoError(t, err)
 		require.Len(t, resp.Events, 1)
@@ -165,7 +175,7 @@ func Test_DeleteMessageEvent(t *testing.T) {
 		ctx := context.Background()
 
 		// Setup: Send a direct message first
-		messageID := sendDirectMessage(t, apiClient, GetUserId(t, otherClient), "Message to delete")
+		messageID := sendDirectMessage(t, apiClient, GetUserID(t, otherClient), "Message to delete")
 
 		// Register queue for delete_message events with narrow to direct messages
 		queueResp, _, err := apiClient.RegisterQueue(ctx).
@@ -173,7 +183,7 @@ func Test_DeleteMessageEvent(t *testing.T) {
 			Narrow(z.Where(z.IsDirectMessage())).
 			Execute()
 		require.NoError(t, err)
-		require.NotNil(t, queueResp.QueueId)
+		require.NotNil(t, queueResp.QueueID)
 
 		var delErr error
 		wait := make(chan struct{})
@@ -187,8 +197,8 @@ func Test_DeleteMessageEvent(t *testing.T) {
 
 		// Get events
 		resp, _, err := apiClient.GetEvents(ctx).
-			QueueId(*queueResp.QueueId).
-			LastEventId(queueResp.LastEventId).
+			QueueID(*queueResp.QueueID).
+			LastEventID(queueResp.LastEventID).
 			Execute()
 		require.NoError(t, err)
 		require.Len(t, resp.Events, 1)
@@ -197,8 +207,8 @@ func Test_DeleteMessageEvent(t *testing.T) {
 		require.IsType(t, events.DeleteMessageEvent{}, event)
 		deleteEvent := event.(events.DeleteMessageEvent)
 		// Check if message ID is in the list
-		if deleteEvent.MessageIds != nil {
-			assert.Contains(t, deleteEvent.MessageIds, messageID)
+		if deleteEvent.MessageIDs != nil {
+			assert.Contains(t, deleteEvent.MessageIDs, messageID)
 		} else if deleteEvent.MessageID != nil {
 			assert.Equal(t, messageID, *deleteEvent.MessageID)
 		}
@@ -221,22 +231,22 @@ func Test_TypingEvent(t *testing.T) {
 			Narrow(z.Where(z.IsDirectMessage())).
 			Execute()
 		require.NoError(t, err)
-		require.NotNil(t, queueResp.QueueId)
+		require.NotNil(t, queueResp.QueueID)
 
 		// Trigger typing event in goroutine
 		go func() {
 			time.Sleep(200 * time.Millisecond)
 			_, _, err := otherClient.SetTypingStatus(ctx).
 				Op(z.TypingStatusOpStart).
-				To(z.UserAsRecipient(GetUserId(t, apiClient))).
+				To(z.UserAsRecipient(GetUserID(t, apiClient))).
 				Execute()
 			require.NoError(t, err)
 		}()
 
 		// Get events
 		resp, _, err := apiClient.GetEvents(ctx).
-			QueueId(*queueResp.QueueId).
-			LastEventId(queueResp.LastEventId).
+			QueueID(*queueResp.QueueID).
+			LastEventID(queueResp.LastEventID).
 			Execute()
 		require.NoError(t, err)
 		require.Len(t, resp.Events, 1)
@@ -257,14 +267,14 @@ func Test_UpdateMessageFlagsEvent(t *testing.T) {
 		ctx := context.Background()
 
 		// Setup: Send a direct message first
-		messageID := sendDirectMessage(t, otherClient, GetUserId(t, apiClient), "Message to star")
+		messageID := sendDirectMessage(t, otherClient, GetUserID(t, apiClient), "Message to star")
 
 		// Register queue for update_message_flags events
 		queueResp, _, err := apiClient.RegisterQueue(ctx).
 			EventTypes([]events.EventType{events.EventTypeUpdateMessageFlags}).
 			Execute()
 		require.NoError(t, err)
-		require.NotNil(t, queueResp.QueueId)
+		require.NotNil(t, queueResp.QueueID)
 
 		// Trigger flag update event in goroutine
 		go func() {
@@ -279,8 +289,8 @@ func Test_UpdateMessageFlagsEvent(t *testing.T) {
 
 		// Get events
 		resp, _, err := apiClient.GetEvents(ctx).
-			QueueId(*queueResp.QueueId).
-			LastEventId(queueResp.LastEventId).
+			QueueID(*queueResp.QueueID).
+			LastEventID(queueResp.LastEventID).
 			Execute()
 		require.NoError(t, err)
 		require.Len(t, resp.Events, 1)
@@ -295,16 +305,16 @@ func Test_UpdateMessageFlagsEvent(t *testing.T) {
 }
 
 // Helper function to send a direct message and return message ID
-func sendDirectMessage(t *testing.T, apiClient client.Client, toUserId int64, content string) int64 {
+func sendDirectMessage(t *testing.T, apiClient client.Client, toUserID int64, content string) int64 {
 	t.Helper()
 
 	ctx := context.Background()
 	resp, _, err := apiClient.SendMessage(ctx).
-		To(z.UserAsRecipient(toUserId)).
+		To(z.UserAsRecipient(toUserID)).
 		Content(content).
 		Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	return resp.Id
+	return resp.ID
 }

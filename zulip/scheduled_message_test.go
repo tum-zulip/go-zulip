@@ -17,7 +17,7 @@ func TestScheduledMessageMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	recipients := []int64{1, 2, 3}
 
 	msg := z.ScheduledMessage{
-		ScheduledMessageId:         99,
+		ScheduledMessageID:         99,
 		Type:                       z.RecipientTypePrivate,
 		To:                         z.Recipient{Users: recipients},
 		Topic:                      &topic,
@@ -46,7 +46,7 @@ func TestScheduledMessageUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 	var msg z.ScheduledMessage
 	require.NoError(t, json.Unmarshal(raw, &msg))
 
-	assert.Equal(t, int64(99), msg.ScheduledMessageId)
+	assert.Equal(t, int64(99), msg.ScheduledMessageID)
 	assert.Equal(t, z.RecipientTypeChannel, msg.Type)
 	if assert.NotNil(t, msg.To.Users) {
 		assert.Equal(t, []int64{1, 2, 3}, msg.To.Users)

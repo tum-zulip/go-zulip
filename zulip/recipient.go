@@ -3,8 +3,8 @@ package zulip
 import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
 
 // Recipients - A message's tentative target audience.
-// For channel messages, the integer Id of the channel.
-// For direct messages, a list containing integer user Ids.
+// For channel messages, the integer ID of the channel.
+// For direct messages, a list containing integer user IDs.
 type Recipient struct {
 	Users   []int64
 	Channel *int64
@@ -34,7 +34,7 @@ func (r Recipient) RecipientType() *RecipientType {
 	return &t
 }
 
-// UsersAsRecipient is a convenience function that returns a list of UserIds wrapped in Recipient
+// UsersAsRecipient is a convenience function that returns a list of UserIDs wrapped in Recipient.
 func UsersAsRecipient(v []int64) Recipient {
 	return Recipient{
 		Users: v,

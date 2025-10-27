@@ -17,7 +17,7 @@ type UserTopicEvent struct {
 
 // UserTopics Object describing the user's configuration for a given topic.
 type UserTopic struct {
-	// The Id of the channel to which the topic belongs.
+	// The ID of the channel to which the topic belongs.
 	ChannelID int64 `json:"stream_id,omitempty"`
 	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
 	//

@@ -17,9 +17,9 @@ func TestChannelFolderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	folder := z.ChannelFolder{
 		Name:        "general",
 		DateCreated: &ts,
-		CreatorId:   &creator,
+		CreatorID:   &creator,
 		Order:       3,
-		Id:          99,
+		ID:          99,
 		IsArchived:  true,
 	}
 

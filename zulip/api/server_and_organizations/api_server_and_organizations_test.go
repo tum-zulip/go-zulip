@@ -45,7 +45,7 @@ func Test_CodePlaygrounds(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpResp)
 
-		playgroundID := resp.Id
+		playgroundID := resp.ID
 		removed := false
 		defer func() {
 			if removed {
@@ -81,15 +81,15 @@ func Test_Linkifiers(t *testing.T) {
 		require.NotNil(t, addResp)
 		RequireStatusOK(t, httpResp)
 
-		linkifierId := addResp.Id
+		linkifierID := addResp.ID
 		removed := false
 		defer func() {
 			if removed {
 				return
 			}
-			_, _, cleanupErr := apiClient.RemoveLinkifier(context.Background(), linkifierId).Execute()
+			_, _, cleanupErr := apiClient.RemoveLinkifier(context.Background(), linkifierID).Execute()
 			if cleanupErr != nil {
-				t.Logf("cleanup remove linkifier %d: %v", linkifierId, cleanupErr)
+				t.Logf("cleanup remove linkifier %d: %v", linkifierID, cleanupErr)
 			}
 		}()
 
@@ -102,12 +102,12 @@ func Test_Linkifiers(t *testing.T) {
 		require.NotEmpty(t, linkifiers)
 		require.True(
 			t,
-			linkifierExists(linkifiers, linkifierId, pattern, urlTemplate),
+			linkifierExists(linkifiers, linkifierID, pattern, urlTemplate),
 			"created linkifier missing from listing",
 		)
 
 		updatedTemplate := urlTemplate + "?source=api-test"
-		updateResp, httpResp, err := apiClient.UpdateLinkifier(ctx, linkifierId).
+		updateResp, httpResp, err := apiClient.UpdateLinkifier(ctx, linkifierID).
 			Pattern(pattern).
 			UrlTemplate(updatedTemplate).
 			Execute()
@@ -122,15 +122,15 @@ func Test_Linkifiers(t *testing.T) {
 		RequireStatusOK(t, httpResp)
 		assert.True(
 			t,
-			linkifierExists(updatedListResp.Linkifiers, linkifierId, pattern, updatedTemplate),
+			linkifierExists(updatedListResp.Linkifiers, linkifierID, pattern, updatedTemplate),
 			"updated linkifier missing or incorrect",
 		)
 
-		originalOrder := extractlinkifierIds(updatedListResp.Linkifiers)
-		movedOrder := moveIdToFront(originalOrder, linkifierId)
+		originalOrder := extractlinkifierIDs(updatedListResp.Linkifiers)
+		movedOrder := moveIdToFront(originalOrder, linkifierID)
 		if !int64SlicesEqual(originalOrder, movedOrder) {
 			reorderResp, httpResp, err := apiClient.ReorderLinkifiers(ctx).
-				OrderedLinkifierIds(movedOrder).
+				OrderedLinkifierIDs(movedOrder).
 				Execute()
 			require.NoError(t, err)
 			require.NotNil(t, reorderResp)
@@ -138,7 +138,7 @@ func Test_Linkifiers(t *testing.T) {
 			assert.Equal(t, "success", reorderResp.Result)
 
 			restoreResp, httpResp, err := apiClient.ReorderLinkifiers(ctx).
-				OrderedLinkifierIds(originalOrder).
+				OrderedLinkifierIDs(originalOrder).
 				Execute()
 			require.NoError(t, err)
 			require.NotNil(t, restoreResp)
@@ -146,7 +146,7 @@ func Test_Linkifiers(t *testing.T) {
 			assert.Equal(t, "success", restoreResp.Result)
 		}
 
-		removeResp, removeHTTP, err := apiClient.RemoveLinkifier(ctx, linkifierId).Execute()
+		removeResp, removeHTTP, err := apiClient.RemoveLinkifier(ctx, linkifierID).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, removeResp)
 		RequireStatusOK(t, removeHTTP)
@@ -167,15 +167,15 @@ func Test_CustomProfileFields(t *testing.T) {
 		RequireStatusOK(t, httpResp)
 
 		fields := listResp.CustomFields
-		var fieldId int64
+		var fieldID int64
 		for _, field := range fields {
 			if field.Name == fieldName {
-				fieldId = field.Id
+				fieldID = field.ID
 				break
 			}
 		}
 
-		if fieldId == 0 {
+		if fieldID == 0 {
 			createResp, createHTTP, err := apiClient.CreateCustomProfileField(ctx).
 				FieldType(1).
 				Name(fieldName).
@@ -186,7 +186,7 @@ func Test_CustomProfileFields(t *testing.T) {
 			require.NoError(t, err)
 			require.NotNil(t, createResp)
 			RequireStatusOK(t, createHTTP)
-			fieldId = createResp.Id
+			fieldID = createResp.ID
 
 			listResp, httpResp, err = apiClient.GetCustomProfileFields(ctx).Execute()
 			require.NoError(t, err)
@@ -195,11 +195,11 @@ func Test_CustomProfileFields(t *testing.T) {
 			fields = listResp.CustomFields
 		}
 
-		require.NotZero(t, fieldId, "profile field Id must be set")
-		require.True(t, profileFieldExists(fields, fieldId), "profile field missing from listing")
+		require.NotZero(t, fieldID, "profile field ID must be set")
+		require.True(t, profileFieldExists(fields, fieldID), "profile field missing from listing")
 
-		originalOrder := extractProfileFieldIds(fields)
-		movedOrder := moveIdToFront(originalOrder, fieldId)
+		originalOrder := extractProfileFieldIDs(fields)
+		movedOrder := moveIdToFront(originalOrder, fieldID)
 		if !int64SlicesEqual(originalOrder, movedOrder) {
 			reorderResp, reorderHTTP, err := apiClient.ReorderCustomProfileFields(ctx).
 				Order(movedOrder).
@@ -336,25 +336,25 @@ func Test_CustomEmojiLifecycle(t *testing.T) {
 
 func linkifierExists(linkifiers []z.RealmLinkifiers, id int64, pattern, urlTemplate string) bool {
 	for _, lf := range linkifiers {
-		if lf.Id == id {
+		if lf.ID == id {
 			return lf.Pattern == pattern && lf.UrlTemplate == urlTemplate
 		}
 	}
 	return false
 }
 
-func extractlinkifierIds(linkifiers []z.RealmLinkifiers) []int64 {
+func extractlinkifierIDs(linkifiers []z.RealmLinkifiers) []int64 {
 	ids := make([]int64, 0, len(linkifiers))
 	for _, lf := range linkifiers {
-		ids = append(ids, lf.Id)
+		ids = append(ids, lf.ID)
 	}
 	return ids
 }
 
-func extractProfileFieldIds(fields []z.CustomProfileField) []int64 {
+func extractProfileFieldIDs(fields []z.CustomProfileField) []int64 {
 	ids := make([]int64, 0, len(fields))
 	for _, field := range fields {
-		ids = append(ids, field.Id)
+		ids = append(ids, field.ID)
 	}
 	return ids
 }
@@ -389,7 +389,7 @@ func int64SlicesEqual(a, b []int64) bool {
 
 func profileFieldExists(fields []z.CustomProfileField, id int64) bool {
 	for _, field := range fields {
-		if field.Id == id {
+		if field.ID == id {
 			return true
 		}
 	}

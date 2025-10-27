@@ -73,7 +73,7 @@ type CreateMessageReminderRequest struct {
 	note                       *string
 }
 
-// The Id of the previously sent message to reference in the reminder message.
+// The ID of the previously sent message to reference in the reminder message.
 func (r CreateMessageReminderRequest) MessageID(messageID int64) CreateMessageReminderRequest {
 	r.messageID = &messageID
 	return r

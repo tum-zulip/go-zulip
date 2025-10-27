@@ -43,7 +43,7 @@ func Test_CheckMessagesMatchNarrow(t *testing.T) {
 		msg := CreateChannelMessage(t, apiClient, channelID)
 
 		resp, httpResp, err := apiClient.CheckMessagesMatchNarrow(ctx).
-			MsgIds([]int64{msg.MessageID}).
+			MsgIDs([]int64{msg.MessageID}).
 			Narrow(
 				z.Where(z.ChannelNameIs(channelName)).
 					And(z.TopicIs(msg.Topic))).
@@ -104,7 +104,7 @@ func Test_GetMessage(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpResp)
-		assert.Equal(t, msg.MessageID, resp.Message.Id)
+		assert.Equal(t, msg.MessageID, resp.Message.ID)
 		require.WithinDuration(t, time.Now(), resp.Message.Timestamp, 3*time.Minute)
 		// TODO: require.WithinDuration(t, time.Now(), resp.Message.LastEditTimestamp, 3*time.Minute)
 		// TODO: require.WithinDuration(t, time.Now(), resp.Message.LastMovedTimestamp, 3*time.Minute)
@@ -305,7 +305,7 @@ func Test_SendMessage(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpResp)
-		assert.Greater(t, resp.Id, int64(0))
+		assert.Positive(t, resp.ID)
 	})
 }
 
@@ -426,9 +426,9 @@ func Test_CheckMessagesMatchNarrow_Invalid_Input(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with empty msgIds list - should fail
+		// Test with empty msgIDs list - should fail
 		_, _, err := apiClient.CheckMessagesMatchNarrow(ctx).
-			MsgIds([]int64{}).
+			MsgIDs([]int64{}).
 			Narrow(z.Where(z.ChannelNameIs("nonexistent-channel"))).
 			Execute()
 		require.Error(t, err)

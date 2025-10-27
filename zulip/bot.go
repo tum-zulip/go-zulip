@@ -4,7 +4,7 @@ import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
 
 // Bot struct for Bot
 type Bot struct {
-	// The user Id of the bot.
+	// The user ID of the bot.
 	UserID int64 `json:"user_id,omitempty"`
 	// The full name of the bot.
 	FullName string `json:"full_name,omitempty"`
@@ -18,8 +18,8 @@ type Bot struct {
 	DefaultAllPublicChannels bool `json:"default_all_public_streams,omitempty"`
 	// The URL of the bot's avatar.
 	AvatarUrl string `json:"avatar_url,omitempty"`
-	// The user Id of the bot's owner.  If `null`, the bot has no owner.
-	OwnerId *int64 `json:"owner_id,omitempty"`
+	// The user ID of the bot's owner.  If `null`, the bot has no owner.
+	OwnerID *int64 `json:"owner_id,omitempty"`
 	// An array containing extra configuration fields only relevant for outgoing webhook bots and embedded bots. This is always a single-element array.  We consider this part of the Zulip API to be unstable; it is used only for UI elements for administering bots and is likely to change.
 	Services []BotData `json:"services,omitempty"`
 	// A boolean describing whether the user account has been deactivated.

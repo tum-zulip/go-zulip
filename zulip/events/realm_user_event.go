@@ -2,7 +2,7 @@ package events
 
 import "github.com/tum-zulip/go-zulip/zulip"
 
-// RealmUserAddEvent Event sent to all users in a Zulip organization when a new user joins or when a guest user gains access to a user. Processing this event is important to being able to display basic details on other users given only their Id.  If the current user is a guest whose access to a newly created user is limited by a `can_access_all_users_group` policy, and the event queue was registered with the `user_list_incomplete` client capability, then the event queue will not receive an event for such a new user. If a newly created user is inaccessible to the current user via such a policy, but the client lacks `user_list_incomplete` client capability, then this event will be delivered to the queue, with an "Unknown user" object with the usual format but placeholder data whose only variable content is the user Id.
+// RealmUserAddEvent Event sent to all users in a Zulip organization when a new user joins or when a guest user gains access to a user. Processing this event is important to being able to display basic details on other users given only their ID.  If the current user is a guest whose access to a newly created user is limited by a `can_access_all_users_group` policy, and the event queue was registered with the `user_list_incomplete` client capability, then the event queue will not receive an event for such a new user. If a newly created user is inaccessible to the current user via such a policy, but the client lacks `user_list_incomplete` client capability, then this event will be delivered to the queue, with an "Unknown user" object with the usual format but placeholder data whose only variable content is the user ID.
 //
 // **Changes**: Before Zulip 8.0 (feature level 232), the `user_list_incomplete` client capability did not exist, and so all clients whose access to a new user was prevented by `can_access_all_users_group` policy would receive a fake "Unknown user" event for such a user.  Starting with Zulip 8.0 (feature level 228), this event is also sent when a guest user gains access to a user.
 type RealmUserAddEvent struct {
@@ -22,7 +22,7 @@ type RealmUserRemoveEvent struct {
 
 // UserInfo Object containing details of the deactivated user.
 type UserInfo struct {
-	// The Id of the deactivated user.
+	// The ID of the deactivated user.
 	UserID int64 `json:"user_id,omitempty"`
 	// The full name of the user.  **Deprecated**: We expect to remove this field in the future.
 	// Deprecated
@@ -42,7 +42,7 @@ type RealmUserUpdateEvent struct {
 //
 // **Changes**: Removed `is_billing_admin` field in Zulip 10.0 (feature level 363), as it was replaced by the `can_manage_billing_group` realm setting.
 type UserUpdate struct {
-	// The Id of the user who is affected by this change.
+	// The ID of the user who is affected by this change.
 	UserID int64 `json:"user_id,omitempty"`
 
 	UserUpdateEventFullName      *UserUpdateEventFullName
@@ -83,8 +83,8 @@ type UserUpdateEventTimezone struct {
 
 // UserUpdateEventBotOwner When the owner of a bot changes.
 type UserUpdateEventBotOwner struct {
-	// The user Id of the new bot owner.
-	BotOwnerId int64 `json:"bot_owner_id,omitempty"`
+	// The user ID of the new bot owner.
+	BotOwnerID int64 `json:"bot_owner_id,omitempty"`
 }
 
 // UserUpdateEventRole When the [role] of a user changes.

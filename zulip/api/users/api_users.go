@@ -97,7 +97,7 @@ type APIUsers interface {
 	// DeactivateUser Deactivate a user
 	//
 	// [Deactivates a user]
-	// given their user Id.
+	// given their user ID.
 	//
 	// [Deactivates a user]: https://zulip.com/help/deactivate-or-reactivate-a-user
 	DeactivateUser(ctx context.Context, userID int64) DeactivateUserRequest
@@ -192,9 +192,9 @@ type APIUsers interface {
 	// API email address.
 	//
 	// You can also fetch details on [all users in the organization]
-	// or [by user Id].
+	// or [by user ID].
 	//
-	// Fetching by user Id is generally recommended when possible,
+	// Fetching by user ID is generally recommended when possible,
 	// as a user might [change their email address]
 	// or change their [email address visibility],
 	// either of which could change the client's ability to look them up by that
@@ -205,12 +205,12 @@ type APIUsers interface {
 	// data if and only if the target's email visibility setting permits the requester
 	// to see the email address.
 	// The dummy email addresses of the form `user{id}@{realm.host}` still work, and
-	// will now work for **all** users, via identifying them by the embedded user Id.
+	// will now work for **all** users, via identifying them by the embedded user ID.
 	//
 	// New in Zulip Server 4.0 (feature level 39).
 	//
 	// [all users in the organization]: https://zulip.com/api/get-users
-	// [by user Id]: https://zulip.com/api/get-user
+	// [by user ID]: https://zulip.com/api/get-user
 	// [change their email address]: https://zulip.com/help/change-your-email-address
 	// [email address visibility]: https://zulip.com/help/configure-email-visibility
 	GetUserByEmail(ctx context.Context, email string) GetUserByEmailRequest
@@ -293,7 +293,7 @@ type APIUsers interface {
 	//
 	// By default, returns all accessible users in the organization.
 	// The `user_ids` query parameter can be used to limit the
-	// results to a specific set of user Ids.
+	// results to a specific set of user IDs.
 	//
 	// Optionally includes values of [custom profile fields].
 	//
@@ -345,7 +345,7 @@ type APIUsers interface {
 	// *Changes**: New in Zulip 4.0 (feature level 48).
 	//
 	// [Mute a user]: https://zulip.com/help/mute-a-user
-	MuteUser(ctx context.Context, mutedUserId int64) MuteUserRequest
+	MuteUser(ctx context.Context, mutedUserID int64) MuteUserRequest
 
 	// MuteUserExecute executes the request
 	MuteUserExecute(r MuteUserRequest) (*zulip.Response, *http.Response, error)
@@ -353,7 +353,7 @@ type APIUsers interface {
 	// ReactivateUser Reactivate a user
 	//
 	// [Reactivates a user]
-	// given their user Id.
+	// given their user ID.
 	//
 	// [Reactivates a user]: https://zulip.com/help/deactivate-or-reactivate-a-user
 	ReactivateUser(ctx context.Context, userID int64) ReactivateUserRequest
@@ -385,7 +385,7 @@ type APIUsers interface {
 
 	// RemoveAttachment Delete an attachment
 	//
-	// Delete an uploaded file given its attachment Id.
+	// Delete an uploaded file given its attachment ID.
 	//
 	// Note that uploaded files that have been referenced in at least
 	// one message are automatically deleted once the last message
@@ -395,11 +395,11 @@ type APIUsers interface {
 	// Uploaded files that are never used in a message are
 	// automatically deleted a few weeks after being uploaded.
 	//
-	// Attachment Ids can be contained from [GET /attachments].
+	// Attachment IDs can be contained from [GET /attachments].
 	//
 	// [message retention policy]: https://zulip.com/help/message-retention-policy
 	// [GET /attachments]: https://zulip.com/api/get-attachments
-	RemoveAttachment(ctx context.Context, attachmentId int64) RemoveAttachmentRequest
+	RemoveAttachment(ctx context.Context, attachmentID int64) RemoveAttachmentRequest
 
 	// RemoveAttachmentExecute executes the request
 	RemoveAttachmentExecute(r RemoveAttachmentRequest) (*zulip.Response, *http.Response, error)
@@ -507,7 +507,7 @@ type APIUsers interface {
 	// *Changes**: New in Zulip 4.0 (feature level 48).
 	//
 	// [Unmute a user]: https://zulip.com/help/mute-a-user#see-your-list-of-muted-users
-	UnmuteUser(ctx context.Context, mutedUserId int64) UnmuteUserRequest
+	UnmuteUser(ctx context.Context, mutedUserID int64) UnmuteUserRequest
 
 	// UnmuteUserExecute executes the request
 	UnmuteUserExecute(r UnmuteUserRequest) (*zulip.Response, *http.Response, error)
@@ -691,7 +691,7 @@ type APIUsers interface {
 	// UpdateUserGroupMembers Update user group members
 	//
 	// Update the members of a [user group]. The
-	// user Ids must correspond to non-deactivated users.
+	// user IDs must correspond to non-deactivated users.
 	//
 	// *Changes**: Prior to Zulip 11.0 (feature level 391), members
 	// could not be added or removed from a deactivated group.
@@ -801,9 +801,9 @@ func (r AddApnsTokenRequest) Token(token string) AddApnsTokenRequest {
 	return r
 }
 
-// The Id of the Zulip app that is making the request.
+// The ID of the Zulip app that is making the request.
 //
-// **Changes**: In Zulip 8.0 (feature level 223), this parameter was made required. Previously, if it was unspecified, the server would use a default value (based on the `ZULIP_IOS_APP_Id` server setting, which defaulted to `"org.zulip.Zulip"`).
+// **Changes**: In Zulip 8.0 (feature level 223), this parameter was made required. Previously, if it was unspecified, the server would use a default value (based on the `ZULIP_IOS_APP_ID` server setting, which defaulted to `"org.zulip.Zulip"`).
 func (r AddApnsTokenRequest) Appid(appid string) AddApnsTokenRequest {
 	r.appid = &appid
 	return r
@@ -1027,13 +1027,13 @@ func (r CreateUserGroupRequest) Description(description string) CreateUserGroupR
 	return r
 }
 
-// An array containing the user Ids of the initial members for the new user group.
+// An array containing the user IDs of the initial members for the new user group.
 func (r CreateUserGroupRequest) Members(members []int64) CreateUserGroupRequest {
 	r.members = &members
 	return r
 }
 
-// An array containing the Ids of the initial subgroups for the new user group.  User can add subgroups to the new group irrespective of other permissions for the new group.
+// An array containing the IDs of the initial subgroups for the new user group.  User can add subgroups to the new group irrespective of other permissions for the new group.
 //
 // **Changes**: New in Zulip 10.0 (feature level 311).
 func (r CreateUserGroupRequest) Subgroups(subgroups []int64) CreateUserGroupRequest {
@@ -1254,7 +1254,7 @@ func (r DeactivateUserRequest) Execute() (*zulip.Response, *http.Response, error
 // DeactivateUser Deactivate a user
 //
 // [Deactivates a user]
-// given their user Id.
+// given their user ID.
 //
 // [Deactivates a user]: https://zulip.com/help/deactivate-or-reactivate-a-user
 func (s *usersService) DeactivateUser(ctx context.Context, userID int64) DeactivateUserRequest {
@@ -1650,9 +1650,9 @@ func (r GetUserByEmailRequest) Execute() (*GetUserResponse, *http.Response, erro
 // API email address.
 //
 // You can also fetch details on [all users in the organization]
-// or [by user Id].
+// or [by user ID].
 //
-// Fetching by user Id is generally recommended when possible,
+// Fetching by user ID is generally recommended when possible,
 // as a user might [change their email address]
 // or change their [email address visibility],
 // either of which could change the client's ability to look them up by that
@@ -1663,12 +1663,12 @@ func (r GetUserByEmailRequest) Execute() (*GetUserResponse, *http.Response, erro
 // data if and only if the target's email visibility setting permits the requester
 // to see the email address.
 // The dummy email addresses of the form `user{id}@{realm.host}` still work, and
-// will now work for **all** users, via identifying them by the embedded user Id.
+// will now work for **all** users, via identifying them by the embedded user ID.
 //
 // New in Zulip Server 4.0 (feature level 39).
 //
 // [all users in the organization]: https://zulip.com/api/get-users
-// [by user Id]: https://zulip.com/api/get-user
+// [by user ID]: https://zulip.com/api/get-user
 // [change their email address]: https://zulip.com/help/change-your-email-address
 // [email address visibility]: https://zulip.com/help/configure-email-visibility
 func (s *usersService) GetUserByEmail(ctx context.Context, email string) GetUserByEmailRequest {
@@ -1988,7 +1988,7 @@ type GetUsersRequest struct {
 	apiService                 APIUsers
 	clientGravatar             *bool
 	includeCustomProfileFields *bool
-	userIds                    *[]int64
+	userIDs                    *[]int64
 }
 
 // Whether the client supports computing gravatars URLs. If enabled, `avatar_url` will be included in the response only if there is a Zulip avatar, and will be `null` for users who are using gravatar as their avatar. This option significantly reduces the compressed size of user data, since gravatar URLs are long, random strings and thus do not compress well. The `client_gravatar` field is set to `true` if clients can compute their own gravatars.
@@ -2009,11 +2009,11 @@ func (r GetUsersRequest) IncludeCustomProfileFields(includeCustomProfileFields b
 	return r
 }
 
-// Limits the results to the specified user Ids. If not provided, the server will return all accessible users in the organization.
+// Limits the results to the specified user IDs. If not provided, the server will return all accessible users in the organization.
 //
 // **Changes**: New in Zulip 11.0 (feature level 384).
-func (r GetUsersRequest) UserIds(userIds []int64) GetUsersRequest {
-	r.userIds = &userIds
+func (r GetUsersRequest) UserIDs(userIDs []int64) GetUsersRequest {
+	r.userIDs = &userIDs
 	return r
 }
 
@@ -2027,7 +2027,7 @@ func (r GetUsersRequest) Execute() (*GetUsersResponse, *http.Response, error) {
 //
 // By default, returns all accessible users in the organization.
 // The `user_ids` query parameter can be used to limit the
-// results to a specific set of user Ids.
+// results to a specific set of user IDs.
 //
 // Optionally includes values of [custom profile fields].
 //
@@ -2059,7 +2059,7 @@ func (s *usersService) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *h
 	)
 	apiutils.AddOptionalParam(query, "client_gravatar", r.clientGravatar)
 	apiutils.AddOptionalParam(query, "include_custom_profile_fields", r.includeCustomProfileFields)
-	apiutils.AddOptionalCSVParam(query, "user_ids", r.userIds)
+	apiutils.AddOptionalCSVParam(query, "user_ids", r.userIDs)
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -2074,7 +2074,7 @@ func (s *usersService) GetUsersExecute(r GetUsersRequest) (*GetUsersResponse, *h
 type MuteUserRequest struct {
 	ctx         context.Context
 	apiService  APIUsers
-	mutedUserId int64
+	mutedUserID int64
 }
 
 func (r MuteUserRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -2099,11 +2099,11 @@ func (r MuteUserRequest) Execute() (*zulip.Response, *http.Response, error) {
 // *Changes**: New in Zulip 4.0 (feature level 48).
 //
 // [Mute a user]: https://zulip.com/help/mute-a-user
-func (s *usersService) MuteUser(ctx context.Context, mutedUserId int64) MuteUserRequest {
+func (s *usersService) MuteUser(ctx context.Context, mutedUserID int64) MuteUserRequest {
 	return MuteUserRequest{
 		apiService:  s,
 		ctx:         ctx,
-		mutedUserId: mutedUserId,
+		mutedUserID: mutedUserID,
 	}
 }
 
@@ -2118,7 +2118,7 @@ func (s *usersService) MuteUserExecute(r MuteUserRequest) (*zulip.Response, *htt
 		endpoint = "/users/me/muted_users/{muted_user_id}"
 	)
 
-	path := strings.Replace(endpoint, "{muted_user_id}", apiutils.IdToString(r.mutedUserId), -1)
+	path := strings.ReplaceAll(endpoint, "{muted_user_id}", apiutils.IdToString(r.mutedUserID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -2143,7 +2143,7 @@ func (r ReactivateUserRequest) Execute() (*zulip.Response, *http.Response, error
 // ReactivateUser Reactivate a user
 //
 // [Reactivates a user]
-// given their user Id.
+// given their user ID.
 //
 // [Reactivates a user]: https://zulip.com/help/deactivate-or-reactivate-a-user
 func (s *usersService) ReactivateUser(ctx context.Context, userID int64) ReactivateUserRequest {
@@ -2290,7 +2290,7 @@ func (s *usersService) RemoveApnsTokenExecute(r RemoveApnsTokenRequest) (*zulip.
 type RemoveAttachmentRequest struct {
 	ctx          context.Context
 	apiService   APIUsers
-	attachmentId int64
+	attachmentID int64
 }
 
 func (r RemoveAttachmentRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -2299,7 +2299,7 @@ func (r RemoveAttachmentRequest) Execute() (*zulip.Response, *http.Response, err
 
 // RemoveAttachment Delete an attachment
 //
-// Delete an uploaded file given its attachment Id.
+// Delete an uploaded file given its attachment ID.
 //
 // Note that uploaded files that have been referenced in at least
 // one message are automatically deleted once the last message
@@ -2309,15 +2309,15 @@ func (r RemoveAttachmentRequest) Execute() (*zulip.Response, *http.Response, err
 // Uploaded files that are never used in a message are
 // automatically deleted a few weeks after being uploaded.
 //
-// Attachment Ids can be contained from [GET /attachments].
+// Attachment IDs can be contained from [GET /attachments].
 //
 // [message retention policy]: https://zulip.com/help/message-retention-policy
 // [GET /attachments]: https://zulip.com/api/get-attachments
-func (s *usersService) RemoveAttachment(ctx context.Context, attachmentId int64) RemoveAttachmentRequest {
+func (s *usersService) RemoveAttachment(ctx context.Context, attachmentID int64) RemoveAttachmentRequest {
 	return RemoveAttachmentRequest{
 		apiService:   s,
 		ctx:          ctx,
-		attachmentId: attachmentId,
+		attachmentID: attachmentID,
 	}
 }
 
@@ -2332,7 +2332,7 @@ func (s *usersService) RemoveAttachmentExecute(r RemoveAttachmentRequest) (*zuli
 		endpoint = "/attachments/{attachment_id}"
 	)
 
-	path := strings.Replace(endpoint, "{attachment_id}", apiutils.IdToString(r.attachmentId), -1)
+	path := strings.ReplaceAll(endpoint, "{attachment_id}", apiutils.IdToString(r.attachmentID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -2421,9 +2421,9 @@ func (r SetTypingStatusRequest) RecipientType(recipientType zulip.RecipientType)
 	return r
 }
 
-// User Ids of the recipients of the message being typed. Required for the `"direct"` type. Ignored in the case of `"stream"` or `"channel"` type.  Clients should send a JSON-encoded list of user Ids, even if there is only one recipient.
+// User IDs of the recipients of the message being typed. Required for the `"direct"` type. Ignored in the case of `"stream"` or `"channel"` type.  Clients should send a JSON-encoded list of user IDs, even if there is only one recipient.
 //
-// **Changes**: In Zulip 8.0 (feature level 215), stopped using this parameter for the `"stream"` type. Previously, in the case of the `"stream"` type, it accepted a single-element list containing the Id of the channel. A new parameter, `stream_id`, is now used for this. Note that the `"channel"` type did not exist at this feature level.  Support for typing notifications for channel' messages is new in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  Before Zulip 2.0.0, this parameter accepted only a JSON-encoded list of email addresses. Support for the email address-based format was removed in Zulip 3.0 (feature level 11).
+// **Changes**: In Zulip 8.0 (feature level 215), stopped using this parameter for the `"stream"` type. Previously, in the case of the `"stream"` type, it accepted a single-element list containing the ID of the channel. A new parameter, `stream_id`, is now used for this. Note that the `"channel"` type did not exist at this feature level.  Support for typing notifications for channel' messages is new in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.  Before Zulip 2.0.0, this parameter accepted only a JSON-encoded list of email addresses. Support for the email address-based format was removed in Zulip 3.0 (feature level 11).
 func (r SetTypingStatusRequest) To(to zulip.Recipient) SetTypingStatusRequest {
 	r.to = &to
 	if r.recipientType == nil {
@@ -2432,9 +2432,9 @@ func (r SetTypingStatusRequest) To(to zulip.Recipient) SetTypingStatusRequest {
 	return r
 }
 
-// Id of the channel in which the message is being typed. Required for the `"stream"` or `"channel"` type. Ignored in the case of `"direct"` type.
+// ID of the channel in which the message is being typed. Required for the `"stream"` or `"channel"` type. Ignored in the case of `"direct"` type.
 //
-// **Changes**: New in Zulip 8.0 (feature level 215). Previously, a single-element list containing the Id of the channel was passed in `to` parameter.
+// **Changes**: New in Zulip 8.0 (feature level 215). Previously, a single-element list containing the ID of the channel was passed in `to` parameter.
 func (r SetTypingStatusRequest) ChannelID(channelID int64) SetTypingStatusRequest {
 	r.channelID = &channelID
 	return r
@@ -2612,7 +2612,7 @@ func (s *usersService) SetTypingStatusForMessageEditExecute(
 type UnmuteUserRequest struct {
 	ctx         context.Context
 	apiService  APIUsers
-	mutedUserId int64
+	mutedUserID int64
 }
 
 func (r UnmuteUserRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -2627,11 +2627,11 @@ func (r UnmuteUserRequest) Execute() (*zulip.Response, *http.Response, error) {
 // *Changes**: New in Zulip 4.0 (feature level 48).
 //
 // [Unmute a user]: https://zulip.com/help/mute-a-user#see-your-list-of-muted-users
-func (s *usersService) UnmuteUser(ctx context.Context, mutedUserId int64) UnmuteUserRequest {
+func (s *usersService) UnmuteUser(ctx context.Context, mutedUserID int64) UnmuteUserRequest {
 	return UnmuteUserRequest{
 		apiService:  s,
 		ctx:         ctx,
-		mutedUserId: mutedUserId,
+		mutedUserID: mutedUserID,
 	}
 }
 
@@ -2646,7 +2646,7 @@ func (s *usersService) UnmuteUserExecute(r UnmuteUserRequest) (*zulip.Response, 
 		endpoint = "/users/me/muted_users/{muted_user_id}"
 	)
 
-	path := strings.Replace(endpoint, "{muted_user_id}", apiutils.IdToString(r.mutedUserId), -1)
+	path := strings.ReplaceAll(endpoint, "{muted_user_id}", apiutils.IdToString(r.mutedUserID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -2662,7 +2662,7 @@ type UpdatePresenceRequest struct {
 	ctx              context.Context
 	apiService       APIUsers
 	status           *zulip.PresenceStatus
-	lastUpdateId     *int64
+	lastUpdateID     *int64
 	historyLimitDays *int32
 	newUserInput     *bool
 	pingOnly         *bool
@@ -2683,8 +2683,8 @@ func (r UpdatePresenceRequest) Status(status zulip.PresenceStatus) UpdatePresenc
 // **Changes**: New in Zulip 9.0 (feature level 263). Previously, the server sent user presence data for all users who had been active in the last two weeks unconditionally.
 //
 // [`POST /register`]: https://zulip.com/api/register-queue
-func (r UpdatePresenceRequest) LastUpdateId(lastUpdateId int64) UpdatePresenceRequest {
-	r.lastUpdateId = &lastUpdateId
+func (r UpdatePresenceRequest) LastUpdateID(lastUpdateID int64) UpdatePresenceRequest {
+	r.lastUpdateID = &lastUpdateID
 	return r
 }
 
@@ -2783,7 +2783,7 @@ func (s *usersService) UpdatePresenceExecute(r UpdatePresenceRequest) (*UpdatePr
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	apiutils.AddOptionalParam(form, "last_update_id", r.lastUpdateId)
+	apiutils.AddOptionalParam(form, "last_update_id", r.lastUpdateID)
 	apiutils.AddOptionalParam(form, "history_limit_days", r.historyLimitDays)
 	apiutils.AddOptionalParam(form, "new_user_input", r.newUserInput)
 	apiutils.AddOptionalParam(form, "ping_only", r.pingOnly)
@@ -4310,19 +4310,19 @@ type UpdateUserGroupMembersRequest struct {
 	addSubgroups    *[]int64
 }
 
-// The list of user Ids to be removed from the user group.
+// The list of user IDs to be removed from the user group.
 func (r UpdateUserGroupMembersRequest) Delete(delete []int64) UpdateUserGroupMembersRequest {
 	r.delete = &delete
 	return r
 }
 
-// The list of user Ids to be added to the user group.
+// The list of user IDs to be added to the user group.
 func (r UpdateUserGroupMembersRequest) Add(add []int64) UpdateUserGroupMembersRequest {
 	r.add = &add
 	return r
 }
 
-// The list of user group Ids to be removed from the user group.
+// The list of user group IDs to be removed from the user group.
 //
 // **Changes**: New in Zulip 10.0 (feature level 311).
 func (r UpdateUserGroupMembersRequest) DeleteSubgroups(deleteSubgroups []int64) UpdateUserGroupMembersRequest {
@@ -4330,7 +4330,7 @@ func (r UpdateUserGroupMembersRequest) DeleteSubgroups(deleteSubgroups []int64) 
 	return r
 }
 
-// The list of user group Ids to be added to the user group.
+// The list of user group IDs to be added to the user group.
 //
 // **Changes**: New in Zulip 10.0 (feature level 311).
 func (r UpdateUserGroupMembersRequest) AddSubgroups(addSubgroups []int64) UpdateUserGroupMembersRequest {
@@ -4345,7 +4345,7 @@ func (r UpdateUserGroupMembersRequest) Execute() (*zulip.Response, *http.Respons
 // UpdateUserGroupMembers Update user group members
 //
 // Update the members of a [user group]. The
-// user Ids must correspond to non-deactivated users.
+// user IDs must correspond to non-deactivated users.
 //
 // *Changes**: Prior to Zulip 11.0 (feature level 391), members
 // could not be added or removed from a deactivated group.
@@ -4400,13 +4400,13 @@ type UpdateUserGroupSubgroupsRequest struct {
 	add         *[]int64
 }
 
-// The list of user group Ids to be removed from the user group.
+// The list of user group IDs to be removed from the user group.
 func (r UpdateUserGroupSubgroupsRequest) Delete(delete []int64) UpdateUserGroupSubgroupsRequest {
 	r.delete = &delete
 	return r
 }
 
-// The list of user group Ids to be added to the user group.
+// The list of user group IDs to be added to the user group.
 func (r UpdateUserGroupSubgroupsRequest) Add(add []int64) UpdateUserGroupSubgroupsRequest {
 	r.add = &add
 	return r

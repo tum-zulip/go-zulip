@@ -347,9 +347,22 @@ linters:
         linters:
           - sloglint
       # TODO: enable after fixing all issues
-      - text: 'exported: exported (type|method|function) .*? should have comment or be unexported'
+      - text: 'exported: exported (type|method|function|const) .*? should have comment or be unexported'
         linters:
           - revive
+      # TODO: enable after fixing all issues
+      - text: comment on exported (type|method|function|const) .*? should be of the form ".*?"
+        linters:
+          - revive
+      # TODO: enable after fixing all issues
+      - text: 'godoc should start with symbol name'
+        linters:
+          - godoclint
+      # TODO: enable after fixing all issues
+      - text: ST1020
+        linters:
+          - staticcheck
+
       - text: 'lines are duplicate of'
         path: 'api_users.go|_test.go'
         linters:
@@ -358,6 +371,6 @@ linters:
         linters:
           - gochecknoglobals
       - path: 'zulip/internal/test_utils/utils.go'
-        rules: 'G404'
+        text: 'G404'
         linters:
           - gosec

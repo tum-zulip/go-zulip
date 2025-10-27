@@ -17,10 +17,10 @@ type DraftsUpdateEvent struct {
 	Draft zulip.Draft `json:"draft,omitempty"`
 }
 
-// DraftsRemoveEvent Event containing the Id of a deleted draft.
+// DraftsRemoveEvent Event containing the ID of a deleted draft.
 type DraftsRemoveEvent struct {
 	event
 
-	// The Id of the draft that was just deleted.
-	DraftId int64 `json:"draft_id,omitempty"`
+	// The ID of the draft that was just deleted.
+	DraftID int64 `json:"draft_id,omitempty"`
 }

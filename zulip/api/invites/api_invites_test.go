@@ -16,12 +16,12 @@ import (
 func Test_InviteLinkLifecycle(t *testing.T) {
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		channelName, channelID := CreateRandomChannel(t, apiClient, GetUserId(t, apiClient))
+		channelName, channelID := CreateRandomChannel(t, apiClient, GetUserID(t, apiClient))
 
 		baseline := inviteSnapshot(t, ctx, apiClient)
 
 		resp, httpResp, err := apiClient.CreateInviteLink(ctx).
-			ChannelIds([]int64{channelID}).
+			ChannelIDs([]int64{channelID}).
 			IncludeRealmDefaultSubscriptions(true).
 			InviteExpiresInMinutes(60).
 			WelcomeMessageCustomText(fmt.Sprintf("Welcome via %s", channelName)).
@@ -38,9 +38,9 @@ func Test_InviteLinkLifecycle(t *testing.T) {
 			return inv.IsMultiuse && strings.EqualFold(inv.LinkUrl, link)
 		})
 		require.NotNil(t, newInvite, "created invite link not present in GetInvites response")
-		require.NotZero(t, newInvite.Id)
+		require.NotZero(t, newInvite.ID)
 
-		revokeResp, revokeHTTP, err := apiClient.RevokeInviteLink(ctx, newInvite.Id).Execute()
+		revokeResp, revokeHTTP, err := apiClient.RevokeInviteLink(ctx, newInvite.ID).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, revokeResp)
 		RequireStatusOK(t, revokeHTTP)
@@ -48,7 +48,7 @@ func Test_InviteLinkLifecycle(t *testing.T) {
 
 		remaining := loadInvites(t, ctx, apiClient)
 		assert.Nil(t, findNewInvite(baseline, remaining, func(inv z.Invite) bool {
-			return inv.IsMultiuse && inv.Id == newInvite.Id
+			return inv.IsMultiuse && inv.ID == newInvite.ID
 		}), "multiuse invite should be removed after revocation")
 	})
 }
@@ -57,14 +57,14 @@ func Test_EmailInviteLifecycle(t *testing.T) {
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		_, channelID := CreateRandomChannel(t, apiClient, GetUserId(t, apiClient))
+		_, channelID := CreateRandomChannel(t, apiClient, GetUserID(t, apiClient))
 		invitee := fmt.Sprintf("%s@zulip.com", strings.ToLower(UniqueName("invitee")))
 
 		baseline := inviteSnapshot(t, ctx, apiClient)
 
 		resp, httpResp, err := apiClient.SendInvites(ctx).
 			InviteeEmails(invitee).
-			ChannelIds([]int64{channelID}).
+			ChannelIDs([]int64{channelID}).
 			InviteExpiresInMinutes(60).
 			NotifyReferrerOnJoin(true).
 			Execute()
@@ -79,15 +79,15 @@ func Test_EmailInviteLifecycle(t *testing.T) {
 			return !inv.IsMultiuse && strings.EqualFold(inv.Email, invitee)
 		})
 		require.NotNil(t, emailInvite, "email invitation not found in GetInvites response")
-		require.NotZero(t, emailInvite.Id)
+		require.NotZero(t, emailInvite.ID)
 
-		resendResp, resendHTTP, err := apiClient.ResendEmailInvite(ctx, emailInvite.Id).Execute()
+		resendResp, resendHTTP, err := apiClient.ResendEmailInvite(ctx, emailInvite.ID).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, resendResp)
 		RequireStatusOK(t, resendHTTP)
 		assert.Equal(t, "success", resendResp.Result)
 
-		revokeResp, revokeHTTP, err := apiClient.RevokeEmailInvite(ctx, emailInvite.Id).Execute()
+		revokeResp, revokeHTTP, err := apiClient.RevokeEmailInvite(ctx, emailInvite.ID).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, revokeResp)
 		RequireStatusOK(t, revokeHTTP)
@@ -95,7 +95,7 @@ func Test_EmailInviteLifecycle(t *testing.T) {
 
 		remaining := loadInvites(t, ctx, apiClient)
 		assert.Nil(t, findNewInvite(baseline, remaining, func(inv z.Invite) bool {
-			return !inv.IsMultiuse && inv.Id == emailInvite.Id
+			return !inv.IsMultiuse && inv.ID == emailInvite.ID
 		}), "email invitation should be removed after revocation")
 	})
 }
@@ -138,5 +138,5 @@ func findNewInvite(snapshot map[string]struct{}, invites []z.Invite, match func(
 func inviteKey(inv z.Invite) string {
 	email := strings.ToLower(inv.Email)
 	link := strings.ToLower(inv.LinkUrl)
-	return fmt.Sprintf("%d:%t:%s:%s", inv.Id, inv.IsMultiuse, email, link)
+	return fmt.Sprintf("%d:%t:%s:%s", inv.ID, inv.IsMultiuse, email, link)
 }

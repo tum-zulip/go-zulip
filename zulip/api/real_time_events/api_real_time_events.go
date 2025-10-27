@@ -4,19 +4,17 @@ package real_time_events
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	"net/http"
 	"net/url"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-
 	"github.com/tum-zulip/go-zulip/zulip/events"
 	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIRealTimeEvents interface {
-
 	// DeleteQueue Delete an event queue
 	//
 	// Delete a previously registered queue.
@@ -69,7 +67,7 @@ type APIRealTimeEvents interface {
 	//
 	// Once the server garbage-collects your event queue, the server will
 	// [return an error]
-	// with a code of `BAD_EVENT_QUEUE_Id` if you try to fetch events from
+	// with a code of `BAD_EVENT_QUEUE_ID` if you try to fetch events from
 	// the event queue. Your software will need to handle that error
 	// condition by re-initializing itself (e.g. this is what triggers your
 	// browser reloading the Zulip web app when your laptop comes back online
@@ -130,14 +128,14 @@ var _ APIRealTimeEvents = (*realTimeEventsService)(nil)
 type DeleteQueueRequest struct {
 	ctx        context.Context
 	apiService APIRealTimeEvents
-	queueId    *string
+	queueID    *string
 }
 
-// The Id of an event queue that was previously registered via `POST /api/v1/register` (see [Register a queue].
+// The ID of an event queue that was previously registered via `POST /api/v1/register` (see [Register a queue].
 //
 // [Register a queue]: https://zulip.com/api/register-queue
-func (r DeleteQueueRequest) QueueId(queueId string) DeleteQueueRequest {
-	r.queueId = &queueId
+func (r DeleteQueueRequest) QueueID(queueID string) DeleteQueueRequest {
+	r.queueID = &queueID
 	return r
 }
 
@@ -165,14 +163,14 @@ func (s *realTimeEventsService) DeleteQueueExecute(r DeleteQueueRequest) (*zulip
 		response = &zulip.Response{}
 		endpoint = "/events"
 	)
-	if r.queueId == nil {
-		return nil, nil, fmt.Errorf("queueId is required and must be specified")
+	if r.queueID == nil {
+		return nil, nil, errors.New("queueID is required and must be specified")
 	}
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	apiutils.AddParam(form, "queue_id", r.queueId)
+	apiutils.AddParam(form, "queue_id", r.queueID)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -185,25 +183,25 @@ func (s *realTimeEventsService) DeleteQueueExecute(r DeleteQueueRequest) (*zulip
 type GetEventsRequest struct {
 	ctx         context.Context
 	apiService  APIRealTimeEvents
-	queueId     *string
-	lastEventId *int64
+	queueID     *string
+	lastEventID *int64
 	dontBlock   *bool
 }
 
-// The Id of an event queue that was previously registered via `POST /api/v1/register` (see [Register a queue].
+// The ID of an event queue that was previously registered via `POST /api/v1/register` (see [Register a queue].
 //
 // [Register a queue]: https://zulip.com/api/register-queue
-func (r GetEventsRequest) QueueId(queueId string) GetEventsRequest {
-	r.queueId = &queueId
+func (r GetEventsRequest) QueueID(queueID string) GetEventsRequest {
+	r.queueID = &queueID
 	return r
 }
 
-// The highest event Id in this queue that you've received and wish to acknowledge. See the [code for `call_on_each_event`] in the [zulip Python module] for an example implementation of correctly processing each event exactly once.
+// The highest event ID in this queue that you've received and wish to acknowledge. See the [code for `call_on_each_event`] in the [zulip Python module] for an example implementation of correctly processing each event exactly once.
 //
 // [code for `call_on_each_event`]: https://github.com/zulip/python-zulip-api/blob/main/zulip/zulip/__init__.py
 // [zulip Python module]: https://github.com/zulip/python-zulip-api
-func (r GetEventsRequest) LastEventId(lastEventId int64) GetEventsRequest {
-	r.lastEventId = &lastEventId
+func (r GetEventsRequest) LastEventID(lastEventID int64) GetEventsRequest {
+	r.lastEventID = &lastEventID
 	return r
 }
 
@@ -247,12 +245,12 @@ func (s *realTimeEventsService) GetEventsExecute(r GetEventsRequest) (*GetEvents
 		response = &GetEventsResponse{}
 		endpoint = "/events"
 	)
-	if r.queueId == nil {
-		return nil, nil, fmt.Errorf("queueId is required and must be specified")
+	if r.queueID == nil {
+		return nil, nil, errors.New("queueID is required and must be specified")
 	}
 
-	apiutils.AddParam(query, "queue_id", r.queueId)
-	apiutils.AddOptionalParam(query, "last_event_id", r.lastEventId)
+	apiutils.AddParam(query, "queue_id", r.queueID)
+	apiutils.AddOptionalParam(query, "last_event_id", r.lastEventID)
 	apiutils.AddOptionalParam(query, "dont_block", r.dontBlock)
 
 	headers["Accept"] = "application/json"
@@ -296,7 +294,7 @@ func (r RegisterQueueRequest) ClientGravatar(clientGravatar bool) RegisterQueueR
 	return r
 }
 
-// Whether each returned channel object should include a `subscribers` field containing a list of the user Ids of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel's subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  Passing `true` in an [unauthenticated request] is an error.
+// Whether each returned channel object should include a `subscribers` field containing a list of the user IDs of its subscribers.  Client apps supporting organizations with many thousands of users should not pass `true`, because the full subscriber matrix may be several megabytes of data. The `partial` value, combined with the `subscriber_count` and fetching subscribers for individual channels as needed, is recommended to support client app features where channel subscriber data is useful.  If a client passes `partial` for this parameter, the server may, for some channels, return a subset of the channel's subscribers in the `partial_subscribers` field instead of the `subscribers` field, which always contains the complete set of subscribers.  The server guarantees that it will always return a `subscribers` field for channels with fewer than 250 total subscribers. When returning a `partial_subscribers` field, the server guarantees that all bot users and users active within the last 14 days will be included. For other cases, the server may use its discretion to determine which channels and users to include, balancing between payload size and usefulness of the data provided to the client.  Passing `true` in an [unauthenticated request] is an error.
 //
 // **Changes**: The `partial` value is new in Zulip 11.0 (feature level 412).  Before Zulip 6.0 (feature level 149), this parameter was silently ignored and processed as though it were `false` in unauthenticated requests.  New in Zulip 2.1.0.
 //
@@ -306,7 +304,7 @@ func (r RegisterQueueRequest) IncludeSubscribers(includeSubscribers string) Regi
 	return r
 }
 
-// If `true`, the `presences` object returned in the response will be keyed by user Id and the entry for each user's presence data will be in the modern format.
+// If `true`, the `presences` object returned in the response will be keyed by user ID and the entry for each user's presence data will be in the modern format.
 //
 // **Changes**: New in Zulip 3.0 (no feature level; API unstable).
 func (r RegisterQueueRequest) SlimPresence(slimPresence bool) RegisterQueueRequest {
@@ -407,7 +405,7 @@ func (r RegisterQueueRequest) Execute() (*RegisterQueueResponse, *http.Response,
 //
 // Once the server garbage-collects your event queue, the server will
 // [return an error]
-// with a code of `BAD_EVENT_QUEUE_Id` if you try to fetch events from
+// with a code of `BAD_EVENT_QUEUE_ID` if you try to fetch events from
 // the event queue. Your software will need to handle that error
 // condition by re-initializing itself (e.g. this is what triggers your
 // browser reloading the Zulip web app when your laptop comes back online
@@ -457,7 +455,9 @@ func (s *realTimeEventsService) RegisterQueue(ctx context.Context) RegisterQueue
 }
 
 // Execute executes the request
-func (s *realTimeEventsService) RegisterQueueExecute(r RegisterQueueRequest) (*RegisterQueueResponse, *http.Response, error) {
+func (s *realTimeEventsService) RegisterQueueExecute(
+	r RegisterQueueRequest,
+) (*RegisterQueueResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)

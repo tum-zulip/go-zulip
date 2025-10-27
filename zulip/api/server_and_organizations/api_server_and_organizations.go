@@ -4,6 +4,7 @@ package server_and_organizations
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -224,7 +225,7 @@ type APIServerAndOrganizations interface {
 	// in messages and topics.
 	//
 	// [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
-	RemoveLinkifier(ctx context.Context, filterId int64) RemoveLinkifierRequest
+	RemoveLinkifier(ctx context.Context, filterID int64) RemoveLinkifierRequest
 
 	// RemoveLinkifierExecute executes the request
 	RemoveLinkifierExecute(r RemoveLinkifierRequest) (*zulip.Response, *http.Response, error)
@@ -252,7 +253,7 @@ type APIServerAndOrganizations interface {
 	// Useful when defining linkifiers with overlapping patterns.
 	//
 	// *Changes**: New in Zulip 8.0 (feature level 202). Before this feature level,
-	// linkifiers were always processed in order by Id, which meant users would
+	// linkifiers were always processed in order by ID, which meant users would
 	// need to delete and recreate them to reorder the list of linkifiers.
 	//
 	// [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
@@ -285,7 +286,7 @@ type APIServerAndOrganizations interface {
 	// *Changes**: New in Zulip 4.0 (feature level 57).
 	//
 	// [linkifier]: https://zulip.com/help/add-a-custom-linkifier
-	UpdateLinkifier(ctx context.Context, filterId int64) UpdateLinkifierRequest
+	UpdateLinkifier(ctx context.Context, filterID int64) UpdateLinkifierRequest
 
 	// UpdateLinkifierExecute executes the request
 	UpdateLinkifierExecute(r UpdateLinkifierRequest) (*zulip.Response, *http.Response, error)
@@ -1149,7 +1150,7 @@ func (s *serverAndOrganizationsService) RemoveCodePlaygroundExecute(
 type RemoveLinkifierRequest struct {
 	ctx        context.Context
 	apiService APIServerAndOrganizations
-	filterId   int64
+	filterID   int64
 }
 
 func (r RemoveLinkifierRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -1163,11 +1164,11 @@ func (r RemoveLinkifierRequest) Execute() (*zulip.Response, *http.Response, erro
 // in messages and topics.
 //
 // [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
-func (s *serverAndOrganizationsService) RemoveLinkifier(ctx context.Context, filterId int64) RemoveLinkifierRequest {
+func (s *serverAndOrganizationsService) RemoveLinkifier(ctx context.Context, filterID int64) RemoveLinkifierRequest {
 	return RemoveLinkifierRequest{
 		apiService: s,
 		ctx:        ctx,
-		filterId:   filterId,
+		filterID:   filterID,
 	}
 }
 
@@ -1184,7 +1185,7 @@ func (s *serverAndOrganizationsService) RemoveLinkifierExecute(
 		endpoint = "/realm/filters/{filter_id}"
 	)
 
-	path := strings.Replace(endpoint, "{filter_id}", apiutils.IdToString(r.filterId), -1)
+	path := strings.ReplaceAll(endpoint, "{filter_id}", apiutils.IdToString(r.filterID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -1202,7 +1203,7 @@ type ReorderCustomProfileFieldsRequest struct {
 	order      *[]int64
 }
 
-// A list of the Ids of all the custom profile fields defined in this organization, in the desired new order.
+// A list of the IDs of all the custom profile fields defined in this organization, in the desired new order.
 func (r ReorderCustomProfileFieldsRequest) Order(order []int64) ReorderCustomProfileFieldsRequest {
 	r.order = &order
 	return r
@@ -1264,12 +1265,12 @@ func (s *serverAndOrganizationsService) ReorderCustomProfileFieldsExecute(
 type ReorderLinkifiersRequest struct {
 	ctx                 context.Context
 	apiService          APIServerAndOrganizations
-	orderedLinkifierIds *[]int64
+	orderedLinkifierIDs *[]int64
 }
 
-// A list of the Ids of all the linkifiers defined in this organization, in the desired new order.
-func (r ReorderLinkifiersRequest) OrderedLinkifierIds(orderedLinkifierIds []int64) ReorderLinkifiersRequest {
-	r.orderedLinkifierIds = &orderedLinkifierIds
+// A list of the IDs of all the linkifiers defined in this organization, in the desired new order.
+func (r ReorderLinkifiersRequest) OrderedLinkifierIDs(orderedLinkifierIDs []int64) ReorderLinkifiersRequest {
+	r.orderedLinkifierIDs = &orderedLinkifierIDs
 	return r
 }
 
@@ -1284,7 +1285,7 @@ func (r ReorderLinkifiersRequest) Execute() (*zulip.Response, *http.Response, er
 // Useful when defining linkifiers with overlapping patterns.
 //
 // *Changes**: New in Zulip 8.0 (feature level 202). Before this feature level,
-// linkifiers were always processed in order by Id, which meant users would
+// linkifiers were always processed in order by ID, which meant users would
 // need to delete and recreate them to reorder the list of linkifiers.
 //
 // [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
@@ -1307,14 +1308,14 @@ func (s *serverAndOrganizationsService) ReorderLinkifiersExecute(
 		response = &zulip.Response{}
 		endpoint = "/realm/linkifiers"
 	)
-	if r.orderedLinkifierIds == nil {
-		return nil, nil, fmt.Errorf("orderedLinkifierIds is required and must be specified")
+	if r.orderedLinkifierIDs == nil {
+		return nil, nil, errors.New("orderedLinkifierIDs is required and must be specified")
 	}
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	apiutils.AddParam(form, "ordered_linkifier_ids", r.orderedLinkifierIds)
+	apiutils.AddParam(form, "ordered_linkifier_ids", r.orderedLinkifierIDs)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1393,7 +1394,7 @@ func (s *serverAndOrganizationsService) TestWelcomeBotCustomMessageExecute(
 type UpdateLinkifierRequest struct {
 	ctx         context.Context
 	apiService  APIServerAndOrganizations
-	filterId    int64
+	filterID    int64
 	pattern     *string
 	urlTemplate *string
 }
@@ -1429,11 +1430,11 @@ func (r UpdateLinkifierRequest) Execute() (*zulip.Response, *http.Response, erro
 // *Changes**: New in Zulip 4.0 (feature level 57).
 //
 // [linkifier]: https://zulip.com/help/add-a-custom-linkifier
-func (s *serverAndOrganizationsService) UpdateLinkifier(ctx context.Context, filterId int64) UpdateLinkifierRequest {
+func (s *serverAndOrganizationsService) UpdateLinkifier(ctx context.Context, filterID int64) UpdateLinkifierRequest {
 	return UpdateLinkifierRequest{
 		apiService: s,
 		ctx:        ctx,
-		filterId:   filterId,
+		filterID:   filterID,
 	}
 }
 
@@ -1450,7 +1451,7 @@ func (s *serverAndOrganizationsService) UpdateLinkifierExecute(
 		endpoint = "/realm/filters/{filter_id}"
 	)
 
-	path := strings.Replace(endpoint, "{filter_id}", apiutils.IdToString(r.filterId), -1)
+	path := strings.ReplaceAll(endpoint, "{filter_id}", apiutils.IdToString(r.filterID))
 
 	if r.pattern == nil {
 		return nil, nil, fmt.Errorf("pattern is required and must be specified")
@@ -2231,11 +2232,27 @@ func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaultsExecute(
 	apiutils.AddOptionalParam(form, "notification_sound", r.notificationSound)
 	apiutils.AddOptionalParam(form, "enable_desktop_notifications", r.enableDesktopNotifications)
 	apiutils.AddOptionalParam(form, "enable_sounds", r.enableSounds)
-	apiutils.AddOptionalParam(form, "enable_followed_topic_desktop_notifications", r.enableFollowedTopicDesktopNotifications)
-	apiutils.AddOptionalParam(form, "enable_followed_topic_email_notifications", r.enableFollowedTopicEmailNotifications)
+	apiutils.AddOptionalParam(
+		form,
+		"enable_followed_topic_desktop_notifications",
+		r.enableFollowedTopicDesktopNotifications,
+	)
+	apiutils.AddOptionalParam(
+		form,
+		"enable_followed_topic_email_notifications",
+		r.enableFollowedTopicEmailNotifications,
+	)
 	apiutils.AddOptionalParam(form, "enable_followed_topic_push_notifications", r.enableFollowedTopicPushNotifications)
-	apiutils.AddOptionalParam(form, "enable_followed_topic_audible_notifications", r.enableFollowedTopicAudibleNotifications)
-	apiutils.AddOptionalParam(form, "email_notifications_batching_period_seconds", r.emailNotificationsBatchingPeriodSeconds)
+	apiutils.AddOptionalParam(
+		form,
+		"enable_followed_topic_audible_notifications",
+		r.enableFollowedTopicAudibleNotifications,
+	)
+	apiutils.AddOptionalParam(
+		form,
+		"email_notifications_batching_period_seconds",
+		r.emailNotificationsBatchingPeriodSeconds,
+	)
 	apiutils.AddOptionalParam(form, "enable_offline_email_notifications", r.enableOfflineEmailNotifications)
 	apiutils.AddOptionalParam(form, "enable_offline_push_notifications", r.enableOfflinePushNotifications)
 	apiutils.AddOptionalParam(form, "enable_online_push_notifications", r.enableOnlinePushNotifications)
@@ -2243,12 +2260,24 @@ func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaultsExecute(
 	apiutils.AddOptionalParam(form, "message_content_in_email_notifications", r.messageContentInEmailNotifications)
 	apiutils.AddOptionalParam(form, "pm_content_in_desktop_notifications", r.pmContentInDesktopNotifications)
 	apiutils.AddOptionalParam(form, "wildcard_mentions_notify", r.wildcardMentionsNotify)
-	apiutils.AddOptionalParam(form, "enable_followed_topic_wildcard_mentions_notify", r.enableFollowedTopicWildcardMentionsNotify)
+	apiutils.AddOptionalParam(
+		form,
+		"enable_followed_topic_wildcard_mentions_notify",
+		r.enableFollowedTopicWildcardMentionsNotify,
+	)
 	apiutils.AddOptionalParam(form, "desktop_icon_count_display", r.desktopIconCountDisplay)
 	apiutils.AddOptionalParam(form, "realm_name_in_email_notifications_policy", r.realmNameInEmailNotificationsPolicy)
 	apiutils.AddOptionalParam(form, "automatically_follow_topics_policy", r.automaticallyFollowTopicsPolicy)
-	apiutils.AddOptionalParam(form, "automatically_unmute_topics_in_muted_streams_policy", r.automaticallyUnmuteTopicsInMutedChannelsPolicy)
-	apiutils.AddOptionalParam(form, "automatically_follow_topics_where_mentioned", r.automaticallyFollowTopicsWhereMentioned)
+	apiutils.AddOptionalParam(
+		form,
+		"automatically_unmute_topics_in_muted_streams_policy",
+		r.automaticallyUnmuteTopicsInMutedChannelsPolicy,
+	)
+	apiutils.AddOptionalParam(
+		form,
+		"automatically_follow_topics_where_mentioned",
+		r.automaticallyFollowTopicsWhereMentioned,
+	)
 	apiutils.AddOptionalParam(form, "resolved_topic_notice_auto_read_policy", r.resolvedTopicNoticeAutoReadPolicy)
 	apiutils.AddOptionalParam(form, "presence_enabled", r.presenceEnabled)
 	apiutils.AddOptionalParam(form, "enter_sends", r.enterSends)

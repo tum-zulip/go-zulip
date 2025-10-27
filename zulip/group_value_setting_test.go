@@ -14,7 +14,7 @@ func TestGroupSettingValueUnmarshalJSON(t *testing.T) {
 
 	err := json.Unmarshal([]byte(`1`), &v)
 	require.NoError(t, err)
-	assert.Equal(t, v.GroupId, ptrTo(int64(1)))
+	assert.Equal(t, v.GroupID, ptrTo(int64(1)))
 
 	err = json.Unmarshal([]byte(`{"direct_members":[1,2,3],"direct_subgroups":[4,5,6]}`), &v)
 	require.NoError(t, err)

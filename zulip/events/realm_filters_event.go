@@ -9,6 +9,6 @@ package events
 // [linkifiers]: https://zulip.com/help/add-a-custom-linkifier
 type RealmFiltersEvent struct {
 	event
-	// An array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `"#(?P<id>[123])"`. The second element was the URL format string that the pattern should be linkified with. A URL format string for the above example would be `"https://realm.com/my_realm_filter/%(id)s"`. And the third element was the Id of the realm filter.
+	// An array of tuples, where each tuple described a linkifier. The first element of the tuple was a string regex pattern which represented the pattern to be linkified on matching, for example `"#(?P<id>[123])"`. The second element was the URL format string that the pattern should be linkified with. A URL format string for the above example would be `"https://realm.com/my_realm_filter/%(id)s"`. And the third element was the ID of the realm filter.
 	RealmFilters []interface{}
 }

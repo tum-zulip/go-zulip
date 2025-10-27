@@ -14,7 +14,7 @@ func TestSavedSnippetMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 
 	created := time.Unix(1700000000, 500*int64(time.Millisecond)).UTC()
 	snippet := z.SavedSnippet{
-		Id:          11,
+		ID:          11,
 		Title:       "Snippet",
 		Content:     "**bold**",
 		DateCreated: created,
@@ -39,7 +39,7 @@ func TestSavedSnippetUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 	var snippet z.SavedSnippet
 	require.NoError(t, json.Unmarshal(raw, &snippet))
 
-	assert.Equal(t, int64(11), snippet.Id)
+	assert.Equal(t, int64(11), snippet.ID)
 	assert.Equal(t, "Snippet", snippet.Title)
 	assert.Equal(t, "**bold**", snippet.Content)
 	assert.Equal(t, int64(1700000000), snippet.DateCreated.Unix())

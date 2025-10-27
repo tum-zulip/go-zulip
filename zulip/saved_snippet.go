@@ -7,8 +7,8 @@ import (
 
 // SavedSnippet Object containing the details of the saved snippet.
 type SavedSnippet struct {
-	// The unique Id of the saved snippet.
-	Id int64 `json:"id,omitempty"`
+	// The unique ID of the saved snippet.
+	ID int64 `json:"id,omitempty"`
 	// The title of the saved snippet.
 	Title string `json:"title,omitempty"`
 	// The content of the saved snippet in [Zulip-flavored Markdown] format.  Clients should insert this content into a message when using a saved snippet.
@@ -20,7 +20,7 @@ type SavedSnippet struct {
 }
 
 type savedSnippetJSON struct {
-	Id          int64  `json:"id,omitempty"`
+	ID          int64  `json:"id,omitempty"`
 	Title       string `json:"title,omitempty"`
 	Content     string `json:"content,omitempty"`
 	DateCreated int64  `json:"date_created,omitempty"`
@@ -28,7 +28,7 @@ type savedSnippetJSON struct {
 
 func (o SavedSnippet) MarshalJSON() ([]byte, error) {
 	aux := savedSnippetJSON{
-		Id:          o.Id,
+		ID:          o.ID,
 		Title:       o.Title,
 		Content:     o.Content,
 		DateCreated: o.DateCreated.Unix(),
@@ -43,7 +43,7 @@ func (o *SavedSnippet) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	o.Id = aux.Id
+	o.ID = aux.ID
 	o.Title = aux.Title
 	o.Content = aux.Content
 	o.DateCreated = time.Unix(aux.DateCreated, 0).UTC()

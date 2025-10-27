@@ -15,14 +15,14 @@ func TestReminderMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	ts := time.Unix(1700000000, 789000000).UTC()
 
 	reminder := z.Reminder{
-		ReminderId:                 123,
+		ReminderID:                 123,
 		Type:                       z.RecipientTypePrivate,
 		To:                         []int64{1, 2, 3},
 		Content:                    "Don't forget",
 		RenderedContent:            "<p>Don't forget</p>",
 		ScheduledDeliveryTimestamp: ts,
 		Failed:                     true,
-		ReminderTargetMessageId:    456,
+		ReminderTargetMessageID:    456,
 	}
 
 	data, err := json.Marshal(reminder)
@@ -44,7 +44,7 @@ func TestReminderUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 	var reminder z.Reminder
 	require.NoError(t, json.Unmarshal(raw, &reminder))
 
-	assert.Equal(t, int64(123), reminder.ReminderId)
+	assert.Equal(t, int64(123), reminder.ReminderID)
 	assert.Equal(t, z.RecipientTypeDirect, reminder.Type)
 	assert.Equal(t, []int64{1, 2, 3}, reminder.To)
 	assert.Equal(t, "Don't forget", reminder.Content)
@@ -52,5 +52,5 @@ func TestReminderUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 	assert.Equal(t, int64(1700000000), reminder.ScheduledDeliveryTimestamp.Unix())
 	assert.Equal(t, time.UTC, reminder.ScheduledDeliveryTimestamp.Location())
 	assert.True(t, reminder.Failed)
-	assert.Equal(t, int64(456), reminder.ReminderTargetMessageId)
+	assert.Equal(t, int64(456), reminder.ReminderTargetMessageID)
 }

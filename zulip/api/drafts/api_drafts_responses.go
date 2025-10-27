@@ -5,16 +5,16 @@ import "github.com/tum-zulip/go-zulip/zulip"
 // CreateDraftsResponse struct for CreateDraftsResponse
 type CreateDraftsResponse struct {
 	zulip.Response
-	// An array of the Ids for the drafts that were just created in the same order as they were submitted.
-	Ids []int64 `json:"ids,omitempty"`
+	// An array of the IDs for the drafts that were just created in the same order as they were submitted.
+	IDs []int64 `json:"ids,omitempty"`
 }
 
 // CreateSavedSnippetResponse struct for CreateSavedSnippetResponse
 type CreateSavedSnippetResponse struct {
 	zulip.Response
 
-	// The unique Id of the saved snippet created.
-	SavedSnippetId int64 `json:"saved_snippet_id,omitempty"`
+	// The unique ID of the saved snippet created.
+	SavedSnippetID int64 `json:"saved_snippet_id,omitempty"`
 }
 
 // GetSavedSnippetsResponse struct for GetSavedSnippetsResponse

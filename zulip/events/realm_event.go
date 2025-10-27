@@ -19,8 +19,8 @@ type RealmUpdateEvent struct {
 type RealmDeactivatedEvent struct {
 	event
 
-	// The Id of the deactivated realm.
-	RealmId int64 `json:"realm_id,omitempty"`
+	// The ID of the deactivated realm.
+	RealmID int64 `json:"realm_id,omitempty"`
 }
 
 // RealmUpdateDictEvent The more general of two event types that may be used when sending an event to all users in a Zulip organization when the configuration of the organization (realm) has changed.  Unlike the simpler [realm/update] event format, this event type supports multiple properties being changed in a single event.  This event is also sent when deactivating or reactivating a user for settings set to anonymous user groups which the user is direct member of. When deactivating the user, event is only sent to users who cannot access the deactivated user.

@@ -10,8 +10,8 @@ import "github.com/tum-zulip/go-zulip/zulip"
 type TypingEditMessageEvent struct {
 	event
 
-	// The Id of the user who is typing the edit of the message.  Clients should be careful to display this user as the person who is typing, not that of the sender of the message, in case a collaborative editing feature be might be added in the future.
-	SenderId int64 `json:"sender_id,omitempty"`
+	// The ID of the user who is typing the edit of the message.  Clients should be careful to display this user as the person who is typing, not that of the sender of the message, in case a collaborative editing feature be might be added in the future.
+	SenderID int64 `json:"sender_id,omitempty"`
 	// Indicates the message id of the message that is being edited.
 	MessageID int64          `json:"message_id,omitempty"`
 	Recipient *RecipientData `json:"recipient,omitempty"`
@@ -21,10 +21,10 @@ type TypingEditMessageEvent struct {
 type RecipientData struct {
 	// Type of message being composed. Must be `RecipientTypeChannel` or `RecipientTypeDirect`.
 	Type zulip.RecipientType `json:"type,omitempty"`
-	// Only present if `type` is `RecipientTypeChannel`.  The unique Id of the channel to which message is being edited.
+	// Only present if `type` is `RecipientTypeChannel`.  The unique ID of the channel to which message is being edited.
 	ChannelID *int64 `json:"channel_id,omitempty"`
 	// Only present if `type` is `RecipientTypeChannel`.  Topic within the channel where the message is being edited.
 	Topic *string `json:"topic,omitempty"`
-	// Present only if `type` is `RecipientTypeDirect`.  The user Ids of every recipient of this direct message.
-	UserIds []int64 `json:"user_ids,omitempty"`
+	// Present only if `type` is `RecipientTypeDirect`.  The user IDs of every recipient of this direct message.
+	UserIDs []int64 `json:"user_ids,omitempty"`
 }

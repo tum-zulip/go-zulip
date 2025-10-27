@@ -15,11 +15,11 @@ type Snapshot struct {
 	Topic *string `json:"topic,omitempty"`
 	// Only present if message's topic was edited.  The topic of the message immediately prior to this edit event.
 	PrevTopic *string `json:"prev_topic,omitempty"`
-	// Only present if message's channel was edited.  The Id of the channel containing the message immediately after this edit event.
+	// Only present if message's channel was edited.  The ID of the channel containing the message immediately after this edit event.
 	//
 	// **Changes**: New in Zulip 5.0 (feature level 118).
 	Channel *int64 `json:"stream,omitempty"`
-	// Only present if message's channel was edited.  The Id of the channel containing the message immediately prior to this edit event.
+	// Only present if message's channel was edited.  The ID of the channel containing the message immediately prior to this edit event.
 	//
 	// **Changes**: New in Zulip 3.0 (feature level 1).
 	PrevChannel *int64 `json:"prev_stream,omitempty"`
@@ -39,7 +39,7 @@ type Snapshot struct {
 	//
 	// [Markdown message formatting]: https://zulip.com/api/message-formatting
 	PrevRenderedContent *string `json:"prev_rendered_content,omitempty"`
-	// The Id of the user that made the edit.  Will be `null` only for edit history events predating March 2017.  Clients can display edit history events where this is `null` as modified by either the sender (for content edits) or an unknown user (for topic edits).
+	// The ID of the user that made the edit.  Will be `null` only for edit history events predating March 2017.  Clients can display edit history events where this is `null` as modified by either the sender (for content edits) or an unknown user (for topic edits).
 	UserID *int64 `json:"user_id,omitempty"`
 	// Only present if message's content was edited.  An HTML diff between this version of the message and the previous one.
 	ContentHtmlDiff *string `json:"content_html_diff,omitempty"`

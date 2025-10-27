@@ -23,7 +23,7 @@ func Test_Unmarshal_HeartbeatEvent(t *testing.T) {
 
 	_, ok := event.(events.HeartbeatEvent)
 	require.True(t, ok, "expected HeartbeatEvent, got %T", event)
-	require.Equal(t, int64(0), event.GetId())
+	require.Equal(t, int64(0), event.GetID())
 	require.Equal(t, events.EventTypeHeartbeat, event.GetType())
 
 }

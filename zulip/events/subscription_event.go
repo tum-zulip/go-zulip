@@ -45,14 +45,14 @@ type SubscriptionRemoveEvent struct {
 type SubscriptionPeerAddEvent struct {
 	event
 
-	// The Ids of channels that have new or updated subscriber data.
+	// The IDs of channels that have new or updated subscriber data.
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 35), replacing the `stream_id` integer.
-	ChannelIds []int64 `json:"stream_ids,omitempty"`
-	// The Ids of the users who are newly visible as subscribed to the specified channels.
+	ChannelIDs []int64 `json:"stream_ids,omitempty"`
+	// The IDs of the users who are newly visible as subscribed to the specified channels.
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 35), replacing the `user_id` integer.
-	UserIds []int64 `json:"user_ids,omitempty"`
+	UserIDs []int64 `json:"user_ids,omitempty"`
 }
 
 // SubscriptionPeerRemoveEvent Event sent to other users when users have been unsubscribed from channels. Sent to all users if the channel is public or to only the existing subscribers if the channel is private.
@@ -61,21 +61,21 @@ type SubscriptionPeerAddEvent struct {
 type SubscriptionPeerRemoveEvent struct {
 	event
 
-	// The Ids of the channels from which the users have been unsubscribed from.  When a user is deactivated, the server will send this event removing the user's subscriptions before the `realm_user` event for the user's deactivation.
+	// The IDs of the channels from which the users have been unsubscribed from.  When a user is deactivated, the server will send this event removing the user's subscriptions before the `realm_user` event for the user's deactivation.
 	//
 	// **Changes**: Before Zulip 10.0 (feature level 377), this event was not sent on user deactivation. Clients supporting older server versions and maintaining peer subscriber data need to remove all channel subscriptions for a user when processing the `realm_user` event with `op="remove"`.
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 35), replacing the `stream_id` integer.
-	ChannelIds []int64 `json:"stream_ids,omitempty"`
-	// The Ids of the users who have been unsubscribed.
+	ChannelIDs []int64 `json:"stream_ids,omitempty"`
+	// The IDs of the users who have been unsubscribed.
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 35), replacing the `user_id` integer.
-	UserIds []int64 `json:"user_ids,omitempty"`
+	UserIDs []int64 `json:"user_ids,omitempty"`
 }
 
 // SubscriptionRemoveData Dictionary containing details about the unsubscribed channel.
 type SubscriptionRemoveData struct {
-	// The Id of the channel.
+	// The ID of the channel.
 	ChannelID int64 `json:"stream_id,omitempty"`
 	// The name of the channel.
 	Name string `json:"name,omitempty"`

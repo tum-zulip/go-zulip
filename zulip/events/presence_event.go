@@ -14,7 +14,7 @@ type PresenceEvent struct {
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 419).
 	//
-	// [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities.  A dictionary mapping user Ids to the presence data (modern format
+	// [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities.  A dictionary mapping user IDs to the presence data (modern format
 	Presences map[string]zulip.ModernPresenceFormat `json:"presences,omitempty"`
 
 	// todo: custom unmarshal
@@ -25,7 +25,7 @@ type PresenceEvent struct {
 }
 
 type PresenceEventDeprecated struct {
-	// The Id of the modified user.
+	// The ID of the modified user.
 	UserID int64 `json:"user_id,omitempty"`
 	// The Zulip API email of the user.  **Deprecated**: This field will be removed in a future release as it is redundant with the `user_id`.
 	// Deprecated
