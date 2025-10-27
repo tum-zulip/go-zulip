@@ -358,10 +358,10 @@ linters:
         path: 'api_users.go|_test.go'
         linters:
           - dupl
-      - path: 'zulip/internal/test_utils/utils.go'
+      - path: 'internal/test_utils/utils.go'
         linters:
           - gochecknoglobals
-      - path: 'zulip/internal/test_utils/utils.go'
+      - path: 'internal/test_utils/utils.go'
         text: 'G404'
         linters:
           - gosec

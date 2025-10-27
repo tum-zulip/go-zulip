@@ -7,10 +7,10 @@ import (
 
 	"github.com/stretchr/testify/require"
 
+	. "github.com/tum-zulip/go-zulip/internal/test_utils"
 	z "github.com/tum-zulip/go-zulip/zulip"
 	realtimeevents "github.com/tum-zulip/go-zulip/zulip/api/real_time_events"
 	"github.com/tum-zulip/go-zulip/zulip/client"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
 func Test_ConnectRequiresQueueID(t *testing.T) {

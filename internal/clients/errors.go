@@ -8,8 +8,8 @@ import (
 	"reflect"
 	"strings"
 
+	strictdecoder "github.com/tum-zulip/go-zulip/internal/strict_decoder"
 	"github.com/tum-zulip/go-zulip/zulip"
-	strictdecoder "github.com/tum-zulip/go-zulip/zulip/internal/strict_decoder"
 )
 
 func tryUnmarshalErrorModel[T any](data []byte) (T, error) {

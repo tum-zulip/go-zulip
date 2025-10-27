@@ -8,10 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	. "github.com/tum-zulip/go-zulip/internal/test_utils"
 	z "github.com/tum-zulip/go-zulip/zulip"
 	scheduledmessages "github.com/tum-zulip/go-zulip/zulip/api/scheduled_messages"
 	"github.com/tum-zulip/go-zulip/zulip/client"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
 func Test_CreateScheduledMessage(t *testing.T) {

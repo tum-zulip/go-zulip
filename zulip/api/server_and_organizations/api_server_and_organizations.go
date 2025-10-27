@@ -11,10 +11,10 @@ import (
 	"os"
 	"strings"
 
+	"github.com/tum-zulip/go-zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/internal/clients"
+	strictdecoder "github.com/tum-zulip/go-zulip/internal/strict_decoder"
 	"github.com/tum-zulip/go-zulip/zulip"
-	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
-	strictdecoder "github.com/tum-zulip/go-zulip/zulip/internal/strict_decoder"
 )
 
 type APIServerAndOrganizations interface {

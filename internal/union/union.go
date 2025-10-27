@@ -7,7 +7,7 @@ import (
 
 	"gopkg.in/validator.v2"
 
-	strictdecoder "github.com/tum-zulip/go-zulip/zulip/internal/strict_decoder"
+	strictdecoder "github.com/tum-zulip/go-zulip/internal/strict_decoder"
 )
 
 type Union interface {

@@ -1,7 +1,7 @@
 package events
 
 import (
-	"github.com/tum-zulip/go-zulip/zulip/internal/union"
+	"github.com/tum-zulip/go-zulip/internal/union"
 )
 
 // RealmUpdateEvent The simpler of two possible event types sent to all users in a Zulip organization when the configuration of the organization (realm) has changed.  Often individual settings are migrated from this format to the [realm/update_dict] event format when additional realm settings are added whose values are coupled to each other in some way. The specific values supported by this event type are documented in the [realm/update_dict] documentation.  A correct client implementation should convert these events into the corresponding [realm/update_dict] event and then process that.

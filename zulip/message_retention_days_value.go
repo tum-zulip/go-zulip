@@ -1,7 +1,7 @@
 package zulip
 
 import (
-	"github.com/tum-zulip/go-zulip/zulip/internal/union"
+	"github.com/tum-zulip/go-zulip/internal/union"
 )
 
 // MessageRetentionDaysValue - Number of days that messages sent to this channel will be stored before being automatically deleted by the [message retention policy]. Two special string format values are supported:  - `"realm_default"`: Return to the organization-level setting. - `"unlimited"`: Retain messages forever.

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	strictdecoder "github.com/tum-zulip/go-zulip/zulip/internal/strict_decoder"
+	strictdecoder "github.com/tum-zulip/go-zulip/internal/strict_decoder"
 )
 
 // TODO(janez): make not exported.

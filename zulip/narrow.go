@@ -5,7 +5,7 @@ import (
 	"errors"
 	"strconv"
 
-	"github.com/tum-zulip/go-zulip/zulip/internal/union"
+	"github.com/tum-zulip/go-zulip/internal/union"
 )
 
 // Narrow represents a query constraint for filtering messages in the Zulip API.

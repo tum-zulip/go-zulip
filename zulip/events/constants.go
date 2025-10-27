@@ -1,7 +1,7 @@
 package events
 
 import (
-	"github.com/tum-zulip/go-zulip/zulip/internal/enum"
+	"github.com/tum-zulip/go-zulip/internal/enum"
 )
 
 // EventOp represents the type of operation that occurred in a model event.

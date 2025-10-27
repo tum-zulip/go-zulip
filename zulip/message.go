@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/tum-zulip/go-zulip/zulip/internal/union"
+	"github.com/tum-zulip/go-zulip/internal/union"
 )
 
 // Message An object containing details of the message.

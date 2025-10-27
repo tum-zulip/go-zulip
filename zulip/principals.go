@@ -1,7 +1,7 @@
 package zulip
 
 import (
-	"github.com/tum-zulip/go-zulip/zulip/internal/union"
+	"github.com/tum-zulip/go-zulip/internal/union"
 )
 
 // Principals - A list of user IDs (preferred) or Zulip API email addresses of the users to be subscribed to or unsubscribed from the channels specified in the `subscriptions` parameter. If not provided, then the requesting user/bot is subscribed.

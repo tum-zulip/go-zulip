@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"time"
 
-	strictdecoder "github.com/tum-zulip/go-zulip/zulip/internal/strict_decoder"
-	"github.com/tum-zulip/go-zulip/zulip/internal/union"
+	strictdecoder "github.com/tum-zulip/go-zulip/internal/strict_decoder"
+	"github.com/tum-zulip/go-zulip/internal/union"
 )
 
 // PresenceUpdateValue - Will be one of these two formats (modern or legacy) for user presence data:

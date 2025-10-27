@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	strictdecoder "github.com/tum-zulip/go-zulip/zulip/internal/strict_decoder"
+	strictdecoder "github.com/tum-zulip/go-zulip/internal/strict_decoder"
 )
 
 type Channel struct {

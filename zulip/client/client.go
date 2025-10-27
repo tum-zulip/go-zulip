@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 
+	"github.com/tum-zulip/go-zulip/internal/clients"
 	"github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/api/authentication"
 	"github.com/tum-zulip/go-zulip/zulip/api/channels"
@@ -20,7 +21,6 @@ import (
 	serverandorganizations "github.com/tum-zulip/go-zulip/zulip/api/server_and_organizations"
 	"github.com/tum-zulip/go-zulip/zulip/api/users"
 	"github.com/tum-zulip/go-zulip/zulip/client/statistics"
-	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type Client interface {

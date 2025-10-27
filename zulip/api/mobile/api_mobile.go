@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/tum-zulip/go-zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/internal/clients"
 	"github.com/tum-zulip/go-zulip/zulip"
-	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIMobile interface {

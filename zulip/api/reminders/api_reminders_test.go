@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	. "github.com/tum-zulip/go-zulip/internal/test_utils"
 	"github.com/tum-zulip/go-zulip/zulip/client"
-	. "github.com/tum-zulip/go-zulip/zulip/internal/test_utils"
 )
 
 func Test_CreateMessageReminder(t *testing.T) {

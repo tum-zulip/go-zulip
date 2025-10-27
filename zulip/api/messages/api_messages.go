@@ -11,9 +11,9 @@ import (
 	"os"
 	"strings"
 
+	"github.com/tum-zulip/go-zulip/internal/apiutils"
+	"github.com/tum-zulip/go-zulip/internal/clients"
 	"github.com/tum-zulip/go-zulip/zulip"
-	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
-	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIMessages interface {

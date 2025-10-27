@@ -1,8 +1,8 @@
 package events
 
 import (
+	"github.com/tum-zulip/go-zulip/internal/union"
 	"github.com/tum-zulip/go-zulip/zulip"
-	"github.com/tum-zulip/go-zulip/zulip/internal/union"
 )
 
 // ChannelCreateEvent Event sent when a new channel is created to users who can see the new channel exists (for private channels, only subscribers and organization administrators will receive this event).  This event is also sent when a user gains access to a channel they previously [could not access], such as when their [role] changes, a private channel is made public, or a guest user is subscribed to a public (or private) channel.  This event is also sent when a channel is unarchived but only to clients that did not declare the `archived_channels` [client capability].  Note that organization administrators who are not subscribed will not be able to see content on the channel; just that it exists.

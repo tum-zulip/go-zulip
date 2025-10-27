@@ -13,7 +13,7 @@
 package zulip
 
 import (
-	"github.com/tum-zulip/go-zulip/zulip/internal/enum"
+	"github.com/tum-zulip/go-zulip/internal/enum"
 )
 
 // Unread count badge (appears in desktop sidebar and browser tab)
