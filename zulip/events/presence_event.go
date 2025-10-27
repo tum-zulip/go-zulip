@@ -26,7 +26,7 @@ type PresenceEvent struct {
 
 type PresenceEventDeprecated struct {
 	// The Id of the modified user.
-	UserId int64 `json:"user_id,omitempty"`
+	UserID int64 `json:"user_id,omitempty"`
 	// The Zulip API email of the user.  **Deprecated**: This field will be removed in a future release as it is redundant with the `user_id`.
 	// Deprecated
 	Email string `json:"email,omitempty"`

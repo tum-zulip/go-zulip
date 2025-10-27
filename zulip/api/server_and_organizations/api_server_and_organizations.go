@@ -12,14 +12,12 @@ import (
 	"strings"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-
 	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 	"github.com/tum-zulip/go-zulip/zulip/internal/utils"
 )
 
 type APIServerAndOrganizations interface {
-
 	// AddCodePlayground Add a code playground
 	//
 	// Configure [code playgrounds] for the organization.
@@ -53,7 +51,9 @@ type APIServerAndOrganizations interface {
 	CreateCustomProfileField(ctx context.Context) CreateCustomProfileFieldRequest
 
 	// CreateCustomProfileFieldExecute executes the request
-	CreateCustomProfileFieldExecute(r CreateCustomProfileFieldRequest) (*CreateCustomProfileFieldResponse, *http.Response, error)
+	CreateCustomProfileFieldExecute(
+		r CreateCustomProfileFieldRequest,
+	) (*CreateCustomProfileFieldResponse, *http.Response, error)
 
 	// DeactivateCustomEmoji Deactivate custom emoji
 	//
@@ -116,7 +116,9 @@ type APIServerAndOrganizations interface {
 	GetCustomProfileFields(ctx context.Context) GetCustomProfileFieldsRequest
 
 	// GetCustomProfileFieldsExecute executes the request
-	GetCustomProfileFieldsExecute(r GetCustomProfileFieldsRequest) (*GetCustomProfileFieldsResponse, *http.Response, error)
+	GetCustomProfileFieldsExecute(
+		r GetCustomProfileFieldsRequest,
+	) (*GetCustomProfileFieldsResponse, *http.Response, error)
 
 	// GetLinkifiers Get linkifiers
 	//
@@ -163,7 +165,9 @@ type APIServerAndOrganizations interface {
 	GetRealmExportConsents(ctx context.Context) GetRealmExportConsentsRequest
 
 	// GetRealmExportConsentsExecute executes the request
-	GetRealmExportConsentsExecute(r GetRealmExportConsentsRequest) (*GetRealmExportConsentsResponse, *http.Response, error)
+	GetRealmExportConsentsExecute(
+		r GetRealmExportConsentsRequest,
+	) (*GetRealmExportConsentsResponse, *http.Response, error)
 
 	// GetRealmExports Get all data exports
 	//
@@ -208,7 +212,7 @@ type APIServerAndOrganizations interface {
 	// *Changes**: New in Zulip 4.0 (feature level 49).
 	//
 	// [code playground]: https://zulip.com/help/code-blocks#code-playgrounds
-	RemoveCodePlayground(ctx context.Context, playgroundId int64) RemoveCodePlaygroundRequest
+	RemoveCodePlayground(ctx context.Context, playgroundID int64) RemoveCodePlaygroundRequest
 
 	// RemoveCodePlaygroundExecute executes the request
 	RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*zulip.Response, *http.Response, error)
@@ -268,7 +272,9 @@ type APIServerAndOrganizations interface {
 	TestWelcomeBotCustomMessage(ctx context.Context) TestWelcomeBotCustomMessageRequest
 
 	// TestWelcomeBotCustomMessageExecute executes the request
-	TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustomMessageRequest) (*TestWelcomeBotCustomMessageResponse, *http.Response, error)
+	TestWelcomeBotCustomMessageExecute(
+		r TestWelcomeBotCustomMessageRequest,
+	) (*TestWelcomeBotCustomMessageResponse, *http.Response, error)
 
 	// UpdateLinkifier Update a linkifier
 	//
@@ -316,7 +322,9 @@ type APIServerAndOrganizations interface {
 	UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest
 
 	// UpdateRealmUserSettingsDefaultsExecute executes the request
-	UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*zulip.Response, *http.Response, error)
+	UpdateRealmUserSettingsDefaultsExecute(
+		r UpdateRealmUserSettingsDefaultsRequest,
+	) (*zulip.Response, *http.Response, error)
 
 	// UploadCustomEmoji Upload custom emoji
 	//
@@ -391,7 +399,9 @@ func (s *serverAndOrganizationsService) AddCodePlayground(ctx context.Context) A
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) AddCodePlaygroundExecute(r AddCodePlaygroundRequest) (*AddCodePlaygroundResponse, *http.Response, error) {
+func (s *serverAndOrganizationsService) AddCodePlaygroundExecute(
+	r AddCodePlaygroundRequest,
+) (*AddCodePlaygroundResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -469,7 +479,9 @@ func (s *serverAndOrganizationsService) AddLinkifier(ctx context.Context) AddLin
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) AddLinkifierExecute(r AddLinkifierRequest) (*AddLinkifierResponse, *http.Response, error) {
+func (s *serverAndOrganizationsService) AddLinkifierExecute(
+	r AddLinkifierRequest,
+) (*AddLinkifierResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -540,7 +552,9 @@ func (r CreateCustomProfileFieldRequest) FieldData(fieldData map[string]interfac
 // Whether clients should display this profile field in a summary section of a user's profile (or in a more easily accessible "small profile").  At most 2 profile fields may have this property be true in a given organization. The "Long text" [profile field types] profile field types cannot be selected to be displayed in profile summaries.  The "Person picker" profile field is also not supported, but that is likely to be temporary.
 //
 // [profile field types]: https://zulip.com/help/custom-profile-fields#profile-field-types  **Changes**: New in Zulip 6.0 (feature level 146).
-func (r CreateCustomProfileFieldRequest) DisplayInProfileSummary(displayInProfileSummary bool) CreateCustomProfileFieldRequest {
+func (r CreateCustomProfileFieldRequest) DisplayInProfileSummary(
+	displayInProfileSummary bool,
+) CreateCustomProfileFieldRequest {
 	r.displayInProfileSummary = &displayInProfileSummary
 	return r
 }
@@ -578,7 +592,9 @@ func (s *serverAndOrganizationsService) CreateCustomProfileField(ctx context.Con
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) CreateCustomProfileFieldExecute(r CreateCustomProfileFieldRequest) (*CreateCustomProfileFieldResponse, *http.Response, error) {
+func (s *serverAndOrganizationsService) CreateCustomProfileFieldExecute(
+	r CreateCustomProfileFieldRequest,
+) (*CreateCustomProfileFieldResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -635,7 +651,10 @@ func (r DeactivateCustomEmojiRequest) Execute() (*zulip.Response, *http.Response
 // HTTP status code of 400 when the emoji did not exist, instead of 404.
 //
 // [Deactivate a custom emoji]: https://zulip.com/help/custom-emoji#deactivate-custom-emoji
-func (s *serverAndOrganizationsService) DeactivateCustomEmoji(ctx context.Context, emojiName string) DeactivateCustomEmojiRequest {
+func (s *serverAndOrganizationsService) DeactivateCustomEmoji(
+	ctx context.Context,
+	emojiName string,
+) DeactivateCustomEmojiRequest {
 	return DeactivateCustomEmojiRequest{
 		apiService: s,
 		ctx:        ctx,
@@ -644,7 +663,9 @@ func (s *serverAndOrganizationsService) DeactivateCustomEmoji(ctx context.Contex
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) DeactivateCustomEmojiExecute(r DeactivateCustomEmojiRequest) (*zulip.Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) DeactivateCustomEmojiExecute(
+	r DeactivateCustomEmojiRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
@@ -713,7 +734,9 @@ func (s *serverAndOrganizationsService) ExportRealm(ctx context.Context) ExportR
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) ExportRealmExecute(r ExportRealmRequest) (*ExportRealmResponse, *http.Response, error) {
+func (s *serverAndOrganizationsService) ExportRealmExecute(
+	r ExportRealmRequest,
+) (*ExportRealmResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -755,7 +778,9 @@ func (s *serverAndOrganizationsService) GetCustomEmoji(ctx context.Context) GetC
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) GetCustomEmojiExecute(r GetCustomEmojiRequest) (*GetCustomEmojiResponse, *http.Response, error) {
+func (s *serverAndOrganizationsService) GetCustomEmojiExecute(
+	r GetCustomEmojiRequest,
+) (*GetCustomEmojiResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -798,7 +823,9 @@ func (s *serverAndOrganizationsService) GetCustomProfileFields(ctx context.Conte
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) GetCustomProfileFieldsExecute(r GetCustomProfileFieldsRequest) (*GetCustomProfileFieldsResponse, *http.Response, error) {
+func (s *serverAndOrganizationsService) GetCustomProfileFieldsExecute(
+	r GetCustomProfileFieldsRequest,
+) (*GetCustomProfileFieldsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -847,7 +874,9 @@ func (s *serverAndOrganizationsService) GetLinkifiers(ctx context.Context) GetLi
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) GetLinkifiersExecute(r GetLinkifiersRequest) (*GetLinkifiersResponse, *http.Response, error) {
+func (s *serverAndOrganizationsService) GetLinkifiersExecute(
+	r GetLinkifiersRequest,
+) (*GetLinkifiersResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -896,7 +925,9 @@ func (s *serverAndOrganizationsService) GetPresence(ctx context.Context) GetPres
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) GetPresenceExecute(r GetPresenceRequest) (*GetPresenceResponse, *http.Response, error) {
+func (s *serverAndOrganizationsService) GetPresenceExecute(
+	r GetPresenceRequest,
+) (*GetPresenceResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -941,7 +972,9 @@ func (s *serverAndOrganizationsService) GetRealmExportConsents(ctx context.Conte
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) GetRealmExportConsentsExecute(r GetRealmExportConsentsRequest) (*GetRealmExportConsentsResponse, *http.Response, error) {
+func (s *serverAndOrganizationsService) GetRealmExportConsentsExecute(
+	r GetRealmExportConsentsRequest,
+) (*GetRealmExportConsentsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -989,7 +1022,9 @@ func (s *serverAndOrganizationsService) GetRealmExports(ctx context.Context) Get
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) GetRealmExportsExecute(r GetRealmExportsRequest) (*GetRealmExportsResponse, *http.Response, error) {
+func (s *serverAndOrganizationsService) GetRealmExportsExecute(
+	r GetRealmExportsRequest,
+) (*GetRealmExportsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -1035,7 +1070,9 @@ func (s *serverAndOrganizationsService) GetServerSettings(ctx context.Context) G
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) GetServerSettingsExecute(r GetServerSettingsRequest) (*GetServerSettingsResponse, *http.Response, error) {
+func (s *serverAndOrganizationsService) GetServerSettingsExecute(
+	r GetServerSettingsRequest,
+) (*GetServerSettingsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -1058,7 +1095,7 @@ func (s *serverAndOrganizationsService) GetServerSettingsExecute(r GetServerSett
 type RemoveCodePlaygroundRequest struct {
 	ctx          context.Context
 	apiService   APIServerAndOrganizations
-	playgroundId int64
+	playgroundID int64
 }
 
 func (r RemoveCodePlaygroundRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -1073,16 +1110,21 @@ func (r RemoveCodePlaygroundRequest) Execute() (*zulip.Response, *http.Response,
 // *Changes**: New in Zulip 4.0 (feature level 49).
 //
 // [code playground]: https://zulip.com/help/code-blocks#code-playgrounds
-func (s *serverAndOrganizationsService) RemoveCodePlayground(ctx context.Context, playgroundId int64) RemoveCodePlaygroundRequest {
+func (s *serverAndOrganizationsService) RemoveCodePlayground(
+	ctx context.Context,
+	playgroundID int64,
+) RemoveCodePlaygroundRequest {
 	return RemoveCodePlaygroundRequest{
 		apiService:   s,
 		ctx:          ctx,
-		playgroundId: playgroundId,
+		playgroundID: playgroundID,
 	}
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) RemoveCodePlaygroundExecute(r RemoveCodePlaygroundRequest) (*zulip.Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) RemoveCodePlaygroundExecute(
+	r RemoveCodePlaygroundRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
@@ -1092,7 +1134,7 @@ func (s *serverAndOrganizationsService) RemoveCodePlaygroundExecute(r RemoveCode
 		endpoint = "/realm/playgrounds/{playground_id}"
 	)
 
-	path := strings.Replace(endpoint, "{playground_id}", apiutils.IdToString(r.playgroundId), -1)
+	path := strings.ReplaceAll(endpoint, "{playground_id}", apiutils.IdToString(r.playgroundID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -1130,7 +1172,9 @@ func (s *serverAndOrganizationsService) RemoveLinkifier(ctx context.Context, fil
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) RemoveLinkifierExecute(r RemoveLinkifierRequest) (*zulip.Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) RemoveLinkifierExecute(
+	r RemoveLinkifierRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodDelete
 		headers  = make(map[string]string)
@@ -1179,7 +1223,9 @@ func (r ReorderCustomProfileFieldsRequest) Execute() (*zulip.Response, *http.Res
 // [custom profile fields documentation].
 //
 // [custom profile fields documentation]: https://zulip.com/help/custom-profile-fields
-func (s *serverAndOrganizationsService) ReorderCustomProfileFields(ctx context.Context) ReorderCustomProfileFieldsRequest {
+func (s *serverAndOrganizationsService) ReorderCustomProfileFields(
+	ctx context.Context,
+) ReorderCustomProfileFieldsRequest {
 	return ReorderCustomProfileFieldsRequest{
 		apiService: s,
 		ctx:        ctx,
@@ -1187,7 +1233,9 @@ func (s *serverAndOrganizationsService) ReorderCustomProfileFields(ctx context.C
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) ReorderCustomProfileFieldsExecute(r ReorderCustomProfileFieldsRequest) (*zulip.Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) ReorderCustomProfileFieldsExecute(
+	r ReorderCustomProfileFieldsRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
@@ -1248,7 +1296,9 @@ func (s *serverAndOrganizationsService) ReorderLinkifiers(ctx context.Context) R
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) ReorderLinkifiersExecute(r ReorderLinkifiersRequest) (*zulip.Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) ReorderLinkifiersExecute(
+	r ReorderLinkifiersRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
@@ -1281,7 +1331,9 @@ type TestWelcomeBotCustomMessageRequest struct {
 }
 
 // Custom message text, in Zulip Markdown format, to be used for this test message.  Maximum length is 8000 characters.
-func (r TestWelcomeBotCustomMessageRequest) WelcomeMessageCustomText(welcomeMessageCustomText string) TestWelcomeBotCustomMessageRequest {
+func (r TestWelcomeBotCustomMessageRequest) WelcomeMessageCustomText(
+	welcomeMessageCustomText string,
+) TestWelcomeBotCustomMessageRequest {
 	r.welcomeMessageCustomText = &welcomeMessageCustomText
 	return r
 }
@@ -1297,7 +1349,9 @@ func (r TestWelcomeBotCustomMessageRequest) Execute() (*TestWelcomeBotCustomMess
 // appear when received by new users upon joining the organization.
 //
 // *Changes**: New in Zulip 11.0 (feature level 416).
-func (s *serverAndOrganizationsService) TestWelcomeBotCustomMessage(ctx context.Context) TestWelcomeBotCustomMessageRequest {
+func (s *serverAndOrganizationsService) TestWelcomeBotCustomMessage(
+	ctx context.Context,
+) TestWelcomeBotCustomMessageRequest {
 	return TestWelcomeBotCustomMessageRequest{
 		apiService: s,
 		ctx:        ctx,
@@ -1305,7 +1359,9 @@ func (s *serverAndOrganizationsService) TestWelcomeBotCustomMessage(ctx context.
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) TestWelcomeBotCustomMessageExecute(r TestWelcomeBotCustomMessageRequest) (*TestWelcomeBotCustomMessageResponse, *http.Response, error) {
+func (s *serverAndOrganizationsService) TestWelcomeBotCustomMessageExecute(
+	r TestWelcomeBotCustomMessageRequest,
+) (*TestWelcomeBotCustomMessageResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -1382,7 +1438,9 @@ func (s *serverAndOrganizationsService) UpdateLinkifier(ctx context.Context, fil
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) UpdateLinkifierExecute(r UpdateLinkifierRequest) (*zulip.Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) UpdateLinkifierExecute(
+	r UpdateLinkifierRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
@@ -1481,7 +1539,9 @@ type UpdateRealmUserSettingsDefaultsRequest struct {
 // Whether clients should display the [number of starred messages].
 //
 // [number of starred messages]: https://zulip.com/help/star-a-message#display-the-number-of-starred-messages
-func (r UpdateRealmUserSettingsDefaultsRequest) StarredMessageCounts(starredMessageCounts bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) StarredMessageCounts(
+	starredMessageCounts bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.starredMessageCounts = &starredMessageCounts
 	return r
 }
@@ -1489,7 +1549,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) StarredMessageCounts(starredMess
 // Whether the user is configured to receive typing notifications from other users. The server will only deliver typing notifications events to users who for whom this is enabled.
 //
 // **Changes**: New in Zulip 9.0 (feature level 253). Previously, there were only options to disable sending typing notifications.
-func (r UpdateRealmUserSettingsDefaultsRequest) ReceivesTypingNotifications(receivesTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) ReceivesTypingNotifications(
+	receivesTypingNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.receivesTypingNotifications = &receivesTypingNotifications
 	return r
 }
@@ -1499,7 +1561,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) ReceivesTypingNotifications(rece
 // **Changes**: New in Zulip 10.0 (feature level 329).
 //
 // [profile time zone]: https://zulip.com/help/change-your-timezone
-func (r UpdateRealmUserSettingsDefaultsRequest) WebSuggestUpdateTimezone(webSuggestUpdateTimezone bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebSuggestUpdateTimezone(
+	webSuggestUpdateTimezone bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.webSuggestUpdateTimezone = &webSuggestUpdateTimezone
 	return r
 }
@@ -1507,13 +1571,17 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebSuggestUpdateTimezone(webSugg
 // Whether to use the [maximum available screen width] for the web app's center panel (message feed, recent conversations) on wide screens.
 //
 // [maximum available screen width]: https://zulip.com/help/enable-full-width-display
-func (r UpdateRealmUserSettingsDefaultsRequest) FluidLayoutWidth(fluidLayoutWidth bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) FluidLayoutWidth(
+	fluidLayoutWidth bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.fluidLayoutWidth = &fluidLayoutWidth
 	return r
 }
 
 // This setting is reserved for use to control variations in Zulip's design to help visually impaired users.
-func (r UpdateRealmUserSettingsDefaultsRequest) HighContrastMode(highContrastMode bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) HighContrastMode(
+	highContrastMode bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.highContrastMode = &highContrastMode
 	return r
 }
@@ -1522,7 +1590,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) HighContrastMode(highContrastMod
 //   - 1 = Always
 //   - 2 = Only in conversation views
 //   - 3 = Never  **Changes**: New in Zulip 7.0 (feature level 175). Previously, there was no way for the user to configure this behavior on the web, and the Zulip web and desktop apps behaved like the "Always" setting when marking messages as read.
-func (r UpdateRealmUserSettingsDefaultsRequest) WebMarkReadOnScrollPolicy(webMarkReadOnScrollPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebMarkReadOnScrollPolicy(
+	webMarkReadOnScrollPolicy int32,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.webMarkReadOnScrollPolicy = &webMarkReadOnScrollPolicy
 	return r
 }
@@ -1534,7 +1604,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebMarkReadOnScrollPolicy(webMar
 //   - ChannelDefaultViewTopUnreadTopicInChannel
 //
 // **Changes**: The "Top unread topic in channel" is new in Zulip 11.0 (feature level 401).  The "List of topics" option is new in Zulip 11.0 (feature level 383).  New in Zulip 9.0 (feature level 269). Previously, this was not configurable, and every user had the "Channel feed" behavior.
-func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelDefaultView(webChannelDefaultView zulip.ChannelDefaultView) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelDefaultView(
+	webChannelDefaultView zulip.ChannelDefaultView,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.webChannelDefaultView = &webChannelDefaultView
 	return r
 }
@@ -1542,7 +1614,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelDefaultView(webChannel
 // User-configured primary `font-size` for the web application, in pixels.
 //
 // **Changes**: New in Zulip 9.0 (feature level 245). Previously, font size was only adjustable via browser zoom. Note that this setting was not fully implemented at this feature level.
-func (r UpdateRealmUserSettingsDefaultsRequest) WebFontSizePx(webFontSizePx int32) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebFontSizePx(
+	webFontSizePx int32,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.webFontSizePx = &webFontSizePx
 	return r
 }
@@ -1550,7 +1624,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebFontSizePx(webFontSizePx int3
 // User-configured primary `line-height` for the web application, in percent, so a value of 120 represents a `line-height` of 1.2.
 //
 // **Changes**: New in Zulip 9.0 (feature level 245). Previously, line height was not user-configurable. Note that this setting was not fully implemented at this feature level.
-func (r UpdateRealmUserSettingsDefaultsRequest) WebLineHeightPercent(webLineHeightPercent int32) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebLineHeightPercent(
+	webLineHeightPercent int32,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.webLineHeightPercent = &webLineHeightPercent
 	return r
 }
@@ -1563,13 +1639,17 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebLineHeightPercent(webLineHeig
 // Automatic detection is implementing using the standard `prefers-color-scheme` media query.
 //
 // [color theme]: https://zulip.com/help/dark-theme
-func (r UpdateRealmUserSettingsDefaultsRequest) ColorScheme(colorScheme zulip.ColorScheme) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) ColorScheme(
+	colorScheme zulip.ColorScheme,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.colorScheme = &colorScheme
 	return r
 }
 
 // A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableDraftsSynchronization(enableDraftsSynchronization bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableDraftsSynchronization(
+	enableDraftsSynchronization bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableDraftsSynchronization = &enableDraftsSynchronization
 	return r
 }
@@ -1577,7 +1657,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableDraftsSynchronization(enab
 // Whether to [translate emoticons to emoji] in messages the user sends.
 //
 // [translate emoticons to emoji]: https://zulip.com/help/configure-emoticon-translations
-func (r UpdateRealmUserSettingsDefaultsRequest) TranslateEmoticons(translateEmoticons bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) TranslateEmoticons(
+	translateEmoticons bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.translateEmoticons = &translateEmoticons
 	return r
 }
@@ -1585,7 +1667,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) TranslateEmoticons(translateEmot
 // Whether to display the names of reacting users on a message.  When enabled, clients should display the names of reacting users, rather than a count, for messages with few total reactions. The ideal cutoff may depend on the space available for displaying reactions; the official web application displays names when 3 or fewer total reactions are present with this setting enabled.
 //
 // **Changes**: New in Zulip 6.0 (feature level 125).
-func (r UpdateRealmUserSettingsDefaultsRequest) DisplayEmojiReactionUsers(displayEmojiReactionUsers bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) DisplayEmojiReactionUsers(
+	displayEmojiReactionUsers bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.displayEmojiReactionUsers = &displayEmojiReactionUsers
 	return r
 }
@@ -1598,7 +1682,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) DisplayEmojiReactionUsers(displa
 // **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `default_view`, which was new in Zulip 4.0 (feature level 42).
 //
 // [home view]: https://zulip.com/help/configure-home-view
-func (r UpdateRealmUserSettingsDefaultsRequest) WebHomeView(webHomeView zulip.HomeView) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebHomeView(
+	webHomeView zulip.HomeView,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.webHomeView = &webHomeView
 	return r
 }
@@ -1608,13 +1694,17 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebHomeView(webHomeView zulip.Ho
 // **Changes**: New in Zulip 8.0 (feature level 219). Previously, this was called `escape_navigates_to_default_view`, which was new in Zulip 5.0 (feature level 107).
 //
 // [configured home view]: https://zulip.com/help/configure-home-view
-func (r UpdateRealmUserSettingsDefaultsRequest) WebEscapeNavigatesToHomeView(webEscapeNavigatesToHomeView bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebEscapeNavigatesToHomeView(
+	webEscapeNavigatesToHomeView bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.webEscapeNavigatesToHomeView = &webEscapeNavigatesToHomeView
 	return r
 }
 
 // Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.
-func (r UpdateRealmUserSettingsDefaultsRequest) LeftSideUserlist(leftSideUserlist bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) LeftSideUserlist(
+	leftSideUserlist bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.leftSideUserlist = &leftSideUserlist
 	return r
 }
@@ -1626,7 +1716,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) LeftSideUserlist(leftSideUserlis
 //   - EmojisetText = Plain text
 //
 // [emoji set]: https://zulip.com/help/emoji-and-emoticons#use-emoticons
-func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset zulip.Emojiset) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(
+	emojiset zulip.Emojiset,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.emojiset = &emojiset
 	return r
 }
@@ -1637,7 +1729,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) Emojiset(emojiset zulip.Emojiset
 //   - DemoteInactiveChannelsNever
 //
 // [hide inactive channels]: https://zulip.com/help/manage-inactive-channels
-func (r UpdateRealmUserSettingsDefaultsRequest) DemoteInactiveChannels(demoteInactiveChannels zulip.DemoteInactiveChannels) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) DemoteInactiveChannels(
+	demoteInactiveChannels zulip.DemoteInactiveChannels,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.demoteInactiveChannels = &demoteInactiveChannels
 	return r
 }
@@ -1648,7 +1742,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) DemoteInactiveChannels(demoteIna
 //   - UserListStyleWithAvatarAndStatus
 //
 // **Changes**: New in Zulip 6.0 (feature level 141).
-func (r UpdateRealmUserSettingsDefaultsRequest) UserListStyle(userListStyle zulip.UserListStyle) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) UserListStyle(
+	userListStyle zulip.UserListStyle,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.userListStyle = &userListStyle
 	return r
 }
@@ -1659,7 +1755,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) UserListStyle(userListStyle zuli
 //   - WebAnimateImagePreviewsNever
 //
 // **Changes**: New in Zulip 9.0 (feature level 275). Previously, animated images always used to play in the message feed by default. This setting controls this behaviour.
-func (r UpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(webAnimateImagePreviews zulip.WebAnimateImagePreviews) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(
+	webAnimateImagePreviews zulip.WebAnimateImagePreviews,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.webAnimateImagePreviews = &webAnimateImagePreviews
 	return r
 }
@@ -1670,7 +1768,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebAnimateImagePreviews(webAnima
 //   - UnreadsCountDisplayNoChannels
 //
 // **Changes**: New in Zulip 8.0 (feature level 210).
-func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelUnreadsCountDisplayPolicy(webChannelUnreadsCountDisplayPolicy zulip.UnreadsCountDisplay) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelUnreadsCountDisplayPolicy(
+	webChannelUnreadsCountDisplayPolicy zulip.UnreadsCountDisplay,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.webChannelUnreadsCountDisplayPolicy = &webChannelUnreadsCountDisplayPolicy
 	return r
 }
@@ -1678,7 +1778,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebChannelUnreadsCountDisplayPol
 // Controls whether user wants AI features like topic summarization to be hidden in all Zulip clients.
 //
 // **Changes**: New in Zulip 10.0 (feature level 350).
-func (r UpdateRealmUserSettingsDefaultsRequest) HideAiFeatures(hideAiFeatures bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) HideAiFeatures(
+	hideAiFeatures bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.hideAiFeatures = &hideAiFeatures
 	return r
 }
@@ -1686,7 +1788,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) HideAiFeatures(hideAiFeatures bo
 // Determines whether the web/desktop application's left sidebar displays any channel folders configured by the organization.
 //
 // **Changes**: New in Zulip 11.0 (feature level 411).
-func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarShowChannelFolders(webLeftSidebarShowChannelFolders bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarShowChannelFolders(
+	webLeftSidebarShowChannelFolders bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.webLeftSidebarShowChannelFolders = &webLeftSidebarShowChannelFolders
 	return r
 }
@@ -1694,43 +1798,57 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarShowChannelFolders
 // Determines whether the web/desktop application's left sidebar displays the unread message count summary.
 //
 // **Changes**: New in Zulip 11.0 (feature level 398).
-func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarUnreadsCountSummary(webLeftSidebarUnreadsCountSummary bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebLeftSidebarUnreadsCountSummary(
+	webLeftSidebarUnreadsCountSummary bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.webLeftSidebarUnreadsCountSummary = &webLeftSidebarUnreadsCountSummary
 	return r
 }
 
 // Enable visual desktop notifications for channel messages.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableChannelDesktopNotifications(enableChannelDesktopNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableChannelDesktopNotifications(
+	enableChannelDesktopNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableChannelDesktopNotifications = &enableChannelDesktopNotifications
 	return r
 }
 
 // Enable email notifications for channel messages.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableChannelEmailNotifications(enableChannelEmailNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableChannelEmailNotifications(
+	enableChannelEmailNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableChannelEmailNotifications = &enableChannelEmailNotifications
 	return r
 }
 
 // Enable mobile notifications for channel messages.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableChannelPushNotifications(enableChannelPushNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableChannelPushNotifications(
+	enableChannelPushNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableChannelPushNotifications = &enableChannelPushNotifications
 	return r
 }
 
 // Enable audible desktop notifications for channel messages.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableChannelAudibleNotifications(enableChannelAudibleNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableChannelAudibleNotifications(
+	enableChannelAudibleNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableChannelAudibleNotifications = &enableChannelAudibleNotifications
 	return r
 }
 
 // Notification sound name.
-func (r UpdateRealmUserSettingsDefaultsRequest) NotificationSound(notificationSound string) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) NotificationSound(
+	notificationSound string,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.notificationSound = &notificationSound
 	return r
 }
 
 // Enable visual desktop notifications for direct messages and @-mentions.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableDesktopNotifications(enableDesktopNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableDesktopNotifications(
+	enableDesktopNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableDesktopNotifications = &enableDesktopNotifications
 	return r
 }
@@ -1744,7 +1862,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableSounds(enableSounds bool) 
 // Enable visual desktop notifications for messages sent to followed topics.
 //
 // **Changes**: New in Zulip 8.0 (feature level 189).
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicDesktopNotifications(enableFollowedTopicDesktopNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicDesktopNotifications(
+	enableFollowedTopicDesktopNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicDesktopNotifications = &enableFollowedTopicDesktopNotifications
 	return r
 }
@@ -1752,7 +1872,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicDesktopNotifi
 // Enable email notifications for messages sent to followed topics.
 //
 // **Changes**: New in Zulip 8.0 (feature level 189).
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicEmailNotifications(enableFollowedTopicEmailNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicEmailNotifications(
+	enableFollowedTopicEmailNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicEmailNotifications = &enableFollowedTopicEmailNotifications
 	return r
 }
@@ -1760,7 +1882,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicEmailNotifica
 // Enable push notifications for messages sent to followed topics.
 //
 // **Changes**: New in Zulip 8.0 (feature level 189).
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicPushNotifications(enableFollowedTopicPushNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicPushNotifications(
+	enableFollowedTopicPushNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicPushNotifications = &enableFollowedTopicPushNotifications
 	return r
 }
@@ -1768,55 +1892,73 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicPushNotificat
 // Enable audible desktop notifications for messages sent to followed topics.
 //
 // **Changes**: New in Zulip 8.0 (feature level 189).
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicAudibleNotifications(enableFollowedTopicAudibleNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicAudibleNotifications(
+	enableFollowedTopicAudibleNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicAudibleNotifications = &enableFollowedTopicAudibleNotifications
 	return r
 }
 
 // The duration (in seconds) for which the server should wait to batch email notifications before sending them.
-func (r UpdateRealmUserSettingsDefaultsRequest) EmailNotificationsBatchingPeriodSeconds(emailNotificationsBatchingPeriodSeconds int32) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EmailNotificationsBatchingPeriodSeconds(
+	emailNotificationsBatchingPeriodSeconds int32,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.emailNotificationsBatchingPeriodSeconds = &emailNotificationsBatchingPeriodSeconds
 	return r
 }
 
 // Enable email notifications for direct messages and @-mentions received when the user is offline.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableOfflineEmailNotifications(enableOfflineEmailNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableOfflineEmailNotifications(
+	enableOfflineEmailNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableOfflineEmailNotifications = &enableOfflineEmailNotifications
 	return r
 }
 
 // Enable mobile notification for direct messages and @-mentions received when the user is offline.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableOfflinePushNotifications(enableOfflinePushNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableOfflinePushNotifications(
+	enableOfflinePushNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableOfflinePushNotifications = &enableOfflinePushNotifications
 	return r
 }
 
 // Enable mobile notification for direct messages and @-mentions received when the user is online.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableOnlinePushNotifications(enableOnlinePushNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableOnlinePushNotifications(
+	enableOnlinePushNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableOnlinePushNotifications = &enableOnlinePushNotifications
 	return r
 }
 
 // Enable digest emails when the user is away.
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableDigestEmails(enableDigestEmails bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableDigestEmails(
+	enableDigestEmails bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableDigestEmails = &enableDigestEmails
 	return r
 }
 
 // Include the message's content in email notifications for new messages.
-func (r UpdateRealmUserSettingsDefaultsRequest) MessageContentInEmailNotifications(messageContentInEmailNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) MessageContentInEmailNotifications(
+	messageContentInEmailNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.messageContentInEmailNotifications = &messageContentInEmailNotifications
 	return r
 }
 
 // Include content of direct messages in desktop notifications.
-func (r UpdateRealmUserSettingsDefaultsRequest) PmContentInDesktopNotifications(pmContentInDesktopNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) PmContentInDesktopNotifications(
+	pmContentInDesktopNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.pmContentInDesktopNotifications = &pmContentInDesktopNotifications
 	return r
 }
 
 // Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.
-func (r UpdateRealmUserSettingsDefaultsRequest) WildcardMentionsNotify(wildcardMentionsNotify bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WildcardMentionsNotify(
+	wildcardMentionsNotify bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.wildcardMentionsNotify = &wildcardMentionsNotify
 	return r
 }
@@ -1824,7 +1966,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) WildcardMentionsNotify(wildcardM
 // Whether wildcard mentions (e.g., @**all**) in messages sent to followed topics should send notifications like a personal mention.
 //
 // **Changes**: New in Zulip 8.0 (feature level 189).
-func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicWildcardMentionsNotify(enableFollowedTopicWildcardMentionsNotify bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicWildcardMentionsNotify(
+	enableFollowedTopicWildcardMentionsNotify bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.enableFollowedTopicWildcardMentionsNotify = &enableFollowedTopicWildcardMentionsNotify
 	return r
 }
@@ -1836,7 +1980,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnableFollowedTopicWildcardMenti
 //   - BadgeCountNone
 //
 // **Changes**: In Zulip 8.0 (feature level 227), added `DMs, mentions, and followed topics` option, renumbering the options to insert it in order.
-func (r UpdateRealmUserSettingsDefaultsRequest) DesktopIconCountDisplay(desktopIconCountDisplay zulip.BadgeCount) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) DesktopIconCountDisplay(
+	desktopIconCountDisplay zulip.BadgeCount,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.desktopIconCountDisplay = &desktopIconCountDisplay
 	return r
 }
@@ -1849,7 +1995,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) DesktopIconCountDisplay(desktopI
 // **Changes**: New in Zulip 7.0 (feature level 168), replacing the previous `realm_name_in_notifications` boolean; `true` corresponded to `Always`, and `false` to `Never`.
 //
 // [include organization name in subject of message notification emails]: https://zulip.com/help/email-notifications#include-organization-name-in-subject-line
-func (r UpdateRealmUserSettingsDefaultsRequest) RealmNameInEmailNotificationsPolicy(realmNameInEmailNotificationsPolicy int32) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) RealmNameInEmailNotificationsPolicy(
+	realmNameInEmailNotificationsPolicy int32,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.realmNameInEmailNotificationsPolicy = &realmNameInEmailNotificationsPolicy
 	return r
 }
@@ -1863,7 +2011,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) RealmNameInEmailNotificationsPol
 // **Changes**: New in Zulip 8.0 (feature level 214).
 //
 // [topics to follow automatically]: https://zulip.com/help/mute-a-topic
-func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(automaticallyFollowTopicsPolicy zulip.TopicInteraction) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(
+	automaticallyFollowTopicsPolicy zulip.TopicInteraction,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyFollowTopicsPolicy = &automaticallyFollowTopicsPolicy
 	return r
 }
@@ -1877,7 +2027,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsPolicy(
 // **Changes**: New in Zulip 8.0 (feature level 214).
 //
 // [topics to unmute automatically in muted channels]: https://zulip.com/help/mute-a-topic
-func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(automaticallyUnmuteTopicsInMutedChannelsPolicy zulip.TopicInteraction) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMutedChannelsPolicy(
+	automaticallyUnmuteTopicsInMutedChannelsPolicy zulip.TopicInteraction,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyUnmuteTopicsInMutedChannelsPolicy = &automaticallyUnmuteTopicsInMutedChannelsPolicy
 	return r
 }
@@ -1885,7 +2037,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyUnmuteTopicsInMuted
 // Whether the server will automatically mark the user as following topics where the user is mentioned.
 //
 // **Changes**: New in Zulip 8.0 (feature level 235).
-func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsWhereMentioned(automaticallyFollowTopicsWhereMentioned bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsWhereMentioned(
+	automaticallyFollowTopicsWhereMentioned bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.automaticallyFollowTopicsWhereMentioned = &automaticallyFollowTopicsWhereMentioned
 	return r
 }
@@ -1896,13 +2050,17 @@ func (r UpdateRealmUserSettingsDefaultsRequest) AutomaticallyFollowTopicsWhereMe
 //   - ResolvedTopicNoticeAutoReadPolicyNever
 //
 // **Changes**: New in Zulip 11.0 (feature level 385).
-func (r UpdateRealmUserSettingsDefaultsRequest) ResolvedTopicNoticeAutoReadPolicy(resolvedTopicNoticeAutoReadPolicy zulip.ResolvedTopicNoticeAutoReadPolicy) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) ResolvedTopicNoticeAutoReadPolicy(
+	resolvedTopicNoticeAutoReadPolicy zulip.ResolvedTopicNoticeAutoReadPolicy,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.resolvedTopicNoticeAutoReadPolicy = &resolvedTopicNoticeAutoReadPolicy
 	return r
 }
 
 // Display the presence status to other users when online.
-func (r UpdateRealmUserSettingsDefaultsRequest) PresenceEnabled(presenceEnabled bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) PresenceEnabled(
+	presenceEnabled bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.presenceEnabled = &presenceEnabled
 	return r
 }
@@ -1918,7 +2076,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EnterSends(enterSends bool) Upda
 // **Changes**: New in Zulip 5.0 (feature level 99). Previously, this default was edited using the `default_twenty_four_hour_time` parameter to the `PATCH /realm` endpoint.
 //
 // [displayed in 24-hour notation]: https://zulip.com/help/change-the-time-format
-func (r UpdateRealmUserSettingsDefaultsRequest) TwentyFourHourTime(twentyFourHourTime bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) TwentyFourHourTime(
+	twentyFourHourTime bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.twentyFourHourTime = &twentyFourHourTime
 	return r
 }
@@ -1928,7 +2088,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) TwentyFourHourTime(twentyFourHou
 // **Changes**: New in Zulip 5.0 (feature level 105).
 //
 // [typing notifications]: https://zulip.com/help/typing-notifications
-func (r UpdateRealmUserSettingsDefaultsRequest) SendPrivateTypingNotifications(sendPrivateTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) SendPrivateTypingNotifications(
+	sendPrivateTypingNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.sendPrivateTypingNotifications = &sendPrivateTypingNotifications
 	return r
 }
@@ -1938,7 +2100,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendPrivateTypingNotifications(s
 // **Changes**: New in Zulip 5.0 (feature level 105).
 //
 // [typing notifications]: https://zulip.com/help/typing-notifications
-func (r UpdateRealmUserSettingsDefaultsRequest) SendChannelTypingNotifications(sendChannelTypingNotifications bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) SendChannelTypingNotifications(
+	sendChannelTypingNotifications bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.sendChannelTypingNotifications = &sendChannelTypingNotifications
 	return r
 }
@@ -1946,7 +2110,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendChannelTypingNotifications(s
 // Whether other users are allowed to see whether you've read messages.
 //
 // **Changes**: New in Zulip 5.0 (feature level 105).
-func (r UpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(sendReadReceipts bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(
+	sendReadReceipts bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.sendReadReceipts = &sendReadReceipts
 	return r
 }
@@ -1962,7 +2128,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) SendReadReceipts(sendReadReceipt
 //
 // [policy]: https://zulip.com/api/roles-and-permissions#permission-levels
 // [which other users]: https://zulip.com/help/configure-email-visibility
-func (r UpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(emailAddressVisibility zulip.EmailVisibility) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(
+	emailAddressVisibility zulip.EmailVisibility,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.emailAddressVisibility = &emailAddressVisibility
 	return r
 }
@@ -1970,7 +2138,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) EmailAddressVisibility(emailAddr
 // Web/desktop app setting for whether the user's view should automatically go to the conversation where they sent a message.
 //
 // **Changes**: New in Zulip 9.0 (feature level 268). Previously, this behavior was not configurable.
-func (r UpdateRealmUserSettingsDefaultsRequest) WebNavigateToSentMessage(webNavigateToSentMessage bool) UpdateRealmUserSettingsDefaultsRequest {
+func (r UpdateRealmUserSettingsDefaultsRequest) WebNavigateToSentMessage(
+	webNavigateToSentMessage bool,
+) UpdateRealmUserSettingsDefaultsRequest {
 	r.webNavigateToSentMessage = &webNavigateToSentMessage
 	return r
 }
@@ -2007,7 +2177,9 @@ func (r UpdateRealmUserSettingsDefaultsRequest) Execute() (*zulip.Response, *htt
 // [default values of settings]: https://zulip.com/help/configure-default-new-user-settings
 // [`ignored_parameters_unsupported`]: https://zulip.com/api/rest-error-handling#ignored-parameters
 // [personal preference settings]: https://zulip.com/api/update-settings
-func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaults(ctx context.Context) UpdateRealmUserSettingsDefaultsRequest {
+func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaults(
+	ctx context.Context,
+) UpdateRealmUserSettingsDefaultsRequest {
 	return UpdateRealmUserSettingsDefaultsRequest{
 		apiService: s,
 		ctx:        ctx,
@@ -2015,11 +2187,12 @@ func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaults(ctx cont
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaultsExecute(r UpdateRealmUserSettingsDefaultsRequest) (*zulip.Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaultsExecute(
+	r UpdateRealmUserSettingsDefaultsRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPatch
 		headers  = make(map[string]string)
-		query    = url.Values{}
 		form     = url.Values{}
 		response = &zulip.Response{}
 		endpoint = "/realm/user_settings_defaults"
@@ -2085,7 +2258,7 @@ func (s *serverAndOrganizationsService) UpdateRealmUserSettingsDefaultsExecute(r
 	apiutils.AddOptionalParam(form, "send_read_receipts", r.sendReadReceipts)
 	apiutils.AddOptionalParam(form, "email_address_visibility", r.emailAddressVisibility)
 	apiutils.AddOptionalParam(form, "web_navigate_to_sent_message", r.webNavigateToSentMessage)
-	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
+	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, nil, form, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -2117,7 +2290,10 @@ func (r UploadCustomEmojiRequest) Execute() (*zulip.Response, *http.Response, er
 // [organization's configuration].
 //
 // [organization's configuration]: https://zulip.com/help/custom-emoji#change-who-can-add-custom-emoji
-func (s *serverAndOrganizationsService) UploadCustomEmoji(ctx context.Context, emojiName string) UploadCustomEmojiRequest {
+func (s *serverAndOrganizationsService) UploadCustomEmoji(
+	ctx context.Context,
+	emojiName string,
+) UploadCustomEmojiRequest {
 	return UploadCustomEmojiRequest{
 		apiService: s,
 		ctx:        ctx,
@@ -2126,7 +2302,9 @@ func (s *serverAndOrganizationsService) UploadCustomEmoji(ctx context.Context, e
 }
 
 // Execute executes the request
-func (s *serverAndOrganizationsService) UploadCustomEmojiExecute(r UploadCustomEmojiRequest) (*zulip.Response, *http.Response, error) {
+func (s *serverAndOrganizationsService) UploadCustomEmojiExecute(
+	r UploadCustomEmojiRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method    = http.MethodPost
 		headers   = make(map[string]string)
@@ -2142,20 +2320,24 @@ func (s *serverAndOrganizationsService) UploadCustomEmojiExecute(r UploadCustomE
 	headers["Content-Type"] = "multipart/form-data"
 	headers["Accept"] = "application/json"
 
-	var filenameLocalVarFormFileName string
-	var filenameLocalVarFileName string
-	var filenameLocalVarFileBytes []byte
+	var fileName string
+	var fileBytes []byte
 
-	filenameLocalVarFormFileName = "filename"
-	filenameLocalVarFile := r.filename
+	file := r.filename
 
-	if filenameLocalVarFile != nil {
-		fbs, _ := io.ReadAll(filenameLocalVarFile)
+	if file != nil {
+		fbs, _ := io.ReadAll(file)
 
-		filenameLocalVarFileBytes = fbs
-		filenameLocalVarFileName = filenameLocalVarFile.Name()
-		filenameLocalVarFile.Close()
-		formFiles = append(formFiles, apiutils.FormFile{FileBytes: filenameLocalVarFileBytes, FileName: filenameLocalVarFileName, FormFileName: filenameLocalVarFormFileName})
+		fileBytes = fbs
+		fileName = file.Name()
+		if err := file.Close(); err != nil {
+			return nil, nil, err
+		}
+
+		formFiles = append(
+			formFiles,
+			apiutils.FormFile{FileBytes: fileBytes, FileName: fileName, FormFileName: "filename"},
+		)
 	}
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, formFiles)
 	if err != nil {

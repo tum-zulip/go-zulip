@@ -48,7 +48,7 @@ type ChannelDeleteEvent struct {
 type ChannelUpdateEvent struct {
 	event
 	// The Id of the channel whose details have changed.
-	ChannelId int64 `json:"stream_id,omitempty"`
+	ChannelID int64 `json:"stream_id,omitempty"`
 	// The name of the channel whose details have changed.
 	Name string `json:"name,omitempty"`
 	// The property of the channel which has changed. See [GET /streams] response for details on the various properties of a channel.  Clients should handle an "unknown" property received here without crashing, since that can happen when connecting to a server running a newer version of Zulip with new features.

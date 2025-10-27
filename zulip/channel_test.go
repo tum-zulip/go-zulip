@@ -15,7 +15,7 @@ func TestChannelMarshalJSON_EncodesUnixSeconds(t *testing.T) {
 	creatorId := int64(7)
 	date := time.Unix(1700000000, 500*int64(time.Millisecond)).UTC()
 	channel := z.Channel{
-		ChannelId:            123,
+		ChannelID:            123,
 		Name:                 "general",
 		DateCreated:          date,
 		CreatorId:            &creatorId,
@@ -42,7 +42,7 @@ func TestChannelUnmarshalJSON_DecodesUnixSeconds(t *testing.T) {
 	var channel z.Channel
 	require.NoError(t, json.Unmarshal(raw, &channel))
 
-	assert.Equal(t, int64(123), channel.ChannelId)
+	assert.Equal(t, int64(123), channel.ChannelID)
 	assert.Equal(t, "general", channel.Name)
 	assert.Equal(t, int64(1700000000), channel.DateCreated.Unix())
 }

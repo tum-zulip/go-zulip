@@ -18,8 +18,8 @@ type NarrowMatch struct {
 	MatchSubject *string `json:"match_subject,omitempty"`
 }
 
-// GetFileTemporaryUrlResponse struct for GetFileTemporaryUrlResponse
-type GetFileTemporaryUrlResponse struct {
+// GetFileTemporaryURLResponse struct for GetFileTemporaryURLResponse.
+type GetFileTemporaryURLResponse struct {
 	zulip.Response
 
 	// A temporary URL that can be used to access the uploaded file without Zulip's normal API authentication.

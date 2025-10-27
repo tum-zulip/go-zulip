@@ -49,14 +49,14 @@ func UsersEmailsAsRecipient(v []string) Recipient {
 	}
 }
 
-// UserAsRecipient is a convenience function that returns UserId wrapped in Recipient
+// UserAsRecipient is a convenience function that returns UserID wrapped in Recipient.
 func UserAsRecipient(v int64) Recipient {
 	return Recipient{
 		Users: []int64{v},
 	}
 }
 
-// ChannelAsRecipient is a convenience function that returns ChannelId wrapped in Recipient
+// ChannelAsRecipient is a convenience function that returns ChannelID wrapped in Recipient.
 func ChannelAsRecipient(v int64) Recipient {
 	return Recipient{
 		Channel: &v,

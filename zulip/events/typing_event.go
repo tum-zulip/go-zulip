@@ -20,7 +20,7 @@ type TypingEvent struct {
 	// Only present if `message_type` is `RecipientTypeStream`.  The unique Id of the channel to which message is being typed.
 	//
 	// **Changes**: New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
-	ChannelId *int64 `json:"stream_id,omitempty"`
+	ChannelID *int64 `json:"stream_id,omitempty"`
 	// Only present if `message_type` is `RecipientTypeStream`.  Topic within the channel where the message is being typed.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
 	//
 	// **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.  New in Zulip 4.0 (feature level 58). Previously, typing notifications were only for direct messages.
@@ -34,7 +34,7 @@ type TypingEvent struct {
 // UserSettingsUpdateEvent7RecipientsInner Object containing the user Id and Zulip API email of a recipient.
 type UserIdentifier struct {
 	// The Id of the user.
-	UserId int64 `json:"user_id,omitempty"`
+	UserID int64 `json:"user_id,omitempty"`
 	// The Zulip API email address for the user.
 	Email string `json:"email,omitempty"`
 }

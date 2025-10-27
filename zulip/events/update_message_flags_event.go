@@ -60,7 +60,7 @@ type MessageDetail struct {
 	// Present only if `type` is `RecipientTypePrivate`.  The user Ids of every recipient of this direct message, excluding yourself. Will be the empty list for a message you had sent to only yourself.
 	UserIds []int64 `json:"user_ids,omitempty"`
 	// Present only if `type` is `RecipientTypeStream`.  The Id of the channel where the message was sent.
-	ChannelId *int64 `json:"stream_id,omitempty"`
+	ChannelID *int64 `json:"stream_id,omitempty"`
 	// Present only if `type` is `RecipientTypeStream`.  Name of the topic where the message was sent.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
 	//
 	// **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.

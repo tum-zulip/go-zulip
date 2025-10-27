@@ -23,7 +23,7 @@ type RealmUserRemoveEvent struct {
 // UserInfo Object containing details of the deactivated user.
 type UserInfo struct {
 	// The Id of the deactivated user.
-	UserId int64 `json:"user_id,omitempty"`
+	UserID int64 `json:"user_id,omitempty"`
 	// The full name of the user.  **Deprecated**: We expect to remove this field in the future.
 	// Deprecated
 	FullName *string `json:"full_name,omitempty"`
@@ -43,7 +43,7 @@ type RealmUserUpdateEvent struct {
 // **Changes**: Removed `is_billing_admin` field in Zulip 10.0 (feature level 363), as it was replaced by the `can_manage_billing_group` realm setting.
 type UserUpdate struct {
 	// The Id of the user who is affected by this change.
-	UserId int64 `json:"user_id,omitempty"`
+	UserID int64 `json:"user_id,omitempty"`
 
 	UserUpdateEventFullName      *UserUpdateEventFullName
 	UserUpdateEventAvatar        *UserUpdateEventAvatar

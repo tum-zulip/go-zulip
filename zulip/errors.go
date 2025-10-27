@@ -99,7 +99,7 @@ type NonExistingChannelIdError struct {
 	CodedError
 
 	// The channel Id that could not be found.
-	ChannelId int64 `json:"stream_id"`
+	ChannelID int64 `json:"stream_id"`
 }
 
 // InvitationFailedError struct for InvitationFailedError

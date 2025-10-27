@@ -19,7 +19,6 @@ import (
 )
 
 func Test_GetServerSettings(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -33,7 +32,6 @@ func Test_GetServerSettings(t *testing.T) {
 }
 
 func Test_CodePlaygrounds(t *testing.T) {
-
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -47,19 +45,19 @@ func Test_CodePlaygrounds(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpResp)
 
-		playgroundId := resp.Id
+		playgroundID := resp.Id
 		removed := false
 		defer func() {
 			if removed {
 				return
 			}
-			_, _, cleanupErr := apiClient.RemoveCodePlayground(context.Background(), playgroundId).Execute()
+			_, _, cleanupErr := apiClient.RemoveCodePlayground(context.Background(), playgroundID).Execute()
 			if cleanupErr != nil {
-				t.Logf("cleanup remove code playground %d: %v", playgroundId, cleanupErr)
+				t.Logf("cleanup remove code playground %d: %v", playgroundID, cleanupErr)
 			}
 		}()
 
-		removeResp, removeHTTP, err := apiClient.RemoveCodePlayground(ctx, playgroundId).Execute()
+		removeResp, removeHTTP, err := apiClient.RemoveCodePlayground(ctx, playgroundID).Execute()
 		require.NoError(t, err)
 		require.NotNil(t, removeResp)
 		RequireStatusOK(t, removeHTTP)
@@ -69,7 +67,6 @@ func Test_CodePlaygrounds(t *testing.T) {
 }
 
 func Test_Linkifiers(t *testing.T) {
-
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -103,7 +100,11 @@ func Test_Linkifiers(t *testing.T) {
 
 		linkifiers := listResp.Linkifiers
 		require.NotEmpty(t, linkifiers)
-		require.True(t, linkifierExists(linkifiers, linkifierId, pattern, urlTemplate), "created linkifier missing from listing")
+		require.True(
+			t,
+			linkifierExists(linkifiers, linkifierId, pattern, urlTemplate),
+			"created linkifier missing from listing",
+		)
 
 		updatedTemplate := urlTemplate + "?source=api-test"
 		updateResp, httpResp, err := apiClient.UpdateLinkifier(ctx, linkifierId).
@@ -119,7 +120,11 @@ func Test_Linkifiers(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, updatedListResp)
 		RequireStatusOK(t, httpResp)
-		assert.True(t, linkifierExists(updatedListResp.Linkifiers, linkifierId, pattern, updatedTemplate), "updated linkifier missing or incorrect")
+		assert.True(
+			t,
+			linkifierExists(updatedListResp.Linkifiers, linkifierId, pattern, updatedTemplate),
+			"updated linkifier missing or incorrect",
+		)
 
 		originalOrder := extractlinkifierIds(updatedListResp.Linkifiers)
 		movedOrder := moveIdToFront(originalOrder, linkifierId)
@@ -151,7 +156,6 @@ func Test_Linkifiers(t *testing.T) {
 }
 
 func Test_CustomProfileFields(t *testing.T) {
-
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -217,7 +221,6 @@ func Test_CustomProfileFields(t *testing.T) {
 }
 
 func Test_Presence(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -275,12 +278,11 @@ func Test_WelcomeBotPreview(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpResp)
-		assert.Greater(t, resp.MessageId, int64(0))
+		assert.Positive(t, resp.MessageID)
 	})
 }
 
 func Test_RealmUserSettingsDefaults(t *testing.T) {
-
 	RunForAdminAndOwnerClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -293,7 +295,6 @@ func Test_RealmUserSettingsDefaults(t *testing.T) {
 }
 
 func Test_CustomEmojiLifecycle(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -429,8 +430,8 @@ func newEmojiPNG(t *testing.T) *os.File {
 	require.NoError(t, err)
 
 	t.Cleanup(func() {
-		tmp.Close()
-		os.Remove(tmp.Name())
+		require.NoError(t, tmp.Close())
+		require.NoError(t, os.Remove(tmp.Name()))
 	})
 
 	return tmp

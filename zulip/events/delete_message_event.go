@@ -21,12 +21,12 @@ type DeleteMessageEvent struct {
 	// [client capability].  The Id of the newly deleted message.
 	//
 	// [client capability]: https://zulip.com/api/register-queue#parameter-client_capabilities
-	MessageId *int64 `json:"message_id,omitempty"`
+	MessageID *int64 `json:"message_id,omitempty"`
 
 	// The type of message. Either `RecipientTypeStream` or `RecipientTypePrivate`.
 	MessageType zulip.RecipientType `json:"message_type,omitempty"`
 	// Only present if `message_type` is `"stream"`.  The Id of the channel to which the message was sent.
-	ChannelId *int64 `json:"stream_id,omitempty"`
+	ChannelID *int64 `json:"stream_id,omitempty"`
 	// Only present if `message_type` is `"stream"`.  The topic to which the message was sent.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name was empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
 	//
 	// **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.

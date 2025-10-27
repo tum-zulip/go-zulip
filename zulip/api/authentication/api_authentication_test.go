@@ -30,6 +30,9 @@ func Test_FetchApiKey(t *testing.T) {
 		// More complex authentication flow not trivial to test here
 		t.Skip("Not implemented yet")
 		ctx := context.Background()
-		apiClient.FetchApiKey(ctx).Execute()
+		resp, httpResp, err := apiClient.FetchApiKey(ctx).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		RequireStatusOK(t, httpResp)
 	})
 }

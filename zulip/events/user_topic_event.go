@@ -18,7 +18,7 @@ type UserTopicEvent struct {
 // UserTopics Object describing the user's configuration for a given topic.
 type UserTopic struct {
 	// The Id of the channel to which the topic belongs.
-	ChannelId int64 `json:"stream_id,omitempty"`
+	ChannelID int64 `json:"stream_id,omitempty"`
 	// The name of the topic.  For clients that don't support the `empty_topic_name` [client capability], if the actual topic name is empty string, this field's value will instead be the value of `realm_empty_topic_display_name` found in the [`POST /register`] response.
 	//
 	// **Changes**: Before 10.0 (feature level 334), `empty_topic_name` client capability didn't exist and empty string as the topic name for channel messages wasn't allowed.
@@ -40,7 +40,7 @@ type UserTopic struct {
 }
 
 type userTopicJSON struct {
-	ChannelId        int64                  `json:"stream_id,omitempty"`
+	ChannelID        int64                  `json:"stream_id,omitempty"`
 	TopicName        string                 `json:"topic_name,omitempty"`
 	LastUpdated      int64                  `json:"last_updated,omitempty"`
 	VisibilityPolicy zulip.VisibilityPolicy `json:"visibility_policy,omitempty"`
@@ -52,7 +52,7 @@ func (u *UserTopic) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	u.ChannelId = uj.ChannelId
+	u.ChannelID = uj.ChannelID
 	u.TopicName = uj.TopicName
 	u.LastUpdated = time.Unix(uj.LastUpdated, 0)
 	u.VisibilityPolicy = uj.VisibilityPolicy
@@ -62,7 +62,7 @@ func (u *UserTopic) UnmarshalJSON(data []byte) error {
 
 func (u UserTopic) MarshalJSON() ([]byte, error) {
 	uj := userTopicJSON{
-		ChannelId:        u.ChannelId,
+		ChannelID:        u.ChannelID,
 		TopicName:        u.TopicName,
 		LastUpdated:      u.LastUpdated.Unix(),
 		VisibilityPolicy: u.VisibilityPolicy,

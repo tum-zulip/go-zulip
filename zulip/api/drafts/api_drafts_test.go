@@ -204,12 +204,12 @@ func Test_GetSavedSnippets(t *testing.T) {
 func createDraft(t *testing.T, ctx context.Context, apiClient client.Client) *z.Draft {
 	t.Helper()
 
-	userId := GetUserId(t, apiClient)
-	_, channelId := CreateRandomChannel(t, apiClient, userId)
+	userID := GetUserId(t, apiClient)
+	_, channelID := CreateRandomChannel(t, apiClient, userID)
 
 	draft := &z.Draft{
 		Type:    z.RecipientTypeChannel,
-		To:      z.ChannelAsRecipient(channelId),
+		To:      z.ChannelAsRecipient(channelID),
 		Topic:   UniqueName("draft-topic"),
 		Content: fmt.Sprintf("draft content %s", UniqueName("draft")),
 		// in the past to avoid any clock skew issues

@@ -13,9 +13,8 @@ import (
 )
 
 func Test_ConnectRequiresQueueID(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
-		q := real_time_events.NewEventQueue(apiClient, nil)
+		q := real_time_events.NewEventQueue(apiClient)
 
 		events, err := q.Connect(context.Background(), "", 0)
 		require.Error(t, err)
@@ -24,7 +23,6 @@ func Test_ConnectRequiresQueueID(t *testing.T) {
 }
 
 func Test_PollsEventsAndUpdatesState(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -35,7 +33,7 @@ func Test_PollsEventsAndUpdatesState(t *testing.T) {
 		require.Equal(t, httpResp.StatusCode, 200)
 		require.NotNil(t, resp.QueueId)
 
-		q := real_time_events.NewEventQueue(apiClient, real_time_events.NewEventQueueLoggingErrorHandler())
+		q := real_time_events.NewEventQueue(apiClient)
 
 		events, err := q.Connect(context.Background(), *resp.QueueId, resp.LastEventId)
 		require.NoError(t, err)
@@ -43,14 +41,20 @@ func Test_PollsEventsAndUpdatesState(t *testing.T) {
 		require.Equal(t, *resp.QueueId, q.QueueId())
 		require.Equal(t, resp.LastEventId, q.LastEventId())
 
+		errs := make([]error, 0)
+		wait := make(chan struct{})
+
 		go func() {
 			for i := 0; i < 2; i++ {
 				time.Sleep(200 * time.Millisecond)
-				apiClient.SetTypingStatus(ctx).
+				_, _, typingErr := apiClient.SetTypingStatus(ctx).
 					To(z.UserAsRecipient(GetUserId(t, apiClient))).
 					Op(z.TypingStatusOpStart).
 					Execute()
+
+				errs = append(errs, typingErr)
 			}
+			close(wait)
 		}()
 
 		e1 := <-events
@@ -64,11 +68,15 @@ func Test_PollsEventsAndUpdatesState(t *testing.T) {
 		require.NoError(t, q.Close())
 		for range events {
 		}
+		<-wait
+
+		for _, err := range errs {
+			require.NoError(t, err)
+		}
 	})
 }
 
 func Test_CloseWithoutConnect(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		q := real_time_events.NewEventQueue(apiClient, nil)
 

@@ -8,7 +8,7 @@ type SubmessageEvent struct {
 	// The new content of the submessage.
 	Content string `json:"content,omitempty"`
 	// The Id of the message to which the submessage has been added.
-	MessageId int64 `json:"message_id,omitempty"`
+	MessageID int64 `json:"message_id,omitempty"`
 	// The Id of the user who sent the message.
 	SenderId int64 `json:"sender_id,omitempty"`
 	// The Id of the submessage.

@@ -4,6 +4,7 @@ package messages
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -12,19 +13,17 @@ import (
 	"strings"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-
 	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIMessages interface {
-
 	// AddReaction Add an emoji reaction
 	//
 	// Add an [emoji reaction] to a message.
 	//
 	// [emoji reaction]: https://zulip.com/help/emoji-reactions
-	AddReaction(ctx context.Context, messageId int64) AddReactionRequest
+	AddReaction(ctx context.Context, messageID int64) AddReactionRequest
 
 	// AddReactionExecute executes the request
 	AddReactionExecute(r AddReactionRequest) (*zulip.Response, *http.Response, error)
@@ -54,7 +53,9 @@ type APIMessages interface {
 	CheckMessagesMatchNarrow(ctx context.Context) CheckMessagesMatchNarrowRequest
 
 	// CheckMessagesMatchNarrowExecute executes the request
-	CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error)
+	CheckMessagesMatchNarrowExecute(
+		r CheckMessagesMatchNarrowRequest,
+	) (*CheckMessagesMatchNarrowResponse, *http.Response, error)
 
 	// DeleteMessage Delete a message
 	//
@@ -66,21 +67,21 @@ type APIMessages interface {
 	//
 	// [delete a message completely]: https://zulip.com/help/delete-a-message#delete-a-message-completely
 	//
-	DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest
+	DeleteMessage(ctx context.Context, messageID int64) DeleteMessageRequest
 
 	// DeleteMessageExecute executes the request
 	DeleteMessageExecute(r DeleteMessageRequest) (*zulip.Response, *http.Response, error)
 
-	// GetFileTemporaryUrl Get public temporary URL
+	// GetFileTemporaryURL Get public temporary URL
 	//
 	// Get a temporary URL for access to the file that doesn't require authentication.
 	//
 	// *Changes**: New in Zulip 3.0 (feature level 1).
 	//
-	GetFileTemporaryUrl(ctx context.Context, realmId int64, filename string) GetFileTemporaryUrlRequest
+	GetFileTemporaryURL(ctx context.Context, realmID int64, filename string) GetFileTemporaryURLRequest
 
-	// GetFileTemporaryUrlExecute executes the request
-	GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error)
+	// GetFileTemporaryURLExecute executes the request
+	GetFileTemporaryURLExecute(r GetFileTemporaryURLRequest) (*GetFileTemporaryURLResponse, *http.Response, error)
 
 	// GetMessage Fetch a single message
 	//
@@ -97,7 +98,7 @@ type APIMessages interface {
 	//
 	// [Zulip-flavored Markdown]: https://zulip.com/help/format-your-message-using-markdown
 	// [view source]: https://zulip.com/help/view-the-markdown-source-of-a-message
-	GetMessage(ctx context.Context, messageId int64) GetMessageRequest
+	GetMessage(ctx context.Context, messageID int64) GetMessageRequest
 
 	// GetMessageExecute executes the request
 	GetMessageExecute(r GetMessageRequest) (*GetMessageResponse, *http.Response, error)
@@ -111,7 +112,7 @@ type APIMessages interface {
 	//
 	// [Zulip Help Center documentation on editing messages]: https://zulip.com/help/view-a-messages-edit-history
 	//
-	GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest
+	GetMessageHistory(ctx context.Context, messageID int64) GetMessageHistoryRequest
 
 	// GetMessageHistoryExecute executes the request
 	GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error)
@@ -175,7 +176,7 @@ type APIMessages interface {
 	//
 	// *Changes**: New in Zulip 6.0 (feature level 137).
 	//
-	GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest
+	GetReadReceipts(ctx context.Context, messageID int64) GetReadReceiptsRequest
 
 	// GetReadReceiptsExecute executes the request
 	GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error)
@@ -258,7 +259,7 @@ type APIMessages interface {
 	// Remove an [emoji reaction] from a message.
 	//
 	// [emoji reaction]: https://zulip.com/help/emoji-reactions
-	RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest
+	RemoveReaction(ctx context.Context, messageID int64) RemoveReactionRequest
 
 	// RemoveReactionExecute executes the request
 	RemoveReactionExecute(r RemoveReactionRequest) (*zulip.Response, *http.Response, error)
@@ -289,7 +290,7 @@ type APIMessages interface {
 	// the `moderation_request_channel` realm setting, which was added in
 	// feature level 331.
 	//
-	ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest
+	ReportMessage(ctx context.Context, messageID int64) ReportMessageRequest
 
 	// ReportMessageExecute executes the request
 	ReportMessageExecute(r ReportMessageRequest) (*zulip.Response, *http.Response, error)
@@ -395,7 +396,7 @@ type APIMessages interface {
 	// [`GET /events`]: https://zulip.com/api/get-events
 	// [topic editing permissions]: https://zulip.com/help/restrict-moving-messages
 	// [return an error]: https://zulip.com/api/update-message#response
-	UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest
+	UpdateMessage(ctx context.Context, messageID int64) UpdateMessageRequest
 
 	// UpdateMessageExecute executes the request
 	UpdateMessageExecute(r UpdateMessageRequest) (*UpdateMessageResponse, *http.Response, error)
@@ -426,7 +427,9 @@ type APIMessages interface {
 	UpdateMessageFlagsForNarrow(ctx context.Context) UpdateMessageFlagsForNarrowRequest
 
 	// UpdateMessageFlagsForNarrowExecute executes the request
-	UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error)
+	UpdateMessageFlagsForNarrowExecute(
+		r UpdateMessageFlagsForNarrowRequest,
+	) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error)
 
 	// UploadFile Upload a file
 	//
@@ -481,7 +484,7 @@ var _ APIMessages = (*messagesService)(nil)
 type AddReactionRequest struct {
 	ctx          context.Context
 	apiService   APIMessages
-	messageId    int64
+	messageID    int64
 	emojiName    *string
 	emojiCode    *string
 	reactionType *string
@@ -524,11 +527,11 @@ func (r AddReactionRequest) Execute() (*zulip.Response, *http.Response, error) {
 // Add an [emoji reaction] to a message.
 //
 // [emoji reaction]: https://zulip.com/help/emoji-reactions
-func (s *messagesService) AddReaction(ctx context.Context, messageId int64) AddReactionRequest {
+func (s *messagesService) AddReaction(ctx context.Context, messageID int64) AddReactionRequest {
 	return AddReactionRequest{
 		apiService: s,
 		ctx:        ctx,
-		messageId:  messageId,
+		messageID:  messageID,
 	}
 }
 
@@ -543,7 +546,7 @@ func (s *messagesService) AddReactionExecute(r AddReactionRequest) (*zulip.Respo
 		endpoint = "/messages/{message_id}/reactions"
 	)
 
-	path := strings.Replace(endpoint, "{message_id}", apiutils.IdToString(r.messageId), -1)
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
 
 	if r.emojiName == nil {
 		return nil, nil, fmt.Errorf("emojiName is required and must be specified")
@@ -622,7 +625,9 @@ func (s *messagesService) CheckMessagesMatchNarrow(ctx context.Context) CheckMes
 }
 
 // Execute executes the request
-func (s *messagesService) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNarrowRequest) (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
+func (s *messagesService) CheckMessagesMatchNarrowExecute(
+	r CheckMessagesMatchNarrowRequest,
+) (*CheckMessagesMatchNarrowResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -654,7 +659,7 @@ func (s *messagesService) CheckMessagesMatchNarrowExecute(r CheckMessagesMatchNa
 type DeleteMessageRequest struct {
 	ctx        context.Context
 	apiService APIMessages
-	messageId  int64
+	messageID  int64
 }
 
 func (r DeleteMessageRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -670,11 +675,11 @@ func (r DeleteMessageRequest) Execute() (*zulip.Response, *http.Response, error)
 // the Zulip Help Center.
 //
 // [delete a message completely]: https://zulip.com/help/delete-a-message#delete-a-message-completely
-func (s *messagesService) DeleteMessage(ctx context.Context, messageId int64) DeleteMessageRequest {
+func (s *messagesService) DeleteMessage(ctx context.Context, messageID int64) DeleteMessageRequest {
 	return DeleteMessageRequest{
 		apiService: s,
 		ctx:        ctx,
-		messageId:  messageId,
+		messageID:  messageID,
 	}
 }
 
@@ -689,7 +694,7 @@ func (s *messagesService) DeleteMessageExecute(r DeleteMessageRequest) (*zulip.R
 		endpoint = "/messages/{message_id}"
 	)
 
-	path := strings.Replace(endpoint, "{message_id}", apiutils.IdToString(r.messageId), -1)
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -701,43 +706,49 @@ func (s *messagesService) DeleteMessageExecute(r DeleteMessageRequest) (*zulip.R
 	return response, httpResp, err
 }
 
-type GetFileTemporaryUrlRequest struct {
+type GetFileTemporaryURLRequest struct {
 	ctx        context.Context
 	apiService APIMessages
-	realmId    int64
+	realmID    int64
 	filename   string
 }
 
-func (r GetFileTemporaryUrlRequest) Execute() (*GetFileTemporaryUrlResponse, *http.Response, error) {
-	return r.apiService.GetFileTemporaryUrlExecute(r)
+func (r GetFileTemporaryURLRequest) Execute() (*GetFileTemporaryURLResponse, *http.Response, error) {
+	return r.apiService.GetFileTemporaryURLExecute(r)
 }
 
-// GetFileTemporaryUrl Get public temporary URL
+// GetFileTemporaryURL Get public temporary URL
 //
 // Get a temporary URL for access to the file that doesn't require authentication.
 //
 // *Changes**: New in Zulip 3.0 (feature level 1).
-func (s *messagesService) GetFileTemporaryUrl(ctx context.Context, realmId int64, filename string) GetFileTemporaryUrlRequest {
-	return GetFileTemporaryUrlRequest{
+func (s *messagesService) GetFileTemporaryURL(
+	ctx context.Context,
+	realmID int64,
+	filename string,
+) GetFileTemporaryURLRequest {
+	return GetFileTemporaryURLRequest{
 		apiService: s,
 		ctx:        ctx,
-		realmId:    realmId,
+		realmID:    realmID,
 		filename:   filename,
 	}
 }
 
 // Execute executes the request
-func (s *messagesService) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlRequest) (*GetFileTemporaryUrlResponse, *http.Response, error) {
+func (s *messagesService) GetFileTemporaryURLExecute(
+	r GetFileTemporaryURLRequest,
+) (*GetFileTemporaryURLResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
 		query    = url.Values{}
 		form     = url.Values{}
-		response = &GetFileTemporaryUrlResponse{}
+		response = &GetFileTemporaryURLResponse{}
 		endpoint = "/user_uploads/{realm_id_str}/{filename}"
 	)
 
-	path := strings.Replace(endpoint, "{realm_id_str}", apiutils.IdToString(r.realmId), -1)
+	path := strings.ReplaceAll(endpoint, "{realm_id_str}", apiutils.IdToString(r.realmID))
 	path = strings.Replace(path, "{filename}", url.PathEscape(r.filename), -1)
 
 	headers["Accept"] = "application/json"
@@ -753,7 +764,7 @@ func (s *messagesService) GetFileTemporaryUrlExecute(r GetFileTemporaryUrlReques
 type GetMessageRequest struct {
 	ctx                 context.Context
 	apiService          APIMessages
-	messageId           int64
+	messageID           int64
 	applyMarkdown       *bool
 	allowEmptyTopicName *bool
 }
@@ -797,11 +808,11 @@ func (r GetMessageRequest) Execute() (*GetMessageResponse, *http.Response, error
 //
 // [Zulip-flavored Markdown]: https://zulip.com/help/format-your-message-using-markdown
 // [view source]: https://zulip.com/help/view-the-markdown-source-of-a-message
-func (s *messagesService) GetMessage(ctx context.Context, messageId int64) GetMessageRequest {
+func (s *messagesService) GetMessage(ctx context.Context, messageID int64) GetMessageRequest {
 	return GetMessageRequest{
 		apiService: s,
 		ctx:        ctx,
-		messageId:  messageId,
+		messageID:  messageID,
 	}
 }
 
@@ -816,7 +827,7 @@ func (s *messagesService) GetMessageExecute(r GetMessageRequest) (*GetMessageRes
 		endpoint = "/messages/{message_id}"
 	)
 
-	path := strings.Replace(endpoint, "{message_id}", apiutils.IdToString(r.messageId), -1)
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
 
 	apiutils.AddOptionalParam(query, "apply_markdown", r.applyMarkdown)
 	apiutils.AddOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
@@ -834,7 +845,7 @@ func (s *messagesService) GetMessageExecute(r GetMessageRequest) (*GetMessageRes
 type GetMessageHistoryRequest struct {
 	ctx                 context.Context
 	apiService          APIMessages
-	messageId           int64
+	messageID           int64
 	allowEmptyTopicName *bool
 }
 
@@ -860,16 +871,18 @@ func (r GetMessageHistoryRequest) Execute() (*GetMessageHistoryResponse, *http.R
 // [Zulip Help Center documentation on editing messages].
 //
 // [Zulip Help Center documentation on editing messages]: https://zulip.com/help/view-a-messages-edit-history
-func (s *messagesService) GetMessageHistory(ctx context.Context, messageId int64) GetMessageHistoryRequest {
+func (s *messagesService) GetMessageHistory(ctx context.Context, messageID int64) GetMessageHistoryRequest {
 	return GetMessageHistoryRequest{
 		apiService: s,
 		ctx:        ctx,
-		messageId:  messageId,
+		messageID:  messageID,
 	}
 }
 
 // Execute executes the request
-func (s *messagesService) GetMessageHistoryExecute(r GetMessageHistoryRequest) (*GetMessageHistoryResponse, *http.Response, error) {
+func (s *messagesService) GetMessageHistoryExecute(
+	r GetMessageHistoryRequest,
+) (*GetMessageHistoryResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -879,7 +892,7 @@ func (s *messagesService) GetMessageHistoryExecute(r GetMessageHistoryRequest) (
 		endpoint = "/messages/{message_id}/history"
 	)
 
-	path := strings.Replace(endpoint, "{message_id}", apiutils.IdToString(r.messageId), -1)
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
 
 	apiutils.AddOptionalParam(query, "allow_empty_topic_name", r.allowEmptyTopicName)
 
@@ -1070,7 +1083,7 @@ func (s *messagesService) GetMessagesExecute(r GetMessagesRequest) (*GetMessages
 type GetReadReceiptsRequest struct {
 	ctx        context.Context
 	apiService APIMessages
-	messageId  int64
+	messageID  int64
 }
 
 func (r GetReadReceiptsRequest) Execute() (*GetReadReceiptsResponse, *http.Response, error) {
@@ -1093,16 +1106,18 @@ func (r GetReadReceiptsRequest) Execute() (*GetReadReceiptsResponse, *http.Respo
 // It will never contain the message's sender.
 //
 // *Changes**: New in Zulip 6.0 (feature level 137).
-func (s *messagesService) GetReadReceipts(ctx context.Context, messageId int64) GetReadReceiptsRequest {
+func (s *messagesService) GetReadReceipts(ctx context.Context, messageID int64) GetReadReceiptsRequest {
 	return GetReadReceiptsRequest{
 		apiService: s,
 		ctx:        ctx,
-		messageId:  messageId,
+		messageID:  messageID,
 	}
 }
 
 // Execute executes the request
-func (s *messagesService) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*GetReadReceiptsResponse, *http.Response, error) {
+func (s *messagesService) GetReadReceiptsExecute(
+	r GetReadReceiptsRequest,
+) (*GetReadReceiptsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodGet
 		headers  = make(map[string]string)
@@ -1112,7 +1127,7 @@ func (s *messagesService) GetReadReceiptsExecute(r GetReadReceiptsRequest) (*Get
 		endpoint = "/messages/{message_id}/read_receipts"
 	)
 
-	path := strings.Replace(endpoint, "{message_id}", apiutils.IdToString(r.messageId), -1)
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
@@ -1198,12 +1213,12 @@ func (s *messagesService) MarkAllAsReadExecute(r MarkAllAsReadRequest) (*MarkAll
 type MarkChannelAsReadRequest struct {
 	ctx        context.Context
 	apiService APIMessages
-	channelId  *int64
+	channelID  *int64
 }
 
 // The Id of the channel to access.
-func (r MarkChannelAsReadRequest) ChannelId(channelId int64) MarkChannelAsReadRequest {
-	r.channelId = &channelId
+func (r MarkChannelAsReadRequest) ChannelID(channelID int64) MarkChannelAsReadRequest {
+	r.channelID = &channelID
 	return r
 }
 
@@ -1231,7 +1246,9 @@ func (s *messagesService) MarkChannelAsRead(ctx context.Context) MarkChannelAsRe
 // Execute executes the request
 //
 // Deprecated
-func (s *messagesService) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (*zulip.Response, *http.Response, error) {
+func (s *messagesService) MarkChannelAsReadExecute(
+	r MarkChannelAsReadRequest,
+) (*zulip.Response, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -1240,14 +1257,14 @@ func (s *messagesService) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (
 		response = &zulip.Response{}
 		endpoint = "/mark_stream_as_read"
 	)
-	if r.channelId == nil {
-		return nil, nil, fmt.Errorf("channelId is required and must be specified")
+	if r.channelID == nil {
+		return nil, nil, errors.New("channelID is required and must be specified")
 	}
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	apiutils.AddParam(form, "stream_id", r.channelId)
+	apiutils.AddParam(form, "stream_id", r.channelID)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1260,13 +1277,13 @@ func (s *messagesService) MarkChannelAsReadExecute(r MarkChannelAsReadRequest) (
 type MarkTopicAsReadRequest struct {
 	ctx        context.Context
 	apiService APIMessages
-	channelId  *int64
+	channelID  *int64
 	topicName  *string
 }
 
 // The Id of the channel to access.
-func (r MarkTopicAsReadRequest) ChannelId(channelId int64) MarkTopicAsReadRequest {
-	r.channelId = &channelId
+func (r MarkTopicAsReadRequest) ChannelID(channelID int64) MarkTopicAsReadRequest {
+	r.channelID = &channelID
 	return r
 }
 
@@ -1313,8 +1330,8 @@ func (s *messagesService) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*zul
 		response = &zulip.Response{}
 		endpoint = "/mark_topic_as_read"
 	)
-	if r.channelId == nil {
-		return nil, nil, fmt.Errorf("channelId is required and must be specified")
+	if r.channelID == nil {
+		return nil, nil, errors.New("channelID is required and must be specified")
 	}
 	if r.topicName == nil {
 		return nil, nil, fmt.Errorf("topicName is required and must be specified")
@@ -1323,7 +1340,7 @@ func (s *messagesService) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*zul
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	apiutils.AddParam(form, "stream_id", r.channelId)
+	apiutils.AddParam(form, "stream_id", r.channelID)
 	apiutils.AddParam(form, "topic_name", r.topicName)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
@@ -1337,7 +1354,7 @@ func (s *messagesService) MarkTopicAsReadExecute(r MarkTopicAsReadRequest) (*zul
 type RemoveReactionRequest struct {
 	ctx          context.Context
 	apiService   APIMessages
-	messageId    int64
+	messageID    int64
 	emojiName    *string
 	emojiCode    *string
 	reactionType *zulip.ReactionType
@@ -1380,11 +1397,11 @@ func (r RemoveReactionRequest) Execute() (*zulip.Response, *http.Response, error
 // Remove an [emoji reaction] from a message.
 //
 // [emoji reaction]: https://zulip.com/help/emoji-reactions
-func (s *messagesService) RemoveReaction(ctx context.Context, messageId int64) RemoveReactionRequest {
+func (s *messagesService) RemoveReaction(ctx context.Context, messageID int64) RemoveReactionRequest {
 	return RemoveReactionRequest{
 		apiService: s,
 		ctx:        ctx,
-		messageId:  messageId,
+		messageID:  messageID,
 	}
 }
 
@@ -1399,7 +1416,7 @@ func (s *messagesService) RemoveReactionExecute(r RemoveReactionRequest) (*zulip
 		endpoint = "/messages/{message_id}/reactions"
 	)
 
-	path := strings.Replace(endpoint, "{message_id}", apiutils.IdToString(r.messageId), -1)
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -1474,7 +1491,7 @@ func (s *messagesService) RenderMessageExecute(r RenderMessageRequest) (*RenderM
 type ReportMessageRequest struct {
 	ctx         context.Context
 	apiService  APIMessages
-	messageId   int64
+	messageID   int64
 	reportType  *string
 	description *string
 }
@@ -1511,11 +1528,11 @@ func (r ReportMessageRequest) Execute() (*zulip.Response, *http.Response, error)
 // *Changes**: New in Zulip 11.0 (feature level 382). This API builds on
 // the `moderation_request_channel` realm setting, which was added in
 // feature level 331.
-func (s *messagesService) ReportMessage(ctx context.Context, messageId int64) ReportMessageRequest {
+func (s *messagesService) ReportMessage(ctx context.Context, messageID int64) ReportMessageRequest {
 	return ReportMessageRequest{
 		apiService: s,
 		ctx:        ctx,
-		messageId:  messageId,
+		messageID:  messageID,
 	}
 }
 
@@ -1530,7 +1547,7 @@ func (s *messagesService) ReportMessageExecute(r ReportMessageRequest) (*zulip.R
 		endpoint = "/messages/{message_id}/report"
 	)
 
-	path := strings.Replace(endpoint, "{message_id}", apiutils.IdToString(r.messageId), -1)
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
 
 	if r.reportType == nil {
 		return nil, nil, fmt.Errorf("reportType is required and must be specified")
@@ -1681,14 +1698,14 @@ func (s *messagesService) SendMessageExecute(r SendMessageRequest) (*SendMessage
 type UpdateMessageRequest struct {
 	ctx                         context.Context
 	apiService                  APIMessages
-	messageId                   int64
+	messageID                   int64
 	topic                       *string
 	propagateMode               *string
 	sendNotificationToOldThread *bool
 	sendNotificationToNewThread *bool
 	content                     *string
 	prevContentSha256           *string
-	channelId                   *int64
+	channelID                   *int64
 }
 
 // The topic to move the message(s) to, to request changing the topic.  Clients should use the `max_topic_length` returned by the [`POST /register`] endpoint to determine the maximum topic length  Should only be sent when changing the topic, and will throw an error if the target message is not a channel message.  Note: When the value of `realm_empty_topic_display_name` found in the [POST /register] response is used for this parameter, it is interpreted as an empty string.  When [topics are required], this parameter can't be `"(no topic)"`, an empty string, or the value of `realm_empty_topic_display_name`.  You can [resolve topics] by editing the topic to `✔ {original_topic}` with the `propagate_mode` parameter set to `"change_all"`. The empty string topic cannot be marked as resolved.
@@ -1746,8 +1763,8 @@ func (r UpdateMessageRequest) PrevContentSha256(prevContentSha256 string) Update
 // The channel Id to move the message(s) to, to request moving messages to another channel.  Should only be sent when changing the channel, and will throw an error if the target message is not a channel message.  Note that a message's content and channel cannot be changed at the same time, so sending both `content` and `stream_id` parameters will throw an error.
 //
 // **Changes**: New in Zulip 3.0 (feature level 1).
-func (r UpdateMessageRequest) ChannelId(channelId int64) UpdateMessageRequest {
-	r.channelId = &channelId
+func (r UpdateMessageRequest) ChannelID(channelID int64) UpdateMessageRequest {
+	r.channelID = &channelID
 	return r
 }
 
@@ -1844,11 +1861,11 @@ func (r UpdateMessageRequest) Execute() (*UpdateMessageResponse, *http.Response,
 // [topic editing permissions]: https://zulip.com/help/restrict-moving-messages
 // [return an error]: https://zulip.com/api/update-message#response
 // [`realm op: update_dict`]: https://zulip.com/api/get-events#realm-update_dict
-func (s *messagesService) UpdateMessage(ctx context.Context, messageId int64) UpdateMessageRequest {
+func (s *messagesService) UpdateMessage(ctx context.Context, messageID int64) UpdateMessageRequest {
 	return UpdateMessageRequest{
 		apiService: s,
 		ctx:        ctx,
-		messageId:  messageId,
+		messageID:  messageID,
 	}
 }
 
@@ -1863,7 +1880,7 @@ func (s *messagesService) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateM
 		endpoint = "/messages/{message_id}"
 	)
 
-	path := strings.Replace(endpoint, "{message_id}", apiutils.IdToString(r.messageId), -1)
+	path := strings.ReplaceAll(endpoint, "{message_id}", apiutils.IdToString(r.messageID))
 
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
@@ -1874,7 +1891,7 @@ func (s *messagesService) UpdateMessageExecute(r UpdateMessageRequest) (*UpdateM
 	apiutils.AddOptionalParam(form, "send_notification_to_new_thread", r.sendNotificationToNewThread)
 	apiutils.AddOptionalParam(form, "content", r.content)
 	apiutils.AddOptionalParam(form, "prev_content_sha256", r.prevContentSha256)
-	apiutils.AddOptionalParam(form, "stream_id", r.channelId)
+	apiutils.AddOptionalParam(form, "stream_id", r.channelID)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
@@ -1930,7 +1947,9 @@ func (s *messagesService) UpdateMessageFlags(ctx context.Context) UpdateMessageF
 }
 
 // Execute executes the request
-func (s *messagesService) UpdateMessageFlagsExecute(r UpdateMessageFlagsRequest) (*UpdateMessageFlagsResponse, *http.Response, error) {
+func (s *messagesService) UpdateMessageFlagsExecute(
+	r UpdateMessageFlagsRequest,
+) (*UpdateMessageFlagsResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -2047,7 +2066,9 @@ func (s *messagesService) UpdateMessageFlagsForNarrow(ctx context.Context) Updat
 }
 
 // Execute executes the request
-func (s *messagesService) UpdateMessageFlagsForNarrowExecute(r UpdateMessageFlagsForNarrowRequest) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
+func (s *messagesService) UpdateMessageFlagsForNarrowExecute(
+	r UpdateMessageFlagsForNarrowRequest,
+) (*UpdateMessageFlagsForNarrowResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -2170,20 +2191,23 @@ func (s *messagesService) UploadFileExecute(r UploadFileRequest) (*UploadFileRes
 	headers["Content-Type"] = "multipart/form-data"
 	headers["Accept"] = "application/json"
 
-	var filenameLocalVarFormFileName string
-	var filenameLocalVarFileName string
-	var filenameLocalVarFileBytes []byte
+	var fileName string
+	var fileBytes []byte
 
-	filenameLocalVarFormFileName = "filename"
-	filenameLocalVarFile := r.filename
+	file := r.filename
 
-	if filenameLocalVarFile != nil {
-		fbs, _ := io.ReadAll(filenameLocalVarFile)
+	if file != nil {
+		fbs, _ := io.ReadAll(file)
 
-		filenameLocalVarFileBytes = fbs
-		filenameLocalVarFileName = filenameLocalVarFile.Name()
-		filenameLocalVarFile.Close()
-		formFiles = append(formFiles, apiutils.FormFile{FileBytes: filenameLocalVarFileBytes, FileName: filenameLocalVarFileName, FormFileName: filenameLocalVarFormFileName})
+		fileBytes = fbs
+		fileName = file.Name()
+		if err := file.Close(); err != nil {
+			return nil, nil, err
+		}
+		formFiles = append(
+			formFiles,
+			apiutils.FormFile{FileBytes: fileBytes, FileName: fileName, FormFileName: "filename"},
+		)
 	}
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, formFiles)
 	if err != nil {

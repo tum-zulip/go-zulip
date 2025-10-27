@@ -2,6 +2,7 @@ package zulip_test
 
 import (
 	"context"
+	"log/slog"
 
 	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/client"
@@ -16,20 +17,27 @@ func Example() {
 
 	// Get own user id
 	userResp, _, _ := client.GetOwnUser(ctx).Execute()
-	userId := userResp.UserId
+	userID := userResp.UserID
 
 	// Create a channel
 	// Older versions need to use the more verbose Subscribe() endpoint
-	channelResp, _, _ := client.CreateChannel(ctx).
+	channelResp, _, err := client.CreateChannel(ctx).
 		Name("zulip-community").
 		Description("A channel to greet the Zulip community").
-		Subscribers([]int64{userId}).
+		Subscribers([]int64{userID}).
 		Execute()
+	if err != nil {
+		slog.Error("failed to create channel", "error", err)
+		return
+	}
 
 	// Send a message greeting the Zulip community
-	client.SendMessage(ctx).
+	_, _, err = client.SendMessage(ctx).
 		To(z.ChannelAsRecipient(channelResp.Id)).
 		Topic("introductions").
 		Content("Hello Zulip community! 👋").
 		Execute()
+	if err != nil {
+		slog.Error("failed to send message", "error", err)
+	}
 }

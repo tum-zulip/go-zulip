@@ -18,7 +18,7 @@ type SubscriptionAddEvent struct {
 type SubscriptionUpdateEvent struct {
 	event
 
-	ChannelId int64 `json:"stream_id,omitempty"`
+	ChannelID int64 `json:"stream_id,omitempty"`
 	// The property of the subscription which has changed. For details on the various subscription properties that a user can change, see [POST /users/me/subscriptions/properties].  Clients should generally handle an unknown property received here without crashing, since that will naturally happen when connecting to a Zulip server running a new version that adds a new subscription property.
 	//
 	// **Changes**: As of Zulip 6.0 (feature level 139), updates to the `is_muted` property or the deprecated `in_home_view` property will send two `subscription` update events, one for each property, to support clients fully migrating to use the `is_muted` property. Prior to this feature level, updates to either property only sent one event with the deprecated `in_home_view` property.
@@ -76,7 +76,7 @@ type SubscriptionPeerRemoveEvent struct {
 // SubscriptionRemoveData Dictionary containing details about the unsubscribed channel.
 type SubscriptionRemoveData struct {
 	// The Id of the channel.
-	ChannelId int64 `json:"stream_id,omitempty"`
+	ChannelID int64 `json:"stream_id,omitempty"`
 	// The name of the channel.
 	Name string `json:"name,omitempty"`
 }

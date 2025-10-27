@@ -48,10 +48,12 @@ func (h *loggingErrorHandler) Handle(ctx context.Context, resp *http.Response, e
 	slog.ErrorContext(ctx, "event queue error", "error", err)
 }
 
-// NewEventQueueLoggingErrorHandler returns an EventQueueErrorHandler that logs
+// WithEventQueueLoggingErrorHandler returns an EventQueueErrorHandler that logs
 // polling errors using slog at the error level.
-func NewEventQueueLoggingErrorHandler() EventQueueErrorHandler {
-	return &loggingErrorHandler{}
+func WithEventQueueLoggingErrorHandler() EventQueueOption {
+	return func(q *eventQueue) {
+		q.errorHandler = &loggingErrorHandler{}
+	}
 }
 
 type channelErrorHandler struct {
@@ -70,15 +72,27 @@ func (h *channelErrorHandler) Handle(ctx context.Context, resp *http.Response, e
 
 // NewEventQueueChannelErrorHandler returns an EventQueueErrorHandler that
 // forwards polling errors to the supplied channel until the context is cancelled.
-func NewEventQueueChannelErrorHandler(errs chan error) EventQueueErrorHandler {
-	return &channelErrorHandler{errs: errs}
+func WithEventQueueChannelErrorHandler(errs chan error) EventQueueOption {
+	return func(q *eventQueue) {
+		q.errorHandler = &channelErrorHandler{errs: errs}
+	}
 }
+
+// WithEventQueueChannelBufferSize sets the size of the internal event channel.
+func WithEventQueueChannelBufferSize(size int) EventQueueOption {
+	return func(q *eventQueue) {
+		q.bufferSize = size
+	}
+}
+
+type EventQueueOption func(*eventQueue)
 
 type eventQueue struct {
 	client       APIRealTimeEvents
 	lastEventId  atomic.Int64
 	queueId      string
-	cancel       context.CancelFunc
+	bufferSize   int
+	cancel       chan struct{}
 	errorHandler EventQueueErrorHandler
 }
 
@@ -87,12 +101,19 @@ var _ EventQueue = (*eventQueue)(nil)
 // NewEventQueue returns an EventQueue implementation that polls the Zulip
 // RealTime Events API using the provided client. The handler is optional; when
 // nil, polling errors are ignored.
-func NewEventQueue(client APIRealTimeEvents, handler EventQueueErrorHandler) *eventQueue {
-	return &eventQueue{
-		client:       client,
-		lastEventId:  atomic.Int64{},
-		errorHandler: handler,
+func NewEventQueue(client APIRealTimeEvents, opts ...EventQueueOption) EventQueue {
+	q := &eventQueue{
+		client:      client,
+		lastEventId: atomic.Int64{},
 	}
+
+	for _, opt := range opts {
+		if opt != nil {
+			opt(q)
+		}
+	}
+
+	return q
 }
 
 func (q *eventQueue) QueueId() string {
@@ -104,26 +125,24 @@ func (q *eventQueue) LastEventId() int64 {
 }
 
 func (q *eventQueue) Connect(ctx context.Context, queueId string, lastEventId int64) (<-chan events.Event, error) {
-	// Create cancellable context for the polling goroutine
-	ctx, q.cancel = context.WithCancel(ctx)
-
 	if queueId == "" {
-		q.cancel = nil
 		return nil, fmt.Errorf("queueId cannot be empty")
 	}
 
 	q.queueId = queueId
 	q.lastEventId.Store(lastEventId)
 
-	// Verify that the queue exists
+	// Verify that the queue exists using the caller's context before
+	// installing signal handling. This avoids creating cancellers that
+	// would be leaked if verification fails.
 	if err := q.checkQueueExists(ctx); err != nil {
-		q.cancel = nil
 		return nil, err
 	}
 
-	events := make(chan events.Event, 32) // default buffer size
+	events := make(chan events.Event, q.bufferSize)
+	q.cancel = make(chan struct{})
 
-	// Start polling in background goroutine
+	// Start polling in background goroutine using the wrapped context
 	go q.pollEvents(ctx, events)
 
 	return events, nil
@@ -133,7 +152,7 @@ func (q *eventQueue) Close() error {
 	if q.cancel == nil {
 		return fmt.Errorf("event queue not connected")
 	}
-	q.cancel()
+	close(q.cancel)
 	return nil
 }
 
@@ -155,7 +174,6 @@ func (q *eventQueue) pollEvents(ctx context.Context, events chan<- events.Event)
 			QueueId(q.QueueId()).
 			LastEventId(q.LastEventId()).
 			Execute()
-
 		if err != nil {
 			if errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
 				slog.DebugContext(ctx, "event queue stopping after context cancellation", "error", err)
@@ -218,7 +236,6 @@ func (q *eventQueue) checkQueueExists(ctx context.Context) error {
 		LastEventId(q.LastEventId()).
 		DontBlock(true).
 		Execute()
-
 	if err != nil {
 		return err
 	}

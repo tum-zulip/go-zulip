@@ -48,7 +48,7 @@ type GetChannelEmailAddressResponse struct {
 type GetChannelIdResponse struct {
 	zulip.Response
 	// The Id of the given channel.
-	ChannelId int64 `json:"stream_id,omitempty"`
+	ChannelID int64 `json:"stream_id,omitempty"`
 }
 
 // GetChannelTopicsResponse struct for GetChannelTopicsResponse

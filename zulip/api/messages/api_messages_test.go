@@ -17,15 +17,14 @@ import (
 )
 
 func Test_AddReaction(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.AddReaction(ctx, msg.MessageId).
+		resp, httpResp, err := apiClient.AddReaction(ctx, msg.MessageID).
 			EmojiName("smile").
 			Execute()
 
@@ -36,16 +35,15 @@ func Test_AddReaction(t *testing.T) {
 }
 
 func Test_CheckMessagesMatchNarrow(t *testing.T) {
-
-	channelName, channelId := GetChannelWithAllClients(t)
+	channelName, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 
 		resp, httpResp, err := apiClient.CheckMessagesMatchNarrow(ctx).
-			MsgIds([]int64{msg.MessageId}).
+			MsgIds([]int64{msg.MessageID}).
 			Narrow(
 				z.Where(z.ChannelNameIs(channelName)).
 					And(z.TopicIs(msg.Topic))).
@@ -55,21 +53,20 @@ func Test_CheckMessagesMatchNarrow(t *testing.T) {
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpResp)
 
-		key := strconv.Itoa(int(msg.MessageId))
+		key := strconv.Itoa(int(msg.MessageID))
 		assert.Contains(t, resp.Messages, key)
 	})
 }
 
 func Test_DeleteMessage(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.DeleteMessage(ctx, msg.MessageId).Execute()
+		resp, httpResp, err := apiClient.DeleteMessage(ctx, msg.MessageID).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -77,16 +74,15 @@ func Test_DeleteMessage(t *testing.T) {
 	})
 }
 
-func Test_GetFileTemporaryUrl(t *testing.T) {
-
+func Test_GetFileTemporaryURL(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
 		upload := UploadFileForTest(t, ctx, apiClient)
 
-		realmId, filename := parseUploadedFilePath(t, upload.Url)
+		realmID, filename := parseUploadedFilePath(t, upload.Url)
 
-		resp, httpResp, err := apiClient.GetFileTemporaryUrl(ctx, realmId, filename).Execute()
+		resp, httpResp, err := apiClient.GetFileTemporaryURL(ctx, realmID, filename).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -96,43 +92,40 @@ func Test_GetFileTemporaryUrl(t *testing.T) {
 }
 
 func Test_GetMessage(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.GetMessage(ctx, msg.MessageId).Execute()
+		resp, httpResp, err := apiClient.GetMessage(ctx, msg.MessageID).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpResp)
-		assert.Equal(t, msg.MessageId, resp.Message.Id)
+		assert.Equal(t, msg.MessageID, resp.Message.Id)
 		require.WithinDuration(t, time.Now(), resp.Message.Timestamp, 3*time.Minute)
 		// TODO: require.WithinDuration(t, time.Now(), resp.Message.LastEditTimestamp, 3*time.Minute)
 		// TODO: require.WithinDuration(t, time.Now(), resp.Message.LastMovedTimestamp, 3*time.Minute)
-
 	})
 }
 
 func Test_GetMessageHistory(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 
 		updateContent := fmt.Sprintf("updated %s", UniqueName("message"))
-		_, _, err := apiClient.UpdateMessage(ctx, msg.MessageId).
+		_, _, err := apiClient.UpdateMessage(ctx, msg.MessageID).
 			Content(updateContent).
 			Execute()
 		require.NoError(t, err)
 
-		resp, httpResp, err := apiClient.GetMessageHistory(ctx, msg.MessageId).Execute()
+		resp, httpResp, err := apiClient.GetMessageHistory(ctx, msg.MessageID).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -142,16 +135,15 @@ func Test_GetMessageHistory(t *testing.T) {
 }
 
 func Test_GetMessages(t *testing.T) {
-
-	channelName, channelId := GetChannelWithAllClients(t)
+	channelName, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 
 		resp, httpResp, err := apiClient.GetMessages(ctx).
-			Anchor(strconv.Itoa(int(msg.MessageId))).
+			Anchor(strconv.Itoa(int(msg.MessageID))).
 			IncludeAnchor(true).
 			NumBefore(0).
 			NumAfter(0).
@@ -167,15 +159,14 @@ func Test_GetMessages(t *testing.T) {
 }
 
 func Test_GetReadReceipts(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.GetReadReceipts(ctx, msg.MessageId).Execute()
+		resp, httpResp, err := apiClient.GetReadReceipts(ctx, msg.MessageID).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -184,7 +175,6 @@ func Test_GetReadReceipts(t *testing.T) {
 }
 
 func Test_MarkAllAsRead(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -197,16 +187,15 @@ func Test_MarkAllAsRead(t *testing.T) {
 }
 
 func Test_MarkChannelAsRead(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 
 		resp, httpResp, err := apiClient.MarkChannelAsRead(ctx).
-			ChannelId(msg.ChannelId).
+			ChannelID(msg.ChannelID).
 			Execute()
 
 		require.NoError(t, err)
@@ -216,19 +205,18 @@ func Test_MarkChannelAsRead(t *testing.T) {
 }
 
 func Test_MarkTopicAsRead(t *testing.T) {
-
 	otherClient := GetOtherNormalClient(t)
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, otherClient, channelId)
+		msg := CreateChannelMessage(t, otherClient, channelID)
 
 		// mark the topic as read using the same client that created the message,
 		// since the topic may not be visible to other clients immediately.
 		resp, httpResp, err := otherClient.MarkTopicAsRead(ctx).
-			ChannelId(msg.ChannelId).
+			ChannelID(msg.ChannelID).
 			TopicName(msg.Topic).
 			Execute()
 
@@ -239,20 +227,19 @@ func Test_MarkTopicAsRead(t *testing.T) {
 }
 
 func Test_RemoveReaction(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		_, _, err := apiClient.AddReaction(ctx, msg.MessageId).
+		_, _, err := apiClient.AddReaction(ctx, msg.MessageID).
 			EmojiName("smile").
 			Execute()
 		require.NoError(t, err)
 
-		resp, httpResp, err := apiClient.RemoveReaction(ctx, msg.MessageId).
+		resp, httpResp, err := apiClient.RemoveReaction(ctx, msg.MessageID).
 			EmojiName("smile").
 			Execute()
 
@@ -263,7 +250,6 @@ func Test_RemoveReaction(t *testing.T) {
 }
 
 func Test_RenderMessage(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -280,8 +266,7 @@ func Test_RenderMessage(t *testing.T) {
 }
 
 func Test_ReportMessage(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		// TODO: Fix this test
@@ -289,9 +274,9 @@ func Test_ReportMessage(t *testing.T) {
 
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.ReportMessage(ctx, msg.MessageId).
+		resp, httpResp, err := apiClient.ReportMessage(ctx, msg.MessageID).
 			ReportType("spam").
 			Description("reported by automated tests").
 			Execute()
@@ -303,8 +288,7 @@ func Test_ReportMessage(t *testing.T) {
 }
 
 func Test_SendMessage(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -313,7 +297,7 @@ func Test_SendMessage(t *testing.T) {
 		content := fmt.Sprintf("message sent via client %s", UniqueName("content"))
 
 		resp, httpResp, err := apiClient.SendMessage(ctx).
-			To(z.ChannelAsRecipient(channelId)).
+			To(z.ChannelAsRecipient(channelID)).
 			Topic(topic).
 			Content(content).
 			Execute()
@@ -326,16 +310,15 @@ func Test_SendMessage(t *testing.T) {
 }
 
 func Test_UpdateMessage(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 		newContent := fmt.Sprintf("edited %s", UniqueName("content"))
 
-		resp, httpResp, err := apiClient.UpdateMessage(ctx, msg.MessageId).
+		resp, httpResp, err := apiClient.UpdateMessage(ctx, msg.MessageID).
 			Content(newContent).
 			Execute()
 
@@ -346,16 +329,15 @@ func Test_UpdateMessage(t *testing.T) {
 }
 
 func Test_UpdateMessageFlags(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 
 		resp, httpResp, err := apiClient.UpdateMessageFlags(ctx).
-			Messages([]int64{msg.MessageId}).
+			Messages([]int64{msg.MessageID}).
 			Op("add").
 			Flag("starred").
 			Execute()
@@ -363,21 +345,20 @@ func Test_UpdateMessageFlags(t *testing.T) {
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		RequireStatusOK(t, httpResp)
-		assert.Contains(t, resp.Messages, msg.MessageId)
+		assert.Contains(t, resp.Messages, msg.MessageID)
 	})
 }
 
 func Test_UpdateMessageFlagsForNarrow(t *testing.T) {
-
-	channelName, channelId := GetChannelWithAllClients(t)
+	channelName, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 
 		resp, httpResp, err := apiClient.UpdateMessageFlagsForNarrow(ctx).
-			Anchor(strconv.Itoa(int(msg.MessageId))).
+			Anchor(strconv.Itoa(int(msg.MessageID))).
 			NumBefore(0).
 			NumAfter(0).
 			IncludeAnchor(true).
@@ -396,7 +377,6 @@ func Test_UpdateMessageFlagsForNarrow(t *testing.T) {
 }
 
 func Test_UploadFile(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -413,13 +393,12 @@ func Test_UploadFile(t *testing.T) {
 }
 
 func Test_AddReaction_Invalid_Input(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent messageId
+		// Test with non-existent messageID
 		_, _, err := apiClient.AddReaction(ctx, 99999999).
 			EmojiName("smile").
 			Execute()
@@ -431,8 +410,8 @@ func Test_AddReaction_Invalid_Input(t *testing.T) {
 		}
 
 		// Test with valid message but non-existent emoji
-		msg := CreateChannelMessage(t, apiClient, channelId)
-		_, _, err = apiClient.AddReaction(ctx, msg.MessageId).
+		msg := CreateChannelMessage(t, apiClient, channelID)
+		_, _, err = apiClient.AddReaction(ctx, msg.MessageID).
 			EmojiName("nonexistentemoji1234567890").
 			Execute()
 		require.Error(t, err)
@@ -444,7 +423,6 @@ func Test_AddReaction_Invalid_Input(t *testing.T) {
 }
 
 func Test_CheckMessagesMatchNarrow_Invalid_Input(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -460,16 +438,14 @@ func Test_CheckMessagesMatchNarrow_Invalid_Input(t *testing.T) {
 			require.NotNil(t, apiErr.Model())
 			assert.IsType(t, z.BadNarrowError{}, apiErr.Model())
 		}
-
 	})
 }
 
 func Test_DeleteMessage_Invalid_Input(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent messageId
+		// Test with non-existent messageID
 		_, _, err := apiClient.DeleteMessage(ctx, 99999999).Execute()
 		require.Error(t, err)
 		var apiErr *z.APIError
@@ -478,33 +454,31 @@ func Test_DeleteMessage_Invalid_Input(t *testing.T) {
 			assert.IsType(t, z.CodedError{}, apiErr.Model())
 		}
 
-		// Test with negative messageId
+		// Test with negative messageID
 		_, _, err = apiClient.DeleteMessage(ctx, -1).Execute()
 		require.Error(t, err)
 	})
 }
 
-func Test_GetFileTemporaryUrl_Invalid_Input(t *testing.T) {
-
+func Test_GetFileTemporaryURL_Invalid_Input(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent realmId and invalid filename
-		_, _, err := apiClient.GetFileTemporaryUrl(ctx, 99999, "nonexistent/file.txt").Execute()
+		// Test with non-existent realmID and invalid filename
+		_, _, err := apiClient.GetFileTemporaryURL(ctx, 99999, "nonexistent/file.txt").Execute()
 		require.Error(t, err)
 
-		// Test with negative realmId
-		_, _, err = apiClient.GetFileTemporaryUrl(ctx, -1, "file.txt").Execute()
+		// Test with negative realmID
+		_, _, err = apiClient.GetFileTemporaryURL(ctx, -1, "file.txt").Execute()
 		require.Error(t, err)
 	})
 }
 
 func Test_GetMessage_Invalid_Input(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent messageId
+		// Test with non-existent messageID
 		_, _, err := apiClient.GetMessage(ctx, 99999999).Execute()
 		require.Error(t, err)
 		var apiErr *z.APIError
@@ -513,26 +487,25 @@ func Test_GetMessage_Invalid_Input(t *testing.T) {
 			assert.IsType(t, z.CodedError{}, apiErr.Model())
 		}
 
-		// Test with negative messageId
+		// Test with negative messageID
 		_, _, err = apiClient.GetMessage(ctx, -1).Execute()
 		require.Error(t, err)
 	})
 }
 
 func Test_GetMessageHistory_Invalid_Input(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent messageId
+		// Test with non-existent messageID
 		_, _, err := apiClient.GetMessageHistory(ctx, 99999999).Execute()
 		require.Error(t, err)
 
 		// Test with a fresh message (one without edit history)
-		msg := CreateChannelMessage(t, apiClient, channelId)
-		resp, httpResp, err := apiClient.GetMessageHistory(ctx, msg.MessageId).Execute()
+		msg := CreateChannelMessage(t, apiClient, channelID)
+		resp, httpResp, err := apiClient.GetMessageHistory(ctx, msg.MessageID).Execute()
 		// Should succeed but have minimal history
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -541,11 +514,10 @@ func Test_GetMessageHistory_Invalid_Input(t *testing.T) {
 }
 
 func Test_GetMessages_Invalid_Input(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent anchor messageId
+		// Test with non-existent anchor messageID
 		_, _, _ = apiClient.GetMessages(ctx).
 			Anchor("99999999").
 			NumBefore(10).
@@ -563,11 +535,10 @@ func Test_GetMessages_Invalid_Input(t *testing.T) {
 }
 
 func Test_GetReadReceipts_Invalid_Input(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent messageId
+		// Test with non-existent messageID
 		_, _, err := apiClient.GetReadReceipts(ctx, 99999999).Execute()
 		require.Error(t, err)
 		var apiErr *z.APIError
@@ -576,14 +547,13 @@ func Test_GetReadReceipts_Invalid_Input(t *testing.T) {
 			assert.IsType(t, z.CodedError{}, apiErr.Model())
 		}
 
-		// Test with negative messageId
+		// Test with negative messageID
 		_, _, err = apiClient.GetReadReceipts(ctx, -1).Execute()
 		require.Error(t, err)
 	})
 }
 
 func Test_MarkAllAsRead_Invalid_Input(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -602,13 +572,12 @@ func Test_MarkAllAsRead_Invalid_Input(t *testing.T) {
 }
 
 func Test_MarkChannelAsRead_Invalid_Input(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent channelId
+		// Test with non-existent channelID
 		_, _, err := apiClient.MarkChannelAsRead(ctx).
-			ChannelId(99999999).
+			ChannelID(99999999).
 			Execute()
 		require.Error(t, err)
 		var apiErr *z.APIError
@@ -617,9 +586,9 @@ func Test_MarkChannelAsRead_Invalid_Input(t *testing.T) {
 			assert.IsType(t, z.CodedError{}, apiErr.Model())
 		}
 
-		// Test with negative channelId
+		// Test with negative channelID
 		_, _, err = apiClient.MarkChannelAsRead(ctx).
-			ChannelId(-1).
+			ChannelID(-1).
 			Execute()
 		require.Error(t, err)
 		if errors.As(err, &apiErr) {
@@ -630,22 +599,21 @@ func Test_MarkChannelAsRead_Invalid_Input(t *testing.T) {
 }
 
 func Test_MarkTopicAsRead_Invalid_Input(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent channelId
+		// Test with non-existent channelID
 		_, _, err := apiClient.MarkTopicAsRead(ctx).
-			ChannelId(99999999).
+			ChannelID(99999999).
 			TopicName("nonexistent-topic").
 			Execute()
 		require.Error(t, err)
 
-		// Test with valid channelId but non-existent topic
+		// Test with valid channelID but non-existent topic
 		_, _, err = apiClient.MarkTopicAsRead(ctx).
-			ChannelId(channelId).
+			ChannelID(channelID).
 			TopicName("this-topic-definitely-does-not-exist-xyz123").
 			Execute()
 		// May succeed or fail depending on server behavior
@@ -654,13 +622,12 @@ func Test_MarkTopicAsRead_Invalid_Input(t *testing.T) {
 }
 
 func Test_RemoveReaction_Invalid_Input(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent messageId
+		// Test with non-existent messageID
 		_, _, err := apiClient.RemoveReaction(ctx, 99999999).
 			EmojiName("smile").
 			Execute()
@@ -672,8 +639,8 @@ func Test_RemoveReaction_Invalid_Input(t *testing.T) {
 		}
 
 		// Test removing non-existent reaction from a real message
-		msg := CreateChannelMessage(t, apiClient, channelId)
-		_, _, err = apiClient.RemoveReaction(ctx, msg.MessageId).
+		msg := CreateChannelMessage(t, apiClient, channelID)
+		_, _, err = apiClient.RemoveReaction(ctx, msg.MessageID).
 			EmojiName("nonexistentemoji1234567890").
 			Execute()
 		require.Error(t, err)
@@ -685,7 +652,6 @@ func Test_RemoveReaction_Invalid_Input(t *testing.T) {
 }
 
 func Test_RenderMessage_Invalid_Input(t *testing.T) {
-
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
@@ -707,13 +673,12 @@ func Test_RenderMessage_Invalid_Input(t *testing.T) {
 }
 
 func Test_ReportMessage_Invalid_Input(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent messageId
+		// Test with non-existent messageID
 		_, _, err := apiClient.ReportMessage(ctx, 99999999).
 			ReportType("spam").
 			Description("test report").
@@ -721,8 +686,8 @@ func Test_ReportMessage_Invalid_Input(t *testing.T) {
 		require.Error(t, err)
 
 		// Test with valid message but invalid report type
-		msg := CreateChannelMessage(t, apiClient, channelId)
-		_, _, err = apiClient.ReportMessage(ctx, msg.MessageId).
+		msg := CreateChannelMessage(t, apiClient, channelID)
+		_, _, err = apiClient.ReportMessage(ctx, msg.MessageID).
 			ReportType("invalid-report-type-xyz").
 			Description("test report").
 			Execute()
@@ -731,13 +696,12 @@ func Test_ReportMessage_Invalid_Input(t *testing.T) {
 }
 
 func Test_SendMessage_Invalid_Input(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent userId
+		// Test with non-existent userID
 		_, _, err := apiClient.SendMessage(ctx).
 			To(z.UserAsRecipient(99999999)).
 			Content("test message").
@@ -749,7 +713,7 @@ func Test_SendMessage_Invalid_Input(t *testing.T) {
 			assert.IsType(t, z.CodedError{}, apiErr.Model())
 		}
 
-		// Test with non-existent channelId
+		// Test with non-existent channelID
 		_, _, err = apiClient.SendMessage(ctx).
 			To(z.ChannelAsRecipient(99999999)).
 			Topic("test-topic").
@@ -763,7 +727,7 @@ func Test_SendMessage_Invalid_Input(t *testing.T) {
 
 		// Test with empty content
 		_, _, err = apiClient.SendMessage(ctx).
-			To(z.ChannelAsRecipient(channelId)).
+			To(z.ChannelAsRecipient(channelID)).
 			Topic("test-topic").
 			Content("").
 			Execute()
@@ -776,13 +740,12 @@ func Test_SendMessage_Invalid_Input(t *testing.T) {
 }
 
 func Test_UpdateMessage_Invalid_Input(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent messageId
+		// Test with non-existent messageID
 		_, _, err := apiClient.UpdateMessage(ctx, 99999999).
 			Content("updated content").
 			Execute()
@@ -794,9 +757,9 @@ func Test_UpdateMessage_Invalid_Input(t *testing.T) {
 		}
 
 		// Create another message for valid update test
-		msg2 := CreateChannelMessage(t, apiClient, channelId)
+		msg2 := CreateChannelMessage(t, apiClient, channelID)
 		newContent := fmt.Sprintf("successfully updated %s", UniqueName("msg"))
-		resp, httpResp, err := apiClient.UpdateMessage(ctx, msg2.MessageId).
+		resp, httpResp, err := apiClient.UpdateMessage(ctx, msg2.MessageID).
 			Content(newContent).
 			Execute()
 		require.NoError(t, err)
@@ -806,13 +769,12 @@ func Test_UpdateMessage_Invalid_Input(t *testing.T) {
 }
 
 func Test_UpdateMessageFlags_Invalid_Input(t *testing.T) {
-
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with non-existent messageId
+		// Test with non-existent messageID
 		_, _, err := apiClient.UpdateMessageFlags(ctx).
 			Messages([]int64{99999999}).
 			Op("add").
@@ -828,9 +790,9 @@ func Test_UpdateMessageFlags_Invalid_Input(t *testing.T) {
 		}
 
 		// Test with invalid op value
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 		_, _, err = apiClient.UpdateMessageFlags(ctx).
-			Messages([]int64{msg.MessageId}).
+			Messages([]int64{msg.MessageID}).
 			Op("invalid-op").
 			Flag("starred").
 			Execute()
@@ -842,7 +804,7 @@ func Test_UpdateMessageFlags_Invalid_Input(t *testing.T) {
 
 		// Test with invalid flag value
 		_, _, err = apiClient.UpdateMessageFlags(ctx).
-			Messages([]int64{msg.MessageId}).
+			Messages([]int64{msg.MessageID}).
 			Op("add").
 			Flag("invalid-flag-xyz").
 			Execute()
@@ -855,8 +817,7 @@ func Test_UpdateMessageFlags_Invalid_Input(t *testing.T) {
 }
 
 func Test_UpdateMessageFlagsForNarrow_Invalid_Input(t *testing.T) {
-
-	channelName, channelId := GetChannelWithAllClients(t)
+	channelName, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
@@ -877,9 +838,9 @@ func Test_UpdateMessageFlagsForNarrow_Invalid_Input(t *testing.T) {
 		}
 
 		// Test with invalid op value
-		msg := CreateChannelMessage(t, apiClient, channelId)
+		msg := CreateChannelMessage(t, apiClient, channelID)
 		_, _, err = apiClient.UpdateMessageFlagsForNarrow(ctx).
-			Anchor(strconv.Itoa(int(msg.MessageId))).
+			Anchor(strconv.Itoa(int(msg.MessageID))).
 			NumBefore(0).
 			NumAfter(0).
 			IncludeAnchor(true).
@@ -895,7 +856,7 @@ func Test_UpdateMessageFlagsForNarrow_Invalid_Input(t *testing.T) {
 
 		// Test with invalid flag value
 		_, _, err = apiClient.UpdateMessageFlagsForNarrow(ctx).
-			Anchor(strconv.Itoa(int(msg.MessageId))).
+			Anchor(strconv.Itoa(int(msg.MessageID))).
 			NumBefore(0).
 			NumAfter(0).
 			IncludeAnchor(true).
@@ -921,11 +882,11 @@ func parseUploadedFilePath(t *testing.T, uploadPath string) (int64, string) {
 	require.GreaterOrEqual(t, len(parts), 3, "unexpected upload path: %s", uploadPath)
 	require.Equal(t, "user_uploads", parts[0], "unexpected upload prefix: %s", uploadPath)
 
-	realmId, err := strconv.ParseInt(parts[1], 10, 64)
+	realmID, err := strconv.ParseInt(parts[1], 10, 64)
 	require.NoError(t, err)
 
 	filename := strings.Join(parts[2:], "/")
 	require.NotEmpty(t, filename)
 
-	return realmId, filename
+	return realmID, filename
 }

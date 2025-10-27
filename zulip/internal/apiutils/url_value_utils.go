@@ -242,7 +242,7 @@ func AddFile(w *multipart.Writer, fieldName, path string) error {
 
 func addParamImpl(values url.Values, key string, obj interface{}, csv bool) {
 	var v = reflect.ValueOf(obj)
-	var value = ""
+	var value string
 	if v == reflect.ValueOf(nil) {
 		value = "null"
 	} else {

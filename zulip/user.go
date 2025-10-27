@@ -3,7 +3,7 @@ package zulip
 // User struct for User
 type User struct {
 	// The unique Id of the user.
-	UserId        int64   `json:"user_id,omitempty"`
+	UserID        int64   `json:"user_id,omitempty"`
 	DeliveryEmail *string `json:"delivery_email,omitempty"`
 	// The Zulip API email address of the user or bot.  If you do not have permission to view the email address of the target user, this will be a fake email address that is usable for the Zulip API but nothing else.
 	Email string `json:"email,omitempty"`

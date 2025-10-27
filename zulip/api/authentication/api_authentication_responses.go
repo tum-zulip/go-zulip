@@ -14,5 +14,5 @@ type ApiKeyResponse struct {
 	// The unique Id of the user who owns the API key.
 	//
 	// **Changes**: New in Zulip 7.0 (feature level 171).
-	UserId int64 `json:"user_id,omitempty"`
+	UserID int64 `json:"user_id,omitempty"`
 }

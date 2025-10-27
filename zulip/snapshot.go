@@ -40,7 +40,7 @@ type Snapshot struct {
 	// [Markdown message formatting]: https://zulip.com/api/message-formatting
 	PrevRenderedContent *string `json:"prev_rendered_content,omitempty"`
 	// The Id of the user that made the edit.  Will be `null` only for edit history events predating March 2017.  Clients can display edit history events where this is `null` as modified by either the sender (for content edits) or an unknown user (for topic edits).
-	UserId *int64 `json:"user_id,omitempty"`
+	UserID *int64 `json:"user_id,omitempty"`
 	// Only present if message's content was edited.  An HTML diff between this version of the message and the previous one.
 	ContentHtmlDiff *string `json:"content_html_diff,omitempty"`
 	// The UNIX timestamp for this edit.
@@ -57,7 +57,7 @@ func (o Snapshot) MarshalJSON() ([]byte, error) {
 		RenderedContent:     o.RenderedContent,
 		PrevContent:         o.PrevContent,
 		PrevRenderedContent: o.PrevRenderedContent,
-		UserId:              o.UserId,
+		UserID:              o.UserID,
 		ContentHtmlDiff:     o.ContentHtmlDiff,
 		Timestamp:           o.Timestamp.Unix(),
 	}
@@ -79,7 +79,7 @@ func (o *Snapshot) UnmarshalJSON(data []byte) error {
 	o.RenderedContent = j.RenderedContent
 	o.PrevContent = j.PrevContent
 	o.PrevRenderedContent = j.PrevRenderedContent
-	o.UserId = j.UserId
+	o.UserID = j.UserID
 	o.ContentHtmlDiff = j.ContentHtmlDiff
 	o.Timestamp = time.Unix(j.Timestamp, int64(0))
 	return nil
@@ -94,7 +94,7 @@ type snapshotJSON struct {
 	RenderedContent     string  `json:"rendered_content,omitempty"`
 	PrevContent         *string `json:"prev_content,omitempty"`
 	PrevRenderedContent *string `json:"prev_rendered_content,omitempty"`
-	UserId              *int64  `json:"user_id,omitempty"`
+	UserID              *int64  `json:"user_id,omitempty"`
 	ContentHtmlDiff     *string `json:"content_html_diff,omitempty"`
 	Timestamp           int64   `json:"timestamp,omitempty"`
 }

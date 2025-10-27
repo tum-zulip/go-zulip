@@ -10,13 +10,11 @@ import (
 	"time"
 
 	"github.com/tum-zulip/go-zulip/zulip"
-
 	"github.com/tum-zulip/go-zulip/zulip/internal/apiutils"
 	"github.com/tum-zulip/go-zulip/zulip/internal/clients"
 )
 
 type APIReminders interface {
-
 	// CreateMessageReminder Create a message reminder
 	//
 	// Schedule a reminder to be sent to the current user at the specified time. The reminder will link the relevant message.
@@ -35,7 +33,7 @@ type APIReminders interface {
 	// *Changes**: New in Zulip 11.0 (feature level 399).
 	//
 	// [scheduled reminder]: https://zulip.com/help/schedule-a-reminder
-	DeleteReminder(ctx context.Context, reminderId int64) DeleteReminderRequest
+	DeleteReminder(ctx context.Context, reminderID int64) DeleteReminderRequest
 
 	// DeleteReminderExecute executes the request
 	DeleteReminderExecute(r DeleteReminderRequest) (*zulip.Response, *http.Response, error)
@@ -70,19 +68,21 @@ var _ APIReminders = (*remindersService)(nil)
 type CreateMessageReminderRequest struct {
 	ctx                        context.Context
 	apiService                 APIReminders
-	messageId                  *int64
+	messageID                  *int64
 	scheduledDeliveryTimestamp *int64
 	note                       *string
 }
 
 // The Id of the previously sent message to reference in the reminder message.
-func (r CreateMessageReminderRequest) MessageId(messageId int64) CreateMessageReminderRequest {
-	r.messageId = &messageId
+func (r CreateMessageReminderRequest) MessageID(messageID int64) CreateMessageReminderRequest {
+	r.messageID = &messageID
 	return r
 }
 
 // The UNIX timestamp for when the reminder will be sent, in UTC seconds.
-func (r CreateMessageReminderRequest) ScheduledDeliveryTimestamp(scheduledDeliveryTimestamp time.Time) CreateMessageReminderRequest {
+func (r CreateMessageReminderRequest) ScheduledDeliveryTimestamp(
+	scheduledDeliveryTimestamp time.Time,
+) CreateMessageReminderRequest {
 	timeStamp := scheduledDeliveryTimestamp.Unix()
 	r.scheduledDeliveryTimestamp = &timeStamp
 	return r
@@ -113,7 +113,9 @@ func (s *remindersService) CreateMessageReminder(ctx context.Context) CreateMess
 }
 
 // Execute executes the request
-func (s *remindersService) CreateMessageReminderExecute(r CreateMessageReminderRequest) (*CreateMessageReminderResponse, *http.Response, error) {
+func (s *remindersService) CreateMessageReminderExecute(
+	r CreateMessageReminderRequest,
+) (*CreateMessageReminderResponse, *http.Response, error) {
 	var (
 		method   = http.MethodPost
 		headers  = make(map[string]string)
@@ -125,7 +127,7 @@ func (s *remindersService) CreateMessageReminderExecute(r CreateMessageReminderR
 	headers["Content-Type"] = "application/x-www-form-urlencoded"
 	headers["Accept"] = "application/json"
 
-	apiutils.AddOptionalParam(form, "message_id", r.messageId)
+	apiutils.AddOptionalParam(form, "message_id", r.messageID)
 	apiutils.AddOptionalParam(form, "scheduled_delivery_timestamp", r.scheduledDeliveryTimestamp)
 	apiutils.AddOptionalParam(form, "note", r.note)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
@@ -140,7 +142,7 @@ func (s *remindersService) CreateMessageReminderExecute(r CreateMessageReminderR
 type DeleteReminderRequest struct {
 	ctx        context.Context
 	apiService APIReminders
-	reminderId int64
+	reminderID int64
 }
 
 func (r DeleteReminderRequest) Execute() (*zulip.Response, *http.Response, error) {
@@ -154,11 +156,11 @@ func (r DeleteReminderRequest) Execute() (*zulip.Response, *http.Response, error
 // *Changes**: New in Zulip 11.0 (feature level 399).
 //
 // [scheduled reminder]: https://zulip.com/help/schedule-a-reminder
-func (s *remindersService) DeleteReminder(ctx context.Context, reminderId int64) DeleteReminderRequest {
+func (s *remindersService) DeleteReminder(ctx context.Context, reminderID int64) DeleteReminderRequest {
 	return DeleteReminderRequest{
 		apiService: s,
 		ctx:        ctx,
-		reminderId: reminderId,
+		reminderID: reminderID,
 	}
 }
 
@@ -173,7 +175,7 @@ func (s *remindersService) DeleteReminderExecute(r DeleteReminderRequest) (*zuli
 		endpoint = "/reminders/{reminder_id}"
 	)
 
-	path := strings.Replace(endpoint, "{reminder_id}", apiutils.IdToString(r.reminderId), -1)
+	path := strings.ReplaceAll(endpoint, "{reminder_id}", apiutils.IdToString(r.reminderID))
 
 	headers["Accept"] = "application/json"
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, path, method, headers, query, form, nil)

@@ -17,13 +17,13 @@ type UpdateMessageEvent struct {
 	// The Id of the user who sent the message.  Is `null` when event is for a rendering update of the original message, such as for an [inline URL preview].
 	//
 	// **Changes**: As of Zulip 5.0 (feature level 114), this field is present for all `update_message` events. Previously, this field was omitted for [inline URL preview] updates.
-	UserId *int64 `json:"user_id"`
+	UserID *int64 `json:"user_id"`
 	// Whether the event only updates the rendered content of the message.  This field should be used by clients to determine if the event only provides a rendering update to the message content, such as for an [inline URL preview]. When `true`, the event does not reflect a user-generated edit and does not modify the message history.
 	//
 	// **Changes**: New in Zulip 5.0 (feature level 114). Clients can correctly identify these rendering update event with earlier Zulip versions by checking whether the `user_id` field was omitted.
 	RenderingOnly bool `json:"rendering_only"`
 	// The Id of the message which was edited or updated.  This field should be used to apply content edits to the client's cached message history, or to apply rendered content updates.  If the channel or topic was changed, the set of moved messages is encoded in the separate `message_ids` field, which is guaranteed to include `message_id`.
-	MessageId int64 `json:"message_id"`
+	MessageID int64 `json:"message_id"`
 	// A sorted list of Ids of messages to which any channel or topic changes encoded in this event should be applied.  This list always includes `message_id`, even when there are no channel or topic changes to apply.  These messages are guaranteed to have all been previously sent to channel `stream_id` with topic `orig_subject`, and have been moved to `new_stream_id` with topic `subject` (if those fields are present in the event).  Clients processing these events should update all cached message history associated with the moved messages (including adjusting `unread_msgs` data structures, where the client may not have the message itself in its history) to reflect the new channel and topic.  Content changes should be applied only to the single message indicated by `message_id`.
 	//
 	// **Changes**: Before Zulip 11.0 (feature level 393), this list was not guaranteed to be sorted.
@@ -43,7 +43,7 @@ type UpdateMessageEvent struct {
 	// Only present if the message was edited and originally sent to a channel.  The pre-edit channel for all of the messages with Ids in `message_ids`.
 	//
 	// **Changes**: As of Zulip 5.0 (feature level 112), this field is present for all edits to a channel message. Previously, it was not present when only the content of the channel message was edited.
-	ChannelId *int64 `json:"stream_id,omitempty"`
+	ChannelID *int64 `json:"stream_id,omitempty"`
 	// Only present if message(s) were moved to a different channel.  The post-edit channel for all of the messages with Ids in `message_ids`.
 	NewChannelId *int64 `json:"new_stream_id,omitempty"`
 	// Only present if this event moved messages to a different topic and/or channel.  The choice the editing user made about which messages should be affected by a channel/topic edit:  - `"change_one"`: Just change the one indicated in `message_id`. - `"change_later"`: Change messages in the same topic that had   been sent after this one. - `"change_all"`: Change all messages in that topic.  This parameter should be used to decide whether to change navigation and compose box state in response to the edit. For example, if the user was previously in topic narrow, and the topic was edited with `"change_later"` or `"change_all"`, the Zulip web app will automatically navigate to the new topic narrow. Similarly, a message being composed to the old topic should have its recipient changed to the new topic.  This navigation makes it much more convenient to move content between topics without disruption or messages continuing to be sent to the pre-edit topic by accident.
@@ -94,14 +94,14 @@ type UpdateMessageEvent struct {
 
 func (o *UpdateMessageEvent) MarshalJSON() ([]byte, error) {
 	v := updateMessageEventJSON{
-		UserId:              o.UserId,
+		UserID:              o.UserID,
 		RenderingOnly:       o.RenderingOnly,
-		MessageId:           o.MessageId,
+		MessageID:           o.MessageID,
 		MessageIds:          o.MessageIds,
 		Flags:               o.Flags,
 		EditTimestamp:       o.EditTimestamp.UnixMilli(),
 		ChannelName:         o.ChannelName,
-		ChannelId:           o.ChannelId,
+		ChannelID:           o.ChannelID,
 		NewChannelId:        o.NewChannelId,
 		PropagateMode:       o.PropagateMode,
 		OrigSubject:         o.OrigSubject,
@@ -122,14 +122,14 @@ func (o *UpdateMessageEvent) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	o.UserId = v.UserId
+	o.UserID = v.UserID
 	o.RenderingOnly = v.RenderingOnly
-	o.MessageId = v.MessageId
+	o.MessageID = v.MessageID
 	o.MessageIds = v.MessageIds
 	o.Flags = v.Flags
 	o.EditTimestamp = time.UnixMilli(v.EditTimestamp)
 	o.ChannelName = v.ChannelName
-	o.ChannelId = v.ChannelId
+	o.ChannelID = v.ChannelID
 	o.NewChannelId = v.NewChannelId
 	o.PropagateMode = v.PropagateMode
 	o.OrigSubject = v.OrigSubject
@@ -144,14 +144,14 @@ func (o *UpdateMessageEvent) UnmarshalJSON(data []byte) error {
 }
 
 type updateMessageEventJSON struct {
-	UserId              *int64            `json:"user_id"`
+	UserID              *int64            `json:"user_id"`
 	RenderingOnly       bool              `json:"rendering_only"`
-	MessageId           int64             `json:"message_id"`
+	MessageID           int64             `json:"message_id"`
 	MessageIds          []int64           `json:"message_ids"`
 	Flags               []string          `json:"flags"`
 	EditTimestamp       int64             `json:"edit_timestamp"`
 	ChannelName         *string           `json:"stream_name,omitempty"`
-	ChannelId           *int64            `json:"stream_id,omitempty"`
+	ChannelID           *int64            `json:"stream_id,omitempty"`
 	NewChannelId        *int64            `json:"new_stream_id,omitempty"`
 	PropagateMode       *string           `json:"propagate_mode,omitempty"`
 	OrigSubject         *string           `json:"orig_subject,omitempty"`

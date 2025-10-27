@@ -14,23 +14,23 @@ import (
 func Test_CreateMessageReminder(t *testing.T) {
 	RequireFeatureLevel(t, 381)
 
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
-		createMessageReminder(t, apiClient, channelId)
+		createMessageReminder(t, apiClient, channelID)
 	})
 }
 
 func Test_DeleteReminder(t *testing.T) {
 	RequireFeatureLevel(t, 399)
 
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		reminderId := createMessageReminder(t, apiClient, channelId)
+		reminderID := createMessageReminder(t, apiClient, channelID)
 
-		resp, httpResp, err := apiClient.DeleteReminder(ctx, reminderId).Execute()
+		resp, httpResp, err := apiClient.DeleteReminder(ctx, reminderID).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
@@ -42,11 +42,11 @@ func Test_DeleteReminder(t *testing.T) {
 func Test_GetReminders(t *testing.T) {
 	RequireFeatureLevel(t, 399)
 
-	_, channelId := GetChannelWithAllClients(t)
+	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
-		reminderId := createMessageReminder(t, apiClient, channelId)
+		reminderID := createMessageReminder(t, apiClient, channelID)
 
 		resp, httpResp, err := apiClient.GetReminders(ctx).Execute()
 
@@ -56,7 +56,7 @@ func Test_GetReminders(t *testing.T) {
 		assert.GreaterOrEqual(t, len(resp.Reminders), 1)
 		found := false
 		for _, r := range resp.Reminders {
-			if r.ReminderId == reminderId {
+			if r.ReminderId == reminderID {
 				require.WithinDuration(t, time.Now().Add(1*time.Hour), r.ScheduledDeliveryTimestamp, 3*time.Minute)
 				found = true
 			}
@@ -65,13 +65,13 @@ func Test_GetReminders(t *testing.T) {
 	})
 }
 
-func createMessageReminder(t *testing.T, apiClient client.Client, channelId int64) int64 {
-	msg := CreateChannelMessage(t, apiClient, channelId)
+func createMessageReminder(t *testing.T, apiClient client.Client, channelID int64) int64 {
+	msg := CreateChannelMessage(t, apiClient, channelID)
 
 	note := "This is a reminder note"
 
 	resp, httpResp, err := apiClient.CreateMessageReminder(context.Background()).
-		MessageId(msg.MessageId).
+		MessageID(msg.MessageID).
 		Note(UniqueName(note)).
 		ScheduledDeliveryTimestamp(time.Now().Add(1 * time.Hour)).
 		Execute()

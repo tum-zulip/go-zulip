@@ -5,7 +5,7 @@ import "github.com/tum-zulip/go-zulip/zulip/internal/utils"
 // Bot struct for Bot
 type Bot struct {
 	// The user Id of the bot.
-	UserId int64 `json:"user_id,omitempty"`
+	UserID int64 `json:"user_id,omitempty"`
 	// The full name of the bot.
 	FullName string `json:"full_name,omitempty"`
 	// The API key of the bot which it uses to make API requests.

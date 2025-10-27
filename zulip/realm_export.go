@@ -29,7 +29,7 @@ type RealmExport struct {
 // ExportConsent struct for ExportConsent
 type ExportConsent struct {
 	// The user Id.
-	UserId int64 `json:"user_id,omitempty"`
+	UserID int64 `json:"user_id,omitempty"`
 	// Whether the user has consented for their private data export.
 	Consented bool `json:"consented,omitempty"`
 }

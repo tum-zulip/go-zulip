@@ -9,7 +9,7 @@ import (
 
 type Channel struct {
 	// The unique Id of the channel.
-	ChannelId int64 `json:"stream_id"`
+	ChannelID int64 `json:"stream_id"`
 	// The name of the channel.
 	Name string `json:"name"`
 	// A boolean indicating whether the channel is [archived].
@@ -121,7 +121,7 @@ func (o *Channel) UnmarshalJSON(data []byte) error {
 }
 
 func (o *channelJSON) fromChannel(cb Channel) {
-	o.ChannelId = cb.ChannelId
+	o.ChannelID = cb.ChannelID
 	o.Name = cb.Name
 	o.IsArchived = cb.IsArchived
 	o.Description = cb.Description
@@ -153,7 +153,7 @@ func (o *channelJSON) fromChannel(cb Channel) {
 }
 
 func (o *Channel) fromChannelJSON(cb channelJSON) {
-	o.ChannelId = cb.ChannelId
+	o.ChannelID = cb.ChannelID
 	o.Name = cb.Name
 	o.IsArchived = cb.IsArchived
 	o.Description = cb.Description
@@ -185,7 +185,7 @@ func (o *Channel) fromChannelJSON(cb channelJSON) {
 }
 
 type channelJSON struct {
-	ChannelId                         int64             `json:"stream_id"`
+	ChannelID                         int64             `json:"stream_id"`
 	Name                              string            `json:"name"`
 	IsArchived                        bool              `json:"is_archived"`
 	Description                       string            `json:"description"`

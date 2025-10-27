@@ -64,10 +64,10 @@ func ChannelNameIs(name string) NarrowTerm {
 }
 
 // ChannelIs returns a NarrowTerm that filters messages by channel ID.
-func ChannelIs(channelId int64) NarrowTerm {
+func ChannelIs(channelID int64) NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorChannel,
-		Operand:  NewNarrowIntOperand(channelId),
+		Operand:  NewNarrowIntOperand(channelID),
 	}
 }
 
@@ -88,10 +88,10 @@ func SenderEmailIs(email string) NarrowTerm {
 }
 
 // SenderIs returns a NarrowTerm that filters messages sent by a specific user ID.
-func SenderIs(userId int64) NarrowTerm {
+func SenderIs(userID int64) NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorSender,
-		Operand:  NewNarrowIntOperand(userId),
+		Operand:  NewNarrowIntOperand(userID),
 	}
 }
 
@@ -176,10 +176,10 @@ func DirectMessageIncluding(userIds []int64) NarrowTerm {
 }
 
 // WithUser returns a NarrowTerm that filters direct messages with a specific user ID.
-func WithUser(userId int64) NarrowTerm {
+func WithUser(userID int64) NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorWith,
-		Operand:  NewNarrowIntOperand(userId),
+		Operand:  NewNarrowIntOperand(userID),
 	}
 }
 

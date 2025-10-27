@@ -1,6 +1,7 @@
 package testutils
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -8,9 +9,11 @@ import (
 	"log"
 	"log/slog"
 	"math/rand"
+	"mime/multipart"
 	"net/http"
+	"net/url"
 	"os"
-	"path/filepath"
+	"strconv"
 	"sync"
 	"sync/atomic"
 	"testing"
@@ -38,6 +41,8 @@ const (
 	DeactivateTestUser    = "cordelia@zulip.com"
 )
 
+// TODO: Add guest client to tests.
+
 var (
 	OwnerClient     = namedClient{name: "owner", factory: GetOwnerClient}
 	AdminClient     = namedClient{name: "admin", factory: GetAdminClient}
@@ -47,12 +52,6 @@ var (
 	AllClients      = []namedClient{OwnerClient, AdminClient, ModeratorClient, NormalClient}
 )
 
-// TODO(janez): Add guest client to tests
-
-var (
-	cache sync.Map // map[string]client.Client - keyed by username
-)
-
 type namedClient struct {
 	name    string
 	factory func(*testing.T) client.Client
@@ -60,44 +59,53 @@ type namedClient struct {
 
 func GetOwnerClient(t *testing.T) client.Client {
 	t.Helper()
-	return GetTestClient(t, TestOwnerUsername)
+	_, client := GetTestClient(t, TestOwnerUsername)
+	return client
 }
 
 func GetAdminClient(t *testing.T) client.Client {
 	t.Helper()
-	return GetTestClient(t, TestAdminUsername)
+	_, client := GetTestClient(t, TestAdminUsername)
+	return client
 }
 
 func GetModeratorClient(t *testing.T) client.Client {
 	t.Helper()
-	return GetTestClient(t, TestModeratorUsername)
+	_, client := GetTestClient(t, TestModeratorUsername)
+	return client
 }
 
 func GetGuestClient(t *testing.T) client.Client {
 	t.Helper()
-	return GetTestClient(t, TestGuestUsername)
+	_, client := GetTestClient(t, TestGuestUsername)
+	return client
 }
 
 func GetBotClient(t *testing.T) client.Client {
 	t.Helper()
-	t.Skip("Bot user tests are not implemented yet")
-	return nil
+	rc := createBot(t, "test-bot")
+	client, err := client.NewClient(rc,
+		client.SkipWarnOnInsecureTLS(),
+		client.EnableStatistics())
+	require.NoError(t, err)
+	return client
 }
 
 func GetNormalClient(t *testing.T) client.Client {
 	t.Helper()
-	return GetTestClient(t, TestNormalUsername)
+	_, client := GetTestClient(t, TestNormalUsername)
+	return client
 }
 
 func GetOtherNormalClient(t *testing.T) client.Client {
 	t.Helper()
-	return GetTestClient(t, OtherNormalUsername)
+	_, client := GetTestClient(t, OtherNormalUsername)
+	return client
 }
 
 func RunForClients(t *testing.T, clients []namedClient, fn func(*testing.T, client.Client)) {
 	for _, client := range clients {
 		t.Run(client.name, func(t *testing.T) {
-
 			cl := client.factory(t)
 			fn(t, cl)
 		})
@@ -112,22 +120,34 @@ func RunForAdminAndOwnerClients(t *testing.T, fn func(*testing.T, client.Client)
 	RunForClients(t, []namedClient{OwnerClient, AdminClient}, fn)
 }
 
-func GetTestClient(t *testing.T, username string) client.Client {
+var valueCache sync.Map
+
+func GetTestClient(t *testing.T, username string) (*z.ZulipRC, client.Client) {
+	type cachevalue struct {
+		rc     *z.ZulipRC
+		client client.Client
+	}
+
 	// Check if client already exists in cache
-	if cachedClient, ok := cache.Load(username); ok {
-		return cachedClient.(client.Client)
+	if cachedClient, ok := valueCache.Load(username); ok {
+		cv, cacheOk := cachedClient.(cachevalue)
+		if !cacheOk {
+			t.Fatalf("Failed to cast cached client for user %s", username)
+		}
+		return cv.rc, cv.client
 	}
 
 	// Create client if not in cache
-	newClient := getTestClient(t, username)
+	newRC, newClient := getTestClient(t, username)
 
 	// Store in cache atomically
-	actual, loaded := cache.LoadOrStore(username, newClient)
+	actual, loaded := valueCache.LoadOrStore(username, cachevalue{rc: newRC, client: newClient})
 
 	// Register cleanup for EVERY client instance, not just once per username
 	// This ensures statistics from all parallel tests are saved
 	t.Cleanup(func() {
-		os.MkdirAll("/tmp/go-zulip-stats", 0755)
+		require.NoError(t, os.MkdirAll("/tmp/go-zulip-stats", 0o750))
+
 		data, err := json.MarshalIndent(map[string]map[string]statistics.Statistic{
 			username: newClient.GetStatistics(),
 		}, "", "  ")
@@ -135,22 +155,30 @@ func GetTestClient(t *testing.T, username string) client.Client {
 			t.Logf("Failed to marshal statistics for user %s: %v", username, err)
 			return
 		}
-		// Use a unique filename that includes timestamp and a random component to avoid collisions
-		filename := fmt.Sprintf("stats_%s-%d-%d-%d.json", username, os.Getpid(), time.Now().UnixNano(), rand.Int63())
-		os.WriteFile(filepath.Join("/tmp/go-zulip-stats", filename), data, 0644)
+		f, err := os.CreateTemp("/tmp/go-zulip-stats", "fmt-go-zulip-stats-*.json")
+		require.NoError(t, err)
+		defer f.Close()
+
+		_, err = f.Write(data)
+		if err != nil {
+			t.Logf("Failed to write statistics for user %s: %v", username, err)
+			return
+		}
 	})
 
 	if loaded {
 		// Another goroutine created the client first, use that one
-		return actual.(client.Client)
+		cv, ok := actual.(cachevalue)
+		if !ok {
+			t.Fatalf("Failed to cast cached client for user %s", username)
+		}
+		return cv.rc, cv.client
 	}
 
-	return newClient
+	return newRC, newClient
 }
 
-func getTestClient(t *testing.T, username string) client.Client {
-	t.Helper()
-
+func getTestClient(t *testing.T, username string) (*z.ZulipRC, client.Client) {
 	t.Helper()
 
 	info := fetchUserInfo(t, username)
@@ -169,18 +197,17 @@ func getTestClient(t *testing.T, username string) client.Client {
 		client.WithLogger(slog.New(handler)),
 		client.SkipWarnOnInsecureTLS(),
 		client.EnableStatistics())
-
 	if err != nil {
 		t.Fatalf("Failed to create z.client: %v", err)
 	}
 
-	return client
+	return rc, client
 }
 
 type UserInfo struct {
 	APIKey string `json:"api_key"`
 	EMail  string `json:"email"`
-	UserId int    `json:"user_id"`
+	UserID int    `json:"user_id"`
 }
 
 func fetchUserInfo(t *testing.T, username string) UserInfo {
@@ -219,7 +246,12 @@ func fetchUserInfo(t *testing.T, username string) UserInfo {
 			continue
 		}
 
-		t.Fatalf("Failed to fetch API key for user %s: status code %d, response: %s", username, resp.StatusCode, string(body))
+		t.Fatalf(
+			"Failed to fetch API key for user %s: status code %d, response: %s",
+			username,
+			resp.StatusCode,
+			string(body),
+		)
 	}
 	t.Fatalf("Failed to fetch API key for user %s after reactivation attempt", username)
 	return UserInfo{}
@@ -251,7 +283,7 @@ func CreateRandomChannel(t *testing.T, apiClient client.Client, subscribers ...i
 	require.NotNil(t, resp)
 	RequireStatusOK(t, httpResp)
 
-	return name, resp.ChannelId
+	return name, resp.ChannelID
 }
 
 func tryReactivateUser(t *testing.T, username string, body []byte) bool {
@@ -293,7 +325,7 @@ func ensureUserActive(t *testing.T, username string) error {
 		return nil
 	}
 
-	_, _, err = owner.ReactivateUser(context.Background(), resp.User.UserId).Execute()
+	_, _, err = owner.ReactivateUser(context.Background(), resp.User.UserID).Execute()
 	if err != nil {
 		return fmt.Errorf("reactivating user: %w", err)
 	}
@@ -314,6 +346,65 @@ func getOwnUser(t *testing.T, apiClient client.Client) *users.GetOwnUserResponse
 	return resp
 }
 
+func createBot(t *testing.T, botName string) *z.ZulipRC {
+	t.Helper()
+
+	rc, _ := GetTestClient(t, TestOwnerUsername)
+
+	type botResponse struct {
+		z.Response
+
+		UserID int64  `json:"user_id"`
+		APIKey string `json:"api_key"`
+	}
+
+	data := url.Values{}
+	data.Set("full_name", botName)
+	data.Set("bot_type", strconv.Itoa(int(z.BotTypeGeneric)))
+	data.Set("short_name", botName)
+
+	body := &bytes.Buffer{}
+	w := multipart.NewWriter(body)
+	for k, v := range data {
+		err := w.WriteField(k, v[0])
+		require.NoError(t, err)
+	}
+	require.NoError(t, w.Close())
+
+	req, err := http.NewRequestWithContext(
+		context.Background(),
+		http.MethodPost,
+		fmt.Sprintf("%s/api/v1/bots", TestSite),
+		body,
+	)
+	require.NoError(t, err)
+	req.SetBasicAuth(rc.Email, rc.APIKey)
+	req.Header.Set("Content-Type", w.FormDataContentType())
+
+	resp, err := http.DefaultClient.Do(req)
+	require.NoError(t, err)
+	defer resp.Body.Close()
+
+	respBody, err := io.ReadAll(resp.Body)
+	require.NoError(t, err)
+
+	require.Equal(t, http.StatusOK, resp.StatusCode, "bot creation failed: %s", string(respBody))
+
+	var botResp botResponse
+	err = json.Unmarshal(respBody, &botResp)
+	require.NoError(t, err)
+	require.NotZero(t, botResp.UserID)
+	require.NotEmpty(t, botResp.APIKey)
+
+	insecure := true
+	return &z.ZulipRC{
+		Site:     TestSite,
+		Email:    fmt.Sprintf("%s-bot@zulip.com", botName),
+		APIKey:   botResp.APIKey,
+		Insecure: &insecure,
+	}
+}
+
 var idCache sync.Map
 
 func GetUserId(t *testing.T, apiClient client.Client) int64 {
@@ -327,9 +418,9 @@ func GetUserId(t *testing.T, apiClient client.Client) int64 {
 
 	require.NotNil(t, resp)
 
-	idCache.Store(apiClient, resp.UserId)
+	idCache.Store(apiClient, resp.UserID)
 
-	return resp.UserId
+	return resp.UserID
 }
 
 func GetUserEmail(t *testing.T, apiClient client.Client) string {
@@ -345,10 +436,14 @@ func CreateRandomUserGroup(t *testing.T, apiClient client.Client, members ...int
 
 	groupId := rand.Intn(1000000)
 
-	resp, httpResp, err := apiClient.CreateUserGroup(context.Background()).Name(fmt.Sprintf("test-group-%d", groupId)).Description("Test Group").Members(members).Execute()
+	resp, _, err := apiClient.CreateUserGroup(context.Background()).
+		Name(fmt.Sprintf("test-group-%d", groupId)).
+		Description("Test Group").
+		Members(members).
+		Execute()
+
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	RequireStatusOK(t, httpResp)
 
 	if resp.GroupId == 0 {
 		// older Zulip versions did not return GroupId in response
@@ -399,8 +494,8 @@ func GetChannelWithAllClients(t *testing.T) (string, int64) {
 	allClientIds := make([]int64, 0, len(clientFactories))
 	for _, factory := range clientFactories {
 		apiClient := factory(t)
-		userId := GetUserId(t, apiClient)
-		allClientIds = append(allClientIds, userId)
+		userID := GetUserId(t, apiClient)
+		allClientIds = append(allClientIds, userID)
 	}
 
 	name, id := CreateRandomChannel(t, GetAdminClient(t), allClientIds...)
@@ -414,11 +509,11 @@ func GetChannelWithAllClients(t *testing.T) (string, int64) {
 	return c.name, c.id
 }
 
-func SendChannelMessage(t *testing.T, apiClient client.Client, channelId int64, topic, content string) int64 {
+func SendChannelMessage(t *testing.T, apiClient client.Client, channelID int64, topic, content string) int64 {
 	t.Helper()
 
 	resp, httpResp, err := apiClient.SendMessage(context.Background()).
-		To(z.ChannelAsRecipient(channelId)).
+		To(z.ChannelAsRecipient(channelID)).
 		Topic(topic).
 		Content(content).
 		Execute()
@@ -457,23 +552,23 @@ func RequireFeatureLevel(t *testing.T, minLevel int) {
 }
 
 type ChannelMessage struct {
-	ChannelId int64
+	ChannelID int64
 	Topic     string
-	MessageId int64
+	MessageID int64
 }
 
-func CreateChannelMessage(t *testing.T, apiClient client.Client, channelId int64) ChannelMessage {
+func CreateChannelMessage(t *testing.T, apiClient client.Client, channelID int64) ChannelMessage {
 	t.Helper()
 
 	topic := UniqueName("topic")
 	content := fmt.Sprintf("automated test message %s", UniqueName("content"))
-	messageId := SendChannelMessage(t, apiClient, channelId, topic, content)
-	assert.Greater(t, messageId, int64(0))
+	messageID := SendChannelMessage(t, apiClient, channelID, topic, content)
+	assert.Positive(t, messageID)
 
 	return ChannelMessage{
-		ChannelId: channelId,
+		ChannelID: channelID,
 		Topic:     topic,
-		MessageId: messageId,
+		MessageID: messageID,
 	}
 }
 

@@ -434,7 +434,7 @@ type RealmUser struct {
 	// [guest user]: https://zulip.com/api/roles-and-permissions
 	IsGuest bool `json:"is_guest,omitempty"`
 	// The unique Id for the current user.
-	UserId int64 `json:"user_id,omitempty"`
+	UserID int64 `json:"user_id,omitempty"`
 	// The Zulip API email address for the current user. See also `delivery_email`; these may be the same or different depending on the user's `email_address_visibility` policy.
 	Email string `json:"email,omitempty"`
 	// The user's email address, appropriate for UI for changing the user's email address. See also `email`.
@@ -509,7 +509,7 @@ type UnreadMsgsChannels struct {
 	// [`POST /register`]: https://zulip.com/api/register-queue
 	Topic string `json:"topic,omitempty"`
 	// The Id of the channel to which the messages were sent.
-	ChannelId int64 `json:"stream_id,omitempty"`
+	ChannelID int64 `json:"stream_id,omitempty"`
 	// The message Ids of the recent unread messages sent in this channel, sorted in ascending order.
 	UnreadMessageIds []int64 `json:"unread_message_ids,omitempty"`
 }

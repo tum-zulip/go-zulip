@@ -11,5 +11,5 @@ type UserStatusEvent struct {
 	zulip.UserStatus
 
 	// The Id of the user whose status changed.
-	UserId int64 `json:"user_id,omitempty"`
+	UserID int64 `json:"user_id,omitempty"`
 }

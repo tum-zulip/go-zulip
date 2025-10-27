@@ -6,7 +6,7 @@ import "github.com/tum-zulip/go-zulip/zulip"
 type ReactionEvent struct {
 	event
 	// The Id of the message to which a reaction was added or removed.
-	MessageId int64 `json:"message_id,omitempty"`
+	MessageID int64 `json:"message_id,omitempty"`
 
 	zulip.EmojiReaction
 

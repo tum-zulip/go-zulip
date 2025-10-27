@@ -93,7 +93,7 @@ type TestWelcomeBotCustomMessageResponse struct {
 	zulip.Response
 
 	// The message_id of the test welcome bot custom message.
-	MessageId int64 `json:"message_id,omitempty"`
+	MessageID int64 `json:"message_id,omitempty"`
 }
 
 // GetServerSettingsResponse struct for GetServerSettingsResponse
