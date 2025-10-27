@@ -195,7 +195,6 @@ func getTestClient(t *testing.T, username string) (*z.RC, client.Client) {
 		client.SkipWarnOnInsecureTLS(),
 		client.EnableStatistics(),
 		client.WithHTTPClient(newHTTPClientForTestSite()))
-
 	if err != nil {
 		t.Fatalf("Failed to create z.client: %v", err)
 	}
@@ -204,6 +203,9 @@ func getTestClient(t *testing.T, username string) (*z.RC, client.Client) {
 }
 
 func newHTTPClientForTestSite() *http.Client {
+	const timeout = 30 * time.Second
+	const keepAlive = 30 * time.Second
+
 	baseTransport, ok := http.DefaultTransport.(*http.Transport)
 	if !ok {
 		panic("default transport is not an *http.Transport")
@@ -211,8 +213,8 @@ func newHTTPClientForTestSite() *http.Client {
 
 	transport := baseTransport.Clone()
 	dialer := &net.Dialer{
-		Timeout:   30 * time.Second,
-		KeepAlive: 30 * time.Second,
+		Timeout:   timeout,
+		KeepAlive: keepAlive,
 	}
 
 	transport.DialContext = func(ctx context.Context, network, address string) (net.Conn, error) {
@@ -240,6 +242,7 @@ type UserInfo struct {
 	UserID int    `json:"user_id"`
 }
 
+//nolint:funlen,gocognit,nolintlint
 func fetchUserInfo(t *testing.T, username string) UserInfo {
 	t.Helper()
 

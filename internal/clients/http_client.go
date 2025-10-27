@@ -16,7 +16,6 @@ import (
 	"github.com/tum-zulip/go-zulip/zulip"
 )
 
-//nolint:funlen
 func buildHTTPClient(
 	baseClient *http.Client,
 	params *zulip.RC,
@@ -45,7 +44,10 @@ func buildHTTPClient(
 
 	if t, ok := transport.(*http.Transport); ok {
 		cp := t.Clone()
-		configureTransportTLS(cp, params, logger, warnOnInsecureTLS)
+		err := configureTransportTLS(cp, params, logger, warnOnInsecureTLS)
+		if err != nil {
+			return nil, "", err
+		}
 		transport = cp
 	} else {
 		if params.CertBundle != "" || params.ClientCert != "" {
@@ -71,7 +73,12 @@ func buildHTTPClient(
 	return &clientCopy, userAgent, nil
 }
 
-func configureTransportTLS(transport *http.Transport, params *zulip.RC, logger *slog.Logger, warnOnInsecureTLS bool) error {
+func configureTransportTLS(
+	transport *http.Transport,
+	params *zulip.RC,
+	logger *slog.Logger,
+	warnOnInsecureTLS bool,
+) error {
 	if transport.TLSClientConfig == nil {
 		transport.TLSClientConfig = &tls.Config{
 			MinVersion: tls.VersionTLS12,
@@ -162,6 +169,7 @@ func buildUserAgent(clientName string) string {
 	vendor, version := detectPlatform()
 	return fmt.Sprintf("%s (%s; %s)", clientName, vendor, version)
 }
+
 func normalizePath(pathStr string) (string, error) {
 	expanded := os.ExpandEnv(pathStr)
 	if strings.HasPrefix(expanded, "~") {
