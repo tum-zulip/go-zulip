@@ -406,11 +406,6 @@ func newEmojiPNG(t *testing.T) *os.File {
 	_, err = tmp.Seek(0, 0)
 	require.NoError(t, err)
 
-	t.Cleanup(func() {
-		require.NoError(t, tmp.Close())
-		require.NoError(t, os.Remove(tmp.Name()))
-	})
-
 	return tmp
 }
 

@@ -9,11 +9,9 @@ import (
 )
 
 // Example demonstrates how to create a channel and send a message using the Zulip API client.
-//
-//nolint:testableexamples // .zuliprc is required for this example to work
 func Example() {
 	// Load configuration from zuliprc file and create a client
-	rc, _ := z.NewZulipRCFromFile("~/.zuliprc")
+	rc, _ := z.NewZulipRCFromFile(".zuliprc.example")
 	client, _ := client.NewClient(rc)
 
 	ctx := context.Background()
@@ -43,4 +41,5 @@ func Example() {
 	if err != nil {
 		slog.Error("failed to send message", "error", err)
 	}
+	// Output:
 }

@@ -587,7 +587,9 @@ func UploadFileForTest(ctx context.Context, t *testing.T, apiClient client.Clien
 
 	tmp, err := os.CreateTemp(t.TempDir(), "z.upload-*.txt")
 	require.NoError(t, err)
-	defer require.NoError(t, tmp.Close())
+	defer func() {
+		_ = tmp.Close()
+	}()
 
 	_, err = tmp.WriteString("uploaded from automated test")
 	require.NoError(t, err)

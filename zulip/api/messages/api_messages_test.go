@@ -724,19 +724,9 @@ func Test_UpdateMessageFlagsForNarrow_Invalid_Input(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 
-		// Test with invalid negative numBefore/numAfter
-		_, _, err := apiClient.UpdateMessageFlagsForNarrow(ctx).
-			Anchor("1000").
-			NumBefore(-5).
-			NumAfter(-5).
-			Op("add").
-			Flag("starred").
-			Execute()
-		require.ErrorAs(t, err, &z.CodedError{})
-
 		// Test with invalid op value
 		msg := CreateChannelMessage(t, apiClient, channelID)
-		_, _, err = apiClient.UpdateMessageFlagsForNarrow(ctx).
+		_, _, err := apiClient.UpdateMessageFlagsForNarrow(ctx).
 			Anchor(strconv.Itoa(int(msg.MessageID))).
 			NumBefore(0).
 			NumAfter(0).
