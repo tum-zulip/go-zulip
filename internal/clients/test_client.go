@@ -31,13 +31,14 @@ func (c *TestClient) CallAPI(
 	var err error
 	for range maxRetries {
 		httpResp, err = c.RetryClient.CallAPI(ctx, endpoint, req, model)
-		if err == nil && httpResp != nil && httpResp.StatusCode < http.StatusOK {
-			return httpResp, nil
+		if err != nil && httpResp != nil && httpResp.StatusCode >= http.StatusBadRequest {
+			time.Sleep(waitDuration)
+			c.RetryClient.SimpleClient.Stats.Retry(endpoint)
+			c.RetryClient.SimpleClient.Stats.Duration("test-retry-timeout", waitDuration)
+			continue
 		}
 
-		time.Sleep(waitDuration)
-		c.RetryClient.SimpleClient.Stats.Retry(endpoint)
-		c.RetryClient.SimpleClient.Stats.Duration("test-retry-timeout", waitDuration)
+		return httpResp, nil
 	}
 	return httpResp, err
 }
