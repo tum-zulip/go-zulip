@@ -7,13 +7,15 @@ usage() {
   cat <<'EOF'
 Usage: run-dev-zerver.sh [--ref GIT_REF] [--repo URL]
 
-Spin up an isolated Zulip dev server instance cloned from the specified git ref.
-The server runs inside its own network namespace and is reachable via the
-provided loopback IP (e.g. 127.0.123.123).
+Spin up a Zulip dev server instance cloned from the specified git ref.
 
 Options:
   --ref   Git ref (branch, tag, or commit) to check out. Defaults to "main".
   --repo  Git repository URL. Defaults to https://github.com/zulip/zulip.git.
+  --provision-only
+          Only provision the instance; do not start the dev server.
+  --run-only
+          Only run the dev server; do not provision the instance.
   -h, --help  Show this help.
 
 Example:
@@ -32,6 +34,8 @@ log() {
 
 REF="main"
 REPO_URL="https://github.com/zulip/zulip.git"
+PROVISION_ONLY=false
+RUN_ONLY=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -44,6 +48,14 @@ while [[ $# -gt 0 ]]; do
       [[ $# -ge 2 ]] || die "Missing value for --repo"
       REPO_URL="$2"
       shift 2
+      ;;
+    --provision-only)
+      PROVISION_ONLY=true
+      shift 1
+      ;;
+    --run-only)
+      RUN_ONLY=true
+      shift 1
       ;;
     -h|--help)
       usage
@@ -58,30 +70,50 @@ done
 BASE_DIR="${TMPDIR:-/tmp}/zulip-zerver"
 INSTANCE_DIR="${BASE_DIR}/${REF}"
 REPO_DIR="${INSTANCE_DIR}/zulip"
-mkdir -p "$INSTANCE_DIR"
-log "Instance files will be stored in $INSTANCE_DIR"
 
-log "Cloning Zulip repo ($REPO_URL) into $REPO_DIR"
-if [[ ! -d "$REPO_DIR/.git" ]]; then
-  git clone --filter=blob:none "$REPO_URL" "$REPO_DIR"
-else
-  log "Repository already exists at $REPO_DIR; reusing"
+provision() {
+  mkdir -p "$INSTANCE_DIR"
+  log "Instance files will be stored in $INSTANCE_DIR"
+
+  log "Cloning Zulip repo ($REPO_URL) into $REPO_DIR"
+  if [[ ! -d "$REPO_DIR/.git" ]]; then
+    git clone --filter=blob:none "$REPO_URL" "$REPO_DIR"
+  else
+    log "Repository already exists at $REPO_DIR; reusing"
+  fi
+
+  log "Checking out $REF"
+
+  git -C "$REPO_DIR" fetch origin "$REF" --depth=1 || true
+  git -C "$REPO_DIR" checkout "$REF"
+
+  log "Provisioning Zulip (this may take several minutes)"
+
+  cd $REPO_DIR && ./tools/provision
+  cd $REPO_DIR && ./tools/rebuild-dev-database
+}
+
+run() {
+  log "Starting Zulip dev server"
+
+  cd $REPO_DIR
+  source /srv/zulip-py3-venv/bin/activate || true # legacy Zulip uses a global venv
+  source .venv/bin/activate || true # modern Zulip uses a local venv
+
+  ./tools/run-dev
+}
+
+if [ "$RUN_ONLY" = true ] && [ "$PROVISION_ONLY" = true ]; then
+  die "Cannot specify both --run-only and --provision-only"
 fi
 
-log "Checking out $REF"
+if [ "$PROVISION_ONLY" = true ] || [ "$RUN_ONLY" = false ]; then
+  provision
+  log "Provisioning complete"
+fi
 
-git -C "$REPO_DIR" fetch origin "$REF" --depth=1 || true
-git -C "$REPO_DIR" checkout "$REF"
+if [ "$RUN_ONLY" = true ] || [ "$PROVISION_ONLY" = false ]; then
+  run
+fi
 
-log "Provisioning Zulip (this may take several minutes)"
-
-cd $REPO_DIR && ./tools/provision
-cd $REPO_DIR && ./tools/rebuild-dev-database
-
-log "Starting Zulip dev server"
-
-cd $REPO_DIR
-source /srv/zulip-py3-venv/bin/activate || true # legacy Zulip uses a global venv
-source .venv/bin/activate || true # modern Zulip uses a local venv
-
-./tools/run-dev
+exit 0
