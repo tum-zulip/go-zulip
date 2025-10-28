@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Go Tests",
+      "type": "shell",
+      "command": "go test ./...",
+      "group": "test",
+      "problemMatcher": ["$go"],
+      "presentation": {
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Go Mod Tidy, Lint & Fmt",
+      "type": "shell",
+      "command": "go mod tidy && golangci-lint run && golangci-lint fmt ./...",
+      "group": "build",
+      "problemMatcher": ["$go"],
+      "presentation": {
+        "reveal": "always"
+      }
+    }
+  ]
+}
