@@ -25,11 +25,12 @@ jobs:
         uses: golangci/golangci-lint-action@v8
 
   integration:
-    name: Test (Zulip ${{ matrix.zulip_ref }})
+    name: Test (Go ${{ matrix.go-version }}, Zulip ${{ matrix.zulip_ref }})
     runs-on: arc-runner-set
     container: zulip/ci:jammy
     strategy:
       matrix:
+        go-version: ['1.23', '1.24', '1.25']
         zulip_ref:
           - main
           - 11.x
@@ -49,7 +50,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.25.2"
+          go-version: ${{ matrix.go-version }}
 
       - name: Start Zulip
         uses:  ./.github/actions/provision-zulip
@@ -57,19 +58,18 @@ jobs:
           zulip_ref: ${{ matrix.zulip_ref }}
 
       - name: Run go test suite with coverage
-        run: go test ./... -covermode=atomic -coverprofile=coverage.out -timeout 10m
+        run: go test ./... -covermode=atomic -coverprofile=coverage.out -coverpkg=./... -timeout 10m
 
       - name: Upload coverage to Codecov
-        if: success() && github.ref == 'refs/heads/main'
+        if: success() && matrix.zulip_ref == 'main'
         uses: codecov/codecov-action@v4
         with:
           files: ./coverage.out
           flags: integration
-          name: integration-${{ matrix.zulip_ref }}
-          fail_ci_if_error: true
+          name: integration
+          fail_ci_if_error: false
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-          ZULIP_BRANCH: ${{ matrix.zulip_ref }}
 
       - name: Stop Zulip
         if: always()
