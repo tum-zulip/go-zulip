@@ -1,0 +1,12 @@
+# Test and benchmark outputs
+coverage.out
+coverage.html
+coverage_report.md
+benchmarks/
+
+# Build artifacts
+*.test
+*.prof
+
+# OS specific
+.DS_Store
