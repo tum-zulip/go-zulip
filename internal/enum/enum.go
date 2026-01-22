@@ -3,6 +3,7 @@ package enum
 
 import (
 	"encoding/json"
+	"fmt"
 	"reflect"
 )
 
@@ -20,7 +21,7 @@ func UnmarshalString[T ~string](data []byte, obj *T, allowed []T) error {
 	}
 	return &json.UnsupportedValueError{
 		Value: reflect.ValueOf(u),
-		Str:   "", // TODO
+		Str:   fmt.Sprintf("invalid enum value %q", u),
 	}
 }
 
@@ -38,6 +39,6 @@ func UnmarshalInt[T ~int](data []byte, obj *T, allowed []T) error {
 	}
 	return &json.UnsupportedValueError{
 		Value: reflect.ValueOf(u),
-		Str:   "", // TODO
+		Str:   fmt.Sprintf("invalid enum value %d", u),
 	}
 }
