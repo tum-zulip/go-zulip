@@ -71,7 +71,7 @@ func runConcurrent(b *testing.B, concurrency int, fn func(workerID, iterations i
 	b.Helper()
 	b.ResetTimer()
 	var wg sync.WaitGroup
-	for i := 0; i < concurrency; i++ {
+	for i := range concurrency {
 		wg.Add(1)
 		go func(id int) {
 			defer wg.Done()
@@ -92,11 +92,12 @@ func BenchmarkRegisterQueue(b *testing.B) {
 	ctx := context.Background()
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		c.RegisterQueue(ctx).Execute()
 	}
 }
 
+//nolint:funlen
 func BenchmarkGetEvents(b *testing.B) {
 	b.Run("Sequential", func(b *testing.B) {
 		server := setupEventMockServer()
@@ -109,7 +110,7 @@ func BenchmarkGetEvents(b *testing.B) {
 		lastEventID := resp.LastEventID
 
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for range b.N {
 			resp, _, _ := c.GetEvents(ctx).
 				QueueID(queueID).
 				LastEventID(lastEventID).
@@ -131,7 +132,7 @@ func BenchmarkGetEvents(b *testing.B) {
 
 		runConcurrent(b, 10, func(_, iter int) {
 			lastEventID := int64(0)
-			for j := 0; j < iter; j++ {
+			for range iter {
 				resp, _, _ := c.GetEvents(ctx).
 					QueueID(queueID).
 					LastEventID(lastEventID).
@@ -154,7 +155,7 @@ func BenchmarkGetEvents(b *testing.B) {
 
 		runConcurrent(b, 25, func(_, iter int) {
 			lastEventID := int64(0)
-			for j := 0; j < iter; j++ {
+			for range iter {
 				resp, _, _ := c.GetEvents(ctx).
 					QueueID(queueID).
 					LastEventID(lastEventID).
@@ -189,7 +190,7 @@ func BenchmarkEventQueueListener(b *testing.B) {
 		var processed atomic.Int64
 		b.ResetTimer()
 
-		for i := 0; i < consumers; i++ {
+		for range consumers {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -221,7 +222,7 @@ func BenchmarkLongLivedQueue(b *testing.B) {
 	lastEventID := resp.LastEventID
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		resp, _, _ := c.GetEvents(ctx).
 			QueueID(queueID).
 			LastEventID(lastEventID).
@@ -246,7 +247,7 @@ func BenchmarkMultipleQueues(b *testing.B) {
 		}
 
 		queues := make([]queueInfo, numQueues)
-		for i := 0; i < numQueues; i++ {
+		for i := range numQueues {
 			c := createBenchmarkClient(b, server.URL)
 			resp, _, _ := c.RegisterQueue(ctx).Execute()
 			queues[i] = queueInfo{c, *resp.QueueID, resp.LastEventID}
@@ -254,13 +255,13 @@ func BenchmarkMultipleQueues(b *testing.B) {
 
 		b.ResetTimer()
 		var wg sync.WaitGroup
-		for qi := 0; qi < numQueues; qi++ {
+		for qi := range numQueues {
 			wg.Add(1)
 			go func(q queueInfo) {
 				defer wg.Done()
 				lastEventID := q.lastEventID
-				for i := 0; i < b.N/numQueues; i++ {
-					for j := 0; j < pollsPerQueue; j++ {
+				for range b.N / numQueues {
+					for range pollsPerQueue {
 						resp, _, _ := q.client.GetEvents(ctx).
 							QueueID(q.queueID).
 							LastEventID(lastEventID).
@@ -292,7 +293,7 @@ func BenchmarkEventProcessing(b *testing.B) {
 
 	b.Run("Heartbeat", func(b *testing.B) {
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			resp, _, _ := c.GetEvents(ctx).
 				QueueID(queueID).
 				LastEventID(int64(i)).
@@ -307,7 +308,7 @@ func BenchmarkEventProcessing(b *testing.B) {
 
 	b.Run("Message", func(b *testing.B) {
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			resp, _, _ := c.GetEvents(ctx).
 				QueueID(queueID).
 				LastEventID(int64(i * 10)).
@@ -329,13 +330,13 @@ func BenchmarkDeleteQueue(b *testing.B) {
 	ctx := context.Background()
 
 	queueIDs := make([]string, b.N)
-	for i := 0; i < b.N; i++ {
+	for i := range b.N {
 		resp, _, _ := c.RegisterQueue(ctx).Execute()
 		queueIDs[i] = *resp.QueueID
 	}
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for i := range b.N {
 		c.DeleteQueue(ctx).QueueID(queueIDs[i]).Execute()
 	}
 }

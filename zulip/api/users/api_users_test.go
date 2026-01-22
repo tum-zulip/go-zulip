@@ -22,7 +22,7 @@ func Test_DeactivateUser(t *testing.T) {
 		ctx := context.Background()
 
 		// ensure the user is active before deactivating
-		//nolint: errcheck, gosec // returns an error if the user is already active, which we can ignore
+		//nolint:errcheck // returns an error if the user is already active, which we can ignore
 		apiClient.ReactivateUser(ctx, deactivateUserID).Execute()
 
 		resp, _, err := apiClient.DeactivateUser(ctx, deactivateUserID).Execute()
@@ -299,7 +299,7 @@ func Test_MuteUser(t *testing.T) {
 		ctx := context.Background()
 
 		// ensure the user is not muted before muting
-		//nolint: errcheck, gosec // returns an error if the user is not muted, which we can ignore
+		//nolint:errcheck // returns an error if the user is not muted, which we can ignore
 		apiClient.UnmuteUser(ctx, otherUserID).Execute()
 
 		resp, _, err := apiClient.MuteUser(ctx, otherUserID).Execute()
@@ -367,7 +367,7 @@ func Test_UnmuteUser(t *testing.T) {
 		ctx := context.Background()
 
 		// ensure the user is muted before unmuting
-		//nolint: errcheck,gosec // returns an error if the user is not muted, which we can ignore
+		//nolint:errcheck // returns an error if the user is not muted, which we can ignore
 		apiClient.MuteUser(ctx, otherUserID).Execute()
 
 		resp, _, err := apiClient.UnmuteUser(ctx, otherUserID).Execute()

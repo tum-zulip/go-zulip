@@ -3,7 +3,7 @@ package testfixtures
 
 // Event Queue Responses
 
-// RegisterQueueResponse is a minimal mock response for POST /api/v1/register
+// RegisterQueueResponse is a minimal mock response for POST /api/v1/register.
 const RegisterQueueResponse = `{
   "result": "success",
   "msg": "",
@@ -14,14 +14,14 @@ const RegisterQueueResponse = `{
   "zulip_merge_base": "8.0-dev"
 }`
 
-// EventsResponseEmpty is a mock response for GET /api/v1/events with no events
+// EventsResponseEmpty is a mock response for GET /api/v1/events with no events.
 const EventsResponseEmpty = `{
   "result": "success",
   "msg": "",
   "events": []
 }`
 
-// EventsResponseHeartbeat is a mock response with a heartbeat event
+// EventsResponseHeartbeat is a mock response with a heartbeat event.
 const EventsResponseHeartbeat = `{
   "result": "success",
   "msg": "",
@@ -33,7 +33,7 @@ const EventsResponseHeartbeat = `{
   ]
 }`
 
-// EventsResponseMessage is a mock response with a message event
+// EventsResponseMessage is a mock response with a message event.
 const EventsResponseMessage = `{
   "result": "success",
   "msg": "",
@@ -65,7 +65,7 @@ const EventsResponseMessage = `{
   ]
 }`
 
-// EventsResponsePresence is a mock response with a presence event
+// EventsResponsePresence is a mock response with a presence event.
 const EventsResponsePresence = `{
   "result": "success",
   "msg": "",
@@ -85,7 +85,7 @@ const EventsResponsePresence = `{
   ]
 }`
 
-// EventsResponseMultiple is a mock response with multiple events
+// EventsResponseMultiple is a mock response with multiple events.
 const EventsResponseMultiple = `{
   "result": "success",
   "msg": "",
@@ -127,7 +127,7 @@ const EventsResponseMultiple = `{
 
 // Regular API Responses
 
-// SendMessageResponse is a mock response for POST /api/v1/messages
+// SendMessageResponse is a mock response for POST /api/v1/messages.
 const SendMessageResponse = `{
   "result": "success",
   "msg": "",
@@ -136,7 +136,7 @@ const SendMessageResponse = `{
   "deliver_at": null
 }`
 
-// GetChannelsResponse is a mock response for GET /api/v1/streams
+// GetChannelsResponse is a mock response for GET /api/v1/streams.
 const GetChannelsResponse = `{
   "result": "success",
   "msg": "",
@@ -189,7 +189,7 @@ const GetChannelsResponse = `{
   ]
 }`
 
-// GetUsersResponse is a mock response for GET /api/v1/users
+// GetUsersResponse is a mock response for GET /api/v1/users.
 const GetUsersResponse = `{
   "result": "success",
   "msg": "",
@@ -252,7 +252,7 @@ const GetUsersResponse = `{
   ]
 }`
 
-// DeleteQueueResponse is a mock response for DELETE /api/v1/events
+// DeleteQueueResponse is a mock response for DELETE /api/v1/events.
 const DeleteQueueResponse = `{
   "result": "success",
   "msg": ""

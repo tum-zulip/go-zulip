@@ -54,7 +54,7 @@ func runConcurrent(b *testing.B, concurrency int, fn func(workerID, iterations i
 	b.Helper()
 	b.ResetTimer()
 	var wg sync.WaitGroup
-	for i := 0; i < concurrency; i++ {
+	for i := range concurrency {
 		wg.Add(1)
 		go func(id int) {
 			defer wg.Done()
@@ -76,7 +76,7 @@ func BenchmarkSendMessage(b *testing.B) {
 
 	b.Run("Sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for range b.N {
 			c.SendMessage(ctx).
 				RecipientType(zulip.RecipientTypeChannel).
 				To(zulip.ChannelAsRecipient(1)).
@@ -88,7 +88,7 @@ func BenchmarkSendMessage(b *testing.B) {
 
 	b.Run("Concurrent-10", func(b *testing.B) {
 		runConcurrent(b, 10, func(_, iter int) {
-			for j := 0; j < iter; j++ {
+			for range iter {
 				c.SendMessage(ctx).
 					RecipientType(zulip.RecipientTypeChannel).
 					To(zulip.ChannelAsRecipient(1)).
@@ -101,7 +101,7 @@ func BenchmarkSendMessage(b *testing.B) {
 
 	b.Run("Concurrent-25", func(b *testing.B) {
 		runConcurrent(b, 25, func(_, iter int) {
-			for j := 0; j < iter; j++ {
+			for range iter {
 				c.SendMessage(ctx).
 					RecipientType(zulip.RecipientTypeChannel).
 					To(zulip.ChannelAsRecipient(1)).
@@ -121,14 +121,14 @@ func BenchmarkGetChannels(b *testing.B) {
 
 	b.Run("Sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for range b.N {
 			c.GetChannels(ctx).Execute()
 		}
 	})
 
 	b.Run("Concurrent-10", func(b *testing.B) {
 		runConcurrent(b, 10, func(_, iter int) {
-			for j := 0; j < iter; j++ {
+			for range iter {
 				c.GetChannels(ctx).Execute()
 			}
 		})
@@ -136,7 +136,7 @@ func BenchmarkGetChannels(b *testing.B) {
 
 	b.Run("Concurrent-25", func(b *testing.B) {
 		runConcurrent(b, 25, func(_, iter int) {
-			for j := 0; j < iter; j++ {
+			for range iter {
 				c.GetChannels(ctx).Execute()
 			}
 		})
@@ -151,14 +151,14 @@ func BenchmarkGetUsers(b *testing.B) {
 
 	b.Run("Sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for range b.N {
 			c.GetUsers(ctx).Execute()
 		}
 	})
 
 	b.Run("Concurrent-10", func(b *testing.B) {
 		runConcurrent(b, 10, func(_, iter int) {
-			for j := 0; j < iter; j++ {
+			for range iter {
 				c.GetUsers(ctx).Execute()
 			}
 		})
@@ -166,13 +166,14 @@ func BenchmarkGetUsers(b *testing.B) {
 
 	b.Run("Concurrent-25", func(b *testing.B) {
 		runConcurrent(b, 25, func(_, iter int) {
-			for j := 0; j < iter; j++ {
+			for range iter {
 				c.GetUsers(ctx).Execute()
 			}
 		})
 	})
 }
 
+//nolint:funlen
 func BenchmarkMixedWorkload(b *testing.B) {
 	server := setupAPIMockServer()
 	defer server.Close()
@@ -181,7 +182,7 @@ func BenchmarkMixedWorkload(b *testing.B) {
 
 	b.Run("Sequential", func(b *testing.B) {
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for i := range b.N {
 			switch i % 5 {
 			case 0, 1, 2:
 				c.SendMessage(ctx).
@@ -200,7 +201,7 @@ func BenchmarkMixedWorkload(b *testing.B) {
 
 	b.Run("Concurrent-10", func(b *testing.B) {
 		runConcurrent(b, 10, func(_, iter int) {
-			for j := 0; j < iter; j++ {
+			for j := range iter {
 				switch j % 5 {
 				case 0, 1, 2:
 					c.SendMessage(ctx).
@@ -220,7 +221,7 @@ func BenchmarkMixedWorkload(b *testing.B) {
 
 	b.Run("Concurrent-25", func(b *testing.B) {
 		runConcurrent(b, 25, func(_, iter int) {
-			for j := 0; j < iter; j++ {
+			for j := range iter {
 				switch j % 5 {
 				case 0, 1, 2:
 					c.SendMessage(ctx).
@@ -252,7 +253,7 @@ func BenchmarkClientInitialization(b *testing.B) {
 
 	b.Run("WithDefaults", func(b *testing.B) {
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for range b.N {
 			client.NewClient(rc, client.SkipWarnOnInsecureTLS())
 		}
 	})
@@ -260,7 +261,7 @@ func BenchmarkClientInitialization(b *testing.B) {
 	b.Run("WithLogger", func(b *testing.B) {
 		logger := slog.New(slog.NewTextHandler(nil, &slog.HandlerOptions{Level: slog.LevelError}))
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for range b.N {
 			client.NewClient(rc, client.WithLogger(logger), client.SkipWarnOnInsecureTLS())
 		}
 	})
@@ -268,7 +269,7 @@ func BenchmarkClientInitialization(b *testing.B) {
 	b.Run("WithStatistics", func(b *testing.B) {
 		logger := slog.New(slog.NewTextHandler(nil, &slog.HandlerOptions{Level: slog.LevelError}))
 		b.ResetTimer()
-		for i := 0; i < b.N; i++ {
+		for range b.N {
 			client.NewClient(rc, client.WithLogger(logger), client.EnableStatistics(), client.SkipWarnOnInsecureTLS())
 		}
 	})
