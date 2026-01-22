@@ -126,8 +126,10 @@ func (c *SimpleClient) doHTTPCall(ctx context.Context, endpoint string, request 
 		dump, dumpErr := httputil.DumpRequestOut(request, true)
 		if dumpErr != nil {
 			c.Logger.ErrorContext(ctx, "failed to dump http Request to string", "error", dumpErr)
+		} else {
+			sanitizedDump := sanitizeHTTPDump(string(dump))
+			c.Logger.DebugContext(ctx, "HTTP Request", "dump", sanitizedDump)
 		}
-		c.Logger.DebugContext(ctx, "HTTP Request", "dump", string(dump))
 	}
 
 	begin := time.Now()
@@ -144,8 +146,10 @@ func (c *SimpleClient) doHTTPCall(ctx context.Context, endpoint string, request 
 		dump, dumpErr := httputil.DumpResponse(resp, true)
 		if dumpErr != nil {
 			c.Logger.ErrorContext(ctx, "failed to dump http Response to string", "error", dumpErr)
+		} else {
+			sanitizedDump := sanitizeHTTPDump(string(dump))
+			c.Logger.DebugContext(ctx, "HTTP Response", "dump", sanitizedDump)
 		}
-		c.Logger.DebugContext(ctx, "HTTP Response", "dump", string(dump))
 	}
 
 	return resp, err
