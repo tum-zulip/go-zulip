@@ -253,12 +253,10 @@ func Test_RenderMessage(t *testing.T) {
 }
 
 func Test_ReportMessage(t *testing.T) {
+	RequireFeatureLevel(t, 382)
 	_, channelID := GetChannelWithAllClients(t)
 
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
-		// TODO: Fix this test
-		t.Skip()
-
 		ctx := context.Background()
 
 		msg := CreateChannelMessage(t, apiClient, channelID)
