@@ -1,0 +1,33 @@
+# Codecov configuration for go-zulip
+# https://docs.codecov.com/docs/codecovyml-reference
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+
+  status:
+    project:
+      default:
+        target: 80%
+        threshold: 0.5%
+        if_ci_failed: error
+
+    patch:
+      default:
+        target: 80%
+        threshold: 5%
+        if_ci_failed: error
+
+# Comment on pull requests
+comment:
+  layout: "reach,diff,flags,tree"
+  behavior: default
+  require_changes: false
+
+# Ignore test files and non-code directories
+ignore:
+  - "**/*_test.go"
+  - "**/testdata/**"
+  - "scripts/**"
+  - "docs/**"
