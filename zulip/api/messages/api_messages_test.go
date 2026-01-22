@@ -95,14 +95,30 @@ func Test_GetMessage(t *testing.T) {
 
 		msg := CreateChannelMessage(t, apiClient, channelID)
 
+		// Edit the message to populate LastEditTimestamp
+		_, _, err := apiClient.UpdateMessage(ctx, msg.MessageID).
+			Content(UniqueName("edited message")).
+			Execute()
+		require.NoError(t, err)
+
+		// Move the message to populate LastMovedTimestamp (feature level 365+)
+		if GetFeatureLevel(t) >= 365 {
+			_, _, err = apiClient.UpdateMessage(ctx, msg.MessageID).
+				Topic(UniqueName("moved topic")).
+				Execute()
+			require.NoError(t, err)
+		}
+
 		resp, _, err := apiClient.GetMessage(ctx, msg.MessageID).Execute()
 
 		require.NoError(t, err)
 		require.NotNil(t, resp)
 		assert.Equal(t, msg.MessageID, resp.Message.ID)
 		require.WithinDuration(t, time.Now(), resp.Message.Timestamp, 3*time.Minute)
-		// TODO: require.WithinDuration(t, time.Now(), resp.Message.LastEditTimestamp, 3*time.Minute)
-		// TODO: require.WithinDuration(t, time.Now(), resp.Message.LastMovedTimestamp, 3*time.Minute)
+		require.WithinDuration(t, time.Now(), resp.Message.LastEditTimestamp, 3*time.Minute)
+		if GetFeatureLevel(t) >= 365 {
+			require.WithinDuration(t, time.Now(), resp.Message.LastMovedTimestamp, 3*time.Minute)
+		}
 	})
 }
 
