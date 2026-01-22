@@ -100,7 +100,7 @@ func SenderIs(userID int64) NarrowTerm {
 func HasReactions() NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorHas,
-		Operand:  NewNarrowStringOperand("reactions"), // TODO: make this an enum
+		Operand:  NewNarrowStringOperand(string(NarrowHasReactions)),
 	}
 }
 
@@ -108,7 +108,7 @@ func HasReactions() NarrowTerm {
 func IsMuted() NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorIs,
-		Operand:  NewNarrowStringOperand("muted"),
+		Operand:  NewNarrowStringOperand(string(NarrowIsMuted)),
 	}
 }
 
@@ -116,7 +116,7 @@ func IsMuted() NarrowTerm {
 func IsDirectMessage() NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorIs,
-		Operand:  NewNarrowStringOperand("private"),
+		Operand:  NewNarrowStringOperand(string(NarrowIsPrivate)),
 	}
 }
 
@@ -124,7 +124,7 @@ func IsDirectMessage() NarrowTerm {
 func IsStarred() NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorIs,
-		Operand:  NewNarrowStringOperand("starred"),
+		Operand:  NewNarrowStringOperand(string(NarrowIsStarred)),
 	}
 }
 
@@ -132,7 +132,7 @@ func IsStarred() NarrowTerm {
 func IsAlerted() NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorIs,
-		Operand:  NewNarrowStringOperand("alerted"),
+		Operand:  NewNarrowStringOperand(string(NarrowIsAlerted)),
 	}
 }
 
@@ -196,7 +196,7 @@ func WithUserEmail(email string) NarrowTerm {
 func HasFiles() NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorHas,
-		Operand:  NewNarrowStringOperand("files"),
+		Operand:  NewNarrowStringOperand(string(NarrowHasFiles)),
 	}
 }
 
@@ -204,7 +204,7 @@ func HasFiles() NarrowTerm {
 func HasImages() NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorHas,
-		Operand:  NewNarrowStringOperand("images"),
+		Operand:  NewNarrowStringOperand(string(NarrowHasImages)),
 	}
 }
 
@@ -212,7 +212,7 @@ func HasImages() NarrowTerm {
 func HasLinks() NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorHas,
-		Operand:  NewNarrowStringOperand("links"),
+		Operand:  NewNarrowStringOperand(string(NarrowHasLinks)),
 	}
 }
 
@@ -220,7 +220,7 @@ func HasLinks() NarrowTerm {
 func HasEmbeds() NarrowTerm {
 	return NarrowTerm{
 		Operator: NarrowOperatorHas,
-		Operand:  NewNarrowStringOperand("embeds"),
+		Operand:  NewNarrowStringOperand(string(NarrowHasEmbeds)),
 	}
 }
 

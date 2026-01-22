@@ -748,3 +748,56 @@ func (e *AvatarSource) UnmarshalJSON(data []byte) error {
 
 	return enum.UnmarshalString(data, e, allowedAvatarSourceValues)
 }
+
+// Operand values for the "has" narrow operator.
+//   - NarrowHasReactions = Messages that have reactions
+//   - NarrowHasFiles = Messages that have files attached
+//   - NarrowHasImages = Messages that have images embedded
+//   - NarrowHasLinks = Messages that have links
+//   - NarrowHasEmbeds = Messages that have embedded content
+type NarrowHasOperand string
+
+const (
+	NarrowHasReactions NarrowHasOperand = "reactions"
+	NarrowHasFiles     NarrowHasOperand = "files"
+	NarrowHasImages    NarrowHasOperand = "images"
+	NarrowHasLinks     NarrowHasOperand = "links"
+	NarrowHasEmbeds    NarrowHasOperand = "embeds"
+)
+
+func (e *NarrowHasOperand) UnmarshalJSON(data []byte) error {
+	allowedNarrowHasOperandValues := []NarrowHasOperand{
+		NarrowHasReactions,
+		NarrowHasFiles,
+		NarrowHasImages,
+		NarrowHasLinks,
+		NarrowHasEmbeds,
+	}
+
+	return enum.UnmarshalString(data, e, allowedNarrowHasOperandValues)
+}
+
+// Operand values for the "is" narrow operator.
+//   - NarrowIsMuted = Muted messages
+//   - NarrowIsPrivate = Direct/private messages
+//   - NarrowIsStarred = Starred messages
+//   - NarrowIsAlerted = Alerted messages
+type NarrowIsOperand string
+
+const (
+	NarrowIsMuted   NarrowIsOperand = "muted"
+	NarrowIsPrivate NarrowIsOperand = "private"
+	NarrowIsStarred NarrowIsOperand = "starred"
+	NarrowIsAlerted NarrowIsOperand = "alerted"
+)
+
+func (e *NarrowIsOperand) UnmarshalJSON(data []byte) error {
+	allowedNarrowIsOperandValues := []NarrowIsOperand{
+		NarrowIsMuted,
+		NarrowIsPrivate,
+		NarrowIsStarred,
+		NarrowIsAlerted,
+	}
+
+	return enum.UnmarshalString(data, e, allowedNarrowIsOperandValues)
+}
