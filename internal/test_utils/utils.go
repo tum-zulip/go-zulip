@@ -10,6 +10,7 @@ import (
 	"math/rand/v2"
 	"mime/multipart"
 	"net/http"
+	"net/http/cookiejar"
 	"net/url"
 	"os"
 	"strconv"
@@ -49,7 +50,13 @@ var (
 	ModeratorClient = namedClient{name: "moderator", factory: GetModeratorClient}
 	NormalClient    = namedClient{name: "normal", factory: GetNormalClient}
 	BotClient       = namedClient{name: "bot", factory: GetBotClient}
-	AllClients      = []namedClient{OwnerClient, AdminClient, ModeratorClient, NormalClient}
+
+	// HumanClients contains all non-bot clients (owner, admin, moderator, normal).
+	// Use this for endpoints that don't support bot access.
+	HumanClients = []namedClient{OwnerClient, AdminClient, ModeratorClient, NormalClient}
+
+	// AllClients contains all clients including bots.
+	AllClients = []namedClient{OwnerClient, AdminClient, ModeratorClient, NormalClient, BotClient}
 )
 
 type namedClient struct {
@@ -81,14 +88,28 @@ func GetGuestClient(t *testing.T) client.Client {
 	return client
 }
 
+// botNameForTestRun generates a unique bot name per test run to avoid conflicts.
+var botNameForTestRun = fmt.Sprintf("test-bot-%d", time.Now().UnixNano())
+
+var botClientCache sync.Map
+
 func GetBotClient(t *testing.T) client.Client {
 	t.Helper()
-	rc := createBot(t, "test-bot")
-	client, err := client.NewClient(rc,
+
+	const cacheKey = "bot"
+
+	if cached, ok := botClientCache.Load(cacheKey); ok {
+		return cached.(client.Client)
+	}
+
+	rc := createBot(t, botNameForTestRun)
+	c, err := client.NewClient(rc,
 		client.SkipWarnOnInsecureTLS(),
 		client.EnableStatistics())
 	require.NoError(t, err)
-	return client
+
+	actual, _ := botClientCache.LoadOrStore(cacheKey, c)
+	return actual.(client.Client)
 }
 
 func GetNormalClient(t *testing.T) client.Client {
@@ -114,6 +135,12 @@ func RunForClients(t *testing.T, clients []namedClient, fn func(*testing.T, clie
 
 func RunForAllClients(t *testing.T, fn func(*testing.T, client.Client)) {
 	RunForClients(t, AllClients, fn)
+}
+
+// RunForHumanClients runs the test for all non-bot clients.
+// Use this for endpoints that don't support bot access.
+func RunForHumanClients(t *testing.T, fn func(*testing.T, client.Client)) {
+	RunForClients(t, HumanClients, fn)
 }
 
 func RunForAdminAndOwnerClients(t *testing.T, fn func(*testing.T, client.Client)) {
@@ -361,10 +388,13 @@ func getOwnUser(t *testing.T, apiClient client.Client) *users.GetOwnUserResponse
 	return resp
 }
 
+//nolint:funlen
 func createBot(t *testing.T, botName string) *z.RC {
 	t.Helper()
 
-	rc, _ := GetTestClient(t, TestOwnerUsername)
+	// Get a session by calling the dev_fetch_api_key endpoint with the owner's email.
+	// This sets session cookies that we need for the /json/bots endpoint.
+	jar, csrfToken := getDevSession(t, TestOwnerUsername)
 
 	type botResponse struct {
 		z.Response
@@ -378,46 +408,115 @@ func createBot(t *testing.T, botName string) *z.RC {
 	data.Set("bot_type", strconv.Itoa(int(z.BotTypeGeneric)))
 	data.Set("short_name", botName)
 
-	body := &bytes.Buffer{}
-	w := multipart.NewWriter(body)
-	for k, v := range data {
-		err := w.WriteField(k, v[0])
-		require.NoError(t, err)
-	}
-	require.NoError(t, w.Close())
+	sessionClient := &http.Client{Jar: jar}
 
-	req, err := http.NewRequestWithContext(
-		context.Background(),
-		http.MethodPost,
-		fmt.Sprintf("%s/api/v1/bots", TestSite),
-		body,
-	)
-	require.NoError(t, err)
-	req.SetBasicAuth(rc.Email, rc.APIKey)
-	req.Header.Set("Content-Type", w.FormDataContentType())
-
-	resp, err := http.DefaultClient.Do(req)
-	require.NoError(t, err)
-	defer resp.Body.Close()
-
-	respBody, err := io.ReadAll(resp.Body)
-	require.NoError(t, err)
-
-	require.Equal(t, http.StatusOK, resp.StatusCode, "bot creation failed: %s", string(respBody))
-
+	const maxRetries = 10
 	var botResp botResponse
-	err = json.Unmarshal(respBody, &botResp)
-	require.NoError(t, err)
-	require.NotZero(t, botResp.UserID)
-	require.NotEmpty(t, botResp.APIKey)
+
+	for attempt := range maxRetries {
+		body := &bytes.Buffer{}
+		w := multipart.NewWriter(body)
+		for k, v := range data {
+			err := w.WriteField(k, v[0])
+			require.NoError(t, err)
+		}
+		require.NoError(t, w.Close())
+
+		req, err := http.NewRequestWithContext(
+			context.Background(),
+			http.MethodPost,
+			fmt.Sprintf("%s/json/bots", TestSite),
+			body,
+		)
+		require.NoError(t, err)
+		req.Header.Set("Content-Type", w.FormDataContentType())
+		//nolint:canonicalheader // Zulip API expects X-CSRFToken
+		req.Header.Set("X-CSRFToken", csrfToken)
+
+		resp, err := sessionClient.Do(req)
+		require.NoError(t, err)
+
+		respBody, err := io.ReadAll(resp.Body)
+		resp.Body.Close()
+		require.NoError(t, err)
+
+		if resp.StatusCode == http.StatusTooManyRequests {
+			// Rate limited, wait and retry
+			retryAfter := resp.Header.Get("Retry-After")
+			waitTime := 1 * time.Second
+			if retryAfter != "" {
+				if seconds, parseErr := strconv.ParseFloat(retryAfter, 64); parseErr == nil {
+					waitTime = time.Duration(seconds*1000)*time.Millisecond + 100*time.Millisecond
+				}
+			}
+			t.Logf("Bot creation rate limited (attempt %d/%d), waiting %v", attempt+1, maxRetries, waitTime)
+			time.Sleep(waitTime)
+			continue
+		}
+
+		require.Equal(t, http.StatusOK, resp.StatusCode, "bot creation failed: %s", string(respBody))
+
+		err = json.Unmarshal(respBody, &botResp)
+		require.NoError(t, err)
+		require.NotZero(t, botResp.UserID)
+		require.NotEmpty(t, botResp.APIKey)
+		break
+	}
+
+	require.NotZero(t, botResp.UserID, "failed to create bot after %d attempts", maxRetries)
 
 	insecure := true
 	return &z.RC{
 		Site:     TestSite,
-		Email:    fmt.Sprintf("%s-bot@zulip.com", botName),
+		Email:    fmt.Sprintf("%s-bot@zulipdev.com", botName),
 		APIKey:   botResp.APIKey,
 		Insecure: &insecure,
 	}
+}
+
+// getDevSession authenticates to the dev server and returns a cookie jar with session cookies
+// and the CSRF token needed for subsequent requests.
+func getDevSession(t *testing.T, username string) (http.CookieJar, string) {
+	t.Helper()
+
+	jar, err := cookiejar.New(nil)
+	require.NoError(t, err)
+
+	sessionClient := &http.Client{Jar: jar}
+
+	loginURL := fmt.Sprintf("%s/api/v1/dev_fetch_api_key", TestSite)
+	data := url.Values{}
+	data.Set("username", username)
+
+	req, err := http.NewRequestWithContext(
+		context.Background(),
+		http.MethodPost,
+		loginURL,
+		bytes.NewBufferString(data.Encode()),
+	)
+	require.NoError(t, err)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	resp, err := sessionClient.Do(req)
+	require.NoError(t, err)
+	defer resp.Body.Close()
+
+	require.Equal(t, http.StatusOK, resp.StatusCode, "dev login failed")
+
+	// Extract CSRF token from cookies
+	siteURL, err := url.Parse(TestSite)
+	require.NoError(t, err)
+
+	var csrfToken string
+	for _, cookie := range jar.Cookies(siteURL) {
+		if cookie.Name == "csrftoken" {
+			csrfToken = cookie.Value
+			break
+		}
+	}
+	require.NotEmpty(t, csrfToken, "CSRF token not found in session cookies")
+
+	return jar, csrfToken
 }
 
 var idCache sync.Map

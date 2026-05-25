@@ -53,7 +53,7 @@ func Test_InviteLinkLifecycle(t *testing.T) {
 }
 
 func Test_EmailInviteLifecycle(t *testing.T) {
-	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+	RunForHumanClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		_, channelID := CreateRandomChannel(t, apiClient, GetUserID(t, apiClient))
 		invitee := fmt.Sprintf("%s@zulip.com", strings.ToLower(UniqueName("invitee")))

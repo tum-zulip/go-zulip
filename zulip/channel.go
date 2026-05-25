@@ -78,6 +78,7 @@ type Channel struct {
 	CanSendMessageGroup               GroupSettingValue `json:"can_send_message_group,omitempty"`
 	CanSubscribeGroup                 GroupSettingValue `json:"can_subscribe_group"`
 	CanResolveTopicsGroup             GroupSettingValue `json:"can_resolve_topics_group,omitempty"`
+	CanCreateTopicGroup               GroupSettingValue `json:"can_create_topic_group,omitempty"`
 	// The total number of non-deactivated users (including bots) who are subscribed to the channel. Clients are Responseble for updating this value using `peer_add` and `peer_remove` events.  The server's internals cannot guarantee this value is correctly synced with `peer_add` and `peer_remove` events for the channel. As a result, if a (rare) race occurs between a change in the channel's subscribers and fetching this value, it is possible for a client that is correctly following the events protocol to end up with a permanently off-by-one error in the channel's subscriber count.  Clients are recommended to fetch full subscriber data for a channel in contexts where it is important to avoid this risk. The official web application, for example, uses this field primarily while waiting to fetch a given channel's full subscriber list from the server.
 	//
 	// **Changes**: New in Zulip 11.0 (feature level 394).
@@ -148,6 +149,7 @@ func (o *channelJSON) fromChannel(cb Channel) {
 	o.CanSendMessageGroup = cb.CanSendMessageGroup
 	o.CanSubscribeGroup = cb.CanSubscribeGroup
 	o.CanResolveTopicsGroup = cb.CanResolveTopicsGroup
+	o.CanCreateTopicGroup = cb.CanCreateTopicGroup
 	o.SubscriberCount = cb.SubscriberCount
 	o.ChannelWeeklyTraffic = cb.ChannelWeeklyTraffic
 }
@@ -180,6 +182,7 @@ func (o *Channel) fromChannelJSON(cb channelJSON) {
 	o.CanSendMessageGroup = cb.CanSendMessageGroup
 	o.CanSubscribeGroup = cb.CanSubscribeGroup
 	o.CanResolveTopicsGroup = cb.CanResolveTopicsGroup
+	o.CanCreateTopicGroup = cb.CanCreateTopicGroup
 	o.SubscriberCount = cb.SubscriberCount
 	o.ChannelWeeklyTraffic = cb.ChannelWeeklyTraffic
 }
@@ -212,6 +215,7 @@ type channelJSON struct {
 	CanSendMessageGroup               GroupSettingValue `json:"can_send_message_group,omitempty"`
 	CanSubscribeGroup                 GroupSettingValue `json:"can_subscribe_group"`
 	CanResolveTopicsGroup             GroupSettingValue `json:"can_resolve_topics_group,omitempty"`
+	CanCreateTopicGroup               GroupSettingValue `json:"can_create_topic_group,omitempty"`
 	SubscriberCount                   float32           `json:"subscriber_count"`
 	ChannelWeeklyTraffic              *int              `json:"stream_weekly_traffic"`
 	IsDefault                         *bool             `json:"is_default,omitempty"`

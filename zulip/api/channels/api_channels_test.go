@@ -188,6 +188,8 @@ func Test_GetChannelFolders(t *testing.T) {
 
 func Test_GetChannelByID(t *testing.T) {
 	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+		RequireFeatureLevel(t, 30) // DateCreated field requires Zulip 4.0 (feature level 30)
+
 		ctx := context.Background()
 		userID := GetUserID(t, apiClient)
 
@@ -282,7 +284,7 @@ func Test_GetSubscribers(t *testing.T) {
 }
 
 func Test_GetSubscriptionStatus(t *testing.T) {
-	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+	RunForHumanClients(t, func(t *testing.T, apiClient client.Client) {
 		ctx := context.Background()
 		userID := GetUserID(t, apiClient)
 

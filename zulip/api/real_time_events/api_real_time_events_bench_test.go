@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/tum-zulip/go-zulip/internal/test_fixtures"
+	testfixtures "github.com/tum-zulip/go-zulip/internal/test_fixtures"
 	"github.com/tum-zulip/go-zulip/zulip"
 	realtimeevents "github.com/tum-zulip/go-zulip/zulip/api/real_time_events"
 	"github.com/tum-zulip/go-zulip/zulip/client"

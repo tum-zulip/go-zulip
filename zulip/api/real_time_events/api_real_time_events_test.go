@@ -10,6 +10,7 @@ import (
 	. "github.com/tum-zulip/go-zulip/internal/test_utils"
 	z "github.com/tum-zulip/go-zulip/zulip"
 	"github.com/tum-zulip/go-zulip/zulip/client"
+	"github.com/tum-zulip/go-zulip/zulip/events"
 )
 
 func Test_DeleteQueue(t *testing.T) {
@@ -69,17 +70,28 @@ func registerMessageEventQueue(t *testing.T, apiClient client.Client) (string, i
 
 	ctx := context.Background()
 
-	resp, _, err := apiClient.RegisterQueue(ctx).Execute()
+	resp, _, err := apiClient.RegisterQueue(ctx).
+		FetchEventTypes([]events.EventType{events.EventTypeRealm, events.EventTypeMessage}).
+		Execute()
 
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 
 	require.NotEmpty(t, resp.QueueID)
-	// TODO: janez require.NotNil(t, resp.Realm)
+	require.NotNil(t, resp.RealmDateCreated)
+	require.NotNil(t, resp.ServerGeneration)
 
-	// TODO: require.WithinDuration(t, time.Now(), resp.Realm.DateCreated, 59*time.Minute)
-	// TODO: require.WithinDuration(t, time.Now(), resp.Realm.ServerGeneration, 59*time.Minute)
-	// TODO: also test resp.Realm.PushNotificationsEndabledEndTimestamp
+	realmDateCreated := time.Unix(*resp.RealmDateCreated, 0).UTC()
+	serverGeneration := time.Unix(*resp.ServerGeneration, 0).UTC()
+
+	require.WithinDuration(t, time.Now(), realmDateCreated, 59*time.Minute)
+	require.WithinDuration(t, time.Now(), serverGeneration, 59*time.Minute)
+
+	// PushNotificationsEnabledEndTimestamp is optional and may be nil
+	if resp.PushNotificationsEnabledEndTimestamp != nil {
+		pushNotifTimestamp := time.Unix(*resp.PushNotificationsEnabledEndTimestamp, 0).UTC()
+		require.True(t, pushNotifTimestamp.After(time.Now()))
+	}
 
 	return *resp.QueueID, resp.LastEventID
 }

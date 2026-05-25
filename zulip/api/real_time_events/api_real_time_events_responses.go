@@ -268,7 +268,30 @@ type RegisterQueueResponse struct {
 	GlobalNotifications *events.GlobalNotifications
 
 	// Present if `realm` is present in `fetch_event_types`.
-	// TODO: (jr) *zulip.Realm
+	// The UNIX timestamp (UTC) for when the organization was created.
+	// **Changes**: New in Zulip 8.0 (feature level 203).
+	RealmDateCreated *int64 `json:"realm_date_created,omitempty"`
+
+	// Present if `realm` is present in `fetch_event_types`.
+	// A timestamp indicating when the process hosting this event queue was started.
+	ServerGeneration *int64 `json:"server_generation,omitempty"`
+
+	// Present if `realm` is present in `fetch_event_types`.
+	// The UNIX timestamp (UTC) when push notifications will be disabled for this organization.
+	// If null, push notifications are enabled indefinitely.
+	// **Changes**: New in Zulip 8.0 (feature level 231).
+	PushNotificationsEnabledEndTimestamp *int64 `json:"push_notifications_enabled_end_timestamp,omitempty"`
+
+	// Typing notification interval settings from realm data.
+	// These are returned flattened at root level by the register endpoint.
+	//
+	// **Changes**: New in Zulip 8.0 (feature level 204).
+	ServerTypingStartedWaitPeriodMilliseconds   int64 `json:"server_typing_started_wait_period_milliseconds,omitempty"`
+	ServerTypingStoppedWaitPeriodMilliseconds   int64 `json:"server_typing_stopped_wait_period_milliseconds,omitempty"`
+	ServerTypingStartedExpiryPeriodMilliseconds int64 `json:"server_typing_started_expiry_period_milliseconds,omitempty"`
+
+	// TODO: Add full realm data support - realm fields are returned flattened at root level with realm_ prefix
+	// Consider using events.Realm with custom unmarshaling or duplicating all realm fields here
 }
 
 // RealmIncomingWebhookBot Object containing details of the bot.

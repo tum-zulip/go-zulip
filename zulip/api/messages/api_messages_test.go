@@ -3,6 +3,12 @@ package messages_test
 import (
 	"context"
 	"fmt"
+	"image"
+	"image/color"
+	"image/png"
+	"net/http"
+	"net/url"
+	"os"
 	"strconv"
 	"strings"
 	"testing"
@@ -378,13 +384,289 @@ func Test_UploadFile(t *testing.T) {
 
 		resp := UploadFileForTest(ctx, t, apiClient)
 
+		// Basic assertions
+		require.NotNil(t, resp)
+		assert.Equal(t, "success", resp.Result)
 		assert.NotEmpty(t, resp.URI)
+
 		if GetFeatureLevel(t) >= 272 {
 			assert.NotEmpty(t, resp.URL)
+			// URL and URI should point to the same resource
+			assert.Contains(t, resp.URL, "/user_uploads/")
 		}
 		if GetFeatureLevel(t) >= 285 {
 			assert.NotEmpty(t, resp.Filename)
+			// Filename should be in the URL
+			if resp.URL != "" && resp.Filename != "" {
+				assert.Contains(t, resp.URL, resp.Filename)
+			}
 		}
+	})
+}
+
+func Test_UploadFile_TextFile(t *testing.T) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+		ctx := context.Background()
+
+		// Create a text file
+		tmp, err := os.CreateTemp(t.TempDir(), "test-*.txt")
+		require.NoError(t, err)
+		defer func() { _ = tmp.Close() }()
+
+		content := "Hello, Zulip! This is a test file upload.\nLine 2\nLine 3"
+		_, err = tmp.WriteString(content)
+		require.NoError(t, err)
+		_, err = tmp.Seek(0, 0)
+		require.NoError(t, err)
+
+		// Upload the file
+		resp, httpResp, err := apiClient.UploadFile(ctx).
+			Filename(tmp).
+			Execute()
+
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		require.NotNil(t, httpResp)
+		assert.Equal(t, http.StatusOK, httpResp.StatusCode)
+		assert.Equal(t, "success", resp.Result)
+		assert.NotEmpty(t, resp.URI)
+
+		if GetFeatureLevel(t) >= 285 {
+			assert.NotEmpty(t, resp.Filename)
+			assert.Contains(t, resp.Filename, ".txt")
+		}
+	})
+}
+
+func Test_UploadFile_BinaryFile(t *testing.T) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+		ctx := context.Background()
+
+		// Create a binary file with random data
+		tmp, err := os.CreateTemp(t.TempDir(), "test-*.bin")
+		require.NoError(t, err)
+		defer func() { _ = tmp.Close() }()
+
+		// Write binary data
+		binaryData := []byte{0x00, 0x01, 0x02, 0xFF, 0xFE, 0xFD, 0x10, 0x20, 0x30}
+		_, err = tmp.Write(binaryData)
+		require.NoError(t, err)
+		_, err = tmp.Seek(0, 0)
+		require.NoError(t, err)
+
+		// Upload the file
+		resp, httpResp, err := apiClient.UploadFile(ctx).
+			Filename(tmp).
+			Execute()
+
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		require.NotNil(t, httpResp)
+		assert.Equal(t, http.StatusOK, httpResp.StatusCode)
+		assert.Equal(t, "success", resp.Result)
+		assert.NotEmpty(t, resp.URI)
+	})
+}
+
+func Test_UploadFile_ImageFile(t *testing.T) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+		ctx := context.Background()
+
+		// Create a PNG image file
+		tmp, err := os.CreateTemp(t.TempDir(), "test-*.png")
+		require.NoError(t, err)
+		defer func() { _ = tmp.Close() }()
+
+		// Create a simple 16x16 orange image
+		img := image.NewRGBA(image.Rect(0, 0, 16, 16))
+		for x := range 16 {
+			for y := range 16 {
+				img.Set(x, y, color.RGBA{R: 0xff, G: 0xa5, B: 0, A: 0xff})
+			}
+		}
+
+		err = png.Encode(tmp, img)
+		require.NoError(t, err)
+		_, err = tmp.Seek(0, 0)
+		require.NoError(t, err)
+
+		// Upload the file
+		resp, httpResp, err := apiClient.UploadFile(ctx).
+			Filename(tmp).
+			Execute()
+
+		require.NoError(t, err)
+		require.NotNil(t, resp)
+		require.NotNil(t, httpResp)
+		assert.Equal(t, http.StatusOK, httpResp.StatusCode)
+		assert.Equal(t, "success", resp.Result)
+		assert.NotEmpty(t, resp.URI)
+
+		if GetFeatureLevel(t) >= 285 {
+			assert.NotEmpty(t, resp.Filename)
+			assert.Contains(t, resp.Filename, ".png")
+		}
+	})
+}
+
+func Test_UploadFile_DifferentSizes(t *testing.T) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+		ctx := context.Background()
+
+		// Test different file sizes
+		testCases := []struct {
+			name string
+			size int
+		}{
+			{"small_1KB", 1024},
+			{"medium_100KB", 100 * 1024},
+			{"large_1MB", 1024 * 1024},
+		}
+
+		for _, tc := range testCases {
+			t.Run(tc.name, func(t *testing.T) {
+				// Create a file with specified size
+				tmp, err := os.CreateTemp(t.TempDir(), "test-*.dat")
+				require.NoError(t, err)
+				defer func() { _ = tmp.Close() }()
+
+				// Write data of specified size
+				if tc.size > 0 {
+					data := make([]byte, tc.size)
+					for i := range data {
+						data[i] = byte(i % 256)
+					}
+					_, err = tmp.Write(data)
+					require.NoError(t, err)
+				}
+				_, err = tmp.Seek(0, 0)
+				require.NoError(t, err)
+
+				// Upload the file
+				resp, httpResp, err := apiClient.UploadFile(ctx).
+					Filename(tmp).
+					Execute()
+
+				require.NoError(t, err)
+				require.NotNil(t, resp)
+				require.NotNil(t, httpResp)
+				assert.Equal(t, http.StatusOK, httpResp.StatusCode)
+				assert.Equal(t, "success", resp.Result)
+				assert.NotEmpty(t, resp.URI)
+			})
+		}
+	})
+}
+
+func Test_UploadFile_AndUseInMessage(t *testing.T) {
+	_, channelID := GetChannelWithAllClients(t)
+
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+		ctx := context.Background()
+
+		// Upload a file
+		tmp, err := os.CreateTemp(t.TempDir(), "test-*.txt")
+		require.NoError(t, err)
+		defer func() { _ = tmp.Close() }()
+
+		content := "This file will be shared in a message"
+		_, err = tmp.WriteString(content)
+		require.NoError(t, err)
+		_, err = tmp.Seek(0, 0)
+		require.NoError(t, err)
+
+		uploadResp, _, err := apiClient.UploadFile(ctx).
+			Filename(tmp).
+			Execute()
+		require.NoError(t, err)
+		require.NotNil(t, uploadResp)
+
+		// Use the uploaded file URL in a message
+		var fileLink string
+		if GetFeatureLevel(t) >= 272 && uploadResp.URL != "" {
+			fileLink = uploadResp.URL
+		} else {
+			fileLink = uploadResp.URI
+		}
+
+		// Create a message with the file link
+		messageContent := "Check out this file: " + fileLink
+		msgResp, _, err := apiClient.SendMessage(ctx).
+			To(z.ChannelAsRecipient(channelID)).
+			Topic("File Upload Test").
+			Content(messageContent).
+			Execute()
+
+		require.NoError(t, err)
+		require.NotNil(t, msgResp)
+		assert.Greater(t, msgResp.ID, int64(0))
+
+		// Verify the message contains the file link
+		getMessage, _, err := apiClient.GetMessage(ctx, msgResp.ID).Execute()
+		require.NoError(t, err)
+		require.NotNil(t, getMessage)
+		assert.Contains(t, getMessage.Message.Content, fileLink)
+	})
+}
+
+func Test_UploadFile_AndRetrieveTemporaryURL(t *testing.T) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+		ctx := context.Background()
+
+		// Upload a file
+		uploadResp := UploadFileForTest(ctx, t, apiClient)
+		require.NotNil(t, uploadResp)
+
+		// Parse the URL to extract realm ID and filename
+		var fileURL string
+		if GetFeatureLevel(t) >= 272 && uploadResp.URL != "" {
+			fileURL = uploadResp.URL
+		} else {
+			fileURL = uploadResp.URI
+		}
+
+		realmID, filename := parseUploadedFilePath(t, fileURL)
+
+		// Get temporary URL for the uploaded file
+		tempURLResp, httpResp, err := apiClient.GetFileTemporaryURL(ctx, realmID, filename).Execute()
+
+		require.NoError(t, err)
+		require.NotNil(t, tempURLResp)
+		require.NotNil(t, httpResp)
+		assert.Equal(t, http.StatusOK, httpResp.StatusCode)
+		assert.Equal(t, "success", tempURLResp.Result)
+		assert.NotEmpty(t, tempURLResp.URL)
+
+		// The temporary URL should be a valid URL
+		_, err = url.Parse(tempURLResp.URL)
+		assert.NoError(t, err, "Temporary URL should be a valid URL")
+	})
+}
+
+func Test_UploadFile_InvalidInput(t *testing.T) {
+	RunForAllClients(t, func(t *testing.T, apiClient client.Client) {
+		ctx := context.Background()
+
+		// Test uploading an empty file - should fail
+		tmp, err := os.CreateTemp(t.TempDir(), "empty-*.txt")
+		require.NoError(t, err)
+		defer func() { _ = tmp.Close() }()
+
+		// Don't write anything to the file, leaving it empty
+		_, err = tmp.Seek(0, 0)
+		require.NoError(t, err)
+
+		// Try to upload the empty file - should return an error
+		_, _, err = apiClient.UploadFile(ctx).
+			Filename(tmp).
+			Execute()
+
+		// Should get a BAD_REQUEST error
+		require.Error(t, err)
+		var codedErr z.CodedError
+		require.ErrorAs(t, err, &codedErr)
+		assert.Equal(t, "BAD_REQUEST", codedErr.Code)
+		assert.Contains(t, codedErr.Msg, "You must specify a file to upload")
 	})
 }
 

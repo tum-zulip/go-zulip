@@ -39,7 +39,7 @@ func buildHTTPClient(
 
 	transport := http.DefaultTransport
 	if baseClient.Transport != nil {
-		transport = http.DefaultTransport
+		transport = baseClient.Transport
 	}
 
 	if t, ok := transport.(*http.Transport); ok {

@@ -10,6 +10,8 @@ import (
 	"sync/atomic"
 	"syscall"
 
+	"github.com/tum-zulip/go-zulip/zulip"
+	"github.com/tum-zulip/go-zulip/zulip/api/users"
 	"github.com/tum-zulip/go-zulip/zulip/events"
 )
 
@@ -39,6 +41,43 @@ type EventQueue interface {
 	// LastEventID reports the highest event ID delivered through this queue. If
 	// no events have been received, it returns the value supplied to Connect.
 	LastEventID() int64
+	// UpdateRealmSettings loads realm settings from a RegisterQueueResponse.
+	// Should be called after RegisterQueue to initialize settings from server.
+	UpdateRealmSettings(resp *RegisterQueueResponse)
+	// GetRealmSettings returns the current realm settings. Thread-safe.
+	GetRealmSettings() *RealmSettings
+	// StartTyping begins sending typing notifications for the given recipient.
+	// Returns a TypingNotifier that must be closed when the user stops typing.
+	// The typingSender must implement SetTypingStatus (typically client.Client).
+	StartTyping(ctx context.Context, typingSender TypingSender, recipient zulip.Recipient) (*TypingNotifier, error)
+}
+
+// TypingSender is the interface required to send typing status notifications.
+// This is satisfied by client.Client and users.APIUsers.
+type TypingSender interface {
+	SetTypingStatus(ctx context.Context) users.SetTypingStatusRequest
+}
+
+// RealmSettings stores typing-related realm configuration.
+// Instances are immutable; updates create new instances.
+type RealmSettings struct {
+	ServerTypingStartedWaitPeriodMilliseconds   int64
+	ServerTypingStoppedWaitPeriodMilliseconds   int64
+	ServerTypingStartedExpiryPeriodMilliseconds int64
+}
+
+const (
+	defaultTypingStartedWaitPeriodMs   = 10000
+	defaultTypingStoppedWaitPeriodMs   = 5000
+	defaultTypingStartedExpiryPeriodMs = 15000
+)
+
+func defaultRealmSettings() *RealmSettings {
+	return &RealmSettings{
+		ServerTypingStartedWaitPeriodMilliseconds:   defaultTypingStartedWaitPeriodMs,
+		ServerTypingStoppedWaitPeriodMilliseconds:   defaultTypingStoppedWaitPeriodMs,
+		ServerTypingStartedExpiryPeriodMilliseconds: defaultTypingStartedExpiryPeriodMs,
+	}
 }
 
 // WithLogger returns an EventQueueErrorHandler that logs
@@ -91,13 +130,14 @@ func WithEventQueueChannelBufferSize(size int) EventQueueOption {
 type EventQueueOption func(*eventQueue)
 
 type eventQueue struct {
-	client       APIRealTimeEvents
-	logger       *slog.Logger
-	lastEventID  atomic.Int64
-	queueID      string
-	bufferSize   int
-	cancel       chan struct{}
-	errorHandler EventQueueErrorHandler
+	client        APIRealTimeEvents
+	logger        *slog.Logger
+	lastEventID   atomic.Int64
+	queueID       string
+	bufferSize    int
+	cancel        chan struct{}
+	errorHandler  EventQueueErrorHandler
+	realmSettings atomic.Value // stores *RealmSettings
 }
 
 var _ EventQueue = (*eventQueue)(nil)
@@ -111,6 +151,8 @@ func NewEventQueue(client APIRealTimeEvents, opts ...EventQueueOption) EventQueu
 		logger:      slog.Default(),
 		lastEventID: atomic.Int64{},
 	}
+
+	q.realmSettings.Store(defaultRealmSettings())
 
 	for _, opt := range opts {
 		if opt != nil {
@@ -127,6 +169,63 @@ func (q *eventQueue) QueueID() string {
 
 func (q *eventQueue) LastEventID() int64 {
 	return q.lastEventID.Load()
+}
+
+func (q *eventQueue) GetRealmSettings() *RealmSettings {
+	settings, _ := q.realmSettings.Load().(*RealmSettings)
+	return settings
+}
+
+func (q *eventQueue) UpdateRealmSettings(resp *RegisterQueueResponse) {
+	settings := &RealmSettings{
+		ServerTypingStartedWaitPeriodMilliseconds:   resp.ServerTypingStartedWaitPeriodMilliseconds,
+		ServerTypingStoppedWaitPeriodMilliseconds:   resp.ServerTypingStoppedWaitPeriodMilliseconds,
+		ServerTypingStartedExpiryPeriodMilliseconds: resp.ServerTypingStartedExpiryPeriodMilliseconds,
+	}
+
+	defaults := defaultRealmSettings()
+	if settings.ServerTypingStartedWaitPeriodMilliseconds == 0 {
+		settings.ServerTypingStartedWaitPeriodMilliseconds = defaults.ServerTypingStartedWaitPeriodMilliseconds
+	}
+	if settings.ServerTypingStoppedWaitPeriodMilliseconds == 0 {
+		settings.ServerTypingStoppedWaitPeriodMilliseconds = defaults.ServerTypingStoppedWaitPeriodMilliseconds
+	}
+	if settings.ServerTypingStartedExpiryPeriodMilliseconds == 0 {
+		settings.ServerTypingStartedExpiryPeriodMilliseconds = defaults.ServerTypingStartedExpiryPeriodMilliseconds
+	}
+
+	q.realmSettings.Store(settings)
+}
+
+func (q *eventQueue) StartTyping(
+	ctx context.Context,
+	typingSender TypingSender,
+	recipient zulip.Recipient,
+) (*TypingNotifier, error) {
+	typingCtx, cancel := context.WithCancel(ctx)
+
+	notifier := &TypingNotifier{
+		sender:        typingSender,
+		queue:         q,
+		recipient:     recipient,
+		ctx:           typingCtx,
+		cancel:        cancel,
+		active:        true,
+		keepAliveDone: make(chan struct{}),
+	}
+
+	_, _, err := typingSender.SetTypingStatus(ctx).
+		To(recipient).
+		Op(zulip.TypingStatusOpStart).
+		Execute()
+	if err != nil {
+		cancel()
+		return nil, err
+	}
+
+	go notifier.runKeepAlive()
+
+	return notifier, nil
 }
 
 func (q *eventQueue) Connect(ctx context.Context, queueID string, lastEventID int64) (<-chan events.Event, error) {
@@ -225,6 +324,9 @@ func (q *eventQueue) processEvents(ctx context.Context, resp *GetEventsResponse,
 			q.logger.WarnContext(ctx, "received nil event from server")
 			continue
 		}
+
+		q.updateRealmSettingsFromEvent(event)
+
 		select {
 		case <-ctx.Done():
 			q.logger.DebugContext(ctx, "event queue context cancelled while processing events")
@@ -247,6 +349,41 @@ func (q *eventQueue) checkQueueExists(ctx context.Context) error {
 		return err
 	}
 	return nil
+}
+
+func (q *eventQueue) updateRealmSettingsFromEvent(event events.Event) {
+	if e, ok := event.(events.RealmUpdateEvent); ok {
+		q.handleRealmUpdateEvent(e)
+	}
+}
+
+func (q *eventQueue) handleRealmUpdateEvent(e events.RealmUpdateEvent) {
+	current := q.GetRealmSettings()
+	updated := &RealmSettings{
+		ServerTypingStartedWaitPeriodMilliseconds:   current.ServerTypingStartedWaitPeriodMilliseconds,
+		ServerTypingStoppedWaitPeriodMilliseconds:   current.ServerTypingStoppedWaitPeriodMilliseconds,
+		ServerTypingStartedExpiryPeriodMilliseconds: current.ServerTypingStartedExpiryPeriodMilliseconds,
+	}
+
+	switch e.Property {
+	case "server_typing_started_wait_period_milliseconds":
+		if e.Value.Int64 != nil {
+			updated.ServerTypingStartedWaitPeriodMilliseconds = *e.Value.Int64
+		}
+	case "server_typing_stopped_wait_period_milliseconds":
+		if e.Value.Int64 != nil {
+			updated.ServerTypingStoppedWaitPeriodMilliseconds = *e.Value.Int64
+		}
+	case "server_typing_started_expiry_period_milliseconds":
+		if e.Value.Int64 != nil {
+			updated.ServerTypingStartedExpiryPeriodMilliseconds = *e.Value.Int64
+		}
+	default:
+		return
+	}
+
+	q.realmSettings.Store(updated)
+	q.logger.Debug("updated realm settings from event", "property", e.Property)
 }
 
 func shouldStopPolling(err error) bool {
