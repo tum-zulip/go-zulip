@@ -97,7 +97,7 @@ jobs:
           godoc -url="/pkg/github.com/tum-zulip/go-zulip/zulip/" > ./docs/godoc/index.html
 
       - name: Upload godoc artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: godoc-html
           path: ./docs/godoc/
