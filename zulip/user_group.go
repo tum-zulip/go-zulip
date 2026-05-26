@@ -45,6 +45,7 @@ type UserGroup struct {
 	CanManageGroup        GroupSettingValue `json:"can_manage_group,omitempty"`
 	CanMentionGroup       GroupSettingValue `json:"can_mention_group,omitempty"`
 	CanRemoveMembersGroup GroupSettingValue `json:"can_remove_members_group,omitempty"`
+	CanCreateTopicGroup   GroupSettingValue `json:"can_create_topic_group,omitempty"`
 	// Whether the user group is deactivated. Deactivated groups cannot be used as a subgroup of another group or used for any other purpose.
 	//
 	// **Changes**: New in Zulip 10.0 (feature level 290).
@@ -66,6 +67,7 @@ type usergroupJSON struct {
 	CanManageGroup        GroupSettingValue `json:"can_manage_group,omitempty"`
 	CanMentionGroup       GroupSettingValue `json:"can_mention_group,omitempty"`
 	CanRemoveMembersGroup GroupSettingValue `json:"can_remove_members_group,omitempty"`
+	CanCreateTopicGroup   GroupSettingValue `json:"can_create_topic_group,omitempty"`
 	Deactivated           bool              `json:"deactivated,omitempty"`
 }
 
@@ -88,6 +90,7 @@ func (o UserGroup) MarshalJSON() ([]byte, error) {
 	aux.CanManageGroup = o.CanManageGroup
 	aux.CanMentionGroup = o.CanMentionGroup
 	aux.CanRemoveMembersGroup = o.CanRemoveMembersGroup
+	aux.CanCreateTopicGroup = o.CanCreateTopicGroup
 	aux.Deactivated = o.Deactivated
 
 	return json.Marshal(&aux)
@@ -119,6 +122,7 @@ func (o *UserGroup) UnmarshalJSON(data []byte) error {
 	o.CanManageGroup = aux.CanManageGroup
 	o.CanMentionGroup = aux.CanMentionGroup
 	o.CanRemoveMembersGroup = aux.CanRemoveMembersGroup
+	o.CanCreateTopicGroup = aux.CanCreateTopicGroup
 	o.Deactivated = aux.Deactivated
 
 	return nil
