@@ -1,6 +1,9 @@
 package events
 
 import (
+	"bytes"
+	"encoding/json"
+
 	"github.com/tum-zulip/go-zulip/internal/union"
 	"github.com/tum-zulip/go-zulip/zulip"
 )
@@ -73,6 +76,83 @@ type ChannelUpdateEvent struct {
 	//
 	// **Changes**: New in Zulip 5.0 (feature level 71).
 	IsWebPublic *bool `json:"is_web_public,omitempty"`
+}
+
+func (e *ChannelUpdateEvent) UnmarshalJSON(data []byte) error {
+	type channelUpdateEvent ChannelUpdateEvent
+	var raw struct {
+		channelUpdateEvent
+		Value *json.RawMessage `json:"value,omitempty"`
+	}
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return err
+	}
+
+	*e = ChannelUpdateEvent(raw.channelUpdateEvent)
+	if raw.Value == nil || bytes.Equal(*raw.Value, []byte("null")) {
+		e.Value = nil
+		return nil
+	}
+
+	var value ChannelEventUpdateValue
+	if isChannelGroupSettingProperty(e.Property) {
+		var groupSettingValue zulip.GroupSettingValue
+		if err := json.Unmarshal(*raw.Value, &groupSettingValue); err != nil {
+			return err
+		}
+		value.GroupSettingValue = &groupSettingValue
+	} else if err := unmarshalChannelEventUpdateValue(*raw.Value, &value); err != nil {
+		return err
+	}
+	e.Value = &value
+	return nil
+}
+
+func isChannelGroupSettingProperty(property string) bool {
+	switch property {
+	case "can_add_subscribers_group",
+		"can_remove_subscribers_group",
+		"can_administer_channel_group",
+		"can_delete_any_message_group",
+		"can_delete_own_message_group",
+		"can_move_messages_out_of_channel_group",
+		"can_move_messages_within_channel_group",
+		"can_send_message_group",
+		"can_subscribe_group",
+		"can_resolve_topics_group",
+		"can_create_topic_group":
+		return true
+	default:
+		return false
+	}
+}
+
+func unmarshalChannelEventUpdateValue(data []byte, value *ChannelEventUpdateValue) error {
+	switch {
+	case len(data) == 0:
+		return nil
+	case data[0] == '"':
+		var s string
+		if err := json.Unmarshal(data, &s); err != nil {
+			return err
+		}
+		value.String = &s
+	case data[0] == 't' || data[0] == 'f':
+		var b bool
+		if err := json.Unmarshal(data, &b); err != nil {
+			return err
+		}
+		value.Bool = &b
+	case data[0] == '-' || data[0] >= '0' && data[0] <= '9':
+		var n int64
+		if err := json.Unmarshal(data, &n); err != nil {
+			return err
+		}
+		value.Int64 = &n
+	default:
+		return json.Unmarshal(data, value)
+	}
+	return nil
 }
 
 type ChannelEventUpdateValue struct {
