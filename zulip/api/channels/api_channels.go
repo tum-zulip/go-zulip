@@ -2400,6 +2400,7 @@ type UpdateChannelRequest struct {
 	messageRetentionDays              *zulip.MessageRetentionDaysValue
 	isArchived                        *bool
 	folderID                          *int64
+	folderIDNone                      *bool
 	topicsPolicy                      *zulip.TopicsPolicy
 	canAddSubscribersGroup            *zulip.GroupSettingValueUpdate
 	canRemoveSubscribersGroup         *zulip.GroupSettingValueUpdate
@@ -2494,6 +2495,15 @@ func (r UpdateChannelRequest) IsArchived(isArchived bool) UpdateChannelRequest {
 // **Changes**: New in Zulip 11.0 (feature level 389).
 func (r UpdateChannelRequest) FolderID(folderID int64) UpdateChannelRequest {
 	r.folderID = &folderID
+	r.folderIDNone = nil
+	return r
+}
+
+// Remove the channel from its current folder.
+func (r UpdateChannelRequest) FolderIDNone() UpdateChannelRequest {
+	folderIDNone := true
+	r.folderID = nil
+	r.folderIDNone = &folderIDNone
 	return r
 }
 
@@ -2701,7 +2711,11 @@ func (s *channelsService) UpdateChannelExecute(r UpdateChannelRequest) (*zulip.R
 		return nil, nil, err
 	}
 	apiutils.AddOptParam(form, "is_archived", r.isArchived)
-	apiutils.AddOptParam(form, "folder_id", r.folderID)
+	if r.folderIDNone != nil {
+		apiutils.AddParam(form, "folder_id", (*int64)(nil))
+	} else {
+		apiutils.AddOptParam(form, "folder_id", r.folderID)
+	}
 	apiutils.AddOptParam(form, "topics_policy", r.topicsPolicy)
 	if err := apiutils.AddOptionalJSONParam(form, "can_add_subscribers_group", r.canAddSubscribersGroup); err != nil {
 		return nil, nil, err
