@@ -1862,7 +1862,7 @@ func (s *usersService) GetUserGroupsExecute(r GetUserGroupsRequest) (*GetUserGro
 	headers["Content-Type"] = apiutils.ContentTypeFormURLEncoded
 	headers["Accept"] = apiutils.ContentTypeJSON
 
-	apiutils.AddOptParam(form, "include_deactivated_groups", r.includeDeactivatedGroups)
+	apiutils.AddOptParam(query, "include_deactivated_groups", r.includeDeactivatedGroups)
 	req, err := apiutils.PrepareRequest(r.ctx, s.client, endpoint, method, headers, query, form, nil)
 	if err != nil {
 		return nil, nil, err
